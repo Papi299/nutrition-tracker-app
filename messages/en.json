@@ -1,0 +1,31 @@
+{
+  "HomePage": {
+    "appName": "Nutrition Tracker",
+    "nav": {
+      "home": "Home"
+    },
+    "language": {
+      "label": "Choose language",
+      "current": "current language"
+    },
+    "foundationLabel": "Foundation build",
+    "title": "A calm starting point for bilingual nutrition tracking.",
+    "description": "This foundation sets up English and Hebrew routes, direction-aware layout, and a small public shell for future reviewable feature work.",
+    "pillarsTitle": "Future product pillars",
+    "pillars": {
+      "foodLogging": "Food logging",
+      "manualTargets": "Manual targets",
+      "bilingualSupport": "Hebrew/English support",
+      "customFoods": "Custom foods",
+      "dataTransparency": "Data transparency"
+    },
+    "status": {
+      "title": "Foundation only",
+      "body": "Search, diary, accounts, barcode scanning, recipes, targets, and food databases are intentionally not implemented yet."
+    },
+    "mixedSample": {
+      "label": "Mixed-script sample:",
+      "text": "קוטג 5% Tnuva"
+    }
+  }
+}
