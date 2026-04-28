@@ -30,3 +30,13 @@
 - Supabase CLI setup, migrations, package installation, and client wiring are deferred to future implementation PRs.
 - Vercel setup is deferred.
 - Paid services, dedicated search, USDA integration, and FoodsDictionary integration remain approval-gated.
+
+## 2026-04-28: Supabase client scaffolding
+
+- Added `@supabase/supabase-js` and `@supabase/ssr`.
+- Added minimal browser and server Supabase client helper factories under `lib/supabase/`.
+- Centralized public Supabase environment reads for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+- Kept environment validation lazy so existing routes can build before real local Supabase values are configured.
+- Added only helper scaffolding now so future auth and data work can remain small and reviewable.
+- Deferred auth UI, sign in/sign up/sign out, protected routes, database schema, migrations, RLS policies, Supabase CLI setup, and Vercel deployment.
+- Deferred composing Supabase session refresh with the existing `next-intl` proxy because that is auth/session behavior and should be planned in the auth phase.

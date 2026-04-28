@@ -78,8 +78,18 @@ Manual RTL QA checklist:
 - Approved V1 backend direction is Supabase Auth, Supabase Postgres, Row Level
   Security, and Git-versioned Supabase migrations later.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
-- Current status: no Supabase packages, Supabase client files, database schema,
-  migrations, or auth flows are implemented.
+- Current status: Supabase client scaffolding exists, but no database schema,
+  migrations, auth flows, or session refresh behavior are implemented.
+- Installed Supabase packages:
+  - `@supabase/supabase-js`
+  - `@supabase/ssr`
+- Supabase helper files:
+  - `lib/supabase/env.ts` reads the future public Supabase environment
+    variables when a helper is called.
+  - `lib/supabase/client.ts` creates a browser/client-component Supabase client.
+  - `lib/supabase/server.ts` creates a server-side Supabase client for future
+    Server Components, Server Actions, or Route Handlers.
+  - `lib/supabase/index.ts` re-exports the helper factories.
 - Preferred future public environment variables:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
@@ -89,6 +99,7 @@ Manual RTL QA checklist:
 - `.env.local` must stay untracked, and `.env.example` must contain
   placeholders only.
 - Service-role keys must never be exposed in browser/client code.
+- Supabase service-role keys are not used by the current helpers.
 - RLS is required for every future user-owned table. User-owned rows must be
   isolated by authenticated user ownership, and server code must not trust a
   client-supplied `user_id`.
@@ -103,7 +114,7 @@ Manual RTL QA checklist:
 ## Intentionally Not Implemented Yet
 
 - Authentication or synced accounts.
-- Supabase wiring.
+- Supabase auth/session proxy composition.
 - Vercel deployment wiring.
 - Database schema or persistence layer.
 - Food search.
@@ -115,8 +126,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase package installation, client wiring, migrations, RLS policies, and
-  auth UI.
+- Supabase migrations, RLS policies, auth UI, and Supabase CLI setup.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
