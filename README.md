@@ -73,6 +73,33 @@ Manual RTL QA checklist:
 - Confirm no food search, diary, auth, database, or product feature routes were
   introduced.
 
+## Backend and Infrastructure Direction
+
+- Approved V1 backend direction is Supabase Auth, Supabase Postgres, Row Level
+  Security, and Git-versioned Supabase migrations later.
+- Approved hosting direction is Vercel later; Vercel is not configured yet.
+- Current status: no Supabase packages, Supabase client files, database schema,
+  migrations, or auth flows are implemented.
+- Preferred future public environment variables:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- Future server-only variables, only if needed:
+  - `SUPABASE_SERVICE_ROLE_KEY`
+  - direct database URL variables such as `SUPABASE_DB_URL`
+- `.env.local` must stay untracked, and `.env.example` must contain
+  placeholders only.
+- Service-role keys must never be exposed in browser/client code.
+- RLS is required for every future user-owned table. User-owned rows must be
+  isolated by authenticated user ownership, and server code must not trust a
+  client-supplied `user_id`.
+- Future migrations should live in `supabase/migrations/` and use
+  `YYYYMMDDHHMMSS_descriptive_name.sql` names.
+- Dashboard-only schema drift should be avoided; dashboard changes must be
+  captured into migrations before merge.
+- Vercel setup is deferred until the auth foundation is ready enough to test
+  Preview deployments. Production deployment and environment setup require
+  human approval.
+
 ## Intentionally Not Implemented Yet
 
 - Authentication or synced accounts.
@@ -88,6 +115,9 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
+- Supabase package installation, client wiring, migrations, RLS policies, and
+  auth UI.
+- Vercel deployment and environment configuration.
 
 ## Current Product Decisions
 
