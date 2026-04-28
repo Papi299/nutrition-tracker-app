@@ -20,6 +20,7 @@ sets up a small, reviewable Next.js surface for later product work.
 - React 19
 - TypeScript
 - Tailwind CSS 4
+- next-intl
 - npm
 
 ## Install Dependencies
@@ -40,8 +41,37 @@ Then open `http://localhost:3000`.
 
 ```bash
 npm run lint
+npm run typecheck
 npm run build
 ```
+
+## Internationalization and RTL
+
+- Supported UI locales are `en` and `he`.
+- Localized public routes use locale prefixes:
+  - `/en`
+  - `/he`
+- The root route `/` redirects deterministically to `/en`.
+- Browser-language detection and locale cookies are not implemented yet.
+- Locale content lives under `app/[locale]/`.
+- English pages render with `html lang="en"` and `html dir="ltr"`.
+- Hebrew pages render with `html lang="he"` and `html dir="rtl"`.
+- The language switcher links between `/en` and `/he`; it currently supports
+  the localized public home shell.
+- Mixed Hebrew/English sample text is rendered with `dir="auto"` to keep future
+  food or product names readable across scripts.
+- Food-search localization is intentionally not implemented yet and should stay
+  separate from UI message translation.
+
+Manual RTL QA checklist:
+
+- Visit `/` and confirm it redirects to `/en`.
+- Visit `/en` and confirm English LTR layout and copy.
+- Visit `/he` and confirm Hebrew RTL layout and copy.
+- Use the language switcher in both directions on desktop and mobile widths.
+- Confirm mixed Hebrew/English sample text reads naturally.
+- Confirm no food search, diary, auth, database, or product feature routes were
+  introduced.
 
 ## Intentionally Not Implemented Yet
 
@@ -50,6 +80,7 @@ npm run build
 - Vercel deployment wiring.
 - Database schema or persistence layer.
 - Food search.
+- Food-search localization.
 - Diary logging.
 - Barcode scanning.
 - Custom food forms.
