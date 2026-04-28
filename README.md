@@ -80,6 +80,18 @@ npm run build
 - Record durable product or technical decisions in `docs/decision-log.md` when
   a short README note is not enough.
 
+## Repository and GitHub Workflow
+
+- This repository is Git-managed locally and backed by GitHub at
+  `https://github.com/Papi299/nutrition-tracker-app`.
+- `main` contains the initial app foundation.
+- Future non-trivial work should use focused branches.
+- Codex should keep changes small, reviewable, and documented.
+- Codex should update `README.md` whenever setup, architecture, scripts,
+  workflow, or important behavior changes.
+- Human review can happen in VS Code, GitHub Desktop, and GitHub Web.
+- Feature work should not be pushed without validation summaries.
+
 ## Repository State
 
 The repository is initialized with Git on the `main` branch. The first commit is
