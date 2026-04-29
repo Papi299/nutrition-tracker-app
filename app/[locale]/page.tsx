@@ -35,6 +35,8 @@ function LocalizedHome({ locale }: { locale: Locale }) {
       locale={locale}
       appName={t("appName")}
       navHome={t("nav.home")}
+      navSignIn={t("nav.signIn")}
+      navSignUp={t("nav.signUp")}
       languageLabel={t("language.label")}
       currentLanguageLabel={t("language.current")}
       foundationLabel={t("foundationLabel")}

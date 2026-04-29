@@ -2,7 +2,9 @@
   "HomePage": {
     "appName": "Nutrition Tracker",
     "nav": {
-      "home": "Home"
+      "home": "Home",
+      "signIn": "Sign in",
+      "signUp": "Sign up"
     },
     "language": {
       "label": "Choose language",
@@ -26,6 +28,34 @@
     "mixedSample": {
       "label": "Mixed-script sample:",
       "text": "קוטג 5% Tnuva"
+    }
+  },
+  "Auth": {
+    "common": {
+      "homeLink": "Back home",
+      "emailPlaceholder": "name@example.com",
+      "passwordPlaceholder": "Password"
+    },
+    "signIn": {
+      "title": "Sign in",
+      "description": "This route is reserved for future account access once Supabase auth is connected.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Sign in (not connected)",
+      "createAccountText": "Need an account?",
+      "createAccountLink": "Create one"
+    },
+    "signUp": {
+      "title": "Create account",
+      "description": "This route is reserved for future account creation once Supabase auth is connected.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Create account (not connected)",
+      "haveAccountText": "Already have an account?",
+      "haveAccountLink": "Sign in"
+    },
+    "status": {
+      "notConnectedYet": "Authentication wiring is not connected yet. This form does not send credentials."
     }
   }
 }

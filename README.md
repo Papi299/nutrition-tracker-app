@@ -70,8 +70,28 @@ Manual RTL QA checklist:
 - Visit `/he` and confirm Hebrew RTL layout and copy.
 - Use the language switcher in both directions on desktop and mobile widths.
 - Confirm mixed Hebrew/English sample text reads naturally.
-- Confirm no food search, diary, auth, database, or product feature routes were
-  introduced.
+- Confirm no food search, diary, database, protected app, or product feature
+  routes were introduced.
+
+## Auth UI Foundation
+
+- Localized auth UI skeleton routes exist at:
+  - `/en/auth/sign-in`
+  - `/he/auth/sign-in`
+  - `/en/auth/sign-up`
+  - `/he/auth/sign-up`
+- These forms are UI-only and do not call Supabase, submit credentials, create
+  users, sign users in, modify cookies, or protect routes.
+- Real auth is deferred to a future PR using Server Actions plus Supabase
+  auth/session proxy composition.
+- `proxy.ts` remains unchanged for this auth UI foundation; it still only
+  handles `next-intl` locale routing.
+- Sign-out, email confirmation, password reset, protected routes,
+  profiles/targets, database schema, migrations, and RLS policies remain
+  deferred.
+- Manual QA should confirm each auth route renders in the correct locale,
+  Hebrew pages inherit RTL direction, the primary button is disabled, and the
+  status note clearly says authentication is not connected yet.
 
 ## Backend and Infrastructure Direction
 
@@ -113,7 +133,7 @@ Manual RTL QA checklist:
 
 ## Intentionally Not Implemented Yet
 
-- Authentication or synced accounts.
+- Real authentication or synced accounts.
 - Supabase auth/session proxy composition.
 - Vercel deployment wiring.
 - Database schema or persistence layer.
@@ -126,7 +146,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase migrations, RLS policies, auth UI, and Supabase CLI setup.
+- Supabase migrations, RLS policies, real auth behavior, and Supabase CLI setup.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions

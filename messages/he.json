@@ -2,7 +2,9 @@
   "HomePage": {
     "appName": "מעקב תזונה",
     "nav": {
-      "home": "בית"
+      "home": "בית",
+      "signIn": "כניסה",
+      "signUp": "הרשמה"
     },
     "language": {
       "label": "בחירת שפה",
@@ -26,6 +28,34 @@
     "mixedSample": {
       "label": "דוגמה לטקסט מעורב:",
       "text": "Greek yogurt יוגורט"
+    }
+  },
+  "Auth": {
+    "common": {
+      "homeLink": "חזרה לבית",
+      "emailPlaceholder": "name@example.com",
+      "passwordPlaceholder": "סיסמה"
+    },
+    "signIn": {
+      "title": "כניסה לחשבון",
+      "description": "הנתיב הזה שמור לכניסה עתידית לחשבון אחרי חיבור Supabase Auth.",
+      "emailLabel": "אימייל",
+      "passwordLabel": "סיסמה",
+      "submit": "כניסה (עדיין לא מחוברת)",
+      "createAccountText": "צריך חשבון?",
+      "createAccountLink": "יצירת חשבון"
+    },
+    "signUp": {
+      "title": "יצירת חשבון",
+      "description": "הנתיב הזה שמור ליצירת חשבון בעתיד אחרי חיבור Supabase Auth.",
+      "emailLabel": "אימייל",
+      "passwordLabel": "סיסמה",
+      "submit": "יצירת חשבון (עדיין לא מחוברת)",
+      "haveAccountText": "כבר יש חשבון?",
+      "haveAccountLink": "כניסה"
+    },
+    "status": {
+      "notConnectedYet": "חיבור האימות עדיין לא פעיל. הטופס הזה לא שולח פרטי התחברות."
     }
   }
 }
