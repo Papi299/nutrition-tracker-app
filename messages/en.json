@@ -70,5 +70,20 @@
       "passwordRequired": "Enter a password.",
       "passwordTooShort": "Password must be at least 6 characters."
     }
+  },
+  "AppShell": {
+    "appName": "Nutrition Tracker",
+    "protectedLabel": "Protected app foundation",
+    "signOut": "Sign out",
+    "nav": {
+      "today": "Today"
+    },
+    "today": {
+      "label": "Today workspace",
+      "title": "Your protected nutrition space is ready for the next layer.",
+      "description": "This signed-in area confirms account access and session handling. Food logging, targets, diary history, and dashboard calculations are intentionally not implemented yet.",
+      "placeholderTitle": "Protected shell only",
+      "placeholderBody": "Future reviewable work can add profile, targets, diary, and nutrition views here after database schema and RLS decisions are approved."
+    }
   }
 }
