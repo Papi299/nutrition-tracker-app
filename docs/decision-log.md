@@ -57,3 +57,12 @@
 - Kept auth errors generic and localized; raw Supabase provider errors are not shown in the UI.
 - Made sign-up confirmation-aware: a returned session redirects to the locale home route, while no session shows a localized check-email message.
 - Deferred auth callback routes, password reset, OAuth/social auth, protected routes, `next=` return URLs, database schema, migrations, RLS policies, profile/targets work, and Vercel deployment.
+
+## 2026-04-29: Protected app shell foundation
+
+- Chose `app/[locale]/(app)/today` for the first protected localized route, producing `/en/today` and `/he/today` URLs without exposing the route group.
+- Added a minimal authenticated app shell and kept the `/today` page placeholder-only.
+- Protected layout access uses a server-side Supabase identity check and avoids `getSession()` for trusted server protection.
+- Added a visible sign-out control to the authenticated shell that redirects to the localized public home route.
+- Changed successful sign-in and active-session sign-up redirects to `/{locale}/today`, and redirects signed-in auth-page visits to the protected shell.
+- Deferred `next=` return URLs, auth callback routes, password reset, OAuth/social auth, database schema, migrations, RLS policies, profile/targets work, real dashboard/diary features, food search, and Vercel deployment.
