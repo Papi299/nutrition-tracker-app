@@ -38,24 +38,37 @@
     },
     "signIn": {
       "title": "Sign in",
-      "description": "This route is reserved for future account access once Supabase auth is connected.",
+      "description": "Use email and password access for this foundation account flow.",
       "emailLabel": "Email",
       "passwordLabel": "Password",
-      "submit": "Sign in (not connected)",
+      "submit": "Sign in",
+      "pending": "Signing in...",
       "createAccountText": "Need an account?",
       "createAccountLink": "Create one"
     },
     "signUp": {
       "title": "Create account",
-      "description": "This route is reserved for future account creation once Supabase auth is connected.",
+      "description": "Create a foundation account with email and password.",
       "emailLabel": "Email",
       "passwordLabel": "Password",
-      "submit": "Create account (not connected)",
+      "submit": "Create account",
+      "pending": "Creating account...",
       "haveAccountText": "Already have an account?",
       "haveAccountLink": "Sign in"
     },
+    "signOut": {
+      "submit": "Sign out"
+    },
     "status": {
-      "notConnectedYet": "Authentication wiring is not connected yet. This form does not send credentials."
+      "ready": "This form uses Supabase auth when local environment values are configured. Protected app routes are still deferred.",
+      "checkEmail": "Check your email to finish creating the account. The confirmation callback route is not implemented yet."
+    },
+    "errors": {
+      "authFailed": "We could not complete that auth request. Check the details and try again.",
+      "invalidEmail": "Enter a valid email address.",
+      "missingConfig": "Supabase environment values are missing on this machine.",
+      "passwordRequired": "Enter a password.",
+      "passwordTooShort": "Password must be at least 6 characters."
     }
   }
 }

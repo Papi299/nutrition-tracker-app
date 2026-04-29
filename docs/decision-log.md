@@ -48,3 +48,12 @@
 - Kept the auth forms inert: no Supabase calls, server actions, route handlers, credential submission, cookie changes, or user creation were added.
 - Left `proxy.ts` unchanged; real Supabase auth and session refresh composition are deferred to a future auth implementation PR.
 - Deferred protected routes, sign-out, email confirmation, password reset, database schema, migrations, RLS policies, profile/targets work, and Vercel deployment.
+
+## 2026-04-29: Functional Supabase auth and session foundation
+
+- Chose localized Server Actions for email/password sign-in and sign-up.
+- Added a small sign-out Server Action for future shell usage without adding protected routes.
+- Composed Supabase SSR session refresh with the existing `next-intl` proxy by running locale routing first and applying Supabase cookies to the same response.
+- Kept auth errors generic and localized; raw Supabase provider errors are not shown in the UI.
+- Made sign-up confirmation-aware: a returned session redirects to the locale home route, while no session shows a localized check-email message.
+- Deferred auth callback routes, password reset, OAuth/social auth, protected routes, `next=` return URLs, database schema, migrations, RLS policies, profile/targets work, and Vercel deployment.
