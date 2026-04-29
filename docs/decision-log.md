@@ -66,3 +66,12 @@
 - Added a visible sign-out control to the authenticated shell that redirects to the localized public home route.
 - Changed successful sign-in and active-session sign-up redirects to `/{locale}/today`, and redirects signed-in auth-page visits to the protected shell.
 - Deferred `next=` return URLs, auth callback routes, password reset, OAuth/social auth, database schema, migrations, RLS policies, profile/targets work, real dashboard/diary features, food search, and Vercel deployment.
+
+## 2026-04-29: Supabase migration workflow foundation
+
+- Added Supabase CLI as a local npm dev dependency for Git-versioned migration workflow.
+- Initialized local Supabase project configuration in `supabase/config.toml`.
+- Started tracking `supabase/migrations/` with `.gitkeep`, without adding SQL migrations.
+- Deferred remote project linking and `supabase db push`; both require explicit human approval.
+- Deferred schema tables, generated database types, RLS policies, profile/targets implementation, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
+- Reaffirmed that dashboard-only schema drift is not acceptable; future schema changes must be captured in migrations before merge.
