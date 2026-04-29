@@ -5,6 +5,8 @@ export function PublicShell({
   locale,
   appName,
   navHome,
+  navSignIn,
+  navSignUp,
   languageLabel,
   currentLanguageLabel,
   foundationLabel,
@@ -20,6 +22,8 @@ export function PublicShell({
   locale: Locale;
   appName: string;
   navHome: string;
+  navSignIn: string;
+  navSignUp: string;
   languageLabel: string;
   currentLanguageLabel: string;
   foundationLabel: string;
@@ -38,12 +42,23 @@ export function PublicShell({
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-start">
             <p className="text-lg font-semibold text-slate-950">{appName}</p>
-            <a
-              className="text-sm font-medium text-teal-700 hover:text-teal-900"
-              href={`/${locale}`}
-            >
-              {navHome}
-            </a>
+            <nav className="flex flex-wrap gap-3 text-sm font-medium">
+              <a className="text-teal-700 hover:text-teal-900" href={`/${locale}`}>
+                {navHome}
+              </a>
+              <a
+                className="text-teal-700 hover:text-teal-900"
+                href={`/${locale}/auth/sign-in`}
+              >
+                {navSignIn}
+              </a>
+              <a
+                className="text-teal-700 hover:text-teal-900"
+                href={`/${locale}/auth/sign-up`}
+              >
+                {navSignUp}
+              </a>
+            </nav>
           </div>
           <LanguageSwitcher
             currentLabel={currentLanguageLabel}
