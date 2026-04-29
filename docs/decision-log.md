@@ -40,3 +40,11 @@
 - Added only helper scaffolding now so future auth and data work can remain small and reviewable.
 - Deferred auth UI, sign in/sign up/sign out, protected routes, database schema, migrations, RLS policies, Supabase CLI setup, and Vercel deployment.
 - Deferred composing Supabase session refresh with the existing `next-intl` proxy because that is auth/session behavior and should be planned in the auth phase.
+
+## 2026-04-29: Localized auth UI foundation
+
+- Added localized sign-in and sign-up UI skeleton routes for English and Hebrew.
+- Established the route, component, and message foundation before adding auth/session behavior.
+- Kept the auth forms inert: no Supabase calls, server actions, route handlers, credential submission, cookie changes, or user creation were added.
+- Left `proxy.ts` unchanged; real Supabase auth and session refresh composition are deferred to a future auth implementation PR.
+- Deferred protected routes, sign-out, email confirmation, password reset, database schema, migrations, RLS policies, profile/targets work, and Vercel deployment.
