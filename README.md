@@ -43,6 +43,7 @@ Then open `http://localhost:3000`.
 npm run lint
 npm run typecheck
 npm run build
+npm run supabase:version
 ```
 
 ## Internationalization and RTL
@@ -143,6 +144,21 @@ Manual RTL QA checklist:
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
+- Supabase CLI is installed as a local dev dependency for migration workflow
+  scaffolding. It is not installed globally.
+- Supabase local project configuration lives in `supabase/config.toml`.
+- Future migrations must live in `supabase/migrations/` and use
+  `YYYYMMDDHHMMSS_descriptive_name.sql` names.
+- The migrations directory is currently tracked with `.gitkeep`; no SQL
+  migration files, tables, or RLS policies are included yet.
+- Local Supabase stack commands may require Docker or another compatible
+  container runtime.
+- Remote project linking and remote migration pushes are deferred. Do not run
+  `supabase link` or `supabase db push` without explicit human approval.
+- Dashboard-only schema drift should be avoided; any future dashboard schema
+  changes must be captured in migrations before merge.
+- The next schema PR is expected to add `profiles` and `nutrition_targets`
+  with RLS after the migration workflow is reviewed.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
@@ -163,10 +179,6 @@ Manual RTL QA checklist:
 - RLS is required for every future user-owned table. User-owned rows must be
   isolated by authenticated user ownership, and server code must not trust a
   client-supplied `user_id`.
-- Future migrations should live in `supabase/migrations/` and use
-  `YYYYMMDDHHMMSS_descriptive_name.sql` names.
-- Dashboard-only schema drift should be avoided; dashboard changes must be
-  captured into migrations before merge.
 - Vercel setup is deferred until the auth foundation is ready enough to test
   Preview deployments. Production deployment and environment setup require
   human approval.
@@ -185,7 +197,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase migrations, RLS policies, real app data routes, and Supabase CLI setup.
+- Supabase SQL migrations, RLS policies, and real app data routes.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
