@@ -82,11 +82,13 @@ Manual RTL QA checklist:
   - `/he/auth/sign-up`
 - The sign-in and sign-up forms use localized Server Actions and Supabase
   email/password auth.
-- Sign-in success redirects to `/{locale}`.
-- Sign-up redirects to `/{locale}` when Supabase returns a session. If
+- Sign-in success redirects to `/{locale}/today`.
+- Sign-up redirects to `/{locale}/today` when Supabase returns a session. If
   confirmation is required and no session is returned, the page shows a
   localized check-email message.
-- A small sign-out Server Action exists for future shell usage and redirects to
+- Signed-in users who visit sign-in or sign-up pages are redirected to
+  `/{locale}/today`.
+- The authenticated shell exposes a sign-out control that redirects to
   `/{locale}`.
 - `proxy.ts` composes `next-intl` locale routing first, then applies Supabase
   SSR session refresh to the same response.
@@ -100,21 +102,44 @@ Manual RTL QA checklist:
 - Email confirmation completion is deferred because no auth callback route is
   implemented yet. For local functional testing, email confirmation may be
   temporarily disabled in the Supabase project after human approval.
-- Password reset, OAuth/social auth, protected routes, profiles/targets,
-  database schema, migrations, and RLS policies remain deferred.
+- Password reset, OAuth/social auth, profiles/targets, database schema,
+  migrations, and RLS policies remain deferred.
 - Manual QA should confirm each auth route renders in the correct locale,
   Hebrew pages inherit RTL direction, generic localized errors are shown, raw
   Supabase errors are not shown, and functional auth is tested only when local
   Supabase env/project settings are available.
+
+## Protected App Shell
+
+- The first protected localized app routes are:
+  - `/en/today`
+  - `/he/today`
+- Protected routes use the route group `app/[locale]/(app)/`, so `(app)` does
+  not appear in the URL.
+- Unauthenticated visits redirect to localized sign-in:
+  - `/en/today` -> `/en/auth/sign-in`
+  - `/he/today` -> `/he/auth/sign-in`
+- The protected shell performs a server-side Supabase identity check. It does
+  not use `getSession()` for trusted server protection, does not query profile
+  tables, and does not trust a client-supplied `user_id`.
+- The `/today` page is placeholder-only. It confirms the authenticated app
+  shell and session behavior, but it does not implement a real nutrition
+  dashboard, diary, targets, calculations, or food logging.
+- `next=` return URL handling is not implemented yet.
+- Manual protected-shell QA should confirm unauthenticated redirects,
+  authenticated access to `/en/today`, refresh persistence, signed-in redirects
+  away from auth pages, sign-out back to `/{locale}`, and Hebrew RTL rendering
+  at `/he/today`.
 
 ## Backend and Infrastructure Direction
 
 - Approved V1 backend direction is Supabase Auth, Supabase Postgres, Row Level
   Security, and Git-versioned Supabase migrations later.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
-- Current status: Supabase client scaffolding, email/password auth actions, and
-  session refresh proxy composition exist. No database schema, migrations,
-  protected routes, or user-owned data tables are implemented.
+- Current status: Supabase client scaffolding, email/password auth actions,
+  session refresh proxy composition, and a minimal protected app shell exist.
+  No database schema, migrations, real dashboard, diary, or user-owned data
+  tables are implemented.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -160,7 +185,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase migrations, RLS policies, protected app routes, and Supabase CLI setup.
+- Supabase migrations, RLS policies, real app data routes, and Supabase CLI setup.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
@@ -169,8 +194,7 @@ Manual RTL QA checklist:
 - FoodsDictionary may be used later for branded and packaged foods only after
   an approved API/license agreement.
 - Detailed custom foods are a later V1/P0 product requirement.
-- Supabase and Vercel are available platform options, but neither is wired in
-  this bootstrap.
+- Supabase Auth is wired for the current foundation. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
 - The app is expected to support Hebrew and English UI/search with proper
