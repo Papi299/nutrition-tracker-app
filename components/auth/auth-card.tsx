@@ -1,33 +1,49 @@
 import Link from "next/link";
+import type {
+  AuthActionCode,
+  AuthActionState,
+} from "@/app/[locale]/auth/action-state";
 import { AuthFormShell } from "@/components/auth/auth-form-shell";
-import { AuthStatusNote } from "@/components/auth/auth-status-note";
 
 export function AuthCard({
+  action,
   alternateHref,
   alternateLabel,
   alternateText,
+  autoComplete,
   description,
   emailLabel,
   emailPlaceholder,
+  errorMessages,
   homeHref,
   homeLabel,
   passwordLabel,
   passwordPlaceholder,
-  statusNote,
+  pendingLabel,
+  statusIdle,
+  successMessages,
   submitLabel,
   title,
 }: {
+  action: (
+    state: AuthActionState,
+    formData: FormData,
+  ) => Promise<AuthActionState>;
   alternateHref: string;
   alternateLabel: string;
   alternateText: string;
+  autoComplete?: "current-password" | "new-password";
   description: string;
   emailLabel: string;
   emailPlaceholder: string;
+  errorMessages: Record<Exclude<AuthActionCode, "checkEmail">, string>;
   homeHref: string;
   homeLabel: string;
   passwordLabel: string;
   passwordPlaceholder: string;
-  statusNote: string;
+  pendingLabel: string;
+  statusIdle: string;
+  successMessages: Record<Extract<AuthActionCode, "checkEmail">, string>;
   submitLabel: string;
   title: string;
 }) {
@@ -51,10 +67,16 @@ export function AuthCard({
 
           <div className="mt-8">
             <AuthFormShell
+              action={action}
+              autoComplete={autoComplete}
               emailLabel={emailLabel}
               emailPlaceholder={emailPlaceholder}
+              errorMessages={errorMessages}
               passwordLabel={passwordLabel}
               passwordPlaceholder={passwordPlaceholder}
+              pendingLabel={pendingLabel}
+              statusIdle={statusIdle}
+              successMessages={successMessages}
               submitLabel={submitLabel}
             />
           </div>
@@ -69,8 +91,6 @@ export function AuthCard({
             </Link>
           </p>
         </div>
-
-        <AuthStatusNote>{statusNote}</AuthStatusNote>
       </section>
     </main>
   );
