@@ -73,33 +73,48 @@ Manual RTL QA checklist:
 - Confirm no food search, diary, database, protected app, or product feature
   routes were introduced.
 
-## Auth UI Foundation
+## Auth and Session Foundation
 
-- Localized auth UI skeleton routes exist at:
+- Localized auth routes exist at:
   - `/en/auth/sign-in`
   - `/he/auth/sign-in`
   - `/en/auth/sign-up`
   - `/he/auth/sign-up`
-- These forms are UI-only and do not call Supabase, submit credentials, create
-  users, sign users in, modify cookies, or protect routes.
-- Real auth is deferred to a future PR using Server Actions plus Supabase
-  auth/session proxy composition.
-- `proxy.ts` remains unchanged for this auth UI foundation; it still only
-  handles `next-intl` locale routing.
-- Sign-out, email confirmation, password reset, protected routes,
-  profiles/targets, database schema, migrations, and RLS policies remain
-  deferred.
+- The sign-in and sign-up forms use localized Server Actions and Supabase
+  email/password auth.
+- Sign-in success redirects to `/{locale}`.
+- Sign-up redirects to `/{locale}` when Supabase returns a session. If
+  confirmation is required and no session is returned, the page shows a
+  localized check-email message.
+- A small sign-out Server Action exists for future shell usage and redirects to
+  `/{locale}`.
+- `proxy.ts` composes `next-intl` locale routing first, then applies Supabase
+  SSR session refresh to the same response.
+- The proxy skips Supabase refresh when public Supabase env values are missing,
+  so public routes can still build and render before local credentials are set.
+- Required local Supabase values for functional auth testing:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- Real values belong in untracked `.env.local`; `.env.example` must contain
+  placeholders only.
+- Email confirmation completion is deferred because no auth callback route is
+  implemented yet. For local functional testing, email confirmation may be
+  temporarily disabled in the Supabase project after human approval.
+- Password reset, OAuth/social auth, protected routes, profiles/targets,
+  database schema, migrations, and RLS policies remain deferred.
 - Manual QA should confirm each auth route renders in the correct locale,
-  Hebrew pages inherit RTL direction, the primary button is disabled, and the
-  status note clearly says authentication is not connected yet.
+  Hebrew pages inherit RTL direction, generic localized errors are shown, raw
+  Supabase errors are not shown, and functional auth is tested only when local
+  Supabase env/project settings are available.
 
 ## Backend and Infrastructure Direction
 
 - Approved V1 backend direction is Supabase Auth, Supabase Postgres, Row Level
   Security, and Git-versioned Supabase migrations later.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
-- Current status: Supabase client scaffolding exists, but no database schema,
-  migrations, auth flows, or session refresh behavior are implemented.
+- Current status: Supabase client scaffolding, email/password auth actions, and
+  session refresh proxy composition exist. No database schema, migrations,
+  protected routes, or user-owned data tables are implemented.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -133,8 +148,7 @@ Manual RTL QA checklist:
 
 ## Intentionally Not Implemented Yet
 
-- Real authentication or synced accounts.
-- Supabase auth/session proxy composition.
+- Synced accounts beyond Supabase auth identity.
 - Vercel deployment wiring.
 - Database schema or persistence layer.
 - Food search.
@@ -146,7 +160,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase migrations, RLS policies, real auth behavior, and Supabase CLI setup.
+- Supabase migrations, RLS policies, protected app routes, and Supabase CLI setup.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
