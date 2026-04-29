@@ -2,7 +2,10 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { signInAction } from "@/app/[locale]/auth/actions";
 import { AuthCard } from "@/components/auth/auth-card";
+import { redirectAuthenticatedUser } from "@/lib/auth/require-user";
 import { routing, type Locale } from "@/lib/i18n/routing";
+
+export const dynamic = "force-dynamic";
 
 type SignInPageProps = Readonly<{
   params: Promise<{ locale: Locale }>;
@@ -16,6 +19,7 @@ export default async function SignInPage({ params }: SignInPageProps) {
   const { locale } = await params;
 
   setRequestLocale(locale);
+  await redirectAuthenticatedUser(locale);
 
   return <LocalizedSignIn locale={locale} />;
 }

@@ -80,7 +80,7 @@ export async function signInAction(
     return { code: "authFailed", status: "error" };
   }
 
-  redirect(`/${locale}`);
+  redirect(`/${locale}/today`);
 }
 
 export async function signUpAction(
@@ -113,7 +113,7 @@ export async function signUpAction(
   }
 
   if (data.session) {
-    redirect(`/${locale}`);
+    redirect(`/${locale}/today`);
   }
 
   return { code: "checkEmail", status: "success" };
