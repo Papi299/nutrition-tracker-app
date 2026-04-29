@@ -157,8 +157,24 @@ Manual RTL QA checklist:
   `supabase link` or `supabase db push` without explicit human approval.
 - Dashboard-only schema drift should be avoided; any future dashboard schema
   changes must be captured in migrations before merge.
-- The next schema PR is expected to add `profiles` and `nutrition_targets`
-  with RLS after the migration workflow is reviewed.
+- Initial schema migration:
+  - `supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql`
+  - Adds `public.profiles` for minimal user profile preferences:
+    `id`, `display_name`, `preferred_language`, `unit_system`, `created_at`,
+    and `updated_at`.
+  - Adds `public.nutrition_targets` for effective-dated manual daily targets:
+    `user_id`, `effective_from`, calories, protein, carbohydrates, fat, and
+    timestamps.
+  - Adds a reusable `public.set_updated_at()` trigger function for both tables.
+  - Enables RLS on both tables with authenticated owner-only select, insert,
+    and update policies.
+- Profile rows are not auto-created on signup yet; app code will create them
+  lazily in a future profile/onboarding PR.
+- Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
+  target calculation exists.
+- Delete policies are intentionally omitted for the first schema slice.
+- Generated database types, profile UI, targets UI, diary, foods, recipes,
+  barcode, and real dashboard data access remain deferred.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
@@ -197,7 +213,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Supabase SQL migrations, RLS policies, and real app data routes.
+- Real app data routes for profiles, targets, diary, foods, or recipes.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
