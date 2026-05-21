@@ -75,3 +75,12 @@
 - Deferred remote project linking and `supabase db push`; both require explicit human approval.
 - Deferred schema tables, generated database types, RLS policies, profile/targets implementation, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
 - Reaffirmed that dashboard-only schema drift is not acceptable; future schema changes must be captured in migrations before merge.
+
+## 2026-04-29: Profiles and nutrition targets schema foundation
+
+- Added the first reviewed SQL migration for `public.profiles` and `public.nutrition_targets`.
+- Kept `profiles` minimal: user id, optional display name, preferred language, metric unit system, and timestamps.
+- Deferred age, sex, height, weight, medical fields, and nutrition-goal fields to avoid collecting sensitive data before a clear product need.
+- Chose effective-dated `nutrition_targets` so users can manually maintain target changes over time without automatic BMR/TDEE calculations.
+- Added owner-only RLS policies for authenticated users on both tables.
+- Deferred delete policies, profile auto-creation triggers, generated database types, profile/targets UI, app data access, remote migration push, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
