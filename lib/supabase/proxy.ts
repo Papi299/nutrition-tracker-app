@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
+import type { Database } from "@/lib/supabase/database.types";
 import { getOptionalSupabasePublicEnv } from "@/lib/supabase/env";
 
 export async function updateSession(
@@ -12,7 +13,7 @@ export async function updateSession(
     return response;
   }
 
-  const supabase = createServerClient(
+  const supabase = createServerClient<Database>(
     supabaseEnv.url,
     supabaseEnv.publishableKey,
     {

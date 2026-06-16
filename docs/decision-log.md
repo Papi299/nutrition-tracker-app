@@ -84,3 +84,11 @@
 - Chose effective-dated `nutrition_targets` so users can manually maintain target changes over time without automatic BMR/TDEE calculations.
 - Added owner-only RLS policies for authenticated users on both tables.
 - Deferred delete policies, profile auto-creation triggers, generated database types, profile/targets UI, app data access, remote migration push, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
+
+## 2026-06-16: Generated Supabase database types
+
+- Generated TypeScript database types from the validated local Supabase schema after applying local migrations with `supabase db reset`.
+- Stored generated types at `lib/supabase/database.types.ts`.
+- Typed the existing browser, server, and proxy Supabase client helpers with the generated `Database` type without adding runtime data access.
+- Recorded that remote migration `20260429163444` was already applied and verified before type generation.
+- Deferred profile/targets UI, profile/targets app data access, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.

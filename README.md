@@ -138,9 +138,9 @@ Manual RTL QA checklist:
   Security, and Git-versioned Supabase migrations later.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
 - Current status: Supabase client scaffolding, email/password auth actions,
-  session refresh proxy composition, and a minimal protected app shell exist.
-  No database schema, migrations, real dashboard, diary, or user-owned data
-  tables are implemented.
+  session refresh proxy composition, a minimal protected app shell, and the
+  first user-owned schema migration exist. Real dashboard, diary, and product
+  data access are not implemented.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -168,19 +168,29 @@ Manual RTL QA checklist:
   - Adds a reusable `public.set_updated_at()` trigger function for both tables.
   - Enables RLS on both tables with authenticated owner-only select, insert,
     and update policies.
+- Remote migration `20260429163444` has been applied to the linked Supabase
+  project and verified.
+- Generated Supabase database types live at
+  `lib/supabase/database.types.ts`.
+- Generate types from the validated local database after migrations are reset:
+  `npx supabase gen types --lang=typescript --local --schema public > lib/supabase/database.types.ts`.
+- Regenerate database types after every future schema migration before wiring
+  application data access.
 - Profile rows are not auto-created on signup yet; app code will create them
   lazily in a future profile/onboarding PR.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
 - Delete policies are intentionally omitted for the first schema slice.
-- Generated database types, profile UI, targets UI, diary, foods, recipes,
-  barcode, and real dashboard data access remain deferred.
+- Profile UI, targets UI, diary, foods, recipes, barcode, and real dashboard
+  data access remain deferred.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
   - `lib/supabase/client.ts` creates a browser/client-component Supabase client.
   - `lib/supabase/server.ts` creates a server-side Supabase client for future
     Server Components, Server Actions, or Route Handlers.
+  - Existing Supabase client helpers are typed with the generated `Database`
+    type.
   - `lib/supabase/index.ts` re-exports the helper factories.
 - Preferred future public environment variables:
   - `NEXT_PUBLIC_SUPABASE_URL`
@@ -203,7 +213,7 @@ Manual RTL QA checklist:
 
 - Synced accounts beyond Supabase auth identity.
 - Vercel deployment wiring.
-- Database schema or persistence layer.
+- Additional database schema beyond profiles and nutrition targets.
 - Food search.
 - Food-search localization.
 - Diary logging.
