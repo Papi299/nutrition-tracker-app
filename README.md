@@ -103,8 +103,8 @@ Manual RTL QA checklist:
 - Email confirmation completion is deferred because no auth callback route is
   implemented yet. For local functional testing, email confirmation may be
   temporarily disabled in the Supabase project after human approval.
-- Password reset, OAuth/social auth, profiles/targets, database schema,
-  migrations, and RLS policies remain deferred.
+- Password reset, OAuth/social auth, profile/targets UI, and profile/targets
+  Server Actions remain deferred.
 - Manual QA should confirm each auth route renders in the correct locale,
   Hebrew pages inherit RTL direction, generic localized errors are shown, raw
   Supabase errors are not shown, and functional auth is tested only when local
@@ -180,9 +180,21 @@ Manual RTL QA checklist:
   lazily in a future profile/onboarding PR.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
+- Server-only profile and nutrition-target data helpers live under:
+  - `lib/profile/`
+  - `lib/nutrition-targets/`
+  - `lib/data/`
+- Data helpers derive the authenticated user id server-side and never accept a
+  client-supplied `user_id`.
+- Profile helpers support reading, explicit lazy creation, and updates for
+  `display_name` and `preferred_language`; `unit_system` remains metric-only.
+- Nutrition target helpers support reading the current effective target and
+  upserting one manual target row per `(user_id, effective_from)`.
+- Target values use `null` for not set and `0` for an explicit zero. The
+  default effective date is UTC today unless future UI passes an explicit date.
 - Delete policies are intentionally omitted for the first schema slice.
-- Profile UI, targets UI, diary, foods, recipes, barcode, and real dashboard
-  data access remain deferred.
+- Profile UI, targets UI, Server Actions for profile/targets, diary, foods,
+  recipes, barcode, and real dashboard data access remain deferred.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
@@ -214,6 +226,7 @@ Manual RTL QA checklist:
 - Synced accounts beyond Supabase auth identity.
 - Vercel deployment wiring.
 - Additional database schema beyond profiles and nutrition targets.
+- Profile and target setup UI.
 - Food search.
 - Food-search localization.
 - Diary logging.
