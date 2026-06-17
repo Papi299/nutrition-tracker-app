@@ -92,3 +92,12 @@
 - Typed the existing browser, server, and proxy Supabase client helpers with the generated `Database` type without adding runtime data access.
 - Recorded that remote migration `20260429163444` was already applied and verified before type generation.
 - Deferred profile/targets UI, profile/targets app data access, diary, food search, custom foods, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
+
+## 2026-06-16: Profile and target data access helpers
+
+- Added server-only data helper modules for profiles and nutrition targets before adding UI.
+- Chose explicit lazy profile creation by future setup submit instead of automatic profile creation on protected app load.
+- Kept profile writes limited to display name and preferred language; unit system remains metric-only.
+- Added manual nutrition target reads and upserts by `(user_id, effective_from)`.
+- Kept delete helpers, Server Actions, setup/settings UI, diary, food search, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration deferred.
+- Reaffirmed that authenticated user ownership comes from server-side Supabase identity and RLS remains the database enforcement layer.

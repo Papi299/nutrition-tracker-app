@@ -60,7 +60,7 @@
       "submit": "Sign out"
     },
     "status": {
-      "ready": "This form uses Supabase auth when local environment values are configured. Protected app routes are still deferred.",
+      "ready": "This form uses Supabase auth when local environment values are configured. Profile and target setup screens are still deferred.",
       "checkEmail": "Check your email to finish creating the account. The confirmation callback route is not implemented yet."
     },
     "errors": {
