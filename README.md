@@ -115,6 +115,8 @@ Manual RTL QA checklist:
 - The first protected localized app routes are:
   - `/en/today`
   - `/he/today`
+  - `/en/setup`
+  - `/he/setup`
 - Protected routes use the route group `app/[locale]/(app)/`, so `(app)` does
   not appear in the URL.
 - Unauthenticated visits redirect to localized sign-in:
@@ -126,11 +128,18 @@ Manual RTL QA checklist:
 - The `/today` page is placeholder-only. It confirms the authenticated app
   shell and session behavior, but it does not implement a real nutrition
   dashboard, diary, targets, calculations, or food logging.
+- Authenticated users without a profile row see a `/today` setup callout that
+  links to `/{locale}/setup`; there is no global missing-profile redirect yet.
+- The setup route lets users intentionally create or update their profile and
+  optionally save manual calorie, protein, carbohydrate, and fat targets.
+- Target fields are optional: blank means not set, while `0` is preserved as an
+  explicit zero value.
 - `next=` return URL handling is not implemented yet.
 - Manual protected-shell QA should confirm unauthenticated redirects,
   authenticated access to `/en/today`, refresh persistence, signed-in redirects
-  away from auth pages, sign-out back to `/{locale}`, and Hebrew RTL rendering
-  at `/he/today`.
+  away from auth pages, sign-out back to `/{locale}`, setup-route protection,
+  setup submit behavior, and Hebrew RTL rendering at `/he/today` and
+  `/he/setup`.
 
 ## Backend and Infrastructure Direction
 
@@ -149,8 +158,8 @@ Manual RTL QA checklist:
 - Supabase local project configuration lives in `supabase/config.toml`.
 - Future migrations must live in `supabase/migrations/` and use
   `YYYYMMDDHHMMSS_descriptive_name.sql` names.
-- The migrations directory is currently tracked with `.gitkeep`; no SQL
-  migration files, tables, or RLS policies are included yet.
+- The migrations directory contains the reviewed initial schema migration; new
+  schema changes must be added as additional migration files.
 - Local Supabase stack commands may require Docker or another compatible
   container runtime.
 - Remote project linking and remote migration pushes are deferred. Do not run
@@ -176,8 +185,8 @@ Manual RTL QA checklist:
   `npx supabase gen types --lang=typescript --local --schema public > lib/supabase/database.types.ts`.
 - Regenerate database types after every future schema migration before wiring
   application data access.
-- Profile rows are not auto-created on signup yet; app code will create them
-  lazily in a future profile/onboarding PR.
+- Profile rows are not auto-created on signup. The setup flow creates them only
+  after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
 - Server-only profile and nutrition-target data helpers live under:
@@ -193,8 +202,8 @@ Manual RTL QA checklist:
 - Target values use `null` for not set and `0` for an explicit zero. The
   default effective date is UTC today unless future UI passes an explicit date.
 - Delete policies are intentionally omitted for the first schema slice.
-- Profile UI, targets UI, Server Actions for profile/targets, diary, foods,
-  recipes, barcode, and real dashboard data access remain deferred.
+- Settings pages, diary, foods, recipes, barcode, and real dashboard data
+  access remain deferred.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
@@ -226,7 +235,7 @@ Manual RTL QA checklist:
 - Synced accounts beyond Supabase auth identity.
 - Vercel deployment wiring.
 - Additional database schema beyond profiles and nutrition targets.
-- Profile and target setup UI.
+- Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
 - Diary logging.
