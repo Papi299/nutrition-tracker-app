@@ -60,7 +60,7 @@
       "submit": "Sign out"
     },
     "status": {
-      "ready": "This form uses Supabase auth when local environment values are configured. Profile and target setup screens are still deferred.",
+      "ready": "This form uses Supabase auth when local environment values are configured. Profile and target setup is available after sign-in.",
       "checkEmail": "Check your email to finish creating the account. The confirmation callback route is not implemented yet."
     },
     "errors": {
@@ -69,6 +69,45 @@
       "missingConfig": "Supabase environment values are missing on this machine.",
       "passwordRequired": "Enter a password.",
       "passwordTooShort": "Password must be at least 6 characters."
+    }
+  },
+  "Setup": {
+    "label": "Setup",
+    "title": "Set up your profile and manual targets.",
+    "subtitle": "Add only the basics for now. Targets are optional and can stay blank until you are ready to enter them manually.",
+    "profile": {
+      "displayNameLabel": "Display name",
+      "displayNameHelp": "This name is only for the app interface. Unit system remains metric for this foundation.",
+      "preferredLanguageLabel": "Preferred language",
+      "languageEnglish": "English",
+      "languageHebrew": "Hebrew"
+    },
+    "targets": {
+      "title": "Manual daily targets",
+      "description": "Enter targets you chose yourself. This app does not calculate calorie or nutrition targets.",
+      "blankHelper": "Blank means not set. Zero means an intentional value of 0.",
+      "caloriesLabel": "Calories",
+      "proteinLabel": "Protein (g)",
+      "carbohydratesLabel": "Carbohydrates (g)",
+      "fatLabel": "Fat (g)"
+    },
+    "submit": "Save setup",
+    "pending": "Saving setup...",
+    "status": {
+      "idle": "Save when the profile details are ready. Manual targets can be left blank.",
+      "success": "Setup saved."
+    },
+    "errors": {
+      "generic": "We could not save setup right now. Try again in a moment.",
+      "unauthenticated": "Sign in again before saving setup.",
+      "profile": "We could not save the profile details.",
+      "target": "The profile was saved, but we could not save the target details.",
+      "validation": "Check the highlighted fields and try again.",
+      "displayNameTooLong": "Display name must be 80 characters or fewer.",
+      "invalidLanguage": "Choose English or Hebrew.",
+      "invalidNumber": "Enter a valid number or leave the field blank.",
+      "invalidInteger": "Calories must be a whole number.",
+      "negativeValue": "Targets cannot be negative."
     }
   },
   "AppShell": {
@@ -83,7 +122,10 @@
       "title": "Your protected nutrition space is ready for the next layer.",
       "description": "This signed-in area confirms account access and session handling. Food logging, targets, diary history, and dashboard calculations are intentionally not implemented yet.",
       "placeholderTitle": "Protected shell only",
-      "placeholderBody": "Future reviewable work can add profile, targets, diary, and nutrition views here after database schema and RLS decisions are approved."
+      "placeholderBody": "Future reviewable work can add diary and nutrition views here after the setup flow is reviewed.",
+      "setupCalloutTitle": "Finish the basic setup",
+      "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
+      "setupCalloutLink": "Open setup"
     }
   }
 }
