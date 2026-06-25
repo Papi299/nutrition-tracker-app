@@ -5,8 +5,12 @@ import {
   createProfileForCurrentUser,
   getCurrentProfile,
   updateCurrentProfile,
+  validateProfileInput,
 } from "@/lib/profile";
-import { upsertTargetForDate } from "@/lib/nutrition-targets";
+import {
+  upsertTargetForDate,
+  validateNutritionTargetInput,
+} from "@/lib/nutrition-targets";
 import {
   defaultLocale,
   locales,
@@ -139,6 +143,38 @@ export async function saveSetupAction(
     return validationFailure(values, fieldErrors);
   }
 
+  const profileInput = {
+    display_name: values.display_name,
+    preferred_language: values.preferred_language,
+  };
+  const profileValidation = validateProfileInput(profileInput);
+
+  if (!profileValidation.ok) {
+    return validationFailure(
+      values,
+      mapProfileFieldErrors(profileValidation.fieldErrors),
+    );
+  }
+
+  const shouldSaveTarget = hasAnyTargetValue(values);
+  const targetInput = {
+    calories,
+    carbohydrates_g: carbohydrates,
+    fat_g: fat,
+    protein_g: protein,
+  };
+
+  if (shouldSaveTarget) {
+    const targetValidation = validateNutritionTargetInput(targetInput);
+
+    if (!targetValidation.ok) {
+      return validationFailure(
+        values,
+        mapTargetFieldErrors(targetValidation.fieldErrors),
+      );
+    }
+  }
+
   const currentProfile = await getCurrentProfile();
 
   if (!currentProfile.ok) {
@@ -151,10 +187,6 @@ export async function saveSetupAction(
     };
   }
 
-  const profileInput = {
-    display_name: values.display_name,
-    preferred_language: values.preferred_language,
-  };
   const profileResult = currentProfile.data
     ? await updateCurrentProfile(profileInput)
     : await createProfileForCurrentUser(profileInput);
@@ -176,13 +208,8 @@ export async function saveSetupAction(
     };
   }
 
-  if (hasAnyTargetValue(values)) {
-    const targetResult = await upsertTargetForDate({
-      calories,
-      carbohydrates_g: carbohydrates,
-      fat_g: fat,
-      protein_g: protein,
-    });
+  if (shouldSaveTarget) {
+    const targetResult = await upsertTargetForDate(targetInput);
 
     if (!targetResult.ok) {
       if (targetResult.code === "validation_error") {
