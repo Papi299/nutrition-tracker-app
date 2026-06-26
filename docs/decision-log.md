@@ -99,5 +99,14 @@
 - Chose explicit lazy profile creation by future setup submit instead of automatic profile creation on protected app load.
 - Kept profile writes limited to display name and preferred language; unit system remains metric-only.
 - Added manual nutrition target reads and upserts by `(user_id, effective_from)`.
-- Kept delete helpers, Server Actions, setup/settings UI, diary, food search, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration deferred.
+- Kept delete helpers, settings UI, diary, food search, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration deferred.
 - Reaffirmed that authenticated user ownership comes from server-side Supabase identity and RLS remains the database enforcement layer.
+
+## 2026-06-25: Minimal setup flow
+
+- Added protected localized setup at `/{locale}/setup` inside the authenticated app shell.
+- Chose intentional profile creation on setup submit instead of silent profile creation during route load.
+- Included optional manual calorie, protein, carbohydrate, and fat targets in setup; blank fields mean not set, while zero remains an explicit value.
+- Kept `/today` as the entry point with a setup callout for authenticated users without a profile instead of adding a global missing-profile redirect.
+- Deferred settings pages, target history UI, diary, food search, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
+- Avoided schema migrations and generated type changes because the existing `profiles` and `nutrition_targets` schema supports this slice.
