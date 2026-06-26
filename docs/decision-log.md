@@ -110,3 +110,10 @@
 - Kept `/today` as the entry point with a setup callout for authenticated users without a profile instead of adding a global missing-profile redirect.
 - Deferred settings pages, target history UI, diary, food search, recipes, barcode, Vercel deployment, USDA, and FoodsDictionary integration.
 - Avoided schema migrations and generated type changes because the existing `profiles` and `nutrition_targets` schema supports this slice.
+
+## 2026-06-26: Authenticated table privileges for profile setup
+
+- Added a focused migration granting `select`, `insert`, and `update` table privileges on `public.profiles` and `public.nutrition_targets` to the `authenticated` role.
+- Kept RLS policy logic unchanged; owner-only RLS remains the database enforcement layer for user-owned rows.
+- Omitted delete grants and anon grants.
+- Added no UI, Server Action, generated type, package, remote database, diary, food search, recipe, barcode, Vercel, USDA, or FoodsDictionary changes.

@@ -179,6 +179,10 @@ Manual RTL QA checklist:
     and update policies.
 - Remote migration `20260429163444` has been applied to the linked Supabase
   project and verified.
+- Migration `supabase/migrations/20260626185634_grant_authenticated_profile_target_privileges.sql`
+  grants `select`, `insert`, and `update` table privileges on `profiles` and
+  `nutrition_targets` to the `authenticated` role. RLS remains the row-level
+  enforcement layer, and delete privileges remain intentionally omitted.
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
 - Generate types from the validated local database after migrations are reset:
