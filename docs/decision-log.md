@@ -117,3 +117,10 @@
 - Kept RLS policy logic unchanged; owner-only RLS remains the database enforcement layer for user-owned rows.
 - Omitted delete grants and anon grants.
 - Added no UI, Server Action, generated type, package, remote database, diary, food search, recipe, barcode, Vercel, USDA, or FoodsDictionary changes.
+
+## 2026-06-28: Today target states
+
+- Updated `/today` to distinguish missing profile, profile-without-targets, and profile-with-targets states.
+- Added a basic localized manual target summary for calories, protein, carbohydrates, and fat.
+- Kept targets manual-only and continued to display null fields as not set while preserving explicit zero values.
+- Deferred diary, food logging, settings pages, charts, schema changes, migrations, generated type changes, and remote database work.

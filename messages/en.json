@@ -125,7 +125,20 @@
       "placeholderBody": "Future reviewable work can add diary and nutrition views here after the setup flow is reviewed.",
       "setupCalloutTitle": "Finish the basic setup",
       "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
-      "setupCalloutLink": "Open setup"
+      "setupCalloutLink": "Open setup",
+      "targetEmptyTitle": "Manual targets are not set yet",
+      "targetEmptyBody": "Your profile is ready. Add targets only when you have values you want to enter manually; the app does not calculate recommendations.",
+      "targetEmptyLink": "Add manual targets",
+      "targetSummary": {
+        "title": "Manual daily targets",
+        "body": "These values are the targets you entered. They are not calculated recommendations.",
+        "editLink": "Edit setup",
+        "calories": "Calories",
+        "protein": "Protein (g)",
+        "carbohydrates": "Carbohydrates (g)",
+        "fat": "Fat (g)",
+        "notSet": "Not set"
+      }
     }
   }
 }
