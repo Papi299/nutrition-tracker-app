@@ -130,6 +130,10 @@ Manual RTL QA checklist:
   dashboard, diary, targets, calculations, or food logging.
 - Authenticated users without a profile row see a `/today` setup callout that
   links to `/{locale}/setup`; there is no global missing-profile redirect yet.
+- Authenticated users with a profile see either a manual-target empty state or
+  a basic summary of their current manual calorie, protein, carbohydrate, and
+  fat targets. Null target fields display as not set, while explicit `0`
+  values display as `0`.
 - The setup route lets users intentionally create or update their profile and
   optionally save manual calorie, protein, carbohydrate, and fat targets.
 - Target fields are optional: blank means not set, while `0` is preserved as an
