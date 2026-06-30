@@ -197,6 +197,16 @@ Manual RTL QA checklist:
   intentionally allowed for diary entries so users can remove logged foods.
   The `source` field is constrained to `manual` until future approved food
   sources are implemented.
+- Migration `supabase/migrations/20260630201904_harden_public_table_privileges.sql`
+  hardens table-level privileges for API-facing roles on user-owned public
+  tables. `anon` and `public` have no intended table access. `authenticated`
+  receives only the intended DML privileges: `select`, `insert`, and `update`
+  for `profiles` and `nutrition_targets`, plus `delete` for `diary_entries`.
+  Owner-only RLS remains the row-level enforcement layer. Default privileges
+  are tightened so future public tables do not inherit broad
+  `references`, `trigger`, `truncate`, or `maintain` privileges for `anon` or
+  `authenticated`. Supabase platform/default `service_role` behavior is
+  intentionally not changed by this migration.
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
 - Generate types from the validated local database after migrations are reset:
