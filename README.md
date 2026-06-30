@@ -117,6 +117,8 @@ Manual RTL QA checklist:
   - `/he/today`
   - `/en/setup`
   - `/he/setup`
+- The authenticated app shell includes localized links for Today and Profile &
+  targets. Profile & targets currently points to `/{locale}/setup`.
 - Protected routes use the route group `app/[locale]/(app)/`, so `(app)` does
   not appear in the URL.
 - Unauthenticated visits redirect to localized sign-in:
@@ -134,8 +136,9 @@ Manual RTL QA checklist:
   a basic summary of their current manual calorie, protein, carbohydrate, and
   fat targets. Null target fields display as not set, while explicit `0`
   values display as `0`.
-- The setup route lets users intentionally create or update their profile and
-  optionally save manual calorie, protein, carbohydrate, and fat targets.
+- The setup route serves both first-time profile setup and later profile/manual
+  target editing. It lets users intentionally create or update their profile
+  and optionally save manual calorie, protein, carbohydrate, and fat targets.
 - Target fields are optional: blank means not set, while `0` is preserved as an
   explicit zero value.
 - `next=` return URL handling is not implemented yet.
