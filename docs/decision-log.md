@@ -124,3 +124,10 @@
 - Added a basic localized manual target summary for calories, protein, carbohydrates, and fat.
 - Kept targets manual-only and continued to display null fields as not set while preserving explicit zero values.
 - Deferred diary, food logging, settings pages, charts, schema changes, migrations, generated type changes, and remote database work.
+
+## 2026-06-30: App navigation and setup editing copy
+
+- Added localized authenticated shell navigation for Today and Profile & targets.
+- Kept Profile & targets pointed at the existing `/{locale}/setup` route instead of adding a settings route.
+- Updated setup copy to work for both first-time setup and later profile/manual target editing.
+- Preserved existing setup form behavior, target blank/null/zero semantics, protected route behavior, schema, migrations, generated types, and remote database state.
