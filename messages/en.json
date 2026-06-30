@@ -72,9 +72,11 @@
     }
   },
   "Setup": {
-    "label": "Setup",
-    "title": "Set up your profile and manual targets.",
-    "subtitle": "Add only the basics for now. Targets are optional and can stay blank until you are ready to enter them manually.",
+    "label": "Profile & targets",
+    "titleInitial": "Complete your profile and manual targets.",
+    "titleEdit": "Profile and targets",
+    "subtitleInitial": "Add the basics for this account. Targets are optional and can stay blank until you are ready to enter them manually.",
+    "subtitleEdit": "Review your profile details and update any manual targets you want to manage yourself.",
     "profile": {
       "displayNameLabel": "Display name",
       "displayNameHelp": "This name is only for the app interface. Unit system remains metric for this foundation.",
@@ -91,7 +93,8 @@
       "carbohydratesLabel": "Carbohydrates (g)",
       "fatLabel": "Fat (g)"
     },
-    "submit": "Save setup",
+    "submitInitial": "Save setup",
+    "submitEdit": "Save changes",
     "pending": "Saving setup...",
     "status": {
       "idle": "Save when the profile details are ready. Manual targets can be left blank.",
@@ -115,7 +118,8 @@
     "protectedLabel": "Protected app foundation",
     "signOut": "Sign out",
     "nav": {
-      "today": "Today"
+      "today": "Today",
+      "profileTargets": "Profile & targets"
     },
     "today": {
       "label": "Today workspace",

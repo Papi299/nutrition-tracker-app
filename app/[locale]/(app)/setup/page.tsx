@@ -15,6 +15,11 @@ type SetupPageProps = Readonly<{
   params: Promise<{ locale: string }>;
 }>;
 
+type SetupPageState = {
+  hasProfile: boolean;
+  values: SetupFieldValues;
+};
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -23,7 +28,7 @@ function formatOptionalTargetValue(value: null | number) {
   return value === null ? "" : String(value);
 }
 
-async function getInitialValues(locale: Locale): Promise<SetupFieldValues> {
+async function getSetupPageState(locale: Locale): Promise<SetupPageState> {
   const [profileResult, targetResult] = await Promise.all([
     getCurrentProfile(),
     getCurrentEffectiveTarget(),
@@ -32,41 +37,49 @@ async function getInitialValues(locale: Locale): Promise<SetupFieldValues> {
   const target = targetResult.ok ? targetResult.data : null;
 
   return {
-    calories: formatOptionalTargetValue(target?.calories ?? null),
-    carbohydrates_g: formatOptionalTargetValue(target?.carbohydrates_g ?? null),
-    display_name: profile?.display_name ?? "",
-    fat_g: formatOptionalTargetValue(target?.fat_g ?? null),
-    preferred_language:
-      profile?.preferred_language === "en" || profile?.preferred_language === "he"
-        ? profile.preferred_language
-        : locale,
-    protein_g: formatOptionalTargetValue(target?.protein_g ?? null),
+    hasProfile: profile !== null,
+    values: {
+      calories: formatOptionalTargetValue(target?.calories ?? null),
+      carbohydrates_g: formatOptionalTargetValue(target?.carbohydrates_g ?? null),
+      display_name: profile?.display_name ?? "",
+      fat_g: formatOptionalTargetValue(target?.fat_g ?? null),
+      preferred_language:
+        profile?.preferred_language === "en" || profile?.preferred_language === "he"
+          ? profile.preferred_language
+          : locale,
+      protein_g: formatOptionalTargetValue(target?.protein_g ?? null),
+    },
   };
 }
 
 export default async function SetupPage({ params }: SetupPageProps) {
   const { locale: localeInput } = await params;
   const locale = resolveAuthLocale(localeInput);
-  const values = await getInitialValues(locale);
+  const pageState = await getSetupPageState(locale);
 
   setRequestLocale(locale);
 
-  return <LocalizedSetupPage locale={locale} values={values} />;
+  return <LocalizedSetupPage locale={locale} pageState={pageState} />;
 }
 
 function LocalizedSetupPage({
   locale,
-  values,
+  pageState,
 }: {
   locale: Locale;
-  values: SetupFieldValues;
+  pageState: SetupPageState;
 }) {
   const t = useTranslations("Setup");
   const action = saveSetupAction.bind(null, locale);
   const initialState: SetupActionState = {
     status: "idle",
-    values,
+    values: pageState.values,
   };
+  const title = pageState.hasProfile ? t("titleEdit") : t("titleInitial");
+  const subtitle = pageState.hasProfile
+    ? t("subtitleEdit")
+    : t("subtitleInitial");
+  const submitLabel = pageState.hasProfile ? t("submitEdit") : t("submitInitial");
 
   return (
     <section className="flex flex-1 flex-col justify-center gap-8 py-8 text-start">
@@ -75,10 +88,10 @@ function LocalizedSetupPage({
           {t("label")}
         </p>
         <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-          {t("title")}
+          {title}
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
-          {t("subtitle")}
+          {subtitle}
         </p>
       </div>
 
@@ -124,7 +137,7 @@ function LocalizedSetupPage({
             unauthenticated: t("errors.unauthenticated"),
             validation_error: t("errors.validation"),
           }}
-          submitLabel={t("submit")}
+          submitLabel={submitLabel}
         />
       </div>
     </section>
