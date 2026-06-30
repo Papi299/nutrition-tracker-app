@@ -131,3 +131,12 @@
 - Kept Profile & targets pointed at the existing `/{locale}/setup` route instead of adding a settings route.
 - Updated setup copy to work for both first-time setup and later profile/manual target editing.
 - Preserved existing setup form behavior, target blank/null/zero semantics, protected route behavior, schema, migrations, generated types, and remote database state.
+
+## 2026-06-30: Diary entries schema foundation
+
+- Added `public.diary_entries` as the first schema foundation for future manual diary logging.
+- Kept diary rows user-owned with authenticated owner-only select, insert, update, and delete RLS policies.
+- Granted authenticated users select, insert, update, and delete table privileges for diary entries; delete is allowed because users need to remove logged food rows.
+- Constrained diary entry source to `manual` and deferred food search, custom foods, recipes, barcode, USDA, and FoodsDictionary integration.
+- Added no UI, Server Actions, data-access helpers, generated types, package changes, or remote database commands.
+- Remote migration application remains a separate approval-gated post-merge task.
