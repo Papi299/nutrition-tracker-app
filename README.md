@@ -190,6 +190,13 @@ Manual RTL QA checklist:
   grants `select`, `insert`, and `update` table privileges on `profiles` and
   `nutrition_targets` to the `authenticated` role. RLS remains the row-level
   enforcement layer, and delete privileges remain intentionally omitted.
+- Migration `supabase/migrations/20260630193832_create_diary_entries.sql`
+  adds `public.diary_entries` for future manual diary logging. Diary rows are
+  user-owned, protected by owner-only RLS, and grant authenticated users
+  `select`, `insert`, `update`, and `delete` table privileges. Delete is
+  intentionally allowed for diary entries so users can remove logged foods.
+  The `source` field is constrained to `manual` until future approved food
+  sources are implemented.
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
 - Generate types from the validated local database after migrations are reset:
@@ -213,8 +220,11 @@ Manual RTL QA checklist:
 - Target values use `null` for not set and `0` for an explicit zero. The
   default effective date is UTC today unless future UI passes an explicit date.
 - Delete policies are intentionally omitted for the first schema slice.
-- Settings pages, diary, foods, recipes, barcode, and real dashboard data
-  access remain deferred.
+- Diary UI, food search, custom foods, recipes, barcode, USDA,
+  FoodsDictionary, settings pages, and real dashboard data access remain
+  deferred.
+- Remote migration application is a separate post-merge task and requires
+  explicit human approval.
 - Supabase helper files:
   - `lib/supabase/env.ts` reads the future public Supabase environment
     variables when a helper is called.
