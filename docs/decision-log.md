@@ -150,3 +150,9 @@
 - Tightened future default table privileges for `anon` and `authenticated` so public tables do not inherit broad references, trigger, truncate, or maintain privileges.
 - Left Supabase platform/default `service_role` behavior unchanged.
 - Added no schema shape changes, RLS policy changes, UI, routes, Server Actions, data helpers, generated types, package changes, food features, or remote database commands.
+
+## 2026-07-01: Diary entry generated database types
+
+- Regenerated Supabase TypeScript database types from the validated local schema after applying local migrations.
+- Added generated `diary_entries` table types while preserving existing `profiles` and `nutrition_targets` types.
+- Added no schema migrations, UI, routes, Server Actions, data helpers, package changes, food features, or remote database commands.

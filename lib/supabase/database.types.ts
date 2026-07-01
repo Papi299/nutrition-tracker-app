@@ -9,6 +9,63 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      diary_entries: {
+        Row: {
+          brand_name: string | null
+          calories: number | null
+          carbohydrates_g: number | null
+          created_at: string
+          entry_date: string
+          fat_g: number | null
+          food_name: string
+          id: string
+          meal_type: string
+          notes: string | null
+          protein_g: number | null
+          serving_quantity: number | null
+          serving_unit: string | null
+          source: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          entry_date: string
+          fat_g?: number | null
+          food_name: string
+          id?: string
+          meal_type: string
+          notes?: string | null
+          protein_g?: number | null
+          serving_quantity?: number | null
+          serving_unit?: string | null
+          source?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          entry_date?: string
+          fat_g?: number | null
+          food_name?: string
+          id?: string
+          meal_type?: string
+          notes?: string | null
+          protein_g?: number | null
+          serving_quantity?: number | null
+          serving_unit?: string | null
+          source?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       nutrition_targets: {
         Row: {
           calories: number | null
