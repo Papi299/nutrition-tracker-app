@@ -140,3 +140,13 @@
 - Constrained diary entry source to `manual` and deferred food search, custom foods, recipes, barcode, USDA, and FoodsDictionary integration.
 - Added no UI, Server Actions, data-access helpers, generated types, package changes, or remote database commands.
 - Remote migration application remains a separate approval-gated post-merge task.
+
+## 2026-06-30: Public table privilege hardening
+
+- Added a focused ACL migration for user-owned public tables after remote inspection showed broader API-facing table privileges than intended.
+- Revoked table privileges from `anon` and `public` on `profiles`, `nutrition_targets`, and `diary_entries`.
+- Re-granted only intended authenticated DML: select/insert/update for `profiles` and `nutrition_targets`, and select/insert/update/delete for `diary_entries`.
+- Kept owner-only RLS policies unchanged; RLS remains the row-level enforcement layer.
+- Tightened future default table privileges for `anon` and `authenticated` so public tables do not inherit broad references, trigger, truncate, or maintain privileges.
+- Left Supabase platform/default `service_role` behavior unchanged.
+- Added no schema shape changes, RLS policy changes, UI, routes, Server Actions, data helpers, generated types, package changes, food features, or remote database commands.
