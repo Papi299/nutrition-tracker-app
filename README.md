@@ -209,6 +209,8 @@ Manual RTL QA checklist:
   intentionally not changed by this migration.
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
+- Current generated database types include `profiles`, `nutrition_targets`,
+  and `diary_entries`.
 - Generate types from the validated local database after migrations are reset:
   `npx supabase gen types --lang=typescript --local --schema public > lib/supabase/database.types.ts`.
 - Regenerate database types after every future schema migration before wiring
