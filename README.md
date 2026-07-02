@@ -219,9 +219,11 @@ Manual RTL QA checklist:
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
-- Server-only profile and nutrition-target data helpers live under:
+- Server-only profile, nutrition-target, and diary-entry data helpers live
+  under:
   - `lib/profile/`
   - `lib/nutrition-targets/`
+  - `lib/diary-entries/`
   - `lib/data/`
 - Data helpers derive the authenticated user id server-side and never accept a
   client-supplied `user_id`.
@@ -231,9 +233,14 @@ Manual RTL QA checklist:
   upserting one manual target row per `(user_id, effective_from)`.
 - Target values use `null` for not set and `0` for an explicit zero. The
   default effective date is UTC today unless future UI passes an explicit date.
-- Delete policies are intentionally omitted for the first schema slice.
-- Diary UI, food search, custom foods, recipes, barcode, USDA,
-  FoodsDictionary, settings pages, and real dashboard data access remain
+- Diary entry helpers support listing the current user's entries by date,
+  creating manual entries, updating the current user's entries, and deleting
+  the current user's entries. Optional blank fields normalize to `null`, and
+  explicit `0` values are preserved.
+- Delete policies remain omitted for profiles and nutrition targets. Diary
+  entries intentionally support delete so users can remove logged foods.
+- Diary UI, diary Server Actions, food search, custom foods, recipes, barcode,
+  USDA, FoodsDictionary, settings pages, and real dashboard behavior remain
   deferred.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.

@@ -156,3 +156,11 @@
 - Regenerated Supabase TypeScript database types from the validated local schema after applying local migrations.
 - Added generated `diary_entries` table types while preserving existing `profiles` and `nutrition_targets` types.
 - Added no schema migrations, UI, routes, Server Actions, data helpers, package changes, food features, or remote database commands.
+
+## 2026-07-01: Diary entry data access helpers
+
+- Added server-only data helper modules for manual diary entries before adding UI or Server Actions.
+- Chose current-user scoped list, create, update, and delete helpers that derive ownership from server-side Supabase identity and never accept caller-supplied `user_id`.
+- Kept diary entry source fixed to `manual` and preserved database-aligned validation for date, meal type, food name, optional serving details, calories, macros, and notes.
+- Kept helper results stable with generic validation, authentication, not-found, and database error codes instead of exposing raw Supabase errors.
+- Deferred diary UI, diary Server Actions, dashboard behavior, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
