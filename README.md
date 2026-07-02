@@ -237,11 +237,14 @@ Manual RTL QA checklist:
   creating manual entries, updating the current user's entries, and deleting
   the current user's entries. Optional blank fields normalize to `null`, and
   explicit `0` values are preserved.
+- Diary entry Server Actions live under `app/[locale]/(app)/today/` for future
+  `/today` forms. They parse untrusted `FormData`, call the server-only diary
+  helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
+  revalidate the localized `/today` route after successful writes.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Diary UI, diary Server Actions, food search, custom foods, recipes, barcode,
-  USDA, FoodsDictionary, settings pages, and real dashboard behavior remain
-  deferred.
+- Visible diary UI/forms, food search, custom foods, recipes, barcode, USDA,
+  FoodsDictionary, settings pages, and real dashboard behavior remain deferred.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -278,7 +281,7 @@ Manual RTL QA checklist:
 - Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
-- Diary logging.
+- Visible diary logging UI.
 - Barcode scanning.
 - Custom food forms.
 - Saved meals or recipes.

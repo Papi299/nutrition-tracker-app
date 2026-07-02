@@ -164,3 +164,11 @@
 - Kept diary entry source fixed to `manual` and preserved database-aligned validation for date, meal type, food name, optional serving details, calories, macros, and notes.
 - Kept helper results stable with generic validation, authentication, not-found, and database error codes instead of exposing raw Supabase errors.
 - Deferred diary UI, diary Server Actions, dashboard behavior, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
+
+## 2026-07-02: Diary entry Server Actions
+
+- Added focused Server Actions for creating, updating, and deleting manual diary entries ahead of visible diary forms.
+- Kept actions scoped to untrusted `FormData` parsing, stable action states, server-only diary helpers, and localized `/today` revalidation after successful writes.
+- Continued to derive `user_id` server-side and kept diary entry `source` out of caller control.
+- Added no visible diary UI, form components, schema migrations, generated type changes, package changes, food integrations, or remote database commands.
+- Deferred full diary logging UI, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, charts, and dashboard behavior.
