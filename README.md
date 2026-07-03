@@ -253,11 +253,16 @@ Manual RTL QA checklist:
 - The visible `/today` diary UI lists current-user entries for the selected
   `?date=YYYY-MM-DD` value or today's date by default, and includes a minimal
   manual create form using the existing create Server Action.
+- `/today` now shows simple daily calorie, protein, carbohydrate, and fat totals
+  from the loaded manual diary entries for the selected/current date. These
+  consumed totals remain separate from the manual target summary.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
 - Edit/delete diary UI, food search, custom foods, recipes, barcode, USDA,
-  FoodsDictionary, settings pages, daily totals/charts, and real dashboard
-  behavior remain deferred.
+  FoodsDictionary, settings pages, charts/analytics, target remaining
+  calculations, and real dashboard behavior remain deferred. Unless
+  reprioritized, the next likely continuation point is diary entry delete UI or
+  manual form UX improvements.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
