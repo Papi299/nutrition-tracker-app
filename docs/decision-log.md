@@ -180,3 +180,10 @@
 - Preserved the existing target summary, setup CTA behavior, app navigation, sign-out behavior, schema, migrations, generated database types, and package dependencies.
 - Kept diary entry ownership server-derived and kept `source` fixed to `manual`.
 - Deferred edit/delete UI, daily totals, charts, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, and remote database commands.
+
+## 2026-07-03: Engineering phase plan placeholder
+
+- Added `docs/engineering-phase-plan.md` as the canonical placeholder for the app's engineering phase roadmap.
+- Left the full 11-phase plan as a human-filled placeholder rather than expanding it into detailed product scope in this PR.
+- Documented that future product PRs should keep `README.md` and this decision log updated with the current phase or slice status, explicit deferrals, validation performed, and the recommended next continuation point.
+- Recorded the current continuation point as daily diary totals on `/today` after the local-only authenticated diary smoke test for the minimal diary UI.
