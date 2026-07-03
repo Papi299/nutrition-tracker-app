@@ -43,12 +43,13 @@ Known completed state from the repository and recent validated work:
 - Diary-entry Server Actions.
 - Minimal manual diary UI.
 - Simple daily diary totals on `/today`.
+- Diary entry delete UI on `/today`.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Unless the human developer changes priority, the next planned product slice is:
 
-- Diary entry delete UI or manual form UX improvements.
+- Manual form UX improvements or edit UI.
 
 ## Future PR Documentation Rule
 

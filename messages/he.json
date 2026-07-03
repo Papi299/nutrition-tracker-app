@@ -126,6 +126,9 @@
       "serving": "מנה",
       "calories": "קלוריות",
       "macros": "חלבון / פחמימות / שומן",
+      "delete": "מחיקה",
+      "deletePending": "מוחק...",
+      "deleteError": "לא הצלחנו למחוק את הרשומה. נסו שוב.",
       "notSet": "לא הוגדר"
     },
     "totals": {
