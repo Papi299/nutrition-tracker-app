@@ -1,7 +1,16 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { createDiaryEntryAction } from "@/app/[locale]/(app)/today/actions";
+import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
+import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
+import { DiaryEntryList } from "@/components/diary/diary-entry-list";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
+import {
+  isValidDiaryEntryDate,
+  listCurrentDiaryEntriesForDate,
+  type DiaryEntry,
+} from "@/lib/diary-entries";
 import { routing } from "@/lib/i18n/routing";
 import {
   getCurrentEffectiveTarget,
@@ -11,18 +20,63 @@ import { getCurrentProfile } from "@/lib/profile";
 
 type TodayPageProps = Readonly<{
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }>;
+
+type DiaryEntriesState = {
+  entries: DiaryEntry[];
+  error: null | "database_error" | "unauthenticated" | "validation_error";
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function TodayPage({ params }: TodayPageProps) {
+function getTodayDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function getSearchParamValue(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function resolveSelectedDate(
+  searchParams: Record<string, string | string[] | undefined>,
+) {
+  const date = getSearchParamValue(searchParams.date);
+
+  return date && isValidDiaryEntryDate(date) ? date : getTodayDate();
+}
+
+async function getDiaryEntriesState(
+  selectedDate: string,
+): Promise<DiaryEntriesState> {
+  const result = await listCurrentDiaryEntriesForDate(selectedDate);
+
+  if (result.ok) {
+    return { entries: result.data, error: null };
+  }
+
+  if (
+    result.code === "database_error" ||
+    result.code === "unauthenticated" ||
+    result.code === "validation_error"
+  ) {
+    return { entries: [], error: result.code };
+  }
+
+  return { entries: [], error: "database_error" };
+}
+
+export default async function TodayPage({ params, searchParams }: TodayPageProps) {
   const { locale: localeInput } = await params;
+  const resolvedSearchParams = await searchParams;
   const locale = resolveAuthLocale(localeInput);
-  const [profileResult, targetResult] = await Promise.all([
+  const selectedDate = resolveSelectedDate(resolvedSearchParams);
+  const [profileResult, targetResult, diaryEntriesState] = await Promise.all([
     getCurrentProfile(),
     getCurrentEffectiveTarget(),
+    getDiaryEntriesState(selectedDate),
   ]);
   const hasProfile = profileResult.ok && profileResult.data !== null;
   const target = targetResult.ok ? targetResult.data : null;
@@ -32,22 +86,37 @@ export default async function TodayPage({ params }: TodayPageProps) {
   return (
     <LocalizedTodayPage
       hasProfile={hasProfile}
+      diaryEntriesState={diaryEntriesState}
       locale={locale}
+      selectedDate={selectedDate}
       target={target}
     />
   );
 }
 
 function LocalizedTodayPage({
+  diaryEntriesState,
   hasProfile,
   locale,
+  selectedDate,
   target,
 }: {
+  diaryEntriesState: DiaryEntriesState;
   hasProfile: boolean;
   locale: string;
+  selectedDate: string;
   target: NutritionTarget | null;
 }) {
   const t = useTranslations("AppShell.today");
+  const diaryT = useTranslations("Diary");
+  const createAction = createDiaryEntryAction.bind(null, locale);
+  const initialDiaryEntryState: DiaryEntryActionState = {
+    status: "idle",
+    values: {
+      entry_date: selectedDate,
+      meal_type: "breakfast",
+    },
+  };
   const targetItems = [
     {
       label: t("targetSummary.calories"),
@@ -163,6 +232,130 @@ function LocalizedTodayPage({
           </dl>
         </div>
       )}
+
+      <div className="grid max-w-4xl gap-6">
+        <div className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-950">
+                {diaryT("list.title")}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-700">
+                {diaryT("list.description")}
+              </p>
+            </div>
+            <form action={`/${locale}/today`} className="grid gap-2 text-sm">
+              <label
+                className="font-medium text-slate-900"
+                htmlFor="diary-date"
+              >
+                {diaryT("fields.entryDate")}
+              </label>
+              <input
+                className="min-h-10 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                defaultValue={selectedDate}
+                id="diary-date"
+                name="date"
+                type="date"
+              />
+              <button
+                className="min-h-10 border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                type="submit"
+              >
+                {diaryT("date.submit")}
+              </button>
+            </form>
+          </div>
+
+          <div className="mt-6">
+            {diaryEntriesState.error ? (
+              <div className="border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-800">
+                {diaryT(`errors.${diaryEntriesState.error}`)}
+              </div>
+            ) : (
+              <DiaryEntryList
+                emptyMessage={diaryT("list.empty")}
+                entries={diaryEntriesState.entries}
+                labels={{
+                  brand: diaryT("list.brand"),
+                  calories: diaryT("list.calories"),
+                  macros: diaryT("list.macros"),
+                  meal: diaryT("list.meal"),
+                  serving: diaryT("list.serving"),
+                }}
+                mealTypeLabels={{
+                  breakfast: diaryT("mealTypes.breakfast"),
+                  dinner: diaryT("mealTypes.dinner"),
+                  lunch: diaryT("mealTypes.lunch"),
+                  other: diaryT("mealTypes.other"),
+                  snack: diaryT("mealTypes.snack"),
+                }}
+                notSetLabel={diaryT("list.notSet")}
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <h2 className="text-lg font-semibold text-slate-950">
+            {diaryT("form.title")}
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-700">
+            {diaryT("form.description")}
+          </p>
+          <div className="mt-6">
+            <DiaryEntryForm
+              action={createAction}
+              fieldErrorMessages={{
+                invalid_date: diaryT("errors.invalidDate"),
+                invalid_input: diaryT("errors.validation"),
+                invalid_integer: diaryT("errors.invalidInteger"),
+                invalid_number: diaryT("errors.invalidNumber"),
+                invalid_type: diaryT("errors.validation"),
+                negative_value: diaryT("errors.negativeValue"),
+                required: diaryT("errors.required"),
+                too_long: diaryT("errors.tooLong"),
+                unsupported_field: diaryT("errors.validation"),
+                unsupported_meal_type: diaryT("errors.unsupportedMealType"),
+              }}
+              initialState={initialDiaryEntryState}
+              labels={{
+                brand_name: diaryT("fields.brandName"),
+                calories: diaryT("fields.calories"),
+                carbohydrates_g: diaryT("fields.carbohydrates"),
+                entry_date: diaryT("fields.entryDate"),
+                fat_g: diaryT("fields.fat"),
+                food_name: diaryT("fields.foodName"),
+                meal_type: diaryT("fields.mealType"),
+                notes: diaryT("fields.notes"),
+                protein_g: diaryT("fields.protein"),
+                serving_quantity: diaryT("fields.servingQuantity"),
+                serving_unit: diaryT("fields.servingUnit"),
+              }}
+              mealTypeOptions={[
+                {
+                  label: diaryT("mealTypes.breakfast"),
+                  value: "breakfast",
+                },
+                { label: diaryT("mealTypes.lunch"), value: "lunch" },
+                { label: diaryT("mealTypes.dinner"), value: "dinner" },
+                { label: diaryT("mealTypes.snack"), value: "snack" },
+                { label: diaryT("mealTypes.other"), value: "other" },
+              ]}
+              pendingLabel={diaryT("form.pending")}
+              statusMessages={{
+                database_error: diaryT("errors.database_error"),
+                idle: diaryT("status.idle"),
+                not_found: diaryT("errors.database_error"),
+                success: diaryT("status.success"),
+                unauthenticated: diaryT("errors.unauthenticated"),
+                validation_error: diaryT("errors.validation"),
+              }}
+              submitLabel={diaryT("form.submit")}
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

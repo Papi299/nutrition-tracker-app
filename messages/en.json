@@ -113,6 +113,64 @@
       "negativeValue": "Targets cannot be negative."
     }
   },
+  "Diary": {
+    "date": {
+      "submit": "Show date"
+    },
+    "list": {
+      "title": "Diary entries",
+      "description": "Manual entries for the selected date. Search, saved foods, and totals are still deferred.",
+      "empty": "No diary entries for this date yet.",
+      "meal": "Meal",
+      "brand": "Brand",
+      "serving": "Serving",
+      "calories": "Calories",
+      "macros": "Protein / carbs / fat",
+      "notSet": "Not set"
+    },
+    "form": {
+      "title": "Add manual entry",
+      "description": "Add one food manually. Food search and barcode scanning are not connected yet.",
+      "submit": "Add entry",
+      "pending": "Adding entry..."
+    },
+    "fields": {
+      "entryDate": "Date",
+      "mealType": "Meal type",
+      "foodName": "Food name",
+      "brandName": "Brand name",
+      "servingQuantity": "Serving quantity",
+      "servingUnit": "Serving unit",
+      "calories": "Calories",
+      "protein": "Protein (g)",
+      "carbohydrates": "Carbohydrates (g)",
+      "fat": "Fat (g)",
+      "notes": "Notes"
+    },
+    "mealTypes": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack",
+      "other": "Other"
+    },
+    "status": {
+      "idle": "Add a manual entry when the required fields are ready.",
+      "success": "Entry added."
+    },
+    "errors": {
+      "database_error": "We could not save or load diary entries right now.",
+      "invalidDate": "Choose a valid date.",
+      "invalidInteger": "Calories must be a whole number.",
+      "invalidNumber": "Enter a valid number or leave the field blank.",
+      "negativeValue": "Values cannot be negative.",
+      "required": "This field is required.",
+      "tooLong": "This field is too long.",
+      "unauthenticated": "Sign in again before using the diary.",
+      "unsupportedMealType": "Choose a supported meal type.",
+      "validation": "Check the highlighted fields and try again."
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Protected app foundation",
@@ -124,9 +182,9 @@
     "today": {
       "label": "Today workspace",
       "title": "Your protected nutrition space is ready for the next layer.",
-      "description": "This signed-in area confirms account access and session handling. Food logging, targets, diary history, and dashboard calculations are intentionally not implemented yet.",
-      "placeholderTitle": "Protected shell only",
-      "placeholderBody": "Future reviewable work can add diary and nutrition views here after the setup flow is reviewed.",
+      "description": "This signed-in area now supports manual target setup and a small manual diary entry flow. Daily totals, charts, search, and food databases are intentionally not implemented yet.",
+      "placeholderTitle": "Manual tracking foundation",
+      "placeholderBody": "This page keeps the first diary layer small: selected-date entries, manual entry creation, and the existing target summary.",
       "setupCalloutTitle": "Finish the basic setup",
       "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
       "setupCalloutLink": "Open setup",

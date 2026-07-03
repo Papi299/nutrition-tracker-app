@@ -172,3 +172,11 @@
 - Continued to derive `user_id` server-side and kept diary entry `source` out of caller control.
 - Added no visible diary UI, form components, schema migrations, generated type changes, package changes, food integrations, or remote database commands.
 - Deferred full diary logging UI, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, charts, and dashboard behavior.
+
+## 2026-07-02: Minimal diary UI
+
+- Added a focused visible `/today` diary surface for listing current-user manual entries by selected date and adding one manual entry.
+- Used the existing diary Server Action and server-only helper layer instead of adding new data access paths.
+- Preserved the existing target summary, setup CTA behavior, app navigation, sign-out behavior, schema, migrations, generated database types, and package dependencies.
+- Kept diary entry ownership server-derived and kept `source` fixed to `manual`.
+- Deferred edit/delete UI, daily totals, charts, food search, custom foods, recipes, barcode, USDA, FoodsDictionary, and remote database commands.
