@@ -119,7 +119,7 @@
     },
     "list": {
       "title": "Diary entries",
-      "description": "Manual entries for the selected date. Search, saved foods, and totals are still deferred.",
+      "description": "Manual entries for the selected date. Search, saved foods, charts, and analytics are still deferred.",
       "empty": "No diary entries for this date yet.",
       "meal": "Meal",
       "brand": "Brand",
@@ -127,6 +127,15 @@
       "calories": "Calories",
       "macros": "Protein / carbs / fat",
       "notSet": "Not set"
+    },
+    "totals": {
+      "title": "Daily totals",
+      "description": "Consumed totals from the manual entries loaded for this date.",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbohydrates": "Carbs",
+      "fat": "Fat",
+      "unitGrams": "g"
     },
     "form": {
       "title": "Add manual entry",
@@ -182,9 +191,9 @@
     "today": {
       "label": "Today workspace",
       "title": "Your protected nutrition space is ready for the next layer.",
-      "description": "This signed-in area now supports manual target setup and a small manual diary entry flow. Daily totals, charts, search, and food databases are intentionally not implemented yet.",
+      "description": "This signed-in area now supports manual target setup, selected-date diary entries, and simple daily totals. Charts, search, and food databases are intentionally not implemented yet.",
       "placeholderTitle": "Manual tracking foundation",
-      "placeholderBody": "This page keeps the first diary layer small: selected-date entries, manual entry creation, and the existing target summary.",
+      "placeholderBody": "This page keeps the first diary layer small: selected-date entries, consumed totals, manual entry creation, and the existing target summary.",
       "setupCalloutTitle": "Finish the basic setup",
       "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
       "setupCalloutLink": "Open setup",

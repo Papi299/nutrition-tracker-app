@@ -187,3 +187,11 @@
 - Left the full 11-phase plan as a human-filled placeholder rather than expanding it into detailed product scope in this PR.
 - Documented that future product PRs should keep `README.md` and this decision log updated with the current phase or slice status, explicit deferrals, validation performed, and the recommended next continuation point.
 - Recorded the current continuation point as daily diary totals on `/today` after the local-only authenticated diary smoke test for the minimal diary UI.
+
+## 2026-07-03: Daily diary totals
+
+- Added simple daily calorie, protein, carbohydrate, and fat totals to `/today` for the selected/current diary date.
+- Calculated totals from the diary entries already loaded for the page, treating null values as zero and preserving explicit zero values.
+- Kept the manual target summary separate from consumed daily totals and avoided target-remaining calculations.
+- Deferred edit/delete UI, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema/type/package changes, and remote database commands.
+- Validated with lint, typecheck, build, local migration reset, and local route smoke checks. The recommended next continuation point is diary entry delete UI or manual form UX improvements unless the human reprioritizes.

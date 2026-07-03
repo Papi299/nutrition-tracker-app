@@ -42,12 +42,13 @@ Known completed state from the repository and recent validated work:
 - Server-only diary-entry helpers.
 - Diary-entry Server Actions.
 - Minimal manual diary UI.
+- Simple daily diary totals on `/today`.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Unless the human developer changes priority, the next planned product slice is:
 
-- Daily diary totals on `/today`.
+- Diary entry delete UI or manual form UX improvements.
 
 ## Future PR Documentation Rule
 

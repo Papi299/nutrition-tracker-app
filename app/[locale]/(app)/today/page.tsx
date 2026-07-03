@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { createDiaryEntryAction } from "@/app/[locale]/(app)/today/actions";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
+import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
@@ -273,25 +274,39 @@ function LocalizedTodayPage({
                 {diaryT(`errors.${diaryEntriesState.error}`)}
               </div>
             ) : (
-              <DiaryEntryList
-                emptyMessage={diaryT("list.empty")}
-                entries={diaryEntriesState.entries}
-                labels={{
-                  brand: diaryT("list.brand"),
-                  calories: diaryT("list.calories"),
-                  macros: diaryT("list.macros"),
-                  meal: diaryT("list.meal"),
-                  serving: diaryT("list.serving"),
-                }}
-                mealTypeLabels={{
-                  breakfast: diaryT("mealTypes.breakfast"),
-                  dinner: diaryT("mealTypes.dinner"),
-                  lunch: diaryT("mealTypes.lunch"),
-                  other: diaryT("mealTypes.other"),
-                  snack: diaryT("mealTypes.snack"),
-                }}
-                notSetLabel={diaryT("list.notSet")}
-              />
+              <div className="grid gap-5">
+                <DiaryDailyTotals
+                  entries={diaryEntriesState.entries}
+                  labels={{
+                    calories: diaryT("totals.calories"),
+                    carbohydrates: diaryT("totals.carbohydrates"),
+                    description: diaryT("totals.description"),
+                    fat: diaryT("totals.fat"),
+                    protein: diaryT("totals.protein"),
+                    title: diaryT("totals.title"),
+                    unitGrams: diaryT("totals.unitGrams"),
+                  }}
+                />
+                <DiaryEntryList
+                  emptyMessage={diaryT("list.empty")}
+                  entries={diaryEntriesState.entries}
+                  labels={{
+                    brand: diaryT("list.brand"),
+                    calories: diaryT("list.calories"),
+                    macros: diaryT("list.macros"),
+                    meal: diaryT("list.meal"),
+                    serving: diaryT("list.serving"),
+                  }}
+                  mealTypeLabels={{
+                    breakfast: diaryT("mealTypes.breakfast"),
+                    dinner: diaryT("mealTypes.dinner"),
+                    lunch: diaryT("mealTypes.lunch"),
+                    other: diaryT("mealTypes.other"),
+                    snack: diaryT("mealTypes.snack"),
+                  }}
+                  notSetLabel={diaryT("list.notSet")}
+                />
+              </div>
             )}
           </div>
         </div>
