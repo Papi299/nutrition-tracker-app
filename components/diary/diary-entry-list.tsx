@@ -1,6 +1,12 @@
+import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
+import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
 import type { DiaryEntry } from "@/lib/diary-entries";
 
 type MealTypeLabels = Record<DiaryEntry["meal_type"], string>;
+type DeleteAction = (
+  state: DiaryEntryActionState,
+  formData: FormData,
+) => Promise<DiaryEntryActionState>;
 
 function hasValue(value: null | number | string) {
   return value !== null && value !== "";
@@ -22,17 +28,22 @@ function formatServing(entry: DiaryEntry) {
 }
 
 export function DiaryEntryList({
+  deleteAction,
   entries,
   emptyMessage,
   labels,
   mealTypeLabels,
   notSetLabel,
 }: {
+  deleteAction: DeleteAction;
   emptyMessage: string;
   entries: DiaryEntry[];
   labels: {
     brand: string;
     calories: string;
+    delete: string;
+    deleteError: string;
+    deletePending: string;
     macros: string;
     meal: string;
     serving: string;
@@ -82,19 +93,30 @@ export function DiaryEntryList({
                 )}
               </div>
 
-              <div className="text-sm leading-6 text-slate-700 sm:text-end">
-                <p>
-                  {labels.serving}: {serving ?? notSetLabel}
-                </p>
-                <p>
-                  {labels.calories}: {calories ?? notSetLabel}
-                </p>
-                <p>
-                  {labels.macros}:{" "}
-                  {macros.some((value) => value !== null)
-                    ? macros.map((value) => value ?? notSetLabel).join(" / ")
-                    : notSetLabel}
-                </p>
+              <div className="grid gap-3 text-sm leading-6 text-slate-700 sm:justify-items-end sm:text-end">
+                <div>
+                  <p>
+                    {labels.serving}: {serving ?? notSetLabel}
+                  </p>
+                  <p>
+                    {labels.calories}: {calories ?? notSetLabel}
+                  </p>
+                  <p>
+                    {labels.macros}:{" "}
+                    {macros.some((value) => value !== null)
+                      ? macros.map((value) => value ?? notSetLabel).join(" / ")
+                      : notSetLabel}
+                  </p>
+                </div>
+                <DiaryEntryDeleteButton
+                  action={deleteAction}
+                  entryId={entry.id}
+                  labels={{
+                    error: labels.deleteError,
+                    pending: labels.deletePending,
+                    submit: labels.delete,
+                  }}
+                />
               </div>
             </div>
           </li>

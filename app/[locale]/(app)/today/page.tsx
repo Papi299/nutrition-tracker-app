@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { createDiaryEntryAction } from "@/app/[locale]/(app)/today/actions";
+import {
+  createDiaryEntryAction,
+  deleteDiaryEntryAction,
+} from "@/app/[locale]/(app)/today/actions";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
@@ -111,6 +114,7 @@ function LocalizedTodayPage({
   const t = useTranslations("AppShell.today");
   const diaryT = useTranslations("Diary");
   const createAction = createDiaryEntryAction.bind(null, locale);
+  const deleteAction = deleteDiaryEntryAction.bind(null, locale);
   const initialDiaryEntryState: DiaryEntryActionState = {
     status: "idle",
     values: {
@@ -288,11 +292,15 @@ function LocalizedTodayPage({
                   }}
                 />
                 <DiaryEntryList
+                  deleteAction={deleteAction}
                   emptyMessage={diaryT("list.empty")}
                   entries={diaryEntriesState.entries}
                   labels={{
                     brand: diaryT("list.brand"),
                     calories: diaryT("list.calories"),
+                    delete: diaryT("list.delete"),
+                    deleteError: diaryT("list.deleteError"),
+                    deletePending: diaryT("list.deletePending"),
                     macros: diaryT("list.macros"),
                     meal: diaryT("list.meal"),
                     serving: diaryT("list.serving"),

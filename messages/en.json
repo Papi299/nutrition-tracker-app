@@ -126,6 +126,9 @@
       "serving": "Serving",
       "calories": "Calories",
       "macros": "Protein / carbs / fat",
+      "delete": "Delete",
+      "deletePending": "Deleting...",
+      "deleteError": "We could not delete this entry. Try again.",
       "notSet": "Not set"
     },
     "totals": {
