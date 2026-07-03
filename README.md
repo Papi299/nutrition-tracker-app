@@ -127,9 +127,9 @@ Manual RTL QA checklist:
 - The protected shell performs a server-side Supabase identity check. It does
   not use `getSession()` for trusted server protection, does not query profile
   tables, and does not trust a client-supplied `user_id`.
-- The `/today` page is placeholder-only. It confirms the authenticated app
-  shell and session behavior, but it does not implement a real nutrition
-  dashboard, diary, targets, calculations, or food logging.
+- The `/today` page shows the protected app shell, manual target summary states,
+  and a minimal manual diary surface for listing entries by date and adding one
+  manual entry.
 - Authenticated users without a profile row see a `/today` setup callout that
   links to `/{locale}/setup`; there is no global missing-profile redirect yet.
 - Authenticated users with a profile see either a manual-target empty state or
@@ -154,9 +154,9 @@ Manual RTL QA checklist:
   Security, and Git-versioned Supabase migrations later.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
 - Current status: Supabase client scaffolding, email/password auth actions,
-  session refresh proxy composition, a minimal protected app shell, and the
-  first user-owned schema migration exist. Real dashboard, diary, and product
-  data access are not implemented.
+  session refresh proxy composition, a protected app shell, profile/target
+  setup, and minimal manual diary entry listing/creation exist. Real dashboard
+  calculations and broader food product data are not implemented.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -241,10 +241,14 @@ Manual RTL QA checklist:
   `/today` forms. They parse untrusted `FormData`, call the server-only diary
   helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
   revalidate the localized `/today` route after successful writes.
+- The visible `/today` diary UI lists current-user entries for the selected
+  `?date=YYYY-MM-DD` value or today's date by default, and includes a minimal
+  manual create form using the existing create Server Action.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Visible diary UI/forms, food search, custom foods, recipes, barcode, USDA,
-  FoodsDictionary, settings pages, and real dashboard behavior remain deferred.
+- Edit/delete diary UI, food search, custom foods, recipes, barcode, USDA,
+  FoodsDictionary, settings pages, daily totals/charts, and real dashboard
+  behavior remain deferred.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -281,7 +285,7 @@ Manual RTL QA checklist:
 - Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
-- Visible diary logging UI.
+- Diary edit/delete UI.
 - Barcode scanning.
 - Custom food forms.
 - Saved meals or recipes.
