@@ -28,8 +28,8 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the validated daily diary totals slice, the current
-continuation point is diary entry delete UI on `/today` unless the human
+phase or slice status. After the diary entry delete UI slice, the next likely
+continuation point is manual form UX improvements or edit UI, unless the human
 developer reprioritizes.
 
 ## Install Dependencies
