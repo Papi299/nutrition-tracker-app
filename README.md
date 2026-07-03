@@ -28,9 +28,9 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the validated minimal diary UI, the current
-continuation point is daily diary totals on `/today` unless the human developer
-reprioritizes.
+phase or slice status. After the validated daily diary totals slice, the current
+continuation point is diary entry delete UI on `/today` unless the human
+developer reprioritizes.
 
 ## Install Dependencies
 
@@ -256,13 +256,18 @@ Manual RTL QA checklist:
 - `/today` now shows simple daily calorie, protein, carbohydrate, and fat totals
   from the loaded manual diary entries for the selected/current date. These
   consumed totals remain separate from the manual target summary.
+- Users can delete their own manual diary entries from the selected/current
+  date list on `/today`. Deletion uses the existing delete Server Action and
+  server-only helper path, keeps ownership scoped by the authenticated user on
+  the server, and relies on `/today` revalidation so the list and daily totals
+  update after deletion.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Edit/delete diary UI, food search, custom foods, recipes, barcode, USDA,
+- Edit diary UI, food search, custom foods, recipes, barcode, USDA,
   FoodsDictionary, settings pages, charts/analytics, target remaining
   calculations, and real dashboard behavior remain deferred. Unless
-  reprioritized, the next likely continuation point is diary entry delete UI or
-  manual form UX improvements.
+  reprioritized, the next likely continuation point is manual form UX
+  improvements or edit UI.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:

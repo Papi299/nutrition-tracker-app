@@ -195,3 +195,11 @@
 - Kept the manual target summary separate from consumed daily totals and avoided target-remaining calculations.
 - Deferred edit/delete UI, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema/type/package changes, and remote database commands.
 - Validated with lint, typecheck, build, local migration reset, and local route smoke checks. The recommended next continuation point is diary entry delete UI or manual form UX improvements unless the human reprioritizes.
+
+## 2026-07-03: Diary entry delete UI
+
+- Added a focused delete control for manual diary entries on `/today`.
+- Used the existing delete Server Action and server-only diary helper path so the UI passes only the entry id and never accepts caller-supplied ownership data.
+- Kept daily totals tied to the loaded selected-date entries, so successful deletion removes the entry and updates totals through `/today` revalidation.
+- Deferred edit UI, confirmation modal/undo, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema/type/package changes, and remote database commands.
+- Validation performed for this slice should include lint, typecheck, build, local migration reset, and local-only smoke checks for add/delete/totals/RTL/date behavior. The recommended next continuation point is manual form UX improvements or edit UI unless the human reprioritizes.
