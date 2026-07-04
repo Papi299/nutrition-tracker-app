@@ -52,8 +52,26 @@ Then open `http://localhost:3000`.
 npm run lint
 npm run typecheck
 npm run build
+npm run test:e2e:smoke
 npm run supabase:version
 ```
+
+## Browser Smoke Tests
+
+- Playwright browser smoke-test tooling uses Chromium only.
+- Install the local browser binary/cache with:
+  ```bash
+  npx playwright install chromium
+  ```
+- Initial smoke coverage checks `/en` and `/he` document language/direction
+  attributes and signed-out redirects from `/en/today` and `/he/today` to
+  localized sign-in routes.
+- Run the smoke suite with:
+  ```bash
+  npm run test:e2e:smoke
+  ```
+- Authenticated browser tests, CI workflow wiring, cross-browser coverage, and
+  visual testing remain future work.
 
 ## Internationalization and RTL
 
