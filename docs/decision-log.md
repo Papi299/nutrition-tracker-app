@@ -211,3 +211,11 @@
 - Added package scripts for the full Playwright suite and the focused smoke suite.
 - Deferred authenticated browser tests, CI workflow wiring, cross-browser coverage, visual testing, product feature changes, Supabase schema changes, and remote database commands.
 - Validation for this tooling slice should include lint, typecheck, build, and `npm run test:e2e:smoke`. The recommended next continuation point is returning to PR #24 review and local smoke checks after this tooling PR is merged.
+
+## 2026-07-04: Manual diary form UX improvements
+
+- Improved the `/today` manual diary form structure with localized sections for meal/date, food details, serving, nutrition values, notes, and submit feedback.
+- Added clearer required/optional affordances and concise field help text while preserving existing field names, selected-date behavior, Server Action flow, and explicit zero semantics.
+- Kept action feedback localized and generic so validation, auth, and database failures do not expose raw Supabase/provider details.
+- Deferred edit UI, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, remote database commands, and a new custom-food data model.
+- Validation for this slice should include lint, typecheck, build, local migration reset, and local-only smoke checks for create/delete/totals/RTL/date behavior. The recommended next continuation point is edit UI or a more structured custom-food foundation unless the human reprioritizes.
