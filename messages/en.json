@@ -143,6 +143,29 @@
     "form": {
       "title": "Add manual entry",
       "description": "Add one food manually. Food search and barcode scanning are not connected yet.",
+      "required": "Required",
+      "optional": "Optional",
+      "sections": {
+        "mealDate": "Meal and date",
+        "foodDetails": "Food details",
+        "serving": "Serving",
+        "nutrition": "Nutrition values",
+        "notes": "Notes",
+        "submit": "Review and save"
+      },
+      "help": {
+        "entryDate": "Uses the selected diary date.",
+        "mealType": "Choose where this entry belongs in the day.",
+        "foodName": "Use any clear food name. Mixed Hebrew and English names are okay.",
+        "brandName": "Add a brand only when it helps you recognize the item.",
+        "servingQuantity": "Leave blank if the amount is not useful. Zero is saved as 0.",
+        "servingUnit": "Examples: g, cup, piece, serving.",
+        "calories": "Whole number only. Blank means not set; 0 is allowed.",
+        "protein": "Grams. Blank means not set; 0 is allowed.",
+        "carbohydrates": "Grams. Blank means not set; 0 is allowed.",
+        "fat": "Grams. Blank means not set; 0 is allowed.",
+        "notes": "Optional context for yourself."
+      },
       "submit": "Add entry",
       "pending": "Adding entry..."
     },

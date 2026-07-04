@@ -329,6 +329,19 @@ function LocalizedTodayPage({
           <div className="mt-6">
             <DiaryEntryForm
               action={createAction}
+              fieldHelpText={{
+                brand_name: diaryT("form.help.brandName"),
+                calories: diaryT("form.help.calories"),
+                carbohydrates_g: diaryT("form.help.carbohydrates"),
+                entry_date: diaryT("form.help.entryDate"),
+                fat_g: diaryT("form.help.fat"),
+                food_name: diaryT("form.help.foodName"),
+                meal_type: diaryT("form.help.mealType"),
+                notes: diaryT("form.help.notes"),
+                protein_g: diaryT("form.help.protein"),
+                serving_quantity: diaryT("form.help.servingQuantity"),
+                serving_unit: diaryT("form.help.servingUnit"),
+              }}
               fieldErrorMessages={{
                 invalid_date: diaryT("errors.invalidDate"),
                 invalid_input: diaryT("errors.validation"),
@@ -365,7 +378,17 @@ function LocalizedTodayPage({
                 { label: diaryT("mealTypes.snack"), value: "snack" },
                 { label: diaryT("mealTypes.other"), value: "other" },
               ]}
+              optionalLabel={diaryT("form.optional")}
               pendingLabel={diaryT("form.pending")}
+              requiredLabel={diaryT("form.required")}
+              sectionLabels={{
+                foodDetails: diaryT("form.sections.foodDetails"),
+                mealDate: diaryT("form.sections.mealDate"),
+                notes: diaryT("form.sections.notes"),
+                nutrition: diaryT("form.sections.nutrition"),
+                serving: diaryT("form.sections.serving"),
+                submit: diaryT("form.sections.submit"),
+              }}
               statusMessages={{
                 database_error: diaryT("errors.database_error"),
                 idle: diaryT("status.idle"),

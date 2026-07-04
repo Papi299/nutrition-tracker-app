@@ -28,9 +28,9 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the diary entry delete UI slice, the next likely
-continuation point is manual form UX improvements or edit UI, unless the human
-developer reprioritizes.
+phase or slice status. After the manual diary form UX slice, the next likely
+continuation point is edit UI or a more structured custom-food foundation,
+unless the human developer reprioritizes.
 
 ## Install Dependencies
 
@@ -269,8 +269,12 @@ Manual RTL QA checklist:
   helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
   revalidate the localized `/today` route after successful writes.
 - The visible `/today` diary UI lists current-user entries for the selected
-  `?date=YYYY-MM-DD` value or today's date by default, and includes a minimal
-  manual create form using the existing create Server Action.
+  `?date=YYYY-MM-DD` value or today's date by default, and includes a manual
+  create form using the existing create Server Action.
+- The manual diary form groups meal/date, food details, serving, nutrition,
+  notes, and submit feedback. Required and optional fields are labeled clearly,
+  localized validation feedback stays generic, and blank optional nutrition
+  values remain distinct from an explicit `0`.
 - `/today` now shows simple daily calorie, protein, carbohydrate, and fat totals
   from the loaded manual diary entries for the selected/current date. These
   consumed totals remain separate from the manual target summary.
@@ -284,8 +288,8 @@ Manual RTL QA checklist:
 - Edit diary UI, food search, custom foods, recipes, barcode, USDA,
   FoodsDictionary, settings pages, charts/analytics, target remaining
   calculations, and real dashboard behavior remain deferred. Unless
-  reprioritized, the next likely continuation point is manual form UX
-  improvements or edit UI.
+  reprioritized, the next likely continuation point is edit UI or a more
+  structured custom-food foundation.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:

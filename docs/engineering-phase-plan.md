@@ -44,12 +44,13 @@ Known completed state from the repository and recent validated work:
 - Minimal manual diary UI.
 - Simple daily diary totals on `/today`.
 - Diary entry delete UI on `/today`.
+- Manual diary form UX improvements on `/today`.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Unless the human developer changes priority, the next planned product slice is:
 
-- Manual form UX improvements or edit UI.
+- Edit UI or a more structured custom-food foundation.
 
 ## Future PR Documentation Rule
 
