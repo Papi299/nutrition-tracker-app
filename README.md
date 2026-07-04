@@ -28,9 +28,10 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the manual diary form UX slice, the next likely
-continuation point is edit UI or a more structured custom-food foundation,
-unless the human developer reprioritizes.
+phase or slice status. After the Phase 4A nutrition-domain schema foundation,
+the next likely continuation point is Phase 4B diary snapshot/linking rules or
+Phase 5 edit UI / target progress cards, unless the human developer
+reprioritizes.
 
 ## Install Dependencies
 
@@ -237,11 +238,25 @@ Manual RTL QA checklist:
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
 - Current generated database types include `profiles`, `nutrition_targets`,
-  and `diary_entries`.
+  `diary_entries`, `food_sources`, `nutrients`, `foods`, and
+  `food_nutrients`.
 - Generate types from the validated local database after migrations are reset:
   `npx supabase gen types --lang=typescript --local --schema public > lib/supabase/database.types.ts`.
 - Regenerate database types after every future schema migration before wiring
   application data access.
+- Phase 4A nutrition-domain schema foundation adds:
+  - `public.food_sources` for source metadata such as manual, user custom,
+    USDA, and FoodsDictionary placeholders.
+  - `public.nutrients` as a minimal canonical nutrient dictionary.
+  - `public.foods` for future generic, branded, and user custom foods.
+  - `public.food_nutrients` for nutrient amounts per food.
+- The minimal seeded nutrient dictionary covers the current MVP nutrients:
+  calories, protein, carbohydrates, and fat.
+- No food search, custom-food UI, import pipeline, barcode behavior, USDA
+  ingestion, or FoodsDictionary integration is implemented by this schema
+  slice.
+- Diary entries are not linked to foods yet; snapshot/linking rules remain a
+  future Phase 4B decision.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -285,11 +300,12 @@ Manual RTL QA checklist:
   update after deletion.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Edit diary UI, food search, custom foods, recipes, barcode, USDA,
-  FoodsDictionary, settings pages, charts/analytics, target remaining
-  calculations, and real dashboard behavior remain deferred. Unless
-  reprioritized, the next likely continuation point is edit UI or a more
-  structured custom-food foundation.
+- Diary food-linking/snapshot rules, edit diary UI, food search, custom-food
+  UI, recipes, barcode, USDA, FoodsDictionary, settings pages,
+  charts/analytics, target remaining calculations, and real dashboard behavior
+  remain deferred. Unless reprioritized, the next likely continuation point is
+  Phase 4B diary snapshot/linking rules or Phase 5 edit UI / target progress
+  cards.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -322,7 +338,8 @@ Manual RTL QA checklist:
 
 - Synced accounts beyond Supabase auth identity.
 - Vercel deployment wiring.
-- Additional database schema beyond profiles and nutrition targets.
+- Additional product schema beyond the current profile, target, diary, and
+  nutrition-domain foundations.
 - Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.

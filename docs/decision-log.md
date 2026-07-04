@@ -219,3 +219,13 @@
 - Kept action feedback localized and generic so validation, auth, and database failures do not expose raw Supabase/provider details.
 - Deferred edit UI, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, remote database commands, and a new custom-food data model.
 - Validation for this slice should include lint, typecheck, build, local migration reset, and local-only smoke checks for create/delete/totals/RTL/date behavior. The recommended next continuation point is edit UI or a more structured custom-food foundation unless the human reprioritizes.
+
+## 2026-07-04: Phase 4A nutrition domain schema foundation
+
+- Added the first nutrition-domain schema slice for `food_sources`, `nutrients`, `foods`, and `food_nutrients`.
+- Seeded minimal source metadata for manual, user custom, USDA, and FoodsDictionary placeholders without integrating any external source.
+- Seeded the minimal MVP nutrient dictionary for calories, protein, carbohydrates, and fat, including Hebrew names for future bilingual display.
+- Enabled RLS on all new tables and scoped authenticated privileges so users can read global/source dictionary data, read public foods, and manage only their own custom foods and nutrient amounts.
+- Regenerated Supabase database types from the validated local schema.
+- Deferred food search UI, custom-food UI, diary food-linking/snapshot migration, edit UI, target progress cards, USDA/FoodsDictionary integration, barcode, recipes, saved meals, recents, favorites, package changes, and remote database commands.
+- Validation for this slice should include lint, typecheck, build, local migration reset, local schema/RLS/grant verification, generated type verification, and Playwright smoke tests. The recommended next continuation point is Phase 4B diary snapshot/linking rules or Phase 5 edit UI / target progress cards unless the human reprioritizes.

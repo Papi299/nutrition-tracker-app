@@ -66,6 +66,194 @@ export type Database = {
         }
         Relationships: []
       }
+      food_nutrients: {
+        Row: {
+          amount: number
+          basis: string
+          created_at: string
+          food_id: string
+          id: string
+          nutrient_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          basis?: string
+          created_at?: string
+          food_id: string
+          id?: string
+          nutrient_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          basis?: string
+          created_at?: string
+          food_id?: string
+          id?: string
+          nutrient_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_nutrients_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_nutrients_nutrient_id_fkey"
+            columns: ["nutrient_id"]
+            isOneToOne: false
+            referencedRelation: "nutrients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      food_sources: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          is_external: boolean
+          name: string
+          source_type: string
+          trust_level: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_external?: boolean
+          name: string
+          source_type: string
+          trust_level: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_external?: boolean
+          name?: string
+          source_type?: string
+          trust_level?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      foods: {
+        Row: {
+          brand_name: string | null
+          created_at: string
+          data_quality: string
+          food_type: string
+          id: string
+          is_archived: boolean
+          is_public: boolean
+          locale: string | null
+          name: string
+          owner_user_id: string | null
+          serving_size: number | null
+          serving_unit: string | null
+          source_food_id: string | null
+          source_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand_name?: string | null
+          created_at?: string
+          data_quality?: string
+          food_type: string
+          id?: string
+          is_archived?: boolean
+          is_public?: boolean
+          locale?: string | null
+          name: string
+          owner_user_id?: string | null
+          serving_size?: number | null
+          serving_unit?: string | null
+          source_food_id?: string | null
+          source_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand_name?: string | null
+          created_at?: string
+          data_quality?: string
+          food_type?: string
+          id?: string
+          is_archived?: boolean
+          is_public?: boolean
+          locale?: string | null
+          name?: string
+          owner_user_id?: string | null
+          serving_size?: number | null
+          serving_unit?: string | null
+          source_food_id?: string | null
+          source_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "foods_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "food_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nutrients: {
+        Row: {
+          code: string
+          created_at: string
+          display_order: number
+          id: string
+          is_energy: boolean
+          is_macro: boolean
+          is_required_for_mvp: boolean
+          name_en: string
+          name_he: string | null
+          nutrient_group: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_energy?: boolean
+          is_macro?: boolean
+          is_required_for_mvp?: boolean
+          name_en: string
+          name_he?: string | null
+          nutrient_group: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_energy?: boolean
+          is_macro?: boolean
+          is_required_for_mvp?: boolean
+          name_en?: string
+          name_he?: string | null
+          nutrient_group?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       nutrition_targets: {
         Row: {
           calories: number | null
