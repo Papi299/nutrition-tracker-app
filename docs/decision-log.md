@@ -203,3 +203,11 @@
 - Kept daily totals tied to the loaded selected-date entries, so successful deletion removes the entry and updates totals through `/today` revalidation.
 - Deferred edit UI, confirmation modal/undo, charts/analytics, target remaining calculations, food search, barcode, USDA/FoodsDictionary, schema/type/package changes, and remote database commands.
 - Validation performed for this slice should include lint, typecheck, build, local migration reset, and local-only smoke checks for add/delete/totals/RTL/date behavior. The recommended next continuation point is manual form UX improvements or edit UI unless the human reprioritizes.
+
+## 2026-07-04: Playwright smoke test foundation
+
+- Added Playwright as a dev-only browser test dependency with a minimal Chromium-only configuration.
+- Added safe non-mutating smoke tests for English/Hebrew document direction and signed-out protected-route redirects.
+- Added package scripts for the full Playwright suite and the focused smoke suite.
+- Deferred authenticated browser tests, CI workflow wiring, cross-browser coverage, visual testing, product feature changes, Supabase schema changes, and remote database commands.
+- Validation for this tooling slice should include lint, typecheck, build, and `npm run test:e2e:smoke`. The recommended next continuation point is returning to PR #24 review and local smoke checks after this tooling PR is merged.
