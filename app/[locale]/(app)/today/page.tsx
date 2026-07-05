@@ -10,6 +10,7 @@ import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-st
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
+import { DiaryTargetProgress } from "@/components/diary/diary-target-progress";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
 import {
   isValidDiaryEntryDate,
@@ -292,6 +293,35 @@ function LocalizedTodayPage({
                     title: diaryT("totals.title"),
                     unitGrams: diaryT("totals.unitGrams"),
                   }}
+                />
+                <DiaryTargetProgress
+                  entries={diaryEntriesState.entries}
+                  labels={{
+                    body: diaryT("targetProgress.body"),
+                    consumed: diaryT("targetProgress.consumed"),
+                    emptyBody: diaryT("targetProgress.emptyBody"),
+                    emptyLink: diaryT("targetProgress.emptyLink"),
+                    emptyTitle: diaryT("targetProgress.emptyTitle"),
+                    metrics: {
+                      calories: diaryT("targetProgress.metrics.calories"),
+                      carbohydrates_g: diaryT(
+                        "targetProgress.metrics.carbohydrates",
+                      ),
+                      fat_g: diaryT("targetProgress.metrics.fat"),
+                      protein_g: diaryT("targetProgress.metrics.protein"),
+                    },
+                    notSet: diaryT("targetProgress.notSet"),
+                    overTarget: diaryT("targetProgress.overTarget"),
+                    percentComplete: diaryT(
+                      "targetProgress.percentComplete",
+                    ),
+                    remaining: diaryT("targetProgress.remaining"),
+                    target: diaryT("targetProgress.target"),
+                    title: diaryT("targetProgress.title"),
+                    unitGrams: diaryT("targetProgress.unitGrams"),
+                  }}
+                  setupHref={`/${locale}/setup`}
+                  target={target}
                 />
                 <DiaryEntryList
                   deleteAction={deleteAction}

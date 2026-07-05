@@ -148,6 +148,26 @@
       "fat": "Fat",
       "unitGrams": "g"
     },
+    "targetProgress": {
+      "title": "Target progress",
+      "body": "Compare today's manual diary totals with your current manual targets.",
+      "emptyTitle": "Set targets to see progress",
+      "emptyBody": "Daily target progress appears here after you save manual calorie, protein, carbohydrate, or fat targets.",
+      "emptyLink": "Open profile & targets",
+      "consumed": "Consumed",
+      "target": "Target",
+      "remaining": "Remaining",
+      "notSet": "Not set",
+      "overTarget": "{value} over",
+      "percentComplete": "{percent}% complete",
+      "unitGrams": "g",
+      "metrics": {
+        "calories": "Calories",
+        "protein": "Protein",
+        "carbohydrates": "Carbs",
+        "fat": "Fat"
+      }
+    },
     "form": {
       "title": "Add manual entry",
       "description": "Add one food manually. Food search and barcode scanning are not connected yet.",
