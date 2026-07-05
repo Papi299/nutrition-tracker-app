@@ -28,9 +28,9 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the Phase 5A diary entry edit UI slice, the next
-likely continuation point is Phase 5B target progress cards, unless the human
-developer reprioritizes.
+phase or slice status. After the Phase 5B target progress cards slice, the
+next likely continuation point is a focused Phase 5C MVP QA pass or Phase 6
+Food Search Foundation, unless the human developer reprioritizes.
 
 ## Install Dependencies
 
@@ -296,6 +296,14 @@ Manual RTL QA checklist:
 - `/today` now shows simple daily calorie, protein, carbohydrate, and fat totals
   from the loaded manual diary entries for the selected/current date. These
   consumed totals remain separate from the manual target summary.
+- `/today` now shows target progress cards for calories, protein,
+  carbohydrates, and fat. The cards compare consumed daily totals against the
+  current manual target, show consumed/target/remaining values, and include a
+  capped visual progress indicator.
+- Target progress preserves existing null/zero semantics: blank diary nutrition
+  fields count as `0`, explicit `0` diary values remain `0`, target `null`
+  displays as not set, target `0` displays as `0` without division by zero, and
+  over-target values show localized over-target copy.
 - Users can delete their own manual diary entries from the selected/current
   date list on `/today`. Deletion uses the existing delete Server Action and
   server-only helper path, keeps ownership scoped by the authenticated user on
@@ -310,9 +318,9 @@ Manual RTL QA checklist:
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
 - Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
-  settings pages, charts/analytics, target remaining calculations, and real
-  dashboard behavior remain deferred. Unless reprioritized, the next likely
-  continuation point is Phase 5B target progress cards.
+  settings pages, charts/analytics, and real dashboard behavior remain
+  deferred. Unless reprioritized, the next likely continuation point is a
+  focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:

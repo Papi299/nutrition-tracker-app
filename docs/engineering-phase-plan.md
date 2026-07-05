@@ -46,6 +46,7 @@ Known completed state from the repository and recent validated work:
 - Diary entry delete UI on `/today`.
 - Manual diary form UX improvements on `/today`.
 - Diary entry edit UI on `/today`.
+- Target progress cards on `/today`.
 - Phase 4A nutrition domain schema foundation for food sources, nutrients,
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while
@@ -55,7 +56,8 @@ Known completed state from the repository and recent validated work:
 
 Unless the human developer changes priority, the next planned product slice is:
 
-- Phase 5B target progress cards.
+- A focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation after
+  Phase 5 is accepted.
 
 ## Future PR Documentation Rule
 
