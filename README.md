@@ -28,9 +28,9 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the Phase 4B diary-food linking rules slice, the
-next likely continuation point is custom-food data helpers or Phase 5 edit UI /
-target progress cards, unless the human developer reprioritizes.
+phase or slice status. After the Phase 5A diary entry edit UI slice, the next
+likely continuation point is Phase 5B target progress cards, unless the human
+developer reprioritizes.
 
 ## Install Dependencies
 
@@ -301,13 +301,18 @@ Manual RTL QA checklist:
   server-only helper path, keeps ownership scoped by the authenticated user on
   the server, and relies on `/today` revalidation so the list and daily totals
   update after deletion.
+- Users can edit their own manual diary entries from the selected/current date
+  list on `/today`. Editing reuses the existing update Server Action and
+  server-only helper path, exposes only editable manual-entry fields, keeps
+  ownership scoped by the authenticated user on the server, preserves blank
+  optional values as `null`, preserves explicit `0` values, and relies on
+  `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Edit diary UI, food search, custom-food UI, recipes, barcode, USDA,
-  FoodsDictionary, settings pages, charts/analytics, target remaining
-  calculations, and real dashboard behavior remain deferred. Unless
-  reprioritized, the next likely continuation point is custom-food data helpers
-  or Phase 5 edit UI / target progress cards.
+- Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
+  settings pages, charts/analytics, target remaining calculations, and real
+  dashboard behavior remain deferred. Unless reprioritized, the next likely
+  continuation point is Phase 5B target progress cards.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -345,7 +350,6 @@ Manual RTL QA checklist:
 - Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
-- Diary edit UI.
 - Barcode scanning.
 - Custom food forms.
 - Saved meals or recipes.

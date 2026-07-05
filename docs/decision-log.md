@@ -240,3 +240,14 @@
 - Regenerated Supabase database types from the validated local database.
 - Deferred food search UI, custom-food UI, diary edit UI, target progress cards, USDA/FoodsDictionary integration, barcode, recipes, saved meals, recents, favorites, package changes, and remote database commands.
 - Validation for this slice should include lint, typecheck, build, local migration reset, local schema/RLS/runtime checks, generated type verification, and Playwright smoke tests. The recommended next continuation point is custom-food data helpers or Phase 5 edit UI / target progress cards unless the human reprioritizes.
+
+## 2026-07-05: Diary entry edit UI
+
+- Added a focused edit control for manual diary entries on `/today`.
+- Reused the existing update Server Action and server-only diary helper path instead of adding a new data access path.
+- Exposed only editable manual diary fields: date, meal type, food name, brand, serving quantity/unit, calories, protein, carbohydrates, fat, and notes.
+- Kept `user_id`, `source`, `food_id`, timestamps, and ownership out of the edit UI.
+- Preserved existing validation semantics: blank optional numeric fields normalize to `null`, while explicit `0` is preserved as a saved value.
+- Kept daily totals tied to the loaded selected-date entries, so successful edits update the list and totals through `/today` revalidation.
+- Deferred target progress cards, food search, custom-food UI, food-link editing, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
+- Validation for this slice should include lint, typecheck, build, Playwright smoke tests, and local authenticated checks for edit, validation, cancel, totals, delete-after-edit, and Hebrew RTL behavior. The recommended next continuation point is Phase 5B target progress cards unless the human reprioritizes.
