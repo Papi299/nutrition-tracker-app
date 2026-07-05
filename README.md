@@ -28,10 +28,9 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the Phase 4A nutrition-domain schema foundation,
-the next likely continuation point is Phase 4B diary snapshot/linking rules or
-Phase 5 edit UI / target progress cards, unless the human developer
-reprioritizes.
+phase or slice status. After the Phase 4B diary-food linking rules slice, the
+next likely continuation point is custom-food data helpers or Phase 5 edit UI /
+target progress cards, unless the human developer reprioritizes.
 
 ## Install Dependencies
 
@@ -252,11 +251,15 @@ Manual RTL QA checklist:
   - `public.food_nutrients` for nutrient amounts per food.
 - The minimal seeded nutrient dictionary covers the current MVP nutrients:
   calories, protein, carbohydrates, and fat.
+- Phase 4B diary-food linking rules add nullable `diary_entries.food_id`
+  references to `public.foods(id)` with `on delete set null`.
+- Diary entries still preserve snapshot fields such as food name, serving,
+  calories, protein, carbohydrates, fat, and notes for historical accuracy.
+- The manual diary UI remains unchanged and continues creating entries without
+  food links.
 - No food search, custom-food UI, import pipeline, barcode behavior, USDA
   ingestion, or FoodsDictionary integration is implemented by this schema
   slice.
-- Diary entries are not linked to foods yet; snapshot/linking rules remain a
-  future Phase 4B decision.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -300,12 +303,11 @@ Manual RTL QA checklist:
   update after deletion.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Diary food-linking/snapshot rules, edit diary UI, food search, custom-food
-  UI, recipes, barcode, USDA, FoodsDictionary, settings pages,
-  charts/analytics, target remaining calculations, and real dashboard behavior
-  remain deferred. Unless reprioritized, the next likely continuation point is
-  Phase 4B diary snapshot/linking rules or Phase 5 edit UI / target progress
-  cards.
+- Edit diary UI, food search, custom-food UI, recipes, barcode, USDA,
+  FoodsDictionary, settings pages, charts/analytics, target remaining
+  calculations, and real dashboard behavior remain deferred. Unless
+  reprioritized, the next likely continuation point is custom-food data helpers
+  or Phase 5 edit UI / target progress cards.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -343,7 +345,7 @@ Manual RTL QA checklist:
 - Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
-- Diary edit/delete UI.
+- Diary edit UI.
 - Barcode scanning.
 - Custom food forms.
 - Saved meals or recipes.

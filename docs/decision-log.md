@@ -229,3 +229,14 @@
 - Regenerated Supabase database types from the validated local schema.
 - Deferred food search UI, custom-food UI, diary food-linking/snapshot migration, edit UI, target progress cards, USDA/FoodsDictionary integration, barcode, recipes, saved meals, recents, favorites, package changes, and remote database commands.
 - Validation for this slice should include lint, typecheck, build, local migration reset, local schema/RLS/grant verification, generated type verification, and Playwright smoke tests. The recommended next continuation point is Phase 4B diary snapshot/linking rules or Phase 5 edit UI / target progress cards unless the human reprioritizes.
+
+## 2026-07-05: Phase 4B diary-food linking rules
+
+- Added a focused migration that lets `diary_entries.food_id` optionally reference `public.foods(id)`.
+- Chose `on delete set null` so a deleted food row does not remove historical diary logs.
+- Preserved diary snapshot fields as the source of what was actually logged: food name, brand, serving, calories, protein, carbohydrates, fat, and notes.
+- Replaced the diary insert/update RLS policies so authenticated users can keep manual entries with `food_id = null`, link entries to public/global foods, or link entries to their own custom foods, but cannot link to another user's private custom food.
+- Left `diary_entries.source` constrained to `manual` and did not expose food linking in the manual diary UI.
+- Regenerated Supabase database types from the validated local database.
+- Deferred food search UI, custom-food UI, diary edit UI, target progress cards, USDA/FoodsDictionary integration, barcode, recipes, saved meals, recents, favorites, package changes, and remote database commands.
+- Validation for this slice should include lint, typecheck, build, local migration reset, local schema/RLS/runtime checks, generated type verification, and Playwright smoke tests. The recommended next continuation point is custom-food data helpers or Phase 5 edit UI / target progress cards unless the human reprioritizes.
