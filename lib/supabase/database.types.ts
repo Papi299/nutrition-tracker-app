@@ -17,6 +17,7 @@ export type Database = {
           created_at: string
           entry_date: string
           fat_g: number | null
+          food_id: string | null
           food_name: string
           id: string
           meal_type: string
@@ -35,6 +36,7 @@ export type Database = {
           created_at?: string
           entry_date: string
           fat_g?: number | null
+          food_id?: string | null
           food_name: string
           id?: string
           meal_type: string
@@ -53,6 +55,7 @@ export type Database = {
           created_at?: string
           entry_date?: string
           fat_g?: number | null
+          food_id?: string | null
           food_name?: string
           id?: string
           meal_type?: string
@@ -64,7 +67,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "diary_entries_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       food_nutrients: {
         Row: {
