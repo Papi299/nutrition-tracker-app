@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import {
   createDiaryEntryAction,
   deleteDiaryEntryAction,
+  updateDiaryEntryAction,
 } from "@/app/[locale]/(app)/today/actions";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
@@ -115,6 +116,7 @@ function LocalizedTodayPage({
   const diaryT = useTranslations("Diary");
   const createAction = createDiaryEntryAction.bind(null, locale);
   const deleteAction = deleteDiaryEntryAction.bind(null, locale);
+  const updateAction = updateDiaryEntryAction.bind(null, locale);
   const initialDiaryEntryState: DiaryEntryActionState = {
     status: "idle",
     values: {
@@ -295,14 +297,48 @@ function LocalizedTodayPage({
                   deleteAction={deleteAction}
                   emptyMessage={diaryT("list.empty")}
                   entries={diaryEntriesState.entries}
+                  fieldErrorMessages={{
+                    empty_update: diaryT("errors.validation"),
+                    invalid_date: diaryT("errors.invalidDate"),
+                    invalid_input: diaryT("errors.validation"),
+                    invalid_integer: diaryT("errors.invalidInteger"),
+                    invalid_number: diaryT("errors.invalidNumber"),
+                    invalid_type: diaryT("errors.validation"),
+                    negative_value: diaryT("errors.negativeValue"),
+                    required: diaryT("errors.required"),
+                    too_long: diaryT("errors.tooLong"),
+                    unsupported_field: diaryT("errors.validation"),
+                    unsupported_meal_type: diaryT("errors.unsupportedMealType"),
+                  }}
                   labels={{
                     brand: diaryT("list.brand"),
                     calories: diaryT("list.calories"),
+                    cancel: diaryT("list.cancel"),
                     delete: diaryT("list.delete"),
                     deleteError: diaryT("list.deleteError"),
                     deletePending: diaryT("list.deletePending"),
+                    edit: diaryT("list.edit"),
+                    editTitle: diaryT("list.editTitle"),
+                    fields: {
+                      brand_name: diaryT("fields.brandName"),
+                      calories: diaryT("fields.calories"),
+                      carbohydrates_g: diaryT("fields.carbohydrates"),
+                      entry_date: diaryT("fields.entryDate"),
+                      fat_g: diaryT("fields.fat"),
+                      food_name: diaryT("fields.foodName"),
+                      meal_type: diaryT("fields.mealType"),
+                      notes: diaryT("fields.notes"),
+                      protein_g: diaryT("fields.protein"),
+                      serving_quantity: diaryT("fields.servingQuantity"),
+                      serving_unit: diaryT("fields.servingUnit"),
+                    },
                     macros: diaryT("list.macros"),
                     meal: diaryT("list.meal"),
+                    save: diaryT("list.save"),
+                    saveError: diaryT("list.saveError"),
+                    saveIdle: diaryT("list.saveIdle"),
+                    savePending: diaryT("list.savePending"),
+                    saveSuccess: diaryT("list.saveSuccess"),
                     serving: diaryT("list.serving"),
                   }}
                   mealTypeLabels={{
@@ -312,7 +348,18 @@ function LocalizedTodayPage({
                     other: diaryT("mealTypes.other"),
                     snack: diaryT("mealTypes.snack"),
                   }}
+                  mealTypeOptions={[
+                    {
+                      label: diaryT("mealTypes.breakfast"),
+                      value: "breakfast",
+                    },
+                    { label: diaryT("mealTypes.lunch"), value: "lunch" },
+                    { label: diaryT("mealTypes.dinner"), value: "dinner" },
+                    { label: diaryT("mealTypes.snack"), value: "snack" },
+                    { label: diaryT("mealTypes.other"), value: "other" },
+                  ]}
                   notSetLabel={diaryT("list.notSet")}
+                  updateAction={updateAction}
                 />
               </div>
             )}
