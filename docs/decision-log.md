@@ -251,3 +251,12 @@
 - Kept daily totals tied to the loaded selected-date entries, so successful edits update the list and totals through `/today` revalidation.
 - Deferred target progress cards, food search, custom-food UI, food-link editing, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
 - Validation for this slice should include lint, typecheck, build, Playwright smoke tests, and local authenticated checks for edit, validation, cancel, totals, delete-after-edit, and Hebrew RTL behavior. The recommended next continuation point is Phase 5B target progress cards unless the human reprioritizes.
+
+## 2026-07-05: Target progress cards
+
+- Added focused `/today` target progress cards for calories, protein, carbohydrates, and fat.
+- Reused the diary entries and current effective nutrition target already loaded by the Today page instead of adding new data helpers, queries, schema, or remote database work.
+- Compared consumed daily totals with the current manual targets and displayed consumed, target, remaining, and percent-complete states.
+- Preserved null and zero semantics: blank diary nutrition values count as zero, explicit zero values remain visible, null target fields show as not set, target zero values display as zero without division by zero, and over-target values show localized over-target copy while the visual bar remains capped.
+- Deferred charts/analytics, food search, custom-food UI, food-link editing, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
+- Validation for this slice should include lint, typecheck, build, Playwright smoke tests, and local authenticated checks for target progress, null/zero/over-target behavior, edit/delete revalidation, and Hebrew RTL behavior. The recommended next continuation point is a focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation unless the human reprioritizes.
