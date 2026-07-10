@@ -47,6 +47,10 @@ Known completed state from the repository and recent validated work:
 - Manual diary form UX improvements on `/today`.
 - Diary entry edit UI on `/today`.
 - Target progress cards on `/today`.
+- Phase 5C focused MVP QA passed across the authenticated product loop,
+  date and target edge cases, English/Hebrew direction, and basic responsive
+  layouts, with no bugs requiring follow-up.
+- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
 - Phase 4A nutrition domain schema foundation for food sources, nutrients,
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while
@@ -54,10 +58,19 @@ Known completed state from the repository and recent validated work:
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Unless the human developer changes priority, the next planned product slice is:
+Phase 6 Food Search Foundation is next and has not started. The following is a
+proposed planning sequence, not committed implementation detail:
 
-- A focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation after
-  Phase 5 is accepted.
+- Phase 6A: food alias and search-readiness foundation, likely including a
+  durable bilingual alias model and RLS, without search UI.
+- Phase 6B: read-only search helpers and UI for readable public foods and owned
+  custom foods, including source/trust metadata.
+- Phase 6C: select a food to prefill diary snapshot fields while preserving
+  existing diary snapshot semantics.
+
+Use a fresh ChatGPT planning chat and fresh Codex session before Phase 6
+implementation. That planning session may refine this proposed sequence before
+any code or schema changes begin.
 
 ## Future PR Documentation Rule
 
