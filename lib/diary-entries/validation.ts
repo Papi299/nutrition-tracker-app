@@ -1,5 +1,6 @@
 import type { DataResult } from "@/lib/data/result";
 import { validationError } from "@/lib/data/result";
+import { isCanonicalCalendarDate } from "@/lib/calendar-date";
 import type { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
 export const diaryEntryMealTypes = [
@@ -77,32 +78,21 @@ function hasOwn(input: Record<string, unknown>, field: string) {
 }
 
 export function isValidDiaryEntryDate(value: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return false;
-  }
-
-  const parsed = new Date(`${value}T00:00:00.000Z`);
-
-  return (
-    !Number.isNaN(parsed.getTime()) &&
-    parsed.toISOString().slice(0, 10) === value
-  );
+  return isCanonicalCalendarDate(value);
 }
 
 export function validateDiaryEntryDate(
   value: unknown,
 ): DataResult<string> {
-  if (typeof value !== "string" || value.trim() === "") {
+  if (typeof value !== "string" || value === "") {
     return validationError({ entry_date: "required" });
   }
 
-  const trimmed = value.trim();
-
-  if (!isValidDiaryEntryDate(trimmed)) {
+  if (!isValidDiaryEntryDate(value)) {
     return validationError({ entry_date: "invalid_date" });
   }
 
-  return { data: trimmed, ok: true };
+  return { data: value, ok: true };
 }
 
 function normalizeRequiredDate(

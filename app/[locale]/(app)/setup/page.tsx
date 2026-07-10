@@ -5,14 +5,21 @@ import type {
   SetupActionState,
   SetupFieldValues,
 } from "@/app/[locale]/(app)/setup/action-state";
+import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
+import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { SetupForm } from "@/components/setup/setup-form";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
+import {
+  parseCalendarDateQueryValue,
+  type CalendarDateQueryResult,
+} from "@/lib/calendar-date";
 import { routing, type Locale } from "@/lib/i18n/routing";
-import { getCurrentEffectiveTarget } from "@/lib/nutrition-targets";
+import { getEffectiveTargetForDate } from "@/lib/nutrition-targets";
 import { getCurrentProfile } from "@/lib/profile";
 
 type SetupPageProps = Readonly<{
   params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }>;
 
 type SetupPageState = {
@@ -28,10 +35,13 @@ function formatOptionalTargetValue(value: null | number) {
   return value === null ? "" : String(value);
 }
 
-async function getSetupPageState(locale: Locale): Promise<SetupPageState> {
+async function getSetupPageState(
+  effectiveDate: string,
+  locale: Locale,
+): Promise<SetupPageState> {
   const [profileResult, targetResult] = await Promise.all([
     getCurrentProfile(),
-    getCurrentEffectiveTarget(),
+    getEffectiveTargetForDate(effectiveDate),
   ]);
   const profile = profileResult.ok ? profileResult.data : null;
   const target = targetResult.ok ? targetResult.data : null;
@@ -42,6 +52,7 @@ async function getSetupPageState(locale: Locale): Promise<SetupPageState> {
       calories: formatOptionalTargetValue(target?.calories ?? null),
       carbohydrates_g: formatOptionalTargetValue(target?.carbohydrates_g ?? null),
       display_name: profile?.display_name ?? "",
+      effectiveDate,
       fat_g: formatOptionalTargetValue(target?.fat_g ?? null),
       preferred_language:
         profile?.preferred_language === "en" || profile?.preferred_language === "he"
@@ -52,14 +63,80 @@ async function getSetupPageState(locale: Locale): Promise<SetupPageState> {
   };
 }
 
-export default async function SetupPage({ params }: SetupPageProps) {
+export default async function SetupPage({ params, searchParams }: SetupPageProps) {
   const { locale: localeInput } = await params;
+  const resolvedSearchParams = await searchParams;
   const locale = resolveAuthLocale(localeInput);
-  const pageState = await getSetupPageState(locale);
+  const dateQuery = parseCalendarDateQueryValue(
+    resolvedSearchParams.effectiveDate,
+  );
 
   setRequestLocale(locale);
 
+  if (dateQuery.status === "missing") {
+    return <LocalizedSetupDateBootstrap locale={locale} />;
+  }
+
+  if (dateQuery.status === "invalid" || dateQuery.status === "repeated") {
+    return <LocalizedSetupDateError dateQuery={dateQuery} locale={locale} />;
+  }
+
+  const pageState = await getSetupPageState(dateQuery.date, locale);
+
   return <LocalizedSetupPage locale={locale} pageState={pageState} />;
+}
+
+function LocalizedSetupDateBootstrap({ locale }: { locale: Locale }) {
+  const dateT = useTranslations("CalendarDate");
+
+  return (
+    <section className="flex flex-1 flex-col justify-center py-8 text-start">
+      <BrowserDateBootstrap
+        formDescription={dateT("manual.description")}
+        formLabel={dateT("manual.label")}
+        formSubmitLabel={dateT("manual.submit")}
+        inputId="setup-bootstrap-date"
+        queryName="effectiveDate"
+        routePath={`/${locale}/setup`}
+        status={dateT("bootstrap.status")}
+        title={dateT("bootstrap.setupTitle")}
+      />
+    </section>
+  );
+}
+
+function LocalizedSetupDateError({
+  dateQuery,
+  locale,
+}: {
+  dateQuery: Extract<
+    CalendarDateQueryResult,
+    { status: "invalid" } | { status: "repeated" }
+  >;
+  locale: Locale;
+}) {
+  const dateT = useTranslations("CalendarDate");
+  const description =
+    dateQuery.status === "repeated"
+      ? dateT("errors.repeated")
+      : dateQuery.reason === "unsupported_format"
+        ? dateT("errors.unsupported")
+        : dateT("errors.invalid");
+
+  return (
+    <section className="flex flex-1 flex-col justify-center py-8 text-start">
+      <CalendarDateError
+        description={description}
+        formDescription={dateT("recovery.description")}
+        formLabel={dateT("manual.label")}
+        formSubmitLabel={dateT("manual.submit")}
+        inputId="setup-recovery-date"
+        queryName="effectiveDate"
+        routePath={`/${locale}/setup`}
+        title={dateT("errors.title")}
+      />
+    </section>
+  );
 }
 
 function LocalizedSetupPage({
@@ -125,7 +202,9 @@ function LocalizedSetupPage({
           pendingLabel={t("pending")}
           sectionCopy={{
             profileHelp: t("profile.displayNameHelp"),
-            targetDescription: t("targets.description"),
+            targetDescription: t("targets.description", {
+              date: pageState.values.effectiveDate,
+            }),
             targetTitle: t("targets.title"),
           }}
           statusMessages={{

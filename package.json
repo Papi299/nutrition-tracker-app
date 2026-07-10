@@ -9,8 +9,10 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test",
+    "test:e2e": "node scripts/run-local-date-e2e.mjs",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.ts",
+    "test:date": "playwright test --config=playwright.unit.config.ts",
+    "test:e2e:date": "node scripts/run-local-date-e2e.mjs e2e/date-correctness.spec.ts",
     "supabase:status": "supabase status",
     "supabase:version": "supabase --version"
   },

@@ -47,9 +47,18 @@ function readTextField(formData: FormData, field: DiaryEntryFieldName) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function readInputField(formData: FormData, field: DiaryEntryFieldName) {
+  if (field === "entry_date") {
+    const value = formData.get(field);
+    return typeof value === "string" ? value : "";
+  }
+
+  return readTextField(formData, field);
+}
+
 function readCreateValues(formData: FormData): DiaryEntryFieldValues {
   return diaryEntryInputFields.reduce<DiaryEntryFieldValues>((values, field) => {
-    values[field] = readTextField(formData, field);
+    values[field] = readInputField(formData, field);
     return values;
   }, {});
 }
@@ -78,7 +87,7 @@ function readUpdateInput(
 ): DiaryEntryUpdateInput {
   return diaryEntryInputFields.reduce<DiaryEntryUpdateInput>((input, field) => {
     if (formData.has(field)) {
-      values[field] = readTextField(formData, field);
+      values[field] = readInputField(formData, field);
       input[field] = values[field];
     }
 

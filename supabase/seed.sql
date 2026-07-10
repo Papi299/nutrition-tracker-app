@@ -1,0 +1,3 @@
+-- This intentional no-op seed keeps local database resets reproducible while
+-- product seed data remains approval-gated. Add no users, profiles, targets,
+-- diary entries, foods, nutrients, or secrets here without explicit approval.
