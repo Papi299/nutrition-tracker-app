@@ -260,3 +260,13 @@
 - Preserved null and zero semantics: blank diary nutrition values count as zero, explicit zero values remain visible, null target fields show as not set, target zero values display as zero without division by zero, and over-target values show localized over-target copy while the visual bar remains capped.
 - Deferred charts/analytics, food search, custom-food UI, food-link editing, barcode, USDA/FoodsDictionary, schema migrations, generated type changes, package changes, and remote database commands.
 - Validation for this slice should include lint, typecheck, build, Playwright smoke tests, and local authenticated checks for target progress, null/zero/over-target behavior, edit/delete revalidation, and Hebrew RTL behavior. The recommended next continuation point is a focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation unless the human reprioritizes.
+
+## 2026-07-10: Phase 5C MVP QA completion and Phase 6 handoff
+
+- Completed Phase 5C as a validation-only focused MVP QA pass on `main` at `ad25eb6 Add target progress cards`.
+- Passed lint, typecheck, build, the four Playwright smoke tests, and a local Supabase database reset.
+- Passed authenticated local QA for signed-out and protected routing, new-user setup, profile/manual targets, diary create/list/edit/delete, daily totals, target progress, selected and invalid dates, null and explicit-zero values, target edge cases, English LTR, Hebrew RTL, and desktop/mobile-like layouts.
+- Found no blocking or minor bugs requiring follow-up, so no fix branch or PR was created and no code, package, schema, migration, or generated-type changes resulted.
+- Accepted Phase 5 Diary + Dashboard MVP as complete for the current MVP scope. No remote database command ran and no remote data was used or mutated during QA.
+- Identified Phase 6 Food Search Foundation as next and not started. The proposed sequence, subject to confirmation in a new planning session, is Phase 6A food alias/search-readiness schema and RLS, Phase 6B read-only food search helpers and UI, and Phase 6C selected-food diary snapshot prefill.
+- Chose a fresh ChatGPT planning chat and fresh Codex session before Phase 6 implementation so the proposed sequence can be reviewed and refined before code changes begin.

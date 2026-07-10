@@ -28,9 +28,20 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. After the Phase 5B target progress cards slice, the
-next likely continuation point is a focused Phase 5C MVP QA pass or Phase 6
-Food Search Foundation, unless the human developer reprioritizes.
+phase or slice status. Phase 5C focused MVP QA passed with no bugs, so Phase 5
+is complete for the current MVP scope. Phase 6 Food Search Foundation is next
+and has not started. Start it with a fresh ChatGPT planning chat and fresh
+Codex session unless the human developer reprioritizes.
+
+## Current MVP Status
+
+- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
+- Phase 5C validated setup/profile/targets, manual diary create/list/edit/delete,
+  daily totals, target progress, selected-date and invalid-date behavior,
+  null/zero edge cases, English LTR, Hebrew RTL, and basic desktop/mobile
+  usability. No bugs requiring fixes were found.
+- Phase 6 Food Search Foundation is next, but no Phase 6 implementation, food
+  alias model, search UI, food seeding, or external food integration exists yet.
 
 ## Install Dependencies
 
@@ -319,8 +330,8 @@ Manual RTL QA checklist:
   entries intentionally support delete so users can remove logged foods.
 - Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
   settings pages, charts/analytics, and real dashboard behavior remain
-  deferred. Unless reprioritized, the next likely continuation point is a
-  focused Phase 5C MVP QA pass or Phase 6 Food Search Foundation.
+  deferred. Phase 6 Food Search Foundation is the next phase and has not
+  started.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
