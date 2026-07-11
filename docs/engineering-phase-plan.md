@@ -50,9 +50,10 @@ Known completed state from the repository and recent validated work:
 - The earlier Phase 5C completion claim was withdrawn after calendar-date and
   effective-target defects were identified.
 - Phase 5 Corrective Task A implements browser-local date resolution, explicit
-  date-only boundaries, and selected-date effective-target correctness and is
-  under review.
-- Phase 5 remains incomplete. Corrective Tasks B and C are still required.
+  date-only boundaries, and selected-date effective-target correctness.
+- Phase 5 Corrective Task B implements atomic profile/target setup persistence
+  and effective-dated all-null target reset markers.
+- Phase 5 remains incomplete. Corrective Task C is still required.
 - Phase 4A nutrition domain schema foundation for food sources, nutrients,
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while

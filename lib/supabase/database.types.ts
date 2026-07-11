@@ -333,7 +333,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      persist_setup: {
+        Args: {
+          p_calories: number
+          p_carbohydrates_g: number
+          p_display_name: string
+          p_effective_from: string
+          p_fat_g: number
+          p_preferred_language: string
+          p_protein_g: number
+        }
+        Returns: {
+          preferred_language: string
+          profile_id: string
+          target_id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

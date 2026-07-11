@@ -1,9 +1,7 @@
 export type SetupActionStatus =
   | "database_error"
   | "idle"
-  | "profile_error"
   | "success"
-  | "target_error"
   | "unauthenticated"
   | "validation_error";
 
