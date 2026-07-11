@@ -32,11 +32,17 @@ function readTextField(formData: FormData, field: SetupFieldName) {
   return String(formData.get(field) ?? "").trim();
 }
 
+function readCalendarDateField(formData: FormData, field: SetupFieldName) {
+  const value = formData.get(field);
+  return typeof value === "string" ? value : "";
+}
+
 function readSetupValues(formData: FormData): SetupFieldValues {
   return {
     calories: readTextField(formData, "calories"),
     carbohydrates_g: readTextField(formData, "carbohydrates_g"),
     display_name: readTextField(formData, "display_name"),
+    effectiveDate: readCalendarDateField(formData, "effectiveDate"),
     fat_g: readTextField(formData, "fat_g"),
     preferred_language: readTextField(formData, "preferred_language"),
     protein_g: readTextField(formData, "protein_g"),
@@ -118,6 +124,10 @@ function mapTargetFieldErrors(fieldErrors: Record<string, string> | undefined) {
     }
   }
 
+  if (fieldErrors?.effective_from) {
+    mapped.effectiveDate = fieldErrors.effective_from;
+  }
+
   return mapped;
 }
 
@@ -160,19 +170,17 @@ export async function saveSetupAction(
   const targetInput = {
     calories,
     carbohydrates_g: carbohydrates,
+    effective_from: values.effectiveDate,
     fat_g: fat,
     protein_g: protein,
   };
+  const targetValidation = validateNutritionTargetInput(targetInput);
 
-  if (shouldSaveTarget) {
-    const targetValidation = validateNutritionTargetInput(targetInput);
-
-    if (!targetValidation.ok) {
-      return validationFailure(
-        values,
-        mapTargetFieldErrors(targetValidation.fieldErrors),
-      );
-    }
+  if (!targetValidation.ok) {
+    return validationFailure(
+      values,
+      mapTargetFieldErrors(targetValidation.fieldErrors),
+    );
   }
 
   const currentProfile = await getCurrentProfile();
@@ -229,5 +237,7 @@ export async function saveSetupAction(
     }
   }
 
-  redirect(`/${profileResult.data.preferred_language || locale}/today`);
+  redirect(
+    `/${profileResult.data.preferred_language || locale}/today?date=${values.effectiveDate}`,
+  );
 }

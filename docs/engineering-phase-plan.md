@@ -47,10 +47,12 @@ Known completed state from the repository and recent validated work:
 - Manual diary form UX improvements on `/today`.
 - Diary entry edit UI on `/today`.
 - Target progress cards on `/today`.
-- Phase 5C focused MVP QA passed across the authenticated product loop,
-  date and target edge cases, English/Hebrew direction, and basic responsive
-  layouts, with no bugs requiring follow-up.
-- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
+- The earlier Phase 5C completion claim was withdrawn after calendar-date and
+  effective-target defects were identified.
+- Phase 5 Corrective Task A implements browser-local date resolution, explicit
+  date-only boundaries, and selected-date effective-target correctness and is
+  under review.
+- Phase 5 remains incomplete. Corrective Tasks B and C are still required.
 - Phase 4A nutrition domain schema foundation for food sources, nutrients,
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while
@@ -58,8 +60,9 @@ Known completed state from the repository and recent validated work:
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Phase 6 Food Search Foundation is next and has not started. The following is a
-proposed planning sequence, not committed implementation detail:
+Phase 6 Food Search Foundation remains blocked until Phase 5 corrective work is
+accepted. It has not started. The following remains historical planning context,
+not authorized implementation work:
 
 - Phase 6A: food alias and search-readiness foundation, likely including a
   durable bilingual alias model and RLS, without search UI.
@@ -68,9 +71,7 @@ proposed planning sequence, not committed implementation detail:
 - Phase 6C: select a food to prefill diary snapshot fields while preserving
   existing diary snapshot semantics.
 
-Use a fresh ChatGPT planning chat and fresh Codex session before Phase 6
-implementation. That planning session may refine this proposed sequence before
-any code or schema changes begin.
+Do not begin Phase 6 implementation while Phase 5 remains incomplete.
 
 ## Future PR Documentation Rule
 

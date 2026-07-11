@@ -270,3 +270,29 @@
 - Accepted Phase 5 Diary + Dashboard MVP as complete for the current MVP scope. No remote database command ran and no remote data was used or mutated during QA.
 - Identified Phase 6 Food Search Foundation as next and not started. The proposed sequence, subject to confirmation in a new planning session, is Phase 6A food alias/search-readiness schema and RLS, Phase 6B read-only food search helpers and UI, and Phase 6C selected-food diary snapshot prefill.
 - Chose a fresh ChatGPT planning chat and fresh Codex session before Phase 6 implementation so the proposed sequence can be reviewed and refined before code changes begin.
+
+## 2026-07-10: Correct browser-local dates and effective-target selection
+
+- Withdrew the earlier Phase 5 completion claim after investigation found that
+  selected-date diary rows were compared with the target effective on UTC today
+  and that undated diary and target behavior used UTC-derived defaults.
+- Approved browser/device-local calendar dates as the definition of today. Date
+  values remain canonical `YYYY-MM-DD` strings and pass explicitly through URLs,
+  forms, Server Actions, validation, Supabase queries, and PostgreSQL `date`
+  columns without UTC timestamp conversion.
+- Added browser-local bootstrap behavior for undated Today and setup routes,
+  deterministic invalid and repeated-date states, accessible no-JavaScript date
+  forms, and an explicit hidden setup target effective date.
+- Required the Today page to load diary rows and the newest effective target
+  using the same selected date. Historical and future diary URLs therefore use
+  the target effective on that date, while target-management links continue to
+  manage targets from the current device-local date rather than the historical
+  diary date.
+- Kept authenticated ownership server-derived, preserved RLS and grants, added
+  no schema migration or profile timezone, and retained null/zero and diary
+  snapshot semantics.
+- Added a comment-only `supabase/seed.sql` for reproducible local resets and
+  durable pure-date, authenticated browser, PostgreSQL date-persistence, and
+  cross-user RLS coverage.
+- Corrective Tasks B and C remain required, Phase 5 remains incomplete, and
+  Phase 6 implementation remains blocked.

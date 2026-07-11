@@ -2,9 +2,8 @@ export {
   upsertTargetForDate,
   type NutritionTarget,
 } from "./mutations";
-export { getCurrentEffectiveTarget } from "./queries";
+export { getEffectiveTargetForDate } from "./queries";
 export {
-  getUtcTodayDateString,
   isValidDateString,
   validateNutritionTargetInput,
   validateTargetDate,

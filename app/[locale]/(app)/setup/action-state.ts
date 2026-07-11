@@ -11,9 +11,12 @@ export type SetupFieldName =
   | "calories"
   | "carbohydrates_g"
   | "display_name"
+  | "effectiveDate"
   | "fat_g"
   | "preferred_language"
   | "protein_g";
+
+export type SetupVisibleFieldName = Exclude<SetupFieldName, "effectiveDate">;
 
 export type SetupFieldValues = Record<SetupFieldName, string>;
 
@@ -27,6 +30,7 @@ export const emptySetupFieldValues: SetupFieldValues = {
   calories: "",
   carbohydrates_g: "",
   display_name: "",
+  effectiveDate: "",
   fat_g: "",
   preferred_language: "en",
   protein_g: "",

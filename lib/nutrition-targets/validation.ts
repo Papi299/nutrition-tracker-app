@@ -1,10 +1,11 @@
 import type { DataResult } from "@/lib/data/result";
 import { validationError } from "@/lib/data/result";
+import { isCanonicalCalendarDate } from "@/lib/calendar-date";
 
 export type NutritionTargetInput = {
   calories?: null | number;
   carbohydrates_g?: null | number;
-  effective_from?: null | string;
+  effective_from: null | string;
   fat_g?: null | number;
   protein_g?: null | number;
 };
@@ -29,28 +30,13 @@ function isObjectRecord(input: unknown): input is Record<string, unknown> {
   return typeof input === "object" && input !== null && !Array.isArray(input);
 }
 
-export function getUtcTodayDateString(date = new Date()) {
-  return date.toISOString().slice(0, 10);
-}
-
 export function isValidDateString(value: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return false;
-  }
-
-  const parsed = new Date(`${value}T00:00:00.000Z`);
-
-  return (
-    !Number.isNaN(parsed.getTime()) &&
-    parsed.toISOString().slice(0, 10) === value
-  );
+  return isCanonicalCalendarDate(value);
 }
 
-export function validateTargetDate(
-  date: null | string | undefined,
-): DataResult<string> {
-  if (date === undefined || date === null || date === "") {
-    return { data: getUtcTodayDateString(), ok: true };
+export function validateTargetDate(date: unknown): DataResult<string> {
+  if (typeof date !== "string" || date === "") {
+    return validationError({ effective_from: "required" });
   }
 
   if (!isValidDateString(date)) {
@@ -111,22 +97,10 @@ export function validateNutritionTargetInput(
     }
   }
 
-  const dateResult = validateTargetDate(
-    typeof input.effective_from === "string" || input.effective_from === null
-      ? input.effective_from
-      : undefined,
-  );
+  const dateResult = validateTargetDate(input.effective_from);
 
   if (!dateResult.ok) {
     Object.assign(fieldErrors, dateResult.fieldErrors);
-  }
-
-  if (
-    input.effective_from !== undefined &&
-    input.effective_from !== null &&
-    typeof input.effective_from !== "string"
-  ) {
-    fieldErrors.effective_from = "invalid_date";
   }
 
   const calories = normalizeCalories(input.calories, fieldErrors);
@@ -150,7 +124,7 @@ export function validateNutritionTargetInput(
     data: {
       calories,
       carbohydrates_g: carbohydrates,
-      effective_from: dateResult.ok ? dateResult.data : getUtcTodayDateString(),
+      effective_from: dateResult.ok ? dateResult.data : "",
       fat_g: fat,
       protein_g: protein,
     },

@@ -86,7 +86,7 @@
     },
     "targets": {
       "title": "Manual daily targets",
-      "description": "Enter targets you chose yourself. This app does not calculate calorie or nutrition targets.",
+      "description": "Enter targets you chose yourself. Changes saved here apply from {date}, the current calendar date on this device. This app does not calculate calorie or nutrition targets.",
       "blankHelper": "Blank means not set. Zero means an intentional value of 0.",
       "caloriesLabel": "Calories",
       "proteinLabel": "Protein (g)",
@@ -111,6 +111,27 @@
       "invalidNumber": "Enter a valid number or leave the field blank.",
       "invalidInteger": "Calories must be a whole number.",
       "negativeValue": "Targets cannot be negative."
+    }
+  },
+  "CalendarDate": {
+    "bootstrap": {
+      "todayTitle": "Opening your local diary date",
+      "setupTitle": "Opening targets for your local date",
+      "status": "Determining the current calendar date on this device..."
+    },
+    "manual": {
+      "description": "If automatic date detection is unavailable, choose the calendar date on this device and continue.",
+      "label": "Calendar date",
+      "submit": "Continue with date"
+    },
+    "errors": {
+      "title": "Choose a valid calendar date",
+      "invalid": "That calendar date does not exist or is outside the supported years 0001 through 9999.",
+      "unsupported": "Use the exact YYYY-MM-DD calendar-date format without a time or surrounding spaces.",
+      "repeated": "Only one calendar date may be supplied. Remove repeated date parameters and try again."
+    },
+    "recovery": {
+      "description": "Choose a valid calendar date to continue. No diary or target data was loaded for the invalid request."
     }
   },
   "Diary": {
@@ -150,10 +171,10 @@
     },
     "targetProgress": {
       "title": "Target progress",
-      "body": "Compare today's manual diary totals with your current manual targets.",
-      "emptyTitle": "Set targets to see progress",
-      "emptyBody": "Daily target progress appears here after you save manual calorie, protein, carbohydrate, or fat targets.",
-      "emptyLink": "Open profile & targets",
+      "body": "Compare manual diary totals for {date} with the target effective on that date.",
+      "emptyTitle": "No target is effective for this date",
+      "emptyBody": "Target progress appears after a manual calorie, protein, carbohydrate, or fat target is effective for the selected date.",
+      "emptyLink": "Manage current targets",
       "consumed": "Consumed",
       "target": "Target",
       "remaining": "Remaining",
@@ -251,13 +272,13 @@
       "setupCalloutTitle": "Finish the basic setup",
       "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
       "setupCalloutLink": "Open setup",
-      "targetEmptyTitle": "Manual targets are not set yet",
-      "targetEmptyBody": "Your profile is ready. Add targets only when you have values you want to enter manually; the app does not calculate recommendations.",
-      "targetEmptyLink": "Add manual targets",
+      "targetEmptyTitle": "No manual target is effective for this date",
+      "targetEmptyBody": "Your profile is ready, but no target is effective for the selected diary date. Current target management uses this device's current calendar date.",
+      "targetEmptyLink": "Manage current targets",
       "targetSummary": {
         "title": "Manual daily targets",
-        "body": "These values are the targets you entered. They are not calculated recommendations.",
-        "editLink": "Edit setup",
+        "body": "These values are effective on {date}. They are not calculated recommendations.",
+        "editLink": "Manage current targets",
         "calories": "Calories",
         "protein": "Protein (g)",
         "carbohydrates": "Carbohydrates (g)",

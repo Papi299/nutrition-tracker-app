@@ -5,8 +5,8 @@ import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import type {
   SetupActionState,
   SetupActionStatus,
-  SetupFieldName,
   SetupFieldValues,
+  SetupVisibleFieldName,
 } from "@/app/[locale]/(app)/setup/action-state";
 
 type LanguageOption = {
@@ -64,7 +64,7 @@ export function SetupForm({
   blankHelper: string;
   fieldErrorMessages: FieldErrorMessages;
   initialState: SetupActionState;
-  labels: Record<SetupFieldName, string>;
+  labels: Record<SetupVisibleFieldName, string>;
   languageOptions: LanguageOption[];
   pendingLabel: string;
   sectionCopy: {
@@ -82,6 +82,7 @@ export function SetupForm({
 
   return (
     <form action={formAction} className="grid gap-8 text-start" noValidate>
+      <input name="effectiveDate" type="hidden" value={values.effectiveDate} />
       <section className="grid gap-5">
         <div>
           <h2 className="text-lg font-semibold text-slate-950">

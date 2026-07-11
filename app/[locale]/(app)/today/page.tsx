@@ -7,19 +7,24 @@ import {
   updateDiaryEntryAction,
 } from "@/app/[locale]/(app)/today/actions";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
+import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
+import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
 import { DiaryTargetProgress } from "@/components/diary/diary-target-progress";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
 import {
-  isValidDiaryEntryDate,
+  parseCalendarDateQueryValue,
+  type CalendarDateQueryResult,
+} from "@/lib/calendar-date";
+import {
   listCurrentDiaryEntriesForDate,
   type DiaryEntry,
 } from "@/lib/diary-entries";
 import { routing } from "@/lib/i18n/routing";
 import {
-  getCurrentEffectiveTarget,
+  getEffectiveTargetForDate,
   type NutritionTarget,
 } from "@/lib/nutrition-targets";
 import { getCurrentProfile } from "@/lib/profile";
@@ -36,22 +41,6 @@ type DiaryEntriesState = {
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
-}
-
-function getTodayDate() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function getSearchParamValue(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-function resolveSelectedDate(
-  searchParams: Record<string, string | string[] | undefined>,
-) {
-  const date = getSearchParamValue(searchParams.date);
-
-  return date && isValidDiaryEntryDate(date) ? date : getTodayDate();
 }
 
 async function getDiaryEntriesState(
@@ -78,16 +67,26 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const { locale: localeInput } = await params;
   const resolvedSearchParams = await searchParams;
   const locale = resolveAuthLocale(localeInput);
-  const selectedDate = resolveSelectedDate(resolvedSearchParams);
+  const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+
+  setRequestLocale(locale);
+
+  if (dateQuery.status === "missing") {
+    return <LocalizedTodayDateBootstrap locale={locale} />;
+  }
+
+  if (dateQuery.status === "invalid" || dateQuery.status === "repeated") {
+    return <LocalizedTodayDateError dateQuery={dateQuery} locale={locale} />;
+  }
+
+  const selectedDate = dateQuery.date;
   const [profileResult, targetResult, diaryEntriesState] = await Promise.all([
     getCurrentProfile(),
-    getCurrentEffectiveTarget(),
+    getEffectiveTargetForDate(selectedDate),
     getDiaryEntriesState(selectedDate),
   ]);
   const hasProfile = profileResult.ok && profileResult.data !== null;
   const target = targetResult.ok ? targetResult.data : null;
-
-  setRequestLocale(locale);
 
   return (
     <LocalizedTodayPage
@@ -97,6 +96,60 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
       selectedDate={selectedDate}
       target={target}
     />
+  );
+}
+
+function LocalizedTodayDateBootstrap({ locale }: { locale: string }) {
+  const dateT = useTranslations("CalendarDate");
+  const routePath = `/${locale}/today`;
+
+  return (
+    <section className="flex flex-1 flex-col justify-center py-8 text-start">
+      <BrowserDateBootstrap
+        formDescription={dateT("manual.description")}
+        formLabel={dateT("manual.label")}
+        formSubmitLabel={dateT("manual.submit")}
+        inputId="today-bootstrap-date"
+        queryName="date"
+        routePath={routePath}
+        status={dateT("bootstrap.status")}
+        title={dateT("bootstrap.todayTitle")}
+      />
+    </section>
+  );
+}
+
+function LocalizedTodayDateError({
+  dateQuery,
+  locale,
+}: {
+  dateQuery: Extract<
+    CalendarDateQueryResult,
+    { status: "invalid" } | { status: "repeated" }
+  >;
+  locale: string;
+}) {
+  const dateT = useTranslations("CalendarDate");
+  const description =
+    dateQuery.status === "repeated"
+      ? dateT("errors.repeated")
+      : dateQuery.reason === "unsupported_format"
+        ? dateT("errors.unsupported")
+        : dateT("errors.invalid");
+
+  return (
+    <section className="flex flex-1 flex-col justify-center py-8 text-start">
+      <CalendarDateError
+        description={description}
+        formDescription={dateT("recovery.description")}
+        formLabel={dateT("manual.label")}
+        formSubmitLabel={dateT("manual.submit")}
+        inputId="today-recovery-date"
+        queryName="date"
+        routePath={`/${locale}/today`}
+        title={dateT("errors.title")}
+      />
+    </section>
   );
 }
 
@@ -205,14 +258,17 @@ function LocalizedTodayPage({
       )}
 
       {hasProfile && target !== null && (
-        <div className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div
+          className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+          data-testid="target-summary"
+        >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-950">
                 {t("targetSummary.title")}
               </h2>
               <p className="mt-3 text-sm leading-6 text-slate-700">
-                {t("targetSummary.body")}
+                {t("targetSummary.body", { date: selectedDate })}
               </p>
             </div>
             <Link
@@ -297,7 +353,7 @@ function LocalizedTodayPage({
                 <DiaryTargetProgress
                   entries={diaryEntriesState.entries}
                   labels={{
-                    body: diaryT("targetProgress.body"),
+                    body: diaryT("targetProgress.body", { date: selectedDate }),
                     consumed: diaryT("targetProgress.consumed"),
                     emptyBody: diaryT("targetProgress.emptyBody"),
                     emptyLink: diaryT("targetProgress.emptyLink"),

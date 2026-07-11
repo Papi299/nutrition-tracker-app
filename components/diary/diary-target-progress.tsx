@@ -124,7 +124,10 @@ export function DiaryTargetProgress({
 
   if (target === null) {
     return (
-      <section className="border border-amber-200 bg-amber-50 p-4 text-start">
+      <section
+        className="border border-amber-200 bg-amber-50 p-4 text-start"
+        data-testid="target-progress"
+      >
         <h3 className="text-base font-semibold text-slate-950">
           {labels.emptyTitle}
         </h3>
@@ -173,7 +176,10 @@ export function DiaryTargetProgress({
   ];
 
   return (
-    <section className="border border-slate-200 bg-stone-50 p-4 text-start">
+    <section
+      className="border border-slate-200 bg-stone-50 p-4 text-start"
+      data-testid="target-progress"
+    >
       <div>
         <h3 className="text-base font-semibold text-slate-950">
           {labels.title}

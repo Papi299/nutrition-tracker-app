@@ -28,20 +28,19 @@ sets up a small, reviewable Next.js surface for later product work.
 The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
-phase or slice status. Phase 5C focused MVP QA passed with no bugs, so Phase 5
-is complete for the current MVP scope. Phase 6 Food Search Foundation is next
-and has not started. Start it with a fresh ChatGPT planning chat and fresh
-Codex session unless the human developer reprioritizes.
+phase or slice status. The earlier Phase 5C completion claim was withdrawn after
+calendar-date and effective-target defects were identified. Corrective Task A is
+under review, Corrective Tasks B and C remain required, and Phase 6 work is
+blocked until Phase 5 corrections are accepted.
 
 ## Current MVP Status
 
-- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
-- Phase 5C validated setup/profile/targets, manual diary create/list/edit/delete,
-  daily totals, target progress, selected-date and invalid-date behavior,
-  null/zero edge cases, English LTR, Hebrew RTL, and basic desktop/mobile
-  usability. No bugs requiring fixes were found.
-- Phase 6 Food Search Foundation is next, but no Phase 6 implementation, food
-  alias model, search UI, food seeding, or external food integration exists yet.
+- Phase 5 Diary + Dashboard MVP remains incomplete while corrective work is in
+  progress.
+- Corrective Task A implements browser-local calendar dates, explicit date-only
+  route and form values, and selected-date effective-target behavior.
+- Corrective Tasks B and C remain required. Phase 6 Food Search Foundation is
+  blocked and has not started.
 
 ## Install Dependencies
 
@@ -63,7 +62,11 @@ Then open `http://localhost:3000`.
 npm run lint
 npm run typecheck
 npm run build
+npm run test:date
 npm run test:e2e:smoke
+npm run test:e2e:date
+npm run test:e2e
+npx supabase db reset
 npm run supabase:version
 ```
 
@@ -81,8 +84,11 @@ npm run supabase:version
   ```bash
   npm run test:e2e:smoke
   ```
-- Authenticated browser tests, CI workflow wiring, cross-browser coverage, and
-  visual testing remain future work.
+- Focused authenticated browser coverage for calendar-date behavior runs only
+  against the local Supabase stack with `npm run test:e2e:date`. The runner
+  refuses non-local Supabase URLs.
+- Broader authenticated regression coverage, CI workflow wiring, cross-browser
+  coverage, and visual testing remain future work.
 
 ## Internationalization and RTL
 
@@ -168,6 +174,17 @@ Manual RTL QA checklist:
 - The `/today` page shows the protected app shell, manual target summary states,
   and a minimal manual diary surface for listing entries by date and adding one
   manual entry.
+- An undated `/today` visit determines the calendar date from the current
+  browser/device timezone, then replaces the URL with
+  `?date=YYYY-MM-DD`. The server does not derive the user-facing day from UTC,
+  its operating-system timezone, or the database timezone.
+- Valid explicit dates remain stable and shareable. Travel affects new undated
+  visits, while an existing dated URL does not change. Different devices may
+  consider different dates to be today.
+- Invalid, impossible, unsupported, or repeated date query values show a
+  localized recovery state and do not load diary or target data.
+- When JavaScript is disabled, undated Today and setup routes provide a manual
+  date form; explicit dated URLs remain server-renderable.
 - Authenticated users without a profile row see a `/today` setup callout that
   links to `/{locale}/setup`; there is no global missing-profile redirect yet.
 - Authenticated users with a profile see either a manual-target empty state or
@@ -177,6 +194,10 @@ Manual RTL QA checklist:
 - The setup route serves both first-time profile setup and later profile/manual
   target editing. It lets users intentionally create or update their profile
   and optionally save manual calorie, protein, carbohydrate, and fat targets.
+- An undated setup route resolves the current device-local date into the
+  explicit `effectiveDate=YYYY-MM-DD` query parameter. The same untrusted date
+  is validated and submitted as a hidden value; the normal setup UI does not
+  expose target history, backdating, or scheduling controls.
 - Target fields are optional: blank means not set, while `0` is preserved as an
   explicit zero value.
 - `next=` return URL handling is not implemented yet.
@@ -285,10 +306,11 @@ Manual RTL QA checklist:
   client-supplied `user_id`.
 - Profile helpers support reading, explicit lazy creation, and updates for
   `display_name` and `preferred_language`; `unit_system` remains metric-only.
-- Nutrition target helpers support reading the current effective target and
-  upserting one manual target row per `(user_id, effective_from)`.
-- Target values use `null` for not set and `0` for an explicit zero. The
-  default effective date is UTC today unless future UI passes an explicit date.
+- Nutrition target helpers require an explicit calendar date, read the newest
+  current-user target whose `effective_from` is not later than that date, and
+  upsert one manual target row per `(user_id, effective_from)`.
+- Target values use `null` for not set and `0` for an explicit zero. Target
+  reads and writes have no implicit UTC or server-local date fallback.
 - Diary entry helpers support listing the current user's entries by date,
   creating manual entries, updating the current user's entries, and deleting
   the current user's entries. Optional blank fields normalize to `null`, and
@@ -297,9 +319,9 @@ Manual RTL QA checklist:
   `/today` forms. They parse untrusted `FormData`, call the server-only diary
   helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
   revalidate the localized `/today` route after successful writes.
-- The visible `/today` diary UI lists current-user entries for the selected
-  `?date=YYYY-MM-DD` value or today's date by default, and includes a manual
-  create form using the existing create Server Action.
+- The visible `/today` diary UI lists current-user entries for an explicit valid
+  `?date=YYYY-MM-DD` value. An undated visit first resolves the browser-local
+  calendar date and makes it explicit in the URL.
 - The manual diary form groups meal/date, food details, serving, nutrition,
   notes, and submit feedback. Required and optional fields are labeled clearly,
   localized validation feedback stays generic, and blank optional nutrition
@@ -308,9 +330,10 @@ Manual RTL QA checklist:
   from the loaded manual diary entries for the selected/current date. These
   consumed totals remain separate from the manual target summary.
 - `/today` now shows target progress cards for calories, protein,
-  carbohydrates, and fat. The cards compare consumed daily totals against the
-  current manual target, show consumed/target/remaining values, and include a
-  capped visual progress indicator.
+  carbohydrates, and fat. The cards compare selected-date consumed totals
+  against the target effective on that same date, show
+  consumed/target/remaining values, and include a capped visual progress
+  indicator.
 - Target progress preserves existing null/zero semantics: blank diary nutrition
   fields count as `0`, explicit `0` diary values remain `0`, target `null`
   displays as not set, target `0` displays as `0` without division by zero, and
@@ -330,8 +353,8 @@ Manual RTL QA checklist:
   entries intentionally support delete so users can remove logged foods.
 - Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
   settings pages, charts/analytics, and real dashboard behavior remain
-  deferred. Phase 6 Food Search Foundation is the next phase and has not
-  started.
+  deferred. Phase 6 Food Search Foundation has not started and remains blocked
+  by incomplete Phase 5 corrective work.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -387,6 +410,10 @@ Manual RTL QA checklist:
 - Supabase Auth is wired for the current foundation. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
+- User-facing calendar dates follow the current browser/device timezone and
+  remain explicit `YYYY-MM-DD` date-only values through routes, forms, server
+  operations, Supabase queries, and PostgreSQL `date` columns. No profile
+  timezone is stored in Corrective Task A.
 - The app is expected to support Hebrew and English UI/search with proper
   Hebrew RTL behavior in later implementation.
 

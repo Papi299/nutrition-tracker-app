@@ -8,8 +8,8 @@ import { validateTargetDate } from "./validation";
 
 export type NutritionTarget = Tables<"nutrition_targets">;
 
-export async function getCurrentEffectiveTarget(
-  date?: string,
+export async function getEffectiveTargetForDate(
+  date: string,
 ): Promise<DataResult<NutritionTarget | null>> {
   const userIdResult = await getAuthenticatedUserId();
 
