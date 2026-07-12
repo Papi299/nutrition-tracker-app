@@ -8,6 +8,15 @@ import { validateTargetDate } from "./validation";
 
 export type NutritionTarget = Tables<"nutrition_targets">;
 
+export function hasConfiguredTargetValues(target: NutritionTarget) {
+  return (
+    target.calories !== null ||
+    target.protein_g !== null ||
+    target.carbohydrates_g !== null ||
+    target.fat_g !== null
+  );
+}
+
 export async function getEffectiveTargetForDate(
   date: string,
 ): Promise<DataResult<NutritionTarget | null>> {
@@ -37,5 +46,8 @@ export async function getEffectiveTargetForDate(
     return { code: "database_error", ok: false };
   }
 
-  return { data, ok: true };
+  return {
+    data: data && hasConfiguredTargetValues(data) ? data : null,
+    ok: true,
+  };
 }

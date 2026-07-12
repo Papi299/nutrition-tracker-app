@@ -103,8 +103,6 @@
     "errors": {
       "generic": "We could not save setup right now. Try again in a moment.",
       "unauthenticated": "Sign in again before saving setup.",
-      "profile": "We could not save the profile details.",
-      "target": "The profile was saved, but we could not save the target details.",
       "validation": "Check the highlighted fields and try again.",
       "displayNameTooLong": "Display name must be 80 characters or fewer.",
       "invalidLanguage": "Choose English or Hebrew.",

@@ -29,9 +29,10 @@ The engineering phase roadmap lives in
 [`docs/engineering-phase-plan.md`](docs/engineering-phase-plan.md). Future PRs
 should keep this README and `docs/decision-log.md` updated with the current
 phase or slice status. The earlier Phase 5C completion claim was withdrawn after
-calendar-date and effective-target defects were identified. Corrective Task A is
-under review, Corrective Tasks B and C remain required, and Phase 6 work is
-blocked until Phase 5 corrections are accepted.
+calendar-date, effective-target, setup-persistence, and retrieval-state defects
+were identified. Corrective Task A is complete, Corrective Task B implements
+atomic setup persistence, Corrective Task C remains required, and Phase 6 work
+is blocked until Phase 5 corrections are accepted.
 
 ## Current MVP Status
 
@@ -39,8 +40,11 @@ blocked until Phase 5 corrections are accepted.
   progress.
 - Corrective Task A implements browser-local calendar dates, explicit date-only
   route and form values, and selected-date effective-target behavior.
-- Corrective Tasks B and C remain required. Phase 6 Food Search Foundation is
-  blocked and has not started.
+- Corrective Task B adds one authenticated, transaction-scoped PostgreSQL RPC
+  for profile and effective-dated target persistence. All-null target rows are
+  intentional reset markers; individual nulls and explicit zeros are preserved.
+- Corrective Task C remains required. Phase 6 Food Search Foundation is blocked
+  and has not started.
 
 ## Install Dependencies
 
@@ -87,8 +91,11 @@ npm run supabase:version
 - Focused authenticated browser coverage for calendar-date behavior runs only
   against the local Supabase stack with `npm run test:e2e:date`. The runner
   refuses non-local Supabase URLs.
-- Broader authenticated regression coverage, CI workflow wiring, cross-browser
-  coverage, and visual testing remain future work.
+- The local-only full suite also covers atomic setup persistence, all-null reset
+  markers, rollback, idempotency, ownership, and English/Hebrew setup flows.
+- GitHub Actions runs the same full suite once after lint, type checking, build,
+  migration/seed replay, and Chromium installation. Cross-browser and visual
+  testing remain future work.
 
 ## Internationalization and RTL
 

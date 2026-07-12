@@ -6,6 +6,7 @@ const baseURL =
 
 export default defineConfig({
   testDir: "./e2e",
+  workers: 1,
   use: {
     baseURL,
     trace: "on-first-retry",

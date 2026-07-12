@@ -210,9 +210,7 @@ function LocalizedSetupPage({
           statusMessages={{
             database_error: t("errors.generic"),
             idle: t("status.idle"),
-            profile_error: t("errors.profile"),
             success: t("status.success"),
-            target_error: t("errors.target"),
             unauthenticated: t("errors.unauthenticated"),
             validation_error: t("errors.validation"),
           }}

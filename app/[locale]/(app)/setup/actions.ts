@@ -1,16 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import {
-  createProfileForCurrentUser,
-  getCurrentProfile,
-  updateCurrentProfile,
-  validateProfileInput,
-} from "@/lib/profile";
-import {
-  upsertTargetForDate,
-  validateNutritionTargetInput,
-} from "@/lib/nutrition-targets";
+import { persistSetupForCurrentUser } from "@/lib/setup";
 import {
   defaultLocale,
   locales,
@@ -71,15 +62,6 @@ function parseOptionalNumber(
   }
 
   return parsed;
-}
-
-function hasAnyTargetValue(values: SetupFieldValues) {
-  return (
-    values.calories !== "" ||
-    values.carbohydrates_g !== "" ||
-    values.fat_g !== "" ||
-    values.protein_g !== ""
-  );
 }
 
 function validationFailure(
@@ -157,16 +139,6 @@ export async function saveSetupAction(
     display_name: values.display_name,
     preferred_language: values.preferred_language,
   };
-  const profileValidation = validateProfileInput(profileInput);
-
-  if (!profileValidation.ok) {
-    return validationFailure(
-      values,
-      mapProfileFieldErrors(profileValidation.fieldErrors),
-    );
-  }
-
-  const shouldSaveTarget = hasAnyTargetValue(values);
   const targetInput = {
     calories,
     carbohydrates_g: carbohydrates,
@@ -174,70 +146,32 @@ export async function saveSetupAction(
     fat_g: fat,
     protein_g: protein,
   };
-  const targetValidation = validateNutritionTargetInput(targetInput);
+  const setupResult = await persistSetupForCurrentUser(
+    profileInput,
+    targetInput,
+  );
 
-  if (!targetValidation.ok) {
-    return validationFailure(
-      values,
-      mapTargetFieldErrors(targetValidation.fieldErrors),
-    );
-  }
+  if (!setupResult.ok) {
+    if (setupResult.code === "validation_error") {
+      return validationFailure(
+        values,
+        {
+          ...mapProfileFieldErrors(setupResult.fieldErrors),
+          ...mapTargetFieldErrors(setupResult.fieldErrors),
+        },
+      );
+    }
 
-  const currentProfile = await getCurrentProfile();
-
-  if (!currentProfile.ok) {
     return {
       status:
-        currentProfile.code === "unauthenticated"
+        setupResult.code === "unauthenticated"
           ? "unauthenticated"
           : "database_error",
       values,
     };
   }
 
-  const profileResult = currentProfile.data
-    ? await updateCurrentProfile(profileInput)
-    : await createProfileForCurrentUser(profileInput);
-
-  if (!profileResult.ok) {
-    if (profileResult.code === "validation_error") {
-      return validationFailure(
-        values,
-        mapProfileFieldErrors(profileResult.fieldErrors),
-      );
-    }
-
-    return {
-      status:
-        profileResult.code === "unauthenticated"
-          ? "unauthenticated"
-          : "profile_error",
-      values,
-    };
-  }
-
-  if (shouldSaveTarget) {
-    const targetResult = await upsertTargetForDate(targetInput);
-
-    if (!targetResult.ok) {
-      if (targetResult.code === "validation_error") {
-        return validationFailure(
-          values,
-          mapTargetFieldErrors(targetResult.fieldErrors),
-        );
-      }
-
-      return {
-        status:
-          targetResult.code === "unauthenticated"
-            ? "unauthenticated"
-            : "target_error",
-        values,
-      };
-    }
-  }
-
   redirect(
-    `/${profileResult.data.preferred_language || locale}/today?date=${values.effectiveDate}`,
+    `/${setupResult.data.preferred_language || locale}/today?date=${values.effectiveDate}`,
   );
 }

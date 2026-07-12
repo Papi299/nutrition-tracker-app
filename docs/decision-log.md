@@ -296,3 +296,26 @@
   cross-user RLS coverage.
 - Corrective Tasks B and C remain required, Phase 5 remains incomplete, and
   Phase 6 implementation remains blocked.
+
+## 2026-07-11: Persist setup atomically and preserve target resets
+
+- Added one Git-versioned `SECURITY INVOKER` PostgreSQL RPC that derives the
+  owner only from `auth.uid()` and upserts the profile plus the submitted
+  effective-dated target row in one transaction.
+- Always persists all four submitted target values. An all-null row is an
+  intentional reset marker that blocks earlier targets from leaking forward;
+  presentation treats that marker as no configured target without deleting
+  target history. Individual nulls and explicit zeros remain distinct.
+- Replaced the setup action's separate profile and target writes with one
+  server-only RPC helper and one generic localized database failure state.
+- Kept the function on an empty search path, revoked execution from `PUBLIC`
+  and `anon`, granted it only to `authenticated`, preserved table RLS/grants,
+  and accepted no user identifier or service-role credential.
+- Added local-only durable coverage for first-time blank setup, full and partial
+  clearing, historical reset behavior, explicit zeros, atomic updates,
+  idempotency, rollback after a real target failure, unauthenticated rejection,
+  cross-user isolation, and English/Hebrew setup flows.
+- Added no target deletion, retrieval-error redesign, public-page work,
+  timezone storage, Phase 6 work, dependency upgrade, or remote database
+  operation. Phase 5 remains incomplete pending Corrective Task C, and Phase 6
+  remains blocked.
