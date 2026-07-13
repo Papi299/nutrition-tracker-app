@@ -7,13 +7,12 @@ import "../globals.css";
 
 const metadataByLocale: Record<Locale, Metadata> = {
   en: {
-    title: "Nutrition Tracker Foundation",
-    description:
-      "Initial foundation for a bilingual Hebrew/English nutrition tracker.",
+    title: "Nutrition Tracker MVP",
+    description: "Bilingual Hebrew/English manual nutrition tracking MVP.",
   },
   he: {
-    title: "יסודות למעקב תזונה",
-    description: "תשתית ראשונית לאפליקציית מעקב תזונה בעברית ובאנגלית.",
+    title: "MVP למעקב תזונה",
+    description: "MVP למעקב תזונה ידני בעברית ובאנגלית.",
   },
 };
 

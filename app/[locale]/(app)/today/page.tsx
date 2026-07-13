@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import {
   createDiaryEntryAction,
@@ -9,11 +10,12 @@ import {
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
 import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
+import { RetrievalError } from "@/components/data/retrieval-error";
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
 import { DiaryTargetProgress } from "@/components/diary/diary-target-progress";
-import { resolveAuthLocale } from "@/lib/auth/require-user";
+import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   parseCalendarDateQueryValue,
   type CalendarDateQueryResult,
@@ -22,45 +24,26 @@ import {
   listCurrentDiaryEntriesForDate,
   type DiaryEntry,
 } from "@/lib/diary-entries";
+import {
+  isRetrievalFailure,
+  resolveNullableRetrieval,
+  resolveRetrieval,
+  type RetrievalState,
+} from "@/lib/data/retrieval-state";
 import { routing } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
   type NutritionTarget,
 } from "@/lib/nutrition-targets";
-import { getCurrentProfile } from "@/lib/profile";
+import { getCurrentProfile, type Profile } from "@/lib/profile";
 
 type TodayPageProps = Readonly<{
   params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }>;
 
-type DiaryEntriesState = {
-  entries: DiaryEntry[];
-  error: null | "database_error" | "unauthenticated" | "validation_error";
-};
-
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
-}
-
-async function getDiaryEntriesState(
-  selectedDate: string,
-): Promise<DiaryEntriesState> {
-  const result = await listCurrentDiaryEntriesForDate(selectedDate);
-
-  if (result.ok) {
-    return { entries: result.data, error: null };
-  }
-
-  if (
-    result.code === "database_error" ||
-    result.code === "unauthenticated" ||
-    result.code === "validation_error"
-  ) {
-    return { entries: [], error: result.code };
-  }
-
-  return { entries: [], error: "database_error" };
 }
 
 export default async function TodayPage({ params, searchParams }: TodayPageProps) {
@@ -80,21 +63,30 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   }
 
   const selectedDate = dateQuery.date;
-  const [profileResult, targetResult, diaryEntriesState] = await Promise.all([
+  const [profileResult, targetResult, diaryResult] = await Promise.all([
     getCurrentProfile(),
     getEffectiveTargetForDate(selectedDate),
-    getDiaryEntriesState(selectedDate),
+    listCurrentDiaryEntriesForDate(selectedDate),
   ]);
-  const hasProfile = profileResult.ok && profileResult.data !== null;
-  const target = targetResult.ok ? targetResult.data : null;
+  const profileState = resolveNullableRetrieval(profileResult);
+  const targetState = resolveNullableRetrieval(targetResult);
+  const diaryState = resolveRetrieval(diaryResult);
+
+  if (
+    profileState.status === "unauthenticated" ||
+    targetState.status === "unauthenticated" ||
+    diaryState.status === "unauthenticated"
+  ) {
+    redirect(signInPath(locale));
+  }
 
   return (
     <LocalizedTodayPage
-      hasProfile={hasProfile}
-      diaryEntriesState={diaryEntriesState}
+      diaryState={diaryState}
       locale={locale}
+      profileState={profileState}
       selectedDate={selectedDate}
-      target={target}
+      targetState={targetState}
     />
   );
 }
@@ -154,17 +146,17 @@ function LocalizedTodayDateError({
 }
 
 function LocalizedTodayPage({
-  diaryEntriesState,
-  hasProfile,
+  diaryState,
   locale,
+  profileState,
   selectedDate,
-  target,
+  targetState,
 }: {
-  diaryEntriesState: DiaryEntriesState;
-  hasProfile: boolean;
+  diaryState: RetrievalState<DiaryEntry[]>;
   locale: string;
+  profileState: RetrievalState<Profile>;
   selectedDate: string;
-  target: NutritionTarget | null;
+  targetState: RetrievalState<NutritionTarget>;
 }) {
   const t = useTranslations("AppShell.today");
   const diaryT = useTranslations("Diary");
@@ -178,6 +170,7 @@ function LocalizedTodayPage({
       meal_type: "breakfast",
     },
   };
+  const target = targetState.status === "ready" ? targetState.data : null;
   const targetItems = [
     {
       label: t("targetSummary.calories"),
@@ -223,7 +216,19 @@ function LocalizedTodayPage({
         </p>
       </div>
 
-      {!hasProfile && (
+      {isRetrievalFailure(profileState) && (
+        <div className="max-w-3xl">
+          <RetrievalError
+            body={t("profileRetrievalError.body")}
+            retryHref={`/${locale}/today?date=${selectedDate}`}
+            retryLabel={t("profileRetrievalError.retry")}
+            testId="profile-retrieval-error"
+            title={t("profileRetrievalError.title")}
+          />
+        </div>
+      )}
+
+      {profileState.status === "missing" && (
         <div className="max-w-2xl border border-teal-200 bg-teal-50 p-5 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-slate-950">
             {t("setupCalloutTitle")}
@@ -240,7 +245,19 @@ function LocalizedTodayPage({
         </div>
       )}
 
-      {hasProfile && target === null && (
+      {isRetrievalFailure(targetState) && (
+        <div className="max-w-3xl">
+          <RetrievalError
+            body={t("targetRetrievalError.body")}
+            retryHref={`/${locale}/today?date=${selectedDate}`}
+            retryLabel={t("targetRetrievalError.retry")}
+            testId="target-retrieval-error"
+            title={t("targetRetrievalError.title")}
+          />
+        </div>
+      )}
+
+      {profileState.status === "ready" && targetState.status === "missing" && (
         <div className="max-w-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-slate-950">
             {t("targetEmptyTitle")}
@@ -257,7 +274,7 @@ function LocalizedTodayPage({
         </div>
       )}
 
-      {hasProfile && target !== null && (
+      {targetState.status === "ready" && (
         <div
           className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
           data-testid="target-summary"
@@ -332,14 +349,14 @@ function LocalizedTodayPage({
           </div>
 
           <div className="mt-6">
-            {diaryEntriesState.error ? (
+            {diaryState.status !== "ready" ? (
               <div className="border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-800">
-                {diaryT(`errors.${diaryEntriesState.error}`)}
+                {diaryT(`errors.${retrievalErrorKey(diaryState)}`)}
               </div>
             ) : (
               <div className="grid gap-5">
                 <DiaryDailyTotals
-                  entries={diaryEntriesState.entries}
+                  entries={diaryState.data}
                   labels={{
                     calories: diaryT("totals.calories"),
                     carbohydrates: diaryT("totals.carbohydrates"),
@@ -350,39 +367,43 @@ function LocalizedTodayPage({
                     unitGrams: diaryT("totals.unitGrams"),
                   }}
                 />
-                <DiaryTargetProgress
-                  entries={diaryEntriesState.entries}
-                  labels={{
-                    body: diaryT("targetProgress.body", { date: selectedDate }),
-                    consumed: diaryT("targetProgress.consumed"),
-                    emptyBody: diaryT("targetProgress.emptyBody"),
-                    emptyLink: diaryT("targetProgress.emptyLink"),
-                    emptyTitle: diaryT("targetProgress.emptyTitle"),
-                    metrics: {
-                      calories: diaryT("targetProgress.metrics.calories"),
-                      carbohydrates_g: diaryT(
-                        "targetProgress.metrics.carbohydrates",
+                {!isRetrievalFailure(targetState) && (
+                  <DiaryTargetProgress
+                    entries={diaryState.data}
+                    labels={{
+                      body: diaryT("targetProgress.body", {
+                        date: selectedDate,
+                      }),
+                      consumed: diaryT("targetProgress.consumed"),
+                      emptyBody: diaryT("targetProgress.emptyBody"),
+                      emptyLink: diaryT("targetProgress.emptyLink"),
+                      emptyTitle: diaryT("targetProgress.emptyTitle"),
+                      metrics: {
+                        calories: diaryT("targetProgress.metrics.calories"),
+                        carbohydrates_g: diaryT(
+                          "targetProgress.metrics.carbohydrates",
+                        ),
+                        fat_g: diaryT("targetProgress.metrics.fat"),
+                        protein_g: diaryT("targetProgress.metrics.protein"),
+                      },
+                      notSet: diaryT("targetProgress.notSet"),
+                      overTarget: diaryT("targetProgress.overTarget"),
+                      percentComplete: diaryT(
+                        "targetProgress.percentComplete",
                       ),
-                      fat_g: diaryT("targetProgress.metrics.fat"),
-                      protein_g: diaryT("targetProgress.metrics.protein"),
-                    },
-                    notSet: diaryT("targetProgress.notSet"),
-                    overTarget: diaryT("targetProgress.overTarget"),
-                    percentComplete: diaryT(
-                      "targetProgress.percentComplete",
-                    ),
-                    remaining: diaryT("targetProgress.remaining"),
-                    target: diaryT("targetProgress.target"),
-                    title: diaryT("targetProgress.title"),
-                    unitGrams: diaryT("targetProgress.unitGrams"),
-                  }}
-                  setupHref={`/${locale}/setup`}
-                  target={target}
-                />
+                      remaining: diaryT("targetProgress.remaining"),
+                      target: diaryT("targetProgress.target"),
+                      title: diaryT("targetProgress.title"),
+                      unitGrams: diaryT("targetProgress.unitGrams"),
+                    }}
+                    setupHref={`/${locale}/setup`}
+                    target={target}
+                  />
+                )}
                 <DiaryEntryList
                   deleteAction={deleteAction}
                   emptyMessage={diaryT("list.empty")}
-                  entries={diaryEntriesState.entries}
+                  entries={diaryState.data}
                   fieldErrorMessages={{
                     empty_update: diaryT("errors.validation"),
                     invalid_date: diaryT("errors.invalidDate"),
@@ -541,4 +562,17 @@ function LocalizedTodayPage({
 
 function formatTargetValue(value: null | number | string, notSetLabel: string) {
   return value === null ? notSetLabel : String(value);
+}
+
+function retrievalErrorKey<T>(
+  state: RetrievalState<T>,
+): "database_error" | "unauthenticated" | "validation_error" {
+  if (
+    state.status === "unauthenticated" ||
+    state.status === "validation_error"
+  ) {
+    return state.status;
+  }
+
+  return "database_error";
 }

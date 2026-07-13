@@ -1,18 +1,18 @@
-# Nutrition Tracker Foundation
+# Nutrition Tracker MVP
 
-Initial repository foundation for a bilingual Hebrew/English consumer nutrition
-tracker. This is intentionally only a bootstrap: it proves the app runs and
-sets up a small, reviewable Next.js surface for later product work.
+Bilingual Hebrew/English manual nutrition tracker. The current MVP supports
+accounts, profile and effective-dated manual targets, selected-date diary
+entries, daily totals, and target progress while preserving LTR/RTL behavior.
 
-## What Was Created
+## Current Product Surface
 
 - Next.js App Router application.
-- React and TypeScript foundation.
-- Tailwind CSS styling.
-- ESLint configuration.
-- Minimal home page that communicates foundation status.
-- Placeholder `.env.example` with no secrets.
-- Concise decision log at `docs/decision-log.md`.
+- Supabase email/password accounts and protected localized routes.
+- Intentional profile setup and atomic effective-dated manual target updates.
+- Manual diary entry creation, editing, deletion, daily totals, and target
+  progress for an explicit browser-local calendar date.
+- English LTR and Hebrew RTL public, auth, setup, and diary experiences.
+- Local-only migration replay and authenticated Playwright regression coverage.
 
 ## Current Stack
 
@@ -30,21 +30,21 @@ The engineering phase roadmap lives in
 should keep this README and `docs/decision-log.md` updated with the current
 phase or slice status. The earlier Phase 5C completion claim was withdrawn after
 calendar-date, effective-target, setup-persistence, and retrieval-state defects
-were identified. Corrective Task A is complete, Corrective Task B implements
-atomic setup persistence, Corrective Task C remains required, and Phase 6 work
-is blocked until Phase 5 corrections are accepted.
+were identified. Corrective Tasks A-C now cover those deficiencies, and Phase 5
+is complete for the current MVP scope.
 
 ## Current MVP Status
 
-- Phase 5 Diary + Dashboard MVP remains incomplete while corrective work is in
-  progress.
+- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
 - Corrective Task A implements browser-local calendar dates, explicit date-only
   route and form values, and selected-date effective-target behavior.
 - Corrective Task B adds one authenticated, transaction-scoped PostgreSQL RPC
   for profile and effective-dated target persistence. All-null target rows are
   intentional reset markers; individual nulls and explicit zeros are preserved.
-- Corrective Task C remains required. Phase 6 Food Search Foundation is blocked
-  and has not started.
+- Corrective Task C distinguishes missing data from retrieval failures, blocks
+  unsafe setup editing after failed reads, and adds durable failure-state and
+  authenticated core-loop coverage.
+- Phase 6 Food Search Foundation is next and has not started.
 
 ## Install Dependencies
 
@@ -92,7 +92,8 @@ npm run supabase:version
   against the local Supabase stack with `npm run test:e2e:date`. The runner
   refuses non-local Supabase URLs.
 - The local-only full suite also covers atomic setup persistence, all-null reset
-  markers, rollback, idempotency, ownership, and English/Hebrew setup flows.
+  markers, rollback, idempotency, retrieval failures, the authenticated core
+  loop, ownership, and English/Hebrew setup/diary flows.
 - GitHub Actions runs the same full suite once after lint, type checking, build,
   migration/seed replay, and Chromium installation. Cross-browser and visual
   testing remain future work.
@@ -110,8 +111,8 @@ npm run supabase:version
 - Hebrew pages render with `html lang="he"` and `html dir="rtl"`.
 - The language switcher links between `/en` and `/he`; it currently supports
   the localized public home shell.
-- Mixed Hebrew/English sample text is rendered with `dir="auto"` to keep future
-  food or product names readable across scripts.
+- Mixed Hebrew/English sample text is rendered with `dir="auto"` to keep food
+  or product names readable across scripts.
 - Food-search localization is intentionally not implemented yet and should stay
   separate from UI message translation.
 
@@ -122,8 +123,8 @@ Manual RTL QA checklist:
 - Visit `/he` and confirm Hebrew RTL layout and copy.
 - Use the language switcher in both directions on desktop and mobile widths.
 - Confirm mixed Hebrew/English sample text reads naturally.
-- Confirm no food search, diary, database, protected app, or product feature
-  routes were introduced.
+- Confirm public copy accurately separates implemented manual tracking from
+  unavailable food search and later product features.
 
 ## Auth and Session Foundation
 
@@ -154,8 +155,7 @@ Manual RTL QA checklist:
 - Email confirmation completion is deferred because no auth callback route is
   implemented yet. For local functional testing, email confirmation may be
   temporarily disabled in the Supabase project after human approval.
-- Password reset, OAuth/social auth, profile/targets UI, and profile/targets
-  Server Actions remain deferred.
+- Password reset and OAuth/social auth remain unavailable.
 - Manual QA should confirm each auth route renders in the correct locale,
   Hebrew pages inherit RTL direction, generic localized errors are shown, raw
   Supabase errors are not shown, and functional auth is tested only when local
@@ -216,18 +216,18 @@ Manual RTL QA checklist:
 
 ## Backend and Infrastructure Direction
 
-- Approved V1 backend direction is Supabase Auth, Supabase Postgres, Row Level
-  Security, and Git-versioned Supabase migrations later.
+- The V1 backend uses Supabase Auth, Supabase Postgres, Row Level Security, and
+  Git-versioned Supabase migrations.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
-- Current status: Supabase client scaffolding, email/password auth actions,
-  session refresh proxy composition, a protected app shell, profile/target
-  setup, and minimal manual diary entry listing/creation exist. Real dashboard
-  calculations and broader food product data are not implemented.
+- Current status: email/password auth, session refresh, protected routes,
+  profile/target setup, manual diary CRUD, daily totals, and target progress are
+  implemented. Food search, broader analytics, and production deployment are
+  unavailable.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
-- Supabase CLI is installed as a local dev dependency for migration workflow
-  scaffolding. It is not installed globally.
+- Supabase CLI is installed as a local dev dependency for migration workflow.
+  It is not installed globally.
 - Supabase local project configuration lives in `supabase/config.toml`.
 - Future migrations must live in `supabase/migrations/` and use
   `YYYYMMDDHHMMSS_descriptive_name.sql` names.
@@ -257,7 +257,7 @@ Manual RTL QA checklist:
   `nutrition_targets` to the `authenticated` role. RLS remains the row-level
   enforcement layer, and delete privileges remain intentionally omitted.
 - Migration `supabase/migrations/20260630193832_create_diary_entries.sql`
-  adds `public.diary_entries` for future manual diary logging. Diary rows are
+  adds `public.diary_entries` for manual diary logging. Diary rows are
   user-owned, protected by owner-only RLS, and grant authenticated users
   `select`, `insert`, `update`, and `delete` table privileges. Delete is
   intentionally allowed for diary entries so users can remove logged foods.
@@ -322,8 +322,8 @@ Manual RTL QA checklist:
   creating manual entries, updating the current user's entries, and deleting
   the current user's entries. Optional blank fields normalize to `null`, and
   explicit `0` values are preserved.
-- Diary entry Server Actions live under `app/[locale]/(app)/today/` for future
-  `/today` forms. They parse untrusted `FormData`, call the server-only diary
+- Diary entry Server Actions live under `app/[locale]/(app)/today/`. They parse
+  untrusted `FormData`, call the server-only diary
   helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
   revalidate the localized `/today` route after successful writes.
 - The visible `/today` diary UI lists current-user entries for an explicit valid
@@ -359,26 +359,22 @@ Manual RTL QA checklist:
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
 - Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
-  settings pages, charts/analytics, and real dashboard behavior remain
-  deferred. Phase 6 Food Search Foundation has not started and remains blocked
-  by incomplete Phase 5 corrective work.
+  settings pages, charts, and broader analytics remain unavailable. Phase 6
+  Food Search Foundation is next and has not started.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
-  - `lib/supabase/env.ts` reads the future public Supabase environment
+  - `lib/supabase/env.ts` reads the required public Supabase environment
     variables when a helper is called.
   - `lib/supabase/client.ts` creates a browser/client-component Supabase client.
-  - `lib/supabase/server.ts` creates a server-side Supabase client for future
-    Server Components, Server Actions, or Route Handlers.
+  - `lib/supabase/server.ts` creates the server-side Supabase client used by
+    Server Components and Server Actions.
   - Existing Supabase client helpers are typed with the generated `Database`
     type.
   - `lib/supabase/index.ts` re-exports the helper factories.
-- Preferred future public environment variables:
+- Required public environment variables:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-- Future server-only variables, only if needed:
-  - `SUPABASE_SERVICE_ROLE_KEY`
-  - direct database URL variables such as `SUPABASE_DB_URL`
 - `.env.local` must stay untracked, and `.env.example` must contain
   placeholders only.
 - Service-role keys must never be exposed in browser/client code.
@@ -386,9 +382,8 @@ Manual RTL QA checklist:
 - RLS is required for every future user-owned table. User-owned rows must be
   isolated by authenticated user ownership, and server code must not trust a
   client-supplied `user_id`.
-- Vercel setup is deferred until the auth foundation is ready enough to test
-  Preview deployments. Production deployment and environment setup require
-  human approval.
+- Vercel and production environment setup remain deferred to deployment
+  readiness work and require human approval.
 
 ## Intentionally Not Implemented Yet
 
@@ -396,7 +391,6 @@ Manual RTL QA checklist:
 - Vercel deployment wiring.
 - Additional product schema beyond the current profile, target, diary, and
   nutrition-domain foundations.
-- Settings pages for editing profile and targets after setup.
 - Food search.
 - Food-search localization.
 - Barcode scanning.
@@ -405,7 +399,7 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Real app data routes for profiles, targets, diary, foods, or recipes.
+- Food selection or data routes for searching foods and recipes.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
@@ -414,15 +408,15 @@ Manual RTL QA checklist:
 - FoodsDictionary may be used later for branded and packaged foods only after
   an approved API/license agreement.
 - Detailed custom foods are a later V1/P0 product requirement.
-- Supabase Auth is wired for the current foundation. Vercel is still deferred.
+- Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
 - User-facing calendar dates follow the current browser/device timezone and
   remain explicit `YYYY-MM-DD` date-only values through routes, forms, server
   operations, Supabase queries, and PostgreSQL `date` columns. No profile
   timezone is stored in Corrective Task A.
-- The app is expected to support Hebrew and English UI/search with proper
-  Hebrew RTL behavior in later implementation.
+- The app supports Hebrew and English UI with proper RTL/LTR behavior. Search
+  localization remains part of later food-search work.
 
 ## Development Workflow
 
@@ -437,7 +431,7 @@ Manual RTL QA checklist:
 
 - This repository is Git-managed locally and backed by GitHub at
   `https://github.com/Papi299/nutrition-tracker-app`.
-- `main` contains the initial app foundation.
+- `main` contains the accepted Phase 5 manual-tracking MVP.
 - Future non-trivial work should use focused branches.
 - Codex should keep changes small, reviewable, and documented.
 - Codex should update `README.md` whenever setup, architecture, scripts,
@@ -447,5 +441,5 @@ Manual RTL QA checklist:
 
 ## Repository State
 
-The repository is initialized with Git on the `main` branch. The first commit is
-the bootstrap foundation commit.
+The repository is Git-managed on `main`, uses focused pull requests, and treats
+GitHub Actions as the authoritative full validation gate.

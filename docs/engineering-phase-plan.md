@@ -53,7 +53,10 @@ Known completed state from the repository and recent validated work:
   date-only boundaries, and selected-date effective-target correctness.
 - Phase 5 Corrective Task B implements atomic profile/target setup persistence
   and effective-dated all-null target reset markers.
-- Phase 5 remains incomplete. Corrective Task C is still required.
+- Phase 5 Corrective Task C implements explicit retrieval states, safe
+  retrieval-error UI, durable failure-state tests, and authenticated core-loop
+  coverage.
+- Phase 5 Diary + Dashboard MVP is complete for the current MVP scope.
 - Phase 4A nutrition domain schema foundation for food sources, nutrients,
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while
@@ -61,9 +64,8 @@ Known completed state from the repository and recent validated work:
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Phase 6 Food Search Foundation remains blocked until Phase 5 corrective work is
-accepted. It has not started. The following remains historical planning context,
-not authorized implementation work:
+Phase 6 Food Search Foundation is next and has not started. The following
+remains historical planning context, not authorized implementation work:
 
 - Phase 6A: food alias and search-readiness foundation, likely including a
   durable bilingual alias model and RLS, without search UI.
@@ -72,7 +74,7 @@ not authorized implementation work:
 - Phase 6C: select a food to prefill diary snapshot fields while preserving
   existing diary snapshot semantics.
 
-Do not begin Phase 6 implementation while Phase 5 remains incomplete.
+Phase 6 implementation requires a separate approved task.
 
 ## Future PR Documentation Rule
 

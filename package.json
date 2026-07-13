@@ -1,8 +1,8 @@
 {
-  "name": "nutrition-tracker-foundation",
+  "name": "nutrition-tracker-app",
   "version": "0.1.0",
   "private": true,
-  "description": "Initial foundation for a bilingual Hebrew/English nutrition tracker.",
+  "description": "Bilingual Hebrew/English manual nutrition tracking MVP.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

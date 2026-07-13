@@ -319,3 +319,32 @@
   timezone storage, Phase 6 work, dependency upgrade, or remote database
   operation. Phase 5 remains incomplete pending Corrective Task C, and Phase 6
   remains blocked.
+
+## 2026-07-12: Complete retrieval states and accept Phase 5 MVP
+
+- Added a small typed retrieval-state resolver that distinguishes ready,
+  missing, database-error, validation-error, and unauthenticated outcomes.
+- Setup renders its editable form only after successful profile and target
+  reads. A failed read now shows a localized accessible retry state without
+  fabricating blank values or exposing provider errors.
+- Today keeps profile, target, and diary reads independent: failed profile and
+  target reads have separate localized states, missing-data callouts remain
+  legitimate, diary CRUD remains usable when safe, and target progress is
+  hidden instead of calculating against a fabricated null target.
+- Added local-only deterministic failure coverage by temporarily changing
+  `SELECT` privileges on the disposable local database during a serial test and
+  restoring them in `finally`; no production failure flag or backdoor exists.
+- Added durable coverage for missing rows, profile/target failures, blocked
+  setup editing, English LTR and Hebrew RTL errors, invalidated sessions, the
+  complete authenticated setup/target/diary CRUD loop, reload persistence, and
+  profile/target/diary cross-user isolation.
+- Reconciled public, auth, app-shell, environment, README, roadmap, and decision
+  documentation with the implemented account/profile/manual-target/manual-diary
+  scope and the features that remain unavailable.
+- Reassessed Corrective Tasks A-C and accepted Phase 5 Diary + Dashboard MVP as
+  complete for the current MVP scope after focused validation, full CI, and a
+  clean security/data-integrity/localization review.
+- Phase 6 Food Search Foundation is next and not started. Food search, aliases,
+  custom-food UI, barcode, external ingestion, recipes, broader analytics,
+  stored timezone support, target-history UI, deployment work, dependency
+  upgrades, and remote Supabase operations remain out of scope.

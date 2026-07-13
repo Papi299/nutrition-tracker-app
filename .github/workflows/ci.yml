@@ -40,7 +40,7 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
-      - name: Run pure calendar-date tests
+      - name: Run pure unit tests
         run: npm run test:date
 
       - name: Build production application
