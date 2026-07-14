@@ -10,20 +10,20 @@
       "label": "Choose language",
       "current": "current language"
     },
-    "foundationLabel": "Foundation build",
-    "title": "A calm starting point for bilingual nutrition tracking.",
-    "description": "This foundation sets up English and Hebrew routes, direction-aware layout, and a small public shell for future reviewable feature work.",
-    "pillarsTitle": "Future product pillars",
+    "foundationLabel": "Current MVP",
+    "title": "Manual nutrition tracking in English and Hebrew.",
+    "description": "Create an account, manage a profile and manual targets, and add, edit, or delete daily diary entries in a direction-aware interface.",
+    "pillarsTitle": "Available now and still unavailable",
     "pillars": {
-      "foodLogging": "Food logging",
-      "manualTargets": "Manual targets",
+      "foodLogging": "Manual diary tracking",
+      "manualTargets": "Effective-dated manual targets",
       "bilingualSupport": "Hebrew/English support",
-      "customFoods": "Custom foods",
-      "dataTransparency": "Data transparency"
+      "customFoods": "Custom-food UI: unavailable",
+      "dataTransparency": "Source and snapshot transparency"
     },
     "status": {
-      "title": "Foundation only",
-      "body": "Search, diary, accounts, barcode scanning, recipes, targets, and food databases are intentionally not implemented yet."
+      "title": "Current scope",
+      "body": "Accounts, profile and manual targets, and manual diary tracking are implemented. Food search, custom-food UI, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
     },
     "mixedSample": {
       "label": "Mixed-script sample:",
@@ -38,7 +38,7 @@
     },
     "signIn": {
       "title": "Sign in",
-      "description": "Use email and password access for this foundation account flow.",
+      "description": "Sign in with email and password to manage your manual targets and diary entries.",
       "emailLabel": "Email",
       "passwordLabel": "Password",
       "submit": "Sign in",
@@ -48,7 +48,7 @@
     },
     "signUp": {
       "title": "Create account",
-      "description": "Create a foundation account with email and password.",
+      "description": "Create an account with email and password for manual target and diary tracking.",
       "emailLabel": "Email",
       "passwordLabel": "Password",
       "submit": "Create account",
@@ -60,8 +60,8 @@
       "submit": "Sign out"
     },
     "status": {
-      "ready": "This form uses Supabase auth when local environment values are configured. Profile and target setup is available after sign-in.",
-      "checkEmail": "Check your email to finish creating the account. The confirmation callback route is not implemented yet."
+      "ready": "This form uses Supabase Auth. Profile, manual targets, and diary tracking are available after sign-in.",
+      "checkEmail": "The account was created, but this app cannot complete email confirmation yet."
     },
     "errors": {
       "authFailed": "We could not complete that auth request. Check the details and try again.",
@@ -79,7 +79,7 @@
     "subtitleEdit": "Review your profile details and update any manual targets you want to manage yourself.",
     "profile": {
       "displayNameLabel": "Display name",
-      "displayNameHelp": "This name is only for the app interface. Unit system remains metric for this foundation.",
+      "displayNameHelp": "This name is only for the app interface. Unit system remains metric in the current MVP.",
       "preferredLanguageLabel": "Preferred language",
       "languageEnglish": "English",
       "languageHebrew": "Hebrew"
@@ -99,6 +99,11 @@
     "status": {
       "idle": "Save when the profile details are ready. Manual targets can be left blank.",
       "success": "Setup saved."
+    },
+    "retrievalError": {
+      "title": "Setup could not be loaded",
+      "body": "We could not load your profile and target data. Nothing can be edited until the current values load successfully.",
+      "retry": "Try loading setup again"
     },
     "errors": {
       "generic": "We could not save setup right now. Try again in a moment.",
@@ -255,7 +260,7 @@
   },
   "AppShell": {
     "appName": "Nutrition Tracker",
-    "protectedLabel": "Protected app foundation",
+    "protectedLabel": "Signed-in manual nutrition tracker",
     "signOut": "Sign out",
     "nav": {
       "today": "Today",
@@ -263,16 +268,26 @@
     },
     "today": {
       "label": "Today workspace",
-      "title": "Your protected nutrition space is ready for the next layer.",
-      "description": "This signed-in area now supports manual target setup, selected-date diary entries, and simple daily totals. Charts, search, and food databases are intentionally not implemented yet.",
-      "placeholderTitle": "Manual tracking foundation",
-      "placeholderBody": "This page keeps the first diary layer small: selected-date entries, consumed totals, manual entry creation, and the existing target summary.",
+      "title": "Track a selected day.",
+      "description": "Review the target effective for the selected date and add, edit, or delete manual diary entries with daily totals and target progress.",
+      "placeholderTitle": "Manual tracking",
+      "placeholderBody": "Profile settings, effective-dated targets, diary entries, totals, and progress are stored for the signed-in account.",
       "setupCalloutTitle": "Finish the basic setup",
-      "setupCalloutBody": "Create your profile row intentionally and optionally add manual targets before future diary work begins.",
+      "setupCalloutBody": "Add profile details and optional manual targets before using the complete tracking loop.",
       "setupCalloutLink": "Open setup",
       "targetEmptyTitle": "No manual target is effective for this date",
       "targetEmptyBody": "Your profile is ready, but no target is effective for the selected diary date. Current target management uses this device's current calendar date.",
       "targetEmptyLink": "Manage current targets",
+      "profileRetrievalError": {
+        "title": "Profile status could not be loaded",
+        "body": "We could not load your profile right now. Diary content remains available, but the setup prompt is hidden until this read succeeds.",
+        "retry": "Retry profile loading"
+      },
+      "targetRetrievalError": {
+        "title": "Targets could not be loaded",
+        "body": "We could not load the target for this date. Diary content remains available, but target summary and progress are hidden until this read succeeds.",
+        "retry": "Retry target loading"
+      },
       "targetSummary": {
         "title": "Manual daily targets",
         "body": "These values are effective on {date}. They are not calculated recommendations.",
