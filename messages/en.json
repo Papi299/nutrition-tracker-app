@@ -23,7 +23,7 @@
     },
     "status": {
       "title": "Current scope",
-      "body": "Accounts, profile and manual targets, and manual diary tracking are implemented. Food search, custom-food UI, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
+      "body": "Accounts, profile and manual targets, manual diary tracking, and read-only food search are implemented. Custom-food UI, diary food selection, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
     },
     "mixedSample": {
       "label": "Mixed-script sample:",
@@ -143,7 +143,7 @@
     },
     "list": {
       "title": "Diary entries",
-      "description": "Manual entries for the selected date. Search, saved foods, charts, and analytics are still deferred.",
+      "description": "Manual entries for the selected date. Read-only food search is available separately; diary food selection, saved foods, charts, and analytics are still deferred.",
       "empty": "No diary entries for this date yet.",
       "meal": "Meal",
       "brand": "Brand",
@@ -194,7 +194,7 @@
     },
     "form": {
       "title": "Add manual entry",
-      "description": "Add one food manually. Food search and barcode scanning are not connected yet.",
+      "description": "Add one food manually. Read-only search is available separately, but food selection and barcode scanning are not connected to the diary yet.",
       "required": "Required",
       "optional": "Optional",
       "sections": {
@@ -258,12 +258,103 @@
       "validation": "Check the highlighted fields and try again."
     }
   },
+  "FoodSearch": {
+    "label": "Food catalog",
+    "title": "Search readable foods.",
+    "description": "Find public foods and your own custom foods by name, alias, or brand. Search is read-only and is not connected to the diary yet.",
+    "form": {
+      "label": "Food name, alias, or brand",
+      "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
+      "submit": "Search foods"
+    },
+    "states": {
+      "initial": {
+        "title": "Start with a food search",
+        "body": "Enter a food name, known alias, or brand to view readable catalog entries."
+      },
+      "tooShort": {
+        "title": "Add another character",
+        "body": "Food search starts at 2 normalized characters. No database search was run."
+      },
+      "invalid": {
+        "title": "Check the search query",
+        "repeated": "Only one search query may be supplied. Remove repeated q parameters and try again.",
+        "tooLong": "Search queries must be 100 characters or fewer."
+      },
+      "empty": {
+        "title": "No readable foods found",
+        "body": "Try another food name, alias, or brand. Private foods owned by other users are never included."
+      },
+      "failure": {
+        "title": "Food search could not be loaded",
+        "body": "We could not search readable foods right now. No database details were exposed.",
+        "retry": "Try this search again"
+      }
+    },
+    "results": {
+      "title": "Search results ({count})",
+      "brand": "Brand: {brand}",
+      "matchedAlias": "Matched alias",
+      "foodType": "Food type",
+      "language": "Catalog language",
+      "serving": "Reference serving",
+      "quality": "Data quality",
+      "source": "Source",
+      "sourceType": "Source type",
+      "trust": "Source trust",
+      "readOnly": "Read-only result — diary selection and editing are not available in this phase.",
+      "limit": "Up to 20 results are shown for each search."
+    },
+    "visibility": {
+      "public": "Public food",
+      "own": "Your custom food"
+    },
+    "foodTypes": {
+      "generic": "Generic food",
+      "branded": "Branded food",
+      "userCustom": "Custom food"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "quality": {
+      "userProvided": "User provided",
+      "curated": "Curated",
+      "verified": "Verified",
+      "imported": "Imported",
+      "estimated": "Estimated",
+      "unknown": "Unknown"
+    },
+    "sourceTypes": {
+      "manual": "Manual",
+      "userCustom": "User custom",
+      "database": "Database",
+      "externalApi": "External API",
+      "imported": "Imported"
+    },
+    "trust": {
+      "userProvided": "User provided",
+      "curated": "Curated",
+      "verified": "Verified",
+      "estimated": "Estimated",
+      "unknown": "Unknown"
+    },
+    "sources": {
+      "manual": "Manual entry",
+      "userCustom": "User custom food",
+      "usda": "USDA FoodData Central",
+      "foodsDictionary": "FoodsDictionary"
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
     "signOut": "Sign out",
     "nav": {
       "today": "Today",
+      "foodSearch": "Food search",
       "profileTargets": "Profile & targets"
     },
     "today": {

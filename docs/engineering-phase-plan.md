@@ -64,17 +64,18 @@ Known completed state from the repository and recent validated work:
 - Phase 6A food alias and search-readiness foundation with conservative
   database normalization, `pg_trgm` indexes, parent-derived RLS, least-
   privilege grants, and generated types. No search API or UI is included.
+- Phase 6B authenticated read-only food search with one `SECURITY INVOKER` RPC,
+  deterministic canonical/alias/brand/trigram ranking, typed server-only query
+  states, and protected localized English/Hebrew GET-form UI.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Phase 6A is complete for its approved database-foundation scope. Overall Phase
-6 remains incomplete. The remaining slices are planning context and require
-separate approved tasks:
+Phases 6A and 6B are complete for their approved scopes. Overall Phase 6
+remains incomplete. The remaining slice is planning context and requires a
+separate approved task:
 
-- Phase 6B is next and not started: read-only search helpers and UI for readable
-  public foods and owned custom foods, including source/trust metadata.
-- Phase 6C: select a food to prefill diary snapshot fields while preserving
-  existing diary snapshot semantics.
+- Phase 6C is next and not started: select a food to prefill diary snapshot
+  fields while preserving existing diary snapshot semantics.
 
 Further Phase 6 implementation requires a separate approved task.
 

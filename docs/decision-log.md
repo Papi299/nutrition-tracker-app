@@ -378,3 +378,30 @@
   custom-food UI, diary prefill, barcode, external ingestion, recipes, saved
   meals, favorites, recents, dependency upgrades, and all remote Supabase
   operations.
+
+## 2026-07-14: Phase 6B read-only food search helpers and UI
+
+- Added one authenticated `SECURITY INVOKER` search RPC with an empty search
+  path, no owner input, existing food/alias RLS enforcement, a fixed 20-row
+  limit, one result per food, and no `PUBLIC` or `anon` execution privilege.
+- Reused conservative database normalization and ranked exact canonical, exact
+  alias, canonical prefix, alias prefix, brand exact/prefix, substring, and
+  trigram matches deterministically. Returned food, serving, source, trust,
+  quality, ownership classification, matched-alias, and match-category data.
+- Added a typed server-only helper with initial, short-query, validation,
+  unauthenticated, database-failure, and ready states without accepting an
+  owner id or exposing raw database errors.
+- Added protected localized `/en/foods` and `/he/foods` GET search pages,
+  app-shell navigation, accessible LTR/RTL states, mixed-script display, and
+  read-only metadata with no diary, add, edit, or custom-food controls.
+- Added deterministic local-only public fixtures and durable RPC/UI coverage
+  for ranking, aliases, normalization, brand/prefix/typo matching, deduplication,
+  result limits, archived and cross-user isolation, metadata, error handling,
+  session expiry, navigation, and localization. No remote Supabase operation or
+  production catalog seed was used.
+- Phase 6B is complete after green CI and final review. Phase 6C diary snapshot
+  prefill is next and not started; overall Phase 6 remains incomplete.
+- Deferred search pagination/analytics, ranking controls, production catalog or
+  alias ingestion, custom-food UI, diary prefill, barcode, external ingestion,
+  recipes, saved meals, favorites, recents, dependency upgrades, and remote
+  Supabase operations.
