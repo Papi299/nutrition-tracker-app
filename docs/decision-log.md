@@ -505,3 +505,29 @@
 - Phase 7A is complete only after this correction passes CI and final review.
   Phase 7B custom-food creation/editing UI remains next and unstarted; overall
   Phase 7 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-14: Phase 7B localized custom-food creation and editing UI
+
+- Added protected English/Hebrew create and owned-food edit routes and linked
+  them from Food Search. Owned results expose Edit; public results do not.
+- Added one authenticated `SECURITY INVOKER` editor RPC with an empty search
+  path and no caller owner id. It returns complete editable state only for the
+  caller's private custom food, including archived foods, and exposes no
+  mutation. `PUBLIC` and `anon` execution remain revoked.
+- Added one reusable accessible form organized into identity, durable nutrient
+  basis, four visible core nutrients, three progressive-disclosure nutrient
+  groups from the ordered 35-item database dictionary, and up to 20 repeatable
+  raw aliases. English LTR, Hebrew RTL, mixed-script `dir=auto`, mobile layout,
+  linked help/errors, pending prevention, and redirect success states are
+  covered.
+- Reused atomic Phase 7A persistence with route-bound edit ids, complete
+  nutrient/alias replacement, blank omission, explicit zero preservation, no
+  basis conversion, generic database errors, and field-value preservation.
+  Archived foods stay archived and have no archive control in this slice.
+- Added local-only durable coverage for retrieval security, locale defaults,
+  all bases/languages, nutrients/aliases, validation, redirects/reloads,
+  ownership failures, archived editing, search/prefill updates, and unchanged
+  diary snapshots. No remote Supabase operation or dependency upgrade occurred.
+- Phase 7B is complete after green CI and final review. Phase 7C custom-food
+  management, archive controls, and final Phase 7 acceptance are next and not
+  started; overall Phase 7 remains incomplete.

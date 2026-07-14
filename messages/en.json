@@ -18,12 +18,12 @@
       "foodLogging": "Manual diary tracking",
       "manualTargets": "Effective-dated manual targets",
       "bilingualSupport": "Hebrew/English support",
-      "customFoods": "Custom-food UI: unavailable",
+      "customFoods": "Custom-food creation and editing",
       "dataTransparency": "Source and snapshot transparency"
     },
     "status": {
       "title": "Current scope",
-      "body": "Accounts, profile and manual targets, manual diary tracking, and read-only food search are implemented. Custom-food UI, diary food selection, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
+      "body": "Accounts, profile and manual targets, manual diary tracking, food search and selection, and custom-food creation and editing are implemented. Custom-food management, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
     },
     "mixedSample": {
       "label": "Mixed-script sample:",
@@ -285,10 +285,104 @@
       "validation": "Check the highlighted fields and try again."
     }
   },
+  "CustomFoodEditor": {
+    "label": "Custom foods",
+    "titleCreate": "Create a custom food.",
+    "titleEdit": "Edit your custom food.",
+    "descriptionCreate": "Save a private food with its identity, nutrient basis, optional nutrient values, and aliases.",
+    "descriptionEdit": "Update the current private food values. Existing nutrients and aliases are replaced by the complete submitted form.",
+    "backToFoods": "Back to food search",
+    "archivedNotice": "This food is archived. You can edit it here, but it remains archived and unavailable in search and diary prefill.",
+    "identity": {
+      "title": "Identity",
+      "help": "Name is required. Brand is optional, and the food language describes this food rather than the interface.",
+      "name": "Name",
+      "brand": "Brand (optional)",
+      "language": "Food language"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "basis": {
+      "title": "Nutrient basis",
+      "help": "Choose the reference amount for every nutrient value below.",
+      "options": {
+        "per_serving": "Per serving",
+        "per_100g": "Per 100 g",
+        "per_100ml": "Per 100 ml"
+      },
+      "warning": "Changing the basis does not convert existing values. Submitted values are interpreted under the newly selected basis.",
+      "servingQuantity": "Serving quantity",
+      "servingUnit": "Serving unit",
+      "fixed100g": "Values apply to a fixed reference of 100 g. No additional serving metadata is needed.",
+      "fixed100ml": "Values apply to a fixed reference of 100 ml. No additional serving metadata is needed."
+    },
+    "nutrients": {
+      "title": "Nutrients",
+      "help": "Every value is optional and applies to the selected basis. Blank removes the nutrient; 0 stores an explicit zero.",
+      "groups": {
+        "additional": "Additional carbohydrates and fats",
+        "minerals": "Minerals",
+        "vitamins": "Vitamins and related nutrients"
+      }
+    },
+    "aliases": {
+      "title": "Aliases",
+      "help": "Add up to 20 raw search aliases. No translation or transliteration is generated.",
+      "row": "Alias {number}",
+      "textLabel": "Alias text",
+      "languageLabel": "Alias language",
+      "add": "Add alias",
+      "remove": "Remove alias",
+      "count": "{count, plural, one {# alias} other {# aliases}} added (maximum 20)."
+    },
+    "submit": {
+      "create": "Create custom food",
+      "createPending": "Creating custom food...",
+      "update": "Save custom food",
+      "updatePending": "Saving custom food..."
+    },
+    "status": {
+      "idle": "Review the complete form, then save when ready.",
+      "created": "Custom food created successfully.",
+      "updated": "Custom food updated successfully.",
+      "validationError": "Check the highlighted fields and try again.",
+      "databaseError": "We could not save this custom food right now. Try again in a moment.",
+      "unauthenticated": "Sign in again before saving this custom food.",
+      "notFound": "This custom food is unavailable or is not owned by this account."
+    },
+    "retrieval": {
+      "failureTitle": "Custom-food editor could not be loaded",
+      "failureBody": "We could not safely load the editor data. Nothing can be edited until the current values and nutrient dictionary load successfully.",
+      "retry": "Try loading the editor again",
+      "invalidTitle": "Invalid custom-food link",
+      "invalidBody": "This edit link does not contain a valid food identifier. No food lookup was run.",
+      "unavailableTitle": "Custom food unavailable",
+      "unavailableBody": "That food does not exist, is public, or is not a private custom food owned by this account.",
+      "back": "Back to food search"
+    },
+    "errors": {
+      "validation": "Check this field and try again.",
+      "required": "This field is required.",
+      "tooLong": "This value is too long.",
+      "invalidLanguage": "Choose English, Hebrew, or mixed/language-neutral.",
+      "invalidBasis": "Choose a supported nutrient basis.",
+      "servingQuantity": "Enter a positive finite serving quantity.",
+      "invalidNumber": "Enter a finite numeric value or leave this nutrient blank.",
+      "negativeNumber": "Nutrient values cannot be negative.",
+      "aliasBlank": "Enter alias text or remove this alias row.",
+      "aliasDuplicate": "This normalized alias is already used for the selected language.",
+      "aliasTooMany": "A custom food can have at most 20 aliases.",
+      "invalidLink": "The submitted food identifier does not match this editor."
+    }
+  },
   "FoodSearch": {
     "label": "Food catalog",
     "title": "Search readable foods.",
     "description": "Find public foods and your own custom foods by name, alias, or brand, then choose one to prefill a diary snapshot.",
+    "createCustom": "Create custom food",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -336,6 +430,7 @@
       "trust": "Source trust",
       "readOnly": "Selecting this result only prefills the diary form. It does not create an entry.",
       "useInDiary": "Use in diary",
+      "editCustom": "Edit",
       "limit": "Up to 20 results are shown for each search."
     },
     "visibility": {

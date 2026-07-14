@@ -74,6 +74,12 @@ function LocalizedFoodsPage({
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
           {t("description")}
         </p>
+        <Link
+          className="mt-5 inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+          href={`/${locale}/foods/custom/new`}
+        >
+          {t("createCustom")}
+        </Link>
       </header>
 
       {(dateQuery.status === "invalid" || dateQuery.status === "repeated") && (
@@ -329,12 +335,22 @@ function SearchResults({
               <p className="mt-4 text-xs leading-5 text-slate-500">
                 {t("results.readOnly")}
               </p>
-              <Link
-                className="mt-4 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
-                href={`/${locale}/today?${diaryParameters.toString()}`}
-              >
-                {t("results.useInDiary")}
-              </Link>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <Link
+                  className="inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+                  href={`/${locale}/today?${diaryParameters.toString()}`}
+                >
+                  {t("results.useInDiary")}
+                </Link>
+                {food.is_owned && (
+                  <Link
+                    className="inline-flex min-h-10 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+                    href={`/${locale}/foods/custom/${food.food_id}/edit`}
+                  >
+                    {t("results.editCustom")}
+                  </Link>
+                )}
+              </div>
             </li>
           );
         })}

@@ -374,6 +374,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_owned_custom_food_editor: {
+        Args: { p_food_id: string }
+        Returns: {
+          aliases: Json
+          brand_name: string
+          food_id: string
+          is_archived: boolean
+          locale: string
+          name: string
+          nutrient_basis: string
+          nutrients: Json
+          serving_quantity: number
+          serving_unit: string
+        }[]
+      }
       get_readable_food_diary_prefill: {
         Args: { p_food_id: string }
         Returns: {
