@@ -49,7 +49,11 @@ is complete for the current MVP scope.
   a typed server-only helper, and localized English/Hebrew UI.
 - Phase 6C adds date-preserving food selection, one RLS-backed prefill RPC, and
   editable linked diary snapshots. Phase 6 is complete for its approved Food
-  Search Foundation scope; Phase 7 Custom Foods is next and not started.
+  Search Foundation scope.
+- Phase 7A expands the bilingual nutrient dictionary and adds authenticated,
+  RLS-backed custom-food persistence and archive foundations. Phase 7 remains
+  incomplete; Phase 7B custom-food creation and editing UI is next and not
+  started.
 
 ## Install Dependencies
 
@@ -291,11 +295,12 @@ Manual RTL QA checklist:
 - Phase 4A nutrition-domain schema foundation adds:
   - `public.food_sources` for source metadata such as manual, user custom,
     USDA, and FoodsDictionary placeholders.
-  - `public.nutrients` as a minimal canonical nutrient dictionary.
+  - `public.nutrients` as the canonical nutrient dictionary.
   - `public.foods` for future generic, branded, and user custom foods.
   - `public.food_nutrients` for nutrient amounts per food.
-- The minimal seeded nutrient dictionary covers the current MVP nutrients:
-  calories, protein, carbohydrates, and fat.
+- Phase 7A expands the canonical dictionary from the four core nutrients to 35
+  bilingual V1 nutrients spanning energy, macros and related fats/sugars,
+  cholesterol, minerals, vitamins, and choline.
 - Phase 4B diary-food linking rules add nullable `diary_entries.food_id`
   references to `public.foods(id)` with `on delete set null`.
 - Phase 6A adds `public.food_aliases` with exact raw display text, database-
@@ -321,19 +326,30 @@ Manual RTL QA checklist:
   must explicitly submit. Manual entries keep `food_id = null`, updates cannot
   relink, and deleting a linked food clears only the link while preserving the
   historical snapshot.
+- Phase 7A adds one authenticated `SECURITY INVOKER` persistence RPC for
+  creating and updating owned private custom foods. The database derives
+  ownership and fixed source/type/quality/visibility fields, validates exactly
+  one serving or per-100 basis, and fully replaces validated nutrient and
+  optional alias collections atomically. A separate invoker RPC archives or
+  restores owned custom foods without deleting foods, nutrients, aliases, or
+  linked diary snapshots.
+- Server-side custom-food validation preserves explicit nutrient zeroes, omits
+  blank nutrient values, rejects unknown or repeated nutrient codes, and keeps
+  raw aliases while reusing conservative database normalization.
 - No production catalog, alias ingestion, custom-food UI, barcode behavior,
   USDA ingestion, or FoodsDictionary integration is implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
-- Server-only profile, nutrition-target, diary-entry, food-search, and food-
-  selection helpers live under:
+- Server-only profile, nutrition-target, diary-entry, food-search, food-
+  selection, and custom-food helpers live under:
   - `lib/profile/`
   - `lib/nutrition-targets/`
   - `lib/diary-entries/`
   - `lib/food-search/`
   - `lib/food-selection/`
+  - `lib/custom-foods/`
   - `lib/data/`
 - Data helpers derive the authenticated user id server-side and never accept a
   client-supplied `user_id`.
@@ -395,7 +411,8 @@ Manual RTL QA checklist:
 - Custom-food UI, recipes, barcode, USDA and FoodsDictionary ingestion,
   settings pages, charts, and broader analytics remain unavailable. Phases
   6A–6C and overall Phase 6 are complete for the approved Food Search
-  Foundation scope. Phase 7 Custom Foods is next and not started.
+  Foundation scope. Phase 7A persistence foundation is complete; overall Phase
+  7 remains incomplete and Phase 7B UI is next and not started.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -433,7 +450,6 @@ Manual RTL QA checklist:
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Diary food selection or snapshot prefill.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
@@ -441,7 +457,8 @@ Manual RTL QA checklist:
 - USDA may be used later for generic foods.
 - FoodsDictionary may be used later for branded and packaged foods only after
   an approved API/license agreement.
-- Detailed custom foods are a later V1/P0 product requirement.
+- Custom-food persistence is implemented as a Phase 7A foundation; creation
+  and editing UI remains a Phase 7B V1/P0 requirement.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

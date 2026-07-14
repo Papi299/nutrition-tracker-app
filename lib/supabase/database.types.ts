@@ -392,6 +392,24 @@ export type Database = {
         }[]
       }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
+      persist_custom_food: {
+        Args: {
+          p_aliases: Json
+          p_brand_name: string
+          p_food_id: string
+          p_locale: string
+          p_name: string
+          p_nutrient_basis: string
+          p_nutrients: Json
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          food_id: string
+          is_archived: boolean
+          nutrient_basis: string
+        }[]
+      }
       persist_setup: {
         Args: {
           p_calories: number
@@ -426,6 +444,13 @@ export type Database = {
           source_name: string
           source_trust_level: string
           source_type: string
+        }[]
+      }
+      set_custom_food_archived: {
+        Args: { p_food_id: string; p_is_archived: boolean }
+        Returns: {
+          food_id: string
+          is_archived: boolean
         }[]
       }
     }

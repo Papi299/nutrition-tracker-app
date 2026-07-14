@@ -70,16 +70,21 @@ Known completed state from the repository and recent validated work:
 - Phase 6C date-preserving food selection and one authenticated
   `SECURITY INVOKER` prefill RPC with single-basis nutrients, editable diary
   snapshots, optional RLS-checked food linkage, and no click-time mutation.
+- Phase 7A expands the bilingual nutrient dictionary to 35 V1 nutrients and
+  adds atomic authenticated custom-food create/update plus archive/unarchive
+  persistence, typed server-only validation helpers, and local-only ownership,
+  replacement, snapshot, search, and prefill coverage. No UI is included.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Phases 6A, 6B, and 6C are complete for their approved scopes. Overall Phase 6
-Food Search Foundation is complete. The next phase is planning context and
-requires a separate approved task:
+Food Search Foundation is complete. Phase 7A is complete for its approved
+persistence-foundation scope. Overall Phase 7 remains incomplete. The next
+slice requires a separate approved task:
 
-- Phase 7 Custom Foods is next and not started.
+- Phase 7B custom-food creation and editing UI is next and not started.
 
-Phase 7 implementation requires a separate approved task.
+Phase 7B implementation requires a separate approved task.
 
 ## Future PR Documentation Rule
 
