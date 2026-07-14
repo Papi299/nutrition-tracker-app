@@ -432,3 +432,35 @@
   recipe, favorite, recent, or saved-meal behavior was added.
 - Phase 6C and the approved Phase 6 Food Search Foundation scope are complete
   after green CI and final review. Phase 7 Custom Foods is next and not started.
+
+## 2026-07-14: Phase 7A custom food nutrient and persistence foundation
+
+- Expanded the canonical nutrient dictionary idempotently from four core rows
+  to 35 bilingual V1 nutrients with stable codes, English/Hebrew names, units,
+  groups, and display order. Nutrient amounts now explicitly reject non-finite
+  values as well as negative values.
+- Added one authenticated `SECURITY INVOKER` create/update RPC with an empty
+  search path and no caller owner id. It derives ownership from `auth.uid()`,
+  fixes custom-food source/type/quality/privacy fields, validates exactly one
+  nutrient basis, and atomically full-replaces supplied nutrients and optional
+  raw aliases while preserving zero and omitting absent values.
+- Repeated identical updates preserve food timestamps and child identities.
+  Invalid payloads leave no partial rows, and inaccessible food ids return a
+  non-disclosing null result that the typed server helper maps to `not_found`.
+- Added a separate authenticated invoker RPC for archive/unarchive. It applies
+  only to the caller's private custom foods, preserves nutrient, alias, and
+  diary snapshot rows, and lets existing search and prefill behavior exclude
+  archived foods until restored.
+- Preserved existing food, nutrient, alias, and diary RLS. Both RPCs revoke
+  `PUBLIC` and `anon` execution and grant only `authenticated`; no service role,
+  caller owner id, or remote Supabase operation is used.
+- Added pure validation plus local-only durable coverage for the 35-code
+  dictionary, English/Hebrew/`und` identity and aliases, serving bases,
+  missing/zero/invalid nutrients, replacement and clearing, idempotency,
+  atomic rejection, cross-user/public write rejection, archive behavior,
+  search/prefill visibility, grants, generated types, and diary snapshots.
+- Deferred custom-food forms, Server Actions, routes, images, barcode,
+  ingestion, automatic calculations/scaling, recipes, dependency upgrades,
+  and remote database operations. Phase 7A is complete after green CI and final
+  review; overall Phase 7 remains incomplete, and Phase 7B custom-food creation
+  and editing UI is next and not started.
