@@ -51,9 +51,11 @@ is complete for the current MVP scope.
   editable linked diary snapshots. Phase 6 is complete for its approved Food
   Search Foundation scope.
 - Phase 7A expands the bilingual nutrient dictionary and adds authenticated,
-  RLS-backed custom-food persistence and archive foundations. Phase 7 remains
-  incomplete; Phase 7B custom-food creation and editing UI is next and not
-  started.
+  RLS-backed custom-food persistence and archive foundations. A post-merge
+  review found that empty custom foods did not retain their selected nutrient
+  basis; Phase 7A.1 stores that basis explicitly on every custom food. Phase 7
+  remains incomplete; Phase 7B custom-food creation and editing UI is next and
+  not started.
 
 ## Install Dependencies
 
@@ -336,6 +338,11 @@ Manual RTL QA checklist:
 - Server-side custom-food validation preserves explicit nutrient zeroes, omits
   blank nutrient values, rejects unknown or repeated nutrient codes, and keeps
   raw aliases while reusing conservative database normalization.
+- Phase 7A.1 adds `foods.custom_nutrient_basis` as durable custom-food state, so
+  empty nutrient collections and exact `100 g` or `100 ml` servings never
+  require basis inference. The migration uses nutrient rows first and a narrow
+  serving fallback only to backfill legacy custom foods, and rejects legacy
+  custom foods that contain multiple nutrient bases.
 - No production catalog, alias ingestion, custom-food UI, barcode behavior,
   USDA ingestion, or FoodsDictionary integration is implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only

@@ -244,6 +244,7 @@ test.describe("custom-food payload validation", () => {
       "data_quality",
       "is_public",
       "is_archived",
+      "custom_nutrient_basis",
     ]) {
       expect(
         validateCustomFoodInput(validInput({ [field]: "tampered" })),

@@ -94,6 +94,7 @@ test.describe.serial("food alias and search-readiness foundation", () => {
     name: string,
   ) {
     const insert: Database["public"]["Tables"]["foods"]["Insert"] = {
+      custom_nutrient_basis: "per_serving",
       food_type: "user_custom",
       is_public: false,
       name,
