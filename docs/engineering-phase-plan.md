@@ -61,20 +61,22 @@ Known completed state from the repository and recent validated work:
   foods, and food nutrient amounts.
 - Phase 4B diary-food linking rules so diary entries may reference foods while
   preserving snapshot values.
+- Phase 6A food alias and search-readiness foundation with conservative
+  database normalization, `pg_trgm` indexes, parent-derived RLS, least-
+  privilege grants, and generated types. No search API or UI is included.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Phase 6 Food Search Foundation is next and has not started. The following
-remains historical planning context, not authorized implementation work:
+Phase 6A is complete for its approved database-foundation scope. Overall Phase
+6 remains incomplete. The remaining slices are planning context and require
+separate approved tasks:
 
-- Phase 6A: food alias and search-readiness foundation, likely including a
-  durable bilingual alias model and RLS, without search UI.
-- Phase 6B: read-only search helpers and UI for readable public foods and owned
-  custom foods, including source/trust metadata.
+- Phase 6B is next and not started: read-only search helpers and UI for readable
+  public foods and owned custom foods, including source/trust metadata.
 - Phase 6C: select a food to prefill diary snapshot fields while preserving
   existing diary snapshot semantics.
 
-Phase 6 implementation requires a separate approved task.
+Further Phase 6 implementation requires a separate approved task.
 
 ## Future PR Documentation Rule
 

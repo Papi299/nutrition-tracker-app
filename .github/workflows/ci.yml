@@ -55,7 +55,7 @@ jobs:
       - name: Replay migrations and seed locally
         run: npx supabase db reset --local
 
-      - name: Run smoke and authenticated date Playwright tests
+      - name: Run local-only Playwright suite
         run: npm run test:e2e -- --reporter=line,html
 
       - name: Upload Playwright failure artifacts

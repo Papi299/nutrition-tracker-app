@@ -77,6 +77,44 @@ export type Database = {
           },
         ]
       }
+      food_aliases: {
+        Row: {
+          alias_text: string
+          created_at: string
+          food_id: string
+          id: string
+          language_code: string
+          normalized_alias: string
+          updated_at: string
+        }
+        Insert: {
+          alias_text: string
+          created_at?: string
+          food_id: string
+          id?: string
+          language_code: string
+          normalized_alias?: string
+          updated_at?: string
+        }
+        Update: {
+          alias_text?: string
+          created_at?: string
+          food_id?: string
+          id?: string
+          language_code?: string
+          normalized_alias?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_aliases_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       food_nutrients: {
         Row: {
           amount: number
@@ -333,6 +371,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      normalize_food_search_text: { Args: { value: string }; Returns: string }
       persist_setup: {
         Args: {
           p_calories: number
