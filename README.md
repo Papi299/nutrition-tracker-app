@@ -44,7 +44,9 @@ is complete for the current MVP scope.
 - Corrective Task C distinguishes missing data from retrieval failures, blocks
   unsafe setup editing after failed reads, and adds durable failure-state and
   authenticated core-loop coverage.
-- Phase 6 Food Search Foundation is next and has not started.
+- Phase 6A adds the bilingual food-alias and trigram-index database foundation.
+  Overall Phase 6 remains incomplete; Phase 6B read-only food search helpers
+  and UI are next and have not started.
 
 ## Install Dependencies
 
@@ -276,8 +278,8 @@ Manual RTL QA checklist:
 - Generated Supabase database types live at
   `lib/supabase/database.types.ts`.
 - Current generated database types include `profiles`, `nutrition_targets`,
-  `diary_entries`, `food_sources`, `nutrients`, `foods`, and
-  `food_nutrients`.
+  `diary_entries`, `food_sources`, `nutrients`, `foods`, `food_nutrients`, and
+  `food_aliases`.
 - Generate types from the validated local database after migrations are reset:
   `npx supabase gen types --lang=typescript --local --schema public > lib/supabase/database.types.ts`.
 - Regenerate database types after every future schema migration before wiring
@@ -292,6 +294,17 @@ Manual RTL QA checklist:
   calories, protein, carbohydrates, and fat.
 - Phase 4B diary-food linking rules add nullable `diary_entries.food_id`
   references to `public.foods(id)` with `on delete set null`.
+- Phase 6A adds `public.food_aliases` with exact raw display text, database-
+  generated conservative normalization, `en`/`he`/`und` language codes,
+  normalized uniqueness per food and language, parent-food cascade deletion,
+  and the existing `set_updated_at()` trigger pattern.
+- `pg_trgm` and GIN trigram indexes prepare normalized food names, brand names,
+  and aliases for a later read-only search slice. Phase 6A adds no search query,
+  food-search RPC, ranking behavior, seed foods, aliases, API helper, or UI.
+- Alias RLS derives visibility and write ownership only through the parent food:
+  authenticated users can read public-food and owned-custom-food aliases, but
+  can manage aliases only for their own private `user_custom` foods. `anon` and
+  `PUBLIC` receive no alias-table privileges.
 - Diary entries still preserve snapshot fields such as food name, serving,
   calories, protein, carbohydrates, fat, and notes for historical accuracy.
 - The manual diary UI remains unchanged and continues creating entries without
@@ -359,8 +372,9 @@ Manual RTL QA checklist:
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
 - Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
-  settings pages, charts, and broader analytics remain unavailable. Phase 6
-  Food Search Foundation is next and has not started.
+  settings pages, charts, and broader analytics remain unavailable. Phase 6A
+  is complete, Phase 6B read-only food search helpers and UI are next and have
+  not started, and overall Phase 6 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:

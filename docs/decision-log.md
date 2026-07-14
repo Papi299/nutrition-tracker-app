@@ -348,3 +348,33 @@
   custom-food UI, barcode, external ingestion, recipes, broader analytics,
   stored timezone support, target-history UI, deployment work, dependency
   upgrades, and remote Supabase operations remain out of scope.
+
+## 2026-07-14: Phase 6A food alias and search-readiness foundation
+
+- Added Git-versioned `public.food_aliases` rows linked to `public.foods` with
+  exact raw display text, a required stored generated normalized value,
+  `en`/`he`/`und` language codes, timestamps, parent-food cascade deletion, and
+  the existing `set_updated_at()` trigger pattern.
+- Added one immutable strict normalization function that collapses whitespace,
+  trims the result, and lowercases where applicable. It intentionally performs
+  no transliteration, stemming, typo generation, final-letter conversion,
+  accent removal, or translation.
+- Rejected blank and over-200-character aliases and normalized duplicates for
+  the same food and language while allowing the same alias for different foods.
+- Enabled `pg_trgm` and added GIN trigram indexes for normalized food names,
+  brand names, and alias text without defining search queries, ranking, or UI.
+- Enabled alias RLS and derived all visibility and write ownership through the
+  parent food. Authenticated users can read aliases for public or owned foods
+  and manage aliases only for their own private `user_custom` foods; `anon` and
+  `PUBLIC` have no table privileges.
+- Regenerated local Supabase TypeScript types and added local-only durable
+  coverage for language/normalization rules, duplicate handling, grants,
+  generated schema state, public/own/cross-user RLS, forbidden writes, cascade
+  deletion, and preservation of existing diary food-link snapshot behavior.
+- Phase 6A is complete after green CI and final review. Phase 6B read-only food
+  search helpers and UI are next and not started; overall Phase 6 remains
+  incomplete.
+- Deferred search helpers, search RPCs, ranking, UI, production seed data,
+  custom-food UI, diary prefill, barcode, external ingestion, recipes, saved
+  meals, favorites, recents, dependency upgrades, and all remote Supabase
+  operations.

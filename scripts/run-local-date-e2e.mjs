@@ -46,7 +46,7 @@ const parsedUrl = new URL(apiUrl);
 
 if (parsedUrl.hostname !== "127.0.0.1" && parsedUrl.hostname !== "localhost") {
   process.stderr.write(
-    "Refusing to run authenticated date tests against a remote API.\n",
+    "Refusing to run authenticated Playwright tests against a remote API.\n",
   );
   process.exit(1);
 }
