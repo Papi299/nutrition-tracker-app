@@ -45,8 +45,9 @@ is complete for the current MVP scope.
   unsafe setup editing after failed reads, and adds durable failure-state and
   authenticated core-loop coverage.
 - Phase 6A adds the bilingual food-alias and trigram-index database foundation.
-  Overall Phase 6 remains incomplete; Phase 6B read-only food search helpers
-  and UI are next and have not started.
+- Phase 6B adds authenticated read-only food search through one RLS-backed RPC,
+  a typed server-only helper, and localized English/Hebrew UI. Overall Phase 6
+  remains incomplete; Phase 6C diary snapshot prefill is next and not started.
 
 ## Install Dependencies
 
@@ -115,8 +116,9 @@ npm run supabase:version
   the localized public home shell.
 - Mixed Hebrew/English sample text is rendered with `dir="auto"` to keep food
   or product names readable across scripts.
-- Food-search localization is intentionally not implemented yet and should stay
-  separate from UI message translation.
+- Food-search interface states and known metadata codes are localized in
+  English and Hebrew; stored catalog names, brands, aliases, and source names
+  retain their original text and use direction-aware display.
 
 Manual RTL QA checklist:
 
@@ -125,8 +127,8 @@ Manual RTL QA checklist:
 - Visit `/he` and confirm Hebrew RTL layout and copy.
 - Use the language switcher in both directions on desktop and mobile widths.
 - Confirm mixed Hebrew/English sample text reads naturally.
-- Confirm public copy accurately separates implemented manual tracking from
-  unavailable food search and later product features.
+- Confirm public copy accurately separates implemented read-only food search
+  from unavailable diary selection and later product features.
 
 ## Auth and Session Foundation
 
@@ -298,9 +300,10 @@ Manual RTL QA checklist:
   generated conservative normalization, `en`/`he`/`und` language codes,
   normalized uniqueness per food and language, parent-food cascade deletion,
   and the existing `set_updated_at()` trigger pattern.
-- `pg_trgm` and GIN trigram indexes prepare normalized food names, brand names,
-  and aliases for a later read-only search slice. Phase 6A adds no search query,
-  food-search RPC, ranking behavior, seed foods, aliases, API helper, or UI.
+- `pg_trgm` and GIN trigram indexes support normalized food-name, brand-name,
+  and alias matching. Phase 6B adds one authenticated `SECURITY INVOKER` RPC
+  with exact, prefix, substring, and conservative trigram ranking, one result
+  per food, deterministic ties, and a fixed 20-result limit.
 - Alias RLS derives visibility and write ownership only through the parent food:
   authenticated users can read public-food and owned-custom-food aliases, but
   can manage aliases only for their own private `user_custom` foods. `anon` and
@@ -309,18 +312,19 @@ Manual RTL QA checklist:
   calories, protein, carbohydrates, fat, and notes for historical accuracy.
 - The manual diary UI remains unchanged and continues creating entries without
   food links.
-- No food search, custom-food UI, import pipeline, barcode behavior, USDA
-  ingestion, or FoodsDictionary integration is implemented by this schema
-  slice.
+- No production catalog, alias ingestion, custom-food UI, diary prefill,
+  barcode behavior, USDA ingestion, or FoodsDictionary integration is
+  implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
-- Server-only profile, nutrition-target, and diary-entry data helpers live
+- Server-only profile, nutrition-target, diary-entry, and food-search helpers live
   under:
   - `lib/profile/`
   - `lib/nutrition-targets/`
   - `lib/diary-entries/`
+  - `lib/food-search/`
   - `lib/data/`
 - Data helpers derive the authenticated user id server-side and never accept a
   client-supplied `user_id`.
@@ -339,6 +343,11 @@ Manual RTL QA checklist:
   untrusted `FormData`, call the server-only diary
   helpers, keep `user_id` server-derived, keep `source` fixed to `manual`, and
   revalidate the localized `/today` route after successful writes.
+- The protected localized `/foods?q=` page uses a server-rendered GET form and
+  works without client JavaScript. It distinguishes initial, too-short,
+  invalid, no-result, result, retrieval-failure, and expired-session states;
+  displays source, trust, data-quality, serving, language, visibility, brand,
+  and matched-alias metadata; and exposes no add, edit, or diary controls.
 - The visible `/today` diary UI lists current-user entries for an explicit valid
   `?date=YYYY-MM-DD` value. An undated visit first resolves the browser-local
   calendar date and makes it explicit in the URL.
@@ -371,10 +380,10 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Food search, custom-food UI, recipes, barcode, USDA, FoodsDictionary,
-  settings pages, charts, and broader analytics remain unavailable. Phase 6A
-  is complete, Phase 6B read-only food search helpers and UI are next and have
-  not started, and overall Phase 6 remains incomplete.
+- Custom-food UI, diary food selection/prefill, recipes, barcode, USDA and
+  FoodsDictionary ingestion, settings pages, charts, and broader analytics
+  remain unavailable. Phases 6A and 6B are complete, Phase 6C diary snapshot
+  prefill is next and not started, and overall Phase 6 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -405,15 +414,14 @@ Manual RTL QA checklist:
 - Vercel deployment wiring.
 - Additional product schema beyond the current profile, target, diary, and
   nutrition-domain foundations.
-- Food search.
-- Food-search localization.
+- Food-search pagination, analytics, or ranking controls.
 - Barcode scanning.
 - Custom food forms.
 - Saved meals or recipes.
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Food selection or data routes for searching foods and recipes.
+- Diary food selection or snapshot prefill.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
@@ -429,8 +437,8 @@ Manual RTL QA checklist:
   remain explicit `YYYY-MM-DD` date-only values through routes, forms, server
   operations, Supabase queries, and PostgreSQL `date` columns. No profile
   timezone is stored in Corrective Task A.
-- The app supports Hebrew and English UI with proper RTL/LTR behavior. Search
-  localization remains part of later food-search work.
+- The app supports Hebrew and English UI with proper RTL/LTR behavior,
+  including localized read-only food-search states and metadata labels.
 
 ## Development Workflow
 

@@ -388,6 +388,26 @@ export type Database = {
           target_id: string
         }[]
       }
+      search_readable_foods: {
+        Args: { p_query: string }
+        Returns: {
+          brand_name: string
+          data_quality: string
+          food_id: string
+          food_type: string
+          is_owned: boolean
+          locale: string
+          match_category: string
+          matched_alias: string
+          name: string
+          serving_size: number
+          serving_unit: string
+          source_code: string
+          source_name: string
+          source_trust_level: string
+          source_type: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
