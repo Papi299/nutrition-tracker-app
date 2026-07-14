@@ -371,6 +371,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_readable_food_diary_prefill: {
+        Args: { p_food_id: string }
+        Returns: {
+          brand_name: string
+          calories: number
+          carbohydrates_g: number
+          data_quality: string
+          fat_g: number
+          food_id: string
+          food_type: string
+          is_owned: boolean
+          name: string
+          nutrient_basis: string
+          protein_g: number
+          serving_quantity: number
+          serving_unit: string
+          source_code: string
+          source_name: string
+        }[]
+      }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
       persist_setup: {
         Args: {

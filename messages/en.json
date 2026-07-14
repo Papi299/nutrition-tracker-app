@@ -143,7 +143,7 @@
     },
     "list": {
       "title": "Diary entries",
-      "description": "Manual entries for the selected date. Read-only food search is available separately; diary food selection, saved foods, charts, and analytics are still deferred.",
+      "description": "Diary snapshots for the selected date. Entries may be typed manually or linked to a readable selected food.",
       "empty": "No diary entries for this date yet.",
       "meal": "Meal",
       "brand": "Brand",
@@ -194,7 +194,7 @@
     },
     "form": {
       "title": "Add manual entry",
-      "description": "Add one food manually. Read-only search is available separately, but food selection and barcode scanning are not connected to the diary yet.",
+      "description": "Type a food manually or select a readable food to prefill an editable diary snapshot.",
       "required": "Required",
       "optional": "Optional",
       "sections": {
@@ -220,6 +220,32 @@
       },
       "submit": "Add entry",
       "pending": "Adding entry..."
+    },
+    "selection": {
+      "findFood": "Find a food",
+      "invalidTitle": "Choose a valid food selection",
+      "invalid": "The food selection id is invalid. No food lookup was run; you may continue with a manual entry.",
+      "invalidRepeated": "Only one food selection may be supplied. No food lookup was run; remove repeated foodId parameters or continue manually.",
+      "unavailableTitle": "Selected food is unavailable",
+      "unavailableBody": "That food is missing, archived, or not readable by this account. No food data was used; you may continue manually.",
+      "failureTitle": "Selected food could not be loaded",
+      "failureBody": "We could not retrieve that food right now. No food data was fabricated; you may continue manually.",
+      "selectedTitle": "Selected food: {name}",
+      "brand": "Brand: {brand}",
+      "remove": "Remove selected food",
+      "visibilityLabel": "Visibility",
+      "visibilityOwn": "Your custom food",
+      "visibilityPublic": "Public food",
+      "basisLabel": "Nutrient basis",
+      "sourceLabel": "Source",
+      "sourceUnknown": "Not specified",
+      "editableSnapshot": "Review every prefilled value before submitting. These are editable snapshot values and do not scale automatically when serving quantity changes.",
+      "bases": {
+        "per_serving": "Per serving",
+        "per_100g": "Per 100 g",
+        "per_100ml": "Per 100 ml",
+        "none": "No nutrient basis available"
+      }
     },
     "fields": {
       "entryDate": "Date",
@@ -250,6 +276,7 @@
       "invalidDate": "Choose a valid date.",
       "invalidInteger": "Calories must be a whole number.",
       "invalidNumber": "Enter a valid number or leave the field blank.",
+      "invalidFoodSelection": "Choose a valid food selection or remove it.",
       "negativeValue": "Values cannot be negative.",
       "required": "This field is required.",
       "tooLong": "This field is too long.",
@@ -261,7 +288,7 @@
   "FoodSearch": {
     "label": "Food catalog",
     "title": "Search readable foods.",
-    "description": "Find public foods and your own custom foods by name, alias, or brand. Search is read-only and is not connected to the diary yet.",
+    "description": "Find public foods and your own custom foods by name, alias, or brand, then choose one to prefill a diary snapshot.",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -291,6 +318,11 @@
         "retry": "Try this search again"
       }
     },
+    "selection": {
+      "invalidDateTitle": "Diary date context was removed",
+      "invalidDate": "The supplied diary date is invalid. Search remains available, but selection will return to browser-local Today.",
+      "invalidDateRepeated": "Only one diary date may be supplied. Search remains available, but repeated date context is not carried into selection."
+    },
     "results": {
       "title": "Search results ({count})",
       "brand": "Brand: {brand}",
@@ -302,7 +334,8 @@
       "source": "Source",
       "sourceType": "Source type",
       "trust": "Source trust",
-      "readOnly": "Read-only result — diary selection and editing are not available in this phase.",
+      "readOnly": "Selecting this result only prefills the diary form. It does not create an entry.",
+      "useInDiary": "Use in diary",
       "limit": "Up to 20 results are shown for each search."
     },
     "visibility": {

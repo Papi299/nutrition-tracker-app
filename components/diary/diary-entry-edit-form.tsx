@@ -20,7 +20,7 @@ type MealTypeOption = {
   value: DiaryEntry["meal_type"];
 };
 
-type EditableFieldName = Exclude<DiaryEntryFieldName, "id">;
+type EditableFieldName = Exclude<DiaryEntryFieldName, "food_id" | "id">;
 type FieldLabels = Record<EditableFieldName, string>;
 
 function stringifyValue(value: null | number | string) {

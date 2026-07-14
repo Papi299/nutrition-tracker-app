@@ -9,8 +9,8 @@ entries, daily totals, and target progress while preserving LTR/RTL behavior.
 - Next.js App Router application.
 - Supabase email/password accounts and protected localized routes.
 - Intentional profile setup and atomic effective-dated manual target updates.
-- Manual diary entry creation, editing, deletion, daily totals, and target
-  progress for an explicit browser-local calendar date.
+- Manual and selected-food diary snapshot creation, editing, deletion, daily
+  totals, and target progress for an explicit browser-local calendar date.
 - English LTR and Hebrew RTL public, auth, setup, and diary experiences.
 - Local-only migration replay and authenticated Playwright regression coverage.
 
@@ -46,8 +46,10 @@ is complete for the current MVP scope.
   authenticated core-loop coverage.
 - Phase 6A adds the bilingual food-alias and trigram-index database foundation.
 - Phase 6B adds authenticated read-only food search through one RLS-backed RPC,
-  a typed server-only helper, and localized English/Hebrew UI. Overall Phase 6
-  remains incomplete; Phase 6C diary snapshot prefill is next and not started.
+  a typed server-only helper, and localized English/Hebrew UI.
+- Phase 6C adds date-preserving food selection, one RLS-backed prefill RPC, and
+  editable linked diary snapshots. Phase 6 is complete for its approved Food
+  Search Foundation scope; Phase 7 Custom Foods is next and not started.
 
 ## Install Dependencies
 
@@ -95,8 +97,8 @@ npm run supabase:version
   against the local Supabase stack with `npm run test:e2e:date`. The runner
   refuses non-local Supabase URLs.
 - The local-only full suite also covers atomic setup persistence, all-null reset
-  markers, rollback, idempotency, retrieval failures, the authenticated core
-  loop, ownership, and English/Hebrew setup/diary flows.
+  markers, rollback, idempotency, retrieval failures, food search and diary
+  prefill, the authenticated core loop, ownership, and English/Hebrew flows.
 - GitHub Actions runs the same full suite once after lint, type checking, build,
   migration/seed replay, and Chromium installation. Cross-browser and visual
   testing remain future work.
@@ -224,9 +226,9 @@ Manual RTL QA checklist:
   Git-versioned Supabase migrations.
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
 - Current status: email/password auth, session refresh, protected routes,
-  profile/target setup, manual diary CRUD, daily totals, and target progress are
-  implemented. Food search, broader analytics, and production deployment are
-  unavailable.
+  profile/target setup, diary snapshot CRUD, daily totals, target progress,
+  read-only food search, and selected-food prefill are implemented. Custom-food
+  UI, broader analytics, and production deployment are unavailable.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -310,21 +312,28 @@ Manual RTL QA checklist:
   `PUBLIC` receive no alias-table privileges.
 - Diary entries still preserve snapshot fields such as food name, serving,
   calories, protein, carbohydrates, fat, and notes for historical accuracy.
-- The manual diary UI remains unchanged and continues creating entries without
-  food links.
-- No production catalog, alias ingestion, custom-food UI, diary prefill,
-  barcode behavior, USDA ingestion, or FoodsDictionary integration is
-  implemented by this slice.
+- Phase 6C adds one authenticated `SECURITY INVOKER` prefill RPC. It returns
+  only a readable, non-archived food, selects one nutrient basis in
+  `per_serving`, `per_100g`, `per_100ml` order, rounds nonnegative calories to
+  the nearest integer (half values round upward), and never mutates catalog or
+  diary data.
+- Selected foods prefill editable snapshot fields and a hidden `food_id`; users
+  must explicitly submit. Manual entries keep `food_id = null`, updates cannot
+  relink, and deleting a linked food clears only the link while preserving the
+  historical snapshot.
+- No production catalog, alias ingestion, custom-food UI, barcode behavior,
+  USDA ingestion, or FoodsDictionary integration is implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
-- Server-only profile, nutrition-target, diary-entry, and food-search helpers live
-  under:
+- Server-only profile, nutrition-target, diary-entry, food-search, and food-
+  selection helpers live under:
   - `lib/profile/`
   - `lib/nutrition-targets/`
   - `lib/diary-entries/`
   - `lib/food-search/`
+  - `lib/food-selection/`
   - `lib/data/`
 - Data helpers derive the authenticated user id server-side and never accept a
   client-supplied `user_id`.
@@ -347,14 +356,17 @@ Manual RTL QA checklist:
   works without client JavaScript. It distinguishes initial, too-short,
   invalid, no-result, result, retrieval-failure, and expired-session states;
   displays source, trust, data-quality, serving, language, visibility, brand,
-  and matched-alias metadata; and exposes no add, edit, or diary controls.
+  and matched-alias metadata; and exposes only a read-only “Use in diary” link
+  that prefills rather than creates an entry. A valid optional diary date is
+  preserved through searches and selection; invalid or repeated dates are
+  explicitly discarded.
 - The visible `/today` diary UI lists current-user entries for an explicit valid
   `?date=YYYY-MM-DD` value. An undated visit first resolves the browser-local
   calendar date and makes it explicit in the URL.
-- The manual diary form groups meal/date, food details, serving, nutrition,
-  notes, and submit feedback. Required and optional fields are labeled clearly,
-  localized validation feedback stays generic, and blank optional nutrition
-  values remain distinct from an explicit `0`.
+- The diary form groups meal/date, food details, serving, nutrition, notes, and
+  submit feedback. It supports manual input or an editable selected-food
+  snapshot, clearly states that serving changes do not auto-scale nutrients,
+  keeps localized validation generic, and preserves blank versus explicit `0`.
 - `/today` now shows simple daily calorie, protein, carbohydrate, and fat totals
   from the loaded manual diary entries for the selected/current date. These
   consumed totals remain separate from the manual target summary.
@@ -380,10 +392,10 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Custom-food UI, diary food selection/prefill, recipes, barcode, USDA and
-  FoodsDictionary ingestion, settings pages, charts, and broader analytics
-  remain unavailable. Phases 6A and 6B are complete, Phase 6C diary snapshot
-  prefill is next and not started, and overall Phase 6 remains incomplete.
+- Custom-food UI, recipes, barcode, USDA and FoodsDictionary ingestion,
+  settings pages, charts, and broader analytics remain unavailable. Phases
+  6A–6C and overall Phase 6 are complete for the approved Food Search
+  Foundation scope. Phase 7 Custom Foods is next and not started.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:

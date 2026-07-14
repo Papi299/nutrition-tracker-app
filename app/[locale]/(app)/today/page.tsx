@@ -30,6 +30,10 @@ import {
   resolveRetrieval,
   type RetrievalState,
 } from "@/lib/data/retrieval-state";
+import {
+  getReadableFoodDiaryPrefill,
+  type FoodDiaryPrefillState,
+} from "@/lib/food-selection";
 import { routing } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
@@ -63,11 +67,13 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   }
 
   const selectedDate = dateQuery.date;
-  const [profileResult, targetResult, diaryResult] = await Promise.all([
-    getCurrentProfile(),
-    getEffectiveTargetForDate(selectedDate),
-    listCurrentDiaryEntriesForDate(selectedDate),
-  ]);
+  const [profileResult, targetResult, diaryResult, foodSelectionState] =
+    await Promise.all([
+      getCurrentProfile(),
+      getEffectiveTargetForDate(selectedDate),
+      listCurrentDiaryEntriesForDate(selectedDate),
+      getReadableFoodDiaryPrefill(resolvedSearchParams.foodId),
+    ]);
   const profileState = resolveNullableRetrieval(profileResult);
   const targetState = resolveNullableRetrieval(targetResult);
   const diaryState = resolveRetrieval(diaryResult);
@@ -75,7 +81,8 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   if (
     profileState.status === "unauthenticated" ||
     targetState.status === "unauthenticated" ||
-    diaryState.status === "unauthenticated"
+    diaryState.status === "unauthenticated" ||
+    foodSelectionState.status === "unauthenticated"
   ) {
     redirect(signInPath(locale));
   }
@@ -83,6 +90,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   return (
     <LocalizedTodayPage
       diaryState={diaryState}
+      foodSelectionState={foodSelectionState}
       locale={locale}
       profileState={profileState}
       selectedDate={selectedDate}
@@ -147,12 +155,17 @@ function LocalizedTodayDateError({
 
 function LocalizedTodayPage({
   diaryState,
+  foodSelectionState,
   locale,
   profileState,
   selectedDate,
   targetState,
 }: {
   diaryState: RetrievalState<DiaryEntry[]>;
+  foodSelectionState: Exclude<
+    FoodDiaryPrefillState,
+    { status: "unauthenticated" }
+  >;
   locale: string;
   profileState: RetrievalState<Profile>;
   selectedDate: string;
@@ -168,6 +181,9 @@ function LocalizedTodayPage({
     values: {
       entry_date: selectedDate,
       meal_type: "breakfast",
+      ...(foodSelectionState.status === "ready"
+        ? diaryValuesFromPrefill(foodSelectionState.data)
+        : {}),
     },
   };
   const target = targetState.status === "ready" ? targetState.data : null;
@@ -474,12 +490,113 @@ function LocalizedTodayPage({
         </div>
 
         <div className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <h2 className="text-lg font-semibold text-slate-950">
-            {diaryT("form.title")}
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-slate-700">
-            {diaryT("form.description")}
-          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-950">
+                {diaryT("form.title")}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-700">
+                {diaryT("form.description")}
+              </p>
+            </div>
+            <Link
+              className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+              href={`/${locale}/foods?date=${selectedDate}`}
+            >
+              {diaryT("selection.findFood")}
+            </Link>
+          </div>
+
+          {(foodSelectionState.status === "invalid" ||
+            foodSelectionState.status === "repeated") && (
+            <FoodSelectionMessage
+              body={
+                foodSelectionState.status === "repeated"
+                  ? diaryT("selection.invalidRepeated")
+                  : diaryT("selection.invalid")
+              }
+              testId="food-selection-invalid"
+              title={diaryT("selection.invalidTitle")}
+            />
+          )}
+
+          {foodSelectionState.status === "unavailable" && (
+            <FoodSelectionMessage
+              body={diaryT("selection.unavailableBody")}
+              testId="food-selection-unavailable"
+              title={diaryT("selection.unavailableTitle")}
+            />
+          )}
+
+          {foodSelectionState.status === "database_error" && (
+            <FoodSelectionMessage
+              alert
+              body={diaryT("selection.failureBody")}
+              testId="food-selection-error"
+              title={diaryT("selection.failureTitle")}
+            />
+          )}
+
+          {foodSelectionState.status === "ready" && (
+            <section
+              aria-labelledby="selected-food-title"
+              className="mt-6 border border-teal-200 bg-teal-50 p-4"
+              data-testid="selected-food-summary"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3
+                    className="text-base font-semibold text-slate-950"
+                    dir="auto"
+                    id="selected-food-title"
+                  >
+                    {diaryT("selection.selectedTitle", {
+                      name: foodSelectionState.data.name,
+                    })}
+                  </h3>
+                  {foodSelectionState.data.brand_name && (
+                    <p className="mt-1 text-sm text-slate-700" dir="auto">
+                      {diaryT("selection.brand", {
+                        brand: foodSelectionState.data.brand_name,
+                      })}
+                    </p>
+                  )}
+                </div>
+                <Link
+                  className="text-sm font-semibold text-teal-800 underline underline-offset-4"
+                  href={`/${locale}/today?date=${selectedDate}`}
+                >
+                  {diaryT("selection.remove")}
+                </Link>
+              </div>
+              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+                <Metadata
+                  label={diaryT("selection.visibilityLabel")}
+                  value={
+                    foodSelectionState.data.is_owned
+                      ? diaryT("selection.visibilityOwn")
+                      : diaryT("selection.visibilityPublic")
+                  }
+                />
+                <Metadata
+                  label={diaryT("selection.basisLabel")}
+                  value={diaryT(
+                    `selection.bases.${foodSelectionState.data.nutrient_basis ?? "none"}`,
+                  )}
+                />
+                <Metadata
+                  label={diaryT("selection.sourceLabel")}
+                  value={
+                    foodSelectionState.data.source_name ??
+                    diaryT("selection.sourceUnknown")
+                  }
+                />
+              </dl>
+              <p className="mt-4 text-sm leading-6 text-slate-700">
+                {diaryT("selection.editableSnapshot")}
+              </p>
+            </section>
+          )}
           <div className="mt-6">
             <DiaryEntryForm
               action={createAction}
@@ -502,6 +619,7 @@ function LocalizedTodayPage({
                 invalid_integer: diaryT("errors.invalidInteger"),
                 invalid_number: diaryT("errors.invalidNumber"),
                 invalid_type: diaryT("errors.validation"),
+                invalid_uuid: diaryT("errors.invalidFoodSelection"),
                 negative_value: diaryT("errors.negativeValue"),
                 required: diaryT("errors.required"),
                 too_long: diaryT("errors.tooLong"),
@@ -509,6 +627,11 @@ function LocalizedTodayPage({
                 unsupported_meal_type: diaryT("errors.unsupportedMealType"),
               }}
               initialState={initialDiaryEntryState}
+              key={
+                foodSelectionState.status === "ready"
+                  ? foodSelectionState.data.food_id
+                  : "manual"
+              }
               labels={{
                 brand_name: diaryT("fields.brandName"),
                 calories: diaryT("fields.calories"),
@@ -558,6 +681,67 @@ function LocalizedTodayPage({
       </div>
     </section>
   );
+}
+
+function FoodSelectionMessage({
+  alert = false,
+  body,
+  testId,
+  title,
+}: {
+  alert?: boolean;
+  body: string;
+  testId: string;
+  title: string;
+}) {
+  return (
+    <section
+      aria-labelledby={`${testId}-title`}
+      className="mt-6 border border-amber-200 bg-amber-50 p-4"
+      data-testid={testId}
+    >
+      <h3 className="font-semibold text-slate-950" id={`${testId}-title`}>
+        {title}
+      </h3>
+      <p
+        className="mt-2 text-sm leading-6 text-slate-700"
+        role={alert ? "alert" : undefined}
+      >
+        {body}
+      </p>
+    </section>
+  );
+}
+
+function Metadata({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-semibold text-slate-700">{label}</dt>
+      <dd className="mt-1 text-slate-950" dir="auto">
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function diaryValuesFromPrefill(
+  prefill: Extract<FoodDiaryPrefillState, { status: "ready" }>["data"],
+): NonNullable<DiaryEntryActionState["values"]> {
+  return {
+    brand_name: inputValue(prefill.brand_name),
+    calories: inputValue(prefill.calories),
+    carbohydrates_g: inputValue(prefill.carbohydrates_g),
+    fat_g: inputValue(prefill.fat_g),
+    food_id: prefill.food_id,
+    food_name: prefill.name,
+    protein_g: inputValue(prefill.protein_g),
+    serving_quantity: inputValue(prefill.serving_quantity),
+    serving_unit: inputValue(prefill.serving_unit),
+  };
+}
+
+function inputValue(value: null | number | string) {
+  return value === null ? "" : String(value);
 }
 
 function formatTargetValue(value: null | number | string, notSetLabel: string) {

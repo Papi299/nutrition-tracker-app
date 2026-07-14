@@ -67,17 +67,19 @@ Known completed state from the repository and recent validated work:
 - Phase 6B authenticated read-only food search with one `SECURITY INVOKER` RPC,
   deterministic canonical/alias/brand/trigram ranking, typed server-only query
   states, and protected localized English/Hebrew GET-form UI.
+- Phase 6C date-preserving food selection and one authenticated
+  `SECURITY INVOKER` prefill RPC with single-basis nutrients, editable diary
+  snapshots, optional RLS-checked food linkage, and no click-time mutation.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
-Phases 6A and 6B are complete for their approved scopes. Overall Phase 6
-remains incomplete. The remaining slice is planning context and requires a
-separate approved task:
+Phases 6A, 6B, and 6C are complete for their approved scopes. Overall Phase 6
+Food Search Foundation is complete. The next phase is planning context and
+requires a separate approved task:
 
-- Phase 6C is next and not started: select a food to prefill diary snapshot
-  fields while preserving existing diary snapshot semantics.
+- Phase 7 Custom Foods is next and not started.
 
-Further Phase 6 implementation requires a separate approved task.
+Phase 7 implementation requires a separate approved task.
 
 ## Future PR Documentation Rule
 
