@@ -306,17 +306,112 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     expect(state).toContain(
       "foods_custom_nutrient_basis_check|CHECK",
     );
+    expect(state).toContain("custom_nutrient_basis IS NOT NULL");
+  });
+
+  test("enforces custom-food nutrient bases with strict null semantics", () => {
+    const nullInsertId = randomUUID();
+    const validBasisIds = [randomUUID(), randomUUID(), randomUUID()];
+
+    queryLocalDatabase(`
+      do $constraint_test$
+      begin
+        insert into public.foods (
+          id, owner_user_id, source_id, food_type, name, locale,
+          custom_nutrient_basis, data_quality, is_public, is_archived
+        ) values (
+          '${nullInsertId}', '${userAId}',
+          (select id from public.food_sources where code = 'user_custom'),
+          'user_custom', 'Missing basis', 'en', null, 'user_provided', false,
+          false
+        );
+
+        raise exception 'Expected null custom-food basis rejection.';
+      exception
+        when check_violation then null;
+      end;
+      $constraint_test$;
+    `);
+    expect(
+      queryLocalDatabase(`
+        select count(*) from public.foods where id = '${nullInsertId}';
+      `),
+    ).toBe("0");
+
+    queryLocalDatabase(`
+      insert into public.foods (
+        id, owner_user_id, source_id, food_type, name, locale,
+        custom_nutrient_basis, data_quality, is_public, is_archived
+      ) values
+        (
+          '${validBasisIds[0]}', '${userAId}',
+          (select id from public.food_sources where code = 'user_custom'),
+          'user_custom', 'Valid per serving', 'en', 'per_serving',
+          'user_provided', false, false
+        ),
+        (
+          '${validBasisIds[1]}', '${userAId}',
+          (select id from public.food_sources where code = 'user_custom'),
+          'user_custom', 'Valid per 100 grams', 'en', 'per_100g',
+          'user_provided', false, false
+        ),
+        (
+          '${validBasisIds[2]}', '${userAId}',
+          (select id from public.food_sources where code = 'user_custom'),
+          'user_custom', 'Valid per 100 milliliters', 'en', 'per_100ml',
+          'user_provided', false, false
+        );
+    `);
+    expect(
+      queryLocalDatabase(`
+        select count(*) || '|' || count(distinct custom_nutrient_basis)
+        from public.foods
+        where id in (${validBasisIds.map((id) => `'${id}'`).join(",")});
+      `),
+    ).toBe("3|3");
 
     queryLocalDatabase(`
       do $constraint_test$
       begin
         update public.foods
-        set custom_nutrient_basis = 'per_100g'
-        where id = '${publicFoodId}';
+        set custom_nutrient_basis = null
+        where id = '${validBasisIds[1]}';
 
-        raise exception 'Expected non-custom basis constraint rejection.';
+        raise exception 'Expected null custom-food basis update rejection.';
       exception
         when check_violation then null;
+      end;
+      $constraint_test$;
+    `);
+    expect(
+      queryLocalDatabase(`
+        select custom_nutrient_basis
+        from public.foods
+        where id = '${validBasisIds[1]}';
+      `),
+    ).toBe("per_100g");
+
+    queryLocalDatabase(`
+      do $constraint_test$
+      declare
+        rejected_basis text;
+      begin
+        foreach rejected_basis in array array[
+          'per_serving',
+          'per_100g',
+          'per_100ml'
+        ] loop
+          begin
+            update public.foods
+            set custom_nutrient_basis = rejected_basis
+            where id = '${publicFoodId}';
+
+            raise exception 'Expected non-custom basis rejection for %.',
+              rejected_basis;
+          exception
+            when check_violation then null;
+          end;
+        end loop;
       end;
       $constraint_test$;
     `);
@@ -327,6 +422,11 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         where id = '${publicFoodId}';
       `),
     ).toBe("t");
+
+    queryLocalDatabase(`
+      delete from public.foods
+      where id in (${validBasisIds.map((id) => `'${id}'`).join(",")});
+    `);
   });
 
   test("creates one owned private custom food with one basis and raw aliases", async () => {

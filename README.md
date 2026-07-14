@@ -53,7 +53,10 @@ is complete for the current MVP scope.
 - Phase 7A expands the bilingual nutrient dictionary and adds authenticated,
   RLS-backed custom-food persistence and archive foundations. A post-merge
   review found that empty custom foods did not retain their selected nutrient
-  basis; Phase 7A.1 stores that basis explicitly on every custom food. Phase 7
+  basis; Phase 7A.1 stores that basis explicitly on every custom food. A second
+  review found that SQL null semantics weakened the original constraint;
+  Phase 7A.2 explicitly rejects a null basis for custom foods. Phase 7A is
+  complete only after this correction passes CI and final review. Phase 7
   remains incomplete; Phase 7B custom-food creation and editing UI is next and
   not started.
 
@@ -343,6 +346,10 @@ Manual RTL QA checklist:
   require basis inference. The migration uses nutrient rows first and a narrow
   serving fallback only to backfill legacy custom foods, and rejects legacy
   custom foods that contain multiple nutrient bases.
+- Phase 7A.2 corrects PostgreSQL `CHECK` null semantics by explicitly requiring
+  a non-null valid basis for every custom food and null for non-custom foods.
+  Its defensive repair follows the documented legacy inference only for an
+  unexpectedly null custom basis; new writes continue persisting basis state.
 - No production catalog, alias ingestion, custom-food UI, barcode behavior,
   USDA ingestion, or FoodsDictionary integration is implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only
