@@ -77,12 +77,15 @@ Known completed state from the repository and recent validated work:
 - Phase 7A.1 corrects post-merge review by storing the selected basis directly
   on every custom food, including foods with no nutrient rows, with a strict
   custom/non-custom constraint and deterministic legacy backfill.
+- Phase 7A.2 corrects a second post-merge finding by making the custom-food
+  basis constraint explicitly reject null under PostgreSQL `CHECK` semantics,
+  with a defensive deterministic repair before enforcement.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Phases 6A, 6B, and 6C are complete for their approved scopes. Overall Phase 6
 Food Search Foundation is complete. Phase 7A is complete for its approved
-persistence-foundation scope only after Phase 7A.1 passes CI and final review.
+persistence-foundation scope only after Phase 7A.2 passes CI and final review.
 Overall Phase 7 remains incomplete. The next slice requires a separate approved
 task:
 

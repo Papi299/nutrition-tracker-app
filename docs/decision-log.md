@@ -486,3 +486,22 @@
 - Phase 7A is complete only after this corrective PR passes CI and final review.
   Phase 7B localized custom-food creation/editing UI remains next and unstarted;
   overall Phase 7 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-14: Phase 7A.2 strict custom-food basis constraint correction
+
+- Post-merge review found that the Phase 7A.1 `CHECK` expression evaluated to
+  null for a `user_custom` food with a null basis, which PostgreSQL accepts.
+- Recreated the constraint to explicitly require a non-null value in
+  `per_serving`, `per_100g`, or `per_100ml` for custom foods and null for every
+  non-custom food. Persistence, archive, RLS, grants, search, prefill, generated
+  database shape, and application UI remain unchanged.
+- Added a defensive pre-constraint repair for an unexpectedly null custom
+  basis: use its single nutrient-row basis, otherwise exact `100 g` or `100 ml`,
+  otherwise `per_serving`. The migration fails clearly for multiple nutrient
+  bases; new writes continue storing the submitted basis without inference.
+- Added direct database coverage for null insert/update rejection, every valid
+  custom basis, and non-custom null/non-null behavior while retaining the RPC,
+  ownership, archive, search, prefill, diary-snapshot, and rollback suites.
+- Phase 7A is complete only after this correction passes CI and final review.
+  Phase 7B custom-food creation/editing UI remains next and unstarted; overall
+  Phase 7 remains incomplete. No remote Supabase operation occurred.
