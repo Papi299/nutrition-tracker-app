@@ -405,3 +405,30 @@
   alias ingestion, custom-food UI, diary prefill, barcode, external ingestion,
   recipes, saved meals, favorites, recents, dependency upgrades, and remote
   Supabase operations.
+
+## 2026-07-14: Phase 6C food selection and diary snapshot prefill
+
+- Added date-aware “Find a food” and “Use in diary” navigation. Valid historical
+  dates survive GET search and selection; direct Foods navigation returns to a
+  browser-local dated Today URL while preserving the selected food id. Invalid
+  or repeated date and food-id inputs receive deterministic localized states.
+- Added one authenticated `SECURITY INVOKER` prefill RPC with an empty search
+  path, no caller owner id, no mutation, and no `PUBLIC` or `anon` execution.
+  Existing food, nutrient, and diary RLS remain the authorization boundary.
+- Selected one complete nutrient basis in `per_serving`, `per_100g`,
+  `per_100ml` priority order without mixing rows. Missing nutrients remain null,
+  explicit zeros remain zero, and nonnegative energy uses nearest-integer
+  rounding with half values rounded upward for the diary calorie snapshot.
+- Prefilled food identity, brand, serving, and macros remain independently
+  editable and never auto-scale. Selection alone creates no entry; explicit
+  submission stores `source = manual`, server-derived ownership, the submitted
+  snapshots, and an optional RLS-checked `food_id`.
+- Kept manual entries unlinked, rejected malformed and cross-user links,
+  prevented edit-time relinking, and preserved `ON DELETE SET NULL` so deleting
+  a linked food leaves historical snapshots intact.
+- Added local-only pure, RPC, RLS, failure, routing, persistence, and English/
+  Hebrew browser coverage. No production catalog seed, dependency upgrade,
+  remote Supabase operation, custom-food UI, barcode, external ingestion,
+  recipe, favorite, recent, or saved-meal behavior was added.
+- Phase 6C and the approved Phase 6 Food Search Foundation scope are complete
+  after green CI and final review. Phase 7 Custom Foods is next and not started.

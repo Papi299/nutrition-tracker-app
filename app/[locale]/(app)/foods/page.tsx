@@ -1,8 +1,13 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import {
+  parseCalendarDateQueryValue,
+  type CalendarDateQueryResult,
+} from "@/lib/calendar-date";
 import {
   searchReadableFoods,
   type FoodSearchResult,
@@ -26,24 +31,36 @@ export default async function FoodsPage({ params, searchParams }: FoodsPageProps
 
   setRequestLocale(locale);
 
+  const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
   const state = await searchReadableFoods(resolvedSearchParams.q);
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));
   }
 
-  return <LocalizedFoodsPage locale={locale} state={state} />;
+  return (
+    <LocalizedFoodsPage dateQuery={dateQuery} locale={locale} state={state} />
+  );
 }
 
 function LocalizedFoodsPage({
+  dateQuery,
   locale,
   state,
 }: {
+  dateQuery: CalendarDateQueryResult;
   locale: Locale;
   state: Exclude<FoodSearchState, { status: "unauthenticated" }>;
 }) {
   const t = useTranslations("FoodSearch");
-  const retryHref = `/${locale}/foods?q=${encodeURIComponent(state.value)}`;
+  const selectedDate = dateQuery.status === "valid" ? dateQuery.date : null;
+  const retryParameters = new URLSearchParams({ q: state.value });
+
+  if (selectedDate) {
+    retryParameters.set("date", selectedDate);
+  }
+
+  const retryHref = `/${locale}/foods?${retryParameters.toString()}`;
 
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
@@ -59,12 +76,26 @@ function LocalizedFoodsPage({
         </p>
       </header>
 
+      {(dateQuery.status === "invalid" || dateQuery.status === "repeated") && (
+        <SearchState
+          alert
+          body={
+            dateQuery.status === "repeated"
+              ? t("selection.invalidDateRepeated")
+              : t("selection.invalidDate")
+          }
+          testId="food-search-date-context-invalid"
+          title={t("selection.invalidDateTitle")}
+        />
+      )}
+
       <form
         action={`/${locale}/foods`}
         className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
         method="get"
         role="search"
       >
+        {selectedDate && <input name="date" type="hidden" value={selectedDate} />}
         <label className="block text-sm font-semibold text-slate-900" htmlFor="food-search-query">
           {t("form.label")}
         </label>
@@ -140,7 +171,11 @@ function LocalizedFoodsPage({
       )}
 
       {state.status === "ready" && state.data.length > 0 && (
-        <SearchResults results={state.data} />
+        <SearchResults
+          locale={locale}
+          results={state.data}
+          selectedDate={selectedDate}
+        />
       )}
     </section>
   );
@@ -173,7 +208,15 @@ function SearchState({
   );
 }
 
-function SearchResults({ results }: { results: FoodSearchResult[] }) {
+function SearchResults({
+  locale,
+  results,
+  selectedDate,
+}: {
+  locale: Locale;
+  results: FoodSearchResult[];
+  selectedDate: string | null;
+}) {
   const t = useTranslations("FoodSearch");
   const foodTypeLabels: Record<string, string> = {
     branded: t("foodTypes.branded"),
@@ -227,6 +270,13 @@ function SearchResults({ results }: { results: FoodSearchResult[] }) {
           const serving = [food.serving_size, food.serving_unit]
             .filter((value) => value !== null && value !== "")
             .join(" ");
+          const diaryParameters = new URLSearchParams();
+
+          if (selectedDate) {
+            diaryParameters.set("date", selectedDate);
+          }
+
+          diaryParameters.set("foodId", food.food_id);
 
           return (
             <li
@@ -279,6 +329,12 @@ function SearchResults({ results }: { results: FoodSearchResult[] }) {
               <p className="mt-4 text-xs leading-5 text-slate-500">
                 {t("results.readOnly")}
               </p>
+              <Link
+                className="mt-4 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+                href={`/${locale}/today?${diaryParameters.toString()}`}
+              >
+                {t("results.useInDiary")}
+              </Link>
             </li>
           );
         })}

@@ -1,6 +1,7 @@
 import type { DataResult } from "@/lib/data/result";
 import { validationError } from "@/lib/data/result";
 import { isCanonicalCalendarDate } from "@/lib/calendar-date";
+import { isUuid } from "@/lib/food-selection/query";
 import type { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
 export const diaryEntryMealTypes = [
@@ -12,7 +13,7 @@ export const diaryEntryMealTypes = [
 ] as const;
 
 export const diaryEntrySource = "manual";
-export const maxFoodNameLength = 160;
+export const maxFoodNameLength = 200;
 export const maxBrandNameLength = 120;
 export const maxServingUnitLength = 40;
 export const maxNotesLength = 1000;
@@ -25,6 +26,7 @@ export type DiaryEntryCreateInput = {
   carbohydrates_g?: null | number | string;
   entry_date?: null | string;
   fat_g?: null | number | string;
+  food_id?: null | string;
   food_name?: null | string;
   meal_type?: null | string;
   notes?: null | string;
@@ -33,7 +35,9 @@ export type DiaryEntryCreateInput = {
   serving_unit?: null | string;
 };
 
-export type DiaryEntryUpdateInput = Partial<DiaryEntryCreateInput>;
+export type DiaryEntryUpdateInput = Partial<
+  Omit<DiaryEntryCreateInput, "food_id">
+>;
 
 export type ValidatedDiaryEntryCreateInput = Omit<
   TablesInsert<"diary_entries">,
@@ -55,12 +59,13 @@ export type ValidatedDiaryEntryUpdateInput = Pick<
   | "serving_unit"
 >;
 
-const allowedDiaryEntryFields = new Set([
+const allowedDiaryEntryCreateFields = new Set([
   "brand_name",
   "calories",
   "carbohydrates_g",
   "entry_date",
   "fat_g",
+  "food_id",
   "food_name",
   "meal_type",
   "notes",
@@ -68,6 +73,10 @@ const allowedDiaryEntryFields = new Set([
   "serving_quantity",
   "serving_unit",
 ]);
+
+const allowedDiaryEntryUpdateFields = new Set(
+  [...allowedDiaryEntryCreateFields].filter((field) => field !== "food_id"),
+);
 
 function isObjectRecord(input: unknown): input is Record<string, unknown> {
   return typeof input === "object" && input !== null && !Array.isArray(input);
@@ -310,12 +319,30 @@ function normalizeOptionalNullableInteger(
   return normalizeNullableInteger(input[field], field, fieldErrors);
 }
 
+function normalizeNullableUuid(
+  value: unknown,
+  field: string,
+  fieldErrors: Record<string, string>,
+) {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  if (typeof value !== "string" || !isUuid(value)) {
+    fieldErrors[field] = "invalid_uuid";
+    return null;
+  }
+
+  return value;
+}
+
 function collectUnsupportedFields(
   input: Record<string, unknown>,
   fieldErrors: Record<string, string>,
+  allowedFields: Set<string>,
 ) {
   for (const key of Object.keys(input)) {
-    if (!allowedDiaryEntryFields.has(key)) {
+    if (!allowedFields.has(key)) {
       fieldErrors[key] = "unsupported_field";
     }
   }
@@ -330,7 +357,7 @@ export function validateDiaryEntryCreateInput(
     return validationError({ form: "invalid_input" });
   }
 
-  collectUnsupportedFields(input, fieldErrors);
+  collectUnsupportedFields(input, fieldErrors, allowedDiaryEntryCreateFields);
 
   const entryDate = normalizeRequiredDate(input, fieldErrors);
   const mealType = normalizeRequiredMealType(input.meal_type, fieldErrors);
@@ -373,6 +400,7 @@ export function validateDiaryEntryCreateInput(
     fieldErrors,
   );
   const fat = normalizeNullableNumber(input.fat_g, "fat_g", fieldErrors);
+  const foodId = normalizeNullableUuid(input.food_id, "food_id", fieldErrors);
   const notes = normalizeNullableText(
     input.notes,
     "notes",
@@ -391,6 +419,7 @@ export function validateDiaryEntryCreateInput(
       carbohydrates_g: carbohydrates,
       entry_date: entryDate,
       fat_g: fat,
+      food_id: foodId,
       food_name: foodName,
       meal_type: mealType,
       notes,
@@ -412,7 +441,7 @@ export function validateDiaryEntryUpdateInput(
     return validationError({ form: "invalid_input" });
   }
 
-  collectUnsupportedFields(input, fieldErrors);
+  collectUnsupportedFields(input, fieldErrors, allowedDiaryEntryUpdateFields);
 
   const update: ValidatedDiaryEntryUpdateInput = {};
   const entryDate = normalizeOptionalDate(input, fieldErrors);

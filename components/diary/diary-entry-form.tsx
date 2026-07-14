@@ -15,9 +15,11 @@ type MealTypeOption = {
   value: string;
 };
 
-type FieldLabels = Record<Exclude<DiaryEntryFieldName, "id">, string>;
+type VisibleFieldName = Exclude<DiaryEntryFieldName, "food_id" | "id">;
 
-type FieldHelpText = Partial<Record<Exclude<DiaryEntryFieldName, "id">, string>>;
+type FieldLabels = Record<VisibleFieldName, string>;
+
+type FieldHelpText = Partial<Record<VisibleFieldName, string>>;
 
 type SectionLabels = {
   foodDetails: string;
@@ -193,6 +195,9 @@ export function DiaryEntryForm({
 
   return (
     <form action={formAction} className="grid gap-5 text-start" noValidate>
+      {values.food_id && (
+        <input name="food_id" type="hidden" value={values.food_id} />
+      )}
       <FormSection title={sectionLabels.mealDate}>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput

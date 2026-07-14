@@ -21,12 +21,13 @@ import type {
   DiaryEntryFieldValues,
 } from "./action-state";
 
-const diaryEntryInputFields = [
+const diaryEntryCreateInputFields = [
   "brand_name",
   "calories",
   "carbohydrates_g",
   "entry_date",
   "fat_g",
+  "food_id",
   "food_name",
   "meal_type",
   "notes",
@@ -34,6 +35,10 @@ const diaryEntryInputFields = [
   "serving_quantity",
   "serving_unit",
 ] as const satisfies readonly Exclude<DiaryEntryFieldName, "id">[];
+
+const diaryEntryUpdateInputFields = diaryEntryCreateInputFields.filter(
+  (field) => field !== "food_id",
+);
 
 function resolveLocale(locale: string): Locale {
   return (locales as readonly string[]).includes(locale)
@@ -57,10 +62,13 @@ function readInputField(formData: FormData, field: DiaryEntryFieldName) {
 }
 
 function readCreateValues(formData: FormData): DiaryEntryFieldValues {
-  return diaryEntryInputFields.reduce<DiaryEntryFieldValues>((values, field) => {
-    values[field] = readInputField(formData, field);
-    return values;
-  }, {});
+  return diaryEntryCreateInputFields.reduce<DiaryEntryFieldValues>(
+    (values, field) => {
+      values[field] = readInputField(formData, field);
+      return values;
+    },
+    {},
+  );
 }
 
 function readCreateInput(
@@ -72,6 +80,7 @@ function readCreateInput(
     carbohydrates_g: values.carbohydrates_g,
     entry_date: values.entry_date,
     fat_g: values.fat_g,
+    food_id: values.food_id,
     food_name: values.food_name,
     meal_type: values.meal_type,
     notes: values.notes,
@@ -85,21 +94,28 @@ function readUpdateInput(
   formData: FormData,
   values: DiaryEntryFieldValues,
 ): DiaryEntryUpdateInput {
-  return diaryEntryInputFields.reduce<DiaryEntryUpdateInput>((input, field) => {
-    if (formData.has(field)) {
-      values[field] = readInputField(formData, field);
-      input[field] = values[field];
-    }
+  return diaryEntryUpdateInputFields.reduce<DiaryEntryUpdateInput>(
+    (input, field) => {
+      if (formData.has(field)) {
+        values[field] = readInputField(formData, field);
+        input[field] = values[field];
+      }
 
-    return input;
-  }, {});
+      return input;
+    },
+    {},
+  );
 }
 
 function mapFieldErrors(
   fieldErrors: Record<string, string> | undefined,
 ): DiaryEntryFieldErrors {
   const mapped: DiaryEntryFieldErrors = {};
-  const allowedFields = new Set<string>(["form", "id", ...diaryEntryInputFields]);
+  const allowedFields = new Set<string>([
+    "form",
+    "id",
+    ...diaryEntryCreateInputFields,
+  ]);
 
   for (const [field, errorCode] of Object.entries(fieldErrors ?? {})) {
     if (allowedFields.has(field)) {

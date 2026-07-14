@@ -12,6 +12,7 @@ export type DiaryEntryFieldName =
   | "carbohydrates_g"
   | "entry_date"
   | "fat_g"
+  | "food_id"
   | "food_name"
   | "id"
   | "meal_type"
