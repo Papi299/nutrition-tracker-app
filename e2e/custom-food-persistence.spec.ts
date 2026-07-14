@@ -96,29 +96,33 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     );
   }
 
+  function executeLocalDatabase(statement: string) {
+    return execFileSync(
+      "docker",
+      [
+        "exec",
+        databaseContainer,
+        "psql",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At",
+        "-c",
+        statement,
+      ],
+      { encoding: "utf8" },
+    ).trim();
+  }
+
   function queryLocalDatabase(statement: string) {
     let lastError: unknown;
 
     for (let attempt = 0; attempt < 5; attempt += 1) {
       try {
-        return execFileSync(
-          "docker",
-          [
-            "exec",
-            databaseContainer,
-            "psql",
-            "-U",
-            "postgres",
-            "-d",
-            "postgres",
-            "-v",
-            "ON_ERROR_STOP=1",
-            "-At",
-            "-c",
-            statement,
-          ],
-          { encoding: "utf8" },
-        ).trim();
+        return executeLocalDatabase(statement);
       } catch (error) {
         lastError = error;
 
@@ -282,6 +286,11 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         'public.diary_entries'::regclass
       )
       order by relname;
+
+      select conname || '|' || pg_get_constraintdef(oid)
+      from pg_constraint
+      where conrelid = 'public.foods'::regclass
+        and conname = 'foods_custom_nutrient_basis_check';
     `);
 
     expect(state).toContain(
@@ -294,6 +303,30 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     expect(state).toContain("food_nutrients|true");
     expect(state).toContain("foods|true");
     expect(state).toContain("diary_entries|true");
+    expect(state).toContain(
+      "foods_custom_nutrient_basis_check|CHECK",
+    );
+
+    queryLocalDatabase(`
+      do $constraint_test$
+      begin
+        update public.foods
+        set custom_nutrient_basis = 'per_100g'
+        where id = '${publicFoodId}';
+
+        raise exception 'Expected non-custom basis constraint rejection.';
+      exception
+        when check_violation then null;
+      end;
+      $constraint_test$;
+    `);
+    expect(
+      queryLocalDatabase(`
+        select custom_nutrient_basis is null
+        from public.foods
+        where id = '${publicFoodId}';
+      `),
+    ).toBe("t");
   });
 
   test("creates one owned private custom food with one basis and raw aliases", async () => {
@@ -313,6 +346,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
       .single();
     expect(food.data).toMatchObject({
       brand_name: "Kitchen Brand",
+      custom_nutrient_basis: "per_serving",
       data_quality: "user_provided",
       food_sources: { code: "user_custom" },
       food_type: "user_custom",
@@ -368,6 +402,91 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         },
       ]),
     );
+  });
+
+  test("persists empty-food bases without inferring from 100 g or 100 ml servings", async () => {
+    const cases: Array<{
+      basis: "per_serving" | "per_100g" | "per_100ml";
+      name: string;
+      quantity: number | null;
+      unit: string | null;
+    }> = [
+      {
+        basis: "per_100g",
+        name: "Empty per 100 gram food",
+        quantity: null,
+        unit: null,
+      },
+      {
+        basis: "per_100ml",
+        name: "Empty per 100 milliliter food",
+        quantity: null,
+        unit: null,
+      },
+      {
+        basis: "per_serving",
+        name: "Exact 100 gram serving",
+        quantity: 100,
+        unit: "g",
+      },
+      {
+        basis: "per_serving",
+        name: "Exact 100 milliliter serving",
+        quantity: 100,
+        unit: "ml",
+      },
+    ];
+    const createdIds: string[] = [];
+
+    for (const item of cases) {
+      const created = await persist(userAClient, {
+        p_aliases: [] as Json,
+        p_brand_name: null,
+        p_name: item.name,
+        p_nutrient_basis: item.basis,
+        p_nutrients: [] as Json,
+        p_serving_quantity: item.quantity,
+        p_serving_unit: item.unit,
+      });
+      expect(created.error).toBeNull();
+      createdIds.push(created.data?.[0].food_id as string);
+    }
+
+    const foods = await userAClient
+      .from("foods")
+      .select("name,custom_nutrient_basis,serving_size,serving_unit")
+      .in("id", createdIds);
+    expect(foods.data).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          custom_nutrient_basis: "per_100g",
+          name: "Empty per 100 gram food",
+        }),
+        expect.objectContaining({
+          custom_nutrient_basis: "per_100ml",
+          name: "Empty per 100 milliliter food",
+        }),
+        {
+          custom_nutrient_basis: "per_serving",
+          name: "Exact 100 gram serving",
+          serving_size: 100,
+          serving_unit: "g",
+        },
+        {
+          custom_nutrient_basis: "per_serving",
+          name: "Exact 100 milliliter serving",
+          serving_size: 100,
+          serving_unit: "ml",
+        },
+      ]),
+    );
+    expect(
+      queryLocalDatabase(`
+        select count(*)
+        from public.food_nutrients
+        where food_id in (${createdIds.map((id) => `'${id}'`).join(",")});
+      `),
+    ).toBe("0");
   });
 
   test("forces 100 g and 100 ml while accepting expanded nutrients and zero", async () => {
@@ -573,7 +692,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     expect(after).toBe(before);
   });
 
-  test("rolls back food and child changes when a nutrient write fails", async () => {
+  test("rolls back basis, food, and child changes when a nutrient write fails", async () => {
     const before = queryLocalDatabase(`
       select jsonb_build_object(
         'food', (select to_jsonb(f) - 'updated_at' from public.foods f where id = '${userAFoodId}'),
@@ -606,16 +725,34 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     const cleared = await persist(userAClient, {
       p_aliases: [] as Json,
       p_food_id: userAFoodId,
+      p_nutrient_basis: "per_100ml",
       p_nutrients: [] as Json,
     });
     expect(cleared.error).toBeNull();
 
-    const childCount = queryLocalDatabase(`
+    const clearedState = queryLocalDatabase(`
       select
         (select count(*) from public.food_nutrients where food_id = '${userAFoodId}') || '|' ||
-        (select count(*) from public.food_aliases where food_id = '${userAFoodId}');
+        (select count(*) from public.food_aliases where food_id = '${userAFoodId}') || '|' ||
+        (select custom_nutrient_basis from public.foods where id = '${userAFoodId}');
     `);
-    expect(childCount).toBe("0|0");
+    expect(clearedState).toBe("0|0|per_100ml");
+
+    const updatedAt = queryLocalDatabase(`
+      select updated_at from public.foods where id = '${userAFoodId}';
+    `);
+    const repeatedClear = await persist(userAClient, {
+      p_aliases: [] as Json,
+      p_food_id: userAFoodId,
+      p_nutrient_basis: "per_100ml",
+      p_nutrients: [] as Json,
+    });
+    expect(repeatedClear.error).toBeNull();
+    expect(
+      queryLocalDatabase(`
+        select updated_at from public.foods where id = '${userAFoodId}';
+      `),
+    ).toBe(updatedAt);
 
     for (const inaccessibleFoodId of [userBFoodId, publicFoodId]) {
       const write = await persist(userAClient, {

@@ -464,3 +464,25 @@
   and remote database operations. Phase 7A is complete after green CI and final
   review; overall Phase 7 remains incomplete, and Phase 7B custom-food creation
   and editing UI is next and not started.
+
+## 2026-07-14: Phase 7A.1 durable custom-food nutrient basis correction
+
+- Post-merge review identified that Phase 7A stored the selected basis only on
+  nutrient rows. Empty custom foods and foods whose nutrients were cleared
+  therefore had no durable basis and could not be edited safely in Phase 7B.
+- Added nullable `foods.custom_nutrient_basis` with a constraint requiring one
+  valid basis for `user_custom` foods and null for every non-custom food. This
+  does not change global/public foods' multi-basis nutrient capability.
+- Backfilled legacy custom foods from their single nutrient-row basis. For a
+  legacy food without nutrient rows only, exact `100 g` and `100 ml` servings
+  map to their matching per-100 basis; every other case maps to `per_serving`.
+  Migration replay fails clearly if a legacy custom food has multiple bases.
+- Updated atomic persistence to store the submitted basis on create and every
+  update, including empty nutrient collections. Basis changes participate in
+  idempotency and roll back with identity, nutrient, and alias writes.
+- Added durable coverage for empty per-100 foods, ambiguous exact-100 servings,
+  clearing and changing basis, repeated empty submissions, basis rollback,
+  non-custom constraints, generated types, and existing Phase 5/6 behavior.
+- Phase 7A is complete only after this corrective PR passes CI and final review.
+  Phase 7B localized custom-food creation/editing UI remains next and unstarted;
+  overall Phase 7 remains incomplete. No remote Supabase operation occurred.

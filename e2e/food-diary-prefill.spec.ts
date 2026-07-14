@@ -113,6 +113,7 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     const result = await client
       .from("foods")
       .insert({
+        custom_nutrient_basis: "per_serving",
         data_quality: "user_provided",
         food_type: "user_custom",
         is_public: false,

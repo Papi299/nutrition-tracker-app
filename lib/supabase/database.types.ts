@@ -200,6 +200,7 @@ export type Database = {
         Row: {
           brand_name: string | null
           created_at: string
+          custom_nutrient_basis: string | null
           data_quality: string
           food_type: string
           id: string
@@ -217,6 +218,7 @@ export type Database = {
         Insert: {
           brand_name?: string | null
           created_at?: string
+          custom_nutrient_basis?: string | null
           data_quality?: string
           food_type: string
           id?: string
@@ -234,6 +236,7 @@ export type Database = {
         Update: {
           brand_name?: string | null
           created_at?: string
+          custom_nutrient_basis?: string | null
           data_quality?: string
           food_type?: string
           id?: string
