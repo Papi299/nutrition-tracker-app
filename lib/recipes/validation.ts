@@ -117,7 +117,12 @@ function parseNumber(
   field: string,
   fieldErrors: Record<string, string>,
 ) {
-  if (options.allowBlank && (value === undefined || value === null || value === "")) {
+  if (
+    options.allowBlank &&
+    (value === undefined ||
+      value === null ||
+      (typeof value === "string" && value.trim() === ""))
+  ) {
     return null;
   }
 
