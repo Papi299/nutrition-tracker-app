@@ -115,6 +115,32 @@ export type Database = {
           },
         ]
       }
+      food_favorites: {
+        Row: {
+          created_at: string
+          food_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          food_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          food_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_favorites_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       food_nutrients: {
         Row: {
           amount: number
@@ -409,6 +435,28 @@ export type Database = {
           source_name: string
         }[]
       }
+      get_reusable_foods: {
+        Args: never
+        Returns: {
+          brand_name: string
+          collection_type: string
+          data_quality: string
+          favorited_at: string
+          food_id: string
+          food_type: string
+          is_favorite: boolean
+          is_owned: boolean
+          last_used_at: string
+          locale: string
+          name: string
+          serving_size: number
+          serving_unit: string
+          source_code: string
+          source_name: string
+          source_trust_level: string
+          source_type: string
+        }[]
+      }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
       persist_custom_food: {
         Args: {
@@ -451,6 +499,7 @@ export type Database = {
           data_quality: string
           food_id: string
           food_type: string
+          is_favorite: boolean
           is_owned: boolean
           locale: string
           match_category: string
@@ -469,6 +518,13 @@ export type Database = {
         Returns: {
           food_id: string
           is_archived: boolean
+        }[]
+      }
+      set_food_favorite: {
+        Args: { p_food_id: string; p_is_favorite: boolean }
+        Returns: {
+          food_id: string
+          is_favorite: boolean
         }[]
       }
     }

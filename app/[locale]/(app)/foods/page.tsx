@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RetrievalError } from "@/components/data/retrieval-error";
+import { FoodFavoriteControl } from "@/components/foods/food-favorite-control";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   parseCalendarDateQueryValue,
@@ -14,6 +15,7 @@ import {
   type FoodSearchState,
 } from "@/lib/food-search";
 import { routing, type Locale } from "@/lib/i18n/routing";
+import { setFoodFavoriteAction } from "./favorite-actions";
 
 type FoodsPageProps = Readonly<{
   params: Promise<{ locale: string }>;
@@ -86,6 +88,12 @@ function LocalizedFoodsPage({
             href={`/${locale}/foods/custom`}
           >
             {t("manageCustom")}
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+            href={`/${locale}/foods/reuse${selectedDate ? `?date=${selectedDate}` : ""}`}
+          >
+            {t("reuseFoods")}
           </Link>
         </div>
       </header>
@@ -291,6 +299,12 @@ function SearchResults({
           }
 
           diaryParameters.set("foodId", food.food_id);
+          const favoriteAction = setFoodFavoriteAction.bind(
+            null,
+            locale,
+            food.food_id,
+            !food.is_favorite,
+          );
 
           return (
             <li
@@ -358,6 +372,11 @@ function SearchResults({
                     {t("results.editCustom")}
                   </Link>
                 )}
+                <FoodFavoriteControl
+                  action={favoriteAction}
+                  foodName={food.name}
+                  isFavorite={food.is_favorite}
+                />
               </div>
             </li>
           );
