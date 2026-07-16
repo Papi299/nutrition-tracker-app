@@ -395,6 +395,102 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_meal_items: {
+        Row: {
+          brand_name: string | null
+          calories: number | null
+          carbohydrates_g: number | null
+          created_at: string
+          fat_g: number | null
+          food_id: string | null
+          food_name: string
+          id: string
+          notes: string | null
+          position: number
+          protein_g: number | null
+          saved_meal_id: string
+          serving_quantity: number | null
+          serving_unit: string | null
+        }
+        Insert: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          fat_g?: number | null
+          food_id?: string | null
+          food_name: string
+          id?: string
+          notes?: string | null
+          position: number
+          protein_g?: number | null
+          saved_meal_id: string
+          serving_quantity?: number | null
+          serving_unit?: string | null
+        }
+        Update: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          fat_g?: number | null
+          food_id?: string | null
+          food_name?: string
+          id?: string
+          notes?: string | null
+          position?: number
+          protein_g?: number | null
+          saved_meal_id?: string
+          serving_quantity?: number | null
+          serving_unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_meal_items_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_meal_items_saved_meal_id_fkey"
+            columns: ["saved_meal_id"]
+            isOneToOne: false
+            referencedRelation: "saved_meals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_meals: {
+        Row: {
+          created_at: string
+          id: string
+          is_archived: boolean
+          locale: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_archived?: boolean
+          locale: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_archived?: boolean
+          locale?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -476,6 +572,19 @@ export type Database = {
           nutrient_basis: string
         }[]
       }
+      persist_saved_meal: {
+        Args: {
+          p_items: Json
+          p_locale: string
+          p_name: string
+          p_saved_meal_id: string
+        }
+        Returns: {
+          is_archived: boolean
+          item_count: number
+          saved_meal_id: string
+        }[]
+      }
       persist_setup: {
         Args: {
           p_calories: number
@@ -525,6 +634,13 @@ export type Database = {
         Returns: {
           food_id: string
           is_favorite: boolean
+        }[]
+      }
+      set_saved_meal_archived: {
+        Args: { p_is_archived: boolean; p_saved_meal_id: string }
+        Returns: {
+          is_archived: boolean
+          saved_meal_id: string
         }[]
       }
     }

@@ -590,3 +590,39 @@
 - Phase 8A is complete after green CI and clean final review. Phase 8B Saved
   Meals persistence foundation is next and not started; overall Phase 8 remains
   incomplete.
+
+## 2026-07-16: Phase 8B Saved Meals persistence foundation
+
+- Added user-owned `saved_meals` and ordered `saved_meal_items` with cascading
+  user/parent cleanup, optional `ON DELETE SET NULL` food links, bounded raw
+  identity/serving/nutrient/note snapshots, locale and position constraints,
+  the existing `set_updated_at()` trigger pattern, and no stored totals.
+- Enabled RLS on both tables. Meal visibility and mutation require current-user
+  ownership; item access derives ownership through the parent meal. Non-null
+  food links must reference a readable public food or the caller's own custom
+  food, including an archived owned food. `PUBLIC` and `anon` privileges are
+  revoked, authenticated grants are column-limited, and hard meal deletion is
+  not granted.
+- Added an authenticated `SECURITY INVOKER` persistence RPC with an empty search
+  path and server-derived `auth.uid()`. It validates one complete 1–50 item
+  collection with exact keys and contiguous unique positions, normalizes blank
+  optional text to null, preserves explicit zero and submitted snapshots, and
+  atomically creates or full-replaces identity and items. Identical submissions
+  preserve the meal timestamp and do not duplicate children; invalid identity,
+  numeric, position, or food-link input rolls back completely.
+- Added a separate idempotent authenticated invoker archive/restore RPC. Updates
+  preserve archive state, archived meals remain editable, items remain intact,
+  and authenticated users have no hard-delete meal contract.
+- Snapshot-over-live semantics are explicit: optional food links support future
+  provenance and prefill, but linked food updates, archive/restore, and deletion
+  never overwrite saved snapshots. Saved-meal persistence performs no diary
+  read or mutation and provides no ranking, list/editor retrieval, route, UI,
+  bulk diary logging, recipe behavior, or production data.
+- Added pure validation, generated types, and local-only durable coverage for
+  grants/RLS, cross-user isolation, public/owned/archived and rejected private
+  links, manual snapshots, duplicate links, item bounds/order, null/zero rules,
+  replacement/clearing, rollback, timestamps, archive/restore, food lifecycle,
+  user cascade, diary independence, migration replay, and existing regressions.
+- Phase 8B is complete after green CI and clean final review. Phase 8C Saved
+  Meals creation, management, and diary-reuse UI is next and not started;
+  overall Phase 8 remains incomplete. No remote Supabase operation occurred.

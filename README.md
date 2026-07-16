@@ -13,6 +13,8 @@ entries, daily totals, and target progress while preserving LTR/RTL behavior.
   totals, and target progress for an explicit browser-local calendar date.
 - Authenticated favorite foods and diary-derived recent-food reuse with
   explicit diary prefill review.
+- Authenticated saved-meal snapshot persistence and reversible archive state;
+  saved-meal screens and diary reuse are not implemented yet.
 - English LTR and Hebrew RTL public, auth, setup, and diary experiences.
 - Local-only migration replay and authenticated Playwright regression coverage.
 
@@ -63,8 +65,10 @@ is complete for the current MVP scope.
   owned-food management list, fixed 20-item pagination, explicit archive
   confirmation, and restore controls. Final acceptance classifies Phase 7
   Custom Foods as complete for the approved MVP scope. Phase 8A adds favorite
-  foods and diary-derived recent-food reuse. Phase 8B Saved Meals persistence
-  foundation is next and not started; overall Phase 8 remains incomplete.
+  foods and diary-derived recent-food reuse. Phase 8B adds the owner-isolated,
+  transactional Saved Meals persistence foundation. Phase 8C Saved Meals
+  creation, management, and diary-reuse UI is next and not started; overall
+  Phase 8 remains incomplete.
 
 ## Install Dependencies
 
@@ -370,7 +374,7 @@ Manual RTL QA checklist:
   deletion is explicitly excluded.
 - Phase 7 is complete for the approved MVP Custom Foods scope. Production
   catalog ingestion, barcode behavior, USDA/FoodsDictionary integration,
-  recipes and saved meals remain unimplemented.
+  recipes and saved-meal UI remain unimplemented.
 - Phase 8A adds `food_favorites` with current-user RLS, least-privilege
   authenticated grants, cascade cleanup, and idempotent invoker mutation.
   Favorites accept only currently readable non-archived public foods or owned
@@ -381,14 +385,23 @@ Manual RTL QA checklist:
   rather than the diary date. The protected localized reuse page shows up to
   20 favorites and 20 recents with current catalog metadata. Selection reuses
   the existing date-aware prefill flow and never creates a diary entry on
-  click. Phase 8B Saved Meals persistence foundation is next and unstarted;
-  overall Phase 8 remains incomplete.
+  click.
+- Phase 8B adds user-owned `saved_meals` and ordered `saved_meal_items` with
+  parent-derived RLS, least-privilege authenticated grants, immutable food and
+  nutrient snapshots, optional readable-food links, and cascade cleanup. One
+  authenticated invoker RPC atomically creates or full-replaces 1–50 ordered
+  items while preserving archive state and no-op timestamps; a second
+  idempotent RPC archives or restores without hard deletion. Snapshot values
+  remain authoritative when linked foods change, archive, restore, or delete.
+  No totals are stored and persistence never creates or changes diary rows.
+  Phase 8C Saved Meals creation, management, and diary-reuse UI is next and
+  unstarted; overall Phase 8 remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
   target calculation exists.
 - Server-only profile, nutrition-target, diary-entry, food-search, food-
-  selection, custom-food, and reusable-food helpers live under:
+  selection, custom-food, reusable-food, and saved-meal helpers live under:
   - `lib/profile/`
   - `lib/nutrition-targets/`
   - `lib/diary-entries/`
@@ -396,6 +409,7 @@ Manual RTL QA checklist:
   - `lib/food-selection/`
   - `lib/custom-foods/`
   - `lib/reusable-foods/`
+  - `lib/saved-meals/`
   - `lib/data/`
 - Data helpers derive the authenticated user id server-side and never accept a
   client-supplied `user_id`.
@@ -454,11 +468,11 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Recipes, saved meals, barcode, USDA and FoodsDictionary ingestion, settings
-  pages, charts, and broader analytics remain unavailable.
+- Recipes, saved-meal screens and diary reuse, barcode, USDA and FoodsDictionary
+  ingestion, settings pages, charts, and broader analytics remain unavailable.
   Phases 6 and 7 are complete for their approved Food Search and Custom Foods
-  MVP scopes. Phase 8A is complete after green CI and final review; Phase 8B is
-  next and unstarted, and overall Phase 8 remains incomplete.
+  MVP scopes. Phases 8A and 8B are complete after green CI and final review;
+  Phase 8C is next and unstarted, and overall Phase 8 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -493,7 +507,7 @@ Manual RTL QA checklist:
 - Barcode scanning.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- Recipes or saved meals.
+- Recipes or saved-meal UI and diary reuse.
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
@@ -507,9 +521,10 @@ Manual RTL QA checklist:
 - Phase 7 custom-food persistence, creation, editing, listing, archive, and
   restore are complete for the approved MVP scope. Hard deletion remains
   intentionally unsupported.
-- Phase 8A favorite and recent-food reuse is complete after green CI and final
-  review. Phase 8B Saved Meals persistence foundation remains unstarted, and
-  overall Phase 8 remains incomplete.
+- Phase 8A favorite and recent-food reuse and Phase 8B Saved Meals persistence
+  are complete after green CI and final review. Phase 8C Saved Meals creation,
+  management, and diary-reuse UI remains unstarted; overall Phase 8 remains
+  incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
