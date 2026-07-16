@@ -30,6 +30,14 @@ export async function listCurrentDiaryEntriesForDate(
     .eq("user_id", userIdResult.data)
     .eq("entry_date", dateResult.data)
     .order("created_at", { ascending: true })
+    .order("saved_meal_diary_run_id", {
+      ascending: true,
+      nullsFirst: true,
+    })
+    .order("saved_meal_item_position", {
+      ascending: true,
+      nullsFirst: true,
+    })
     .order("id", { ascending: true });
 
   if (error) {

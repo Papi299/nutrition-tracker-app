@@ -51,24 +51,35 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
   }
 
   function queryLocalDatabase(statement: string) {
-    return execFileSync(
-      "docker",
-      [
-        "exec",
-        databaseContainer,
-        "psql",
-        "-U",
-        "postgres",
-        "-d",
-        "postgres",
-        "-v",
-        "ON_ERROR_STOP=1",
-        "-At",
-        "-c",
-        statement,
-      ],
-      { encoding: "utf8" },
-    ).trim();
+    let lastError: unknown;
+
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      try {
+        return execFileSync(
+          "docker",
+          [
+            "exec",
+            databaseContainer,
+            "psql",
+            "-U",
+            "postgres",
+            "-d",
+            "postgres",
+            "-v",
+            "ON_ERROR_STOP=1",
+            "-At",
+            "-c",
+            statement,
+          ],
+          { encoding: "utf8" },
+        ).trim();
+      } catch (error) {
+        lastError = error;
+        if (attempt < 4) execFileSync("sleep", ["1"]);
+      }
+    }
+
+    throw lastError;
   }
 
   async function newAuthenticatedContext(
@@ -443,6 +454,10 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     const sourcePage = [sourceMealId, ...paginationMealIds].sort().indexOf(sourceMealId) < 20 ? 1 : 2;
     await page.goto(`/en/saved-meals?status=active&page=${sourcePage}`);
     const card = page.locator(`[data-saved-meal-id="${sourceMealId}"]`);
+    await expect(card.getByRole("link", { name: "Use in diary" })).toHaveAttribute(
+      "href",
+      `/en/saved-meals/${sourceMealId}/use`,
+    );
     await card.getByRole("button", { name: "Archive" }).click();
     await expect(card.getByTestId("saved-meal-archive-confirmation")).toContainText(
       "existing diary entries stay unchanged",
@@ -456,9 +471,18 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await card.getByRole("button", { name: "Archive meal" }).click();
     await expect(page).toHaveURL(/\/en\/saved-meals\?status=archived&saved=archived$/);
     await expect(page.locator(`[data-saved-meal-id="${sourceMealId}"]`)).toBeVisible();
+    await expect(
+      page
+        .locator(`[data-saved-meal-id="${sourceMealId}"]`)
+        .getByRole("link", { name: "Use in diary" }),
+    ).toHaveCount(0);
+    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=${date}`);
+    await expect(page.getByTestId("saved-meal-use-archived")).toBeVisible();
+    await page.goto("/en/saved-meals?status=archived&page=1");
 
     await page.getByRole("link", { name: "Edit" }).click();
     await expect(page.getByTestId("saved-meal-archived-notice")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Use in diary" })).toHaveCount(0);
     await page.getByLabel("Meal name").fill("Archived but still editable");
     await page.getByRole("button", { name: "Save changes" }).click();
     await expect(page.getByTestId("saved-meal-archived-notice")).toBeVisible();
@@ -470,6 +494,179 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
       .click();
     await expect(page).toHaveURL(/\/en\/saved-meals\?status=active&saved=restored$/);
     await expect(page.locator(`[data-saved-meal-id="${sourceMealId}"]`)).toBeVisible();
+    await expect(
+      page
+        .locator(`[data-saved-meal-id="${sourceMealId}"]`)
+        .getByRole("link", { name: "Use in diary" }),
+    ).toBeVisible();
     await context.close();
+  });
+
+  test("reviews localized snapshots, rejects stale confirmation, and logs an editable atomic run", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      viewport: { height: 844, width: 390 },
+    });
+    const page = await context.newPage();
+
+    await page.goto(`/en/saved-meals/${sourceMealId}/use`);
+    await expect(page).toHaveURL(
+      new RegExp(`/en/saved-meals/${sourceMealId}/use\\?date=\\d{4}-\\d{2}-\\d{2}$`),
+    );
+    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=02-29-2024`);
+    await expect(page.getByText("Use the exact YYYY-MM-DD")).toBeVisible();
+    await page.goto(
+      `/en/saved-meals/${sourceMealId}/use?date=2024-02-29&date=2024-03-01`,
+    );
+    await expect(page.getByText("Only one calendar date may be supplied")).toBeVisible();
+    await page.goto("/en/saved-meals/not-a-uuid/use?date=2024-02-29");
+    await expect(page.getByTestId("saved-meal-use-invalid")).toBeVisible();
+    await page.goto(`/en/saved-meals/${userBMealId}/use?date=2024-02-29`);
+    await expect(page.getByTestId("saved-meal-use-unavailable")).toBeVisible();
+    const missingMealId = randomUUID();
+    await page.goto(`/en/saved-meals/${missingMealId}/use?date=2024-02-29`);
+    await expect(page.getByTestId("saved-meal-use-unavailable")).toBeVisible();
+
+    queryLocalDatabase(`
+      revoke execute on function public.get_owned_saved_meal_editor(uuid) from authenticated;
+    `);
+    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=2024-02-29`);
+    await expect(page.getByTestId("saved-meal-use-retrieval-error")).toBeVisible();
+    queryLocalDatabase(`
+      grant execute on function public.get_owned_saved_meal_editor(uuid) to authenticated;
+    `);
+
+    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=9999-12-31`);
+    await expect(page.getByLabel("Date")).toHaveValue("9999-12-31");
+
+    await page.goto(`/he/saved-meals/${sourceMealId}/use?date=2024-02-29`);
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.getByRole("heading", { name: /שימוש בארוחה/ })).toBeVisible();
+    await expect(page.locator("[data-saved-meal-position]")).toHaveCount(3);
+    await expect(page.getByText("Second linked breakfast snapshot")).toBeVisible();
+    await expect(page.getByLabel("תאריך")).toHaveValue("2024-02-29");
+    await expect(page.getByRole("link", { name: "עריכת הארוחה השמורה" })).toHaveAttribute(
+      "href",
+      `/he/saved-meals/${sourceMealId}/edit?date=2024-02-29`,
+    );
+    await expect(page.locator('input[name^="item_"]')).toHaveCount(0);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+
+    await page.goto(`/en/saved-meals/${sourceMealId}/edit?date=2024-02-29`);
+    await expect(page.getByRole("link", { name: "Use in diary" })).toHaveAttribute(
+      "href",
+      `/en/saved-meals/${sourceMealId}/use?date=2024-02-29`,
+    );
+    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=2024-02-29`);
+
+    const useSubmit = page.getByRole("button", { name: "Confirm and log all items" });
+    await useSubmit.evaluate((button) => {
+      const form = button.closest("form");
+      for (const [name, value] of [
+        ["entry_date", "2024-03-01"],
+        ["meal_type", "lunch"],
+      ]) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        input.dataset.duplicateDestination = "true";
+        form?.append(input);
+      }
+    });
+    await useSubmit.click();
+    await expect(page.getByTestId("saved-meal-use-validation_error")).toBeVisible();
+    expect(
+      queryLocalDatabase(`select count(*) from public.saved_meal_diary_runs where user_id = '${userAId}' and entry_date in ('2024-02-29', '2024-03-01');`),
+    ).toBe("0");
+    await page.locator('[data-duplicate-destination="true"]').evaluateAll((inputs) => {
+      for (const input of inputs) input.remove();
+    });
+
+    const sourceItems = await userAClient
+      .from("saved_meal_items")
+      .select("position,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes")
+      .eq("saved_meal_id", sourceMealId)
+      .order("position");
+    expect(sourceItems.error).toBeNull();
+    const changed = await userAClient.rpc("persist_saved_meal", {
+      p_items: sourceItems.data as Json,
+      p_locale: "und",
+      p_name: "Changed after review loaded",
+      p_saved_meal_id: sourceMealId,
+    });
+    expect(changed.error).toBeNull();
+
+    await page.getByLabel("Meal type").selectOption("dinner");
+    await page.getByRole("button", { name: "Confirm and log all items" }).click();
+    await expect(page.getByTestId("saved-meal-use-stale_review")).toBeVisible();
+    expect(
+      queryLocalDatabase(`select count(*) from public.saved_meal_diary_runs where user_id = '${userAId}' and entry_date = '2024-02-29' and meal_type = 'dinner';`),
+    ).toBe("0");
+
+    await page.getByRole("link", { name: "Reload current meal" }).click();
+    await expect(page.getByRole("heading", { name: /Changed after review loaded/ })).toBeVisible();
+    await page.getByLabel("Meal type").selectOption("dinner");
+    await page.getByRole("button", { name: "Confirm and log all items" }).click();
+    await expect(page).toHaveURL(
+      "/en/today?date=2024-02-29&savedMeal=logged",
+    );
+    await expect(page.getByTestId("saved-meal-logged-success")).toContainText(
+      "All reviewed items were added together",
+    );
+
+    const logged = await userAClient
+      .from("diary_entries")
+      .select("id,source,saved_meal_diary_run_id,saved_meal_item_position,food_name")
+      .eq("entry_date", "2024-02-29")
+      .eq("meal_type", "dinner")
+      .eq("source", "saved_meal")
+      .order("saved_meal_item_position");
+    expect(logged.data?.map((entry) => entry.saved_meal_item_position)).toEqual([1, 2, 3]);
+    expect(new Set(logged.data?.map((entry) => entry.saved_meal_diary_run_id)).size).toBe(1);
+    const diaryDomIds = await page.locator("[data-diary-entry-id]").evaluateAll((entries) =>
+      entries.map((entry) => entry.getAttribute("data-diary-entry-id")),
+    );
+    const loggedDomPositions = logged.data?.map((entry) => diaryDomIds.indexOf(entry.id)) ?? [];
+    expect(loggedDomPositions).toEqual([...loggedDomPositions].sort((a, b) => a - b));
+
+    const firstCard = page.locator(
+      `[data-diary-entry-id="${logged.data?.[0].id as string}"]`,
+    );
+    await firstCard.getByRole("button", { name: "Edit" }).click();
+    await expect(firstCard.getByLabel("Date")).toBeDisabled();
+    await expect(firstCard.getByLabel("Meal type")).toBeDisabled();
+    await firstCard.getByLabel("Food name").fill("Edited after saved-meal log");
+    await firstCard.getByRole("button", { name: "Save changes" }).click();
+    await expect(firstCard.getByText("Entry updated.")).toBeVisible();
+
+    const lastLoggedName = logged.data?.[2].food_name as string;
+    const lastCard = page.locator(
+      `[data-diary-entry-id="${logged.data?.[2].id as string}"]`,
+    );
+    await lastCard.getByRole("button", { name: "Delete" }).click();
+    await expect(page.getByRole("heading", { name: lastLoggedName })).toHaveCount(0);
+    expect(
+      (
+        await userAClient
+          .from("saved_meal_items")
+          .select("id", { count: "exact", head: true })
+          .eq("saved_meal_id", sourceMealId)
+      ).count,
+    ).toBe(3);
+    await context.close();
+
+    const expiredContext = await newAuthenticatedContext(browser);
+    const expiredPage = await expiredContext.newPage();
+    await expiredPage.goto(`/en/saved-meals/${sourceMealId}/use?date=2024-03-01`);
+    await expiredContext.clearCookies();
+    await expiredPage
+      .getByRole("button", { name: "Confirm and log all items" })
+      .click();
+    await expect(expiredPage.getByTestId("saved-meal-use-unauthenticated")).toBeVisible();
+    await expiredContext.close();
   });
 });

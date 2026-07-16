@@ -6,6 +6,7 @@ import {
   savedMealRowKey,
 } from "@/lib/saved-meals/row-identity";
 import { parseSavedMealSourceQuery } from "@/lib/saved-meals/source-query";
+import { validateSavedMealDiaryLogInput } from "@/lib/saved-meals/diary-log-validation";
 import {
   validateSavedMealArchiveInput,
   validateSavedMealInput,
@@ -13,6 +14,7 @@ import {
 
 const savedMealId = "123e4567-e89b-12d3-a456-426614174000";
 const foodId = "123e4567-e89b-12d3-a456-426614174001";
+const idempotencyKey = "123e4567-e89b-12d3-a456-426614174002";
 
 function validItem(overrides: Record<string, unknown> = {}) {
   return {
@@ -39,6 +41,45 @@ function validInput(overrides: Record<string, unknown> = {}) {
     ...overrides,
   };
 }
+
+test.describe("saved-meal diary log validation", () => {
+  const validLogInput = {
+    entry_date: "2024-02-29",
+    expected_source_updated_at: "2026-07-16T12:00:00.000Z",
+    idempotency_key: idempotencyKey,
+    meal_type: "breakfast",
+    saved_meal_id: savedMealId,
+  };
+
+  test("accepts every diary meal type without changing reviewed bindings", () => {
+    for (const mealType of ["breakfast", "lunch", "dinner", "snack", "other"]) {
+      expect(
+        validateSavedMealDiaryLogInput({
+          ...validLogInput,
+          meal_type: mealType,
+        }),
+      ).toMatchObject({ data: { meal_type: mealType }, ok: true });
+    }
+  });
+
+  test("rejects invalid dates, versions, ids, meal types, and caller-controlled fields", () => {
+    for (const input of [
+      { ...validLogInput, entry_date: "2024-02-30" },
+      { ...validLogInput, entry_date: " 2024-02-29" },
+      { ...validLogInput, entry_date: ["2024-02-29", "2024-03-01"] },
+      { ...validLogInput, expected_source_updated_at: "not-a-timestamp" },
+      { ...validLogInput, idempotency_key: "not-a-uuid" },
+      { ...validLogInput, meal_type: "brunch" },
+      { ...validLogInput, meal_type: ["breakfast", "lunch"] },
+      { ...validLogInput, saved_meal_id: "not-a-uuid" },
+      { ...validLogInput, user_id: foodId },
+      { ...validLogInput, items: [] },
+      { ...validLogInput, food_id: foodId },
+    ]) {
+      expect(validateSavedMealDiaryLogInput(input)).toMatchObject({ ok: false });
+    }
+  });
+});
 
 test.describe("saved-meal payload validation", () => {
   test("normalizes identity and optional snapshot text while preserving zero", () => {

@@ -59,6 +59,7 @@ function FieldError({
 
 function TextInput({
   entry,
+  disabled = false,
   error,
   inputMode,
   label,
@@ -70,6 +71,7 @@ function TextInput({
   values,
 }: {
   entry: DiaryEntry;
+  disabled?: boolean;
   error?: string;
   inputMode?: "decimal" | "numeric";
   label: string;
@@ -87,6 +89,7 @@ function TextInput({
         aria-invalid={Boolean(error)}
         className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
         defaultValue={resolveValue(values, name, entry[name])}
+        disabled={disabled}
         inputMode={inputMode}
         min={type === "number" ? "0" : undefined}
         name={name}
@@ -127,6 +130,7 @@ export function DiaryEntryEditForm({
     values: { id: entry.id },
   } satisfies DiaryEntryActionState);
   const values = state.values;
+  const provenanceContextLocked = entry.source === "saved_meal";
 
   return (
     <form
@@ -142,6 +146,7 @@ export function DiaryEntryEditForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <TextInput
           entry={entry}
+          disabled={provenanceContextLocked}
           error={state.fieldErrors?.entry_date}
           label={labels.entry_date}
           messages={fieldErrorMessages}
@@ -159,6 +164,7 @@ export function DiaryEntryEditForm({
             defaultValue={
               values?.meal_type ?? entry.meal_type ?? mealTypeOptions[0]?.value
             }
+            disabled={provenanceContextLocked}
             name="meal_type"
             required
           >

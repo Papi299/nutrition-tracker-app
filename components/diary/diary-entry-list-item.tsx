@@ -91,7 +91,7 @@ export function DiaryEntryListItem({
   ];
 
   return (
-    <li className="border border-slate-200 bg-stone-50 p-4 text-start">
+    <li className="border border-slate-200 bg-stone-50 p-4 text-start" data-diary-entry-id={entry.id}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-700">

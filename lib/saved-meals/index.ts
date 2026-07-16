@@ -5,6 +5,18 @@ export {
   type PersistedSavedMeal,
 } from "./persistence";
 export {
+  logSavedMealToDiaryForCurrentUser,
+  type LoggedSavedMeal,
+  type SavedMealDiaryLogErrorCode,
+  type SavedMealDiaryLogResult,
+} from "./diary-log";
+export {
+  validateSavedMealDiaryLogInput,
+  type SavedMealDiaryLogInput,
+  type SavedMealDiaryLogValidation,
+  type ValidatedSavedMealDiaryLogInput,
+} from "./diary-log-validation";
+export {
   getOwnedSavedMealEditor,
   parseSavedMealEditorItems,
   type OwnedSavedMealEditor,

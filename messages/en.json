@@ -146,6 +146,10 @@
       "body": "Copy one meal group's current diary snapshots into a new saved meal. Your diary is not changed.",
       "save": "Save {meal} as a meal"
     },
+    "savedMealLogged": {
+      "title": "Saved meal logged.",
+      "body": "All reviewed items were added together. You can edit or delete each diary entry without changing the saved meal."
+    },
     "list": {
       "title": "Diary entries",
       "description": "Diary snapshots for the selected date. Entries may be typed manually or linked to a readable selected food.",
@@ -699,6 +703,19 @@
       "fat": "Fat (g)",
       "notes": "Notes"
     },
+    "help": {
+      "name": "Use a recognizable private name up to 200 characters.",
+      "language": "Choose English, Hebrew, or mixed/language-neutral metadata.",
+      "foodName": "Required snapshot text; it is not refreshed from a linked food.",
+      "brand": "Optional snapshot brand. Blank is stored as not set.",
+      "servingQuantity": "Optional finite amount. Blank is not set; zero is preserved.",
+      "servingUnit": "Optional snapshot unit, such as g, cup, piece, or serving.",
+      "calories": "Optional nonnegative whole number. Blank is not set; zero is preserved.",
+      "protein": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "carbohydrates": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "fat": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "notes": "Optional snapshot notes for this item."
+    },
     "errors": {
       "validation": "Check this value and try again.",
       "duplicateRowKey": "Each item identity may be submitted only once.",
@@ -723,6 +740,7 @@
       "updated": "Saved meal updated."
     },
     "archivedNotice": "This meal is archived. Editing it does not restore it or make it available for diary reuse.",
+    "useInDiary": "Use in diary",
     "submit": {
       "create": "Create saved meal",
       "createPending": "Creating...",
@@ -752,6 +770,72 @@
       "today": "Back to the selected diary date"
     }
   },
+  "SavedMealUse": {
+    "label": "Saved meal review",
+    "title": "Use {name} in the diary.",
+    "description": "Review the saved snapshots, choose the destination, and confirm one atomic diary write.",
+    "bootstrapTitle": "Choose a date to review this saved meal.",
+    "explanation": {
+      "title": "What will be logged",
+      "exact": "The reviewed names, serving values, nutrients, notes, and item order are copied exactly from this saved meal.",
+      "live": "Current food values will not refresh or replace these saved snapshots.",
+      "atomic": "All items are added together, or none are added.",
+      "edit": "Use Edit saved meal before logging if needed; after logging, each diary entry can be edited or deleted independently.",
+      "retry": "Retrying this confirmation cannot create duplicates; a newly loaded review intentionally allows another diary use."
+    },
+    "items": {
+      "title": "Reviewed meal snapshots",
+      "count": "{count, plural, one {# item} other {# items}}",
+      "position": "Item {position}"
+    },
+    "fields": {
+      "serving": "Serving",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbohydrates": "Carbohydrates",
+      "fat": "Fat"
+    },
+    "notSet": "Not set",
+    "editMeal": "Edit saved meal",
+    "destination": {
+      "title": "Diary destination",
+      "date": "Date",
+      "mealType": "Meal type"
+    },
+    "status": {
+      "validation_error": "Choose a valid date and meal type.",
+      "database_error": "We could not log this saved meal. No partial diary entries were kept.",
+      "not_found": "This saved meal is no longer available to this account.",
+      "archived": "This saved meal was archived before confirmation and was not logged.",
+      "stale_review": "This saved meal changed after this review loaded. Reload and review the current snapshots before confirming.",
+      "idempotency_conflict": "This confirmation was already used with different diary details. Reload before trying again.",
+      "unauthenticated": "Your session expired. Sign in again before logging this meal."
+    },
+    "reload": "Reload current meal",
+    "submit": "Confirm and log all items",
+    "submitPending": "Logging meal...",
+    "states": {
+      "invalid": {
+        "title": "Invalid saved-meal link",
+        "body": "The saved-meal id is invalid. No saved-meal lookup was run."
+      },
+      "unavailable": {
+        "title": "Saved meal unavailable",
+        "body": "This meal is missing or belongs to another account."
+      },
+      "archived": {
+        "title": "Saved meal archived",
+        "body": "Archived meals cannot be reused in the diary. Restore this meal before reviewing it."
+      },
+      "failure": {
+        "title": "Saved meal could not be loaded",
+        "body": "We could not retrieve this saved meal right now. No diary entries were created.",
+        "retry": "Try again",
+        "back": "Back to saved meals"
+      },
+      "back": "Back to saved meals"
+    }
+  },
   "SavedMealManagement": {
     "label": "Saved meals",
     "title": "Manage saved meals.",
@@ -779,7 +863,8 @@
       "itemCount": "{count, plural, one {# item} other {# items}}",
       "status": "Status",
       "updated": "Updated",
-      "edit": "Edit"
+      "edit": "Edit",
+      "useInDiary": "Use in diary"
     },
     "empty": {
       "active": {

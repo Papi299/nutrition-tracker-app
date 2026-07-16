@@ -139,6 +139,11 @@ function MealCard({ locale, meal }: { locale: Locale; meal: ManagedSavedMeal }) 
         </dl>
       </div>
       <div className="grid gap-3 sm:min-w-40">
+        {!meal.is_archived && (
+          <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 px-4 text-sm font-semibold text-teal-800" href={`/${locale}/saved-meals/${meal.saved_meal_id}/use`}>
+            {t("card.useInDiary")}
+          </Link>
+        )}
         <Link className="inline-flex min-h-11 items-center justify-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/saved-meals/${meal.saved_meal_id}/edit`}>
           {t("card.edit")}
         </Link>
