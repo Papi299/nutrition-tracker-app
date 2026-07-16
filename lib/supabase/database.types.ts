@@ -511,6 +511,18 @@ export type Database = {
           serving_unit: string
         }[]
       }
+      get_owned_saved_meal_editor: {
+        Args: { p_saved_meal_id: string }
+        Returns: {
+          created_at: string
+          is_archived: boolean
+          items: Json
+          locale: string
+          name: string
+          saved_meal_id: string
+          updated_at: string
+        }[]
+      }
       get_readable_food_diary_prefill: {
         Args: { p_food_id: string }
         Returns: {

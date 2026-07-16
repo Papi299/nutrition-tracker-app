@@ -93,6 +93,9 @@ Known completed state from the repository and recent validated work:
   readable-food links, atomic complete-replacement persistence, reversible
   archive state, and typed server-only validation/persistence helpers without
   routes, UI, totals, or diary mutation.
+- Phase 8C.1 adds localized saved-meal creation, complete-replacement editing,
+  active/archived management, reversible lifecycle controls, and exact
+  diary-group snapshot copying. It does not apply saved meals to diary rows.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -102,14 +105,13 @@ persistence-foundation scope. Phase 7B creation/editing and Phase 7C management
 and lifecycle controls are complete. Final acceptance found no blocking
 security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
-approved MVP scope. Phases 8A and 8B are complete after green CI and clean final
-review; overall Phase 8 remains incomplete. The next slice requires a separate
-approved task:
+approved MVP scope. Phases 8A, 8B, and 8C.1 are complete after green CI and
+clean final review; overall Phase 8 remains incomplete. The next slice requires
+a separate approved task:
 
-- Phase 8C Saved Meals creation, management, and diary-reuse UI is next and not
-  started.
+- Phase 8C.2 atomic reviewed saved-meal diary reuse is next and not started.
 
-Phase 8C design and implementation require a separate approved task.
+Phase 8C.2 design and implementation require a separate approved task.
 
 ## Future PR Documentation Rule
 

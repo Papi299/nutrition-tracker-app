@@ -141,6 +141,11 @@
     "date": {
       "submit": "Show date"
     },
+    "savedMeals": {
+      "title": "Save a meal from this diary",
+      "body": "Copy one meal group's current diary snapshots into a new saved meal. Your diary is not changed.",
+      "save": "Save {meal} as a meal"
+    },
     "list": {
       "title": "Diary entries",
       "description": "Diary snapshots for the selected date. Entries may be typed manually or linked to a readable selected food.",
@@ -260,6 +265,19 @@
       "carbohydrates": "Carbohydrates (g)",
       "fat": "Fat (g)",
       "notes": "Notes"
+    },
+    "help": {
+      "name": "Use a recognizable private name up to 200 characters.",
+      "language": "Choose English, Hebrew, or mixed/language-neutral metadata.",
+      "foodName": "Required snapshot text; it is not refreshed from a linked food.",
+      "brand": "Optional snapshot brand. Blank is stored as not set.",
+      "servingQuantity": "Optional finite amount. Blank is not set; zero is preserved.",
+      "servingUnit": "Optional snapshot unit, such as g, cup, piece, or serving.",
+      "calories": "Optional nonnegative whole number. Blank is not set; zero is preserved.",
+      "protein": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "carbohydrates": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "fat": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "notes": "Optional snapshot notes for this item."
     },
     "mealTypes": {
       "breakfast": "Breakfast",
@@ -563,6 +581,7 @@
     "title": "Favorites and recent foods.",
     "description": "Reuse readable foods from your favorites or from foods you previously logged. A food may appear in both lists.",
     "search": "Search all foods",
+    "savedMeals": "Saved meals",
     "date": {
       "invalidTitle": "Diary date context was removed",
       "invalid": "The supplied diary date is invalid. Reusable foods remain available, but diary selection will return to browser-local Today.",
@@ -635,6 +654,177 @@
       "retry": "Try loading reusable foods again"
     }
   },
+  "SavedMealEditor": {
+    "label": "Saved meals",
+    "titleCreate": "Create a saved meal.",
+    "titleEdit": "Edit saved meal.",
+    "descriptionCreate": "Name a reusable meal and enter its ordered snapshot items.",
+    "descriptionDiary": "Review snapshots copied from the selected diary meal. Nothing changes in the diary until you separately edit it.",
+    "descriptionEdit": "Replace this meal's identity and ordered snapshot items in one atomic update.",
+    "identity": {
+      "title": "Meal identity",
+      "help": "The name and language describe this saved meal; they do not translate item snapshots.",
+      "name": "Meal name",
+      "language": "Language"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "items": {
+      "title": "Meal items",
+      "help": "Items are saved in this order. Snapshot values stay exactly as reviewed and do not refresh from the food catalog.",
+      "itemNumber": "Item {number}",
+      "linked": "Linked to a food",
+      "unlinked": "Snapshot only",
+      "linkRemoved": "The food link will be removed when you save; the snapshot values remain.",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "moveUpLabel": "Move item {number} up",
+      "moveDownLabel": "Move item {number} down",
+      "removeLink": "Remove food link",
+      "remove": "Remove item",
+      "add": "Add item",
+      "count": "{count, plural, one {# item} other {# items}}"
+    },
+    "fields": {
+      "foodName": "Food name",
+      "brand": "Brand name",
+      "servingQuantity": "Serving quantity",
+      "servingUnit": "Serving unit",
+      "calories": "Calories",
+      "protein": "Protein (g)",
+      "carbohydrates": "Carbohydrates (g)",
+      "fat": "Fat (g)",
+      "notes": "Notes"
+    },
+    "errors": {
+      "validation": "Check this value and try again.",
+      "duplicateRowKey": "Each item identity may be submitted only once.",
+      "integer": "Enter a whole number.",
+      "invalidLink": "This food link is not valid for the submitted item.",
+      "invalidRowKey": "This item identity is invalid.",
+      "number": "Enter a valid number or leave this blank.",
+      "itemCount": "A saved meal must contain 1 to 50 items.",
+      "nonnegative": "Enter zero or a positive value.",
+      "positions": "Item positions must be continuous and ordered.",
+      "required": "This field is required.",
+      "tooLong": "This field is too long.",
+      "language": "Choose a supported language."
+    },
+    "status": {
+      "idle": "Review the meal and save when ready.",
+      "databaseError": "We could not save this meal. No partial changes were kept.",
+      "notFound": "This saved meal is unavailable to this account.",
+      "unauthenticated": "Your session expired. Sign in again before saving.",
+      "validationError": "Check the highlighted fields and try again.",
+      "created": "Saved meal created.",
+      "updated": "Saved meal updated."
+    },
+    "archivedNotice": "This meal is archived. Editing it does not restore it or make it available for diary reuse.",
+    "submit": {
+      "create": "Create saved meal",
+      "createPending": "Creating...",
+      "update": "Save changes",
+      "updatePending": "Saving..."
+    },
+    "backToManagement": "Back to saved meals",
+    "backToToday": "Back to Today",
+    "retrieval": {
+      "failureTitle": "Saved meal could not be loaded",
+      "failureBody": "We could not retrieve this saved meal right now. No data was fabricated.",
+      "retry": "Try again",
+      "back": "Back to saved meals",
+      "invalidTitle": "Invalid saved-meal link",
+      "invalidBody": "The saved-meal id is invalid. No saved-meal lookup was run.",
+      "unavailableTitle": "Saved meal unavailable",
+      "unavailableBody": "This meal is missing or belongs to another account."
+    },
+    "source": {
+      "invalidTitle": "Invalid diary source",
+      "invalidBody": "Provide one valid date and one supported meal type together. No diary lookup was run.",
+      "blank": "Start with a blank meal",
+      "tooManyTitle": "This diary meal is too large",
+      "tooManyBody": "A saved meal can contain at most 50 items. Reduce the diary meal before copying it.",
+      "emptyTitle": "No diary items to copy",
+      "emptyBody": "That meal group has no diary entries for the selected date.",
+      "today": "Back to the selected diary date"
+    }
+  },
+  "SavedMealManagement": {
+    "label": "Saved meals",
+    "title": "Manage saved meals.",
+    "description": "Create, edit, archive, or restore your private reusable meal snapshots.",
+    "create": "Create saved meal",
+    "today": "Back to Today",
+    "success": {
+      "archived": "Saved meal archived.",
+      "restored": "Saved meal restored."
+    },
+    "filters": {
+      "label": "Saved meal status",
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "count": "{count, plural, one {# saved meal} other {# saved meals}}",
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "card": {
+      "language": "Language",
+      "items": "Items",
+      "itemCount": "{count, plural, one {# item} other {# items}}",
+      "status": "Status",
+      "updated": "Updated",
+      "edit": "Edit"
+    },
+    "empty": {
+      "active": {
+        "title": "No active saved meals",
+        "body": "Create a blank saved meal or copy a meal group from Today.",
+        "create": "Create your first saved meal"
+      },
+      "archived": {
+        "title": "No archived saved meals",
+        "body": "Meals you archive will appear here and can be restored."
+      }
+    },
+    "pagination": {
+      "label": "Saved meal pages",
+      "previous": "Previous",
+      "current": "Page {page}",
+      "next": "Next"
+    },
+    "invalid": {
+      "title": "Invalid saved-meal filters",
+      "body": "Use one active or archived status and one positive page number. No saved-meal query was run.",
+      "recover": "Show active saved meals"
+    },
+    "retrieval": {
+      "title": "Saved meals could not be loaded",
+      "body": "We could not retrieve your saved meals right now. No private data was exposed.",
+      "retry": "Try loading saved meals again"
+    },
+    "actions": {
+      "restore": "Restore",
+      "restorePending": "Restoring...",
+      "archive": "Archive",
+      "confirmationLabel": "Confirm archiving {name}",
+      "confirmationTitle": "Archive this saved meal?",
+      "confirmationBody": "It will leave the active list and cannot be reused in the diary until restored. Its items and snapshots remain stored, and existing diary entries stay unchanged.",
+      "archivePending": "Archiving...",
+      "confirmArchive": "Archive meal",
+      "cancel": "Cancel",
+      "errors": {
+        "unauthenticated": "Your session expired. Sign in again before changing this meal.",
+        "unavailable": "This saved meal is unavailable to this account.",
+        "database": "We could not change this saved meal right now."
+      }
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
@@ -643,6 +833,7 @@
       "today": "Today",
       "foodSearch": "Food search",
       "reusableFoods": "Favorites & recent",
+      "savedMeals": "Saved meals",
       "myFoods": "My foods",
       "profileTargets": "Profile & targets"
     },

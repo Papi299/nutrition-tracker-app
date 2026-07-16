@@ -626,3 +626,33 @@
 - Phase 8B is complete after green CI and clean final review. Phase 8C Saved
   Meals creation, management, and diary-reuse UI is next and not started;
   overall Phase 8 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-16: Phase 8C.1 saved-meal creation, editing, and management UI
+
+- Added protected localized saved-meal management, blank creation,
+  diary-source creation, and owned edit routes. Management accepts only one
+  active/archived status and positive page value, lists exactly 20 per page in
+  deterministic `updated_at desc, id` order, and provides distinct empty,
+  retrieval, invalid-query, archive, and restore states.
+- Added one authenticated `SECURITY INVOKER` editor RPC with an empty search
+  path. It returns complete ordered snapshot state for the caller's active or
+  archived meal, exposes no mutation, grants execution only to authenticated
+  users, and relies on existing owner RLS.
+- Added one reusable English/Hebrew form for 1–50 ordered snapshot items with
+  accessible add, remove, and reorder controls, raw mixed-script display,
+  blank-as-null and explicit-zero semantics, and complete atomic replacement.
+  Route ids and food-link mappings are server-bound; malformed or duplicate
+  row identities fail, client-created or unknown identities cannot introduce
+  a food link, and explicit unlink keeps snapshot values.
+- Diary-source creation strictly requires one canonical date and meal type,
+  copies only the current user's existing ordered snapshot fields and readable
+  links, and never reads live food values or mutates diary rows. Today exposes
+  source links only for nonempty meal groups.
+- Archive requires inline confirmation, restore is reversible, and archived
+  meals remain editable without being restored. Local-only coverage verifies
+  localization, RTL/LTR and mobile layout, query guards, ownership, ordered
+  copying, snapshot/link integrity, validation preservation, pagination,
+  lifecycle behavior, grants, migration replay, and existing regressions.
+- Phase 8C.1 is complete after green CI and clean final review. Phase 8C.2
+  atomic reviewed saved-meal diary reuse is next and not started; overall Phase
+  8 remains incomplete. No remote Supabase operation occurred.
