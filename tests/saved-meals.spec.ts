@@ -1,4 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { parseSavedMealEditorItems } from "@/lib/saved-meals/editor-parser";
+import { parseSavedMealManagementQuery } from "@/lib/saved-meals/management-query";
+import {
+  parseSavedMealRowKey,
+  savedMealRowKey,
+} from "@/lib/saved-meals/row-identity";
+import { parseSavedMealSourceQuery } from "@/lib/saved-meals/source-query";
 import {
   validateSavedMealArchiveInput,
   validateSavedMealInput,
@@ -247,5 +254,124 @@ test.describe("saved-meal payload validation", () => {
       },
       ok: false,
     });
+  });
+});
+
+test.describe("saved-meal UI query boundaries", () => {
+  test("parses complete contiguous editor snapshots and rejects malformed order", () => {
+    const editorItem = {
+      id: savedMealId,
+      position: 1,
+      food_id: foodId,
+      food_name: "Snapshot food",
+      brand_name: null,
+      serving_quantity: 0,
+      serving_unit: null,
+      calories: 0,
+      protein_g: null,
+      carbohydrates_g: 0,
+      fat_g: null,
+      notes: null,
+    };
+
+    expect(parseSavedMealEditorItems([editorItem])).toEqual([
+      {
+        brand_name: null,
+        calories: 0,
+        carbohydrates_g: 0,
+        fat_g: null,
+        food_id: foodId,
+        food_name: "Snapshot food",
+        item_id: savedMealId,
+        notes: null,
+        position: 1,
+        protein_g: null,
+        serving_quantity: 0,
+        serving_unit: null,
+      },
+    ]);
+    expect(
+      parseSavedMealEditorItems([
+        editorItem,
+        { ...editorItem, id: foodId, position: 3 },
+      ]),
+    ).toBeNull();
+    expect(parseSavedMealEditorItems([])).toBeNull();
+  });
+
+  test("defaults management to active page one and accepts strict filters", () => {
+    expect(parseSavedMealManagementQuery({})).toEqual({
+      page: 1,
+      status: "active",
+      type: "valid",
+    });
+    expect(
+      parseSavedMealManagementQuery({ page: "2", status: "archived" }),
+    ).toEqual({ page: 2, status: "archived", type: "valid" });
+  });
+
+  test("rejects invalid and repeated management filters before querying", () => {
+    for (const query of [
+      { status: "all" },
+      { status: ["active", "archived"] },
+      { page: "0" },
+      { page: "01" },
+      { page: "1.5" },
+      { page: ["1", "2"] },
+      { page: "999999999999999999999999999" },
+    ]) {
+      expect(parseSavedMealManagementQuery(query)).toMatchObject({
+        type: "invalid",
+      });
+    }
+  });
+
+  test("requires an exact diary date and meal-type pair", () => {
+    expect(parseSavedMealSourceQuery({})).toEqual({ type: "blank" });
+
+    for (const mealType of [
+      "breakfast",
+      "lunch",
+      "dinner",
+      "snack",
+      "other",
+    ]) {
+      expect(
+        parseSavedMealSourceQuery({ date: "2026-07-16", mealType }),
+      ).toEqual({
+        date: "2026-07-16",
+        meal_type: mealType,
+        type: "diary",
+      });
+    }
+
+    for (const query of [
+      { date: "2026-07-16" },
+      { mealType: "lunch" },
+      { date: "2026-02-30", mealType: "lunch" },
+      { date: "2026-07-16", mealType: "brunch" },
+      { date: ["2026-07-16", "2026-07-17"], mealType: "lunch" },
+      { date: "2026-07-16", mealType: ["lunch", "dinner"] },
+    ]) {
+      expect(parseSavedMealSourceQuery(query)).toMatchObject({ type: "invalid" });
+    }
+  });
+
+  test("uses typed opaque row identities and rejects malformed values", () => {
+    for (const kind of ["client", "diary", "item"] as const) {
+      const value = savedMealRowKey(kind, savedMealId);
+      expect(parseSavedMealRowKey(value)).toEqual({ id: savedMealId, kind });
+    }
+
+    for (const value of [
+      null,
+      "",
+      savedMealId,
+      `food:${savedMealId}`,
+      "client:not-a-uuid",
+      `client:${savedMealId}:extra`,
+    ]) {
+      expect(parseSavedMealRowKey(value)).toBeNull();
+    }
   });
 });

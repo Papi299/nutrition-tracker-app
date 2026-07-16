@@ -205,7 +205,8 @@ test.describe.serial("saved-meal persistence foundation", () => {
       from pg_proc p
       where p.oid in (
         'public.persist_saved_meal(uuid,text,text,jsonb)'::regprocedure,
-        'public.set_saved_meal_archived(uuid,boolean)'::regprocedure
+        'public.set_saved_meal_archived(uuid,boolean)'::regprocedure,
+        'public.get_owned_saved_meal_editor(uuid)'::regprocedure
       );
     `);
 
@@ -214,6 +215,7 @@ test.describe.serial("saved-meal persistence foundation", () => {
     expect(state).toContain("f|t|f|f|t|t");
     expect(state).toContain('persist_saved_meal|f|f|t|f|search_path=""');
     expect(state).toContain('set_saved_meal_archived|f|f|t|f|search_path=""');
+    expect(state).toContain('get_owned_saved_meal_editor|f|f|t|f|search_path=""');
 
     expect(
       queryDatabase(`
@@ -286,6 +288,29 @@ test.describe.serial("saved-meal persistence foundation", () => {
   });
 
   test("enforces ownership and linked-food readability through RLS and RPC validation", async () => {
+    const editor = await userAClient.rpc("get_owned_saved_meal_editor", {
+      p_saved_meal_id: primaryMealId,
+    });
+    expect(editor.error).toBeNull();
+    expect(editor.data).toHaveLength(1);
+    expect(editor.data?.[0]).toMatchObject({
+      is_archived: false,
+      locale: "he",
+      name: "ארוחה שמורה",
+      saved_meal_id: primaryMealId,
+    });
+    expect(
+      (editor.data?.[0].items as Array<{ position: number }>).map(
+        ({ position }) => position,
+      ),
+    ).toEqual([1, 2, 3, 4, 5]);
+
+    const otherEditor = await userBClient.rpc("get_owned_saved_meal_editor", {
+      p_saved_meal_id: primaryMealId,
+    });
+    expect(otherEditor.error).toBeNull();
+    expect(otherEditor.data).toEqual([]);
+
     const otherRead = await userBClient
       .from("saved_meals")
       .select("id")

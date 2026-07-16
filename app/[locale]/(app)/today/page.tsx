@@ -416,6 +416,37 @@ function LocalizedTodayPage({
                     target={target}
                   />
                 )}
+                {diaryState.data.length > 0 && (
+                  <section
+                    aria-labelledby="save-diary-meal-title"
+                    className="border border-teal-200 bg-teal-50 p-4"
+                    data-testid="save-diary-meal-links"
+                  >
+                    <h3 className="font-semibold text-slate-950" id="save-diary-meal-title">
+                      {diaryT("savedMeals.title")}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                      {diaryT("savedMeals.body")}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-3">
+                      {(["breakfast", "lunch", "dinner", "snack", "other"] as const)
+                        .filter((mealType) =>
+                          diaryState.data.some((entry) => entry.meal_type === mealType),
+                        )
+                        .map((mealType) => (
+                          <Link
+                            className="inline-flex min-h-10 items-center border border-teal-700 bg-white px-3 text-sm font-semibold text-teal-800"
+                            href={`/${locale}/saved-meals/new?date=${selectedDate}&mealType=${mealType}`}
+                            key={mealType}
+                          >
+                            {diaryT("savedMeals.save", {
+                              meal: diaryT(`mealTypes.${mealType}`),
+                            })}
+                          </Link>
+                        ))}
+                    </div>
+                  </section>
+                )}
                 <DiaryEntryList
                   deleteAction={deleteAction}
                   emptyMessage={diaryT("list.empty")}

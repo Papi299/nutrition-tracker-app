@@ -46,6 +46,7 @@ function LocalizedProtectedLayout({
       navMyFoods={t("nav.myFoods")}
       navProfileTargets={t("nav.profileTargets")}
       navReusableFoods={t("nav.reusableFoods")}
+      navSavedMeals={t("nav.savedMeals")}
       navToday={t("nav.today")}
       protectedLabel={t("protectedLabel")}
       signOutLabel={t("signOut")}
