@@ -57,10 +57,11 @@ is complete for the current MVP scope.
   review found that SQL null semantics weakened the original constraint;
   Phase 7A.2 explicitly rejects a null basis for custom foods. Phase 7B adds
   localized custom-food creation and owned-food editing with grouped nutrients,
-  repeatable aliases, and secure editor retrieval. Phase 7B is complete after
-  green CI and final review. Phase 7 remains incomplete; Phase 7C custom-food
-  management, archive controls, and final Phase 7 acceptance are next and not
-  started.
+  repeatable aliases, and secure editor retrieval. Phase 7C adds the localized
+  owned-food management list, fixed 20-item pagination, explicit archive
+  confirmation, and restore controls. Final acceptance classifies Phase 7
+  Custom Foods as complete for the approved MVP scope. Phase 8 Recipes / Saved
+  Meals / Recents / Favorites is next and not started.
 
 ## Install Dependencies
 
@@ -357,9 +358,15 @@ Manual RTL QA checklist:
   reusable accessible form. The form uses the durable basis directly, groups
   all 35 nutrients, preserves blank/zero semantics and raw aliases, and keeps
   archived foods archived while allowing owned edits.
-- No custom-food management list, archive controls, production catalog, alias
-  ingestion, barcode behavior, USDA ingestion, or FoodsDictionary integration
-  is implemented by this slice.
+- Phase 7C adds `/{locale}/foods/custom`, an authenticated direct RLS-backed
+  owner query, strict active/archived and page parsing, deterministic 20-item
+  pagination, localized management cards, and route-bound archive/restore
+  actions. Archive requires an inline confirm/cancel step, keeps historical
+  diary links and snapshots unchanged, and remains fully reversible. Hard
+  deletion is explicitly excluded.
+- Phase 7 is complete for the approved MVP Custom Foods scope. Production
+  catalog ingestion, barcode behavior, USDA/FoodsDictionary integration,
+  recipes, saved meals, recents, and favorites remain unimplemented.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -430,11 +437,10 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Custom-food UI, recipes, barcode, USDA and FoodsDictionary ingestion,
-  settings pages, charts, and broader analytics remain unavailable. Phases
-  6A–6C and overall Phase 6 are complete for the approved Food Search
-  Foundation scope. Phase 7A persistence foundation is complete; overall Phase
-  7 remains incomplete and Phase 7B UI is next and not started.
+- Recipes, saved meals, recents, favorites, barcode, USDA and FoodsDictionary
+  ingestion, settings pages, charts, and broader analytics remain unavailable.
+  Phases 6 and 7 are complete for their approved Food Search and Custom Foods
+  MVP scopes. Phase 8 is next and not started.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -467,8 +473,9 @@ Manual RTL QA checklist:
   nutrition-domain foundations.
 - Food-search pagination, analytics, or ranking controls.
 - Barcode scanning.
-- Custom food forms.
-- Saved meals or recipes.
+- Hard deletion or bulk lifecycle controls for custom foods.
+- Custom-food management text search.
+- Recipes, saved meals, recents, or favorites.
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
@@ -479,8 +486,9 @@ Manual RTL QA checklist:
 - USDA may be used later for generic foods.
 - FoodsDictionary may be used later for branded and packaged foods only after
   an approved API/license agreement.
-- Custom-food persistence is implemented as a Phase 7A foundation; creation
-  and editing UI remains a Phase 7B V1/P0 requirement.
+- Phase 7 custom-food persistence, creation, editing, listing, archive, and
+  restore are complete for the approved MVP scope. Hard deletion remains
+  intentionally unsupported.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

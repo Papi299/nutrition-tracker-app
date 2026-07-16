@@ -43,6 +43,7 @@ function LocalizedProtectedLayout({
       appName={t("appName")}
       locale={locale}
       navFoodSearch={t("nav.foodSearch")}
+      navMyFoods={t("nav.myFoods")}
       navProfileTargets={t("nav.profileTargets")}
       navToday={t("nav.today")}
       protectedLabel={t("protectedLabel")}

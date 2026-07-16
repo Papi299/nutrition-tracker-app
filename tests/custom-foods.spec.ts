@@ -5,6 +5,7 @@ import {
   validateCustomFoodInput,
 } from "@/lib/custom-foods/validation";
 import { parseCustomFoodNutrientFormValue } from "@/lib/custom-foods/form-validation";
+import { parseCustomFoodManagementQuery } from "@/lib/custom-foods/management-query";
 
 const foodId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -206,6 +207,51 @@ test.describe("custom-food payload validation", () => {
         status: "invalid",
       });
     }
+  });
+
+  test("parses strict custom-food management status and page values", () => {
+    expect(parseCustomFoodManagementQuery({})).toEqual({
+      page: 1,
+      status: "active",
+      type: "valid",
+    });
+    expect(
+      parseCustomFoodManagementQuery({ page: "2", status: "archived" }),
+    ).toEqual({ page: 2, status: "archived", type: "valid" });
+
+    for (const page of [
+      "0",
+      "-1",
+      "1.5",
+      "01",
+      "not-a-page",
+      "9007199254740991",
+      "999999999999999999999",
+    ]) {
+      expect(parseCustomFoodManagementQuery({ page })).toEqual({
+        field: "page",
+        reason: "invalid",
+        type: "invalid",
+      });
+    }
+
+    expect(parseCustomFoodManagementQuery({ page: ["1", "2"] })).toEqual({
+      field: "page",
+      reason: "repeated",
+      type: "invalid",
+    });
+    expect(parseCustomFoodManagementQuery({ status: "all" })).toEqual({
+      field: "status",
+      reason: "invalid",
+      type: "invalid",
+    });
+    expect(
+      parseCustomFoodManagementQuery({ status: ["active", "archived"] }),
+    ).toEqual({
+      field: "status",
+      reason: "repeated",
+      type: "invalid",
+    });
   });
 
   test("preserves raw aliases across en, he, and und", () => {

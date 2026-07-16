@@ -292,6 +292,7 @@
     "descriptionCreate": "Save a private food with its identity, nutrient basis, optional nutrient values, and aliases.",
     "descriptionEdit": "Update the current private food values. Existing nutrients and aliases are replaced by the complete submitted form.",
     "backToFoods": "Back to food search",
+    "backToManagement": "Back to my foods",
     "archivedNotice": "This food is archived. You can edit it here, but it remains archived and unavailable in search and diary prefill.",
     "identity": {
       "title": "Identity",
@@ -378,11 +379,90 @@
       "invalidLink": "The submitted food identifier does not match this editor."
     }
   },
+  "CustomFoodManagement": {
+    "label": "Custom foods",
+    "title": "Manage your custom foods.",
+    "description": "Review, edit, archive, or restore private foods owned by this account. Archived foods remain editable but stay out of search and diary prefill until restored.",
+    "create": "Create custom food",
+    "foodSearch": "Open food search",
+    "count": "{count, plural, one {# food} other {# foods}} in this view.",
+    "filters": {
+      "label": "Custom-food status",
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "basis": {
+      "per_serving": "Per serving",
+      "per_100g": "Per 100 g",
+      "per_100ml": "Per 100 ml"
+    },
+    "card": {
+      "language": "Food language",
+      "basis": "Nutrient basis",
+      "serving": "Serving reference",
+      "status": "Status",
+      "updated": "Last updated",
+      "edit": "Edit"
+    },
+    "success": {
+      "archived": "Custom food archived successfully. Existing diary history remains unchanged.",
+      "restored": "Custom food restored successfully and is available for search and diary prefill again."
+    },
+    "empty": {
+      "active": {
+        "title": "No active custom foods",
+        "body": "Create a private custom food to make it available in food search and diary prefill.",
+        "create": "Create your first custom food"
+      },
+      "archived": {
+        "title": "No archived custom foods",
+        "body": "Foods that you archive will appear here and can be restored later."
+      }
+    },
+    "pagination": {
+      "label": "Custom-food pages",
+      "previous": "Previous",
+      "next": "Next",
+      "current": "Page {page}"
+    },
+    "invalid": {
+      "title": "Invalid management link",
+      "body": "The status or page parameter is invalid or repeated. No custom-food list query was run.",
+      "recover": "Open active foods at page 1"
+    },
+    "retrieval": {
+      "title": "Custom foods could not be loaded",
+      "body": "We could not safely load your custom foods right now. No database details are shown.",
+      "retry": "Try loading custom foods again"
+    },
+    "actions": {
+      "archive": "Archive",
+      "confirmationLabel": "Archive {name}",
+      "confirmationTitle": "Archive this custom food?",
+      "confirmationBody": "It will leave search and diary prefill, but existing diary history remains unchanged. You can restore it later.",
+      "confirmArchive": "Confirm archive",
+      "archivePending": "Archiving...",
+      "cancel": "Cancel",
+      "restore": "Restore",
+      "restorePending": "Restoring...",
+      "errors": {
+        "unauthenticated": "Your session expired. Sign in again before changing this food.",
+        "unavailable": "This food is unavailable or cannot be changed by this account.",
+        "database": "We could not change this food right now. Try again in a moment."
+      }
+    }
+  },
   "FoodSearch": {
     "label": "Food catalog",
     "title": "Search readable foods.",
     "description": "Find public foods and your own custom foods by name, alias, or brand, then choose one to prefill a diary snapshot.",
     "createCustom": "Create custom food",
+    "manageCustom": "My foods",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -483,6 +563,7 @@
     "nav": {
       "today": "Today",
       "foodSearch": "Food search",
+      "myFoods": "My foods",
       "profileTargets": "Profile & targets"
     },
     "today": {

@@ -74,12 +74,20 @@ function LocalizedFoodsPage({
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
           {t("description")}
         </p>
-        <Link
-          className="mt-5 inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
-          href={`/${locale}/foods/custom/new`}
-        >
-          {t("createCustom")}
-        </Link>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+            href={`/${locale}/foods/custom/new`}
+          >
+            {t("createCustom")}
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+            href={`/${locale}/foods/custom`}
+          >
+            {t("manageCustom")}
+          </Link>
+        </div>
       </header>
 
       {(dateQuery.status === "invalid" || dateQuery.status === "repeated") && (
