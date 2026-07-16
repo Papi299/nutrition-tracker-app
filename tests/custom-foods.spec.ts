@@ -4,6 +4,7 @@ import {
   validateCustomFoodArchiveInput,
   validateCustomFoodInput,
 } from "@/lib/custom-foods/validation";
+import { parseCustomFoodNutrientFormValue } from "@/lib/custom-foods/form-validation";
 
 const foodId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -179,6 +180,30 @@ test.describe("custom-food payload validation", () => {
         code: "validation_error",
         fieldErrors: { nutrients: error },
         ok: false,
+      });
+    }
+  });
+
+  test("parses optional nutrient form values without losing zero", () => {
+    expect(parseCustomFoodNutrientFormValue("")).toEqual({ status: "blank" });
+    expect(parseCustomFoodNutrientFormValue("  ")).toEqual({ status: "blank" });
+    expect(parseCustomFoodNutrientFormValue("0")).toEqual({
+      amount: 0,
+      status: "valid",
+    });
+    expect(parseCustomFoodNutrientFormValue("2.75")).toEqual({
+      amount: 2.75,
+      status: "valid",
+    });
+    expect(parseCustomFoodNutrientFormValue("-1")).toEqual({
+      code: "negative_amount",
+      status: "invalid",
+    });
+
+    for (const value of ["not-a-number", "Infinity", "-Infinity", "1e309"]) {
+      expect(parseCustomFoodNutrientFormValue(value)).toEqual({
+        code: "invalid_number",
+        status: "invalid",
       });
     }
   });

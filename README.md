@@ -55,10 +55,12 @@ is complete for the current MVP scope.
   review found that empty custom foods did not retain their selected nutrient
   basis; Phase 7A.1 stores that basis explicitly on every custom food. A second
   review found that SQL null semantics weakened the original constraint;
-  Phase 7A.2 explicitly rejects a null basis for custom foods. Phase 7A is
-  complete only after this correction passes CI and final review. Phase 7
-  remains incomplete; Phase 7B custom-food creation and editing UI is next and
-  not started.
+  Phase 7A.2 explicitly rejects a null basis for custom foods. Phase 7B adds
+  localized custom-food creation and owned-food editing with grouped nutrients,
+  repeatable aliases, and secure editor retrieval. Phase 7B is complete after
+  green CI and final review. Phase 7 remains incomplete; Phase 7C custom-food
+  management, archive controls, and final Phase 7 acceptance are next and not
+  started.
 
 ## Install Dependencies
 
@@ -350,8 +352,14 @@ Manual RTL QA checklist:
   a non-null valid basis for every custom food and null for non-custom foods.
   Its defensive repair follows the documented legacy inference only for an
   unexpectedly null custom basis; new writes continue persisting basis state.
-- No production catalog, alias ingestion, custom-food UI, barcode behavior,
-  USDA ingestion, or FoodsDictionary integration is implemented by this slice.
+- Phase 7B adds protected localized create/edit routes, one authenticated
+  invoker editor RPC, a server-only ordered nutrient-dictionary loader, and one
+  reusable accessible form. The form uses the durable basis directly, groups
+  all 35 nutrients, preserves blank/zero semantics and raw aliases, and keeps
+  archived foods archived while allowing owned edits.
+- No custom-food management list, archive controls, production catalog, alias
+  ingestion, barcode behavior, USDA ingestion, or FoodsDictionary integration
+  is implemented by this slice.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
