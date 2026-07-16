@@ -559,3 +559,34 @@
   production data, remote Supabase operation, or hard deletion was added.
 - Phase 7 Custom Foods is complete for the approved MVP scope. Phase 8 Recipes /
   Saved Meals / Recents / Favorites is next and not started.
+
+## 2026-07-16: Phase 8A favorite foods and recent-food reuse
+
+- Added `food_favorites` with a composite user/food key, cascading user and
+  food references, deterministic newest-first index, owner-only RLS, no update
+  grant, and authenticated-only select/insert/delete privileges. Favorite
+  insertion additionally requires a currently readable non-archived public or
+  owned custom food.
+- Added idempotent authenticated invoker favorite mutation and read-only reuse
+  RPCs with empty search paths and server-derived `auth.uid()`. Recents are
+  derived from owned linked diary rows, deduplicated by food, ordered by newest
+  diary creation time plus food id, and limited independently from favorites
+  to 20 current readable non-archived foods.
+- Extended the unchanged food-search ranking contract with `is_favorite`, and
+  added server-bound localized favorite controls plus a protected English and
+  Hebrew reuse route. Favorites and recents remain separate, may overlap, show
+  current food/source/serving metadata, and preserve canonical diary date
+  context.
+- Reused the existing food-prefill contract: selection only opens an editable
+  current-value diary snapshot and never creates an entry. Archive hides an
+  owned food from both collections while preserving its favorite row and
+  historical diary snapshots; restore makes it reusable again, and actual food
+  deletion cascades favorites.
+- Added deterministic local-only coverage for grants, RLS, cross-user
+  isolation, idempotency, ordering, deduplication, backdated logging, current
+  metadata, 20-row limits, search controls, archive/restore/cascade, date
+  handling, no-click mutation, localization, RTL/LTR, and mobile layout. No
+  production data, dependency upgrade, or remote Supabase operation was added.
+- Phase 8A is complete after green CI and clean final review. Phase 8B Saved
+  Meals persistence foundation is next and not started; overall Phase 8 remains
+  incomplete.

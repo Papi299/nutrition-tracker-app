@@ -398,7 +398,16 @@ test.describe.serial("read-only food search helpers and UI", () => {
     await expect(result).toContainText("Generic food");
     await expect(result).toContainText("Curated");
     await expect(result).toContainText("Manual entry");
-    await expect(result.getByRole("button")).toHaveCount(0);
+    await expect(
+      result.getByRole("button", {
+        name: "Add Groundnut Butter to favorites",
+      }),
+    ).toBeVisible();
+    await expect(
+      result.locator(
+        'input[name="food_id"], input[name="foodId"], input[name="is_favorite"], input[name="user_id"], input[name="owner_id"]',
+      ),
+    ).toHaveCount(0);
 
     await context.close();
   });

@@ -223,6 +223,7 @@
     },
     "selection": {
       "findFood": "Find a food",
+      "reuseFood": "Favorites & recent",
       "invalidTitle": "Choose a valid food selection",
       "invalid": "The food selection id is invalid. No food lookup was run; you may continue with a manual entry.",
       "invalidRepeated": "Only one food selection may be supplied. No food lookup was run; remove repeated foodId parameters or continue manually.",
@@ -463,6 +464,7 @@
     "description": "Find public foods and your own custom foods by name, alias, or brand, then choose one to prefill a diary snapshot.",
     "createCustom": "Create custom food",
     "manageCustom": "My foods",
+    "reuseFoods": "Favorites & recent",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -556,6 +558,83 @@
       "foodsDictionary": "FoodsDictionary"
     }
   },
+  "ReusableFoods": {
+    "label": "Quick reuse",
+    "title": "Favorites and recent foods.",
+    "description": "Reuse readable foods from your favorites or from foods you previously logged. A food may appear in both lists.",
+    "search": "Search all foods",
+    "date": {
+      "invalidTitle": "Diary date context was removed",
+      "invalid": "The supplied diary date is invalid. Reusable foods remain available, but diary selection will return to browser-local Today.",
+      "repeated": "Only one diary date may be supplied. Reusable foods remain available without carrying repeated date context."
+    },
+    "favorites": {
+      "title": "Favorites",
+      "empty": "No readable favorite foods yet. Add favorites from food search or recent foods."
+    },
+    "recent": {
+      "title": "Recent foods",
+      "empty": "No linked foods have been logged yet. Manual entries without a selected food do not appear here."
+    },
+    "card": {
+      "brand": "Brand: {brand}",
+      "own": "Your custom food",
+      "public": "Public food",
+      "serving": "Reference serving",
+      "foodType": "Food type",
+      "quality": "Data quality",
+      "source": "Source",
+      "trust": "Source trust",
+      "lastUsed": "Last used",
+      "currentValues": "Food identity, source, and serving values are current catalog metadata. Using this food only prefills an editable diary snapshot.",
+      "useInDiary": "Use in diary"
+    },
+    "foodTypes": {
+      "generic": "Generic food",
+      "branded": "Branded food",
+      "userCustom": "Custom food"
+    },
+    "quality": {
+      "userProvided": "User provided",
+      "curated": "Curated",
+      "verified": "Verified",
+      "imported": "Imported",
+      "estimated": "Estimated",
+      "unknown": "Unknown"
+    },
+    "trust": {
+      "userProvided": "User provided",
+      "curated": "Curated",
+      "verified": "Verified",
+      "estimated": "Estimated",
+      "unknown": "Unknown"
+    },
+    "sources": {
+      "manual": "Manual entry",
+      "userCustom": "User custom food",
+      "usda": "USDA FoodData Central",
+      "foodsDictionary": "FoodsDictionary"
+    },
+    "favorite": {
+      "add": "Add favorite",
+      "remove": "Remove favorite",
+      "pending": "Saving...",
+      "added": "Added to favorites.",
+      "removed": "Removed from favorites.",
+      "addLabel": "Add {name} to favorites",
+      "removeLabel": "Remove {name} from favorites",
+      "errors": {
+        "unauthenticated": "Your session expired. Sign in again before changing favorites.",
+        "unavailable": "This food is unavailable or cannot be favorited by this account.",
+        "database": "We could not change this favorite right now. Try again in a moment."
+      }
+    },
+    "error": {
+      "title": "Reusable foods could not be loaded",
+      "body": "We could not retrieve favorites and recent foods right now. No private data was exposed.",
+      "retry": "Try loading reusable foods again"
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
@@ -563,6 +642,7 @@
     "nav": {
       "today": "Today",
       "foodSearch": "Food search",
+      "reusableFoods": "Favorites & recent",
       "myFoods": "My foods",
       "profileTargets": "Profile & targets"
     },

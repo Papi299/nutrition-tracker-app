@@ -9,6 +9,7 @@ export function AppShell({
   navFoodSearch,
   navMyFoods,
   navProfileTargets,
+  navReusableFoods,
   navToday,
   protectedLabel,
   signOutLabel,
@@ -19,6 +20,7 @@ export function AppShell({
   navFoodSearch: string;
   navMyFoods: string;
   navProfileTargets: string;
+  navReusableFoods: string;
   navToday: string;
   protectedLabel: string;
   signOutLabel: string;
@@ -47,6 +49,12 @@ export function AppShell({
               href={`/${locale}/foods`}
             >
               {navFoodSearch}
+            </Link>
+            <Link
+              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+              href={`/${locale}/foods/reuse`}
+            >
+              {navReusableFoods}
             </Link>
             <Link
               className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"

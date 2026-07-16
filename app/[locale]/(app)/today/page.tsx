@@ -499,12 +499,20 @@ function LocalizedTodayPage({
                 {diaryT("form.description")}
               </p>
             </div>
-            <Link
-              className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/foods?date=${selectedDate}`}
-            >
-              {diaryT("selection.findFood")}
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                href={`/${locale}/foods?date=${selectedDate}`}
+              >
+                {diaryT("selection.findFood")}
+              </Link>
+              <Link
+                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                href={`/${locale}/foods/reuse?date=${selectedDate}`}
+              >
+                {diaryT("selection.reuseFood")}
+              </Link>
+            </div>
           </div>
 
           {(foodSelectionState.status === "invalid" ||

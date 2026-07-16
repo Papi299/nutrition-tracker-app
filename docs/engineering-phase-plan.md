@@ -86,6 +86,9 @@ Known completed state from the repository and recent validated work:
 - Phase 7C adds a protected owned-food management route with strict active or
   archived filtering, fixed 20-item deterministic pagination, explicit archive
   confirmation, reversible restore controls, and final cross-slice acceptance.
+- Phase 8A adds owner-isolated favorite foods, diary-derived recent-food reuse,
+  favorite state in search, and localized date-aware reuse cards that preserve
+  explicit diary review and submission.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -95,11 +98,13 @@ persistence-foundation scope. Phase 7B creation/editing and Phase 7C management
 and lifecycle controls are complete. Final acceptance found no blocking
 security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
-approved MVP scope. The next phase requires a separate approved task:
+approved MVP scope. Phase 8A is complete after green CI and clean final review;
+overall Phase 8 remains incomplete. The next slice requires a separate approved
+task:
 
-- Phase 8 Recipes / Saved Meals / Recents / Favorites is next and not started.
+- Phase 8B Saved Meals persistence foundation is next and not started.
 
-Phase 8 design and implementation require a separate approved task.
+Phase 8B design and implementation require a separate approved task.
 
 ## Future PR Documentation Rule
 
