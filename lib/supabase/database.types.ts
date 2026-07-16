@@ -408,6 +408,105 @@ export type Database = {
         }
         Relationships: []
       }
+      recipe_ingredients: {
+        Row: {
+          brand_name: string | null
+          calories: number | null
+          carbohydrates_g: number | null
+          created_at: string
+          fat_g: number | null
+          food_id: string | null
+          id: string
+          ingredient_name: string
+          notes: string | null
+          position: number
+          protein_g: number | null
+          quantity: number | null
+          recipe_id: string
+          unit: string | null
+        }
+        Insert: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          fat_g?: number | null
+          food_id?: string | null
+          id?: string
+          ingredient_name: string
+          notes?: string | null
+          position: number
+          protein_g?: number | null
+          quantity?: number | null
+          recipe_id: string
+          unit?: string | null
+        }
+        Update: {
+          brand_name?: string | null
+          calories?: number | null
+          carbohydrates_g?: number | null
+          created_at?: string
+          fat_g?: number | null
+          food_id?: string | null
+          id?: string
+          ingredient_name?: string
+          notes?: string | null
+          position?: number
+          protein_g?: number | null
+          quantity?: number | null
+          recipe_id?: string
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_ingredients_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_ingredients_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipes: {
+        Row: {
+          created_at: string
+          id: string
+          is_archived: boolean
+          locale: string
+          name: string
+          updated_at: string
+          user_id: string
+          yield_servings: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_archived?: boolean
+          locale: string
+          name: string
+          updated_at?: string
+          user_id: string
+          yield_servings: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_archived?: boolean
+          locale?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+          yield_servings?: number
+        }
+        Relationships: []
+      }
       saved_meal_diary_runs: {
         Row: {
           created_at: string
@@ -658,6 +757,20 @@ export type Database = {
           nutrient_basis: string
         }[]
       }
+      persist_recipe: {
+        Args: {
+          p_ingredients: Json
+          p_locale: string
+          p_name: string
+          p_recipe_id: string
+          p_yield_servings: number
+        }
+        Returns: {
+          ingredient_count: number
+          is_archived: boolean
+          recipe_id: string
+        }[]
+      }
       persist_saved_meal: {
         Args: {
           p_items: Json
@@ -720,6 +833,13 @@ export type Database = {
         Returns: {
           food_id: string
           is_favorite: boolean
+        }[]
+      }
+      set_recipe_archived: {
+        Args: { p_is_archived: boolean; p_recipe_id: string }
+        Returns: {
+          is_archived: boolean
+          recipe_id: string
         }[]
       }
       set_saved_meal_archived: {

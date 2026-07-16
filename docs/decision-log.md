@@ -688,3 +688,40 @@
   Saved Meals are complete for the approved MVP scope. Phase 8D Recipes
   persistence foundation is next and not started; overall Phase 8 remains
   incomplete. No remote Supabase operation occurred.
+
+## 2026-07-17: Phase 8D Recipes persistence foundation
+
+- Added user-owned `recipes` and ordered `recipe_ingredients` with cascading
+  user/parent cleanup, optional `ON DELETE SET NULL` food links, locale and
+  position constraints, authoritative ingredient identity/quantity/nutrient/
+  note snapshots, and the existing `set_updated_at()` trigger pattern. Recipe
+  yield is required, positive, finite, and capped at 10,000 servings.
+- Enabled RLS on both tables. Recipe access requires current-user ownership;
+  ingredient access derives through the parent. Non-null food links must be a
+  readable public food or the caller's own custom food, including an archived
+  owned food. `PUBLIC` and `anon` privileges are revoked, authenticated grants
+  are column-limited, and recipe hard deletion is not granted.
+- Added one authenticated `SECURITY INVOKER` persistence RPC with an empty
+  search path and server-derived `auth.uid()`. It validates exact 1–50-item
+  snapshots with unique contiguous positions and quantity/unit pairing, then
+  atomically creates or complete-replaces recipe identity, yield, and ordered
+  ingredients. Invalid later ingredients or links roll back the transaction;
+  identical submissions preserve recipe timestamps and ingredient ids.
+- Added a separate idempotent authenticated invoker archive/restore RPC.
+  Archived recipes remain editable, ingredients remain intact, and no hard
+  deletion contract is exposed. Optional links are provenance only: live food
+  edits and lifecycle changes never refresh submitted snapshots, and food
+  deletion clears only the link.
+- Recipe persistence stores no derived totals and establishes no scaling or
+  rounding policy. It creates or changes no diary or saved-meal row and adds no
+  route, UI, editor retrieval, logging, sharing, instructions, images, or
+  production content.
+- Added pure validation, typed server-only persistence/archive helpers,
+  generated database types, and local-only durable coverage for constraints,
+  grants/RLS, ownership, manual/public/owned/archived and rejected private
+  links, duplicate links, ordering/bounds, blank/null/zero rules, complete
+  replacement, rollback, idempotency, archive/restore, food lifecycle, user
+  cascade, diary/saved-meal independence, migration replay, and regressions.
+- Phase 8D is complete after green CI and clean final review. Phase 8E recipe
+  creation, editing, and management UI is next and not started; overall Phase
+  8 remains incomplete. No remote Supabase operation occurred.
