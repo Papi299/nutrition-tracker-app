@@ -464,9 +464,17 @@ export function CustomFoodForm({
             : t(mode === "create" ? "submit.create" : "submit.update")}
         </button>
       </div>
-      <Link className="w-fit text-sm font-semibold text-teal-800 underline" href={`/${locale}/foods`}>
-        {t("backToFoods")}
-      </Link>
+      <div className="flex flex-wrap gap-4">
+        <Link className="w-fit text-sm font-semibold text-teal-800 underline" href={`/${locale}/foods`}>
+          {t("backToFoods")}
+        </Link>
+        <Link
+          className="w-fit text-sm font-semibold text-teal-800 underline"
+          href={`/${locale}/foods/custom?status=${archived ? "archived" : "active"}&page=1`}
+        >
+          {t("backToManagement")}
+        </Link>
+      </div>
     </form>
   );
 }

@@ -83,19 +83,23 @@ Known completed state from the repository and recent validated work:
 - Phase 7B adds protected localized custom-food creation and owned-food editing,
   secure editor retrieval, grouped dictionary-driven nutrients, repeatable raw
   aliases, and search discovery links. Archive status remains read-only.
+- Phase 7C adds a protected owned-food management route with strict active or
+  archived filtering, fixed 20-item deterministic pagination, explicit archive
+  confirmation, reversible restore controls, and final cross-slice acceptance.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
 Phases 6A, 6B, and 6C are complete for their approved scopes. Overall Phase 6
 Food Search Foundation is complete. Phase 7A is complete for its approved
-persistence-foundation scope. Phase 7B is complete after green CI and final
-review. Overall Phase 7 remains incomplete. The next slice requires a separate
-approved task:
+persistence-foundation scope. Phase 7B creation/editing and Phase 7C management
+and lifecycle controls are complete. Final acceptance found no blocking
+security, RLS, integrity, accessibility, localization, documentation, or
+repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
+approved MVP scope. The next phase requires a separate approved task:
 
-- Phase 7C custom-food management, archive controls, and final Phase 7
-  acceptance are next and not started.
+- Phase 8 Recipes / Saved Meals / Recents / Favorites is next and not started.
 
-Phase 7C implementation requires a separate approved task.
+Phase 8 design and implementation require a separate approved task.
 
 ## Future PR Documentation Rule
 

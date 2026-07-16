@@ -531,3 +531,31 @@
 - Phase 7B is complete after green CI and final review. Phase 7C custom-food
   management, archive controls, and final Phase 7 acceptance are next and not
   started; overall Phase 7 remains incomplete.
+
+## 2026-07-16: Phase 7C management, archive controls, and Phase 7 acceptance
+
+- Added protected `/{locale}/foods/custom` management with active/archived
+  views, strict single-value GET parsing, a fixed 20-item page size, exact
+  counts, and deterministic `updated_at desc, id` ordering. Invalid or repeated
+  status/page values return a localized recovery state before any list query.
+- Used a typed server-only direct `foods` query with the authenticated user id
+  derived on the server and existing RLS. Cards show identity, language,
+  durable basis, serving reference, state, update date, edit, and lifecycle
+  controls without exposing nutrient or alias collections.
+- Reused the existing ownership-checked archive helper through server-bound
+  food ids and target states. Archive requires explicit inline confirmation and
+  remains reversible; restore is direct. Neither path accepts owner, editable
+  food id, arbitrary target state, service credentials, or hard deletion.
+- Archive/restore preserve identity, basis, nutrients, aliases, diary links,
+  and historical snapshots. Archived foods remain editable but leave search
+  and prefill; restored foods return to both. Success, pending, generic failure,
+  empty, retrieval, pagination, English/Hebrew, RTL/LTR, and mobile states are
+  localized and durably covered.
+- Final Phase 7A–7C acceptance confirms the 35-item bilingual dictionary,
+  durable empty-food basis, blank/zero rules, atomic replacement, owned listing
+  and lifecycle behavior, archived visibility rules, snapshot independence,
+  ownership/RLS boundaries, accessibility, localization, documentation, and
+  repository hygiene. No migration, generated-type change, dependency upgrade,
+  production data, remote Supabase operation, or hard deletion was added.
+- Phase 7 Custom Foods is complete for the approved MVP scope. Phase 8 Recipes /
+  Saved Meals / Recents / Favorites is next and not started.

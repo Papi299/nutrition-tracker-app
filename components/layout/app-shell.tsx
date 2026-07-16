@@ -7,6 +7,7 @@ export function AppShell({
   children,
   locale,
   navFoodSearch,
+  navMyFoods,
   navProfileTargets,
   navToday,
   protectedLabel,
@@ -16,6 +17,7 @@ export function AppShell({
   children: React.ReactNode;
   locale: Locale;
   navFoodSearch: string;
+  navMyFoods: string;
   navProfileTargets: string;
   navToday: string;
   protectedLabel: string;
@@ -45,6 +47,12 @@ export function AppShell({
               href={`/${locale}/foods`}
             >
               {navFoodSearch}
+            </Link>
+            <Link
+              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+              href={`/${locale}/foods/custom`}
+            >
+              {navMyFoods}
             </Link>
             <Link
               className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
