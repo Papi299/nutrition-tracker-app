@@ -99,6 +99,10 @@ Known completed state from the repository and recent validated work:
 - Phase 8C.2 adds a localized exact-snapshot review, an owner-only idempotency
   receipt, immutable diary provenance, and one authenticated invoker RPC that
   atomically logs all ordered items while preserving safe retry behavior.
+- Phase 8D adds owner-isolated recipes and ordered ingredient snapshots,
+  optional readable-food links, required positive recipe yield, atomic complete
+  replacement, reversible archive state, and typed server-only helpers without
+  routes, UI, totals, scaling, rounding, or diary mutation.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -110,12 +114,13 @@ security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
 approved MVP scope. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI
 and clean final review. Phase 8C and Saved Meals are complete for the approved
-MVP scope; overall Phase 8 remains incomplete. The next slice requires a
+MVP scope. Phase 8D Recipes persistence is complete after green CI and clean
+final review; overall Phase 8 remains incomplete. The next slice requires a
 separate approved task:
 
-- Phase 8D Recipes persistence foundation is next and not started.
+- Phase 8E Recipe creation, editing, and management UI is next and not started.
 
-Phase 8D design and implementation require a separate approved task.
+Phase 8E design and implementation require a separate approved task.
 
 ## Future PR Documentation Rule
 
