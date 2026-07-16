@@ -55,6 +55,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const resolvedSearchParams = await searchParams;
   const locale = resolveAuthLocale(localeInput);
   const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+  const savedMealLogged = resolvedSearchParams.savedMeal === "logged";
 
   setRequestLocale(locale);
 
@@ -93,6 +94,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
       foodSelectionState={foodSelectionState}
       locale={locale}
       profileState={profileState}
+      savedMealLogged={savedMealLogged}
       selectedDate={selectedDate}
       targetState={targetState}
     />
@@ -158,6 +160,7 @@ function LocalizedTodayPage({
   foodSelectionState,
   locale,
   profileState,
+  savedMealLogged,
   selectedDate,
   targetState,
 }: {
@@ -168,6 +171,7 @@ function LocalizedTodayPage({
   >;
   locale: string;
   profileState: RetrievalState<Profile>;
+  savedMealLogged: boolean;
   selectedDate: string;
   targetState: RetrievalState<NutritionTarget>;
 }) {
@@ -222,6 +226,17 @@ function LocalizedTodayPage({
           {t("description")}
         </p>
       </div>
+
+      {savedMealLogged && (
+        <div
+          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          data-testid="saved-meal-logged-success"
+          role="status"
+        >
+          <p className="font-semibold">{diaryT("savedMealLogged.title")}</p>
+          <p className="mt-1 leading-6">{diaryT("savedMealLogged.body")}</p>
+        </div>
+      )}
 
       <div className="max-w-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <h2 className="text-lg font-semibold text-slate-950">

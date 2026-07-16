@@ -656,3 +656,35 @@
 - Phase 8C.1 is complete after green CI and clean final review. Phase 8C.2
   atomic reviewed saved-meal diary reuse is next and not started; overall Phase
   8 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-16: Phase 8C.2 atomic reviewed saved-meal diary reuse
+
+- Added protected English/Hebrew `/{locale}/saved-meals/{id}/use` review with
+  browser-local date bootstrap, strict calendar-date and UUID guards, distinct
+  unavailable/archived/retrieval states, exact ordered snapshots, editable
+  destination date and meal type, explicit confirmation, and active-only links
+  from management and editing. Today shows a localized success confirmation.
+- Added owner-only `saved_meal_diary_runs` receipts and immutable diary source,
+  run, and position provenance. RLS derives ownership from `auth.uid()`, grants
+  are authenticated and column-limited, and existing manual diary ownership and
+  food-link policies remain intact.
+- Added one authenticated `SECURITY INVOKER` RPC with an empty search path. It
+  binds the exact saved-meal `updated_at`, locks ownership server-side, copies
+  all 1–50 snapshot rows atomically in saved order, keeps only currently
+  readable food links (including owned archived foods), and accepts no owner,
+  item, nutrient, or food payload from the client.
+- Server-generated idempotency keys make sequential and concurrent retries
+  return the original receipt. Changed parameters conflict, stale or newly
+  archived sources fail before mutation, and a prior successful retry remains
+  successful without recreating diary rows later edited or deleted. A newly
+  rendered review intentionally binds a new token and may log another copy;
+  batch edit, delete, and undo remain out of scope.
+- Added local-only validation for schema/grants/RLS, exact null/zero snapshots,
+  link rules, ownership, stale/archive/conflict states, all meal types, 1/50
+  boundaries, injected rollback, concurrent retries, source independence,
+  diary edit/delete behavior, localization, RTL/LTR, mobile layout, invalid
+  routes/dates, generated types, migration replay, and existing regressions.
+- Phase 8C.2 is complete after green CI and clean final review. Phase 8C and
+  Saved Meals are complete for the approved MVP scope. Phase 8D Recipes
+  persistence foundation is next and not started; overall Phase 8 remains
+  incomplete. No remote Supabase operation occurred.

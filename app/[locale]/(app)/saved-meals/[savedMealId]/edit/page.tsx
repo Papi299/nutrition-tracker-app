@@ -14,6 +14,7 @@ import {
   SavedMealRetrievalError,
 } from "@/components/saved-meals/saved-meal-page";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { parseCalendarDateQueryValue } from "@/lib/calendar-date";
 import { isUuid } from "@/lib/food-selection/query";
 import {
   getOwnedSavedMealEditor,
@@ -73,9 +74,14 @@ export default async function EditSavedMealPage({
   const savedValue = resolvedSearchParams.saved;
   const saved =
     savedValue === "created" || savedValue === "updated" ? savedValue : null;
+  const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+  const useDate = dateQuery.status === "valid" ? dateQuery.date : null;
 
   return (
     <SavedMealEditorPageHeader mode="edit">
+      {!editor.data.is_archived && (
+        <SavedMealUseLink date={useDate} locale={locale} savedMealId={savedMealId} />
+      )}
       <SavedMealForm
         action={action}
         archived={editor.data.is_archived}
@@ -88,6 +94,19 @@ export default async function EditSavedMealPage({
         saved={saved}
       />
     </SavedMealEditorPageHeader>
+  );
+}
+
+function SavedMealUseLink({ date, locale, savedMealId }: { date: string | null; locale: Locale; savedMealId: string }) {
+  const t = useTranslations("SavedMealEditor");
+  const href = `/${locale}/saved-meals/${savedMealId}/use${date ? `?date=${date}` : ""}`;
+  return (
+    <Link
+      className="inline-flex min-h-11 items-center justify-center border border-teal-700 px-4 text-sm font-semibold text-teal-800"
+      href={href}
+    >
+      {t("useInDiary")}
+    </Link>
   );
 }
 
