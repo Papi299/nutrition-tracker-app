@@ -6,6 +6,7 @@ import {
 } from "@/lib/custom-foods/validation";
 import { parseCustomFoodNutrientFormValue } from "@/lib/custom-foods/form-validation";
 import { parseCustomFoodManagementQuery } from "@/lib/custom-foods/management-query";
+import { parseCustomFoodBarcodePersistenceRows } from "@/lib/custom-foods/barcode-persistence-parser";
 
 const foodId = "123e4567-e89b-12d3-a456-426614174000";
 
@@ -349,5 +350,108 @@ test.describe("custom-food payload validation", () => {
       },
       ok: false,
     });
+  });
+});
+
+test.describe("custom-food barcode persistence result parsing", () => {
+  const canonicalGtin = "00036000291452";
+
+  function resultRow(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    return {
+      canonical_gtin: canonicalGtin,
+      food_id: foodId,
+      is_archived: false,
+      result_status: "created",
+      ...overrides,
+    };
+  }
+
+  test("accepts every exact safe status shape", () => {
+    expect(
+      parseCustomFoodBarcodePersistenceRows([resultRow()], canonicalGtin),
+    ).toEqual({
+      data: {
+        canonical_gtin: canonicalGtin,
+        food_id: foodId,
+        is_archived: false,
+      },
+      ok: true,
+      status: "created",
+    });
+
+    for (const status of ["owned_existing", "public_existing"] as const) {
+      expect(
+        parseCustomFoodBarcodePersistenceRows(
+          [resultRow({ result_status: status })],
+          canonicalGtin,
+        ),
+      ).toEqual({
+        canonical_gtin: canonicalGtin,
+        food_id: foodId,
+        is_archived: false,
+        ok: false,
+        status,
+      });
+    }
+
+    expect(
+      parseCustomFoodBarcodePersistenceRows(
+        [resultRow({ is_archived: true, result_status: "owned_archived" })],
+        canonicalGtin,
+      ),
+    ).toEqual({
+      canonical_gtin: canonicalGtin,
+      food_id: foodId,
+      is_archived: true,
+      ok: false,
+      status: "owned_archived",
+    });
+
+    for (const status of ["ambiguous", "archived_or_unavailable"] as const) {
+      expect(
+        parseCustomFoodBarcodePersistenceRows(
+          [
+            resultRow({
+              food_id: null,
+              is_archived: null,
+              result_status: status,
+            }),
+          ],
+          canonicalGtin,
+        ),
+      ).toEqual({ canonical_gtin: canonicalGtin, ok: false, status });
+    }
+  });
+
+  test("rejects malformed, mismatched, or over-disclosing result rows", () => {
+    const invalidValues = [
+      null,
+      [],
+      [resultRow(), resultRow()],
+      [resultRow({ extra: "field" })],
+      [resultRow({ canonical_gtin: "00036000291453" })],
+      [resultRow({ canonical_gtin: "09780306406157" })],
+      [resultRow({ food_id: "not-a-uuid" })],
+      [resultRow({ is_archived: true })],
+      [resultRow({ result_status: "unknown" })],
+      [resultRow({ food_id: null, result_status: "owned_existing" })],
+      [resultRow({ is_archived: false, result_status: "owned_archived" })],
+      [resultRow({ result_status: "ambiguous" })],
+      [
+        resultRow({
+          food_id: null,
+          is_archived: false,
+          result_status: "archived_or_unavailable",
+        }),
+      ],
+    ];
+
+    for (const value of invalidValues) {
+      expect(
+        parseCustomFoodBarcodePersistenceRows(value, canonicalGtin),
+      ).toBeNull();
+    }
   });
 });

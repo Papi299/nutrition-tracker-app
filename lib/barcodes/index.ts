@@ -9,12 +9,18 @@ export {
 export {
   BARCODE_RAW_INPUT_MAX_LENGTH,
   gtinInputKinds,
+  isSupportedFoodCanonicalGtin,
   isValidCanonicalGtin,
   validateGtinInput,
   type GtinInputKind,
   type GtinValidationErrorCode,
   type GtinValidationResult,
 } from "./validation";
+export {
+  barcodeCustomHandoffCanonicalQuery,
+  parseBarcodeCustomHandoffQuery,
+  type BarcodeCustomHandoffQuery,
+} from "./custom-handoff";
 export {
   type BarcodeLookupState,
 } from "./lookup-core";

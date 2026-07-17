@@ -1,4 +1,4 @@
-import { isValidCanonicalGtin } from "./validation";
+import { isSupportedFoodCanonicalGtin } from "./validation";
 
 const lookupStatuses = [
   "ambiguous",
@@ -252,7 +252,7 @@ export function parseBarcodeLookupRows(
 
   if (
     !isOneOf(row.result_status, lookupStatuses) ||
-    !isValidCanonicalGtin(row.canonical_gtin)
+    !isSupportedFoodCanonicalGtin(row.canonical_gtin)
   ) {
     return null;
   }

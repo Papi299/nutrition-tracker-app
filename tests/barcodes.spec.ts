@@ -1,9 +1,14 @@
 import { expect, test } from "@playwright/test";
 import {
   BARCODE_RAW_INPUT_MAX_LENGTH,
+  isSupportedFoodCanonicalGtin,
   isValidCanonicalGtin,
   validateGtinInput,
 } from "@/lib/barcodes/validation";
+import {
+  barcodeCustomHandoffCanonicalQuery,
+  parseBarcodeCustomHandoffQuery,
+} from "@/lib/barcodes/custom-handoff";
 import {
   barcodeLookupCapabilities,
   barcodeRouteCanonicalQuery,
@@ -173,18 +178,127 @@ test.describe("GTIN validation", () => {
   });
 
   test("rejects ISBN-prefix GTIN-13 without adding UPC-E or 2D behavior", () => {
-    expect(validateGtinInput("9780306406157")).toEqual({
-      code: "unsupported_format",
-      ok: false,
-    });
-    expect(validateGtinInput("9791090636071")).toEqual({
-      code: "unsupported_format",
-      ok: false,
-    });
+    for (const input of [
+      "9780306406157",
+      "9791090636071",
+      "09780306406157",
+      "09791090636071",
+    ]) {
+      expect(validateGtinInput(input)).toEqual({
+        code: "unsupported_format",
+        ok: false,
+      });
+    }
+    expect(isValidCanonicalGtin("09780306406157")).toBe(true);
+    expect(isValidCanonicalGtin("09791090636071")).toBe(true);
+    expect(isSupportedFoodCanonicalGtin("09780306406157")).toBe(false);
+    expect(isSupportedFoodCanonicalGtin("09791090636071")).toBe(false);
     expect(validateGtinInput("https://id.gs1.org/01/09506000134352")).toEqual({
       code: "invalid_characters",
       ok: false,
     });
+  });
+});
+
+test.describe("barcode custom-food handoff query", () => {
+  const barcode = "00036000291452";
+
+  test("preserves ordinary creation only when the query is entirely absent", () => {
+    expect(parseBarcodeCustomHandoffQuery({})).toEqual({ status: "ordinary" });
+    for (const query of [
+      { date: "2026-07-17" },
+      { mealType: "lunch" },
+      { date: "2026-07-17", mealType: "lunch" },
+    ]) {
+      expect(parseBarcodeCustomHandoffQuery(query)).toMatchObject({
+        field: "barcode",
+        reason: "context_without_barcode",
+        status: "invalid",
+      });
+    }
+  });
+
+  test("accepts exact canonical identity, historical/future dates, and every meal", () => {
+    for (const date of ["0001-01-01", "2026-07-17", "9999-12-31"]) {
+      expect(parseBarcodeCustomHandoffQuery({ barcode, date })).toEqual({
+        barcode,
+        date,
+        meal_type: null,
+        status: "valid",
+      });
+    }
+    for (const mealType of ["breakfast", "lunch", "dinner", "snack", "other"]) {
+      expect(
+        parseBarcodeCustomHandoffQuery({
+          barcode,
+          date: "2026-07-17",
+          mealType,
+        }),
+      ).toMatchObject({ meal_type: mealType, status: "valid" });
+    }
+  });
+
+  test("rejects missing, blank, noncanonical, spaced, malformed, and ISBN identities", () => {
+    for (const value of [
+      "",
+      "036000291452",
+      ` ${barcode} `,
+      "00036000291453",
+      "09780306406157",
+      "09791090636071",
+      "0".repeat(BARCODE_RAW_INPUT_MAX_LENGTH + 1),
+    ]) {
+      expect(
+        parseBarcodeCustomHandoffQuery({ barcode: value, date: "2026-07-17" }),
+      ).toMatchObject({ field: "barcode", reason: "invalid", status: "invalid" });
+    }
+    expect(parseBarcodeCustomHandoffQuery({ barcode })).toMatchObject({
+      field: "date",
+      reason: "missing",
+      status: "invalid",
+    });
+  });
+
+  test("rejects repeated, unknown, invalid date, and blank or invalid meal context", () => {
+    for (const field of ["barcode", "date", "mealType"] as const) {
+      expect(
+        parseBarcodeCustomHandoffQuery({
+          barcode,
+          date: "2026-07-17",
+          [field]: ["a", "b"],
+        }),
+      ).toMatchObject({ field, reason: "repeated", status: "invalid" });
+    }
+    expect(
+      parseBarcodeCustomHandoffQuery({ barcode, date: "2026-07-17", extra: "x" }),
+    ).toMatchObject({ field: "query", reason: "unknown", status: "invalid" });
+    expect(parseBarcodeCustomHandoffQuery({ barcode, date: "2026-02-29" })).toMatchObject({
+      field: "date",
+      reason: "invalid",
+      status: "invalid",
+    });
+    for (const mealType of ["", "brunch"]) {
+      expect(
+        parseBarcodeCustomHandoffQuery({ barcode, date: "2026-07-17", mealType }),
+      ).toMatchObject({ field: "mealType", reason: "invalid", status: "invalid" });
+    }
+  });
+
+  test("builds the exact ordered canonical handoff query", () => {
+    expect(
+      barcodeCustomHandoffCanonicalQuery({
+        barcode,
+        date: "2026-07-17",
+        mealType: "lunch",
+      }),
+    ).toBe(`barcode=${barcode}&date=2026-07-17&mealType=lunch`);
+    expect(
+      barcodeCustomHandoffCanonicalQuery({
+        barcode,
+        date: "2026-07-17",
+        mealType: null,
+      }),
+    ).toBe(`barcode=${barcode}&date=2026-07-17`);
   });
 });
 

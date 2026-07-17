@@ -951,3 +951,35 @@
 - Phases 9A and 9B are complete after green CI and clean final review. Phase 9C
   not-found custom-food barcode handoff is next and unstarted. Overall Phase 9
   remains incomplete, and Phase 10 is unstarted.
+
+## 2026-07-17: Phase 9C atomic not-found custom-food barcode handoff
+
+- Corrected the food barcode identity invariant so raw and canonical
+  ISBN-equivalent `978`/`979` GTINs are rejected in both application validation
+  and PostgreSQL. The migration fails clearly if such a legacy mapping exists;
+  it does not rewrite or delete data.
+- Added one strict server-bound handoff for exact canonical barcode, explicit
+  calendar date, and optional meal context. The route rechecks local lookup
+  before rendering and before persistence, exposes the barcode read-only, and
+  rejects unknown, repeated, malformed, or tampered context without writing.
+- Added an authenticated invoker persistence RPC that takes only custom-food
+  content and canonical GTIN. A per-barcode transaction advisory lock and
+  write-time rechecks return safe owned, public, archived/unavailable, or
+  ambiguity outcomes without disclosing other-user private mappings. A narrow
+  non-exposed helper derives user, scope, provenance, verification, and parent
+  ownership; authenticated direct barcode-table DML remains denied.
+- Custom-food identity, nutrient basis and rows, aliases, and mapping now commit
+  or roll back atomically. Users may explicitly omit the mapping, which reuses
+  ordinary custom-food persistence. Successful creation returns to Today with
+  the preserved date and optional meal for review; it never creates a diary row
+  until explicit submission.
+- Added pure, database, and localized browser coverage for ISBN rejection,
+  strict handoff parsing, exact result parsing, ACLs, RLS/ownership, fixed
+  provenance, rollback, sequential and concurrent conflicts, cross-user
+  privacy, omission, no-JavaScript submission, RTL/accessibility, and Today
+  diary independence. Existing barcode lookup, custom-food, and diary behavior
+  remains covered. No dependency, remote Supabase, external provider, public
+  mapping creation, existing mapping edit, or camera behavior was added.
+- Phase 9C is complete after green CI and clean final review. Phase 9D camera
+  progressive enhancement remains next and unstarted. Overall Phase 9 remains
+  incomplete, and Phase 10 is unstarted.

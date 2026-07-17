@@ -332,10 +332,19 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
       const notFound = page.getByTestId("barcode-not-found");
       await expect(notFound).toBeVisible();
       await expect(notFound).not.toContainText("Other User Secret");
-      await expect(notFound.getByRole("link", { name: "Create custom food" })).toHaveAttribute(
+      await expect(
+        notFound.getByRole("link", {
+          name: "Create private food with this barcode",
+        }),
+      ).toHaveAttribute(
         "href",
-        "/en/foods/custom/new",
+        `/en/foods/custom/new?barcode=${code}&date=2026-07-17`,
       );
+      await expect(
+        notFound.getByRole("link", {
+          name: "Create food without attaching barcode",
+        }),
+      ).toHaveAttribute("href", "/en/foods/custom/new");
     }
     await context.close();
 

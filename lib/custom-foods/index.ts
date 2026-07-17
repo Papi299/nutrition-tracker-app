@@ -1,4 +1,11 @@
 export {
+  persistCustomFoodWithBarcodeForCurrentUser,
+} from "./barcode-persistence";
+export {
+  parseCustomFoodBarcodePersistenceRows,
+  type CustomFoodBarcodePersistenceState,
+} from "./barcode-persistence-parser";
+export {
   persistCustomFoodForCurrentUser,
   setCustomFoodArchivedForCurrentUser,
   type ArchivedCustomFood,
