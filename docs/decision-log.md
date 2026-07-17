@@ -758,3 +758,41 @@
 - Phase 8E is complete after green CI and clean final review. Phase 8F Recipe
   nutrition derivation and use-contract foundation is next and not started;
   overall Phase 8 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-17: Phase 8F Recipe nutrition derivation and use-contract foundation
+
+- Added a deferred, transaction-end recipe collection invariant. Every recipe
+  that survives commit must contain 1–50 ingredient rows with unique positions
+  exactly contiguous from one; same-transaction parent/child creation,
+  complete replacement, parent cascade deletion, and validation of both sides
+  of a moved ingredient remain supported. Ingredient DML also touches the
+  parent recipe source version.
+- Added one authenticated, owner-only, stable `SECURITY INVOKER` RPC with an
+  empty search path. It reads only the owned recipe and its ingredient
+  snapshots, exposes no caller owner id, grants no `PUBLIC` or `anon`
+  execution, preserves RLS, and makes cross-user and missing recipes
+  indistinguishable.
+- Nutrition is derived independently per nutrient. Null is unknown and causes
+  exact whole/per-serving/requested and rounded values to remain null; explicit
+  zero is known. Complete nutrients use PostgreSQL `numeric` arithmetic with
+  canonical `whole * requested / yield`, requests from 0.001 through 10,000 at
+  three-decimal precision, and one final PostgreSQL rounding step (integer
+  calories, two-decimal macros).
+- The contract returns `ready`, `archived`, `invalid_recipe`, `not_loggable`, or
+  `unavailable` plus recipe `updated_at`. Diary-column overflow returns no
+  misleading nutrition payload, while incomplete null nutrients do not cause
+  overflow. Pure validation and defensive parsing map malformed inputs and
+  output to stable server states.
+- Future diary use must bind the returned version, lock and rederive inside the
+  write transaction, accept no browser-calculated nutrition, and write one
+  aggregate recipe snapshot. Recipe diary provenance, receipts, insertion,
+  display, and reviewed-use UI remain deferred; Phase 8F adds no UI or diary
+  schema/write behavior.
+- Added deterministic pure and local-only authenticated coverage for collection
+  integrity, grants/ownership, completeness, exact scaling, request bounds,
+  rounding boundaries, every diary overflow bound, lifecycle independence,
+  source versioning, and regression behavior. No remote Supabase operation
+  occurred.
+- Phase 8F is complete after green CI and clean final review. Phase 8G Recipe
+  nutrition display and reviewed-use workflow is next and not started; overall
+  Phase 8 remains incomplete.
