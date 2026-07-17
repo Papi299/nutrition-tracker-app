@@ -58,6 +58,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const locale = resolveAuthLocale(localeInput);
   const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
   const selectionContext = parseFoodDiarySelectionContext(resolvedSearchParams);
+  const customFoodCreated = resolvedSearchParams.customFood === "created";
   const savedMealLogged = resolvedSearchParams.savedMeal === "logged";
   const recipeLogged = resolvedSearchParams.recipe === "logged";
 
@@ -98,6 +99,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
 
   return (
     <LocalizedTodayPage
+      customFoodCreated={customFoodCreated}
       diaryState={diaryState}
       foodSelectionState={foodSelectionState}
       locale={locale}
@@ -166,6 +168,7 @@ function LocalizedTodayDateError({
 }
 
 function LocalizedTodayPage({
+  customFoodCreated,
   diaryState,
   foodSelectionState,
   locale,
@@ -176,6 +179,7 @@ function LocalizedTodayPage({
   selectedDate,
   targetState,
 }: {
+  customFoodCreated: boolean;
   diaryState: RetrievalState<DiaryEntry[]>;
   foodSelectionState: Exclude<
     FoodDiaryPrefillState,
@@ -247,6 +251,17 @@ function LocalizedTodayPage({
           {t("description")}
         </p>
       </div>
+
+      {customFoodCreated && (
+        <div
+          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          data-testid="custom-food-created-success"
+          role="status"
+        >
+          <p className="font-semibold">{diaryT("customFoodCreated.title")}</p>
+          <p className="mt-1 leading-6">{diaryT("customFoodCreated.body")}</p>
+        </div>
+      )}
 
       {savedMealLogged && (
         <div

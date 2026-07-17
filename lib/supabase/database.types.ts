@@ -884,6 +884,10 @@ export type Database = {
         }[]
       }
       is_valid_canonical_gtin: { Args: { p_gtin: string }; Returns: boolean }
+      is_valid_food_canonical_gtin: {
+        Args: { p_gtin: string }
+        Returns: boolean
+      }
       log_recipe_to_diary: {
         Args: {
           p_entry_date: string
@@ -956,6 +960,25 @@ export type Database = {
           food_id: string
           is_archived: boolean
           nutrient_basis: string
+        }[]
+      }
+      persist_custom_food_with_barcode: {
+        Args: {
+          p_aliases: Json
+          p_brand_name: string
+          p_gtin: string
+          p_locale: string
+          p_name: string
+          p_nutrient_basis: string
+          p_nutrients: Json
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          canonical_gtin: string
+          food_id: string
+          is_archived: boolean
+          result_status: string
         }[]
       }
       persist_recipe: {

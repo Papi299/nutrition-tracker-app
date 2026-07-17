@@ -168,10 +168,17 @@ data, or diary behavior. Phase 9B adds a protected localized manual GET route,
 strict canonical barcode/date/meal context, browser-local and no-JavaScript date
 entry, local-only owned/public review, and explicit Today prefill with optional
 editable meal preselection. Lookup performs no mutation; nutrition remains on
-Today, and no barcode-aware custom persistence, provider, or camera behavior is
-included. Phases 9A and 9B are complete after green CI and clean final review.
-Phase 9C not-found custom-food barcode handoff is next and unstarted. Overall
-Phase 9 remains incomplete, and Phase 10 Data Ingestion is unstarted.
+Today. Phase 9C rejects ISBN-equivalent canonical identities, strictly binds
+the not-found barcode, calendar date, and optional meal on the server, and adds
+one authenticated transaction for private custom-food, nutrient, alias, and
+fixed-provenance barcode persistence. Per-barcode advisory locking and
+write-time rechecks produce safe owned, public, archived/unavailable, and
+ambiguity conflicts; other-user private mappings remain undisclosed. Explicit
+omission preserves the ordinary barcode-free save path. Success returns to
+Today for review and does not create a diary row. Phases 9A through 9C are
+complete after green CI and clean final review. Phase 9D camera progressive
+enhancement is next and unstarted. Overall Phase 9 remains incomplete, and
+Phase 10 Data Ingestion is unstarted.
 
 ## Future PR Documentation Rule
 

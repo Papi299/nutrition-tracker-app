@@ -1,9 +1,10 @@
 # Phase 9 Barcode Flow Architecture and Implementation Plan
 
-Status: planning, Phase 9A identity/local lookup, and Phase 9B manual review are
-complete after green CI and clean final review. Phase 9C not-found custom-food
-barcode handoff is next and unstarted. Phase 9 implementation remains
-incomplete, and Phase 10 is unstarted.
+Status: planning, Phase 9A identity/local lookup, Phase 9B manual review, and
+Phase 9C atomic not-found custom-food handoff are complete after green CI and
+clean final review. Phase 9D camera progressive enhancement is next and
+unstarted. Phase 9 implementation remains incomplete, and Phase 10 is
+unstarted.
 
 This document is the implementation contract for the MVP barcode flow. A later
 task may change a decision only through an explicit reviewed documentation
@@ -711,6 +712,23 @@ with an atomically attached mapping.
   creation, hard delete.
 - Acceptance: one reviewed save atomically creates at most one private mapping;
   conflicts write nothing; barcode-free custom flow remains unchanged.
+
+Implementation evidence: ISBN-equivalent `978`/`979` identities are rejected
+consistently in TypeScript and PostgreSQL without rewriting existing mappings.
+The localized custom-food route accepts only exact single canonical barcode,
+calendar-date, and optional meal values; it revalidates the server-bound context
+at render and write time and never trusts hidden authority fields. An
+authenticated invoker RPC takes only food content plus the canonical GTIN,
+serializes same-barcode writes with a transaction advisory lock, rechecks safe
+owned/public/archive conflicts, and composes existing custom-food persistence
+with one narrowly validated non-exposed mapping insert. Ownership, privacy
+scope, provenance, verification, and mapping state remain server-controlled;
+direct authenticated barcode-table DML remains denied. Food identity,
+nutrients, aliases, and mapping commit or roll back together. Users can
+explicitly omit the mapping and retain ordinary custom-food behavior. A created
+food returns to Today with date and optional meal prefill for explicit review;
+no diary row is created until the user submits it. No existing mapping edit,
+public/provider mapping creation, provider call, or camera behavior was added.
 
 ### Phase 9D — Camera scanning progressive enhancement
 

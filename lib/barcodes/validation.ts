@@ -55,6 +55,16 @@ export function isValidCanonicalGtin(value: unknown): value is string {
   );
 }
 
+export function isSupportedFoodCanonicalGtin(
+  value: unknown,
+): value is string {
+  return (
+    isValidCanonicalGtin(value) &&
+    !value.startsWith("0978") &&
+    !value.startsWith("0979")
+  );
+}
+
 export function validateGtinInput(value: unknown): GtinValidationResult {
   if (typeof value !== "string") {
     return { code: "invalid_type", ok: false };
@@ -76,20 +86,19 @@ export function validateGtinInput(value: unknown): GtinValidationResult {
     return { code: "invalid_length", ok: false };
   }
 
-  if (
-    inputKind === "gtin_13" &&
-    (normalizedInput.startsWith("978") || normalizedInput.startsWith("979"))
-  ) {
-    return { code: "unsupported_format", ok: false };
-  }
-
   if (!hasValidCheckDigit(normalizedInput)) {
     return { code: "invalid_check_digit", ok: false };
   }
 
+  const canonicalGtin = normalizedInput.padStart(14, "0");
+
+  if (!isSupportedFoodCanonicalGtin(canonicalGtin)) {
+    return { code: "unsupported_format", ok: false };
+  }
+
   return {
     data: {
-      canonical_gtin: normalizedInput.padStart(14, "0"),
+      canonical_gtin: canonicalGtin,
       input_kind: inputKind,
       normalized_input: normalizedInput,
     },

@@ -9,6 +9,7 @@ import { RetrievalError } from "@/components/data/retrieval-error";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   barcodeLookupCapabilities,
+  barcodeCustomHandoffCanonicalQuery,
   barcodeRouteCanonicalQuery,
   lookupReadableFoodByGtinForCurrentUser,
   resolveBarcodeRoute,
@@ -253,14 +254,25 @@ function BarcodeLookupResult({
   }
 
   if (lookup.status === "not_found_local") {
+    const handoffQuery = barcodeCustomHandoffCanonicalQuery({
+      barcode: lookup.canonical_gtin,
+      date: query.date,
+      mealType: query.meal_type,
+    });
     return (
       <BarcodeState
         body={t("states.notFound.body")}
         testId="barcode-not-found"
         title={t("states.notFound.title")}
       >
+        <Link
+          className={primaryLinkClass}
+          href={`/${locale}/foods/custom/new?${handoffQuery}`}
+        >
+          {t("states.notFound.createWithBarcode")}
+        </Link>
         <Link className={secondaryLinkClass} href={`/${locale}/foods/custom/new`}>
-          {t("states.notFound.createCustom")}
+          {t("states.notFound.createWithoutBarcode")}
         </Link>
         <BackToFoodSearch locale={locale} />
       </BarcodeState>

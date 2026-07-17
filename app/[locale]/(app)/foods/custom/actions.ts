@@ -2,10 +2,15 @@
 
 import { redirect } from "next/navigation";
 import {
+  parseBarcodeCustomHandoffQuery,
+  type BarcodeCustomHandoffQuery,
+} from "@/lib/barcodes";
+import {
   customFoodLocales,
   customFoodNutrientCodes,
   parseCustomFoodNutrientFormValue,
   persistCustomFoodForCurrentUser,
+  persistCustomFoodWithBarcodeForCurrentUser,
   validateCustomFoodInput,
   type CustomFoodEditorAlias,
   type CustomFoodNutrientCode,
@@ -79,8 +84,14 @@ function readValues(formData: FormData): CustomFoodFormValues {
 function validationFailure(
   values: CustomFoodFormValues,
   fieldErrors: Record<string, string>,
+  barcodeOmitted?: boolean,
 ): CustomFoodActionState {
-  return { fieldErrors, status: "validation_error", values };
+  return {
+    barcode_omitted: barcodeOmitted,
+    fieldErrors,
+    status: "validation_error",
+    values,
+  };
 }
 
 function validateNutrientValues(
@@ -168,13 +179,10 @@ function mapPersistenceErrors(fieldErrors?: Record<string, string>) {
   return mapped;
 }
 
-export async function saveCustomFoodAction(
-  localeInput: string,
-  expectedFoodId: string | null,
-  _previousState: CustomFoodActionState,
+function prepareCustomFoodSubmission(
   formData: FormData,
-): Promise<CustomFoodActionState> {
-  const locale = resolveLocale(localeInput);
+  expectedFoodId: string | null,
+) {
   const values = readValues(formData);
   const fieldErrors: Record<string, string> = {};
 
@@ -219,6 +227,36 @@ export async function saveCustomFoodAction(
     delete fieldErrors.aliases;
   }
 
+  return { fieldErrors, persistenceInput, values };
+}
+
+function customFoodTodayRedirect({
+  date,
+  foodId,
+  locale,
+  mealType,
+}: {
+  date: string;
+  foodId: string;
+  locale: Locale;
+  mealType: string | null;
+}) {
+  const query = new URLSearchParams({ date, foodId });
+  if (mealType !== null) query.set("mealType", mealType);
+  query.set("customFood", "created");
+  return `/${locale}/today?${query.toString()}`;
+}
+
+export async function saveCustomFoodAction(
+  localeInput: string,
+  expectedFoodId: string | null,
+  _previousState: CustomFoodActionState,
+  formData: FormData,
+): Promise<CustomFoodActionState> {
+  const locale = resolveLocale(localeInput);
+  const { fieldErrors, persistenceInput, values } =
+    prepareCustomFoodSubmission(formData, expectedFoodId);
+
   if (Object.keys(fieldErrors).length > 0) {
     return validationFailure(values, fieldErrors);
   }
@@ -243,5 +281,108 @@ export async function saveCustomFoodAction(
   const savedState = expectedFoodId ? "updated" : "created";
   redirect(
     `/${locale}/foods/custom/${result.data.food_id}/edit?saved=${savedState}`,
+  );
+}
+
+export async function saveBarcodeCustomFoodAction(
+  localeInput: string,
+  context: Extract<BarcodeCustomHandoffQuery, { status: "valid" }>,
+  _previousState: CustomFoodActionState,
+  formData: FormData,
+): Promise<CustomFoodActionState> {
+  const locale = resolveLocale(localeInput);
+  const handoff = parseBarcodeCustomHandoffQuery({
+    barcode: context.barcode,
+    date: context.date,
+    mealType: context.meal_type ?? undefined,
+  });
+  const omissionValues = formData.getAll("omit_barcode");
+  const barcodeOmitted =
+    omissionValues.length === 1 && omissionValues[0] === "omit";
+  const { fieldErrors, persistenceInput, values } =
+    prepareCustomFoodSubmission(formData, null);
+
+  if (handoff.status !== "valid") {
+    fieldErrors.form = "invalid_link";
+  }
+
+  if (
+    omissionValues.length > 1 ||
+    (omissionValues.length === 1 && omissionValues[0] !== "omit")
+  ) {
+    fieldErrors.barcode_omission = "invalid_input";
+  }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return validationFailure(values, fieldErrors, barcodeOmitted);
+  }
+
+  if (barcodeOmitted) {
+    const result = await persistCustomFoodForCurrentUser(persistenceInput);
+
+    if (!result.ok) {
+      if (result.code === "validation_error") {
+        return validationFailure(
+          values,
+          mapPersistenceErrors(result.fieldErrors),
+          true,
+        );
+      }
+
+      return {
+        barcode_omitted: true,
+        status:
+          result.code === "already_exists" ? "database_error" : result.code,
+        values,
+      };
+    }
+
+    redirect(
+      customFoodTodayRedirect({
+        date: context.date,
+        foodId: result.data.food_id,
+        locale,
+        mealType: context.meal_type,
+      }),
+    );
+  }
+
+  const result = await persistCustomFoodWithBarcodeForCurrentUser({
+    canonical_gtin: context.barcode,
+    custom_food: persistenceInput,
+  });
+
+  if (!result.ok) {
+    if ("code" in result && result.code === "validation_error") {
+      return validationFailure(
+        values,
+        mapPersistenceErrors(result.fieldErrors),
+        false,
+      );
+    }
+
+    if ("status" in result) {
+      return {
+        barcode_omitted: false,
+        conflict_food_id: "food_id" in result ? result.food_id : undefined,
+        status: result.status,
+        values,
+      };
+    }
+
+    return {
+      barcode_omitted: false,
+      status: "code" in result ? result.code : "database_error",
+      values,
+    };
+  }
+
+  redirect(
+    customFoodTodayRedirect({
+      date: context.date,
+      foodId: result.data.food_id,
+      locale,
+      mealType: context.meal_type,
+    }),
   );
 }

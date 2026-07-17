@@ -6,9 +6,14 @@ import type {
 import type { Locale } from "@/lib/i18n/routing";
 
 export type CustomFoodActionStatus =
+  | "ambiguous"
+  | "archived_or_unavailable"
   | "database_error"
   | "idle"
   | "not_found"
+  | "owned_archived"
+  | "owned_existing"
+  | "public_existing"
   | "unauthenticated"
   | "validation_error";
 
@@ -25,6 +30,8 @@ export type CustomFoodFormValues = {
 };
 
 export type CustomFoodActionState = {
+  barcode_omitted?: boolean;
+  conflict_food_id?: string;
   fieldErrors?: Record<string, string>;
   status: CustomFoodActionStatus;
   values: CustomFoodFormValues;

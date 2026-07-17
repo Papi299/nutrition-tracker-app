@@ -154,6 +154,10 @@
       "title": "Recipe logged.",
       "body": "One reviewed aggregate recipe snapshot was added. You can edit or delete this diary entry without changing the recipe."
     },
+    "customFoodCreated": {
+      "title": "Custom food created.",
+      "body": "The new private food is loaded below for review. No diary entry exists until you explicitly submit the editable snapshot."
+    },
     "list": {
       "title": "Diary entries",
       "description": "Diary snapshots for the selected date. Entries may be typed manually or linked to a readable selected food.",
@@ -335,6 +339,69 @@
     "backToFoods": "Back to food search",
     "backToManagement": "Back to my foods",
     "archivedNotice": "This food is archived. You can edit it here, but it remains archived and unavailable in search and diary prefill.",
+    "barcode": {
+      "title": "Reviewed barcode attachment",
+      "description": "This canonical barcode will be attached to the new private custom food when you save. It cannot be edited or replaced from this form.",
+      "privacy": "The food and mapping are private to your account. Other users cannot read this private food.",
+      "gtin": "Canonical GTIN",
+      "date": "Diary date",
+      "meal": "Preselected meal",
+      "mealTypes": {
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner",
+        "snack": "Snack",
+        "other": "Other"
+      },
+      "omit": "Create this food without attaching the barcode",
+      "status": {
+        "ownedExisting": "This barcode now belongs to one of your active custom foods. The submitted changes were not saved.",
+        "ownedArchived": "This barcode belongs to one of your archived custom foods. No replacement was created.",
+        "publicExisting": "A public food now uses this barcode. The submitted private food was not created.",
+        "unavailable": "The barcode is archived or otherwise unavailable. Nothing was created.",
+        "ambiguous": "The barcode has a mapping conflict. Nothing was created or selected."
+      },
+      "actions": {
+        "editOwned": "Edit existing custom food",
+        "openArchived": "Open archived custom food",
+        "review": "Review current food for diary",
+        "backToLookup": "Return to barcode lookup"
+      },
+      "handoff": {
+        "invalidTitle": "This barcode handoff is invalid",
+        "invalid": {
+          "barcode": "The handoff must contain one exact supported canonical food GTIN.",
+          "date": "The handoff must contain one canonical diary date.",
+          "mealType": "The optional meal type is invalid or repeated.",
+          "query": "Only barcode, date, and optional meal type are accepted."
+        },
+        "backToLookup": "Return to barcode lookup",
+        "createOrdinary": "Create a food without barcode context",
+        "databaseTitle": "Barcode eligibility could not be checked",
+        "databaseBody": "We could not safely confirm that this barcode is still a local miss. No creation form is available and nothing was changed.",
+        "retry": "Check this barcode again",
+        "review": "Review current food for diary",
+        "editOwned": "Edit existing custom food",
+        "states": {
+          "found_owned": {
+            "title": "You already have a food for this barcode",
+            "body": "The current owned food can be reviewed or edited. A duplicate creation form is not shown."
+          },
+          "found_public": {
+            "title": "A public food now uses this barcode",
+            "body": "Review the current public food on Today. A private duplicate creation form is not shown."
+          },
+          "unavailable": {
+            "title": "This barcode is unavailable",
+            "body": "An archived or unavailable mapping prevents creation. No hidden food identity is exposed."
+          },
+          "ambiguous": {
+            "title": "This barcode has a mapping conflict",
+            "body": "No arbitrary food was selected and no creation form is available."
+          }
+        }
+      }
+    },
     "identity": {
       "title": "Identity",
       "help": "Name is required. Brand is optional, and the food language describes this food rather than the interface.",
@@ -1354,8 +1421,9 @@
       },
       "notFound": {
         "title": "No readable local mapping was found",
-        "body": "Try the barcode again or create an ordinary custom food without attaching this barcode. External provider lookup and barcode-aware creation are not available here.",
-        "createCustom": "Create custom food"
+        "body": "Create a private custom food with this barcode, or create one without attaching it. External provider lookup is not available here.",
+        "createWithBarcode": "Create private food with this barcode",
+        "createWithoutBarcode": "Create food without attaching barcode"
       },
       "failure": {
         "title": "Barcode lookup could not be loaded",

@@ -14,6 +14,7 @@ import type {
   CustomFoodNutrientDefinition,
 } from "@/lib/custom-foods";
 import type { Locale } from "@/lib/i18n/routing";
+import type { DiaryEntryMealType } from "@/lib/diary-entries";
 
 const coreCodes = new Set<CustomFoodNutrientCode>([
   "energy_kcal",
@@ -222,6 +223,7 @@ function AliasEditor({
 export function CustomFoodForm({
   action,
   archived,
+  barcodeContext,
   dictionary,
   initialState,
   locale,
@@ -233,6 +235,11 @@ export function CustomFoodForm({
     formData: FormData,
   ) => Promise<CustomFoodActionState>;
   archived: boolean;
+  barcodeContext?: {
+    canonicalGtin: string;
+    date: string;
+    mealType: DiaryEntryMealType | null;
+  };
   dictionary: CustomFoodNutrientDefinition[];
   initialState: CustomFoodActionState;
   locale: Locale;
@@ -258,16 +265,95 @@ export function CustomFoodForm({
     (definition) => definition.nutrient_group === "vitamin",
   );
   const statusMessage = {
+    ambiguous: t("barcode.status.ambiguous"),
+    archived_or_unavailable: t("barcode.status.unavailable"),
     database_error: t("status.databaseError"),
     idle: t("status.idle"),
     not_found: t("status.notFound"),
+    owned_archived: t("barcode.status.ownedArchived"),
+    owned_existing: t("barcode.status.ownedExisting"),
+    public_existing: t("barcode.status.publicExisting"),
     unauthenticated: t("status.unauthenticated"),
     validation_error: t("status.validationError"),
   }[state.status];
+  const conflictFoodId = state.conflict_food_id;
+  const reviewQuery = barcodeContext && conflictFoodId
+    ? new URLSearchParams({
+        date: barcodeContext.date,
+        foodId: conflictFoodId,
+        ...(barcodeContext.mealType
+          ? { mealType: barcodeContext.mealType }
+          : {}),
+      })
+    : null;
 
   return (
     <form action={formAction} className="grid gap-8 text-start" noValidate>
       <input name="food_id" type="hidden" value={state.values.food_id} />
+
+      {barcodeContext && (
+        <section
+          aria-labelledby="custom-food-barcode-context-title"
+          className="grid gap-4 border border-teal-200 bg-teal-50 p-5"
+          data-testid="custom-food-barcode-context"
+        >
+          <div>
+            <h2
+              className="text-xl font-semibold text-slate-950"
+              id="custom-food-barcode-context-title"
+            >
+              {t("barcode.title")}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              {t("barcode.description")}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              {t("barcode.privacy")}
+            </p>
+          </div>
+          <dl className="grid gap-3 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-medium text-slate-600">{t("barcode.gtin")}</dt>
+              <dd
+                className="mt-1 font-mono text-slate-950"
+                data-testid="custom-food-canonical-gtin"
+                dir="ltr"
+              >
+                {barcodeContext.canonicalGtin}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-medium text-slate-600">{t("barcode.date")}</dt>
+              <dd className="mt-1 text-slate-950">{barcodeContext.date}</dd>
+            </div>
+            {barcodeContext.mealType && (
+              <div>
+                <dt className="font-medium text-slate-600">
+                  {t("barcode.meal")}
+                </dt>
+                <dd className="mt-1 text-slate-950">
+                  {t(`barcode.mealTypes.${barcodeContext.mealType}`)}
+                </dd>
+              </div>
+            )}
+          </dl>
+          <label className="flex min-h-11 items-start gap-3 border border-teal-300 bg-white p-4 text-sm leading-6 text-slate-900">
+            <input
+              defaultChecked={state.barcode_omitted ?? false}
+              key={String(state.barcode_omitted ?? false)}
+              className="mt-1"
+              name="omit_barcode"
+              type="checkbox"
+              value="omit"
+            />
+            <span>{t("barcode.omit")}</span>
+          </label>
+          <FieldError
+            code={fieldErrors.barcode_omission}
+            field="barcode_omission"
+          />
+        </section>
+      )}
 
       {saved && (
         <div
@@ -286,6 +372,61 @@ export function CustomFoodForm({
           role="status"
         >
           {t("archivedNotice")}
+        </div>
+      )}
+
+      {barcodeContext && state.status === "owned_existing" && conflictFoodId && (
+        <div className="flex flex-wrap gap-3" data-testid="barcode-save-owned-conflict">
+          <Link
+            className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+            href={`/${locale}/foods/custom/${conflictFoodId}/edit`}
+          >
+            {t("barcode.actions.editOwned")}
+          </Link>
+          {reviewQuery && (
+            <Link
+              className="min-h-11 border border-teal-700 bg-white px-4 py-3 text-sm font-semibold text-teal-800"
+              href={`/${locale}/today?${reviewQuery.toString()}`}
+            >
+              {t("barcode.actions.review")}
+            </Link>
+          )}
+        </div>
+      )}
+
+      {barcodeContext && state.status === "owned_archived" && conflictFoodId && (
+        <div className="flex flex-wrap gap-3" data-testid="barcode-save-archived-conflict">
+          <Link
+            className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+            href={`/${locale}/foods/custom/${conflictFoodId}/edit`}
+          >
+            {t("barcode.actions.openArchived")}
+          </Link>
+        </div>
+      )}
+
+      {barcodeContext && state.status === "public_existing" && conflictFoodId && (
+        <div className="flex flex-wrap gap-3" data-testid="barcode-save-public-conflict">
+          {reviewQuery && (
+            <Link
+              className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+              href={`/${locale}/today?${reviewQuery.toString()}`}
+            >
+              {t("barcode.actions.review")}
+            </Link>
+          )}
+          <Link
+            className="min-h-11 border border-teal-700 bg-white px-4 py-3 text-sm font-semibold text-teal-800"
+            href={`/${locale}/foods/barcode?${new URLSearchParams({
+              code: barcodeContext.canonicalGtin,
+              date: barcodeContext.date,
+              ...(barcodeContext.mealType
+                ? { mealType: barcodeContext.mealType }
+                : {}),
+            }).toString()}`}
+          >
+            {t("barcode.actions.backToLookup")}
+          </Link>
         </div>
       )}
 
