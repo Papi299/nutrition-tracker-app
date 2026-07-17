@@ -77,7 +77,11 @@ is complete for the current MVP scope.
   reviewed-use workflow. Phase 8H adds atomic, source-versioned, idempotent
   recipe diary logging with one aggregate snapshot and completes Recipes and
   overall Phase 8 for the approved MVP scope after green CI and clean final
-  review. Phase 9 Barcode planning is next and unstarted.
+  review. Phase 9 Barcode planning is complete in
+  [`docs/phase-9-barcode-flow-plan.md`](docs/phase-9-barcode-flow-plan.md).
+  Phase 9A barcode identity and local lookup foundation is next and unstarted;
+  Phase 9 implementation remains incomplete, and Phase 10 is unstarted. The
+  planning slice adds no barcode runtime behavior.
 
 ## Install Dependencies
 
@@ -475,7 +479,7 @@ Manual RTL QA checklist:
   while ordinary snapshot fields remain editable and deleting the diary row
   preserves the receipt. Phase 8H, Recipes, and overall Phase 8 are complete
   for the approved MVP scope after green CI and clean final review. Phase 9
-  Barcode planning is next and unstarted.
+  Barcode planning is complete; Phase 9A implementation is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -560,7 +564,8 @@ Manual RTL QA checklist:
   localized database-authoritative nutrition display and preview-only reviewed
   use. Phase 8H adds atomic reviewed recipe diary logging and completes Recipes
   and overall Phase 8 for the approved MVP scope after green CI and clean final
-  review. Phase 9 Barcode planning is next and unstarted.
+  review. Phase 9 Barcode planning is complete; Phase 9A implementation is next
+  and unstarted.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -612,7 +617,8 @@ Manual RTL QA checklist:
   8D–8H Recipes persistence, management UI, nutrition use contract, reviewed
   preview, and atomic diary logging are complete after green CI and clean final
   review. Saved Meals, Recipes, and overall Phase 8 are complete for the
-  approved MVP scope. Phase 9 Barcode planning is next and unstarted.
+  approved MVP scope. Phase 9 Barcode planning is complete; Phase 9A identity
+  and local lookup implementation is next and unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
