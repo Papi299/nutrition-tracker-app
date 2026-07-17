@@ -683,6 +683,44 @@ export type Database = {
           yield_servings: number
         }[]
       }
+      get_owned_recipe_use_contract: {
+        Args: { p_recipe_id: string; p_requested_servings: number }
+        Returns: {
+          calories_complete: boolean
+          calories_known_ingredient_count: number
+          calories_per_serving: number
+          calories_requested: number
+          calories_whole_recipe: number
+          carbohydrates_complete: boolean
+          carbohydrates_known_ingredient_count: number
+          carbohydrates_per_serving: number
+          carbohydrates_requested: number
+          carbohydrates_whole_recipe: number
+          diary_calories: number
+          diary_carbohydrates_g: number
+          diary_fat_g: number
+          diary_protein_g: number
+          fat_complete: boolean
+          fat_known_ingredient_count: number
+          fat_per_serving: number
+          fat_requested: number
+          fat_whole_recipe: number
+          ingredient_count: number
+          is_archived: boolean
+          protein_complete: boolean
+          protein_known_ingredient_count: number
+          protein_per_serving: number
+          protein_requested: number
+          protein_whole_recipe: number
+          recipe_id: string
+          recipe_locale: string
+          recipe_name: string
+          requested_servings: number
+          result_status: string
+          source_updated_at: string
+          yield_servings: number
+        }[]
+      }
       get_owned_saved_meal_editor: {
         Args: { p_saved_meal_id: string }
         Returns: {

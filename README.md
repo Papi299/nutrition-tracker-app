@@ -70,9 +70,11 @@ is complete for the current MVP scope.
   saved-meal creation, editing, management, diary-source copying, and archive
   controls. Phase 8C.2 adds atomic reviewed saved-meal diary reuse with durable
   retry receipts and exact snapshot provenance. Saved Meals is complete for the
-  approved MVP scope. Phase 8D adds the Recipes persistence foundation; Phase
-  8E recipe creation, editing, and management UI is next and unstarted, and
-  overall Phase 8 remains incomplete.
+  approved MVP scope. Phase 8D adds the Recipes persistence foundation, Phase
+  8E adds localized recipe creation/editing/management, and Phase 8F adds the
+  read-only nutrition derivation and future-use contract. Phase 8G recipe
+  nutrition display and reviewed use is next and unstarted; overall Phase 8
+  remains incomplete.
 
 ## Install Dependencies
 
@@ -434,8 +436,25 @@ Manual RTL QA checklist:
   ingredient row identity through reordering, and explicit unlink preserves
   editable snapshot values. Quantity changes never scale nutrients, and no
   aggregate or per-serving nutrition is calculated. Phase 8E performs no
-  recipe diary logging. Phase 8F recipe nutrition derivation and use-contract
-  foundation is next and unstarted; overall Phase 8 remains incomplete.
+  recipe diary logging.
+- Phase 8F derives nutrition exclusively from immutable ingredient snapshots:
+  quantity and current linked-food data never affect arithmetic. Each nutrient
+  is complete only when all ingredients have a non-null snapshot; unknowns
+  return null exact and diary values, while explicit zero remains known.
+  Complete values use exact PostgreSQL `numeric` formulas (`sum`,
+  `whole / yield`, and canonical `whole * requested / yield`) with requests
+  from 0.001 through 10,000 at no more than three decimal places. Only the final
+  requested result is rounded: calories to an integer and macros to two places.
+- The authenticated owner-only read RPC classifies archived, invalid, overflow,
+  unavailable, and ready results without diary mutation. Rounded values above
+  diary column bounds are `not_loggable`; incomplete null values are not
+  overflow. A deferred transaction-end constraint requires every surviving
+  recipe to have 1–50 uniquely contiguous ingredients. Ingredient changes,
+  archive state, yield, links, and snapshots update the returned source version.
+  Future logging must lock and rederive against that version inside one write
+  transaction and create one aggregate recipe diary snapshot, never trust
+  browser calculations. Phase 8G display and reviewed-use workflow is next and
+  unstarted; overall Phase 8 remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -515,9 +534,10 @@ Manual RTL QA checklist:
   MVP scopes. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI and
   final review. Saved Meals is complete for its approved MVP scope, and Phases
   8D and 8E add Recipes persistence plus localized creation, editing,
-  management, and archive/restore UI. Phase 8F recipe nutrition derivation and
-  use-contract foundation is next and unstarted; overall Phase 8 remains
-  incomplete.
+  management, and archive/restore UI. Phase 8F adds exact snapshot-based
+  nutrition derivation and the source-versioned use contract without UI or
+  diary writes. Phase 8G nutrition display and reviewed use is next and
+  unstarted; overall Phase 8 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -567,10 +587,11 @@ Manual RTL QA checklist:
   restore are complete for the approved MVP scope. Hard deletion remains
   intentionally unsupported.
 - Phase 8A favorite and recent-food reuse, Phase 8B–8C.2 Saved Meals, and Phase
-  8D–8E Recipes persistence and management UI are complete after green CI and
-  final review. Saved Meals is complete for its approved MVP scope; Phase 8F
-  recipe nutrition derivation and use-contract foundation is next and
-  unstarted, and overall Phase 8 remains incomplete.
+  8D–8F Recipes persistence, management UI, and nutrition use-contract
+  foundation are complete after green CI and final review. Saved Meals is
+  complete for its approved MVP scope; Phase 8G recipe nutrition display and
+  reviewed-use workflow is next and unstarted, and overall Phase 8 remains
+  incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

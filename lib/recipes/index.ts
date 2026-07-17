@@ -38,3 +38,20 @@ export {
   recipeRowKey,
   type RecipeRowKeyKind,
 } from "./row-identity";
+export {
+  getOwnedRecipeUseContract,
+  type RecipeUseContractState,
+} from "./use-contract";
+export {
+  parseRecipeUseContractPayload,
+  recipeUseContractStatuses,
+  type ParsedRecipeUseContract,
+  type RecipeUseContract,
+  type RecipeUseContractStatus,
+  type RecipeUseNutrientContract,
+} from "./use-contract-parser";
+export {
+  validateRecipeUseContractInput,
+  type RecipeUseContractInput,
+  type ValidatedRecipeUseContractInput,
+} from "./use-contract-validation";

@@ -111,6 +111,16 @@ Known completed state from the repository and recent validated work:
   unlink. Snapshots remain authoritative and editable; quantity changes never
   scale nutrients, no aggregate or per-serving nutrition is calculated, and no
   recipe is logged to the diary.
+- Phase 8F adds a stable authenticated owner-only derivation contract over
+  persisted ingredient snapshots. Nutrient completeness is independent,
+  unknown values never become partial totals, and exact PostgreSQL numeric
+  whole/per-serving/requested formulas are rounded only once for diary bounds.
+  Requested servings are limited to 0.001–10,000 with three-decimal precision.
+  Deferred transaction-end checks require every surviving recipe to retain
+  1–50 uniquely contiguous ingredients. The result includes the recipe
+  `updated_at` source version; future logging must lock, version-check, and
+  rederive in its transaction before writing one aggregate recipe snapshot.
+  This slice adds no recipe nutrition UI and performs no diary mutation.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -122,14 +132,11 @@ security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
 approved MVP scope. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI
 and clean final review. Phase 8C and Saved Meals are complete for the approved
-MVP scope. Phases 8D and 8E Recipes persistence and localized management UI are
-complete after green CI and clean final review; overall Phase 8 remains
-incomplete. The next slice requires a separate approved task:
-
-- Phase 8F Recipe nutrition derivation and use-contract foundation is next and
-  not started.
-
-Phase 8F design and implementation require a separate approved task.
+MVP scope. Phases 8D through 8F Recipes persistence, localized management UI,
+and nutrition use-contract foundation are complete after green CI and clean
+final review. Phase 8G Recipe nutrition display and reviewed-use workflow is
+next and not started. Overall
+Phase 8 remains incomplete, and Phase 8G requires a separate approved task.
 
 ## Future PR Documentation Rule
 
