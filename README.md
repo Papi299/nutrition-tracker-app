@@ -79,9 +79,15 @@ is complete for the current MVP scope.
   overall Phase 8 for the approved MVP scope after green CI and clean final
   review. Phase 9 Barcode planning is complete in
   [`docs/phase-9-barcode-flow-plan.md`](docs/phase-9-barcode-flow-plan.md).
-  Phase 9A barcode identity and local lookup foundation is next and unstarted;
-  Phase 9 implementation remains incomplete, and Phase 10 is unstarted. The
-  planning slice adds no barcode runtime behavior.
+  Phase 9A adds string-only GTIN-8/12/13/14 validation, check-digit enforcement,
+  canonical zero-padded 14-character identities, a normalized barcode mapping
+  relation, and authenticated owner-aware local lookup. Mapping scope is
+  server-derived, visibility follows the parent food, private mappings cannot
+  influence another user, and authenticated callers receive no barcode-table
+  write privileges. Phase 9A is complete after green CI and clean final review;
+  Phase 9B manual barcode lookup and found-food review is next and unstarted.
+  Overall Phase 9 remains incomplete, and Phase 10 is unstarted. Phase 9A adds
+  no route, UI, provider, camera, public barcode data, or diary behavior.
 
 ## Install Dependencies
 
@@ -479,7 +485,9 @@ Manual RTL QA checklist:
   while ordinary snapshot fields remain editable and deleting the diary row
   preserves the receipt. Phase 8H, Recipes, and overall Phase 8 are complete
   for the approved MVP scope after green CI and clean final review. Phase 9
-  Barcode planning is complete; Phase 9A implementation is next and unstarted.
+  Barcode planning and the Phase 9A identity/local-lookup foundation are
+  complete after green CI and clean final review. Phase 9B manual lookup and
+  found-food review is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -493,6 +501,7 @@ Manual RTL QA checklist:
   - `lib/food-selection/`
   - `lib/custom-foods/`
   - `lib/reusable-foods/`
+  - `lib/barcodes/`
   - `lib/saved-meals/`
   - `lib/recipes/`
   - `lib/data/`
@@ -564,8 +573,8 @@ Manual RTL QA checklist:
   localized database-authoritative nutrition display and preview-only reviewed
   use. Phase 8H adds atomic reviewed recipe diary logging and completes Recipes
   and overall Phase 8 for the approved MVP scope after green CI and clean final
-  review. Phase 9 Barcode planning is complete; Phase 9A implementation is next
-  and unstarted.
+  review. Phase 9 Barcode planning and Phase 9A identity/local lookup are
+  complete; Phase 9B manual lookup and found-food review is next and unstarted.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -617,8 +626,10 @@ Manual RTL QA checklist:
   8D–8H Recipes persistence, management UI, nutrition use contract, reviewed
   preview, and atomic diary logging are complete after green CI and clean final
   review. Saved Meals, Recipes, and overall Phase 8 are complete for the
-  approved MVP scope. Phase 9 Barcode planning is complete; Phase 9A identity
-  and local lookup implementation is next and unstarted.
+  approved MVP scope. Phase 9 Barcode planning and the Phase 9A string-only
+  identity/local lookup foundation are complete after green CI and clean final
+  review. Phase 9B manual lookup and found-food review is next and unstarted;
+  overall Phase 9 remains incomplete and Phase 10 is unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

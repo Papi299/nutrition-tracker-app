@@ -1,7 +1,8 @@
 # Phase 9 Barcode Flow Architecture and Implementation Plan
 
-Status: planning complete; no Phase 9 runtime behavior is implemented. Phase 9A
-is the recommended next slice and is not started. Phase 9 implementation remains
+Status: planning and Phase 9A identity/local lookup foundation are complete
+after green CI and clean final review. Phase 9B manual barcode lookup and
+found-food review is next and unstarted. Phase 9 implementation remains
 incomplete, and Phase 10 is unstarted.
 
 This document is the implementation contract for the MVP barcode flow. A later
@@ -625,7 +626,7 @@ minimal contract fixtures with fake credentials.
 
 ## 17. Implementation decomposition
 
-### Phase 9A — Barcode identity and local lookup foundation (next, unstarted)
+### Phase 9A — Barcode identity and local lookup foundation (complete)
 
 **Objective:** establish one canonical GTIN contract, mapping relation, and
 owner-aware exact local read without routes, provider, or camera.
@@ -648,6 +649,15 @@ owner-aware exact local read without routes, provider, or camera.
   write, public mapping data.
 - Acceptance: green CI/final review; exact contract is usable by a later GET
   route; no other-user leak; no remote Supabase.
+
+Implementation evidence: validation and database identity remain string-only;
+GTIN check digits and the canonical 14-character value are enforced in both
+TypeScript and PostgreSQL. `food_barcodes` derives scope from its parent food,
+uses race-safe public/per-user uniqueness, authorizes reads through the parent,
+and grants authenticated callers no table DML. The invoker lookup returns owned
+active before public active, hides other users completely, and exposes stable
+archived, ambiguous, and local-miss states through a defensive server-only
+helper. Phase 9A added no UI, provider, camera, public mapping, or diary change.
 
 ### Phase 9B — Manual barcode lookup and found-food review
 
