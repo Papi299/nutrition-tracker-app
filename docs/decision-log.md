@@ -796,3 +796,33 @@
 - Phase 8F is complete after green CI and clean final review. Phase 8G Recipe
   nutrition display and reviewed-use workflow is next and not started; overall
   Phase 8 remains incomplete.
+
+## 2026-07-17: Phase 8G Recipe nutrition display and reviewed-use workflow
+
+- Added an authenticated localized use route for active owned recipes plus a
+  saved-data nutrition summary on active recipe editors. Management and editor
+  discovery links remain active-only; archived, invalid, unavailable, not-
+  loggable, unauthenticated, and retrieval-failure states reveal no nutrition
+  or raw database details.
+- The route accepts only date, diary meal type, and requested servings. Missing
+  dates use the browser-local calendar-date bootstrap, missing servings
+  canonicalize to one, malformed/repeated/unknown input is rejected before the
+  RPC, and canonical historical and future dates remain valid.
+- Whole-recipe, per-serving, requested-serving, and diary-compatible values are
+  displayed directly from the Phase 8F database contract. Completeness is
+  independent per nutrient: null remains unknown with known X-of-Y ingredient
+  context, explicit zero remains zero, and no partial total or browser-side
+  nutrition calculation is introduced.
+- The GET preview retains the database recipe source version and final diary-
+  compatible values in its server-side review model. It performs no diary or
+  recipe mutation and creates no provenance, receipt, durable review, or
+  idempotency token.
+- Added pure query tests and local-only authenticated browser/database coverage
+  for English/Hebrew and RTL/mobile presentation, ownership and lifecycle,
+  strict canonical queries, every nutrition perspective, null/zero and
+  completeness semantics, source-version changes, read-only behavior, and
+  editor-summary isolation from unsaved values. No remote Supabase operation
+  occurred.
+- Phase 8G is complete after green CI and clean final review. Phase 8H Atomic
+  reviewed recipe diary logging and final Phase 8 acceptance are next and not
+  started; overall Phase 8 remains incomplete.

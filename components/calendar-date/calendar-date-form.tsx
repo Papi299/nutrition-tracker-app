@@ -1,6 +1,7 @@
 export function CalendarDateForm({
   action,
   additionalDescriptionId,
+  canonicalQueryValues,
   description,
   inputId,
   label,
@@ -9,6 +10,7 @@ export function CalendarDateForm({
 }: {
   action: string;
   additionalDescriptionId?: string;
+  canonicalQueryValues?: Record<string, string>;
   description: string;
   inputId: string;
   label: string;
@@ -39,6 +41,9 @@ export function CalendarDateForm({
         required
         type="date"
       />
+      {Object.entries(canonicalQueryValues ?? {}).map(([name, value]) => (
+        <input key={name} name={name} type="hidden" value={value} />
+      ))}
       <button
         className="min-h-11 bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
         type="submit"

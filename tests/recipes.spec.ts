@@ -6,6 +6,10 @@ import {
 import { parseRecipeEditorIngredients } from "@/lib/recipes/editor-parser";
 import { parseRecipeManagementQuery } from "@/lib/recipes/management-query";
 import { parseRecipeRowKey, recipeRowKey } from "@/lib/recipes/row-identity";
+import {
+  parseRecipeUseQuery,
+  recipeUseCanonicalQuery,
+} from "@/lib/recipes/use-query";
 
 const recipeId = "123e4567-e89b-12d3-a456-426614174000";
 const foodId = "123e4567-e89b-12d3-a456-426614174001";
@@ -233,6 +237,83 @@ test.describe("recipe payload validation", () => {
 });
 
 test.describe("recipe UI contracts", () => {
+  test("parses and canonicalizes strict recipe-use context", () => {
+    expect(parseRecipeUseQuery(recipeId, { date: "2024-02-29" })).toEqual({
+      date: "2024-02-29",
+      meal_type: null,
+      needs_canonical_redirect: true,
+      normalized_servings: "1",
+      requested_servings: 1,
+      status: "valid",
+    });
+    expect(
+      parseRecipeUseQuery(recipeId, {
+        date: "9999-12-31",
+        mealType: "dinner",
+        servings: "01.500",
+      }),
+    ).toEqual({
+      date: "9999-12-31",
+      meal_type: "dinner",
+      needs_canonical_redirect: true,
+      normalized_servings: "1.5",
+      requested_servings: 1.5,
+      status: "valid",
+    });
+    expect(
+      recipeUseCanonicalQuery({
+        date: "9999-12-31",
+        mealType: "dinner",
+        servings: "1.5",
+      }),
+    ).toBe("date=9999-12-31&mealType=dinner&servings=1.5");
+  });
+
+  test("accepts browser-date bootstrap and every serving and meal boundary", () => {
+    for (const mealType of ["breakfast", "lunch", "dinner", "snack", "other"]) {
+      expect(
+        parseRecipeUseQuery(recipeId, {
+          mealType,
+          servings: "0.001",
+        }),
+      ).toMatchObject({
+        meal_type: mealType,
+        normalized_servings: "0.001",
+        status: "date_missing",
+      });
+    }
+    for (const servings of ["0.001", "1", "1.5", "10000"]) {
+      expect(
+        parseRecipeUseQuery(recipeId, { date: "2026-07-17", servings }),
+      ).toMatchObject({ requested_servings: Number(servings), status: "valid" });
+    }
+  });
+
+  test("rejects repeated, unknown, malformed, signed, exponent, and out-of-range query values", () => {
+    const invalidQueries = [
+      { date: ["2026-07-17", "2026-07-18"] },
+      { date: "2026-02-29" },
+      { date: "2026-07-17", mealType: ["lunch", "dinner"] },
+      { date: "2026-07-17", mealType: "brunch" },
+      { date: "2026-07-17", servings: ["1", "2"] },
+      { date: "2026-07-17", servings: "" },
+      { date: "2026-07-17", servings: " 1" },
+      { date: "2026-07-17", servings: "+1" },
+      { date: "2026-07-17", servings: "-1" },
+      { date: "2026-07-17", servings: "1e2" },
+      { date: "2026-07-17", servings: "0" },
+      { date: "2026-07-17", servings: "0.0001" },
+      { date: "2026-07-17", servings: "10000.001" },
+      { date: "2026-07-17", servings: "words" },
+      { date: "2026-07-17", unexpected: "value" },
+    ];
+    for (const query of invalidQueries) {
+      expect(parseRecipeUseQuery(recipeId, query)).toMatchObject({
+        status: "invalid",
+      });
+    }
+  });
+
   test("parses strict management filters and rejects repeated or malformed values", () => {
     expect(parseRecipeManagementQuery({})).toEqual({
       page: 1,

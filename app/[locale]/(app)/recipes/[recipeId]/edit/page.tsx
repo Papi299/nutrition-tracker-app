@@ -9,10 +9,15 @@ import {
 } from "@/app/[locale]/(app)/recipes/action-state";
 import { saveRecipeAction } from "@/app/[locale]/(app)/recipes/actions";
 import { RecipeForm } from "@/components/recipes/recipe-form";
+import { RecipeNutritionSummary } from "@/components/recipes/recipe-nutrition-summary";
 import { RecipeEditorPageHeader, RecipeRetrievalError } from "@/components/recipes/recipe-page";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import { isUuid } from "@/lib/food-selection/query";
-import { getOwnedRecipeEditor, recipeRowKey } from "@/lib/recipes";
+import {
+  getOwnedRecipeEditor,
+  getOwnedRecipeUseContract,
+  recipeRowKey,
+} from "@/lib/recipes";
 import type { Locale } from "@/lib/i18n/routing";
 
 type EditRecipePageProps = Readonly<{
@@ -42,9 +47,23 @@ export default async function EditRecipePage({ params, searchParams }: EditRecip
   const initialState: RecipeActionState = { status: "idle", values: editorRecipeFormValues(editor.data) };
   const savedValue = resolvedSearchParams.saved;
   const saved = savedValue === "created" || savedValue === "updated" ? savedValue : null;
+  const nutrition = editor.data.is_archived
+    ? null
+    : await getOwnedRecipeUseContract({
+        recipe_id: recipeId,
+        requested_servings: 1,
+      });
+  if (nutrition?.status === "unauthenticated") redirect(signInPath(locale));
 
   return (
     <RecipeEditorPageHeader mode="edit">
+      {nutrition && (
+        <RecipeNutritionSummary
+          locale={locale}
+          recipeId={recipeId}
+          state={nutrition}
+        />
+      )}
       <RecipeForm action={action} archived={editor.data.is_archived} initialState={initialState} linkedRowKeys={bindings.filter((binding) => binding.food_id !== null).map((binding) => binding.row_key)} locale={locale} mode="edit" saved={saved} />
     </RecipeEditorPageHeader>
   );
