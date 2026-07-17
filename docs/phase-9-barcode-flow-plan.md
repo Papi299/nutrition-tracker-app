@@ -1,8 +1,8 @@
 # Phase 9 Barcode Flow Architecture and Implementation Plan
 
-Status: planning and Phase 9A identity/local lookup foundation are complete
-after green CI and clean final review. Phase 9B manual barcode lookup and
-found-food review is next and unstarted. Phase 9 implementation remains
+Status: planning, Phase 9A identity/local lookup, and Phase 9B manual review are
+complete after green CI and clean final review. Phase 9C not-found custom-food
+barcode handoff is next and unstarted. Phase 9 implementation remains
 incomplete, and Phase 10 is unstarted.
 
 This document is the implementation contract for the MVP barcode flow. A later
@@ -659,7 +659,7 @@ active before public active, hides other users completely, and exposes stable
 archived, ambiguous, and local-miss states through a defensive server-only
 helper. Phase 9A added no UI, provider, camera, public mapping, or diary change.
 
-### Phase 9B — Manual barcode lookup and found-food review
+### Phase 9B — Manual barcode lookup and found-food review (complete)
 
 **Objective:** expose localized no-JS manual lookup and connect an active local
 result to existing explicit diary prefill review.
@@ -678,6 +678,17 @@ result to existing explicit diary prefill review.
 - Exclusions: custom barcode save, provider, camera, favorite redesign.
 - Acceptance: manual GTIN lookup works without JS; found result is reviewed;
   Today remains authoritative and snapshots remain historical.
+
+Implementation evidence: the protected localized route accepts only strict
+single `code`, `date`, and optional `mealType` context, canonicalizes valid GTIN
+input before local lookup, and uses browser-local date bootstrap with a manual
+no-JavaScript fallback. Found owned/public results expose safe current metadata
+and link to the existing Today prefill; Today revalidates readability and keeps
+the optional meal selection editable before explicit submission. Initial,
+invalid, archived/unavailable, ambiguous, local-miss, authentication, and
+database-failure states remain distinct. Lookup, refresh, and navigation perform
+no mutation. Phase 9B added no barcode-aware custom persistence, provider,
+camera, external call, public mapping, or diary persistence contract.
 
 ### Phase 9C — Not-found custom-food handoff
 

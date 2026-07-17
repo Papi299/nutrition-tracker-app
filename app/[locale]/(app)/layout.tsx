@@ -42,6 +42,7 @@ function LocalizedProtectedLayout({
     <AppShell
       appName={t("appName")}
       locale={locale}
+      navBarcodeLookup={t("nav.barcodeLookup")}
       navFoodSearch={t("nav.foodSearch")}
       navMyFoods={t("nav.myFoods")}
       navProfileTargets={t("nav.profileTargets")}

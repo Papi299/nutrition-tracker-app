@@ -923,3 +923,31 @@
 - Phase 9A is complete after green CI and clean final review. Phase 9B Manual
   barcode lookup and found-food review is next and unstarted. Overall Phase 9
   remains incomplete, and Phase 10 is unstarted.
+
+## 2026-07-17: Phase 9B Manual barcode lookup and found-food review
+
+- Added the protected English/Hebrew `/{locale}/foods/barcode` route with one
+  strict GET contract for `code`, `date`, and optional `mealType`. Valid raw
+  GTIN input redirects to its string-only canonical 14-character value before
+  invoking the Phase 9A helper; unknown, repeated, malformed, ISBN, UPC-E-like,
+  and invalid-check-digit input performs no lookup.
+- Reused browser-local calendar-date bootstrap and its no-JavaScript manual
+  fallback without server-time inference. The manual text input preserves
+  leading zeroes, and canonical date/meal context survives redirects and review.
+- Added safe localized owned/public review metadata and explicit links to the
+  existing Today diary-prefill boundary. Today now accepts one optional valid
+  meal context, keeps it editable, defaults missing context to breakfast, and
+  fails closed before food prefill for invalid or repeated meal values.
+- Kept initial, invalid, archived/unavailable, ambiguous, other-user/local-miss,
+  and database-failure states distinct. Ordinary custom-food creation from a
+  miss carries no barcode; no lookup, refresh, back navigation, or review action
+  writes a food, mapping, favorite, recent, receipt, or diary row.
+- Added pure and local-only browser coverage for strict queries, canonical URLs,
+  English/Hebrew RTL, mixed direction, mobile/keyboard/no-JavaScript behavior,
+  owner precedence, other-user non-influence, Today meal handoff, explicit diary
+  submission, safe isolated retrieval failure, and existing success banners.
+  No schema, generated type, dependency, remote Supabase, production mapping,
+  provider, camera, or barcode persistence change was made.
+- Phases 9A and 9B are complete after green CI and clean final review. Phase 9C
+  not-found custom-food barcode handoff is next and unstarted. Overall Phase 9
+  remains incomplete, and Phase 10 is unstarted.

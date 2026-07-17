@@ -8,3 +8,7 @@ export {
   parseFoodSelectionQuery,
   type FoodSelectionQuery,
 } from "./query";
+export {
+  parseFoodDiarySelectionContext,
+  type FoodDiarySelectionContext,
+} from "./context";

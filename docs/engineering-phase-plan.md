@@ -164,10 +164,14 @@ and camera scanning only as progressive enhancement over manual entry. Phase
 normalized public/per-user mapping uniqueness, server-derived scope, parent-
 derived RLS, and authenticated owned-before-public exact local lookup. It grants
 no authenticated barcode DML and adds no UI, provider, camera, public mapping
-data, or diary behavior. Phase 9A is complete after green CI and clean final
-review. Phase 9B manual barcode lookup and found-food review is next and
-unstarted. Overall Phase 9 remains incomplete, and Phase 10 Data Ingestion is
-unstarted.
+data, or diary behavior. Phase 9B adds a protected localized manual GET route,
+strict canonical barcode/date/meal context, browser-local and no-JavaScript date
+entry, local-only owned/public review, and explicit Today prefill with optional
+editable meal preselection. Lookup performs no mutation; nutrition remains on
+Today, and no barcode-aware custom persistence, provider, or camera behavior is
+included. Phases 9A and 9B are complete after green CI and clean final review.
+Phase 9C not-found custom-food barcode handoff is next and unstarted. Overall
+Phase 9 remains incomplete, and Phase 10 Data Ingestion is unstarted.
 
 ## Future PR Documentation Rule
 

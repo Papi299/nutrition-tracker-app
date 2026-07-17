@@ -57,9 +57,11 @@ function LocalizedFoodsPage({
   const t = useTranslations("FoodSearch");
   const selectedDate = dateQuery.status === "valid" ? dateQuery.date : null;
   const retryParameters = new URLSearchParams({ q: state.value });
+  const barcodeParameters = new URLSearchParams();
 
   if (selectedDate) {
     retryParameters.set("date", selectedDate);
+    barcodeParameters.set("date", selectedDate);
   }
 
   const retryHref = `/${locale}/foods?${retryParameters.toString()}`;
@@ -82,6 +84,12 @@ function LocalizedFoodsPage({
             href={`/${locale}/foods/custom/new`}
           >
             {t("createCustom")}
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+            href={`/${locale}/foods/barcode${barcodeParameters.size > 0 ? `?${barcodeParameters.toString()}` : ""}`}
+          >
+            {t("barcodeLookup")}
           </Link>
           <Link
             className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"

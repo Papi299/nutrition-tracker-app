@@ -3,6 +3,7 @@ import {
   parseFoodSelectionQuery,
   isUuid,
 } from "@/lib/food-selection/query";
+import { parseFoodDiarySelectionContext } from "@/lib/food-selection/context";
 import {
   validateDiaryEntryCreateInput,
   validateDiaryEntryUpdateInput,
@@ -40,6 +41,23 @@ test.describe("food selection boundaries", () => {
       data: { food_id: null },
       ok: true,
     });
+  });
+
+  test("parses one editable optional meal context without masking errors", () => {
+    expect(parseFoodDiarySelectionContext({})).toEqual({
+      food_id: null,
+      meal_type: null,
+      status: "valid",
+    });
+    expect(
+      parseFoodDiarySelectionContext({ foodId, mealType: "dinner" }),
+    ).toEqual({ food_id: foodId, meal_type: "dinner", status: "valid" });
+    expect(
+      parseFoodDiarySelectionContext({ mealType: "brunch" }),
+    ).toEqual({ field: "mealType", reason: "invalid", status: "invalid" });
+    expect(
+      parseFoodDiarySelectionContext({ mealType: ["lunch", "dinner"] }),
+    ).toEqual({ field: "mealType", reason: "repeated", status: "invalid" });
   });
 
   test("rejects malformed create links and all relinking through updates", () => {

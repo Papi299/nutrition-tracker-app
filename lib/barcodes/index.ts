@@ -18,3 +18,13 @@ export {
 export {
   type BarcodeLookupState,
 } from "./lookup-core";
+export {
+  barcodeLookupCapabilities,
+  barcodeRouteCanonicalQuery,
+  parseBarcodeRouteQuery,
+  resolveBarcodeRoute,
+  type BarcodeRouteInvalidField,
+  type BarcodeRouteInvalidReason,
+  type BarcodeRouteQueryResult,
+  type BarcodeRouteResolution,
+} from "./query";

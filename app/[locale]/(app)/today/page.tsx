@@ -32,6 +32,8 @@ import {
 } from "@/lib/data/retrieval-state";
 import {
   getReadableFoodDiaryPrefill,
+  parseFoodDiarySelectionContext,
+  type FoodDiarySelectionContext,
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { routing } from "@/lib/i18n/routing";
@@ -55,6 +57,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const resolvedSearchParams = await searchParams;
   const locale = resolveAuthLocale(localeInput);
   const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+  const selectionContext = parseFoodDiarySelectionContext(resolvedSearchParams);
   const savedMealLogged = resolvedSearchParams.savedMeal === "logged";
   const recipeLogged = resolvedSearchParams.recipe === "logged";
 
@@ -69,12 +72,16 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   }
 
   const selectedDate = dateQuery.date;
+  const foodSelectionPromise =
+    selectionContext.status === "valid"
+      ? getReadableFoodDiaryPrefill(selectionContext.food_id ?? undefined)
+      : Promise.resolve({ status: "missing" } as const);
   const [profileResult, targetResult, diaryResult, foodSelectionState] =
     await Promise.all([
       getCurrentProfile(),
       getEffectiveTargetForDate(selectedDate),
       listCurrentDiaryEntriesForDate(selectedDate),
-      getReadableFoodDiaryPrefill(resolvedSearchParams.foodId),
+      foodSelectionPromise,
     ]);
   const profileState = resolveNullableRetrieval(profileResult);
   const targetState = resolveNullableRetrieval(targetResult);
@@ -97,6 +104,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
       profileState={profileState}
       recipeLogged={recipeLogged}
       savedMealLogged={savedMealLogged}
+      selectionContext={selectionContext}
       selectedDate={selectedDate}
       targetState={targetState}
     />
@@ -164,6 +172,7 @@ function LocalizedTodayPage({
   profileState,
   recipeLogged,
   savedMealLogged,
+  selectionContext,
   selectedDate,
   targetState,
 }: {
@@ -176,6 +185,7 @@ function LocalizedTodayPage({
   profileState: RetrievalState<Profile>;
   recipeLogged: boolean;
   savedMealLogged: boolean;
+  selectionContext: FoodDiarySelectionContext;
   selectedDate: string;
   targetState: RetrievalState<NutritionTarget>;
 }) {
@@ -188,13 +198,20 @@ function LocalizedTodayPage({
     status: "idle",
     values: {
       entry_date: selectedDate,
-      meal_type: "breakfast",
+      meal_type:
+        selectionContext.status === "valid" && selectionContext.meal_type
+          ? selectionContext.meal_type
+          : "breakfast",
       ...(foodSelectionState.status === "ready"
         ? diaryValuesFromPrefill(foodSelectionState.data)
         : {}),
     },
   };
   const target = targetState.status === "ready" ? targetState.data : null;
+  const removeSelectionParameters = new URLSearchParams({ date: selectedDate });
+  if (selectionContext.status === "valid" && selectionContext.meal_type) {
+    removeSelectionParameters.set("mealType", selectionContext.meal_type);
+  }
   const targetItems = [
     {
       label: t("targetSummary.calories"),
@@ -592,16 +609,27 @@ function LocalizedTodayPage({
             </div>
           </div>
 
-          {(foodSelectionState.status === "invalid" ||
-            foodSelectionState.status === "repeated") && (
+          {selectionContext.status === "invalid" && (
             <FoodSelectionMessage
               body={
-                foodSelectionState.status === "repeated"
-                  ? diaryT("selection.invalidRepeated")
-                  : diaryT("selection.invalid")
+                selectionContext.field === "mealType"
+                  ? selectionContext.reason === "repeated"
+                    ? diaryT("selection.invalidMealRepeated")
+                    : diaryT("selection.invalidMeal")
+                  : selectionContext.reason === "repeated"
+                    ? diaryT("selection.invalidRepeated")
+                    : diaryT("selection.invalid")
               }
-              testId="food-selection-invalid"
-              title={diaryT("selection.invalidTitle")}
+              testId={
+                selectionContext.field === "mealType"
+                  ? "food-selection-context-invalid"
+                  : "food-selection-invalid"
+              }
+              title={
+                selectionContext.field === "mealType"
+                  ? diaryT("selection.invalidMealTitle")
+                  : diaryT("selection.invalidTitle")
+              }
             />
           )}
 
@@ -649,7 +677,7 @@ function LocalizedTodayPage({
                 </div>
                 <Link
                   className="text-sm font-semibold text-teal-800 underline underline-offset-4"
-                  href={`/${locale}/today?date=${selectedDate}`}
+                  href={`/${locale}/today?${removeSelectionParameters.toString()}`}
                 >
                   {diaryT("selection.remove")}
                 </Link>
@@ -713,9 +741,16 @@ function LocalizedTodayPage({
               }}
               initialState={initialDiaryEntryState}
               key={
-                foodSelectionState.status === "ready"
-                  ? foodSelectionState.data.food_id
-                  : "manual"
+                `${
+                  foodSelectionState.status === "ready"
+                    ? foodSelectionState.data.food_id
+                    : "manual"
+                }:${
+                  selectionContext.status === "valid" &&
+                  selectionContext.meal_type
+                    ? selectionContext.meal_type
+                    : "breakfast"
+                }`
               }
               labels={{
                 brand_name: diaryT("fields.brandName"),
