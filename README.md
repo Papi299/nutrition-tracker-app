@@ -423,8 +423,19 @@ Manual RTL QA checklist:
   ordered ingredients while preserving archive state. Exact repeat submissions
   preserve the recipe timestamp and ingredient ids. A separate idempotent RPC
   archives or restores without hard deletion; recipe persistence never creates
-  or changes diary or saved-meal rows. Phase 8E recipe creation, editing, and
-  management UI is next and unstarted, and overall Phase 8 remains incomplete.
+  or changes diary or saved-meal rows.
+- Phase 8E adds protected localized recipe creation, complete-replacement
+  editing, and active/archived management with deterministic 20-item
+  pagination. One authenticated invoker editor RPC returns only the owner's
+  ordered persisted snapshots, and reversible archive controls require an
+  explicit confirmation without exposing hard deletion.
+- Ingredient cards support manual snapshots and readable-food prefill. Selected
+  food ids remain optional provenance, server-loaded links stay bound to their
+  ingredient row identity through reordering, and explicit unlink preserves
+  editable snapshot values. Quantity changes never scale nutrients, and no
+  aggregate or per-serving nutrition is calculated. Phase 8E performs no
+  recipe diary logging. Phase 8F recipe nutrition derivation and use-contract
+  foundation is next and unstarted; overall Phase 8 remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -498,13 +509,15 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Recipe routes and UI, barcode, USDA and FoodsDictionary ingestion, settings
-  pages, charts, and broader analytics remain unavailable.
+- Recipe nutrition derivation and diary use, barcode, USDA and FoodsDictionary
+  ingestion, settings pages, charts, and broader analytics remain unavailable.
   Phases 6 and 7 are complete for their approved Food Search and Custom Foods
   MVP scopes. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI and
-  final review. Saved Meals is complete for its approved MVP scope, and Phase
-  8D adds the Recipes persistence foundation. Phase 8E recipe UI is next and
-  unstarted, and overall Phase 8 remains incomplete.
+  final review. Saved Meals is complete for its approved MVP scope, and Phases
+  8D and 8E add Recipes persistence plus localized creation, editing,
+  management, and archive/restore UI. Phase 8F recipe nutrition derivation and
+  use-contract foundation is next and unstarted; overall Phase 8 remains
+  incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -539,7 +552,7 @@ Manual RTL QA checklist:
 - Barcode scanning.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- Recipes.
+- Recipe nutrition derivation and diary use.
 - USDA integration.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
@@ -554,10 +567,10 @@ Manual RTL QA checklist:
   restore are complete for the approved MVP scope. Hard deletion remains
   intentionally unsupported.
 - Phase 8A favorite and recent-food reuse, Phase 8B–8C.2 Saved Meals, and Phase
-  8D Recipes persistence are complete after green CI and final review. Saved
-  Meals is complete for its approved MVP scope; Phase 8E recipe creation,
-  editing, and management UI is next and unstarted, and overall Phase 8 remains
-  incomplete.
+  8D–8E Recipes persistence and management UI are complete after green CI and
+  final review. Saved Meals is complete for its approved MVP scope; Phase 8F
+  recipe nutrition derivation and use-contract foundation is next and
+  unstarted, and overall Phase 8 remains incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

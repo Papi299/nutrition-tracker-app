@@ -670,6 +670,19 @@ export type Database = {
           serving_unit: string
         }[]
       }
+      get_owned_recipe_editor: {
+        Args: { p_recipe_id: string }
+        Returns: {
+          created_at: string
+          ingredients: Json
+          is_archived: boolean
+          locale: string
+          name: string
+          recipe_id: string
+          updated_at: string
+          yield_servings: number
+        }[]
+      }
       get_owned_saved_meal_editor: {
         Args: { p_saved_meal_id: string }
         Returns: {

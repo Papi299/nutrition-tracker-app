@@ -23,7 +23,7 @@
     },
     "status": {
       "title": "Current scope",
-      "body": "Accounts, profile and manual targets, manual diary tracking, food search and selection, and custom-food creation and editing are implemented. Custom-food management, barcode scanning, recipes, external ingestion, broader analytics, and production deployment remain unavailable."
+      "body": "Accounts, profiles and manual targets, diary tracking, food search and reuse, custom-food management, saved meals, and recipe creation, editing, and management are implemented. Barcode scanning, recipe nutrition and diary use, external ingestion, broader analytics, and production deployment remain unavailable."
     },
     "mixedSample": {
       "label": "Mixed-script sample:",
@@ -233,6 +233,7 @@
     "selection": {
       "findFood": "Find a food",
       "reuseFood": "Favorites & recent",
+      "recipes": "Recipes",
       "invalidTitle": "Choose a valid food selection",
       "invalid": "The food selection id is invalid. No food lookup was run; you may continue with a manual entry.",
       "invalidRepeated": "Only one food selection may be supplied. No food lookup was run; remove repeated foodId parameters or continue manually.",
@@ -487,6 +488,7 @@
     "createCustom": "Create custom food",
     "manageCustom": "My foods",
     "reuseFoods": "Favorites & recent",
+    "recipes": "Recipes",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -586,6 +588,7 @@
     "description": "Reuse readable foods from your favorites or from foods you previously logged. A food may appear in both lists.",
     "search": "Search all foods",
     "savedMeals": "Saved meals",
+    "recipes": "Recipes",
     "date": {
       "invalidTitle": "Diary date context was removed",
       "invalid": "The supplied diary date is invalid. Reusable foods remain available, but diary selection will return to browser-local Today.",
@@ -842,6 +845,7 @@
     "description": "Create, edit, archive, or restore your private reusable meal snapshots.",
     "create": "Create saved meal",
     "today": "Back to Today",
+    "recipes": "Recipes",
     "success": {
       "archived": "Saved meal archived.",
       "restored": "Saved meal restored."
@@ -910,6 +914,199 @@
       }
     }
   },
+  "RecipeManagement": {
+    "label": "Recipes",
+    "title": "Manage recipes.",
+    "description": "Create, edit, archive, or restore your private ordered ingredient snapshots.",
+    "create": "Create recipe",
+    "today": "Back to Today",
+    "savedMeals": "Saved meals",
+    "success": {
+      "archived": "Recipe archived.",
+      "restored": "Recipe restored."
+    },
+    "filters": {
+      "label": "Recipe status",
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "count": "{count, plural, one {# recipe} other {# recipes}}",
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "card": {
+      "language": "Language",
+      "yield": "Yield servings",
+      "ingredients": "Ingredients",
+      "ingredientCount": "{count, plural, one {# ingredient} other {# ingredients}}",
+      "status": "Status",
+      "updated": "Updated",
+      "edit": "Edit"
+    },
+    "empty": {
+      "active": {
+        "title": "No active recipes",
+        "body": "Create a recipe with manual ingredients or readable food snapshots.",
+        "create": "Create your first recipe"
+      },
+      "archived": {
+        "title": "No archived recipes",
+        "body": "Recipes you archive will appear here and can be restored."
+      }
+    },
+    "pagination": {
+      "label": "Recipe pages",
+      "previous": "Previous",
+      "current": "Page {page}",
+      "next": "Next"
+    },
+    "invalid": {
+      "title": "Invalid recipe filters",
+      "body": "Use one active or archived status and one positive page number. No recipe query was run.",
+      "recover": "Show active recipes"
+    },
+    "retrieval": {
+      "title": "Recipes could not be loaded",
+      "body": "We could not retrieve your recipes right now. No private data was exposed.",
+      "retry": "Try loading recipes again"
+    },
+    "actions": {
+      "restore": "Restore",
+      "restorePending": "Restoring...",
+      "archive": "Archive",
+      "confirmationLabel": "Confirm archiving {name}",
+      "confirmationTitle": "Archive this recipe?",
+      "confirmationBody": "Its ingredients and snapshots stay stored, linked foods and existing diary entries or saved meals stay unchanged, and you can restore it later. Archived recipes will not be available for future diary reuse.",
+      "archivePending": "Archiving...",
+      "confirmArchive": "Archive recipe",
+      "cancel": "Cancel",
+      "errors": {
+        "unauthenticated": "Your session expired. Sign in again before changing this recipe.",
+        "unavailable": "This recipe is unavailable to this account.",
+        "database": "We could not change this recipe right now."
+      }
+    }
+  },
+  "RecipeEditor": {
+    "label": "Recipes",
+    "titleCreate": "Create a recipe.",
+    "titleEdit": "Edit a recipe.",
+    "descriptionCreate": "Describe the full recipe batch and add ordered, editable ingredient snapshots.",
+    "descriptionEdit": "Atomically replace the recipe identity, yield, and complete ordered ingredient collection.",
+    "identity": {
+      "title": "Recipe identity",
+      "help": "Yield is the number of servings produced by the complete recipe. No per-serving nutrition is calculated.",
+      "name": "Recipe name",
+      "language": "Language",
+      "yield": "Yield servings"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "ingredients": {
+      "title": "Recipe ingredients",
+      "help": "Keep 1 to 50 ingredients in the order used by this recipe.",
+      "number": "Ingredient {number}",
+      "linked": "Linked food provenance",
+      "unlinked": "Manual snapshot",
+      "linkRemoved": "The food link will be removed when saved; snapshot fields remain.",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "moveUpLabel": "Move ingredient {number} up",
+      "moveDownLabel": "Move ingredient {number} down",
+      "removeLink": "Remove food link",
+      "remove": "Remove ingredient",
+      "add": "Add blank ingredient",
+      "count": "{count, plural, one {# ingredient} other {# ingredients}}",
+      "snapshotHelp": "Nutrition values describe this editable ingredient snapshot for the entered quantity. Quantity changes never scale nutrients automatically."
+    },
+    "fields": {
+      "ingredientName": "Ingredient name",
+      "brand": "Brand",
+      "quantity": "Quantity",
+      "unit": "Unit",
+      "calories": "Calories",
+      "protein": "Protein (g)",
+      "carbohydrates": "Carbohydrates (g)",
+      "fat": "Fat (g)",
+      "notes": "Notes"
+    },
+    "help": {
+      "name": "Use a recognizable private name up to 200 characters.",
+      "language": "Choose English, Hebrew, or mixed/language-neutral metadata.",
+      "yield": "Enter a positive yield from 0.001 through 10000 for the complete recipe.",
+      "ingredientName": "Required editable snapshot text; it never refreshes from a linked food.",
+      "brand": "Optional editable brand snapshot. Blank is stored as not set.",
+      "quantity": "Optional positive quantity. Quantity and unit must both be blank or both be filled.",
+      "unit": "Optional unit such as g, ml, cup, piece, or serving.",
+      "calories": "Optional nonnegative whole number. Blank is not set; zero is preserved.",
+      "protein": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "carbohydrates": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "fat": "Optional nonnegative grams. Blank is not set; zero is preserved.",
+      "notes": "Optional snapshot notes."
+    },
+    "picker": {
+      "title": "Select a readable food",
+      "help": "Search at least 2 characters. Selection prefills an editable snapshot and does not save the recipe.",
+      "label": "Food name, alias, or brand",
+      "search": "Search foods",
+      "pending": "Loading...",
+      "tooShort": "Enter at least 2 normalized characters.",
+      "error": "Food search is unavailable right now.",
+      "empty": "No readable active foods found.",
+      "owned": "Your custom food",
+      "public": "Public food",
+      "unknownSource": "Unknown source",
+      "select": "Use snapshot"
+    },
+    "errors": {
+      "validation": "Check this value and try again.",
+      "duplicateRowKey": "Each ingredient identity may be submitted only once.",
+      "integer": "Enter a whole number.",
+      "invalidLink": "This food link is not valid for this ingredient.",
+      "invalidRowKey": "This ingredient identity is invalid.",
+      "number": "Enter a valid number or leave this blank.",
+      "range": "Enter a value within the allowed range.",
+      "quantityUnit": "Quantity and unit must both be blank or both be populated.",
+      "ingredientCount": "A recipe must contain 1 to 50 ingredients.",
+      "positions": "Ingredient positions must be continuous and ordered.",
+      "required": "This field is required.",
+      "tooLong": "This field is too long.",
+      "language": "Choose a supported language."
+    },
+    "status": {
+      "idle": "Review the recipe and save when ready.",
+      "databaseError": "We could not save this recipe. No partial changes were kept.",
+      "notFound": "This recipe is unavailable to this account.",
+      "unauthenticated": "Your session expired. Sign in again before saving.",
+      "validationError": "Check the highlighted fields and try again.",
+      "created": "Recipe created.",
+      "updated": "Recipe updated."
+    },
+    "archivedNotice": "This recipe is archived. Editing it does not restore it or make it available for future diary reuse.",
+    "submit": {
+      "create": "Create recipe",
+      "createPending": "Creating...",
+      "update": "Save changes",
+      "updatePending": "Saving..."
+    },
+    "backToManagement": "Back to recipes",
+    "backToToday": "Back to Today",
+    "retrieval": {
+      "failureTitle": "Recipe could not be loaded",
+      "failureBody": "We could not retrieve this recipe right now. No data was fabricated.",
+      "retry": "Try again",
+      "back": "Back to recipes",
+      "invalidTitle": "Invalid recipe link",
+      "invalidBody": "The recipe id is invalid. No recipe lookup was run.",
+      "unavailableTitle": "Recipe unavailable",
+      "unavailableBody": "This recipe is missing or belongs to another account."
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
@@ -918,6 +1115,7 @@
       "today": "Today",
       "foodSearch": "Food search",
       "reusableFoods": "Favorites & recent",
+      "recipes": "Recipes",
       "savedMeals": "Saved meals",
       "myFoods": "My foods",
       "profileTargets": "Profile & targets"

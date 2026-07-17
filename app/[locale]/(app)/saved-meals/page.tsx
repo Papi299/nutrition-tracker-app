@@ -63,6 +63,9 @@ function Header({ locale }: { locale: Locale }) {
         <Link className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800" href={`/${locale}/today`}>
           {t("today")}
         </Link>
+        <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800" href={`/${locale}/recipes`}>
+          {t("recipes")}
+        </Link>
       </div>
     </header>
   );
