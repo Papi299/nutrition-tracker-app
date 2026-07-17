@@ -23,6 +23,7 @@ export type Database = {
           meal_type: string
           notes: string | null
           protein_g: number | null
+          recipe_diary_run_id: string | null
           saved_meal_diary_run_id: string | null
           saved_meal_item_position: number | null
           serving_quantity: number | null
@@ -44,6 +45,7 @@ export type Database = {
           meal_type: string
           notes?: string | null
           protein_g?: number | null
+          recipe_diary_run_id?: string | null
           saved_meal_diary_run_id?: string | null
           saved_meal_item_position?: number | null
           serving_quantity?: number | null
@@ -65,6 +67,7 @@ export type Database = {
           meal_type?: string
           notes?: string | null
           protein_g?: number | null
+          recipe_diary_run_id?: string | null
           saved_meal_diary_run_id?: string | null
           saved_meal_item_position?: number | null
           serving_quantity?: number | null
@@ -79,6 +82,13 @@ export type Database = {
             columns: ["food_id"]
             isOneToOne: false
             referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "diary_entries_recipe_diary_run_id_fkey"
+            columns: ["recipe_diary_run_id"]
+            isOneToOne: true
+            referencedRelation: "recipe_diary_runs"
             referencedColumns: ["id"]
           },
           {
@@ -407,6 +417,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      recipe_diary_runs: {
+        Row: {
+          created_at: string
+          entry_date: string
+          id: string
+          idempotency_key: string
+          meal_type: string
+          recipe_id: string | null
+          requested_servings: number
+          source_updated_at: string
+          user_id: string
+          write_transaction_id: unknown
+        }
+        Insert: {
+          created_at?: string
+          entry_date: string
+          id?: string
+          idempotency_key: string
+          meal_type: string
+          recipe_id?: string | null
+          requested_servings: number
+          source_updated_at: string
+          user_id: string
+          write_transaction_id?: unknown
+        }
+        Update: {
+          created_at?: string
+          entry_date?: string
+          id?: string
+          idempotency_key?: string
+          meal_type?: string
+          recipe_id?: string | null
+          requested_servings?: number
+          source_updated_at?: string
+          user_id?: string
+          write_transaction_id?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_diary_runs_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       recipe_ingredients: {
         Row: {
@@ -773,6 +830,21 @@ export type Database = {
           source_name: string
           source_trust_level: string
           source_type: string
+        }[]
+      }
+      log_recipe_to_diary: {
+        Args: {
+          p_entry_date: string
+          p_expected_updated_at: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_recipe_id: string
+          p_requested_servings: number
+        }
+        Returns: {
+          created_entry_count: number
+          diary_run_id: string
+          result_status: string
         }[]
       }
       log_saved_meal_to_diary: {

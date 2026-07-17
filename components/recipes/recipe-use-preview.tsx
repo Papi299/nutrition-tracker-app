@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import {
+  RecipeUseConfirmation,
+  type RecipeUseConfirmationAction,
+} from "@/components/recipes/recipe-use-confirmation";
 import type { DiaryEntryMealType } from "@/lib/diary-entries/validation";
 import type {
   RecipeUseContract,
@@ -190,17 +194,21 @@ function Completeness({ contract }: { contract: RecipeUseContract }) {
 }
 
 function ReviewReady({
+  confirmationAction,
   contract,
   dateLabel,
   locale,
   mealLabel,
   model,
+  reloadHref,
 }: {
+  confirmationAction: RecipeUseConfirmationAction;
   contract: RecipeUseContract;
   dateLabel: string;
   locale: Locale;
   mealLabel: string;
   model: RecipeReviewModel;
+  reloadHref: string;
 }) {
   const t = useTranslations("RecipeUse.review");
   const nutritionT = useTranslations("RecipeNutrition");
@@ -229,12 +237,20 @@ function ReviewReady({
       <time className="mt-3 block text-xs text-slate-600" dateTime={model.source_updated_at}>
         {t("versionRetained")}
       </time>
+      <RecipeUseConfirmation
+        action={confirmationAction}
+        key={model.source_updated_at}
+        locale={locale}
+        recipeId={model.recipe_id}
+        reloadHref={reloadHref}
+      />
     </section>
   );
 }
 
 export function RecipeUsePreview({
   canonicalServings,
+  confirmationAction,
   contract,
   date,
   locale,
@@ -242,6 +258,7 @@ export function RecipeUsePreview({
   routePath,
 }: {
   canonicalServings: string;
+  confirmationAction: RecipeUseConfirmationAction | null;
   contract: RecipeUseContract;
   date: string;
   locale: Locale;
@@ -309,13 +326,15 @@ export function RecipeUsePreview({
 
       <Completeness contract={contract} />
 
-      {reviewModel ? (
+      {reviewModel && confirmationAction ? (
         <ReviewReady
+          confirmationAction={confirmationAction}
           contract={contract}
           dateLabel={localizedDate}
           locale={locale}
           mealLabel={diaryT(`mealTypes.${reviewModel.meal_type}`)}
           model={reviewModel}
+          reloadHref={`${routePath}?date=${date}&mealType=${reviewModel.meal_type}&servings=${canonicalServings}`}
         />
       ) : (
         <section className="border border-amber-300 bg-amber-50 p-5" data-testid="recipe-review-incomplete">

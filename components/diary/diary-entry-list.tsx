@@ -40,6 +40,9 @@ export function DiaryEntryList({
     savePending: string;
     saveSuccess: string;
     serving: string;
+    source: string;
+    sourceTypes: Record<"manual" | "recipe" | "saved_meal", string>;
+    recipeServingUnits: { plural: string; singular: string };
     fields: {
       brand_name: string;
       calories: string;

@@ -826,3 +826,35 @@
 - Phase 8G is complete after green CI and clean final review. Phase 8H Atomic
   reviewed recipe diary logging and final Phase 8 acceptance are next and not
   started; overall Phase 8 remains incomplete.
+
+## 2026-07-17: Phase 8H Atomic reviewed recipe diary logging and final Phase 8 acceptance
+
+- Added owner-only `recipe_diary_runs` receipts and exact recipe provenance on
+  `diary_entries`. RLS derives ownership through the authenticated user and
+  owned recipe, grants remain least privilege, and recipe provenance is
+  immutable. Receipt insertion is tied to the current transaction, preventing
+  an old completed run from authorizing a new direct diary insert.
+- Added one authenticated, security-invoker, volatile RPC with an empty search
+  path. It checks completed retries first, serializes a fresh token, locks the
+  owned recipe, rejects archived or stale state, invokes the Phase 8F contract
+  in the same transaction, and writes exactly one aggregate diary snapshot and
+  receipt atomically. Context conflicts fail closed; null nutrients remain
+  null and explicit zero remains zero.
+- The localized reviewed-use page creates a fresh server-bound confirmation
+  token only for complete review context. It accepts no caller-authoritative
+  hidden fields, disables duplicate submission while pending, supports no-
+  script submission, returns stable recovery states, and redirects successful
+  writes to the exact diary date with an accessible banner.
+- Recipe diary rows display localized source and recipe servings. Their date,
+  meal, and provenance remain locked; ordinary snapshot fields are editable,
+  deletion leaves the durable receipt and source recipe intact, and linked-food
+  recents are unaffected.
+- Added pure validation plus local-only authenticated database and browser
+  coverage for ownership, grants, exact snapshots, null/zero semantics,
+  sequential and concurrent retries, conflicts, stale/archive/lifecycle and
+  overflow states, transaction rollback, localization, RTL/mobile, progressive
+  enhancement, diary editing, deletion, and prior Phase 8 regressions. No
+  remote Supabase operation occurred.
+- Phase 8H, Recipes, and overall Phase 8 are complete for the approved MVP
+  scope after green CI and clean final review. Phase 9 Barcode planning is next
+  and unstarted; this task adds no Phase 9 implementation.

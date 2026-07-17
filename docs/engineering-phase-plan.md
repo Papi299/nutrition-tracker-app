@@ -131,6 +131,15 @@ Known completed state from the repository and recent validated work:
   retains the server-returned recipe source version and diary-compatible values
   but creates no diary entry, receipt, provenance, idempotency token, or recipe
   mutation.
+- Phase 8H adds an owner-only durable recipe-diary receipt and exact recipe
+  provenance on one aggregate diary row. Explicit confirmation uses only
+  server-bound reviewed context. The authenticated invoker RPC locks the owned
+  recipe, source-version-checks and rederives the Phase 8F contract in the same
+  transaction, then atomically inserts the receipt and diary snapshot.
+  Sequential and concurrent retries converge, conflicting token reuse fails
+  closed, and stale, archived, unavailable, invalid, or overflowing reviews
+  write nothing. Recipe diary date and meal remain immutable while ordinary
+  snapshot fields stay editable; deletion leaves the receipt intact.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -142,11 +151,12 @@ security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
 approved MVP scope. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI
 and clean final review. Phase 8C and Saved Meals are complete for the approved
-MVP scope. Phases 8D through 8G Recipes persistence, localized management UI,
-nutrition use-contract foundation, and preview-only reviewed-use workflow are
-complete after green CI and clean final review. Phase 8H Atomic reviewed recipe
-diary logging and final Phase 8 acceptance are next and not started. Overall
-Phase 8 remains incomplete, and Phase 8H requires a separate approved task.
+MVP scope. Phases 8D through 8H Recipes persistence, localized management UI,
+nutrition use-contract foundation, reviewed-use workflow, and atomic diary
+logging are complete after green CI and clean final review. Recipes, Saved
+Meals, and overall Phase 8 are complete for the approved MVP scope. Phase 9
+Barcode planning is next and unstarted; no Phase 9 implementation is included
+here.
 
 ## Future PR Documentation Rule
 

@@ -10,6 +10,7 @@ import {
   parseRecipeUseQuery,
   recipeUseCanonicalQuery,
 } from "@/lib/recipes/use-query";
+import { validateRecipeDiaryLogInput } from "@/lib/recipes/diary-log-validation";
 
 const recipeId = "123e4567-e89b-12d3-a456-426614174000";
 const foodId = "123e4567-e89b-12d3-a456-426614174001";
@@ -237,6 +238,68 @@ test.describe("recipe payload validation", () => {
 });
 
 test.describe("recipe UI contracts", () => {
+  test("validates the complete server-bound recipe diary review", () => {
+    expect(
+      validateRecipeDiaryLogInput({
+        entry_date: "2024-02-29",
+        expected_source_updated_at: "2026-07-17T12:00:00.123+00:00",
+        idempotency_key: foodId,
+        meal_type: "dinner",
+        recipe_id: recipeId,
+        requested_servings: "1.250",
+      }),
+    ).toEqual({
+      data: {
+        entry_date: "2024-02-29",
+        expected_source_updated_at: "2026-07-17T12:00:00.123+00:00",
+        idempotency_key: foodId,
+        meal_type: "dinner",
+        recipe_id: recipeId,
+        requested_servings: 1.25,
+      },
+      ok: true,
+    });
+  });
+
+  test("accepts every recipe diary meal and serving boundary", () => {
+    for (const mealType of ["breakfast", "lunch", "dinner", "snack", "other"]) {
+      for (const requestedServings of [0.001, 1, 10000]) {
+        expect(
+          validateRecipeDiaryLogInput({
+            entry_date: "9999-12-31",
+            expected_source_updated_at: "2026-07-17T12:00:00Z",
+            idempotency_key: foodId,
+            meal_type: mealType,
+            recipe_id: recipeId,
+            requested_servings: requestedServings,
+          }),
+        ).toMatchObject({ ok: true });
+      }
+    }
+  });
+
+  test("rejects malformed and caller-controlled recipe diary input", () => {
+    for (const input of [
+      null,
+      {},
+      {
+        entry_date: "2026-02-29",
+        expected_source_updated_at: "2026-07-17",
+        idempotency_key: "bad",
+        meal_type: "brunch",
+        nutrition: { calories: 1 },
+        recipe_id: "bad",
+        requested_servings: "1.0001",
+        user_id: foodId,
+      },
+    ]) {
+      expect(validateRecipeDiaryLogInput(input as Record<string, unknown>)).toMatchObject({
+        code: "validation_error",
+        ok: false,
+      });
+    }
+  });
+
   test("parses and canonicalizes strict recipe-use context", () => {
     expect(parseRecipeUseQuery(recipeId, { date: "2024-02-29" })).toEqual({
       date: "2024-02-29",

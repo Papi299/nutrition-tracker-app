@@ -21,9 +21,20 @@ function formatValue(value: null | number | string, suffix = "") {
   return hasValue(value) ? `${String(value)}${suffix}` : null;
 }
 
-function formatServing(entry: DiaryEntry) {
+function formatServing(
+  entry: DiaryEntry,
+  recipeServingUnits: { plural: string; singular: string },
+) {
   const quantity = formatValue(entry.serving_quantity);
   const unit = entry.serving_unit;
+
+  if (entry.source === "recipe" && quantity && unit === null) {
+    return `${quantity} ${
+      entry.serving_quantity === 1
+        ? recipeServingUnits.singular
+        : recipeServingUnits.plural
+    }`;
+  }
 
   if (quantity && unit) {
     return `${quantity} ${unit}`;
@@ -62,6 +73,9 @@ export function DiaryEntryListItem({
     savePending: string;
     saveSuccess: string;
     serving: string;
+    source: string;
+    sourceTypes: Record<"manual" | "recipe" | "saved_meal", string>;
+    recipeServingUnits: { plural: string; singular: string };
     fields: {
       brand_name: string;
       calories: string;
@@ -82,7 +96,7 @@ export function DiaryEntryListItem({
   updateAction: DiaryEntryAction;
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const serving = formatServing(entry);
+  const serving = formatServing(entry, labels.recipeServingUnits);
   const calories = formatValue(entry.calories);
   const macros = [
     formatValue(entry.protein_g, "g"),
@@ -96,6 +110,12 @@ export function DiaryEntryListItem({
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-700">
             {labels.meal}: {mealTypeLabels[entry.meal_type]}
+          </p>
+          <p
+            className="mt-2 inline-flex border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700"
+            data-testid={`diary-source-${entry.source}`}
+          >
+            {labels.source}: {labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes]}
           </p>
           <h3 className="mt-2 text-lg font-semibold text-slate-950" dir="auto">
             {entry.food_name}
