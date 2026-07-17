@@ -251,6 +251,9 @@
       "invalidTitle": "Choose a valid food selection",
       "invalid": "The food selection id is invalid. No food lookup was run; you may continue with a manual entry.",
       "invalidRepeated": "Only one food selection may be supplied. No food lookup was run; remove repeated foodId parameters or continue manually.",
+      "invalidMealTitle": "Choose a valid meal context",
+      "invalidMeal": "The requested meal type is invalid. No selected-food prefill was loaded; choose a supported meal in the editable form.",
+      "invalidMealRepeated": "Only one meal type may be supplied. No selected-food prefill was loaded; remove repeated mealType parameters.",
       "unavailableTitle": "Selected food is unavailable",
       "unavailableBody": "That food is missing, archived, or not readable by this account. No food data was used; you may continue manually.",
       "failureTitle": "Selected food could not be loaded",
@@ -503,6 +506,7 @@
     "manageCustom": "My foods",
     "reuseFoods": "Favorites & recent",
     "recipes": "Recipes",
+    "barcodeLookup": "Look up barcode",
     "form": {
       "label": "Food name, alias, or brand",
       "help": "Enter at least 2 characters. Search supports English, Hebrew, and mixed text.",
@@ -1273,6 +1277,93 @@
       }
     }
   },
+  "BarcodeLookup": {
+    "label": "Local barcode lookup",
+    "title": "Look up a food barcode.",
+    "description": "Enter a supported GTIN food barcode to review a readable local food before opening an editable diary snapshot. Looking up a barcode never creates or changes data.",
+    "dateBootstrapTitle": "Opening barcode lookup for your local diary date",
+    "backToSearch": "Back to food search",
+    "form": {
+      "code": "Barcode",
+      "codeHelp": "Enter GTIN-8, UPC-A / GTIN-12, GTIN-13, or GTIN-14 digits exactly. Spaces inside the barcode and UPC-E shorthand are not supported.",
+      "date": "Diary date",
+      "dateHelp": "This date is carried to Today for review; barcode lookup does not create a diary entry.",
+      "mealType": "Diary meal type",
+      "mealTypeHelp": "Optional. Today will preselect this meal, and you may edit it before submitting.",
+      "mealTypeNone": "No preselected meal",
+      "submit": "Look up barcode"
+    },
+    "ownership": {
+      "owned": "Your custom food",
+      "public": "Public food"
+    },
+    "metadata": {
+      "canonicalGtin": "Canonical GTIN",
+      "foodType": "Food type",
+      "language": "Catalog language",
+      "serving": "Reference serving",
+      "quality": "Data quality",
+      "foodSource": "Food source",
+      "sourceType": "Source type",
+      "trust": "Source trust",
+      "mappingVerification": "Barcode mapping verification",
+      "mappingSource": "Barcode mapping source",
+      "mappingSourceType": "Mapping source type",
+      "mappingTrust": "Mapping source trust",
+      "unknown": "Not available"
+    },
+    "verification": {
+      "user_asserted": "User asserted",
+      "provider_reported": "Provider reported",
+      "curated_verified": "Curated and verified"
+    },
+    "review": {
+      "explanation": "Nutrition is intentionally not shown here. Today will revalidate this food, load current diary-prefill values, and let you review and edit the snapshot before explicit submission.",
+      "diary": "Review for diary",
+      "edit": "Edit custom food"
+    },
+    "states": {
+      "initial": {
+        "title": "Enter a food barcode",
+        "body": "Manual lookup works without JavaScript. No local barcode lookup is run until you submit a valid code and diary date."
+      },
+      "invalid": {
+        "title": "Check the barcode lookup",
+        "generic": "Use one supported food barcode and try again. No local lookup was run.",
+        "length": "Use exactly 8, 12, 13, or 14 barcode digits. Bare UPC-E values are not supported.",
+        "characters": "Use ASCII digits only, without internal spaces, signs, punctuation, or scanner payload text.",
+        "checkDigit": "The barcode check digit is invalid. Correct the code and try again; this does not mean the food is absent.",
+        "unsupported": "This identifier format is not supported for food-barcode lookup.",
+        "tooLong": "The submitted barcode text is too long.",
+        "date": "Choose one valid diary date in YYYY-MM-DD format. No local lookup was run.",
+        "mealType": "Choose one supported diary meal type or leave it blank. No local lookup was run.",
+        "unknownQuery": "Only barcode, diary date, and meal type are accepted on this page. No local lookup was run.",
+        "repeated": {
+          "code": "Only one barcode may be supplied. No local lookup was run.",
+          "date": "Only one diary date may be supplied. No local lookup was run.",
+          "mealType": "Only one meal type may be supplied. No local lookup was run."
+        }
+      },
+      "unavailable": {
+        "title": "This barcode is unavailable",
+        "body": "A readable archived or unavailable mapping exists, but it cannot be selected. No food identity or diary action is exposed."
+      },
+      "ambiguous": {
+        "title": "This barcode has a mapping conflict",
+        "body": "No food was selected because the winning local mapping tier is ambiguous. Try again later or return to food search."
+      },
+      "notFound": {
+        "title": "No readable local mapping was found",
+        "body": "Try the barcode again or create an ordinary custom food without attaching this barcode. External provider lookup and barcode-aware creation are not available here.",
+        "createCustom": "Create custom food"
+      },
+      "failure": {
+        "title": "Barcode lookup could not be loaded",
+        "body": "We could not retrieve the local barcode result right now. This is not a not-found result, and no database details were exposed.",
+        "retry": "Try this barcode again"
+      }
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
@@ -1280,6 +1371,7 @@
     "nav": {
       "today": "Today",
       "foodSearch": "Food search",
+      "barcodeLookup": "Barcode lookup",
       "reusableFoods": "Favorites & recent",
       "recipes": "Recipes",
       "savedMeals": "Saved meals",

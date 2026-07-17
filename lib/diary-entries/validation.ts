@@ -20,6 +20,23 @@ export const maxNotesLength = 1000;
 
 export type DiaryEntryMealType = (typeof diaryEntryMealTypes)[number];
 
+export type DiaryMealTypeQueryResult =
+  | { status: "missing" }
+  | { meal_type: DiaryEntryMealType; status: "valid" }
+  | { status: "invalid" }
+  | { status: "repeated" };
+
+export function parseDiaryMealTypeQuery(
+  value: string | string[] | undefined,
+): DiaryMealTypeQueryResult {
+  if (value === undefined) return { status: "missing" };
+  if (Array.isArray(value)) return { status: "repeated" };
+  if (!diaryEntryMealTypes.includes(value as DiaryEntryMealType)) {
+    return { status: "invalid" };
+  }
+  return { meal_type: value as DiaryEntryMealType, status: "valid" };
+}
+
 export type DiaryEntryCreateInput = {
   brand_name?: null | string;
   calories?: null | number | string;

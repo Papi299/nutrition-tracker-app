@@ -4,6 +4,12 @@ import {
   isValidCanonicalGtin,
   validateGtinInput,
 } from "@/lib/barcodes/validation";
+import {
+  barcodeLookupCapabilities,
+  barcodeRouteCanonicalQuery,
+  parseBarcodeRouteQuery,
+  resolveBarcodeRoute,
+} from "@/lib/barcodes/query";
 import { parseBarcodeLookupRows } from "@/lib/barcodes/parser";
 import { lookupReadableFoodByGtinWithDependencies } from "@/lib/barcodes/lookup-core";
 
@@ -328,5 +334,202 @@ test.describe("barcode lookup orchestration", () => {
       canonical_gtin: "00036000291452",
       status: "not_found_local",
     });
+  });
+});
+
+test.describe("barcode route query contract", () => {
+  test("distinguishes date bootstrap from the initial manual-entry state", () => {
+    expect(parseBarcodeRouteQuery({})).toEqual({
+      canonical_gtin: null,
+      meal_type: null,
+      status: "date_missing",
+    });
+    expect(parseBarcodeRouteQuery({ date: "2026-07-17" })).toEqual({
+      canonical_gtin: null,
+      date: "2026-07-17",
+      meal_type: null,
+      needs_canonical_redirect: false,
+      status: "valid",
+    });
+  });
+
+  for (const [raw, canonical] of [
+    ["96385074", "00000096385074"],
+    ["036000291452", "00036000291452"],
+    ["4006381333931", "04006381333931"],
+  ]) {
+    test(`canonicalizes ${raw.length}-digit input before lookup`, () => {
+      expect(
+        parseBarcodeRouteQuery({ code: raw, date: "2026-07-17" }),
+      ).toMatchObject({
+        canonical_gtin: canonical,
+        needs_canonical_redirect: true,
+        status: "valid",
+      });
+    });
+  }
+
+  test("accepts canonical GTIN-14 and normalizes outer whitespace", () => {
+    expect(
+      parseBarcodeRouteQuery({
+        code: "10012345000017",
+        date: "2026-07-17",
+      }),
+    ).toMatchObject({
+      canonical_gtin: "10012345000017",
+      needs_canonical_redirect: false,
+      status: "valid",
+    });
+    expect(
+      parseBarcodeRouteQuery({
+        code: "\u2003 10012345000017 \u00a0",
+        date: "2026-07-17",
+      }),
+    ).toMatchObject({
+      canonical_gtin: "10012345000017",
+      needs_canonical_redirect: true,
+      status: "valid",
+    });
+  });
+
+  test("rejects present empty, bad-check-digit, ISBN, and malformed identifiers", () => {
+    const cases = [
+      ["", "invalid_length"],
+      ["   ", "invalid_length"],
+      ["12345671", "invalid_check_digit"],
+      ["9780306406157", "unsupported_format"],
+      ["036000-291452", "invalid_characters"],
+    ] as const;
+
+    for (const [code, reason] of cases) {
+      expect(
+        parseBarcodeRouteQuery({ code, date: "2026-07-17" }),
+      ).toMatchObject({ field: "code", reason, status: "invalid" });
+    }
+  });
+
+  test("rejects unknown and repeated query values deterministically", () => {
+    expect(parseBarcodeRouteQuery({ extra: "value" })).toMatchObject({
+      field: "query",
+      reason: "unknown",
+      status: "invalid",
+    });
+
+    for (const field of ["code", "date", "mealType"] as const) {
+      expect(parseBarcodeRouteQuery({ [field]: ["a", "b"] })).toMatchObject({
+        field,
+        reason: "repeated",
+        status: "invalid",
+      });
+    }
+  });
+
+  test("accepts historical and future dates while rejecting invalid dates", () => {
+    for (const date of ["0001-01-01", "2024-02-29", "9999-12-31"]) {
+      expect(parseBarcodeRouteQuery({ date })).toMatchObject({ date, status: "valid" });
+    }
+    expect(parseBarcodeRouteQuery({ date: "2026-02-29" })).toMatchObject({
+      field: "date",
+      reason: "invalid",
+      status: "invalid",
+    });
+  });
+
+  test("accepts missing and every supported meal type and rejects other values", () => {
+    expect(parseBarcodeRouteQuery({ date: "2026-07-17" })).toMatchObject({
+      meal_type: null,
+      status: "valid",
+    });
+    expect(
+      parseBarcodeRouteQuery({ date: "2026-07-17", mealType: "" }),
+    ).toMatchObject({
+      meal_type: null,
+      needs_canonical_redirect: true,
+      status: "valid",
+    });
+    for (const mealType of ["breakfast", "lunch", "dinner", "snack", "other"]) {
+      expect(
+        parseBarcodeRouteQuery({ date: "2026-07-17", mealType }),
+      ).toMatchObject({ meal_type: mealType, status: "valid" });
+    }
+    expect(
+      parseBarcodeRouteQuery({ date: "2026-07-17", mealType: "brunch" }),
+    ).toMatchObject({
+      field: "mealType",
+      reason: "invalid",
+      status: "invalid",
+    });
+  });
+
+  test("builds one canonical ordered query preserving date and meal context", () => {
+    expect(
+      barcodeRouteCanonicalQuery({
+        code: "00036000291452",
+        date: "2026-07-17",
+        mealType: "lunch",
+      }),
+    ).toBe("code=00036000291452&date=2026-07-17&mealType=lunch");
+    expect(
+      barcodeRouteCanonicalQuery({
+        code: null,
+        date: "2026-07-17",
+        mealType: null,
+      }),
+    ).toBe("date=2026-07-17");
+  });
+
+  test("never invokes lookup for invalid, initial, date-missing, or redirect input", async () => {
+    let calls = 0;
+    const lookup = async (canonicalGtin: string) => {
+      calls += 1;
+      return {
+        canonical_gtin: canonicalGtin,
+        status: "not_found_local",
+      } as const;
+    };
+
+    for (const query of [
+      { code: "invalid", date: "2026-07-17" },
+      { date: "2026-07-17" },
+      { code: "036000291452" },
+      { code: "036000291452", date: "2026-07-17" },
+    ]) {
+      await resolveBarcodeRoute(query, lookup);
+    }
+    expect(calls).toBe(0);
+
+    const result = await resolveBarcodeRoute(
+      { code: "00036000291452", date: "2026-07-17" },
+      lookup,
+    );
+    expect(calls).toBe(1);
+    expect(result.lookup).toEqual({
+      canonical_gtin: "00036000291452",
+      status: "not_found_local",
+    });
+  });
+
+  test("keeps review actions distinct across safe presentation states", () => {
+    expect(barcodeLookupCapabilities("found_owned")).toEqual({
+      canCreateOrdinaryCustomFood: false,
+      canEditCustomFood: true,
+      canReviewForDiary: true,
+    });
+    expect(barcodeLookupCapabilities("found_public")).toEqual({
+      canCreateOrdinaryCustomFood: false,
+      canEditCustomFood: false,
+      canReviewForDiary: true,
+    });
+    for (const status of [
+      "ambiguous",
+      "archived_or_unavailable",
+      "database_error",
+    ] as const) {
+      expect(barcodeLookupCapabilities(status)).toMatchObject({
+        canCreateOrdinaryCustomFood: false,
+        canEditCustomFood: false,
+        canReviewForDiary: false,
+      });
+    }
   });
 });
