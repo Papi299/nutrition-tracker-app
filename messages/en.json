@@ -943,7 +943,8 @@
       "ingredientCount": "{count, plural, one {# ingredient} other {# ingredients}}",
       "status": "Status",
       "updated": "Updated",
-      "edit": "Edit"
+      "edit": "Edit",
+      "preview": "Nutrition & diary preview"
     },
     "empty": {
       "active": {
@@ -997,7 +998,7 @@
     "descriptionEdit": "Atomically replace the recipe identity, yield, and complete ordered ingredient collection.",
     "identity": {
       "title": "Recipe identity",
-      "help": "Yield is the number of servings produced by the complete recipe. No per-serving nutrition is calculated.",
+      "help": "Yield is the number of servings produced by the complete recipe. The saved nutrition summary below is calculated by the database.",
       "name": "Recipe name",
       "language": "Language",
       "yield": "Yield servings"
@@ -1105,6 +1106,138 @@
       "invalidBody": "The recipe id is invalid. No recipe lookup was run.",
       "unavailableTitle": "Recipe unavailable",
       "unavailableBody": "This recipe is missing or belongs to another account."
+    }
+  },
+  "RecipeNutrition": {
+    "unknown": "Unknown",
+    "complete": "Complete for every ingredient",
+    "knownCount": "Known for {known} of {total} ingredients",
+    "unknownExplanation": "One or more saved ingredient snapshots do not contain this nutrient. No partial total is shown.",
+    "completenessTitle": "Nutrient completeness",
+    "completenessHelp": "Each nutrient is evaluated independently. An explicit zero is known; a blank snapshot is unknown.",
+    "nutrients": {
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbohydrates": "Carbohydrates",
+      "fat": "Fat"
+    },
+    "identity": {
+      "yield": "Recipe yield",
+      "ingredients": "Ingredient count"
+    },
+    "summary": {
+      "title": "Saved nutrition summary",
+      "savedOnly": "This read-only summary reflects the last successfully saved recipe. Unsaved editor changes do not alter it.",
+      "whole": "Whole recipe",
+      "perServing": "One serving",
+      "unavailable": "The nutrition summary could not be loaded. You can still review and save the recipe editor safely.",
+      "openPreview": "Nutrition & diary preview"
+    }
+  },
+  "RecipeUse": {
+    "label": "Recipe nutrition preview",
+    "description": "Review nutrition from saved ingredient snapshots for a selected serving amount and diary context. This page is read-only.",
+    "bootstrapTitle": "Choose this device's calendar date for the recipe preview.",
+    "languages": {
+      "en": "English",
+      "he": "Hebrew",
+      "und": "Mixed or language-neutral"
+    },
+    "identity": {
+      "language": "Recipe language",
+      "yield": "Recipe yield",
+      "ingredients": "Ingredient count",
+      "updated": "Last updated",
+      "date": "Diary date",
+      "meal": "Diary meal",
+      "notSelected": "Not selected",
+      "servings": "Requested servings"
+    },
+    "form": {
+      "title": "Update the read-only preview",
+      "help": "Choose a canonical diary date, meal type, and serving amount. Submitting this GET form changes only the URL and preview.",
+      "date": "Date",
+      "mealType": "Meal type",
+      "chooseMeal": "Choose a meal",
+      "servings": "Requested servings",
+      "submit": "Calculate and review"
+    },
+    "nutrition": {
+      "title": "Nutrition perspectives",
+      "explanation": "Exact values come directly from the database contract. Display formatting does not change the calculation; diary-compatible values are rounded once after requested-serving scaling.",
+      "whole": "Whole recipe",
+      "perServing": "One recipe serving",
+      "requested": "Requested servings ({servings})",
+      "diary": "Diary-compatible rounded snapshot"
+    },
+    "review": {
+      "title": "Review ready",
+      "body": "The date, meal, and serving amount are complete for a future diary operation. No diary entry has been created.",
+      "recipe": "Recipe",
+      "servings": "Servings",
+      "date": "Date",
+      "meal": "Meal",
+      "unknowns": "Unknown nutrients will remain unknown; complete nutrients use the displayed database-derived diary values.",
+      "future": "A future diary operation must lock the recipe, verify this saved source version, and rederive nutrition inside its write transaction.",
+      "versionRetained": "The current saved recipe version is retained by this server-rendered review.",
+      "incompleteTitle": "Choose a meal to complete the review context",
+      "incompleteBody": "Nutrition is available now, but review readiness requires a selected diary meal. No time-based default is assumed."
+    },
+    "explanation": {
+      "title": "What this preview means",
+      "previewOnly": "This page is a preview only. No diary entry, receipt, or recipe change is created.",
+      "snapshots": "Nutrition comes from the recipe's last saved ingredient snapshots; ingredient quantity does not rescale it.",
+      "linkedFoods": "Current linked-food names, archive state, and nutrients are not used to replace recipe snapshots.",
+      "future": "A future diary action will rederive and source-version-check the recipe before writing one aggregate recipe snapshot."
+    },
+    "links": {
+      "edit": "Edit saved recipe",
+      "management": "Back to active recipes"
+    },
+    "queryError": {
+      "title": "Invalid recipe preview link",
+      "fields": {
+        "date": "Use one valid calendar date in YYYY-MM-DD format.",
+        "mealType": "Use one supported diary meal type.",
+        "servings": "Use one plain decimal serving amount from 0.001 through 10000 with no more than three decimal places.",
+        "query": "This preview link contains an unsupported query parameter."
+      },
+      "recover": "Start a fresh preview",
+      "back": "Back to recipes"
+    },
+    "states": {
+      "back": "Back to recipes",
+      "invalid_link": {
+        "title": "Invalid recipe link",
+        "body": "The recipe id is invalid. No recipe or nutrition lookup was run."
+      },
+      "unavailable": {
+        "title": "Recipe unavailable",
+        "body": "This recipe is missing or belongs to another account."
+      },
+      "archived": {
+        "title": "Recipe archived",
+        "body": "Archived recipes cannot produce an active nutrition or diary preview. Restore the recipe before previewing it.",
+        "edit": "Open archived recipe editor"
+      },
+      "invalid_recipe": {
+        "title": "Recipe needs attention",
+        "body": "The saved ingredient collection is not ready for a nutrition preview. Review and save the recipe before trying again.",
+        "edit": "Edit recipe"
+      },
+      "not_loggable": {
+        "label": "Recipe nutrition preview",
+        "title": "Requested amount is too large for the diary",
+        "body": "The database-derived rounded result exceeds diary numeric limits. Try a smaller requested-serving amount; no nutrition values or diary rows were produced.",
+        "edit": "Edit recipe",
+        "back": "Back to recipes"
+      },
+      "failure": {
+        "title": "Recipe preview could not be loaded",
+        "body": "We could not retrieve the nutrition preview right now. No values were fabricated and no data was changed.",
+        "retry": "Try loading the preview again",
+        "back": "Back to recipes"
+      }
     }
   },
   "AppShell": {

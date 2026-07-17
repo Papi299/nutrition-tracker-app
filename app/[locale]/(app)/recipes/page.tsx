@@ -107,6 +107,7 @@ function RecipeCard({ locale, recipe }: { locale: Locale; recipe: ManagedRecipe 
       </div>
       <div className="grid gap-3 sm:min-w-40">
         <Link className="inline-flex min-h-11 items-center justify-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/recipes/${recipe.recipe_id}/edit`}>{t("card.edit")}</Link>
+        {!recipe.is_archived && <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 bg-white px-4 text-center text-sm font-semibold text-teal-800" href={`/${locale}/recipes/${recipe.recipe_id}/use`}>{t("card.preview")}</Link>}
         <RecipeArchiveControl action={action} archived={recipe.is_archived} recipeName={recipe.name} />
       </div>
     </li>

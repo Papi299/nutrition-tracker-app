@@ -121,6 +121,16 @@ Known completed state from the repository and recent validated work:
   `updated_at` source version; future logging must lock, version-check, and
   rederive in its transaction before writing one aggregate recipe snapshot.
   This slice adds no recipe nutrition UI and performs no diary mutation.
+- Phase 8G exposes the Phase 8F contract on active owned recipe edit pages and a
+  protected localized use route. The UI displays database-returned whole,
+  per-serving, requested-serving, and diary-compatible values without browser
+  arithmetic. Completeness remains independent per nutrient: null stays
+  unknown with known X-of-Y context, while explicit zero remains zero.
+- The preview accepts only canonical browser-local date, optional diary meal,
+  and normalized servings through a read-only GET workflow. A complete review
+  retains the server-returned recipe source version and diary-compatible values
+  but creates no diary entry, receipt, provenance, idempotency token, or recipe
+  mutation.
 - Controlled local-only authenticated diary smoke test passed after the minimal
   diary UI.
 
@@ -132,11 +142,11 @@ security, RLS, integrity, accessibility, localization, documentation, or
 repository-hygiene issue, so overall Phase 7 Custom Foods is complete for the
 approved MVP scope. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI
 and clean final review. Phase 8C and Saved Meals are complete for the approved
-MVP scope. Phases 8D through 8F Recipes persistence, localized management UI,
-and nutrition use-contract foundation are complete after green CI and clean
-final review. Phase 8G Recipe nutrition display and reviewed-use workflow is
-next and not started. Overall
-Phase 8 remains incomplete, and Phase 8G requires a separate approved task.
+MVP scope. Phases 8D through 8G Recipes persistence, localized management UI,
+nutrition use-contract foundation, and preview-only reviewed-use workflow are
+complete after green CI and clean final review. Phase 8H Atomic reviewed recipe
+diary logging and final Phase 8 acceptance are next and not started. Overall
+Phase 8 remains incomplete, and Phase 8H requires a separate approved task.
 
 ## Future PR Documentation Rule
 

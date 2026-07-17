@@ -6,6 +6,7 @@ import { CalendarDateForm } from "@/components/calendar-date/calendar-date-form"
 import { formatBrowserLocalCalendarDate } from "@/lib/calendar-date";
 
 export function BrowserDateBootstrap({
+  canonicalQueryValues,
   formDescription,
   formLabel,
   formSubmitLabel,
@@ -15,6 +16,7 @@ export function BrowserDateBootstrap({
   status,
   title,
 }: {
+  canonicalQueryValues?: Record<string, string>;
   formDescription: string;
   formLabel: string;
   formSubmitLabel: string;
@@ -33,9 +35,15 @@ export function BrowserDateBootstrap({
     }
 
     const nextSearchParams = new URLSearchParams(searchParams.toString());
+    for (const name of Object.keys(canonicalQueryValues ?? {})) {
+      nextSearchParams.delete(name);
+    }
     nextSearchParams.set(queryName, formatBrowserLocalCalendarDate());
+    for (const [name, value] of Object.entries(canonicalQueryValues ?? {})) {
+      nextSearchParams.set(name, value);
+    }
     router.replace(`${routePath}?${nextSearchParams.toString()}`);
-  }, [queryName, routePath, router, searchParams]);
+  }, [canonicalQueryValues, queryName, routePath, router, searchParams]);
 
   return (
     <section
@@ -58,6 +66,7 @@ export function BrowserDateBootstrap({
       <noscript>
         <CalendarDateForm
           action={routePath}
+          canonicalQueryValues={canonicalQueryValues}
           description={formDescription}
           inputId={inputId}
           label={formLabel}

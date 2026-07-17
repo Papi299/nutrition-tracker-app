@@ -55,3 +55,9 @@ export {
   type RecipeUseContractInput,
   type ValidatedRecipeUseContractInput,
 } from "./use-contract-validation";
+export {
+  parseRecipeUseQuery,
+  recipeUseCanonicalQuery,
+  type RecipeUseQueryInvalidField,
+  type RecipeUseQueryResult,
+} from "./use-query";

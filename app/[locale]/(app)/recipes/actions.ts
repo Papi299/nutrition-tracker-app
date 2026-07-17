@@ -273,6 +273,7 @@ export async function saveRecipeAction(
 
   revalidatePath(`/${locale}/recipes`);
   revalidatePath(`/${locale}/recipes/${result.data.recipe_id}/edit`);
+  revalidatePath(`/${locale}/recipes/${result.data.recipe_id}/use`);
   redirect(
     `/${locale}/recipes/${result.data.recipe_id}/edit?saved=${expectedRecipeId ? "updated" : "created"}`,
   );
