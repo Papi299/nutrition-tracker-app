@@ -61,3 +61,15 @@ export {
   type RecipeUseQueryInvalidField,
   type RecipeUseQueryResult,
 } from "./use-query";
+export {
+  logRecipeToDiaryForCurrentUser,
+  type LoggedRecipe,
+  type RecipeDiaryLogErrorCode,
+  type RecipeDiaryLogResult,
+} from "./diary-log";
+export {
+  validateRecipeDiaryLogInput,
+  type RecipeDiaryLogInput,
+  type RecipeDiaryLogValidation,
+  type ValidatedRecipeDiaryLogInput,
+} from "./diary-log-validation";

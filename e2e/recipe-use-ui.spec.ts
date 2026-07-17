@@ -36,8 +36,10 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
   let activeRecipeId: string;
   let archivedRecipeId: string;
   let invalidRecipeId: string;
+  let noScriptRecipeId: string;
   let overflowRecipeId: string;
   let otherRecipeId: string;
+  let retryRecipeId: string;
   const publicFoodId = randomUUID();
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const userAEmail = `recipe-use-ui-a-${runId}@example.test`;
@@ -202,6 +204,12 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
     invalidRecipeId = await persistRecipe(userAClient, "Integrity preview", 1, [
       ingredient(1, { calories: 10 }),
     ] as Json);
+    noScriptRecipeId = await persistRecipe(userAClient, "No script recipe", 2, [
+      ingredient(1, { calories: 8, carbohydrates_g: null, fat_g: 0, protein_g: 2 }),
+    ] as Json);
+    retryRecipeId = await persistRecipe(userAClient, "Retry recipe", 1, [
+      ingredient(1, { calories: 12 }),
+    ] as Json);
     otherRecipeId = await persistRecipe(userBClient, "Other preview", 1, [
       ingredient(1, { calories: 10 }),
     ] as Json);
@@ -321,6 +329,7 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
       select concat_ws('|',
         (select count(*) from public.diary_entries where user_id = '${userAId}'),
         (select count(*) from public.saved_meal_diary_runs where user_id = '${userAId}'),
+        (select count(*) from public.recipe_diary_runs where user_id = '${userAId}'),
         (select updated_at from public.recipes where id = '${activeRecipeId}'),
         to_regclass('public.recipe_use_receipts') is null,
         not exists (
@@ -362,6 +371,7 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
         select concat_ws('|',
           (select count(*) from public.diary_entries where user_id = '${userAId}'),
           (select count(*) from public.saved_meal_diary_runs where user_id = '${userAId}'),
+          (select count(*) from public.recipe_diary_runs where user_id = '${userAId}'),
           (select updated_at from public.recipes where id = '${activeRecipeId}'),
           to_regclass('public.recipe_use_receipts') is null,
           not exists (
@@ -372,6 +382,152 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
         );
       `),
     ).toBe(before);
+    await context.close();
+  });
+
+  test("confirms one localized aggregate, locks context, and supports no-script submission", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      viewport: { height: 844, width: 390 },
+    });
+    const page = await context.newPage();
+    await page.goto(
+      previewUrl(
+        activeRecipeId,
+        "date=2024-02-29&mealType=lunch&servings=1.25",
+        "he",
+      ),
+    );
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const confirmation = page.getByTestId("recipe-use-confirmation");
+    await expect(confirmation).toBeVisible();
+    await expect(
+      confirmation.locator(
+        'input[name="recipe_id"], input[name="expected_source_updated_at"], input[name="requested_servings"], input[name="entry_date"], input[name="meal_type"], input[name="idempotency_key"]',
+      ),
+    ).toHaveCount(0);
+    await confirmation
+      .getByRole("button", { name: "הוספת המתכון שנבדק ליומן" })
+      .click();
+    await expect(page).toHaveURL("/he/today?date=2024-02-29&recipe=logged");
+    await expect(page.getByTestId("recipe-logged-success")).toBeVisible();
+    const totals = page
+      .getByRole("heading", { name: "סיכום יומי" })
+      .locator("xpath=ancestor::section[1]");
+    await expect(totals).toContainText("2");
+    await expect(totals).toContainText("0.15גרם");
+    await expect(totals).toContainText("0.50גרם");
+
+    const logged = await userAClient
+      .from("diary_entries")
+      .select("id,recipe_diary_run_id,source,food_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g")
+      .eq("recipe_diary_run_id", queryLocalDatabase(`
+        select id from public.recipe_diary_runs
+        where user_id = '${userAId}' and recipe_id = '${activeRecipeId}';
+      `))
+      .single();
+    expect(logged.error).toBeNull();
+    expect(logged.data).toMatchObject({
+      calories: 2,
+      carbohydrates_g: null,
+      fat_g: 0.5,
+      food_name: "Preview מרק",
+      protein_g: 0.15,
+      serving_quantity: 1.25,
+      serving_unit: null,
+      source: "recipe",
+    });
+    const card = page.locator(`[data-diary-entry-id="${logged.data?.id as string}"]`);
+    await expect(card.getByTestId("diary-source-recipe")).toBeVisible();
+    await expect(card).toContainText("1.25");
+    await card.getByRole("button", { name: "עריכה" }).click();
+    await expect(card.getByLabel("תאריך")).toBeDisabled();
+    await expect(card.getByLabel("סוג ארוחה")).toBeDisabled();
+    await card.getByLabel("שם המזון").fill("צילום מתכון ערוך");
+    await card.getByRole("button", { name: "שמירת שינויים" }).click();
+    await expect(card).toContainText("צילום מתכון ערוך");
+    const runId = logged.data?.recipe_diary_run_id as string;
+    await card.getByRole("button", { name: "מחיקה" }).click();
+    await expect(card).toHaveCount(0);
+    expect(
+      queryLocalDatabase(`select count(*) from public.recipe_diary_runs where id = '${runId}';`),
+    ).toBe("1");
+    await context.close();
+
+    const noScriptContext = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const noScriptPage = await noScriptContext.newPage();
+    await noScriptPage.goto(
+      previewUrl(
+        noScriptRecipeId,
+        "date=2024-03-01&mealType=dinner&servings=2",
+      ),
+    );
+    await noScriptPage
+      .getByRole("button", { name: "Add reviewed recipe to diary" })
+      .click();
+    await expect(noScriptPage).toHaveURL(
+      "/en/today?date=2024-03-01&recipe=logged",
+    );
+    await expect(noScriptPage.getByTestId("recipe-logged-success")).toBeVisible();
+    expect(
+      queryLocalDatabase(`
+        select count(*) from public.diary_entries
+        where user_id = '${userAId}' and source = 'recipe'
+          and food_name = 'No script recipe' and entry_date = '2024-03-01';
+      `),
+    ).toBe("1");
+    await noScriptContext.close();
+  });
+
+  test("rejects stale confirmation and retries a transient database error with the reviewed token", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser);
+    const page = await context.newPage();
+    await page.goto(
+      previewUrl(
+        retryRecipeId,
+        "date=2024-03-02&mealType=snack&servings=1",
+      ),
+    );
+    queryLocalDatabase(`update public.recipes set name = 'Retry recipe current' where id = '${retryRecipeId}';`);
+    await page.getByRole("button", { name: "Add reviewed recipe to diary" }).click();
+    await expect(page.getByTestId("recipe-use-action-stale_review")).toBeVisible();
+    expect(
+      queryLocalDatabase(`select count(*) from public.recipe_diary_runs where recipe_id = '${retryRecipeId}';`),
+    ).toBe("0");
+
+    await page.getByRole("link", { name: "Reload the current preview" }).click();
+    await expect(page.getByRole("heading", { name: "Retry recipe current" })).toBeVisible();
+    queryLocalDatabase(`
+      create function public.reject_recipe_diary_run_for_ui_test()
+      returns trigger language plpgsql as $$ begin
+        raise exception 'deliberate recipe diary UI test failure';
+      end $$;
+      create trigger reject_recipe_diary_run_for_ui_test
+      before insert on public.recipe_diary_runs
+      for each row execute function public.reject_recipe_diary_run_for_ui_test();
+    `);
+    try {
+      await page.getByRole("button", { name: "Add reviewed recipe to diary" }).click();
+      await expect(page.getByTestId("recipe-use-action-database_error")).toBeVisible();
+      expect(
+        queryLocalDatabase(`select count(*) from public.recipe_diary_runs where recipe_id = '${retryRecipeId}';`),
+      ).toBe("0");
+    } finally {
+      queryLocalDatabase(`
+        drop trigger reject_recipe_diary_run_for_ui_test on public.recipe_diary_runs;
+        drop function public.reject_recipe_diary_run_for_ui_test();
+      `);
+    }
+    await page.getByRole("button", { name: "Add reviewed recipe to diary" }).click();
+    await expect(page).toHaveURL("/en/today?date=2024-03-02&recipe=logged");
+    expect(
+      queryLocalDatabase(`select count(*) from public.recipe_diary_runs where recipe_id = '${retryRecipeId}';`),
+    ).toBe("1");
     await context.close();
   });
 

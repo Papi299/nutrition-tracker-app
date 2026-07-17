@@ -130,7 +130,7 @@ export function DiaryEntryEditForm({
     values: { id: entry.id },
   } satisfies DiaryEntryActionState);
   const values = state.values;
-  const provenanceContextLocked = entry.source === "saved_meal";
+  const provenanceContextLocked = entry.source !== "manual";
 
   return (
     <form

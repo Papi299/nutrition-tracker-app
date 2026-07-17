@@ -56,6 +56,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const locale = resolveAuthLocale(localeInput);
   const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
   const savedMealLogged = resolvedSearchParams.savedMeal === "logged";
+  const recipeLogged = resolvedSearchParams.recipe === "logged";
 
   setRequestLocale(locale);
 
@@ -94,6 +95,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
       foodSelectionState={foodSelectionState}
       locale={locale}
       profileState={profileState}
+      recipeLogged={recipeLogged}
       savedMealLogged={savedMealLogged}
       selectedDate={selectedDate}
       targetState={targetState}
@@ -160,6 +162,7 @@ function LocalizedTodayPage({
   foodSelectionState,
   locale,
   profileState,
+  recipeLogged,
   savedMealLogged,
   selectedDate,
   targetState,
@@ -171,6 +174,7 @@ function LocalizedTodayPage({
   >;
   locale: string;
   profileState: RetrievalState<Profile>;
+  recipeLogged: boolean;
   savedMealLogged: boolean;
   selectedDate: string;
   targetState: RetrievalState<NutritionTarget>;
@@ -235,6 +239,17 @@ function LocalizedTodayPage({
         >
           <p className="font-semibold">{diaryT("savedMealLogged.title")}</p>
           <p className="mt-1 leading-6">{diaryT("savedMealLogged.body")}</p>
+        </div>
+      )}
+
+      {recipeLogged && (
+        <div
+          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          data-testid="recipe-logged-success"
+          role="status"
+        >
+          <p className="font-semibold">{diaryT("recipeLogged.title")}</p>
+          <p className="mt-1 leading-6">{diaryT("recipeLogged.body")}</p>
         </div>
       )}
 
@@ -509,6 +524,16 @@ function LocalizedTodayPage({
                     savePending: diaryT("list.savePending"),
                     saveSuccess: diaryT("list.saveSuccess"),
                     serving: diaryT("list.serving"),
+                    source: diaryT("list.source"),
+                    sourceTypes: {
+                      manual: diaryT("list.sourceTypes.manual"),
+                      recipe: diaryT("list.sourceTypes.recipe"),
+                      saved_meal: diaryT("list.sourceTypes.saved_meal"),
+                    },
+                    recipeServingUnits: {
+                      plural: diaryT("list.recipeServingUnits.plural"),
+                      singular: diaryT("list.recipeServingUnits.singular"),
+                    },
                   }}
                   mealTypeLabels={{
                     breakfast: diaryT("mealTypes.breakfast"),

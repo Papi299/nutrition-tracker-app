@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -8,6 +9,7 @@ import {
   RecipeUseContextForm,
   RecipeUsePreview,
 } from "@/components/recipes/recipe-use-preview";
+import { logRecipeAction } from "@/app/[locale]/(app)/recipes/use-actions";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import { isUuid } from "@/lib/food-selection/query";
 import {
@@ -106,9 +108,21 @@ export default async function RecipeUsePage({ params, searchParams }: PageProps)
     return <LoadFailure locale={locale} retryHref={routePath} />;
   }
 
+  const confirmationAction = parsed.meal_type === null
+    ? null
+    : logRecipeAction.bind(null, locale, {
+        entry_date: parsed.date,
+        expected_source_updated_at: contract.data.source_updated_at,
+        idempotency_key: randomUUID(),
+        meal_type: parsed.meal_type,
+        recipe_id: contract.data.recipe_id,
+        requested_servings: contract.data.requested_servings,
+      });
+
   return (
     <RecipeUsePreview
       canonicalServings={parsed.normalized_servings}
+      confirmationAction={confirmationAction}
       contract={contract.data}
       date={parsed.date}
       locale={locale}

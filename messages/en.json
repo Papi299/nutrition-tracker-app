@@ -150,6 +150,10 @@
       "title": "Saved meal logged.",
       "body": "All reviewed items were added together. You can edit or delete each diary entry without changing the saved meal."
     },
+    "recipeLogged": {
+      "title": "Recipe logged.",
+      "body": "One reviewed aggregate recipe snapshot was added. You can edit or delete this diary entry without changing the recipe."
+    },
     "list": {
       "title": "Diary entries",
       "description": "Diary snapshots for the selected date. Entries may be typed manually or linked to a readable selected food.",
@@ -157,6 +161,16 @@
       "meal": "Meal",
       "brand": "Brand",
       "serving": "Serving",
+      "source": "Source",
+      "sourceTypes": {
+        "manual": "Manual",
+        "saved_meal": "Saved meal",
+        "recipe": "Recipe"
+      },
+      "recipeServingUnits": {
+        "singular": "serving",
+        "plural": "servings"
+      },
       "calories": "Calories",
       "macros": "Protein / carbs / fat",
       "edit": "Edit",
@@ -174,7 +188,7 @@
     },
     "totals": {
       "title": "Daily totals",
-      "description": "Consumed totals from the manual entries loaded for this date.",
+      "description": "Consumed totals from the diary entries loaded for this date.",
       "calories": "Calories",
       "protein": "Protein",
       "carbohydrates": "Carbs",
@@ -1136,7 +1150,7 @@
   },
   "RecipeUse": {
     "label": "Recipe nutrition preview",
-    "description": "Review nutrition from saved ingredient snapshots for a selected serving amount and diary context. This page is read-only.",
+    "description": "Review nutrition from saved ingredient snapshots for a selected serving amount and diary context. The calculator is read-only; only the explicit confirmation adds one diary entry.",
     "bootstrapTitle": "Choose this device's calendar date for the recipe preview.",
     "languages": {
       "en": "English",
@@ -1172,23 +1186,42 @@
     },
     "review": {
       "title": "Review ready",
-      "body": "The date, meal, and serving amount are complete for a future diary operation. No diary entry has been created.",
+      "body": "The reviewed date, meal, serving amount, and database-derived diary values are complete. No diary entry has been created yet.",
       "recipe": "Recipe",
       "servings": "Servings",
       "date": "Date",
       "meal": "Meal",
       "unknowns": "Unknown nutrients will remain unknown; complete nutrients use the displayed database-derived diary values.",
-      "future": "A future diary operation must lock the recipe, verify this saved source version, and rederive nutrition inside its write transaction.",
+      "future": "Confirmation locks the recipe, verifies this saved source version, and rederives nutrition inside its write transaction.",
       "versionRetained": "The current saved recipe version is retained by this server-rendered review.",
       "incompleteTitle": "Choose a meal to complete the review context",
       "incompleteBody": "Nutrition is available now, but review readiness requires a selected diary meal. No time-based default is assumed."
     },
+    "confirmation": {
+      "title": "Confirm one aggregate diary entry",
+      "body": "The reviewed recipe, servings, date, meal, diary-compatible values, and unknown-nutrient warnings above will be used to create exactly one aggregate diary row.",
+      "submit": "Add reviewed recipe to diary",
+      "submitPending": "Adding reviewed recipe...",
+      "reload": "Reload the current preview",
+      "edit": "Open recipe editor",
+      "status": {
+        "validation_error": "The server-bound review context is invalid. Reload the preview before trying again.",
+        "unauthenticated": "Your session is no longer available. Sign in again and reload the preview.",
+        "unavailable": "This recipe is no longer available.",
+        "archived": "This recipe was archived after the review. Nothing was added.",
+        "stale_review": "The recipe changed after this review. Nothing was added; reload to review the current saved version.",
+        "invalid_recipe": "The saved recipe is no longer valid for logging. Nothing was added.",
+        "not_loggable": "The reviewed amount no longer fits diary numeric limits. Nothing was added; try a smaller amount in a new preview.",
+        "idempotency_conflict": "This confirmation can no longer be used safely. Reload the preview to start a new review.",
+        "database_error": "The recipe could not be added right now. No partial write was kept; retrying uses the same safe confirmation token."
+      }
+    },
     "explanation": {
       "title": "What this preview means",
-      "previewOnly": "This page is a preview only. No diary entry, receipt, or recipe change is created.",
+      "previewOnly": "Changing the GET preview creates no diary entry or receipt. Only the explicit confirmation below performs a write.",
       "snapshots": "Nutrition comes from the recipe's last saved ingredient snapshots; ingredient quantity does not rescale it.",
       "linkedFoods": "Current linked-food names, archive state, and nutrients are not used to replace recipe snapshots.",
-      "future": "A future diary action will rederive and source-version-check the recipe before writing one aggregate recipe snapshot."
+      "future": "Confirmation rederives and source-version-checks the recipe transactionally before writing one aggregate recipe snapshot and durable retry receipt."
     },
     "links": {
       "edit": "Edit saved recipe",
