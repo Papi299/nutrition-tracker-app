@@ -154,9 +154,15 @@ and clean final review. Phase 8C and Saved Meals are complete for the approved
 MVP scope. Phases 8D through 8H Recipes persistence, localized management UI,
 nutrition use-contract foundation, reviewed-use workflow, and atomic diary
 logging are complete after green CI and clean final review. Recipes, Saved
-Meals, and overall Phase 8 are complete for the approved MVP scope. Phase 9
-Barcode planning is next and unstarted; no Phase 9 implementation is included
-here.
+  Meals, and overall Phase 8 are complete for the approved MVP scope. Phase 9
+Barcode architecture and implementation decomposition planning is complete in
+`docs/phase-9-barcode-flow-plan.md`. It selects a string-only, check-digit-
+validated, zero-padded GTIN-14 identity over a normalized mapping relation,
+owner-before-public local precedence, provider-gated transient external review,
+and camera scanning only as progressive enhancement over manual entry. Phase
+9A barcode identity and local lookup foundation is next and unstarted. Overall
+Phase 9 implementation remains incomplete, Phase 10 Data Ingestion is
+unstarted, and no barcode runtime behavior is included in the planning slice.
 
 ## Future PR Documentation Rule
 

@@ -858,3 +858,38 @@
 - Phase 8H, Recipes, and overall Phase 8 are complete for the approved MVP
   scope after green CI and clean final review. Phase 9 Barcode planning is next
   and unstarted; this task adds no Phase 9 implementation.
+
+## 2026-07-17: Phase 9 Barcode architecture and implementation planning
+
+- Added the definitive implementation-ready Phase 9 plan covering manual
+  lookup, progressive camera input, local exact matching, explicit found-food
+  diary review, secure not-found custom-food handoff, provider approval gates,
+  security/privacy, localization/accessibility, testing, and the Phase 9/10
+  boundary. No runtime, schema, dependency, test, fixture, or environment change
+  was made.
+- Selected GTIN-8, GTIN-12, GTIN-13, and GTIN-14 as string-only identities with
+  mandatory GS1 check digits and a zero-padded 14-digit canonical value.
+  Formatting inside the value, non-GTIN symbologies, QR, and ISBN are excluded.
+  UPC-E is scanner-only and must expand through verified current GS1 rules
+  before the shared validator; unsupported expansion fails closed.
+- Recommended a normalized `food_barcodes` relation rather than a `foods`
+  column or overloading `source_food_id`. Public/per-user uniqueness uses a
+  server-derived scope value, while authorization and visibility continue to
+  derive through the parent food, `auth.uid()`, RLS, and least-privilege grants.
+  Active owned custom mappings take precedence over active public mappings;
+  another user's private mapping is invisible and has no behavioral effect.
+- Kept FoodsDictionary and every external provider behind a formal human
+  commercial/legal/product approval gate. If approved later, Phase 9 recommends
+  a transient provider-neutral preview followed by explicit private custom-food
+  review/save, never automatic public ingestion. Bulk and scheduled ingestion
+  remain Phase 10.
+- Recommended native, runtime-feature-detected camera scanning only as a
+  progressive enhancement with a complete manual GET fallback. iOS Safari
+  support and any third-party decoder remain unresolved pending current device,
+  license, security, privacy, and bundle evidence; frames must remain local and
+  camera tracks must stop on capture, cancellation, navigation, or teardown.
+- Decomposed implementation into Phase 9A identity/local lookup, 9B manual
+  lookup/review, 9C custom-food handoff, 9D camera enhancement, conditional 9E
+  provider lookup, and 9F acceptance. Phase 9A is next and unstarted; Phase 9
+  implementation remains incomplete and Phase 10 is unstarted. No remote
+  Supabase operation occurred.
