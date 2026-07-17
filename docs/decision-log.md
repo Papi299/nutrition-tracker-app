@@ -893,3 +893,33 @@
   provider lookup, and 9F acceptance. Phase 9A is next and unstarted; Phase 9
   implementation remains incomplete and Phase 10 is unstarted. No remote
   Supabase operation occurred.
+
+## 2026-07-17: Phase 9A Barcode identity and local lookup foundation
+
+- Added a pure, string-only GTIN-8/12/13/14 validator with a conservative
+  64-code-unit pre-trim input bound, GS1 check-digit enforcement, ISBN-prefix
+  and unsupported-format rejection, stable error codes, and idempotent zero-
+  padding to one 14-character canonical identity.
+- Added `food_barcodes` with provider-neutral provenance, server-derived public
+  or per-user scope, race-safe `NULLS NOT DISTINCT` uniqueness, parent and user
+  cascades, restricted provenance deletion, and the existing updated-at pattern.
+  The database independently validates canonical text and trusts no submitted
+  scope.
+- Enabled parent-derived RLS and least-privilege grants. Authenticated callers
+  can select only the columns required by the invoker lookup and have no direct
+  barcode insert, update, or delete privilege; another user's mapping remains
+  invisible and cannot affect lookup status or precedence.
+- Added an authenticated, stable, security-invoker exact local lookup RPC and a
+  defensive server-only helper. Active owned custom food wins over active public
+  food, followed by readable archived, ambiguity, and local-miss states. Invalid
+  input fails before authentication/database access, and malformed results fail
+  closed as database errors.
+- Added pure and local-only authenticated coverage for validation, generated
+  schema, constraints, concurrency, scope, RLS/grants, ACL runtime behavior,
+  precedence, other-user non-influence, metadata, cascades, and lookup read-only
+  behavior. No production mapping, remote Supabase operation, dependency, route,
+  UI, provider, camera, custom persistence, favorite/recent, or diary behavior
+  was added.
+- Phase 9A is complete after green CI and clean final review. Phase 9B Manual
+  barcode lookup and found-food review is next and unstarted. Overall Phase 9
+  remains incomplete, and Phase 10 is unstarted.

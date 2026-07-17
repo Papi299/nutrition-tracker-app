@@ -160,9 +160,14 @@ Barcode architecture and implementation decomposition planning is complete in
 validated, zero-padded GTIN-14 identity over a normalized mapping relation,
 owner-before-public local precedence, provider-gated transient external review,
 and camera scanning only as progressive enhancement over manual entry. Phase
-9A barcode identity and local lookup foundation is next and unstarted. Overall
-Phase 9 implementation remains incomplete, Phase 10 Data Ingestion is
-unstarted, and no barcode runtime behavior is included in the planning slice.
+9A implements the string-only GTIN validation and canonical GTIN-14 identity,
+normalized public/per-user mapping uniqueness, server-derived scope, parent-
+derived RLS, and authenticated owned-before-public exact local lookup. It grants
+no authenticated barcode DML and adds no UI, provider, camera, public mapping
+data, or diary behavior. Phase 9A is complete after green CI and clean final
+review. Phase 9B manual barcode lookup and found-food review is next and
+unstarted. Overall Phase 9 remains incomplete, and Phase 10 Data Ingestion is
+unstarted.
 
 ## Future PR Documentation Rule
 

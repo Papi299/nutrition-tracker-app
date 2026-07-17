@@ -138,6 +138,57 @@ export type Database = {
           },
         ]
       }
+      food_barcodes: {
+        Row: {
+          canonical_gtin: string
+          created_at: string
+          food_id: string
+          id: string
+          provenance_source_food_id: string | null
+          provenance_source_id: string
+          scope_owner_user_id: string | null
+          updated_at: string
+          verification_status: string
+        }
+        Insert: {
+          canonical_gtin: string
+          created_at?: string
+          food_id: string
+          id?: string
+          provenance_source_food_id?: string | null
+          provenance_source_id: string
+          scope_owner_user_id?: string | null
+          updated_at?: string
+          verification_status: string
+        }
+        Update: {
+          canonical_gtin?: string
+          created_at?: string
+          food_id?: string
+          id?: string
+          provenance_source_food_id?: string | null
+          provenance_source_id?: string
+          scope_owner_user_id?: string | null
+          updated_at?: string
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_barcodes_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_barcodes_provenance_source_id_fkey"
+            columns: ["provenance_source_id"]
+            isOneToOne: false
+            referencedRelation: "food_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       food_favorites: {
         Row: {
           created_at: string
@@ -832,6 +883,7 @@ export type Database = {
           source_type: string
         }[]
       }
+      is_valid_canonical_gtin: { Args: { p_gtin: string }; Returns: boolean }
       log_recipe_to_diary: {
         Args: {
           p_entry_date: string
@@ -859,6 +911,32 @@ export type Database = {
           diary_run_id: string
           item_count: number
           result_status: string
+        }[]
+      }
+      lookup_readable_food_by_gtin: {
+        Args: { p_gtin: string }
+        Returns: {
+          brand_name: string
+          canonical_gtin: string
+          food_data_quality: string
+          food_id: string
+          food_locale: string
+          food_name: string
+          food_source_code: string
+          food_source_name: string
+          food_source_trust_level: string
+          food_source_type: string
+          food_type: string
+          mapping_provenance_source_code: string
+          mapping_provenance_source_food_id: string
+          mapping_provenance_source_name: string
+          mapping_provenance_source_trust_level: string
+          mapping_provenance_source_type: string
+          mapping_verification_status: string
+          ownership_kind: string
+          result_status: string
+          serving_size: number
+          serving_unit: string
         }[]
       }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
