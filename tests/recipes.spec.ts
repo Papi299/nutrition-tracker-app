@@ -3,6 +3,9 @@ import {
   validateRecipeArchiveInput,
   validateRecipeInput,
 } from "@/lib/recipes/validation";
+import { parseRecipeEditorIngredients } from "@/lib/recipes/editor-parser";
+import { parseRecipeManagementQuery } from "@/lib/recipes/management-query";
+import { parseRecipeRowKey, recipeRowKey } from "@/lib/recipes/row-identity";
 
 const recipeId = "123e4567-e89b-12d3-a456-426614174000";
 const foodId = "123e4567-e89b-12d3-a456-426614174001";
@@ -226,5 +229,111 @@ test.describe("recipe payload validation", () => {
       },
       ok: false,
     });
+  });
+});
+
+test.describe("recipe UI contracts", () => {
+  test("parses strict management filters and rejects repeated or malformed values", () => {
+    expect(parseRecipeManagementQuery({})).toEqual({
+      page: 1,
+      status: "active",
+      type: "valid",
+    });
+    expect(
+      parseRecipeManagementQuery({ page: "2", status: "archived" }),
+    ).toEqual({ page: 2, status: "archived", type: "valid" });
+
+    expect(parseRecipeManagementQuery({ status: ["active", "archived"] })).toEqual({
+      field: "status",
+      reason: "repeated",
+      type: "invalid",
+    });
+    for (const page of ["0", "01", "1.5", "-1", "words", "9007199254740992"]) {
+      expect(parseRecipeManagementQuery({ page })).toMatchObject({
+        field: "page",
+        reason: "invalid",
+        type: "invalid",
+      });
+    }
+  });
+
+  test("round-trips only typed recipe row identities", () => {
+    expect(recipeRowKey("client", recipeId)).toBe(`client:${recipeId}`);
+    expect(recipeRowKey("ingredient", foodId)).toBe(`ingredient:${foodId}`);
+    expect(parseRecipeRowKey(`ingredient:${foodId}`)).toEqual({
+      id: foodId,
+      kind: "ingredient",
+    });
+    for (const value of ["", foodId, `other:${foodId}`, "client:not-a-uuid"]) {
+      expect(parseRecipeRowKey(value)).toBeNull();
+    }
+  });
+
+  test("parses ordered editor snapshots while preserving zero and nullable values", () => {
+    expect(
+      parseRecipeEditorIngredients([
+        {
+          brand_name: null,
+          calories: 0,
+          carbohydrates_g: null,
+          fat_g: 0,
+          food_id: foodId,
+          id: recipeId,
+          ingredient_name: "מלח",
+          notes: null,
+          position: 1,
+          protein_g: 0,
+          quantity: 100,
+          unit: "g",
+        },
+      ]),
+    ).toEqual([
+      {
+        brand_name: null,
+        calories: 0,
+        carbohydrates_g: null,
+        fat_g: 0,
+        food_id: foodId,
+        ingredient_id: recipeId,
+        ingredient_name: "מלח",
+        notes: null,
+        position: 1,
+        protein_g: 0,
+        quantity: 100,
+        unit: "g",
+      },
+    ]);
+  });
+
+  test("fails closed on malformed editor snapshot payloads", () => {
+    const valid = {
+      brand_name: null,
+      calories: null,
+      carbohydrates_g: null,
+      fat_g: null,
+      food_id: null,
+      id: recipeId,
+      ingredient_name: "Ingredient",
+      notes: null,
+      position: 1,
+      protein_g: null,
+      quantity: null,
+      unit: null,
+    };
+
+    for (const payload of [
+      [],
+      [{ ...valid, extra: true }],
+      [{ ...valid, position: 2 }],
+      [{ ...valid, quantity: 1 }],
+      [{ ...valid, unit: "g" }],
+      [{ ...valid, food_id: "bad" }],
+      [{ ...valid, ingredient_name: " " }],
+      [{ ...valid, ingredient_name: " padded " }],
+      [{ ...valid, notes: "" }],
+      [valid, { ...valid, position: 2 }],
+    ]) {
+      expect(parseRecipeEditorIngredients(payload)).toBeNull();
+    }
   });
 });

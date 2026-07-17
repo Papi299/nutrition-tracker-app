@@ -558,6 +558,12 @@ function LocalizedTodayPage({
               >
                 {diaryT("selection.reuseFood")}
               </Link>
+              <Link
+                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                href={`/${locale}/recipes`}
+              >
+                {diaryT("selection.recipes")}
+              </Link>
             </div>
           </div>
 

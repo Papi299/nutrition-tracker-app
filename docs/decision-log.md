@@ -725,3 +725,36 @@
 - Phase 8D is complete after green CI and clean final review. Phase 8E recipe
   creation, editing, and management UI is next and not started; overall Phase
   8 remains incomplete. No remote Supabase operation occurred.
+
+## 2026-07-17: Phase 8E Recipe creation, editing, and management UI
+
+- Added protected localized recipe management, blank creation, and owner-only
+  editing routes. Management uses strict active/archived and page parsing,
+  deterministic 20-item pagination, owner-scoped RLS reads, distinct empty and
+  recovery states, and reversible archive/restore controls with explicit
+  consequence confirmation rather than hard deletion.
+- Added one authenticated `SECURITY INVOKER` editor RPC with an empty search
+  path and a strict server-only parser. It returns only the caller's active or
+  archived recipe and complete ordered ingredient snapshots; invalid ids are
+  rejected before lookup and other-user recipes remain indistinguishable from
+  missing rows.
+- Added one responsive, accessible create/edit form for recipe identity, yield,
+  and 1–50 ordered ingredients. Manual ingredients and authenticated food-
+  search/prefill selections produce editable authoritative snapshots. Optional
+  food provenance remains bound to immutable ingredient row identity through
+  reordering, selected ids are revalidated server-side, and explicit unlink
+  preserves snapshot fields.
+- Complete replacement remains atomic through the Phase 8D persistence helper.
+  Blank optional values become null, explicit nutrient zero remains zero,
+  quantity/unit remain paired, and changing quantity never scales nutrients.
+  No whole-recipe or per-serving nutrition, rounding policy, recipe diary
+  logging, instructions, images, sharing, or production content was added.
+- Added pure parser/query coverage and local-only authenticated browser/database
+  coverage for localization, RTL/LTR and mobile layout, retrieval/grants,
+  management states and pagination, food visibility and prefill, no-selection
+  mutation, link injection rejection, ordered replacement, null/zero snapshots,
+  cross-user isolation, archived editing, and archive/restore. Existing Phase 5
+  through 8D suites remain the regression gate.
+- Phase 8E is complete after green CI and clean final review. Phase 8F Recipe
+  nutrition derivation and use-contract foundation is next and not started;
+  overall Phase 8 remains incomplete. No remote Supabase operation occurred.
