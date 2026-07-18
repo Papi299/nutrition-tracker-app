@@ -96,10 +96,19 @@ is complete for the current MVP scope.
   per-barcode advisory lock and safe owned/public/archive/ambiguity conflicts.
   The user may explicitly omit the mapping; successful creation returns to
   Today for review and never writes a diary row before explicit submission.
-  Phase 9C is complete after green CI and clean final review. Phase 9D camera
-  progressive enhancement is next and unstarted. Overall Phase 9 remains
-  incomplete, and Phase 10 is unstarted. No provider or camera behavior is
-  included.
+  Phase 9C is complete after green CI and clean final review. Phase 9D adds
+  native-only camera scanning as progressive enhancement to that same route,
+  with runtime secure-context/API/format detection, explicit user permission,
+  local frame processing, deterministic track cleanup, and canonical
+  EAN-8/EAN-13/UPC-A/ITF-14 navigation. Manual and no-JavaScript lookup remain
+  complete; UPC-E is explicitly deferred. Phase 9D is complete after green CI
+  and clean final review; its honest platform evidence is recorded in
+  [`docs/phase-9d-camera-support-matrix.md`](docs/phase-9d-camera-support-matrix.md).
+  Phase 9E external-provider lookup is approval-blocked and unstarted. Phase 9F
+  provider-disabled integration hardening and final Phase 9 acceptance is next
+  and unstarted, so overall Phase 9 remains incomplete and Phase 10 is
+  unstarted. No provider, dependency, schema, mapping-edit, or automatic-diary
+  behavior is included.
 
 ## Install Dependencies
 
@@ -500,7 +509,8 @@ Manual RTL QA checklist:
   Barcode planning and the Phase 9A identity/local-lookup foundation are
   complete after green CI and clean final review. Phase 9B manual lookup and
   found-food review and Phase 9C atomic not-found custom-food handoff are also
-  complete. Phase 9D camera progressive enhancement is next and unstarted.
+  complete. Phase 9D native camera progressive enhancement is also complete;
+  Phase 9E is approval-blocked and unstarted, and Phase 9F is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -587,8 +597,10 @@ Manual RTL QA checklist:
   use. Phase 8H adds atomic reviewed recipe diary logging and completes Recipes
   and overall Phase 8 for the approved MVP scope after green CI and clean final
   review. Phase 9 Barcode planning, Phase 9A identity/local lookup, Phase 9B
-  manual review, and Phase 9C atomic not-found custom-food handoff are complete;
-  Phase 9D camera progressive enhancement is next and unstarted.
+  manual review, Phase 9C atomic not-found custom-food handoff, and Phase 9D
+  native camera progressive enhancement are complete. Phase 9E is approval-
+  blocked and unstarted; Phase 9F provider-disabled acceptance is next and
+  unstarted.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -645,8 +657,10 @@ Manual RTL QA checklist:
   review. Phase 9B protected manual/no-JavaScript lookup and found-food review
   are also complete. Phase 9C adds the strict server-bound not-found handoff,
   atomic private food and barcode persistence, explicit barcode omission, and
-  safe conflict recovery. Phase 9D camera progressive enhancement is next and
-  unstarted; overall Phase 9 remains incomplete and Phase 10 is unstarted.
+  safe conflict recovery. Phase 9D native camera progressive enhancement is
+  complete. Phase 9E is approval-blocked and unstarted; Phase 9F provider-
+  disabled integration hardening and acceptance is next and unstarted. Overall
+  Phase 9 remains incomplete and Phase 10 is unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
