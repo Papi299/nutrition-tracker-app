@@ -1106,3 +1106,35 @@
 - No parser, provider request, dataset, production release manifest/checksum,
   public promotion, dependency, credential, CI workflow, or remote Supabase
   operation was added.
+
+## 2026-07-18: Phase 10C USDA Foundation offline parser and dry run
+
+- Corrected Manifest V1 cross-language fingerprinting with one explicit
+  PostgreSQL-jsonb canonical byte contract, independently recomputed database
+  helpers, stored-fingerprint parity, and null/present transformation, escaping,
+  Unicode, query-string, key-order, and safe-integer coverage.
+- Pinned `usda-fdc-foundation-json/v1` from the official April 2026 Foundation
+  JSON release and added a dependency-free, Node-only offline parser. Raw rows
+  remain exact, frozen, hashed, bounded, and outside public tables. Unknown
+  schema paths, duplicate identities, unsafe decimals, and malformed source
+  semantics fail closed.
+- Added strict source-neutral candidates: FDC identifies a version; supplied NDB
+  identifies the stable Foundation concept; absent NDB defers concept generation.
+  Exact mapping version `usda-foundation-mvp-v1` projects 1003/g, 1004/g,
+  1005/g, and energy 2048/kcal before 2047/kcal, never 1008. Missing, explicit
+  zero, trace/LOQ, derivation, alternatives, and portions remain distinct.
+- The local nonproduction April 2026 run processed 363 records: 353 accepted,
+  10 explicitly rejected for negative carbohydrate-by-difference values, and
+  1,018 warnings. The maximum raw record was 87,874 bytes, requiring a reviewed
+  131,072-byte staging bound; the maximum candidate was 5,227 bytes. Two runs
+  were byte-identical and completed in 504.677/507.233 ms under 173 MB peak RSS.
+- Local database orchestration uses only the seven Phase 10B operator functions,
+  stops successful runs at `validated`, records hard failures as `failed`, and
+  proves no public or user projection mutation. Phase 10C is complete after
+  green CI and clean final review. Phase 10D controlled Foundation promotion is
+  next and unstarted; its exact production release/operator approval and reject
+  disposition remain separate gates. Overall Phase 10 remains incomplete and
+  Phase 11 remains unstarted.
+- No production manifest/checksum, archive, source record, provider/runtime
+  integration, consumer feature, dependency, credential, public promotion, or
+  remote Supabase operation was added.

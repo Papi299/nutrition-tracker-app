@@ -202,9 +202,13 @@ dataset, distributor, transformation, immutable release/source-version,
 mapping, run/event, temporary staging, item, portion, and projection-evidence
 foundations; strict Manifest V1 validation; and dedicated least-privilege
 NOLOGIN operator/definer roles. It includes no parser, provider access, dataset,
-production manifest, or public promotion. Phase 10C Foundation parsing and
-dry-run validation is next and unstarted. Overall Phase 10 remains incomplete
-and Phase 11 remains unstarted.
+production manifest, or public promotion. Phase 10C is complete after green CI
+and clean final review: it adds an offline parser, pinned Foundation schema,
+exact four-nutrient mapping, deterministic candidate/report contracts, and
+validated-only local staging. The April 2026 nonproduction dry run retained 10
+explicit negative-value rejects for review rather than weakening policy. Phase
+10D controlled Foundation promotion and application integration is next and
+unstarted. Overall Phase 10 remains incomplete and Phase 11 remains unstarted.
 
 ## Future PR Documentation Rule
 

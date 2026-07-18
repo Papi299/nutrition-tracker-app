@@ -1,16 +1,13 @@
 # Phase 10 Multi-Source Nutrition Data Ingestion Plan
 
-Status: Phase 10A planning and Phase 10B source registry, release metadata,
-provenance, and non-exposed staging foundation are complete after green CI and
-clean final review. Phase 10C USDA Foundation JSON parsing and dry-run
-validation is next and unstarted. Overall Phase 10 remains incomplete. Phase
-11 remains unstarted.
+Status: Phase 10A planning, Phase 10B source registry/release/staging, and Phase
+10C offline USDA Foundation parsing and dry-run validation are complete after
+green CI and clean final review. Phase 10D controlled Foundation promotion and
+application integration is next and unstarted. Overall Phase 10 remains
+incomplete. Phase 11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
-change a decision only through an explicit reviewed documentation change. This
-planning task added no runtime code, migration, generated type, seed, importer,
-dataset, manifest for a real release, credential, dependency, provider client,
-test, CI change, or remote-database operation.
+change a decision only through an explicit reviewed documentation change.
 
 ## 1. Executive decision summary
 
@@ -86,9 +83,11 @@ distributor URL or transient FDC version id.
 
 ## 3. Official source evidence
 
-All sources below were accessed on 2026-07-18. No dataset was downloaded. The
-date/version observations are planning evidence, not an approved production
-manifest.
+All official USDA sources below were rechecked on 2026-07-18. Phase 10C locally
+downloaded only the official April 2026 Foundation JSON archive for schema,
+correctness, and performance validation. The archive, extracted records, real
+checksum, local manifest, and generated reports remain ignored and outside Git;
+this evidence is not a production release approval.
 
 | Official source | Owner | Material evidence and status |
 | --- | --- | --- |
@@ -328,6 +327,44 @@ table is unnecessary if bounded `import_run_items` supplies auditable status;
 unbounded raw rejected data remains in access-controlled operator artifacts for
 a fixed retention period.
 
+### Phase 10C offline parser and dry-run evidence
+
+Phase 10C pins `usda-fdc-foundation-json/v1`,
+`foundation-normalized-candidate/v1`, `usda-foundation-importer/v1`, and the
+zero-unreviewed-reject policy. It corrects Manifest V1 parity by making
+PostgreSQL `jsonb` canonical text the explicit shared UTF-8 contract and proving
+TypeScript, independently recomputed PostgreSQL, and stored fingerprints agree.
+The parser rejects unknown schema paths and unsafe numeric drift, freezes and
+hashes exact raw objects, treats FDC ID as version identity, uses a supplied NDB
+number only as `foundation:ndb:<NDB>`, and defers missing stable concepts without
+substituting FDC ID.
+
+The immutable `usda-foundation-mvp-v1` mapping projects exact IDs/units 1003/g,
+1004/g, 1005/g, and energy 2048/kcal then 2047/kcal; 1008 remains evidence only.
+Missing remains null, exact zero remains zero, and zero with positive LOQ/trace
+evidence remains nonnumeric trace. Source portions are preserved independently
+with deterministic ordinals; no serving, density, scaling, or public projection
+is invented. The official release's largest 87,874-byte record justified a
+finite 131,072-byte raw-staging bound.
+
+Local nonproduction evidence for USDA Foundation Foods April 2026 (official
+release dated 2026-04-30): 469,303 compressed bytes, 6,721,650 JSON bytes, 363
+records, 353 accepted, 10 rejected, and 1,018 warnings. All 10 rejects are
+explicit `negative_target_value` results from negative USDA carbohydrate-by-
+difference values; they remain blocked pending a Phase 10D production decision.
+Coverage among accepted candidates was energy 216, protein 342, carbohydrate
+311, and fat 330. Energy selection was 191 specific/2048, 25 general/2047, and
+137 unknown; there were 375 portions on 277 records, no LOQ/trace occurrence,
+no unknown schema path, a 5,227-byte maximum candidate, and 13,528 explicitly
+counted unsupported nutrient rows.
+
+Two consecutive Apple M1 Pro/16 GB, Node 26.4.0 runs completed in 504.677 ms and
+507.233 ms (719.272 and 715.648 records/second), with 172,883,968-byte maximum
+peak RSS and 0.019/0.017 ms report serialization. Both emitted the same report
+fingerprint and byte-identical reports. Local integration uses only the seven
+approved Phase 10B entry points, stops successful work at `validated`, records
+post-creation failures as `failed`, and proves public/user projections unchanged.
+
 ## 14. Nutrient mapping and unit policy
 
 Mappings are owned by the application data-governance contract and versioned in
@@ -556,6 +593,13 @@ Raw releases remain outside Git. Rejected-row samples are access-controlled,
 bounded, and retained for at most 30 days; counts and reject categories remain
 in immutable run evidence without the raw row.
 
+Phase 10C's operator command accepts explicit `--manifest`, `--archive`,
+`--json`, and `--report` paths. It verifies archive checksum/size and extracted
+size, performs no acquisition, emits machine-dependent timing only to stderr,
+writes a deterministic aggregate report, and exits nonzero for any hard failure
+or unreviewed record reject. Real inputs and outputs belong in the ignored
+operator workspace, never CI or application startup.
+
 ## 24. Search and performance impact
 
 Foundation is small relative to SR/FNDDS and especially Branded/OFF, but no
@@ -677,11 +721,11 @@ rollback boundaries:
    import-run/event/item, source-record/version, mapping-version, non-exposed
    staging, Manifest V1, RLS/ACL, immutability, and deterministic synthetic test
    foundations. No provider file, parser, production data, or promotion.
-3. **Phase 10C — USDA Foundation parser and dry-run validation (next;
-   unstarted).**
-   Offline JSON parser, pinned manifest/importer/mapping contract, small fixtures,
-   normalization/reject report, and performance baseline. No production
-   promotion.
+3. **Phase 10C — USDA Foundation parser and dry-run validation (complete).**
+   Added the offline JSON parser, pinned manifest/importer/mapping contracts,
+   strict source-neutral normalization, deterministic reject/report evidence,
+   local staging integration, and current-release performance baseline. No
+   production promotion.
 4. **Phase 10D — Foundation promotion and application integration
    (unstarted).** Transactional/idempotent projection, lifecycle link, search and
    prefill benchmarks, and one controlled release only after a separate exact
@@ -700,8 +744,10 @@ rollback boundaries:
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-The next prompt can implement 10C without reopening initial source,
-acquisition, identity, provenance, security, or slice-boundary decisions.
+The next prompt can implement 10D without reopening initial source,
+acquisition, identity, provenance, security, parser, mapping, or slice-boundary
+decisions. The exact production release and operator approval remain a separate
+gate.
 
 ## 30. Acceptance criteria
 
@@ -731,7 +777,7 @@ Phase 10A alone completes planning, not Phase 10.
 | Question | Owner / required evidence | Blocking effect |
 | --- | --- | --- |
 | Exact first USDA Foundation release and archive | Data/product operator: official release, URL, SHA-256, sizes, schema, attribution, and approval receipt | Blocks Phase 10D production promotion, not 10B/10C. |
-| Exact four-nutrient Foundation mapping, especially current energy variant | Nutrition/data owner: pinned release nutrient ids, derivations, precedence, unit and missing/trace rules | Blocks 10C correctness and any promotion. |
+| Exact four-nutrient Foundation mapping, especially current energy variant | Implemented as immutable `usda-foundation-mvp-v1`; any production change requires nutrition/data-owner review | Blocks a changed mapping, not completed 10C. |
 | Operator environment and credential custody | Security/operations owner: approved environment allowlist, narrowly scoped role, secret injection/rotation, artifact access and backup controls | Blocks production promotion, not metadata-only 10B. |
 | Search performance target/corpus | Product/performance owner: representative queries and hardware baseline | Blocks 10D promotion acceptance. |
 | MyFoodData use | Named product/legal/commercial owner: every item in section 8 plus authorized versioned delivery | Blocks all MyFoodData implementation; current status is reference-only/deferred. |
@@ -739,8 +785,10 @@ Phase 10A alone completes planning, not Phase 10.
 | Restaurant, brand, user-entered data | Legal/product owner: original rights, provenance, correction/takedown, stable identity and delivery | Blocks those categories. |
 | FoodsDictionary | Existing product/legal/commercial/privacy/technical gate | Blocks all integration and credential design. |
 
-No unresolved item blocks the next slice, Phase 10C, provided it adds no real
-source archive, production promotion, or provider-specific runtime access.
+No unresolved item blocks implementation of Phase 10D, but production promotion
+remains blocked until the exact release/operator approval and the 10 reviewed
+negative-value rejects receive an explicit disposition. No provider-specific
+runtime access is approved.
 
 ## 32. Phase 10 / Phase 11 boundary
 

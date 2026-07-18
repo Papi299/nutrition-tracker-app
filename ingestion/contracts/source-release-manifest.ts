@@ -334,7 +334,22 @@ export function parseSourceReleaseManifest(
 }
 
 export function canonicalizeSourceReleaseManifest(input: unknown) {
-  return JSON.stringify(parseSourceReleaseManifest(input));
+  const manifest = parseSourceReleaseManifest(input);
+
+  // PostgreSQL jsonb orders object keys by UTF-8 byte length and then by byte
+  // value, and emits one space after separators. Manifest V1 is intentionally
+  // flat, so this explicit representation is the shared TypeScript/PostgreSQL
+  // byte contract. Do not replace it with ordinary JSON.stringify ordering.
+  const orderedEntries = Object.entries(manifest).sort(([left], [right]) => {
+    const leftBytes = Buffer.from(left, "utf8");
+    const rightBytes = Buffer.from(right, "utf8");
+
+    return leftBytes.length - rightBytes.length || Buffer.compare(leftBytes, rightBytes);
+  });
+
+  return `{${orderedEntries
+    .map(([key, value]) => `${JSON.stringify(key)}: ${JSON.stringify(value)}`)
+    .join(", ")}}`;
 }
 
 export function fingerprintSourceReleaseManifest(input: unknown) {

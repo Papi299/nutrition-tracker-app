@@ -118,10 +118,15 @@ is complete for the current MVP scope.
   provenance, immutable release, source-version, mapping, run/event, staging,
   item, portion, and projection-evidence foundations behind dedicated NOLOGIN
   operator/definer roles and RLS. The strict offline Manifest V1 contract adds
-  no provider access or production manifest. Phase 10C USDA Foundation parser
-  and dry-run validation is next and unstarted; overall Phase 10 remains
-  incomplete and Phase 11 remains unstarted. No provider, dependency, public
-  promotion, or automatic-diary behavior is included. The Phase 9
+  no provider access or production manifest. Phase 10C is complete after green
+  CI and clean final review: the offline USDA Foundation parser pins the April
+  2026 JSON schema, exact four-nutrient mapping, source-neutral candidate and
+  deterministic report contracts, and validated-only Phase 10B staging. Its
+  local nonproduction dry run explains and preserves 10 negative-value rejects;
+  no production release is approved. Phase 10D controlled promotion is next
+  and unstarted; overall Phase 10 remains incomplete and Phase 11 remains
+  unstarted. No provider, dependency, public promotion, or automatic-diary
+  behavior is included. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -153,6 +158,21 @@ npx supabase db reset
 npm run supabase:version
 ```
 
+The Phase 10C operator-only parser consumes an already downloaded official
+archive and extracted JSON; it never downloads or promotes data:
+
+```bash
+npm run ingestion:foundation:dry-run -- \
+  --manifest <local-manifest.json> \
+  --archive <official-archive.zip> \
+  --json <extracted-foundation.json> \
+  --report <ignored-report.json>
+```
+
+Keep every real manifest, checksum, archive, extracted record, and report in an
+ignored local operator workspace. Any record reject makes this command exit
+nonzero even after writing deterministic aggregate evidence.
+
 ## Browser Smoke Tests
 
 - Playwright browser smoke-test tooling uses Chromium only.
@@ -173,7 +193,8 @@ npm run supabase:version
 - The local-only full suite also covers atomic setup persistence, all-null reset
   markers, rollback, idempotency, retrieval failures, food search and diary
   prefill, favorite and recent-food reuse, the authenticated core loop,
-  ownership, and English/Hebrew flows.
+  ownership, Phase 10B governance, Phase 10C validated-only ingestion staging,
+  and English/Hebrew flows.
 - GitHub Actions runs the same full suite once after lint, type checking, build,
   migration/seed replay, and Chromium installation. Cross-browser and visual
   testing remain future work.
@@ -527,9 +548,10 @@ Manual RTL QA checklist:
   complete. Phase 9D native camera progressive enhancement is also complete;
   Phase 9E remains approval-blocked and was not implemented. Phase 9F accepts
   the provider-disabled Barcode Flow, completing Phase 9 for the approved MVP
-  scope after green CI and clean final review. Phase 10A planning and Phase 10B
-  source/release/staging foundation are complete; Phase 10C parser and dry-run
-  validation is next and unstarted.
+  scope after green CI and clean final review. Phase 10A planning, Phase 10B
+  source/release/staging foundation, and Phase 10C offline Foundation parsing
+  and dry-run validation are complete after green CI and clean final review.
+  Phase 10D controlled promotion is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -622,8 +644,10 @@ Manual RTL QA checklist:
   disabled Barcode Flow, completing Phase 9 for the approved MVP scope after
   green CI and clean final review. Phase 10A multi-source ingestion planning is
   complete; Phase 10B source/release/staging foundation is complete after green
-  CI and clean final review. Phase 10C is next and unstarted, and overall Phase
-  10 remains incomplete.
+  CI and clean final review. Phase 10C offline Foundation parsing and dry-run
+  validation is complete after green CI and clean final review. Phase 10D
+  controlled promotion is next and unstarted, and overall Phase 10 remains
+  incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -658,7 +682,8 @@ Manual RTL QA checklist:
 - External barcode-provider lookup and non-native decoder fallback.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- USDA production ingestion (Phase 10A planning is complete).
+- USDA production promotion (Phase 10A–10C planning, governance, and offline
+  dry-run foundations are complete; Phase 10D is unstarted).
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -667,8 +692,8 @@ Manual RTL QA checklist:
 
 - Direct USDA Foundation Foods is the approved first authoritative ingestion
   candidate, using a versioned official JSON bulk release through a controlled
-  offline operator workflow. Phase 10A is planning only; no dataset has been
-  imported.
+  offline operator workflow. Phase 10C validates but does not approve or
+  promote the April 2026 release; no dataset has been imported.
 - MyFoodData's USDA-derived material is reference-only, and its restaurant,
   user-entered, Open Food Facts, branded, and calculated categories remain
   separately gated or deferred. No generally available ingestion API or clear
@@ -695,8 +720,9 @@ Manual RTL QA checklist:
   multi-source ingestion planning is complete after green CI and clean final
   review. Phase 10B source registry, release metadata, and non-exposed staging
   foundation is complete after green CI and clean final review. Phase 10C USDA
-  Foundation parser and dry-run validation is next and unstarted; overall Phase
-  10 remains incomplete and Phase 11 remains unstarted.
+  Foundation offline parser and dry-run validation is also complete after green
+  CI and clean final review. Phase 10D controlled promotion is next and
+  unstarted; overall Phase 10 remains incomplete and Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
