@@ -103,7 +103,7 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       where n.nspname = 'ingestion' and c.relkind = 'r' and c.relrowsecurity;
     `);
-    expect(tableCount).toBe("17\n17");
+    expect(tableCount).toBe("21\n21");
     expect(supabaseConfig).toContain('schemas = ["public", "graphql_public"]');
     expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*ingestion/);
   });
@@ -127,25 +127,33 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
     ).toBe("f|f|f|f|0");
   });
 
-  test("creates hardened NOLOGIN operator and definer roles without consumer membership", () => {
+  test("creates four hardened NOLOGIN ingestion roles without consumer membership", () => {
     const roles = queryDatabase(`
       select rolname || '|' || rolcanlogin || '|' || rolinherit || '|' || rolsuper
         || '|' || rolbypassrls || '|' || rolcreatedb || '|' || rolcreaterole
-      from pg_roles where rolname in ('ingestion_operator', 'ingestion_definer')
+      from pg_roles where rolname in (
+        'ingestion_operator', 'ingestion_definer', 'ingestion_approver',
+        'ingestion_promotion_definer'
+      )
       order by rolname;
       select count(*) from pg_auth_members memberships
       join pg_roles granted on granted.oid = memberships.roleid
       join pg_roles member on member.oid = memberships.member
-      where granted.rolname in ('ingestion_operator', 'ingestion_definer')
+      where granted.rolname in (
+        'ingestion_operator', 'ingestion_definer', 'ingestion_approver',
+        'ingestion_promotion_definer'
+      )
         and member.rolname in ('anon','authenticated','service_role','authenticator');
     `);
     expect(roles).toBe(
+      "ingestion_approver|false|false|false|false|false|false\n" +
       "ingestion_definer|false|false|false|false|false|false\n" +
-        "ingestion_operator|false|false|false|false|false|false\n0",
+        "ingestion_operator|false|false|false|false|false|false\n" +
+        "ingestion_promotion_definer|false|false|false|false|false|false\n0",
     );
   });
 
-  test("grants the operator only the seven approved entry points", () => {
+  test("grants the operator only the approved staging and Foundation entry points", () => {
     const privileges = queryDatabase(`
       select string_agg(p.proname, ',' order by p.proname)
       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
@@ -155,9 +163,12 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       where table_schema = 'ingestion' and grantee = 'ingestion_operator';
     `);
     expect(privileges).toBe(
-      "begin_import_run,cleanup_expired_staging,record_import_run_item," +
-        "register_source_release,stage_candidate,stage_source_record," +
-        "transition_import_run\n0",
+      "begin_import_run,cleanup_expired_staging," +
+        "get_completed_foundation_promotion_receipt," +
+        "promote_validated_foundation_run,record_import_run_item," +
+        "register_source_release," +
+        "stage_candidate,stage_source_record,transition_import_run," +
+        "validate_foundation_run\n0",
     );
   });
 
@@ -210,8 +221,11 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       set second_id = ${registerReleaseSql("synthetic-idempotent")};
       reset role;
       select (first_id = second_id)::text
-        || '|' || (select count(*) from ingestion.import_runs)
-        || '|' || (select count(*) from ingestion.staged_source_records)
+        || '|' || (select count(*) from ingestion.import_runs
+          where source_release_id = first_id)
+        || '|' || (select count(*) from ingestion.staged_source_records staged
+          join ingestion.import_runs runs on runs.id = staged.import_run_id
+          where runs.source_release_id = first_id)
       from phase_10b_receipts;
       rollback;
     `);
@@ -327,9 +341,9 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
     ).toThrow();
   });
 
-  test("enforces ordered transitions and returns a completed retry receipt", () => {
-    const result = operatorTransaction(`
-      with release as (select ${registerReleaseSql("synthetic-complete")} id),
+  test("enforces ordered operator transitions and prevents self-approval", () => {
+    expect(() => operatorTransaction(`
+      with release as (select ${registerReleaseSql("synthetic-no-self-approval")} id),
       run as (
         select begun.* from release, lateral ingestion.begin_import_run(
           release.id, '${hashA}', 'synthetic-importer-v1',
@@ -343,30 +357,11 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
         select transitioned.* from staged, lateral ingestion.transition_import_run(
           staged.import_run_id, 'staged', 'validated', 'phase-10b-test'
         ) transitioned
-      ), approved as (
-        select transitioned.* from validated, lateral ingestion.transition_import_run(
-          validated.import_run_id, 'validated', 'approved', 'phase-10b-test'
-        ) transitioned
-      ), promoting as (
-        select transitioned.* from approved, lateral ingestion.transition_import_run(
-          approved.import_run_id, 'approved', 'promoting', 'phase-10b-test'
-        ) transitioned
-      ), completed as (
-        select transitioned.* from promoting, lateral ingestion.transition_import_run(
-          promoting.import_run_id, 'promoting', 'completed', 'phase-10b-test',
-          '{"source":1,"accepted":1,"rejected":0,"inserted":1,"updated":0,"archived":0,"unchanged":0,"warnings":0}'::jsonb
-        ) transitioned
-      ), receipt as (
-        select retried.* from release, completed, lateral ingestion.begin_import_run(
-          release.id, '${hashA}', 'synthetic-importer-v1',
-          'phase-10b-test', 'synthetic-approval'
-        ) retried
       )
-      select completed.current_state || '|' || completed.event_sequence || '|'
-        || receipt.current_state || '|' || receipt.attempt_number
-      from completed, receipt;
-    `);
-    expect(result).toBe("completed|6|completed|1");
+      select ingestion.transition_import_run(
+        validated.import_run_id, 'validated', 'approved', 'phase-10b-test'
+      ) from validated;
+    `)).toThrow();
   });
 
   test("rejects skipped transitions and creates linked failed retries", () => {
@@ -519,8 +514,13 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       select deleted_candidates || '|' || deleted_source_records
       from ingestion.cleanup_expired_staging();
       reset role;
-      select count(*) || '|' || (select count(*) from ingestion.import_runs)
-      from ingestion.staged_source_records;
+      select
+        (select count(*) from ingestion.staged_source_records staged
+          where staged.import_run_id = context.import_run_id)
+        || '|' ||
+        (select count(*) from ingestion.import_runs runs
+          where runs.id = context.import_run_id)
+      from phase_10b_cleanup_context context;
       rollback;
     `);
     expect(result).toContain("0|1\n0|1");

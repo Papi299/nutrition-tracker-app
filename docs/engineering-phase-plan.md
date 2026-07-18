@@ -207,8 +207,12 @@ and clean final review: it adds an offline parser, pinned Foundation schema,
 exact four-nutrient mapping, deterministic candidate/report contracts, and
 validated-only local staging. The April 2026 nonproduction dry run retained 10
 explicit negative-value rejects for review rather than weakening policy. Phase
-10D controlled Foundation promotion and application integration is next and
-unstarted. Overall Phase 10 remains incomplete and Phase 11 remains unstarted.
+10D.1 adds exact-set receipts, release-specific reject allowances, separated
+approval/execution roles, atomic initial projection, and a complete local April
+2026 rehearsal. It is complete after green CI and clean final review. Phase
+10D.2 exact production promotion is next, approval-blocked, and unstarted;
+overall Phase 10D and Phase 10 remain incomplete, and Phase 11 remains
+unstarted.
 
 ## Future PR Documentation Rule
 

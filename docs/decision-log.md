@@ -1138,3 +1138,39 @@
 - No production manifest/checksum, archive, source record, provider/runtime
   integration, consumer feature, dependency, credential, public promotion, or
   remote Supabase operation was added.
+
+## 2026-07-18: Phase 10D.1 controlled Foundation promotion and local rehearsal
+
+- Versioned the importer/report contracts and bound validation to canonical
+  accepted, rejected, and warning record-set fingerprints. Added an immutable
+  release-specific reject allowance; the April 2026 allowance excludes exactly
+  10 `negative_target_value` records and never converts them into candidates.
+- Separated approval from execution with hardened NOLOGIN approver and
+  promotion-definer roles. The operator cannot self-approve or generically
+  enter promoting/completed states. The promotion definer owns only the exact
+  Foundation promotion/retry functions and minimum RLS/column/helper grants;
+  consumers retain no ingestion access.
+- Revalidated candidates in PostgreSQL and atomically inserted initial source
+  concepts/versions, public generic English foods, per-100-g selected
+  nutrients, calculated/reported/explicit-zero evidence, portions, and links.
+  Trace targets fail closed; missing nutrients remain absent; no aliases,
+  barcodes, serving, translation, or automatic diary row is created.
+- The official local April 2026 rehearsal processed 363 rows and promoted 353
+  foods, 1,199 nutrients, and 375 portions, with all 10 rejects excluded. Exact
+  retry returned the same receipt. Eight forced insertion failures left zero
+  partial projection rows. Two current dry-run reports were byte-identical.
+- Numeric preflight observed maximum precision 4 and scale 3, so existing
+  `numeric(14,4)` and `numeric(24,10)` remain exact. Authenticated warm p95 was
+  17.752 ms exact search, 13.503 ms prefix, 13.354 ms substring, 12.757 ms
+  fuzzy, and 1.578 ms prefill; all remained below 300 ms. The empty-catalog
+  percentage baseline is explicitly nonrepresentative.
+- Generated an ignored, machine-readable production packet with status
+  `unapproved`; its production reject allowance, named operator/approver,
+  backup, rollback, approval reference, credential custody, and remote
+  authorization remain pending. No remote Supabase or production operation,
+  provider integration, dataset file, checksum, credential, dependency, or
+  automatic-diary behavior was added.
+- Phase 10D.1 is complete after green CI and clean final review. Phase 10D.2 is
+  next, approval-blocked, and unstarted; overall Phase 10D and Phase 10 remain
+  incomplete. Phase 10E and Phase 11 remain unstarted; MyFoodData stays
+  reference-only and all other providers remain blocked or deferred.

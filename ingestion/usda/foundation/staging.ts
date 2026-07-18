@@ -46,14 +46,23 @@ export function createFoundationStagingPlan(result: FoundationDryRunResult) {
         outcome: "rejected" as const,
         category: reject.category,
       })),
-      ...result.accepted
-        .filter(({ candidate }) => candidate.warning_categories.length > 0)
-        .map(({ candidate }) => ({
+      ...result.accepted.flatMap(({ candidate }) =>
+        candidate.warning_categories.map((category) => ({
           sourceRowKey: candidate.source_row_key,
           action: "warning" as const,
           outcome: "warning" as const,
-          category: "candidate_warnings_present",
+          category,
         })),
+      ),
+      ...Array.from(
+        { length: result.archive.trailingNullPaddingCount },
+        (_, index) => ({
+          sourceRowKey: `collection:trailing-null:${index + 1}`,
+          action: "warning" as const,
+          outcome: "warning" as const,
+          category: "known_trailing_null_collection_entry",
+        }),
+      ),
     ],
     counts: {
       source: result.report.source_count,

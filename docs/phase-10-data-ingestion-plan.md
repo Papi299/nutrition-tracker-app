@@ -1,10 +1,10 @@
 # Phase 10 Multi-Source Nutrition Data Ingestion Plan
 
-Status: Phase 10A planning, Phase 10B source registry/release/staging, and Phase
-10C offline USDA Foundation parsing and dry-run validation are complete after
-green CI and clean final review. Phase 10D controlled Foundation promotion and
-application integration is next and unstarted. Overall Phase 10 remains
-incomplete. Phase 11 remains unstarted.
+Status: Phases 10A through 10C are complete. Phase 10D.1 controlled Foundation
+promotion implementation and local full-release rehearsal is complete after
+green CI and clean final review. Phase 10D.2 exact production promotion remains
+approval-blocked and unstarted, so overall Phase 10D and Phase 10 remain
+incomplete. Phase 10E and Phase 11 remain unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -241,8 +241,9 @@ release. The parser initially projects only:
   calculated, missing, zero, trace, and below-quantification values.
 
 Phase 10C parses and validates offline but cannot promote production data.
-Phase 10D may perform the first controlled promotion only through a separate
-reviewed release manifest and explicit operator approval.
+Phase 10D.1 implements and rehearses the local boundary only. Phase 10D.2 may
+perform the first production promotion only through the separately approved
+exact packet and explicit remote-operation authorization.
 
 ## 10. Explicitly deferred sources and capabilities
 
@@ -351,7 +352,7 @@ Local nonproduction evidence for USDA Foundation Foods April 2026 (official
 release dated 2026-04-30): 469,303 compressed bytes, 6,721,650 JSON bytes, 363
 records, 353 accepted, 10 rejected, and 1,018 warnings. All 10 rejects are
 explicit `negative_target_value` results from negative USDA carbohydrate-by-
-difference values; they remain blocked pending a Phase 10D production decision.
+difference values; they remain blocked pending a Phase 10D.2 production decision.
 Coverage among accepted candidates was energy 216, protein 342, carbohydrate
 311, and fat 330. Energy selection was 191 specific/2048, 25 general/2047, and
 137 unknown; there were 375 portions on 277 records, no LOQ/trace occurrence,
@@ -516,9 +517,19 @@ The pipeline is:
 14. retain or remove raw/normalized staging by the approved retention policy.
 
 No record is silently discarded. Default promotion threshold is zero
-unreviewed rejects. Expected reject categories and counts may proceed only when
-the manifest approval explicitly records them; required identity, provenance,
+unreviewed rejects. Phase 10D.1 adds report V2 fingerprints over the exact
+sorted accepted, rejected, and warning assignments. A separate immutable,
+release-specific reject allowance may authorize exclusion of only that exact
+rejected set; it never creates a candidate. Required identity, provenance,
 license, schema, checksum, ACL, or mapping failures always block the run.
+
+Foundation approval and execution are separate. The NOLOGIN approver role can
+only register exact reject allowances and approvals. The NOLOGIN promotion
+definer owns only the Foundation promotion and completed-receipt functions and
+has column-level public projection access plus the exact trigger/index helper
+functions required by those inserts. The operator can stage, validate, invoke
+promotion, or fail a run, but cannot use the generic transition function to
+self-approve, enter `promoting`, or complete a run.
 
 ## 21. Idempotency, updates, deprecation, and reconciliation
 
@@ -562,11 +573,12 @@ license, schema, checksum, ACL, or mapping failures always block the run.
   environment. No ingestion task may connect to remote Supabase without a
   separate explicit human approval for that exact operation.
 
-Phase 10B proves that `ingestion_operator` has only seven exact function grants,
-`ingestion_definer` has minimum RLS-backed supporting access, consumers cannot
-use the schema, and neither internal role can mutate nutrient, diary, custom
-food, barcode, saved-meal, or recipe projections. Public food links also fail
-closed unless their parent is an eligible ownerless public food.
+The operator has ten exact staging, validation, promotion, retry, and registry
+entry points. `ingestion_definer`, `ingestion_approver`, and
+`ingestion_promotion_definer` retain separate minimum RLS-backed authority.
+Consumers cannot use the schema, and no internal role can mutate diary, custom
+food, barcode, saved-meal, or recipe data. Public food links fail closed unless
+their parent is an eligible ownerless public USDA food.
 
 ## 23. Operational ingestion workflow
 
@@ -600,6 +612,14 @@ writes a deterministic aggregate report, and exits nonzero for any hard failure
 or unreviewed record reject. Real inputs and outputs belong in the ignored
 operator workspace, never CI or application startup.
 
+Phase 10D.1 adds a local-only promotion command that reruns the parser, verifies
+all report and allowance fingerprints, stages exact raw and accepted sets,
+uses the separate local approver boundary, promotes atomically, and returns the
+same bounded receipt on exact retry. It rejects nonlocal database targets and
+performs no download. A separate offline packet command writes an unapproved
+Phase 10D.2 packet to the ignored workspace; its reject allowance, named
+operator/approver, backup, rollback, and approval reference remain pending.
+
 ## 24. Search and performance impact
 
 Foundation is small relative to SR/FNDDS and especially Branded/OFF, but no
@@ -625,6 +645,21 @@ hardware and corpus before the number becomes binding. Branded-scale files
 separate capacity/index/partitioning decision and cannot inherit Foundation
 benchmarks. Duplicate direct/transformed USDA imports are prohibited as a false
 catalog-growth strategy.
+
+The April 2026 local rehearsal used PostgreSQL 17.6, Node 26.4.0, macOS arm64,
+353 promoted foods, 1,199 nutrient rows, and 375 portions. Fifty warm
+authenticated samples produced p95 values of 17.752 ms exact, 13.503 ms prefix,
+13.354 ms substring, 12.757 ms fuzzy, and 1.578 ms prefill; source-version
+identity lookup was 0.021 ms. All are below 300 ms, result order stayed
+deterministic, and representative `EXPLAIN (ANALYZE, BUFFERS)` plans were
+bounded. The empty-catalog baseline was 2.594 ms search and 0.842 ms prefill,
+so its percentage comparison is not meaningful; the expected catalog-work
+increase is explicitly accepted because absolute latency remains below 18 ms.
+No index was forced for the 353-row source-version table's 0.085 ms sequential
+scan. Promotion completed in 5,123.719 ms with 202,588,160 bytes peak operator
+RSS. The observed 1,199 selected values had maximum scale 3 and precision 4,
+so `numeric(14,4)` and evidence `numeric(24,10)` preserve them exactly and were
+not widened.
 
 ## 25. Failure handling and rollback
 
@@ -710,7 +745,7 @@ separate approval and must not make normal PR validation depend on a provider.
 
 ## 29. Phase 10 implementation decomposition
 
-The eight-slice decomposition is retained because schema/ACL, untrusted parsing,
+The decomposition is retained because schema/ACL, untrusted parsing,
 promotion, lifecycle, and conditional legal decisions have distinct review and
 rollback boundaries:
 
@@ -726,28 +761,34 @@ rollback boundaries:
    strict source-neutral normalization, deterministic reject/report evidence,
    local staging integration, and current-release performance baseline. No
    production promotion.
-4. **Phase 10D — Foundation promotion and application integration
-   (unstarted).** Transactional/idempotent projection, lifecycle link, search and
-   prefill benchmarks, and one controlled release only after a separate exact
-   manifest/operator approval.
-5. **Phase 10E — Release updates and reconciliation (unstarted).** New version,
+4. **Phase 10D.1 — Foundation promotion implementation and local rehearsal
+   (complete after green CI and clean final review).** Exact-set validation,
+   reviewed reject allowances, approver/operator separation, minimum-authority
+   atomic initial projection, local full-release rehearsal, search/prefill
+   evidence, and an unapproved production packet outside Git.
+5. **Phase 10D.2 — Exact approved production promotion (approval-blocked and
+   unstarted).** Requires the exact production manifest, archive checksum and
+   sizes, report/set fingerprints, approved ten-record allowance, named
+   operator and approver, environment and credential custody, backup and
+   rollback confirmation, and explicit remote-operation authorization.
+6. **Phase 10E — Release updates and reconciliation (unstarted).** New version,
    corrections, missing/removal review, archive/supersession, safe retry,
    concurrency, rollback, and historical-snapshot acceptance.
-6. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
+7. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
    is reference-only/deferred. Implementation exists only if the full approval
    gate supplies a licensed, versioned, reproducible asset with independent
    value; otherwise document rejection/deferral without code.
-7. **Phase 10G — Optional coverage expansion (conditional; unstarted).** Evaluate
+8. **Phase 10G — Optional coverage expansion (conditional; unstarted).** Evaluate
    direct SR Legacy first, then FNDDS. Branded, OFF, restaurant, and other
    providers remain separate gates and are not required for MVP acceptance.
-8. **Phase 10H — Final integration and Phase 10 acceptance (unstarted).** Audit
+9. **Phase 10H — Final integration and Phase 10 acceptance (unstarted).** Audit
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-The next prompt can implement 10D without reopening initial source,
-acquisition, identity, provenance, security, parser, mapping, or slice-boundary
-decisions. The exact production release and operator approval remain a separate
-gate.
+Phase 10D.2 is the next slice, but it cannot start without explicit approval of
+the exact packet and remote operation. It must not reopen initial source,
+acquisition, identity, provenance, parser, mapping, or promotion-boundary
+decisions.
 
 ## 30. Acceptance criteria
 
@@ -785,10 +826,11 @@ Phase 10A alone completes planning, not Phase 10.
 | Restaurant, brand, user-entered data | Legal/product owner: original rights, provenance, correction/takedown, stable identity and delivery | Blocks those categories. |
 | FoodsDictionary | Existing product/legal/commercial/privacy/technical gate | Blocks all integration and credential design. |
 
-No unresolved item blocks implementation of Phase 10D, but production promotion
-remains blocked until the exact release/operator approval and the 10 reviewed
-negative-value rejects receive an explicit disposition. No provider-specific
-runtime access is approved.
+Phase 10D.1 resolved the implementation and local-rehearsal questions. Phase
+10D.2 production promotion remains blocked until the ignored packet receives an
+exact production reject allowance, named operator and approver, backup and
+rollback confirmations, credential-custody approval, and explicit remote
+authorization. No provider-specific runtime access is approved.
 
 ## 32. Phase 10 / Phase 11 boundary
 

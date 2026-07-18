@@ -14,6 +14,8 @@
     "test:date": "playwright test --config=playwright.unit.config.ts",
     "test:e2e:date": "node scripts/run-local-date-e2e.mjs e2e/date-correctness.spec.ts",
     "ingestion:foundation:dry-run": "node --experimental-strip-types ingestion/usda/foundation/cli.ts",
+    "ingestion:foundation:promote-local": "node --experimental-strip-types ingestion/usda/foundation/promote-local.ts",
+    "ingestion:foundation:approval-packet": "node --experimental-strip-types ingestion/usda/foundation/create-production-approval-packet.ts",
     "supabase:status": "supabase status",
     "supabase:version": "supabase --version"
   },

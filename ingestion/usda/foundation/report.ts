@@ -14,14 +14,101 @@ import type {
   NormalizedFoundationRecord,
 } from "./normalization.ts";
 
+export type FoundationAcceptedRecordSetEntry = {
+  source_row_key: string;
+  raw_content_sha256: string;
+  normalized_candidate_content_fingerprint: string;
+  concept_key: string | null;
+  upstream_version_key: string;
+};
+
+export type FoundationRejectedRecordSetEntry = {
+  source_row_key: string;
+  raw_content_sha256: string;
+  reject_category: string;
+};
+
+export type FoundationWarningRecordSetEntry = {
+  source_row_key: string;
+  warning_categories: readonly string[];
+};
+
 function increment(counts: Map<string, number>, category: string, by = 1) {
   counts.set(category, (counts.get(category) ?? 0) + by);
 }
 
 function sortedCounts(counts: Map<string, number>) {
   return Object.fromEntries(
-    [...counts].sort(([left], [right]) => left.localeCompare(right)),
+    [...counts].sort(([left], [right]) => Buffer.compare(
+      Buffer.from(left, "utf8"),
+      Buffer.from(right, "utf8"),
+    )),
   );
+}
+
+function compareUtf8(left: string, right: string) {
+  return Buffer.compare(Buffer.from(left, "utf8"), Buffer.from(right, "utf8"));
+}
+
+function rawSourceRowKey(raw: ParsedFoundationArchive["records"][number]) {
+  const fdcId = raw.raw.fdcId;
+  return typeof fdcId === "number" && Number.isSafeInteger(fdcId)
+    ? `fdc:${fdcId}`
+    : `record:${raw.index + 1}`;
+}
+
+export function createFoundationRecordSetEvidence(input: {
+  archive: ParsedFoundationArchive;
+  accepted: readonly NormalizedFoundationRecord[];
+  rejected: readonly FoundationRecordReject[];
+}) {
+  const rawHashes = new Map(
+    input.archive.records.map((raw) => [rawSourceRowKey(raw), raw.rawContentSha256]),
+  );
+  const accepted = input.accepted
+    .map(({ raw, candidate }) => ({
+      source_row_key: candidate.source_row_key,
+      raw_content_sha256: raw.rawContentSha256,
+      normalized_candidate_content_fingerprint: candidate.content_fingerprint,
+      concept_key: candidate.concept_key,
+      upstream_version_key: candidate.upstream_version_key,
+    }))
+    .sort((left, right) => compareUtf8(left.source_row_key, right.source_row_key));
+  const rejected = input.rejected
+    .map((reject) => ({
+      source_row_key: reject.source_row_key,
+      raw_content_sha256:
+        rawHashes.get(reject.source_row_key) ??
+        (() => {
+          throw new Error("Rejected Foundation row is missing raw hash evidence.");
+        })(),
+      reject_category: reject.category,
+    }))
+    .sort((left, right) => compareUtf8(left.source_row_key, right.source_row_key));
+  const warningRows: FoundationWarningRecordSetEntry[] = input.accepted
+    .filter(({ candidate }) => candidate.warning_categories.length > 0)
+    .map(({ candidate }) => ({
+      source_row_key: candidate.source_row_key,
+      warning_categories: [...candidate.warning_categories].sort(),
+    }));
+  for (let index = 0; index < input.archive.trailingNullPaddingCount; index += 1) {
+    warningRows.push({
+      source_row_key: `collection:trailing-null:${index + 1}`,
+      warning_categories: ["known_trailing_null_collection_entry"],
+    });
+  }
+  const warning = warningRows.sort((left, right) =>
+    compareUtf8(left.source_row_key, right.source_row_key),
+  );
+
+  return {
+    accepted,
+    rejected,
+    warning,
+    acceptedRecordSetFingerprint: fingerprintJson(accepted as JsonValue),
+    rejectedRecordSetFingerprint: fingerprintJson(rejected as JsonValue),
+    warningRecordSetFingerprint: fingerprintJson(warning as JsonValue),
+  };
 }
 
 export function createFoundationDryRunReport(input: {
@@ -30,6 +117,7 @@ export function createFoundationDryRunReport(input: {
   accepted: readonly NormalizedFoundationRecord[];
   rejected: readonly FoundationRecordReject[];
 }) {
+  const recordSets = createFoundationRecordSetEvidence(input);
   const warnings = new Map<string, number>();
   const rejects = new Map<string, number>();
   const identities = new Map<string, number>();
@@ -81,6 +169,12 @@ export function createFoundationDryRunReport(input: {
     nutrient_mapping_version: foundationNutrientMappingVersion,
     nutrient_mapping_hash: foundationNutrientMappingHash,
     reject_policy_version: foundationRejectPolicyVersion,
+    accepted_record_set_fingerprint:
+      recordSets.acceptedRecordSetFingerprint,
+    rejected_record_set_fingerprint:
+      recordSets.rejectedRecordSetFingerprint,
+    warning_record_set_fingerprint:
+      recordSets.warningRecordSetFingerprint,
     source_count: input.archive.records.length,
     accepted_count: input.accepted.length,
     rejected_count: input.rejected.length,
