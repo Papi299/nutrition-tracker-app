@@ -183,10 +183,15 @@ current browser, starts after explicit user action, keeps frames local, stops
 every track deterministically, and routes accepted values through the existing
 validator and server-authoritative GET lookup. Manual/no-JavaScript lookup stays
 complete; UPC-E remains explicitly deferred. Phase 9D is complete after green
-CI and clean final review. Phase 9E external-provider lookup is approval-blocked
-and unstarted. Phase 9F provider-disabled integration hardening and final Phase
-9 acceptance is next and unstarted. Overall Phase 9 remains incomplete, and
-Phase 10 Data Ingestion is unstarted.
+CI and clean final review. Phase 9E external-provider lookup remains approval-
+blocked and was not implemented. Phase 9F audits identity, ownership, RLS,
+lookup, reviewed diary handoff, atomic custom-food persistence, camera fallback,
+localization, accessibility, and the provider-disabled boundary as one system.
+Its acceptance evidence closes overall Phase 9 for the approved provider-
+disabled MVP scope after green CI and clean final review. Manual lookup remains
+the universal baseline; native camera support remains runtime-dependent and was
+not physically verified. Phase 10 planning and decomposition is next and
+unstarted.
 
 ## Future PR Documentation Rule
 

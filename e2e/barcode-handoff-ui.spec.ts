@@ -282,7 +282,7 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     await expired.close();
   });
 
-  test("attaches atomically, ignores injected authority, and redirects to editable Today without a diary write", async ({ browser }) => {
+  test("attaches atomically, logs only after review, and then resolves as owned", async ({ browser }) => {
     const session = await context(browser);
     const page = await session.newPage();
     const beforeDiary = queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`);
@@ -326,6 +326,10 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     expect(queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`)).toBe(beforeDiary);
     await page.getByRole("button", { name: "Add entry" }).click();
     expect(queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`)).toBe(String(Number(beforeDiary) + 1));
+    await page.goto(`/en/foods/barcode?code=${codes.attach}&date=2026-07-17`);
+    await expect(page.getByTestId("barcode-found_owned")).toContainText(
+      `Phase 9C attached UI ${runId}`,
+    );
     await session.close();
   });
 
@@ -350,6 +354,10 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     await expect(page).toHaveURL(
       /\/en\/today\?date=2026-07-17&foodId=[0-9a-f-]+&mealType=snack&customFood=created$/,
     );
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      `Phase 9C omitted UI ${runId}`,
+    );
+    await expect(page.locator('select[name="meal_type"]')).toHaveValue("snack");
     const foodId = new URL(page.url()).searchParams.get("foodId") as string;
     expect(queryDatabase(`select count(*) from public.food_barcodes where food_id = '${foodId}';`)).toBe("0");
     expect(
@@ -359,6 +367,8 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
           (select count(*) from public.food_aliases where food_id = '${foodId}');
       `),
     ).toBe("1|1");
+    await page.goto(`/en/foods/barcode?code=${codes.omit}&date=2026-07-17`);
+    await expect(page.getByTestId("barcode-not-found")).toBeVisible();
     await session.close();
   });
 

@@ -323,6 +323,17 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
   test("keeps archived, other-user, local miss, and database failure states distinct", async ({ browser }) => {
     const context = await newAuthenticatedContext(browser);
     const page = await context.newPage();
+    const unexpectedExternalRequests: string[] = [];
+    page.on("request", (request) => {
+      const url = new URL(request.url());
+      if (
+        (url.protocol === "http:" || url.protocol === "https:") &&
+        url.hostname !== "127.0.0.1" &&
+        url.hostname !== "localhost"
+      ) {
+        unexpectedExternalRequests.push(request.url());
+      }
+    });
     await page.goto(`/en/foods/barcode?code=${codes.archived}&date=2026-07-17`);
     await expect(page.getByTestId("barcode-unavailable")).toBeVisible();
     await expect(page.getByRole("link", { name: "Review for diary" })).toHaveCount(0);
@@ -332,6 +343,16 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
       const notFound = page.getByTestId("barcode-not-found");
       await expect(notFound).toBeVisible();
       await expect(notFound).not.toContainText("Other User Secret");
+      await expect(notFound).toContainText(
+        "No readable local mapping was found",
+      );
+      await expect(notFound).toContainText(
+        "External provider lookup is not available here",
+      );
+      await expect(notFound.getByRole("button")).toHaveCount(0);
+      await expect(
+        notFound.locator('a[href^="http://"], a[href^="https://"]'),
+      ).toHaveCount(0);
       await expect(
         notFound.getByRole("link", {
           name: "Create private food with this barcode",
@@ -346,6 +367,7 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
         }),
       ).toHaveAttribute("href", "/en/foods/custom/new");
     }
+    expect(unexpectedExternalRequests).toEqual([]);
     await context.close();
 
     const faultContext = await newAuthenticatedContext(browser, {
