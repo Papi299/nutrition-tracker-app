@@ -1077,3 +1077,32 @@
 - This documentation-only task made no runtime, schema, generated-type, seed,
   test, CI, dependency, dataset, checksum/production manifest, credential,
   provider, scraper, or remote Supabase change.
+
+## 2026-07-18: Phase 10B governed ingestion foundation
+
+- Added the non-exposed `ingestion` schema with RLS on every relation and no
+  schema access for `PUBLIC`, consumer roles, `service_role`, or
+  `authenticator`. Dedicated `ingestion_operator` and `ingestion_definer`
+  roles are NOLOGIN/NOINHERIT and receive only exact function execution or
+  minimum supporting ACLs; neither can mutate public food, diary, Saved Meal,
+  or Recipe projections.
+- Materialized the Phase 10A registry decisions: USDA and direct Foundation
+  distribution are approved; SR Legacy and FNDDS are conditional; Branded is
+  deferred; Experimental is excluded; MyFoodData and its flattening metadata
+  are reference-only; Open Food Facts and FoodsDictionary remain blocked.
+- Added immutable release and source-version provenance, stable source
+  concepts, public-food link guards, mapping-version and source-mapping
+  metadata, source portions, nutrient projection evidence, import runs and
+  append-only events/items, and separate bounded raw/normalized staging with a
+  maximum 30-day retention window.
+- Added strict offline Manifest V1 parsing, canonicalization, and SHA-256
+  fingerprinting without a dependency. Operator entry points revalidate and
+  idempotently register approved releases, serialize logical runs, enforce
+  ordered terminal state evidence and failed-attempt retries, stage bounded
+  records/candidates, record bounded outcomes, and clean only expired staging.
+- Phase 10B is complete after green CI and clean final review. Phase 10C USDA
+  Foundation JSON parsing and dry-run validation is next and unstarted;
+  overall Phase 10 remains incomplete and Phase 11 remains unstarted.
+- No parser, provider request, dataset, production release manifest/checksum,
+  public promotion, dependency, credential, CI workflow, or remote Supabase
+  operation was added.
