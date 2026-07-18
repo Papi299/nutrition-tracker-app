@@ -983,3 +983,33 @@
 - Phase 9C is complete after green CI and clean final review. Phase 9D camera
   progressive enhancement remains next and unstarted. Overall Phase 9 remains
   incomplete, and Phase 10 is unstarted.
+
+## 2026-07-18: Phase 9D native camera barcode scanning progressive enhancement
+
+- Added a hydration-only client scanner to the existing protected barcode
+  route. Availability requires a secure context, callable `getUserMedia`, a
+  native `BarcodeDetector`, a successful `getSupportedFormats()` result, and a
+  nonempty runtime intersection with `ean_8`, `ean_13`, `upc_a`, and `itf`.
+  Camera permission begins only after an explicit user action.
+- Accepted detections obey exact symbology lengths and reuse the Phase 9A food-
+  GTIN validator and Phase 9B canonical query builder. Current edited date and
+  optional meal context are preserved, while the server route revalidates and
+  performs the normal owned/public/miss lookup. UPC-E, ISBN, QR, Data Matrix,
+  multiple distinct GTINs, and malformed detections fail closed.
+- One generation-based lifecycle owns the stream, video, bounded detection
+  schedule, and navigation. It stops every track and clears the preview before
+  terminal navigation, cancellation, replacement, failure, unmount, page exit,
+  visibility loss, or track end; stale detector results cannot navigate.
+- Camera frames remain local to the live stream. The scanner imports no
+  Supabase, lookup, food-prefill, custom-food, or diary-persistence helper and
+  performs no lookup-time mutation. The localized manual GET form remains
+  visible throughout and remains complete without JavaScript.
+- Added deterministic pure and mocked local-only Chromium coverage plus an
+  evidence-linked support matrix. No physical device was available, so every
+  real-device row is recorded as not manually verified rather than passed.
+  No provider, decoder dependency, schema/type, mapping-edit, or automatic-
+  diary behavior was added, and no remote Supabase operation occurred.
+- Phase 9D is complete after green CI and clean final review. Phase 9E external-
+  provider lookup remains approval-blocked and unstarted. Phase 9F provider-
+  disabled integration hardening and final Phase 9 acceptance is next and
+  unstarted; overall Phase 9 remains incomplete and Phase 10 remains unstarted.

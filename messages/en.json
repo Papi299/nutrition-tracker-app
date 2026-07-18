@@ -1360,6 +1360,38 @@
       "mealTypeNone": "No preselected meal",
       "submit": "Look up barcode"
     },
+    "scanner": {
+      "title": "Scan with this device",
+      "privacy": "When native scanning is available, camera frames stay in this browser and are never uploaded or stored.",
+      "videoLabel": "Live camera preview for one product barcode",
+      "manualFallback": "Manual barcode entry above remains available at every stage and works without JavaScript.",
+      "actions": {
+        "scan": "Scan barcode",
+        "rescan": "Scan again",
+        "cancel": "Cancel camera",
+        "dismiss": "Dismiss scanner message"
+      },
+      "states": {
+        "checking_capability": "Checking whether this browser provides compatible native barcode scanning. Camera permission is not being requested.",
+        "capability_unavailable": "Native barcode scanning is unavailable in this browser or device. Use the manual form above.",
+        "ready": "Native scanning is available. Start it explicitly when you are ready.",
+        "requesting_permission": "Waiting for camera access. Your browser may ask for permission.",
+        "camera_active": "Scanning locally. Place one EAN, UPC-A, or ITF-14 product barcode in view.",
+        "completing": "Barcode accepted. Stopping the camera before opening the normal lookup.",
+        "permission_denied": "Camera access was denied by the browser, site policy, or settings. Adjust access if appropriate, then retry explicitly or use manual entry.",
+        "camera_unavailable": "No usable camera is available, or the active camera ended. Use manual entry or retry explicitly.",
+        "camera_busy": "The camera could not be read and may be in use by another application. Use manual entry or retry after it is available.",
+        "constraint_failure": "The camera could not satisfy the requested video setup. Use manual entry or retry explicitly.",
+        "security_error": "Browser security restrictions prevented camera access. Native scanning requires a secure page; manual entry remains available.",
+        "camera_aborted": "Camera startup was interrupted. Use manual entry or retry explicitly.",
+        "camera_error": "The camera could not be started safely. Use manual entry or retry explicitly.",
+        "invalid_detection": "A barcode was detected, but its digits, length, check digit, or food-identifier format is not accepted. Enter it manually or isolate a supported product barcode and scan again.",
+        "unsupported_detection": "The detected symbol type is not supported. UPC-E, QR codes, Data Matrix, and other non-approved formats must use the manual path where applicable.",
+        "multiple_detections": "More than one supported barcode was detected. Isolate one barcode and scan again; no barcode was selected.",
+        "detection_error": "Native barcode detection failed. The camera has been stopped; use manual entry or retry explicitly.",
+        "cancelled": "Camera scanning was cancelled and will not restart automatically."
+      }
+    },
     "ownership": {
       "owned": "Your custom food",
       "public": "Public food"

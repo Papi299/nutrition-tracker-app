@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { BarcodeLookupForm } from "@/components/barcodes/barcode-lookup-form";
+import { BarcodeCameraScanner } from "@/components/barcodes/barcode-camera-scanner";
 import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
@@ -122,6 +123,7 @@ function LocalizedBarcodeLookupPage({
   const t = useTranslations("BarcodeLookup");
   const diaryT = useTranslations("Diary");
   const routePath = `/${locale}/foods/barcode`;
+  const formId = "barcode-lookup-form";
   const formValues = barcodeFormValues(query);
   const formError =
     query.status === "invalid" && query.field !== "query"
@@ -151,6 +153,7 @@ function LocalizedBarcodeLookupPage({
         code={formValues.code}
         date={formValues.date}
         error={formError}
+        formId={formId}
         labels={{
           code: t("form.code"),
           codeHelp: t("form.codeHelp"),
@@ -164,6 +167,10 @@ function LocalizedBarcodeLookupPage({
         mealType={formValues.mealType}
         mealTypeOptions={mealTypeOptions}
       />
+
+      {query.status === "valid" && (
+        <BarcodeCameraScanner formId={formId} routePath={routePath} />
+      )}
 
       {query.status === "invalid" && (
         <BarcodeState

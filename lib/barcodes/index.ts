@@ -34,3 +34,24 @@ export {
   type BarcodeRouteQueryResult,
   type BarcodeRouteResolution,
 } from "./query";
+export {
+  approvedNativeBarcodeFormats,
+  createNativeBarcodeDetector,
+  resolveNativeScannerCapability,
+  type ApprovedNativeBarcodeFormat,
+  type NativeBarcodeDetection,
+  type NativeBarcodeDetector,
+  type NativeBarcodeDetectorConstructor,
+  type NativeScannerCapability,
+} from "./scanner-capabilities";
+export {
+  classifyCameraError,
+  reduceScannerDetections,
+  type CameraErrorState,
+  type ScannerDetectionResult,
+} from "./scanner-detection";
+export {
+  createScannerLifecycle,
+  type ScannerOwnedStream,
+  type ScannerVideoTarget,
+} from "./scanner-lifecycle";

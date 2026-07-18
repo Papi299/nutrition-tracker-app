@@ -1,10 +1,10 @@
 # Phase 9 Barcode Flow Architecture and Implementation Plan
 
-Status: planning, Phase 9A identity/local lookup, Phase 9B manual review, and
-Phase 9C atomic not-found custom-food handoff are complete after green CI and
-clean final review. Phase 9D camera progressive enhancement is next and
-unstarted. Phase 9 implementation remains incomplete, and Phase 10 is
-unstarted.
+Status: planning and Phases 9A through 9D are complete after green CI and clean
+final review. Phase 9E external-provider lookup is approval-blocked and
+unstarted. Phase 9F provider-disabled integration hardening and final Phase 9
+acceptance is next and unstarted. Phase 9 implementation remains incomplete,
+and Phase 10 is unstarted.
 
 This document is the implementation contract for the MVP barcode flow. A later
 task may change a decision only through an explicit reviewed documentation
@@ -144,8 +144,8 @@ The shared manual/scanner contract is:
 | Storage/transport | String only; never JavaScript number, PostgreSQL numeric, or JSON number |
 | Leading zeroes | Always preserved; canonical padding is identity normalization, not numeric conversion |
 | Formatting | Trim outer Unicode whitespace for copy/paste usability; reject internal whitespace, hyphens, punctuation, non-ASCII digits, signs, decimals, and control characters |
-| Manual/scanner parity | Both finish in the same pure validator; scanner metadata may perform only the UPC-E carrier expansion described below |
-| Non-GTIN linear codes | Reject with `unsupported_format`; Code 39, Code 128, ITF, Codabar, and other payloads are deferred |
+| Manual/scanner parity | Both finish in the same pure validator; Phase 9D accepts only an exact approved native symbology/length pairing before validation |
+| Non-GTIN linear codes | Reject with `unsupported_format`; Code 39, Code 128, shorter arbitrary ITF, Codabar, and other payloads are deferred. Phase 9D accepts only 14-digit ITF as GTIN-14 |
 | QR/Data Matrix | Explicitly outside Phase 9 MVP, including GS1 Digital Link parsing |
 | ISBN | Explicitly outside scope. Reject GTIN-13 input whose GS1 prefix is `978` or `979`; do not treat a book identifier as food merely because its check digit is valid |
 | Symbology storage | Do not store capture symbology on a food mapping. A carrier format is event metadata; canonical GTIN is product identity |
@@ -161,29 +161,13 @@ computes `(10 - (sum mod 10)) mod 10`. The result must equal the supplied final
 digit. Padding occurs only after raw-length and check-digit validation; the
 database repeats the same validation over the canonical 14-digit value.
 
-UPC-E is accepted only from a scanner result explicitly identified as `upc_e`.
-The scanner adapter must expand the number-system digit and six compressed
-digits into its full GTIN-12 representation according to the current GS1
-General Specifications, retain/revalidate the supplied check digit, and pass
-the resulting 12-digit string through the shared validator. A bare six- or
-seven-digit value is never accepted. An eight-digit manual value is GTIN-8,
-not guessed as UPC-E. If Phase 9D cannot verify and test the GS1 expansion
-against current official examples, `upc_e` detection must remain unsupported;
-it must not use a remembered or library-specific algorithm silently.
-
-For implementation, a scanner `upc_e` raw value must be exactly eight digits:
-number-system `N`, compressed digits `A B C D E F`, and check digit `K`, with
-`N` limited to the number systems allowed for UPC-E by the current GS1
-specification. Expand to GTIN-12 as follows, then recompute and verify `K`:
-
-- `F` 0, 1, or 2: `N A B F 0 0 0 0 C D E K`
-- `F` 3: `N A B C 0 0 0 0 0 D E K`
-- `F` 4: `N A B C D 0 0 0 0 0 E K`
-- `F` 5 through 9: `N A B C D E 0 0 0 0 F K`
-
-Phase 9D must confirm the allowed number-system set and these transformations
-against the then-current GS1 section and fixtures before merging. A mismatch
-blocks UPC-E support, not the rest of scanning.
+Phase 9D explicitly defers UPC-E. The native detector is never constructed with
+`upc_e`, and a detection labelled `upc_e` is rejected before its raw value can
+reach the shared validator. An eight-character UPC-E carrier represents a
+compressed GTIN-12 and therefore must never be guessed as GTIN-8. Expansion
+requires a separately reviewed implementation with authoritative current rules,
+deterministic fixtures, cross-platform raw-value evidence, and explicit
+approval; Phase 9D implements no partial conversion table.
 
 ## 3. Data-model alternatives
 
@@ -524,10 +508,10 @@ responses, or become a covert ingestion pipeline.
 | Server-side image decoding | Broad decoder choice but uploads product/background images, adds latency/cost/retention/abuse controls, and fails offline. | Rejected for MVP absent a separate privacy/security approval. |
 | Manual only | Universal, no permission or dependency, accessible with keyboard/no JS, but slower. | Required functional fallback and acceptable provider-disabled MVP path. |
 
-Phase 9D scanner states are `capability_unavailable`,
-`permission_not_requested`, `permission_denied`, `camera_unavailable`,
-`camera_active`, `barcode_detected`, `invalid_detection`,
-`multiple_detections`, `lookup_pending`, and `manual_fallback`. Permission is
+Phase 9D scanner states are `checking_capability`, `capability_unavailable`,
+`ready`, `requesting_permission`, `camera_active`, `completing`, stable camera-
+error states, `invalid_detection`, `unsupported_detection`,
+`multiple_detections`, `detection_error`, and `cancelled`. Permission is
 requested only after an explicit “Scan barcode” action. Prefer the rear camera
 with `facingMode: { ideal: "environment" }`, but do not fail solely because a
 rear-facing label is unavailable.
@@ -540,12 +524,12 @@ first result. Repeated identical detections are debounced. Frames remain local
 and are never uploaded, persisted, logged, or placed in analytics. Manual input
 is always visible or one accessible action away.
 
-The Phase 9D pre-implementation gate must record real-device results for current
-iOS Safari, Android Chrome, and desktop Chromium/Safari where available,
-including HTTPS, permission deny/retry, backgrounding, route exit, supported
-formats, UPC-E behavior, and performance. Lack of native iOS support does not
-block manual Phase 9; it blocks claiming camera support on that platform. A
-third-party dependency requires a separate explicit approval within 9D.
+The Phase 9D evidence is recorded in
+`docs/phase-9d-camera-support-matrix.md`. Physical devices were unavailable in
+this task, so the matrix records them as not manually verified and makes no
+platform support claim. Lack of native iOS support does not block manual Phase
+9; it blocks claiming camera support on that platform. No third-party scanner
+dependency was added.
 
 ## 13. Security and privacy threat model
 
@@ -618,7 +602,7 @@ minimal contract fixtures with fake credentials.
 
 | Layer | Required coverage |
 | --- | --- |
-| Pure validation/query | GTIN-8/12/13/14 valid examples; canonical padding; all leading-zero positions; modulo-10 boundaries; invalid lengths/check digits/characters; outer trim; internal formatting rejection; ISBN/non-GTIN/QR rejection; scanner UPC-E expansion and failure; manual/scanner parity; long input; repeated/unknown query fields; strict date/meal; canonical URL generation |
+| Pure validation/query | GTIN-8/12/13/14 valid examples; canonical padding; all leading-zero positions; modulo-10 boundaries; invalid lengths/check digits/characters; outer trim; internal formatting rejection; ISBN/non-GTIN/QR rejection; explicit scanner UPC-E rejection before generic validation; manual/scanner parity; long input; repeated/unknown query fields; strict date/meal; canonical URL generation |
 | Database/RLS/grants | Public and owned mappings; other-user invisibility/non-influence; active/archived combinations; owned-before-public; defensive ambiguity fixture; public and per-user duplicate rejection including concurrent attempts; different users allowed same code; scope derivation/tamper rejection; mapping/food/user cascade; provenance FK/status; `PUBLIC`/`anon` denial and authenticated least privilege; migration/seed replay/types |
 | Browser/manual | Initial/invalid/found-owned/found-public/not-found/archived/ambiguous/retrieval error; explicit review; canonical redirect; date and meal preservation; no lookup-time mutation; Today editable prefill and explicit snapshot submission; back/reload no entry; custom handoff, remove, race conflict, rollback; English/Hebrew, LTR/RTL, mixed text, mobile, keyboard/live regions, no-JS GET flow |
 | Browser/camera | Capability fallback; supported-format check; start only on action; permission denial; missing/busy camera; active/cancel/capture; duplicate/multiple/invalid detections; route exit/background cleanup; manual fallback; representative mobile orientation. Media APIs are deterministically mocked in CI; real devices are a documented manual gate |
@@ -730,7 +714,7 @@ food returns to Today with date and optional meal prefill for explicit review;
 no diary row is created until the user submits it. No existing mapping edit,
 public/provider mapping creation, provider call, or camera behavior was added.
 
-### Phase 9D — Camera scanning progressive enhancement
+### Phase 9D — Camera scanning progressive enhancement (complete)
 
 **Objective:** feed supported on-device detections into the exact 9B form while
 manual entry remains complete.
@@ -738,15 +722,15 @@ manual entry remains complete.
 - Schema: none.
 - Routes/UI: client scanner component on barcode route; explicit start/cancel,
   state/live-region model, video preview, runtime format detection, lifecycle
-  cleanup, and manual fallback. UPC-E adapter only with verified GS1 expansion.
+  cleanup, and manual fallback. The approved runtime intersection is EAN-8,
+  EAN-13, UPC-A, and 14-digit ITF; UPC-E is explicitly deferred.
 - Security/privacy: user gesture, local frames, no uploads/logs, stop all tracks,
   same validator, no lookup/diary authority in client.
-- Tests: mocked capability/permission/media lifecycle plus documented real-
-  device matrix for iOS Safari, Android Chrome, and desktop; accessibility and
-  performance/bundle review.
-- Dependencies: 9B. A third-party library, if proposed after the browser
-  matrix, needs explicit dependency/license/security approval; native-only
-  implementation otherwise needs no external provider approval.
+- Tests: pure capability/detection/lifecycle coverage, deterministic mocked
+  Chromium capability/permission/media lifecycle, and an honest support matrix
+  that records physical devices as not manually verified in this task.
+- Dependencies: 9B. Phase 9D is native-only and adds no third-party decoder or
+  external-provider dependency.
 - Exclusions: provider calls, image upload/server decoding, QR, continuous scan,
   background camera.
 - Acceptance: supported devices capture reliably and clean up; unsupported or
@@ -800,7 +784,7 @@ separately approved optional capabilities.
 | Decision | Recommended option | Alternatives | Rationale | Approval owner | Blocked? |
 | --- | --- | --- | --- | --- | --- |
 | Supported identities | GTIN-8/12/13/14 with check digit | Fewer GTINs; all symbologies | Official GS1 identity family; exact bounded contract | Product + engineering | No for 9A |
-| UPC-E | Scanner-only expansion to GTIN-12 using verified GS1 rules; otherwise unsupported | Guess 8 digits; reject always | Carrier is compressed GTIN-12; manual ambiguity must not be guessed | Engineering | 9D expansion blocked until official examples/tests verified |
+| UPC-E | Deferred and rejected before shared validation in Phase 9D | Guess 8 digits; partial expansion | Carrier is compressed GTIN-12 and must never be confused with GTIN-8; future support needs authoritative rules, fixtures, cross-platform evidence, and approval | Engineering | Separate future approval required |
 | Canonical normalization | Outer trim, ASCII digits, valid check digit, left-pad to 14 | Store raw length; numeric | Preserves zeroes and unifies equivalent GTIN forms | Engineering | No |
 | Non-GTIN/QR/ISBN | Reject/defer | Parse broadly | Food MVP scope and safer identity | Product | No |
 | Data model | `food_barcodes` relation | `foods.barcode`; `source_food_id` | Multi-mapping/provenance/scoped uniqueness | Product + data engineering | No for 9A after plan approval |
@@ -813,16 +797,14 @@ separately approved optional capabilities.
 | External provider | None selected | FoodsDictionary; another provider | Required legal/commercial evidence absent | Human product/legal/commercial owner | **Yes, 9E** |
 | Provider licensing | Formal checklist and written go/no-go | Assumption from public site | Storage/display/redistribution cannot be inferred | Human legal/commercial owner | **Yes, 9E** |
 | External persistence | Transient preview then explicit private custom save | Public on-demand ingest; preview only | Contains licensing/trust and fits owner workflow | Product + legal | Blocked until provider gate |
-| Camera technology | Native feature-detected progressive enhancement; manual fallback | Third-party decoder; server decode; manual only | Lowest privacy/bundle cost, but limited availability is explicit | Product + engineering/security | 9D device support/library choice partially unresolved |
+| Camera technology | Native feature-detected progressive enhancement; manual fallback | Third-party decoder; server decode; manual only | Lowest privacy/bundle cost; limited availability is explicit and no physical-device support is claimed | Product + engineering/security | No for native-only 9D; future decoder requires separate approval |
 | Camera fallback | Fully functional manual GET form | Require camera | Accessibility and universal support | UX + accessibility | No |
 | Phase 9A | Identity schema, validation, RLS/grants, exact local RPC/helper only | Combine UI/provider | Smallest independently testable foundation | Engineering | No after this planning PR |
 
 ### Required approvals before implementation
 
-- Phase 9A may start after this plan is merged; it is the recommended next
-  slice and remains unstarted.
-- Phase 9D must not claim iOS Safari support or add a decoder dependency until
-  its current real-device/dependency evidence is reviewed.
+- Phases 9A through 9D are complete after their green CI and clean final
+  reviews. Phase 9D makes no iOS Safari support claim and adds no decoder.
 - Phase 9E is blocked until every provider-gate item has a named evidence link
   and explicit human go decision. FoodsDictionary remains only a candidate.
 - Phase 10 remains unstarted and cannot be pulled into any Phase 9 slice.

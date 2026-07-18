@@ -176,8 +176,16 @@ write-time rechecks produce safe owned, public, archived/unavailable, and
 ambiguity conflicts; other-user private mappings remain undisclosed. Explicit
 omission preserves the ordinary barcode-free save path. Success returns to
 Today for review and does not create a diary row. Phases 9A through 9C are
-complete after green CI and clean final review. Phase 9D camera progressive
-enhancement is next and unstarted. Overall Phase 9 remains incomplete, and
+complete after green CI and clean final review. Phase 9D adds a native-only,
+runtime-feature-detected camera progressive enhancement on the existing manual
+route. It requests only EAN-8, EAN-13, UPC-A, and ITF formats supported by the
+current browser, starts after explicit user action, keeps frames local, stops
+every track deterministically, and routes accepted values through the existing
+validator and server-authoritative GET lookup. Manual/no-JavaScript lookup stays
+complete; UPC-E remains explicitly deferred. Phase 9D is complete after green
+CI and clean final review. Phase 9E external-provider lookup is approval-blocked
+and unstarted. Phase 9F provider-disabled integration hardening and final Phase
+9 acceptance is next and unstarted. Overall Phase 9 remains incomplete, and
 Phase 10 Data Ingestion is unstarted.
 
 ## Future PR Documentation Rule

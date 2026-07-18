@@ -6,6 +6,7 @@ export function BarcodeLookupForm({
   code,
   date,
   error,
+  formId,
   labels,
   mealType,
   mealTypeOptions,
@@ -17,6 +18,7 @@ export function BarcodeLookupForm({
     field: "code" | "date" | "mealType";
     message: string;
   };
+  formId?: string;
   labels: {
     code: string;
     codeHelp: string;
@@ -42,6 +44,7 @@ export function BarcodeLookupForm({
       action={action}
       className="grid max-w-3xl gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
       method="get"
+      id={formId}
     >
       <label className="grid gap-2 text-sm font-semibold text-slate-900">
         {labels.code}
