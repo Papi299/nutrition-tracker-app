@@ -57,9 +57,36 @@ test.describe("source release manifest V1", () => {
       syntheticFoundationManifest(),
     );
 
-    expect(canonical).toBe(JSON.stringify(syntheticFoundationManifest()));
+    expect(canonical).toContain('"sha256": "aaaaaaaa');
+    expect(canonical).toMatch(/^\{"sha256": /);
     expect(fingerprintSourceReleaseManifest(syntheticFoundationManifest())).toBe(
-      "5bf74397fa429b4979889e73e59527156b16bda504ff72a3cf9a8b0519d435fa",
+      "454983114046bdfc40cd22537e497c1c9496d84154441c69e38be1c9add33a33",
+    );
+  });
+
+  test("canonicalizes escaped, Unicode, query-string, and safe-integer values", () => {
+    const manifest = syntheticFoundationManifest();
+    manifest.original_release_identifier = 'quoted "release" \\ אבג';
+    manifest.official_url =
+      "https://fdc.nal.usda.gov/release?format=json&kind=foundation";
+    manifest.compressed_size = Number.MAX_SAFE_INTEGER - 1;
+    manifest.uncompressed_size = Number.MAX_SAFE_INTEGER;
+
+    const canonical = canonicalizeSourceReleaseManifest(manifest);
+    expect(JSON.parse(canonical)).toEqual(manifest);
+    expect(canonical).toContain('quoted \\"release\\" \\\\ אבג');
+    expect(canonical).toContain("format=json&kind=foundation");
+    expect(canonical).toContain(String(Number.MAX_SAFE_INTEGER));
+  });
+
+  test("canonicalizes present transformations and null reject policies", () => {
+    const transformed = syntheticFoundationManifest();
+    transformed.transformation_code = "synthetic_flattening";
+    transformed.transformation_release_identifier = "synthetic-v1";
+    transformed.reject_policy_version = null;
+
+    expect(JSON.parse(canonicalizeSourceReleaseManifest(transformed))).toEqual(
+      transformed,
     );
   });
 
