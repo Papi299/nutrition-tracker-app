@@ -1,9 +1,10 @@
 # Phase 10 Multi-Source Nutrition Data Ingestion Plan
 
-Status: Phase 10A planning is complete after green CI and clean final review.
-Phase 10B, the source registry, release metadata, and staging foundation, is the
-next unstarted slice. Overall Phase 10 remains incomplete. Phase 11 remains
-unstarted.
+Status: Phase 10A planning and Phase 10B source registry, release metadata,
+provenance, and non-exposed staging foundation are complete after green CI and
+clean final review. Phase 10C USDA Foundation JSON parsing and dry-run
+validation is next and unstarted. Overall Phase 10 remains incomplete. Phase
+11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change. This
@@ -42,10 +43,11 @@ test, CI change, or remote-database operation.
   reproducibly delivered licensed asset is required before implementation.
 - `food_sources` plus `foods.source_food_id` cannot represent original owner,
   dataset, record version, distributor, transformation, release, importer, and
-  mapping versions. Phase 10B will propose a non-exposed ingestion schema with
+  mapping versions. Phase 10B implements a non-exposed `ingestion` schema with
   separate source, dataset, distributor, transformation, release, source-record,
-  version, food-link, nutrient-mapping, import-run, item, and portion/evidence
-  relations. It will add metadata and ACL foundations only, not a dataset.
+  version, food-link, nutrient-mapping, import-run/event/item, raw/normalized
+  staging, and portion/evidence relations. It adds governance metadata and ACL
+  foundations only, not a dataset.
 - Stable application food UUIDs are distinct from source concepts and source
   versions. For Foundation/SR, NDB number is the concept identity when present;
   FDC ID identifies a version. No name- or nutrient-similarity merge is allowed.
@@ -296,10 +298,9 @@ stable concepts. Conversely, concept ids do not erase version history. If
 lineage is absent, a new upstream id is a new candidate rather than a guessed
 update.
 
-## 13. Proposed data-model changes
+## 13. Implemented Phase 10B data model
 
-Phase 10B should evaluate the following in a non-exposed `ingestion` schema
-(names are proposed, not implemented):
+Phase 10B implements the following in the non-exposed `ingestion` schema:
 
 | Relation | Responsibility |
 | --- | --- |
@@ -312,14 +313,16 @@ Phase 10B should evaluate the following in a non-exposed `ingestion` schema
 | `source_record_versions` | Source record, release, upstream version/FDC id, content hash, validity/status, raw evidence reference. |
 | `food_source_links` | Stable application food to source record, role (primary/equivalent/supplemental), reviewed status. |
 | `import_runs` | Release, importer and mapping versions, operator, lifecycle, timestamps, counts, warnings, outcome. |
+| `import_run_events` | Append-only monotonic state history kept atomically consistent with each run. |
 | `import_run_items` | Bounded per-record action/result/reject category and evidence reference. |
+| `staged_source_records` / `staged_candidates` | Separate bounded raw and source-neutral normalized JSON staging with explicit hashes, status, and expiry. |
 | `nutrient_mapping_versions` / `nutrient_source_mappings` | Immutable mapping owner/version and original nutrient id/unit to application code/unit/conversion/status. |
 | `food_portions` | Multiple source-version portion descriptions, amounts, units, and gram weights. |
 | `food_nutrient_evidence` | Current projection lineage: source-record version, original nutrient id/value/unit/basis, value kind, derivation/LOQ, mapping version. |
 
 `foods`, `food_nutrients`, aliases, and barcodes remain the authenticated
-read-model projection. If Phase 10B finds that evidence cannot be attached
-without ambiguity, it must resolve that before adding a parser. Bulk raw rows
+read-model projection. Phase 10B supplies explicit source-version, mapping, and
+projection-evidence relations without adding a promotion path. Bulk raw rows
 do not belong in public tables or long-lived migrations. A dedicated rejected
 table is unnecessary if bounded `import_run_items` supplies auditable status;
 unbounded raw rejected data remains in access-controlled operator artifacts for
@@ -522,8 +525,11 @@ license, schema, checksum, ACL, or mapping failures always block the run.
   environment. No ingestion task may connect to remote Supabase without a
   separate explicit human approval for that exact operation.
 
-Phase 10B must prove ACLs and RLS do not change existing nutrient, diary, custom
-food, barcode, saved-meal, or recipe behavior before a parser is accepted.
+Phase 10B proves that `ingestion_operator` has only seven exact function grants,
+`ingestion_definer` has minimum RLS-backed supporting access, consumers cannot
+use the schema, and neither internal role can mutate nutrient, diary, custom
+food, barcode, saved-meal, or recipe projections. Public food links also fail
+closed unless their parent is an eligible ownerless public food.
 
 ## 23. Operational ingestion workflow
 
@@ -654,8 +660,8 @@ local fixture promotion rather than loading a full release.
 - A production release acquisition and promotion is a separately approved
   operator workflow, not CI, application startup, a migration, or a seed.
 
-Phase 10B should reuse the existing single `Validate` workflow rather than add
-a redundant full-suite job. Any future large-file performance job requires
+Phase 10B reuses the existing single `Validate` workflow without adding a
+redundant full-suite job. Any future large-file performance job requires
 separate approval and must not make normal PR validation depend on a provider.
 
 ## 29. Phase 10 implementation decomposition
@@ -667,11 +673,12 @@ rollback boundaries:
 1. **Phase 10A — Multi-source ingestion planning (complete).** This document
    and status updates only.
 2. **Phase 10B — Source registry, release metadata, and staging foundation
-   (next; unstarted).** Add original-source/distributor/transformation/release,
-   import-run/item, source-record/version, mapping-version, non-exposed staging,
-   manifest-schema, RLS/ACL, audit, and minimal deterministic fixtures. No
-   provider file, parser, production data, or promotion.
-3. **Phase 10C — USDA Foundation parser and dry-run validation (unstarted).**
+   (complete).** Added original-source/distributor/transformation/release,
+   import-run/event/item, source-record/version, mapping-version, non-exposed
+   staging, Manifest V1, RLS/ACL, immutability, and deterministic synthetic test
+   foundations. No provider file, parser, production data, or promotion.
+3. **Phase 10C — USDA Foundation parser and dry-run validation (next;
+   unstarted).**
    Offline JSON parser, pinned manifest/importer/mapping contract, small fixtures,
    normalization/reject report, and performance baseline. No production
    promotion.
@@ -693,7 +700,7 @@ rollback boundaries:
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-The next prompt can implement 10B without reopening initial source,
+The next prompt can implement 10C without reopening initial source,
 acquisition, identity, provenance, security, or slice-boundary decisions.
 
 ## 30. Acceptance criteria
@@ -732,8 +739,8 @@ Phase 10A alone completes planning, not Phase 10.
 | Restaurant, brand, user-entered data | Legal/product owner: original rights, provenance, correction/takedown, stable identity and delivery | Blocks those categories. |
 | FoodsDictionary | Existing product/legal/commercial/privacy/technical gate | Blocks all integration and credential design. |
 
-No unresolved item blocks the next slice, Phase 10B, provided it adds no source
-data or provider-specific production access.
+No unresolved item blocks the next slice, Phase 10C, provided it adds no real
+source archive, production promotion, or provider-specific runtime access.
 
 ## 32. Phase 10 / Phase 11 boundary
 

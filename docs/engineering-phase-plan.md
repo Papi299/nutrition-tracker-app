@@ -196,10 +196,15 @@ implementation decomposition is complete in
 Foundation Foods JSON bulk release as the first authoritative input, separates
 original source from distributor/transformation provenance, and keeps
 MyFoodData reference-only or deferred by category pending explicit commercial
-reuse and delivery evidence. No provider or dataset was implemented. Phase 10B
-source registry, release metadata, and non-exposed staging foundation is next
-and unstarted. Overall Phase 10 remains incomplete and Phase 11 remains
-unstarted.
+reuse and delivery evidence. Phase 10B is complete after green CI and clean
+final review. Its non-exposed `ingestion` schema implements governed source,
+dataset, distributor, transformation, immutable release/source-version,
+mapping, run/event, temporary staging, item, portion, and projection-evidence
+foundations; strict Manifest V1 validation; and dedicated least-privilege
+NOLOGIN operator/definer roles. It includes no parser, provider access, dataset,
+production manifest, or public promotion. Phase 10C Foundation parsing and
+dry-run validation is next and unstarted. Overall Phase 10 remains incomplete
+and Phase 11 remains unstarted.
 
 ## Future PR Documentation Rule
 

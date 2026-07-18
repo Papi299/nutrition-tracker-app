@@ -113,10 +113,15 @@ is complete for the current MVP scope.
   [`docs/phase-10-data-ingestion-plan.md`](docs/phase-10-data-ingestion-plan.md).
   It selects direct USDA Foundation Foods through versioned bulk releases as
   the first authoritative path and keeps MyFoodData category-gated as reference
-  only or deferred. Phase 10B source registry, release metadata, and staging
-  foundation is next and unstarted; overall Phase 10 remains incomplete and
-  Phase 11 remains unstarted. No provider, dependency, public ingestion,
-  mapping-management, or automatic-diary behavior is included. The Phase 9
+  only or deferred. Phase 10B is complete after green CI and clean final
+  review: a non-exposed `ingestion` schema now holds governed source,
+  provenance, immutable release, source-version, mapping, run/event, staging,
+  item, portion, and projection-evidence foundations behind dedicated NOLOGIN
+  operator/definer roles and RLS. The strict offline Manifest V1 contract adds
+  no provider access or production manifest. Phase 10C USDA Foundation parser
+  and dry-run validation is next and unstarted; overall Phase 10 remains
+  incomplete and Phase 11 remains unstarted. No provider, dependency, public
+  promotion, or automatic-diary behavior is included. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -522,8 +527,9 @@ Manual RTL QA checklist:
   complete. Phase 9D native camera progressive enhancement is also complete;
   Phase 9E remains approval-blocked and was not implemented. Phase 9F accepts
   the provider-disabled Barcode Flow, completing Phase 9 for the approved MVP
-  scope after green CI and clean final review. Phase 10A planning is complete;
-  Phase 10B source/release/staging foundation is next and unstarted.
+  scope after green CI and clean final review. Phase 10A planning and Phase 10B
+  source/release/staging foundation are complete; Phase 10C parser and dry-run
+  validation is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -615,8 +621,9 @@ Manual RTL QA checklist:
   approval-blocked and was not implemented. Phase 9F accepts the provider-
   disabled Barcode Flow, completing Phase 9 for the approved MVP scope after
   green CI and clean final review. Phase 10A multi-source ingestion planning is
-  complete; Phase 10B source/release/staging foundation is next and unstarted,
-  and overall Phase 10 remains incomplete.
+  complete; Phase 10B source/release/staging foundation is complete after green
+  CI and clean final review. Phase 10C is next and unstarted, and overall Phase
+  10 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -686,8 +693,10 @@ Manual RTL QA checklist:
   9F accepts the provider-disabled Barcode Flow for the approved MVP scope;
   overall Phase 9 is complete after green CI and clean final review. Phase 10A
   multi-source ingestion planning is complete after green CI and clean final
-  review. Phase 10B source registry, release metadata, and staging foundation is
-  next and unstarted; overall Phase 10 and Phase 11 remain incomplete/unstarted.
+  review. Phase 10B source registry, release metadata, and non-exposed staging
+  foundation is complete after green CI and clean final review. Phase 10C USDA
+  Foundation parser and dry-run validation is next and unstarted; overall Phase
+  10 remains incomplete and Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
