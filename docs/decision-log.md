@@ -1013,3 +1013,27 @@
   provider lookup remains approval-blocked and unstarted. Phase 9F provider-
   disabled integration hardening and final Phase 9 acceptance is next and
   unstarted; overall Phase 9 remains incomplete and Phase 10 remains unstarted.
+
+## 2026-07-18: Phase 9F provider-disabled integration acceptance
+
+- Audited Phase 9A–9D as one system across string-only food-GTIN identity,
+  PostgreSQL constraints, parent-derived visibility, actual ACLs, local lookup,
+  strict manual context, Today prefill, atomic custom-food handoff, concurrency,
+  rollback, native camera lifecycle, fault gates, localization, accessibility,
+  and local-only CI behavior. No product-code, schema, type, dependency, RLS,
+  grant, or localized-copy correction was necessary.
+- Extended the existing deterministic browser journeys to prove that an
+  attached private mapping resolves as owned after explicit diary review, an
+  omitted mapping remains a local miss while Today prefill works, and local
+  misses emit no request to an external origin or offer a provider action.
+- Confirmed that manual entry remains the universal baseline and camera support
+  remains a runtime-detected native enhancement. No physical device was tested,
+  so the Phase 9D support matrix remains unchanged and makes no device claim.
+- The provider gate remains closed: no provider has complete named product,
+  legal, or commercial approval, and no credential, endpoint, client, package,
+  persistence/attribution contract, provider UI, or cache exists. Phase 9E is
+  approval-blocked and was not implemented.
+- Phase 9 is accepted for the approved provider-disabled MVP scope after green
+  CI and clean final review. Phase 10 planning and decomposition is next and
+  unstarted. No public ingestion, mapping-management, provider, or automatic-
+  diary behavior was added, and no remote Supabase operation occurred.

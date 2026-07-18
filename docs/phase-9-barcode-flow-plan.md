@@ -1,10 +1,10 @@
 # Phase 9 Barcode Flow Architecture and Implementation Plan
 
 Status: planning and Phases 9A through 9D are complete after green CI and clean
-final review. Phase 9E external-provider lookup is approval-blocked and
-unstarted. Phase 9F provider-disabled integration hardening and final Phase 9
-acceptance is next and unstarted. Phase 9 implementation remains incomplete,
-and Phase 10 is unstarted.
+final review. Phase 9E external-provider lookup remains approval-blocked and
+was not implemented. Phase 9F accepts the complete provider-disabled Barcode
+Flow for the approved MVP scope after green CI and clean final review. Overall
+Phase 9 is complete; Phase 10 planning and decomposition is next and unstarted.
 
 This document is the implementation contract for the MVP barcode flow. A later
 task may change a decision only through an explicit reviewed documentation
@@ -761,7 +761,7 @@ neutral lookup and private reviewed prefill for local misses.
 If the gate remains closed, 9E is skipped—not faked—and Phase 9 can be accepted
 with the clear `external_disabled` path.
 
-### Phase 9F — Integration hardening and Phase 9 acceptance
+### Phase 9F — Integration hardening and Phase 9 acceptance (complete)
 
 **Objective:** validate the complete provider-disabled baseline and any
 separately approved optional capabilities.
@@ -778,6 +778,15 @@ separately approved optional capabilities.
 - Exclusions: Phase 10 ingestion, unrelated food management, deployment work.
 - Acceptance: all required CI green, clean complete diff review, no remote
   Supabase, Phase 9 docs accurate, and Phase 10 still unstarted.
+
+Acceptance result: the Phase 9A–9D provider-disabled system passed the complete
+identity, database security, ownership, mutation-boundary, concurrency,
+rollback, manual/no-JavaScript, camera, localization, accessibility, and
+outbound-network audit. The consolidated evidence is recorded in
+[`phase-9-acceptance-report.md`](phase-9-acceptance-report.md). No product-code,
+schema, generated-type, dependency, provider, or provider-copy correction was
+required; existing end-to-end journeys were extended to make the final mapping,
+omission, and external-network conclusions durable.
 
 ## 18. Decision register and approval checklist
 
@@ -807,8 +816,12 @@ separately approved optional capabilities.
   reviews. Phase 9D makes no iOS Safari support claim and adds no decoder.
 - Phase 9E is blocked until every provider-gate item has a named evidence link
   and explicit human go decision. FoodsDictionary remains only a candidate.
-- Phase 10 remains unstarted and cannot be pulled into any Phase 9 slice.
+- Phase 9F accepts the provider-disabled MVP without treating Phase 9E as
+  complete. Overall Phase 9 is complete for that approved scope.
+- Phase 10 planning and decomposition is next and unstarted; implementation
+  cannot be pulled into this Phase 9 slice.
 
-This planning PR changes documentation only. It adds no schema, code, route,
-camera access, provider integration, credential, dependency, test, fixture,
-generated type, production data, or remote Supabase operation.
+Phase 9F adds only durable acceptance documentation and narrowly extended test
+assertions. It adds no schema, product code, route, camera access, provider
+integration, credential, dependency, fixture data, generated type, production
+data, or remote Supabase operation.
