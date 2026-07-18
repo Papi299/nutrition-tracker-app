@@ -26,7 +26,7 @@ Future PRs should update phase status in `README.md` and
 | 7. Custom Foods | Full manual food/product creation with macros + micronutrients. | Required fallback for missing foods and branded products. |
 | 8. Recipes / Saved Meals / Recents / Favorites | Reuse flows to reduce logging friction. | Retention and usability layer. |
 | 9. Barcode Flow | Barcode scan/manual barcode lookup, FoodsDictionary integration gate, not-found -> custom food. | Requires food model and source-policy foundations. |
-| 10. Data Ingestion | USDA generic foods, FoodsDictionary integration only if licensed/API-approved. | Data pipeline after schema is stable. |
+| 10. Data Ingestion | Controlled, provenance-preserving public-food ingestion, beginning with direct USDA Foundation Foods; every supplemental provider remains separately gated. | Data pipeline after schema is stable. |
 | 11. QA / Hardening / Deployment Readiness | Tests, RTL QA, validation, deployment, README maturity, PR hygiene. | Final launch-readiness work. |
 
 ## Current Implementation Status
@@ -190,7 +190,15 @@ localization, accessibility, and the provider-disabled boundary as one system.
 Its acceptance evidence closes overall Phase 9 for the approved provider-
 disabled MVP scope after green CI and clean final review. Manual lookup remains
 the universal baseline; native camera support remains runtime-dependent and was
-not physically verified. Phase 10 planning and decomposition is next and
+not physically verified. Phase 10A multi-source ingestion architecture and
+implementation decomposition is complete in
+`docs/phase-10-data-ingestion-plan.md`. It selects a versioned official USDA
+Foundation Foods JSON bulk release as the first authoritative input, separates
+original source from distributor/transformation provenance, and keeps
+MyFoodData reference-only or deferred by category pending explicit commercial
+reuse and delivery evidence. No provider or dataset was implemented. Phase 10B
+source registry, release metadata, and non-exposed staging foundation is next
+and unstarted. Overall Phase 10 remains incomplete and Phase 11 remains
 unstarted.
 
 ## Future PR Documentation Rule

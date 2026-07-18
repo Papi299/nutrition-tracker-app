@@ -108,9 +108,15 @@ is complete for the current MVP scope.
   implemented. Phase 9F audits and accepts the complete provider-disabled
   Barcode Flow for the approved MVP scope; manual lookup remains the universal
   baseline and native camera support remains runtime-dependent. Overall Phase 9
-  is complete after green CI and clean final review. Phase 10 planning and
-  decomposition is next and unstarted. No provider, dependency, public
-  ingestion, mapping-management, or automatic-diary behavior is included. The
+  is complete after green CI and clean final review. Phase 10A multi-source
+  ingestion planning is complete in
+  [`docs/phase-10-data-ingestion-plan.md`](docs/phase-10-data-ingestion-plan.md).
+  It selects direct USDA Foundation Foods through versioned bulk releases as
+  the first authoritative path and keeps MyFoodData category-gated as reference
+  only or deferred. Phase 10B source registry, release metadata, and staging
+  foundation is next and unstarted; overall Phase 10 remains incomplete and
+  Phase 11 remains unstarted. No provider, dependency, public ingestion,
+  mapping-management, or automatic-diary behavior is included. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -516,8 +522,8 @@ Manual RTL QA checklist:
   complete. Phase 9D native camera progressive enhancement is also complete;
   Phase 9E remains approval-blocked and was not implemented. Phase 9F accepts
   the provider-disabled Barcode Flow, completing Phase 9 for the approved MVP
-  scope after green CI and clean final review. Phase 10 planning is next and
-  unstarted.
+  scope after green CI and clean final review. Phase 10A planning is complete;
+  Phase 10B source/release/staging foundation is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -592,8 +598,8 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Barcode, USDA and FoodsDictionary ingestion, settings pages, charts, and
-  broader analytics remain unavailable.
+- Public nutrition-data ingestion, FoodsDictionary integration, settings
+  pages, charts, and broader analytics remain unavailable.
   Phases 6 and 7 are complete for their approved Food Search and Custom Foods
   MVP scopes. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI and
   final review. Saved Meals is complete for its approved MVP scope, and Phases
@@ -608,7 +614,9 @@ Manual RTL QA checklist:
   native camera progressive enhancement are complete. Phase 9E remains
   approval-blocked and was not implemented. Phase 9F accepts the provider-
   disabled Barcode Flow, completing Phase 9 for the approved MVP scope after
-  green CI and clean final review. Phase 10 planning is next and unstarted.
+  green CI and clean final review. Phase 10A multi-source ingestion planning is
+  complete; Phase 10B source/release/staging foundation is next and unstarted,
+  and overall Phase 10 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -640,19 +648,27 @@ Manual RTL QA checklist:
 - Additional product schema beyond the current profile, target, diary, and
   nutrition-domain foundations.
 - Food-search pagination, analytics, or ranking controls.
-- Barcode scanning.
+- External barcode-provider lookup and non-native decoder fallback.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- USDA integration.
+- USDA production ingestion (Phase 10A planning is complete).
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
 
-- USDA may be used later for generic foods.
+- Direct USDA Foundation Foods is the approved first authoritative ingestion
+  candidate, using a versioned official JSON bulk release through a controlled
+  offline operator workflow. Phase 10A is planning only; no dataset has been
+  imported.
+- MyFoodData's USDA-derived material is reference-only, and its restaurant,
+  user-entered, Open Food Facts, branded, and calculated categories remain
+  separately gated or deferred. No generally available ingestion API or clear
+  commercial database-reuse permission was established.
 - FoodsDictionary may be used later for branded and packaged foods only after
-  an approved API/license agreement.
+  an approved API/license agreement and the existing product/legal/commercial/
+  privacy/technical gate.
 - Phase 7 custom-food persistence, creation, editing, listing, archive, and
   restore are complete for the approved MVP scope. Hard deletion remains
   intentionally unsupported.
@@ -668,8 +684,10 @@ Manual RTL QA checklist:
   safe conflict recovery. Phase 9D native camera progressive enhancement is
   complete. Phase 9E remains approval-blocked and was not implemented. Phase
   9F accepts the provider-disabled Barcode Flow for the approved MVP scope;
-  overall Phase 9 is complete after green CI and clean final review. Phase 10
-  planning and decomposition is next and unstarted.
+  overall Phase 9 is complete after green CI and clean final review. Phase 10A
+  multi-source ingestion planning is complete after green CI and clean final
+  review. Phase 10B source registry, release metadata, and staging foundation is
+  next and unstarted; overall Phase 10 and Phase 11 remain incomplete/unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
