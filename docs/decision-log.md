@@ -1037,3 +1037,43 @@
   CI and clean final review. Phase 10 planning and decomposition is next and
   unstarted. No public ingestion, mapping-management, provider, or automatic-
   diary behavior was added, and no remote Supabase operation occurred.
+
+## 2026-07-18: Phase 10A multi-source ingestion architecture planning
+
+- Selected direct USDA FoodData Central Foundation Foods as the first
+  authoritative dataset, acquired as a versioned official JSON bulk release
+  through an offline, manifest-checked operator workflow. SR Legacy and FNDDS
+  remain conditional later supplements; Branded Foods is deferred for scale,
+  label quality, lifecycle, and barcode reconciliation; Experimental Foods is
+  excluded from the consumer MVP.
+- Classified MyFoodData by category rather than as one source. USDA-derived
+  pages and the SR/FNDDS spreadsheet are manual reference/validation only;
+  restaurant, user-entered, independently branded, and Open Food Facts material
+  are deferred behind separate provenance and legal gates. Calculated metrics
+  are excluded from measured nutrients. Published evidence establishes neither
+  a generally available ingestion API nor clear commercial database copying,
+  storage, transformation, and redistribution permission, so scraping and
+  undocumented endpoints are prohibited.
+- Defined original-owner, dataset, release, stable concept, source-version,
+  distributor, transformation, importer, nutrient-mapping, application-identity,
+  and field-evidence separation. Namespaced source concepts and immutable
+  source-record versions preserve stable application food UUIDs without fuzzy
+  merging or using distributor pages as identity.
+- Chose a non-exposed staging, dry-run, explicit-approval, advisory-lock, and
+  transactional-promotion architecture. Proposed source/release/record/version,
+  food-link, mapping, portion/evidence, import-run, and item relations with an
+  operator-only least-privilege boundary; ordinary users keep no public-food or
+  ingestion mutation authority.
+- Required nutrient-id-and-unit mappings, missing-versus-zero and trace
+  preservation, measured/converted/derived separation, faithful per-100-g
+  Foundation basis, multiple source portions, no invented serving or density,
+  deterministic idempotency, versioned updates, reviewed absence/archive, and
+  immutable diary/saved-meal/recipe snapshots.
+- Decomposed Phase 10 into 10B metadata/staging, 10C Foundation parser/dry run,
+  10D controlled promotion, 10E release reconciliation, conditional 10F
+  MyFoodData decision, conditional 10G expansion, and 10H acceptance. Phase 10B
+  is next and unstarted; overall Phase 10 remains incomplete and Phase 11
+  remains unstarted.
+- This documentation-only task made no runtime, schema, generated-type, seed,
+  test, CI, dependency, dataset, checksum/production manifest, credential,
+  provider, scraper, or remote Supabase change.
