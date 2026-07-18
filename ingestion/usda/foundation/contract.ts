@@ -3,11 +3,11 @@ import { fingerprintJson, type JsonValue } from "./canonical-json.ts";
 export const foundationSchemaContractVersion =
   "usda-fdc-foundation-json/v1" as const;
 export const foundationImporterContractVersion =
-  "usda-foundation-importer/v1" as const;
+  "usda-foundation-importer/v2" as const;
 export const foundationCandidateContractVersion =
   "foundation-normalized-candidate/v1" as const;
 export const foundationReportContractVersion =
-  "foundation-dry-run-report/v1" as const;
+  "foundation-dry-run-report/v2" as const;
 export const foundationRejectPolicyVersion =
   "usda-foundation-zero-unreviewed-rejects/v1" as const;
 

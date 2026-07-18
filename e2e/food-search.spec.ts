@@ -230,7 +230,7 @@ test.describe.serial("read-only food search helpers and UI", () => {
       source_code: "usda",
       source_name: "USDA FoodData Central",
       source_trust_level: "verified",
-      source_type: "external_api",
+      source_type: "imported",
     });
     expect(apple.data?.findIndex((food) => food.food_id === exactAppleId)).toBeLessThan(
       apple.data?.findIndex((food) => food.food_id === aliasFoodId) as number,
