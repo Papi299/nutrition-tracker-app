@@ -55,6 +55,9 @@ jobs:
       - name: Replay migrations and seed locally
         run: npx supabase db reset --local
 
+      - name: Verify internal ingestion types
+        run: npm run types:ingestion:check
+
       - name: Run local-only Playwright suite
         run: npm run test:e2e -- --reporter=line,html
 

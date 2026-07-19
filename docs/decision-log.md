@@ -1253,3 +1253,38 @@
 - This documentation-only slice added no code, migration, generated file,
   dependency, CI change, provider artifact, credential, production operation,
   or remote Supabase access.
+
+## 2026-07-19: Phase 10E.2 Foundation lifecycle foundation
+
+- Added exact lifecycle run purposes and 15 ingestion relations covering
+  reviewed scope, future diff storage, reconciliation, exact allowances,
+  guarded dataset/per-food heads, immutable food/nutrient projection history,
+  evidence/source-link history, and future validation/approval/receipt
+  foundations. Per-food heads were selected over timestamp-derived current
+  state so future comparisons have one explicit relational pointer.
+- Added the hardened `ingestion_lifecycle_definer` boundary. Operators receive
+  bounded run/bootstrap/status execution; approvers alone register reviewed
+  evidence and approvals; consumers and service roles receive no ingestion
+  access; and the definer receives no public projection DML. Supabase local
+  migration ownership leaves `postgres` catalog membership records with both
+  inheritance and role switching disabled; no consumer or ordinary login role
+  receives membership or effective authority. Using transaction-local
+  membership checks as cleanup proof was rejected in favor of catalog checks
+  for effective `INHERIT`/`SET` authority.
+- Added an advisory-locked, atomic, exactly retryable baseline bootstrap that
+  resolves an immutable Phase 10D receipt and writes ingestion history only.
+  It creates four explicit nutrient states per food and links the existing
+  nutrient evidence without weakening the current-row `ON DELETE RESTRICT`
+  foreign key. Production bootstrap and migration execution were not
+  authorized or performed.
+- TypeScript and PostgreSQL food/nutrient projection hashes use the same
+  timestamp-free canonical bodies. Database numeric values are serialized to
+  JSON-number form before hashing to match the existing TypeScript canonical
+  JSON contract; embedding database row identifiers or numeric display scale
+  in a data-state hash was rejected as non-portable.
+- Phase 10E.2 deliberately adds no release-diff calculator, lifecycle public-
+  projection execution function, provider data, dependency, or public schema
+  change. Phase 10E.2 is complete only after green CI and clean final review.
+  Phase 10E.3 deterministic release diff and local update rehearsal is next and
+  unstarted; Phase 10E and overall Phase 10 remain incomplete. Phase 10E.5
+  remains conditional and separately human/Supabase approval-gated.
