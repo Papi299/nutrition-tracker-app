@@ -30,8 +30,18 @@ try {
 }
 
 if (committed !== generatedTypes) {
+  const committedLines = committed.split("\n");
+  const generatedLines = generatedTypes.split("\n");
+  const mismatchIndex = Array.from(
+    { length: Math.max(committedLines.length, generatedLines.length) },
+    (_, index) => index,
+  ).find((index) => committedLines[index] !== generatedLines[index]);
   process.stderr.write(
-    `${outputPath} is stale. Run npm run types:ingestion and commit the result.\n`,
+    `${outputPath} is stale. Run npm run types:ingestion and commit the result.\n` +
+      `First mismatch at line ${(mismatchIndex ?? 0) + 1}.\n` +
+      `Committed: ${JSON.stringify(committedLines[mismatchIndex ?? 0] ?? null)}\n` +
+      `Generated: ${JSON.stringify(generatedLines[mismatchIndex ?? 0] ?? null)}\n` +
+      `Line counts: committed=${committedLines.length}, generated=${generatedLines.length}.\n`,
   );
   process.exit(1);
 }
