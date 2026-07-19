@@ -103,7 +103,7 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       where n.nspname = 'ingestion' and c.relkind = 'r' and c.relrowsecurity;
     `);
-    expect(tableCount).toBe("21\n21");
+    expect(tableCount).toBe("36\n36");
     expect(supabaseConfig).toContain('schemas = ["public", "graphql_public"]');
     expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*ingestion/);
   });
@@ -127,13 +127,13 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
     ).toBe("f|f|f|f|0");
   });
 
-  test("creates four hardened NOLOGIN ingestion roles without consumer membership", () => {
+  test("creates five hardened NOLOGIN roles without consumer or ordinary-login membership", () => {
     const roles = queryDatabase(`
       select rolname || '|' || rolcanlogin || '|' || rolinherit || '|' || rolsuper
         || '|' || rolbypassrls || '|' || rolcreatedb || '|' || rolcreaterole
       from pg_roles where rolname in (
         'ingestion_operator', 'ingestion_definer', 'ingestion_approver',
-        'ingestion_promotion_definer'
+        'ingestion_promotion_definer', 'ingestion_lifecycle_definer'
       )
       order by rolname;
       select count(*) from pg_auth_members memberships
@@ -141,13 +141,14 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_roles member on member.oid = memberships.member
       where granted.rolname in (
         'ingestion_operator', 'ingestion_definer', 'ingestion_approver',
-        'ingestion_promotion_definer'
+        'ingestion_promotion_definer', 'ingestion_lifecycle_definer'
       )
-        and member.rolname in ('anon','authenticated','service_role','authenticator');
+        and member.rolcanlogin and member.rolname <> 'postgres';
     `);
     expect(roles).toBe(
       "ingestion_approver|false|false|false|false|false|false\n" +
       "ingestion_definer|false|false|false|false|false|false\n" +
+        "ingestion_lifecycle_definer|false|false|false|false|false|false\n" +
         "ingestion_operator|false|false|false|false|false|false\n" +
         "ingestion_promotion_definer|false|false|false|false|false|false\n0",
     );
@@ -163,8 +164,10 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       where table_schema = 'ingestion' and grantee = 'ingestion_operator';
     `);
     expect(privileges).toBe(
-      "begin_import_run,cleanup_expired_staging," +
+      "begin_import_run,bootstrap_foundation_lifecycle_baseline," +
+        "cleanup_expired_staging,create_foundation_lifecycle_run," +
         "get_completed_foundation_promotion_receipt," +
+        "get_foundation_lifecycle_head," +
         "promote_validated_foundation_run,record_import_run_item," +
         "register_source_release," +
         "stage_candidate,stage_source_record,transition_import_run," +

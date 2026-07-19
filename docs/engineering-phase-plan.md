@@ -230,11 +230,15 @@ correction or migration failure. Phases 10D.1, 10D.2, and overall Phase 10D are
 complete. Phase 10E.1 defines the conservative release-lifecycle,
 reconciliation, identity, exact-diff, approval, atomicity, historical-evidence,
 and application-snapshot contract in
-`docs/phase-10e-release-lifecycle-plan.md`. Overall Phase 10E has started but
-remains incomplete; Phase 10E.2 schema, contracts, security, and synthetic
-fixtures is next and unstarted. Overall Phase 10 remains incomplete. The
-initial-promotion function must not be reused as an update mechanism, and no
-production update was authorized. The post-promotion backup
+`docs/phase-10e-release-lifecycle-plan.md`. Phase 10E.2 implements lifecycle
+schema, exact contracts, an isolated security role, dataset and per-food heads,
+an ingestion-only baseline bootstrap, internal generated types, and synthetic
+fixtures. It adds no release-diff algorithm or public-projection execution
+function and preserves the current nutrient-evidence foreign key. Phase 10E
+remains incomplete; Phase 10E.3 deterministic release diff and local update
+rehearsal is next and unstarted. Overall Phase 10 remains incomplete. Neither
+the initial-promotion function nor the baseline bootstrap is an update
+mechanism, and no production update was authorized. The post-promotion backup
 remains outside Git with manifest fingerprint
 `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f` and
 restore status `not_tested`. Phase 11 remains unstarted.

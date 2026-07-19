@@ -1,15 +1,44 @@
 # Phase 10E USDA Foundation Release Lifecycle Plan
 
-Status: Phase 10D is complete. Phase 10E.1 planning is complete after this
-documentation change passes CI and final review. Overall Phase 10E has started
-but remains incomplete. Phase 10E.2 schema, contracts, security, and synthetic
-fixtures is next and unstarted. Overall Phase 10 remains incomplete. No later
-USDA release, production lifecycle action, or additional provider is authorized.
+Status: Phase 10D and Phase 10E.1 are complete. Phase 10E.2 implements the
+reviewed lifecycle schema, exact contracts, isolated security boundary, guarded
+dataset and per-food heads, ingestion-only baseline bootstrap, internal
+generated types, and synthetic fixtures after green CI and clean final review.
+Overall Phase 10E remains incomplete. Phase 10E.3 deterministic release diff
+and local update rehearsal is next and unstarted. Overall Phase 10 remains
+incomplete. No later USDA release, production lifecycle action, or additional
+provider is authorized.
 
 This document is the reviewed planning contract for lifecycle changes after the
-completed April 2026 USDA Foundation initial promotion. Every table, column,
-role, function, contract, or index named as **PROPOSED** is a design target, not
-an implemented database object. This document contains no executable SQL.
+completed April 2026 USDA Foundation initial promotion. Phase 10E.2 implements
+the foundation inventory recorded below. Names still marked **PROPOSED** for
+Phase 10E.3 or later remain design targets, not implemented execution objects.
+This document contains no executable SQL.
+
+### Phase 10E.2 implementation record
+
+The focused lifecycle migration adds 15 relations: release-scope evidence;
+diff reports/items; reconciliation decisions/items; exact allowances; dataset
+and per-food heads; immutable food/nutrient projection versions and nutrient-
+evidence links; source-link events; and lifecycle validation, approval, and
+update-receipt foundations. `import_runs` now has an exact purpose plus
+environment, parser, diff, lifecycle-policy, and prior-head bindings. Existing
+Phase 10D runs are deterministically classified as `initial_promotion`.
+
+`ingestion_lifecycle_definer` is a hardened non-login/no-inherit role. Operators
+can create bounded lifecycle runs, bootstrap the baseline, and read bounded head
+status; approvers alone can register reviewed scope, reconciliation, allowance,
+and update-approval evidence. Consumer and service roles receive no ingestion
+access, and the lifecycle definer receives no public-food or nutrient DML.
+
+`bootstrap_foundation_lifecycle_baseline` initializes immutable projection
+history and guarded heads from an exact Phase 10D receipt. It recomputes four
+nutrient states per food, links existing evidence, is advisory-locked, atomic,
+and exactly retryable, and writes no public table. The existing
+`food_nutrient_evidence` current-row foreign key remains `ON DELETE RESTRICT`.
+There is no lifecycle diff calculator or public-projection execution function.
+No production bootstrap, production migration, provider artifact, or remote
+Supabase operation was performed.
 
 ## 1. Executive decisions
 
@@ -675,10 +704,12 @@ authorization in Phase 10E.1.
 1. **Phase 10E.1 — lifecycle and reconciliation planning (this PR).** Documents
    evidence, decisions, schema gaps, security, behavior, tests, and operations;
    no implementation or production access.
-2. **Phase 10E.2 — schema, contracts, security, and synthetic fixtures (next;
-   unstarted).** Add append-only lifecycle/diff/reconciliation/history/head/
-   approval/receipt foundations, bounded roles/functions, generated types, and
-   minimal fixtures. No real release or current projection mutation.
+2. **Phase 10E.2 — schema, contracts, security, and synthetic fixtures
+   (complete after green CI and clean final review).** Adds append-only
+   lifecycle/diff/reconciliation/history/approval/receipt foundations, guarded
+   dataset and per-food heads, bounded roles/functions, generated internal
+   types, and minimal synthetic fixtures. The baseline bootstrap writes only
+   ingestion history. No real release or current projection mutation.
 3. **Phase 10E.3 — deterministic release diff and local update rehearsal
    (unstarted).** Implement offline comparison, canonical fingerprints, guarded
    local execution, concurrency/idempotency/failure injection, and synthetic
@@ -731,8 +762,8 @@ clean final review. It must:
 - contain no code, migration, provider artifact, dependency, credential, local
   path, production data operation, or remote Supabase access.
 
-After acceptance: Phase 10D remains complete; Phase 10E.1 is complete; Phase
-10E is started but incomplete; Phase 10E.2 is next and unstarted; overall Phase
-10 remains incomplete; Phase 10F and 10G remain conditional/unstarted; Phase
-10H and Phase 11 remain unstarted. No production update or additional provider
-is authorized.
+After Phase 10E.2 acceptance: Phase 10D, Phase 10E.1, and Phase 10E.2 are
+complete; Phase 10E is started but incomplete; Phase 10E.3 is next and
+unstarted; overall Phase 10 remains incomplete; Phase 10F and 10G remain
+conditional/unstarted; Phase 10H and Phase 11 remain unstarted. No production
+update or additional provider is authorized.
