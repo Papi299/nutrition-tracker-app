@@ -125,15 +125,32 @@ is complete for the current MVP scope.
   local nonproduction dry run explains and preserves 10 negative-value rejects.
   Phase 10D.1 adds exact accepted/rejected/warning set fingerprints, reviewed
   release-specific reject allowances, separated approver/operator roles, and a
-  minimum-authority atomic initial projection. The full April 2026 release was
-  rehearsed locally: 353 foods, 1,199 nutrients, and 375 portions were promoted,
-  while all 10 negative-value records remained excluded. Search and 100 g Today
-  prefill remained below the provisional 300 ms p95 target. Phase 10D.1 is
-  complete after green CI and clean final review. Its production packet remains
-  ignored, unapproved, and incomplete; Phase 10D.2 is approval-blocked and
-  unstarted. Overall Phase 10D and Phase 10 remain incomplete, and Phase 11
-  remains unstarted. No provider, dependency, production promotion, or
-  automatic-diary behavior is included. The Phase 9
+  minimum-authority atomic initial projection. Phase 10D.2 completed the exact
+  approved April 2026 production promotion in project
+  `hskfanrqwtqknzpquwhg` under approval
+  `PHASE-10D2-USDA-FOUNDATION-2026-04-PROD-001`: 353 public foods, 1,199
+  nutrients, and 375 portions were inserted; exactly 10
+  `negative_target_value` records remained excluded; and 1,018 warnings were
+  retained. Promotion receipt `fc6b94b0-c889-421e-860d-eb6bd094a64f` has
+  fingerprint
+  `1a531a7857f508b52c33f17ef5fc80009884d2e9806db952521f3cac0c15d62c`;
+  its validation and reject-allowance fingerprints are
+  `c78e80e44ed07325c77c1fc5c3a89a4258573e6b9991c7fdcc74ae479caa5f6d`
+  and `bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a`.
+  All 27 migrations were already aligned. RLS and least privilege remained
+  intact, search and diary prefill passed, and no aliases, barcodes,
+  translations, diary entries, Saved Meals, or Recipes were created. The first
+  operator transaction failed before commit because its cleanup assertion used
+  transaction-local role-membership cache behavior; PostgreSQL rolled it back
+  completely, no temporary grant survived, and production projection and
+  provenance remained unchanged. A direct role-catalog assertion replaced it,
+  and the subsequent transaction completed atomically. The post-promotion
+  backup manifest fingerprint is
+  `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f`.
+  Phases 10D.1, 10D.2, and overall Phase 10D are complete. Overall Phase 10
+  remains incomplete; Phase 10E controlled updates and reconciliation is next
+  and unstarted, and the initial-promotion function must not be reused for
+  updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -563,9 +580,10 @@ Manual RTL QA checklist:
   scope after green CI and clean final review. Phase 10A planning, Phase 10B
   source/release/staging foundation, and Phase 10C offline Foundation parsing
   and dry-run validation are complete after green CI and clean final review.
-  Phase 10D.1 controlled promotion implementation and local rehearsal is also
-  complete after green CI and clean final review. Phase 10D.2 exact production
-  promotion is approval-blocked and unstarted.
+  Phase 10D.1 controlled promotion implementation/local rehearsal and Phase
+  10D.2 exact production promotion are complete. Overall Phase 10D is complete;
+  overall Phase 10 remains incomplete, and Phase 10E controlled updates and
+  reconciliation is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -660,9 +678,9 @@ Manual RTL QA checklist:
   complete; Phase 10B source/release/staging foundation is complete after green
   CI and clean final review. Phase 10C offline Foundation parsing and dry-run
   validation is complete after green CI and clean final review. Phase 10D.1
-  controlled promotion implementation and local rehearsal is complete after
-  green CI and clean final review. Phase 10D.2 is approval-blocked and
-  unstarted, and overall Phase 10 remains incomplete.
+  controlled promotion implementation/local rehearsal and Phase 10D.2 exact
+  production promotion are complete. Overall Phase 10D is complete; overall
+  Phase 10 remains incomplete, and Phase 10E is next and unstarted.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -697,20 +715,21 @@ Manual RTL QA checklist:
 - External barcode-provider lookup and non-native decoder fallback.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- USDA production promotion (Phase 10D.1 implementation and local rehearsal is
-  complete after green CI and clean final review; Phase 10D.2 is
-  approval-blocked and unstarted).
+- Phase 10E controlled release updates, removals, archival, supersession,
+  reconciliation, and repeat-import behavior. The completed initial-promotion
+  function is not an update mechanism.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
 
 ## Current Product Decisions
 
-- Direct USDA Foundation Foods is the approved first authoritative ingestion
-  candidate. Phase 10D.1 proves its exact-set validation, separated approval,
-  atomic initial projection, search, and Today prefill locally. No dataset was
-  imported remotely or to production; the ignored Phase 10D.2 packet is
-  explicitly unapproved.
+- Direct USDA Foundation Foods is the first authoritative ingestion source.
+  Phase 10D.1 proved exact-set validation, separated approval, atomic initial
+  projection, search, and Today prefill locally. Phase 10D.2 completed the exact
+  approved April 2026 production promotion with immutable validation,
+  reject-allowance, approval, and promotion receipts. Future updates or
+  removals require the separate Phase 10E lifecycle contract.
 - MyFoodData's USDA-derived material is reference-only, and its restaurant,
   user-entered, Open Food Facts, branded, and calculated categories remain
   separately gated or deferred. No generally available ingestion API or clear
@@ -738,10 +757,10 @@ Manual RTL QA checklist:
   review. Phase 10B source registry, release metadata, and non-exposed staging
   foundation is complete after green CI and clean final review. Phase 10C USDA
   Foundation offline parser and dry-run validation is also complete after green
-  CI and clean final review. Phase 10D.1 controlled promotion implementation
-  and local rehearsal is complete after green CI and clean final review. Phase
-  10D.2 is approval-blocked and unstarted; overall Phase 10D and Phase 10 remain
-  incomplete, and Phase 11 remains unstarted.
+  CI and clean final review. Phase 10D.1 controlled promotion implementation/
+  local rehearsal and Phase 10D.2 exact production promotion are complete.
+  Overall Phase 10D is complete; overall Phase 10 remains incomplete, Phase
+  10E is next and unstarted, and Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

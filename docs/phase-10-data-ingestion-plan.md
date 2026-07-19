@@ -1,10 +1,10 @@
 # Phase 10 Multi-Source Nutrition Data Ingestion Plan
 
 Status: Phases 10A through 10C are complete. Phase 10D.1 controlled Foundation
-promotion implementation and local full-release rehearsal is complete after
-green CI and clean final review. Phase 10D.2 exact production promotion remains
-approval-blocked and unstarted, so overall Phase 10D and Phase 10 remain
-incomplete. Phase 10E and Phase 11 remain unstarted.
+promotion implementation/local rehearsal and Phase 10D.2 exact production
+promotion are complete. Overall Phase 10D is complete. Overall Phase 10 remains
+incomplete; Phase 10E controlled updates and reconciliation is next and
+unstarted, and Phase 11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -241,9 +241,10 @@ release. The parser initially projects only:
   calculated, missing, zero, trace, and below-quantification values.
 
 Phase 10C parses and validates offline but cannot promote production data.
-Phase 10D.1 implements and rehearses the local boundary only. Phase 10D.2 may
-perform the first production promotion only through the separately approved
-exact packet and explicit remote-operation authorization.
+Phase 10D.1 implements and rehearses the local boundary only. Phase 10D.2
+performed the first production promotion through the separately approved exact
+evidence and explicit remote-operation authorization. Any later lifecycle
+change belongs to Phase 10E and requires its own reviewed contract.
 
 ## 10. Explicitly deferred sources and capabilities
 
@@ -352,7 +353,8 @@ Local nonproduction evidence for USDA Foundation Foods April 2026 (official
 release dated 2026-04-30): 469,303 compressed bytes, 6,721,650 JSON bytes, 363
 records, 353 accepted, 10 rejected, and 1,018 warnings. All 10 rejects are
 explicit `negative_target_value` results from negative USDA carbohydrate-by-
-difference values; they remain blocked pending a Phase 10D.2 production decision.
+difference values; the Phase 10D.2 decision approved their exact exclusion, and
+they produced no public or provenance projection.
 Coverage among accepted candidates was energy 216, protein 342, carbohydrate
 311, and fat 330. Energy selection was 191 specific/2048, 25 general/2047, and
 137 unknown; there were 375 portions on 277 records, no LOQ/trace occurrence,
@@ -617,8 +619,33 @@ all report and allowance fingerprints, stages exact raw and accepted sets,
 uses the separate local approver boundary, promotes atomically, and returns the
 same bounded receipt on exact retry. It rejects nonlocal database targets and
 performs no download. A separate offline packet command writes an unapproved
-Phase 10D.2 packet to the ignored workspace; its reject allowance, named
-operator/approver, backup, rollback, and approval reference remain pending.
+Phase 10D.2 packet to the ignored workspace for human authorization.
+
+Phase 10D.2 completed the exact approved April 2026 production promotion in
+project `hskfanrqwtqknzpquwhg` under approval reference
+`PHASE-10D2-USDA-FOUNDATION-2026-04-PROD-001`. The projection contains 353
+foods, 1,199 nutrients, and 375 portions. Exactly 10
+`negative_target_value` records remain excluded and 1,018 warnings remain in
+immutable evidence. Receipt `fc6b94b0-c889-421e-860d-eb6bd094a64f` has
+fingerprint
+`1a531a7857f508b52c33f17ef5fc80009884d2e9806db952521f3cac0c15d62c`;
+the validation and reject-allowance fingerprints are
+`c78e80e44ed07325c77c1fc5c3a89a4258573e6b9991c7fdcc74ae479caa5f6d`
+and `bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a`.
+RLS and least-privilege checks remained intact, search and diary prefill passed,
+and no aliases, barcodes, translations, diary entries, Saved Meals, or Recipes
+were created. The post-promotion backup remains outside Git and has manifest
+fingerprint
+`b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f`.
+
+The first production transaction failed before commit because an operator
+cleanup assertion relied on transaction-local role-membership cache behavior.
+PostgreSQL rolled it back completely, leaving projection and provenance
+unchanged and no temporary grant. The assertion was replaced with direct role-
+catalog inspection and the subsequent transaction completed atomically. This
+was an operator assertion issue, not a dataset correction or migration failure.
+Future operator tooling must use the role catalog, not transaction-local
+membership-cache behavior, as cleanup proof.
 
 ## 24. Search and performance impact
 
@@ -766,11 +793,11 @@ rollback boundaries:
    reviewed reject allowances, approver/operator separation, minimum-authority
    atomic initial projection, local full-release rehearsal, search/prefill
    evidence, and an unapproved production packet outside Git.
-5. **Phase 10D.2 — Exact approved production promotion (approval-blocked and
-   unstarted).** Requires the exact production manifest, archive checksum and
-   sizes, report/set fingerprints, approved ten-record allowance, named
-   operator and approver, environment and credential custody, backup and
-   rollback confirmation, and explicit remote-operation authorization.
+5. **Phase 10D.2 — Exact approved production promotion (complete).** Promoted
+   the exact approved April 2026 accepted set atomically, retained the reviewed
+   ten-record exclusion and warning evidence, verified provenance/RLS/search/
+   prefill/no-diary invariants, and captured the immutable production receipt
+   and restricted post-promotion backup evidence.
 6. **Phase 10E — Release updates and reconciliation (unstarted).** New version,
    corrections, missing/removal review, archive/supersession, safe retry,
    concurrency, rollback, and historical-snapshot acceptance.
@@ -785,10 +812,11 @@ rollback boundaries:
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-Phase 10D.2 is the next slice, but it cannot start without explicit approval of
-the exact packet and remote operation. It must not reopen initial source,
-acquisition, identity, provenance, parser, mapping, or promotion-boundary
-decisions.
+Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phase 10E is the next
+slice and remains unstarted. It must separately design controlled updates,
+corrections, removals, archival, supersession, reconciliation, concurrency,
+rollback, and repeat-import behavior. The initial-promotion function must not
+be reused as an update mechanism.
 
 ## 30. Acceptance criteria
 
@@ -813,24 +841,22 @@ Phase 10 is acceptable only when:
 
 Phase 10A alone completes planning, not Phase 10.
 
-## 31. Open approvals and blockers
+## 31. Remaining approvals and blockers
 
 | Question | Owner / required evidence | Blocking effect |
 | --- | --- | --- |
-| Exact first USDA Foundation release and archive | Data/product operator: official release, URL, SHA-256, sizes, schema, attribution, and approval receipt | Blocks Phase 10D production promotion, not 10B/10C. |
 | Exact four-nutrient Foundation mapping, especially current energy variant | Implemented as immutable `usda-foundation-mvp-v1`; any production change requires nutrition/data-owner review | Blocks a changed mapping, not completed 10C. |
-| Operator environment and credential custody | Security/operations owner: approved environment allowlist, narrowly scoped role, secret injection/rotation, artifact access and backup controls | Blocks production promotion, not metadata-only 10B. |
-| Search performance target/corpus | Product/performance owner: representative queries and hardware baseline | Blocks 10D promotion acceptance. |
 | MyFoodData use | Named product/legal/commercial owner: every item in section 8 plus authorized versioned delivery | Blocks all MyFoodData implementation; current status is reference-only/deferred. |
 | Open Food Facts compatibility | Legal/product/security owner: ODbL/database-right/share-alike, attribution, distribution model, revision, image exclusion/rights | Blocks OFF implementation. |
 | Restaurant, brand, user-entered data | Legal/product owner: original rights, provenance, correction/takedown, stable identity and delivery | Blocks those categories. |
 | FoodsDictionary | Existing product/legal/commercial/privacy/technical gate | Blocks all integration and credential design. |
 
-Phase 10D.1 resolved the implementation and local-rehearsal questions. Phase
-10D.2 production promotion remains blocked until the ignored packet receives an
-exact production reject allowance, named operator and approver, backup and
-rollback confirmations, credential-custody approval, and explicit remote
-authorization. No provider-specific runtime access is approved.
+Phase 10D.1 resolved implementation and local rehearsal, and Phase 10D.2 used
+the exact human-approved evidence to complete the initial production promotion.
+No provider-specific runtime access is approved. Phase 10E remains a separate,
+unstarted lifecycle-design gate; completion of the initial promotion does not
+authorize updates, removals, archival, supersession, reconciliation, or repeat
+imports.
 
 ## 32. Phase 10 / Phase 11 boundary
 

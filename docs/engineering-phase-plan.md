@@ -209,10 +209,31 @@ validated-only local staging. The April 2026 nonproduction dry run retained 10
 explicit negative-value rejects for review rather than weakening policy. Phase
 10D.1 adds exact-set receipts, release-specific reject allowances, separated
 approval/execution roles, atomic initial projection, and a complete local April
-2026 rehearsal. It is complete after green CI and clean final review. Phase
-10D.2 exact production promotion is next, approval-blocked, and unstarted;
-overall Phase 10D and Phase 10 remain incomplete, and Phase 11 remains
-unstarted.
+2026 rehearsal. Phase 10D.2 completed the exact approved April 2026 production
+promotion in project `hskfanrqwtqknzpquwhg` under approval
+`PHASE-10D2-USDA-FOUNDATION-2026-04-PROD-001`: 353 foods, 1,199 nutrients, and
+375 portions were projected; exactly 10 `negative_target_value` records stayed
+excluded; and 1,018 warnings were retained. Receipt
+`fc6b94b0-c889-421e-860d-eb6bd094a64f` has fingerprint
+`1a531a7857f508b52c33f17ef5fc80009884d2e9806db952521f3cac0c15d62c`;
+the validation and reject-allowance fingerprints are
+`c78e80e44ed07325c77c1fc5c3a89a4258573e6b9991c7fdcc74ae479caa5f6d`
+and `bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a`.
+All 27 migrations were already aligned. RLS, least privilege, search, and
+prefill passed closeout verification; no aliases, barcodes, translations,
+diary entries, Saved Meals, or Recipes were created. The first operator
+transaction rolled back completely before commit because a
+cleanup assertion relied on transaction-local role-membership cache behavior;
+a direct role-catalog assertion replaced it and the subsequent transaction
+completed atomically. This was an operator assertion issue, not a dataset
+correction or migration failure. Phases 10D.1, 10D.2, and overall Phase 10D are
+complete. Overall Phase 10 remains incomplete; Phase 10E separately owns
+controlled updates, removals, archival, supersession, reconciliation, and
+repeat-import behavior and is next and unstarted. The initial-promotion
+function must not be reused as an update mechanism. The post-promotion backup
+remains outside Git with manifest fingerprint
+`b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f` and
+restore status `not_tested`. Phase 11 remains unstarted.
 
 ## Future PR Documentation Rule
 
