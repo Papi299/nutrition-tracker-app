@@ -15,7 +15,7 @@ if (generated.status !== 0) {
 
 const generatedTypes = generated.stdout
   .replace(
-    /\n}\n+type DatabaseWithoutInternals/u,
+    /\n[}]\n+type DatabaseWithoutInternals/u,
     '\n}\n\ntype DatabaseWithoutInternals',
   )
   .replace(/\n+$/u, "\n");
