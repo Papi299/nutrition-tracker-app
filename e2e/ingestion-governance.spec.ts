@@ -103,7 +103,7 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       where n.nspname = 'ingestion' and c.relkind = 'r' and c.relrowsecurity;
     `);
-    expect(tableCount).toBe("36\n36");
+    expect(tableCount).toBe("38\n38");
     expect(supabaseConfig).toContain('schemas = ["public", "graphql_public"]');
     expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*ingestion/);
   });
@@ -169,9 +169,9 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
         "get_completed_foundation_promotion_receipt," +
         "get_foundation_lifecycle_head," +
         "promote_validated_foundation_run,record_import_run_item," +
-        "register_source_release," +
+        "register_foundation_release_diff_report,register_source_release," +
         "stage_candidate,stage_source_record,transition_import_run," +
-        "validate_foundation_run\n0",
+        "validate_foundation_lifecycle_run,validate_foundation_run\n0",
     );
   });
 

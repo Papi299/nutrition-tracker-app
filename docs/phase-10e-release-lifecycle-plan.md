@@ -4,15 +4,18 @@ Status: Phase 10D and Phase 10E.1 are complete. Phase 10E.2 implements the
 reviewed lifecycle schema, exact contracts, isolated security boundary, guarded
 dataset and per-food heads, ingestion-only baseline bootstrap, internal
 generated types, and synthetic fixtures after green CI and clean final review.
-Overall Phase 10E remains incomplete. Phase 10E.3 deterministic release diff
-and local update rehearsal is next and unstarted. Overall Phase 10 remains
-incomplete. No later USDA release, production lifecycle action, or additional
-provider is authorized.
+Phase 10E.3 is split at the execution boundary. Phase 10E.3A implements the
+corrective topology, deterministic release diff, exact immutable registration,
+and independent validation described below; it is complete only after green CI
+and clean final review. Overall Phase 10E remains incomplete. Phase 10E.3B
+atomic lifecycle execution and local update rehearsal is next and unstarted.
+Overall Phase 10 remains incomplete. No later USDA release, production lifecycle
+action, or additional provider is authorized.
 
 This document is the reviewed planning contract for lifecycle changes after the
 completed April 2026 USDA Foundation initial promotion. Phase 10E.2 implements
 the foundation inventory recorded below. Names still marked **PROPOSED** for
-Phase 10E.3 or later remain design targets, not implemented execution objects.
+Phase 10E.3B or later remain design targets, not implemented execution objects.
 This document contains no executable SQL.
 
 ### Phase 10E.2 implementation record
@@ -39,6 +42,34 @@ and exactly retryable, and writes no public table. The existing
 There is no lifecycle diff calculator or public-projection execution function.
 No production bootstrap, production migration, provider artifact, or remote
 Supabase operation was performed.
+
+### Phase 10E.3A implementation record
+
+Phase 10E.3 was split because deterministic evidence and approval validation
+must be independently reviewable before any function can mutate a public
+projection. The corrective migration treats dataset heads as immutable versions
+with a separate exact current pointer, retains immutable scope history with a
+separate current pointer and linear supersession, permits multiple compatible
+source evidence rows for one unchanged nutrient projection, and scopes diff and
+reconciliation item fingerprints to their immutable parent.
+
+The `foundation-release-diff/v1` engine uses exactly one primary outcome per new
+source row. `new_version` is a derived view that may overlap only
+`semantically_unchanged_new_version`, `source_only_metadata`, or
+`projection_changing`; complete-snapshot absence and warnings are separately
+derived/orthogonal views. Partial and unknown scope always produce an empty
+missing set. Canonical TypeScript and private PostgreSQL recomputation produce
+byte-identical golden reports and exact set fingerprints.
+
+Operators may register only the exact independently recomputed immutable report
+and validate a staged run. Validation binds current head and scope pointers,
+requires exact decisions and unexpired whole-set allowances, never waives an
+identity conflict, creates one retry-safe immutable validation receipt, and
+performs no public write. Approvers remain separate. No lifecycle execution
+function exists, no lifecycle update receipt is created, and the current
+nutrient-evidence foreign key remains `ON DELETE RESTRICT`. Only synthetic local
+data was used; no provider artifact, production action, or remote Supabase
+operation occurred.
 
 ## 1. Executive decisions
 
@@ -602,9 +633,10 @@ not rewritten by rollback or correction.
 
 ## 20. Performance and scale gates
 
-Phase 10E.3 records a synthetic and full-release local baseline. Phase 10E.4
-rehearses a complete later-release-shaped fixture and, when available, an
-official full release outside Git.
+Phase 10E.3A records the synthetic deterministic validation baseline. Phase
+10E.3B records the local execution rehearsal, and Phase 10E.4 rehearses a
+complete later-release-shaped fixture and, when available, an official full
+release outside Git.
 
 | Gate | Required measurement/limit policy |
 | --- | --- |
@@ -710,18 +742,24 @@ authorization in Phase 10E.1.
    dataset and per-food heads, bounded roles/functions, generated internal
    types, and minimal synthetic fixtures. The baseline bootstrap writes only
    ingestion history. No real release or current projection mutation.
-3. **Phase 10E.3 — deterministic release diff and local update rehearsal
-   (unstarted).** Implement offline comparison, canonical fingerprints, guarded
-   local execution, concurrency/idempotency/failure injection, and synthetic
-   update rehearsal. No production operation.
-4. **Phase 10E.4 — application regression and full-release update rehearsal
+3. **Phase 10E.3A — lifecycle hardening, deterministic release diff, and local
+   validation (complete only after green CI and clean final review).** Corrects
+   head/scope pointers, evidence cardinality, and item scoping; implements exact
+   offline diff, independent PostgreSQL recomputation, immutable report
+   registration, exact review gates, and validation receipts. No execution or
+   public projection mutation.
+4. **Phase 10E.3B — atomic lifecycle execution and local update rehearsal
+   (unstarted).** Add the separately reviewed execution function, concurrency,
+   idempotency, failure injection, and synthetic local update rehearsal. No
+   production operation.
+5. **Phase 10E.4 — application regression and full-release update rehearsal
    (unstarted).** Prove search/prefill/snapshot/archive/reactivation behavior and
    locally rehearse an official later release outside Git when one exists. No
    production operation.
-5. **Phase 10E.5 — exact production update (conditional; unstarted).** Only for
+6. **Phase 10E.5 — exact production update (conditional; unstarted).** Only for
    a later official release with separate artifact, completeness, backup,
    reconciliation, approval, maintenance, and execution authorization.
-6. **Phase 10E.6 — closeout and acceptance (unstarted).** Verify immutable
+7. **Phase 10E.6 — closeout and acceptance (unstarted).** Verify immutable
    receipts, backups, application invariants, documentation, and Phase 10H
    handoff. It does not authorize another release.
 
@@ -762,8 +800,9 @@ clean final review. It must:
 - contain no code, migration, provider artifact, dependency, credential, local
   path, production data operation, or remote Supabase access.
 
-After Phase 10E.2 acceptance: Phase 10D, Phase 10E.1, and Phase 10E.2 are
-complete; Phase 10E is started but incomplete; Phase 10E.3 is next and
-unstarted; overall Phase 10 remains incomplete; Phase 10F and 10G remain
+After Phase 10E.3A acceptance: Phase 10D, Phase 10E.1, Phase 10E.2, and Phase
+10E.3A are complete; Phase 10E.3 is started but incomplete; Phase 10E is
+started but incomplete; Phase 10E.3B is next and unstarted; overall Phase 10
+remains incomplete; Phase 10F and 10G remain
 conditional/unstarted; Phase 10H and Phase 11 remain unstarted. No production
 update or additional provider is authorized.

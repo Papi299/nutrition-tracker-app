@@ -478,6 +478,6 @@ test.describe.serial("Phase 10C Foundation offline staging", () => {
         has_table_privilege('ingestion_definer', 'public.food_aliases', 'INSERT,UPDATE,DELETE'),
         has_table_privilege('ingestion_definer', 'public.food_barcodes', 'INSERT,UPDATE,DELETE'));
     `);
-    expect(privileges).toBe("13|0|f|f|f|f|f|f");
+    expect(privileges).toBe("15|0|f|f|f|f|f|f");
   });
 });

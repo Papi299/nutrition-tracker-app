@@ -301,8 +301,11 @@ export function parseFoundationReleaseDiffItem(input: unknown) {
 
 const diffReportFields = [
   "contract_version", "import_run_id", "prior_source_release_id",
-  "new_source_release_id", "release_scope_evidence_fingerprint",
-  "prior_dataset_projection_fingerprint", "environment", "items",
+  "prior_source_release_fingerprint", "new_source_release_id",
+  "new_source_release_fingerprint", "prior_dataset_projection_head_id",
+  "prior_dataset_projection_head_version", "prior_dataset_projection_fingerprint",
+  "release_scope_evidence_id", "release_scope_evidence_fingerprint",
+  "environment", "items",
   "exact_set_fingerprints", "exact_set_counts", "category_counts",
   "before_projection_fingerprint", "proposed_projection_fingerprint",
   "contract_versions", "report_fingerprint",
@@ -351,12 +354,52 @@ export function parseFoundationReleaseDiffReport(input: unknown) {
     "importer_contract_version", "schema_contract_version", "mapping_version",
     "mapping_hash", "parser_contract_version", "reject_policy_version",
     "diff_contract_version", "lifecycle_policy_version",
+    "scope_contract_version", "reconciliation_contract_version",
   ], "contract_versions", 8192);
   for (const key of [
     "importer_contract_version", "schema_contract_version", "mapping_version",
     "parser_contract_version", "reject_policy_version",
     "diff_contract_version", "lifecycle_policy_version",
+    "scope_contract_version", "reconciliation_contract_version",
   ] as const) text(contractVersions[key], key, 80);
+  if (
+    contractVersions.diff_contract_version !== foundationReleaseDiffContractVersion ||
+    contractVersions.lifecycle_policy_version !== foundationLifecyclePolicyVersion ||
+    contractVersions.scope_contract_version !== foundationReleaseScopeContractVersion ||
+    contractVersions.reconciliation_contract_version !==
+      foundationReconciliationDecisionContractVersion
+  ) fail("Release-diff contract versions are inconsistent.");
+  const primary = new Set([
+    "new_concept", "byte_identical_unchanged",
+    "semantically_unchanged_new_version", "source_only_metadata",
+    "projection_changing", "reactivation", "rejected", "identity_conflict",
+    "manual_reconciliation_required", "trace_blocked", "unsupported",
+  ]);
+  const acceptedPrimary = new Set([
+    "new_concept", "byte_identical_unchanged",
+    "semantically_unchanged_new_version", "source_only_metadata",
+    "projection_changing", "reactivation",
+  ]);
+  const primaryByRow = new Map<string, string>();
+  for (const item of items.filter((entry) => primary.has(entry.classification))) {
+    if (item.source_row_key === null || primaryByRow.has(item.source_row_key)) {
+      fail("Every source row requires exactly one primary classification.");
+    }
+    primaryByRow.set(item.source_row_key, item.classification);
+  }
+  for (const item of items) {
+    if (item.classification === "warning" && (
+      item.source_row_key === null ||
+      !acceptedPrimary.has(primaryByRow.get(item.source_row_key) ?? "")
+    )) fail("Warnings may overlap only accepted primary outcomes.");
+    if (item.classification === "new_version" && (
+      item.source_row_key === null ||
+      !new Set([
+        "semantically_unchanged_new_version", "source_only_metadata",
+        "projection_changing",
+      ]).has(primaryByRow.get(item.source_row_key) ?? "")
+    )) fail("new_version has an invalid overlap.");
+  }
   hash(contractVersions.mapping_hash, "mapping_hash");
   const reportBody = Object.fromEntries(
     Object.entries(value).filter(([key]) => key !== "report_fingerprint"),
@@ -368,7 +411,27 @@ export function parseFoundationReleaseDiffReport(input: unknown) {
     ...value,
     import_run_id: uuid(value.import_run_id, "import_run_id"),
     prior_source_release_id: uuid(value.prior_source_release_id, "prior_source_release_id"),
+    prior_source_release_fingerprint: hash(
+      value.prior_source_release_fingerprint,
+      "prior_source_release_fingerprint",
+    ),
     new_source_release_id: uuid(value.new_source_release_id, "new_source_release_id"),
+    new_source_release_fingerprint: hash(
+      value.new_source_release_fingerprint,
+      "new_source_release_fingerprint",
+    ),
+    prior_dataset_projection_head_id: uuid(
+      value.prior_dataset_projection_head_id,
+      "prior_dataset_projection_head_id",
+    ),
+    prior_dataset_projection_head_version: count(
+      value.prior_dataset_projection_head_version,
+      "prior_dataset_projection_head_version",
+    ),
+    release_scope_evidence_id: uuid(
+      value.release_scope_evidence_id,
+      "release_scope_evidence_id",
+    ),
     release_scope_evidence_fingerprint: hash(
       value.release_scope_evidence_fingerprint,
       "release_scope_evidence_fingerprint",
@@ -527,7 +590,7 @@ export function parseFoundationLifecycleAllowance(input: unknown) {
     ),
     environment: environment(value.environment),
     allowance_type: enumValue(value.allowance_type, [
-      "missing_set", "identity_conflict", "unsupported_set",
+      "missing_set", "rejected_set", "unsupported_set",
       "trace_blocked_set", "corrective_action",
     ] as const, "allowance_type"),
     exact_set_fingerprint: hash(value.exact_set_fingerprint, "exact_set_fingerprint"),
