@@ -227,10 +227,14 @@ cleanup assertion relied on transaction-local role-membership cache behavior;
 a direct role-catalog assertion replaced it and the subsequent transaction
 completed atomically. This was an operator assertion issue, not a dataset
 correction or migration failure. Phases 10D.1, 10D.2, and overall Phase 10D are
-complete. Overall Phase 10 remains incomplete; Phase 10E separately owns
-controlled updates, removals, archival, supersession, reconciliation, and
-repeat-import behavior and is next and unstarted. The initial-promotion
-function must not be reused as an update mechanism. The post-promotion backup
+complete. Phase 10E.1 defines the conservative release-lifecycle,
+reconciliation, identity, exact-diff, approval, atomicity, historical-evidence,
+and application-snapshot contract in
+`docs/phase-10e-release-lifecycle-plan.md`. Overall Phase 10E has started but
+remains incomplete; Phase 10E.2 schema, contracts, security, and synthetic
+fixtures is next and unstarted. Overall Phase 10 remains incomplete. The
+initial-promotion function must not be reused as an update mechanism, and no
+production update was authorized. The post-promotion backup
 remains outside Git with manifest fingerprint
 `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f` and
 restore status `not_tested`. Phase 11 remains unstarted.

@@ -1214,3 +1214,42 @@
   design controlled updates, removals, archival, supersession, reconciliation,
   and repeat-import behavior. The initial-promotion function is not an update
   mechanism.
+
+## 2026-07-19: Phase 10E.1 Foundation release lifecycle planning
+
+- Preserved the completed April 2026 Phase 10D projection and immutable
+  allowance, validation, approval, promotion receipt, and backup fingerprints.
+  The one-time initial-promotion function remains unchanged and is explicitly
+  prohibited as a later-release update mechanism.
+- Reconfirmed from official USDA documentation that a changed Foundation food
+  record receives a new FDC ID while NDB number remains tied to the food
+  concept. Official sources list Foundation releases and update cadence but do
+  not establish complete-snapshot, absence/removal, no-NDB continuity, or
+  split/merge semantics for every archive; those cases therefore fail closed
+  pending exact evidence and reviewed reconciliation.
+- Defined stable identity, exact deterministic diff sets, separately proven
+  release completeness, reviewed missing/archive/supersession/reactivation,
+  current projection versus immutable history, faithful nutrient semantics,
+  version-specific portions, and append-only reconciliation. Absence never
+  archives automatically, fuzzy identity matching is prohibited, missing never
+  becomes zero, and trace values remain blocked from the public projection.
+- Separated release updates, mapping reprojection, parser revalidation, manual
+  reconciliation, and corrective runs. Proposed lifecycle-specific history,
+  diff, decision, approval, receipt, projection-head, and narrowly scoped
+  definer boundaries for Phase 10E.2; all proposed database names remain
+  unimplemented. Operators cannot self-approve and consumer roles gain no
+  ingestion or global-food mutation authority.
+- Verified that diary entries, Saved Meal items, and Recipe ingredients retain
+  persisted snapshots. Search, reusable foods, and diary prefill use the current
+  active projection; favorites become dormant on archive and return on exact
+  reactivation. Lifecycle work never rewrites historical snapshots or creates
+  an automatic diary entry.
+- Phase 10E.1 is complete only after green CI and clean final review. Overall
+  Phase 10E has started but remains incomplete; Phase 10E.2 schema, contracts,
+  security, and synthetic fixtures is next and unstarted. Overall Phase 10
+  remains incomplete; Phases 10F and 10G remain conditional/unstarted, Phase
+  10H and Phase 11 remain unstarted, and no production update or additional
+  provider is authorized.
+- This documentation-only slice added no code, migration, generated file,
+  dependency, CI change, provider artifact, credential, production operation,
+  or remote Supabase access.
