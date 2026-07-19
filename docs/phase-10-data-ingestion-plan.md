@@ -2,9 +2,11 @@
 
 Status: Phases 10A through 10C are complete. Phase 10D.1 controlled Foundation
 promotion implementation/local rehearsal and Phase 10D.2 exact production
-promotion are complete. Overall Phase 10D is complete. Overall Phase 10 remains
-incomplete; Phase 10E controlled updates and reconciliation is next and
-unstarted, and Phase 11 remains unstarted.
+promotion are complete. Overall Phase 10D is complete. Phase 10E.1 release
+lifecycle and reconciliation planning is complete after green CI and clean
+final review. Overall Phase 10E has started but remains incomplete; Phase
+10E.2 is next and unstarted. Overall Phase 10 remains incomplete, and Phase 11
+remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -798,9 +800,12 @@ rollback boundaries:
    ten-record exclusion and warning evidence, verified provenance/RLS/search/
    prefill/no-diary invariants, and captured the immutable production receipt
    and restricted post-promotion backup evidence.
-6. **Phase 10E — Release updates and reconciliation (unstarted).** New version,
-   corrections, missing/removal review, archive/supersession, safe retry,
-   concurrency, rollback, and historical-snapshot acceptance.
+6. **Phase 10E — Release updates and reconciliation (started; incomplete).**
+   Phase 10E.1 planning is complete in
+   `docs/phase-10e-release-lifecycle-plan.md`. Phase 10E.2 schema, contracts,
+   security, and synthetic fixtures is next and unstarted; deterministic diff,
+   local/app rehearsal, separately authorized production execution, and
+   closeout remain later review boundaries.
 7. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
    is reference-only/deferred. Implementation exists only if the full approval
    gate supplies a licensed, versioned, reproducible asset with independent
@@ -812,11 +817,12 @@ rollback boundaries:
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phase 10E is the next
-slice and remains unstarted. It must separately design controlled updates,
-corrections, removals, archival, supersession, reconciliation, concurrency,
-rollback, and repeat-import behavior. The initial-promotion function must not
-be reused as an update mechanism.
+Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phase 10E.1 planning
+is complete after green CI and clean final review; overall Phase 10E has started
+but remains incomplete. Phase 10E.2 is next and unstarted. The lifecycle plan
+separately governs controlled corrections, removals, archival, supersession,
+reconciliation, concurrency, rollback, and repeat-import behavior. The
+initial-promotion function must not be reused as an update mechanism.
 
 ## 30. Acceptance criteria
 
@@ -853,10 +859,10 @@ Phase 10A alone completes planning, not Phase 10.
 
 Phase 10D.1 resolved implementation and local rehearsal, and Phase 10D.2 used
 the exact human-approved evidence to complete the initial production promotion.
-No provider-specific runtime access is approved. Phase 10E remains a separate,
-unstarted lifecycle-design gate; completion of the initial promotion does not
-authorize updates, removals, archival, supersession, reconciliation, or repeat
-imports.
+No provider-specific runtime access is approved. Phase 10E.1 completes only the
+separate lifecycle-design gate; Phase 10E.2 and all execution slices remain
+unstarted. Completion of planning or the initial promotion does not authorize
+updates, removals, archival, supersession, reconciliation, or repeat imports.
 
 ## 32. Phase 10 / Phase 11 boundary
 

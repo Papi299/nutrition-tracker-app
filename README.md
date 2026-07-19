@@ -147,10 +147,13 @@ is complete for the current MVP scope.
   and the subsequent transaction completed atomically. The post-promotion
   backup manifest fingerprint is
   `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f`.
-  Phases 10D.1, 10D.2, and overall Phase 10D are complete. Overall Phase 10
-  remains incomplete; Phase 10E controlled updates and reconciliation is next
-  and unstarted, and the initial-promotion function must not be reused for
-  updates. The Phase 9
+  Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phase 10E.1 defines
+  the conservative USDA Foundation release lifecycle and reconciliation plan in
+  [`docs/phase-10e-release-lifecycle-plan.md`](docs/phase-10e-release-lifecycle-plan.md).
+  Overall Phase 10E has started but remains incomplete; Phase 10E.2 schema,
+  contracts, security, and synthetic fixtures is next and unstarted. Overall
+  Phase 10 remains incomplete, no production update is authorized, and the
+  initial-promotion function must not be reused for updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -582,8 +585,9 @@ Manual RTL QA checklist:
   and dry-run validation are complete after green CI and clean final review.
   Phase 10D.1 controlled promotion implementation/local rehearsal and Phase
   10D.2 exact production promotion are complete. Overall Phase 10D is complete;
-  overall Phase 10 remains incomplete, and Phase 10E controlled updates and
-  reconciliation is next and unstarted.
+  Phase 10E.1 lifecycle planning is complete after green CI and clean final
+  review. Overall Phase 10E and Phase 10 remain incomplete; Phase 10E.2 is next
+  and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -679,8 +683,10 @@ Manual RTL QA checklist:
   CI and clean final review. Phase 10C offline Foundation parsing and dry-run
   validation is complete after green CI and clean final review. Phase 10D.1
   controlled promotion implementation/local rehearsal and Phase 10D.2 exact
-  production promotion are complete. Overall Phase 10D is complete; overall
-  Phase 10 remains incomplete, and Phase 10E is next and unstarted.
+  production promotion are complete. Overall Phase 10D is complete. Phase
+  10E.1 lifecycle planning is complete after green CI and clean final review;
+  Phase 10E is started but incomplete, Phase 10E.2 is next and unstarted, and
+  overall Phase 10 remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -715,9 +721,9 @@ Manual RTL QA checklist:
 - External barcode-provider lookup and non-native decoder fallback.
 - Hard deletion or bulk lifecycle controls for custom foods.
 - Custom-food management text search.
-- Phase 10E controlled release updates, removals, archival, supersession,
-  reconciliation, and repeat-import behavior. The completed initial-promotion
-  function is not an update mechanism.
+- Phase 10E.2 and later implementation of the planned controlled release
+  updates, removals, archival, supersession, reconciliation, and repeat-import
+  behavior. The completed initial-promotion function is not an update mechanism.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -759,8 +765,10 @@ Manual RTL QA checklist:
   Foundation offline parser and dry-run validation is also complete after green
   CI and clean final review. Phase 10D.1 controlled promotion implementation/
   local rehearsal and Phase 10D.2 exact production promotion are complete.
-  Overall Phase 10D is complete; overall Phase 10 remains incomplete, Phase
-  10E is next and unstarted, and Phase 11 remains unstarted.
+  Overall Phase 10D is complete. Phase 10E.1 lifecycle planning is complete
+  after green CI and clean final review; overall Phase 10E is started but
+  incomplete, Phase 10E.2 is next and unstarted, overall Phase 10 remains
+  incomplete, and Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
