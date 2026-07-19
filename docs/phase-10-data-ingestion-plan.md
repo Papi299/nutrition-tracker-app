@@ -8,9 +8,15 @@ final review. Phase 10E.2 lifecycle schema, contracts, security, baseline
 bootstrap, generated internal types, and synthetic fixtures are complete after
 green CI and clean final review. Phase 10E.3 is split at the execution boundary.
 Phase 10E.3A hardens lifecycle pointers/cardinality, implements deterministic
-release-diff parity, exact immutable registration, and validation receipts; it
-is complete only after green CI and clean final review. Overall Phase 10E has
-started but remains incomplete; Phase 10E.3B atomic execution and local update
+release-diff parity, exact immutable registration, and validation receipts.
+Phase 10E.3B adds decision-bound plans, server-reserved application food IDs,
+approval/receipt V2, safely decoupled immutable nutrient history, and the
+approval-only atomic executor. Synthetic local source-version reuse,
+projection/nutrient replacement, reserved-identity insertion, exact retry, and
+reviewed missing/archive/supersede actions plus all 21 rollback failpoints pass
+without provider or remote access. Phase 10E.3 is
+complete only after green CI and clean final review. Overall Phase 10E remains
+incomplete; Phase 10E.4 application regression and full-release-shaped local
 rehearsal is next and unstarted. Overall Phase 10 remains incomplete, and Phase
 11 remains unstarted.
 

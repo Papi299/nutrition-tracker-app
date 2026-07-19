@@ -1327,3 +1327,34 @@
   and clean final review. Phase 10E.3B atomic lifecycle execution and local
   update rehearsal is next and unstarted; Phase 10E and overall Phase 10 remain
   incomplete, and Phase 10E.5 remains conditional and separately authorized.
+
+## 2026-07-19: Phase 10E.3B decision-bound atomic lifecycle execution
+
+- Treat validated release differences as evidence, not mutation authority.
+  New database-generated application food UUID reservations and immutable
+  execution plans bind the exact head, scope, decisions, allowances, actions,
+  before/after states, and final UUID-based projection before approval.
+- Require `foundation-lifecycle-update-approval/v2` and accept only its UUID at
+  the operator-only atomic executor. Completion stores one immutable
+  `foundation-lifecycle-update-receipt/v2`; exact retry and bounded lookup
+  return that receipt without another write.
+- Replace the current nutrient row foreign-key dependency only after preserving
+  its UUID as historical identity and requiring an exact immutable nutrient
+  projection/evidence link. Current-row deletion remains guarded when history
+  is incomplete.
+- Limit public authority to exact Foundation food insertion, name/archive
+  updates, and current nutrient insert/amount-update/delete under a
+  transaction-local plan-item guard. Consumers, `service_role`, approvers, and
+  other definers gain no lifecycle mutation authority.
+- Support exact no-op, version/projection reuse, replacement, new concept,
+  missing-pending, archive, supersede, reactivation, and approved exclusions.
+  Split/merge and mapping/parser reprojection remain unsupported.
+- Synthetic local execution advances one dataset head, retries to the same
+  receipt, fully rolls back at all 21 material failpoints, and separately
+  exercises source-version reuse, projection/nutrient replacement, and
+  database-reserved new-concept insertion plus reviewed keep-active,
+  missing-pending, archive, and supersede decisions. No provider
+  artifact, production operation, dependency, or remote Supabase access was
+  used. Phase 10E.3 is complete only after green CI and clean final review;
+  Phase 10E.4 is next and unstarted, while Phase 10E and Phase 10 remain
+  incomplete and Phase 10E.5 remains separately approval-gated.

@@ -27,6 +27,27 @@ export const foundationLifecycleUpdateApprovalContractVersion =
   "foundation-lifecycle-update-approval/v1" as const;
 export const foundationLifecycleUpdateReceiptContractVersion =
   "foundation-lifecycle-update-receipt/v1" as const;
+export const foundationApplicationFoodIdentityReservationContractVersion =
+  "foundation-application-food-identity-reservation/v1" as const;
+export const foundationLifecycleExecutionPlanContractVersion =
+  "foundation-lifecycle-execution-plan/v1" as const;
+export const foundationLifecycleExecutionPlanItemContractVersion =
+  "foundation-lifecycle-execution-plan-item/v1" as const;
+export const foundationLifecycleUpdateApprovalV2ContractVersion =
+  "foundation-lifecycle-update-approval/v2" as const;
+export const foundationLifecycleUpdateReceiptV2ContractVersion =
+  "foundation-lifecycle-update-receipt/v2" as const;
+export const foundationLifecycleExecutionPolicyVersion =
+  "foundation-lifecycle-execution-policy/v1" as const;
+
+export const foundationLifecycleExecutionActions = [
+  "insert_new_concept", "no_op_byte_identical",
+  "advance_source_version_reuse_projection",
+  "append_source_metadata_reuse_projection", "replace_current_projection",
+  "keep_active_pending_investigation", "mark_missing_pending", "archive",
+  "supersede", "reactivate", "exclude_rejected",
+  "exclude_trace_blocked", "exclude_unsupported",
+] as const;
 
 export const foundationLifecycleRunPurposes = [
   "initial_promotion",
@@ -818,5 +839,301 @@ export function parseFoundationLifecycleUpdateApproval(input: unknown) {
     approval_reference: text(value.approval_reference, "approval_reference", 200),
     approval_timestamp: approvedAt,
     expires_at: expiresAt,
+  };
+}
+
+const identityReservationFields = [
+  "contract_version", "dataset_id", "environment", "concept_key",
+  "source_release_id", "origin_import_run_id", "reserved_food_id",
+  "created_at", "reservation_fingerprint",
+] as const;
+
+export function parseFoundationApplicationFoodIdentityReservation(input: unknown) {
+  const value = exactObject(
+    input,
+    identityReservationFields,
+    "Application food identity reservation",
+    4096,
+  );
+  if (value.contract_version !== foundationApplicationFoodIdentityReservationContractVersion) {
+    fail("Unsupported application-food reservation contract version.");
+  }
+  const body = Object.fromEntries(
+    Object.entries(value).filter(([key]) => key !== "reservation_fingerprint"),
+  ) as JsonValue;
+  if (hash(value.reservation_fingerprint, "reservation_fingerprint") !== fingerprintJson(body)) {
+    fail("Identity-reservation fingerprint mismatch.");
+  }
+  return {
+    contract_version: foundationApplicationFoodIdentityReservationContractVersion,
+    dataset_id: uuid(value.dataset_id, "dataset_id"),
+    environment: environment(value.environment),
+    concept_key: text(value.concept_key, "concept_key", 200),
+    source_release_id: uuid(value.source_release_id, "source_release_id"),
+    origin_import_run_id: uuid(value.origin_import_run_id, "origin_import_run_id"),
+    reserved_food_id: uuid(value.reserved_food_id, "reserved_food_id"),
+    created_at: timestamp(value.created_at, "created_at"),
+    reservation_fingerprint: value.reservation_fingerprint as string,
+  };
+}
+
+const executionPlanItemFields = [
+  "contract_version", "action_ordinal", "release_diff_item_fingerprint",
+  "source_row_key", "concept_key", "upstream_version_key", "current_food_id",
+  "reserved_food_id", "current_source_record_id",
+  "current_source_record_version_id", "current_food_projection_version_id",
+  "proposed_lifecycle_projection_hash", "proposed_source_record_version_hash",
+  "reconciliation_decision_fingerprint", "allowance_fingerprint",
+  "lifecycle_action", "proposed_food_state", "nutrient_states",
+  "portion_set_fingerprint", "evidence_set_fingerprint", "item_fingerprint",
+] as const;
+
+export function parseFoundationLifecycleExecutionPlanItem(input: unknown) {
+  const value = exactObject(input, executionPlanItemFields, "Execution-plan item", 65_536);
+  if (value.contract_version !== foundationLifecycleExecutionPlanItemContractVersion) {
+    fail("Unsupported execution-plan item contract version.");
+  }
+  const ordinal = count(value.action_ordinal, "action_ordinal");
+  if (ordinal === 0) fail("action_ordinal must be positive.");
+  enumValue(value.lifecycle_action, foundationLifecycleExecutionActions, "lifecycle_action");
+  for (const key of ["proposed_food_state", "nutrient_states"] as const) {
+    if (key === "proposed_food_state" && value[key] !== null && !isPlainObject(value[key])) {
+      fail("proposed_food_state must be an object or null.");
+    }
+    if (key === "nutrient_states" && (
+      !Array.isArray(value[key]) || ![0, 4].includes(value[key].length)
+    )) fail("nutrient_states must contain zero or four states.");
+  }
+  const nullableUuid = (key: string) => value[key] === null ? null : uuid(value[key], key);
+  const nullableHash = (key: string) => value[key] === null ? null : hash(value[key], key);
+  const nullableText = (key: string) => value[key] === null ? null : text(value[key], key, 200);
+  const expected = fingerprintJson(Object.fromEntries(
+    Object.entries(value).filter(([key]) => key !== "item_fingerprint"),
+  ) as JsonValue);
+  if (hash(value.item_fingerprint, "item_fingerprint") !== expected) {
+    fail("Execution-plan item fingerprint mismatch.");
+  }
+  return {
+    ...value,
+    action_ordinal: ordinal,
+    release_diff_item_fingerprint: hash(
+      value.release_diff_item_fingerprint,
+      "release_diff_item_fingerprint",
+    ),
+    source_row_key: nullableText("source_row_key"),
+    concept_key: nullableText("concept_key"),
+    upstream_version_key: nullableText("upstream_version_key"),
+    current_food_id: nullableUuid("current_food_id"),
+    reserved_food_id: nullableUuid("reserved_food_id"),
+    current_source_record_id: nullableUuid("current_source_record_id"),
+    current_source_record_version_id: nullableUuid("current_source_record_version_id"),
+    current_food_projection_version_id: nullableUuid("current_food_projection_version_id"),
+    proposed_lifecycle_projection_hash: nullableHash("proposed_lifecycle_projection_hash"),
+    proposed_source_record_version_hash: nullableHash("proposed_source_record_version_hash"),
+    reconciliation_decision_fingerprint: nullableHash("reconciliation_decision_fingerprint"),
+    allowance_fingerprint: nullableHash("allowance_fingerprint"),
+    portion_set_fingerprint: nullableHash("portion_set_fingerprint"),
+    evidence_set_fingerprint: nullableHash("evidence_set_fingerprint"),
+  };
+}
+
+const executionPlanFields = [
+  "contract_version", "import_run_id", "release_diff_report_id",
+  "release_diff_report_fingerprint", "validation_receipt_id",
+  "validation_fingerprint", "prior_source_release_id",
+  "prior_source_release_fingerprint", "new_source_release_id",
+  "new_source_release_fingerprint", "current_dataset_head_id",
+  "current_dataset_head_version", "current_dataset_head_fingerprint",
+  "current_scope_evidence_id", "current_scope_evidence_fingerprint",
+  "decision_fingerprints", "allowance_fingerprints",
+  "identity_reservation_fingerprints", "action_item_fingerprints",
+  "action_set_fingerprints", "action_counts", "diff_set_fingerprints",
+  "diff_set_counts", "category_counts", "before_projection_fingerprint",
+  "after_projection_fingerprint", "contract_versions", "environment",
+  "plan_fingerprint",
+] as const;
+
+export function parseFoundationLifecycleExecutionPlan(input: unknown) {
+  const value = exactObject(input, executionPlanFields, "Lifecycle execution plan", 1_048_576);
+  if (value.contract_version !== foundationLifecycleExecutionPlanContractVersion) {
+    fail("Unsupported execution-plan contract version.");
+  }
+  for (const [key, minimum, maximum] of [
+    ["decision_fingerprints", 0, 10_000],
+    ["allowance_fingerprints", 0, 32],
+    ["identity_reservation_fingerprints", 0, 10_000],
+    ["action_item_fingerprints", 0, 10_000],
+  ] as const) exactStringArray(value[key], key, minimum, maximum, (item) => hashPattern.test(item));
+  for (const key of ["action_counts", "diff_set_counts", "category_counts"] as const) {
+    if (!isPlainObject(value[key])) fail(`${key} must be an object.`);
+    for (const [name, item] of Object.entries(value[key])) count(item, `${key}.${name}`);
+  }
+  for (const key of ["action_set_fingerprints", "diff_set_fingerprints"] as const) {
+    if (!isPlainObject(value[key])) fail(`${key} must be an object.`);
+    for (const [name, item] of Object.entries(value[key])) hash(item, `${key}.${name}`);
+  }
+  const expected = fingerprintJson(Object.fromEntries(
+    Object.entries(value).filter(([key]) => key !== "plan_fingerprint"),
+  ) as JsonValue);
+  if (hash(value.plan_fingerprint, "plan_fingerprint") !== expected) {
+    fail("Execution-plan fingerprint mismatch.");
+  }
+  return {
+    ...value,
+    import_run_id: uuid(value.import_run_id, "import_run_id"),
+    release_diff_report_id: uuid(value.release_diff_report_id, "release_diff_report_id"),
+    validation_receipt_id: uuid(value.validation_receipt_id, "validation_receipt_id"),
+    prior_source_release_id: uuid(value.prior_source_release_id, "prior_source_release_id"),
+    new_source_release_id: uuid(value.new_source_release_id, "new_source_release_id"),
+    current_dataset_head_id: uuid(value.current_dataset_head_id, "current_dataset_head_id"),
+    current_scope_evidence_id: uuid(value.current_scope_evidence_id, "current_scope_evidence_id"),
+    current_dataset_head_version: count(
+      value.current_dataset_head_version,
+      "current_dataset_head_version",
+    ),
+    environment: environment(value.environment),
+  };
+}
+
+const approvalV2Fields = [
+  "contract_version", "validation_receipt_id", "validation_fingerprint",
+  "execution_plan_id", "execution_plan_fingerprint",
+  "release_diff_report_fingerprint", "prior_dataset_head_id",
+  "prior_dataset_head_version", "prior_dataset_head_fingerprint",
+  "current_scope_evidence_fingerprint", "decision_set_fingerprint",
+  "allowance_set_fingerprint", "before_projection_fingerprint",
+  "after_projection_fingerprint", "environment", "approver_identity",
+  "approval_reference", "approval_timestamp", "expires_at",
+  "contract_fingerprint",
+] as const;
+
+export function parseFoundationLifecycleUpdateApprovalV2(input: unknown) {
+  const value = exactObject(input, approvalV2Fields, "Lifecycle update approval V2", 32_768);
+  if (value.contract_version !== foundationLifecycleUpdateApprovalV2ContractVersion) {
+    fail("Unsupported lifecycle-update approval V2 contract version.");
+  }
+  const approvedAt = timestamp(value.approval_timestamp, "approval_timestamp");
+  const expiresAt = timestamp(value.expires_at, "expires_at");
+  if (expiresAt <= approvedAt) fail("Lifecycle update approval is expired.");
+  assertFingerprint(value);
+  for (const key of [
+    "validation_fingerprint", "execution_plan_fingerprint",
+    "release_diff_report_fingerprint", "prior_dataset_head_fingerprint",
+    "current_scope_evidence_fingerprint", "decision_set_fingerprint",
+    "allowance_set_fingerprint", "before_projection_fingerprint",
+    "after_projection_fingerprint",
+  ] as const) hash(value[key], key);
+  return {
+    ...value,
+    validation_receipt_id: uuid(value.validation_receipt_id, "validation_receipt_id"),
+    execution_plan_id: uuid(value.execution_plan_id, "execution_plan_id"),
+    prior_dataset_head_id: uuid(value.prior_dataset_head_id, "prior_dataset_head_id"),
+    prior_dataset_head_version: count(value.prior_dataset_head_version, "prior_dataset_head_version"),
+    environment: environment(value.environment),
+    approver_identity: text(value.approver_identity, "approver_identity", 160),
+    approval_reference: text(value.approval_reference, "approval_reference", 200),
+    approval_timestamp: approvedAt,
+    expires_at: expiresAt,
+  };
+}
+
+const receiptV2Fields = [
+  "contract_version", "approval_id", "approval_fingerprint",
+  "execution_plan_id", "execution_plan_fingerprint", "validation_receipt_id",
+  "validation_fingerprint", "release_diff_report_id",
+  "release_diff_report_fingerprint", "import_run_id", "run_purpose",
+  "prior_source_release_id", "prior_source_release_fingerprint",
+  "new_source_release_id", "new_source_release_fingerprint",
+  "prior_dataset_head_id", "prior_dataset_head_version",
+  "prior_dataset_head_fingerprint", "resulting_dataset_head_id",
+  "resulting_dataset_head_version", "resulting_dataset_head_fingerprint",
+  "scope_evidence_fingerprint", "decision_fingerprints",
+  "allowance_fingerprints", "identity_reservation_fingerprints",
+  "diff_set_fingerprints", "action_set_fingerprints",
+  "before_projection_fingerprint", "after_projection_fingerprint",
+  "public_mutation_counts", "history_insertion_counts", "excluded_counts",
+  "warning_count", "completion_timestamp", "environment",
+  "receipt_fingerprint",
+] as const;
+
+export function parseFoundationLifecycleUpdateReceiptV2(input: unknown) {
+  const value = exactObject(input, receiptV2Fields, "Lifecycle update receipt V2", 262_144);
+  if (value.contract_version !== foundationLifecycleUpdateReceiptV2ContractVersion) {
+    fail("Unsupported lifecycle-update receipt V2 contract version.");
+  }
+  for (const key of ["decision_fingerprints", "allowance_fingerprints", "identity_reservation_fingerprints"] as const) {
+    exactStringArray(value[key], key, 0, 10_000, (item) => hashPattern.test(item));
+  }
+  for (const key of ["public_mutation_counts", "history_insertion_counts", "excluded_counts"] as const) {
+    if (!isPlainObject(value[key])) fail(`${key} must be an object.`);
+    for (const [name, item] of Object.entries(value[key])) count(item, `${key}.${name}`);
+  }
+  count(value.warning_count, "warning_count");
+  timestamp(value.completion_timestamp, "completion_timestamp");
+  const expected = fingerprintJson(Object.fromEntries(
+    Object.entries(value).filter(([key]) => key !== "receipt_fingerprint"),
+  ) as JsonValue);
+  if (hash(value.receipt_fingerprint, "receipt_fingerprint") !== expected) {
+    fail("Lifecycle update receipt V2 fingerprint mismatch.");
+  }
+  return {
+    ...value,
+    approval_id: uuid(value.approval_id, "approval_id"),
+    execution_plan_id: uuid(value.execution_plan_id, "execution_plan_id"),
+    validation_receipt_id: uuid(value.validation_receipt_id, "validation_receipt_id"),
+    release_diff_report_id: uuid(value.release_diff_report_id, "release_diff_report_id"),
+    import_run_id: uuid(value.import_run_id, "import_run_id"),
+    prior_source_release_id: uuid(value.prior_source_release_id, "prior_source_release_id"),
+    new_source_release_id: uuid(value.new_source_release_id, "new_source_release_id"),
+    prior_dataset_head_id: uuid(value.prior_dataset_head_id, "prior_dataset_head_id"),
+    resulting_dataset_head_id: uuid(value.resulting_dataset_head_id, "resulting_dataset_head_id"),
+    environment: environment(value.environment),
+  };
+}
+
+export function parseFoundationLifecycleExecutionResult(input: unknown) {
+  const value = exactObject(input, [
+    "status", "receipt_id", "receipt_fingerprint", "completion_timestamp",
+    "resulting_dataset_head_id", "resulting_dataset_head_version", "exact_retry",
+  ], "Lifecycle execution result", 2048);
+  if (value.status !== "completed" || typeof value.exact_retry !== "boolean") {
+    fail("Lifecycle execution result is invalid.");
+  }
+  return {
+    status: "completed" as const,
+    receipt_id: uuid(value.receipt_id, "receipt_id"),
+    receipt_fingerprint: hash(value.receipt_fingerprint, "receipt_fingerprint"),
+    completion_timestamp: timestamp(value.completion_timestamp, "completion_timestamp"),
+    resulting_dataset_head_id: uuid(
+      value.resulting_dataset_head_id,
+      "resulting_dataset_head_id",
+    ),
+    resulting_dataset_head_version: count(
+      value.resulting_dataset_head_version,
+      "resulting_dataset_head_version",
+    ),
+    exact_retry: value.exact_retry,
+  };
+}
+
+export function parseFoundationLifecycleReceiptLookupResult(input: unknown) {
+  if (input === null) return null;
+  const value = exactObject(input, [
+    "approval_id", "receipt_id", "receipt_fingerprint", "completion_timestamp",
+    "resulting_dataset_head_id", "resulting_dataset_head_version",
+  ], "Lifecycle receipt lookup result", 2048);
+  return {
+    approval_id: uuid(value.approval_id, "approval_id"),
+    receipt_id: uuid(value.receipt_id, "receipt_id"),
+    receipt_fingerprint: hash(value.receipt_fingerprint, "receipt_fingerprint"),
+    completion_timestamp: timestamp(value.completion_timestamp, "completion_timestamp"),
+    resulting_dataset_head_id: uuid(
+      value.resulting_dataset_head_id,
+      "resulting_dataset_head_id",
+    ),
+    resulting_dataset_head_version: count(
+      value.resulting_dataset_head_version,
+      "resulting_dataset_head_version",
+    ),
   };
 }

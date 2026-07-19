@@ -6,16 +6,17 @@ dataset and per-food heads, ingestion-only baseline bootstrap, internal
 generated types, and synthetic fixtures after green CI and clean final review.
 Phase 10E.3 is split at the execution boundary. Phase 10E.3A implements the
 corrective topology, deterministic release diff, exact immutable registration,
-and independent validation described below; it is complete only after green CI
-and clean final review. Overall Phase 10E remains incomplete. Phase 10E.3B
-atomic lifecycle execution and local update rehearsal is next and unstarted.
-Overall Phase 10 remains incomplete. No later USDA release, production lifecycle
-action, or additional provider is authorized.
+and independent validation. Phase 10E.3B implements the decision-bound local
+execution boundary described below. Phase 10E.3 is complete only after green CI
+and clean final review. Overall Phase 10E remains incomplete; Phase 10E.4
+application regression and full-release-shaped local rehearsal is next and
+unstarted. Overall Phase 10 remains incomplete. No later USDA release,
+production lifecycle action, or additional provider is authorized.
 
 This document is the reviewed planning contract for lifecycle changes after the
 completed April 2026 USDA Foundation initial promotion. Phase 10E.2 implements
 the foundation inventory recorded below. Names still marked **PROPOSED** for
-Phase 10E.3B or later remain design targets, not implemented execution objects.
+Phase 10E.4 or later remain design targets, not implemented execution objects.
 This document contains no executable SQL.
 
 ### Phase 10E.2 implementation record
@@ -71,6 +72,33 @@ nutrient-evidence foreign key remains `ON DELETE RESTRICT`. Only synthetic local
 data was used; no provider artifact, production action, or remote Supabase
 operation occurred.
 
+### Phase 10E.3B implementation record
+
+Diff validation is not mutation authority. Phase 10E.3B therefore reserves
+new application food UUIDs inside the database and builds one immutable
+execution plan that binds the validated diff, current head/scope, reviewed
+decisions and allowances, exact actions, and final UUID-based projection. The
+separate approver registers `foundation-lifecycle-update-approval/v2`; only the
+operator may call `execute_foundation_lifecycle_update(uuid)`. Exact retries
+return the stored `foundation-lifecycle-update-receipt/v2`.
+
+The executor supports insert, exact no-op, source-version/projection reuse,
+projection replacement, missing-pending, archive, supersede, reactivation, and
+exact allowed exclusion actions. Split/merge and mapping/parser reprojection
+remain unsupported. Current nutrient deletion is possible only after immutable
+projection-evidence linkage replaces the former current-row foreign-key
+dependency. Public DML is column-limited and transaction-guarded.
+
+The synthetic local rehearsal advances one dataset head, returns the same
+receipt on retry, proves complete rollback at all 21 material failpoints, and
+executes valid source-version reuse, projection replacement with nutrient
+update/removal, database-reserved new-concept insertion, and reviewed
+keep-active, missing-pending, archive, and supersede paths.
+It uses no real provider records, archive, production connection, or remote
+Supabase operation. Phase 10E.4 remains the broader application regression and
+full-release-shaped rehearsal gate; Phase 10E.5 remains conditional and
+separately approval-gated.
+
 ## 1. Executive decisions
 
 1. The completed Phase 10D initial-promotion path remains a one-time boundary.
@@ -93,7 +121,7 @@ operation occurred.
 6. Release ingestion, mapping reprojection, parser revalidation, manual
    reconciliation, and corrective releases are different run purposes. A
    mapping or parser change cannot silently rewrite a byte-identical release.
-7. One future security-definer lifecycle function will accept only an immutable
+7. One security-definer lifecycle function accepts only an immutable
    approval identifier, derive all values internally, lock the dataset, recheck
    exact sets and current state, apply the projection and history atomically,
    and append one receipt. Operator-supplied public field values are prohibited.
