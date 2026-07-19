@@ -1174,3 +1174,43 @@
   next, approval-blocked, and unstarted; overall Phase 10D and Phase 10 remain
   incomplete. Phase 10E and Phase 11 remain unstarted; MyFoodData stays
   reference-only and all other providers remain blocked or deferred.
+
+## 2026-07-19: Phase 10D.2 approved Foundation production promotion and closeout
+
+- The named product/data-governance approver authorized the exact USDA
+  Foundation April 2026 production operation for project
+  `hskfanrqwtqknzpquwhg` under approval reference
+  `PHASE-10D2-USDA-FOUNDATION-2026-04-PROD-001`. All 27 migrations were already
+  aligned before staging or promotion.
+- The atomic promotion inserted exactly 353 public foods, 1,199 nutrient rows,
+  and 375 source portions. Exactly 10 `negative_target_value` records bound to
+  the reviewed rejected set remained unprojected, and all 1,018 warnings were
+  retained. No rejected value was corrected, clamped, replaced, or partially
+  projected.
+- Immutable receipt `fc6b94b0-c889-421e-860d-eb6bd094a64f` has fingerprint
+  `1a531a7857f508b52c33f17ef5fc80009884d2e9806db952521f3cac0c15d62c`.
+  The validation fingerprint is
+  `c78e80e44ed07325c77c1fc5c3a89a4258573e6b9991c7fdcc74ae479caa5f6d`,
+  and the production reject-allowance fingerprint is
+  `bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a`.
+- The first promotion transaction intentionally failed before commit because
+  the operator cleanup assertion used transaction-local role-membership cache
+  behavior as cleanup proof. PostgreSQL rolled back the transaction completely:
+  projection and provenance remained unchanged and no temporary grant survived.
+  The assertion was changed to inspect the role catalog directly, and the
+  subsequent transaction completed atomically. This was an operator assertion
+  issue, not a dataset correction or migration failure. Future operator tooling
+  must not use transaction-local role-membership cache behavior as cleanup
+  proof.
+- Post-commit checks confirmed exact receipt/provenance counts, rejected-record
+  exclusion, intact RLS and least-privilege grants, authenticated search and
+  diary prefill, and zero aliases, barcodes, translations, diary entries, Saved
+  Meals, or Recipes. The restricted post-promotion logical backup remains
+  outside Git; its manifest fingerprint is
+  `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f`
+  and its restore status is `not_tested`.
+- Phases 10D.1, 10D.2, and overall Phase 10D are complete. Overall Phase 10
+  remains incomplete. Phase 10E is next and unstarted; it must separately
+  design controlled updates, removals, archival, supersession, reconciliation,
+  and repeat-import behavior. The initial-promotion function is not an update
+  mechanism.
