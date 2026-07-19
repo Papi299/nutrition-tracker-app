@@ -54,6 +54,60 @@ export type Database = {
         }
         Relationships: []
       }
+      dataset_projection_current_heads: {
+        Row: {
+          current_dataset_projection_head_id: string
+          current_head_version: number
+          current_projection_fingerprint: string
+          dataset_id: string
+          environment: string
+          updated_at: string
+        }
+        Insert: {
+          current_dataset_projection_head_id: string
+          current_head_version: number
+          current_projection_fingerprint: string
+          dataset_id: string
+          environment: string
+          updated_at?: string
+        }
+        Update: {
+          current_dataset_projection_head_id?: string
+          current_head_version?: number
+          current_projection_fingerprint?: string
+          dataset_id?: string
+          environment?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dataset_projection_current_heads_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dataset_projection_current_heads_exact_head_fkey"
+            columns: [
+              "current_dataset_projection_head_id",
+              "dataset_id",
+              "environment",
+              "current_head_version",
+              "current_projection_fingerprint",
+            ]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: [
+              "id",
+              "dataset_id",
+              "environment",
+              "head_version",
+              "dataset_projection_fingerprint",
+            ]
+          },
+        ]
+      }
       dataset_projection_heads: {
         Row: {
           current_source_release_id: string
@@ -228,7 +282,7 @@ export type Database = {
           {
             foreignKeyName: "food_nutrient_projection_evid_food_nutrient_projection_ver_fkey"
             columns: ["food_nutrient_projection_version_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "food_nutrient_projection_versions"
             referencedColumns: ["id"]
           },
@@ -483,11 +537,13 @@ export type Database = {
           lifecycle_update_receipt_id: string | null
           locale: string
           name: string
+          normalized_candidate_hash: string | null
           origin_type: string
           prior_food_projection_version_id: string | null
           projection_hash: string
           serving_size: number | null
           serving_unit: string | null
+          source_metadata_hash: string | null
           source_record_id: string
           source_record_version_id: string
         }
@@ -506,11 +562,13 @@ export type Database = {
           lifecycle_update_receipt_id?: string | null
           locale: string
           name: string
+          normalized_candidate_hash?: string | null
           origin_type: string
           prior_food_projection_version_id?: string | null
           projection_hash: string
           serving_size?: number | null
           serving_unit?: string | null
+          source_metadata_hash?: string | null
           source_record_id: string
           source_record_version_id: string
         }
@@ -529,11 +587,13 @@ export type Database = {
           lifecycle_update_receipt_id?: string | null
           locale?: string
           name?: string
+          normalized_candidate_hash?: string | null
           origin_type?: string
           prior_food_projection_version_id?: string | null
           projection_hash?: string
           serving_size?: number | null
           serving_unit?: string | null
+          source_metadata_hash?: string | null
           source_record_id?: string
           source_record_version_id?: string
         }
@@ -1904,6 +1964,7 @@ export type Database = {
           proposed_projection_fingerprint: string
           release_scope_evidence_id: string
           report_fingerprint: string
+          report_json: Json
         }
         Insert: {
           before_projection_fingerprint: string
@@ -1921,6 +1982,7 @@ export type Database = {
           proposed_projection_fingerprint: string
           release_scope_evidence_id: string
           report_fingerprint: string
+          report_json: Json
         }
         Update: {
           before_projection_fingerprint?: string
@@ -1938,6 +2000,7 @@ export type Database = {
           proposed_projection_fingerprint?: string
           release_scope_evidence_id?: string
           report_fingerprint?: string
+          report_json?: Json
         }
         Relationships: [
           {
@@ -1974,6 +2037,48 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "release_scope_evidence"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      release_scope_current_evidence: {
+        Row: {
+          current_scope_evidence_fingerprint: string
+          current_scope_evidence_id: string
+          environment: string
+          source_release_id: string
+          updated_at: string
+        }
+        Insert: {
+          current_scope_evidence_fingerprint: string
+          current_scope_evidence_id: string
+          environment: string
+          source_release_id: string
+          updated_at?: string
+        }
+        Update: {
+          current_scope_evidence_fingerprint?: string
+          current_scope_evidence_id?: string
+          environment?: string
+          source_release_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "release_scope_current_evidence_exact_scope_fkey"
+            columns: [
+              "current_scope_evidence_id",
+              "source_release_id",
+              "environment",
+              "current_scope_evidence_fingerprint",
+            ]
+            isOneToOne: false
+            referencedRelation: "release_scope_evidence"
+            referencedColumns: [
+              "id",
+              "source_release_id",
+              "environment",
+              "contract_fingerprint",
+            ]
           },
         ]
       }
@@ -2545,6 +2650,18 @@ export type Database = {
           present_nutrient_count: number
         }[]
       }
+      bootstrap_foundation_lifecycle_baseline_phase10e2_internal: {
+        Args: { p_initial_promotion_receipt_id: string }
+        Returns: {
+          dataset_projection_fingerprint: string
+          dataset_projection_head_id: string
+          evidence_link_count: number
+          exact_retry: boolean
+          food_count: number
+          missing_nutrient_count: number
+          present_nutrient_count: number
+        }[]
+      }
       canonicalize_json_v1: { Args: { p_value: Json }; Returns: string }
       canonicalize_source_release_manifest_v1: {
         Args: { p_manifest: Json }
@@ -2580,6 +2697,29 @@ export type Database = {
           import_run_id: string
         }[]
       }
+      create_foundation_lifecycle_run_phase10e2_internal: {
+        Args: {
+          p_approval_reference: string
+          p_diff_contract_version: string
+          p_environment: string
+          p_importer_contract_version: string
+          p_lifecycle_policy_version: string
+          p_logical_run_fingerprint: string
+          p_nutrient_mapping_version_code: string
+          p_operator_execution_identity: string
+          p_parser_contract_version: string
+          p_previous_failed_attempt_id?: string
+          p_prior_dataset_projection_head_id: string
+          p_reject_policy_version: string
+          p_run_purpose: string
+          p_source_release_id: string
+        }
+        Returns: {
+          attempt_number: number
+          current_state: string
+          import_run_id: string
+        }[]
+      }
       fingerprint_json_v1: { Args: { p_value: Json }; Returns: string }
       fingerprint_source_release_manifest_v1: {
         Args: { p_manifest: Json }
@@ -2591,6 +2731,14 @@ export type Database = {
           p_source_record_id: string
           p_source_record_version_id: string
         }
+        Returns: Json
+      }
+      foundation_lifecycle_candidate_projection_v1: {
+        Args: { p_candidate: Json }
+        Returns: Json
+      }
+      foundation_lifecycle_projection_version_body_v1: {
+        Args: { p_food_projection_version_id: string }
         Returns: Json
       }
       get_completed_foundation_promotion_receipt: {
@@ -2638,6 +2786,10 @@ export type Database = {
           receipt_fingerprint: string
         }[]
       }
+      recompute_foundation_release_diff_v1: {
+        Args: { p_import_run_id: string }
+        Returns: Json
+      }
       record_import_run_item: {
         Args: {
           p_action: string
@@ -2668,6 +2820,10 @@ export type Database = {
           allowance_fingerprint: string
           reject_allowance_id: string
         }[]
+      }
+      register_foundation_release_diff_report: {
+        Args: { p_import_run_id: string; p_report: Json }
+        Returns: string
       }
       register_foundation_release_scope_evidence: {
         Args: { p_contract: Json }
@@ -2715,6 +2871,15 @@ export type Database = {
           current_state: string
           event_sequence: number
           import_run_id: string
+        }[]
+      }
+      validate_foundation_lifecycle_run: {
+        Args: { p_import_run_id: string }
+        Returns: {
+          current_state: string
+          exact_retry: boolean
+          validation_fingerprint: string
+          validation_receipt_id: string
         }[]
       }
       validate_foundation_run: {

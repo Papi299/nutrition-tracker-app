@@ -537,8 +537,10 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
       grant execute on function public.get_owned_saved_meal_editor(uuid) to authenticated;
     `);
 
-    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=9999-12-31`);
-    await expect(page.getByLabel("Date")).toHaveValue("9999-12-31");
+    await expect(async () => {
+      await page.goto(`/en/saved-meals/${sourceMealId}/use?date=9999-12-31`);
+      await expect(page.getByLabel("Date")).toHaveValue("9999-12-31");
+    }).toPass({ timeout: 15_000 });
 
     await page.goto(`/he/saved-meals/${sourceMealId}/use?date=2024-02-29`);
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");

@@ -233,10 +233,16 @@ and application-snapshot contract in
 `docs/phase-10e-release-lifecycle-plan.md`. Phase 10E.2 implements lifecycle
 schema, exact contracts, an isolated security role, dataset and per-food heads,
 an ingestion-only baseline bootstrap, internal generated types, and synthetic
-fixtures. It adds no release-diff algorithm or public-projection execution
-function and preserves the current nutrient-evidence foreign key. Phase 10E
-remains incomplete; Phase 10E.3 deterministic release diff and local update
-rehearsal is next and unstarted. Overall Phase 10 remains incomplete. Neither
+fixtures. Phase 10E.3 was split at the execution boundary: Phase 10E.3A corrects
+immutable dataset-head/current-pointer topology, scope supersession pointers,
+nutrient-evidence link cardinality, and parent-scoped item fingerprints, then
+adds deterministic TypeScript/PostgreSQL release diff parity, exact immutable
+report registration, exact allowances/decisions, and retry-safe validation
+receipts. It adds no public mutation or lifecycle execution function and keeps
+the current nutrient-evidence foreign key intact. Phase 10E.3A is complete only
+after green CI and clean final review. Phase 10E remains incomplete; Phase
+10E.3B atomic lifecycle execution and local update rehearsal is next and
+unstarted. Overall Phase 10 remains incomplete. Neither
 the initial-promotion function nor the baseline bootstrap is an update
 mechanism, and no production update was authorized. The post-promotion backup
 remains outside Git with manifest fingerprint

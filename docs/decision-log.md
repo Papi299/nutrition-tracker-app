@@ -1288,3 +1288,42 @@
   Phase 10E.3 deterministic release diff and local update rehearsal is next and
   unstarted; Phase 10E and overall Phase 10 remain incomplete. Phase 10E.5
   remains conditional and separately human/Supabase approval-gated.
+
+## 2026-07-19: Phase 10E.3A deterministic diff and validation boundary
+
+- Split Phase 10E.3 at the public-mutation boundary so deterministic diff
+  evidence and independent validation can be reviewed before any lifecycle
+  execution capability exists. Phase 10E.3A adds no public projection write,
+  head advancement beyond the synthetic baseline, or lifecycle update receipt.
+- Corrected dataset heads into immutable monotonic versions plus one guarded
+  exact current pointer per dataset/environment. Corrected release-scope
+  evidence into immutable linear history plus one exact current pointer per
+  release/environment. Both pointers are relation-backed and never inferred
+  from timestamps.
+- Corrected nutrient evidence cardinality so one unchanged nutrient projection
+  may retain evidence from multiple compatible source versions while every
+  evidence row remains single-projection. The existing current nutrient
+  foreign key remains `ON DELETE RESTRICT`.
+- Scoped diff-item and reconciliation-item fingerprints to their immutable
+  parents. One primary outcome is required per new-release record;
+  `new_version`, complete-snapshot absence, and warnings are explicitly bounded
+  overlapping views rather than additive primary totals.
+- Added `foundation-release-diff/v1` TypeScript generation and private
+  PostgreSQL recomputation with byte-identical canonical reports, exact set
+  fingerprints, explicit-zero/missing preservation, and deterministic bytewise
+  ordering. Projection history now has nullable ingestion-only normalized and
+  source-metadata fingerprints so later executions can preserve exact
+  source-only classification; the legacy Phase 10D baseline remains
+  conservatively raw-identity bound.
+- Operator-only report registration stores the exact immutable report and
+  items. Validation re-resolves current head/scope evidence, requires exact
+  reviewed missing decisions and exact unexpired whole-set allowances, never
+  permits an identity-conflict waiver, creates one retry-safe immutable
+  validation receipt, and leaves all public relations unchanged. Approver-only
+  approval registration remains identity-separated and execution-free.
+- Only clearly synthetic local fixtures were used. No real provider artifact,
+  credential, dependency, public schema change, production operation, or
+  remote Supabase access occurred. Phase 10E.3A is complete only after green CI
+  and clean final review. Phase 10E.3B atomic lifecycle execution and local
+  update rehearsal is next and unstarted; Phase 10E and overall Phase 10 remain
+  incomplete, and Phase 10E.5 remains conditional and separately authorized.

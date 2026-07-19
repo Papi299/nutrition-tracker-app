@@ -136,7 +136,12 @@ function diffReport(overrides: Record<string, JsonValue> = {}) {
     contract_version: foundationReleaseDiffContractVersion,
     import_run_id: "20000000-0000-4000-8000-000000000001",
     prior_source_release_id: syntheticLifecycleIds.baselineRelease,
+    prior_source_release_fingerprint: hashA,
     new_source_release_id: syntheticLifecycleIds.updateRelease,
+    new_source_release_fingerprint: hashB,
+    prior_dataset_projection_head_id: syntheticLifecycleIds.datasetHead,
+    prior_dataset_projection_head_version: 1,
+    release_scope_evidence_id: "10000000-0000-4000-8000-00000000000b",
     release_scope_evidence_fingerprint: hashA,
     prior_dataset_projection_fingerprint: hashB,
     environment: "local",
@@ -155,6 +160,9 @@ function diffReport(overrides: Record<string, JsonValue> = {}) {
       reject_policy_version: "synthetic-reject/v1",
       diff_contract_version: foundationReleaseDiffContractVersion,
       lifecycle_policy_version: foundationLifecyclePolicyVersion,
+      scope_contract_version: "foundation-release-scope/v1",
+      reconciliation_contract_version:
+        "foundation-reconciliation-decision/v1",
     },
     ...overrides,
   };

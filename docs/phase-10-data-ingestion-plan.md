@@ -6,9 +6,13 @@ promotion are complete. Overall Phase 10D is complete. Phase 10E.1 release
 lifecycle and reconciliation planning is complete after green CI and clean
 final review. Phase 10E.2 lifecycle schema, contracts, security, baseline
 bootstrap, generated internal types, and synthetic fixtures are complete after
-green CI and clean final review. Overall Phase 10E has started but remains
-incomplete; Phase 10E.3 is next and unstarted. Overall Phase 10 remains
-incomplete, and Phase 11 remains unstarted.
+green CI and clean final review. Phase 10E.3 is split at the execution boundary.
+Phase 10E.3A hardens lifecycle pointers/cardinality, implements deterministic
+release-diff parity, exact immutable registration, and validation receipts; it
+is complete only after green CI and clean final review. Overall Phase 10E has
+started but remains incomplete; Phase 10E.3B atomic execution and local update
+rehearsal is next and unstarted. Overall Phase 10 remains incomplete, and Phase
+11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -807,8 +811,12 @@ rollback boundaries:
    `docs/phase-10e-release-lifecycle-plan.md`. Phase 10E.2 schema, exact
    contracts, isolated security, dataset and per-food heads, ingestion-only
    baseline bootstrap, generated internal types, and synthetic fixtures are
-   complete. Deterministic diff, local/app rehearsal, separately authorized
-   production execution, and closeout remain later review boundaries.
+   complete. Phase 10E.3A corrective topology, deterministic TypeScript/SQL
+   diff parity, report registration, exact review evidence, and validation are
+   complete only after green CI and final review; it exposes no execution or
+   public write. Phase 10E.3B local atomic execution/rehearsal, application
+   rehearsal, separately authorized production execution, and closeout remain
+   later review boundaries.
 7. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
    is reference-only/deferred. Implementation exists only if the full approval
    gate supplies a licensed, versioned, reproducible asset with independent
@@ -821,8 +829,9 @@ rollback boundaries:
    documentation, and Phase 11 handoff.
 
 Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1 and
-10E.2 are complete after green CI and clean final review; overall Phase 10E has
-started but remains incomplete. Phase 10E.3 is next and unstarted. The lifecycle plan
+10E.2 are complete after green CI and clean final review; Phase 10E.3A is
+complete only after its green CI and clean final review. Overall Phase 10E has
+started but remains incomplete. Phase 10E.3B is next and unstarted. The lifecycle plan
 separately governs controlled corrections, removals, archival, supersession,
 reconciliation, concurrency, rollback, and repeat-import behavior. The
 initial-promotion function must not be reused as an update mechanism.
@@ -863,8 +872,9 @@ Phase 10A alone completes planning, not Phase 10.
 Phase 10D.1 resolved implementation and local rehearsal, and Phase 10D.2 used
 the exact human-approved evidence to complete the initial production promotion.
 No provider-specific runtime access is approved. Phase 10E.1 completes the
-lifecycle-design gate and Phase 10E.2 completes the non-executing foundation;
-Phase 10E.3 and all execution slices remain unstarted. Completion of planning,
+lifecycle-design gate, Phase 10E.2 completes the non-executing foundation, and
+Phase 10E.3A completes deterministic validation without execution. Phase
+10E.3B and all execution slices remain unstarted. Completion of planning,
 foundation work, or the initial promotion does not authorize
 updates, removals, archival, supersession, reconciliation, or repeat imports.
 
