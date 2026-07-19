@@ -13,7 +13,12 @@ if (generated.status !== 0) {
   process.exit(generated.status ?? 1);
 }
 
-const generatedTypes = generated.stdout.replace(/\n+$/u, "\n");
+const generatedTypes = generated.stdout
+  .replace(
+    /\n}\n+type DatabaseWithoutInternals/u,
+    '\n}\n\ntype DatabaseWithoutInternals',
+  )
+  .replace(/\n+$/u, "\n");
 
 if (process.argv.includes("--write")) {
   writeFileSync(outputPath, generatedTypes, "utf8");
