@@ -182,3 +182,35 @@ export type FoundationLifecycleDiffReport = {
   contract_versions: FoundationLifecycleDiffInput["contract_versions"];
   report_fingerprint: string;
 };
+
+export const foundationLifecycleExecutionActions = [
+  "insert_new_concept",
+  "no_op_byte_identical",
+  "advance_source_version_reuse_projection",
+  "append_source_metadata_reuse_projection",
+  "replace_current_projection",
+  "keep_active_pending_investigation",
+  "mark_missing_pending",
+  "archive",
+  "supersede",
+  "reactivate",
+  "exclude_rejected",
+  "exclude_trace_blocked",
+  "exclude_unsupported",
+] as const;
+
+export type FoundationLifecycleExecutionAction =
+  (typeof foundationLifecycleExecutionActions)[number];
+
+export type FoundationMissingDecision =
+  | "keep_active_pending_investigation"
+  | "defer"
+  | "archive"
+  | "supersede"
+  | "source_anomaly";
+
+export type FoundationFinalProjectionEntry = {
+  food_id: string;
+  lifecycle_projection_hash: string;
+  lifecycle_state: FoundationLifecycleState;
+};

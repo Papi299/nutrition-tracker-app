@@ -9,6 +9,67 @@ export type Json =
 export type Database = {
   ingestion: {
     Tables: {
+      application_food_identity_reservations: {
+        Row: {
+          concept_key: string
+          created_at: string
+          dataset_id: string
+          environment: string
+          id: string
+          origin_import_run_id: string
+          reservation_contract_version: string
+          reservation_fingerprint: string
+          reserved_food_id: string
+          source_release_id: string
+        }
+        Insert: {
+          concept_key: string
+          created_at?: string
+          dataset_id: string
+          environment: string
+          id?: string
+          origin_import_run_id: string
+          reservation_contract_version: string
+          reservation_fingerprint: string
+          reserved_food_id: string
+          source_release_id: string
+        }
+        Update: {
+          concept_key?: string
+          created_at?: string
+          dataset_id?: string
+          environment?: string
+          id?: string
+          origin_import_run_id?: string
+          reservation_contract_version?: string
+          reservation_fingerprint?: string
+          reserved_food_id?: string
+          source_release_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "application_food_identity_reservation_origin_import_run_id_fkey"
+            columns: ["origin_import_run_id"]
+            isOneToOne: false
+            referencedRelation: "import_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "application_food_identity_reservations_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "application_food_identity_reservations_release_dataset_fkey"
+            columns: ["source_release_id", "dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id", "dataset_id"]
+          },
+        ]
+      }
       data_sources: {
         Row: {
           approval_reference: string
@@ -534,6 +595,7 @@ export type Database = {
           initial_promotion_receipt_id: string | null
           is_archived: boolean
           is_public: boolean
+          lifecycle_projection_hash: string
           lifecycle_update_receipt_id: string | null
           locale: string
           name: string
@@ -559,6 +621,7 @@ export type Database = {
           initial_promotion_receipt_id?: string | null
           is_archived: boolean
           is_public: boolean
+          lifecycle_projection_hash?: string
           lifecycle_update_receipt_id?: string | null
           locale: string
           name: string
@@ -584,6 +647,7 @@ export type Database = {
           initial_promotion_receipt_id?: string | null
           is_archived?: boolean
           is_public?: boolean
+          lifecycle_projection_hash?: string
           lifecycle_update_receipt_id?: string | null
           locale?: string
           name?: string
@@ -1439,6 +1503,242 @@ export type Database = {
           },
         ]
       }
+      lifecycle_execution_plan_items: {
+        Row: {
+          action_ordinal: number
+          allowance_fingerprint: string | null
+          concept_key: string | null
+          created_at: string
+          current_food_id: string | null
+          current_food_projection_version_id: string | null
+          current_source_record_id: string | null
+          current_source_record_version_id: string | null
+          evidence_set_fingerprint: string | null
+          id: string
+          item_contract: Json
+          item_fingerprint: string
+          lifecycle_action: string
+          lifecycle_execution_plan_id: string
+          nutrient_states: Json
+          portion_set_fingerprint: string | null
+          proposed_food_state: Json | null
+          proposed_lifecycle_projection_hash: string | null
+          proposed_source_record_version_hash: string | null
+          reconciliation_decision_fingerprint: string | null
+          release_diff_item_fingerprint: string
+          reserved_food_id: string | null
+          source_row_key: string | null
+          upstream_version_key: string | null
+        }
+        Insert: {
+          action_ordinal: number
+          allowance_fingerprint?: string | null
+          concept_key?: string | null
+          created_at?: string
+          current_food_id?: string | null
+          current_food_projection_version_id?: string | null
+          current_source_record_id?: string | null
+          current_source_record_version_id?: string | null
+          evidence_set_fingerprint?: string | null
+          id?: string
+          item_contract: Json
+          item_fingerprint: string
+          lifecycle_action: string
+          lifecycle_execution_plan_id: string
+          nutrient_states: Json
+          portion_set_fingerprint?: string | null
+          proposed_food_state?: Json | null
+          proposed_lifecycle_projection_hash?: string | null
+          proposed_source_record_version_hash?: string | null
+          reconciliation_decision_fingerprint?: string | null
+          release_diff_item_fingerprint: string
+          reserved_food_id?: string | null
+          source_row_key?: string | null
+          upstream_version_key?: string | null
+        }
+        Update: {
+          action_ordinal?: number
+          allowance_fingerprint?: string | null
+          concept_key?: string | null
+          created_at?: string
+          current_food_id?: string | null
+          current_food_projection_version_id?: string | null
+          current_source_record_id?: string | null
+          current_source_record_version_id?: string | null
+          evidence_set_fingerprint?: string | null
+          id?: string
+          item_contract?: Json
+          item_fingerprint?: string
+          lifecycle_action?: string
+          lifecycle_execution_plan_id?: string
+          nutrient_states?: Json
+          portion_set_fingerprint?: string | null
+          proposed_food_state?: Json | null
+          proposed_lifecycle_projection_hash?: string | null
+          proposed_source_record_version_hash?: string | null
+          reconciliation_decision_fingerprint?: string | null
+          release_diff_item_fingerprint?: string
+          reserved_food_id?: string | null
+          source_row_key?: string | null
+          upstream_version_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lifecycle_execution_plan_item_current_food_projection_vers_fkey"
+            columns: ["current_food_projection_version_id"]
+            isOneToOne: false
+            referencedRelation: "food_projection_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plan_item_current_source_record_versio_fkey"
+            columns: ["current_source_record_version_id"]
+            isOneToOne: false
+            referencedRelation: "source_record_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plan_items_current_source_record_id_fkey"
+            columns: ["current_source_record_id"]
+            isOneToOne: false
+            referencedRelation: "source_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plan_items_lifecycle_execution_plan_id_fkey"
+            columns: ["lifecycle_execution_plan_id"]
+            isOneToOne: false
+            referencedRelation: "lifecycle_execution_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plan_items_reservation_fkey"
+            columns: ["reserved_food_id"]
+            isOneToOne: false
+            referencedRelation: "application_food_identity_reservations"
+            referencedColumns: ["reserved_food_id"]
+          },
+        ]
+      }
+      lifecycle_execution_plans: {
+        Row: {
+          action_counts: Json
+          action_set_fingerprints: Json
+          after_projection_fingerprint: string
+          allowance_fingerprints: Json
+          before_projection_fingerprint: string
+          created_at: string
+          decision_fingerprints: Json
+          environment: string
+          id: string
+          identity_reservation_fingerprints: Json
+          import_run_id: string
+          new_source_release_id: string
+          plan_contract: Json
+          plan_contract_version: string
+          plan_fingerprint: string
+          prior_dataset_projection_head_id: string
+          prior_source_release_id: string
+          release_diff_report_id: string
+          release_scope_evidence_id: string
+          validation_receipt_id: string
+        }
+        Insert: {
+          action_counts: Json
+          action_set_fingerprints: Json
+          after_projection_fingerprint: string
+          allowance_fingerprints: Json
+          before_projection_fingerprint: string
+          created_at?: string
+          decision_fingerprints: Json
+          environment: string
+          id?: string
+          identity_reservation_fingerprints: Json
+          import_run_id: string
+          new_source_release_id: string
+          plan_contract: Json
+          plan_contract_version: string
+          plan_fingerprint: string
+          prior_dataset_projection_head_id: string
+          prior_source_release_id: string
+          release_diff_report_id: string
+          release_scope_evidence_id: string
+          validation_receipt_id: string
+        }
+        Update: {
+          action_counts?: Json
+          action_set_fingerprints?: Json
+          after_projection_fingerprint?: string
+          allowance_fingerprints?: Json
+          before_projection_fingerprint?: string
+          created_at?: string
+          decision_fingerprints?: Json
+          environment?: string
+          id?: string
+          identity_reservation_fingerprints?: Json
+          import_run_id?: string
+          new_source_release_id?: string
+          plan_contract?: Json
+          plan_contract_version?: string
+          plan_fingerprint?: string
+          prior_dataset_projection_head_id?: string
+          prior_source_release_id?: string
+          release_diff_report_id?: string
+          release_scope_evidence_id?: string
+          validation_receipt_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lifecycle_execution_plans_import_run_id_fkey"
+            columns: ["import_run_id"]
+            isOneToOne: true
+            referencedRelation: "import_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_new_source_release_id_fkey"
+            columns: ["new_source_release_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_prior_dataset_projection_head_id_fkey"
+            columns: ["prior_dataset_projection_head_id"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_prior_source_release_id_fkey"
+            columns: ["prior_source_release_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_release_diff_report_id_fkey"
+            columns: ["release_diff_report_id"]
+            isOneToOne: true
+            referencedRelation: "release_diff_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_release_scope_evidence_id_fkey"
+            columns: ["release_scope_evidence_id"]
+            isOneToOne: false
+            referencedRelation: "release_scope_evidence"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_execution_plans_validation_receipt_id_fkey"
+            columns: ["validation_receipt_id"]
+            isOneToOne: true
+            referencedRelation: "lifecycle_validation_receipts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lifecycle_update_approvals: {
         Row: {
           approval_contract: Json
@@ -1450,6 +1750,7 @@ export type Database = {
           environment: string
           expires_at: string
           id: string
+          lifecycle_execution_plan_id: string | null
           policy_version: string
           validation_receipt_id: string
         }
@@ -1463,6 +1764,7 @@ export type Database = {
           environment: string
           expires_at: string
           id?: string
+          lifecycle_execution_plan_id?: string | null
           policy_version: string
           validation_receipt_id: string
         }
@@ -1476,14 +1778,22 @@ export type Database = {
           environment?: string
           expires_at?: string
           id?: string
+          lifecycle_execution_plan_id?: string | null
           policy_version?: string
           validation_receipt_id?: string
         }
         Relationships: [
           {
+            foreignKeyName: "lifecycle_update_approvals_lifecycle_execution_plan_id_fkey"
+            columns: ["lifecycle_execution_plan_id"]
+            isOneToOne: false
+            referencedRelation: "lifecycle_execution_plans"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "lifecycle_update_approvals_validation_receipt_id_fkey"
             columns: ["validation_receipt_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "lifecycle_validation_receipts"
             referencedColumns: ["id"]
           },
@@ -1494,37 +1804,55 @@ export type Database = {
           completion_timestamp: string
           created_at: string
           environment: string
+          history_insertion_counts: Json
           id: string
           import_run_id: string
+          lifecycle_execution_plan_id: string | null
           lifecycle_update_approval_id: string
+          policy_version: string
           prior_dataset_projection_head_id: string
+          public_mutation_counts: Json
           receipt_contract: Json
           receipt_fingerprint: string
+          release_diff_report_id: string | null
           resulting_dataset_projection_head_id: string
+          validation_receipt_id: string | null
         }
         Insert: {
           completion_timestamp: string
           created_at?: string
           environment: string
+          history_insertion_counts: Json
           id?: string
           import_run_id: string
+          lifecycle_execution_plan_id?: string | null
           lifecycle_update_approval_id: string
+          policy_version: string
           prior_dataset_projection_head_id: string
+          public_mutation_counts: Json
           receipt_contract: Json
           receipt_fingerprint: string
+          release_diff_report_id?: string | null
           resulting_dataset_projection_head_id: string
+          validation_receipt_id?: string | null
         }
         Update: {
           completion_timestamp?: string
           created_at?: string
           environment?: string
+          history_insertion_counts?: Json
           id?: string
           import_run_id?: string
+          lifecycle_execution_plan_id?: string | null
           lifecycle_update_approval_id?: string
+          policy_version?: string
           prior_dataset_projection_head_id?: string
+          public_mutation_counts?: Json
           receipt_contract?: Json
           receipt_fingerprint?: string
+          release_diff_report_id?: string | null
           resulting_dataset_projection_head_id?: string
+          validation_receipt_id?: string | null
         }
         Relationships: [
           {
@@ -1532,6 +1860,13 @@ export type Database = {
             columns: ["import_run_id"]
             isOneToOne: true
             referencedRelation: "import_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lifecycle_update_receipts_lifecycle_execution_plan_id_fkey"
+            columns: ["lifecycle_execution_plan_id"]
+            isOneToOne: false
+            referencedRelation: "lifecycle_execution_plans"
             referencedColumns: ["id"]
           },
           {
@@ -1549,11 +1884,25 @@ export type Database = {
             referencedColumns: ["id", "environment"]
           },
           {
+            foreignKeyName: "lifecycle_update_receipts_release_diff_report_id_fkey"
+            columns: ["release_diff_report_id"]
+            isOneToOne: false
+            referencedRelation: "release_diff_reports"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "lifecycle_update_receipts_resulting_head_fkey"
             columns: ["resulting_dataset_projection_head_id", "environment"]
             isOneToOne: false
             referencedRelation: "dataset_projection_heads"
             referencedColumns: ["id", "environment"]
+          },
+          {
+            foreignKeyName: "lifecycle_update_receipts_validation_receipt_id_fkey"
+            columns: ["validation_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "lifecycle_validation_receipts"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -2662,6 +3011,13 @@ export type Database = {
           present_nutrient_count: number
         }[]
       }
+      build_foundation_lifecycle_execution_plan_v1: {
+        Args: {
+          p_create_reservations: boolean
+          p_validation_receipt_id: string
+        }
+        Returns: Json
+      }
       canonicalize_json_v1: { Args: { p_value: Json }; Returns: string }
       canonicalize_source_release_manifest_v1: {
         Args: { p_manifest: Json }
@@ -2720,6 +3076,27 @@ export type Database = {
           import_run_id: string
         }[]
       }
+      execute_foundation_lifecycle_update: {
+        Args: { p_update_approval_id: string }
+        Returns: {
+          completion_timestamp: string
+          exact_retry: boolean
+          execution_status: string
+          lifecycle_update_receipt_id: string
+          receipt_fingerprint: string
+          resulting_dataset_head_version: number
+          resulting_dataset_projection_head_id: string
+        }[]
+      }
+      fingerprint_foundation_final_projection_v1: {
+        Args: {
+          p_dataset_id: string
+          p_environment: string
+          p_foods: Json
+          p_source_release_id: string
+        }
+        Returns: string
+      }
       fingerprint_json_v1: { Args: { p_value: Json }; Returns: string }
       fingerprint_source_release_manifest_v1: {
         Args: { p_manifest: Json }
@@ -2762,6 +3139,17 @@ export type Database = {
           source_release_id: string
         }[]
       }
+      get_foundation_lifecycle_update_receipt: {
+        Args: { p_update_approval_id: string }
+        Returns: {
+          approval_id: string
+          completion_timestamp: string
+          lifecycle_update_receipt_id: string
+          receipt_fingerprint: string
+          resulting_dataset_head_version: number
+          resulting_dataset_projection_head_id: string
+        }[]
+      }
       jsonb_safe_count_object_has_exact_keys: {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
@@ -2774,6 +3162,15 @@ export type Database = {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
       }
+      prepare_foundation_lifecycle_execution_plan: {
+        Args: { p_validation_receipt_id: string }
+        Returns: {
+          action_count: number
+          exact_retry: boolean
+          execution_plan_id: string
+          plan_fingerprint: string
+        }[]
+      }
       promote_validated_foundation_run: {
         Args: { p_promotion_approval_id: string }
         Returns: {
@@ -2785,6 +3182,10 @@ export type Database = {
           promotion_status: string
           receipt_fingerprint: string
         }[]
+      }
+      raise_foundation_lifecycle_failpoint_v1: {
+        Args: { p_environment: string; p_stage: string }
+        Returns: undefined
       }
       recompute_foundation_release_diff_v1: {
         Args: { p_import_run_id: string }
@@ -2830,6 +3231,33 @@ export type Database = {
         Returns: string
       }
       register_source_release: { Args: { p_manifest: Json }; Returns: string }
+      reserve_foundation_application_food_identity_v1: {
+        Args: {
+          p_concept_key: string
+          p_dataset_id: string
+          p_environment: string
+          p_origin_import_run_id: string
+          p_source_release_id: string
+        }
+        Returns: {
+          concept_key: string
+          created_at: string
+          dataset_id: string
+          environment: string
+          id: string
+          origin_import_run_id: string
+          reservation_contract_version: string
+          reservation_fingerprint: string
+          reserved_food_id: string
+          source_release_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "application_food_identity_reservations"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       stage_candidate: {
         Args: {
           p_concept_key: string

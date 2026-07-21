@@ -596,6 +596,18 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
       );
     }
 
+    await expect
+      .poll(
+        async () => {
+          const result = await userAClient.rpc("get_owned_custom_food_editor", {
+            p_food_id: emptyBasisFoodId,
+          });
+          return result.error?.message ?? null;
+        },
+        { timeout: 10_000 },
+      )
+      .toBeNull();
+
     for (const unavailableId of [otherFoodId, publicFoodId, randomUUID()]) {
       await page.goto(`/en/foods/custom/${unavailableId}/edit`);
       await expect(page.getByTestId("custom-food-unavailable")).toBeVisible();

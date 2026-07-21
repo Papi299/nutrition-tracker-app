@@ -157,10 +157,18 @@ is complete for the current MVP scope.
   evidence foreign key. Phase 10E.3 is split so Phase 10E.3A can first harden
   immutable dataset-head/scope pointers and evidence cardinality, then add the
   deterministic TypeScript/PostgreSQL release diff, exact report registration,
-  and validation receipts without execution. Phase 10E.3A is complete only
-  after green CI and clean final review. Phase 10E remains incomplete; Phase
-  10E.3B atomic lifecycle execution and local update rehearsal is next and
-  unstarted. Overall Phase 10 remains incomplete, no production update is
+  and validation receipts without execution. Phase 10E.3B adds server-derived
+  new-food identity reservations, immutable decision-bound plans, approval and
+  receipt V2 contracts, final UUID-based projection fingerprints, safely
+  decoupled nutrient history, and one approval-UUID-only atomic executor.
+  Synthetic local rehearsal covers exact execution/retry, all 21 transaction
+  failpoints, source-version reuse, projection replacement with nutrient
+  update/removal, a database-reserved new concept, and reviewed keep-active,
+  missing-pending, archive, and supersede decisions; it uses no provider
+  artifact or remote database. Phase 10E.3 is
+  complete only after green CI and clean final review. Phase 10E remains
+  incomplete; Phase 10E.4 application regression and full-release-shaped local
+  rehearsal is next and unstarted. Overall Phase 10 remains incomplete, no production update is
   authorized, and the
   initial-promotion function must not be reused for updates. The Phase 9
   durable evidence is in

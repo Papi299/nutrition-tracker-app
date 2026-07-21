@@ -238,11 +238,17 @@ immutable dataset-head/current-pointer topology, scope supersession pointers,
 nutrient-evidence link cardinality, and parent-scoped item fingerprints, then
 adds deterministic TypeScript/PostgreSQL release diff parity, exact immutable
 report registration, exact allowances/decisions, and retry-safe validation
-receipts. It adds no public mutation or lifecycle execution function and keeps
-the current nutrient-evidence foreign key intact. Phase 10E.3A is complete only
-after green CI and clean final review. Phase 10E remains incomplete; Phase
-10E.3B atomic lifecycle execution and local update rehearsal is next and
-unstarted. Overall Phase 10 remains incomplete. Neither
+receipts. Phase 10E.3B adds immutable application-ID reservations and
+decision-bound execution plans, approval/receipt V2, final UUID-based state
+fingerprints, a replacement immutable nutrient-history invariant, and one
+approval-only atomic executor. Its synthetic local rehearsal verifies exact
+retry, head advancement, source-version reuse, projection/nutrient replacement,
+new-concept identity reservation, reviewed missing/archive/supersede decisions,
+and rollback at all 21 material failpoints
+without provider data or remote access. Phase 10E.3 is complete only after green CI and
+clean final review. Phase 10E remains incomplete; Phase 10E.4 application
+regression and full-release-shaped local rehearsal is next and unstarted.
+Overall Phase 10 remains incomplete. Neither
 the initial-promotion function nor the baseline bootstrap is an update
 mechanism, and no production update was authorized. The post-promotion backup
 remains outside Git with manifest fingerprint

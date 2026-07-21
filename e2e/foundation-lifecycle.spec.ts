@@ -58,6 +58,51 @@ const exactLifecycleCandidate = syntheticNormalizedCandidate({
   },
 });
 
+const semanticVersionCandidate = syntheticNormalizedCandidate({
+  source_row_key: "synthetic-version-alpha-v2",
+  concept_key: "foundation:synthetic-alpha",
+  upstream_version_key: "synthetic-version-alpha-v2",
+  fdc_id: "9001",
+  ndb_number: "9002",
+  name: "Synthetic Alpha Food",
+  nutrients: exactLifecycleCandidate.nutrients,
+});
+
+const projectionChangeCandidate = syntheticNormalizedCandidate({
+  source_row_key: "synthetic-version-alpha-projection",
+  concept_key: "foundation:synthetic-alpha",
+  upstream_version_key: "synthetic-version-alpha-projection",
+  fdc_id: "9001",
+  ndb_number: "9002",
+  name: "Synthetic Alpha Food Updated",
+  nutrients: {
+    energy_kcal: {
+      ...exactLifecycleCandidate.nutrients.energy_kcal,
+      value: "0",
+      semantic: "explicit_zero",
+    },
+    carbohydrates_g: {
+      application_nutrient_code: "carbohydrates_g",
+      source_nutrient_id: null,
+      source_unit: null,
+      value: null,
+      semantic: "missing",
+      loq: null,
+      derivation_code: null,
+      derivation_description: null,
+    },
+  },
+});
+
+const newConceptCandidate = syntheticNormalizedCandidate({
+  source_row_key: "synthetic-version-new",
+  concept_key: "foundation:synthetic-new",
+  upstream_version_key: "synthetic-version-new",
+  fdc_id: "9011",
+  ndb_number: "9012",
+  name: "Synthetic New Food",
+});
+
 test.skip(!localOnly, "Lifecycle database tests require local Supabase.");
 
 function queryDatabase(statement: string) {
@@ -234,8 +279,15 @@ const syntheticBaselineSql = `
   );
 `;
 
-const syntheticDiffSql = `
+function syntheticDiffSql(
+  candidate = exactLifecycleCandidate,
+  payloadHash = hashA,
+  beforeBootstrapSql = "",
+  scopeClassification: "unknown" | "complete_snapshot" = "unknown",
+) {
+  return `
   ${syntheticBaselineSql}
+  ${beforeBootstrapSql}
   grant ingestion_operator, ingestion_approver to postgres;
   set local role ingestion_operator;
   create temporary table lifecycle_head as
@@ -248,6 +300,7 @@ const syntheticDiffSql = `
     scope_contract jsonb, report_json jsonb, parity_context jsonb,
     approval_id uuid, approval_contract jsonb, invalid_approval_contract jsonb,
     expired_approval_contract jsonb, conflicting_approval_contract jsonb,
+    execution_plan_id uuid, execution_plan_fingerprint text,
     allowance_id uuid, allowance_contract jsonb,
     invalid_allowance_contract jsonb,
     complete_missing bigint, partial_missing bigint
@@ -281,16 +334,16 @@ const syntheticDiffSql = `
     ) declared
   );
   update lifecycle_update_context set raw_id = ingestion.stage_source_record(
-    run_id,'synthetic-version-alpha','${hashA}',
+    run_id,'${candidate.source_row_key}','${payloadHash}',
     '{"synthetic":"alpha"}'::jsonb,now()+interval '7 days'
   );
   select ingestion.transition_import_run(
     run_id,'created','staged','Synthetic lifecycle operator'
   ) from lifecycle_update_context;
   select ingestion.stage_candidate(
-    run_id,raw_id,'synthetic-version-alpha','foundation:synthetic-alpha',
-    'synthetic-version-alpha','${exactLifecycleCandidate.content_fingerprint}',
-    ${sqlJson(exactLifecycleCandidate)},'accepted',null,0,
+    run_id,raw_id,'${candidate.source_row_key}',${candidate.concept_key === null ? "null" : `'${candidate.concept_key}'`},
+    '${candidate.upstream_version_key}','${candidate.content_fingerprint}',
+    ${sqlJson(candidate)},'accepted',null,${candidate.warning_categories.length},
     now()+interval '7 days'
   ) from lifecycle_update_context;
   grant select,update on lifecycle_update_context
@@ -307,7 +360,7 @@ const syntheticDiffSql = `
       select pg_catalog.jsonb_build_object(
         'contract_version','foundation-release-scope/v1',
         'source_release_id',release.id,'dataset_id',release.dataset_id,
-        'artifact_kind','official_bulk_archive','scope_classification','unknown',
+        'artifact_kind','official_bulk_archive','scope_classification','${scopeClassification}',
         'manifest_fingerprint',release.manifest_fingerprint,
         'archive_sha256',release.sha256,
         'evidence_references',pg_catalog.jsonb_build_array('synthetic-fixture:update-scope'),
@@ -328,6 +381,234 @@ const syntheticDiffSql = `
   update lifecycle_update_context set prior_scope_id = scope_id;
   reset role;
 `;
+}
+
+function executeSyntheticLifecycleScenario(
+  candidate: ReturnType<typeof syntheticNormalizedCandidate>,
+  payloadHash: string,
+  options: {
+    beforeBootstrapSql?: string;
+    decisionType?: "keep_active_pending_investigation" | "defer" | "archive" | "supersede";
+    inspectConceptKey?: string;
+  } = {},
+) {
+  const scopeClassification = options.decisionType ? "complete_snapshot" : "unknown";
+  const inspectConceptKey = options.inspectConceptKey ?? candidate.concept_key;
+  const decisionSql = options.decisionType ? `
+    reset role;
+    grant ingestion_lifecycle_definer to postgres;
+    set local role ingestion_lifecycle_definer;
+    create temporary table lifecycle_scenario_decision_contract as
+    with diff_item as (
+      select item
+      from lifecycle_update_context context,
+        lateral pg_catalog.jsonb_array_elements(context.report_json->'items') item
+      where item->>'classification'='missing_prior_concept'
+    ), current_identity as (
+      select heads.source_record_id,heads.source_record_version_id,heads.food_id
+      from ingestion.food_projection_heads heads
+      join ingestion.source_records records on records.id=heads.source_record_id
+      where records.concept_key='foundation:synthetic-beta'
+        and heads.environment='local'
+    ), decision_item as (
+      select pg_catalog.jsonb_build_object(
+        'source_record_id',current_identity.source_record_id,
+        'source_record_version_id',current_identity.source_record_version_id,
+        'related_source_record_id',null,
+        'food_id',current_identity.food_id,
+        'diff_item_fingerprint',diff_item.item->>'item_fingerprint'
+      ) value from diff_item,current_identity
+    ), body as (
+      select pg_catalog.jsonb_build_object(
+        'contract_version','foundation-reconciliation-decision/v1',
+        'dataset_id',releases.dataset_id,
+        'source_release_id',releases.id,
+        'environment','local','decision_type','${options.decisionType}',
+        'relationship_direction','none',
+        'reason','Synthetic complete-snapshot missing decision',
+        'evidence_references',pg_catalog.jsonb_build_array(
+          'synthetic-fixture:missing-decision'
+        ),
+        'reviewer_identity','Synthetic lifecycle approver',
+        'approval_reference','synthetic-${options.decisionType}-decision',
+        'approval_timestamp','2026-07-19T00:00:00Z',
+        'expires_at','2027-07-19T00:00:00Z',
+        'supersedes_decision_id',null,
+        'items',pg_catalog.jsonb_build_array(
+          decision_item.value||pg_catalog.jsonb_build_object(
+            'item_fingerprint',ingestion.fingerprint_json_v1(decision_item.value)
+          )
+        )
+      ) value
+      from lifecycle_update_context context
+      join ingestion.import_runs runs on runs.id=context.run_id
+      join ingestion.source_releases releases on releases.id=runs.source_release_id
+      cross join decision_item
+    ) select value||pg_catalog.jsonb_build_object(
+      'contract_fingerprint',ingestion.fingerprint_json_v1(value)
+    ) contract from body;
+    grant select on lifecycle_scenario_decision_contract to ingestion_approver;
+    reset role;
+    revoke ingestion_lifecycle_definer from postgres;
+    set local role ingestion_approver;
+    update lifecycle_update_context set decision_id=(
+      select ingestion.register_foundation_reconciliation_decision(contract)
+      from lifecycle_scenario_decision_contract
+    );
+    reset role;
+    set local role ingestion_operator;
+  ` : "";
+  const result = queryDatabase(`
+    begin;
+    grant ingestion_operator, ingestion_approver to postgres;
+    set local role ingestion_operator;
+    ${syntheticDiffSql(
+      candidate,
+      payloadHash,
+      options.beforeBootstrapSql,
+      scopeClassification,
+    )}
+    grant ingestion_lifecycle_definer to postgres;
+    set local role ingestion_lifecycle_definer;
+    update lifecycle_update_context context set report_json =
+      ingestion.recompute_foundation_release_diff_v1(context.run_id);
+    reset role;
+    revoke ingestion_lifecycle_definer from postgres;
+    set local role ingestion_operator;
+    update lifecycle_update_context context set report_id =
+      ingestion.register_foundation_release_diff_report(
+        context.run_id,context.report_json
+      );
+    ${decisionSql}
+    update lifecycle_update_context context set validation_id = (
+      select validation_receipt_id
+      from ingestion.validate_foundation_lifecycle_run(context.run_id)
+    );
+    update lifecycle_update_context context set (
+      execution_plan_id,execution_plan_fingerprint
+    ) = (
+      select prepared.execution_plan_id,prepared.plan_fingerprint
+      from ingestion.prepare_foundation_lifecycle_execution_plan(
+        context.validation_id
+      ) prepared
+    );
+    reset role;
+    grant ingestion_lifecycle_definer to postgres;
+    set local role ingestion_lifecycle_definer;
+    update lifecycle_update_context context set approval_contract = (
+      with body as (
+        select pg_catalog.jsonb_build_object(
+          'contract_version','foundation-lifecycle-update-approval/v2',
+          'validation_receipt_id',receipts.id,
+          'validation_fingerprint',receipts.validation_fingerprint,
+          'execution_plan_id',plans.id,
+          'execution_plan_fingerprint',plans.plan_fingerprint,
+          'release_diff_report_fingerprint',
+            plans.plan_contract->>'release_diff_report_fingerprint',
+          'prior_dataset_head_id',plans.prior_dataset_projection_head_id,
+          'prior_dataset_head_version',
+            (plans.plan_contract->>'current_dataset_head_version')::bigint,
+          'prior_dataset_head_fingerprint',
+            plans.plan_contract->>'current_dataset_head_fingerprint',
+          'current_scope_evidence_fingerprint',
+            plans.plan_contract->>'current_scope_evidence_fingerprint',
+          'decision_set_fingerprint',
+            ingestion.fingerprint_json_v1(plans.decision_fingerprints),
+          'allowance_set_fingerprint',
+            ingestion.fingerprint_json_v1(plans.allowance_fingerprints),
+          'before_projection_fingerprint',plans.before_projection_fingerprint,
+          'after_projection_fingerprint',plans.after_projection_fingerprint,
+          'environment',plans.environment,
+          'approver_identity','Synthetic lifecycle approver',
+          'approval_reference','synthetic-lifecycle-scenario-approval',
+          'approval_timestamp','2026-07-19T00:00:00Z',
+          'expires_at','2027-07-19T00:00:00Z'
+        ) value
+        from ingestion.lifecycle_validation_receipts receipts
+        join ingestion.lifecycle_execution_plans plans
+          on plans.validation_receipt_id=receipts.id
+        where receipts.id=context.validation_id
+          and plans.id=context.execution_plan_id
+      )
+      select value||pg_catalog.jsonb_build_object(
+        'contract_fingerprint',ingestion.fingerprint_json_v1(value)
+      ) from body
+    );
+    reset role;
+    revoke ingestion_lifecycle_definer from postgres;
+    set local role ingestion_approver;
+    update lifecycle_update_context context set approval_id =
+      ingestion.register_foundation_lifecycle_update_approval(
+        context.validation_id,context.approval_contract
+      );
+    reset role;
+    set local role ingestion_operator;
+    create temporary table lifecycle_scenario_result as
+      select * from ingestion.execute_foundation_lifecycle_update(
+        (select approval_id from lifecycle_update_context)
+      );
+    reset role;
+    select pg_catalog.jsonb_build_object(
+      'action',(
+        select lifecycle_action
+        from ingestion.lifecycle_execution_plan_items
+        where lifecycle_execution_plan_id=(
+          select execution_plan_id from lifecycle_update_context
+        )
+          and concept_key='${inspectConceptKey}'
+      ),
+      'actions',(
+        select pg_catalog.jsonb_agg(lifecycle_action order by action_ordinal)
+        from ingestion.lifecycle_execution_plan_items
+        where lifecycle_execution_plan_id=(
+          select execution_plan_id from lifecycle_update_context
+        )
+      ),
+      'public_counts',receipts.public_mutation_counts,
+      'history_counts',receipts.history_insertion_counts,
+      'resulting_head_version',
+        receipts.receipt_contract->>'resulting_dataset_head_version',
+      'reservation_count',(
+        select count(*) from ingestion.application_food_identity_reservations
+      ),
+      'food',(
+        select pg_catalog.jsonb_build_object(
+          'id',foods.id,'name',foods.name,'is_archived',foods.is_archived,
+          'nutrients',coalesce((
+            select pg_catalog.jsonb_object_agg(
+              nutrients.code,current_rows.amount order by nutrients.code
+            )
+            from public.food_nutrients current_rows
+            join public.nutrients nutrients
+              on nutrients.id=current_rows.nutrient_id
+            where current_rows.food_id=foods.id
+          ),'{}'::jsonb)
+        )
+        from public.foods foods
+        where foods.source_food_id='${inspectConceptKey}'
+      )
+    )::text
+    from ingestion.lifecycle_update_receipts receipts
+    where receipts.lifecycle_update_approval_id=(
+      select approval_id from lifecycle_update_context
+    );
+    rollback;
+  `).split("\n").slice(-1)[0];
+  return JSON.parse(result) as {
+    action: string;
+    actions: string[];
+    public_counts: Record<string, number>;
+    history_counts: Record<string, number>;
+    resulting_head_version: string;
+    reservation_count: number;
+    food: {
+      id: string;
+      name: string;
+      is_archived: boolean;
+      nutrients: Record<string, number>;
+    };
+  };
+}
 
 test.describe.serial("Phase 10E lifecycle database foundation", () => {
   test("creates distinct immutable evidence and guarded head relations", () => {
@@ -342,12 +623,14 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
         'food_nutrient_projection_evidence_links','food_source_link_events',
         'lifecycle_validation_receipts','lifecycle_update_approvals',
         'lifecycle_update_receipts','dataset_projection_current_heads',
-        'release_scope_current_evidence'
+        'release_scope_current_evidence',
+        'application_food_identity_reservations','lifecycle_execution_plans',
+        'lifecycle_execution_plan_items'
       );
       select count(*) from pg_trigger where not tgisinternal
         and tgname like '%_immutable';
     `);
-    expect(inventory).toBe("17\n20");
+    expect(inventory).toBe("20\n23");
   });
 
   test("installs exact corrective constraints and private lifecycle boundaries", () => {
@@ -398,25 +681,45 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
     `)).toBe("false|false|false|false|false|false\n0");
   });
 
-  test("grants no public projection DML to the lifecycle definer", () => {
+  test("grants only guarded lifecycle public projection columns", () => {
     expect(queryDatabase(`
       select count(*) from unnest(array[
-        'public.foods','public.food_nutrients','public.food_aliases',
-        'public.food_barcodes','public.diary_entries','public.saved_meals',
-        'public.recipes'
+        'public.food_aliases','public.food_barcodes','public.diary_entries',
+        'public.saved_meals','public.recipes'
       ]) relation_name
       where has_table_privilege(
         'ingestion_lifecycle_definer',relation_name,'INSERT,UPDATE,DELETE,TRUNCATE'
       );
-    `)).toBe("0");
+      select has_column_privilege('ingestion_lifecycle_definer','public.foods',
+        'name','UPDATE')||'|'||has_column_privilege(
+        'ingestion_lifecycle_definer','public.foods','is_archived','UPDATE')||'|'
+        ||has_column_privilege('ingestion_lifecycle_definer','public.foods',
+          'owner_user_id','UPDATE')||'|'||has_table_privilege(
+          'ingestion_lifecycle_definer','public.foods','DELETE')||'|'
+        ||has_column_privilege('ingestion_lifecycle_definer',
+          'public.food_nutrients','amount','UPDATE')||'|'
+        ||has_table_privilege('ingestion_lifecycle_definer',
+          'public.food_nutrients','DELETE');
+      select has_function_privilege('ingestion_lifecycle_definer',
+        'public.normalize_food_search_text(text)','EXECUTE');
+    `)).toBe("0\ntrue|true|false|false|true|true\nt");
   });
 
-  test("preserves the current nutrient evidence delete restriction", () => {
+  test("replaces the current-row FK with immutable-link delete integrity", () => {
     expect(queryDatabase(`
-      select pg_get_constraintdef(oid) from pg_constraint
+      select count(*) from pg_constraint
       where conrelid='ingestion.food_nutrient_evidence'::regclass
         and conname='food_nutrient_evidence_food_nutrient_id_fkey';
-    `)).toContain("ON DELETE RESTRICT");
+      select count(*) from pg_trigger where not tgisinternal and tgname in (
+        'food_nutrient_evidence_history_link',
+        'food_nutrients_guard_history_delete',
+        'food_nutrient_projection_evidence_links_validate'
+      );
+      select col_description('ingestion.food_nutrient_evidence'::regclass,
+        (select attnum from pg_attribute
+          where attrelid='ingestion.food_nutrient_evidence'::regclass
+            and attname='food_nutrient_id')) is not null;
+    `)).toBe("0\n3\nt");
   });
 
   test("keeps generic initial run creation compatible and purpose-bound", () => {
@@ -518,7 +821,7 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       set local role ingestion_operator;
       do $block$ begin
         perform ingestion.transition_import_run(
@@ -757,7 +1060,7 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       reset role;
       create temporary table evidence_context (
         source_version_id uuid, compatible_evidence_id uuid,
@@ -917,7 +1220,7 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       grant ingestion_lifecycle_definer to postgres;
       set local role ingestion_lifecycle_definer;
       update lifecycle_update_context set scope_contract =
@@ -1088,16 +1391,28 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
     `)).toBe("0\nfalse|false|true");
   });
 
-  test("has no lifecycle execution function or exposed receipt insertion function", () => {
+  test("exposes only the approval-bound operator executor and receipt lookup", () => {
     expect(queryDatabase(`
       select count(*) from pg_proc procedures
       join pg_namespace namespaces on namespaces.oid=procedures.pronamespace
+      where namespaces.nspname='ingestion'
+        and procedures.proname='execute_foundation_lifecycle_update'
+        and pg_catalog.pg_get_function_identity_arguments(procedures.oid)
+          ='p_update_approval_id uuid';
+      select has_function_privilege('ingestion_operator',
+        'ingestion.execute_foundation_lifecycle_update(uuid)','EXECUTE')||'|'
+        ||has_function_privilege('ingestion_approver',
+          'ingestion.execute_foundation_lifecycle_update(uuid)','EXECUTE')||'|'
+        ||has_function_privilege('service_role',
+          'ingestion.execute_foundation_lifecycle_update(uuid)','EXECUTE')||'|'
+        ||has_function_privilege('ingestion_operator',
+          'ingestion.get_foundation_lifecycle_update_receipt(uuid)','EXECUTE');
+      select count(*) from pg_proc procedures
+      join pg_namespace namespaces on namespaces.oid=procedures.pronamespace
       where namespaces.nspname='ingestion' and procedures.proname in (
-        'execute_foundation_lifecycle_update',
-        'promote_foundation_lifecycle_update',
-        'insert_lifecycle_update_receipt'
+        'promote_foundation_lifecycle_update','insert_lifecycle_update_receipt'
       );
-    `)).toBe("0");
+    `)).toBe("1\ntrue|false|false|true\n0");
   });
 
   test("scopes reusable item fingerprints to immutable parent evidence", () => {
@@ -1105,7 +1420,7 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       grant ingestion_lifecycle_definer to postgres;
       set local role ingestion_lifecycle_definer;
       update lifecycle_update_context context set report_json=
@@ -1267,7 +1582,7 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       set local role ingestion_operator;
       reset role;
       with inserted as (
@@ -1379,12 +1694,109 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
     expect(result).toEqual(["t", "validated|1|1"]);
   });
 
+  test("executes supported synthetic source, projection, and identity mutations", () => {
+    const semanticVersion = executeSyntheticLifecycleScenario(
+      semanticVersionCandidate,
+      hashB,
+    );
+    expect(semanticVersion).toMatchObject({
+      action: "advance_source_version_reuse_projection",
+      public_counts: {
+        foods_inserted: 0,
+        current_nutrients_inserted: 0,
+        current_nutrients_updated: 0,
+        current_nutrients_deleted: 0,
+      },
+      history_counts: {
+        source_record_versions_inserted: 1,
+        food_projection_versions_inserted: 0,
+        food_projection_versions_reused: 1,
+        food_heads_advanced: 1,
+      },
+      resulting_head_version: "2",
+    });
+
+    const projectionChange = executeSyntheticLifecycleScenario(
+      projectionChangeCandidate,
+      hashB,
+    );
+    expect(projectionChange).toMatchObject({
+      action: "replace_current_projection",
+      public_counts: {
+        food_names_updated: 1,
+        current_nutrients_updated: 2,
+        current_nutrients_deleted: 2,
+      },
+      history_counts: {
+        source_record_versions_inserted: 1,
+        food_projection_versions_inserted: 1,
+        nutrient_projection_states_inserted: 4,
+        food_heads_advanced: 1,
+      },
+      food: {
+        name: "Synthetic Alpha Food Updated",
+        is_archived: false,
+        nutrients: { energy_kcal: 0, protein_g: 5 },
+      },
+    });
+    expect(projectionChange.food.nutrients).not.toHaveProperty("carbohydrates_g");
+    expect(projectionChange.food.nutrients).not.toHaveProperty("fat_g");
+
+    const newConcept = executeSyntheticLifecycleScenario(
+      newConceptCandidate,
+      hashB,
+    );
+    expect(newConcept).toMatchObject({
+      action: "insert_new_concept",
+      public_counts: { foods_inserted: 1, current_nutrients_inserted: 3 },
+      history_counts: {
+        source_records_inserted: 1,
+        source_record_versions_inserted: 1,
+        food_projection_versions_inserted: 1,
+        nutrient_projection_states_inserted: 4,
+        food_heads_inserted: 1,
+      },
+      reservation_count: 1,
+      food: { name: "Synthetic New Food", is_archived: false },
+    });
+
+    for (const [decisionType, action, archived] of [
+      ["keep_active_pending_investigation", "keep_active_pending_investigation", false],
+      ["defer", "mark_missing_pending", false],
+      ["archive", "archive", true],
+      ["supersede", "supersede", true],
+    ] as const) {
+      const missingDecision = executeSyntheticLifecycleScenario(
+        exactLifecycleCandidate,
+        hashA,
+        {
+          decisionType,
+          inspectConceptKey: "foundation:synthetic-beta",
+        },
+      );
+      expect(missingDecision.action).toBe(action);
+      expect(missingDecision.actions).toContain("no_op_byte_identical");
+      expect(missingDecision.food).toMatchObject({ is_archived: archived });
+      expect(missingDecision.history_counts.decisions_consumed).toBe(1);
+      if (action === "archive") {
+        expect(missingDecision.public_counts.foods_archived).toBe(1);
+      }
+      if (action === "supersede") {
+        expect(missingDecision.public_counts).toMatchObject({
+          foods_archived: 1,
+          foods_superseded: 1,
+        });
+      }
+    }
+
+  });
+
   test("registers and independently validates an exact deterministic release diff", () => {
     const result = queryDatabase(`
       begin;
       grant ingestion_operator, ingestion_approver to postgres;
       set local role ingestion_operator;
-      ${syntheticDiffSql}
+      ${syntheticDiffSql()}
       grant ingestion_lifecycle_definer to postgres;
       set local role ingestion_lifecycle_definer;
       update lifecycle_update_context context set report_json =
@@ -1433,6 +1845,13 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       select (validation_id=validation_receipt_id)::text||'|'||exact_retry
       from lifecycle_update_context context,
         lateral ingestion.validate_foundation_lifecycle_run(context.run_id);
+      update lifecycle_update_context context set (
+        execution_plan_id,execution_plan_fingerprint
+      )=(select prepared.execution_plan_id,prepared.plan_fingerprint
+        from ingestion.prepare_foundation_lifecycle_execution_plan(
+          context.validation_id
+        ) prepared
+      );
       do $block$ begin
         perform ingestion.transition_import_run(
           (select run_id from lifecycle_update_context),
@@ -1448,17 +1867,38 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       update lifecycle_update_context context set approval_contract=(
         with body as (
           select pg_catalog.jsonb_build_object(
-            'contract_version','foundation-lifecycle-update-approval/v1',
+            'contract_version','foundation-lifecycle-update-approval/v2',
             'validation_receipt_id',receipts.id,
             'validation_fingerprint',receipts.validation_fingerprint,
-            'environment',receipts.environment,
+            'execution_plan_id',plans.id,
+            'execution_plan_fingerprint',plans.plan_fingerprint,
+            'release_diff_report_fingerprint',
+              plans.plan_contract->>'release_diff_report_fingerprint',
+            'prior_dataset_head_id',plans.prior_dataset_projection_head_id,
+            'prior_dataset_head_version',
+              (plans.plan_contract->>'current_dataset_head_version')::bigint,
+            'prior_dataset_head_fingerprint',
+              plans.plan_contract->>'current_dataset_head_fingerprint',
+            'current_scope_evidence_fingerprint',
+              plans.plan_contract->>'current_scope_evidence_fingerprint',
+            'decision_set_fingerprint',
+              ingestion.fingerprint_json_v1(plans.decision_fingerprints),
+            'allowance_set_fingerprint',
+              ingestion.fingerprint_json_v1(plans.allowance_fingerprints),
+            'before_projection_fingerprint',
+              plans.before_projection_fingerprint,
+            'after_projection_fingerprint',plans.after_projection_fingerprint,
+            'environment',plans.environment,
             'approver_identity','Synthetic lifecycle approver',
             'approval_reference','synthetic-lifecycle-approval',
             'approval_timestamp','2026-07-19T00:00:00Z',
             'expires_at','2027-07-19T00:00:00Z'
           ) value
           from ingestion.lifecycle_validation_receipts receipts
+          join ingestion.lifecycle_execution_plans plans
+            on plans.validation_receipt_id=receipts.id
           where receipts.id=context.validation_id
+            and plans.id=context.execution_plan_id
         ) select value||pg_catalog.jsonb_build_object(
           'contract_fingerprint',ingestion.fingerprint_json_v1(value)
         ) from body
@@ -1525,6 +1965,95 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
         raise exception 'conflicting approval accepted';
       exception when unique_violation then null; end $block$;
       reset role;
+      create temporary table lifecycle_rollback_baseline as select
+        (select count(*) from public.foods) foods,
+        (select count(*) from public.food_nutrients) nutrients,
+        (select count(*) from ingestion.source_records) source_records,
+        (select count(*) from ingestion.source_record_versions) source_versions,
+        (select count(*) from ingestion.food_projection_versions) projections,
+        (select count(*) from ingestion.food_nutrient_projection_versions)
+          nutrient_projections,
+        (select count(*) from ingestion.food_nutrient_evidence) evidence,
+        (select count(*) from ingestion.food_nutrient_projection_evidence_links)
+          evidence_links,
+        (select count(*) from ingestion.food_source_link_events) link_events,
+        (select count(*) from ingestion.dataset_projection_heads) dataset_heads,
+        (select count(*) from ingestion.lifecycle_update_receipts) receipts,
+        (select current_dataset_projection_head_id
+          from ingestion.dataset_projection_current_heads) current_head,
+        (select current_state from ingestion.import_runs
+          where id=(select run_id from lifecycle_update_context)) run_state;
+      do $block$
+      declare stage text;
+      begin
+        foreach stage in array array[
+          'after_promoting_state_event','after_identity_reservation_resolution',
+          'after_source_record_insertion','after_source_version_insertion',
+          'after_portion_insertion','after_public_food_insertion',
+          'after_current_nutrient_upsert','after_projection_version_insertion',
+          'after_nutrient_projection_insertion','after_evidence_insertion',
+          'after_evidence_link_insertion','after_current_nutrient_deletion',
+          'after_food_archive_reactivation_update',
+          'after_source_record_status_update','after_source_link_event',
+          'after_food_head_update','after_dataset_head_insertion',
+          'after_receipt_insertion','after_current_pointer_advancement',
+          'before_completion_transition',
+          'after_completion_transition_before_return'
+        ] loop
+          begin
+            perform pg_catalog.set_config(
+              'nutrition_tracker.lifecycle_failpoint',stage,true
+            );
+            perform ingestion.execute_foundation_lifecycle_update(
+              (select approval_id from lifecycle_update_context)
+            );
+            raise exception 'lifecycle failpoint did not fire: %',stage;
+          exception when sqlstate 'P0001' then null;
+          end;
+          if (select pg_catalog.to_jsonb(current_state)
+            from (select
+              (select count(*) from public.foods) foods,
+              (select count(*) from public.food_nutrients) nutrients,
+              (select count(*) from ingestion.source_records) source_records,
+              (select count(*) from ingestion.source_record_versions)
+                source_versions,
+              (select count(*) from ingestion.food_projection_versions)
+                projections,
+              (select count(*)
+                from ingestion.food_nutrient_projection_versions)
+                nutrient_projections,
+              (select count(*) from ingestion.food_nutrient_evidence) evidence,
+              (select count(*)
+                from ingestion.food_nutrient_projection_evidence_links)
+                evidence_links,
+              (select count(*) from ingestion.food_source_link_events)
+                link_events,
+              (select count(*) from ingestion.dataset_projection_heads)
+                dataset_heads,
+              (select count(*) from ingestion.lifecycle_update_receipts)
+                receipts,
+              (select current_dataset_projection_head_id
+                from ingestion.dataset_projection_current_heads) current_head,
+              (select current_state from ingestion.import_runs
+                where id=(select run_id from lifecycle_update_context)) run_state
+            ) current_state)
+            <> (select pg_catalog.to_jsonb(baseline)
+              from lifecycle_rollback_baseline baseline)
+          then
+            raise exception 'lifecycle failpoint leaked state: %',stage;
+          end if;
+        end loop;
+      end $block$;
+      set local role ingestion_operator;
+      create temporary table lifecycle_execution_once as
+        select * from ingestion.execute_foundation_lifecycle_update(
+          (select approval_id from lifecycle_update_context)
+        );
+      create temporary table lifecycle_execution_retry as
+        select * from ingestion.execute_foundation_lifecycle_update(
+          (select approval_id from lifecycle_update_context)
+        );
+      reset role;
       select runs.current_state||'|'||(
         select count(*) from ingestion.lifecycle_update_receipts
       )||'|'||(
@@ -1534,6 +2063,14 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
         select count(*) from public.foods
       )||'|'||(
         select count(*) from ingestion.lifecycle_update_approvals
+      )||'|'||(
+        select exact_retry from lifecycle_execution_once
+      )||'|'||(
+        select exact_retry from lifecycle_execution_retry
+      )||'|'||(
+        select count(*) from ingestion.get_foundation_lifecycle_update_receipt(
+          context.approval_id
+        )
       ) from ingestion.import_runs runs
       join lifecycle_update_context context on context.run_id=runs.id;
       rollback;
@@ -1613,6 +2150,6 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
     expect(retry).toBe("t");
     expect(validationRetry).toBe("true|true");
     expect(approvalRetry).toBe("t");
-    expect(finalState).toMatch(/^validated\|0\|1\|[0-9]+\|1$/);
+    expect(finalState).toMatch(/^completed\|1\|2\|[0-9]+\|1\|false\|true\|1$/);
   });
 });
