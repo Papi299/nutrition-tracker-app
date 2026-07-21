@@ -712,10 +712,12 @@ Manual RTL QA checklist:
   controlled promotion implementation/local rehearsal and Phase 10D.2 exact
   production promotion are complete. Overall Phase 10D is complete. Phase
   10E.1 lifecycle planning and Phase 10E.2 lifecycle foundations are complete
-  after green CI and clean final review. Phase 10E.3A hardening, deterministic
-  diff, report registration, and validation is complete only after its CI and
-  final review; Phase 10E is started but incomplete, Phase 10E.3B is next and
-  unstarted, and overall Phase 10 remains incomplete.
+  after green CI and clean final review. Phase 10E.3 atomic lifecycle execution
+  is complete. Phase 10E.4 production-shaped local upgrade, sequential release,
+  application regression, concurrency, performance, and restore rehearsal is
+  complete only after its CI and final review. Phase 10E is started but
+  incomplete, Phase 10E.5 is conditional and unstarted, and overall Phase 10
+  remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -798,9 +800,11 @@ Manual RTL QA checklist:
   local rehearsal and Phase 10D.2 exact production promotion are complete.
   Overall Phase 10D is complete. Phase 10E.1 lifecycle planning and Phase
   10E.2 lifecycle foundations are complete after green CI and clean final
-  review. Phase 10E.3A is complete only after green CI and clean final review;
-  overall Phase 10E is started but incomplete, Phase 10E.3B is next and
-  unstarted, overall Phase 10 remains incomplete, and Phase 11 remains unstarted.
+  review. Phase 10E.3 atomic lifecycle execution is complete. Phase 10E.4
+  production-shaped local rehearsal is complete only after green CI and clean
+  final review; overall Phase 10E is started but incomplete, Phase 10E.5 is
+  conditional and unstarted, overall Phase 10 remains incomplete, and Phase 11
+  remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.
