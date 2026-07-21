@@ -166,9 +166,17 @@ is complete for the current MVP scope.
   update/removal, a database-reserved new concept, and reviewed keep-active,
   missing-pending, archive, and supersede decisions; it uses no provider
   artifact or remote database. Phase 10E.3 is
-  complete only after green CI and clean final review. Phase 10E remains
-  incomplete; Phase 10E.4 application regression and full-release-shaped local
-  rehearsal is next and unstarted. Overall Phase 10 remains incomplete, no production update is
+  complete after green CI and clean final review. Phase 10E.4 adds the
+  `foundation-lifecycle-production-shaped-rehearsal/v1` local-only command and
+  forward-only corrections found while upgrading the populated 353-food Phase
+  10D catalog. The rehearsal bootstraps 353 food heads, 1,199 present and 213
+  missing nutrient states, advances synthetic dataset heads 1 → 2 → 3, preserves
+  durable application snapshots, passes eight full-shape and 21 bounded
+  failpoints, same-approval concurrency, performance gates, and an isolated
+  logical restore. No provider artifact is committed and no remote operation
+  occurs. Phase 10E.4 is complete only after green CI and clean final review.
+  Phase 10E remains incomplete; Phase 10E.5 is conditional and unstarted.
+  Overall Phase 10 remains incomplete, no production update is
   authorized, and the
   initial-promotion function must not be reused for updates. The Phase 9
   durable evidence is in
@@ -704,10 +712,12 @@ Manual RTL QA checklist:
   controlled promotion implementation/local rehearsal and Phase 10D.2 exact
   production promotion are complete. Overall Phase 10D is complete. Phase
   10E.1 lifecycle planning and Phase 10E.2 lifecycle foundations are complete
-  after green CI and clean final review. Phase 10E.3A hardening, deterministic
-  diff, report registration, and validation is complete only after its CI and
-  final review; Phase 10E is started but incomplete, Phase 10E.3B is next and
-  unstarted, and overall Phase 10 remains incomplete.
+  after green CI and clean final review. Phase 10E.3 atomic lifecycle execution
+  is complete. Phase 10E.4 production-shaped local upgrade, sequential release,
+  application regression, concurrency, performance, and restore rehearsal is
+  complete only after its CI and final review. Phase 10E is started but
+  incomplete, Phase 10E.5 is conditional and unstarted, and overall Phase 10
+  remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -790,9 +800,11 @@ Manual RTL QA checklist:
   local rehearsal and Phase 10D.2 exact production promotion are complete.
   Overall Phase 10D is complete. Phase 10E.1 lifecycle planning and Phase
   10E.2 lifecycle foundations are complete after green CI and clean final
-  review. Phase 10E.3A is complete only after green CI and clean final review;
-  overall Phase 10E is started but incomplete, Phase 10E.3B is next and
-  unstarted, overall Phase 10 remains incomplete, and Phase 11 remains unstarted.
+  review. Phase 10E.3 atomic lifecycle execution is complete. Phase 10E.4
+  production-shaped local rehearsal is complete only after green CI and clean
+  final review; overall Phase 10E is started but incomplete, Phase 10E.5 is
+  conditional and unstarted, overall Phase 10 remains incomplete, and Phase 11
+  remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

@@ -16,8 +16,14 @@ projection/nutrient replacement, reserved-identity insertion, exact retry, and
 reviewed missing/archive/supersede actions plus all 21 rollback failpoints pass
 without provider or remote access. Phase 10E.3 is
 complete only after green CI and clean final review. Overall Phase 10E remains
-incomplete; Phase 10E.4 application regression and full-release-shaped local
-rehearsal is next and unstarted. Overall Phase 10 remains incomplete, and Phase
+incomplete. Phase 10E.4 now provides a deterministic, local-only production-
+shaped rehearsal over the verified 353-food April 2026 baseline: populated
+migration upgrade, exact lifecycle bootstrap, two synthetic sequential heads,
+application snapshot/search/prefill regression, full-shape failure and
+same-approval concurrency checks, performance gates, and isolated logical
+restore. No raw provider artifact or generated full report enters Git. Phase
+10E.4 is complete only after green CI and clean final review; Phase 10E.5 is
+conditional and unstarted. Overall Phase 10 remains incomplete, and Phase
 11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
@@ -835,9 +841,10 @@ rollback boundaries:
    documentation, and Phase 11 handoff.
 
 Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1 and
-10E.2 are complete after green CI and clean final review; Phase 10E.3A is
-complete only after its green CI and clean final review. Overall Phase 10E has
-started but remains incomplete. Phase 10E.3B is next and unstarted. The lifecycle plan
+10E.2 and 10E.3 are complete after green CI and clean final review. Phase
+10E.4 production-shaped local rehearsal is complete only after its green CI and
+clean final review. Overall Phase 10E has started but remains incomplete. Phase
+10E.5 is conditional and unstarted. The lifecycle plan
 separately governs controlled corrections, removals, archival, supersession,
 reconciliation, concurrency, rollback, and repeat-import behavior. The
 initial-promotion function must not be reused as an update mechanism.
@@ -878,9 +885,10 @@ Phase 10A alone completes planning, not Phase 10.
 Phase 10D.1 resolved implementation and local rehearsal, and Phase 10D.2 used
 the exact human-approved evidence to complete the initial production promotion.
 No provider-specific runtime access is approved. Phase 10E.1 completes the
-lifecycle-design gate, Phase 10E.2 completes the non-executing foundation, and
-Phase 10E.3A completes deterministic validation without execution. Phase
-10E.3B and all execution slices remain unstarted. Completion of planning,
+lifecycle-design gate, Phase 10E.2 completes the non-executing foundation,
+Phase 10E.3 completes decision-bound atomic local execution, and Phase 10E.4
+completes the production-shaped local rehearsal after green CI and clean final
+review. Phase 10E.5 remains conditional and unstarted. Completion of planning,
 foundation work, or the initial promotion does not authorize
 updates, removals, archival, supersession, reconciliation, or repeat imports.
 

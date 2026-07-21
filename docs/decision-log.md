@@ -1358,3 +1358,32 @@
   used. Phase 10E.3 is complete only after green CI and clean final review;
   Phase 10E.4 is next and unstarted, while Phase 10E and Phase 10 remain
   incomplete and Phase 10E.5 remains separately approval-gated.
+
+## 2026-07-21: Phase 10E.4 production-shaped lifecycle rehearsal
+
+- Reconstruct the exact verified April 2026 Phase 10D local baseline before
+  applying Phase 10E migrations. The local-only rehearsal bootstraps 353 food
+  projections, 1,199 present and 213 missing nutrient states, then executes two
+  deterministic synthetic complete snapshots through dataset-head versions 2
+  and 3. Synthetic overlays are not provider releases and remain outside Git.
+- The populated rehearsal exposed forward-corrected lifecycle defects: terminal
+  import-run classification blocked the legacy backfill; raw provider display
+  names conflicted with a trimmed lifecycle constraint; the full diff exceeded
+  the prior 1 MiB bound; plan row reuse leaked reserved identities; JSON null
+  was not converted to SQL null; rejected execution audit rows collided with
+  parser rejection evidence; reactivation could not repeat a prior active
+  projection under a new source version; deferred evidence validation lost its
+  definer authority; and PostgreSQL source-metadata classification diverged
+  from the TypeScript contract. Forward migrations preserve immutable Phase
+  10D evidence and reject broader alternatives such as rewriting merged
+  migrations, weakening validation, or changing public/provider scope.
+- Durable diary, favorite, Saved Meal, and Recipe snapshots remain canonically
+  identical. Warm search and prefill remain within local gates; missing and
+  explicit zero remain distinct. Eight full-release rollback points, all 21
+  bounded failpoints, same-approval concurrency, exact retry, hardened roles,
+  and an isolated logical backup/restore pass with no standing lifecycle role
+  membership.
+- No production, remote Supabase, real future USDA release, dependency upgrade,
+  alias, barcode, translation, or application UI change is involved. Phase
+  10E.4 is complete only after green CI and clean final review. Phase 10E.5 is
+  conditional and unstarted; overall Phase 10E and Phase 10 remain incomplete.

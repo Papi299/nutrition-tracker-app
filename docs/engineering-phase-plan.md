@@ -247,7 +247,15 @@ new-concept identity reservation, reviewed missing/archive/supersede decisions,
 and rollback at all 21 material failpoints
 without provider data or remote access. Phase 10E.3 is complete only after green CI and
 clean final review. Phase 10E remains incomplete; Phase 10E.4 application
-regression and full-release-shaped local rehearsal is next and unstarted.
+regression and full-release-shaped local rehearsal upgrades the populated
+353-food Phase 10D shape, bootstraps the complete ledger, and executes two
+deterministic synthetic releases through dataset-head versions 2 and 3. The
+local-only rehearsal preserves application snapshots, distinguishes missing
+from explicit zero, validates search/prefill performance, exercises full-shape
+rollback and same-approval concurrency, and restores a logical backup in an
+isolated database. Forward migrations correct only defects exposed by this
+scale rehearsal. Phase 10E.4 is complete only after green CI and clean final
+review; Phase 10E.5 remains conditional and unstarted.
 Overall Phase 10 remains incomplete. Neither
 the initial-promotion function nor the baseline bootstrap is an update
 mechanism, and no production update was authorized. The post-promotion backup
