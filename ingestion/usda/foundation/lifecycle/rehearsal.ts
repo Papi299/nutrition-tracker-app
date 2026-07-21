@@ -205,7 +205,7 @@ function requireLocalSupabase() {
 function cleanupLocalOperatorMemberships() {
   databaseAsAdmin(`
     revoke ingestion_operator, ingestion_approver,
-      ingestion_lifecycle_definer from postgres;
+      ingestion_lifecycle_definer from postgres cascade;
   `);
 }
 
@@ -650,9 +650,11 @@ function backupAndRestore(
   approvalId: string,
   expectedSnapshotFingerprint: string,
   expectedReadFingerprint: string,
+  expectedAggregates: Record<string, JsonValue>,
 ) {
   const rolesPath = join(outputDir, "phase10e4-roles.sql");
   const databasePath = join(outputDir, "phase10e4-database.dump");
+  const manifestPath = join(outputDir, "phase10e4-backup-manifest.json");
   const started = performance.now();
   const roles = execFileSync("docker", ["exec", databaseContainer, "pg_dumpall", "-U", "postgres", "--roles-only"], { encoding: "utf8" });
   writeFileSync(rolesPath, roles, { mode: 0o600 });
@@ -680,18 +682,46 @@ function backupAndRestore(
     'nutrients',(select count(*) from public.food_nutrients),
     'receipts',(select count(*) from ingestion.lifecycle_update_receipts),
     'invalid_receipt_fingerprints',(select count(*) from ingestion.lifecycle_update_receipts
-      where receipt_fingerprint<>ingestion.fingerprint_json_v1(receipt_contract)),
+      where receipt_fingerprint<>ingestion.fingerprint_json_v1(
+        receipt_contract-'receipt_fingerprint'
+      )),
     'rls_policies',(select count(*) from pg_catalog.pg_policies),
     'lifecycle_memberships',(select count(*) from pg_catalog.pg_auth_members memberships
       join pg_catalog.pg_roles roles on roles.oid=memberships.roleid
       where roles.rolname='ingestion_lifecycle_definer')
-  )::text;`, "phase10e4_restore");
+    )::text;`, "phase10e4_restore");
+  const verificationBody = JSON.parse(verification) as Record<string, JsonValue>;
+  if (verificationBody.head_version !== 3 || verificationBody.receipts !== 2 ||
+      verificationBody.invalid_receipt_fingerprints !== 0 ||
+      verificationBody.lifecycle_memberships !== 0 ||
+      verificationBody.foods !== expectedAggregates.foods ||
+      verificationBody.nutrients !== expectedAggregates.nutrients ||
+      verificationBody.rls_policies !== expectedAggregates.rls_policies) {
+    fail("Restored lifecycle, projection, receipt, RLS, or membership evidence differs.");
+  }
+  const manifestBody = {
+    contract_version: "foundation-lifecycle-local-logical-backup/v1",
+    synthetic_rehearsal_only: true,
+    roles_bytes: statSync(rolesPath).size,
+    roles_sha256: rolesHash,
+    database_bytes: statSync(databasePath).size,
+    database_sha256: databaseHash,
+    verification_fingerprint: sha256(verification),
+    restore_status: "tested_local_logical_restore",
+  };
+  const manifestFingerprint = fingerprintJson(manifestBody as JsonValue);
+  writeFileSync(manifestPath, `${JSON.stringify({
+    ...manifestBody, manifest_fingerprint: manifestFingerprint,
+  }, null, 2)}\n`, { mode: 0o600 });
+  chmodSync(manifestPath, 0o600);
   database("select pg_terminate_backend(pid) from pg_stat_activity where datname='phase10e4_restore';");
   database("drop database phase10e4_restore;");
   return {
     status: "tested_local_logical_restore", roles_bytes: statSync(rolesPath).size,
     roles_sha256: rolesHash, database_bytes: statSync(databasePath).size,
-    database_sha256: databaseHash, verification_fingerprint: sha256(verification),
+    database_sha256: databaseHash, manifest_fingerprint: manifestFingerprint,
+    manifest_bytes: statSync(manifestPath).size,
+    verification_fingerprint: sha256(verification),
     duration_ms: Number((performance.now() - started).toFixed(3)),
   };
 }
@@ -787,7 +817,8 @@ async function main() {
   if (security.service_execute !== false || security.authenticated_execute !== false || security.standing_memberships !== 0) fail("Lifecycle authority regression detected.");
   progress("backup_and_restore");
   const backup = backupAndRestore(
-    outputDir, releaseC.approvalId, snapshotsBefore.fingerprint, readsAfter.fingerprint,
+    outputDir, releaseC.approvalId, snapshotsBefore.fingerprint,
+    readsAfter.fingerprint, aggregateEvidence(),
   );
   const repositorySha = command("git", ["rev-parse", "main"]);
   if (repositorySha !== expectedBaseSha) fail("Rehearsal repository base SHA changed unexpectedly.");
