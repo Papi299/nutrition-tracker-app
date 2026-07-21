@@ -16,6 +16,7 @@
     "ingestion:foundation:dry-run": "node --experimental-strip-types ingestion/usda/foundation/cli.ts",
     "ingestion:foundation:promote-local": "node --experimental-strip-types ingestion/usda/foundation/promote-local.ts",
     "ingestion:foundation:approval-packet": "node --experimental-strip-types ingestion/usda/foundation/create-production-approval-packet.ts",
+    "ingestion:foundation:lifecycle-rehearsal": "node --experimental-strip-types ingestion/usda/foundation/lifecycle/rehearsal.ts",
     "types:ingestion": "node scripts/check-ingestion-types.mjs --write",
     "types:ingestion:check": "node scripts/check-ingestion-types.mjs",
     "supabase:status": "supabase status",

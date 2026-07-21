@@ -8,9 +8,16 @@ Phase 10E.3 is split at the execution boundary. Phase 10E.3A implements the
 corrective topology, deterministic release diff, exact immutable registration,
 and independent validation. Phase 10E.3B implements the decision-bound local
 execution boundary described below. Phase 10E.3 is complete only after green CI
-and clean final review. Overall Phase 10E remains incomplete; Phase 10E.4
-application regression and full-release-shaped local rehearsal is next and
-unstarted. Overall Phase 10 remains incomplete. No later USDA release,
+and clean final review. Phase 10E.4 implements the local-only production-shaped
+rehearsal: the populated 353-food Phase 10D upgrade, exact baseline bootstrap,
+two deterministic synthetic complete snapshots advancing heads 1 → 2 → 3,
+application snapshot/search/prefill regression, eight full-shape rollback
+points plus the 21 bounded points, same-approval concurrency, performance
+gates, and isolated logical restore with exact retry. Its forward migrations
+correct only lifecycle defects exposed by that rehearsal. Phase 10E.4 is
+complete only after green CI and clean final review. Overall Phase 10E remains
+incomplete; Phase 10E.5 is conditional and unstarted. Overall Phase 10 remains
+incomplete. No later USDA release,
 production lifecycle action, or additional provider is authorized.
 
 This document is the reviewed planning contract for lifecycle changes after the

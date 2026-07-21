@@ -2152,4 +2152,32 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
     expect(approvalRetry).toBe("t");
     expect(finalState).toMatch(/^completed\|1\|2\|[0-9]+\|1\|false\|true\|1$/);
   });
+
+  test("keeps the production-shaped lifecycle corrections durable", () => {
+    const evidence = JSON.parse(queryDatabase(`select pg_catalog.jsonb_build_object(
+      'history_trigger_security_definer',(select prosecdef from pg_catalog.pg_proc
+        where oid='ingestion.validate_nutrient_evidence_history_link_v1()'::regprocedure),
+      'projection_identity_constraint',(select pg_catalog.pg_get_constraintdef(oid)
+        from pg_catalog.pg_constraint
+        where conname='food_projection_versions_food_lifecycle_hash_key'),
+      'report_bound',(select pg_catalog.pg_get_constraintdef(oid)
+        from pg_catalog.pg_constraint
+        where conname='release_diff_reports_report_json_check'),
+      'plan_builder',pg_catalog.pg_get_functiondef(
+        'ingestion.build_foundation_lifecycle_execution_plan_v1(uuid,boolean)'::regprocedure),
+      'plan_preparer',pg_catalog.pg_get_functiondef(
+        'ingestion.prepare_foundation_lifecycle_execution_plan(uuid)'::regprocedure),
+      'executor',pg_catalog.pg_get_functiondef(
+        'ingestion.execute_foundation_lifecycle_update(uuid)'::regprocedure),
+      'diff',pg_catalog.pg_get_functiondef(
+        'ingestion.recompute_foundation_release_diff_v1(uuid)'::regprocedure)
+    )::text;`)) as Record<string, string | boolean>;
+    expect(evidence.history_trigger_security_definer).toBe(true);
+    expect(evidence.projection_identity_constraint).toContain("source_record_version_id");
+    expect(evidence.report_bound).toContain("2097152");
+    expect(String(evidence.plan_builder).toLowerCase()).toContain("reservation := null");
+    expect(String(evidence.plan_preparer).toLowerCase()).toContain("nullif(value->'proposed_food_state'");
+    expect(String(evidence.executor).toLowerCase()).toContain("then 'unchanged'");
+    expect(String(evidence.diff).toLowerCase()).toContain("current_row.source_metadata_hash is not null");
+  });
 });

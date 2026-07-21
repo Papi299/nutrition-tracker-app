@@ -166,9 +166,17 @@ is complete for the current MVP scope.
   update/removal, a database-reserved new concept, and reviewed keep-active,
   missing-pending, archive, and supersede decisions; it uses no provider
   artifact or remote database. Phase 10E.3 is
-  complete only after green CI and clean final review. Phase 10E remains
-  incomplete; Phase 10E.4 application regression and full-release-shaped local
-  rehearsal is next and unstarted. Overall Phase 10 remains incomplete, no production update is
+  complete after green CI and clean final review. Phase 10E.4 adds the
+  `foundation-lifecycle-production-shaped-rehearsal/v1` local-only command and
+  forward-only corrections found while upgrading the populated 353-food Phase
+  10D catalog. The rehearsal bootstraps 353 food heads, 1,199 present and 213
+  missing nutrient states, advances synthetic dataset heads 1 → 2 → 3, preserves
+  durable application snapshots, passes eight full-shape and 21 bounded
+  failpoints, same-approval concurrency, performance gates, and an isolated
+  logical restore. No provider artifact is committed and no remote operation
+  occurs. Phase 10E.4 is complete only after green CI and clean final review.
+  Phase 10E remains incomplete; Phase 10E.5 is conditional and unstarted.
+  Overall Phase 10 remains incomplete, no production update is
   authorized, and the
   initial-promotion function must not be reused for updates. The Phase 9
   durable evidence is in

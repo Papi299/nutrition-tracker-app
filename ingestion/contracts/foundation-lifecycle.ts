@@ -333,7 +333,7 @@ const diffReportFields = [
 ] as const;
 
 export function parseFoundationReleaseDiffReport(input: unknown) {
-  const value = exactObject(input, diffReportFields, "Release diff report", 262_144);
+  const value = exactObject(input, diffReportFields, "Release diff report", 2_097_152);
   if (value.contract_version !== foundationReleaseDiffContractVersion) {
     fail("Unsupported release-diff contract version.");
   }
