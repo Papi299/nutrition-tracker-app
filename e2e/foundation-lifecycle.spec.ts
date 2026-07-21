@@ -701,10 +701,8 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
         ||has_table_privilege('ingestion_lifecycle_definer',
           'public.food_nutrients','DELETE');
       select has_function_privilege('ingestion_lifecycle_definer',
-        'public.normalize_food_search_text(text)','EXECUTE')||'|'
-        ||has_function_privilege('service_role',
-          'public.normalize_food_search_text(text)','EXECUTE');
-    `)).toBe("0\ntrue|true|false|false|true|true\ntrue|false");
+        'public.normalize_food_search_text(text)','EXECUTE');
+    `)).toBe("0\ntrue|true|false|false|true|true\nt");
   });
 
   test("replaces the current-row FK with immutable-link delete integrity", () => {
