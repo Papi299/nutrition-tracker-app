@@ -1387,3 +1387,50 @@
   alias, barcode, translation, or application UI change is involved. Phase
   10E.4 is complete only after green CI and clean final review. Phase 10E.5 is
   conditional and unstarted; overall Phase 10E and Phase 10 remain incomplete.
+
+## 2026-07-22: Phase 10E roadmap and current-scope closeout reconciliation
+
+- Found that the lifecycle-plan header and newer project summaries correctly
+  described Phase 10E.3B, overall Phase 10E.3, and Phase 10E.4 as implemented,
+  while the implementation decomposition and several current-status summaries
+  still called 10E.3B or 10E.4 unstarted. That contradiction obscured the real
+  production boundary and could have sent the next task back into completed
+  local implementation instead of the required readiness gate. Earlier dated
+  decision entries remain historical snapshots of their then-current state;
+  this entry is the authoritative current reconciliation.
+- Confirmed that Phase 10D, Phase 10E.1, Phase 10E.2, Phase 10E.3A, Phase
+  10E.3B, overall Phase 10E.3, and Phase 10E.4 are complete. Phase 10E and
+  overall Phase 10 remain incomplete.
+- Preserved Phase 10E.5 as a conditional, unstarted exact production lifecycle
+  update using a later official USDA Foundation release. It still requires the
+  exact official release identity, archive checksum and manifest, completeness
+  classification, deterministic diff, rejects and warnings, reconciliation
+  decisions, lifecycle allowances, pre-operation backup, production approval,
+  maintenance/write-freeze conditions, atomic execution, verification, and
+  closeout. It is not complete, skipped, renamed, or waived; no later official
+  release is currently prepared, so it remains a dormant future gate rather
+  than the immediate next action.
+- Assigned deployment of the already-reviewed lifecycle foundation against the
+  existing immutable April 2026 production baseline to Phase 10E.6 rather than
+  misusing Phase 10E.5. Phase 10E.6A is a read-only readiness preflight that
+  verifies the exact repository/project/baseline and pending migrations,
+  creates and restores a fresh restricted backup in isolation, migrates and
+  bootstraps only the clone, verifies compatibility/security/no public-data
+  change, and produces go/no-go evidence. Phase 10E.6B is a separately
+  authorized production migration and existing-baseline bootstrap with exact
+  invariant checks and a post-bootstrap backup; it cannot stage, diff, approve,
+  or execute a later release. Phase 10E.6C records production and backup
+  evidence, confirms application/security invariants and conditional 10E.5,
+  and closes the current Foundation-only Phase 10E scope without authorizing a
+  provider release or data mutation.
+- Phase 10E.6A is the next actionable slice. Current-scope Phase 10E may close
+  through 10E.6 even while 10E.5 remains dormant, because 10E.5 is a future
+  use of the machinery rather than missing current implementation; any later
+  official release reopens every 10E.5 control under a new exact approval.
+  After 10E.6C, Phase 10F and 10G remain conditional and unstarted and Phase
+  10H becomes the next actionable slice for final Phase 10 integration and
+  acceptance. Overall Phase 10 remains incomplete until Phase 10H passes, and
+  Phase 11 remains unstarted.
+- This documentation-only reconciliation authorizes no production action and
+  adds no code, migration, test, generated artifact, dependency, provider
+  artifact/access, credential, configuration, or remote Supabase operation.

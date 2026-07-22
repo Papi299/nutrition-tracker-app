@@ -245,20 +245,40 @@ approval-only atomic executor. Its synthetic local rehearsal verifies exact
 retry, head advancement, source-version reuse, projection/nutrient replacement,
 new-concept identity reservation, reviewed missing/archive/supersede decisions,
 and rollback at all 21 material failpoints
-without provider data or remote access. Phase 10E.3 is complete only after green CI and
-clean final review. Phase 10E remains incomplete; Phase 10E.4 application
-regression and full-release-shaped local rehearsal upgrades the populated
+without provider data or remote access. Phase 10E.3A, Phase 10E.3B, and overall
+Phase 10E.3 are complete. Phase 10E.4 application regression and full-release-
+shaped local rehearsal upgrades the populated
 353-food Phase 10D shape, bootstraps the complete ledger, and executes two
 deterministic synthetic releases through dataset-head versions 2 and 3. The
 local-only rehearsal preserves application snapshots, distinguishes missing
 from explicit zero, validates search/prefill performance, exercises full-shape
 rollback and same-approval concurrency, and restores a logical backup in an
 isolated database. Forward migrations correct only defects exposed by this
-scale rehearsal. Phase 10E.4 is complete only after green CI and clean final
-review; Phase 10E.5 remains conditional and unstarted.
-Overall Phase 10 remains incomplete. Neither
-the initial-promotion function nor the baseline bootstrap is an update
-mechanism, and no production update was authorized. The post-promotion backup
+scale rehearsal. Phase 10E.4 is complete. Phase 10E.5 remains a conditional,
+unstarted exact production lifecycle update for a later official USDA
+Foundation release. It is not skipped or redefined, but it is dormant and is
+not required for current-scope acceptance unless such a release is prepared
+and separately approved.
+
+Phase 10E.6 now owns current-baseline production enablement and closeout.
+Phase 10E.6A, the next actionable slice, is a read-only readiness preflight that
+verifies the exact production baseline and pending migrations, creates and
+restores a restricted backup in isolation, applies and bootstraps the restored
+clone, and produces a go/no-go report without production mutation. A valid go
+result and separate explicit authorization are prerequisites for Phase 10E.6B,
+which may apply only the reviewed lifecycle migrations, bootstrap from the
+immutable Phase 10D receipt, verify unchanged public and user data plus the
+lifecycle security/history boundaries, and create a post-bootstrap backup. It
+must not stage or execute a later release. Phase 10E.6C records that evidence,
+confirms invariants and conditional 10E.5 status, closes Phase 10E for the
+current April 2026 Foundation-only scope, and hands off to Phase 10H without
+authorizing a provider or data mutation. Phase 10F and Phase 10G remain
+conditional and unstarted; they are not required to close the current MVP
+scope. Phase 10H becomes the next actionable Phase 10 slice after 10E.6C, and
+overall Phase 10 remains incomplete until Phase 10H passes. Overall Phase 10E
+and Phase 10 are currently incomplete. Neither the initial-promotion function
+nor the baseline bootstrap is an update mechanism, and no production action
+was authorized. The post-promotion backup
 remains outside Git with manifest fingerprint
 `b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f` and
 restore status `not_tested`. Phase 11 remains unstarted.
