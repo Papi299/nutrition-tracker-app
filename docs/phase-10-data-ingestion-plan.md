@@ -14,17 +14,21 @@ approval/receipt V2, safely decoupled immutable nutrient history, and the
 approval-only atomic executor. Synthetic local source-version reuse,
 projection/nutrient replacement, reserved-identity insertion, exact retry, and
 reviewed missing/archive/supersede actions plus all 21 rollback failpoints pass
-without provider or remote access. Phase 10E.3 is
-complete only after green CI and clean final review. Overall Phase 10E remains
-incomplete. Phase 10E.4 now provides a deterministic, local-only production-
-shaped rehearsal over the verified 353-food April 2026 baseline: populated
+without provider or remote access. Phase 10E.3A, Phase 10E.3B, and overall
+Phase 10E.3 are complete. Phase 10E.4 provides a deterministic, local-only
+production-shaped rehearsal over the verified 353-food April 2026 baseline: populated
 migration upgrade, exact lifecycle bootstrap, two synthetic sequential heads,
 application snapshot/search/prefill regression, full-shape failure and
 same-approval concurrency checks, performance gates, and isolated logical
 restore. No raw provider artifact or generated full report enters Git. Phase
-10E.4 is complete only after green CI and clean final review; Phase 10E.5 is
-conditional and unstarted. Overall Phase 10 remains incomplete, and Phase
-11 remains unstarted.
+10E.4 is complete. Phase 10E.5 remains a conditional, unstarted exact
+production lifecycle update for a later official Foundation release; it is not
+skipped and is not required for current-scope acceptance while no such release
+is prepared. Phase 10E.6A read-only production readiness preflight is the next
+actionable slice, followed only after a valid go result and separate explicit
+authorization by 10E.6B foundation deployment, then 10E.6C current-scope
+closeout. Overall Phase 10E and Phase 10 remain incomplete, and Phase 11
+remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -825,10 +829,37 @@ rollback boundaries:
    baseline bootstrap, generated internal types, and synthetic fixtures are
    complete. Phase 10E.3A corrective topology, deterministic TypeScript/SQL
    diff parity, report registration, exact review evidence, and validation are
-   complete only after green CI and final review; it exposes no execution or
-   public write. Phase 10E.3B local atomic execution/rehearsal, application
-   rehearsal, separately authorized production execution, and closeout remain
-   later review boundaries.
+   complete; Phase 10E.3B decision-bound atomic execution and synthetic local
+   rehearsal are complete; overall Phase 10E.3 is complete. Phase 10E.4
+   production-shaped local upgrade, sequential synthetic releases,
+   application regression, concurrency, performance, failure, and restore
+   rehearsal is complete.
+   - **Phase 10E.5 — exact production lifecycle update (conditional;
+     unstarted).** This dormant future slice applies the lifecycle machinery to
+     a later official USDA Foundation release only. It requires exact official
+     release identity, archive checksum/manifest, completeness, deterministic
+     diff, rejects/warnings, decisions, allowances, backup, approval,
+     maintenance/write-freeze evidence, atomic execution, verification, and
+     closeout. It is neither skipped nor automatically required for current-
+     scope acceptance without a later release.
+   - **Phase 10E.6A — production lifecycle readiness preflight (next;
+     unstarted).** Read-only production gate: confirm the exact repository,
+     project, Phase 10D baseline, and pending lifecycle migrations; create and
+     restore a restricted backup in isolation; migrate and bootstrap only the
+     clone; verify idempotency, compatibility, security, and zero public-data
+     change; issue go/no-go. It performs no production mutation.
+   - **Phase 10E.6B — production lifecycle foundation deployment (unstarted;
+     separately authorized).** After a valid 10E.6A go result, apply only the
+     reviewed lifecycle migrations, bootstrap from the immutable Phase 10D
+     receipt, verify unchanged public foods, nutrients, user data, and
+     snapshots plus lifecycle heads/history/security, and create a post-
+     bootstrap backup. It must not stage, diff, approve, or execute a later
+     release or change the public catalog.
+   - **Phase 10E.6C — current-scope closeout and acceptance (unstarted).**
+     Record deployment, bootstrap, backup/restore, application, and security
+     evidence; preserve conditional 10E.5; close Phase 10E for the April 2026
+     Foundation-only scope; and hand off to Phase 10H. It authorizes no
+     provider release or data mutation.
 7. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
    is reference-only/deferred. Implementation exists only if the full approval
    gate supplies a licensed, versioned, reproducible asset with independent
@@ -840,12 +871,17 @@ rollback boundaries:
    provenance, reproducibility, ACL/RLS, search/performance, operations,
    documentation, and Phase 11 handoff.
 
-Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1 and
-10E.2 and 10E.3 are complete after green CI and clean final review. Phase
-10E.4 production-shaped local rehearsal is complete only after its green CI and
-clean final review. Overall Phase 10E has started but remains incomplete. Phase
-10E.5 is conditional and unstarted. The lifecycle plan
-separately governs controlled corrections, removals, archival, supersession,
+Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1, 10E.2,
+10E.3A, 10E.3B, overall 10E.3, and 10E.4 are complete. Overall Phase 10E has
+started but remains incomplete. Phase 10E.5 is conditional and unstarted, and
+Phase 10E.6A is the next actionable slice. Current-scope Phase 10E acceptance
+does not waive 10E.5 controls: 10E.5 remains dormant until a later official
+release reopens its exact approval gate. Phase 10E can instead close for the
+current April 2026 Foundation-only scope after 10E.6A–10E.6C safely deploy and
+bootstrap the existing lifecycle foundation. Phase 10F and 10G remain
+conditional and unstarted rather than required for current MVP closeout;
+Phase 10H becomes the next actionable Phase 10 slice after 10E.6C. The
+lifecycle plan separately governs controlled corrections, removals, archival, supersession,
 reconciliation, concurrency, rollback, and repeat-import behavior. The
 initial-promotion function must not be reused as an update mechanism.
 
@@ -870,7 +906,9 @@ Phase 10 is acceptable only when:
   fixtures; and
 - every conditional provider remains blocked until its named gate is complete.
 
-Phase 10A alone completes planning, not Phase 10.
+Phase 10A alone completes planning, not Phase 10. Overall Phase 10 remains
+incomplete until Phase 10H final integration and acceptance passes, even after
+current-scope Phase 10E closeout.
 
 ## 31. Remaining approvals and blockers
 
@@ -887,10 +925,14 @@ the exact human-approved evidence to complete the initial production promotion.
 No provider-specific runtime access is approved. Phase 10E.1 completes the
 lifecycle-design gate, Phase 10E.2 completes the non-executing foundation,
 Phase 10E.3 completes decision-bound atomic local execution, and Phase 10E.4
-completes the production-shaped local rehearsal after green CI and clean final
-review. Phase 10E.5 remains conditional and unstarted. Completion of planning,
-foundation work, or the initial promotion does not authorize
-updates, removals, archival, supersession, reconciliation, or repeat imports.
+completes the production-shaped local rehearsal. Phase 10E.5 remains
+conditional and unstarted because no later official artifact, exact evidence,
+or approval exists. The immediate blocker is Phase 10E.6A's read-only go/no-go
+evidence; any Phase 10E.6B production migration/bootstrap then requires a
+separate explicit authorization. Completion of planning, foundation work, the
+initial promotion, or this roadmap reconciliation does not authorize updates,
+removals, archival, supersession, reconciliation, repeat imports, production
+migrations, or production bootstrap.
 
 ## 32. Phase 10 / Phase 11 boundary
 
