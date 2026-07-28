@@ -6,7 +6,19 @@ begin
   ) then
     create role ingestion_lifecycle_definer
       nologin noinherit nosuperuser nocreatedb nocreaterole nobypassrls;
-  else
+  elsif exists (
+    select 1
+    from pg_catalog.pg_roles
+    where rolname = 'ingestion_lifecycle_definer'
+      and (
+        rolcanlogin
+        or rolinherit
+        or rolsuper
+        or rolcreatedb
+        or rolcreaterole
+        or rolbypassrls
+      )
+  ) then
     alter role ingestion_lifecycle_definer
       nologin noinherit nosuperuser nocreatedb nocreaterole nobypassrls;
   end if;
@@ -2387,3 +2399,30 @@ revoke all privileges on schema ingestion
 
 revoke create on schema ingestion from ingestion_lifecycle_definer;
 revoke ingestion_lifecycle_definer, ingestion_definer from postgres;
+
+do $$
+begin
+  if current_user <> 'postgres'
+    or exists (
+      select 1
+      from pg_catalog.pg_auth_members memberships
+      join pg_catalog.pg_roles granted
+        on granted.oid = memberships.roleid
+      join pg_catalog.pg_roles member
+        on member.oid = memberships.member
+      where granted.rolname in (
+        'ingestion_lifecycle_definer', 'ingestion_definer'
+      )
+        and member.rolname = 'postgres'
+        and not memberships.admin_option
+    )
+    or pg_catalog.has_schema_privilege(
+      'ingestion_lifecycle_definer', 'ingestion', 'create'
+    )
+  then
+    raise exception using
+      errcode = '42501',
+      message = 'lifecycle foundation privilege cleanup failed';
+  end if;
+end;
+$$;

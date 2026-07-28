@@ -177,11 +177,21 @@ is complete for the current MVP scope.
   unstarted exact production lifecycle update for a later official USDA
   Foundation release; it is neither skipped nor required for current-scope
   acceptance without such a release. Phase 10E.6A production lifecycle
-  readiness preflight is the next actionable slice, followed by separately
-  authorized 10E.6B production foundation deployment and non-mutating 10E.6C
-  closeout. Phase 10E and overall Phase 10 remain incomplete, no production
-  action is authorized, and the initial-promotion function must not be reused
-  for updates. The Phase 9
+  readiness preflight completed. The first separately authorized Phase 10E.6B
+  attempt stopped in Migration 1 when hosted CLI `RESET ROLE` semantics
+  restored cleanup to the session login instead of the effective `postgres`
+  executor. PostgreSQL rolled back the migration completely: no production
+  migration or schema mutation committed, and all five lifecycle migrations
+  remain unapplied. Phase 10E.6B-C1 corrects all five pending files before
+  their first production application by restoring the effective executor
+  explicitly and proving direct catalog cleanup under hosted-role simulation.
+  No applied migration changed. The original authorization is consumed,
+  production retry is unauthorized, and a refreshed read-only Phase
+  10E.6A-R1 preflight with fresh before-state evidence and backup is next.
+  Phase 10E.6B remains incomplete, Phase 10E.6C remains unstarted, and Phase
+  10E.5 remains conditional and dormant. Phase 10E and overall Phase 10 remain
+  incomplete, no production action is authorized, and the initial-promotion
+  function must not be reused for updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -617,8 +627,9 @@ Manual RTL QA checklist:
   complete after green CI and clean final review. Phase 10E.3A, Phase 10E.3B,
   overall Phase 10E.3, and Phase 10E.4 are complete. Phase 10E.5 remains a
   conditional, unstarted future-release operation. Phase 10E.6A read-only
-  production readiness preflight is next and unstarted; overall Phase 10E and
-  Phase 10 remain incomplete.
+  production readiness preflight is complete, but the rolled-back hosted-role
+  incident consumed its authorization. A refreshed Phase 10E.6A-R1 preflight
+  is next and unstarted; overall Phase 10E and Phase 10 remain incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -719,10 +730,13 @@ Manual RTL QA checklist:
   after green CI and clean final review. Phase 10E.3 atomic lifecycle execution
   is complete. Phase 10E.4 production-shaped local upgrade, sequential release,
   application regression, concurrency, performance, and restore rehearsal is
-  complete. Phase 10E.5 is conditional and unstarted. Phase 10E.6A read-only
-  production lifecycle readiness preflight is next, before separately
-  authorized 10E.6B deployment and 10E.6C closeout. Current-scope Phase 10E
-  can close through 10E.6 without executing a nonexistent later release;
+  complete. Phase 10E.5 is conditional and unstarted. Phase 10E.6A completed;
+  the first 10E.6B attempt rolled back completely in Migration 1 with no
+  production commit, and the hosted-role correction covers all five
+  still-unapplied migrations. A refreshed read-only Phase 10E.6A-R1 preflight
+  is next; no production retry is authorized. Phase 10E.6B remains incomplete
+  and Phase 10E.6C remains unstarted. Current-scope Phase 10E can close through
+  10E.6 without executing a nonexistent later release;
   Phase 10H then becomes the next actionable Phase 10 slice. Phase 10E and
   overall Phase 10 remain incomplete.
 - Remote migration application is a separate post-merge task and requires
@@ -764,9 +778,10 @@ Manual RTL QA checklist:
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
 - Phase 10E.6 current-baseline production lifecycle readiness, deployment, and
-  closeout. Phase 10E.6A is next and read-only; neither this documentation
-  reconciliation nor the implemented lifecycle machinery authorizes production
-  mutation.
+  closeout. The original Phase 10E.6A preflight is complete, but a refreshed
+  read-only Phase 10E.6A-R1 preflight is next after the rolled-back hosted-role
+  incident; neither this correction nor the implemented lifecycle machinery
+  authorizes production mutation.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -812,9 +827,11 @@ Manual RTL QA checklist:
   10E.2 lifecycle foundations are complete after green CI and clean final
   review. Phase 10E.3 atomic lifecycle execution and Phase 10E.4 production-
   shaped local rehearsal are complete. Phase 10E.5 remains a conditional,
-  unstarted future-release operation. Phase 10E.6A read-only production
-  readiness preflight is next, followed only on a valid go result and separate
-  authorization by 10E.6B deployment, then 10E.6C current-scope closeout.
+  unstarted future-release operation. The original Phase 10E.6A read-only
+  readiness preflight is complete; a refreshed Phase 10E.6A-R1 preflight is
+  next after the rolled-back hosted-role incident, followed only on a valid go
+  result and separate authorization by 10E.6B deployment, then 10E.6C
+  current-scope closeout.
   Phase 10H follows that closeout; overall Phase 10E and Phase 10 remain
   incomplete, and Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.

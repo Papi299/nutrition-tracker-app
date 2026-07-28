@@ -24,11 +24,16 @@ restore. No raw provider artifact or generated full report enters Git. Phase
 10E.4 is complete. Phase 10E.5 remains a conditional, unstarted exact
 production lifecycle update for a later official Foundation release; it is not
 skipped and is not required for current-scope acceptance while no such release
-is prepared. Phase 10E.6A read-only production readiness preflight is the next
-actionable slice, followed only after a valid go result and separate explicit
-authorization by 10E.6B foundation deployment, then 10E.6C current-scope
-closeout. Overall Phase 10E and Phase 10 remain incomplete, and Phase 11
-remains unstarted.
+is prepared. Phase 10E.6A completed. The first separately authorized 10E.6B
+attempt stopped in Migration 1 when `RESET ROLE` restored the hosted CLI
+session login instead of the effective `postgres` executor; PostgreSQL rolled
+back the whole transaction and no production migration or schema mutation
+committed. Phase 10E.6B-C1 corrects all five still-unapplied migrations without
+editing an applied migration. The original authorization is consumed and no
+retry is authorized. A refreshed read-only Phase 10E.6A-R1 preflight is next
+and unstarted; Phase 10E.6B remains incomplete and 10E.6C remains unstarted.
+Overall Phase 10E and Phase 10 remain incomplete, and Phase 11 remains
+unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -842,14 +847,18 @@ rollback boundaries:
      maintenance/write-freeze evidence, atomic execution, verification, and
      closeout. It is neither skipped nor automatically required for current-
      scope acceptance without a later release.
-   - **Phase 10E.6A — production lifecycle readiness preflight (next;
-     unstarted).** Read-only production gate: confirm the exact repository,
-     project, Phase 10D baseline, and pending lifecycle migrations; create and
-     restore a restricted backup in isolation; migrate and bootstrap only the
-     clone; verify idempotency, compatibility, security, and zero public-data
-     change; issue go/no-go. It performs no production mutation.
-   - **Phase 10E.6B — production lifecycle foundation deployment (unstarted;
-     separately authorized).** After a valid 10E.6A go result, apply only the
+   - **Phase 10E.6A — production lifecycle readiness preflight (complete;
+     refresh required).** The original read-only gate confirmed the exact
+     repository, project, Phase 10D baseline, and pending lifecycle migrations;
+     created and restored a restricted backup in isolation; migrated and
+     bootstrapped only the clone; and verified idempotency, compatibility,
+     security, and zero public-data change. After the rolled-back 10E.6B
+     attempt and resumed normal writes, Phase 10E.6A-R1 must repeat this
+     read-only evidence with a fresh backup before any new authorization.
+   - **Phase 10E.6B — production lifecycle foundation deployment (attempted,
+     rolled back, and incomplete).** The first attempt committed nothing.
+     After a valid refreshed 10E.6A-R1 result and new explicit authorization,
+     apply only the
      reviewed lifecycle migrations, bootstrap from the immutable Phase 10D
      receipt, verify unchanged public foods, nutrients, user data, and
      snapshots plus lifecycle heads/history/security, and create a post-
@@ -873,9 +882,11 @@ rollback boundaries:
 
 Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1, 10E.2,
 10E.3A, 10E.3B, overall 10E.3, and 10E.4 are complete. Overall Phase 10E has
-started but remains incomplete. Phase 10E.5 is conditional and unstarted, and
-Phase 10E.6A is the next actionable slice. Current-scope Phase 10E acceptance
-does not waive 10E.5 controls: 10E.5 remains dormant until a later official
+started but remains incomplete. Phase 10E.5 is conditional and unstarted. The
+original Phase 10E.6A preflight is complete, and a refreshed read-only Phase
+10E.6A-R1 preflight is the next actionable slice after the rolled-back
+hosted-role incident. Current-scope Phase 10E acceptance does not waive 10E.5
+controls: 10E.5 remains dormant until a later official
 release reopens its exact approval gate. Phase 10E can instead close for the
 current April 2026 Foundation-only scope after 10E.6A–10E.6C safely deploy and
 bootstrap the existing lifecycle foundation. Phase 10F and 10G remain
@@ -927,9 +938,10 @@ lifecycle-design gate, Phase 10E.2 completes the non-executing foundation,
 Phase 10E.3 completes decision-bound atomic local execution, and Phase 10E.4
 completes the production-shaped local rehearsal. Phase 10E.5 remains
 conditional and unstarted because no later official artifact, exact evidence,
-or approval exists. The immediate blocker is Phase 10E.6A's read-only go/no-go
-evidence; any Phase 10E.6B production migration/bootstrap then requires a
-separate explicit authorization. Completion of planning, foundation work, the
+or approval exists. The immediate blocker is refreshed Phase 10E.6A-R1
+read-only go/no-go evidence; any Phase 10E.6B production migration/bootstrap
+then requires a separate explicit authorization. Completion of planning,
+foundation work, the
 initial promotion, or this roadmap reconciliation does not authorize updates,
 removals, archival, supersession, reconciliation, repeat imports, production
 migrations, or production bootstrap.
