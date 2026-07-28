@@ -3057,3 +3057,30 @@ is 'Returns bounded immutable receipt identity for one lifecycle approval UUID.'
 
 revoke create on schema ingestion from ingestion_lifecycle_definer;
 revoke ingestion_lifecycle_definer, ingestion_definer from postgres;
+
+do $$
+begin
+  if current_user <> 'postgres'
+    or exists (
+      select 1
+      from pg_catalog.pg_auth_members memberships
+      join pg_catalog.pg_roles granted
+        on granted.oid = memberships.roleid
+      join pg_catalog.pg_roles member
+        on member.oid = memberships.member
+      where granted.rolname in (
+        'ingestion_lifecycle_definer', 'ingestion_definer'
+      )
+        and member.rolname = 'postgres'
+        and not memberships.admin_option
+    )
+    or pg_catalog.has_schema_privilege(
+      'ingestion_lifecycle_definer', 'ingestion', 'create'
+    )
+  then
+    raise exception using
+      errcode = '42501',
+      message = 'lifecycle execution privilege cleanup failed';
+  end if;
+end;
+$$;

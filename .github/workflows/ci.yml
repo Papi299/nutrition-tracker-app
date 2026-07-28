@@ -52,6 +52,9 @@ jobs:
       - name: Start local Supabase
         run: npx supabase start
 
+      - name: Verify hosted migration-role compatibility
+        run: npm run test:migration-roles
+
       - name: Replay migrations and seed locally
         run: npx supabase db reset --local
 

@@ -33,9 +33,34 @@ revoke all privileges on function ingestion.protect_terminal_run()
     ingestion_operator, ingestion_approver, ingestion_lifecycle_definer,
     ingestion_promotion_definer;
 
-reset role;
+set role postgres;
 revoke create on schema ingestion from ingestion_definer;
 revoke ingestion_definer from postgres;
+
+do $$
+begin
+  if current_user <> 'postgres'
+    or exists (
+      select 1
+      from pg_catalog.pg_auth_members memberships
+      join pg_catalog.pg_roles granted
+        on granted.oid = memberships.roleid
+      join pg_catalog.pg_roles member
+        on member.oid = memberships.member
+      where granted.rolname = 'ingestion_definer'
+        and member.rolname = 'postgres'
+        and not memberships.admin_option
+    )
+    or pg_catalog.has_schema_privilege(
+      'ingestion_definer', 'ingestion', 'create'
+    )
+  then
+    raise exception using
+      errcode = '42501',
+      message = 'terminal-run immutability privilege cleanup failed';
+  end if;
+end;
+$$;
 
 -- Phase 10D preserves the approved source display name exactly. Match the
 -- established public-food constraints so lifecycle bootstrap can preserve
@@ -206,6 +231,31 @@ begin
 end;
 $$;
 
-reset role;
+set role postgres;
 revoke create on schema ingestion from ingestion_lifecycle_definer;
 revoke ingestion_lifecycle_definer from postgres;
+
+do $$
+begin
+  if current_user <> 'postgres'
+    or exists (
+      select 1
+      from pg_catalog.pg_auth_members memberships
+      join pg_catalog.pg_roles granted
+        on granted.oid = memberships.roleid
+      join pg_catalog.pg_roles member
+        on member.oid = memberships.member
+      where granted.rolname = 'ingestion_lifecycle_definer'
+        and member.rolname = 'postgres'
+        and not memberships.admin_option
+    )
+    or pg_catalog.has_schema_privilege(
+      'ingestion_lifecycle_definer', 'ingestion', 'create'
+    )
+  then
+    raise exception using
+      errcode = '42501',
+      message = 'Phase 10E.4 privilege cleanup failed';
+  end if;
+end;
+$$;

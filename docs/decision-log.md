@@ -1434,3 +1434,30 @@
 - This documentation-only reconciliation authorizes no production action and
   adds no code, migration, test, generated artifact, dependency, provider
   artifact/access, credential, configuration, or remote Supabase operation.
+
+## 2026-07-28: Phase 10E.6B hosted migration-role compatibility correction
+
+- The first separately authorized Phase 10E.6B production attempt stopped in
+  Migration 1 after `RESET ROLE` restored the hosted CLI session login rather
+  than the effective `postgres` migration executor. The subsequent schema
+  privilege cleanup was denied. PostgreSQL rolled back the complete migration
+  transaction; no production migration, schema mutation, bootstrap, or
+  lifecycle evidence committed.
+- Corrected every cleanup-dependent temporary-role block across the five
+  unapplied lifecycle migrations to restore explicitly to `postgres` before
+  privilege and membership cleanup. Added direct catalog assertions and
+  hosted-role regression coverage. The five timestamps and lifecycle semantics
+  remain unchanged, and no migration already applied in production was edited.
+- Reproduced the original session/effective-role behavior locally, proved the
+  complete 27-to-32 migration chain under hosted-role simulation, and repeated
+  the restricted production-shaped clone bootstrap with the unchanged
+  `2195ba23c041f7ec5e6daba178501aa65320c6c85fa65604e9a496bba00c7e69`
+  fingerprint and exact-retry behavior. No production or provider access was
+  used for the correction.
+- Authorization `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-001` was consumed and
+  cannot authorize a retry. Phase 10E.6A remains complete, but a refreshed
+  read-only Phase 10E.6A-R1 preflight with fresh production before-state
+  evidence and a fresh backup is next and unstarted. Production retry remains
+  unauthorized; Phase 10E.6B remains incomplete, Phase 10E.6C remains
+  unstarted, Phase 10E.5 remains conditional and dormant, and overall Phase
+  10E and Phase 10 remain incomplete.

@@ -76,13 +76,13 @@ drop trigger dataset_projection_heads_no_delete
 on ingestion.dataset_projection_heads;
 set role ingestion_definer;
 grant execute on function ingestion.reject_immutable_mutation() to postgres;
-reset role;
+set role postgres;
 create trigger dataset_projection_heads_immutable
 before update or delete on ingestion.dataset_projection_heads
 for each row execute function ingestion.reject_immutable_mutation();
 set role ingestion_definer;
 revoke execute on function ingestion.reject_immutable_mutation() from postgres;
-reset role;
+set role postgres;
 
 create table ingestion.dataset_projection_current_heads (
   dataset_id uuid not null
@@ -2139,3 +2139,43 @@ comment on function ingestion.validate_foundation_lifecycle_run(uuid) is
 
 revoke create on schema ingestion from ingestion_lifecycle_definer;
 revoke ingestion_lifecycle_definer, ingestion_definer from postgres;
+
+do $$
+begin
+  if current_user <> 'postgres'
+    or exists (
+      select 1
+      from pg_catalog.pg_auth_members memberships
+      join pg_catalog.pg_roles granted
+        on granted.oid = memberships.roleid
+      join pg_catalog.pg_roles member
+        on member.oid = memberships.member
+      where granted.rolname in (
+        'ingestion_lifecycle_definer', 'ingestion_definer'
+      )
+        and member.rolname = 'postgres'
+        and not memberships.admin_option
+    )
+    or pg_catalog.has_schema_privilege(
+      'ingestion_lifecycle_definer', 'ingestion', 'create'
+    )
+    or exists (
+      select 1
+      from pg_catalog.pg_proc procedure
+      cross join lateral pg_catalog.aclexplode(
+        coalesce(procedure.proacl, '{}'::aclitem[])
+      ) privilege
+      join pg_catalog.pg_roles grantee
+        on grantee.oid = privilege.grantee
+      where procedure.oid =
+        'ingestion.reject_immutable_mutation()'::regprocedure
+        and grantee.rolname = 'postgres'
+        and privilege.privilege_type = 'EXECUTE'
+    )
+  then
+    raise exception using
+      errcode = '42501',
+      message = 'lifecycle hardening privilege cleanup failed';
+  end if;
+end;
+$$;
