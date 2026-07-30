@@ -1515,3 +1515,43 @@
   unstarted. This documentation-only repository task performed no production
   or provider operation and authorizes no provider, lifecycle update,
   production operation, restore, or Phase 11 work.
+
+## 2026-07-30: Phase 10H final integration and Phase 10 acceptance
+
+- Audited Phase 10 as one integrated system across fourteen gates: source and
+  licensing; release reproducibility; stable source/application identity;
+  nutrient and portion semantics; provenance and immutable evidence;
+  promotion/lifecycle separation; security; application integration;
+  determinism/performance; backup, restore, and operations; repository/CI
+  discipline; documentation consistency; conditional branches; and the Phase
+  11 handoff.
+- Classified Gates 1, 2, 4–8, 11, 12, and 14 `PASS`; Gates 3, 9, and 10
+  `PASS_WITH_RECORDED_LIMITATION`; and Gate 13
+  `CONDITIONAL_NOT_REQUIRED_FOR_CURRENT_SCOPE`. No `BLOCKER` remains. The
+  recorded limitations preserve fail-closed no-NDB and split/merge handling,
+  environment-specific rather than universal performance evidence, and the
+  post-deployment backup restore status of `not_tested`.
+- Used the accepted operator evidence for the April 2026 Phase 10D promotion
+  under `PHASE-10D2-USDA-FOUNDATION-2026-04-PROD-001` and the Phase 10E
+  lifecycle-foundation deployment under
+  `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-002`. This task did not independently
+  query production or repeat provider, migration, bootstrap, backup, or restore
+  operations.
+- Accepted Phase 10 as complete for the approved current MVP scope: direct USDA
+  FoodData Central Foundation Foods, April 2026 baseline, four-nutrient public
+  projection, governed offline ingestion, one-time initial promotion,
+  lifecycle foundation and baseline bootstrap, application integration, and
+  the recorded security and operational evidence.
+- Preserved Foundation-only and four-nutrient scope, no imported aliases,
+  translations, or barcodes, and the separately authorized recovery boundary.
+  Phase 10E.5, Phase 10F, and Phase 10G remain conditional and unstarted, not
+  skipped, waived, or complete.
+- Defined `Phase 11 — QA, Hardening, and Deployment Readiness` as the next
+  actionable and unstarted phase. It owns broader product QA, final
+  English/Hebrew/RTL and accessibility audits, broader security/performance,
+  monitoring, deployment and environment readiness, disaster recovery,
+  operator runbooks, launch documentation, and remaining browser/visual/device
+  evidence. It may not hide an unresolved ingestion invariant.
+- This was a documentation-only acceptance task. The PR's existing GitHub
+  `Validate` workflow passed before merge and provided the sole current full-
+  suite execution; no local application or database suite was duplicated.

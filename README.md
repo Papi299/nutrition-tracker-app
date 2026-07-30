@@ -191,10 +191,12 @@ is complete for the current MVP scope.
   [`docs/phase-10e-acceptance-report.md`](docs/phase-10e-acceptance-report.md).
   Phase 10E is complete for the current approved April 2026 Foundation-only
   scope. Phase 10E.5 remains conditional and unstarted, Phase 10F and 10G
-  remain conditional and unstarted, Phase 10H Final Integration and Phase 10
-  Acceptance is next and unstarted, overall Phase 10 remains incomplete, and
-  Phase 11 remains unstarted. The initial-promotion function and baseline
-  bootstrap must not be reused for updates. The Phase 9
+  remain conditional and unstarted. Phase 10H completed the integrated audit,
+  and [Phase 10 is accepted](docs/phase-10-acceptance-report.md) for the
+  approved current MVP scope. The post-deployment backup restore remains
+  `not_tested`. Phase 11 QA, Hardening, and Deployment Readiness is next and
+  unstarted. The initial-promotion function and baseline bootstrap must not be
+  reused for updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -633,7 +635,8 @@ Manual RTL QA checklist:
   recorded the refreshed Phase 10E.6A-R1 preflight and separately authorized
   Phase 10E.6B lifecycle-foundation deployment as complete. Phase 10E.6C
   closes Phase 10E for the current approved April 2026 Foundation-only scope.
-  Phase 10H is next and unstarted; overall Phase 10 remains incomplete.
+  Phase 10H completes the integrated audit and accepts overall Phase 10 for the
+  approved current MVP scope; Phase 11 is next and unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -708,8 +711,9 @@ Manual RTL QA checklist:
   `/today` revalidation so the list and daily totals update after saving.
 - Delete policies remain omitted for profiles and nutrition targets. Diary
   entries intentionally support delete so users can remove logged foods.
-- Public nutrition-data ingestion, FoodsDictionary integration, settings
-  pages, charts, and broader analytics remain unavailable.
+- Runtime or provider-driven public nutrition-data ingestion, FoodsDictionary
+  integration, settings pages, charts, and broader analytics remain
+  unavailable; the governed offline USDA Foundation baseline is complete.
   Phases 6 and 7 are complete for their approved Food Search and Custom Foods
   MVP scopes. Phases 8A, 8B, 8C.1, and 8C.2 are complete after green CI and
   final review. Saved Meals is complete for its approved MVP scope, and Phases
@@ -782,11 +786,9 @@ Manual RTL QA checklist:
   Foundation release. It remains conditional and requires its own official
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
-- Phase 10H Final Integration and Phase 10 Acceptance. It must audit the
-  accepted ingestion and lifecycle scope, security, application behavior,
-  operations, documentation, deferred providers, and exact Phase 11 handoff.
-  It authorizes no provider acquisition, lifecycle update, production
-  operation, restore, or Phase 11 implementation.
+- Phase 11 QA, Hardening, and Deployment Readiness. It remains unstarted and
+  owns broader product QA, accessibility, security, performance, monitoring,
+  deployment, recovery, cross-browser, visual, and physical-device evidence.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -836,9 +838,9 @@ Manual RTL QA checklist:
   that the refreshed Phase 10E.6A-R1 preflight passed, the second separately
   authorized Phase 10E.6B attempt completed, and Phase 10E.6C accepted the
   result for the current April 2026 Foundation-only scope. Overall Phase 10E
-  is complete for that scope. Phase 10H Final Integration and Phase 10
-  Acceptance is next and unstarted; overall Phase 10 remains incomplete, and
-  Phase 11 remains unstarted.
+  is complete for that scope. Phase 10H completed the integrated audit, and
+  overall Phase 10 is complete for the approved current MVP scope. Conditional
+  Phase 10E.5, 10F, and 10G remain unstarted; Phase 11 is next and unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

@@ -30,8 +30,10 @@ reviewed correction, refreshed Phase 10E.6A-R1 preflight, second separately
 authorized 10E.6B deployment, exact baseline bootstrap and retry, security and
 application verification, and post-deployment backup all completed. Phase
 10E.6C closes Phase 10E for the current approved April 2026 Foundation-only
-scope. Phase 10H Final Integration and Phase 10 Acceptance is next and
-unstarted. Overall Phase 10 remains incomplete, and Phase 11 remains unstarted.
+scope. Phase 10H completed the integrated fourteen-gate audit, and overall
+Phase 10 is accepted as complete for the approved current MVP scope. Phase
+10E.5, Phase 10F, and Phase 10G remain conditional and unstarted. Phase 11 QA,
+Hardening, and Deployment Readiness is next and unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -877,16 +879,14 @@ rollback boundaries:
 8. **Phase 10G — Optional coverage expansion (conditional; unstarted).** Evaluate
    direct SR Legacy first, then FNDDS. Branded, OFF, restaurant, and other
    providers remain separate gates and are not required for MVP acceptance.
-9. **Phase 10H — Final Integration and Phase 10 Acceptance (unstarted; next
-   actionable slice).** Audit source/licensing gates; release reproducibility;
-   stable source/application identity; nutrient mapping/value semantics;
-   provenance/immutable evidence; initial-promotion/lifecycle boundaries;
-   ACL/RLS/ownership/operator isolation; search/diary prefill; performance/
-   determinism; backup/restore/runbook readiness; documentation consistency;
-   deferred providers; final Phase 10 acceptance; and the exact Phase 11
-   handoff. Do not automatically acquire a provider, execute Phase 10E.5,
-   implement Phase 10F or 10G, perform a production migration/bootstrap or
-   restore, or begin Phase 11.
+9. **Phase 10H — Final Integration and Phase 10 Acceptance (complete).** The
+   [Phase 10 acceptance report](phase-10-acceptance-report.md) records the
+   integrated fourteen-gate review of source/licensing, reproducibility,
+   identity, nutrient semantics, provenance, promotion/lifecycle separation,
+   security, application integration, determinism/performance, operations,
+   repository discipline, documentation, conditional providers, and the Phase
+   11 handoff. No provider, production, restore, code, migration, test, package,
+   CI, configuration, or environment operation was part of Phase 10H.
 
 Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1, 10E.2,
 10E.3A, 10E.3B, overall 10E.3, 10E.4, 10E.6A, 10E.6B, and 10E.6C are complete.
@@ -894,10 +894,11 @@ Overall Phase 10E is complete for the current approved April 2026
 Foundation-only scope. Phase 10E.5 is conditional and unstarted; current-scope
 acceptance does not waive its controls, and a later official release reopens
 its exact approval gate. Phase 10F and 10G remain conditional and unstarted.
-Phase 10H is the next actionable and unstarted Phase 10 slice. The
-lifecycle plan separately governs controlled corrections, removals, archival, supersession,
-reconciliation, concurrency, rollback, and repeat-import behavior. The
-initial-promotion function must not be reused as an update mechanism.
+Phase 10H and overall Phase 10 are complete for the approved current MVP scope.
+Phase 11 is next and unstarted. The lifecycle plan separately governs
+controlled corrections, removals, archival, supersession, reconciliation,
+concurrency, rollback, and repeat-import behavior. The initial-promotion
+function must not be reused as an update mechanism.
 
 ## 30. Acceptance criteria
 
@@ -920,11 +921,12 @@ Phase 10 is acceptable only when:
   fixtures; and
 - every conditional provider remains blocked until its named gate is complete.
 
-Phase 10A alone completes planning, not Phase 10. Overall Phase 10 remains
-incomplete until Phase 10H final integration and acceptance passes, even after
-current-scope Phase 10E closeout.
+Phase 10A alone completed planning, not Phase 10. Phase 10H confirmed that the
+criteria above are satisfied for the approved current MVP scope; overall Phase
+10 is complete only for that bounded scope. Conditional provider and later-
+release gates remain in force.
 
-## 31. Remaining approvals and blockers
+## 31. Conditional approvals and future blockers
 
 | Question | Owner / required evidence | Blocking effect |
 | --- | --- | --- |
@@ -943,9 +945,10 @@ completes the production-shaped local rehearsal. Phase 10E.5 remains
 conditional and unstarted because no later official artifact, exact evidence,
 or approval exists. Phase 10E.6 completed without authorizing an update,
 removal, archival, supersession, reconciliation, repeat import, additional
-production migration/bootstrap, or provider operation. Phase 10H is the
-immediate next actionable slice and remains integration and acceptance work
-unless a separate exact authorization says otherwise.
+production migration/bootstrap, or provider operation. Phase 10H completed the
+integrated acceptance review without weakening those future gates. None of the
+items above blocks the accepted current Foundation-only scope; each blocks only
+its named future change.
 
 ## 32. Phase 10 / Phase 11 boundary
 
@@ -958,9 +961,10 @@ Phase 11 owns broader launch readiness: comprehensive final QA, production
 deployment/release procedures, monitoring beyond ingestion-run evidence, final
 accessibility and RTL audit, disaster recovery and broader runbooks, and general
 security/performance hardening. Phase 11 remains unstarted and must not absorb
-an incomplete Phase 10 ingestion invariant.
+a Phase 10 ingestion invariant.
 
 The pre-deployment restore procedure is qualified, while the post-deployment
 backup restore remains `not_tested`. That residual recovery item stays visible
-to Phase 10H and broader Phase 11 disaster-recovery/runbook work; an actual
-production restore requires separate explicit incident authorization.
+in the Phase 10 acceptance report and belongs to broader Phase 11 disaster-
+recovery/runbook work; an actual production restore requires separate explicit
+incident authorization.
