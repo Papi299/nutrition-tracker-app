@@ -1461,3 +1461,57 @@
   unauthorized; Phase 10E.6B remains incomplete, Phase 10E.6C remains
   unstarted, Phase 10E.5 remains conditional and dormant, and overall Phase
   10E and Phase 10 remain incomplete.
+
+## 2026-07-30: Phase 10E.6C production deployment closeout and Phase 10H handoff
+
+- The authorized operator report records terminal state
+  `DEPLOYMENT_COMPLETE_BACKUP_COMPLETE` for Phase 10E.6B attempt 2 under
+  authorization `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-002`, project
+  `hskfanrqwtqknzpquwhg`, and repository SHA
+  `48a3e8fc03e9b6efa1f969eaf8f4f7984c0f64e6`. The five reviewed lifecycle
+  migrations deployed in order; all 32 migrations aligned with latest
+  `20260721100000` and zero pending or remote-only migrations. The April 2026
+  Phase 10D baseline bootstrapped to lifecycle dataset-head version 1 with
+  fingerprint
+  `2195ba23c041f7ec5e6daba178501aa65320c6c85fa65604e9a496bba00c7e69`.
+  Exact retry returned the same head and fingerprint and added no rows;
+  application and security invariants passed, the maintenance window closed,
+  and normal writes resumed.
+- Preserved the exact Phase 10D projection and evidence: 353 public foods,
+  1,199 nutrients, 375 source portions, 10 `negative_target_value` rejects,
+  1,018 warnings, and promotion receipt
+  `fc6b94b0-c889-421e-860d-eb6bd094a64f`. The lifecycle bootstrap recorded 353
+  projection versions and current food heads, 1,412 nutrient states (1,199
+  present and 213 missing), 1,199 evidence links, and 353 source-link events.
+  Public/user data remained unchanged at combined fingerprint
+  `5122a9c8b1e809b1666933840750ce386368e81ca75ea757f7e9f5cf7009229b`;
+  durable application snapshots, search/prefill behavior, RLS, grants,
+  ownership, and operator isolation remained unchanged or as approved. The
+  legacy evidence core remained
+  `6959197a66fb4410ee813018f5381a60498ecfd0e22c7388358ad6adfdfd08f3`,
+  and the final reviewed post-migration security fingerprint was
+  `1ac73515949047d86336fcfa19dbf809baa914a5d8be2973f3a3487ce3e30792`.
+- Recorded the full deployment chronology without reclassifying operator-path
+  observations as production migration, bootstrap, or dataset failures. The
+  first authorization rolled back completely during Migration 1; PR #68
+  corrected the five still-unapplied migrations; the refreshed read-only
+  preflight and privilege-faithful isolated restore passed; and the second
+  separate authorization completed. No migration repair, improvised schema
+  SQL, unauthorized cleanup, additional lifecycle operation, or provider
+  operation occurred.
+- Recorded pre-deployment backup manifest
+  `57ec33311e84ae0542374a98bec5ce036e75951b6e4196b1df7967f1d108762d`
+  and post-deployment backup manifest
+  `c9587e936321609f7faa780dc0afd265817f9ca0df843984e96e20f8aad6a46c`.
+  The pre-deployment restore procedure was qualified. The post-deployment
+  backup restore status remains `not_tested`; production restore requires
+  separate explicit authorization and remains visible to Phase 10H and Phase
+  11 recovery work.
+- Accepted Phase 10E for the current approved April 2026 USDA Foundation-only
+  scope. Phase 10E.5 remains conditional and unstarted, not skipped, waived, or
+  complete. Phase 10F and Phase 10G remain conditional and unstarted. Phase
+  10H Final Integration and Phase 10 Acceptance is the next actionable and
+  unstarted slice; overall Phase 10 remains incomplete, and Phase 11 remains
+  unstarted. This documentation-only repository task performed no production
+  or provider operation and authorizes no provider, lifecycle update,
+  production operation, restore, or Phase 11 work.

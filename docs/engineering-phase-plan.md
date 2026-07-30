@@ -260,38 +260,37 @@ Foundation release. It is not skipped or redefined, but it is dormant and is
 not required for current-scope acceptance unless such a release is prepared
 and separately approved.
 
-Phase 10E.6 now owns current-baseline production enablement and closeout.
-Phase 10E.6A completed its read-only readiness preflight. The first separately
-authorized Phase 10E.6B attempt stopped in Migration 1 because hosted CLI
-`RESET ROLE` semantics restored the session login rather than the effective
-`postgres` executor. PostgreSQL rolled back the complete transaction; no
-production migration or schema mutation committed. Phase 10E.6B-C1 corrects
-the five still-unapplied migrations before first production application and
-proves explicit effective-role restoration and catalog cleanup locally. The
-original authorization is consumed and no retry is authorized. A refreshed
-read-only Phase 10E.6A-R1 preflight is now the next actionable slice; it must
-verify the current production baseline and pending migrations, create and
-restore a fresh restricted backup in isolation, apply and bootstrap the
-restored clone, and produce a go/no-go report without production mutation. A
-valid refreshed go result and new separate explicit authorization are
-prerequisites for any renewed Phase 10E.6B attempt,
-which may apply only the reviewed lifecycle migrations, bootstrap from the
-immutable Phase 10D receipt, verify unchanged public and user data plus the
-lifecycle security/history boundaries, and create a post-bootstrap backup. It
-must not stage or execute a later release. Phase 10E.6C records that evidence,
-confirms invariants and conditional 10E.5 status, closes Phase 10E for the
-current April 2026 Foundation-only scope, and hands off to Phase 10H without
-authorizing a provider or data mutation. Phase 10F and Phase 10G remain
-conditional and unstarted; they are not required to close the current MVP
-scope. Phase 10H becomes the next actionable Phase 10 slice after 10E.6C, and
-overall Phase 10 remains incomplete until Phase 10H passes. Overall Phase 10E
-and Phase 10 are currently incomplete; Phase 10E.6B remains incomplete and
-Phase 10E.6C remains unstarted. Neither the initial-promotion function
-nor the baseline bootstrap is an update mechanism, and no production action
-was authorized. The post-promotion backup
-remains outside Git with manifest fingerprint
-`b26ce45be2501462e258751a29947dbdb35ab111ce9c022f76bdf7e601ed870f` and
-restore status `not_tested`. Phase 11 remains unstarted.
+Phase 10E.6 completed current-baseline production enablement and closeout. The
+first separately authorized Phase 10E.6B attempt stopped in Migration 1 because
+hosted CLI `RESET ROLE` semantics restored the session login rather than the
+effective `postgres` executor. PostgreSQL rolled back the complete transaction,
+so no production migration or schema mutation committed. PR #68 corrected the
+five still-unapplied migrations. The authorized operator report records that a
+refreshed Phase 10E.6A-R1 preflight and privilege-faithful isolated restore
+passed before the second authorization.
+
+Under authorization `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-002`, production
+verification recorded all 32 migrations aligned, the existing immutable Phase
+10D baseline bootstrapped to lifecycle dataset-head version 1, exact retry with
+zero additional rows, unchanged public and user data, preserved lifecycle
+security and history boundaries, and completed pre- and post-deployment backup
+evidence. Phase 10E.6C records the attributed evidence and final classification
+in the
+[Phase 10E acceptance report](phase-10e-acceptance-report.md).
+
+Phase 10E is complete for the current approved April 2026 Foundation-only
+scope. Phase 10E.5 remains conditional and unstarted; it is neither skipped,
+waived, nor complete. Phase 10F and Phase 10G remain conditional and unstarted.
+Phase 10H Final Integration and Phase 10 Acceptance is the next actionable and
+unstarted slice. It must audit source/licensing gates, reproducibility,
+identity, nutrient semantics, provenance, promotion/lifecycle boundaries,
+security, application behavior, performance, operations, documentation,
+deferred providers, final Phase 10 acceptance, and the exact Phase 11 handoff.
+It does not automatically authorize provider acquisition, Phase 10E.5, Phase
+10F or 10G implementation, a production operation or restore, or Phase 11.
+Overall Phase 10 remains incomplete until Phase 10H passes, and Phase 11
+remains unstarted. Neither the initial-promotion function nor the baseline
+bootstrap is an update mechanism.
 
 ## Future PR Documentation Rule
 
