@@ -28,10 +28,11 @@ post-deployment backup completed. Phase 10E.6C records that evidence in the
 
 Phase 10E is complete for the current approved April 2026 Foundation-only
 scope. Phase 10E.5 remains conditional and unstarted, Phase 10F and Phase 10G
-remain conditional and unstarted, and Phase 10H Final Integration and Phase 10
-Acceptance is the next actionable and unstarted slice. Overall Phase 10 remains
-incomplete, and Phase 11 remains unstarted. This closeout authorizes no
-production lifecycle action, later USDA release, or additional provider.
+remain conditional and unstarted. Phase 10H completed the integrated audit, and
+overall Phase 10 is complete for the approved current MVP scope. Phase 11 QA,
+Hardening, and Deployment Readiness is next and unstarted. This status
+authorizes no production lifecycle action, later USDA release, or additional
+provider.
 
 This document is the reviewed planning contract for lifecycle changes after the
 completed April 2026 USDA Foundation initial promotion. Phase 10E.2 implements
@@ -885,7 +886,7 @@ a new approval. This is not a waiver of those controls.
 | Split/merge product presentation | Repository preserves references/snapshots but has no replacement-navigation UI decision | No automatic merge/redirect; archive/supersede only if exact decision permits | Product Owner: relationship and user-visible policy | Affected reconciliation, not E.2 foundations |
 | Future mapping or parser change | Only April 2026 parser and `usda-foundation-mvp-v1` mapping are approved | Revalidate without current projection mutation | Nutrition/Data Governance + Engineering: new pinned contract, diff, and approval | Reprojection/corrective run |
 | Later production release | No later artifact, dry run, backup, or exact approval is in scope | No production update | Product Owner/Data Governance/operator: all E.5 evidence and explicit authorization | E.5 only |
-| Post-deployment backup restore qualification | The pre-deployment backup and privilege-faithful isolated restore procedure passed, but the post-deployment backup restore status is `not_tested` | Preserve the restricted backup and do not restore production without separate explicit incident authorization | Operations owner: Phase 10H/Phase 11 recovery review and an independently authorized restore qualification or incident procedure | Recovery maturity remains visible; it is not a current-scope Phase 10E acceptance blocker |
+| Post-deployment backup restore qualification | The pre-deployment backup and privilege-faithful isolated restore procedure passed, but the post-deployment backup restore status is `not_tested` | Preserve the restricted backup and do not restore production without separate explicit incident authorization | Operations owner: Phase 11 recovery review and an independently authorized restore qualification or incident procedure | Recovery maturity remains visible; it is not a current-scope Phase 10 acceptance blocker |
 
 MyFoodData, FoodsDictionary, Open Food Facts, Branded Foods, FNDDS, SR Legacy,
 Experimental Foods, and every additional provider/dataset remain unapproved or
@@ -933,15 +934,11 @@ Phase 10D, Phase 10E.1, Phase 10E.2, Phase 10E.3A, Phase 10E.3B, overall Phase
 April 2026 Foundation-only scope. Phase 10E.5 remains conditional and
 unstarted; Phase 10F and 10G remain conditional and unstarted.
 
-Phase 10H Final Integration and Phase 10 Acceptance is the next actionable and
-unstarted slice. It must audit source/licensing gates, release reproducibility,
-stable source/application identity, nutrient mapping/value semantics,
-provenance/immutable evidence, initial-promotion/lifecycle boundaries,
-ACL/RLS/ownership/operator isolation, search/diary prefill, performance/
-determinism, backup/restore/runbooks, documentation consistency, deferred
-providers, final Phase 10 acceptance, and the exact Phase 11 handoff. It does
-not automatically acquire a provider, execute Phase 10E.5, implement Phase 10F
-or 10G, perform a production migration/bootstrap or restore, or begin Phase 11.
-Overall Phase 10 remains incomplete until Phase 10H passes; Phase 11 remains
-unstarted. This documentation closeout authorizes no production action,
-lifecycle update, or additional provider.
+Phase 10H completed the integrated fourteen-gate review recorded in the
+[Phase 10 acceptance report](phase-10-acceptance-report.md). Overall Phase 10
+is complete for the approved current MVP scope. The post-deployment backup
+restore remains `not_tested`; it is a Phase 11 recovery item, and production
+restore still requires separate explicit incident authorization. Phase 11 QA,
+Hardening, and Deployment Readiness is the next actionable phase and remains
+unstarted. This status authorizes no production action, lifecycle update, or
+additional provider.

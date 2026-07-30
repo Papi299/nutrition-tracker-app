@@ -281,16 +281,17 @@ in the
 Phase 10E is complete for the current approved April 2026 Foundation-only
 scope. Phase 10E.5 remains conditional and unstarted; it is neither skipped,
 waived, nor complete. Phase 10F and Phase 10G remain conditional and unstarted.
-Phase 10H Final Integration and Phase 10 Acceptance is the next actionable and
-unstarted slice. It must audit source/licensing gates, reproducibility,
-identity, nutrient semantics, provenance, promotion/lifecycle boundaries,
-security, application behavior, performance, operations, documentation,
-deferred providers, final Phase 10 acceptance, and the exact Phase 11 handoff.
-It does not automatically authorize provider acquisition, Phase 10E.5, Phase
-10F or 10G implementation, a production operation or restore, or Phase 11.
-Overall Phase 10 remains incomplete until Phase 10H passes, and Phase 11
-remains unstarted. Neither the initial-promotion function nor the baseline
-bootstrap is an update mechanism.
+Phase 10H completed the integrated source/licensing, reproducibility, identity,
+nutrient, provenance, lifecycle, security, application, performance,
+operations, repository, provider-boundary, and handoff audit. The
+[Phase 10 acceptance report](phase-10-acceptance-report.md) accepts overall
+Phase 10 as complete for the approved current MVP scope. The post-deployment
+backup restore remains `not_tested` and belongs to broader Phase 11 recovery
+qualification; any production restore still requires separate authorization.
+Phase 11 — QA, Hardening, and Deployment Readiness is the next actionable phase
+and remains unstarted. Neither the initial-promotion function nor the baseline
+bootstrap is an update mechanism, and Phase 11 may not absorb a Phase 10
+ingestion invariant.
 
 ## Future PR Documentation Rule
 
