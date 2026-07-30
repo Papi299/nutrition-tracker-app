@@ -321,6 +321,16 @@ The recommended dependency order is:
 9. Phase 11J — Preview and release rehearsal.
 10. Phase 11K — Integrated Phase 11 acceptance and launch-authorization gate.
 
+The sequence uses two-stage finding closure. Phase 11E, 11F, and 11G may
+complete bounded repository/local acceptance while recording
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; their launch findings
+remain open. Phase 11H defines the approved environment architecture, Phase
+11J collects separately authorized hosted/deployed evidence and may record
+`EXTERNAL_VALIDATION_COMPLETE`, and Phase 11K alone may assign
+`FINDING_CLOSED` after verifying both stages. No earlier slice or roadmap entry
+authorizes remote Supabase access, provider configuration, Vercel setup,
+deployment, backup, or restore.
+
 Phase 11B is the recommended next slice because the unresolved launch model,
 supported clients, account/privacy requirements, service objectives, recovery
 objectives, and release authority determine every later acceptance gate. Do

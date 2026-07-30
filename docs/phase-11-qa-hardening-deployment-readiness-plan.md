@@ -104,33 +104,55 @@ repository-verified fact:
 - restricted backup and isolated restore evidence; and
 - observed deploy, rollback/redeploy, incident, and operator walkthroughs.
 
-## 7. Dependency graph
+## 7. Completion model and dependency graph
+
+Phase 11 uses two separate acceptance stages for findings whose final proof
+requires hosted, deployed, physical-device, legal, operational, or recovery
+evidence:
+
+1. `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` means the approved
+   repository contract is implemented, local and CI evidence passes, and the
+   required configuration schemas, tests, runbooks, evidence checklist, and
+   stop conditions exist. The implementation slice may complete, but the
+   finding remains open and no external operation is implied.
+2. `EXTERNAL_VALIDATION_COMPLETE` means the designated later validation slice
+   collected the exact attributable evidence under separate authorization.
+   Phase 11K must verify both stages before assigning `FINDING_CLOSED`.
+
+An implementation PR merge never closes a finding that requires external
+evidence. Pending external validation must remain explicit in the PR and phase
+status.
 
 ```mermaid
 flowchart TD
   B["11B Launch contract"] --> C["11C Critical-journey QA"]
   B --> D["11D Accessibility / locale / browser UI"]
-  B --> E["11E Auth and account lifecycle"]
-  B --> F["11F Application and supply-chain security"]
+  B --> E["11E Auth/account repository acceptance"]
+  B --> F["11F Security repository acceptance"]
   C --> D
   C --> E
-  C --> G["11G Reliability / observability / performance"]
+  C --> G["11G Reliability/observability/performance repository acceptance"]
   F --> G
-  E --> H["11H Deployment architecture and runbook"]
+  E --> H["11H Approved deployment architecture and runbook"]
   F --> H
   G --> H
   H --> I["11I Recovery qualification"]
-  H --> J["11J Preview and release rehearsal"]
+  H --> J["11J Non-production rehearsal and external validation"]
   I --> J
   D --> J
   E --> J
   F --> J
   G --> J
-  J --> K["11K Integrated acceptance"]
+  J --> K["11K Finding closure and integrated acceptance"]
 ```
 
-11D–11G may use separate focused PRs and overlap where their dependencies are
-closed. 11H–11K are ordered release gates.
+11D–11G may use separate focused PRs and overlap where their prerequisite
+decisions and repository contracts are complete. The 11E–11G edges into 11H
+represent completed bounded repository contracts, not closed launch findings.
+Phase 11H defines the architecture that 11J later exercises; 11J collects all
+explicitly deferred hosted/deployed evidence under separate authorization; and
+11K performs final closure. This keeps the graph acyclic without moving or
+renaming a slice.
 
 ## 8. Phase 11B — Launch contract and acceptance baseline
 
@@ -216,7 +238,8 @@ overstating certification or physical support.
 - Add approved Firefox/WebKit/mobile/visual coverage and fix verified
   RTL/overflow/layout defects.
 - Execute manual keyboard, zoom/reflow, screen-reader, native-speaker, and
-  physical-device/camera checks; keep manual barcode lookup universal.
+  deterministic camera checks; define the physical-device/camera evidence
+  checklist and keep manual barcode lookup universal.
 
 ### Non-goals
 
@@ -228,13 +251,20 @@ external barcode provider, or redesign unrelated to verified findings.
 - Zero unwaived serious automated accessibility findings.
 - Every critical journey passes the approved manual accessibility checklist.
 - English/Hebrew copy/context/RTL and long mixed content pass supported clients.
-- Firefox/WebKit/mobile/physical evidence matches the support matrix.
+- Firefox/WebKit/mobile automation and visual evidence match the support
+  matrix; the required physical-device evidence checklist and stop conditions
+  are exact.
 - Camera failure always preserves complete manual/no-JavaScript lookup.
+- `P11A-005` is recorded as
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` until Phase 11J
+  collects the required physical-device/deployed-browser evidence.
 
 ### Validation strategy
 
 Automated accessibility and browser projects, visual baselines where stable,
-native-speaker review, manual AT/zoom/keyboard, and physical-device records.
+native-speaker review, manual AT/zoom/keyboard, and deterministic camera tests.
+Physical-device records are deferred to separately authorized Phase 11J
+evidence collection.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
@@ -265,14 +295,20 @@ that contradicts approved snapshot, receipt, ingestion, backup, or legal holds.
 - Export/closure/deletion/retention behavior matches approved policy and has
   exact database/application tests.
 - Sensitive actions require approved recent authentication.
-- Hosted Auth URLs, SMTP, confirmation, rate limits, and cookie behavior have
-  attributed external evidence.
+- An exact hosted-configuration checklist covers Auth/site URLs, redirect
+  allow-lists, SMTP, confirmation settings, rate limits, cookies, deployed
+  redirect behavior, attribution, authorization boundaries, and stop
+  conditions.
+- Local and CI evidence passes and `P11A-006` is recorded as
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E does not
+  claim hosted configuration or deployed behavior was verified.
 
 ### Validation strategy
 
 Local email-capture and browser tests, migration/RLS/grant/cascade assertions
-if schema is required, privacy data-flow review, and non-destructive hosted
-configuration preflight.
+if schema is required, privacy data-flow review, configuration-schema/checklist
+review, and complete CI. Hosted configuration and deployed redirect/cookie
+preflight are deferred to separately authorized Phase 11J evidence collection.
 
 ## 12. Phase 11F — Application and supply-chain security
 
@@ -301,16 +337,23 @@ mutation, provider change, ASVS certification, or weakening of RLS/grants.
 ### Acceptance criteria
 
 - No unaccepted reachable critical/high production advisory.
-- Approved security headers pass deployed smoke without breaking Auth/camera.
+- Approved security-header/CSP configuration exists and passes unit,
+  configuration, and local compatibility tests without weakening Auth or
+  camera fallback.
 - Secret scans and server/client environment boundaries pass.
 - RLS, grants, `SECURITY DEFINER` ownership/empty `search_path`, authenticated
   mutation, and tenant isolation remain green.
 - GitHub governance evidence matches the approved release policy.
+- `P11A-008` is recorded as
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; actual response-header
+  and CSP compatibility evidence remains a Phase 11J gate.
 
 ### Validation strategy
 
-Advisory/reachability report, dependency diff/regression, header tests, static
-analysis, secret scan, complete CI, and read-only GitHub settings evidence.
+Advisory/reachability report, dependency diff/regression, header
+unit/configuration and local compatibility tests, static analysis, secret scan,
+complete CI, and read-only GitHub settings evidence. Deployed header/CSP smoke
+is deferred to separately authorized Phase 11J evidence collection.
 
 ## 13. Phase 11G — Reliability, observability, and performance
 
@@ -326,8 +369,9 @@ approved launch volume.
 - Define structured privacy-safe logs, errors, performance, uptime/health,
   Auth/database/deployment signals, thresholds, owners, retention, escalation,
   status communication, and incident review.
-- Implement the selected minimum monitoring architecture only after provider
-  approval.
+- Implement the approved provider-neutral repository instrumentation contract
+  and synthetic/local signal adapters without creating or configuring a
+  provider account.
 - Add launch-shaped synthetic data/query/browser/load evidence against approved
   budgets, without using production personal data.
 
@@ -339,15 +383,27 @@ personal-data logging, or universal performance guarantee.
 ### Acceptance criteria
 
 - Approved failure injection preserves safe UI and mutation integrity.
-- Critical signals reach a named owner and a synthetic incident drill passes.
+- The provider-neutral telemetry contract, privacy-safe event model,
+  instrumentation boundaries, alert policy, named ownership, and incident
+  runbook exist; local/synthetic signal and tabletop evidence passes.
 - Logs exclude credentials, raw camera frames, unnecessary personal/nutrition
   data, and provider raw data.
-- Approved route/query/CWV/error budgets pass at launch-shaped volume.
+- Approved synthetic fixtures, query tests, build analysis, and bounded local
+  route/query/error budgets pass at launch-shaped volume.
+- `P11A-012`, `P11A-013`, and `P11A-014` are recorded as
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; actual Preview/staging
+  telemetry, alert delivery, deployed timings/Core Web Vitals, cold starts,
+  uptime/deployment notifications, and observed incident evidence remain Phase
+  11J gates.
 
 ### Validation strategy
 
 Local injected failures, synthetic data and bounded load, query plans, browser
-performance, Preview/staging telemetry, alert delivery, and incident drill.
+performance fixtures, instrumentation contract/privacy tests, synthetic signal
+delivery, incident tabletop, and complete CI. Provider configuration,
+Preview/staging telemetry and alert delivery, deployed performance/Core Web
+Vitals, and incident/outage rehearsal are deferred to separately authorized
+Phase 11J evidence collection.
 
 ## 14. Phase 11H — Deployment architecture and release runbook
 
@@ -378,6 +434,9 @@ query/mutation, backup, or restore in the architecture PR.
   and stop conditions are executable and reviewed.
 - Preview cannot silently target production data.
 - Production release remains a separate explicit authorization.
+- `P11A-010` and `P11A-017` remain
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11H makes no
+  remote configuration, deployment, drift, or rehearsal claim.
 
 ### Validation strategy
 
@@ -404,8 +463,9 @@ within the approved recovery objectives.
 
 ### Non-goals
 
-No production restore, incident declaration, provider operation, migration
-repair, or reuse of promotion/bootstrap.
+No production restore, incident declaration, provider operation beyond the
+exact separately authorized restricted backup/isolated-restore scope,
+migration repair, or reuse of promotion/bootstrap.
 
 ### Acceptance criteria
 
@@ -432,27 +492,45 @@ architecture, controls, and recovery evidence.
 - Under separate authorization, create/link the approved Vercel project and
   configure only non-production environment scope.
 - Deploy Preview or staging, apply the approved non-production migration
-  sequence where needed, verify Auth redirects/URLs, run deployment smoke,
-  observe signals, rehearse rollback/redeploy, and capture evidence.
+  sequence where needed, run deployment smoke, observe signals, rehearse
+  rollback/redeploy, and capture evidence.
+- Collect every hosted/deployed validation explicitly deferred by earlier
+  slices: hosted Supabase Auth/site URLs, SMTP, confirmation, rate limits,
+  cookies, and redirect behavior; response headers and CSP/Auth/camera
+  compatibility; monitoring provider configuration, privacy-safe signal and
+  alert delivery, uptime, and deployment notifications; Preview/staging route,
+  query, cold-start, timing, and Core Web Vitals evidence; outage/incident
+  rehearsal; physical-device/deployed-browser checks; and non-production
+  migration drift/order preflight.
 - Rehearse the production checklist without production mutation/deployment.
 
 ### Non-goals
 
-No production deployment/domain switch, production Supabase mutation, provider
-operation, production restore, or launch authorization.
+No production deployment/domain switch, production Supabase mutation,
+production provider operation, provider configuration beyond the exact
+separately authorized non-production scope, production restore, or launch
+authorization.
 
 ### Acceptance criteria
 
 - Preview/staging uses the exact intended source and isolated data target.
-- Build, environment, migration, Auth, smoke, monitoring, rollback/redeploy,
+- Build, environment, migration, hosted Auth/redirect/cookie, security-header/
+  CSP, smoke, monitoring/alert/notification, deployed performance/Core Web
+  Vitals, outage/incident, rollback/redeploy, physical-device where required,
   and cleanup gates pass.
+- Every external-validation item deferred from 11D–11G is either attributable
+  and `EXTERNAL_VALIDATION_COMPLETE` or remains explicitly open with owner,
+  reason, and stop status. Phase 11J does not assign `FINDING_CLOSED`.
 - Required failures stop the rehearsal and are explained/corrected.
 - The evidence packet is complete enough for independent Phase 11 acceptance.
 
 ### Validation strategy
 
-Deployment logs, environment assertions, smoke journeys, response headers,
-monitoring/alert evidence, rollback/redeploy, and final state verification.
+Attributed provider/host configuration exports, deployment logs, environment
+assertions, Auth and smoke journeys, response headers/CSP checks, telemetry/
+uptime/alert/notification delivery, deployed browser performance and Core Web
+Vitals, outage/incident drill, physical-device checks where required,
+rollback/redeploy, cleanup, and final non-production state verification.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
@@ -467,6 +545,9 @@ authorization may be requested.
 - Verify all 16 domains, P0/P1 disposition, product decisions, external
   evidence, Phase 10 boundaries, current dependency state, deployment/recovery
   runbooks, rehearsal, owners, and exact release candidate.
+- For every finding, verify repository/local implementation and any deferred
+  external validation as separate attributable stages before assigning
+  `FINDING_CLOSED`.
 - Publish a Phase 11 acceptance report and launch checklist.
 
 ### Non-goals
@@ -478,39 +559,48 @@ operation, backup, or restore.
 
 - Zero open P0.
 - Every P1 is closed or has an explicit owner-approved, time-bounded exception.
+- No finding is closed solely because its implementation PR merged. Every
+  `FINDING_CLOSED` disposition has both required stages; every incomplete
+  external stage remains open rather than being inferred from repository
+  evidence.
 - Every required CI/external gate passes with no pending, failing, cancelled,
   or unexplained skipped result.
 - The exact candidate SHA, configuration, evidence, and rollback/recovery
   boundaries are recorded.
+- Every still-open or explicitly accepted P1 risk is recorded with owner,
+  rationale, expiry where applicable, compensating control, and launch effect.
 - Independent review is complete and no material Phase 10 invariant is open.
 
 ### Validation strategy
 
-Integrated evidence audit, exact changed/release-state verification, CI,
-external checklist, independent review, and final owner sign-off.
+Finding-by-finding two-stage evidence audit, exact changed/release-state
+verification, CI, external checklist, independent review, and final owner
+sign-off.
 
 ## 18. Slice capability and authorization matrix
 
-`Yes` means the slice is expected to require the capability; `Conditional`
-means only after an exact approval or if the approved design requires it;
-`No` means it is outside the slice.
+`Repository/local` is the bounded implementation stage. `Conditional` means
+the capability belongs to that slice only after a separate exact human
+authorization and approved design; it does not grant authority. `No` means the
+capability is outside the slice.
 
-| Slice | Code | Tests | Migrations | Docs | Local Supabase | Remote Supabase read-only | Remote Supabase mutation | Vercel setup | Deployment | Backup | Restore qualification | Product-owner approval | Legal/privacy review | Physical-device evidence |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 11B Launch contract | No | No | No | Yes | No | No | No | No | No | No | No | Yes | Conditional | No |
-| 11C Critical QA | Conditional | Yes | No | Yes | Yes | No | No | No | No | No | No | Yes | No | No |
-| 11D Accessibility/locale/browser | Yes | Yes | No | Yes | Yes | No | No | No | No | No | No | Yes | No | Yes |
-| 11E Auth/account lifecycle | Yes | Yes | Conditional | Yes | Yes | Conditional | Conditional | No | No | No | No | Yes | Yes | No |
-| 11F Security/supply chain | Yes | Yes | No | Yes | Yes | Conditional | No | No | Conditional Preview header smoke | No | No | Yes | Conditional | No |
-| 11G Reliability/observability/performance | Yes | Yes | No | Yes | Yes | Conditional | Conditional monitoring configuration | Conditional | Conditional Preview/staging | No | No | Yes | Conditional log/privacy review | No |
-| 11H Deployment architecture | Conditional config | Conditional | No | Yes | Conditional | No | No | No | No | No | No | Yes | Conditional | No |
-| 11I Recovery qualification | No | Conditional verification | No | Yes | Conditional | Conditional | No | No | No | Yes | Yes, isolated only | Yes | Conditional | No |
-| 11J Preview/release rehearsal | Conditional config | Yes | Conditional non-production | Yes | Conditional | Yes | Conditional non-production | Yes | Yes, non-production only | Conditional gate | No production restore | Yes | Conditional | Conditional |
-| 11K Integrated acceptance | No | Yes | No | Yes | Conditional | Conditional verification | No | No | No new deployment | No | No new restore | Yes | Yes where required | Yes where required |
+| Slice | Repository/local implementation | Local/CI validation | Remote read-only verification | Remote mutation | Provider configuration | Vercel setup | Non-production deployment | External evidence | Backup / isolated restore | Final finding closure |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 11B Launch contract | Docs/decisions | Yes | No | No | No | No | No | Owner/legal input only | No | No |
+| 11C Critical QA | Code/tests/docs as approved | Yes | No | No | No | No | No | Signed manual QA where required | No | No |
+| 11D Accessibility/locale/browser | Code/tests/docs as approved | Yes | No | No | No | No | No | Native-speaker/AT/manual evidence; deployed/physical remainder deferred to 11J | No | No |
+| 11E Auth/account lifecycle | Code/tests/schema/docs as approved | Yes | No | No | No | No | No | Legal/privacy evidence; hosted Auth evidence deferred to 11J | No | No |
+| 11F Security/supply chain | Code/tests/config/docs as approved | Yes | Conditional GitHub/settings/advisory reads | No | No | No | No | Advisory/governance evidence; deployed headers deferred to 11J | No | No |
+| 11G Reliability/observability/performance | Code/tests/instrumentation/docs as approved | Yes | No | No | No | No | No | Provider/deployed signal/performance/incident evidence deferred to 11J | No | No |
+| 11H Deployment architecture | Repository config/docs only | Yes | No | No | No | No | No | Architecture/runbook review only | No | No |
+| 11I Recovery qualification | Verification/docs only | Conditional local checks | Conditional backup metadata reads | No | No | No | No | Restricted recovery evidence | Conditional / conditional isolated only | No |
+| 11J Preview/release rehearsal | Non-production config/tests/docs only | Yes | Conditional | Conditional non-production only | Conditional non-production only | Conditional | Conditional non-production only | Yes, attributable deferred evidence | Conditional backup gate / no production restore | No |
+| 11K Integrated acceptance | Acceptance docs only | Yes | Conditional verification | No | No new configuration | No | No new deployment | Verify complete evidence packet | No new backup or restore | Yes, where both stages pass |
 
-Any remote Supabase mutation, Vercel setup, deployment, backup, or restore
-qualification shown as `Yes` or `Conditional` still requires its own explicit
-human authorization. This plan is not that authorization.
+No matrix cell authorizes remote Supabase access or mutation, provider access
+or configuration, Vercel setup, deployment, backup, or restore. Each
+conditional external action requires its own exact human authorization; this
+plan and any earlier slice are not that authorization.
 
 ## 19. Final Phase 11 integrated acceptance gate
 

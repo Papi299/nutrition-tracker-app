@@ -155,6 +155,22 @@ Priorities are P0 (blocks safe launch), P1 (pre-launch unless explicitly
 accepted), P2 (meaningful hardening before or shortly after launch), and P3
 (later maturity).
 
+Findings use the following two-stage disposition model:
+
+- `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`: the implementation
+  owner has completed the approved repository contract, local/CI validation,
+  configuration schema, tests, runbooks, and stop conditions, but required
+  hosted, deployed, physical-device, legal, operational, or recovery evidence
+  is still open. This state may complete the bounded implementation slice but
+  does not close the finding.
+- `EXTERNAL_VALIDATION_COMPLETE`: the designated validation slice collected
+  attributable evidence under its own exact authorization. The finding remains
+  open until integrated review.
+- `FINDING_CLOSED`: Phase 11K verified both stages and the complete disposition.
+
+No implementation PR, merge, configuration checklist, or local test alone may
+be described as closing a finding that requires external evidence.
+
 ## 8. Sixteen-domain readiness matrix
 
 | Domain | Classification | Summary and controlling findings |
@@ -327,13 +343,23 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
   where deterministic, retain manual barcode fallback, and collect physical
   evidence.
 - **Suggested slice:** Phase 11D — Accessibility, localization, and browser UI
-- **Dependencies:** `P11A-001`, `P11A-002`
+- **Implementation dependencies:** `P11A-001`, `P11A-002`
+- **External-validation dependencies:** Separately authorized Phase 11J
+  physical-device/deployed-browser evidence collection
 - **Product-owner decision:** Supported matrix
 - **External evidence:** Physical iOS/Android and camera-permission sessions
-- **Acceptance criterion:** Critical journeys pass all supported engines and
-  devices; visual differences are reviewed; unsupported camera paths always
-  retain manual lookup.
-- **Validation:** Playwright matrix, visual baselines, physical-device checklist.
+- **Implementation acceptance:** Phase 11D implements the supported automated
+  engine/mobile/visual coverage, fixes verified UI defects, and records an exact
+  physical-device/camera checklist and stop conditions. Unsupported camera
+  paths retain manual lookup. The bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J records attributable physical
+  iOS/Android, camera-permission, and deployed-browser evidence for the approved
+  matrix.
+- **Final closure:** Phase 11K verifies both stages before `P11A-005` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11D owns the Playwright matrix, visual baselines, and
+  deterministic camera tests. Phase 11J owns physical-device records.
 
 ### P11A-006 — Public users have no complete account-recovery path
 
@@ -357,17 +383,31 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
 - **Concrete failure mode:** A user who forgets a password or must confirm an
   email can permanently lose access to sensitive diary data.
 - **Impact:** Account lockout and support/security risk.
-- **Recommended resolution:** Approve the auth model; implement and test
-  callback/recovery flows with strict redirects and enumeration-safe messages;
-  verify production settings.
+- **Recommended resolution:** Approve the auth model; implement and locally
+  test callback/recovery flows with strict redirects and enumeration-safe
+  messages; record an exact hosted-configuration checklist and stop
+  conditions; then verify hosted settings during the separately authorized
+  non-production rehearsal.
 - **Suggested slice:** Phase 11E — Authentication and account lifecycle
-- **Dependencies:** `P11A-001`
+- **Implementation dependencies:** `P11A-001`
+- **External-validation dependencies:** Approved Phase 11H environment
+  architecture and separately authorized Phase 11J non-production rehearsal
 - **Product-owner decision:** Confirmation, recovery, OAuth, reauthentication
 - **External evidence:** Hosted Supabase Auth/SMTP/redirect/rate-limit evidence
-- **Acceptance criterion:** A user can complete every approved account-access
-  lifecycle in both locales, and hostile redirect/enumeration cases fail safely.
-- **Validation:** Local email-capture tests, browser journeys, configuration
-  review, and non-destructive hosted preflight.
+- **Implementation acceptance:** Phase 11E implements the approved callback,
+  recovery, redirect, enumeration, and account-lifecycle behavior; local and CI
+  evidence passes; and the exact Auth URL, SMTP, confirmation, rate-limit,
+  cookie, and deployed-redirect checklist and stop conditions are recorded.
+  The bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J attributes non-production
+  hosted Auth configuration and deployed redirect/cookie behavior evidence
+  collected under separate authorization.
+- **Final closure:** Phase 11K verifies both stages before `P11A-006` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11E uses local email-capture, browser, redirect, and
+  configuration-schema tests. Phase 11J owns the non-destructive hosted
+  preflight; Phase 11E does not authorize or perform it.
 
 ### P11A-007 — Critical/high dependency advisories are untriaged and ungated
 
@@ -420,15 +460,27 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
 - **Concrete failure mode:** Missing defense-in-depth can allow framing,
   content-type confusion, excess camera scope, or larger XSS impact.
 - **Impact:** Browser-side security and privacy exposure.
-- **Recommended resolution:** Threat-model and test a minimal production header
-  baseline in the chosen deployment environment.
+- **Recommended resolution:** Threat-model and implement a minimal production
+  header baseline, test it locally and through configuration tests, then test
+  the resulting policy in the chosen non-production deployment environment.
 - **Suggested slice:** Phase 11F — Application and supply-chain security
-- **Dependencies:** `P11A-017`
+- **Implementation dependencies:** `P11A-001`
+- **External-validation dependencies:** Approved Phase 11H environment
+  architecture and separately authorized Phase 11J non-production rehearsal;
+  `P11A-017` need not be closed for Phase 11F implementation to complete
 - **Product-owner decision:** None beyond deployment/browser scope
 - **External evidence:** Deployed response headers and CSP violation testing
-- **Acceptance criterion:** Approved headers are present on public/auth/app
-  routes without breaking Supabase auth or camera fallback.
-- **Validation:** Unit/config tests and deployed HTTP/header smoke tests.
+- **Implementation acceptance:** Phase 11F implements the approved header/CSP
+  policy and passes unit/configuration and local compatibility tests. The
+  bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J proves the headers on deployed
+  public/auth/app routes and records CSP, Supabase Auth, and camera-fallback
+  compatibility under separate authorization.
+- **Final closure:** Phase 11K verifies both stages before `P11A-008` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11F owns unit/configuration and local compatibility
+  tests. Phase 11J owns deployed HTTP/header and CSP smoke evidence.
 
 ### P11A-009 — Privacy, account lifecycle, and health-adjacent policy are undefined
 
@@ -488,13 +540,22 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
 - **Recommended resolution:** Define forward-only deploy order, drift/history
   preflight, compatibility and stop conditions, and rollback limitations.
 - **Suggested slice:** Phase 11H — Deployment architecture and release runbook
-- **Dependencies:** `P11A-001`, `P11A-017`
+- **Implementation dependencies:** `P11A-001`
+- **External-validation dependencies:** The approved Phase 11H runbook and
+  separately authorized Phase 11J non-production rehearsal
 - **Product-owner decision:** Maintenance-window tolerance
 - **External evidence:** Read-only preflight immediately before rehearsal/release
-- **Acceptance criterion:** A reviewed runbook proves exact repo/environment,
-  migration state, ordering, compatibility, verification, and abort criteria.
-- **Validation:** Local clean replay, hosted-role simulation, non-destructive
-  environment preflight, and rehearsal evidence.
+- **Implementation acceptance:** Phase 11H records exact repo/environment,
+  migration order, compatibility, verification, rollback limitation, and abort
+  contracts; local clean replay and hosted-role simulation pass. The bounded
+  result is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J records attributable
+  non-production drift/order preflight and rehearsal evidence.
+- **Final closure:** Phase 11K verifies both stages before `P11A-010` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11H owns local clean replay, hosted-role simulation, and
+  runbook review. Phase 11J owns non-destructive environment preflight and
+  rehearsal evidence.
 
 ### P11A-011 — Current recovery evidence cannot support launch authorization
 
@@ -520,7 +581,9 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
   restricted backup where authorized; restore to isolation; verify app, Auth,
   roles/grants, history, and security; preserve production-restore authorization.
 - **Suggested slice:** Phase 11I — Recovery qualification
-- **Dependencies:** `P11A-001`, `P11A-010`, `P11A-017`
+- **Dependencies:** `P11A-001` and the approved Phase 11H database/deployment
+  and recovery contracts. Phase 11I does not require `P11A-010` or `P11A-017`
+  to be `FINDING_CLOSED`.
 - **Product-owner decision:** RPO, RTO, retention, owners, acceptable loss
 - **External evidence:** Restricted backup and isolated restore qualification
 - **Acceptance criterion:** A current launch-shaped backup restores to an
@@ -551,14 +614,25 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
   highest-risk routes/queries with realistic synthetic data, then collect
   deployed browser evidence.
 - **Suggested slice:** Phase 11G — Reliability, observability, and performance
-- **Dependencies:** `P11A-001`, `P11A-017`
+- **Implementation dependencies:** `P11A-001`
+- **External-validation dependencies:** Approved Phase 11H environment
+  architecture and separately authorized Phase 11J non-production rehearsal;
+  `P11A-017` need not be closed for Phase 11G implementation to complete
 - **Product-owner decision:** Expected scale and performance budgets
 - **External evidence:** Preview/staging and production-like browser/runtime
   timing
-- **Acceptance criterion:** Approved route/query/CWV/error budgets pass at the
-  launch-shaped synthetic volume and concurrency.
-- **Validation:** Build analysis, `EXPLAIN` corpus, bounded load, browser
-  performance, and external timing evidence.
+- **Implementation acceptance:** Phase 11G defines approved budgets and
+  establishes synthetic fixtures, query-plan tests, build analysis, and bounded
+  local route/query evidence at launch-shaped volume. The bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J collects attributable
+  Preview/staging runtime, cold-start, deployed timing, and Core Web Vitals
+  evidence under separate authorization.
+- **Final closure:** Phase 11K verifies both stages before `P11A-012` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11G owns build analysis, `EXPLAIN` corpus, synthetic
+  fixtures, and bounded local load. Phase 11J owns deployed browser/runtime
+  evidence.
 
 ### P11A-013 — Outage and global failure behavior is not engineered
 
@@ -582,13 +656,21 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
 - **Recommended resolution:** Define global safe failure boundaries and bounded
   outage/retry behavior without masking transaction guarantees.
 - **Suggested slice:** Phase 11G — Reliability, observability, and performance
-- **Dependencies:** `P11A-002`
+- **Implementation dependencies:** `P11A-002`
+- **External-validation dependencies:** Approved Phase 11H environment
+  architecture and separately authorized Phase 11J non-production rehearsal
 - **Product-owner decision:** Maintenance/status communication behavior
 - **External evidence:** Staging outage rehearsal
-- **Acceptance criterion:** Approved failure scenarios show localized,
-  recoverable, non-leaking states and preserve mutation integrity.
-- **Validation:** Injected browser/network/server failures plus staging
-  dependency-outage rehearsal.
+- **Implementation acceptance:** Phase 11G implements approved localized,
+  recoverable, non-leaking failure states and passes local injected
+  browser/network/server tests while preserving mutation integrity. The bounded
+  result is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Phase 11J records attributable
+  non-production dependency-outage and recovery rehearsal evidence.
+- **Final closure:** Phase 11K verifies both stages before `P11A-013` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11G owns local injected failure tests. Phase 11J owns
+  deployed dependency-outage rehearsal.
 
 ### P11A-014 — No minimum production observability or incident response exists
 
@@ -613,12 +695,26 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
 - **Recommended resolution:** Approve a minimum provider-neutral telemetry and
   incident contract, then implement the smallest sufficient signals and drill.
 - **Suggested slice:** Phase 11G — Reliability, observability, and performance
-- **Dependencies:** `P11A-001`, `P11A-017`
+- **Implementation dependencies:** `P11A-001`
+- **External-validation dependencies:** Approved Phase 11H environment
+  architecture and separately authorized Phase 11J non-production rehearsal;
+  `P11A-017` need not be closed for Phase 11G implementation to complete
 - **Product-owner decision:** Owners, SLOs, alerts, provider, retention
 - **External evidence:** Alert delivery and incident-drill evidence
-- **Acceptance criterion:** Critical availability/error/auth/deployment signals
-  reach a named owner with privacy-safe context and a tested response runbook.
-- **Validation:** Synthetic error, uptime, alert, and incident tabletop/drill.
+- **Implementation acceptance:** Phase 11G defines and implements the approved
+  provider-neutral telemetry contract, privacy-safe event model,
+  instrumentation boundaries, alert policy, ownership, and incident runbook;
+  local/synthetic signal and privacy checks pass. The bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Under separate authorization, Phase 11J
+  configures the approved non-production provider scope and records
+  Preview/staging signal delivery, uptime monitoring, deployment notification,
+  observed alert delivery, and incident/outage rehearsal evidence.
+- **Final closure:** Phase 11K verifies both stages before `P11A-014` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11G owns synthetic/local instrumentation and tabletop
+  evidence. Phase 11J owns actual provider, deployed signal, alert, and
+  rehearsal evidence.
 
 ### P11A-015 — CI is authoritative but not yet a launch-quality strategy
 
@@ -702,14 +798,24 @@ accepted), P2 (meaningful hardening before or shortly after launch), and P3
   simplified architecture, document secret/database/Auth boundaries, and stage
   setup/rehearsal in separate authorized slices.
 - **Suggested slice:** Phase 11H — Deployment architecture and release runbook
-- **Dependencies:** `P11A-001`, `P11A-006`, `P11A-008`, `P11A-014`
+- **Dependencies:** `P11A-001` and the bounded Phase 11E–11G repository
+  contracts. Phase 11H does not depend on `P11A-006`, `P11A-008`, or
+  `P11A-014` being `FINDING_CLOSED`; their external evidence depends on the
+  architecture Phase 11H defines.
 - **Product-owner decision:** Environments, domains, owners, approvals
 - **External evidence:** Vercel/Supabase configuration and deployed smoke
-- **Acceptance criterion:** A reviewed environment/runbook contract exists,
-  then a separately authorized non-production rehearsal passes without
-  targeting production incorrectly.
-- **Validation:** Configuration review, environment assertions, Preview smoke,
-  rollback/redeploy rehearsal, and evidence packet.
+- **Implementation acceptance:** Phase 11H produces a reviewed environment and
+  release-runbook contract with exact isolation, ordering, ownership, approval,
+  rollback, evidence, and stop conditions. The bounded result is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- **External-validation acceptance:** Under separate authorization, Phase 11J
+  proves the non-production Vercel/Supabase environment, deployment smoke, and
+  rollback/redeploy rehearsal without targeting production incorrectly.
+- **Final closure:** Phase 11K verifies both stages before `P11A-017` may be
+  `FINDING_CLOSED`.
+- **Validation:** Phase 11H owns configuration/runbook review and local
+  environment assertions. Phase 11J owns Preview smoke, rollback/redeploy, and
+  the attributable external evidence packet.
 
 ### P11A-018 — Contributor, operator, support, and launch documentation is incomplete
 
@@ -807,6 +913,34 @@ current evidence; later maturity work should not dilute the P0/P1 plan.
   rollback/redeploy rehearsal.
 - Privacy/legal review and an operator walkthrough.
 
+### Finding closure ownership
+
+The implementation owner may complete only its bounded repository/local scope.
+The validation owner collects any required external evidence; a same-slice
+entry means that evidence is available without waiting for deployment. Every
+finding remains open until the final Phase 11K closure gate.
+
+| Finding | Repository/local implementation owner | External-validation owner | Final closure gate |
+| --- | --- | --- | --- |
+| `P11A-001` | 11B | 11B owner/legal/support input | 11K |
+| `P11A-002` | 11C | 11C signed manual sessions | 11K |
+| `P11A-003` | 11D | 11D native-speaker review | 11K |
+| `P11A-004` | 11D | 11D assistive-technology/manual review | 11K |
+| `P11A-005` | 11D | 11J physical-device and deployed-browser evidence | 11K |
+| `P11A-006` | 11E | 11J hosted Auth/configuration/redirect evidence | 11K |
+| `P11A-007` | 11F | 11F current advisory/reachability evidence | 11K |
+| `P11A-008` | 11F | 11J deployed header/CSP evidence | 11K |
+| `P11A-009` | 11E | 11E legal/privacy/owner review | 11K |
+| `P11A-010` | 11H | 11J non-production drift/order preflight | 11K |
+| `P11A-011` | 11I | 11I separately authorized restricted backup and isolated restore | 11K |
+| `P11A-012` | 11G | 11J Preview/staging runtime and Core Web Vitals | 11K |
+| `P11A-013` | 11G | 11J deployed outage/recovery rehearsal | 11K |
+| `P11A-014` | 11G | 11J provider/signal/alert/incident evidence | 11K |
+| `P11A-015` | 11C and 11F | 11J rehearsal gates and 11K authoritative CI | 11K |
+| `P11A-016` | 11F | 11F read-only GitHub settings evidence | 11K |
+| `P11A-017` | 11H | 11J Vercel/environment/deployment/rehearsal evidence | 11K |
+| `P11A-018` | 11H, 11I, and 11J | 11J operator walkthrough | 11K |
+
 ## 15. Carried-forward limitations
 
 - Phase 10E.5 remains conditional and unstarted; it is not skipped or required
@@ -846,9 +980,13 @@ separation.
 10. Phase 11K — Integrated Phase 11 acceptance and launch-authorization gate.
 
 Some independent work inside 11D–11G may proceed in parallel only after 11B
-fixes the acceptance boundaries. Deployment/recovery/rehearsal slices remain
-ordered because they require an approved environment and observable,
-recoverable controls.
+fixes the acceptance boundaries. Phase 11E, 11F, and 11G may complete bounded
+repository implementation in
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; their affected findings
+remain open. Phase 11H then defines the approved architecture, Phase 11J
+collects separately authorized hosted/deployed evidence, and Phase 11K alone
+performs final closure. The graph is therefore acyclic: 11H consumes
+implementation contracts, not prematurely closed findings.
 
 ## 18. Audit conclusion
 

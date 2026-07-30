@@ -1608,12 +1608,26 @@
   GitHub governance/security settings; hosted Supabase Auth and migration
   state; deployed headers/performance/monitoring; Vercel environments/domain/
   smoke/rollback; restricted backup and isolated restore; and operator drills.
+- Adopted a two-stage finding disposition model. An implementation slice may
+  complete its bounded repository/local contract as
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; the finding stays
+  open. The designated validation slice may record
+  `EXTERNAL_VALIDATION_COMPLETE` only from attributable evidence collected
+  within its own authorization. Phase 11K alone may assign `FINDING_CLOSED`
+  after verifying both required stages. An implementation PR merge never
+  substitutes for hosted, deployed, physical-device, legal, operational, or
+  recovery evidence.
 - Accepted the evidence-derived sequence: 11B Launch contract, 11C Critical
   QA, 11D Accessibility/localization/browser UI, 11E Auth/account lifecycle,
   11F Security/supply chain, 11G Reliability/observability/performance, 11H
   Deployment architecture, 11I Recovery qualification, 11J Preview/release
   rehearsal, and 11K Integrated acceptance. Phase 11B is next because its
-  decisions define every later acceptance gate. Do not begin it in this task.
+  decisions define every later acceptance gate. The sequence is acyclic:
+  11E–11G may finish bounded repository implementation, 11H consumes those
+  implementation contracts and defines the approved environment architecture,
+  11J collects separately authorized hosted/deployed evidence deferred by
+  earlier slices, and 11K performs final finding closure. Do not begin Phase
+  11B in this task.
 - Phase 10 remains accepted for its bounded scope. Phase 10E.5, Phase 10F, and
   Phase 10G remain conditional and unstarted. The post-deployment backup
   restore remains exactly `not_tested`; production restore remains separately
