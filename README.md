@@ -176,22 +176,25 @@ is complete for the current MVP scope.
   occurs. Phase 10E.4 is complete. Phase 10E.5 remains a dormant, conditional,
   unstarted exact production lifecycle update for a later official USDA
   Foundation release; it is neither skipped nor required for current-scope
-  acceptance without such a release. Phase 10E.6A production lifecycle
-  readiness preflight completed. The first separately authorized Phase 10E.6B
-  attempt stopped in Migration 1 when hosted CLI `RESET ROLE` semantics
-  restored cleanup to the session login instead of the effective `postgres`
-  executor. PostgreSQL rolled back the migration completely: no production
-  migration or schema mutation committed, and all five lifecycle migrations
-  remain unapplied. Phase 10E.6B-C1 corrects all five pending files before
-  their first production application by restoring the effective executor
-  explicitly and proving direct catalog cleanup under hosted-role simulation.
-  No applied migration changed. The original authorization is consumed,
-  production retry is unauthorized, and a refreshed read-only Phase
-  10E.6A-R1 preflight with fresh before-state evidence and backup is next.
-  Phase 10E.6B remains incomplete, Phase 10E.6C remains unstarted, and Phase
-  10E.5 remains conditional and dormant. Phase 10E and overall Phase 10 remain
-  incomplete, no production action is authorized, and the initial-promotion
-  function must not be reused for updates. The Phase 9
+  acceptance without such a release. The authorized operator report records
+  that the refreshed Phase 10E.6A-R1 preflight passed and Phase 10E.6B
+  completed under authorization
+  `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-002`. All 32 migrations aligned,
+  the existing 353-food baseline bootstrapped to lifecycle dataset-head version
+  1 with fingerprint
+  `2195ba23c041f7ec5e6daba178501aa65320c6c85fa65604e9a496bba00c7e69`
+  without changing public or user data. Exact retry added no rows, security
+  verification passed, and the post-deployment backup completed with manifest
+  fingerprint
+  `c9587e936321609f7faa780dc0afd265817f9ca0df843984e96e20f8aad6a46c`.
+  Phase 10E.6C records the evidence in
+  [`docs/phase-10e-acceptance-report.md`](docs/phase-10e-acceptance-report.md).
+  Phase 10E is complete for the current approved April 2026 Foundation-only
+  scope. Phase 10E.5 remains conditional and unstarted, Phase 10F and 10G
+  remain conditional and unstarted, Phase 10H Final Integration and Phase 10
+  Acceptance is next and unstarted, overall Phase 10 remains incomplete, and
+  Phase 11 remains unstarted. The initial-promotion function and baseline
+  bootstrap must not be reused for updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -626,10 +629,11 @@ Manual RTL QA checklist:
   Phase 10E.1 lifecycle planning and Phase 10E.2 lifecycle foundations are
   complete after green CI and clean final review. Phase 10E.3A, Phase 10E.3B,
   overall Phase 10E.3, and Phase 10E.4 are complete. Phase 10E.5 remains a
-  conditional, unstarted future-release operation. Phase 10E.6A read-only
-  production readiness preflight is complete, but the rolled-back hosted-role
-  incident consumed its authorization. A refreshed Phase 10E.6A-R1 preflight
-  is next and unstarted; overall Phase 10E and Phase 10 remain incomplete.
+  conditional, unstarted future-release operation. Production verification
+  recorded the refreshed Phase 10E.6A-R1 preflight and separately authorized
+  Phase 10E.6B lifecycle-foundation deployment as complete. Phase 10E.6C
+  closes Phase 10E for the current approved April 2026 Foundation-only scope.
+  Phase 10H is next and unstarted; overall Phase 10 remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -730,15 +734,16 @@ Manual RTL QA checklist:
   after green CI and clean final review. Phase 10E.3 atomic lifecycle execution
   is complete. Phase 10E.4 production-shaped local upgrade, sequential release,
   application regression, concurrency, performance, and restore rehearsal is
-  complete. Phase 10E.5 is conditional and unstarted. Phase 10E.6A completed;
-  the first 10E.6B attempt rolled back completely in Migration 1 with no
-  production commit, and the hosted-role correction covers all five
-  still-unapplied migrations. A refreshed read-only Phase 10E.6A-R1 preflight
-  is next; no production retry is authorized. Phase 10E.6B remains incomplete
-  and Phase 10E.6C remains unstarted. Current-scope Phase 10E can close through
-  10E.6 without executing a nonexistent later release;
-  Phase 10H then becomes the next actionable Phase 10 slice. Phase 10E and
-  overall Phase 10 remain incomplete.
+  complete. Phase 10E.5 is conditional and unstarted. The first Phase 10E.6B
+  attempt rolled back completely in Migration 1 with no production commit.
+  After the reviewed hosted-role correction and refreshed read-only Phase
+  10E.6A-R1 preflight, the separately authorized second Phase 10E.6B attempt
+  completed. Production verification recorded aligned migrations, exact
+  baseline bootstrap and retry, preserved public and user data, preserved
+  security boundaries, and completed backup evidence. Phase 10E.6C closes
+  Phase 10E for the current approved April 2026 Foundation-only scope. Phase
+  10H is the next actionable and unstarted Phase 10 slice; overall Phase 10
+  remains incomplete.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -777,11 +782,11 @@ Manual RTL QA checklist:
   Foundation release. It remains conditional and requires its own official
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
-- Phase 10E.6 current-baseline production lifecycle readiness, deployment, and
-  closeout. The original Phase 10E.6A preflight is complete, but a refreshed
-  read-only Phase 10E.6A-R1 preflight is next after the rolled-back hosted-role
-  incident; neither this correction nor the implemented lifecycle machinery
-  authorizes production mutation.
+- Phase 10H Final Integration and Phase 10 Acceptance. It must audit the
+  accepted ingestion and lifecycle scope, security, application behavior,
+  operations, documentation, deferred providers, and exact Phase 11 handoff.
+  It authorizes no provider acquisition, lifecycle update, production
+  operation, restore, or Phase 11 implementation.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -827,13 +832,13 @@ Manual RTL QA checklist:
   10E.2 lifecycle foundations are complete after green CI and clean final
   review. Phase 10E.3 atomic lifecycle execution and Phase 10E.4 production-
   shaped local rehearsal are complete. Phase 10E.5 remains a conditional,
-  unstarted future-release operation. The original Phase 10E.6A read-only
-  readiness preflight is complete; a refreshed Phase 10E.6A-R1 preflight is
-  next after the rolled-back hosted-role incident, followed only on a valid go
-  result and separate authorization by 10E.6B deployment, then 10E.6C
-  current-scope closeout.
-  Phase 10H follows that closeout; overall Phase 10E and Phase 10 remain
-  incomplete, and Phase 11 remains unstarted.
+  unstarted future-release operation. The authorized operator report records
+  that the refreshed Phase 10E.6A-R1 preflight passed, the second separately
+  authorized Phase 10E.6B attempt completed, and Phase 10E.6C accepted the
+  result for the current April 2026 Foundation-only scope. Overall Phase 10E
+  is complete for that scope. Phase 10H Final Integration and Phase 10
+  Acceptance is next and unstarted; overall Phase 10 remains incomplete, and
+  Phase 11 remains unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

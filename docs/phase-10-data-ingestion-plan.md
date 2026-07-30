@@ -23,17 +23,15 @@ same-approval concurrency checks, performance gates, and isolated logical
 restore. No raw provider artifact or generated full report enters Git. Phase
 10E.4 is complete. Phase 10E.5 remains a conditional, unstarted exact
 production lifecycle update for a later official Foundation release; it is not
-skipped and is not required for current-scope acceptance while no such release
-is prepared. Phase 10E.6A completed. The first separately authorized 10E.6B
-attempt stopped in Migration 1 when `RESET ROLE` restored the hosted CLI
-session login instead of the effective `postgres` executor; PostgreSQL rolled
-back the whole transaction and no production migration or schema mutation
-committed. Phase 10E.6B-C1 corrects all five still-unapplied migrations without
-editing an applied migration. The original authorization is consumed and no
-retry is authorized. A refreshed read-only Phase 10E.6A-R1 preflight is next
-and unstarted; Phase 10E.6B remains incomplete and 10E.6C remains unstarted.
-Overall Phase 10E and Phase 10 remain incomplete, and Phase 11 remains
-unstarted.
+skipped and was not required for current-scope acceptance while no such release
+was prepared. The first separately authorized 10E.6B attempt rolled back
+completely during Migration 1. The authorized operator report records that the
+reviewed correction, refreshed Phase 10E.6A-R1 preflight, second separately
+authorized 10E.6B deployment, exact baseline bootstrap and retry, security and
+application verification, and post-deployment backup all completed. Phase
+10E.6C closes Phase 10E for the current approved April 2026 Foundation-only
+scope. Phase 10H Final Integration and Phase 10 Acceptance is next and
+unstarted. Overall Phase 10 remains incomplete, and Phase 11 remains unstarted.
 
 This document is the implementation contract for Phase 10. A later slice may
 change a decision only through an explicit reviewed documentation change.
@@ -827,7 +825,8 @@ rollback boundaries:
    ten-record exclusion and warning evidence, verified provenance/RLS/search/
    prefill/no-diary invariants, and captured the immutable production receipt
    and restricted post-promotion backup evidence.
-6. **Phase 10E — Release updates and reconciliation (started; incomplete).**
+6. **Phase 10E — Release updates and reconciliation (complete for the current
+   approved April 2026 Foundation-only scope).**
    Phase 10E.1 planning is complete in
    `docs/phase-10e-release-lifecycle-plan.md`. Phase 10E.2 schema, exact
    contracts, isolated security, dataset and per-food heads, ingestion-only
@@ -847,28 +846,30 @@ rollback boundaries:
      maintenance/write-freeze evidence, atomic execution, verification, and
      closeout. It is neither skipped nor automatically required for current-
      scope acceptance without a later release.
-   - **Phase 10E.6A — production lifecycle readiness preflight (complete;
-     refresh required).** The original read-only gate confirmed the exact
+   - **Phase 10E.6A — production lifecycle readiness preflight (complete).**
+     The original read-only gate confirmed the exact
      repository, project, Phase 10D baseline, and pending lifecycle migrations;
      created and restored a restricted backup in isolation; migrated and
      bootstrapped only the clone; and verified idempotency, compatibility,
-     security, and zero public-data change. After the rolled-back 10E.6B
-     attempt and resumed normal writes, Phase 10E.6A-R1 must repeat this
-     read-only evidence with a fresh backup before any new authorization.
-   - **Phase 10E.6B — production lifecycle foundation deployment (attempted,
-     rolled back, and incomplete).** The first attempt committed nothing.
-     After a valid refreshed 10E.6A-R1 result and new explicit authorization,
-     apply only the
-     reviewed lifecycle migrations, bootstrap from the immutable Phase 10D
-     receipt, verify unchanged public foods, nutrients, user data, and
-     snapshots plus lifecycle heads/history/security, and create a post-
-     bootstrap backup. It must not stage, diff, approve, or execute a later
-     release or change the public catalog.
-   - **Phase 10E.6C — current-scope closeout and acceptance (unstarted).**
-     Record deployment, bootstrap, backup/restore, application, and security
-     evidence; preserve conditional 10E.5; close Phase 10E for the April 2026
-     Foundation-only scope; and hand off to Phase 10H. It authorizes no
-     provider release or data mutation.
+     security, and zero public-data change. After the first 10E.6B attempt
+     rolled back, refreshed Phase 10E.6A-R1 evidence and a privilege-faithful
+     isolated restore also passed.
+   - **Phase 10E.6B — production lifecycle foundation deployment (complete).**
+     The first authorization committed nothing. Under the second separate
+     authorization, the reviewed lifecycle migrations aligned, the immutable
+     Phase 10D baseline bootstrapped exactly, retry added no rows, public and
+     user data remained unchanged, lifecycle history/security verified, and
+     the post-bootstrap backup completed. No later release was staged,
+     approved, or executed.
+   - **Phase 10E.6C — current-scope closeout and acceptance (complete).** The
+     [Phase 10E acceptance report](phase-10e-acceptance-report.md) records the
+     attributed successful deployment and bootstrap under authorization
+     `PHASE-10E6B-LIFECYCLE-FOUNDATION-PROD-002`, application and security
+     verification, and post-deployment backup manifest
+     `c9587e936321609f7faa780dc0afd265817f9ca0df843984e96e20f8aad6a46c`;
+     preserves conditional 10E.5; closes Phase 10E for the April 2026
+     Foundation-only scope; and hands off to Phase 10H. It records no later
+     release execution and authorizes no provider release or data mutation.
 7. **Phase 10F — MyFoodData decision (conditional; unstarted).** Default outcome
    is reference-only/deferred. Implementation exists only if the full approval
    gate supplies a licensed, versioned, reproducible asset with independent
@@ -876,22 +877,24 @@ rollback boundaries:
 8. **Phase 10G — Optional coverage expansion (conditional; unstarted).** Evaluate
    direct SR Legacy first, then FNDDS. Branded, OFF, restaurant, and other
    providers remain separate gates and are not required for MVP acceptance.
-9. **Phase 10H — Final integration and Phase 10 acceptance (unstarted).** Audit
-   provenance, reproducibility, ACL/RLS, search/performance, operations,
-   documentation, and Phase 11 handoff.
+9. **Phase 10H — Final Integration and Phase 10 Acceptance (unstarted; next
+   actionable slice).** Audit source/licensing gates; release reproducibility;
+   stable source/application identity; nutrient mapping/value semantics;
+   provenance/immutable evidence; initial-promotion/lifecycle boundaries;
+   ACL/RLS/ownership/operator isolation; search/diary prefill; performance/
+   determinism; backup/restore/runbook readiness; documentation consistency;
+   deferred providers; final Phase 10 acceptance; and the exact Phase 11
+   handoff. Do not automatically acquire a provider, execute Phase 10E.5,
+   implement Phase 10F or 10G, perform a production migration/bootstrap or
+   restore, or begin Phase 11.
 
 Phases 10D.1, 10D.2, and overall Phase 10D are complete. Phases 10E.1, 10E.2,
-10E.3A, 10E.3B, overall 10E.3, and 10E.4 are complete. Overall Phase 10E has
-started but remains incomplete. Phase 10E.5 is conditional and unstarted. The
-original Phase 10E.6A preflight is complete, and a refreshed read-only Phase
-10E.6A-R1 preflight is the next actionable slice after the rolled-back
-hosted-role incident. Current-scope Phase 10E acceptance does not waive 10E.5
-controls: 10E.5 remains dormant until a later official
-release reopens its exact approval gate. Phase 10E can instead close for the
-current April 2026 Foundation-only scope after 10E.6A–10E.6C safely deploy and
-bootstrap the existing lifecycle foundation. Phase 10F and 10G remain
-conditional and unstarted rather than required for current MVP closeout;
-Phase 10H becomes the next actionable Phase 10 slice after 10E.6C. The
+10E.3A, 10E.3B, overall 10E.3, 10E.4, 10E.6A, 10E.6B, and 10E.6C are complete.
+Overall Phase 10E is complete for the current approved April 2026
+Foundation-only scope. Phase 10E.5 is conditional and unstarted; current-scope
+acceptance does not waive its controls, and a later official release reopens
+its exact approval gate. Phase 10F and 10G remain conditional and unstarted.
+Phase 10H is the next actionable and unstarted Phase 10 slice. The
 lifecycle plan separately governs controlled corrections, removals, archival, supersession,
 reconciliation, concurrency, rollback, and repeat-import behavior. The
 initial-promotion function must not be reused as an update mechanism.
@@ -938,13 +941,11 @@ lifecycle-design gate, Phase 10E.2 completes the non-executing foundation,
 Phase 10E.3 completes decision-bound atomic local execution, and Phase 10E.4
 completes the production-shaped local rehearsal. Phase 10E.5 remains
 conditional and unstarted because no later official artifact, exact evidence,
-or approval exists. The immediate blocker is refreshed Phase 10E.6A-R1
-read-only go/no-go evidence; any Phase 10E.6B production migration/bootstrap
-then requires a separate explicit authorization. Completion of planning,
-foundation work, the
-initial promotion, or this roadmap reconciliation does not authorize updates,
-removals, archival, supersession, reconciliation, repeat imports, production
-migrations, or production bootstrap.
+or approval exists. Phase 10E.6 completed without authorizing an update,
+removal, archival, supersession, reconciliation, repeat import, additional
+production migration/bootstrap, or provider operation. Phase 10H is the
+immediate next actionable slice and remains integration and acceptance work
+unless a separate exact authorization says otherwise.
 
 ## 32. Phase 10 / Phase 11 boundary
 
@@ -958,3 +959,8 @@ deployment/release procedures, monitoring beyond ingestion-run evidence, final
 accessibility and RTL audit, disaster recovery and broader runbooks, and general
 security/performance hardening. Phase 11 remains unstarted and must not absorb
 an incomplete Phase 10 ingestion invariant.
+
+The pre-deployment restore procedure is qualified, while the post-deployment
+backup restore remains `not_tested`. That residual recovery item stays visible
+to Phase 10H and broader Phase 11 disaster-recovery/runbook work; an actual
+production restore requires separate explicit incident authorization.
