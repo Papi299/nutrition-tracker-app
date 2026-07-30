@@ -1555,3 +1555,77 @@
 - This was a documentation-only acceptance task. The PR's existing GitHub
   `Validate` workflow passed before merge and provided the sole current full-
   suite execution; no local application or database suite was duplicated.
+
+## 2026-07-30: Phase 11A launch-readiness audit and decomposition
+
+- Audited the accepted Phase 10 repository across the sixteen Phase 11 domains:
+  product/launch definition; critical journeys; localization/RTL;
+  accessibility; responsive/browser/device integrity; authentication;
+  application security; privacy and health-adjacent risk; database/migrations;
+  backup/recovery; performance; reliability; observability; CI/governance;
+  deployment; and documentation/operations. The authoritative baseline was
+  clean `main` and fetched `origin/main` at
+  `0d0b127fae6cabd636c12b585569b53ce4a31a92`; no open overlapping PR existed.
+- Classified 6 domains `RELEASE_BLOCKER`, 4 `PARTIALLY_READY`, 4 `GAP`, 1
+  `PRODUCT_OWNER_DECISION_REQUIRED`, and 1
+  `EXTERNAL_EVIDENCE_REQUIRED`. Recorded 18 traceable findings: 7 P0, 9 P1,
+  and 2 P2. No Phase 10 ingestion invariant defect or other cross-phase blocker
+  was found.
+- The P0 findings are `P11A-001` undefined launch model/authority,
+  `P11A-006` incomplete account recovery and unknown production Auth settings,
+  `P11A-007` untriaged critical/high dependency advisories,
+  `P11A-009` undefined privacy/account/health-adjacent policy,
+  `P11A-011` unqualified current recovery state, `P11A-014` absent minimum
+  observability/incident response, and `P11A-017` absent deployment and
+  environment architecture.
+- The P1 findings are `P11A-002` incomplete critical-journey matrix,
+  `P11A-004` absent WCAG 2.2 AA acceptance program, `P11A-005` missing
+  cross-browser/physical-device/visual evidence, `P11A-008` absent production
+  browser-header policy, `P11A-010` unverified launch drift/sequencing,
+  `P11A-012` missing general performance/capacity evidence, `P11A-013`
+  incomplete outage/global failure behavior, `P11A-015` incomplete launch CI
+  strategy, and `P11A-018` incomplete operator/support/launch documentation.
+- Preserved verified strengths: 32 ordered migrations; synchronized public and
+  internal generated types; RLS, least privilege, server-derived ownership,
+  authenticated-only mutations, rollback/idempotency/concurrency, blank/null
+  and explicit-zero semantics, effective-dated targets, durable snapshots, and
+  immutable ingestion evidence. Listed 241 pure and 240 Chromium/local-
+  Supabase Playwright tests without running them. GitHub `CI` run 88 on the
+  Phase 10H head is the accepted current full-suite evidence; every executable
+  `Validate` step succeeded.
+- The same CI evidence reported nine dependency vulnerabilities (one low, one
+  moderate, six high, one critical) while the workflow remained green. This
+  audit did not infer reachability without advisory details; Phase 11F must
+  obtain and triage current advisory evidence before launch.
+- Product-owner decisions remain required for launch audience/geography/scope
+  and approver; provider-disabled barcode/camera claims; account confirmation,
+  recovery, reauthentication, export/deletion and retention; locale behavior;
+  WCAG/browser/device targets; privacy/terms/attribution/health boundaries;
+  environment/domain/secret and release ownership; scale/SLO/monitoring/
+  incident ownership; recovery RPO/RTO/scope; and any explicit P1 exception.
+- External evidence remains required for privacy/legal and native-speaker
+  review; assistive technology and physical devices; dependency advisories;
+  GitHub governance/security settings; hosted Supabase Auth and migration
+  state; deployed headers/performance/monitoring; Vercel environments/domain/
+  smoke/rollback; restricted backup and isolated restore; and operator drills.
+- Accepted the evidence-derived sequence: 11B Launch contract, 11C Critical
+  QA, 11D Accessibility/localization/browser UI, 11E Auth/account lifecycle,
+  11F Security/supply chain, 11G Reliability/observability/performance, 11H
+  Deployment architecture, 11I Recovery qualification, 11J Preview/release
+  rehearsal, and 11K Integrated acceptance. Phase 11B is next because its
+  decisions define every later acceptance gate. Do not begin it in this task.
+- Phase 10 remains accepted for its bounded scope. Phase 10E.5, Phase 10F, and
+  Phase 10G remain conditional and unstarted. The post-deployment backup
+  restore remains exactly `not_tested`; production restore remains separately
+  authorized. Initial promotion and baseline bootstrap remain prohibited as
+  update mechanisms.
+- Validation for this documentation task is limited to static audit/test
+  inventory, read-only Git/GitHub evidence, Markdown/status/traceability and
+  changed-file checks, and the PR's GitHub `Validate` workflow. No full local
+  application, database, ingestion, or Playwright suite is repeated. After
+  this PR is merged, Phase 11A is complete only for its audit and decomposition
+  scope; overall Phase 11 remains incomplete.
+- This task authorizes no application/test/migration/configuration/dependency
+  implementation, launch, deployment, Vercel setup, production or remote
+  Supabase query/mutation, provider access, backup, restore, credential, domain,
+  DNS, or GitHub settings operation. None occurred.
