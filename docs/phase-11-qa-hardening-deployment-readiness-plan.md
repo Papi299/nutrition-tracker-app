@@ -74,7 +74,14 @@ The application is launch-ready only when:
 13. the integrated Phase 11 gate and independent review pass with no pending,
     failing, cancelled, skipped-without-rationale, or unexplained required gate.
 
-## 5. Required product-owner decisions
+## 5. Approved product-owner decisions and remaining deadlines
+
+Maor Pichhadze approved all recommended Phase 11B decisions on 2026-07-31
+against source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` and accepted
+the three roles recorded in the launch contract. The table retains the
+downstream timing controlled by those approved decisions. Later assignees,
+qualified reviews, implementation, and external evidence remain due at their
+exact slice deadlines.
 
 | Decision | Needed before |
 | --- | --- |
@@ -157,10 +164,16 @@ renaming a slice.
 ## 8. Phase 11B — Launch contract and acceptance baseline
 
 **Current status:** Phase 11B is active. The
-[draft launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-is `DRAFT_PENDING_PRODUCT_OWNER_APPROVAL`; all mandatory owner decisions remain
-pending, so this draft does not complete Phase 11B. Phase 11C is unstarted.
-The dependency graph and two-stage evidence model above remain controlling.
+[owner-recorded launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is `PHASE_11B_OWNER_DECISIONS_RECORDED`: Maor Pichhadze approved all 30
+recommendations against source head
+`85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
+launch-decision-authority, and Production-approver roles, and approved the
+recommended release-separation policy. The recording head still requires final
+independent transcription and consistency review, so Phase 11B is not complete
+and Phase 11C is unstarted. Decision recording does not authorize
+implementation or deployment. The dependency graph and two-stage evidence
+model above remain controlling.
 
 ### Objective
 

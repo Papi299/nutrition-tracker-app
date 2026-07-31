@@ -1681,3 +1681,33 @@
   change, remote Supabase/provider/Vercel operation, deployment, domain/DNS or
   secret action, backup/restore, physical-device test, GitHub-settings change,
   legal/privacy approval, risk acceptance, or finding closure.
+
+## 2026-07-31: Phase 11B attributable product-owner decision capture
+
+- Maor Pichhadze supplied an attributable `APPROVE_ALL_RECOMMENDED` decision
+  bundle after reviewing PR #72, contract version
+  `0.3-invitation-boundary-corrected-draft`, and source head
+  `85dec5e35a6d7aedb8fa265d30d3be27ece27282`. The corrected source draft had
+  already received the independent disposition
+  `PHASE_11B_DRAFT_INDEPENDENT_REVIEW_ACCEPTED_OWNER_DECISIONS_REQUIRED`.
+- Recorded exact `PRODUCT_OWNER_APPROVED` answers, Maor Pichhadze as authority,
+  approval date 2026-07-31, attributable-bundle evidence, and approved source
+  head for every `DEC-001` through `DEC-030`. No alternative or exception was
+  selected.
+- Recorded the product-owner, launch-decision-authority, and Production-
+  approver roles as `ASSIGNED_AND_APPROVED` to Maor Pichhadze. Approved the
+  recommended release role-separation policy. Production-role acceptance is
+  not Production deployment authorization.
+- Preserved every later role as unassigned under its approved deadline. No
+  absent person was nominated or treated as having accepted an assignment.
+- Set Phase 11B to `PHASE_11B_OWNER_DECISIONS_RECORDED` with post-recording
+  status `OWNER_DECISIONS_RECORDED_FINAL_INDEPENDENT_REVIEW_REQUIRED`. Phase
+  11B is not complete until final independent transcription and consistency
+  review accepts the recording head; Phase 11C remains unstarted.
+- Preserved all 18 findings as `OPEN`, Phase 11K as the exclusive finding-
+  closure gate, restore as `not_tested`, and Phase 10E.5, Phase 10F, and Phase
+  10G as conditional and unstarted.
+- Decision capture authorized no implementation, test, migration, dependency,
+  workflow, hosted Supabase, provider, Vercel, deployment, backup, restore,
+  device, domain/DNS, secret, finding-closure, or Production operation. None
+  occurred.

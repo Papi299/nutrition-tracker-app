@@ -196,9 +196,11 @@ is complete for the current MVP scope.
   approved current MVP scope. The post-deployment backup restore remains
   `not_tested`. Phase 11A is complete only for its documentation-only audit and
   implementation-decomposition scope. Phase 11B is active, and its
-  [draft launch contract and acceptance baseline](docs/phase-11b-launch-contract-and-acceptance-baseline.md)
-  is awaiting product-owner approval and independent review; the draft does
-  not complete Phase 11B. Overall Phase 11 remains incomplete and Phase 11C is
+  [owner-recorded launch contract and acceptance baseline](docs/phase-11b-launch-contract-and-acceptance-baseline.md)
+  records all 30 recommended decisions as approved by Maor Pichhadze against
+  source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`. The recording head
+  awaits final independent transcription and consistency review, so Phase 11B
+  is not yet complete. Overall Phase 11 remains incomplete and Phase 11C is
   unstarted. The
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
@@ -647,9 +649,9 @@ Manual RTL QA checklist:
   closes Phase 10E for the current approved April 2026 Foundation-only scope.
   Phase 10H completed the integrated audit and accepted overall Phase 10 for
   the approved current MVP scope. Phase 11A completed only its audit and
-  implementation-decomposition scope. Phase 11B is active and awaiting
-  product-owner approval; overall Phase 11 remains incomplete and Phase 11C
-  is unstarted.
+  implementation-decomposition scope. Phase 11B owner decisions are recorded;
+  final independent review of the recording head remains required. Overall
+  Phase 11 remains incomplete and Phase 11C is unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -800,10 +802,11 @@ Manual RTL QA checklist:
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
 - Phase 11 QA, Hardening, and Deployment Readiness remains incomplete. Phase
-  11A completed only its audit/decomposition scope. Phase 11B is active and
-  its [draft contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md)
-  awaits owner approval; all 18 findings remain open, Phase 11K remains their
-  only closure gate, and Phase 11C is unstarted.
+  11A completed only its audit/decomposition scope. Phase 11B has recorded all
+  30 attributable owner decisions in its
+  [owner-recorded contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md),
+  but final independent review remains required; all 18 findings remain open,
+  Phase 11K remains their only closure gate, and Phase 11C is unstarted.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -856,10 +859,10 @@ Manual RTL QA checklist:
   is complete for that scope. Phase 10H completed the integrated audit, and
   overall Phase 10 is complete for the approved current MVP scope. Conditional
   Phase 10E.5, 10F, and 10G remain unstarted. Phase 11A is complete only for
-  its documentation-only audit and decomposition scope. Phase 11B is active;
-  its draft contract awaits attributable product-owner decisions and does not
-  authorize launch or deployment. Overall Phase 11 remains incomplete, and
-  Phase 11C is unstarted.
+  its documentation-only audit and decomposition scope. Phase 11B owner
+  decisions are recorded, but the recording head still requires final
+  independent review and does not authorize implementation, launch, or
+  deployment. Overall Phase 11 remains incomplete, and Phase 11C is unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

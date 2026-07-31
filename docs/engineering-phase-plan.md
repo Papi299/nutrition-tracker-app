@@ -331,15 +331,19 @@ remain open. Phase 11H defines the approved environment architecture, Phase
 authorizes remote Supabase access, provider configuration, Vercel setup,
 deployment, backup, or restore.
 
-Phase 11B is now the active slice because the unresolved launch model,
-supported clients, account/privacy requirements, service objectives, recovery
-objectives, and release authority determine every later acceptance gate. Its
-[draft launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-is `DRAFT_PENDING_PRODUCT_OWNER_APPROVAL`. Opening or merging a draft PR does
-not complete Phase 11B while mandatory decisions and independent review remain
-pending. Do not begin Phase 11C or a later release-facing slice until those
-decisions are attributable and Phase 11B is accepted. Overall Phase 11 remains
-incomplete, and Phase 11C is unstarted.
+Phase 11B remains the active slice. Its
+[owner-recorded launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+records all 30 recommended decisions as attributable
+`PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against source head
+`85dec5e35a6d7aedb8fa265d30d3be27ece27282`. Maor accepted the product-owner,
+launch-decision-authority, and Production-approver roles and approved the
+recommended release-separation policy. The recording head requires final
+independent transcription and consistency review, so Phase 11B is not yet
+complete. Do not begin Phase 11C or a later release-facing slice until that
+review accepts the bounded recording and Phase 11B completion is separately
+authorized. Decision recording does not authorize implementation, hosted
+access, or deployment. Overall Phase 11 remains incomplete, and Phase 11C is
+unstarted.
 
 ## Future PR Documentation Rule
 
