@@ -1643,3 +1643,41 @@
   implementation, launch, deployment, Vercel setup, production or remote
   Supabase query/mutation, provider access, backup, restore, credential, domain,
   DNS, or GitHub settings operation. None occurred.
+
+## 2026-07-31: Phase 11B draft launch contract and acceptance baseline
+
+- Prepared the documentation-only
+  [`Phase 11B launch contract and acceptance baseline`](phase-11b-launch-contract-and-acceptance-baseline.md)
+  from authoritative baseline
+  `2e99823545ec98d19082e0acdd23819298c971ee`. The artifact records one proposed
+  launch-scope statement, 30 decision rows, 35 critical journeys, all 18 open
+  findings, 27 evidence families, the 11C–11K acceptance baseline, the P1
+  exception schema, launch stop conditions, and a numbered owner packet.
+- Every Codex answer is only `PROPOSED_PENDING_PRODUCT_OWNER_APPROVAL`.
+  Repository implementation, tests, CI, silence, and this draft are not owner
+  approval. No approved answer, risk acceptance, legal/privacy approval,
+  external evidence, Production authority, or finding closure is recorded.
+- Owner disposition remains pending for: `DEC-001` launch model/cohort;
+  `DEC-002` eligibility/geography; `DEC-003` health boundary; `DEC-004`–`006`
+  availability/support/incidents; `DEC-007` release roles; `DEC-008` MVP core;
+  `DEC-009`–`011` confirmation/recovery/account/Auth lifecycle; `DEC-012`
+  barcode/camera/provider limits; `DEC-013` deferred scope; `DEC-014`–`016`
+  client/accessibility targets; `DEC-017` locale behavior; `DEC-018`–`020`
+  privacy/governance/health copy; `DEC-021`–`023` scale/reliability/monitoring;
+  `DEC-024`–`025` backup/recovery; `DEC-026`–`028` environment ownership and
+  release procedure; `DEC-029` security/governance/P1 exceptions; and
+  `DEC-030` separate Production authorization.
+- Preserved the Phase 11A finding totals and two-stage model: 7 P0, 9 P1, and
+  2 P2; every finding remains `OPEN`; Phase 11K alone may assign
+  `FINDING_CLOSED`. Phase 11B is active but incomplete while decisions and
+  independent review remain pending. Phase 11C and all later slices are
+  unstarted.
+- Preserved all Phase 10 boundaries. Phase 10 is accepted for its bounded
+  current MVP scope; Phase 10E.5, Phase 10F, and Phase 10G remain conditional
+  and unstarted; initial promotion and lifecycle bootstrap are not update
+  mechanisms; the post-deployment backup restore remains exactly `not_tested`;
+  and any Production restore or deployment remains separately authorized.
+- This draft performed no application/test/migration/configuration/dependency
+  change, remote Supabase/provider/Vercel operation, deployment, domain/DNS or
+  secret action, backup/restore, physical-device test, GitHub-settings change,
+  legal/privacy approval, risk acceptance, or finding closure.

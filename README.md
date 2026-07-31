@@ -194,9 +194,12 @@ is complete for the current MVP scope.
   remain conditional and unstarted. Phase 10H completed the integrated audit,
   and [Phase 10 is accepted](docs/phase-10-acceptance-report.md) for the
   approved current MVP scope. The post-deployment backup restore remains
-  `not_tested`. Phase 11A is the documentation-only repository audit and
-  implementation-decomposition slice. After this PR is merged, Phase 11A will
-  be complete; overall Phase 11 will remain incomplete. The
+  `not_tested`. Phase 11A is complete only for its documentation-only audit and
+  implementation-decomposition scope. Phase 11B is active, and its
+  [draft launch contract and acceptance baseline](docs/phase-11b-launch-contract-and-acceptance-baseline.md)
+  is awaiting product-owner approval and independent review; the draft does
+  not complete Phase 11B. Overall Phase 11 remains incomplete and Phase 11C is
+  unstarted. The
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
   record the unresolved gaps and dependency order. No launch, deployment,
@@ -643,8 +646,10 @@ Manual RTL QA checklist:
   Phase 10E.6B lifecycle-foundation deployment as complete. Phase 10E.6C
   closes Phase 10E for the current approved April 2026 Foundation-only scope.
   Phase 10H completed the integrated audit and accepted overall Phase 10 for
-  the approved current MVP scope. Phase 11A is the current audit and
-  implementation-decomposition slice; overall Phase 11 remains incomplete.
+  the approved current MVP scope. Phase 11A completed only its audit and
+  implementation-decomposition scope. Phase 11B is active and awaiting
+  product-owner approval; overall Phase 11 remains incomplete and Phase 11C
+  is unstarted.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -795,9 +800,10 @@ Manual RTL QA checklist:
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
 - Phase 11 QA, Hardening, and Deployment Readiness remains incomplete. Phase
-  11A audits and decomposes the work but resolves none of the recorded product
-  QA, accessibility, security, performance, monitoring, deployment, recovery,
-  cross-browser, visual, or physical-device gaps.
+  11A completed only its audit/decomposition scope. Phase 11B is active and
+  its [draft contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md)
+  awaits owner approval; all 18 findings remain open, Phase 11K remains their
+  only closure gate, and Phase 11C is unstarted.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -849,9 +855,11 @@ Manual RTL QA checklist:
   result for the current April 2026 Foundation-only scope. Overall Phase 10E
   is complete for that scope. Phase 10H completed the integrated audit, and
   overall Phase 10 is complete for the approved current MVP scope. Conditional
-  Phase 10E.5, 10F, and 10G remain unstarted. Phase 11A is the current
-  documentation-only audit and decomposition slice; after this PR is merged it
-  will be complete, while overall Phase 11 remains incomplete.
+  Phase 10E.5, 10F, and 10G remain unstarted. Phase 11A is complete only for
+  its documentation-only audit and decomposition scope. Phase 11B is active;
+  its draft contract awaits attributable product-owner decisions and does not
+  authorize launch or deployment. Overall Phase 11 remains incomplete, and
+  Phase 11C is unstarted.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

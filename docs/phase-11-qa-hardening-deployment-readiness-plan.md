@@ -156,6 +156,12 @@ renaming a slice.
 
 ## 8. Phase 11B — Launch contract and acceptance baseline
 
+**Current status:** Phase 11B is active. The
+[draft launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is `DRAFT_PENDING_PRODUCT_OWNER_APPROVAL`; all mandatory owner decisions remain
+pending, so this draft does not complete Phase 11B. Phase 11C is unstarted.
+The dependency graph and two-stage evidence model above remain controlling.
+
 ### Objective
 
 Resolve the decisions that determine what “ready” means and convert the audit

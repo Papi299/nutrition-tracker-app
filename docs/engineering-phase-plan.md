@@ -300,8 +300,8 @@ decomposition recorded in
 [`phase-11-qa-hardening-deployment-readiness-audit.md`](phase-11-qa-hardening-deployment-readiness-audit.md)
 and
 [`phase-11-qa-hardening-deployment-readiness-plan.md`](phase-11-qa-hardening-deployment-readiness-plan.md).
-After this PR is merged, Phase 11A is complete only for that audit/planning
-scope. It does not resolve a finding or authorize implementation, launch,
+Phase 11A is complete only for that audit/planning scope. It did not resolve a
+finding or authorize implementation, launch,
 deployment, Vercel setup, production mutation, provider work, backup, or
 restore.
 
@@ -331,11 +331,15 @@ remain open. Phase 11H defines the approved environment architecture, Phase
 authorizes remote Supabase access, provider configuration, Vercel setup,
 deployment, backup, or restore.
 
-Phase 11B is the recommended next slice because the unresolved launch model,
+Phase 11B is now the active slice because the unresolved launch model,
 supported clients, account/privacy requirements, service objectives, recovery
-objectives, and release authority determine every later acceptance gate. Do
-not begin Phase 11C or a later release-facing slice until 11B settles those
-decisions. Overall Phase 11 remains incomplete after Phase 11A.
+objectives, and release authority determine every later acceptance gate. Its
+[draft launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is `DRAFT_PENDING_PRODUCT_OWNER_APPROVAL`. Opening or merging a draft PR does
+not complete Phase 11B while mandatory decisions and independent review remain
+pending. Do not begin Phase 11C or a later release-facing slice until those
+decisions are attributable and Phase 11B is accepted. Overall Phase 11 remains
+incomplete, and Phase 11C is unstarted.
 
 ## Future PR Documentation Rule
 
