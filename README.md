@@ -194,9 +194,15 @@ is complete for the current MVP scope.
   remain conditional and unstarted. Phase 10H completed the integrated audit,
   and [Phase 10 is accepted](docs/phase-10-acceptance-report.md) for the
   approved current MVP scope. The post-deployment backup restore remains
-  `not_tested`. Phase 11 QA, Hardening, and Deployment Readiness is next and
-  unstarted. The initial-promotion function and baseline bootstrap must not be
-  reused for updates. The Phase 9
+  `not_tested`. Phase 11A is the documentation-only repository audit and
+  implementation-decomposition slice. After this PR is merged, Phase 11A will
+  be complete; overall Phase 11 will remain incomplete. The
+  [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
+  and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
+  record the unresolved gaps and dependency order. No launch, deployment,
+  Vercel setup, production mutation, restore, or provider operation occurred.
+  The initial-promotion function and baseline bootstrap must not be reused for
+  updates. The Phase 9
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
@@ -398,8 +404,9 @@ Manual RTL QA checklist:
 - Approved hosting direction is Vercel later; Vercel is not configured yet.
 - Current status: email/password auth, session refresh, protected routes,
   profile/target setup, diary snapshot CRUD, daily totals, target progress,
-  read-only food search, and selected-food prefill are implemented. Custom-food
-  UI, broader analytics, and production deployment are unavailable.
+  food search/prefill, custom foods, favorites/recents, Saved Meals, Recipes,
+  and provider-disabled barcode flows are implemented. Account recovery,
+  launch monitoring, and production deployment are unavailable.
 - Installed Supabase packages:
   - `@supabase/supabase-js`
   - `@supabase/ssr`
@@ -635,8 +642,9 @@ Manual RTL QA checklist:
   recorded the refreshed Phase 10E.6A-R1 preflight and separately authorized
   Phase 10E.6B lifecycle-foundation deployment as complete. Phase 10E.6C
   closes Phase 10E for the current approved April 2026 Foundation-only scope.
-  Phase 10H completes the integrated audit and accepts overall Phase 10 for the
-  approved current MVP scope; Phase 11 is next and unstarted.
+  Phase 10H completed the integrated audit and accepted overall Phase 10 for
+  the approved current MVP scope. Phase 11A is the current audit and
+  implementation-decomposition slice; overall Phase 11 remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -746,8 +754,8 @@ Manual RTL QA checklist:
   baseline bootstrap and retry, preserved public and user data, preserved
   security boundaries, and completed backup evidence. Phase 10E.6C closes
   Phase 10E for the current approved April 2026 Foundation-only scope. Phase
-  10H is the next actionable and unstarted Phase 10 slice; overall Phase 10
-  remains incomplete.
+  10H completed the final integration audit and accepted Phase 10 for the
+  approved current MVP scope.
 - Remote migration application is a separate post-merge task and requires
   explicit human approval.
 - Supabase helper files:
@@ -786,9 +794,10 @@ Manual RTL QA checklist:
   Foundation release. It remains conditional and requires its own official
   artifact, deterministic diff, reviewed decisions and allowances, backups,
   production approval, atomic execution, verification, and closeout.
-- Phase 11 QA, Hardening, and Deployment Readiness. It remains unstarted and
-  owns broader product QA, accessibility, security, performance, monitoring,
-  deployment, recovery, cross-browser, visual, and physical-device evidence.
+- Phase 11 QA, Hardening, and Deployment Readiness remains incomplete. Phase
+  11A audits and decomposes the work but resolves none of the recorded product
+  QA, accessibility, security, performance, monitoring, deployment, recovery,
+  cross-browser, visual, or physical-device gaps.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -840,7 +849,9 @@ Manual RTL QA checklist:
   result for the current April 2026 Foundation-only scope. Overall Phase 10E
   is complete for that scope. Phase 10H completed the integrated audit, and
   overall Phase 10 is complete for the approved current MVP scope. Conditional
-  Phase 10E.5, 10F, and 10G remain unstarted; Phase 11 is next and unstarted.
+  Phase 10E.5, 10F, and 10G remain unstarted. Phase 11A is the current
+  documentation-only audit and decomposition slice; after this PR is merged it
+  will be complete, while overall Phase 11 remains incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

@@ -288,10 +288,54 @@ operations, repository, provider-boundary, and handoff audit. The
 Phase 10 as complete for the approved current MVP scope. The post-deployment
 backup restore remains `not_tested` and belongs to broader Phase 11 recovery
 qualification; any production restore still requires separate authorization.
-Phase 11 — QA, Hardening, and Deployment Readiness is the next actionable phase
-and remains unstarted. Neither the initial-promotion function nor the baseline
-bootstrap is an update mechanism, and Phase 11 may not absorb a Phase 10
-ingestion invariant.
+Phase 11 — QA, Hardening, and Deployment Readiness is now active but remains
+incomplete. Neither the initial-promotion function nor the baseline bootstrap
+is an update mechanism, and Phase 11 may not absorb a Phase 10 ingestion
+invariant.
+
+## Phase 11 implementation sequence
+
+Phase 11A is the documentation-only repository audit and implementation
+decomposition recorded in
+[`phase-11-qa-hardening-deployment-readiness-audit.md`](phase-11-qa-hardening-deployment-readiness-audit.md)
+and
+[`phase-11-qa-hardening-deployment-readiness-plan.md`](phase-11-qa-hardening-deployment-readiness-plan.md).
+After this PR is merged, Phase 11A is complete only for that audit/planning
+scope. It does not resolve a finding or authorize implementation, launch,
+deployment, Vercel setup, production mutation, provider work, backup, or
+restore.
+
+The audit classifies 6 domains `RELEASE_BLOCKER`, 4 `PARTIALLY_READY`, 4
+`GAP`, 1 `PRODUCT_OWNER_DECISION_REQUIRED`, and 1
+`EXTERNAL_EVIDENCE_REQUIRED`. Its 18 findings comprise 7 P0, 9 P1, and 2 P2.
+The recommended dependency order is:
+
+1. Phase 11B — Launch contract and acceptance baseline.
+2. Phase 11C — Critical-journey QA foundation.
+3. Phase 11D — Accessibility, localization, responsive, and browser UI.
+4. Phase 11E — Authentication and account lifecycle.
+5. Phase 11F — Application and supply-chain security.
+6. Phase 11G — Reliability, observability, and performance.
+7. Phase 11H — Deployment architecture and release runbook.
+8. Phase 11I — Recovery qualification.
+9. Phase 11J — Preview and release rehearsal.
+10. Phase 11K — Integrated Phase 11 acceptance and launch-authorization gate.
+
+The sequence uses two-stage finding closure. Phase 11E, 11F, and 11G may
+complete bounded repository/local acceptance while recording
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; their launch findings
+remain open. Phase 11H defines the approved environment architecture, Phase
+11J collects separately authorized hosted/deployed evidence and may record
+`EXTERNAL_VALIDATION_COMPLETE`, and Phase 11K alone may assign
+`FINDING_CLOSED` after verifying both stages. No earlier slice or roadmap entry
+authorizes remote Supabase access, provider configuration, Vercel setup,
+deployment, backup, or restore.
+
+Phase 11B is the recommended next slice because the unresolved launch model,
+supported clients, account/privacy requirements, service objectives, recovery
+objectives, and release authority determine every later acceptance gate. Do
+not begin Phase 11C or a later release-facing slice until 11B settles those
+decisions. Overall Phase 11 remains incomplete after Phase 11A.
 
 ## Future PR Documentation Rule
 
