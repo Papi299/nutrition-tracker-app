@@ -1761,3 +1761,30 @@
 - No application behavior, migration, dependency, hosted Supabase, provider,
   Vercel, deployment, backup/restore, finding state, risk disposition, or
   Production authorization changed.
+
+## 2026-08-01: Phase 11C1 post-merge reconciliation
+
+- Recorded independent disposition
+  `PHASE_11C1_POST_MERGE_VERIFICATION_ACCEPTED_DOCUMENTATION_RECONCILIATION_REQUIRED`.
+  It accepts the merge and requires only the bounded documentation
+  reconciliation in this PR.
+- PR #73 squash-merged accepted head
+  `f42e1838999d0a5c3ac924b8df61a576d9c6d080` from original base
+  `eae0cd64284cf103a2ca326568c0d01e2c71d3ff` into `main` as
+  `c537f65ed598832e11015266d615c295a4504d06` at
+  `2026-08-01T11:16:42Z`.
+- Push-triggered run `30697381368` and Validate job `91362444133` succeeded on
+  the exact squash SHA.
+- The exact 11-file merge scope was `.github/workflows/ci.yml`, `README.md`,
+  `docs/decision-log.md`, `docs/engineering-phase-plan.md`,
+  `docs/phase-11-qa-hardening-deployment-readiness-plan.md`,
+  `docs/phase-11c-critical-journey-evidence.json`,
+  `docs/phase-11c-critical-journey-qa-foundation.md`,
+  `e2e/critical-auth-session.spec.ts`, `package.json`,
+  `scripts/check-phase-11c-journey-evidence.mjs`, and
+  `scripts/check-phase-11c-journey-evidence.test.mjs`.
+- Phase 11C1 is merged, but Phase 11C remains active and incomplete.
+  `P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11K
+  remains the exclusive finding-closure gate.
+- No hosted Supabase, provider, Vercel, deployment, backup/restore,
+  finding-closure, risk-acceptance, or Production operation occurred.
