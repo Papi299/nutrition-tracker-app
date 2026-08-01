@@ -340,12 +340,14 @@ owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
 records independent acceptance of recording head
 `c739df46d960593d0a2306255cdb0b46df29f4bc`. Maor accepted the product-owner,
 launch-decision-authority, and Production-approver roles and approved the
-recommended release-separation policy. Phase 11C is active. Phase 11C1
-implements the bounded
+recommended release-separation policy. Phase 11C1's bounded
 [critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
-in a draft PR, but Phase 11C overall remains incomplete. This transition does
-not authorize hosted access, Production release, or deployment. Overall Phase
-11 remains incomplete.
+merged into `main` through PR #73 at squash commit
+`c537f65ed598832e11015266d615c295a4504d06`. Push-triggered Validate run
+`30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C
+remains active and incomplete. This transition authorizes no hosted access,
+deployment, finding closure, or Production action, and no later Phase 11 slice
+has started. Overall Phase 11 remains incomplete.
 
 ## Future PR Documentation Rule
 

@@ -10,6 +10,11 @@
 | Exact baseline | `eae0cd64284cf103a2ca326568c0d01e2c71d3ff` |
 | Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), version `1.0-phase-11b-accepted` |
 | Slice | Phase 11C1 |
+| Slice state | `MERGED` |
+| Merged PR | #73 |
+| Accepted head | `f42e1838999d0a5c3ac924b8df61a576d9c6d080` |
+| Merged main SHA | `c537f65ed598832e11015266d615c295a4504d06` |
+| Post-merge validation | Run `30697381368` / Validate job `91362444133` / `SUCCESS` |
 | Status | `PHASE_11C_ACTIVE_INCOMPLETE` |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -26,8 +31,8 @@ bounded local acceptance coverage for CJ-004 sign-in, CJ-005 sign-out, and
 CJ-006 expired-session mutation recovery. It also makes the evidence checker a
 fast authoritative CI step.
 
-Phase 11C is active, but Phase 11C1 is not all of Phase 11C. Phase 11C overall
-remains incomplete.
+Phase 11C1 is merged, but it is not all of Phase 11C and authorizes no
+later-slice work. Phase 11C remains active and incomplete.
 
 ## 3. Scope and non-goals
 
