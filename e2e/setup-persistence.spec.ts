@@ -1,3 +1,5 @@
+import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import {
   expect,
@@ -11,6 +13,15 @@ const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "SetupPersistencePassword123!";
+const supabaseProjectId = readFileSync("supabase/config.toml", "utf8").match(
+  /^project_id\s*=\s*"([^"]+)"/m,
+)?.[1];
+
+if (!supabaseProjectId) {
+  throw new Error("Could not read the local Supabase project id.");
+}
+
+const databaseContainer = `supabase_db_${supabaseProjectId}`;
 
 test.skip(
   !localOnly || !localSupabaseUrl || !localSupabasePublishableKey,
@@ -38,6 +49,27 @@ test.describe.serial("atomic setup persistence", () => {
         },
       },
     );
+  }
+
+  function queryLocalDatabase(statement: string) {
+    return execFileSync(
+      "docker",
+      [
+        "exec",
+        databaseContainer,
+        "psql",
+        "-U",
+        "postgres",
+        "-d",
+        "postgres",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-At",
+        "-c",
+        statement,
+      ],
+      { encoding: "utf8" },
+    ).trim();
   }
 
   function rpcArgs(
@@ -377,5 +409,176 @@ test.describe.serial("atomic setup persistence", () => {
     );
     expect(anonymous.data).toBeNull();
     expect(anonymous.error).not.toBeNull();
+  });
+
+  test("CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes", async ({
+    browser,
+  }) => {
+    const acceptanceEmail = `setup-acceptance-${runId}@example.test`;
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const firstDate = "2033-01-10";
+    const failedUpdateDate = "2033-02-10";
+    const expiredUpdateDate = "2033-03-10";
+
+    await page.goto("/en/auth/sign-up");
+    await page.getByLabel("Email").fill(acceptanceEmail);
+    await page.getByLabel("Password").fill(password);
+    await page.getByRole("button", { name: "Create account" }).click();
+    await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
+
+    const acceptanceClient = localClient();
+    const signIn = await acceptanceClient.auth.signInWithPassword({
+      email: acceptanceEmail,
+      password,
+    });
+    expect(signIn.error).toBeNull();
+    const acceptanceUserId = signIn.data.user?.id as string;
+
+    await page.goto(`/en/setup?effectiveDate=${firstDate}`);
+    const form = page.locator('form:has(input[name="effectiveDate"])');
+    await form.locator('input[name="display_name"]').fill("x".repeat(81));
+    await form.locator('input[name="calories"]').fill("0");
+    await form.getByRole("button", { name: "Save setup" }).click();
+    await expect(form).toContainText("Check the highlighted fields and try again.");
+
+    const profileAfterValidation = await acceptanceClient
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .eq("id", acceptanceUserId);
+    const targetAfterValidation = await acceptanceClient
+      .from("nutrition_targets")
+      .select("id", { count: "exact", head: true })
+      .eq("effective_from", firstDate);
+    expect(profileAfterValidation.count).toBe(0);
+    expect(targetAfterValidation.count).toBe(0);
+
+    queryLocalDatabase(`
+      create or replace function public.phase_11c2b_fail_setup_target()
+      returns trigger language plpgsql security invoker set search_path = '' as $$
+      begin
+        if new.effective_from = '${firstDate}'::date then
+          raise integrity_constraint_violation using message = 'Phase 11C2B setup rollback probe.';
+        end if;
+        return new;
+      end;
+      $$;
+      drop trigger if exists phase_11c2b_fail_setup_target on public.nutrition_targets;
+      create trigger phase_11c2b_fail_setup_target
+      before insert or update on public.nutrition_targets
+      for each row execute function public.phase_11c2b_fail_setup_target();
+    `);
+
+    try {
+      await form.locator('input[name="display_name"]').fill("First accepted setup");
+      await form.locator('input[name="protein_g"]').fill("");
+      await form.locator('input[name="carbohydrates_g"]').fill("25");
+      await form.locator('input[name="fat_g"]').fill("");
+      await form.getByRole("button", { name: "Save setup" }).click();
+      await expect(form).toContainText(
+        "We could not save setup right now. Try again in a moment.",
+      );
+
+      const profileAfterDatabaseFailure = await acceptanceClient
+        .from("profiles")
+        .select("id", { count: "exact", head: true })
+        .eq("id", acceptanceUserId);
+      const targetAfterDatabaseFailure = await acceptanceClient
+        .from("nutrition_targets")
+        .select("id", { count: "exact", head: true })
+        .eq("effective_from", firstDate);
+      expect(profileAfterDatabaseFailure.count).toBe(0);
+      expect(targetAfterDatabaseFailure.count).toBe(0);
+    } finally {
+      queryLocalDatabase(`
+        drop trigger if exists phase_11c2b_fail_setup_target on public.nutrition_targets;
+        drop function if exists public.phase_11c2b_fail_setup_target();
+      `);
+    }
+
+    await form.getByRole("button", { name: "Save setup" }).click();
+    await expect(page).toHaveURL(`/en/today?date=${firstDate}`);
+    const firstTarget = await acceptanceClient
+      .from("nutrition_targets")
+      .select("calories,carbohydrates_g,fat_g,protein_g")
+      .eq("effective_from", firstDate)
+      .single();
+    expect(firstTarget.data).toEqual({
+      calories: 0,
+      carbohydrates_g: 25,
+      fat_g: null,
+      protein_g: null,
+    });
+
+    queryLocalDatabase(`
+      create or replace function public.phase_11c2b_fail_setup_update()
+      returns trigger language plpgsql security invoker set search_path = '' as $$
+      begin
+        if new.effective_from = '${failedUpdateDate}'::date then
+          raise integrity_constraint_violation using message = 'Phase 11C2B target update rollback probe.';
+        end if;
+        return new;
+      end;
+      $$;
+      drop trigger if exists phase_11c2b_fail_setup_update on public.nutrition_targets;
+      create trigger phase_11c2b_fail_setup_update
+      before insert or update on public.nutrition_targets
+      for each row execute function public.phase_11c2b_fail_setup_update();
+    `);
+
+    try {
+      await page.goto(`/en/setup?effectiveDate=${failedUpdateDate}`);
+      const updateForm = page.locator('form:has(input[name="effectiveDate"])');
+      await updateForm.locator('input[name="display_name"]').fill(
+        "This profile update must roll back",
+      );
+      await updateForm.locator('input[name="calories"]').fill("2300");
+      await updateForm.getByRole("button", { name: "Save changes" }).click();
+      await expect(updateForm).toContainText(
+        "We could not save setup right now. Try again in a moment.",
+      );
+
+      const profileAfterFailedUpdate = await acceptanceClient
+        .from("profiles")
+        .select("display_name")
+        .eq("id", acceptanceUserId)
+        .single();
+      const failedTarget = await acceptanceClient
+        .from("nutrition_targets")
+        .select("id", { count: "exact", head: true })
+        .eq("effective_from", failedUpdateDate);
+      expect(profileAfterFailedUpdate.data?.display_name).toBe(
+        "First accepted setup",
+      );
+      expect(failedTarget.count).toBe(0);
+    } finally {
+      queryLocalDatabase(`
+        drop trigger if exists phase_11c2b_fail_setup_update on public.nutrition_targets;
+        drop function if exists public.phase_11c2b_fail_setup_update();
+      `);
+    }
+
+    await page.goto(`/en/setup?effectiveDate=${expiredUpdateDate}`);
+    const expiredForm = page.locator('form:has(input[name="effectiveDate"])');
+    await expiredForm.locator('input[name="display_name"]').fill(
+      "Expired update must not persist",
+    );
+    await expiredForm.locator('input[name="calories"]').fill("2400");
+    await context.clearCookies();
+    await expiredForm.getByRole("button", { name: "Save changes" }).click();
+    await expect(expiredForm).toContainText("Sign in again before saving setup.");
+
+    const profileAfterExpiry = await acceptanceClient
+      .from("profiles")
+      .select("display_name")
+      .eq("id", acceptanceUserId)
+      .single();
+    const expiredTarget = await acceptanceClient
+      .from("nutrition_targets")
+      .select("id", { count: "exact", head: true })
+      .eq("effective_from", expiredUpdateDate);
+    expect(profileAfterExpiry.data?.display_name).toBe("First accepted setup");
+    expect(expiredTarget.count).toBe(0);
+    await context.close();
   });
 });

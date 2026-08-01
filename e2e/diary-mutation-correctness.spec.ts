@@ -1155,6 +1155,55 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
     await context.close();
   });
 
+  test("CJ-014 reports an application-path missing edit without disclosing or restoring the deleted row", async ({
+    browser,
+  }) => {
+    const create = await createManual(
+      userAClient,
+      createArgs(randomUUID(), {
+        p_calories: 410,
+        p_food_name: "Edit delete race baseline",
+      }),
+    );
+    expect(create.error).toBeNull();
+    const entryId = create.data?.diary_entry_id as string;
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const editPage = await context.newPage();
+    const deletePage = await context.newPage();
+    await Promise.all([
+      editPage.goto(`/en/today?date=${selectedDate}`),
+      deletePage.goto(`/en/today?date=${selectedDate}`),
+    ]);
+    const editEntry = editPage.locator(`[data-diary-entry-id="${entryId}"]`);
+    const deleteEntry = deletePage.locator(
+      `[data-diary-entry-id="${entryId}"]`,
+    );
+    await editEntry.getByRole("button", { name: "Edit" }).click();
+    await expect(editEntry.locator('input[name="expected_version"]')).toHaveValue(
+      "1",
+    );
+    await editEntry.locator('input[name="food_name"]').fill(
+      "Deleted edit intent must remain local",
+    );
+    await deleteEntry.getByRole("button", { name: "Delete" }).click();
+    await expect(deleteEntry).toHaveCount(0);
+
+    await editEntry.getByRole("button", { name: "Save changes" }).click();
+    await expect(editEntry).toContainText(
+      "Could not update entry. Check the fields and try again.",
+    );
+    await expect(editEntry.locator('input[name="food_name"]')).toHaveValue(
+      "Deleted edit intent must remain local",
+    );
+
+    const deletedRows = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true })
+      .eq("id", entryId);
+    expect(deletedRows.count).toBe(0);
+    await context.close();
+  });
+
   test("CJ-014 hides other-owner existence at the database boundary", async () => {
 
     const otherOwner = await createManual(
@@ -1193,5 +1242,194 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
       user_id: userBId,
       version: 1,
     });
+  });
+
+  test("CJ-015 keeps owner deletion safe across repeated, database, session, tenant, and Hebrew states", async ({
+    browser,
+  }) => {
+    const fixtures = await Promise.all(
+      [
+        "Owner delete success",
+        "Repeated delete target",
+        "Database delete failure target",
+        "Expired Hebrew delete target",
+        "Unrelated diary row must remain",
+      ].map((foodName) =>
+        createManual(
+          userAClient,
+          createArgs(randomUUID(), { p_food_name: foodName }),
+        ),
+      ),
+    );
+    expect(fixtures.every(({ error }) => error === null)).toBe(true);
+    const [ownerId, repeatedId, databaseFailureId, expiredId, unrelatedId] =
+      fixtures.map(({ data }) => data?.diary_entry_id as string);
+    const otherOwner = await createManual(
+      userBClient,
+      createArgs(randomUUID(), { p_food_name: "Private delete row for user B" }),
+    );
+    expect(otherOwner.error).toBeNull();
+    const otherOwnerId = otherOwner.data?.diary_entry_id as string;
+
+    const unaffectedTables = [
+      "manual_diary_entry_requests",
+      "foods",
+      "nutrition_targets",
+      "saved_meals",
+      "recipes",
+    ] as const;
+    const countsBefore = await Promise.all(
+      unaffectedTables.map((table) =>
+        userAClient.from(table).select("*", { count: "exact", head: true }),
+      ),
+    );
+
+    const ownerContext = await browser.newContext({
+      storageState: authenticatedState,
+    });
+    const ownerPage = await ownerContext.newPage();
+    await ownerPage.goto(`/en/today?date=${selectedDate}`);
+    const ownerEntry = ownerPage.locator(
+      `[data-diary-entry-id="${ownerId}"]`,
+    );
+    await ownerEntry.getByRole("button", { name: "Delete" }).click();
+    await expect(ownerEntry).toHaveCount(0);
+    await ownerContext.close();
+
+    const repeatedContext = await browser.newContext({
+      storageState: authenticatedState,
+    });
+    const firstRepeatedPage = await repeatedContext.newPage();
+    const secondRepeatedPage = await repeatedContext.newPage();
+    await Promise.all([
+      firstRepeatedPage.goto(`/en/today?date=${selectedDate}`),
+      secondRepeatedPage.goto(`/en/today?date=${selectedDate}`),
+    ]);
+    const firstRepeatedEntry = firstRepeatedPage.locator(
+      `[data-diary-entry-id="${repeatedId}"]`,
+    );
+    const secondRepeatedEntry = secondRepeatedPage.locator(
+      `[data-diary-entry-id="${repeatedId}"]`,
+    );
+    await firstRepeatedEntry.getByRole("button", { name: "Delete" }).click();
+    await expect(firstRepeatedEntry).toHaveCount(0);
+    await secondRepeatedEntry.getByRole("button", { name: "Delete" }).click();
+    await expect(secondRepeatedEntry).toContainText(
+      "We could not delete this entry. Try again.",
+    );
+    const repeatedRows = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true })
+      .eq("id", repeatedId);
+    expect(repeatedRows.count).toBe(0);
+    await repeatedContext.close();
+
+    const databaseContext = await browser.newContext({
+      storageState: authenticatedState,
+    });
+    const databasePage = await databaseContext.newPage();
+    await databasePage.goto(`/en/today?date=${selectedDate}`);
+    const databaseEntry = databasePage.locator(
+      `[data-diary-entry-id="${databaseFailureId}"]`,
+    );
+    queryDatabase(`
+      create or replace function public.phase_11c2b_fail_diary_delete()
+      returns trigger language plpgsql security invoker set search_path = '' as $$
+      begin
+        if old.id = '${databaseFailureId}'::uuid then
+          raise integrity_constraint_violation using message = 'Phase 11C2B delete rollback probe.';
+        end if;
+        return old;
+      end;
+      $$;
+      drop trigger if exists phase_11c2b_fail_diary_delete on public.diary_entries;
+      create trigger phase_11c2b_fail_diary_delete
+      before delete on public.diary_entries
+      for each row execute function public.phase_11c2b_fail_diary_delete();
+    `);
+
+    try {
+      await databaseEntry.getByRole("button", { name: "Delete" }).click();
+      await expect(databaseEntry).toContainText(
+        "We could not delete this entry. Try again.",
+      );
+      const preserved = await userAClient
+        .from("diary_entries")
+        .select("food_name")
+        .eq("id", databaseFailureId)
+        .single();
+      expect(preserved.data?.food_name).toBe("Database delete failure target");
+    } finally {
+      queryDatabase(`
+        drop trigger if exists phase_11c2b_fail_diary_delete on public.diary_entries;
+        drop function if exists public.phase_11c2b_fail_diary_delete();
+      `);
+      await databaseContext.close();
+    }
+
+    const expiredContext = await browser.newContext({
+      storageState: authenticatedState,
+    });
+    const expiredPage = await expiredContext.newPage();
+    await expiredPage.goto(`/he/today?date=${selectedDate}`);
+    await expect(expiredPage.locator("html")).toHaveAttribute("dir", "rtl");
+    const expiredEntry = expiredPage.locator(
+      `[data-diary-entry-id="${expiredId}"]`,
+    );
+    await expiredContext.clearCookies();
+    await expiredEntry.getByRole("button", { name: "מחיקה" }).click();
+    await expect(expiredEntry).toContainText(
+      "לא הצלחנו למחוק את הרשומה. נסו שוב.",
+    );
+    const preservedExpired = await userAClient
+      .from("diary_entries")
+      .select("food_name")
+      .eq("id", expiredId)
+      .single();
+    expect(preservedExpired.data?.food_name).toBe(
+      "Expired Hebrew delete target",
+    );
+    await expiredContext.close();
+
+    const tenantContext = await browser.newContext({
+      storageState: authenticatedState,
+    });
+    const tenantPage = await tenantContext.newPage();
+    await tenantPage.goto(`/en/today?date=${selectedDate}`);
+    await expect(
+      tenantPage.getByText("Private delete row for user B", { exact: true }),
+    ).toHaveCount(0);
+    await tenantContext.close();
+    const forbiddenDelete = await userAClient
+      .from("diary_entries")
+      .delete()
+      .eq("id", otherOwnerId)
+      .select("id");
+    expect(forbiddenDelete.error).toBeNull();
+    expect(forbiddenDelete.data).toEqual([]);
+    const otherOwnerPreserved = await userBClient
+      .from("diary_entries")
+      .select("food_name,user_id")
+      .eq("id", otherOwnerId)
+      .single();
+    expect(otherOwnerPreserved.data).toEqual({
+      food_name: "Private delete row for user B",
+      user_id: userBId,
+    });
+
+    const unrelated = await userAClient
+      .from("diary_entries")
+      .select("food_name")
+      .eq("id", unrelatedId)
+      .single();
+    expect(unrelated.data?.food_name).toBe("Unrelated diary row must remain");
+    const countsAfter = await Promise.all(
+      unaffectedTables.map((table) =>
+        userAClient.from(table).select("*", { count: "exact", head: true }),
+      ),
+    );
+    expect(countsAfter.map(({ count }) => count)).toEqual(
+      countsBefore.map(({ count }) => count),
+    );
   });
 });

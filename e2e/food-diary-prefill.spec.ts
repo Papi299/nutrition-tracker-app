@@ -447,6 +447,22 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
       "Your custom food",
     );
     await expect(page.locator('input[name="calories"]')).toHaveValue("75");
+    await page
+      .locator('input[name="food_name"]')
+      .fill("Phase 11C2B active owned application snapshot");
+    await page.getByRole("button", { name: "Add entry" }).click();
+    await expect(page.getByText("Entry added.")).toBeVisible();
+    const activeOwnedEntry = await userAClient
+      .from("diary_entries")
+      .select("calories,food_id,food_name,user_id")
+      .eq("food_name", "Phase 11C2B active owned application snapshot")
+      .single();
+    expect(activeOwnedEntry.data).toEqual({
+      calories: 75,
+      food_id: ownFoodId,
+      food_name: "Phase 11C2B active owned application snapshot",
+      user_id: userAId,
+    });
 
     for (const inaccessibleId of [otherFoodId, archivedFoodId]) {
       await page.goto(`/en/today?date=2026-07-14&foodId=${inaccessibleId}`);
@@ -545,7 +561,9 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     await context.close();
   });
 
-  test("preserves Hebrew RTL for a valid selected food", async ({ browser }) => {
+  test("CJ-013 preserves Hebrew RTL while logging a valid selected food", async ({
+    browser,
+  }) => {
     const context = await newAuthenticatedContext(browser);
     const page = await context.newPage();
 
@@ -555,10 +573,59 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     await expect(page.getByTestId("selected-food-summary")).toContainText(
       "למנה",
     );
+    await page
+      .locator('input[name="food_name"]')
+      .fill("Phase 11C2B Hebrew linked snapshot");
+    await page.getByRole("button", { name: "הוספת רשומה" }).click();
+    await expect(page.getByText("הרשומה נוספה.")).toBeVisible();
+    const saved = await userAClient
+      .from("diary_entries")
+      .select("food_id,food_name,user_id")
+      .eq("food_name", "Phase 11C2B Hebrew linked snapshot")
+      .single();
+    expect(saved.data).toEqual({
+      food_id: perServingFoodId,
+      food_name: "Phase 11C2B Hebrew linked snapshot",
+      user_id: userAId,
+    });
     await context.close();
   });
 
-  test("rejects an owned food archived after prefill without creating a diary row or receipt", async ({
+  test("CJ-013 submits a selected public food with mobile and keyboard behavior", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      viewport: { height: 844, width: 390 },
+    });
+    const page = await context.newPage();
+    const snapshotName = "Phase 11C2B mobile keyboard public snapshot";
+
+    await page.goto(`/en/today?date=2033-04-10&foodId=${per100gFoodId}`);
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+    await expect(page.getByTestId("manual-diary-entry-form")).toBeVisible();
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(
+      per100gFoodId,
+    );
+    const foodName = page.locator('input[name="food_name"]');
+    await foodName.fill(snapshotName);
+    await foodName.press("Enter");
+    await expect(page.getByText("Entry added.")).toBeVisible();
+
+    const saved = await userAClient
+      .from("diary_entries")
+      .select("entry_date,food_id,food_name,user_id")
+      .eq("food_name", snapshotName)
+      .single();
+    expect(saved.data).toEqual({
+      entry_date: "2033-04-10",
+      food_id: per100gFoodId,
+      food_name: snapshotName,
+      user_id: userAId,
+    });
+    await context.close();
+  });
+
+  test("CJ-013 rejects an owned food archived after prefill without creating a diary row or receipt", async ({
     browser,
   }) => {
     const staleFoodId = await createCustomFood(
@@ -609,6 +676,190 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
       ).count,
     ).toBe(0);
 
+    await context.close();
+  });
+
+  test("CJ-013 rejects database and expired-session submissions without a partial diary write", async ({
+    browser,
+  }) => {
+    const failedFoodId = await createCustomFood(
+      userAClient,
+      userAId,
+      "Phase 11C2B Failed Linked Food",
+    );
+    const expiredFoodId = await createCustomFood(
+      userAClient,
+      userAId,
+      "Phase 11C2B Expired Linked Food",
+    );
+    const failedName = "Phase 11C2B failed linked submission";
+    const expiredName = "Phase 11C2B expired linked submission";
+    const selectedDate = "2033-04-11";
+    const countsBefore = await Promise.all([
+      userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true }),
+      userAClient
+        .from("manual_diary_entry_requests")
+        .select("id", { count: "exact", head: true }),
+    ]);
+
+    const failedContext = await newAuthenticatedContext(browser);
+    const failedPage = await failedContext.newPage();
+    await failedPage.goto(
+      `/en/today?date=${selectedDate}&foodId=${failedFoodId}`,
+    );
+    await failedPage.locator('input[name="food_name"]').fill(failedName);
+    queryLocalDatabase(`
+      create or replace function public.phase_11c2b_fail_linked_diary_insert()
+      returns trigger language plpgsql security invoker set search_path = '' as $$
+      begin
+        if new.food_name = '${failedName}' then
+          raise integrity_constraint_violation using message = 'Phase 11C2B linked diary rollback probe.';
+        end if;
+        return new;
+      end;
+      $$;
+      drop trigger if exists phase_11c2b_fail_linked_diary_insert on public.diary_entries;
+      create trigger phase_11c2b_fail_linked_diary_insert
+      before insert on public.diary_entries
+      for each row execute function public.phase_11c2b_fail_linked_diary_insert();
+    `);
+
+    try {
+      await failedPage.getByRole("button", { name: "Add entry" }).click();
+      await expect(
+        failedPage.getByTestId("manual-diary-entry-form"),
+      ).toContainText("We could not save or load diary entries right now.");
+      await expect(failedPage.locator('input[name="food_name"]')).toHaveValue(
+        failedName,
+      );
+    } finally {
+      queryLocalDatabase(`
+        drop trigger if exists phase_11c2b_fail_linked_diary_insert on public.diary_entries;
+        drop function if exists public.phase_11c2b_fail_linked_diary_insert();
+      `);
+      await failedContext.close();
+    }
+
+    const expiredContext = await newAuthenticatedContext(browser);
+    const expiredPage = await expiredContext.newPage();
+    await expiredPage.goto(
+      `/he/today?date=${selectedDate}&foodId=${expiredFoodId}`,
+    );
+    await expect(expiredPage.locator("html")).toHaveAttribute("dir", "rtl");
+    await expiredPage.locator('input[name="food_name"]').fill(expiredName);
+    await expiredContext.clearCookies();
+    await expiredPage.getByRole("button", { name: "הוספת רשומה" }).click();
+    await expect(expiredPage.getByTestId("manual-diary-entry-form")).toContainText(
+      "יש להיכנס שוב לפני שימוש ביומן.",
+    );
+    await expect(expiredPage.locator('input[name="food_name"]')).toHaveValue(
+      expiredName,
+    );
+    await expiredContext.close();
+
+    const rejectedRows = await userAClient
+      .from("diary_entries")
+      .select("food_name")
+      .in("food_name", [failedName, expiredName]);
+    const countsAfter = await Promise.all([
+      userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true }),
+      userAClient
+        .from("manual_diary_entry_requests")
+        .select("id", { count: "exact", head: true }),
+    ]);
+    expect(rejectedRows.error).toBeNull();
+    expect(rejectedRows.data).toEqual([]);
+    expect(countsAfter.map(({ count }) => count)).toEqual(
+      countsBefore.map(({ count }) => count),
+    );
+  });
+
+  test("CJ-013 preserves the application-saved snapshot when the source changes or disappears", async ({
+    browser,
+  }) => {
+    const snapshotFoodId = await createCustomFood(
+      userAClient,
+      userAId,
+      "Phase 11C2B Snapshot Source",
+    );
+    queryLocalDatabase(`
+      insert into public.food_nutrients (food_id, nutrient_id, amount, basis)
+      values
+        ('${snapshotFoodId}', (select id from public.nutrients where code = 'energy_kcal'), 120, 'per_serving'),
+        ('${snapshotFoodId}', (select id from public.nutrients where code = 'protein_g'), 8, 'per_serving');
+    `);
+
+    const context = await newAuthenticatedContext(browser);
+    const page = await context.newPage();
+    const selectedDate = "2033-04-12";
+    const snapshotName = "Phase 11C2B immutable linked snapshot";
+    await page.goto(
+      `/en/today?date=${selectedDate}&foodId=${snapshotFoodId}`,
+    );
+    await expect(page.locator('input[name="calories"]')).toHaveValue("120");
+    await expect(page.locator('input[name="protein_g"]')).toHaveValue("8");
+    await page.locator('input[name="food_name"]').fill(snapshotName);
+    await page.locator('input[name="calories"]').fill("135");
+    await page.locator('input[name="protein_g"]').fill("9.5");
+    await page.locator('input[name="fat_g"]').fill("0");
+    await page.getByRole("button", { name: "Add entry" }).click();
+    await expect(page.getByText("Entry added.")).toBeVisible();
+
+    const saved = await userAClient
+      .from("diary_entries")
+      .select("id,calories,fat_g,food_id,food_name,protein_g")
+      .eq("food_name", snapshotName)
+      .single();
+    expect(saved.data).toMatchObject({
+      calories: 135,
+      fat_g: 0,
+      food_id: snapshotFoodId,
+      food_name: snapshotName,
+      protein_g: 9.5,
+    });
+
+    queryLocalDatabase(`
+      update public.foods
+      set name = 'Phase 11C2B changed source name'
+      where id = '${snapshotFoodId}';
+      update public.food_nutrients
+      set amount = 999
+      where food_id = '${snapshotFoodId}';
+    `);
+    const afterSourceChange = await userAClient
+      .from("diary_entries")
+      .select("calories,fat_g,food_id,food_name,protein_g")
+      .eq("id", saved.data?.id as string)
+      .single();
+    expect(afterSourceChange.data).toEqual({
+      calories: 135,
+      fat_g: 0,
+      food_id: snapshotFoodId,
+      food_name: snapshotName,
+      protein_g: 9.5,
+    });
+
+    const deleted = await userAClient
+      .from("foods")
+      .delete()
+      .eq("id", snapshotFoodId);
+    expect(deleted.error).toBeNull();
+    const afterSourceDeletion = await userAClient
+      .from("diary_entries")
+      .select("calories,fat_g,food_id,food_name,protein_g")
+      .eq("id", saved.data?.id as string)
+      .single();
+    expect(afterSourceDeletion.data).toEqual({
+      calories: 135,
+      fat_g: 0,
+      food_id: null,
+      food_name: snapshotName,
+      protein_g: 9.5,
+    });
     await context.close();
   });
 
