@@ -558,6 +558,60 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     await context.close();
   });
 
+  test("rejects an owned food archived after prefill without creating a diary row or receipt", async ({
+    browser,
+  }) => {
+    const staleFoodId = await createCustomFood(
+      userAClient,
+      userAId,
+      "Phase 11C2B stale linked source",
+    );
+    const submittedName = "Phase 11C2B stale linked submission";
+    const context = await newAuthenticatedContext(browser);
+    const page = await context.newPage();
+
+    await page.goto(`/en/today?date=2033-04-11&foodId=${staleFoodId}`);
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(staleFoodId);
+    const requestKey = await page
+      .getByTestId("manual-diary-idempotency-key")
+      .inputValue();
+
+    const archived = await userAClient
+      .from("foods")
+      .update({ is_archived: true })
+      .eq("id", staleFoodId);
+    expect(archived.error).toBeNull();
+
+    await page.locator('input[name="food_name"]').fill(submittedName);
+    await page.getByRole("button", { name: "Add entry" }).click();
+
+    await expect(page.getByTestId("manual-diary-entry-form")).toContainText(
+      "We could not save or load diary entries right now.",
+    );
+    await expect(page.locator('input[name="food_name"]')).toHaveValue(
+      submittedName,
+    );
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(staleFoodId);
+    expect(
+      (
+        await userAClient
+          .from("diary_entries")
+          .select("id", { count: "exact", head: true })
+          .eq("food_name", submittedName)
+      ).count,
+    ).toBe(0);
+    expect(
+      (
+        await userAClient
+          .from("manual_diary_entry_requests")
+          .select("id", { count: "exact", head: true })
+          .eq("idempotency_key", requestKey)
+      ).count,
+    ).toBe(0);
+
+    await context.close();
+  });
+
   test("enforces private-link RLS and preserves snapshots when a linked food is deleted", async () => {
     const tampered = await userAClient.from("diary_entries").insert({
       entry_date: "2026-07-14",

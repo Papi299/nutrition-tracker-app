@@ -287,7 +287,8 @@ test.describe.serial("atomic saved-meal diary reuse", () => {
       source: "saved_meal",
     });
     expect(rows.data?.[1].food_id).toBe(ownedFoodId);
-    expect(rows.data?.[2].food_id).toBe(archivedOwnedFoodId);
+    expect(rows.data?.[2].food_id).toBeNull();
+    expect(rows.data?.[2].food_name).toBe("Archived owned frozen name");
     expect(rows.data?.[3].food_id).toBeNull();
     expect(rows.data?.[3].food_name).toBe("Unreadable frozen name");
     expect(rows.data?.[4].food_id).toBeNull();
