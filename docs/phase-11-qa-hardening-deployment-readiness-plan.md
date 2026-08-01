@@ -172,10 +172,11 @@ recommendations against owner-reviewed source head
 launch-decision-authority, and Production-approver roles, and approved the
 recommended release-separation policy. Independent review accepted recording
 head `c739df46d960593d0a2306255cdb0b46df29f4bc` on 2026-07-31. Phase 11C is
-next and unstarted. Completion does not authorize implementation, hosted
-access, finding closure, Production release, or deployment. Overall Phase 11
-remains incomplete, and the dependency graph and two-stage evidence model
-above remain controlling.
+active. Phase 11C1 implements its bounded critical-journey traceability
+foundation in a draft PR; Phase 11C overall remains incomplete. Completion
+does not authorize hosted access, finding closure, Production release, or
+deployment. Overall Phase 11 remains incomplete, and the dependency graph and
+two-stage evidence model above remain controlling.
 
 ### Objective
 
@@ -208,6 +209,14 @@ Independent cross-document review, decision-owner sign-off, finding-to-slice
 trace, and contradiction/link checks.
 
 ## 9. Phase 11C — Critical-journey QA foundation
+
+**Current status:** Phase 11C is active. Phase 11C1 implements the
+[critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
+in a draft PR, but Phase 11C overall remains incomplete. Phase 11C1 does not
+complete `P11A-002` or `P11A-015`; both remain `OPEN`, as do all 18 findings.
+Signed manual exploratory evidence remains absent, Phase 11D/11E/11J
+dependencies remain, Phase 11K remains the exclusive finding-closure gate,
+and no hosted access or deployment is authorized.
 
 ### Objective
 

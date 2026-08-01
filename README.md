@@ -201,7 +201,9 @@ is complete for the current MVP scope.
   records all 30 recommended decisions as approved by Maor Pichhadze against
   source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`; independent review
   accepted recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`.
-  Overall Phase 11 remains incomplete and Phase 11C is next and unstarted. The
+  Overall Phase 11 remains incomplete. Phase 11C is active, and Phase 11C1
+  implements the [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md)
+  in a draft PR; Phase 11C overall remains incomplete. The
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
   record the unresolved gaps and dependency order. No launch, deployment,
@@ -651,7 +653,9 @@ Manual RTL QA checklist:
   the approved current MVP scope. Phase 11A completed only its audit and
   implementation-decomposition scope. Phase 11B is complete for its bounded
   documentation, decision, contract, and handoff scope. Overall Phase 11
-  remains incomplete and Phase 11C is next and unstarted.
+  remains incomplete. Phase 11C is active; its bounded Phase 11C1
+  critical-journey traceability foundation is implemented in a draft PR, and
+  Phase 11C overall remains incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -808,7 +812,7 @@ Manual RTL QA checklist:
   30 attributable owner decisions in its
   [accepted contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md);
   all 18 findings remain open, Phase 11K remains their only closure gate, and
-  Phase 11C is next and unstarted.
+  Phase 11C is active but incomplete after its bounded Phase 11C1 draft PR.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -864,8 +868,9 @@ Manual RTL QA checklist:
   its documentation-only audit and decomposition scope. Phase 11B is complete
   for its bounded documentation, product-decision, acceptance-contract, and
   handoff scope; it does not authorize implementation, launch, hosted access,
-  or deployment. Overall Phase 11 remains incomplete, and Phase 11C is next
-  and unstarted.
+  or deployment. Overall Phase 11 remains incomplete. Phase 11C is active;
+  Phase 11C1 implements its bounded critical-journey traceability foundation
+  in a draft PR, while Phase 11C overall remains incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
   calorie/TDEE calculation.

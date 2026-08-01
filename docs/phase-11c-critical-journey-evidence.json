@@ -1,0 +1,3544 @@
+{
+  "schemaVersion": "1.1",
+  "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
+  "acceptedContract": {
+    "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+    "version": "1.0-phase-11b-accepted",
+    "fingerprints": {
+      "section7_1": "e90f9d9508119773cf058b29ec6edb632db52a73ba603d1f3b811cdd08dcff61",
+      "section7_2": "56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5",
+      "section7_3": "ba8f658bc442fce992da914683f51568e5988258b8501964031a712ee3eb22e6"
+    }
+  },
+  "phase": "11C1",
+  "status": "PHASE_11C_ACTIVE_INCOMPLETE",
+  "evidenceAxisValues": [
+    "AUTOMATED",
+    "AUTOMATED_PARTIAL",
+    "MANUAL_REQUIRED",
+    "LATER_SLICE",
+    "EXTERNAL_REQUIRED",
+    "NOT_APPLICABLE",
+    "NOT_VERIFIED"
+  ],
+  "phase11cDispositionValues": [
+    "CURRENT_EVIDENCE_LINKED",
+    "GAP_TO_IMPLEMENT_IN_11C",
+    "BLOCKED_BY_LATER_SLICE",
+    "MANUAL_EVIDENCE_REQUIRED",
+    "EXTERNAL_EVIDENCE_REQUIRED",
+    "NOT_APPLICABLE_WITH_RATIONALE"
+  ],
+  "journeys": [
+    {
+      "id": "CJ-001",
+      "journeyName": "Public landing and locale entry",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "NOT_VERIFIED"
+      },
+      "tenantIsolation": {
+        "status": "NOT_APPLICABLE",
+        "rationale": "The public landing route has no tenant data."
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/smoke.spec.ts",
+          "testTitle": "English public home renders with LTR document attributes",
+          "evidenceAxes": [
+            "positivePath",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Enter en/he landing and choose auth path.",
+        "negativeRequirement": "Invalid locale fails safely; links remain localized.",
+        "staleConflictRetryRequirement": "Back/forward and locale revisit preserve safe navigation.",
+        "dataIntegrityRequirement": "No mutation.",
+        "tenantIsolationRequirement": "`NOT_APPLICABLE` — public route has no tenant data.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Keyboard, zoom, landmarks",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Native/visual",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C/11D",
+        "externalValidationSlice": "11D/11J",
+        "finalGate": "11K",
+        "currentEvidence": "Routes, key parity, `lang`/`dir`",
+        "missingEvidence": "Full matrix/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Public locale entry and navigation are server-rendered entry points and must not strand a user before authentication.",
+        "noJavaScriptOwnerSlice": "11C/11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript; traverse en/he landing and localized auth links at approved viewports."
+      }
+    },
+    {
+      "id": "CJ-002",
+      "journeyName": "Invited enrollment and account activation",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "The sole authorized operator passes fresh fail-closed register/Auth checks, issues in Dashboard, records the result, and the user follows the allow-listed callback into activation.",
+        "negativeRequirement": "Missing/stale/conflicting procedure state blocks issuance; invalid, expired, revoked, replayed, wrong-identity, rate-limited, and unavailable callbacks remain generic.",
+        "staleConflictRetryRequirement": "One-outstanding, 60-second, five-per-24-hour, and cohort rules are procedural/register controls; provider consumption/replay is accepted only as observed.",
+        "dataIntegrityRequirement": "Auth may create an unconfirmed identity at issuance; no profile/target/application row exists before intentional setup.",
+        "tenantIsolationRequirement": "Reconciliation detects duplicates/conflicts; token/session may bind only the verified Auth identity; no second profile from replay or concurrency.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Labels, errors, focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Auth/operator exploratory",
+        "physicalDeviceRequirement": "Mobile auth in 11J",
+        "implementationSlice": "11E/11H",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Auth form/actions; provisioning use",
+        "missingEvidence": "Application E2E, provider-native evidence, restricted register/procedure/reconciliation walkthrough",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "The invitation callback and activation UI do not exist; provider token behavior and progressive enhancement are unproved.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Decide implementation contract, then local email-capture and deployed invite tests with JavaScript disabled where technically supported."
+      }
+    },
+    {
+      "id": "CJ-003",
+      "journeyName": "Email confirmation",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "Approved callback asks the configured provider to validate the token and returns to a safe localized allow-listed route.",
+        "negativeRequirement": "Expired/invalid/reused token is generic and recoverable; unverified provider behavior blocks acceptance.",
+        "staleConflictRetryRequirement": "Retry/reuse follows observed provider behavior plus application idempotency, not a custom Dashboard guarantee.",
+        "dataIntegrityRequirement": "Confirmation changes only the intended Auth identity.",
+        "tenantIsolationRequirement": "Token cannot confirm another identity; no application row precedes setup.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Token/error/focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Email/callback",
+        "physicalDeviceRequirement": "Mobile callback in 11J",
+        "implementationSlice": "11E",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "No complete implementation",
+        "missingEvidence": "Local callback plus configured provider expiry/replay/redirect evidence",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Confirmation callback is new and its provider/browser dependency is undecided.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Local and deployed valid/expired/replayed callback tests after implementation."
+      }
+    },
+    {
+      "id": "CJ-004",
+      "journeyName": "Sign-in",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_VERIFIED"
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-004 keeps invalid-credential responses enumeration-safe in English and Hebrew RTL",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Valid credentials establish session and safe redirect.",
+        "negativeRequirement": "Invalid/rate-limited/unavailable states do not enumerate.",
+        "staleConflictRetryRequirement": "Repeat/back/forward never leaks or redirects off allow-list.",
+        "dataIntegrityRequirement": "No application data mutation.",
+        "tenantIsolationRequirement": "Session reads only owner-visible data.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Labels/errors/focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Auth exploratory",
+        "physicalDeviceRequirement": "Mobile auth in 11J",
+        "implementationSlice": "11C/11E",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Sign-in action; redirects",
+        "missingEvidence": "Full E2E/rate-limit/hosted",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Sign-in uses a client action-state shell; progressive enhancement has not been established across target browsers.",
+        "noJavaScriptOwnerSlice": "11C/11E",
+        "noJavaScriptValidationMethod": "Disable JavaScript and test success, failure, focus, cookie, and redirect behavior after an explicit decision."
+      }
+    },
+    {
+      "id": "CJ-005",
+      "journeyName": "Sign-out",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "AUTOMATED_PARTIAL",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-005 signs out through the Hebrew RTL UI and preserves tenant data",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Session ends and protected route redirects.",
+        "negativeRequirement": "Failure presents safe retry without false signed-out claim.",
+        "staleConflictRetryRequirement": "Repeated sign-out is safe.",
+        "dataIntegrityRequirement": "No user data mutation.",
+        "tenantIsolationRequirement": "Prior tenant data is not visible after sign-out.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Focus/status",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Auth exploratory",
+        "physicalDeviceRequirement": "Mobile auth in 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Sign-out action/protected redirect",
+        "missingEvidence": "Complete E2E/session proof",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Sign-out is a server-action form and safe session termination must not depend on client execution.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; submit sign-out, verify cookie/session invalidation and protected-route redirect."
+      }
+    },
+    {
+      "id": "CJ-006",
+      "journeyName": "Expired session",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-006 rejects an expired-session Hebrew RTL diary mutation without partial or cross-tenant disclosure",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Protected read/write detects expiry and returns a safe recovery path.",
+        "negativeRequirement": "Mutation fails generically without partial write.",
+        "staleConflictRetryRequirement": "Reauthentication/retry does not duplicate mutation; invitation limits no longer apply after activation.",
+        "dataIntegrityRequirement": "Transaction is all-or-nothing.",
+        "tenantIsolationRequirement": "No fallback to another user or anonymous data.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Error/recovery focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Expiry exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C/11E",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Several expired-session tests",
+        "missingEvidence": "Full post-activation journey/retry evidence, separate from invitation procedure",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Expired-session behavior spans reads, client-enhanced forms, and new recovery paths.",
+        "noJavaScriptOwnerSlice": "11C/11E",
+        "noJavaScriptValidationMethod": "Disable JavaScript across a risk-selected expired-session mutation matrix after recovery behavior is implemented."
+      }
+    },
+    {
+      "id": "CJ-007",
+      "journeyName": "Password recovery request",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "Known account receives the approved recovery process.",
+        "negativeRequirement": "Unknown/malformed/provider-rate-limited input is enumeration-safe.",
+        "staleConflictRetryRequirement": "Repeated recovery follows separately evidenced provider/application recovery rules, not invitation-register attempt limits.",
+        "dataIntegrityRequirement": "No profile/application or invitation-register mutation.",
+        "tenantIsolationRequirement": "Recovery targets only the requested Auth identity.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Labels/status/errors",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Email capture",
+        "physicalDeviceRequirement": "Mobile/email in 11J",
+        "implementationSlice": "11E",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "No implementation",
+        "missingEvidence": "Complete local/hosted recovery evidence; provider limits distinguished from invite limits",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Recovery request is not implemented and no non-JavaScript contract exists.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Local email-capture and deployed request tests after implementation and decision."
+      }
+    },
+    {
+      "id": "CJ-008",
+      "journeyName": "Password recovery completion",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "Valid provider recovery token sets the password and returns safely.",
+        "negativeRequirement": "Expired/invalid/reused token and weak password fail safely.",
+        "staleConflictRetryRequirement": "Retry follows observed provider recovery-token behavior and application idempotency; invitation records store no recovery token.",
+        "dataIntegrityRequirement": "Only Auth credential changes; sessions follow approved rule.",
+        "tenantIsolationRequirement": "Token cannot mutate another identity.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Labels/status/errors",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Email completion",
+        "physicalDeviceRequirement": "Mobile/email in 11J",
+        "implementationSlice": "11E",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "No implementation",
+        "missingEvidence": "Complete local/hosted recovery-token evidence; no token in register",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Recovery completion is not implemented and callback dependence is unknown.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Valid/expired/replayed callback and password-completion tests after implementation."
+      }
+    },
+    {
+      "id": "CJ-009",
+      "journeyName": "First profile and target setup",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_VERIFIED"
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "creates a first profile and intentional all-null reset in English",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Authenticated user intentionally creates profile/target.",
+        "negativeRequirement": "Validation/database/session failure writes nothing.",
+        "staleConflictRetryRequirement": "Duplicate/retry converges under atomic contract.",
+        "dataIntegrityRequirement": "Blank is null; explicit zero preserved; target effective date explicit.",
+        "tenantIsolationRequirement": "Server derives owner; RLS limits rows.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/errors/focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Setup atomicity/tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Setup uses client action state; server-action progressive enhancement is plausible but unproved.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test valid, invalid, retry, blank/null, and explicit-zero paths after commitment."
+      }
+    },
+    {
+      "id": "CJ-010",
+      "journeyName": "Existing target update",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "NOT_VERIFIED"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_VERIFIED"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "is idempotent and rolls back a profile update when the target fails",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Update target effective on selected date.",
+        "negativeRequirement": "Invalid/unavailable/session failure is safe.",
+        "staleConflictRetryRequirement": "Same-date upsert and retry preserve one row.",
+        "dataIntegrityRequirement": "Null/zero and history semantics preserved.",
+        "tenantIsolationRequirement": "Owner-only read/write.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/errors/focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Effective-target tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Target update uses the same client-enhanced form and no explicit support decision exists.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test same-date upsert, history, invalid, and retry behavior after commitment."
+      }
+    },
+    {
+      "id": "CJ-011",
+      "journeyName": "Date navigation and effective target selection",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_VERIFIED"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "preserves an explicit date through create, edit, and reload",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Explicit browser-local date selects newest effective target.",
+        "negativeRequirement": "Invalid/repeated date is rejected or canonicalized safely.",
+        "staleConflictRetryRequirement": "Back/forward retains explicit date and correct target.",
+        "dataIntegrityRequirement": "No UTC fallback; history not rewritten.",
+        "tenantIsolationRequirement": "Only current user's targets/entries load.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Date/nav semantics",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Back/forward",
+        "physicalDeviceRequirement": "Mobile date in 11J",
+        "implementationSlice": "11C/11D",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Date/effective-target tests",
+        "missingEvidence": "Full browser/manual matrix",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Date navigation mixes URL semantics with enhanced controls; the complete no-JavaScript contract is unproved.",
+        "noJavaScriptOwnerSlice": "11C/11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript; exercise dates, back/forward, locale, and effective target after commitment."
+      }
+    },
+    {
+      "id": "CJ-012",
+      "journeyName": "Manual diary entry creation",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/retrieval-and-core-loop.spec.ts",
+          "testTitle": "covers the authenticated core loop and cross-user isolation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Explicit submission writes editable snapshot.",
+        "negativeRequirement": "Validation/session/database failure writes nothing.",
+        "staleConflictRetryRequirement": "Retry/duplicate behavior is explicit and safe.",
+        "dataIntegrityRequirement": "Blank/null and zero preserved; totals follow stored snapshot.",
+        "tenantIsolationRequirement": "Server-derived owner; RLS enforced.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/status/errors",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Mutation exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Diary mutation/failure tests",
+        "missingEvidence": "Full axes/interruption",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Manual diary creation uses client action state and has no accepted progressive-enhancement baseline.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test one successful and all failure/integrity cases after commitment."
+      }
+    },
+    {
+      "id": "CJ-013",
+      "journeyName": "Linked food diary entry creation",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_VERIFIED"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "preserves a historical date and saves user-edited linked snapshots",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Readable food prefills review; submit writes snapshot plus optional link.",
+        "negativeRequirement": "Stale/unreadable food or failure prevents unsafe write.",
+        "staleConflictRetryRequirement": "Refresh/back does not mutate; retry is controlled.",
+        "dataIntegrityRequirement": "Snapshot remains authoritative; no auto-scaling.",
+        "tenantIsolationRequirement": "Food readability and diary ownership revalidated.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Review/form/status",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Mutation exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Prefill/snapshot tests",
+        "missingEvidence": "Full axes/interruption",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Prefill is server-read but diary submission uses client action state; end-to-end behavior is unproved.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; select, review, submit, refresh, and stale-source cases after commitment."
+      }
+    },
+    {
+      "id": "CJ-014",
+      "journeyName": "Diary entry editing",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Editing is entered through client-managed edit state; this beta does not propose a separate no-JavaScript editor."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/retrieval-and-core-loop.spec.ts",
+          "testTitle": "covers the authenticated core loop and cross-user isolation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner edits allowed snapshot fields.",
+        "negativeRequirement": "Missing/other-owner/invalid/unavailable update fails safely.",
+        "staleConflictRetryRequirement": "Concurrent/stale behavior is explicit; retry preserves intent.",
+        "dataIntegrityRequirement": "Date/meal provenance rules and null/zero preserved.",
+        "tenantIsolationRequirement": "Owner-only update.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/status/errors",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Mutation exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Owner/edit tests",
+        "missingEvidence": "Stale/manual/full axes",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Editing is entered through client-managed edit state; this beta does not propose a separate no-JavaScript editor.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate supported JavaScript path plus safe read-only presentation and server authorization when scripting is absent."
+      }
+    },
+    {
+      "id": "CJ-015",
+      "journeyName": "Diary entry deletion",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/retrieval-and-core-loop.spec.ts",
+          "testTitle": "covers the authenticated core loop and cross-user isolation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner confirms deletion and totals refresh.",
+        "negativeRequirement": "Missing/other-owner/database/session failure is generic.",
+        "staleConflictRetryRequirement": "Repeated delete safely resolves absent state.",
+        "dataIntegrityRequirement": "Only selected row deleted; receipts remain per contract.",
+        "tenantIsolationRequirement": "Owner-only delete.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Confirm/status/focus",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Mutation exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Owner/delete tests",
+        "missingEvidence": "Manual/full axes",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Delete is a form mutation but its client action-state dependency and confirmation behavior are unproved.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test confirmation, repeated delete, focus, and generic denial after commitment."
+      }
+    },
+    {
+      "id": "CJ-016",
+      "journeyName": "Food search",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "deduplicates foods, caps results, excludes archived and other-user rows",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Valid query returns deterministic readable ranking.",
+        "negativeRequirement": "Initial/short/invalid/none/unavailable/session-expired states differ.",
+        "staleConflictRetryRequirement": "Query/date back/forward is stable; no click-time mutation.",
+        "dataIntegrityRequirement": "Search is read-only.",
+        "tenantIsolationRequirement": "Other users' private foods are hidden.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Search/status/results",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Search exploratory",
+        "physicalDeviceRequirement": "Mobile search in 11J",
+        "implementationSlice": "11C/11D",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Search states/ranking tests",
+        "missingEvidence": "Engines/native/visual",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Search is URL/GET-driven and is a core discovery route that can operate without scripting.",
+        "noJavaScriptOwnerSlice": "11C/11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test initial, short, valid, none, unavailable, back/forward, en/he/RTL."
+      }
+    },
+    {
+      "id": "CJ-017",
+      "journeyName": "Selected-food prefill",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "supports own custom food and hides other-user and archived selections",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Selection revalidates readability and opens editable diary review.",
+        "negativeRequirement": "Missing/archived/unreadable/stale selection fails safely.",
+        "staleConflictRetryRequirement": "Refresh/back remains read-only; stale food cannot bypass validation.",
+        "dataIntegrityRequirement": "Database-authoritative nutrients; no diary write until submit.",
+        "tenantIsolationRequirement": "Owner/public visibility enforced.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Review/focus/status",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Prefill exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Prefill/readability tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Selected-food prefill is a server-side read/review boundary and must remain non-mutating and accessible from search.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test readable, missing, archived, private, refresh, and no-write states."
+      }
+    },
+    {
+      "id": "CJ-018",
+      "journeyName": "Custom food creation",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Custom-food creation depends on client-managed basis, nutrient, and alias state; no separate fallback is proposed."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "creates one owned private custom food with one basis and raw aliases",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner creates food/nutrients/aliases atomically.",
+        "negativeRequirement": "Validation/constraint/database/session failure rolls back.",
+        "staleConflictRetryRequirement": "Duplicate/retry/conflict behavior is safe.",
+        "dataIntegrityRequirement": "Basis stored; blank/null and zero distinct.",
+        "tenantIsolationRequirement": "Server-derived private owner.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/errors/ordering",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Creation exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Atomic custom-food tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Custom-food creation depends on client-managed basis, nutrient, and alias state; no separate fallback is proposed.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript path, server validation/atomicity, and safe refusal if required client state is absent."
+      }
+    },
+    {
+      "id": "CJ-019",
+      "journeyName": "Custom food editing",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Custom-food editing uses the same client-managed structured editor."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "fully replaces nutrients and aliases without changing diary snapshots",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner replaces editable food contract atomically.",
+        "negativeRequirement": "Archived/other-owner/invalid/stale/unavailable fails safely.",
+        "staleConflictRetryRequirement": "Concurrent edit and retry do not partially replace.",
+        "dataIntegrityRequirement": "Existing diary/reuse snapshots remain immutable.",
+        "tenantIsolationRequirement": "Owner-only update.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/errors/ordering",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Editing exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Replace/snapshot tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Custom-food editing uses the same client-managed structured editor.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript path, authorization, replacement atomicity, stale state, and immutable snapshots."
+      }
+    },
+    {
+      "id": "CJ-020",
+      "journeyName": "Custom food archive and restore",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Archive/restore uses a client confirmation interaction; no no-JavaScript lifecycle UI is proposed."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "restores the food to active search and prefill without changing stored data or diary history",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner archives/restores and search visibility follows state.",
+        "negativeRequirement": "Other-owner/missing/conflict/unavailable fails safely.",
+        "staleConflictRetryRequirement": "Repeated transition is safe and explicit.",
+        "dataIntegrityRequirement": "Historical snapshots remain; archive is reversible.",
+        "tenantIsolationRequirement": "Owner-only lifecycle.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Confirm/status/focus",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Lifecycle exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Archive/restore tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Archive/restore uses a client confirmation interaction; no no-JavaScript lifecycle UI is proposed.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript confirmation plus direct server-action authorization/idempotency tests."
+      }
+    },
+    {
+      "id": "CJ-021",
+      "journeyName": "Favorite and recent food reuse",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "keeps favorite and unfavorite RPC submissions idempotent",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner favorites or reuses readable recent food via review.",
+        "negativeRequirement": "Archived/unreadable/unavailable state offers safe fallback.",
+        "staleConflictRetryRequirement": "Duplicate favorite/retry converges.",
+        "dataIntegrityRequirement": "Reuse never mutates diary before explicit submit.",
+        "tenantIsolationRequirement": "Favorites/recents are owner-isolated.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Control/status/review",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Reuse exploratory",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Favorite/recent tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Favorite mutation is client-enhanced while recent-food review contains server navigation; the combined commitment is undecided.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Split favorite/recent cases and test with scripting disabled after an explicit product decision."
+      }
+    },
+    {
+      "id": "CJ-022",
+      "journeyName": "Saved Meal creation and editing",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Saved Meal creation/editing requires client-managed ordered item state."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "replaces the complete item collection, clears nullable fields, and updates timestamps only for changes",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner atomically creates/replaces ordered snapshot items.",
+        "negativeRequirement": "Invalid/stale/other-owner/unavailable write rolls back.",
+        "staleConflictRetryRequirement": "Retry/conflict leaves complete old or new meal.",
+        "dataIntegrityRequirement": "Exact ordered snapshots; no partial replacement.",
+        "tenantIsolationRequirement": "Owner-only meal and items.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Ordered form/errors",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Creation/edit review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Atomic replace tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Saved Meal creation/editing requires client-managed ordered item state.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate supported JavaScript editor and server atomicity/authorization independently."
+      }
+    },
+    {
+      "id": "CJ-023",
+      "journeyName": "Saved Meal archive and restore",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Saved Meal archive/restore uses client confirmation; no separate fallback is proposed."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "archives, updates while archived, restores, and keeps archive submissions idempotent",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner changes reversible lifecycle state.",
+        "negativeRequirement": "Missing/other-owner/conflict/unavailable fails safely.",
+        "staleConflictRetryRequirement": "Repeated transition is safe.",
+        "dataIntegrityRequirement": "Items and prior diary snapshots remain intact.",
+        "tenantIsolationRequirement": "Owner-only lifecycle.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Confirm/status/focus",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Lifecycle review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Archive/restore tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Saved Meal archive/restore uses client confirmation; no separate fallback is proposed.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript confirmation and direct lifecycle authorization/idempotency tests."
+      }
+    },
+    {
+      "id": "CJ-024",
+      "journeyName": "Saved Meal diary use",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "is idempotent under sequential and concurrent retries without recreating deleted rows",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Reviewed meal logs ordered items atomically once.",
+        "negativeRequirement": "Stale/archived/invalid/conflicting token writes nothing.",
+        "staleConflictRetryRequirement": "Sequential/concurrent retry converges by receipt.",
+        "dataIntegrityRequirement": "All-or-nothing diary snapshots and immutable receipt.",
+        "tenantIsolationRequirement": "Owner-only source and destination.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Review/status/errors",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Use/retry review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Atomic receipt/retry tests",
+        "missingEvidence": "Full axes/interruption",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Preview is GET-driven but final use relies on client action state and receipt handling.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript for preview and final submission after deciding the mutation commitment; verify one receipt."
+      }
+    },
+    {
+      "id": "CJ-025",
+      "journeyName": "Recipe creation and editing",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Recipe creation/editing requires client-managed ordered ingredient state."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "full-replaces, reorders, clears, unlinks, and preserves child ids on identical submissions",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner atomically creates/replaces recipe ingredients.",
+        "negativeRequirement": "Invalid/stale/other-owner/unavailable write rolls back.",
+        "staleConflictRetryRequirement": "Retry/conflict leaves complete old or new recipe.",
+        "dataIntegrityRequirement": "Ordered ingredient snapshots and valid yield retained.",
+        "tenantIsolationRequirement": "Owner-only recipe and ingredients.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Ordered form/errors",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Creation/edit review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Atomic recipe tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Recipe creation/editing requires client-managed ordered ingredient state.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate supported JavaScript editor plus server derivation, atomicity, and authorization."
+      }
+    },
+    {
+      "id": "CJ-026",
+      "journeyName": "Recipe archive and restore",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Recipe archive/restore uses client confirmation; no separate fallback is proposed."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "archives idempotently, edits while archived, restores, and preserves ingredients",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Owner changes reversible lifecycle state.",
+        "negativeRequirement": "Missing/other-owner/conflict/unavailable fails safely.",
+        "staleConflictRetryRequirement": "Repeated transition is safe.",
+        "dataIntegrityRequirement": "Ingredients and diary snapshots remain intact.",
+        "tenantIsolationRequirement": "Owner-only lifecycle.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Confirm/status/focus",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Lifecycle review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Archive/restore tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Recipe archive/restore uses client confirmation; no separate fallback is proposed.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript confirmation and direct lifecycle authorization/idempotency tests."
+      }
+    },
+    {
+      "id": "CJ-027",
+      "journeyName": "Recipe calculation and diary use",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_VERIFIED",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "converges sequential and concurrent retries and rejects token conflicts",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "DB derives nutrition; reviewed version logs one aggregate snapshot.",
+        "negativeRequirement": "Unknown/overflow/stale/archived/token conflict writes nothing.",
+        "staleConflictRetryRequirement": "Sequential/concurrent retry converges; stale version fails.",
+        "dataIntegrityRequirement": "One rounded authoritative derivation; receipt persists.",
+        "tenantIsolationRequirement": "Owner-only source and destination.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Nutrition/review/status",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Calculation/use",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Derivation/receipt tests",
+        "missingEvidence": "Full axes/interruption",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Calculation preview is GET-driven but final use relies on client action state and receipt behavior.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Disable JavaScript for calculate/preview and use after deciding commitment; verify stale/concurrent receipts."
+      }
+    },
+    {
+      "id": "CJ-028",
+      "journeyName": "Manual barcode lookup — found",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "AUTOMATED_PARTIAL",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "reviews owned, public, and owned-before-public results without mutation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
+          "evidenceAxes": [
+            "noJavaScript"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Valid GTIN resolves owned-before-public readable food and review.",
+        "negativeRequirement": "Invalid/ambiguous/archived/unavailable/session failure has no diary action.",
+        "staleConflictRetryRequirement": "Refresh/back/retry is read-only and deterministic.",
+        "dataIntegrityRequirement": "GTIN remains string/canonical; no lookup mutation.",
+        "tenantIsolationRequirement": "Other-user mappings never influence or disclose.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/results/status",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Barcode review",
+        "physicalDeviceRequirement": "Mobile manual in 11J",
+        "implementationSlice": "11C/11D",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Phase 9 lookup tests",
+        "missingEvidence": "Engine/manual/device axes",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Manual barcode found is the complete input fallback for unsupported or failed camera scanning.",
+        "noJavaScriptOwnerSlice": "11C/11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript; submit canonical valid GTIN and verify owned-before-public result and review link."
+      }
+    },
+    {
+      "id": "CJ-029",
+      "journeyName": "Manual barcode lookup — not found",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "AUTOMATED_PARTIAL",
+        "classification": "REQUIRED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "keeps archived, other-user, local miss, and database failure states distinct",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
+          "evidenceAxes": [
+            "noJavaScript"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Valid strict local miss explains provider-disabled state.",
+        "negativeRequirement": "Invalid/unavailable/ambiguous is not mislabeled as miss.",
+        "staleConflictRetryRequirement": "Repeated lookup remains read-only.",
+        "dataIntegrityRequirement": "No food, mapping, favorite, or diary mutation.",
+        "tenantIsolationRequirement": "Private mappings of others remain undisclosed.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Form/status/handoff",
+        "noJavaScriptRequirement": "`REQUIRED`",
+        "manualRequirement": "Miss/provider copy",
+        "physicalDeviceRequirement": "Mobile manual in 11J",
+        "implementationSlice": "11C/11D",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Phase 9 miss tests",
+        "missingEvidence": "Engine/manual/device axes",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Manual barcode miss is the complete provider-disabled fallback and must distinguish miss from invalid/unavailable.",
+        "noJavaScriptOwnerSlice": "11C/11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript; test strict miss, invalid, ambiguous, unavailable, private-other-user, en/he/RTL."
+      }
+    },
+    {
+      "id": "CJ-030",
+      "journeyName": "Barcode custom-food handoff",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "NOT_VERIFIED"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "The handoff enters the client-managed custom-food editor; manual lookup remains complete without creating food."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "creates food, nutrients, aliases, and one fixed private mapping atomically without unrelated writes",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Current miss creates private food/mapping atomically or omits mapping.",
+        "negativeRequirement": "Race/public/owned/archive/constraint failure rolls back.",
+        "staleConflictRetryRequirement": "Advisory lock and retry converge or fail explicitly.",
+        "dataIntegrityRequirement": "Food/nutrients/aliases/mapping all-or-nothing; no diary row.",
+        "tenantIsolationRequirement": "Server binds private owner and fixed provenance.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Handoff/form/errors",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Conflict/retry",
+        "physicalDeviceRequirement": "Mobile manual in 11J",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Atomic handoff tests",
+        "missingEvidence": "Full axes/manual review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "The handoff enters the client-managed custom-food editor; manual lookup remains complete without creating food.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Validate JavaScript handoff and database atomicity/concurrency; verify no mutation when scripting is absent."
+      }
+    },
+    {
+      "id": "CJ-031",
+      "journeyName": "Camera scanning progressive enhancement",
+      "controllingSlice": "11D",
+      "phase11cDisposition": "EXTERNAL_EVIDENCE_REQUIRED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "NOT_VERIFIED"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "NOT_APPLICABLE",
+        "rationale": "The camera enhancement exposes no tenant data; the downstream lookup retains normal visibility enforcement."
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "AUTOMATED_PARTIAL",
+        "classification": "REQUIRED_FALLBACK_ONLY"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "locale",
+            "viewport",
+            "browser",
+            "noJavaScript"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "11D owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "Only deterministic Chromium mocks and the manual fallback exist; physical cameras and supported deployed browsers remain unverified."
+      ],
+      "normativeContract": {
+        "launchStatus": "Limited",
+        "positiveRequirement": "Explicit action, runtime contract, detection, canonical manual route.",
+        "negativeRequirement": "API/format/permission/detection/lifecycle failure stops tracks and retains manual path.",
+        "staleConflictRetryRequirement": "Replacement/navigation/visibility/end/unmount cleanup is deterministic.",
+        "dataIntegrityRequirement": "Frames are not uploaded/stored/logged; scan itself does not mutate.",
+        "tenantIsolationRequirement": "No tenant data exposed; lookup enforces normal visibility.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Approved runtime subset",
+        "accessibilityRequirement": "Permission/focus/status",
+        "noJavaScriptRequirement": "`REQUIRED_FALLBACK_ONLY`",
+        "manualRequirement": "Permission/fallback/cleanup",
+        "physicalDeviceRequirement": "Required iOS/Android in 11J",
+        "implementationSlice": "11D",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Deterministic mocks; Phase 9D matrix",
+        "missingEvidence": "Physical cameras/deployed browsers",
+        "currentStatus": "`EXTERNAL_EVIDENCE_REQUIRED`",
+        "noJavaScriptClassification": "REQUIRED_FALLBACK_ONLY",
+        "noJavaScriptRationale": "Camera scanning intrinsically requires JavaScript/device APIs; CJ-028 and CJ-029 are the required complete fallback.",
+        "noJavaScriptOwnerSlice": "11D",
+        "noJavaScriptValidationMethod": "Disable JavaScript and prove manual found/miss; separately test camera capability, denial, cleanup, and fallback on devices in 11J."
+      }
+    },
+    {
+      "id": "CJ-032",
+      "journeyName": "Cross-user isolation",
+      "controllingSlice": "11C",
+      "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
+      "positivePath": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "dataIntegrity": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "tenantIsolation": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "locale": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Tenant isolation is a server/database property independent of client scripting."
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "enforces RLS isolation for targets and diary entries",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Deployed-target tenant-isolation smoke evidence remains required."
+        }
+      ],
+      "currentLimitations": [
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "User A cannot read/mutate User B protected data across all models.",
+        "negativeRequirement": "Forged IDs, RPC/table attempts, archived/private inference fail closed.",
+        "staleConflictRetryRequirement": "Concurrent attempts do not weaken ownership.",
+        "dataIntegrityRequirement": "RLS, grants, server identity, snapshots stay intact.",
+        "tenantIsolationRequirement": "Explicit adversarial two-user assertion.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Automated engines",
+        "accessibilityRequirement": "Safe generic denial",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
+        "manualRequirement": "Adversarial review",
+        "physicalDeviceRequirement": "`NOT_APPLICABLE` — server isolation is device-independent",
+        "implementationSlice": "11C",
+        "externalValidationSlice": "11J environment smoke",
+        "finalGate": "11K",
+        "currentEvidence": "RLS/ACL/cross-user tests",
+        "missingEvidence": "Integrated matrix/deployed target",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Tenant isolation is a server/database property independent of client scripting.",
+        "noJavaScriptOwnerSlice": "11C",
+        "noJavaScriptValidationMethod": "Authenticated two-user RLS, grant, table, RPC, forged-ID, and concurrent adversarial tests."
+      }
+    },
+    {
+      "id": "CJ-033",
+      "journeyName": "Global or dependency failure recovery",
+      "controllingSlice": "11G",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11G"
+      },
+      "failureStates": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11G"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11G"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11G"
+      },
+      "locale": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "AUTOMATED_PARTIAL"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11G",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [
+        {
+          "path": "e2e/retrieval-and-core-loop.spec.ts",
+          "testTitle": "blocks Setup and preserves diary UI on an English profile read failure",
+          "evidenceAxes": [
+            "failureStates",
+            "locale",
+            "browser"
+          ]
+        }
+      ],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11G",
+          "reason": "11G owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11G implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core",
+        "positiveRequirement": "Localized boundary guides safe retry/recovery.",
+        "negativeRequirement": "Network, Supabase, render/action, version mismatch, maintenance failures do not leak.",
+        "staleConflictRetryRequirement": "Retry avoids duplicate mutation and preserves status.",
+        "dataIntegrityRequirement": "Transaction boundaries and prior data remain intact.",
+        "tenantIsolationRequirement": "Error path never crosses tenants.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Boundary/focus/status",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Outage/retry drill",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11G",
+        "externalValidationSlice": "11J",
+        "finalGate": "11K",
+        "currentEvidence": "Domain failure/rollback tests",
+        "missingEvidence": "Global/network/deployed drill",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Global/dependency recovery is new and may use client or server boundaries by failure class.",
+        "noJavaScriptOwnerSlice": "11G",
+        "noJavaScriptValidationMethod": "Decide each boundary, then disable JavaScript for server-renderable outage/retry cases and drill deployed failures in 11J."
+      }
+    },
+    {
+      "id": "CJ-034",
+      "journeyName": "Account export",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "Authenticated, recently reauthenticated user receives the approved export.",
+        "negativeRequirement": "Unauthorized/stale session/generation failure exposes nothing.",
+        "staleConflictRetryRequirement": "Repeat produces consistent scoped export without mutation.",
+        "dataIntegrityRequirement": "Product-data scope is approved separately from any legally reviewed invitation-register disclosure; tokens/secrets are always excluded.",
+        "tenantIsolationRequirement": "Only the requesting user's approved data and separately approved operational-record treatment.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Reauth/progress/download",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Privacy/export review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11E",
+        "externalValidationSlice": "11J/legal",
+        "finalGate": "11K",
+        "currentEvidence": "No implementation",
+        "missingEvidence": "Product/export policy plus explicit restricted-register scope/exclusion review",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Export is unimplemented; secure download or async job behavior may impose a justified interaction contract.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Decide architecture, then test disabled-script request, reauthentication, status/download, and leakage cases where applicable."
+      }
+    },
+    {
+      "id": "CJ-035",
+      "journeyName": "Account closure or deletion",
+      "controllingSlice": "11E",
+      "phase11cDisposition": "BLOCKED_BY_LATER_SLICE",
+      "positivePath": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "failureStates": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "staleConflictRetry": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "dataIntegrity": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "tenantIsolation": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "locale": {
+        "status": "LATER_SLICE",
+        "slice": "11E"
+      },
+      "viewport": {
+        "status": "MANUAL_REQUIRED"
+      },
+      "browser": {
+        "status": "EXTERNAL_REQUIRED"
+      },
+      "noJavaScript": {
+        "status": "LATER_SLICE",
+        "slice": "11E",
+        "classification": "NOT_VERIFIED"
+      },
+      "automatedEvidence": [],
+      "manualEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+        }
+      ],
+      "laterSliceDependencies": [
+        {
+          "slice": "11E",
+          "reason": "11E owns the missing implementation or complete acceptance boundary for this journey."
+        },
+        {
+          "slice": "11D",
+          "reason": "The approved bilingual, viewport, browser-engine, accessibility, and visual matrix remains outside Phase 11C1."
+        },
+        {
+          "slice": "11J",
+          "reason": "Supported browser/platform/device or deployed-environment evidence must be collected separately."
+        }
+      ],
+      "externalEvidence": [
+        {
+          "status": "NOT_COLLECTED",
+          "slice": "11J",
+          "requirement": "Supported browser/platform/device or deployed-provider evidence remains required where applicable."
+        }
+      ],
+      "currentLimitations": [
+        "The 11E implementation and its complete evidence do not exist in Phase 11C1."
+      ],
+      "normativeContract": {
+        "launchStatus": "Core; New",
+        "positiveRequirement": "Reauthenticated owner completes the approved closure/deletion flow.",
+        "negativeRequirement": "Unauthorized/cancelled/partial/retention-conflict path fails safely.",
+        "staleConflictRetryRequirement": "Retry is idempotent and status is unambiguous.",
+        "dataIntegrityRequirement": "Approved cascades, retained evidence, backups, receipts, and restricted-register retention/correction follow their distinct policies.",
+        "tenantIsolationRequirement": "Only the requesting user's lifecycle changes; operational audit history is not silently erased.",
+        "englishRequirement": "Required",
+        "hebrewRtlRequirement": "Required",
+        "viewportRequirement": "Matrix",
+        "browserRequirement": "Matrix",
+        "accessibilityRequirement": "Reauth/confirm/status",
+        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "manualRequirement": "Privacy/lifecycle review",
+        "physicalDeviceRequirement": "Risk-based 11J",
+        "implementationSlice": "11E",
+        "externalValidationSlice": "11I/11J/legal",
+        "finalGate": "11K",
+        "currentEvidence": "No implementation",
+        "missingEvidence": "Product lifecycle plus restricted-register retention/correction and recovery proof",
+        "currentStatus": "`NOT_VERIFIED`",
+        "noJavaScriptClassification": "NOT_VERIFIED",
+        "noJavaScriptRationale": "Closure/deletion is unimplemented and high-risk confirmation/reauthentication behavior is undecided.",
+        "noJavaScriptOwnerSlice": "11E",
+        "noJavaScriptValidationMethod": "Decide architecture, then test disabled-script confirmation/cancellation/retry where applicable plus lifecycle integrity."
+      }
+    }
+  ]
+}
