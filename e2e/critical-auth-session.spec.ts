@@ -156,6 +156,29 @@ async function addDiaryEntry(
   expect(result.error).toBeNull();
 }
 
+async function expectScopedDiaryIsolation(
+  userAClient: SupabaseClient<Database>,
+  userBClient: SupabaseClient<Database>,
+  otherTenantEntry: string,
+  userBId: string,
+) {
+  const hiddenFromUserA = await userAClient
+    .from("diary_entries")
+    .select("food_name, user_id")
+    .eq("food_name", otherTenantEntry);
+  expect(hiddenFromUserA.error).toBeNull();
+  expect(hiddenFromUserA.data).toEqual([]);
+
+  const visibleToUserB = await userBClient
+    .from("diary_entries")
+    .select("food_name, user_id")
+    .eq("food_name", otherTenantEntry);
+  expect(visibleToUserB.error).toBeNull();
+  expect(visibleToUserB.data).toEqual([
+    { food_name: otherTenantEntry, user_id: userBId },
+  ]);
+}
+
 test.describe("Phase 11C1 critical auth and session acceptance", () => {
   test("CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect", async ({
     page,
@@ -237,24 +260,34 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
     const date = "2032-04-05";
     const privateEntry = "PHASE11C1 PRIVATE SIGNOUT ENTRY";
     await addDiaryEntry(dataClient, userId, privateEntry, date);
+    const beforeCounts = await applicationRowCounts(dataClient, userId);
+    expect(beforeCounts).toEqual([0, 0, 1, 0, 0, 0, 0, 0]);
 
     const signedIn = await openSignedInPage(browser, "en", email);
     const storageState = await signedIn.context.storageState();
     await signedIn.context.close();
 
     const context = await browser.newContext({ javaScriptEnabled: false, storageState });
-    const page = await context.newPage();
-    await page.goto(`/en/today?date=${date}`);
-    await expect(page.getByText(privateEntry, { exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Sign out" }).click();
-    await expect(page).toHaveURL(/\/en$/);
+    const firstPage = await context.newPage();
+    const stalePage = await context.newPage();
+    await firstPage.goto(`/en/today?date=${date}`);
+    await stalePage.goto(`/en/today?date=${date}`);
+    await expect(firstPage.getByText(privateEntry, { exact: true })).toBeVisible();
+    await expect(stalePage.getByText(privateEntry, { exact: true })).toBeVisible();
 
-    await page.goto(`/en/today?date=${date}`);
-    await expect(page).toHaveURL(/\/en\/auth\/sign-in$/);
-    await page.goBack();
-    await expect(page.getByText(privateEntry, { exact: true })).toHaveCount(0);
-    await page.goForward();
-    await expect(page).toHaveURL(/\/en\/auth\/sign-in$/);
+    await firstPage.getByRole("button", { name: "Sign out" }).click();
+    await expect(firstPage).toHaveURL(/\/en$/);
+    await expect(firstPage.getByRole("button", { name: "Sign out" })).toHaveCount(0);
+
+    await stalePage.getByRole("button", { name: "Sign out" }).click();
+    await expect(stalePage).toHaveURL(/\/en$/);
+    await expect(stalePage.getByRole("button", { name: "Sign out" })).toHaveCount(0);
+    await stalePage.goto(`/en/today?date=${date}`);
+    await expect(stalePage).toHaveURL(/\/en\/auth\/sign-in$/);
+    await stalePage.goBack();
+    await expect(stalePage.getByText(privateEntry, { exact: true })).toHaveCount(0);
+    await stalePage.goForward();
+    await expect(stalePage).toHaveURL(/\/en\/auth\/sign-in$/);
     await context.close();
 
     const verificationClient = await authenticatedClient(email);
@@ -264,11 +297,9 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
       .eq("food_name", privateEntry);
     expect(preserved.error).toBeNull();
     expect(preserved.data).toEqual([{ food_name: privateEntry }]);
-
-    const repeated = await openSignedInPage(browser, "en", email);
-    await repeated.page.getByRole("button", { name: "Sign out" }).click();
-    await expect(repeated.page).toHaveURL(/\/en$/);
-    await repeated.context.close();
+    expect(await applicationRowCounts(verificationClient, userId)).toEqual(
+      beforeCounts,
+    );
   });
 
   test("CJ-005 signs out through the Hebrew RTL UI and preserves tenant data", async ({
@@ -319,6 +350,12 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
     await page.getByRole("button", { name: "Add entry" }).click();
     await expect(page.getByText("Sign in again before using the diary.", { exact: true })).toBeVisible();
     await expect(page.getByText(otherTenantEntry, { exact: true })).toHaveCount(0);
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      otherTenantEntry,
+      userB.userId,
+    );
 
     const failedRows = await userAClient
       .from("diary_entries")
@@ -339,9 +376,12 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
       .eq("food_name", attemptedEntry);
     expect(retriedRows.error).toBeNull();
     expect(retriedRows.data).toEqual([{ food_name: attemptedEntry }]);
-    expect(
-      retriedRows.data?.some(({ food_name }) => food_name === otherTenantEntry),
-    ).toBe(false);
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      otherTenantEntry,
+      userB.userId,
+    );
     await context.close();
   });
 
@@ -365,6 +405,12 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
     await expect(page.getByText("יש להיכנס שוב לפני שימוש ביומן.", { exact: true })).toBeVisible();
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.getByText(otherTenantEntry, { exact: true })).toHaveCount(0);
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      otherTenantEntry,
+      userB.userId,
+    );
 
     const rows = await userAClient
       .from("diary_entries")

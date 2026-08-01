@@ -68,7 +68,8 @@ most important current state without hiding partial evidence on other axes.
 | `CURRENT_EVIDENCE_LINKED` | 27 |
 | `BLOCKED_BY_LATER_SLICE` | 7 |
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
-| Automated evidence references | 31 |
+| Automated evidence references | 34 |
+| Automated evidence-axis claims | 141 |
 | Journeys with manual evidence still not collected | 35 |
 | Journeys with later-slice dependencies | 35 |
 | Journeys with external evidence still not collected | 35 |
@@ -84,9 +85,9 @@ it is not a general browser or launch-support claim.
 | `CJ-001` | Public landing and locale entry | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `NOT_VERIFIED` | `NOT_VERIFIED` | `NOT_APPLICABLE` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `REQUIRED` / `NOT_VERIFIED` | [English public home renders with LTR document attributes](../e2e/smoke.spec.ts) |
 | `CJ-002` | Invited enrollment and account activation | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-003` | Email confirmation | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
-| `CJ-004` | Sign-in | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect](../e2e/critical-auth-session.spec.ts) |
-| `CJ-005` | Sign-out | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `REQUIRED` / `AUTOMATED_PARTIAL` | [CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage](../e2e/critical-auth-session.spec.ts) |
-| `CJ-006` | Expired session | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry](../e2e/critical-auth-session.spec.ts) |
+| `CJ-004` | Sign-in | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect](../e2e/critical-auth-session.spec.ts)<br>[CJ-004 keeps invalid-credential responses enumeration-safe in English and Hebrew RTL](../e2e/critical-auth-session.spec.ts) |
+| `CJ-005` | Sign-out | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `REQUIRED` / `AUTOMATED_PARTIAL` | [CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage](../e2e/critical-auth-session.spec.ts)<br>[CJ-005 signs out through the Hebrew RTL UI and preserves tenant data](../e2e/critical-auth-session.spec.ts) |
+| `CJ-006` | Expired session | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry](../e2e/critical-auth-session.spec.ts)<br>[CJ-006 rejects an expired-session Hebrew RTL diary mutation without partial or cross-tenant disclosure](../e2e/critical-auth-session.spec.ts) |
 | `CJ-007` | Password recovery request | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-008` | Password recovery completion | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-009` | First profile and target setup | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [creates a first profile and intentional all-null reset in English](../e2e/setup-persistence.spec.ts) |
@@ -113,7 +114,7 @@ it is not a general browser or launch-support claim.
 | `CJ-030` | Barcode custom-food handoff | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_APPLICABLE` / `NOT_APPLICABLE` | [creates food, nutrients, aliases, and one fixed private mapping atomically without unrelated writes](../e2e/barcode-handoff-persistence.spec.ts) |
 | `CJ-031` | Camera scanning progressive enhancement | `EXTERNAL_EVIDENCE_REQUIRED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `NOT_APPLICABLE` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `REQUIRED_FALLBACK_ONLY` / `AUTOMATED_PARTIAL` | [keeps manual and no-JavaScript lookup complete when capability is unavailable](../e2e/barcode-camera-scanner.spec.ts) |
 | `CJ-032` | Cross-user isolation | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_APPLICABLE` / `NOT_APPLICABLE` | [enforces RLS isolation for targets and diary entries](../e2e/date-correctness.spec.ts) |
-| `CJ-033` | Global or dependency failure recovery | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11G)` | [blocks Setup and preserves diary UI on an English profile read failure](../e2e/retrieval-and-core-loop.spec.ts) |
+| `CJ-033` | Global or dependency failure recovery | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11G)` | `AUTOMATED_PARTIAL` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `LATER_SLICE (11G)` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `LATER_SLICE (11G)` | [blocks Setup and preserves diary UI on an English profile read failure](../e2e/retrieval-and-core-loop.spec.ts) |
 | `CJ-034` | Account export | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-035` | Account closure or deletion | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 
@@ -144,9 +145,36 @@ hosted or external proof.
 ## 9. CI integration
 
 `npm run test:journey-evidence` runs before local Supabase and Playwright in
-the single authoritative `Validate` job. It uses Node.js standard-library
-APIs, needs no credentials or application server, and fails the job on a map,
-contract, controlled-value, evidence-path, or exact-test-title mismatch.
+the single authoritative `Validate` job. It first runs 12 built-in `node:test`
+self-tests and then validates the real map. It uses only Node.js standard-
+library APIs, needs no credentials or application server, and fails the job on
+a map, contract, controlled-value, evidence-path, or exact-test-title mismatch.
+
+The validator parses the exact headers and all 35 rows in each accepted
+Section 7.1, 7.2, and 7.3 table. Every controlling cell is normalized into a
+per-journey snapshot and the complete normalized tables are bound by SHA-256:
+
+- Section 7.1: `e90f9d9508119773cf058b29ec6edb632db52a73ba603d1f3b811cdd08dcff61`
+- Section 7.2: `56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5`
+- Section 7.3: `ba8f658bc442fce992da914683f51568e5988258b8501964031a712ee3eb22e6`
+
+Evidence-axis consistency is bidirectional: every automated axis requires an
+exact linked test, and every axis claimed by a reference must itself be
+`AUTOMATED` or `AUTOMATED_PARTIAL`. Duplicate axes/references and automated
+claims against manual, external, later-slice, not-applicable, or unverified
+statuses fail deterministically.
+
+Prior run `30692308624` checked out synthetic PR merge ref
+`7ea48d00c8e3dd3cd3fb863716c19bfaffb82e47`, derived from exact head
+`fb14d921fb35ddac31d7c7113bb74f3da61d495e` and unchanged base
+`eae0cd64284cf103a2ca326568c0d01e2c71d3ff`; it was not a direct-head checkout.
+
+The English CJ-005 test now submits an already-loaded second sign-out form
+after the first request invalidates the shared session, while preserving the
+no-JavaScript contract and proving unchanged application rows. Both English
+and Hebrew CJ-006 tests now query the other tenant's exact diary value through
+both user-scoped clients, proving zero visibility for user A and exactly one
+owned row for user B.
 
 ## 10. Remaining Phase 11C work
 
@@ -174,11 +202,13 @@ Phase 11C1 is acceptable for independent review only when:
 
 1. exactly 35 ordered entries match the accepted contract;
 2. every automated link resolves to an existing path and exact test title;
-3. controlled dispositions and evidence-axis values validate;
-4. Section 7.3 remains exactly 6 `REQUIRED`, 1
+3. complete normalized Section 7.1-7.3 snapshots and fingerprints match the
+   accepted contract;
+4. controlled dispositions and bidirectional evidence-axis values validate;
+5. Section 7.3 remains exactly 6 `REQUIRED`, 1
    `REQUIRED_FALLBACK_ONLY`, 10 `NOT_APPLICABLE`, and 18
    `NOT_VERIFIED`, including exact CJ-028/CJ-029/CJ-031 values;
-5. bounded CJ-004/CJ-005/CJ-006 tests pass locally against local Supabase;
-6. the authoritative CI job passes without weakening an existing gate;
-7. Phase 11C remains incomplete, all findings remain open, and no hosted,
+6. the 12 validator self-tests and six bounded CJ-004/CJ-005/CJ-006 tests pass;
+7. the authoritative CI job passes without weakening an existing gate;
+8. Phase 11C remains incomplete, all findings remain open, and no hosted,
    deployment, finding-closure, or Production authority is implied.
