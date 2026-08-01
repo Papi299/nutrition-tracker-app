@@ -10,12 +10,12 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `0.4-owner-decisions-recorded-draft` |
+| Version | `1.0-phase-11b-accepted` |
 | Preparation date | 2026-07-31 |
-| Status | `PHASE_11B_OWNER_DECISIONS_RECORDED` |
+| Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
 | Preparer | Codex |
-| Independent reviewer | ChatGPT independently accepted the corrected draft at source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`; the owner-recorded head requires final independent transcription and consistency review |
+| Independent reviewer | ChatGPT issued `PHASE_11B_OWNER_DECISION_RECORDING_ACCEPTED_COMPLETION_AND_MERGE_AUTHORIZED` on 2026-07-31 after reviewing recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`; the prior corrected draft was independently accepted at owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | Owner approval | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved all 30 recommended decisions and the stated role dispositions in an attributable Phase 11B owner decision bundle on 2026-07-31 after reviewing source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
@@ -297,11 +297,27 @@ owner, launch-decision-authority, and Production-approver roles, selected
 policy, and supplied no decision exceptions.
 
 The corrected source draft passed independent review before decision capture.
-Because this recording creates a new head, its post-recording state is
-`OWNER_DECISIONS_RECORDED_FINAL_INDEPENDENT_REVIEW_REQUIRED`. This evidence
-approves decisions and the three stated role assignments only. It does not
-authorize implementation, hosted access, external evidence collection,
-finding closure, deployment, or Production release.
+The resulting recording head
+`c739df46d960593d0a2306255cdb0b46df29f4bc` then received the independent
+disposition
+`PHASE_11B_OWNER_DECISION_RECORDING_ACCEPTED_COMPLETION_AND_MERGE_AUTHORIZED`
+on 2026-07-31. This acceptance covers the exact transcription of all 30
+decisions, the three accepted Maor Pichhadze roles, the approved release role-
+separation policy, every later-role deadline, and the preserved scope and
+safety boundaries.
+
+### 2.5 Final independent review and completion
+
+Phase 11B is complete for its documentation, product-decision, acceptance-contract, and handoff scope.
+
+The administrative finalization commit is the commit containing this state
+transition; its immutable SHA is recorded in PR #72 and the completion report.
+It is distinct from both the owner-reviewed source head
+`85dec5e35a6d7aedb8fa265d30d3be27ece27282` and the independently reviewed
+recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`. Completion does not authorize
+implementation, hosted access, external evidence collection, finding closure,
+deployment, or Production release. Phase 11C is next and unstarted; overall
+Phase 11 remains incomplete.
 
 ## 3. Launch-contract decision register
 
@@ -686,7 +702,7 @@ totals. Every finding remains `OPEN`.
 
 | Finding | Domain | Classification | Priority | State | Owner decision required | Decision owner | Implementation owner | Controlling implementation / decision slice | Implementation acceptance gate | External evidence required | External-validation slice | Final closure gate | Prerequisites | Current repository evidence | Missing evidence | Exception eligibility | Approved exception | Evidence links |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `P11A-001` | Product scope / launch | `PRODUCT_OWNER_DECISION_REQUIRED` | P0 | `OPEN` | `DEC-001`–`DEC-008`, `DEC-018`, `DEC-019`, `DEC-030` | Product owner | Documentation owner | 11B | All 30 decisions and the Section 2.3 provider/procedure/register/future-automation boundary are attributable; final independent transcription and consistency review of the recording head remains required | Legal/privacy, data-governance, support, later-role, implementation, and external input where applicable | 11B | 11K | None | Owner-approved launch/enrollment model, register governance, authority, role policy, and three accepted Maor assignments are explicit | Final recording review plus later implementation, qualified review, role assignment, and external evidence; finding remains open until 11K | No — P0 | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-001--public-launch-model-and-release-authority-are-undefined); `EV-023`, `EV-024`, `EV-025` |
+| `P11A-001` | Product scope / launch | `PRODUCT_OWNER_DECISION_REQUIRED` | P0 | `OPEN` | `DEC-001`–`DEC-008`, `DEC-018`, `DEC-019`, `DEC-030` | Product owner | Documentation owner | 11B | All 30 decisions and the Section 2.3 provider/procedure/register/future-automation boundary are attributable; final independent transcription and consistency review accepted recording head `c739df46d960593d0a2306255cdb0b46df29f4bc` | Legal/privacy, data-governance, support, later-role, implementation, and external input where applicable | 11B | 11K | None | Owner-approved launch/enrollment model, register governance, authority, role policy, and three accepted Maor assignments are explicit | Later implementation, qualified review, role assignment, and external evidence; finding remains open until 11K | No — P0 | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-001--public-launch-model-and-release-authority-are-undefined); `EV-023`, `EV-024`, `EV-025` |
 | `P11A-002` | Critical journeys / QA | `PARTIALLY_READY` | P1 | `OPEN` | `DEC-001`, `DEC-008`, `DEC-014`–`DEC-017` | Product owner | QA owner | 11C | Approved matrix traces every journey to positive, failure, integrity, tenant, locale, viewport, browser, and its exact Section 7.3 no-JavaScript classification | Signed manual exploratory sessions | 11C | 11K | `P11A-001`; approved decisions | 240 Chromium Playwright tests cover broad feature paths | Proportional matrix gaps, invitation path, and signed manual evidence | Yes — Section 11 only | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-002--critical-journey-coverage-is-broad-but-not-a-launch-matrix); `EV-001`–`EV-003` |
 | `P11A-003` | Localization / RTL | `PARTIALLY_READY` | P2 | `OPEN` | `DEC-017` | Product owner | UI/localization owner | 11D | Approved switching/formatting behavior and bilingual visual checklist pass | Native-speaker English/Hebrew review | 11D | 11K | `P11A-001`, `P11A-002` | 1,079 aligned keys; `lang`/`dir`; logical CSS; bidi annotations | Context switching, formatting, native/visual proof | No — P2 managed normally | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-003--locale-foundations-are-strong-but-switching-and-formatting-are-incomplete); `EV-004` |
 | `P11A-004` | Accessibility | `GAP` | P1 | `OPEN` | `DEC-016` | Product owner | Accessibility/UI owner | 11D | Zero unwaived serious automated issues and approved manual checklist passes | Keyboard, zoom/reflow, contrast, and AT review | 11D | 11K | `P11A-001`, `P11A-002` | Meaningful semantics in high-risk forms | WCAG program, automated scan, complete manual evidence | Yes — Section 11 only | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-004--no-wcag-22-aa-acceptance-program-exists); `EV-005`–`EV-007` |
@@ -772,8 +788,8 @@ policy is pending.
 | **11K — Integrated acceptance and launch-authorization gate** | Audit the exact candidate/evidence as one system and decide only eligibility for separate Production authorization. | Approved contract; required 11C–11J stages/evidence; exact candidate/config; fresh reconciliation; independent reviewer. | Complete CI/checklists; verify all domains/findings/decisions/evidence, native/procedural/register boundaries, register governance, reconciliation/freshness, Phase 10 boundaries, dependencies, runbooks/rehearsal/owners; publish acceptance report. | No Production deployment, DNS/domain switch, production mutation/provider operation, backup, restore, or future admin automation authorization. | Every mandatory decision; any valid P1 exception | Exact candidate/config and all gates pass; no pending/failing/cancelled/unexplained skip; native claims have hosted evidence; procedural controls have attributable register/walkthrough evidence; no unresolved discrepancy or prohibited field. | Complete attributable packet, reconciliation within 24 hours with no later state change, and independent review. | Any Section 12 stop condition; any P0; invalid P1 exception; missing/expired/contradictory evidence; candidate/config/register mismatch. | All 18 | All 35 | Full authoritative CI, external checklist, 25-control trace, reconciliation and prohibited-field audit, exception/contradiction review, owner sign-off. | `PHASE_11K_ACCEPTED_FOR_SEPARATE_PRODUCTION_DECISION` only if all criteria pass. | Only 11K may change a supported finding to `FINDING_CLOSED`; unresolved/excepted findings stay explicit. |
 
 No implementation or external-validation completion marker above is asserted.
-Phase 11B is `PHASE_11B_OWNER_DECISIONS_RECORDED` and awaits final independent
-transcription and consistency review. Phase 11C is unstarted.
+Phase 11B is `PHASE_11B_COMPLETE` for its bounded documentation, decision,
+contract, and handoff scope. Phase 11C is next and unstarted.
 
 ## 11. P1 exception contract
 
@@ -913,7 +929,7 @@ its slice and separate authorization boundary.
 
 This checklist records documentation and attributable owner-decision capture
 only. All 30 decisions are `PRODUCT_OWNER_APPROVED`; all 18 findings remain
-`OPEN`; Phase 11B is `PHASE_11B_OWNER_DECISIONS_RECORDED` with status
-`OWNER_DECISIONS_RECORDED_FINAL_INDEPENDENT_REVIEW_REQUIRED`; Phase 11C is
-`PHASE_11C_UNSTARTED`; and Phase 11K remains the exclusive finding-closure
-gate. No implementation or deployment is authorized.
+`OPEN`; Phase 11B is `PHASE_11B_COMPLETE`; Phase 11C is
+`PHASE_11C_UNSTARTED` and next; overall Phase 11 remains incomplete; and Phase
+11K remains the exclusive finding-closure gate. No implementation, hosted
+access, deployment, finding closure, or Production release is authorized.

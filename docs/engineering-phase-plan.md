@@ -331,19 +331,19 @@ remain open. Phase 11H defines the approved environment architecture, Phase
 authorizes remote Supabase access, provider configuration, Vercel setup,
 deployment, backup, or restore.
 
-Phase 11B remains the active slice. Its
-[owner-recorded launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-records all 30 recommended decisions as attributable
-`PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against source head
-`85dec5e35a6d7aedb8fa265d30d3be27ece27282`. Maor accepted the product-owner,
+Phase 11B is complete for its bounded documentation, product-decision,
+acceptance-contract, and handoff scope. Its
+[accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is version `1.0-phase-11b-accepted`, records all 30 recommendations as
+attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
+owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
+records independent acceptance of recording head
+`c739df46d960593d0a2306255cdb0b46df29f4bc`. Maor accepted the product-owner,
 launch-decision-authority, and Production-approver roles and approved the
-recommended release-separation policy. The recording head requires final
-independent transcription and consistency review, so Phase 11B is not yet
-complete. Do not begin Phase 11C or a later release-facing slice until that
-review accepts the bounded recording and Phase 11B completion is separately
-authorized. Decision recording does not authorize implementation, hosted
-access, or deployment. Overall Phase 11 remains incomplete, and Phase 11C is
-unstarted.
+recommended release-separation policy. Phase 11C is next and unstarted after
+this completion merges. This transition does not authorize implementation,
+hosted access, Production release, or deployment. Overall Phase 11 remains
+incomplete.
 
 ## Future PR Documentation Rule
 

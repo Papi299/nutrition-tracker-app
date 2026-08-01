@@ -163,17 +163,19 @@ renaming a slice.
 
 ## 8. Phase 11B — Launch contract and acceptance baseline
 
-**Current status:** Phase 11B is active. The
-[owner-recorded launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-is `PHASE_11B_OWNER_DECISIONS_RECORDED`: Maor Pichhadze approved all 30
-recommendations against source head
+**Current status:** Phase 11B is `PHASE_11B_COMPLETE` for its bounded
+documentation, product-decision, acceptance-contract, and handoff scope. The
+[accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is version `1.0-phase-11b-accepted`: Maor Pichhadze approved all 30
+recommendations against owner-reviewed source head
 `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
 launch-decision-authority, and Production-approver roles, and approved the
-recommended release-separation policy. The recording head still requires final
-independent transcription and consistency review, so Phase 11B is not complete
-and Phase 11C is unstarted. Decision recording does not authorize
-implementation or deployment. The dependency graph and two-stage evidence
-model above remain controlling.
+recommended release-separation policy. Independent review accepted recording
+head `c739df46d960593d0a2306255cdb0b46df29f4bc` on 2026-07-31. Phase 11C is
+next and unstarted. Completion does not authorize implementation, hosted
+access, finding closure, Production release, or deployment. Overall Phase 11
+remains incomplete, and the dependency graph and two-stage evidence model
+above remain controlling.
 
 ### Objective
 
