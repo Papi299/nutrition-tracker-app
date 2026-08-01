@@ -40,6 +40,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Verify Phase 11 critical-journey evidence map
+        run: npm run test:journey-evidence
+
       - name: Run pure unit tests
         run: npm run test:date
 
