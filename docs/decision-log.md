@@ -1643,3 +1643,99 @@
   implementation, launch, deployment, Vercel setup, production or remote
   Supabase query/mutation, provider access, backup, restore, credential, domain,
   DNS, or GitHub settings operation. None occurred.
+
+## 2026-07-31: Phase 11B draft launch contract and acceptance baseline
+
+- Prepared the documentation-only
+  [`Phase 11B launch contract and acceptance baseline`](phase-11b-launch-contract-and-acceptance-baseline.md)
+  from authoritative baseline
+  `2e99823545ec98d19082e0acdd23819298c971ee`. The artifact records one proposed
+  launch-scope statement, 30 decision rows, 35 critical journeys, all 18 open
+  findings, 27 evidence families, the 11C–11K acceptance baseline, the P1
+  exception schema, launch stop conditions, and a numbered owner packet.
+- Every Codex answer is only `PROPOSED_PENDING_PRODUCT_OWNER_APPROVAL`.
+  Repository implementation, tests, CI, silence, and this draft are not owner
+  approval. No approved answer, risk acceptance, legal/privacy approval,
+  external evidence, Production authority, or finding closure is recorded.
+- Owner disposition remains pending for: `DEC-001` launch model/cohort;
+  `DEC-002` eligibility/geography; `DEC-003` health boundary; `DEC-004`–`006`
+  availability/support/incidents; `DEC-007` release roles; `DEC-008` MVP core;
+  `DEC-009`–`011` confirmation/recovery/account/Auth lifecycle; `DEC-012`
+  barcode/camera/provider limits; `DEC-013` deferred scope; `DEC-014`–`016`
+  client/accessibility targets; `DEC-017` locale behavior; `DEC-018`–`020`
+  privacy/governance/health copy; `DEC-021`–`023` scale/reliability/monitoring;
+  `DEC-024`–`025` backup/recovery; `DEC-026`–`028` environment ownership and
+  release procedure; `DEC-029` security/governance/P1 exceptions; and
+  `DEC-030` separate Production authorization.
+- Preserved the Phase 11A finding totals and two-stage model: 7 P0, 9 P1, and
+  2 P2; every finding remains `OPEN`; Phase 11K alone may assign
+  `FINDING_CLOSED`. Phase 11B is active but incomplete while decisions and
+  independent review remain pending. Phase 11C and all later slices are
+  unstarted.
+- Preserved all Phase 10 boundaries. Phase 10 is accepted for its bounded
+  current MVP scope; Phase 10E.5, Phase 10F, and Phase 10G remain conditional
+  and unstarted; initial promotion and lifecycle bootstrap are not update
+  mechanisms; the post-deployment backup restore remains exactly `not_tested`;
+  and any Production restore or deployment remains separately authorized.
+- This draft performed no application/test/migration/configuration/dependency
+  change, remote Supabase/provider/Vercel operation, deployment, domain/DNS or
+  secret action, backup/restore, physical-device test, GitHub-settings change,
+  legal/privacy approval, risk acceptance, or finding closure.
+
+## 2026-07-31: Phase 11B attributable product-owner decision capture
+
+- Maor Pichhadze supplied an attributable `APPROVE_ALL_RECOMMENDED` decision
+  bundle after reviewing PR #72, contract version
+  `0.3-invitation-boundary-corrected-draft`, and source head
+  `85dec5e35a6d7aedb8fa265d30d3be27ece27282`. The corrected source draft had
+  already received the independent disposition
+  `PHASE_11B_DRAFT_INDEPENDENT_REVIEW_ACCEPTED_OWNER_DECISIONS_REQUIRED`.
+- Recorded exact `PRODUCT_OWNER_APPROVED` answers, Maor Pichhadze as authority,
+  approval date 2026-07-31, attributable-bundle evidence, and approved source
+  head for every `DEC-001` through `DEC-030`. No alternative or exception was
+  selected.
+- Recorded the product-owner, launch-decision-authority, and Production-
+  approver roles as `ASSIGNED_AND_APPROVED` to Maor Pichhadze. Approved the
+  recommended release role-separation policy. Production-role acceptance is
+  not Production deployment authorization.
+- Preserved every later role as unassigned under its approved deadline. No
+  absent person was nominated or treated as having accepted an assignment.
+- Set Phase 11B to `PHASE_11B_OWNER_DECISIONS_RECORDED` with post-recording
+  status `OWNER_DECISIONS_RECORDED_FINAL_INDEPENDENT_REVIEW_REQUIRED`. Phase
+  11B is not complete until final independent transcription and consistency
+  review accepts the recording head; Phase 11C remains unstarted.
+- Preserved all 18 findings as `OPEN`, Phase 11K as the exclusive finding-
+  closure gate, restore as `not_tested`, and Phase 10E.5, Phase 10F, and Phase
+  10G as conditional and unstarted.
+- Decision capture authorized no implementation, test, migration, dependency,
+  workflow, hosted Supabase, provider, Vercel, deployment, backup, restore,
+  device, domain/DNS, secret, finding-closure, or Production operation. None
+  occurred.
+
+## 2026-08-01: Phase 11B final independent acceptance and completion
+
+- Recorded the independent disposition
+  `PHASE_11B_OWNER_DECISION_RECORDING_ACCEPTED_COMPLETION_AND_MERGE_AUTHORIZED`,
+  issued on 2026-07-31 after review of owner-decision recording head
+  `c739df46d960593d0a2306255cdb0b46df29f4bc`. The underlying owner-reviewed
+  source remains `85dec5e35a6d7aedb8fa265d30d3be27ece27282`.
+- Accepted the transcription of all 30 `PRODUCT_OWNER_APPROVED` decisions,
+  Maor Pichhadze's three accepted roles, the recommended release role-
+  separation policy, every later-role deadline, and all existing scope and
+  safety boundaries. No substantive contract term changed.
+- Set contract version `1.0-phase-11b-accepted` and Phase 11B status
+  `PHASE_11B_COMPLETE` in the five-file administrative scope: `README.md`,
+  `docs/decision-log.md`, `docs/engineering-phase-plan.md`,
+  `docs/phase-11-qa-hardening-deployment-readiness-plan.md`, and
+  `docs/phase-11b-launch-contract-and-acceptance-baseline.md`.
+- The administrative finalization commit is the commit containing this entry;
+  its immutable SHA, exact-head CI run/job, and squash-merge result are recorded
+  in PR #72 and the completion report after those events exist.
+- Phase 11C is next and unstarted. Overall Phase 11 remains incomplete, all 18
+  findings remain `OPEN`, and Phase 11K remains the exclusive finding-closure
+  gate. Restore remains `not_tested`; Phase 10E.5, Phase 10F, and Phase 10G
+  remain conditional and unstarted.
+- This administrative completion authorizes no implementation, test,
+  migration, dependency, workflow, hosted Supabase, provider, Vercel,
+  deployment, backup, restore, device, domain/DNS, secret, finding-closure, or
+  Production operation. None occurred.

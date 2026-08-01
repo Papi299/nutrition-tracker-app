@@ -74,7 +74,14 @@ The application is launch-ready only when:
 13. the integrated Phase 11 gate and independent review pass with no pending,
     failing, cancelled, skipped-without-rationale, or unexplained required gate.
 
-## 5. Required product-owner decisions
+## 5. Approved product-owner decisions and remaining deadlines
+
+Maor Pichhadze approved all recommended Phase 11B decisions on 2026-07-31
+against source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` and accepted
+the three roles recorded in the launch contract. The table retains the
+downstream timing controlled by those approved decisions. Later assignees,
+qualified reviews, implementation, and external evidence remain due at their
+exact slice deadlines.
 
 | Decision | Needed before |
 | --- | --- |
@@ -155,6 +162,20 @@ explicitly deferred hosted/deployed evidence under separate authorization; and
 renaming a slice.
 
 ## 8. Phase 11B — Launch contract and acceptance baseline
+
+**Current status:** Phase 11B is `PHASE_11B_COMPLETE` for its bounded
+documentation, product-decision, acceptance-contract, and handoff scope. The
+[accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is version `1.0-phase-11b-accepted`: Maor Pichhadze approved all 30
+recommendations against owner-reviewed source head
+`85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
+launch-decision-authority, and Production-approver roles, and approved the
+recommended release-separation policy. Independent review accepted recording
+head `c739df46d960593d0a2306255cdb0b46df29f4bc` on 2026-07-31. Phase 11C is
+next and unstarted. Completion does not authorize implementation, hosted
+access, finding closure, Production release, or deployment. Overall Phase 11
+remains incomplete, and the dependency graph and two-stage evidence model
+above remain controlling.
 
 ### Objective
 

@@ -300,8 +300,8 @@ decomposition recorded in
 [`phase-11-qa-hardening-deployment-readiness-audit.md`](phase-11-qa-hardening-deployment-readiness-audit.md)
 and
 [`phase-11-qa-hardening-deployment-readiness-plan.md`](phase-11-qa-hardening-deployment-readiness-plan.md).
-After this PR is merged, Phase 11A is complete only for that audit/planning
-scope. It does not resolve a finding or authorize implementation, launch,
+Phase 11A is complete only for that audit/planning scope. It did not resolve a
+finding or authorize implementation, launch,
 deployment, Vercel setup, production mutation, provider work, backup, or
 restore.
 
@@ -331,11 +331,19 @@ remain open. Phase 11H defines the approved environment architecture, Phase
 authorizes remote Supabase access, provider configuration, Vercel setup,
 deployment, backup, or restore.
 
-Phase 11B is the recommended next slice because the unresolved launch model,
-supported clients, account/privacy requirements, service objectives, recovery
-objectives, and release authority determine every later acceptance gate. Do
-not begin Phase 11C or a later release-facing slice until 11B settles those
-decisions. Overall Phase 11 remains incomplete after Phase 11A.
+Phase 11B is complete for its bounded documentation, product-decision,
+acceptance-contract, and handoff scope. Its
+[accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+is version `1.0-phase-11b-accepted`, records all 30 recommendations as
+attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
+owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
+records independent acceptance of recording head
+`c739df46d960593d0a2306255cdb0b46df29f4bc`. Maor accepted the product-owner,
+launch-decision-authority, and Production-approver roles and approved the
+recommended release-separation policy. Phase 11C is next and unstarted after
+this completion merges. This transition does not authorize implementation,
+hosted access, Production release, or deployment. Overall Phase 11 remains
+incomplete.
 
 ## Future PR Documentation Rule
 
