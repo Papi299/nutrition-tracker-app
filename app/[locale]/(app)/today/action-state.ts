@@ -1,4 +1,5 @@
 export type DiaryEntryActionStatus =
+  | "conflict"
   | "database_error"
   | "idle"
   | "not_found"
@@ -11,6 +12,7 @@ export type DiaryEntryFieldName =
   | "calories"
   | "carbohydrates_g"
   | "entry_date"
+  | "expected_version"
   | "fat_g"
   | "food_id"
   | "food_name"

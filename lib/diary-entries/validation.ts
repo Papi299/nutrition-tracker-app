@@ -121,6 +121,33 @@ export function validateDiaryEntryDate(
   return { data: value, ok: true };
 }
 
+export function validateDiaryEntryIdempotencyKey(
+  value: unknown,
+): DataResult<string> {
+  if (typeof value !== "string" || !isUuid(value)) {
+    return validationError({ idempotency_key: "invalid_uuid" });
+  }
+
+  return { data: value, ok: true };
+}
+
+export function validateDiaryEntryVersion(
+  value: unknown,
+): DataResult<number> {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : Number.NaN;
+
+  if (!Number.isSafeInteger(parsed) || parsed < 1) {
+    return validationError({ expected_version: "invalid_version" });
+  }
+
+  return { data: parsed, ok: true };
+}
+
 function normalizeRequiredDate(
   input: Record<string, unknown>,
   fieldErrors: Record<string, string>,

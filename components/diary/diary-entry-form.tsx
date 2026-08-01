@@ -15,7 +15,10 @@ type MealTypeOption = {
   value: string;
 };
 
-type VisibleFieldName = Exclude<DiaryEntryFieldName, "food_id" | "id">;
+type VisibleFieldName = Exclude<
+  DiaryEntryFieldName,
+  "expected_version" | "food_id" | "id"
+>;
 
 type FieldLabels = Record<VisibleFieldName, string>;
 

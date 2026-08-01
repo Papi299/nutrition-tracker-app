@@ -2,8 +2,11 @@ export {
   createDiaryEntryForCurrentUser,
   deleteCurrentDiaryEntry,
   updateCurrentDiaryEntry,
+  type CreatedManualDiaryEntry,
   type DeletedDiaryEntry,
   type DiaryEntry,
+  type DiaryEntryMutationError,
+  type DiaryEntryMutationResult,
 } from "./mutations";
 export { listCurrentDiaryEntriesForDate } from "./queries";
 export {
@@ -17,7 +20,9 @@ export {
   parseDiaryMealTypeQuery,
   validateDiaryEntryCreateInput,
   validateDiaryEntryDate,
+  validateDiaryEntryIdempotencyKey,
   validateDiaryEntryUpdateInput,
+  validateDiaryEntryVersion,
   type DiaryEntryCreateInput,
   type DiaryEntryMealType,
   type DiaryMealTypeQueryResult,

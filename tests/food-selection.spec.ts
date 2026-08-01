@@ -6,7 +6,9 @@ import {
 import { parseFoodDiarySelectionContext } from "@/lib/food-selection/context";
 import {
   validateDiaryEntryCreateInput,
+  validateDiaryEntryIdempotencyKey,
   validateDiaryEntryUpdateInput,
+  validateDiaryEntryVersion,
 } from "@/lib/diary-entries/validation";
 
 const foodId = "123e4567-e89b-12d3-a456-426614174000";
@@ -76,6 +78,29 @@ test.describe("food selection boundaries", () => {
     ).toMatchObject({
       code: "validation_error",
       fieldErrors: { food_id: "unsupported_field" },
+      ok: false,
+    });
+  });
+
+  test("requires canonical request identity and a positive authoritative edit version", () => {
+    expect(validateDiaryEntryIdempotencyKey(foodId)).toEqual({
+      data: foodId,
+      ok: true,
+    });
+    expect(validateDiaryEntryIdempotencyKey("tampered")).toMatchObject({
+      code: "validation_error",
+      fieldErrors: { idempotency_key: "invalid_uuid" },
+      ok: false,
+    });
+    expect(validateDiaryEntryVersion("7")).toEqual({ data: 7, ok: true });
+    expect(validateDiaryEntryVersion("0")).toMatchObject({
+      code: "validation_error",
+      fieldErrors: { expected_version: "invalid_version" },
+      ok: false,
+    });
+    expect(validateDiaryEntryVersion("1.5")).toMatchObject({
+      code: "validation_error",
+      fieldErrors: { expected_version: "invalid_version" },
       ok: false,
     });
   });

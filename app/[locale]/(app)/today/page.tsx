@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
@@ -195,7 +196,7 @@ function LocalizedTodayPage({
 }) {
   const t = useTranslations("AppShell.today");
   const diaryT = useTranslations("Diary");
-  const createAction = createDiaryEntryAction.bind(null, locale);
+  const createAction = createDiaryEntryAction.bind(null, locale, randomUUID());
   const deleteAction = deleteDiaryEntryAction.bind(null, locale);
   const updateAction = updateDiaryEntryAction.bind(null, locale);
   const initialDiaryEntryState: DiaryEntryActionState = {
@@ -551,6 +552,7 @@ function LocalizedTodayPage({
                     macros: diaryT("list.macros"),
                     meal: diaryT("list.meal"),
                     save: diaryT("list.save"),
+                    saveConflict: diaryT("list.saveConflict"),
                     saveError: diaryT("list.saveError"),
                     saveIdle: diaryT("list.saveIdle"),
                     savePending: diaryT("list.savePending"),
@@ -802,6 +804,7 @@ function LocalizedTodayPage({
                 submit: diaryT("form.sections.submit"),
               }}
               statusMessages={{
+                conflict: diaryT("errors.idempotencyConflict"),
                 database_error: diaryT("errors.database_error"),
                 idle: diaryT("status.idle"),
                 not_found: diaryT("errors.database_error"),
