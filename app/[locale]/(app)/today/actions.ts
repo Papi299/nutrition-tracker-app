@@ -37,7 +37,7 @@ const diaryEntryCreateInputFields = [
   "serving_unit",
 ] as const satisfies readonly Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "id"
+  "expected_version" | "id" | "idempotency_key"
 >[];
 
 const diaryEntryUpdateInputFields = diaryEntryCreateInputFields.filter(
@@ -118,6 +118,7 @@ function mapFieldErrors(
   const allowedFields = new Set<string>([
     "form",
     "id",
+    "idempotency_key",
     "expected_version",
     ...diaryEntryCreateInputFields,
   ]);
@@ -169,12 +170,15 @@ function revalidateToday(locale: Locale) {
 
 export async function createDiaryEntryAction(
   localeInput: string,
-  idempotencyKey: string,
   _previousState: DiaryEntryActionState,
   formData: FormData,
 ): Promise<DiaryEntryActionState> {
   const locale = resolveLocale(localeInput);
-  const values = readCreateValues(formData);
+  const idempotencyKey = readTextField(formData, "idempotency_key");
+  const values: DiaryEntryFieldValues = {
+    ...readCreateValues(formData),
+    idempotency_key: idempotencyKey,
+  };
   const result = await createDiaryEntryForCurrentUser(
     readCreateInput(values),
     idempotencyKey,

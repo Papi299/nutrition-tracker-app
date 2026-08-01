@@ -1,11 +1,19 @@
 "use client";
 
-import { useActionState, type ReactNode } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import type {
   DiaryEntryActionState,
   DiaryEntryActionStatus,
   DiaryEntryFieldName,
+  DiaryEntryFieldValues,
 } from "@/app/[locale]/(app)/today/action-state";
 
 type FieldErrorMessages = Partial<Record<string, string>>;
@@ -17,7 +25,7 @@ type MealTypeOption = {
 
 type VisibleFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id"
+  "expected_version" | "food_id" | "id" | "idempotency_key"
 >;
 
 type FieldLabels = Record<VisibleFieldName, string>;
@@ -32,6 +40,99 @@ type SectionLabels = {
   serving: string;
   submit: string;
 };
+
+const persistedDraftFieldNames = [
+  "brand_name",
+  "calories",
+  "carbohydrates_g",
+  "entry_date",
+  "fat_g",
+  "food_id",
+  "food_name",
+  "meal_type",
+  "notes",
+  "protein_g",
+  "serving_quantity",
+  "serving_unit",
+] as const satisfies readonly DiaryEntryFieldName[];
+
+type PersistedDiaryEntryDraft = {
+  idempotencyKey: string;
+  values: DiaryEntryFieldValues;
+  version: 1;
+};
+
+const draftStoragePrefix = "nutrition-tracker:manual-diary-draft:v1:";
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function pickPersistedValues(values: DiaryEntryFieldValues) {
+  return persistedDraftFieldNames.reduce<DiaryEntryFieldValues>(
+    (picked, field) => {
+      const value = values[field];
+
+      if (typeof value === "string") {
+        picked[field] = value;
+      }
+
+      return picked;
+    },
+    {},
+  );
+}
+
+function readFormValues(form: HTMLFormElement) {
+  const formData = new FormData(form);
+
+  return persistedDraftFieldNames.reduce<DiaryEntryFieldValues>(
+    (values, field) => {
+      const value = formData.get(field);
+
+      if (typeof value === "string") {
+        values[field] = value;
+      }
+
+      return values;
+    },
+    {},
+  );
+}
+
+function parsePersistedDraft(rawValue: string | null) {
+  if (!rawValue) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(rawValue) as Partial<PersistedDiaryEntryDraft>;
+
+    if (
+      parsed.version !== 1 ||
+      typeof parsed.idempotencyKey !== "string" ||
+      !uuidPattern.test(parsed.idempotencyKey) ||
+      !parsed.values ||
+      typeof parsed.values !== "object"
+    ) {
+      return null;
+    }
+
+    return {
+      idempotencyKey: parsed.idempotencyKey,
+      values: pickPersistedValues(parsed.values),
+      version: 1,
+    } satisfies PersistedDiaryEntryDraft;
+  } catch {
+    return null;
+  }
+}
+
+function persistDraft(storageKey: string, draft: PersistedDiaryEntryDraft) {
+  try {
+    window.sessionStorage.setItem(storageKey, JSON.stringify(draft));
+  } catch {
+    // The form remains usable when browser storage is unavailable.
+  }
+}
 
 function getStatusTone(status: DiaryEntryActionStatus) {
   return status === "idle" ? "info" : status === "success" ? "success" : "error";
@@ -164,11 +265,14 @@ function TextInput({
 
 export function DiaryEntryForm({
   action,
+  draftScope,
   fieldHelpText,
   fieldErrorMessages,
   initialState,
+  initialIdempotencyKey,
   labels,
   mealTypeOptions,
+  newDraftLabel,
   optionalLabel,
   pendingLabel,
   requiredLabel,
@@ -180,11 +284,14 @@ export function DiaryEntryForm({
     state: DiaryEntryActionState,
     formData: FormData,
   ) => Promise<DiaryEntryActionState>;
+  draftScope: string;
   fieldHelpText: FieldHelpText;
   fieldErrorMessages: FieldErrorMessages;
   initialState: DiaryEntryActionState;
+  initialIdempotencyKey: string;
   labels: FieldLabels;
   mealTypeOptions: MealTypeOption[];
+  newDraftLabel: string;
   optionalLabel: string;
   pendingLabel: string;
   requiredLabel: string;
@@ -192,19 +299,189 @@ export function DiaryEntryForm({
   statusMessages: Record<DiaryEntryActionStatus, string>;
   submitLabel: string;
 }) {
-  const [state, formAction, isPending] = useActionState(action, initialState);
-  const values = state.values ?? {};
-  const statusTone = getStatusTone(state.status);
+  const [initialValues] = useState(() =>
+    pickPersistedValues(initialState.values ?? {}),
+  );
+  const storageKey = `${draftStoragePrefix}${encodeURIComponent(draftScope)}`;
+  const [draft, setDraft] = useState(() => ({
+    idempotencyKey: initialIdempotencyKey,
+    revision: 0,
+    values: initialValues,
+  }));
+  const [state, formAction, isPending] = useActionState(action, {
+    ...initialState,
+    values: {
+      ...initialState.values,
+      idempotency_key: initialIdempotencyKey,
+    },
+  });
+  const [hydrated, setHydrated] = useState(false);
+  const [statusOverride, setStatusOverride] = useState<
+    "idle" | "success" | null
+  >(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const handledStateRef = useRef<DiaryEntryActionState | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    let storedDraft: PersistedDiaryEntryDraft | null = null;
+
+    try {
+      storedDraft = parsePersistedDraft(window.sessionStorage.getItem(storageKey));
+    } catch {
+      storedDraft = null;
+    }
+
+    if (!storedDraft) {
+      persistDraft(storageKey, {
+        idempotencyKey: initialIdempotencyKey,
+        values: initialValues,
+        version: 1,
+      });
+    }
+
+    queueMicrotask(() => {
+      if (cancelled) {
+        return;
+      }
+
+      if (storedDraft) {
+        setDraft((current) => ({
+          idempotencyKey: storedDraft.idempotencyKey,
+          revision: current.revision + 1,
+          values: {
+            ...initialValues,
+            ...storedDraft.values,
+          },
+        }));
+      }
+
+      setHydrated(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialIdempotencyKey, initialValues, storageKey]);
+
+  useEffect(() => {
+    const submissionKey = state.values?.idempotency_key;
+
+    if (
+      !hydrated ||
+      handledStateRef.current === state ||
+      typeof submissionKey !== "string" ||
+      submissionKey !== draft.idempotencyKey ||
+      state.status === "idle"
+    ) {
+      return;
+    }
+
+    handledStateRef.current = state;
+
+    if (state.status === "success") {
+      const nextDraft: PersistedDiaryEntryDraft = {
+        idempotencyKey: crypto.randomUUID(),
+        values: initialValues,
+        version: 1,
+      };
+      persistDraft(storageKey, nextDraft);
+      queueMicrotask(() => {
+        setDraft((current) => ({
+          ...nextDraft,
+          revision: current.revision + 1,
+        }));
+        setStatusOverride("success");
+      });
+      return;
+    }
+
+    const retainedDraft: PersistedDiaryEntryDraft = {
+      idempotencyKey: submissionKey,
+      values: pickPersistedValues(state.values ?? {}),
+      version: 1,
+    };
+    persistDraft(storageKey, retainedDraft);
+    queueMicrotask(() => {
+      setDraft((current) => ({
+        ...retainedDraft,
+        revision: current.revision + 1,
+      }));
+      setStatusOverride(null);
+    });
+  }, [draft.idempotencyKey, hydrated, initialValues, state, storageKey]);
+
+  const stateMatchesDraft =
+    state.values?.idempotency_key === draft.idempotencyKey;
+  const displayStatus =
+    statusOverride ?? (stateMatchesDraft ? state.status : "idle");
+  const fieldErrors = stateMatchesDraft ? state.fieldErrors : undefined;
+  const values = draft.values;
+  const statusTone = getStatusTone(displayStatus);
+
+  function persistCurrentForm(form: HTMLFormElement) {
+    persistDraft(storageKey, {
+      idempotencyKey: draft.idempotencyKey,
+      values: readFormValues(form),
+      version: 1,
+    });
+
+    if (statusOverride === "success") {
+      setStatusOverride("idle");
+    }
+  }
+
+  function handleFormEvent(event: FormEvent<HTMLFormElement>) {
+    persistCurrentForm(event.currentTarget);
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    persistCurrentForm(event.currentTarget);
+    setStatusOverride(null);
+  }
+
+  function startNewDraft() {
+    const nextDraft: PersistedDiaryEntryDraft = {
+      idempotencyKey: crypto.randomUUID(),
+      values: formRef.current
+        ? readFormValues(formRef.current)
+        : draft.values,
+      version: 1,
+    };
+    persistDraft(storageKey, nextDraft);
+    setDraft((current) => ({
+      ...nextDraft,
+      revision: current.revision + 1,
+    }));
+    setStatusOverride("idle");
+  }
 
   return (
-    <form action={formAction} className="grid gap-5 text-start" noValidate>
+    <form
+      action={formAction}
+      className="grid gap-5 text-start"
+      data-draft-storage-key={storageKey}
+      data-testid="manual-diary-entry-form"
+      key={`${draft.idempotencyKey}:${draft.revision}`}
+      noValidate
+      onChange={handleFormEvent}
+      onInput={handleFormEvent}
+      onSubmit={handleSubmit}
+      ref={formRef}
+    >
+      <input
+        data-testid="manual-diary-idempotency-key"
+        name="idempotency_key"
+        type="hidden"
+        value={draft.idempotencyKey}
+      />
       {values.food_id && (
         <input name="food_id" type="hidden" value={values.food_id} />
       )}
       <FormSection title={sectionLabels.mealDate}>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput
-            error={state.fieldErrors?.entry_date}
+            error={fieldErrors?.entry_date}
             helpText={fieldHelpText.entry_date}
             label={labels.entry_date}
             messages={fieldErrorMessages}
@@ -224,7 +501,7 @@ export function DiaryEntryForm({
               requiredLabel={requiredLabel}
             />
             <select
-              aria-invalid={Boolean(state.fieldErrors?.meal_type)}
+              aria-invalid={Boolean(fieldErrors?.meal_type)}
               className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
               defaultValue={values.meal_type ?? mealTypeOptions[0]?.value}
               name="meal_type"
@@ -242,7 +519,7 @@ export function DiaryEntryForm({
               </span>
             )}
             <FieldError
-              code={state.fieldErrors?.meal_type}
+              code={fieldErrors?.meal_type}
               messages={fieldErrorMessages}
             />
           </label>
@@ -252,7 +529,7 @@ export function DiaryEntryForm({
       <FormSection title={sectionLabels.foodDetails}>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput
-            error={state.fieldErrors?.food_name}
+            error={fieldErrors?.food_name}
             helpText={fieldHelpText.food_name}
             label={labels.food_name}
             messages={fieldErrorMessages}
@@ -263,7 +540,7 @@ export function DiaryEntryForm({
             value={values.food_name}
           />
           <TextInput
-            error={state.fieldErrors?.brand_name}
+            error={fieldErrors?.brand_name}
             helpText={fieldHelpText.brand_name}
             label={labels.brand_name}
             messages={fieldErrorMessages}
@@ -278,7 +555,7 @@ export function DiaryEntryForm({
       <FormSection title={sectionLabels.serving}>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput
-            error={state.fieldErrors?.serving_quantity}
+            error={fieldErrors?.serving_quantity}
             helpText={fieldHelpText.serving_quantity}
             inputMode="decimal"
             label={labels.serving_quantity}
@@ -291,7 +568,7 @@ export function DiaryEntryForm({
             value={values.serving_quantity}
           />
           <TextInput
-            error={state.fieldErrors?.serving_unit}
+            error={fieldErrors?.serving_unit}
             helpText={fieldHelpText.serving_unit}
             label={labels.serving_unit}
             messages={fieldErrorMessages}
@@ -306,7 +583,7 @@ export function DiaryEntryForm({
       <FormSection title={sectionLabels.nutrition}>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <TextInput
-            error={state.fieldErrors?.calories}
+            error={fieldErrors?.calories}
             helpText={fieldHelpText.calories}
             inputMode="numeric"
             label={labels.calories}
@@ -319,7 +596,7 @@ export function DiaryEntryForm({
             value={values.calories}
           />
           <TextInput
-            error={state.fieldErrors?.protein_g}
+            error={fieldErrors?.protein_g}
             helpText={fieldHelpText.protein_g}
             inputMode="decimal"
             label={labels.protein_g}
@@ -332,7 +609,7 @@ export function DiaryEntryForm({
             value={values.protein_g}
           />
           <TextInput
-            error={state.fieldErrors?.carbohydrates_g}
+            error={fieldErrors?.carbohydrates_g}
             helpText={fieldHelpText.carbohydrates_g}
             inputMode="decimal"
             label={labels.carbohydrates_g}
@@ -345,7 +622,7 @@ export function DiaryEntryForm({
             value={values.carbohydrates_g}
           />
           <TextInput
-            error={state.fieldErrors?.fat_g}
+            error={fieldErrors?.fat_g}
             helpText={fieldHelpText.fat_g}
             inputMode="decimal"
             label={labels.fat_g}
@@ -369,7 +646,7 @@ export function DiaryEntryForm({
             requiredLabel={requiredLabel}
           />
           <textarea
-            aria-invalid={Boolean(state.fieldErrors?.notes)}
+            aria-invalid={Boolean(fieldErrors?.notes)}
             className="min-h-24 border border-slate-300 bg-white px-3 py-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
             defaultValue={values.notes}
             name="notes"
@@ -380,7 +657,7 @@ export function DiaryEntryForm({
             </span>
           )}
           <FieldError
-            code={state.fieldErrors?.notes}
+            code={fieldErrors?.notes}
             messages={fieldErrorMessages}
           />
         </label>
@@ -390,17 +667,29 @@ export function DiaryEntryForm({
         <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
           <div aria-live="polite">
             <AuthStatusNote tone={statusTone}>
-              {statusMessages[state.status]}
+              {statusMessages[displayStatus]}
             </AuthStatusNote>
           </div>
 
-          <button
-            className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
-            disabled={isPending}
-            type="submit"
-          >
-            {isPending ? pendingLabel : submitLabel}
-          </button>
+          <div className="flex flex-wrap gap-3 sm:justify-end">
+            {displayStatus === "conflict" && (
+              <button
+                className="min-h-12 border border-teal-700 bg-white px-4 text-base font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+                disabled={isPending}
+                onClick={startNewDraft}
+                type="button"
+              >
+                {newDraftLabel}
+              </button>
+            )}
+            <button
+              className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+              disabled={isPending || !hydrated}
+              type="submit"
+            >
+              {isPending ? pendingLabel : submitLabel}
+            </button>
+          </div>
         </div>
       </FormSection>
     </form>

@@ -247,7 +247,8 @@
         "notes": "Optional context for yourself."
       },
       "submit": "Add entry",
-      "pending": "Adding entry..."
+      "pending": "Adding entry...",
+      "startNewDraft": "Start a new entry with these values"
     },
     "selection": {
       "findFood": "Find a food",
@@ -319,7 +320,7 @@
     },
     "errors": {
       "database_error": "We could not save or load diary entries right now.",
-      "idempotencyConflict": "This submission token was already completed with different values. Nothing new was added; reload the diary before trying again.",
+      "idempotencyConflict": "This draft was already completed with different values. Nothing new was added. Review the retained values, then explicitly start a new entry if they are intentional.",
       "invalidDate": "Choose a valid date.",
       "invalidInteger": "Calories must be a whole number.",
       "invalidNumber": "Enter a valid number or leave the field blank.",

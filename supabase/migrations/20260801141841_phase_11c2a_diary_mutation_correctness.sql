@@ -64,35 +64,128 @@ using (
   and user_id = (select auth.uid())
 );
 
-create policy "Users can create their own completed manual diary requests"
-on public.manual_diary_entry_requests
-for insert
-to authenticated
-with check (
-  (select auth.uid()) is not null
-  and user_id = (select auth.uid())
-  and live_diary_entry_id is not null
-  and live_diary_entry_id = completed_diary_entry_id
-  and exists (
-    select 1
-    from public.diary_entries
-    where diary_entries.id = manual_diary_entry_requests.live_diary_entry_id
-      and diary_entries.user_id = (select auth.uid())
-  )
-);
-
 revoke all privileges on table public.manual_diary_entry_requests from public;
 revoke all privileges on table public.manual_diary_entry_requests from anon;
 revoke all privileges on table public.manual_diary_entry_requests from authenticated;
 
 grant select on table public.manual_diary_entry_requests to authenticated;
-grant insert (
-  user_id,
-  idempotency_key,
-  request_payload,
-  completed_diary_entry_id,
-  live_diary_entry_id
-) on table public.manual_diary_entry_requests to authenticated;
+
+grant usage on schema private to authenticated;
+
+create function private.insert_completed_manual_diary_entry_request(
+  p_idempotency_key uuid,
+  p_request_payload jsonb,
+  p_diary_entry_id uuid
+)
+returns timestamptz
+language plpgsql
+volatile
+security definer
+set search_path = ''
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_completed_at timestamptz;
+  v_row_payload jsonb;
+begin
+  if v_user_id is null then
+    raise insufficient_privilege using
+      message = 'Authentication is required to complete a manual diary request.';
+  end if;
+
+  if p_idempotency_key is null
+    or p_request_payload is null
+    or jsonb_typeof(p_request_payload) <> 'object'
+    or p_diary_entry_id is null
+  then
+    raise invalid_parameter_value using
+      message = 'Manual diary request completion input is invalid.';
+  end if;
+
+  select jsonb_build_object(
+    'entry_date', diary_entries.entry_date,
+    'meal_type', diary_entries.meal_type,
+    'food_id', diary_entries.food_id,
+    'food_name', diary_entries.food_name,
+    'brand_name', diary_entries.brand_name,
+    'serving_quantity', diary_entries.serving_quantity,
+    'serving_unit', diary_entries.serving_unit,
+    'calories', diary_entries.calories,
+    'protein_g', diary_entries.protein_g,
+    'carbohydrates_g', diary_entries.carbohydrates_g,
+    'fat_g', diary_entries.fat_g,
+    'notes', diary_entries.notes
+  )
+  into v_row_payload
+  from public.diary_entries
+  where diary_entries.id = p_diary_entry_id
+    and diary_entries.user_id = v_user_id
+    and diary_entries.source = 'manual'
+    and diary_entries.version = 1
+    and diary_entries.xmin::text = pg_current_xact_id()::text;
+
+  if not found or v_row_payload is distinct from p_request_payload then
+    raise check_violation using
+      message = 'Receipt completion requires the matching manual diary row from the current transaction.';
+  end if;
+
+  insert into public.manual_diary_entry_requests (
+    user_id,
+    idempotency_key,
+    request_payload,
+    completed_diary_entry_id,
+    live_diary_entry_id
+  ) values (
+    v_user_id,
+    p_idempotency_key,
+    p_request_payload,
+    p_diary_entry_id,
+    p_diary_entry_id
+  )
+  returning manual_diary_entry_requests.completed_at into v_completed_at;
+
+  return v_completed_at;
+end;
+$$;
+
+comment on function private.insert_completed_manual_diary_entry_request(
+  uuid,
+  jsonb,
+  uuid
+) is
+  'Minimum definer boundary for recording one canonical manual-diary completion whose owned row was created in the current transaction.';
+
+revoke all privileges
+on function private.insert_completed_manual_diary_entry_request(
+  uuid,
+  jsonb,
+  uuid
+)
+from public;
+
+revoke all privileges
+on function private.insert_completed_manual_diary_entry_request(
+  uuid,
+  jsonb,
+  uuid
+)
+from anon;
+
+revoke all privileges
+on function private.insert_completed_manual_diary_entry_request(
+  uuid,
+  jsonb,
+  uuid
+)
+from authenticated;
+
+grant execute
+on function private.insert_completed_manual_diary_entry_request(
+  uuid,
+  jsonb,
+  uuid
+)
+to authenticated;
 
 create function public.create_manual_diary_entry(
   p_idempotency_key uuid,
@@ -305,20 +398,11 @@ begin
   )
   returning id into v_entry_id;
 
-  insert into public.manual_diary_entry_requests (
-    user_id,
-    idempotency_key,
-    request_payload,
-    completed_diary_entry_id,
-    live_diary_entry_id
-  ) values (
-    v_user_id,
+  v_completed_at := private.insert_completed_manual_diary_entry_request(
     p_idempotency_key,
     v_payload,
-    v_entry_id,
     v_entry_id
-  )
-  returning manual_diary_entry_requests.completed_at into v_completed_at;
+  );
 
   return query select 'success'::text, v_entry_id, v_completed_at;
 end;

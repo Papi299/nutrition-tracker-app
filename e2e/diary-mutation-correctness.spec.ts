@@ -6,6 +6,8 @@ import {
   expect,
   test,
   type BrowserContext,
+  type Locator,
+  type Page,
 } from "@playwright/test";
 import type { Database } from "@/lib/supabase/database.types";
 
@@ -13,7 +15,8 @@ const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "DiaryMutationCorrectness123!";
-const projectId = readFileSync("supabase/config.toml", "utf8").match(
+const supabaseConfig = readFileSync("supabase/config.toml", "utf8");
+const projectId = supabaseConfig.match(
   /^project_id\s*=\s*"([^"]+)"/m,
 )?.[1];
 
@@ -28,6 +31,80 @@ test.skip(
 
 type CreateArgs =
   Database["public"]["Functions"]["create_manual_diary_entry"]["Args"];
+
+type ManualDraftValues = Partial<
+  Record<
+    | "brand_name"
+    | "calories"
+    | "carbohydrates_g"
+    | "entry_date"
+    | "fat_g"
+    | "food_name"
+    | "meal_type"
+    | "notes"
+    | "protein_g"
+    | "serving_quantity"
+    | "serving_unit",
+    string
+  >
+>;
+
+function manualForm(page: Page) {
+  return page.getByTestId("manual-diary-entry-form");
+}
+
+function manualDraftKey(form: Locator) {
+  return form.getByTestId("manual-diary-idempotency-key");
+}
+
+async function fillManualDraft(form: Locator, values: ManualDraftValues) {
+  for (const [field, value] of Object.entries(values)) {
+    const control = form.locator(`[name="${field}"]`);
+
+    if (field === "meal_type") {
+      await control.selectOption(value);
+    } else {
+      await control.fill(value);
+    }
+  }
+}
+
+async function expectManualDraftValues(
+  form: Locator,
+  values: ManualDraftValues,
+) {
+  for (const [field, value] of Object.entries(values)) {
+    await expect(form.locator(`[name="${field}"]`)).toHaveValue(value);
+  }
+}
+
+async function replacePersistedDraft(
+  page: Page,
+  form: Locator,
+  idempotencyKey: string,
+  values: ManualDraftValues,
+) {
+  const storageKey = await form.getAttribute("data-draft-storage-key");
+  expect(storageKey).not.toBeNull();
+
+  await page.evaluate(
+    ({ key, draftKey, draftValues }) => {
+      window.sessionStorage.setItem(
+        key,
+        JSON.stringify({
+          idempotencyKey: draftKey,
+          values: draftValues,
+          version: 1,
+        }),
+      );
+    },
+    {
+      draftKey: idempotencyKey,
+      draftValues: values,
+      key: storageKey as string,
+    },
+  );
+}
 
 test.describe.serial("Phase 11C2A diary mutation correctness", () => {
   let authenticatedState: Awaited<ReturnType<BrowserContext["storageState"]>>;
@@ -312,6 +389,546 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
     }
   });
 
+  test("CJ-012 retains one logical draft key through UI validation and completes once", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const page = await context.newPage();
+    await page.goto(`/en/today?date=${selectedDate}`);
+    const form = manualForm(page);
+    const originalKey = await manualDraftKey(form).inputValue();
+    const rowsBefore = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+
+    await fillManualDraft(form, {
+      brand_name: "Retained validation brand",
+      notes: "Retained validation notes",
+    });
+    await form.getByRole("button", { name: "Add entry" }).click();
+
+    await expect(form).toContainText("Check the highlighted fields and try again.");
+    await expect(manualDraftKey(form)).toHaveValue(originalKey);
+    await expectManualDraftValues(form, {
+      brand_name: "Retained validation brand",
+      notes: "Retained validation notes",
+    });
+
+    const failedReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true })
+      .eq("idempotency_key", originalKey);
+    const rowsAfterFailure = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(failedReceipt.error).toBeNull();
+    expect(failedReceipt.count).toBe(0);
+    expect(rowsAfterFailure.count).toBe(rowsBefore.count);
+
+    await form.locator('input[name="food_name"]').fill("UI validation recovery");
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(form).toContainText("Entry added.");
+    await expect(manualDraftKey(form)).not.toHaveValue(originalKey);
+
+    const completedReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id,idempotency_key")
+      .eq("idempotency_key", originalKey)
+      .single();
+    expect(completedReceipt.error).toBeNull();
+    const completedRows = await userAClient
+      .from("diary_entries")
+      .select("food_name,id", { count: "exact" })
+      .eq("id", completedReceipt.data?.completed_diary_entry_id as string);
+    expect(completedRows.error).toBeNull();
+    expect(completedRows.count).toBe(1);
+    expect(completedRows.data?.[0]?.food_name).toBe("UI validation recovery");
+    await context.close();
+  });
+
+  test("CJ-012 rotates the UI draft key only after confirmed success", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const page = await context.newPage();
+    await page.goto(`/en/today?date=${selectedDate}`);
+    const form = manualForm(page);
+    const firstKey = await manualDraftKey(form).inputValue();
+
+    await fillManualDraft(form, { food_name: "Confirmed first intent" });
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(form).toContainText("Entry added.");
+    await expect(manualDraftKey(form)).not.toHaveValue(firstKey);
+    const secondKey = await manualDraftKey(form).inputValue();
+
+    await fillManualDraft(form, { food_name: "Confirmed second intent" });
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(form).toContainText("Entry added.");
+    await expect(manualDraftKey(form)).not.toHaveValue(secondKey);
+
+    const receipts = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id,idempotency_key")
+      .in("idempotency_key", [firstKey, secondKey]);
+    const intendedRows = await userAClient
+      .from("diary_entries")
+      .select("food_name", { count: "exact" })
+      .in("food_name", ["Confirmed first intent", "Confirmed second intent"]);
+    expect(firstKey).not.toBe(secondKey);
+    expect(receipts.error).toBeNull();
+    expect(receipts.data).toHaveLength(2);
+    expect(intendedRows.error).toBeNull();
+    expect(intendedRows.count).toBe(2);
+    await context.close();
+  });
+
+  test("CJ-012 retains the UI draft through a database rollback and exact retry", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const page = await context.newPage();
+    await page.goto(`/en/today?date=${selectedDate}`);
+    const form = manualForm(page);
+    const originalKey = await manualDraftKey(form).inputValue();
+    const foodName = `UI rollback recovery ${originalKey}`;
+
+    queryDatabase(`
+      create or replace function public.phase_11c2a_fail_ui_receipt_insert()
+      returns trigger language plpgsql security invoker set search_path = '' as $$
+      begin
+        if new.idempotency_key = '${originalKey}'::uuid then
+          raise integrity_constraint_violation using message = 'Phase 11C2A UI rollback probe.';
+        end if;
+        return new;
+      end;
+      $$;
+      drop trigger if exists phase_11c2a_fail_ui_receipt_insert
+        on public.manual_diary_entry_requests;
+      create trigger phase_11c2a_fail_ui_receipt_insert
+      before insert on public.manual_diary_entry_requests
+      for each row execute function public.phase_11c2a_fail_ui_receipt_insert();
+    `);
+
+    try {
+      await fillManualDraft(form, {
+        food_name: foodName,
+        notes: "Retain after database failure",
+      });
+      await form.getByRole("button", { name: "Add entry" }).click();
+      await expect(form).toContainText(
+        "We could not save or load diary entries right now.",
+      );
+      await expect(manualDraftKey(form)).toHaveValue(originalKey);
+      await expectManualDraftValues(form, {
+        food_name: foodName,
+        notes: "Retain after database failure",
+      });
+
+      const failedRows = await userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true })
+        .eq("food_name", foodName);
+      const failedReceipts = await userAClient
+        .from("manual_diary_entry_requests")
+        .select("id", { count: "exact", head: true })
+        .eq("idempotency_key", originalKey);
+      expect(failedRows.count).toBe(0);
+      expect(failedReceipts.count).toBe(0);
+    } finally {
+      queryDatabase(`
+        drop trigger if exists phase_11c2a_fail_ui_receipt_insert
+          on public.manual_diary_entry_requests;
+        drop function if exists public.phase_11c2a_fail_ui_receipt_insert();
+      `);
+    }
+
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(form).toContainText("Entry added.");
+    const completedReceipts = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true })
+      .eq("idempotency_key", originalKey);
+    const completedRows = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true })
+      .eq("food_name", foodName);
+    expect(completedReceipts.count).toBe(1);
+    expect(completedRows.count).toBe(1);
+    await context.close();
+  });
+
+  test("CJ-012 recovers a committed but unacknowledged form submission with the original key", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const page = await context.newPage();
+    await page.goto(`/en/today?date=${selectedDate}`);
+    let form = manualForm(page);
+    const originalKey = await manualDraftKey(form).inputValue();
+    const foodName = `Unacknowledged UI completion ${originalKey}`;
+    await fillManualDraft(form, { food_name: foodName, notes: "Retry exactly" });
+
+    let acknowledgeIntercepted: (status: number) => void = () => undefined;
+    const intercepted = new Promise<number>((resolve) => {
+      acknowledgeIntercepted = resolve;
+    });
+    await page.route("**/*", async (route) => {
+      const request = route.request();
+
+      if (request.method() === "POST" && request.headers()["next-action"]) {
+        const upstreamResponse = await route.fetch();
+        acknowledgeIntercepted(upstreamResponse.status());
+        await route.abort("failed");
+        return;
+      }
+
+      await route.continue();
+    });
+
+    await form.getByRole("button", { name: "Add entry" }).click();
+    expect(await intercepted).toBe(200);
+
+    await expect
+      .poll(async () => {
+        const receipt = await userAClient
+          .from("manual_diary_entry_requests")
+          .select("completed_diary_entry_id", { count: "exact" })
+          .eq("idempotency_key", originalKey);
+        return receipt.count;
+      })
+      .toBe(1);
+
+    const committedReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id")
+      .eq("idempotency_key", originalKey)
+      .single();
+    await page.unroute("**/*");
+    await page.reload();
+    form = manualForm(page);
+    await expect(manualDraftKey(form)).toHaveValue(originalKey);
+    await expectManualDraftValues(form, {
+      food_name: foodName,
+      notes: "Retry exactly",
+    });
+
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(form).toContainText("Entry added.");
+    await expect(manualDraftKey(form)).not.toHaveValue(originalKey);
+
+    const recoveredReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id", { count: "exact" })
+      .eq("idempotency_key", originalKey);
+    const recoveredRows = await userAClient
+      .from("diary_entries")
+      .select("food_name", { count: "exact" })
+      .eq(
+        "id",
+        committedReceipt.data?.completed_diary_entry_id as string,
+      );
+    expect(recoveredReceipt.error).toBeNull();
+    expect(recoveredReceipt.count).toBe(1);
+    expect(recoveredRows.error).toBeNull();
+    expect(recoveredRows.count).toBe(1);
+    expect(recoveredRows.data?.[0]?.food_name).toBe(foodName);
+    await expect(
+      page.locator(
+        `[data-diary-entry-id="${committedReceipt.data?.completed_diary_entry_id}"]`,
+      ),
+    ).toContainText(foodName);
+    await context.close();
+  });
+
+  test("CJ-012 preserves conflicting values and requires explicit new-entry rotation in English and Hebrew RTL", async ({
+    browser,
+  }) => {
+    const scenarios = [
+      {
+        conflict:
+          "This draft was already completed with different values. Nothing new was added.",
+        locale: "en",
+        newDraft: "Start a new entry with these values",
+        success: "Entry added.",
+      },
+      {
+        conflict:
+          "הטיוטה הזו כבר הושלמה עם ערכים שונים. לא נוספה רשומה חדשה.",
+        locale: "he",
+        newDraft: "התחלת רשומה חדשה עם הערכים האלה",
+        success: "הרשומה נוספה.",
+      },
+    ] as const;
+
+    for (const scenario of scenarios) {
+      const context = await browser.newContext({ storageState: authenticatedState });
+      const page = await context.newPage();
+      await page.goto(`/${scenario.locale}/today?date=${selectedDate}`);
+      let form = manualForm(page);
+      const completedKey = await manualDraftKey(form).inputValue();
+      const completedName = `Completed ${scenario.locale} ${completedKey}`;
+      await fillManualDraft(form, { food_name: completedName });
+      await form.getByRole("button", { name: scenario.locale === "en" ? "Add entry" : "הוספת רשומה" }).click();
+      await expect(form).toContainText(scenario.success);
+
+      const conflictingValues: ManualDraftValues = {
+        brand_name: `Conflict brand ${scenario.locale}`,
+        calories: "432",
+        carbohydrates_g: "31.25",
+        entry_date: selectedDate,
+        fat_g: "12.75",
+        food_name: `Conflicting ${scenario.locale} intent`,
+        meal_type: "lunch",
+        notes: `Conflict notes ${scenario.locale}`,
+        protein_g: "22.5",
+        serving_quantity: "1.25",
+        serving_unit: "portion",
+      };
+      await replacePersistedDraft(
+        page,
+        form,
+        completedKey,
+        conflictingValues,
+      );
+      await page.reload();
+      form = manualForm(page);
+      await expect(manualDraftKey(form)).toHaveValue(completedKey);
+      await expectManualDraftValues(form, conflictingValues);
+      await form.getByRole("button", { name: scenario.locale === "en" ? "Add entry" : "הוספת רשומה" }).click();
+
+      await expect(form).toContainText(scenario.conflict);
+      await expectManualDraftValues(form, conflictingValues);
+      const conflictingRows = await userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true })
+        .eq("food_name", conflictingValues.food_name as string);
+      const retainedReceipt = await userAClient
+        .from("manual_diary_entry_requests")
+        .select("id", { count: "exact", head: true })
+        .eq("idempotency_key", completedKey);
+      expect(conflictingRows.count).toBe(0);
+      expect(retainedReceipt.count).toBe(1);
+
+      await form.getByRole("button", { name: scenario.newDraft }).click();
+      await expect(manualDraftKey(form)).not.toHaveValue(completedKey);
+      await expectManualDraftValues(form, conflictingValues);
+      await expect(form).not.toContainText(scenario.conflict);
+
+      if (scenario.locale === "he") {
+        await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+      }
+
+      await context.close();
+    }
+  });
+
+  test("CJ-012 enforces the receipt schema, ACL, RLS, and minimum definer write boundary", async () => {
+    expect(
+      queryDatabase(`
+        select string_agg(column_name, ',' order by ordinal_position)
+        from information_schema.columns
+        where table_schema = 'public'
+          and table_name = 'manual_diary_entry_requests';
+      `),
+    ).toBe(
+      "id,user_id,idempotency_key,request_payload,completed_diary_entry_id,live_diary_entry_id,completed_at,write_transaction_id",
+    );
+    expect(
+      queryDatabase(`
+        select pg_get_constraintdef(oid)
+        from pg_constraint
+        where conrelid = 'public.manual_diary_entry_requests'::regclass
+          and conname = 'manual_diary_entry_requests_user_key';
+      `),
+    ).toBe("UNIQUE (user_id, idempotency_key)");
+    expect(
+      queryDatabase(`
+        select string_agg(indexname, ',' order by indexname)
+        from pg_indexes
+        where schemaname = 'public'
+          and tablename = 'manual_diary_entry_requests';
+      `),
+    ).toBe(
+      "manual_diary_entry_requests_live_entry_idx,manual_diary_entry_requests_pkey,manual_diary_entry_requests_user_key",
+    );
+    expect(
+      queryDatabase(`
+        select relrowsecurity, relforcerowsecurity
+        from pg_class
+        where oid = 'public.manual_diary_entry_requests'::regclass;
+      `),
+    ).toBe("t|f");
+    expect(
+      queryDatabase(`
+        select cmd || '|' || array_to_string(roles, ',')
+        from pg_policies
+        where schemaname = 'public'
+          and tablename = 'manual_diary_entry_requests'
+        order by policyname;
+      `),
+    ).toBe("SELECT|authenticated");
+    expect(
+      queryDatabase(`
+        select concat_ws('|',
+          has_table_privilege('authenticated', 'public.manual_diary_entry_requests', 'SELECT'),
+          has_table_privilege('authenticated', 'public.manual_diary_entry_requests', 'INSERT'),
+          has_table_privilege('authenticated', 'public.manual_diary_entry_requests', 'UPDATE'),
+          has_table_privilege('authenticated', 'public.manual_diary_entry_requests', 'DELETE'),
+          has_table_privilege('anon', 'public.manual_diary_entry_requests', 'SELECT'),
+          has_table_privilege('anon', 'public.manual_diary_entry_requests', 'INSERT'));
+      `),
+    ).toBe("t|f|f|f|f|f");
+
+    const functionMetadata = queryDatabase(`
+      select concat_ws('|', n.nspname, p.proname, p.provolatile, p.prosecdef,
+        array_to_string(p.proconfig, ','),
+        has_function_privilege('public', p.oid, 'execute'),
+        has_function_privilege('anon', p.oid, 'execute'),
+        has_function_privilege('authenticated', p.oid, 'execute'))
+      from pg_proc p
+      join pg_namespace n on n.oid = p.pronamespace
+      where p.oid in (
+        'public.create_manual_diary_entry(uuid,date,text,uuid,text,text,numeric,text,integer,numeric,numeric,numeric,text)'::regprocedure,
+        'private.insert_completed_manual_diary_entry_request(uuid,jsonb,uuid)'::regprocedure
+      )
+      order by n.nspname, p.proname;
+    `);
+    expect(functionMetadata).toContain(
+      'private|insert_completed_manual_diary_entry_request|v|t|search_path=""|f|f|t',
+    );
+    expect(functionMetadata).toContain(
+      'public|create_manual_diary_entry|v|f|search_path=""|f|f|t',
+    );
+    expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*"private"/);
+
+    const boundaryKey = randomUUID();
+    const boundaryCreate = await createManual(
+      userAClient,
+      createArgs(boundaryKey, { p_food_name: "Receipt boundary row" }),
+    );
+    expect(boundaryCreate.error).toBeNull();
+    const boundaryEntryId = boundaryCreate.data?.diary_entry_id as string;
+    const ownerReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id,user_id")
+      .eq("idempotency_key", boundaryKey)
+      .single();
+    expect(ownerReceipt.error).toBeNull();
+    expect(ownerReceipt.data?.user_id).toBe(userAId);
+
+    const userBReceipt = await userBClient
+      .from("manual_diary_entry_requests")
+      .select("id")
+      .eq("id", ownerReceipt.data?.id as string);
+    expect(userBReceipt.error).toBeNull();
+    expect(userBReceipt.data).toEqual([]);
+
+    const fabricated = await userAClient
+      .from("manual_diary_entry_requests")
+      .insert({
+        completed_diary_entry_id: boundaryEntryId,
+        idempotency_key: randomUUID(),
+        live_diary_entry_id: boundaryEntryId,
+        request_payload: { food_name: "fabricated" },
+        user_id: userAId,
+      });
+    const updated = await userAClient
+      .from("manual_diary_entry_requests")
+      .update({ request_payload: { food_name: "updated" } })
+      .eq("id", ownerReceipt.data?.id as string);
+    const deleted = await userAClient
+      .from("manual_diary_entry_requests")
+      .delete()
+      .eq("id", ownerReceipt.data?.id as string);
+    const anonymous = localClient();
+    const anonymousRead = await anonymous
+      .from("manual_diary_entry_requests")
+      .select("id");
+    expect(fabricated.error?.code).toBe("42501");
+    expect(updated.error?.code).toBe("42501");
+    expect(deleted.error?.code).toBe("42501");
+    expect(anonymousRead.error?.code).toBe("42501");
+
+    const receiptPayload = queryDatabase(`
+      select request_payload::text
+      from public.manual_diary_entry_requests
+      where id = '${ownerReceipt.data?.id}';
+    `).replaceAll("'", "''");
+    expect(() =>
+      queryDatabase(`
+        begin;
+        set local role authenticated;
+        set local request.jwt.claim.sub = '${userAId}';
+        update public.diary_entries
+        set notes = notes
+        where id = '${boundaryEntryId}';
+        select private.insert_completed_manual_diary_entry_request(
+          '${randomUUID()}',
+          '${receiptPayload}'::jsonb,
+          '${boundaryEntryId}'
+        );
+        rollback;
+      `),
+    ).toThrow();
+
+    expect(
+      queryDatabase(`
+        select concat_ws('|',
+          tg.tgenabled,
+          p.proname,
+          p.prosecdef,
+          array_to_string(p.proconfig, ','),
+          pg_get_triggerdef(tg.oid) like
+            '%BEFORE UPDATE ON public.diary_entries FOR EACH ROW%')
+        from pg_trigger tg
+        join pg_proc p on p.oid = tg.tgfoid
+        where tg.tgrelid = 'public.diary_entries'::regclass
+          and tg.tgname = 'diary_entries_increment_version'
+          and not tg.tgisinternal;
+      `),
+    ).toBe('O|increment_diary_entry_version|f|search_path=""|t');
+
+    const firstUpdate = await userAClient
+      .from("diary_entries")
+      .update({ notes: "Version two" })
+      .eq("id", boundaryEntryId)
+      .eq("version", 1)
+      .select("source,user_id,version")
+      .single();
+    const secondUpdate = await userAClient
+      .from("diary_entries")
+      .update({ notes: "Version three" })
+      .eq("id", boundaryEntryId)
+      .eq("version", 2)
+      .select("source,user_id,version")
+      .single();
+    const provenanceTamper = await userAClient
+      .from("diary_entries")
+      .update({ source: "recipe", user_id: userBId, version: 99 })
+      .eq("id", boundaryEntryId);
+    expect(firstUpdate.data).toEqual({
+      source: "manual",
+      user_id: userAId,
+      version: 2,
+    });
+    expect(secondUpdate.data).toEqual({
+      source: "manual",
+      user_id: userAId,
+      version: 3,
+    });
+    expect(provenanceTamper.error?.code).toBe("42501");
+    const preservedProvenance = await userAClient
+      .from("diary_entries")
+      .select("source,user_id,version")
+      .eq("id", boundaryEntryId)
+      .single();
+    expect(preservedProvenance.data).toEqual({
+      source: "manual",
+      user_id: userAId,
+      version: 3,
+    });
+  });
+
   test("CJ-014 carries the authoritative version and preserves stale submitted values", async ({
     browser,
   }) => {
@@ -377,34 +994,168 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
     await context.close();
   });
 
-  test("CJ-014 permits at most one same-version update and hides other-owner existence", async () => {
+  test("CJ-014 permits exactly one concurrent application-path edit and supports a fresh-version retry", async ({
+    browser,
+  }) => {
     const concurrentCreate = await createManual(
       userAClient,
-      createArgs(randomUUID(), { p_food_name: "Concurrent edit baseline" }),
+      createArgs(randomUUID(), {
+        p_calories: 100,
+        p_food_name: "Concurrent edit baseline",
+        p_notes: "Concurrent baseline notes",
+      }),
     );
+    expect(concurrentCreate.error).toBeNull();
     const concurrentId = concurrentCreate.data?.diary_entry_id as string;
-    const concurrentUpdates = await Promise.all([
-      userAClient
-        .from("diary_entries")
-        .update({ food_name: "Concurrent edit one" })
-        .eq("id", concurrentId)
-        .eq("user_id", userAId)
-        .eq("version", 1)
-        .select("id,version")
-        .maybeSingle(),
-      userAClient
-        .from("diary_entries")
-        .update({ food_name: "Concurrent edit two" })
-        .eq("id", concurrentId)
-        .eq("user_id", userAId)
-        .eq("version", 1)
-        .select("id,version")
-        .maybeSingle(),
+    const context = await browser.newContext({ storageState: authenticatedState });
+    const firstPage = await context.newPage();
+    const secondPage = await context.newPage();
+    await Promise.all([
+      firstPage.goto(`/en/today?date=${selectedDate}`),
+      secondPage.goto(`/en/today?date=${selectedDate}`),
     ]);
-    expect(concurrentUpdates.filter((result) => result.data !== null)).toHaveLength(
-      1,
+    const firstEntry = firstPage.locator(
+      `[data-diary-entry-id="${concurrentId}"]`,
     );
-    expect(concurrentUpdates.every((result) => result.error === null)).toBe(true);
+    const secondEntry = secondPage.locator(
+      `[data-diary-entry-id="${concurrentId}"]`,
+    );
+    await Promise.all([
+      firstEntry.getByRole("button", { name: "Edit" }).click(),
+      secondEntry.getByRole("button", { name: "Edit" }).click(),
+    ]);
+    await Promise.all([
+      expect(firstEntry.locator('input[name="expected_version"]')).toHaveValue(
+        "1",
+      ),
+      expect(secondEntry.locator('input[name="expected_version"]')).toHaveValue(
+        "1",
+      ),
+    ]);
+
+    await firstEntry.locator('input[name="food_name"]').fill("Concurrent winner candidate one");
+    await firstEntry.locator('input[name="calories"]').fill("211");
+    await firstEntry.locator('textarea[name="notes"]').fill("Candidate one notes");
+    await secondEntry.locator('input[name="food_name"]').fill("Concurrent winner candidate two");
+    await secondEntry.locator('input[name="calories"]').fill("322");
+    await secondEntry.locator('textarea[name="notes"]').fill("Candidate two notes");
+
+    await Promise.all([
+      firstEntry.getByRole("button", { name: "Save changes" }).click(),
+      secondEntry.getByRole("button", { name: "Save changes" }).click(),
+    ]);
+
+    const terminalEditMessage =
+      /Entry updated\.|This entry changed after you opened it, so your edit was not saved\./;
+    await Promise.all([
+      expect(firstEntry.locator('[aria-live="polite"]')).toContainText(
+        terminalEditMessage,
+      ),
+      expect(secondEntry.locator('[aria-live="polite"]')).toContainText(
+        terminalEditMessage,
+      ),
+    ]);
+
+    const firstSucceeded = await firstEntry
+      .getByText("Entry updated.", { exact: true })
+      .isVisible();
+    const secondSucceeded = await secondEntry
+      .getByText("Entry updated.", { exact: true })
+      .isVisible();
+    const firstConflicted = await firstEntry
+      .getByText(/This entry changed after you opened it/)
+      .isVisible();
+    const secondConflicted = await secondEntry
+      .getByText(/This entry changed after you opened it/)
+      .isVisible();
+    expect([firstSucceeded, secondSucceeded].filter(Boolean)).toHaveLength(1);
+    expect([firstConflicted, secondConflicted].filter(Boolean)).toHaveLength(1);
+
+    const winner = firstSucceeded
+      ? {
+          calories: 211,
+          food_name: "Concurrent winner candidate one",
+          notes: "Candidate one notes",
+        }
+      : {
+          calories: 322,
+          food_name: "Concurrent winner candidate two",
+          notes: "Candidate two notes",
+        };
+    const loserEntry = firstConflicted ? firstEntry : secondEntry;
+    const loserValues = firstConflicted
+      ? {
+          calories: "211",
+          food_name: "Concurrent winner candidate one",
+          notes: "Candidate one notes",
+        }
+      : {
+          calories: "322",
+          food_name: "Concurrent winner candidate two",
+          notes: "Candidate two notes",
+        };
+    await expect(loserEntry.locator('input[name="food_name"]')).toHaveValue(
+      loserValues.food_name,
+    );
+    await expect(loserEntry.locator('input[name="calories"]')).toHaveValue(
+      loserValues.calories,
+    );
+    await expect(loserEntry.locator('textarea[name="notes"]')).toHaveValue(
+      loserValues.notes,
+    );
+
+    const stored = await userAClient
+      .from("diary_entries")
+      .select(
+        "brand_name,calories,carbohydrates_g,entry_date,fat_g,food_id,food_name,meal_type,notes,protein_g,serving_quantity,serving_unit,source,user_id,version",
+      )
+      .eq("id", concurrentId)
+      .single();
+    expect(stored.error).toBeNull();
+    expect(stored.data).toEqual({
+      brand_name: null,
+      carbohydrates_g: null,
+      entry_date: selectedDate,
+      fat_g: 0,
+      food_id: null,
+      meal_type: "breakfast",
+      protein_g: 0,
+      serving_quantity: 0,
+      serving_unit: null,
+      source: "manual",
+      user_id: userAId,
+      ...winner,
+      version: 2,
+    });
+
+    const losingPage = firstConflicted ? firstPage : secondPage;
+    await losingPage.reload();
+    const refreshedEntry = losingPage.locator(
+      `[data-diary-entry-id="${concurrentId}"]`,
+    );
+    await refreshedEntry.getByRole("button", { name: "Edit" }).click();
+    await expect(
+      refreshedEntry.locator('input[name="expected_version"]'),
+    ).toHaveValue("2");
+    await refreshedEntry.locator('input[name="food_name"]').fill("Fresh version retry");
+    await refreshedEntry.locator('input[name="calories"]').fill("777");
+    await refreshedEntry.getByRole("button", { name: "Save changes" }).click();
+    await expect(refreshedEntry).toContainText("Entry updated.");
+
+    const retried = await userAClient
+      .from("diary_entries")
+      .select("calories,food_name,version")
+      .eq("id", concurrentId)
+      .single();
+    expect(retried.data).toEqual({
+      calories: 777,
+      food_name: "Fresh version retry",
+      version: 3,
+    });
+    await context.close();
+  });
+
+  test("CJ-014 hides other-owner existence at the database boundary", async () => {
 
     const otherOwner = await createManual(
       userBClient,

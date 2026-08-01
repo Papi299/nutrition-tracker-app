@@ -22,7 +22,7 @@ type MealTypeOption = {
 
 type EditableFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id"
+  "expected_version" | "food_id" | "id" | "idempotency_key"
 >;
 type FieldLabels = Record<EditableFieldName, string>;
 

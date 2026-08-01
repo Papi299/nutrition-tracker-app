@@ -17,6 +17,7 @@ export type DiaryEntryFieldName =
   | "food_id"
   | "food_name"
   | "id"
+  | "idempotency_key"
   | "meal_type"
   | "notes"
   | "protein_g"
