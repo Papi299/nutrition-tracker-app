@@ -1739,3 +1739,25 @@
   migration, dependency, workflow, hosted Supabase, provider, Vercel,
   deployment, backup, restore, device, domain/DNS, secret, finding-closure, or
   Production operation. None occurred.
+
+## 2026-08-01: Phase 11C1 critical-journey traceability foundation
+
+- Set Phase 11C to active and implemented the bounded Phase 11C1 foundation
+  in a draft PR. Phase 11C overall remains incomplete.
+- Added an ordered machine-readable map for all 35 accepted journeys, with
+  controlled evidence dispositions, exact repository path/test-title links,
+  manual/later-slice/external boundaries, and the unchanged Section 7.3
+  no-JavaScript totals of 6/1/10/18.
+- Added a deterministic standard-library checker and made it an authoritative
+  CI step before local Supabase and Playwright.
+- Added focused local-only acceptance coverage for CJ-004 sign-in, CJ-005
+  sign-out through the real application control, and CJ-006 expired-session
+  diary mutation/retry behavior. Current open signup is provisioning evidence
+  only and is not accepted as CJ-002 invited enrollment.
+- Phase 11C1 does not complete `P11A-002` or `P11A-015`; both remain `OPEN`.
+  All 18 findings remain `OPEN`, signed manual exploratory evidence remains
+  absent, Phase 11D/11E/11J dependencies remain, and Phase 11K remains the
+  exclusive finding-closure gate.
+- No application behavior, migration, dependency, hosted Supabase, provider,
+  Vercel, deployment, backup/restore, finding state, risk disposition, or
+  Production authorization changed.
