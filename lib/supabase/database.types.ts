@@ -31,6 +31,7 @@ export type Database = {
           source: string
           updated_at: string
           user_id: string
+          version: number
         }
         Insert: {
           brand_name?: string | null
@@ -53,6 +54,7 @@ export type Database = {
           source?: string
           updated_at?: string
           user_id: string
+          version?: number
         }
         Update: {
           brand_name?: string | null
@@ -75,6 +77,7 @@ export type Database = {
           source?: string
           updated_at?: string
           user_id?: string
+          version?: number
         }
         Relationships: [
           {
@@ -357,6 +360,47 @@ export type Database = {
             columns: ["source_id"]
             isOneToOne: false
             referencedRelation: "food_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manual_diary_entry_requests: {
+        Row: {
+          completed_at: string
+          completed_diary_entry_id: string
+          id: string
+          idempotency_key: string
+          live_diary_entry_id: string | null
+          request_payload: Json
+          user_id: string
+          write_transaction_id: unknown
+        }
+        Insert: {
+          completed_at?: string
+          completed_diary_entry_id: string
+          id?: string
+          idempotency_key: string
+          live_diary_entry_id?: string | null
+          request_payload: Json
+          user_id: string
+          write_transaction_id?: unknown
+        }
+        Update: {
+          completed_at?: string
+          completed_diary_entry_id?: string
+          id?: string
+          idempotency_key?: string
+          live_diary_entry_id?: string | null
+          request_payload?: Json
+          user_id?: string
+          write_transaction_id?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manual_diary_entry_requests_live_diary_entry_id_fkey"
+            columns: ["live_diary_entry_id"]
+            isOneToOne: false
+            referencedRelation: "diary_entries"
             referencedColumns: ["id"]
           },
         ]
@@ -763,6 +807,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_manual_diary_entry: {
+        Args: {
+          p_brand_name: string
+          p_calories: number
+          p_carbohydrates_g: number
+          p_entry_date: string
+          p_fat_g: number
+          p_food_id: string
+          p_food_name: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_notes: string
+          p_protein_g: number
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          completed_at: string
+          diary_entry_id: string
+          result_status: string
+        }[]
+      }
       get_owned_custom_food_editor: {
         Args: { p_food_id: string }
         Returns: {

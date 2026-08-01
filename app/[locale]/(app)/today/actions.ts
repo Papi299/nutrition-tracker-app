@@ -6,6 +6,7 @@ import {
   deleteCurrentDiaryEntry,
   updateCurrentDiaryEntry,
   type DiaryEntryCreateInput,
+  type DiaryEntryMutationError,
   type DiaryEntryUpdateInput,
 } from "@/lib/diary-entries";
 import {
@@ -34,7 +35,10 @@ const diaryEntryCreateInputFields = [
   "protein_g",
   "serving_quantity",
   "serving_unit",
-] as const satisfies readonly Exclude<DiaryEntryFieldName, "id">[];
+] as const satisfies readonly Exclude<
+  DiaryEntryFieldName,
+  "expected_version" | "id" | "idempotency_key"
+>[];
 
 const diaryEntryUpdateInputFields = diaryEntryCreateInputFields.filter(
   (field) => field !== "food_id",
@@ -114,6 +118,8 @@ function mapFieldErrors(
   const allowedFields = new Set<string>([
     "form",
     "id",
+    "idempotency_key",
+    "expected_version",
     ...diaryEntryCreateInputFields,
   ]);
 
@@ -138,7 +144,7 @@ function validationFailure(
 }
 
 function actionStateFromError(
-  error: DataError,
+  error: DataError | DiaryEntryMutationError,
   values: DiaryEntryFieldValues,
 ): DiaryEntryActionState {
   if (error.code === "validation_error") {
@@ -168,8 +174,15 @@ export async function createDiaryEntryAction(
   formData: FormData,
 ): Promise<DiaryEntryActionState> {
   const locale = resolveLocale(localeInput);
-  const values = readCreateValues(formData);
-  const result = await createDiaryEntryForCurrentUser(readCreateInput(values));
+  const idempotencyKey = readTextField(formData, "idempotency_key");
+  const values: DiaryEntryFieldValues = {
+    ...readCreateValues(formData),
+    idempotency_key: idempotencyKey,
+  };
+  const result = await createDiaryEntryForCurrentUser(
+    readCreateInput(values),
+    idempotencyKey,
+  );
 
   if (!result.ok) {
     return actionStateFromError(result, values);
@@ -190,7 +203,11 @@ export async function updateDiaryEntryAction(
 ): Promise<DiaryEntryActionState> {
   const locale = resolveLocale(localeInput);
   const id = readTextField(formData, "id");
-  const values: DiaryEntryFieldValues = { id };
+  const expectedVersion = readTextField(formData, "expected_version");
+  const values: DiaryEntryFieldValues = {
+    expected_version: expectedVersion,
+    id,
+  };
 
   if (id === "") {
     return validationFailure(values, { id: "required" });
@@ -198,6 +215,7 @@ export async function updateDiaryEntryAction(
 
   const result = await updateCurrentDiaryEntry(
     id,
+    expectedVersion,
     readUpdateInput(formData, values),
   );
 

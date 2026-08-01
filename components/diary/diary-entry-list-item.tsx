@@ -68,6 +68,7 @@ export function DiaryEntryListItem({
     macros: string;
     meal: string;
     save: string;
+    saveConflict: string;
     saveError: string;
     saveIdle: string;
     savePending: string;
@@ -178,6 +179,7 @@ export function DiaryEntryListItem({
           onCancel={() => setIsEditing(false)}
           pendingLabel={labels.savePending}
           statusMessages={{
+            conflict: labels.saveConflict,
             database_error: labels.saveError,
             idle: labels.saveIdle,
             not_found: labels.saveError,

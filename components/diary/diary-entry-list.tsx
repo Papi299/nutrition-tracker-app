@@ -35,6 +35,7 @@ export function DiaryEntryList({
     macros: string;
     meal: string;
     save: string;
+    saveConflict: string;
     saveError: string;
     saveIdle: string;
     savePending: string;

@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
@@ -24,6 +25,7 @@ import {
   listCurrentDiaryEntriesForDate,
   type DiaryEntry,
 } from "@/lib/diary-entries";
+import { getAuthenticatedUserId } from "@/lib/data/auth";
 import {
   isRetrievalFailure,
   resolveNullableRetrieval,
@@ -77,8 +79,14 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
     selectionContext.status === "valid"
       ? getReadableFoodDiaryPrefill(selectionContext.food_id ?? undefined)
       : Promise.resolve({ status: "missing" } as const);
-  const [profileResult, targetResult, diaryResult, foodSelectionState] =
-    await Promise.all([
+  const [
+    userIdResult,
+    profileResult,
+    targetResult,
+    diaryResult,
+    foodSelectionState,
+  ] = await Promise.all([
+      getAuthenticatedUserId(),
       getCurrentProfile(),
       getEffectiveTargetForDate(selectedDate),
       listCurrentDiaryEntriesForDate(selectedDate),
@@ -89,6 +97,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const diaryState = resolveRetrieval(diaryResult);
 
   if (
+    !userIdResult.ok ||
     profileState.status === "unauthenticated" ||
     targetState.status === "unauthenticated" ||
     diaryState.status === "unauthenticated" ||
@@ -99,6 +108,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
 
   return (
     <LocalizedTodayPage
+      currentUserId={userIdResult.data}
       customFoodCreated={customFoodCreated}
       diaryState={diaryState}
       foodSelectionState={foodSelectionState}
@@ -168,6 +178,7 @@ function LocalizedTodayDateError({
 }
 
 function LocalizedTodayPage({
+  currentUserId,
   customFoodCreated,
   diaryState,
   foodSelectionState,
@@ -179,6 +190,7 @@ function LocalizedTodayPage({
   selectedDate,
   targetState,
 }: {
+  currentUserId: string;
   customFoodCreated: boolean;
   diaryState: RetrievalState<DiaryEntry[]>;
   foodSelectionState: Exclude<
@@ -551,6 +563,7 @@ function LocalizedTodayPage({
                     macros: diaryT("list.macros"),
                     meal: diaryT("list.meal"),
                     save: diaryT("list.save"),
+                    saveConflict: diaryT("list.saveConflict"),
                     saveError: diaryT("list.saveError"),
                     saveIdle: diaryT("list.saveIdle"),
                     savePending: diaryT("list.savePending"),
@@ -728,6 +741,16 @@ function LocalizedTodayPage({
           <div className="mt-6">
             <DiaryEntryForm
               action={createAction}
+              draftScope={`${currentUserId}:${locale}:${selectedDate}:${
+                foodSelectionState.status === "ready"
+                  ? foodSelectionState.data.food_id
+                  : "manual"
+              }:${
+                selectionContext.status === "valid" &&
+                selectionContext.meal_type
+                  ? selectionContext.meal_type
+                  : "breakfast"
+              }`}
               fieldHelpText={{
                 brand_name: diaryT("form.help.brandName"),
                 calories: diaryT("form.help.calories"),
@@ -755,6 +778,7 @@ function LocalizedTodayPage({
                 unsupported_meal_type: diaryT("errors.unsupportedMealType"),
               }}
               initialState={initialDiaryEntryState}
+              initialIdempotencyKey={randomUUID()}
               key={
                 `${
                   foodSelectionState.status === "ready"
@@ -791,6 +815,7 @@ function LocalizedTodayPage({
                 { label: diaryT("mealTypes.other"), value: "other" },
               ]}
               optionalLabel={diaryT("form.optional")}
+              newDraftLabel={diaryT("form.startNewDraft")}
               pendingLabel={diaryT("form.pending")}
               requiredLabel={diaryT("form.required")}
               sectionLabels={{
@@ -802,6 +827,7 @@ function LocalizedTodayPage({
                 submit: diaryT("form.sections.submit"),
               }}
               statusMessages={{
+                conflict: diaryT("errors.idempotencyConflict"),
                 database_error: diaryT("errors.database_error"),
                 idle: diaryT("status.idle"),
                 not_found: diaryT("errors.database_error"),

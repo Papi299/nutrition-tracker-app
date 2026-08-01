@@ -183,6 +183,7 @@
       "savePending": "Saving...",
       "saveIdle": "Update the fields you want to change.",
       "saveSuccess": "Entry updated.",
+      "saveConflict": "This entry changed after you opened it, so your edit was not saved. Your submitted values remain in the form for review; reload the diary before retrying.",
       "saveError": "Could not update entry. Check the fields and try again.",
       "cancel": "Cancel",
       "delete": "Delete",
@@ -246,7 +247,8 @@
         "notes": "Optional context for yourself."
       },
       "submit": "Add entry",
-      "pending": "Adding entry..."
+      "pending": "Adding entry...",
+      "startNewDraft": "Start a new entry with these values"
     },
     "selection": {
       "findFood": "Find a food",
@@ -318,6 +320,7 @@
     },
     "errors": {
       "database_error": "We could not save or load diary entries right now.",
+      "idempotencyConflict": "This draft was already completed with different values. Nothing new was added. Review the retained values, then explicitly start a new entry if they are intentional.",
       "invalidDate": "Choose a valid date.",
       "invalidInteger": "Calories must be a whole number.",
       "invalidNumber": "Enter a valid number or leave the field blank.",

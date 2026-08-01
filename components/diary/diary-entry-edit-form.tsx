@@ -20,7 +20,10 @@ type MealTypeOption = {
   value: DiaryEntry["meal_type"];
 };
 
-type EditableFieldName = Exclude<DiaryEntryFieldName, "food_id" | "id">;
+type EditableFieldName = Exclude<
+  DiaryEntryFieldName,
+  "expected_version" | "food_id" | "id" | "idempotency_key"
+>;
 type FieldLabels = Record<EditableFieldName, string>;
 
 function stringifyValue(value: null | number | string) {
@@ -127,7 +130,7 @@ export function DiaryEntryEditForm({
 }) {
   const [state, formAction, isPending] = useActionState(action, {
     status: "idle",
-    values: { id: entry.id },
+    values: { expected_version: String(entry.version), id: entry.id },
   } satisfies DiaryEntryActionState);
   const values = state.values;
   const provenanceContextLocked = entry.source !== "manual";
@@ -139,6 +142,11 @@ export function DiaryEntryEditForm({
       noValidate
     >
       <input name="id" type="hidden" value={entry.id} />
+      <input
+        name="expected_version"
+        type="hidden"
+        value={values?.expected_version ?? String(entry.version)}
+      />
       <h4 className="text-base font-semibold text-slate-950">
         {labels.title}
       </h4>
