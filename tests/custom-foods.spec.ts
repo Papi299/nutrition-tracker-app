@@ -48,6 +48,7 @@ test.describe("custom-food payload validation", () => {
       validateCustomFoodInput(
         validInput({
           brand_name: "  Brand  ",
+          expected_edit_revision: 7,
           food_id: foodId,
           name: "  Custom food  ",
           serving_quantity: "2.5",
@@ -58,6 +59,7 @@ test.describe("custom-food payload validation", () => {
       data: {
         aliases: [],
         brand_name: "Brand",
+        expected_edit_revision: 7,
         food_id: foodId,
         locale: "en",
         name: "Custom food",
@@ -66,6 +68,47 @@ test.describe("custom-food payload validation", () => {
         serving_quantity: 2.5,
         serving_unit: "slices",
       },
+      ok: true,
+    });
+  });
+
+  test("requires a safe loaded revision for edits and forbids one on creation", () => {
+    for (const expectedEditRevision of [
+      undefined,
+      null,
+      0,
+      -1,
+      1.5,
+      Number.MAX_SAFE_INTEGER + 1,
+      "1",
+    ]) {
+      expect(
+        validateCustomFoodInput(
+          validInput({
+            expected_edit_revision: expectedEditRevision,
+            food_id: foodId,
+          }),
+        ),
+      ).toMatchObject({
+        code: "validation_error",
+        fieldErrors: { expected_edit_revision: "invalid_revision" },
+        ok: false,
+      });
+    }
+
+    expect(
+      validateCustomFoodInput(validInput({ expected_edit_revision: 1 })),
+    ).toMatchObject({
+      code: "validation_error",
+      fieldErrors: { expected_edit_revision: "unsupported_field" },
+      ok: false,
+    });
+    expect(
+      validateCustomFoodInput(
+        validInput({ expected_edit_revision: 1, food_id: foodId }),
+      ),
+    ).toMatchObject({
+      data: { expected_edit_revision: 1, food_id: foodId },
       ok: true,
     });
   });

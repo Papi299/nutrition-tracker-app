@@ -23,13 +23,16 @@ export type ArchivedCustomFood = {
   is_archived: boolean;
 };
 
-type GeneratedPersistCustomFoodArgs =
-  Database["public"]["Functions"]["persist_custom_food"]["Args"];
+type GeneratedPersistCustomFoodArgs = Extract<
+  Database["public"]["Functions"]["persist_custom_food"]["Args"],
+  { p_expected_edit_revision: number }
+>;
 type PersistCustomFoodRpcArgs = Omit<
   GeneratedPersistCustomFoodArgs,
-  "p_brand_name" | "p_food_id"
+  "p_brand_name" | "p_expected_edit_revision" | "p_food_id"
 > & {
   p_brand_name: string | null;
+  p_expected_edit_revision: number | null;
   p_food_id: string | null;
 };
 
@@ -45,9 +48,19 @@ function rpcError(error: { code?: string } | null) {
   return { code: "database_error", ok: false } as const;
 }
 
+function persistRpcError(error: { code?: string } | null) {
+  if (error?.code === "PT409") {
+    return { code: "conflict", ok: false } as const;
+  }
+
+  return rpcError(error);
+}
+
 export async function persistCustomFoodForCurrentUser(
   input: CustomFoodInput,
-): Promise<DataResult<PersistedCustomFood>> {
+): Promise<
+  DataResult<PersistedCustomFood> | { code: "conflict"; ok: false }
+> {
   const validation = validateCustomFoodInput(input);
 
   if (!validation.ok) {
@@ -64,6 +77,7 @@ export async function persistCustomFoodForCurrentUser(
   const rpcArgs: PersistCustomFoodRpcArgs = {
     p_aliases: validation.data.aliases as Json,
     p_brand_name: validation.data.brand_name,
+    p_expected_edit_revision: validation.data.expected_edit_revision,
     p_food_id: validation.data.food_id,
     p_locale: validation.data.locale,
     p_name: validation.data.name,
@@ -78,7 +92,7 @@ export async function persistCustomFoodForCurrentUser(
     .maybeSingle();
 
   if (error) {
-    return rpcError(error);
+    return persistRpcError(error);
   }
 
   if (!data?.food_id) {

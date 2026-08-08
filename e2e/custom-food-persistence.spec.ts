@@ -25,11 +25,20 @@ test.skip(
 );
 
 type PersistArgs = Database["public"]["Functions"]["persist_custom_food"]["Args"];
-type NullablePersistArgs = Omit<
+type VersionedPersistArgs = Extract<
   PersistArgs,
-  "p_brand_name" | "p_food_id" | "p_serving_quantity" | "p_serving_unit"
+  { p_expected_edit_revision: number }
+>;
+type NullablePersistArgs = Omit<
+  VersionedPersistArgs,
+  | "p_brand_name"
+  | "p_expected_edit_revision"
+  | "p_food_id"
+  | "p_serving_quantity"
+  | "p_serving_unit"
 > & {
   p_brand_name: string | null;
+  p_expected_edit_revision: number | null;
   p_food_id: string | null;
   p_serving_quantity: number | null;
   p_serving_unit: string | null;
@@ -135,6 +144,61 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     throw lastError;
   }
 
+  function editRevision(foodId: string) {
+    return Number(
+      queryLocalDatabase(`
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}';
+      `),
+    );
+  }
+
+  function aggregateFingerprint(foodId: string) {
+    return queryLocalDatabase(`
+      select jsonb_build_object(
+        'name', foods.name,
+        'brand', foods.brand_name,
+        'locale', foods.locale,
+        'basis', foods.custom_nutrient_basis,
+        'serving_size', foods.serving_size,
+        'serving_unit', foods.serving_unit,
+        'is_archived', foods.is_archived,
+        'revision', foods.custom_food_edit_revision,
+        'nutrients', (
+          select coalesce(
+            jsonb_agg(
+              jsonb_build_object(
+                'code', nutrients.code,
+                'amount', food_nutrients.amount,
+                'basis', food_nutrients.basis
+              ) order by nutrients.code
+            ),
+            '[]'::jsonb
+          )
+          from public.food_nutrients
+          join public.nutrients on nutrients.id = food_nutrients.nutrient_id
+          where food_nutrients.food_id = foods.id
+        ),
+        'aliases', (
+          select coalesce(
+            jsonb_agg(
+              jsonb_build_object(
+                'text', food_aliases.alias_text,
+                'language', food_aliases.language_code
+              ) order by food_aliases.id
+            ),
+            '[]'::jsonb
+          )
+          from public.food_aliases
+          where food_aliases.food_id = foods.id
+        )
+      )
+      from public.foods
+      where foods.id = '${foodId}';
+    `);
+  }
+
   async function createUser(prefix: string) {
     const client = localClient();
     const signUp = await client.auth.signUp({
@@ -159,6 +223,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         { alias_text: "Oats שיבולת", language_code: "und" },
       ] as Json,
       p_brand_name: "Kitchen Brand",
+      p_expected_edit_revision: null,
       p_food_id: null,
       p_locale: "en",
       p_name: "Everyday Oats",
@@ -179,10 +244,44 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     client: SupabaseClient<Database>,
     overrides: Partial<NullablePersistArgs> = {},
   ) {
-    return client.rpc(
-      "persist_custom_food",
-      persistenceArgs(overrides) as PersistArgs,
-    );
+    const args = persistenceArgs(overrides);
+
+    if (args.p_food_id && args.p_expected_edit_revision === null) {
+      const currentRevision = queryLocalDatabase(`
+          select custom_food_edit_revision
+          from public.foods
+          where id = '${args.p_food_id}';
+        `);
+      args.p_expected_edit_revision =
+        currentRevision === "" ? 1 : Number(currentRevision);
+    }
+
+    return client.rpc("persist_custom_food", args as VersionedPersistArgs);
+  }
+
+  async function persistVersioned(
+    client: SupabaseClient<Database>,
+    args: NullablePersistArgs,
+  ) {
+    return client.rpc("persist_custom_food", args as VersionedPersistArgs);
+  }
+
+  async function requirePromptRpc<T>(label: string, operation: PromiseLike<T>) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    try {
+      return await Promise.race([
+        operation,
+        new Promise<never>((_, reject) => {
+          timer = setTimeout(
+            () => reject(new Error(`${label} RPC did not settle promptly.`)),
+            5_000,
+          );
+        }),
+      ]);
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
   }
 
   test.beforeAll(async () => {
@@ -258,7 +357,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     expect(new Set(nutrients.data?.map(({ display_order }) => display_order)).size).toBe(35);
   });
 
-  test("keeps both invoker RPCs authenticated-only and preserves table RLS", () => {
+  test("keeps mutation RPCs authenticated-only and revision helpers least-privileged", () => {
     const state = queryLocalDatabase(`
       select string_agg(result, E'\\n' order by result)
       from (
@@ -273,7 +372,10 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         from pg_proc p
         where p.oid in (
           'public.persist_custom_food(uuid,text,text,text,text,numeric,text,jsonb,jsonb)'::regprocedure,
-          'public.set_custom_food_archived(uuid,boolean)'::regprocedure
+          'public.persist_custom_food(uuid,text,text,text,text,numeric,text,jsonb,jsonb,bigint)'::regprocedure,
+          'public.set_custom_food_archived(uuid,boolean)'::regprocedure,
+          'public.enforce_custom_food_edit_revision()'::regprocedure,
+          'public.advance_custom_food_edit_revision_from_child()'::regprocedure
         )
       ) checks;
 
@@ -291,6 +393,24 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
       from pg_constraint
       where conrelid = 'public.foods'::regclass
         and conname = 'foods_custom_nutrient_basis_check';
+
+      select 'revision_constraint|' || pg_get_constraintdef(oid)
+      from pg_constraint
+      where conrelid = 'public.foods'::regclass
+        and conname = 'foods_custom_food_edit_revision_check';
+
+      select 'creation_only_wrapper|' ||
+        (position(
+          'Existing custom foods require an expected edit revision.' in
+          pg_get_functiondef(
+            'public.persist_custom_food(uuid,text,text,text,text,numeric,text,jsonb,jsonb)'::regprocedure
+          )
+        ) > 0);
+
+      select 'revision_triggers|' || count(*)
+      from pg_trigger
+      where not tgisinternal
+        and tgname like '%custom_food_edit_revision%';
     `);
 
     expect(state).toContain(
@@ -298,6 +418,12 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     );
     expect(state).toContain(
       'set_custom_food_archived|f|f|t|f|search_path=""',
+    );
+    expect(state).toContain(
+      'enforce_custom_food_edit_revision|f|f|f|f|search_path=""',
+    );
+    expect(state).toContain(
+      'advance_custom_food_edit_revision_from_child|f|f|f|t|search_path=""',
     );
     expect(state).toContain("food_aliases|true");
     expect(state).toContain("food_nutrients|true");
@@ -307,6 +433,65 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
       "foods_custom_nutrient_basis_check|CHECK",
     );
     expect(state).toContain("custom_nutrient_basis IS NOT NULL");
+    expect(state).toContain("revision_constraint|CHECK");
+    expect(state).toContain("custom_food_edit_revision");
+    expect(state).toContain("custom_food_edit_revision IS NOT NULL");
+    expect(state).toContain("creation_only_wrapper|true");
+    expect(state).toContain("revision_triggers|7");
+  });
+
+  test("rejects a null custom-food revision at the constraint boundary", () => {
+    const nullRevisionFoodId = randomUUID();
+    const nonCustomFoodId = randomUUID();
+
+    const proof = queryLocalDatabase(`
+      do $constraint_test$
+      declare
+        rejected_constraint text;
+      begin
+        set local session_replication_role = replica;
+
+        begin
+          insert into public.foods (
+            id, owner_user_id, source_id, food_type, name, locale,
+            custom_nutrient_basis, custom_food_edit_revision, data_quality,
+            is_public, is_archived
+          ) values (
+            '${nullRevisionFoodId}', '${userAId}',
+            (select id from public.food_sources where code = 'user_custom'),
+            'user_custom', 'Null revision constraint probe', 'en',
+            'per_serving', null, 'user_provided', false, false
+          );
+
+          raise exception 'Expected null custom-food revision rejection.';
+        exception
+          when check_violation then
+            get stacked diagnostics rejected_constraint = constraint_name;
+            if rejected_constraint <> 'foods_custom_food_edit_revision_check' then
+              raise exception 'Unexpected constraint: %', rejected_constraint;
+            end if;
+        end;
+
+        insert into public.foods (
+          id, source_id, food_type, name, locale,
+          custom_food_edit_revision, data_quality, is_public, is_archived
+        ) values (
+          '${nonCustomFoodId}',
+          (select id from public.food_sources where code = 'manual'),
+          'generic', 'Null non-custom revision probe', 'en', null, 'curated',
+          true, false
+        );
+      end;
+      $constraint_test$;
+
+      select
+        (select count(*) from public.foods where id = '${nullRevisionFoodId}')
+        || '|' ||
+        (select custom_food_edit_revision is null from public.foods where id = '${nonCustomFoodId}');
+    `);
+
+    expect(proof).toContain("0|t");
+    queryLocalDatabase(`delete from public.foods where id = '${nonCustomFoodId}';`);
   });
 
   test("enforces custom-food nutrient bases with strict null semantics", () => {
@@ -502,6 +687,270 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         },
       ]),
     );
+  });
+
+  test("advances child revisions when the creation marker is absent in a fresh backend", async () => {
+    const created = await persistVersioned(userAClient, persistenceArgs({
+      p_aliases: [{ alias_text: "Fresh backend alias", language_code: "en" }] as Json,
+      p_name: "Fresh backend revision food",
+      p_nutrients: [{ amount: 17, code: "energy_kcal" }] as Json,
+    }));
+    expect(created.error).toBeNull();
+    const foodId = created.data?.[0].food_id as string;
+
+    // One new psql process creates one new PostgreSQL backend. Every statement
+    // below therefore runs in the same session without prior custom-GUC state.
+    const freshBackendOutput = executeLocalDatabase(`
+      create temporary table fresh_backend_revision_proof as
+      select
+        current_setting(
+          'nutrition_tracker.creating_custom_food_id',
+          true
+        ) is null as marker_absent,
+        custom_food_edit_revision as revision_before,
+        null::bigint as revision_after_alias,
+        null::bigint as revision_after_nutrient
+      from public.foods
+      where id = '${foodId}';
+
+      update public.food_aliases
+      set alias_text = 'Fresh backend alias changed'
+      where food_id = '${foodId}';
+
+      update fresh_backend_revision_proof
+      set revision_after_alias = (
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}'
+      );
+
+      update public.food_nutrients
+      set amount = amount + 1
+      where food_id = '${foodId}';
+
+      update fresh_backend_revision_proof
+      set revision_after_nutrient = (
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}'
+      );
+
+      select concat_ws(
+        '|', marker_absent, revision_before, revision_after_alias,
+        revision_after_nutrient
+      )
+      from fresh_backend_revision_proof;
+    `);
+    const proof = freshBackendOutput.split("\n").at(-1);
+
+    expect(proof).toBe("t|1|2|3");
+  });
+
+  test("advances the aggregate revision for parent, nutrient-only, alias-only, and archive changes", async () => {
+    const base = persistenceArgs({
+      p_aliases: [{ alias_text: "Revision alias", language_code: "en" }] as Json,
+      p_brand_name: "Revision brand",
+      p_name: "Revision aggregate food",
+      p_nutrients: [{ amount: 10, code: "energy_kcal" }] as Json,
+    });
+    const created = await persistVersioned(userAClient, base);
+    expect(created.error).toBeNull();
+    const foodId = created.data?.[0].food_id as string;
+    expect(editRevision(foodId)).toBe(1);
+
+    const parentRevision = editRevision(foodId);
+    const parentArgs = {
+      ...base,
+      p_brand_name: "Revision parent changed",
+      p_expected_edit_revision: parentRevision,
+      p_food_id: foodId,
+    };
+    expect(
+      (await persistVersioned(userAClient, parentArgs)).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBeGreaterThan(parentRevision);
+
+    const nutrientRevision = editRevision(foodId);
+    const nutrientArgs = {
+      ...parentArgs,
+      p_expected_edit_revision: nutrientRevision,
+      p_nutrients: [{ amount: 11, code: "energy_kcal" }] as Json,
+    };
+    expect(
+      (await persistVersioned(userAClient, nutrientArgs)).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBeGreaterThan(nutrientRevision);
+
+    const aliasRevision = editRevision(foodId);
+    const aliasArgs = {
+      ...nutrientArgs,
+      p_aliases: [{ alias_text: "Revision alias changed", language_code: "en" }] as Json,
+      p_expected_edit_revision: aliasRevision,
+    };
+    expect(
+      (await persistVersioned(userAClient, aliasArgs)).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBeGreaterThan(aliasRevision);
+
+    const noOpRevision = editRevision(foodId);
+    expect(
+      (
+        await persistVersioned(userAClient, {
+          ...aliasArgs,
+          p_expected_edit_revision: noOpRevision,
+        })
+      ).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBe(noOpRevision);
+
+    const noOpParentWrite = await userAClient
+      .from("foods")
+      .update({ name: parentArgs.p_name })
+      .eq("id", foodId);
+    expect(noOpParentWrite.error).toBeNull();
+    expect(editRevision(foodId)).toBe(noOpRevision);
+    const aliasRow = await userAClient
+      .from("food_aliases")
+      .select("id")
+      .eq("food_id", foodId)
+      .single();
+    expect(aliasRow.error).toBeNull();
+    const directAliasWrite = await userAClient
+      .from("food_aliases")
+      .update({ alias_text: "Revision alias changed directly" })
+      .eq("id", aliasRow.data?.id as string);
+    expect(directAliasWrite.error).toBeNull();
+    expect(editRevision(foodId)).toBeGreaterThan(noOpRevision);
+
+    const archived = await userAClient.rpc("set_custom_food_archived", {
+      p_food_id: foodId,
+      p_is_archived: true,
+    });
+    expect(archived.error).toBeNull();
+    const archivedRevision = editRevision(foodId);
+    expect(archivedRevision).toBeGreaterThan(noOpRevision);
+    expect(
+      (
+        await userAClient.rpc("set_custom_food_archived", {
+          p_food_id: foodId,
+          p_is_archived: true,
+        })
+      ).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBe(archivedRevision);
+
+    expect(
+      (
+        await userAClient.rpc("set_custom_food_archived", {
+          p_food_id: foodId,
+          p_is_archived: false,
+        })
+      ).error,
+    ).toBeNull();
+    expect(editRevision(foodId)).toBeGreaterThan(archivedRevision);
+  });
+
+  test("rejects stale, missing, malformed, and forged edit revisions before replacement", async () => {
+    const base = persistenceArgs({
+      p_aliases: [{ alias_text: "Direct original alias", language_code: "en" }] as Json,
+      p_brand_name: "Direct original brand",
+      p_name: "Direct RPC source",
+      p_nutrients: [{ amount: 20, code: "energy_kcal" }] as Json,
+    });
+    const created = await persistVersioned(userAClient, base);
+    expect(created.error).toBeNull();
+    const foodId = created.data?.[0].food_id as string;
+    const loadedRevision = editRevision(foodId);
+    const accepted = await persistVersioned(userAClient, {
+      ...base,
+      p_aliases: [{ alias_text: "Direct accepted alias", language_code: "en" }] as Json,
+      p_brand_name: "Direct accepted brand",
+      p_expected_edit_revision: loadedRevision,
+      p_food_id: foodId,
+      p_name: "Direct accepted edit",
+      p_nutrients: [{ amount: 77, code: "energy_kcal" }] as Json,
+    });
+    expect(accepted.error).toBeNull();
+    const acceptedFingerprint = aggregateFingerprint(foodId);
+    const acceptedRevision = editRevision(foodId);
+
+    const stale = await requirePromptRpc("stale", persistVersioned(userAClient, {
+      ...base,
+      p_aliases: [{ alias_text: "Direct stale alias", language_code: "en" }] as Json,
+      p_brand_name: "Direct stale brand",
+      p_expected_edit_revision: loadedRevision,
+      p_food_id: foodId,
+      p_name: "Direct stale edit",
+      p_nutrients: [{ amount: 999, code: "energy_kcal" }] as Json,
+    }));
+    expect(stale.error?.code).toBe("PT409");
+    expect(aggregateFingerprint(foodId)).toBe(acceptedFingerprint);
+    expect(editRevision(foodId)).toBe(acceptedRevision);
+
+    const missing = await requirePromptRpc("missing", userAClient.rpc("persist_custom_food", {
+      ...base,
+      p_food_id: foodId,
+    } as Exclude<PersistArgs, { p_expected_edit_revision: number }>));
+    expect(missing.error?.code).toBe("22023");
+    expect(aggregateFingerprint(foodId)).toBe(acceptedFingerprint);
+
+    const invalid = await requirePromptRpc("invalid", persistVersioned(userAClient, {
+      ...base,
+      p_expected_edit_revision: 0,
+      p_food_id: foodId,
+    }));
+    expect(invalid.error?.code).toBe("22023");
+
+    const malformed = await requirePromptRpc("malformed", userAClient.rpc("persist_custom_food", {
+      ...base,
+      p_expected_edit_revision: "not-a-revision",
+      p_food_id: foodId,
+    } as unknown as VersionedPersistArgs));
+    expect(malformed.error).not.toBeNull();
+    expect(aggregateFingerprint(foodId)).toBe(acceptedFingerprint);
+
+    const forged = await requirePromptRpc("forged", persistVersioned(userAClient, {
+      ...base,
+      p_expected_edit_revision: acceptedRevision + 999,
+      p_food_id: foodId,
+    }));
+    expect(forged.error?.code).toBe("PT409");
+    expect(aggregateFingerprint(foodId)).toBe(acceptedFingerprint);
+  });
+
+  test("rejects semantic replacement when the aggregate revision is exhausted", async () => {
+    const base = persistenceArgs({
+      p_aliases: [{ alias_text: "Exhaustion alias", language_code: "en" }] as Json,
+      p_brand_name: "Exhaustion brand",
+      p_name: "Revision exhaustion source",
+      p_nutrients: [{ amount: 31, code: "energy_kcal" }] as Json,
+    });
+    const created = await persistVersioned(userAClient, base);
+    expect(created.error).toBeNull();
+    const foodId = created.data?.[0].food_id as string;
+
+    queryLocalDatabase(`
+      begin;
+      set local session_replication_role = replica;
+      update public.foods
+      set custom_food_edit_revision = 9223372036854775807
+      where id = '${foodId}';
+      commit;
+    `);
+
+    const exhaustedFingerprint = aggregateFingerprint(foodId);
+    const replacement = await requirePromptRpc(
+      "exhausted revision",
+      persistVersioned(userAClient, {
+        ...base,
+        p_expected_edit_revision: "9223372036854775807" as unknown as number,
+        p_food_id: foodId,
+        p_name: "Revision exhaustion replacement",
+      }),
+    );
+
+    expect(replacement.error?.code).toBe("54000");
+    expect(aggregateFingerprint(foodId)).toBe(exhaustedFingerprint);
   });
 
   test("persists empty-food bases without inferring from 100 g or 100 ml servings", async () => {
@@ -774,6 +1223,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     const before = queryLocalDatabase(`
       select jsonb_build_object(
         'food_updated_at', (select updated_at from public.foods where id = '${userAFoodId}'),
+        'edit_revision', (select custom_food_edit_revision from public.foods where id = '${userAFoodId}'),
         'nutrients', (select jsonb_agg(jsonb_build_array(id, updated_at) order by id) from public.food_nutrients where food_id = '${userAFoodId}'),
         'aliases', (select jsonb_agg(jsonb_build_array(id, updated_at) order by id) from public.food_aliases where food_id = '${userAFoodId}')
       )::text;
@@ -785,6 +1235,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     const after = queryLocalDatabase(`
       select jsonb_build_object(
         'food_updated_at', (select updated_at from public.foods where id = '${userAFoodId}'),
+        'edit_revision', (select custom_food_edit_revision from public.foods where id = '${userAFoodId}'),
         'nutrients', (select jsonb_agg(jsonb_build_array(id, updated_at) order by id) from public.food_nutrients where food_id = '${userAFoodId}'),
         'aliases', (select jsonb_agg(jsonb_build_array(id, updated_at) order by id) from public.food_aliases where food_id = '${userAFoodId}')
       )::text;

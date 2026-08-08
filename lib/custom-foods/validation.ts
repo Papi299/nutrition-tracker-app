@@ -58,6 +58,7 @@ export type ValidatedCustomFoodInput = {
   aliases: Array<{ alias_text: string; language_code: CustomFoodLocale }>;
   brand_name: string | null;
   food_id: string | null;
+  expected_edit_revision: number | null;
   locale: CustomFoodLocale;
   name: string;
   nutrient_basis: CustomFoodNutrientBasis;
@@ -86,6 +87,7 @@ const allowedPersistenceFields = new Set([
   "aliases",
   "brand_name",
   "food_id",
+  "expected_edit_revision",
   "locale",
   "name",
   "nutrient_basis",
@@ -121,6 +123,31 @@ function validateFoodId(
 
   if (typeof value !== "string" || !isUuid(value)) {
     fieldErrors.food_id = "invalid_uuid";
+    return null;
+  }
+
+  return value;
+}
+
+function validateExpectedEditRevision(
+  foodId: string | null,
+  value: unknown,
+  fieldErrors: Record<string, string>,
+): number | null {
+  if (foodId === null) {
+    if (value !== undefined && value !== null) {
+      fieldErrors.expected_edit_revision = "unsupported_field";
+    }
+
+    return null;
+  }
+
+  if (
+    typeof value !== "number" ||
+    !Number.isSafeInteger(value) ||
+    value < 1
+  ) {
+    fieldErrors.expected_edit_revision = "invalid_revision";
     return null;
   }
 
@@ -397,6 +424,11 @@ export function validateCustomFoodInput(
 
   hasOnlyAllowedFields(input, allowedPersistenceFields, fieldErrors);
   const foodId = validateFoodId(input.food_id, fieldErrors);
+  const expectedEditRevision = validateExpectedEditRevision(
+    foodId,
+    input.expected_edit_revision,
+    fieldErrors,
+  );
   const name = validateName(input.name, fieldErrors);
   const brandName = validateBrand(input.brand_name, fieldErrors);
   const locale = validateLocale(input.locale, fieldErrors);
@@ -418,6 +450,7 @@ export function validateCustomFoodInput(
     data: {
       aliases,
       brand_name: brandName,
+      expected_edit_revision: expectedEditRevision,
       food_id: foodId,
       locale,
       name,

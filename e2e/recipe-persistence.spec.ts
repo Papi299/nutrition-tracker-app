@@ -572,6 +572,13 @@ test.describe.serial("recipe persistence foundation", () => {
         await userAClient.rpc("persist_custom_food", {
           p_aliases: [] as Json,
           p_brand_name: "Changed brand",
+          p_expected_edit_revision: Number(
+            queryDatabase(`
+              select custom_food_edit_revision
+              from public.foods
+              where id = '${linkedFoodId}';
+            `),
+          ),
           p_food_id: linkedFoodId,
           p_locale: "he",
           p_name: "שם שונה",

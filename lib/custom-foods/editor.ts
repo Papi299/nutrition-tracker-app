@@ -27,6 +27,7 @@ export type CustomFoodEditorAlias = {
 export type OwnedCustomFoodEditor = {
   aliases: CustomFoodEditorAlias[];
   brand_name: string | null;
+  edit_revision: number;
   food_id: string;
   is_archived: boolean;
   locale: CustomFoodLocale;
@@ -147,6 +148,8 @@ export async function getOwnedCustomFoodEditor(
     !aliases ||
     !localeSet.has(data.locale) ||
     !basisSet.has(data.nutrient_basis) ||
+    !Number.isSafeInteger(data.edit_revision) ||
+    data.edit_revision < 1 ||
     typeof data.serving_quantity !== "number" ||
     typeof data.serving_unit !== "string"
   ) {
@@ -157,6 +160,7 @@ export async function getOwnedCustomFoodEditor(
     data: {
       aliases,
       brand_name: data.brand_name,
+      edit_revision: data.edit_revision,
       food_id: data.food_id,
       is_archived: data.is_archived,
       locale: data.locale as CustomFoodLocale,

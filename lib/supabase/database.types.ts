@@ -303,6 +303,7 @@ export type Database = {
         Row: {
           brand_name: string | null
           created_at: string
+          custom_food_edit_revision: number | null
           custom_nutrient_basis: string | null
           data_quality: string
           food_type: string
@@ -321,6 +322,7 @@ export type Database = {
         Insert: {
           brand_name?: string | null
           created_at?: string
+          custom_food_edit_revision?: number | null
           custom_nutrient_basis?: string | null
           data_quality?: string
           food_type: string
@@ -339,6 +341,7 @@ export type Database = {
         Update: {
           brand_name?: string | null
           created_at?: string
+          custom_food_edit_revision?: number | null
           custom_nutrient_basis?: string | null
           data_quality?: string
           food_type?: string
@@ -834,6 +837,7 @@ export type Database = {
         Returns: {
           aliases: Json
           brand_name: string
+          edit_revision: number
           food_id: string
           is_archived: boolean
           locale: string
@@ -1010,24 +1014,44 @@ export type Database = {
         }[]
       }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
-      persist_custom_food: {
-        Args: {
-          p_aliases: Json
-          p_brand_name: string
-          p_food_id: string
-          p_locale: string
-          p_name: string
-          p_nutrient_basis: string
-          p_nutrients: Json
-          p_serving_quantity: number
-          p_serving_unit: string
-        }
-        Returns: {
-          food_id: string
-          is_archived: boolean
-          nutrient_basis: string
-        }[]
-      }
+      persist_custom_food:
+        | {
+            Args: {
+              p_aliases: Json
+              p_brand_name: string
+              p_food_id: string
+              p_locale: string
+              p_name: string
+              p_nutrient_basis: string
+              p_nutrients: Json
+              p_serving_quantity: number
+              p_serving_unit: string
+            }
+            Returns: {
+              food_id: string
+              is_archived: boolean
+              nutrient_basis: string
+            }[]
+          }
+        | {
+            Args: {
+              p_aliases: Json
+              p_brand_name: string
+              p_expected_edit_revision: number
+              p_food_id: string
+              p_locale: string
+              p_name: string
+              p_nutrient_basis: string
+              p_nutrients: Json
+              p_serving_quantity: number
+              p_serving_unit: string
+            }
+            Returns: {
+              food_id: string
+              is_archived: boolean
+              nutrient_basis: string
+            }[]
+          }
       persist_custom_food_with_barcode: {
         Args: {
           p_aliases: Json
