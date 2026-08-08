@@ -460,6 +460,8 @@
       "idle": "Review the complete form, then save when ready.",
       "created": "Custom food created successfully.",
       "updated": "Custom food updated successfully.",
+      "conflict": "This food changed after you loaded the editor. Your submitted values were not saved. Reload the current food and review it before trying again.",
+      "reloadCurrent": "Reload current food and review",
       "validationError": "Check the highlighted fields and try again.",
       "databaseError": "We could not save this custom food right now. Try again in a moment.",
       "unauthenticated": "Sign in again before saving this custom food.",

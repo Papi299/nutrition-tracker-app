@@ -182,6 +182,7 @@ function mapPersistenceErrors(fieldErrors?: Record<string, string>) {
 function prepareCustomFoodSubmission(
   formData: FormData,
   expectedFoodId: string | null,
+  expectedEditRevision: number | null,
 ) {
   const values = readValues(formData);
   const fieldErrors: Record<string, string> = {};
@@ -195,6 +196,7 @@ function prepareCustomFoodSubmission(
   const persistenceInput = {
     aliases,
     brand_name: values.brand_name,
+    expected_edit_revision: expectedEditRevision,
     food_id: expectedFoodId,
     locale: values.food_locale,
     name: values.name,
@@ -250,12 +252,17 @@ function customFoodTodayRedirect({
 export async function saveCustomFoodAction(
   localeInput: string,
   expectedFoodId: string | null,
+  expectedEditRevision: number | null,
   _previousState: CustomFoodActionState,
   formData: FormData,
 ): Promise<CustomFoodActionState> {
   const locale = resolveLocale(localeInput);
   const { fieldErrors, persistenceInput, values } =
-    prepareCustomFoodSubmission(formData, expectedFoodId);
+    prepareCustomFoodSubmission(
+      formData,
+      expectedFoodId,
+      expectedEditRevision,
+    );
 
   if (Object.keys(fieldErrors).length > 0) {
     return validationFailure(values, fieldErrors);
@@ -300,7 +307,7 @@ export async function saveBarcodeCustomFoodAction(
   const barcodeOmitted =
     omissionValues.length === 1 && omissionValues[0] === "omit";
   const { fieldErrors, persistenceInput, values } =
-    prepareCustomFoodSubmission(formData, null);
+    prepareCustomFoodSubmission(formData, null, null);
 
   if (handoff.status !== "valid") {
     fieldErrors.form = "invalid_link";

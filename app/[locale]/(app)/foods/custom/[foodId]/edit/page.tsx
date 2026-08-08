@@ -73,7 +73,12 @@ export default async function EditCustomFoodPage({
     );
   }
 
-  const action = saveCustomFoodAction.bind(null, locale, foodId);
+  const action = saveCustomFoodAction.bind(
+    null,
+    locale,
+    foodId,
+    editor.data.edit_revision,
+  );
   const initialState: CustomFoodActionState = {
     status: "idle",
     values: editorCustomFoodFormValues(editor.data),

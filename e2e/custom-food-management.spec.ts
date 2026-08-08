@@ -161,6 +161,16 @@ test.describe.serial("custom-food management and archive lifecycle", () => {
     `);
   }
 
+  function editRevision(foodId: string) {
+    return Number(
+      queryLocalDatabase(`
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}';
+      `),
+    );
+  }
+
   async function assertDiarySnapshotUnchanged() {
     const diary = await userAClient
       .from("diary_entries")
@@ -327,6 +337,194 @@ test.describe.serial("custom-food management and archive lifecycle", () => {
     lifecycleFingerprint = fingerprint(managedFoodId);
     await assertDiarySnapshotUnchanged();
     await context.close();
+  });
+
+  test("CJ-019 rejects a stale application edit without replacing the accepted food contract", async ({
+    browser,
+  }) => {
+    const staleFoodId = await persistFixture(userAClient, {
+      p_aliases: [
+        { alias_text: "Original stale alias", language_code: "en" },
+      ] as Json,
+      p_brand_name: "Original stale brand",
+      p_name: "Phase 11C stale edit source",
+      p_nutrients: [
+        { amount: 100, code: "energy_kcal" },
+        { amount: 1, code: "protein_g" },
+      ] as Json,
+    });
+    const firstContext = await newAuthenticatedContext(browser);
+    const staleContext = await newAuthenticatedContext(browser);
+    const firstPage = await firstContext.newPage();
+    const stalePage = await staleContext.newPage();
+    const editPath = `/en/foods/custom/${staleFoodId}/edit`;
+
+    await Promise.all([firstPage.goto(editPath), stalePage.goto(editPath)]);
+    await expect(firstPage.getByLabel("Name")).toHaveValue(
+      "Phase 11C stale edit source",
+    );
+    await expect(stalePage.getByLabel("Name")).toHaveValue(
+      "Phase 11C stale edit source",
+    );
+    await expect(stalePage.locator('input[name="version"]')).toHaveCount(0);
+    const loadedRevision = editRevision(staleFoodId);
+
+    await firstPage.getByLabel("Name").fill("Phase 11C accepted fresh edit");
+    await firstPage.getByLabel("Brand (optional)").fill("Accepted fresh brand");
+    await firstPage.locator('[data-nutrient-code="energy_kcal"]').fill("333");
+    await firstPage.locator('[data-nutrient-code="protein_g"]').fill("0");
+    const firstAlias = firstPage.getByTestId("custom-food-alias-row");
+    await firstAlias.getByLabel("Alias text").fill("Accepted fresh alias");
+    await firstPage.getByRole("button", { name: "Save custom food" }).click();
+    await expect(firstPage).toHaveURL(
+      new RegExp(`${staleFoodId}/edit\\?saved=updated$`),
+    );
+    const acceptedFingerprint = JSON.parse(fingerprint(staleFoodId));
+    const acceptedRevision = editRevision(staleFoodId);
+    expect(acceptedRevision).toBeGreaterThan(loadedRevision);
+
+    await stalePage
+      .getByLabel("Brand (optional)")
+      .fill("Rejected stale client brand");
+    await stalePage.getByRole("button", { name: "Save custom food" }).click();
+    await expect(stalePage.getByTestId("custom-food-edit-conflict")).toContainText(
+      "This food changed after you loaded the editor.",
+    );
+    await expect(stalePage.getByLabel("Name")).toHaveValue(
+      "Phase 11C stale edit source",
+    );
+    await expect(stalePage.getByLabel("Brand (optional)")).toHaveValue(
+      "Rejected stale client brand",
+    );
+    await expect(
+      stalePage.locator('[data-nutrient-code="energy_kcal"]'),
+    ).toHaveValue("100");
+    await expect(
+      stalePage.getByTestId("custom-food-alias-row").getByLabel("Alias text"),
+    ).toHaveValue("Original stale alias");
+    await expect(
+      stalePage.getByRole("link", {
+        name: "Reload current food and review",
+      }),
+    ).toHaveAttribute("href", editPath);
+    const persistedFingerprint = JSON.parse(fingerprint(staleFoodId));
+
+    expect({
+      persistedFingerprint,
+      staleSubmissionAccepted: stalePage.url().endsWith("?saved=updated"),
+    }).toEqual({
+      persistedFingerprint: acceptedFingerprint,
+      staleSubmissionAccepted: false,
+    });
+    expect(editRevision(staleFoodId)).toBe(acceptedRevision);
+
+    await firstContext.close();
+    await staleContext.close();
+    queryLocalDatabase(`delete from public.foods where id = '${staleFoodId}';`);
+  });
+
+  test("CJ-019 permits exactly one incompatible same-revision application edit", async ({
+    browser,
+  }) => {
+    const foodId = await persistFixture(userAClient, {
+      p_aliases: [{ alias_text: "Concurrent source", language_code: "en" }] as Json,
+      p_name: "Phase 11C concurrent source",
+      p_nutrients: [{ amount: 10, code: "energy_kcal" }] as Json,
+    });
+    const initialRevision = editRevision(foodId);
+    const contextA = await newAuthenticatedContext(browser);
+    const contextB = await newAuthenticatedContext(browser);
+    const pageA = await contextA.newPage();
+    const pageB = await contextB.newPage();
+    const editPath = `/en/foods/custom/${foodId}/edit`;
+
+    await Promise.all([pageA.goto(editPath), pageB.goto(editPath)]);
+    await pageA.getByLabel("Name").fill("Concurrent winner A");
+    await pageA.getByLabel("Brand (optional)").fill("Brand A");
+    await pageA.locator('[data-nutrient-code="energy_kcal"]').fill("111");
+    await pageA.getByTestId("custom-food-alias-row").getByLabel("Alias text").fill("Alias A");
+    await pageB.getByLabel("Name").fill("Concurrent winner B");
+    await pageB.getByLabel("Brand (optional)").fill("Brand B");
+    await pageB.locator('[data-nutrient-code="energy_kcal"]').fill("222");
+    await pageB.getByTestId("custom-food-alias-row").getByLabel("Alias text").fill("Alias B");
+
+    await Promise.all([
+      pageA.getByRole("button", { name: "Save custom food" }).click(),
+      pageB.getByRole("button", { name: "Save custom food" }).click(),
+    ]);
+    await expect
+      .poll(async () =>
+        Promise.all(
+          [pageA, pageB].map(async (page) => ({
+            conflict: await page
+              .getByTestId("custom-food-edit-conflict")
+              .isVisible(),
+            saved: page.url().endsWith("?saved=updated"),
+          })),
+        ),
+      )
+      .toEqual(
+        expect.arrayContaining([
+          { conflict: false, saved: true },
+          { conflict: true, saved: false },
+        ]),
+      );
+
+    const persisted = JSON.parse(fingerprint(foodId));
+    const winner = pageA.url().endsWith("?saved=updated")
+      ? { alias: "Alias A", brand: "Brand A", calories: 111, name: "Concurrent winner A" }
+      : { alias: "Alias B", brand: "Brand B", calories: 222, name: "Concurrent winner B" };
+    expect(persisted).toMatchObject({
+      aliases: [{ language: "en", text: winner.alias }],
+      brand: winner.brand,
+      name: winner.name,
+      nutrients: [{ amount: winner.calories, basis: "per_serving", code: "energy_kcal" }],
+    });
+    expect(editRevision(foodId)).toBeGreaterThan(initialRevision);
+
+    await contextA.close();
+    await contextB.close();
+    queryLocalDatabase(`delete from public.foods where id = '${foodId}';`);
+  });
+
+  test("CJ-019 preserves Hebrew RTL stale values and requires a fresh review", async ({
+    browser,
+  }) => {
+    const foodId = await persistFixture(userAClient, {
+      p_brand_name: "מותג ישן",
+      p_locale: "he",
+      p_name: "מקור עריכה ישן",
+    });
+    const freshContext = await newAuthenticatedContext(browser);
+    const staleContext = await newAuthenticatedContext(browser);
+    const freshPage = await freshContext.newPage();
+    const stalePage = await staleContext.newPage();
+    const editPath = `/he/foods/custom/${foodId}/edit`;
+
+    await Promise.all([freshPage.goto(editPath), stalePage.goto(editPath)]);
+    await expect(stalePage.locator("html")).toHaveAttribute("dir", "rtl");
+    await freshPage.getByLabel("שם").fill("עריכה חדשה שהתקבלה");
+    await freshPage.getByRole("button", { name: "שמירת המזון האישי" }).click();
+    await expect(freshPage).toHaveURL(new RegExp(`${foodId}/edit\\?saved=updated$`));
+    const accepted = fingerprint(foodId);
+
+    await stalePage.getByLabel("מותג (אופציונלי)").fill("מותג ישן שנדחה");
+    await stalePage.getByRole("button", { name: "שמירת המזון האישי" }).click();
+    await expect(stalePage.getByTestId("custom-food-edit-conflict")).toContainText(
+      "המזון השתנה לאחר טעינת העורך.",
+    );
+    await expect(stalePage.getByLabel("שם")).toHaveValue("מקור עריכה ישן");
+    await expect(stalePage.getByLabel("מותג (אופציונלי)")).toHaveValue(
+      "מותג ישן שנדחה",
+    );
+    await expect(
+      stalePage.getByRole("link", { name: "טעינת המזון הנוכחי ובדיקה מחדש" }),
+    ).toHaveAttribute("href", editPath);
+    expect(fingerprint(foodId)).toBe(accepted);
+
+    await freshContext.close();
+    await staleContext.close();
+    queryLocalDatabase(`delete from public.foods where id = '${foodId}';`);
   });
 
   test("filters owned foods with deterministic twenty-item pagination and edit discovery", async ({

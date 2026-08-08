@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n/routing";
 export type CustomFoodActionStatus =
   | "ambiguous"
   | "archived_or_unavailable"
+  | "conflict"
   | "database_error"
   | "idle"
   | "not_found"

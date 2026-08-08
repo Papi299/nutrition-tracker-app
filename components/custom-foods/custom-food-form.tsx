@@ -267,6 +267,7 @@ export function CustomFoodForm({
   const statusMessage = {
     ambiguous: t("barcode.status.ambiguous"),
     archived_or_unavailable: t("barcode.status.unavailable"),
+    conflict: t("status.conflict"),
     database_error: t("status.databaseError"),
     idle: t("status.idle"),
     not_found: t("status.notFound"),
@@ -373,6 +374,21 @@ export function CustomFoodForm({
         >
           {t("archivedNotice")}
         </div>
+      )}
+
+      {mode === "edit" && state.status === "conflict" && (
+        <section
+          className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          data-testid="custom-food-edit-conflict"
+        >
+          <p role="alert">{t("status.conflict")}</p>
+          <Link
+            className="w-fit font-semibold text-teal-800 underline"
+            href={`/${locale}/foods/custom/${state.values.food_id}/edit`}
+          >
+            {t("status.reloadCurrent")}
+          </Link>
+        </section>
       )}
 
       {barcodeContext && state.status === "owned_existing" && conflictFoodId && (
@@ -589,12 +605,18 @@ export function CustomFoodForm({
       </section>
 
       <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
-        <div
-          className={state.status === "idle" ? "text-sm text-slate-600" : "text-sm text-red-800"}
-          role={state.status === "idle" ? "status" : "alert"}
-        >
-          {statusMessage}
-        </div>
+        {state.status !== "conflict" && (
+          <div
+            className={
+              state.status === "idle"
+                ? "text-sm text-slate-600"
+                : "text-sm text-red-800"
+            }
+            role={state.status === "idle" ? "status" : "alert"}
+          >
+            {statusMessage}
+          </div>
+        )}
         <button
           className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
           disabled={isPending}

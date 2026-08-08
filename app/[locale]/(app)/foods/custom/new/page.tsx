@@ -94,7 +94,7 @@ async function CustomFoodCreateForm({
 
   const action = query
     ? saveBarcodeCustomFoodAction.bind(null, locale, query)
-    : saveCustomFoodAction.bind(null, locale, null);
+    : saveCustomFoodAction.bind(null, locale, null, null);
   const initialState: CustomFoodActionState = {
     barcode_omitted: query ? false : undefined,
     status: "idle",
