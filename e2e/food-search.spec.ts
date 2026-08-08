@@ -431,6 +431,125 @@ test.describe.serial("read-only food search helpers and UI", () => {
     await context.close();
   });
 
+  test("CJ-016 supports required no-JavaScript search states, navigation, locale, and read-only selection", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      storageState: authenticatedState,
+    });
+    const page = await context.newPage();
+    const mutationStateBefore = queryLocalDatabase(`
+      select concat_ws('|',
+        (select count(*) from public.foods),
+        (select count(*) from public.diary_entries where user_id = '${userAId}'),
+        (select count(*) from public.food_favorites where user_id = '${userAId}')
+      );
+    `);
+
+    await page.goto("/en/foods");
+    await expect(page).toHaveURL(/\/en\/foods$/);
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue("");
+    await expect(page.getByTestId("food-search-initial")).toBeVisible();
+
+    await page.getByLabel("Food name, alias, or brand").fill("a");
+    await page.getByRole("button", { name: "Search foods" }).click();
+    await expect(page).toHaveURL(/\/en\/foods\?q=a$/);
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue("a");
+    await expect(page.getByTestId("food-search-too-short")).toBeVisible();
+
+    await page.getByLabel("Food name, alias, or brand").fill("no-such-catalog-food");
+    await page.getByRole("button", { name: "Search foods" }).click();
+    expect(new URL(page.url()).searchParams.get("q")).toBe("no-such-catalog-food");
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue(
+      "no-such-catalog-food",
+    );
+    await expect(page.getByTestId("food-search-empty")).toBeVisible();
+
+    await page.goto("/en/foods?date=2026-07-16&q=peanut%20butter");
+    expect(new URL(page.url()).searchParams.get("q")).toBe("peanut butter");
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue(
+      "peanut butter",
+    );
+    const result = page.locator(`[data-food-id="${aliasFoodId}"]`);
+    await expect(result).toContainText("Groundnut Butter");
+    await expect(result.getByRole("link", { name: "Use in diary" })).toHaveAttribute(
+      "href",
+      `/en/today?date=2026-07-16&foodId=${aliasFoodId}`,
+    );
+
+    await page.getByLabel("Food name, alias, or brand").fill("a");
+    await page.getByRole("button", { name: "Search foods" }).click();
+    await expect(page).toHaveURL(/\/en\/foods\?date=2026-07-16&q=a$/);
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue("a");
+    await expect(page.getByTestId("food-search-too-short")).toBeVisible();
+
+    await page.goBack();
+    expect(new URL(page.url()).searchParams.get("q")).toBe("peanut butter");
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue(
+      "peanut butter",
+    );
+    await expect(page.locator(`[data-food-id="${aliasFoodId}"]`)).toBeVisible();
+
+    await page.goForward();
+    expect(new URL(page.url()).searchParams.get("q")).toBe("a");
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue("a");
+    await expect(page.getByTestId("food-search-too-short")).toBeVisible();
+
+    await page.reload();
+    expect(new URL(page.url()).searchParams.get("q")).toBe("a");
+    await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue("a");
+    await expect(page.getByTestId("food-search-too-short")).toBeVisible();
+
+    await page.goto("/en/foods?q=apple&q=banana");
+    await expect(page.getByTestId("food-search-invalid")).toContainText(
+      "Only one search query",
+    );
+
+    await page.goto("/he/foods?q=%D7%A7%D7%95%D7%98%D7%92%205%25%20tnuva");
+    await expect(page.locator("html")).toHaveAttribute("lang", "he");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    expect(new URL(page.url()).searchParams.get("q")).toBe("קוטג 5% tnuva");
+    await expect(page.getByLabel("שם מזון, כינוי או מותג")).toHaveValue(
+      "קוטג 5% tnuva",
+    );
+    await expect(page.locator(`[data-food-id="${mixedFoodId}"]`)).toContainText(
+      "קוטג  5%   Tnuva",
+    );
+
+    queryLocalDatabase("revoke select on table public.foods from authenticated;");
+    try {
+      await page.goto("/en/foods?q=apple");
+      expect(new URL(page.url()).searchParams.get("q")).toBe("apple");
+      await expect(page.getByLabel("Food name, alias, or brand")).toHaveValue(
+        "apple",
+      );
+      await expect(page.getByTestId("food-search-error")).toContainText(
+        "Food search could not be loaded",
+      );
+      await expect(page.getByTestId("food-search-error")).not.toContainText(
+        "permission denied",
+      );
+    } finally {
+      queryLocalDatabase("grant select on table public.foods to authenticated;");
+    }
+
+    const mutationStateAfter = queryLocalDatabase(`
+      select concat_ws('|',
+        (select count(*) from public.foods),
+        (select count(*) from public.diary_entries where user_id = '${userAId}'),
+        (select count(*) from public.food_favorites where user_id = '${userAId}')
+      );
+    `);
+    expect(mutationStateAfter).toBe(mutationStateBefore);
+
+    await context.clearCookies();
+    await page.goto("/he/foods?q=apple");
+    await expect(page).toHaveURL(/\/he\/auth\/sign-in$/);
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await context.close();
+  });
+
   test("shows a generic retrieval failure without leaking database details", async ({
     browser,
   }) => {
