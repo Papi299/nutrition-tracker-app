@@ -310,6 +310,60 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     await context.close();
   });
 
+  test("CJ-011 preserves date, target, diary, and tenant coherence through browser history without mutation", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser);
+    const page = await context.newPage();
+    const rowsBefore = await Promise.all([
+      userAClient
+        .from("nutrition_targets")
+        .select("id", { count: "exact", head: true }),
+      userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true }),
+    ]);
+
+    await page.goto("/en/today?date=2026-01-15");
+    await expect(page.getByTestId("target-summary")).toContainText("2000");
+    await expect(page.getByText("January meal", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("PRIVATE USER B ENTRY", { exact: true }),
+    ).toHaveCount(0);
+
+    await page.goto("/en/today?date=2026-02-15");
+    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByText("February meal", { exact: true })).toBeVisible();
+    await expect(page.getByText("January meal", { exact: true })).toHaveCount(0);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/\/en\/today\?date=2026-01-15$/);
+    await expect(page.getByTestId("target-summary")).toContainText("2000");
+    await expect(page.getByText("January meal", { exact: true })).toBeVisible();
+    await expect(page.getByText("February meal", { exact: true })).toHaveCount(0);
+
+    await page.goForward();
+    await expect(page).toHaveURL(/\/en\/today\?date=2026-02-15$/);
+    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByText("February meal", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("PRIVATE USER B ENTRY", { exact: true }),
+    ).toHaveCount(0);
+
+    const rowsAfter = await Promise.all([
+      userAClient
+        .from("nutrition_targets")
+        .select("id", { count: "exact", head: true }),
+      userAClient
+        .from("diary_entries")
+        .select("id", { count: "exact", head: true }),
+    ]);
+    expect(rowsAfter.map(({ count }) => count)).toEqual(
+      rowsBefore.map(({ count }) => count),
+    );
+    await context.close();
+  });
+
   test("enforces RLS isolation for targets and diary entries", async () => {
     const targets = await userAClient.from("nutrition_targets").select("user_id,calories");
     const diaryEntries = await userAClient.from("diary_entries").select("user_id,food_name");
