@@ -1833,10 +1833,14 @@
   `528bd45aadce64f43df18431ebdcff0bf0ab07dc`, with its historical source
   branch preserved.
 - Reconciled CJ-016 through CJ-021 from 70 to 127 exact automated evidence
-  references and from 257 to 427 per-test evidence-axis claims after semantic
+  references and from 257 to 421 per-test evidence-axis claims after semantic
   review of every added or modified reference. The schema remains 1.1, all 35
   journey IDs and order remain unchanged, and no-JavaScript classifications
   remain `6 / 1 / 10 / 18`. CJ-021 no-JavaScript remains `NOT_VERIFIED`.
+- Recorded that current automation permits editing an archived owned custom
+  food while preserving its archived/search-hidden state. This does not
+  establish the Phase 11B CJ-019 negative requirement that the archived edit
+  case fails safely; that archived-state contract point remains unresolved.
 - Preserved the accepted Phase 11B normative contract unchanged. Signed manual
   exploration, the complete Phase 11D locale/viewport/browser/accessibility/
   visual matrix, Phase 11J external/provider/platform/device evidence, restore

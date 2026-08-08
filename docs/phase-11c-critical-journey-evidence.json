@@ -1908,8 +1908,7 @@
           "path": "e2e/food-search.spec.ts",
           "testTitle": "keeps the RPC authenticated-only, invoker-rights, and RLS-backed",
           "evidenceAxes": [
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -2235,8 +2234,7 @@
           "path": "e2e/custom-food-persistence.spec.ts",
           "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
           "evidenceAxes": [
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -2417,8 +2415,7 @@
           "path": "e2e/custom-food-persistence.spec.ts",
           "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
           "evidenceAxes": [
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -2539,7 +2536,6 @@
           "testTitle": "edits archived owned food without unarchiving or making it searchable",
           "evidenceAxes": [
             "positivePath",
-            "failureStates",
             "dataIntegrity",
             "browser"
           ]
@@ -2613,7 +2609,8 @@
         }
       ],
       "currentLimitations": [
-        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence."
+        "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence.",
+        "Current accepted automation permits editing an archived owned custom food while preserving its archived/search-hidden state. This does not establish the Phase 11B CJ-019 negative requirement that the archived edit case fails safely; that archived-state contract point remains unresolved."
       ],
       "normativeContract": {
         "launchStatus": "Core",
@@ -2681,8 +2678,7 @@
           "path": "e2e/custom-food-persistence.spec.ts",
           "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
           "evidenceAxes": [
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -2842,8 +2838,7 @@
           "path": "e2e/reusable-foods.spec.ts",
           "testTitle": "enforces least-privilege grants, invoker RPCs, empty search paths, and RLS",
           "evidenceAxes": [
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {

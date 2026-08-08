@@ -228,7 +228,7 @@ and bounded auth/session coverage are present on `main` through PR #73, but
 Phase 11C also now contains independently accepted bounded CJ-009–CJ-021
 automated evidence through current `main`
 `494907b2c2f34ed49771aef75fd3137a522857e9`. The reconciled map contains 35
-journeys, 127 automated references, 427 automated axis claims, and unchanged
+journeys, 127 automated references, 421 automated axis claims, and unchanged
 no-JavaScript totals `6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
 `NOT_VERIFIED`. Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18

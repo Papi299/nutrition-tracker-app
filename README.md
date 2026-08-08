@@ -211,7 +211,7 @@ is complete for the current MVP scope.
   `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run
   `31273568601` / Validate job `93143428615` succeeded, and superseded PR
   #81 was closed unmerged. The reconciled map contains 35 journeys, 127
-  automated references, 427 automated axis claims, and unchanged
+  automated references, 421 automated axis claims, and unchanged
   no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C remains active and
   incomplete. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

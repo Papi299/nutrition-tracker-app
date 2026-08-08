@@ -58,6 +58,11 @@ below reconcile those repository facts only; Phase 11C remains active and
 incomplete, and all manual, Phase 11D, Phase 11J, restore, and Phase 11K
 obligations remain outstanding.
 
+Current accepted automation permits editing an archived owned custom food
+while preserving its archived/search-hidden state. This does not establish the
+Phase 11B CJ-019 negative requirement that the archived edit case fails safely;
+that archived-state contract point remains unresolved.
+
 ## 3. Scope and non-goals
 
 In scope are traceability, controlled evidence classifications, exact
@@ -98,7 +103,7 @@ most important current state without hiding partial evidence on other axes.
 | `BLOCKED_BY_LATER_SLICE` | 7 |
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
 | Automated evidence references | 127 |
-| Automated evidence-axis claims | 427 |
+| Automated evidence-axis claims | 421 |
 | Journeys with manual evidence still not collected | 35 |
 | Journeys with later-slice dependencies | 35 |
 | Journeys with external evidence still not collected | 35 |

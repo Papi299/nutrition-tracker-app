@@ -354,7 +354,7 @@ CJ-019 authoritative recovery. Independent review accepted PR #83 source
 `494907b2c2f34ed49771aef75fd3137a522857e9`, and post-merge run
 `31273568601` / Validate job `93143428615`; superseded PR #81 was closed
 unmerged. The reconciled schema-1.1 map retains 35 journeys and no-JavaScript
-totals `6 / 1 / 10 / 18`, with 127 automated references and 427 automated
+totals `6 / 1 / 10 / 18`, with 127 automated references and 421 automated
 axis claims. Phase 11C remains active and incomplete. This transition
 authorizes no hosted access, deployment, finding closure, or Production
 action, and no later Phase 11 slice has started.
