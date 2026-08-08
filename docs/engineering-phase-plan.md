@@ -351,7 +351,7 @@ Independent review accepted PR #77's bounded CJ-009–CJ-015 evidence at source
 `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, and post-merge run
 `31243356983` / Validate job `93067794693`. The reconciled schema-1.1 map
 retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 70
-automated references and 266 automated axis claims. Phase 11C remains active
+automated references and 257 automated axis claims. Phase 11C remains active
 and incomplete. This transition authorizes no hosted access, deployment,
 finding closure, or Production action, and no later Phase 11 slice has started.
 All 18 findings remain open; Phase 11K remains their exclusive closure gate.

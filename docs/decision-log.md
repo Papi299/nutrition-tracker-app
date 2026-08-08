@@ -1798,7 +1798,9 @@
 - Reconciled CJ-009 through CJ-015 as accepted bounded automated evidence while
   preserving the Phase 11B normative contract, schema 1.1, all 35 journey IDs
   and order, and no-JavaScript totals `6 / 1 / 10 / 18`. Exact linked evidence
-  advanced from 34 to 70 references and from 141 to 266 axis claims.
+  advanced from 34 to 70 references and from 141 to 257 axis claims after
+  independent semantic review removed nine unsupported per-reference axis
+  assignments without changing any evidence link or top-level journey status.
 - Retained signed manual evidence, the full Phase 11D locale/viewport/browser/
   accessibility/visual matrix, Phase 11J external/provider/platform/device
   evidence, and restore evidence as outstanding. Phase 11C remains active and

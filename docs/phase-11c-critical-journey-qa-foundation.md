@@ -85,7 +85,7 @@ most important current state without hiding partial evidence on other axes.
 | `BLOCKED_BY_LATER_SLICE` | 7 |
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
 | Automated evidence references | 70 |
-| Automated evidence-axis claims | 266 |
+| Automated evidence-axis claims | 257 |
 | Journeys with manual evidence still not collected | 35 |
 | Journeys with later-slice dependencies | 35 |
 | Journeys with external evidence still not collected | 35 |

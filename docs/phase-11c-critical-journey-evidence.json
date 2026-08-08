@@ -1050,9 +1050,7 @@
           "path": "e2e/setup-persistence.spec.ts",
           "testTitle": "CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes",
           "evidenceAxes": [
-            "positivePath",
             "failureStates",
-            "staleConflictRetry",
             "dataIntegrity"
           ]
         }
@@ -1489,8 +1487,7 @@
           "evidenceAxes": [
             "failureStates",
             "staleConflictRetry",
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -1498,8 +1495,7 @@
           "testTitle": "retains the function, ACL, receipt, and policy security boundaries",
           "evidenceAxes": [
             "failureStates",
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -1508,7 +1504,6 @@
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
-            "tenantIsolation",
             "locale",
             "browser"
           ]
@@ -1519,7 +1514,6 @@
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
-            "tenantIsolation",
             "browser"
           ]
         },
@@ -1530,7 +1524,6 @@
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
-            "tenantIsolation",
             "browser"
           ]
         },
@@ -1540,7 +1533,6 @@
           "evidenceAxes": [
             "failureStates",
             "dataIntegrity",
-            "tenantIsolation",
             "browser"
           ]
         },
@@ -1702,7 +1694,6 @@
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
-            "tenantIsolation",
             "browser"
           ]
         },

@@ -246,13 +246,14 @@ actions.
 - Evidence schema: 1.1.
 - Journeys: 35.
 - Automated evidence links after reconciliation: 70.
-- Evidence-axis claims after reconciliation: 266.
+- Evidence-axis claims after semantic correction: 257.
 - No-JavaScript totals: 6 / 1 / 10 / 18.
 - Manual evidence: not collected.
 - Restore evidence: outstanding.
 - Hosted/deployed evidence: outstanding.
 - Production deployment: unauthorized.
 
-The next action is independent review of the evidence/status reconciliation
-draft PR and its exact final-head CI. Merging that documentation reconciliation
-or authorizing another Phase 11C slice requires a separate decision.
+The next action is independent review of the corrected evidence/status
+reconciliation draft PR, its per-reference semantic mappings, and its exact
+final-head CI. Merging that documentation reconciliation or authorizing another
+Phase 11C slice requires a separate decision.

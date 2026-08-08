@@ -207,7 +207,7 @@ is complete for the current MVP scope.
   CJ-009–CJ-015 automated evidence into current `main`
   `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, with post-merge run
   `31243356983` / Validate job `93067794693` successful. The reconciled map
-  contains 35 journeys, 70 automated references, 266 automated axis claims,
+  contains 35 journeys, 70 automated references, 257 automated axis claims,
   and unchanged no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C remains
   active and incomplete. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

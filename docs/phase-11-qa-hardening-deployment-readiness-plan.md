@@ -225,7 +225,7 @@ Phase 11C also now contains the independently accepted Phase 11C2A and 11C2B
 bounded automated evidence through current `main`
 `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`. CJ-009 through CJ-015 have
 accepted bounded automated coverage; the reconciled map contains 35 journeys,
-70 automated references, 266 automated axis claims, and unchanged
+70 automated references, 257 automated axis claims, and unchanged
 no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C nevertheless remains active
 and incomplete. `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
