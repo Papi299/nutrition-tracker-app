@@ -1882,7 +1882,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -1891,19 +1891,43 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "keeps the RPC authenticated-only, invoker-rights, and RLS-backed",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "normalizes and ranks canonical, English, Hebrew, and und matches",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "supports brand, prefix, substring, and conservative trigram matching",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
         {
           "path": "e2e/food-search.spec.ts",
           "testTitle": "deduplicates foods, caps results, excludes archived and other-user rows",
@@ -1912,6 +1936,54 @@
             "failureStates",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "renders stable English UI states, metadata, navigation, and preserved queries",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "renders Hebrew RTL search and mixed-script metadata",
+          "evidenceAxes": [
+            "positivePath",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "CJ-016 supports required no-JavaScript search states, navigation, locale, and read-only selection",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "shows a generic retrieval failure without leaking database details",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "redirects an expired session to localized sign-in",
+          "evidenceAxes": [
+            "failureStates",
+            "locale",
+            "browser"
           ]
         }
       ],
@@ -1980,7 +2052,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -1989,7 +2061,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -1998,10 +2070,28 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "keeps the invoker RPC authenticated-only and applies one nutrient basis",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "uses browser-local Today for direct Foods navigation while preserving foodId",
+          "evidenceAxes": [
+            "positivePath",
+            "browser"
+          ]
+        },
         {
           "path": "e2e/food-diary-prefill.spec.ts",
           "testTitle": "supports own custom food and hides other-user and archived selections",
@@ -2010,6 +2100,45 @@
             "failureStates",
             "dataIntegrity",
             "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-017 keeps required no-JavaScript selected-food review readable, tenant-safe, and non-mutating",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "rejects invalid and repeated foodId without running a lookup",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "omits invalid Foods date context deterministically",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "shows generic retrieval failure and redirects expired sessions",
+          "evidenceAxes": [
+            "failureStates",
+            "locale",
             "browser"
           ]
         }
@@ -2076,7 +2205,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "NOT_VERIFIED"
@@ -2088,13 +2217,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -2104,11 +2233,95 @@
       "automatedEvidence": [
         {
           "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "enforces custom-food nutrient bases with strict null semantics",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
           "testTitle": "creates one owned private custom food with one basis and raw aliases",
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "persists empty-food bases without inferring from 100 g or 100 ml servings",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "forces 100 g and 100 ml while accepting expanded nutrients and zero",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "rejects malformed collections and invalid serving values atomically",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "renders English and Hebrew create routes with defaults, groups and mobile layout",
+          "evidenceAxes": [
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "rejects invalid values and duplicate aliases while preserving entered fields",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "creates an exact 100 g per-serving food with grouped nutrients, zero and raw aliases",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "creates fixed per-100 g and per-100 ml foods in English and Hebrew",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "creates a food through the editor and prepares isolated pagination fixtures",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
           ]
         }
       ],
@@ -2174,10 +2387,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -2186,13 +2399,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -2202,11 +2415,177 @@
       "automatedEvidence": [
         {
           "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "rejects a null custom-food revision at the constraint boundary",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "advances child revisions when the creation marker is absent in a fresh backend",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "advances the aggregate revision for parent, nutrient-only, alias-only, and archive changes",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "rejects stale, missing, malformed, and forged edit revisions before replacement",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "rejects semantic replacement when the aggregate revision is exhausted",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
           "testTitle": "fully replaces nutrients and aliases without changing diary snapshots",
           "evidenceAxes": [
             "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "preserves timestamps and child identities on an identical update",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "rolls back basis, food, and child changes when a nutrient write fails",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "clears complete child collections and blocks unauthorized writes",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "keeps editor retrieval authenticated-only, invoker-secured and owner-scoped",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "loads an empty food from its durable basis without inference",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "updates basis and aliases without conversion while preserving diary snapshots",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "clears nutrients and aliases while retaining the newly selected basis",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "edits archived owned food without unarchiving or making it searchable",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "shows invalid, unavailable, retrieval-failure and expired-session states safely",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "CJ-019 rejects a stale application edit without replacing the accepted food contract",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "CJ-019 permits exactly one incompatible same-revision application edit",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "CJ-019 preserves Hebrew RTL stale values and requires a fresh review",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser"
           ]
         }
       ],
@@ -2272,7 +2651,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -2284,7 +2663,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -2299,13 +2678,75 @@
       },
       "automatedEvidence": [
         {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "keeps mutation RPCs authenticated-only and revision helpers least-privileged",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "advances the aggregate revision for parent, nutrient-only, alias-only, and archive changes",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "archives without deletion, hides search and prefill, then restores both",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "renders localized active and archived empty states with navigation and mobile layout",
+          "evidenceAxes": [
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "rejects invalid and repeated queries without a list read and handles retrieval and session failures",
+          "evidenceAxes": [
+            "failureStates",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "confirms and archives an owned food while preserving data, linkage, and edit access",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "keeps cross-user and public foods invisible and immutable through the lifecycle contract",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
           "path": "e2e/custom-food-management.spec.ts",
           "testTitle": "restores the food to active search and prefill without changing stored data or diary history",
           "evidenceAxes": [
             "positivePath",
             "staleConflictRetry",
             "dataIntegrity",
-            "tenantIsolation",
             "browser"
           ]
         }
@@ -2372,7 +2813,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -2384,13 +2825,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
@@ -2399,12 +2840,83 @@
       "automatedEvidence": [
         {
           "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "enforces least-privilege grants, invoker RPCs, empty search paths, and RLS",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "allows only own favorite rows for readable nonarchived foods",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
           "testTitle": "keeps favorite and unfavorite RPC submissions idempotent",
           "evidenceAxes": [
             "positivePath",
+            "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "returns independently ordered, deduplicated favorites and recents with current metadata",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "preserves favorites through archive, restores visibility, and cascades on deletion",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "shows and mutates favorite state in search without changing search ranking",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "renders separate localized collections and date-preserving read-only diary links",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "renders a generic retrieval failure without exposing database details",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "handles invalid and repeated dates and protects the route when signed out",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
           ]
         }
       ],

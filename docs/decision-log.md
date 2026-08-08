@@ -1816,3 +1816,32 @@
 - All 18 findings remain `OPEN`; Phase 11K remains their exclusive closure
   gate. No hosted Supabase, Vercel, deployment, backup, restore, launch,
   finding-closure, or Production operation occurred.
+
+## 2026-08-08: Phase 11C CJ-016–CJ-021 accepted evidence reconciliation
+
+- Recorded the accepted correction sequence accurately: PR #79 fixed CJ-019
+  stale-write concurrency; PR #80 fixed CJ-016 no-JavaScript history
+  synchronization; PR #81 remained an unmerged candidate; PR #82 fixed CJ-019
+  stale-conflict authoritative recovery; and PR #83 carried the useful CJ-017
+  no-JavaScript test onto the authoritative baseline and completed the bounded
+  CJ-016–CJ-021 candidate acceptance slice.
+- Recorded independent post-merge acceptance of PR #83 source
+  `818e19d46863dd1f807e27ee63a61bcb550d2c53`, squash
+  `494907b2c2f34ed49771aef75fd3137a522857e9`, and push-triggered run
+  `31273568601` / Validate job `93143428615`. Superseded draft PR #81 was
+  closed unmerged at unchanged head
+  `528bd45aadce64f43df18431ebdcff0bf0ab07dc`, with its historical source
+  branch preserved.
+- Reconciled CJ-016 through CJ-021 from 70 to 127 exact automated evidence
+  references and from 257 to 427 per-test evidence-axis claims after semantic
+  review of every added or modified reference. The schema remains 1.1, all 35
+  journey IDs and order remain unchanged, and no-JavaScript classifications
+  remain `6 / 1 / 10 / 18`. CJ-021 no-JavaScript remains `NOT_VERIFIED`.
+- Preserved the accepted Phase 11B normative contract unchanged. Signed manual
+  exploration, the complete Phase 11D locale/viewport/browser/accessibility/
+  visual matrix, Phase 11J external/provider/platform/device evidence, restore
+  evidence, and the Phase 11K final gate remain outstanding.
+- Phase 11C remains active and incomplete. All 18 findings remain `OPEN`, and
+  Phase 11K remains their exclusive closure gate. No hosted Supabase, remote
+  database, Vercel, deployment, Production, backup, restore, launch, DNS,
+  environment, secret, or finding-closure operation occurred.
