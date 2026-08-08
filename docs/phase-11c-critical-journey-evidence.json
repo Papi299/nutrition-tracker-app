@@ -862,16 +862,16 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -895,6 +895,33 @@
             "dataIntegrity",
             "locale",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "clears one field, preserves explicit zeros, and submits in Hebrew",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "rejects unauthenticated execution and cannot affect another user",
+          "evidenceAxes": [
+            "tenantIsolation"
           ]
         }
       ],
@@ -957,7 +984,7 @@
       "controllingSlice": "11C",
       "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
       "positivePath": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
         "status": "AUTOMATED_PARTIAL"
@@ -969,10 +996,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -991,6 +1018,39 @@
           "evidenceAxes": [
             "failureStates",
             "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "clears all targets atomically without leaking the earlier target",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "clears one field, preserves explicit zeros, and submits in Hebrew",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "rejects unauthenticated execution and cannot affect another user",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes",
+          "evidenceAxes": [
+            "failureStates",
             "dataIntegrity"
           ]
         }
@@ -1057,7 +1117,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -1066,10 +1126,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -1089,6 +1149,34 @@
             "positivePath",
             "staleConflictRetry",
             "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "rejects invalid, unsupported, and repeated date queries",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "preserves English LTR and Hebrew RTL",
+          "evidenceAxes": [
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "CJ-011 preserves date, target, diary, and tenant coherence through browser history without mutation",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
             "browser"
           ]
         }
@@ -1155,10 +1243,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -1167,7 +1255,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -1188,6 +1276,84 @@
             "dataIntegrity",
             "tenantIsolation",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 durably converges sequential, concurrent, uncertain, deleted, conflicting, and owner-scoped replays",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 rolls back both the diary row and receipt when completion fails",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 retains one logical draft key through UI validation and completes once",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 rotates the UI draft key only after confirmed success",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 retains the UI draft through a database rollback and exact retry",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 recovers a committed but unacknowledged form submission with the original key",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 preserves conflicting values and requires explicit new-entry rotation in English and Hebrew RTL",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 enforces the receipt schema, ACL, RLS, and minimum definer write boundary",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
           ]
         }
       ],
@@ -1253,19 +1419,19 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -1285,6 +1451,120 @@
             "positivePath",
             "dataIntegrity",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "preserves completed receipts and permits one controlled retry after unavailable",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "accepts active readable links and rejects archived, missing, and tenant-inaccessible links",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "enforces the active-readable insert policy without constraining historical updates",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "serializes creation-first and archive-first outcomes with an explicit food-row lock",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "retains the function, ACL, receipt, and policy security boundaries",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 preserves Hebrew RTL while logging a valid selected food",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 submits a selected public food with mobile and keyboard behavior",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 rejects an owned food archived after prefill without creating a diary row or receipt",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 rejects database and expired-session submissions without a partial diary write",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 preserves the application-saved snapshot when the source changes or disappears",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "enforces private-link RLS and preserves snapshots when a linked food is deleted",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "copies exact ordered snapshots and applies food-link rules atomically",
+          "evidenceAxes": [
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "keeps linked snapshots authoritative and makes diary edits and deletion historically independent",
+          "evidenceAxes": [
+            "dataIntegrity"
           ]
         }
       ],
@@ -1350,10 +1630,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -1384,6 +1664,45 @@
             "dataIntegrity",
             "tenantIsolation",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-014 carries the authoritative version and preserves stale submitted values",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-014 permits exactly one concurrent application-path edit and supports a fresh-version retry",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-014 reports an application-path missing edit without disclosing or restoring the deleted row",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-014 hides other-owner existence at the database boundary",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
           ]
         }
       ],
@@ -1449,10 +1768,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -1461,7 +1780,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
@@ -1481,6 +1800,19 @@
             "positivePath",
             "dataIntegrity",
             "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-015 keeps owner deletion safe across repeated, database, session, tenant, and Hebrew states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
             "browser"
           ]
         }

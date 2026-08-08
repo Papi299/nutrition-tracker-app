@@ -1788,3 +1788,31 @@
   remains the exclusive finding-closure gate.
 - No hosted Supabase, provider, Vercel, deployment, backup/restore,
   finding-closure, risk-acceptance, or Production operation occurred.
+
+## 2026-08-08: Phase 11C2B accepted evidence/status reconciliation
+
+- Recorded independent acceptance of PR #77 source
+  `644b552f7db5bb8bf3693ea5c22941875b5b3764`, squash
+  `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, and push-triggered run
+  `31243356983` / Validate job `93067794693`.
+- Reconciled CJ-009 through CJ-015 as accepted bounded automated evidence while
+  preserving the Phase 11B normative contract, schema 1.1, all 35 journey IDs
+  and order, and no-JavaScript totals `6 / 1 / 10 / 18`. Exact linked evidence
+  advanced from 34 to 70 references and from 141 to 257 axis claims after
+  independent semantic review removed nine unsupported per-reference axis
+  assignments without changing any evidence link or top-level journey status.
+- Retained signed manual evidence, the full Phase 11D locale/viewport/browser/
+  accessibility/visual matrix, Phase 11J external/provider/platform/device
+  evidence, and restore evidence as outstanding. Phase 11C remains active and
+  incomplete.
+- Retained the PR #77 process exception: a failed sandboxed merge connection
+  was retried through a platform-reviewed broader network path without the
+  required intervening fresh PR/`main` read. Independent verification proved
+  the exact one-time accepted merge; this is an execution-process exception,
+  not a product defect or finding closure.
+- Classified the post-merge increase from nine to ten npm advisories as
+  advisory-data drift because PR #77 changed no dependency or lockfile. The
+  exact run also contained one recovered public-ECR rate-limit/retry event.
+- All 18 findings remain `OPEN`; Phase 11K remains their exclusive closure
+  gate. No hosted Supabase, Vercel, deployment, backup, restore, launch,
+  finding-closure, or Production operation occurred.

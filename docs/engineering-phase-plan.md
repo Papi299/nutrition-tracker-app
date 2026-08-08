@@ -344,10 +344,18 @@ recommended release-separation policy. Phase 11C1's bounded
 [critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
 merged into `main` through PR #73 at squash commit
 `c537f65ed598832e11015266d615c295a4504d06`. Push-triggered Validate run
-`30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C
-remains active and incomplete. This transition authorizes no hosted access,
-deployment, finding closure, or Production action, and no later Phase 11 slice
-has started. Overall Phase 11 remains incomplete.
+`30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C2A
+correctness remediation and Phase 11C2B linked-food remediation also merged.
+Independent review accepted PR #77's bounded CJ-009–CJ-015 evidence at source
+`644b552f7db5bb8bf3693ea5c22941875b5b3764`, current `main` squash
+`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, and post-merge run
+`31243356983` / Validate job `93067794693`. The reconciled schema-1.1 map
+retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 70
+automated references and 257 automated axis claims. Phase 11C remains active
+and incomplete. This transition authorizes no hosted access, deployment,
+finding closure, or Production action, and no later Phase 11 slice has started.
+All 18 findings remain open; Phase 11K remains their exclusive closure gate.
+Overall Phase 11 remains incomplete.
 
 ## Future PR Documentation Rule
 

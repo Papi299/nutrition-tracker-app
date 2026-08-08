@@ -12,18 +12,48 @@
 | Resumption branch | `test/phase-11c2b-core-loop-acceptance-resumed` |
 | Journeys | `CJ-009` through `CJ-015` |
 | Evidence-map baseline | Schema `1.1`; 35 journeys; 34 automated links; 141 automated axis claims; no-JavaScript totals `6 / 1 / 10 / 18` |
+| Independent review | `ACCEPTED` |
+| PR #77 | `MERGED` from accepted source `644b552f7db5bb8bf3693ea5c22941875b5b3764` |
+| Accepted squash | `18eae73a91d8e0156702b42bf8327af6ef7e6c9f` |
+| Post-merge validation | run `31243356983`, attempt `1`, Validate job `93067794693`, push to `main`, `SUCCESS` |
 
-This report records bounded automated acceptance evidence. Phase 11C remains
-active and incomplete; Phase 11C2B remains under independent review and is not
-complete; CJ-013 is not accepted until independent review. All 18 findings
-remain open, and Phase 11K remains their exclusive closure gate. The evidence
-map, engineering phase status, decision log, finding status, launch status, and
-Production status are unchanged.
+This report records bounded automated acceptance evidence. Independent review
+accepted PR #77, its exact squash, and its exact post-merge validation. Phase
+11C2B bounded automated acceptance is therefore merged, post-merge validated,
+and accepted; CJ-009 through CJ-015 have bounded automated acceptance, and
+CJ-013's corrected linked-food write behavior is accepted for the tested local
+Chromium environment. Phase 11C remains active and incomplete. All 18 findings
+remain open, and Phase 11K remains their exclusive closure gate.
 
 No hosted Supabase, Vercel, deployment, restore, launch, credential, secret, or
 Production action was performed. Manual evidence was not collected. Restore and
 hosted/deployed evidence remain outstanding, and Production deployment remains
 unauthorized.
+
+## Independent acceptance and process exception
+
+Independent review verified that accepted source
+`644b552f7db5bb8bf3693ea5c22941875b5b3764` was squash-merged exactly once as
+`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, that the source and squash trees
+are identical, that the squash contains only the five accepted files, and that
+push-triggered run `31243356983` / Validate job `93067794693` succeeded on that
+exact squash.
+
+The merge execution nevertheless retains one non-repeatable process exception:
+the first sandboxed GitHub merge attempt failed before connecting, and the
+retry used a platform-reviewed broader network path without first performing
+the prompt-mandated fresh PR/`main` read. Independent verification resolved the
+resulting uncertainty; this exception is not a product defect, does not close a
+finding, and must not be repaired by replaying, reverting, amending, or
+rewriting the accepted merge.
+
+The exact post-merge log reported 10 npm advisories: 1 low, 1 moderate, 7 high,
+and 1 critical. PR #77 changed neither `package.json` nor `package-lock.json`,
+so the increase from the prior nine-advisory observation is advisory-data drift,
+not a dependency mutation by PR #77. The same successful run recorded one
+recoverable `public.ecr.aws` rate-limit event followed by one four-second retry;
+it recorded no PostgreSQL recovery event, Playwright retry, workflow rerun, or
+retained failure artifact.
 
 ## Preserved source record
 
@@ -128,18 +158,18 @@ recorded in the delivery report.
 
 ## Journey classifications
 
-Statuses below mean `PASS` for this bounded automated acceptance slice. They do
-not replace the unchanged manual/external classifications or independent review.
+Statuses below mean accepted bounded automated evidence. They do not replace
+the unchanged manual/external classifications or later final-gate obligations.
 
 | Journey | Status | Exact evidence and path |
 | --- | --- | --- |
-| `CJ-009` | `PASS` | `setup-persistence.spec.ts`: `creates a first profile and intentional all-null reset in English`; `clears one field, preserves explicit zeros, and submits in Hebrew`; and the new CJ-009/CJ-010 failure test. Real `/setup` form -> server action -> atomic setup RPC; database, validation, session, RLS/owner, null/zero, and rollback state are asserted. |
-| `CJ-010` | `PASS` | `setup-persistence.spec.ts`: `clears all targets atomically without leaking the earlier target`; `is idempotent and rolls back a profile update when the target fails`; `rejects unauthenticated execution and cannot affect another user`; and the new combined failure test. Real update form, atomic persistence, retry, historical target, tenant, English/Hebrew evidence. |
-| `CJ-011` | `PASS` | `date-correctness.spec.ts`: `CJ-011 preserves date, target, diary, and tenant coherence through browser history without mutation`, plus canonicalization, effective-target, explicit-date mutation/reload, invalid-query, LTR/RTL, no-JS server-render, and RLS tests. |
-| `CJ-012` | `PASS` | `diary-mutation-correctness.spec.ts`: all eight exact `CJ-012` tests covering RPC convergence, rollback, real-form validation/key retention, success rotation, database retry, unacknowledged commit recovery, bilingual conflict UX, receipt schema/ACL/RLS/definer boundary. |
-| `CJ-013` | `PASS` | `food-diary-prefill.spec.ts`, `linked-food-write-revalidation.spec.ts`, `saved-meal-diary-reuse.spec.ts`, and `recipe-diary-logging.spec.ts`: real owned/public form submission, English LTR, Hebrew RTL, mobile/keyboard, stale rejection/value retention, no partial row/receipt, controlled retry, immutable snapshots, optional-link clearing, tenant/RLS/ACL protection, Saved Meal and Recipe regressions, and deterministic row-lock races. |
-| `CJ-014` | `PASS` | `diary-mutation-correctness.spec.ts`: authoritative-version/value-retention, exact one-winner concurrent application edit, fresh retry, missing-row application non-disclosure/no-resurrection, and database other-owner non-disclosure. No-JavaScript remains `NOT_APPLICABLE`. |
-| `CJ-015` | `PASS` | `diary-mutation-correctness.spec.ts`: `CJ-015 keeps owner deletion safe across repeated, database, session, tenant, and Hebrew states`, together with authenticated core-loop coverage. Real form/action, owner-only deletion, totals refresh, generic missing/other-owner states, injected rollback, repeat safety, unrelated-row integrity, and RTL persistence are asserted. |
+| `CJ-009` | `ACCEPTED — BOUNDED AUTOMATED` | `setup-persistence.spec.ts`: `creates a first profile and intentional all-null reset in English`; `clears one field, preserves explicit zeros, and submits in Hebrew`; and the new CJ-009/CJ-010 failure test. Real `/setup` form -> server action -> atomic setup RPC; database, validation, session, RLS/owner, null/zero, and rollback state are asserted. |
+| `CJ-010` | `ACCEPTED — BOUNDED AUTOMATED` | `setup-persistence.spec.ts`: `clears all targets atomically without leaking the earlier target`; `is idempotent and rolls back a profile update when the target fails`; `rejects unauthenticated execution and cannot affect another user`; and the new combined failure test. Real update form, atomic persistence, retry, historical target, tenant, English/Hebrew evidence. |
+| `CJ-011` | `ACCEPTED — BOUNDED AUTOMATED` | `date-correctness.spec.ts`: `CJ-011 preserves date, target, diary, and tenant coherence through browser history without mutation`, plus canonicalization, effective-target, explicit-date mutation/reload, invalid-query, LTR/RTL, no-JS server-render, and RLS tests. |
+| `CJ-012` | `ACCEPTED — BOUNDED AUTOMATED` | `diary-mutation-correctness.spec.ts`: all eight exact `CJ-012` tests covering RPC convergence, rollback, real-form validation/key retention, success rotation, database retry, unacknowledged commit recovery, bilingual conflict UX, receipt schema/ACL/RLS/definer boundary. |
+| `CJ-013` | `ACCEPTED — BOUNDED AUTOMATED` | `food-diary-prefill.spec.ts`, `linked-food-write-revalidation.spec.ts`, `saved-meal-diary-reuse.spec.ts`, and `recipe-diary-logging.spec.ts`: real owned/public form submission, English LTR, Hebrew RTL, mobile/keyboard, stale rejection/value retention, no partial row/receipt, controlled retry, immutable snapshots, optional-link clearing, tenant/RLS/ACL protection, Saved Meal and Recipe regressions, and deterministic row-lock races. |
+| `CJ-014` | `ACCEPTED — BOUNDED AUTOMATED` | `diary-mutation-correctness.spec.ts`: authoritative-version/value-retention, exact one-winner concurrent application edit, fresh retry, missing-row application non-disclosure/no-resurrection, and database other-owner non-disclosure. No-JavaScript remains `NOT_APPLICABLE`. |
+| `CJ-015` | `ACCEPTED — BOUNDED AUTOMATED` | `diary-mutation-correctness.spec.ts`: `CJ-015 keeps owner deletion safe across repeated, database, session, tenant, and Hebrew states`, together with authenticated core-loop coverage. Real form/action, owner-only deletion, totals refresh, generic missing/other-owner states, injected rollback, repeat safety, unrelated-row integrity, and RTL persistence are asserted. |
 
 Viewport review remains manual, supported-browser/platform/device proof remains
 external where the controlling map requires it, and signed manual evidence is
@@ -198,29 +228,32 @@ deliberate constraint/trigger failures exercised by negative tests. None was a
 product failure. The successful workflow must not be rerun merely for cleaner
 logs.
 
-The exact-head draft-PR CI must remain authoritative for repository hygiene,
-static checks, journey counts, at least 242 unit tests, build, Supabase startup,
-migration-role compatibility, initial and clean migration replay through
-`20260801190220`, synchronized ingestion types, the complete Playwright suite,
-artifact cleanup, Supabase cleanup, and post-job actions.
+Accepted post-merge run `31243356983` is authoritative for repository hygiene,
+static checks, the pre-reconciliation journey totals, 242 unit tests, the
+31-page build, Supabase startup, migration-role compatibility, initial and clean
+migration replay through `20260801190220`, synchronized ingestion types, all
+270 Playwright tests, zero retained artifacts, Supabase cleanup, and post-job
+actions.
 
 ## Remaining evidence and state
 
 - Phase 11C: active and incomplete.
-- Phase 11C2B: acceptance under review, not complete.
-- CJ-013: not accepted until independent review.
+- Phase 11C2B bounded automated acceptance: merged, post-merge validated, and accepted.
+- CJ-009 through CJ-015: bounded automated acceptance accepted.
+- CJ-013 corrected write behavior: accepted for the tested local Chromium environment.
 - Findings: all 18 remain open.
 - Phase 11K: exclusive finding-closure gate.
 - Evidence schema: 1.1.
 - Journeys: 35.
-- Automated evidence links: 34.
-- Evidence-axis claims: 141.
+- Automated evidence links after reconciliation: 70.
+- Evidence-axis claims after semantic correction: 257.
 - No-JavaScript totals: 6 / 1 / 10 / 18.
 - Manual evidence: not collected.
 - Restore evidence: outstanding.
 - Hosted/deployed evidence: outstanding.
 - Production deployment: unauthorized.
 
-The next authorized action is independent review of the draft acceptance PR.
-Evidence-map reconciliation, CJ-013 acceptance, and Phase 11C2B completion all
-remain outside this branch's authority.
+The next action is independent review of the corrected evidence/status
+reconciliation draft PR, its per-reference semantic mappings, and its exact
+final-head CI. Merging that documentation reconciliation or authorizing another
+Phase 11C slice requires a separate decision.

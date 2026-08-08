@@ -202,9 +202,14 @@ is complete for the current MVP scope.
   source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`; independent review
   accepted recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`.
   Overall Phase 11 remains incomplete. Phase 11C1 merged into `main` through
-  PR #73 at squash commit `c537f65ed598832e11015266d615c295a4504d06`;
-  push-triggered Validate run `30697381368`, job `91362444133`, succeeded on
-  that exact SHA. Phase 11C remains active and incomplete. The merged
+  PR #73. Phase 11C2A correctness remediation and Phase 11C2B linked-food
+  remediation followed; independently accepted PR #77 merged bounded
+  CJ-009–CJ-015 automated evidence into current `main`
+  `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, with post-merge run
+  `31243356983` / Validate job `93067794693` successful. The reconciled map
+  contains 35 journeys, 70 automated references, 257 automated axis claims,
+  and unchanged no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C remains
+  active and incomplete. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
@@ -655,9 +660,9 @@ Manual RTL QA checklist:
   the approved current MVP scope. Phase 11A completed only its audit and
   implementation-decomposition scope. Phase 11B is complete for its bounded
   documentation, decision, contract, and handoff scope. Overall Phase 11
-  remains incomplete. Phase 11C1's bounded critical-journey traceability
-  foundation is merged through PR #73, while Phase 11C remains active and
-  incomplete.
+  remains incomplete. Phase 11C1's traceability foundation and the accepted
+  Phase 11C2B bounded CJ-009–CJ-015 automated evidence are merged through PRs
+  #73 and #77 respectively, while Phase 11C remains active and incomplete.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -814,8 +819,8 @@ Manual RTL QA checklist:
   30 attributable owner decisions in its
   [accepted contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md);
   all 18 findings remain open, Phase 11K remains their only closure gate, and
-  Phase 11C remains active and incomplete after Phase 11C1 merged through
-  PR #73.
+  Phase 11C remains active and incomplete after Phase 11C1 and the accepted
+  Phase 11C2B bounded automated evidence merged through PRs #73 and #77.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
@@ -872,7 +877,8 @@ Manual RTL QA checklist:
   for its bounded documentation, product-decision, acceptance-contract, and
   handoff scope; it does not authorize implementation, launch, hosted access,
   or deployment. Overall Phase 11 remains incomplete. Phase 11C1's bounded
-  critical-journey traceability foundation is merged through PR #73, while
+  critical-journey traceability foundation and Phase 11C2B's accepted bounded
+  CJ-009–CJ-015 automated evidence are merged through PRs #73 and #77, while
   Phase 11C remains active and incomplete.
 - Supabase Auth is wired for the current MVP. Vercel is still deferred.
 - V1 should support manual nutrition targets and must not include automatic
