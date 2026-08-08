@@ -141,6 +141,7 @@ function LocalizedFoodsPage({
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
           <input
             aria-describedby="food-search-help"
+            autoComplete="off"
             className="min-h-11 flex-1 border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none transition-colors focus:border-teal-700 focus:ring-2 focus:ring-teal-100"
             defaultValue={state.value}
             id="food-search-query"
