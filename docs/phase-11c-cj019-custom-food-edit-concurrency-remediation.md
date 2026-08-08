@@ -210,3 +210,16 @@ closure remains Phase 11K only, production remains unauthorized, and the
 evidence map remains unchanged pending independent remediation review, merge,
 post-merge validation, resumed acceptance, and separate evidence
 reconciliation.
+
+## Follow-up: authoritative conflict recovery
+
+Post-merge resumed acceptance exposed a client-state recovery defect while
+confirming that stale rejection and its zero-mutation database protection
+remained correct. The same-route client link could retain the rejected
+`useActionState` payload instead of replacing it with the current editor data.
+This follow-up makes the explicit recovery control perform a real document
+reload, so the server retrieves the authoritative aggregate and binds its
+current edit revision in a new editor session. Application-path regression now
+covers stale-value review before recovery, authoritative English and Hebrew/RTL
+recovery, fresh-revision retry, and rejection after a recovered editor becomes
+stale again.

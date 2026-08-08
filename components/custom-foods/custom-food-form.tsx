@@ -382,12 +382,12 @@ export function CustomFoodForm({
           data-testid="custom-food-edit-conflict"
         >
           <p role="alert">{t("status.conflict")}</p>
-          <Link
+          <a
             className="w-fit font-semibold text-teal-800 underline"
             href={`/${locale}/foods/custom/${state.values.food_id}/edit`}
           >
             {t("status.reloadCurrent")}
-          </Link>
+          </a>
         </section>
       )}
 
