@@ -178,10 +178,14 @@ merged into `main` through PR #73 at squash commit
 `30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C2A
 correctness remediation, Phase 11C2B linked-food remediation, and bounded
 Phase 11C2B core-loop acceptance subsequently merged. Independent review
-accepted PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`, squash
-`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, and post-merge run
-`31243356983` / Validate job `93067794693`. Phase 11C remains active and
-incomplete. This transition authorizes no hosted access,
+accepted PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`.
+PRs #79, #80, and #82 corrected CJ-019 concurrency, CJ-016 no-JavaScript
+history synchronization, and CJ-019 authoritative recovery. Independent review
+accepted PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`, squash
+`494907b2c2f34ed49771aef75fd3137a522857e9`, and post-merge run
+`31273568601` / Validate job `93143428615`; superseded PR #81 was closed
+unmerged. Phase 11C remains active and incomplete. This transition authorizes
+no hosted access,
 finding closure, Production release, or deployment. Overall Phase 11 remains
 incomplete, and the dependency graph and two-stage evidence model above remain
 controlling.
@@ -221,13 +225,13 @@ trace, and contradiction/link checks.
 **Current status:** Phase 11C1's
 [critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
 and bounded auth/session coverage are present on `main` through PR #73, but
-Phase 11C also now contains the independently accepted Phase 11C2A and 11C2B
-bounded automated evidence through current `main`
-`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`. CJ-009 through CJ-015 have
-accepted bounded automated coverage; the reconciled map contains 35 journeys,
-70 automated references, 257 automated axis claims, and unchanged
-no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C nevertheless remains active
-and incomplete. `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
+Phase 11C also now contains independently accepted bounded CJ-009–CJ-021
+automated evidence through current `main`
+`494907b2c2f34ed49771aef75fd3137a522857e9`. The reconciled map contains 35
+journeys, 127 automated references, 421 automated axis claims, and unchanged
+no-JavaScript totals `6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
+`NOT_VERIFIED`. Phase 11C nevertheless remains active and incomplete.
+`P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
 11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase
 11K remains the exclusive finding-closure gate, and no hosted access or
