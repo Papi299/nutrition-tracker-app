@@ -418,6 +418,76 @@ test.describe.serial("custom-food management and archive lifecycle", () => {
     });
     expect(editRevision(staleFoodId)).toBe(acceptedRevision);
 
+    await stalePage
+      .getByRole("link", { name: "Reload current food and review" })
+      .click();
+    await expect(stalePage.getByLabel("Name")).toHaveValue(
+      "Phase 11C accepted fresh edit",
+    );
+    await expect(stalePage.getByLabel("Brand (optional)")).toHaveValue(
+      "Accepted fresh brand",
+    );
+    await expect(
+      stalePage.locator('[data-nutrient-code="energy_kcal"]'),
+    ).toHaveValue("333");
+    await expect(
+      stalePage.locator('[data-nutrient-code="protein_g"]'),
+    ).toHaveValue("0");
+    await expect(
+      stalePage.getByTestId("custom-food-alias-row").getByLabel("Alias text"),
+    ).toHaveValue("Accepted fresh alias");
+    await expect(
+      stalePage.getByTestId("custom-food-edit-conflict"),
+    ).toHaveCount(0);
+    expect(editRevision(staleFoodId)).toBe(acceptedRevision);
+
+    await firstPage
+      .getByLabel("Brand (optional)")
+      .fill("Intervening writer brand");
+    await firstPage.getByRole("button", { name: "Save custom food" }).click();
+    await expect
+      .poll(() => editRevision(staleFoodId))
+      .toBeGreaterThan(acceptedRevision);
+    const interveningFingerprint = JSON.parse(fingerprint(staleFoodId));
+    const interveningRevision = editRevision(staleFoodId);
+
+    await stalePage
+      .getByLabel("Brand (optional)")
+      .fill("Recovered editor stale retry brand");
+    await stalePage.getByRole("button", { name: "Save custom food" }).click();
+    await expect(stalePage.getByTestId("custom-food-edit-conflict")).toContainText(
+      "This food changed after you loaded the editor.",
+    );
+    await expect(stalePage.getByLabel("Brand (optional)")).toHaveValue(
+      "Recovered editor stale retry brand",
+    );
+    expect(JSON.parse(fingerprint(staleFoodId))).toEqual(interveningFingerprint);
+    expect(editRevision(staleFoodId)).toBe(interveningRevision);
+
+    await stalePage
+      .getByRole("link", { name: "Reload current food and review" })
+      .click();
+    await expect(stalePage.getByLabel("Brand (optional)")).toHaveValue(
+      "Intervening writer brand",
+    );
+    await expect(
+      stalePage.getByTestId("custom-food-edit-conflict"),
+    ).toHaveCount(0);
+    expect(editRevision(staleFoodId)).toBe(interveningRevision);
+
+    await stalePage
+      .getByLabel("Brand (optional)")
+      .fill("Reviewed fresh retry brand");
+    await stalePage.getByRole("button", { name: "Save custom food" }).click();
+    await expect(stalePage).toHaveURL(
+      new RegExp(`${staleFoodId}/edit\\?saved=updated$`),
+    );
+    expect(JSON.parse(fingerprint(staleFoodId))).toEqual({
+      ...interveningFingerprint,
+      brand: "Reviewed fresh retry brand",
+    });
+    expect(editRevision(staleFoodId)).toBeGreaterThan(interveningRevision);
+
     await firstContext.close();
     await staleContext.close();
     queryLocalDatabase(`delete from public.foods where id = '${staleFoodId}';`);
@@ -521,6 +591,21 @@ test.describe.serial("custom-food management and archive lifecycle", () => {
       stalePage.getByRole("link", { name: "טעינת המזון הנוכחי ובדיקה מחדש" }),
     ).toHaveAttribute("href", editPath);
     expect(fingerprint(foodId)).toBe(accepted);
+
+    await stalePage
+      .getByRole("link", { name: "טעינת המזון הנוכחי ובדיקה מחדש" })
+      .click();
+    await expect(stalePage.locator("html")).toHaveAttribute("lang", "he");
+    await expect(stalePage.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(stalePage.getByLabel("שם")).toHaveValue(
+      "עריכה חדשה שהתקבלה",
+    );
+    await expect(stalePage.getByLabel("מותג (אופציונלי)")).toHaveValue(
+      "מותג ישן",
+    );
+    await expect(
+      stalePage.getByTestId("custom-food-edit-conflict"),
+    ).toHaveCount(0);
 
     await freshContext.close();
     await staleContext.close();
