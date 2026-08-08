@@ -435,8 +435,63 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
     expect(state).toContain("custom_nutrient_basis IS NOT NULL");
     expect(state).toContain("revision_constraint|CHECK");
     expect(state).toContain("custom_food_edit_revision");
+    expect(state).toContain("custom_food_edit_revision IS NOT NULL");
     expect(state).toContain("creation_only_wrapper|true");
     expect(state).toContain("revision_triggers|7");
+  });
+
+  test("rejects a null custom-food revision at the constraint boundary", () => {
+    const nullRevisionFoodId = randomUUID();
+    const nonCustomFoodId = randomUUID();
+
+    const proof = queryLocalDatabase(`
+      do $constraint_test$
+      declare
+        rejected_constraint text;
+      begin
+        set local session_replication_role = replica;
+
+        begin
+          insert into public.foods (
+            id, owner_user_id, source_id, food_type, name, locale,
+            custom_nutrient_basis, custom_food_edit_revision, data_quality,
+            is_public, is_archived
+          ) values (
+            '${nullRevisionFoodId}', '${userAId}',
+            (select id from public.food_sources where code = 'user_custom'),
+            'user_custom', 'Null revision constraint probe', 'en',
+            'per_serving', null, 'user_provided', false, false
+          );
+
+          raise exception 'Expected null custom-food revision rejection.';
+        exception
+          when check_violation then
+            get stacked diagnostics rejected_constraint = constraint_name;
+            if rejected_constraint <> 'foods_custom_food_edit_revision_check' then
+              raise exception 'Unexpected constraint: %', rejected_constraint;
+            end if;
+        end;
+
+        insert into public.foods (
+          id, source_id, food_type, name, locale,
+          custom_food_edit_revision, data_quality, is_public, is_archived
+        ) values (
+          '${nonCustomFoodId}',
+          (select id from public.food_sources where code = 'manual'),
+          'generic', 'Null non-custom revision probe', 'en', null, 'curated',
+          true, false
+        );
+      end;
+      $constraint_test$;
+
+      select
+        (select count(*) from public.foods where id = '${nullRevisionFoodId}')
+        || '|' ||
+        (select custom_food_edit_revision is null from public.foods where id = '${nonCustomFoodId}');
+    `);
+
+    expect(proof).toContain("0|t");
+    queryLocalDatabase(`delete from public.foods where id = '${nonCustomFoodId}';`);
   });
 
   test("enforces custom-food nutrient bases with strict null semantics", () => {
@@ -632,6 +687,63 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
         },
       ]),
     );
+  });
+
+  test("advances child revisions when the creation marker is absent in a fresh backend", async () => {
+    const created = await persistVersioned(userAClient, persistenceArgs({
+      p_aliases: [{ alias_text: "Fresh backend alias", language_code: "en" }] as Json,
+      p_name: "Fresh backend revision food",
+      p_nutrients: [{ amount: 17, code: "energy_kcal" }] as Json,
+    }));
+    expect(created.error).toBeNull();
+    const foodId = created.data?.[0].food_id as string;
+
+    // One new psql process creates one new PostgreSQL backend. Every statement
+    // below therefore runs in the same session without prior custom-GUC state.
+    const freshBackendOutput = executeLocalDatabase(`
+      create temporary table fresh_backend_revision_proof as
+      select
+        current_setting(
+          'nutrition_tracker.creating_custom_food_id',
+          true
+        ) is null as marker_absent,
+        custom_food_edit_revision as revision_before,
+        null::bigint as revision_after_alias,
+        null::bigint as revision_after_nutrient
+      from public.foods
+      where id = '${foodId}';
+
+      update public.food_aliases
+      set alias_text = 'Fresh backend alias changed'
+      where food_id = '${foodId}';
+
+      update fresh_backend_revision_proof
+      set revision_after_alias = (
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}'
+      );
+
+      update public.food_nutrients
+      set amount = amount + 1
+      where food_id = '${foodId}';
+
+      update fresh_backend_revision_proof
+      set revision_after_nutrient = (
+        select custom_food_edit_revision
+        from public.foods
+        where id = '${foodId}'
+      );
+
+      select concat_ws(
+        '|', marker_absent, revision_before, revision_after_alias,
+        revision_after_nutrient
+      )
+      from fresh_backend_revision_proof;
+    `);
+    const proof = freshBackendOutput.split("\n").at(-1);
+
+    expect(proof).toBe("t|1|2|3");
   });
 
   test("advances the aggregate revision for parent, nutrient-only, alias-only, and archive changes", async () => {

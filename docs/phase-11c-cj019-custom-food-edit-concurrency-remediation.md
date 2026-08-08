@@ -53,6 +53,19 @@ food-specific marker so creation deterministically remains revision 1. The
 marker is cleared before the RPC returns. It does not rely on `xmin`; a direct
 no-op parent update therefore cannot mask a later child mutation.
 
+Independent review of draft PR #79 found that the original marker comparison
+was not null-safe in a fresh PostgreSQL backend: `current_setting(..., true)`
+returns SQL null when the custom setting has never been defined, so `NOT` of
+the comparison could also remain null and skip revision advancement. The
+comparison now coalesces a missing, reset, empty, or different-food marker to
+false. Only an exact marker-to-food match suppresses advancement during the
+intentional initial child population.
+
+The same review found that the initial check constraint allowed a null custom
+revision through SQL's unknown check result. The custom-food branch now
+requires `custom_food_edit_revision IS NOT NULL` as well as the positive
+bigint range. The non-custom branch continues to require a null revision.
+
 ## Lock and freshness sequence
 
 For an existing edit, the versioned RPC:
@@ -127,6 +140,13 @@ The remediation adds or strengthens coverage for:
 - Hebrew/RTL conflict presentation and fresh review navigation;
 - parent-only, nutrient-only, alias-only, direct-child, archive, restore, and
   no-op revision behavior;
+- a single genuinely fresh `psql` backend where the creation-marker GUC begins
+  absent/null and direct alias and nutrient mutations advance revision from 1
+  to 2 and then 3;
+- a trigger-disabled privileged constraint probe proving a `user_custom` row
+  with a null revision is rejected by
+  `foods_custom_food_edit_revision_check`, while a non-custom row with a null
+  revision remains valid;
 - direct RPC stale, missing, malformed, invalid, forged, and exhausted revision
   handling with prompt completion and zero partial mutation;
 - obsolete-signature creation-only enforcement, function ACLs, RLS, helper
@@ -150,15 +170,32 @@ The remediation adds or strengthens coverage for:
 - regenerated public Supabase types: synchronized.
 - ingestion type generation and drift check: synchronized.
 - local `public` schema lint with warning failure enabled: no schema errors.
-- focused custom-food persistence: 15/15 passed.
+- focused custom-food persistence: 17/17 passed, including the fresh-backend
+  marker and independent null-constraint regressions.
 - focused custom-food/Foundation compatibility: 54/54 passed.
-- complete Playwright suite after a clean reset: 276/276 passed (baseline 270).
+- affected barcode handoff, custom-food editor, and CJ-019 management suites:
+  25/25 passed on a newly owned test server.
+- complete Playwright suite after a clean reset with server reuse disabled:
+  278/278 passed (reviewed PR baseline 276; pre-remediation baseline 270).
 - local Supabase: stopped after validation.
 
-The all-schema database lint also reports three historical ingestion warnings
+The first complete local Playwright attempt reused an orphaned Next.js test
+server from this worktree and produced three unrelated load/hydration failures,
+with 255 passes and 20 serial dependents not run. The captured pages showed a
+generic load failure or server-rendered controls without client event handling.
+After resolving and stopping only that exact worktree-owned server, the three
+affected serial suites passed 25/25 and the clean no-reuse full run passed
+278/278. No secondary product defect reproduced.
+
+The all-schema database lint also reports five historical ingestion warnings
 (two immutable/stable classifications and three unread variables in an
 existing lifecycle function). The modified `public` schema is clean; this
 bounded remediation does not alter those historical ingestion functions.
+
+Independent inspection of the completed PR-head CI run #114 also found a
+Supabase CLI update notice (`2.95.6` installed; `2.113.0` advertised). The
+earlier completion summary's statement that no such notice occurred was
+incorrect. This is a reporting correction, not a product defect.
 
 ## Boundaries and limitations
 

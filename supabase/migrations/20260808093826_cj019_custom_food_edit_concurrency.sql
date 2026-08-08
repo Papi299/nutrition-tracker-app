@@ -10,6 +10,7 @@ add constraint foods_custom_food_edit_revision_check
 check (
   (
     food_type = 'user_custom'
+    and custom_food_edit_revision is not null
     and custom_food_edit_revision between 1 and 9223372036854775807
   )
   or (
@@ -150,10 +151,13 @@ begin
   loop
     select
       foods.custom_food_edit_revision,
-      current_setting(
-        'nutrition_tracker.creating_custom_food_id',
-        true
-      ) = foods.id::text
+      coalesce(
+        current_setting(
+          'nutrition_tracker.creating_custom_food_id',
+          true
+        ) = foods.id::text,
+        false
+      )
     into v_revision, v_is_initial_rpc_population
     from public.foods
     where foods.id = v_food_id
