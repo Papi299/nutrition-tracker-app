@@ -473,6 +473,73 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     await context.close();
   });
 
+  test("CJ-017 keeps required no-JavaScript selected-food review readable, tenant-safe, and non-mutating", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const page = await context.newPage();
+    const diaryCountBefore = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(diaryCountBefore.error).toBeNull();
+
+    const validPath = `/en/today?date=2026-07-14&foodId=${perServingFoodId}`;
+    await page.goto(validPath);
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      "Per serving",
+    );
+    await expect(page.locator('input[name="food_name"]')).toHaveValue(
+      "Phase 6C Serving Priority",
+    );
+    await expect(page.locator('input[name="calories"]')).toHaveValue("124");
+    await expect(page.locator('input[name="protein_g"]')).toHaveValue("0");
+    await expect(page.locator('input[name="carbohydrates_g"]')).toHaveValue("");
+
+    await page.reload();
+    await expect(page.getByTestId("selected-food-summary")).toBeVisible();
+    await page.goto("/en/foods?q=Phase%206C%20Serving");
+    await page.goBack();
+    await expect(page).toHaveURL(validPath);
+    await expect(page.locator('input[name="calories"]')).toHaveValue("124");
+
+    for (const unavailableId of [randomUUID(), archivedFoodId, otherFoodId]) {
+      await page.goto(`/en/today?date=2026-07-14&foodId=${unavailableId}`);
+      await expect(page.getByTestId("food-selection-unavailable")).toBeVisible();
+      await expect(page.getByTestId("selected-food-summary")).toHaveCount(0);
+      await expect(page.locator('input[name="food_name"]')).toHaveValue("");
+    }
+
+    await page.goto(`/en/today?date=2026-07-14&foodId=${ownFoodId}`);
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      "Your custom food",
+    );
+    const archive = await userAClient.rpc("set_custom_food_archived", {
+      p_food_id: ownFoodId,
+      p_is_archived: true,
+    });
+    expect(archive.error).toBeNull();
+    try {
+      await page.reload();
+      await expect(page.getByTestId("food-selection-unavailable")).toBeVisible();
+      await expect(page.getByTestId("selected-food-summary")).toHaveCount(0);
+    } finally {
+      const restore = await userAClient.rpc("set_custom_food_archived", {
+        p_food_id: ownFoodId,
+        p_is_archived: false,
+      });
+      expect(restore.error).toBeNull();
+    }
+
+    const diaryCountAfter = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(diaryCountAfter.error).toBeNull();
+    expect(diaryCountAfter.count).toBe(diaryCountBefore.count);
+    await context.close();
+  });
+
   test("rejects invalid and repeated foodId without running a lookup", async ({
     browser,
   }) => {
