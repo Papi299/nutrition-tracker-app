@@ -175,8 +175,13 @@ head `c739df46d960593d0a2306255cdb0b46df29f4bc` on 2026-07-31. Phase 11C1's
 bounded critical-journey traceability foundation and auth/session coverage
 merged into `main` through PR #73 at squash commit
 `c537f65ed598832e11015266d615c295a4504d06`. Push-triggered Validate run
-`30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C
-remains active and incomplete. This transition authorizes no hosted access,
+`30697381368`, job `91362444133`, succeeded on that exact SHA. Phase 11C2A
+correctness remediation, Phase 11C2B linked-food remediation, and bounded
+Phase 11C2B core-loop acceptance subsequently merged. Independent review
+accepted PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`, squash
+`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`, and post-merge run
+`31243356983` / Validate job `93067794693`. Phase 11C remains active and
+incomplete. This transition authorizes no hosted access,
 finding closure, Production release, or deployment. Overall Phase 11 remains
 incomplete, and the dependency graph and two-stage evidence model above remain
 controlling.
@@ -216,12 +221,17 @@ trace, and contradiction/link checks.
 **Current status:** Phase 11C1's
 [critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
 and bounded auth/session coverage are present on `main` through PR #73, but
-Phase 11C remains active and incomplete. Phase 11C1 does not complete
-`P11A-002` or `P11A-015`; both remain `OPEN`, as do all 18 findings. Signed
-manual exploratory evidence remains absent. Phase 11D, Phase 11E, Phase 11G,
-and Phase 11J retain their existing responsibilities, Phase 11K remains the
-exclusive finding-closure gate, and no hosted access or deployment is
-authorized.
+Phase 11C also now contains the independently accepted Phase 11C2A and 11C2B
+bounded automated evidence through current `main`
+`18eae73a91d8e0156702b42bf8327af6ef7e6c9f`. CJ-009 through CJ-015 have
+accepted bounded automated coverage; the reconciled map contains 35 journeys,
+70 automated references, 266 automated axis claims, and unchanged
+no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C nevertheless remains active
+and incomplete. `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
+findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
+11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase
+11K remains the exclusive finding-closure gate, and no hosted access or
+deployment is authorized.
 
 ### Objective
 
