@@ -405,7 +405,7 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
             ) scoped
           ),
           'food_favorites', (
-            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.user_id, scoped.food_id), '[]'::jsonb)
             from (
               select * from public.food_favorites where user_id = '${userAId}'
             ) scoped
