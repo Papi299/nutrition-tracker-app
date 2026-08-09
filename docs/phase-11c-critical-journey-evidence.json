@@ -3,9 +3,9 @@
   "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
-    "version": "1.0-phase-11b-accepted",
+    "version": "1.1-phase-11b-cj019-amended",
     "fingerprints": {
-      "section7_1": "e90f9d9508119773cf058b29ec6edb632db52a73ba603d1f3b811cdd08dcff61",
+      "section7_1": "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
       "section7_2": "56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5",
       "section7_3": "ba8f658bc442fce992da914683f51568e5988258b8501964031a712ee3eb22e6"
     }
@@ -2610,14 +2610,14 @@
       ],
       "currentLimitations": [
         "Linked repository automation is partial and does not replace signed manual exploration, the Phase 11D matrix, or Phase 11J external evidence.",
-        "Current accepted automation permits editing an archived owned custom food while preserving its archived/search-hidden state. This does not establish the Phase 11B CJ-019 negative requirement that the archived edit case fails safely; that archived-state contract point remains unresolved."
+        "The 2026-08-09 owner-approved Option B contract permits editing an archived owned custom food while preserving its archived/search-hidden state, which matches current accepted automation. This resolves only the archived-state contract discrepancy and does not establish complete CJ-019 matrix acceptance."
       ],
       "normativeContract": {
         "launchStatus": "Core",
-        "positiveRequirement": "Owner replaces editable food contract atomically.",
-        "negativeRequirement": "Archived/other-owner/invalid/stale/unavailable fails safely.",
+        "positiveRequirement": "Owner atomically replaces the editable contract of an active or archived food.",
+        "negativeRequirement": "Missing/other-owner/invalid/stale/unavailable and other genuine errors fail safely; archived state alone is editable.",
         "staleConflictRetryRequirement": "Concurrent edit and retry do not partially replace.",
-        "dataIntegrityRequirement": "Existing diary/reuse snapshots remain immutable.",
+        "dataIntegrityRequirement": "Archived state is preserved; existing diary/reuse snapshots remain immutable.",
         "tenantIsolationRequirement": "Owner-only update.",
         "englishRequirement": "Required",
         "hebrewRtlRequirement": "Required",
