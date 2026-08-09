@@ -10,8 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.1-phase-11b-cj019-amended` |
+| Version | `1.2-phase-11b-cj019-cj030-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
+| Prior amended version | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -20,6 +21,9 @@
 | Owner approval | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved all 30 recommended decisions and the stated role dispositions in an attributable Phase 11B owner decision bundle on 2026-07-31 after reviewing source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | CJ-019 amendment | `PRODUCT_OWNER_APPROVED` — Option B approved by Maor Pichhadze on 2026-08-09 against accepted `main` `afce415350d391bd32f4c3bce562192c6f3d9602`; owners may edit archived custom foods without implicitly restoring or exposing them |
 | CJ-019 amendment review requirement | Independent review of the exact amendment head is required before merge. |
+| CJ-030 amendment | `PRODUCT_OWNER_APPROVED` — Option A approved by Maor Pichhadze on 2026-08-09; `NOT_APPLICABLE` remains authoritative, existing disabled-JavaScript behavior is non-contractual, no CJ-030 no-JavaScript evidence axis is credited, and no behavior change is authorized |
+| CJ-030 authorization marker | `PHASE_11C_CJ030_NOJS_OPTION_A_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED` |
+| CJ-030 amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -27,11 +31,14 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.1-phase-11b-cj019-amended` preserves the complete original
-`1.0-phase-11b-accepted` baseline and applies only the later owner-approved
-CJ-019 archived-state amendment recorded in Section 2.6. It is a deliberate
-contract update, not a claim that the original baseline always contained the
-amended wording and not a retroactive rewrite of Phase 11C evidence.
+Version `1.2-phase-11b-cj019-cj030-amended` preserves the complete original
+`1.0-phase-11b-accepted` baseline and the historical
+`1.1-phase-11b-cj019-amended` identity. It applies only the owner-approved
+CJ-019 archived-state amendment recorded in Section 2.6 and the later
+CJ-030 no-JavaScript interpretation amendment recorded in Section 2.7. These
+are deliberate contract updates, not claims that the original or prior
+baseline always contained the amended wording and not retroactive rewrites of
+Phase 11C evidence.
 
 ## 2. Evidence and authority model
 
@@ -325,8 +332,8 @@ It is distinct from both the owner-reviewed source head
 `85dec5e35a6d7aedb8fa265d30d3be27ece27282` and the independently reviewed
 recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`. Completion does not authorize
 implementation, hosted access, external evidence collection, finding closure,
-deployment, or Production release. Phase 11C is next and unstarted; overall
-Phase 11 remains incomplete.
+deployment, or Production release. At that original acceptance point, Phase
+11C was next and unstarted; overall Phase 11 remained incomplete.
 
 ### 2.6 Owner-approved CJ-019 archived-state amendment
 
@@ -361,6 +368,38 @@ case. This amendment changes only the normative interpretation of that state;
 it does not authorize broader lifecycle changes, alter evidence classifications
 or counts, complete the CJ-019 matrix, complete Phase 11C, close any of the 18
 findings, or move finding closure away from the exclusive Phase 11K gate.
+
+### 2.7 Owner-approved CJ-030 no-JavaScript Option A amendment
+
+The prior Section 7.3 CJ-030 validation wording said to `verify no mutation
+when scripting is absent`. That instruction contradicted both the
+owner-approved `NOT_APPLICABLE` classification and the observed repository
+behavior, which currently permits a disabled-JavaScript form submission to
+create a custom food and its barcode mapping.
+
+On 2026-08-09, product owner Maor Pichhadze explicitly approved **Option A**
+with status `PRODUCT_OWNER_APPROVED`:
+
+1. CJ-030 remains `NOT_APPLICABLE` for the no-JavaScript classification.
+2. The launch/support commitment covers the JavaScript-enabled barcode
+   custom-food handoff plus server/database atomicity, authorization, ownership
+   binding, conflict handling, rollback, retry, and integrity behavior.
+3. Existing disabled-JavaScript CJ-030 behavior may remain implemented and
+   tested, but it is incidental, non-contractual capability rather than a
+   launch/support commitment.
+4. Existing disabled-JavaScript behavior must not be credited as acceptance
+   evidence for a CJ-030 no-JavaScript axis, and no regression guarantee is
+   created for that path.
+5. This decision does not authorize deliberately breaking, deleting,
+   disabling, weakening, or otherwise changing the currently working path.
+6. Any future formal no-JavaScript support commitment for CJ-030 requires a new
+   owner-approved contract amendment and corresponding acceptance evidence.
+
+In this contract, **implemented / tested behavior is not the same as an
+owner-approved support commitment**. This amendment changes only the CJ-030
+no-JavaScript rationale and validation language. It changes no other Phase 11B
+decision, application behavior, executable test, evidence reference or axis,
+finding state, phase gate, or external-operation authority.
 
 ## 3. Launch-contract decision register
 
@@ -715,7 +754,7 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | `CJ-027` | `NOT_VERIFIED` | Calculation preview is GET-driven but final use relies on client action state and receipt behavior. | 11C | Disable JavaScript for calculate/preview and use after deciding commitment; verify stale/concurrent receipts. |
 | `CJ-028` | `REQUIRED` | Manual barcode found is the complete input fallback for unsupported or failed camera scanning. | 11C/11D | Disable JavaScript; submit canonical valid GTIN and verify owned-before-public result and review link. |
 | `CJ-029` | `REQUIRED` | Manual barcode miss is the complete provider-disabled fallback and must distinguish miss from invalid/unavailable. | 11C/11D | Disable JavaScript; test strict miss, invalid, ambiguous, unavailable, private-other-user, en/he/RTL. |
-| `CJ-030` | `NOT_APPLICABLE` | The handoff enters the client-managed custom-food editor; manual lookup remains complete without creating food. | 11C | Validate JavaScript handoff and database atomicity/concurrency; verify no mutation when scripting is absent. |
+| `CJ-030` | `NOT_APPLICABLE` | The barcode custom-food handoff enters the client-managed custom-food editor. The product does not make a launch/support commitment that the complete CJ-030 journey remains operable without JavaScript. Existing disabled-JavaScript behavior may function but is non-contractual and is not acceptance evidence for a CJ-030 no-JavaScript axis. | 11C | Validate the supported JavaScript handoff plus server/database atomicity, authorization, ownership binding, conflict handling, rollback, and retry behavior. Existing disabled-JavaScript behavior is outside the CJ-030 support commitment and must not be promoted into a no-JavaScript acceptance claim. |
 | `CJ-031` | `REQUIRED_FALLBACK_ONLY` | Camera scanning intrinsically requires JavaScript/device APIs; CJ-028 and CJ-029 are the required complete fallback. | 11D | Disable JavaScript and prove manual found/miss; separately test camera capability, denial, cleanup, and fallback on devices in 11J. |
 | `CJ-032` | `NOT_APPLICABLE` | Tenant isolation is a server/database property independent of client scripting. | 11C | Authenticated two-user RLS, grant, table, RPC, forged-ID, and concurrent adversarial tests. |
 | `CJ-033` | `NOT_VERIFIED` | Global/dependency recovery is new and may use client or server boundaries by failure class. | 11G | Decide each boundary, then disable JavaScript for server-renderable outage/retry cases and drill deployed failures in 11J. |
@@ -832,7 +871,9 @@ policy is pending.
 
 No implementation or external-validation completion marker above is asserted.
 Phase 11B is `PHASE_11B_COMPLETE` for its bounded documentation, decision,
-contract, and handoff scope. Phase 11C is next and unstarted.
+contract, and handoff scope. The original `1.0` baseline recorded Phase 11C
+as next and unstarted; at this `1.2` amendment, Phase 11C is active and
+incomplete.
 
 ## 11. P1 exception contract
 
@@ -964,6 +1005,7 @@ its slice and separate authorization boundary.
 | Review defect | Corrected sections | Deterministic check | State |
 | --- | --- | --- | --- |
 | Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; counts 6/1/10/18; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; implementation/evidence pending |
+| CJ-030 `NOT_APPLICABLE` interpretation | 1, 2.1, 2.7, 7.3, 14 | Option A preserves `NOT_APPLICABLE`; existing disabled-JavaScript behavior is non-contractual, receives no no-JavaScript evidence credit, and is not authorized for behavior change | Ambiguity resolved and owner-approved; independent review of the exact amendment head pending |
 | Unenforced invitation-only beta | 2.3, DEC-001/009/011/018/019/023/026–029, 4, 6, CJ-002/003/006–008/034/035, 8–10, 12, 13 | One selected Dashboard-issued model; open sign-up disabled; provider-native, operator-procedural, restricted-register, and future-automation layers explicit; all 25 controls fail closed with evidence/slice/gate ownership | Corrected and owner-approved; implementation/procedure/hosted evidence pending |
 | Invitation controls overstated as provider-native or automatic | 2.2–2.3, DEC-001/009/011/018/019/023/026–029, CJ-002/003/006–008/034/035, P11A-001/006/009/014/017/018, EV-011/022/023, 10, 12, 13 | Custom eligibility/cap/outstanding/reissue/revoke/reconcile rules are procedural; restricted register purpose/access/fields/prohibitions/authority/reconciliation/correction/retention/freshness are explicit; single-operator serialization is not called atomic; future trusted automation remains separately gated | Corrected and owner-approved; later owners, implementation, and external evidence pending |
 | Ambiguous browser/platform support | DEC-014/015, 5, 7, 8–10, 13 | Windows/macOS/iOS/Android separated; no Safari on Windows; Edge excluded on macOS; engine versus real-platform evidence explicit | Corrected and owner-approved; implementation/evidence pending |
@@ -972,7 +1014,9 @@ its slice and separate authorization boundary.
 
 This checklist records documentation and attributable owner-decision capture
 only. All 30 decisions are `PRODUCT_OWNER_APPROVED`; all 18 findings remain
-`OPEN`; Phase 11B is `PHASE_11B_COMPLETE`; Phase 11C is
-`PHASE_11C_UNSTARTED` and next; overall Phase 11 remains incomplete; and Phase
-11K remains the exclusive finding-closure gate. No implementation, hosted
-access, deployment, finding closure, or Production release is authorized.
+`OPEN`; and Phase 11B is `PHASE_11B_COMPLETE`. The original
+`1.0-phase-11b-accepted` baseline recorded Phase 11C as unstarted and next at
+that historical acceptance point. At this `1.2` amendment, Phase 11C is
+active and incomplete, overall Phase 11 remains incomplete, and Phase 11K
+remains the exclusive finding-closure gate. No implementation, hosted access,
+deployment, finding closure, or Production release is authorized.

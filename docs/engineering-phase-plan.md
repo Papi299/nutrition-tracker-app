@@ -335,7 +335,9 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended as
-version `1.1-phase-11b-cj019-amended`. It records all 30 recommendations as
+version `1.2-phase-11b-cj019-cj030-amended`. Historical amended version
+`1.1-phase-11b-cj019-amended` remains preserved. It records all 30
+recommendations as
 attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
 owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
 records independent acceptance of recording head
@@ -360,18 +362,24 @@ unmerged. Independent review then accepted PR #84 source
 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 127 automated
 references and 421 automated axis claims. The independently accepted bounded
 CJ-022–CJ-027 reconciliation in PR #86 source
-`7d7b761b37cca76787b52a36ebca41ce6db638e7` was squash-merged to current
-`main` `483df9479ef8b2381da2faef2971c20456404102`; merged-main run
-`31313589548` / Validate job `93245133253` completed `SUCCESS`. The current map
-retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 168
+`7d7b761b37cca76787b52a36ebca41ce6db638e7` was squash-merged as accepted
+evidence baseline `483df9479ef8b2381da2faef2971c20456404102`; merged-main run
+`31313589548` / Validate job `93245133253` completed `SUCCESS`. The
+evidence map at that accepted baseline retains 35 journeys and no-JavaScript
+totals `6 / 1 / 10 / 18`, with 168
 automated references and 539 automated axis claims. No executable test or
 product behavior changed. On 2026-08-09, Maor
 Pichhadze approved CJ-019 Option B: owners may edit archived custom foods while
 preserving archived/search-hidden state, and restore remains explicit. Current
 accepted behavior matches the amendment, resolving the archived-state product
-discrepancy without completing the CJ-019 matrix. Phase 11C remains active and
-incomplete. This transition authorizes no hosted access, deployment, finding
-closure, or Production action, and no later Phase 11 slice has started.
+discrepancy without completing the CJ-019 matrix. Maor also approved CJ-030
+no-JavaScript Option A on 2026-08-09: `NOT_APPLICABLE` remains authoritative;
+existing disabled-JavaScript creation behavior is non-contractual, adds no
+no-JavaScript evidence credit, and is not authorized for behavior change. The
+prior contradictory no-mutation validation instruction is retired. Phase 11C
+remains active and incomplete. This transition authorizes no hosted access,
+deployment, finding closure, or Production action, and no later Phase 11 slice
+has started.
 All 18 findings remain open; Phase 11K remains their exclusive closure gate.
 Overall Phase 11 remains incomplete.
 

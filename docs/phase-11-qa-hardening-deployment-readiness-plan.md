@@ -167,7 +167,9 @@ renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as version
-`1.1-phase-11b-cj019-amended`: Maor Pichhadze approved all 30 recommendations
+`1.2-phase-11b-cj019-cj030-amended`, while historical amended version
+`1.1-phase-11b-cj019-amended` remains preserved: Maor Pichhadze approved all
+30 recommendations
 against owner-reviewed source head
 `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
 launch-decision-authority, and Production-approver roles, and approved the
@@ -233,14 +235,19 @@ trace, and contradiction/link checks.
 and bounded auth/session coverage are present on `main` through PR #73, but
 Phase 11C also contains the previously accepted bounded CJ-009–CJ-021
 automated evidence. The independently accepted bounded CJ-022–CJ-027
-reconciliation in PR #86 is present on current `main`
-`483df9479ef8b2381da2faef2971c20456404102`. The current map contains 35
+reconciliation in PR #86 established the accepted evidence baseline
+`483df9479ef8b2381da2faef2971c20456404102`. The evidence map validated at
+that baseline contains 35
 journeys, 168 automated references, and 539 automated axis claims after exact
 test-body review, with no test-file or behavior change and unchanged
 no-JavaScript totals `6 / 1 / 10 / 18`; CJ-024 and CJ-027 no-JavaScript remain
 `NOT_VERIFIED`. The 2026-08-09 CJ-019 Option B decision aligns the archived-edit
 contract with accepted behavior without adding evidence or completing the
-CJ-019 matrix. Phase 11C nevertheless remains active and incomplete.
+CJ-019 matrix. The owner-approved 2026-08-09 CJ-030 Option A amendment keeps
+the no-JavaScript classification `NOT_APPLICABLE`; existing disabled-
+JavaScript creation behavior is non-contractual, receives no no-JavaScript
+evidence credit, and is unchanged. The contradictory no-mutation validation
+instruction is retired. Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
 11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase

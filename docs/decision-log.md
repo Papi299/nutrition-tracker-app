@@ -1932,3 +1932,33 @@
   pending. This follow-up corrects documentation only; it changes no evidence
   axes, executable tests, application behavior, contracts, findings, or phase
   gates.
+
+## 2026-08-09: CJ-030 no-JavaScript Option A contract amendment
+
+- Product owner Maor Pichhadze approved **Option A** with status
+  `PRODUCT_OWNER_APPROVED` and authorization marker
+  `PHASE_11C_CJ030_NOJS_OPTION_A_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED`.
+- CJ-030 remains `NOT_APPLICABLE` for no-JavaScript support. The supported
+  acceptance boundary remains the JavaScript-enabled handoff plus
+  server/database atomicity, authorization, ownership binding, conflict
+  handling, rollback, retry, and integrity behavior.
+- Existing disabled-JavaScript creation of a custom food and barcode mapping
+  is implemented and tested behavior, but it is incidental and non-contractual:
+  it is not a launch/support commitment, creates no regression guarantee, and
+  receives no CJ-030 no-JavaScript evidence-axis credit.
+- Retired the contradictory validation instruction to `verify no mutation when
+  scripting is absent`. This decision does not authorize deliberately
+  breaking, deleting, disabling, weakening, or otherwise changing the
+  currently working path; a future formal support commitment requires a new
+  owner-approved amendment and acceptance evidence.
+- Advanced the Phase 11B contract from historical
+  `1.1-phase-11b-cj019-amended` to
+  `1.2-phase-11b-cj019-cj030-amended`. No application behavior, executable
+  acceptance test, evidence reference, or evidence-axis assignment changed.
+  Inventory remains 35 journeys, 168 automated links, 539 evidence-axis
+  claims, and no-JavaScript totals `6 / 1 / 10 / 18`.
+- Phase 11C remains active and incomplete, all 18 findings remain `OPEN`,
+  overall Phase 11 remains incomplete, and Phase 11K remains the exclusive
+  finding-closure gate. No later slice, hosted Supabase, remote database,
+  Vercel, deployment, Production, backup, restore, DNS, environment, secret,
+  launch, or finding-closure operation is authorized by this amendment.

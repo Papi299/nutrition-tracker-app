@@ -3,11 +3,11 @@
   "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
-    "version": "1.1-phase-11b-cj019-amended",
+    "version": "1.2-phase-11b-cj019-cj030-amended",
     "fingerprints": {
       "section7_1": "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
       "section7_2": "56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5",
-      "section7_3": "ba8f658bc442fce992da914683f51568e5988258b8501964031a712ee3eb22e6"
+      "section7_3": "7193421aaced40d03d31079da1d20d809751931d48ec80e1e1172f6b0d20277d"
     }
   },
   "phase": "11C1",
@@ -4169,7 +4169,7 @@
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
         "classification": "NOT_APPLICABLE",
-        "rationale": "The handoff enters the client-managed custom-food editor; manual lookup remains complete without creating food."
+        "rationale": "The barcode custom-food handoff enters the client-managed custom-food editor. The product does not make a launch/support commitment that the complete CJ-030 journey remains operable without JavaScript. Existing disabled-JavaScript behavior may function but is non-contractual and is not acceptance evidence for a CJ-030 no-JavaScript axis."
       },
       "automatedEvidence": [
         {
@@ -4230,9 +4230,9 @@
         "missingEvidence": "Full axes/manual review",
         "currentStatus": "`NOT_VERIFIED`",
         "noJavaScriptClassification": "NOT_APPLICABLE",
-        "noJavaScriptRationale": "The handoff enters the client-managed custom-food editor; manual lookup remains complete without creating food.",
+        "noJavaScriptRationale": "The barcode custom-food handoff enters the client-managed custom-food editor. The product does not make a launch/support commitment that the complete CJ-030 journey remains operable without JavaScript. Existing disabled-JavaScript behavior may function but is non-contractual and is not acceptance evidence for a CJ-030 no-JavaScript axis.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Validate JavaScript handoff and database atomicity/concurrency; verify no mutation when scripting is absent."
+        "noJavaScriptValidationMethod": "Validate the supported JavaScript handoff plus server/database atomicity, authorization, ownership binding, conflict handling, rollback, and retry behavior. Existing disabled-JavaScript behavior is outside the CJ-030 support commitment and must not be promoted into a no-JavaScript acceptance claim."
       }
     },
     {

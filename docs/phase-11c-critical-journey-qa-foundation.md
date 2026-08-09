@@ -8,7 +8,7 @@
 | Identifier | `PHASE-11C1-CRITICAL-JOURNEY-TRACEABILITY-FOUNDATION-001` |
 | Repository | `Papi299/nutrition-tracker-app` |
 | Exact baseline | `eae0cd64284cf103a2ca326568c0d01e2c71d3ff` |
-| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), original version `1.0-phase-11b-accepted`, amended version `1.1-phase-11b-cj019-amended` |
+| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), original version `1.0-phase-11b-accepted`, historical amended version `1.1-phase-11b-cj019-amended`, current amended version `1.2-phase-11b-cj019-cj030-amended` |
 | Slice | Phase 11C1 |
 | Slice state | `MERGED` |
 | Merged PR | #73 |
@@ -17,7 +17,7 @@
 | Post-merge validation | Run `30697381368` / Validate job `91362444133` / `SUCCESS` |
 | Current Phase 11C2B reconciliation | PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`; squash `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`; post-merge run `31243356983` / Validate job `93067794693` / `SUCCESS`; independent review `ACCEPTED` |
 | Accepted CJ-016–CJ-021 implementation baseline | PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`; squash `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run `31273568601` / Validate job `93143428615` / `SUCCESS`; independent review `ACCEPTED`; superseded PR #81 closed unmerged |
-| Current accepted evidence baseline | PR #86 source `7d7b761b37cca76787b52a36ebca41ce6db638e7`; squash `483df9479ef8b2381da2faef2971c20456404102`; post-merge run `31313589548` / Validate job `93245133253` / `SUCCESS`; independent review `ACCEPTED WITH RECORDED LIMITATION`; the limitation was stale human-readable baseline/status metadata being corrected by this follow-up, not an evidence-map or product-behavior defect |
+| Accepted CJ-022–CJ-027 evidence baseline | PR #86 source `7d7b761b37cca76787b52a36ebca41ce6db638e7`; squash `483df9479ef8b2381da2faef2971c20456404102`; post-merge run `31313589548` / Validate job `93245133253` / `SUCCESS`; independent review `ACCEPTED WITH RECORDED LIMITATION`; documentation-only PR #87 resolved the recorded human-readable baseline/status limitation without changing the evidence map or product behavior |
 | Status | `PHASE_11C_ACTIVE_INCOMPLETE` |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -74,6 +74,15 @@ matrix acceptance. Phase 11C remains active and incomplete, and all manual,
 Phase 11D browser/device/accessibility/visual, Phase 11J external, restore, and
 Phase 11K obligations remain outstanding. All 18 findings remain `OPEN`, and
 Phase 11K remains their exclusive closure gate.
+
+Also on 2026-08-09, Maor Pichhadze approved CJ-030 no-JavaScript Option A.
+`NOT_APPLICABLE` remains authoritative because the product does not commit to
+the complete barcode custom-food handoff without JavaScript. Existing
+disabled-JavaScript creation behavior remains implemented and tested, but it
+is incidental and non-contractual, is not credited to a CJ-030 no-JavaScript
+evidence axis, and is not authorized for behavior change. This resolves the
+contract-language ambiguity without accepting CJ-030 as complete or changing
+any Phase 11C evidence total.
 
 ## 3. Scope and non-goals
 
