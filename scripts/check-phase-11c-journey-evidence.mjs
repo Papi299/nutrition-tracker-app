@@ -21,7 +21,7 @@ export const AXIS_FIELDS = [
 ];
 
 const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md";
-const CONTRACT_VERSION = "1.1-phase-11b-cj019-amended";
+const CONTRACT_VERSION = "1.2-phase-11b-cj019-cj030-amended";
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
 const REQUIRED_FIELDS = [
   "id",

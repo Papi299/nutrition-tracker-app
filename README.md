@@ -215,19 +215,26 @@ is complete for the current MVP scope.
   contained 35 journeys, 127 automated references, and 421 automated axis
   claims. The independently accepted bounded CJ-022–CJ-027 reconciliation in
   PR #86 source `7d7b761b37cca76787b52a36ebca41ce6db638e7` was squash-merged
-  to current `main` `483df9479ef8b2381da2faef2971c20456404102`.
+  as accepted CJ-022–CJ-027 evidence baseline
+  `483df9479ef8b2381da2faef2971c20456404102`.
   Merged-main run `31313589548` / Validate job `93245133253` completed
-  `SUCCESS`. The current map contains 35 journeys, 168 automated references,
-  and 539 automated axis claims after correcting five unsupported tenant
+  `SUCCESS`. The evidence map validated at that accepted baseline contains
+  35 journeys, 168 automated references, and 539 automated axis claims after
+  correcting five unsupported tenant
   assignments; no test file or product behavior changed, and no-JavaScript
   totals remain `6 / 1 / 10 / 18`.
   On 2026-08-09, Maor Pichhadze approved CJ-019 Option B: owners may edit
   archived custom foods while edits preserve archived/search-hidden state and
   explicit restore remains separate. Current accepted behavior matches that
   amended contract; the former archived-state discrepancy is product-resolved
-  without implying complete CJ-019 matrix acceptance. Phase 11C remains active
-  and incomplete, all 18 findings remain open, and Phase 11K remains their
-  exclusive closure gate. The merged
+  without implying complete CJ-019 matrix acceptance. On the same date,
+  Maor Pichhadze approved CJ-030 no-JavaScript Option A. CJ-030 remains
+  `NOT_APPLICABLE`: the supported commitment is the JavaScript handoff and
+  server/database integrity boundary, while existing disabled-JavaScript
+  creation behavior is incidental, non-contractual, and receives no
+  no-JavaScript evidence credit. No behavior or executable test changed.
+  Phase 11C remains active and incomplete, all 18 findings remain open, and
+  Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
@@ -838,8 +845,10 @@ Manual RTL QA checklist:
   [accepted contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md);
   all 18 findings remain open, Phase 11K remains their only closure gate, and
   Phase 11C remains active and incomplete after Phase 11C1 and the accepted
-  bounded CJ-009–CJ-021 automated evidence merged through PRs #73, #77, and
-  #83.
+  bounded CJ-009–CJ-027 automated evidence merged through PRs #73, #77, #83,
+  and #86. CJ-030 no-JavaScript remains `NOT_APPLICABLE` under the
+  owner-approved Option A contract amendment; existing disabled-JavaScript
+  behavior is not a support commitment or evidence-axis claim.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.
