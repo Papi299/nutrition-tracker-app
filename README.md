@@ -207,13 +207,20 @@ is complete for the current MVP scope.
   CJ-009–CJ-015 automated evidence. PRs #79, #80, and #82 corrected CJ-019
   concurrency, CJ-016 no-JavaScript history synchronization, and CJ-019
   authoritative recovery. Independently accepted PR #83 completed the bounded
-  CJ-016–CJ-021 candidate acceptance slice on current `main`
-  `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run
-  `31273568601` / Validate job `93143428615` succeeded, and superseded PR
-  #81 was closed unmerged. The reconciled map contains 35 journeys, 127
-  automated references, 421 automated axis claims, and unchanged
-  no-JavaScript totals `6 / 1 / 10 / 18`. Phase 11C remains active and
-  incomplete. The merged
+  CJ-016–CJ-021 candidate acceptance slice at
+  `494907b2c2f34ed49771aef75fd3137a522857e9`; superseded PR #81 was closed
+  unmerged. Independently accepted PR #84 then reconciled the evidence on
+  current `main` `afce415350d391bd32f4c3bce562192c6f3d9602`; post-merge run
+  `31281033063` / Validate job `93162236075` succeeded. The reconciled map
+  contains 35 journeys, 127 automated references, 421 automated axis claims,
+  and unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
+  On 2026-08-09, Maor Pichhadze approved CJ-019 Option B: owners may edit
+  archived custom foods while edits preserve archived/search-hidden state and
+  explicit restore remains separate. Current accepted behavior matches that
+  amended contract; the former archived-state discrepancy is product-resolved
+  without implying complete CJ-019 matrix acceptance. Phase 11C remains active
+  and incomplete, all 18 findings remain open, and Phase 11K remains their
+  exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)

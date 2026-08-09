@@ -10,19 +10,28 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.0-phase-11b-accepted` |
+| Version | `1.1-phase-11b-cj019-amended` |
+| Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
 | Preparer | Codex |
 | Independent reviewer | ChatGPT issued `PHASE_11B_OWNER_DECISION_RECORDING_ACCEPTED_COMPLETION_AND_MERGE_AUTHORIZED` on 2026-07-31 after reviewing recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`; the prior corrected draft was independently accepted at owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | Owner approval | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved all 30 recommended decisions and the stated role dispositions in an attributable Phase 11B owner decision bundle on 2026-07-31 after reviewing source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
+| CJ-019 amendment | `PRODUCT_OWNER_APPROVED` — Option B approved by Maor Pichhadze on 2026-08-09 against accepted `main` `afce415350d391bd32f4c3bce562192c6f3d9602`; owners may edit archived custom foods without implicitly restoring or exposing them |
+| CJ-019 amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
 approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
+
+Version `1.1-phase-11b-cj019-amended` preserves the complete original
+`1.0-phase-11b-accepted` baseline and applies only the later owner-approved
+CJ-019 archived-state amendment recorded in Section 2.6. It is a deliberate
+contract update, not a claim that the original baseline always contained the
+amended wording and not a retroactive rewrite of Phase 11C evidence.
 
 ## 2. Evidence and authority model
 
@@ -319,6 +328,40 @@ implementation, hosted access, external evidence collection, finding closure,
 deployment, or Production release. Phase 11C is next and unstarted; overall
 Phase 11 remains incomplete.
 
+### 2.6 Owner-approved CJ-019 archived-state amendment
+
+The original `1.0-phase-11b-accepted` Section 7.1 CJ-019 negative-path cell
+said, `Archived/other-owner/invalid/stale/unavailable fails safely.` Current
+accepted application behavior instead allowed an owner to edit an archived
+custom food while preserving its archived and search-hidden state. That
+difference was retained as an unresolved contract discrepancy through accepted
+`main` `afce415350d391bd32f4c3bce562192c6f3d9602`, rather than being hidden by
+an evidence reinterpretation.
+
+On 2026-08-09, product owner Maor Pichhadze explicitly approved **Option B**
+for CJ-019 against that accepted baseline:
+
+1. An authenticated owner may open and edit an archived owned custom food.
+2. The successful edit replaces only the editable custom-food contract and
+   preserves the archived state.
+3. Editing does not implicitly restore, unarchive, or expose the food.
+4. The archived food remains excluded from normal active-food discovery,
+   search, prefill, and reuse surfaces that exclude archived foods.
+5. Existing diary and reuse snapshots remain immutable under the existing
+   snapshot contract.
+6. Restore remains a separate, explicit owner lifecycle action.
+7. Tenant isolation is unchanged; no other user gains visibility or mutation
+   rights.
+8. Missing, other-owner, invalid, stale-revision, session-expired,
+   database-failure, unavailable, and other genuine error states continue to
+   fail safely.
+
+The archived state alone is therefore no longer a required CJ-019 failure
+case. This amendment changes only the normative interpretation of that state;
+it does not authorize broader lifecycle changes, alter evidence classifications
+or counts, complete the CJ-019 matrix, complete Phase 11C, close any of the 18
+findings, or move finding closure away from the exclusive Phase 11K gate.
+
 ## 3. Launch-contract decision register
 
 All 30 rows are `PRODUCT_OWNER_APPROVED`. Each approved answer is the exact
@@ -573,7 +616,7 @@ viewport/browser matrix in Section 5; it is not a universal-support claim.
 | `CJ-016` | Food search | Core | Valid query returns deterministic readable ranking. | Initial/short/invalid/none/unavailable/session-expired states differ. | Query/date back/forward is stable; no click-time mutation. | Search is read-only. | Other users' private foods are hidden. |
 | `CJ-017` | Selected-food prefill | Core | Selection revalidates readability and opens editable diary review. | Missing/archived/unreadable/stale selection fails safely. | Refresh/back remains read-only; stale food cannot bypass validation. | Database-authoritative nutrients; no diary write until submit. | Owner/public visibility enforced. |
 | `CJ-018` | Custom food creation | Core | Owner creates food/nutrients/aliases atomically. | Validation/constraint/database/session failure rolls back. | Duplicate/retry/conflict behavior is safe. | Basis stored; blank/null and zero distinct. | Server-derived private owner. |
-| `CJ-019` | Custom food editing | Core | Owner replaces editable food contract atomically. | Archived/other-owner/invalid/stale/unavailable fails safely. | Concurrent edit and retry do not partially replace. | Existing diary/reuse snapshots remain immutable. | Owner-only update. |
+| `CJ-019` | Custom food editing | Core | Owner atomically replaces the editable contract of an active or archived food. | Missing/other-owner/invalid/stale/unavailable and other genuine errors fail safely; archived state alone is editable. | Concurrent edit and retry do not partially replace. | Archived state is preserved; existing diary/reuse snapshots remain immutable. | Owner-only update. |
 | `CJ-020` | Custom food archive and restore | Core | Owner archives/restores and search visibility follows state. | Other-owner/missing/conflict/unavailable fails safely. | Repeated transition is safe and explicit. | Historical snapshots remain; archive is reversible. | Owner-only lifecycle. |
 | `CJ-021` | Favorite and recent food reuse | Core | Owner favorites or reuses readable recent food via review. | Archived/unreadable/unavailable state offers safe fallback. | Duplicate favorite/retry converges. | Reuse never mutates diary before explicit submit. | Favorites/recents are owner-isolated. |
 | `CJ-022` | Saved Meal creation and editing | Core | Owner atomically creates/replaces ordered snapshot items. | Invalid/stale/other-owner/unavailable write rolls back. | Retry/conflict leaves complete old or new meal. | Exact ordered snapshots; no partial replacement. | Owner-only meal and items. |

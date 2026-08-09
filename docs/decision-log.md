@@ -1840,7 +1840,9 @@
 - Recorded that current automation permits editing an archived owned custom
   food while preserving its archived/search-hidden state. This does not
   establish the Phase 11B CJ-019 negative requirement that the archived edit
-  case fails safely; that archived-state contract point remains unresolved.
+  case fails safely; that archived-state contract point remained unresolved at
+  this 2026-08-08 acceptance point and was later superseded by the explicit
+  2026-08-09 owner decision recorded below.
 - Preserved the accepted Phase 11B normative contract unchanged. Signed manual
   exploration, the complete Phase 11D locale/viewport/browser/accessibility/
   visual matrix, Phase 11J external/provider/platform/device evidence, restore
@@ -1849,3 +1851,37 @@
   Phase 11K remains their exclusive closure gate. No hosted Supabase, remote
   database, Vercel, deployment, Production, backup, restore, launch, DNS,
   environment, secret, or finding-closure operation occurred.
+
+## 2026-08-09: CJ-019 archived custom-food Option B contract amendment
+
+- Product owner Maor Pichhadze explicitly approved Option B against accepted
+  `main` `afce415350d391bd32f4c3bce562192c6f3d9602`: an authenticated owner may
+  open and edit an archived owned custom food, and a successful edit must
+  preserve archived and search-hidden state. Editing must not implicitly
+  restore or expose the food; restore remains a separate owner action.
+- Preserved historical traceability by retaining the original
+  `1.0-phase-11b-accepted` CJ-019 rule, `Archived/other-owner/invalid/stale/
+  unavailable fails safely`, as the prior accepted wording. Amended contract
+  version `1.1-phase-11b-cj019-amended` now treats archived state alone as
+  editable while missing, other-owner, invalid, stale-revision,
+  session-expired, database-failure, unavailable, and other genuine errors
+  continue to fail safely.
+- Recorded that tenant isolation, explicit restore, active-food discovery and
+  reuse exclusions, and immutable diary/reuse snapshots remain unchanged.
+  Current accepted application behavior and the existing archived-edit
+  automation already match the approved semantics, so no application or
+  behavioral-test change is required.
+- Rebound only the legitimate Section 7.1 contract fingerprint and CJ-019
+  normative metadata. Evidence statuses and axes are unchanged: 35 journeys,
+  127 automated evidence links, 421 evidence-axis claims, and no-JavaScript
+  totals `6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains `NOT_VERIFIED`. No
+  unsupported evidence was added.
+- The former CJ-019 archived-state discrepancy is product/contract-resolved,
+  not complete CJ-019 matrix acceptance. Signed manual exploration, the full
+  Phase 11D browser/device/accessibility/visual matrix, Phase 11J external
+  evidence, restore rehearsal/evidence, and the Phase 11K final gate remain
+  outstanding. Phase 11C remains active and incomplete, all 18 findings remain
+  `OPEN`, and Phase 11K remains their exclusive closure gate.
+- No later Phase 11 work, hosted Supabase or remote-database access, Vercel,
+  deployment, Production, backup, restore, DNS, environment, secret, or launch
+  operation was authorized or performed.

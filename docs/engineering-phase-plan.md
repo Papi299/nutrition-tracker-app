@@ -334,7 +334,8 @@ deployment, backup, or restore.
 Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-is version `1.0-phase-11b-accepted`, records all 30 recommendations as
+preserves original version `1.0-phase-11b-accepted` and is now amended as
+version `1.1-phase-11b-cj019-amended`. It records all 30 recommendations as
 attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
 owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
 records independent acceptance of recording head
@@ -350,14 +351,20 @@ Independent review accepted PR #77's bounded CJ-009–CJ-015 evidence at source
 `644b552f7db5bb8bf3693ea5c22941875b5b3764`. PRs #79, #80, and #82 then
 corrected CJ-019 concurrency, CJ-016 no-JavaScript history synchronization, and
 CJ-019 authoritative recovery. Independent review accepted PR #83 source
-`818e19d46863dd1f807e27ee63a61bcb550d2c53`, current `main` squash
-`494907b2c2f34ed49771aef75fd3137a522857e9`, and post-merge run
-`31273568601` / Validate job `93143428615`; superseded PR #81 was closed
-unmerged. The reconciled schema-1.1 map retains 35 journeys and no-JavaScript
-totals `6 / 1 / 10 / 18`, with 127 automated references and 421 automated
-axis claims. Phase 11C remains active and incomplete. This transition
-authorizes no hosted access, deployment, finding closure, or Production
-action, and no later Phase 11 slice has started.
+`818e19d46863dd1f807e27ee63a61bcb550d2c53` and squash
+`494907b2c2f34ed49771aef75fd3137a522857e9`; superseded PR #81 was closed
+unmerged. Independent review then accepted PR #84 source
+`cc869dbedd4748b1ef0124a18379f75aaf4027d3`, current `main` squash
+`afce415350d391bd32f4c3bce562192c6f3d9602`, and post-merge run
+`31281033063` / Validate job `93162236075`. The reconciled schema-1.1 map
+retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 127
+automated references and 421 automated axis claims. On 2026-08-09, Maor
+Pichhadze approved CJ-019 Option B: owners may edit archived custom foods while
+preserving archived/search-hidden state, and restore remains explicit. Current
+accepted behavior matches the amendment, resolving the archived-state product
+discrepancy without completing the CJ-019 matrix. Phase 11C remains active and
+incomplete. This transition authorizes no hosted access, deployment, finding
+closure, or Production action, and no later Phase 11 slice has started.
 All 18 findings remain open; Phase 11K remains their exclusive closure gate.
 Overall Phase 11 remains incomplete.
 

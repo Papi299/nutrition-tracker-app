@@ -8,7 +8,7 @@
 | Identifier | `PHASE-11C1-CRITICAL-JOURNEY-TRACEABILITY-FOUNDATION-001` |
 | Repository | `Papi299/nutrition-tracker-app` |
 | Exact baseline | `eae0cd64284cf103a2ca326568c0d01e2c71d3ff` |
-| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), version `1.0-phase-11b-accepted` |
+| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), original version `1.0-phase-11b-accepted`, amended version `1.1-phase-11b-cj019-amended` |
 | Slice | Phase 11C1 |
 | Slice state | `MERGED` |
 | Merged PR | #73 |
@@ -16,7 +16,8 @@
 | Merged main SHA | `c537f65ed598832e11015266d615c295a4504d06` |
 | Post-merge validation | Run `30697381368` / Validate job `91362444133` / `SUCCESS` |
 | Current Phase 11C2B reconciliation | PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`; squash `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`; post-merge run `31243356983` / Validate job `93067794693` / `SUCCESS`; independent review `ACCEPTED` |
-| Current CJ-016–CJ-021 accepted baseline | PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`; squash `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run `31273568601` / Validate job `93143428615` / `SUCCESS`; independent review `ACCEPTED`; superseded PR #81 closed unmerged |
+| Accepted CJ-016–CJ-021 implementation baseline | PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`; squash `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run `31273568601` / Validate job `93143428615` / `SUCCESS`; independent review `ACCEPTED`; superseded PR #81 closed unmerged |
+| Current accepted evidence baseline | PR #84 source `cc869dbedd4748b1ef0124a18379f75aaf4027d3`; squash `afce415350d391bd32f4c3bce562192c6f3d9602`; post-merge run `31281033063` / Validate job `93162236075` / `SUCCESS`; independent review `ACCEPTED` |
 | Status | `PHASE_11C_ACTIVE_INCOMPLETE` |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -52,16 +53,20 @@ PRs #79, #80, and #82 corrected the accepted CJ-019 concurrency, CJ-016
 no-JavaScript history synchronization, and CJ-019 authoritative-recovery
 defects. Independently accepted PR #83 then carried the useful CJ-017
 no-JavaScript review coverage onto the authoritative baseline and completed
-the bounded CJ-016–CJ-021 candidate acceptance slice. Superseded draft PR #81
-was closed unmerged with its source branch preserved. The traceability rows
-below reconcile those repository facts only; Phase 11C remains active and
-incomplete, and all manual, Phase 11D, Phase 11J, restore, and Phase 11K
-obligations remain outstanding.
+the bounded CJ-016–CJ-021 candidate acceptance slice. Independently accepted
+PR #84 reconciled the exact evidence inventory at 35 journeys, 127 automated
+links, and 421 evidence-axis claims. Superseded draft PR #81 was closed
+unmerged with its source branch preserved.
 
-Current accepted automation permits editing an archived owned custom food
-while preserving its archived/search-hidden state. This does not establish the
-Phase 11B CJ-019 negative requirement that the archived edit case fails safely;
-that archived-state contract point remains unresolved.
+On 2026-08-09, product owner Maor Pichhadze approved Option B for CJ-019:
+owners may edit archived custom foods, but the edit must preserve archived and
+search-hidden state and explicit restore remains separate. Current accepted
+automation matches that amended contract. The former archived-state
+discrepancy is therefore product-resolved, but this is not complete CJ-019
+matrix acceptance. Phase 11C remains active and incomplete, and all manual,
+Phase 11D browser/device/accessibility/visual, Phase 11J external, restore, and
+Phase 11K obligations remain outstanding. All 18 findings remain `OPEN`, and
+Phase 11K remains their exclusive closure gate.
 
 ## 3. Scope and non-goals
 
@@ -188,9 +193,13 @@ The validator parses the exact headers and all 35 rows in each accepted
 Section 7.1, 7.2, and 7.3 table. Every controlling cell is normalized into a
 per-journey snapshot and the complete normalized tables are bound by SHA-256:
 
-- Section 7.1: `e90f9d9508119773cf058b29ec6edb632db52a73ba603d1f3b811cdd08dcff61`
+- Section 7.1: `40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91`
 - Section 7.2: `56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5`
 - Section 7.3: `ba8f658bc442fce992da914683f51568e5988258b8501964031a712ee3eb22e6`
+
+Only the Section 7.1 fingerprint changed, solely for the explicit 2026-08-09
+CJ-019 Option B amendment. Sections 7.2 and 7.3, all evidence axes and links,
+and all journey statuses remain unchanged.
 
 Evidence-axis consistency is bidirectional: every automated axis requires an
 exact linked test, and every axis claimed by a reference must itself be

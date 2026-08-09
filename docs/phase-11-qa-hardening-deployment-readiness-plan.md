@@ -166,8 +166,9 @@ renaming a slice.
 **Current status:** Phase 11B is `PHASE_11B_COMPLETE` for its bounded
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-is version `1.0-phase-11b-accepted`: Maor Pichhadze approved all 30
-recommendations against owner-reviewed source head
+preserves original version `1.0-phase-11b-accepted` and is amended as version
+`1.1-phase-11b-cj019-amended`: Maor Pichhadze approved all 30 recommendations
+against owner-reviewed source head
 `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
 launch-decision-authority, and Production-approver roles, and approved the
 recommended release-separation policy. Independent review accepted recording
@@ -181,14 +182,19 @@ Phase 11C2B core-loop acceptance subsequently merged. Independent review
 accepted PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`.
 PRs #79, #80, and #82 corrected CJ-019 concurrency, CJ-016 no-JavaScript
 history synchronization, and CJ-019 authoritative recovery. Independent review
-accepted PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`, squash
-`494907b2c2f34ed49771aef75fd3137a522857e9`, and post-merge run
-`31273568601` / Validate job `93143428615`; superseded PR #81 was closed
-unmerged. Phase 11C remains active and incomplete. This transition authorizes
-no hosted access,
-finding closure, Production release, or deployment. Overall Phase 11 remains
-incomplete, and the dependency graph and two-stage evidence model above remain
-controlling.
+accepted PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53` and squash
+`494907b2c2f34ed49771aef75fd3137a522857e9`; superseded PR #81 was closed
+unmerged. Independent review then accepted PR #84 source
+`cc869dbedd4748b1ef0124a18379f75aaf4027d3`, squash
+`afce415350d391bd32f4c3bce562192c6f3d9602`, and post-merge run
+`31281033063` / Validate job `93162236075`. On 2026-08-09, Maor Pichhadze
+approved CJ-019 Option B: an owner may edit an archived custom food while the
+edit preserves archived/search-hidden state and restore remains separate. The
+accepted behavior matches the amended contract, resolving only that product
+discrepancy. Phase 11C remains active and incomplete. This transition
+authorizes no hosted access, finding closure, Production release, deployment,
+or later Phase 11 work. Overall Phase 11 remains incomplete, and the dependency
+graph and two-stage evidence model above remain controlling.
 
 ### Objective
 
@@ -227,10 +233,12 @@ trace, and contradiction/link checks.
 and bounded auth/session coverage are present on `main` through PR #73, but
 Phase 11C also now contains independently accepted bounded CJ-009–CJ-021
 automated evidence through current `main`
-`494907b2c2f34ed49771aef75fd3137a522857e9`. The reconciled map contains 35
+`afce415350d391bd32f4c3bce562192c6f3d9602`. The reconciled map contains 35
 journeys, 127 automated references, 421 automated axis claims, and unchanged
 no-JavaScript totals `6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
-`NOT_VERIFIED`. Phase 11C nevertheless remains active and incomplete.
+`NOT_VERIFIED`. The 2026-08-09 CJ-019 Option B decision aligns the archived-edit
+contract with accepted behavior without adding evidence or completing the
+CJ-019 matrix. Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
 11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase
