@@ -17,7 +17,7 @@
 | Post-merge validation | Run `30697381368` / Validate job `91362444133` / `SUCCESS` |
 | Current Phase 11C2B reconciliation | PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`; squash `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`; post-merge run `31243356983` / Validate job `93067794693` / `SUCCESS`; independent review `ACCEPTED` |
 | Accepted CJ-016–CJ-021 implementation baseline | PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`; squash `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run `31273568601` / Validate job `93143428615` / `SUCCESS`; independent review `ACCEPTED`; superseded PR #81 closed unmerged |
-| Current accepted evidence baseline | PR #84 source `cc869dbedd4748b1ef0124a18379f75aaf4027d3`; squash `afce415350d391bd32f4c3bce562192c6f3d9602`; post-merge run `31281033063` / Validate job `93162236075` / `SUCCESS`; independent review `ACCEPTED` |
+| Current accepted evidence baseline | PR #86 source `7d7b761b37cca76787b52a36ebca41ce6db638e7`; squash `483df9479ef8b2381da2faef2971c20456404102`; post-merge run `31313589548` / Validate job `93245133253` / `SUCCESS`; independent review `ACCEPTED WITH RECORDED LIMITATION`; the limitation was stale human-readable baseline/status metadata being corrected by this follow-up, not an evidence-map or product-behavior defect |
 | Status | `PHASE_11C_ACTIVE_INCOMPLETE` |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -58,12 +58,12 @@ PR #84 reconciled the exact evidence inventory at 35 journeys, 127 automated
 links, and 421 evidence-axis claims. Superseded draft PR #81 was closed
 unmerged with its source branch preserved.
 
-The current bounded CJ-022–CJ-027 reconciliation corrects five unsupported
-tenant assignments on owner-only replacement/retry tests and moves those
-claims to exact behavioral cross-user evidence. Existing Saved Meal and Recipe
-tests now support 168 automated links and 539 evidence-axis claims; no test
-file or product behavior changed. No-JavaScript classifications remain
-`6 / 1 / 10 / 18`, including `NOT_VERIFIED` for CJ-024 and CJ-027.
+The independently accepted bounded CJ-022–CJ-027 reconciliation in PR #86
+corrects five unsupported tenant assignments on owner-only replacement/retry
+tests and moves those claims to exact behavioral cross-user evidence. Existing
+Saved Meal and Recipe tests support 168 automated links and 539 evidence-axis
+claims; no test file or product behavior changed. No-JavaScript classifications
+remain `6 / 1 / 10 / 18`, including `NOT_VERIFIED` for CJ-024 and CJ-027.
 
 On 2026-08-09, product owner Maor Pichhadze approved Option B for CJ-019:
 owners may edit archived custom foods, but the edit must preserve archived and
@@ -114,8 +114,8 @@ most important current state without hiding partial evidence on other axes.
 | `CURRENT_EVIDENCE_LINKED` | 27 |
 | `BLOCKED_BY_LATER_SLICE` | 7 |
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
-| Automated evidence references | 127 |
-| Automated evidence-axis claims | 421 |
+| Automated evidence references | 168 |
+| Automated evidence-axis claims | 539 |
 | Journeys with manual evidence still not collected | 35 |
 | Journeys with later-slice dependencies | 35 |
 | Journeys with external evidence still not collected | 35 |

@@ -1912,3 +1912,23 @@
   hosted Supabase, remote database, Vercel, deployment, Production, backup,
   restore, DNS, environment, secret, launch, or finding-closure operation was
   authorized or performed.
+
+## 2026-08-09: PR #86 post-merge evidence review and documentation follow-up
+
+- Independent post-merge review accepted PR #86 source
+  `7d7b761b37cca76787b52a36ebca41ce6db638e7`, squash
+  `483df9479ef8b2381da2faef2971c20456404102`, and merged-main run
+  `31313589548` / Validate job `93245133253` with verdict
+  `ACCEPTED WITH RECORDED LIMITATION`.
+- The accepted inventory is 35 ordered journeys, 168 automated evidence links,
+  539 evidence-axis claims, and no-JavaScript totals `6 / 1 / 10 / 18`.
+- The exact PR #86 scope was `README.md`, `docs/decision-log.md`,
+  `docs/engineering-phase-plan.md`,
+  `docs/phase-11-qa-hardening-deployment-readiness-plan.md`,
+  `docs/phase-11c-critical-journey-evidence.json`, and
+  `docs/phase-11c-critical-journey-qa-foundation.md`.
+- The recorded limitation was stale post-merge human-readable baseline and
+  status metadata that still described PR #84 or CJ-022–CJ-027 as current or
+  pending. This follow-up corrects documentation only; it changes no evidence
+  axes, executable tests, application behavior, contracts, findings, or phase
+  gates.
