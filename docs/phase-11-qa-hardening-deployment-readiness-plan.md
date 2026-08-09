@@ -249,7 +249,7 @@ JavaScript creation behavior is non-contractual, receives no no-JavaScript
 evidence credit, and is unchanged. The contradictory no-mutation validation
 instruction is retired. The bounded CJ-028–CJ-032 reconciliation candidate
 adds one true local-miss browser test and reattributes exact existing test
-bodies; the candidate map validates at 35 journeys, 217 references, and 699
+bodies; the candidate map validates at 35 journeys, 216 references, and 694
 claims with no-JavaScript totals unchanged. Independent exact-head review is
 still required. Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18

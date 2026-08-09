@@ -235,8 +235,8 @@ is complete for the current MVP scope.
   no-JavaScript evidence credit. No behavior or executable test changed in
   that amendment. The bounded CJ-028–CJ-032 reconciliation candidate adds one
   true local-miss browser test and reattributes exact existing test bodies.
-  Its mechanically validated inventory is 35 journeys, 217 automated
-  references, and 699 automated axis claims with unchanged no-JavaScript
+  Its mechanically validated inventory is 35 journeys, 216 automated
+  references, and 694 automated axis claims with unchanged no-JavaScript
   totals `6 / 1 / 10 / 18`; independent exact-head review remains required.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged

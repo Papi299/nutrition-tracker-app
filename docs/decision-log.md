@@ -1972,9 +1972,9 @@
   snapshots remain unchanged.
 - Re-read the exact CJ-028–CJ-032 candidate test bodies and removed one
   incorrect CJ-028 miss no-JavaScript reference plus nine unsupported axis
-  assignments. Added 49 existing-test references with 165 supported claims;
+  assignments. Added 48 existing-test references with 160 supported claims;
   the new CJ-029 reference contributes four additional claims.
-- The candidate inventory is 35 ordered journeys, 217 automated links, 699
+- The candidate inventory is 35 ordered journeys, 216 automated links, 694
   evidence-axis claims, and unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
   CJ-030 Option A remains authoritative with zero no-JavaScript credit. CJ-031
   remains controlled by Phase 11D with Phase 11J external/device evidence.

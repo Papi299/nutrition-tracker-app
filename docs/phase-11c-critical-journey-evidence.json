@@ -4336,7 +4336,6 @@
           "path": "e2e/barcode-handoff-ui.spec.ts",
           "testTitle": "reports a write-time public conflict with values intact and supports no-JavaScript attachment",
           "evidenceAxes": [
-            "positivePath",
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
@@ -4588,16 +4587,6 @@
         "rationale": "Tenant isolation is a server/database property independent of client scripting."
       },
       "automatedEvidence": [
-        {
-          "path": "e2e/critical-auth-session.spec.ts",
-          "testTitle": "CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage",
-          "evidenceAxes": [
-            "positivePath",
-            "staleConflictRetry",
-            "dataIntegrity",
-            "tenantIsolation"
-          ]
-        },
         {
           "path": "e2e/critical-auth-session.spec.ts",
           "testTitle": "CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry",
