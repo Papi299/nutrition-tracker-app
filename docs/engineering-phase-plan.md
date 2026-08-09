@@ -354,14 +354,18 @@ CJ-019 authoritative recovery. Independent review accepted PR #83 source
 `818e19d46863dd1f807e27ee63a61bcb550d2c53` and squash
 `494907b2c2f34ed49771aef75fd3137a522857e9`; superseded PR #81 was closed
 unmerged. Independent review then accepted PR #84 source
-`cc869dbedd4748b1ef0124a18379f75aaf4027d3`, current `main` squash
+`cc869dbedd4748b1ef0124a18379f75aaf4027d3`, historical squash
 `afce415350d391bd32f4c3bce562192c6f3d9602`, and post-merge run
-`31281033063` / Validate job `93162236075`. The reconciled schema-1.1 map
-then retained 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with
-127 automated references and 421 automated axis claims. The bounded current
-CJ-022–CJ-027 candidate semantically reconciles existing Saved Meal and Recipe
-automation at 168 references and 539 axis claims, with no executable-test or
-product-behavior change and unchanged no-JavaScript totals. On 2026-08-09, Maor
+`31281033063` / Validate job `93162236075`. That schema-1.1 map retained 35
+journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 127 automated
+references and 421 automated axis claims. The independently accepted bounded
+CJ-022–CJ-027 reconciliation in PR #86 source
+`7d7b761b37cca76787b52a36ebca41ce6db638e7` was squash-merged to current
+`main` `483df9479ef8b2381da2faef2971c20456404102`; merged-main run
+`31313589548` / Validate job `93245133253` completed `SUCCESS`. The current map
+retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 168
+automated references and 539 automated axis claims. No executable test or
+product behavior changed. On 2026-08-09, Maor
 Pichhadze approved CJ-019 Option B: owners may edit archived custom foods while
 preserving archived/search-hidden state, and restore remains explicit. Current
 accepted behavior matches the amendment, resolving the archived-state product

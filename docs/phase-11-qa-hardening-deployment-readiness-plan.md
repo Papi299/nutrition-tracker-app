@@ -231,13 +231,13 @@ trace, and contradiction/link checks.
 **Current status:** Phase 11C1's
 [critical-journey traceability foundation](phase-11c-critical-journey-qa-foundation.md)
 and bounded auth/session coverage are present on `main` through PR #73, but
-Phase 11C also now contains independently accepted bounded CJ-009–CJ-021
-automated evidence through current `main`
-`afce415350d391bd32f4c3bce562192c6f3d9602`. The reconciled map contains 35
-journeys. The current bounded CJ-022–CJ-027 candidate credits 168 automated
-references and 539 automated axis claims after exact test-body review, with no
-test-file or behavior change and unchanged no-JavaScript totals
-`6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
+Phase 11C also contains the previously accepted bounded CJ-009–CJ-021
+automated evidence. The independently accepted bounded CJ-022–CJ-027
+reconciliation in PR #86 is present on current `main`
+`483df9479ef8b2381da2faef2971c20456404102`. The current map contains 35
+journeys, 168 automated references, and 539 automated axis claims after exact
+test-body review, with no test-file or behavior change and unchanged
+no-JavaScript totals `6 / 1 / 10 / 18`; CJ-024 and CJ-027 no-JavaScript remain
 `NOT_VERIFIED`. The 2026-08-09 CJ-019 Option B decision aligns the archived-edit
 contract with accepted behavior without adding evidence or completing the
 CJ-019 matrix. Phase 11C nevertheless remains active and incomplete.
