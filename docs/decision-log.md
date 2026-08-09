@@ -1885,3 +1885,29 @@
 - No later Phase 11 work, hosted Supabase or remote-database access, Vercel,
   deployment, Production, backup, restore, DNS, environment, secret, or launch
   operation was authorized or performed.
+
+## 2026-08-09: Phase 11C CJ-022–CJ-027 automated evidence reconciliation
+
+- Semantically reviewed the existing Saved Meal and Recipe persistence, UI,
+  use-contract, and diary-logging tests for CJ-022 through CJ-027 before adding
+  evidence. Existing executable assertions cover the bounded automated axes,
+  so no test file or product behavior changed.
+- Removed `tenantIsolation` from the owner-only Saved Meal replacement, Saved
+  Meal retry/concurrency, Recipe replacement, and Recipe retry/concurrency
+  references. Tenant evidence now comes only from behavioral cross-user RLS,
+  forged-ownership, unreadable-source, and owner-scoped destination checks.
+- Added exact existing references for positive, failure, retry/conflict,
+  integrity, tenant, locale, fixed mobile viewport, and Chromium behavior where
+  their bodies support those axes. CJ-022, CJ-023, CJ-025, and CJ-026 failure
+  states are now `AUTOMATED_PARTIAL`; supported locale/viewport/browser axes
+  are also partial without replacing Phase 11D or Phase 11J obligations.
+- The schema remains 1.1 with 35 ordered journeys, 168 automated evidence
+  links, 540 evidence-axis claims, and unchanged no-JavaScript totals
+  `6 / 1 / 10 / 18`. CJ-024 and CJ-027 no-JavaScript remain `NOT_VERIFIED`;
+  observed disabled-JavaScript behavior was not promoted into a commitment.
+- Phase 11C remains active and incomplete. Signed manual evidence and Phase
+  11D/11J responsibilities remain outstanding, all 18 findings remain `OPEN`,
+  and Phase 11K remains their exclusive closure gate. No later Phase 11 slice,
+  hosted Supabase, remote database, Vercel, deployment, Production, backup,
+  restore, DNS, environment, secret, launch, or finding-closure operation was
+  authorized or performed.

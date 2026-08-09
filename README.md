@@ -212,8 +212,11 @@ is complete for the current MVP scope.
   unmerged. Independently accepted PR #84 then reconciled the evidence on
   current `main` `afce415350d391bd32f4c3bce562192c6f3d9602`; post-merge run
   `31281033063` / Validate job `93162236075` succeeded. The reconciled map
-  contains 35 journeys, 127 automated references, 421 automated axis claims,
-  and unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
+  then contained 35 journeys, 127 automated references, and 421 automated
+  axis claims. This bounded CJ-022–CJ-027 candidate now credits existing Saved
+  Meal and Recipe automation at 168 references and 540 axis claims after
+  correcting four owner-only tenant assignments. No test file or product
+  behavior changed, and no-JavaScript totals remain `6 / 1 / 10 / 18`.
   On 2026-08-09, Maor Pichhadze approved CJ-019 Option B: owners may edit
   archived custom foods while edits preserve archived/search-hidden state and
   explicit restore remains separate. Current accepted behavior matches that

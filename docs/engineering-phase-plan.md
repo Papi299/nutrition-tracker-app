@@ -357,8 +357,11 @@ unmerged. Independent review then accepted PR #84 source
 `cc869dbedd4748b1ef0124a18379f75aaf4027d3`, current `main` squash
 `afce415350d391bd32f4c3bce562192c6f3d9602`, and post-merge run
 `31281033063` / Validate job `93162236075`. The reconciled schema-1.1 map
-retains 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with 127
-automated references and 421 automated axis claims. On 2026-08-09, Maor
+then retained 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with
+127 automated references and 421 automated axis claims. The bounded current
+CJ-022–CJ-027 candidate semantically reconciles existing Saved Meal and Recipe
+automation at 168 references and 540 axis claims, with no executable-test or
+product-behavior change and unchanged no-JavaScript totals. On 2026-08-09, Maor
 Pichhadze approved CJ-019 Option B: owners may edit archived custom foods while
 preserving archived/search-hidden state, and restore remains explicit. Current
 accepted behavior matches the amendment, resolving the archived-state product

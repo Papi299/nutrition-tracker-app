@@ -2977,7 +2977,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -2989,13 +2989,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -3005,12 +3005,75 @@
       "automatedEvidence": [
         {
           "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "creates manual and linked snapshots in stable order, including duplicate links",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "enforces ownership and linked-food readability through RLS and RPC validation",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "accepts 1 and 50 items and rejects count, shape, numeric, and position errors",
+          "evidenceAxes": [
+            "failureStates"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
           "testTitle": "replaces the complete item collection, clears nullable fields, and updates timestamps only for changes",
           "evidenceAxes": [
             "positivePath",
             "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "rolls back meal identity and prior items when a later item is invalid or unreadable",
+          "evidenceAxes": [
+            "failureStates",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "renders localized blank editors, discovery links, and fail-closed route states",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation",
+            "locale",
+            "viewport",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "copies exact diary snapshots in order and creates without mutating the diary",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "preserves form values on rejection and securely replaces reordered items",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
           ]
         }
       ],
@@ -3076,7 +3139,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -3088,13 +3151,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -3107,9 +3170,20 @@
           "testTitle": "archives, updates while archived, restores, and keeps archive submissions idempotent",
           "evidenceAxes": [
             "positivePath",
+            "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "paginates owned meals and completes archive, archived edit, and restore",
+          "evidenceAxes": [
+            "positivePath",
+            "tenantIsolation",
+            "locale",
+            "browser"
           ]
         }
       ],
@@ -3187,13 +3261,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
@@ -3202,13 +3276,53 @@
       "automatedEvidence": [
         {
           "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "copies exact ordered snapshots and applies food-link rules atomically",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
           "testTitle": "is idempotent under sequential and concurrent retries without recreating deleted rows",
           "evidenceAxes": [
             "positivePath",
             "failureStates",
             "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "rolls back a later item failure and reports ownership, stale, archive, and completed-retry states",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "accepts every meal type and the one-item and fifty-item boundaries",
+          "evidenceAxes": [
+            "positivePath"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "reviews localized snapshots, rejects stale confirmation, and logs an editable atomic run",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "viewport",
+            "browser"
           ]
         }
       ],
@@ -3274,7 +3388,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -3286,13 +3400,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -3302,12 +3416,76 @@
       "automatedEvidence": [
         {
           "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "creates manual and linked snapshots in stable order with positive yield",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "enforces ownership and readable-food links through direct RLS and RPC writes",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "accepts 1 and 50 ingredients and rejects yield, shape, pairing, numeric, and position errors",
+          "evidenceAxes": [
+            "failureStates"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
           "testTitle": "full-replaces, reorders, clears, unlinks, and preserves child ids on identical submissions",
           "evidenceAxes": [
             "positivePath",
             "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "rolls back identity, yield, and ingredients when a later ingredient is invalid or unreadable",
+          "evidenceAxes": [
+            "failureStates",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-ui.spec.ts",
+          "testTitle": "installs a least-privilege editor RPC and renders localized fail-closed routes",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation",
+            "locale",
+            "viewport",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-ui.spec.ts",
+          "testTitle": "selects only readable active foods, prefills an editable snapshot, and creates atomically",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-ui.spec.ts",
+          "testTitle": "preserves rejected values and securely replaces reordered or unlinked snapshots",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
           ]
         }
       ],
@@ -3373,7 +3551,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -3385,13 +3563,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
         "status": "MANUAL_REQUIRED"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -3404,9 +3582,27 @@
           "testTitle": "archives idempotently, edits while archived, restores, and preserves ingredients",
           "evidenceAxes": [
             "positivePath",
+            "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-ui.spec.ts",
+          "testTitle": "paginates owned recipes and completes archive, archived edit, and restore",
+          "evidenceAxes": [
+            "positivePath",
+            "tenantIsolation",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "keeps linked snapshots authoritative and makes diary edits and deletion historically independent",
+          "evidenceAxes": [
+            "dataIntegrity"
           ]
         }
       ],
@@ -3484,13 +3680,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
@@ -3498,14 +3694,183 @@
       },
       "automatedEvidence": [
         {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "derives exact values once and reports each nutrient's completeness independently",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "uses PostgreSQL rounding at calorie and macro boundaries",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "accepts diary maxima, classifies overflow, and does not treat unknowns as overflow",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "validates request precision in the database",
+          "evidenceAxes": [
+            "failureStates"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "makes other-user and missing recipes indistinguishably unavailable",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "returns archived and transient invalid states without derived values",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-contract.spec.ts",
+          "testTitle": "uses frozen snapshots, versions ingredient changes, and performs no unrelated writes",
+          "evidenceAxes": [
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "canonicalizes browser-local date, default servings, and normalized URLs",
+          "evidenceAxes": [
+            "positivePath",
+            "locale",
+            "viewport",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "rejects invalid route and query input before derivation",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "displays every database perspective, independent completeness, and review context without writes",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "confirms one localized aggregate, locks context, and supports no-script submission",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "locale",
+            "viewport",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "rejects stale confirmation and retries a transient database error with the reviewed token",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "keeps snapshot nutrition stable through quantity and linked-food changes while source versions advance",
+          "evidenceAxes": [
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "shows owner lifecycle, overflow, and integrity states without nutrition leakage",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-use-ui.spec.ts",
+          "testTitle": "shows generic retrieval failure, keeps the editor usable, and protects expired sessions",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "creates owner-only receipts, immutable provenance, and least invoker grants",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "inserts one exact aggregate snapshot for one and fifty ingredients",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
           "path": "e2e/recipe-diary-logging.spec.ts",
           "testTitle": "converges sequential and concurrent retries and rejects token conflicts",
           "evidenceAxes": [
             "positivePath",
             "failureStates",
             "staleConflictRetry",
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "preserves completed retries while stale, archive, ownership, integrity, and overflow writes fail closed",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "keeps linked snapshots authoritative and makes diary edits and deletion historically independent",
+          "evidenceAxes": [
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "rolls receipt and diary insertion back together after a later failure",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
           ]
         }
       ],
