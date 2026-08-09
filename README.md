@@ -232,7 +232,12 @@ is complete for the current MVP scope.
   `NOT_APPLICABLE`: the supported commitment is the JavaScript handoff and
   server/database integrity boundary, while existing disabled-JavaScript
   creation behavior is incidental, non-contractual, and receives no
-  no-JavaScript evidence credit. No behavior or executable test changed.
+  no-JavaScript evidence credit. No behavior or executable test changed in
+  that amendment. The bounded CJ-028–CJ-032 reconciliation candidate adds one
+  true local-miss browser test and reattributes exact existing test bodies.
+  Its mechanically validated inventory is 35 journeys, 217 automated
+  references, and 699 automated axis claims with unchanged no-JavaScript
+  totals `6 / 1 / 10 / 18`; independent exact-head review remains required.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

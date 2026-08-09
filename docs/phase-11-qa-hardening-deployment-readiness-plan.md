@@ -247,7 +247,11 @@ CJ-019 matrix. The owner-approved 2026-08-09 CJ-030 Option A amendment keeps
 the no-JavaScript classification `NOT_APPLICABLE`; existing disabled-
 JavaScript creation behavior is non-contractual, receives no no-JavaScript
 evidence credit, and is unchanged. The contradictory no-mutation validation
-instruction is retired. Phase 11C nevertheless remains active and incomplete.
+instruction is retired. The bounded CJ-028–CJ-032 reconciliation candidate
+adds one true local-miss browser test and reattributes exact existing test
+bodies; the candidate map validates at 35 journeys, 217 references, and 699
+claims with no-JavaScript totals unchanged. Independent exact-head review is
+still required. Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
 11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase

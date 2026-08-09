@@ -1962,3 +1962,24 @@
   finding-closure gate. No later slice, hosted Supabase, remote database,
   Vercel, deployment, Production, backup, restore, DNS, environment, secret,
   launch, or finding-closure operation is authorized by this amendment.
+
+## 2026-08-09: CJ-029 true-miss and CJ-028–CJ-032 evidence reconciliation candidate
+
+- Added exactly one Playwright test for a genuine local barcode miss. The test
+  repeats the same manual lookup, reloads, traverses Back and Forward, retains
+  canonical barcode/date/meal/locale/query classification, and proves exact
+  user-scoped `foods`, `food_barcodes`, `food_favorites`, and `diary_entries`
+  snapshots remain unchanged.
+- Re-read the exact CJ-028–CJ-032 candidate test bodies and removed one
+  incorrect CJ-028 miss no-JavaScript reference plus nine unsupported axis
+  assignments. Added 49 existing-test references with 165 supported claims;
+  the new CJ-029 reference contributes four additional claims.
+- The candidate inventory is 35 ordered journeys, 217 automated links, 699
+  evidence-axis claims, and unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
+  CJ-030 Option A remains authoritative with zero no-JavaScript credit. CJ-031
+  remains controlled by Phase 11D with Phase 11J external/device evidence.
+- Phase 11C remains active and incomplete, all 18 findings remain `OPEN`, and
+  Phase 11K remains the exclusive finding-closure gate. No hosted Supabase,
+  remote database, Vercel, deployment, Production, backup, restore, DNS,
+  environment, secret, launch, or finding-closure operation occurred.
+- This is a draft candidate. Independent exact-head review remains required.

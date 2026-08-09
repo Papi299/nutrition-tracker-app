@@ -3935,10 +3935,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -3962,19 +3962,46 @@
       "automatedEvidence": [
         {
           "path": "e2e/barcode-lookup-ui.spec.ts",
-          "testTitle": "reviews owned, public, and owned-before-public results without mutation",
+          "testTitle": "bootstraps a browser-local date and supports localized no-JavaScript manual entry",
           "evidenceAxes": [
             "positivePath",
-            "dataIntegrity",
-            "tenantIsolation",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "renders initial, invalid, canonical redirect, discovery, mobile, keyboard, and session states",
+          "evidenceAxes": [
+            "failureStates",
             "browser"
           ]
         },
         {
-          "path": "e2e/barcode-camera-scanner.spec.ts",
-          "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "reviews owned, public, and owned-before-public results without mutation",
           "evidenceAxes": [
-            "noJavaScript"
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "returns exact owner-aware precedence, archive, miss, and metadata states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "rejects invalid RPC input and keeps lookup read-only",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
           ]
         }
       ],
@@ -4043,7 +4070,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -4067,12 +4094,29 @@
       "automatedEvidence": [
         {
           "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "renders initial, invalid, canonical redirect, discovery, mobile, keyboard, and session states",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
           "testTitle": "keeps archived, other-user, local miss, and database failure states distinct",
           "evidenceAxes": [
             "positivePath",
             "failureStates",
-            "dataIntegrity",
             "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "keeps a true local miss deterministic through retry and browser history without writes",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
             "browser"
           ]
         },
@@ -4081,6 +4125,22 @@
           "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
           "evidenceAxes": [
             "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "returns exact owner-aware precedence, archive, miss, and metadata states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "rejects invalid RPC input and keeps lookup read-only",
+          "evidenceAxes": [
+            "failureStates"
           ]
         }
       ],
@@ -4146,10 +4206,10 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -4158,13 +4218,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "viewport": {
-        "status": "MANUAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "browser": {
-        "status": "EXTERNAL_REQUIRED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
         "status": "NOT_APPLICABLE",
@@ -4174,11 +4234,113 @@
       "automatedEvidence": [
         {
           "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "enforces food-specific canonical validation, ACLs, and generated shape",
+          "evidenceAxes": [
+            "failureStates"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "keeps the private helper non-exposed and rejects unauthenticated, other-user, and preexisting parents",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
           "testTitle": "creates food, nutrients, aliases, and one fixed private mapping atomically without unrelated writes",
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "converges sequential and concurrent same-user retries and permits isolated cross-user mappings",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "returns owned, archived, public, and generic conflicts without writing",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "serializes a public mapping race through the documented advisory lock",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "rolls back food, nutrients, aliases, and mapping for isolated insertion failures",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-ui.spec.ts",
+          "testTitle": "carries strict canonical context from Phase 9B and renders localized read-only forms",
+          "evidenceAxes": [
+            "positivePath",
+            "tenantIsolation",
+            "locale",
+            "viewport",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-ui.spec.ts",
+          "testTitle": "fails closed for malformed handoffs, conflicts, ambiguity, database failure, and expired sessions",
+          "evidenceAxes": [
+            "failureStates",
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-ui.spec.ts",
+          "testTitle": "attaches atomically, logs only after review, and then resolves as owned",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-ui.spec.ts",
+          "testTitle": "preserves explicit omission through validation and creates complete barcode-free food",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-ui.spec.ts",
+          "testTitle": "reports a write-time public conflict with values intact and supports no-JavaScript attachment",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
           ]
         }
       ],
@@ -4247,7 +4409,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
@@ -4274,13 +4436,63 @@
           "path": "e2e/barcode-camera-scanner.spec.ts",
           "testTitle": "keeps manual and no-JavaScript lookup complete when capability is unavailable",
           "evidenceAxes": [
-            "positivePath",
             "failureStates",
-            "dataIntegrity",
-            "locale",
-            "viewport",
             "browser",
             "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "requests permission only on action, classifies failures, and bounds constraint fallback",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "canonicalizes every approved format using current edited date and meal without mutation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "feeds scanned codes through normal owned, public, miss, and custom-handoff states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "rejects UPC-E, ISBN, invalid, and multiple detections without changing manual input",
+          "evidenceAxes": [
+            "failureStates",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "stops every track on cancellation, lifecycle exits, detector failure, and replacement",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/barcode-camera-scanner.spec.ts",
+          "testTitle": "preserves localized, mobile, keyboard, live-region, and nonmirrored behavior",
+          "evidenceAxes": [
+            "positivePath",
+            "locale",
+            "viewport",
+            "browser"
           ]
         }
       ],
@@ -4377,13 +4589,255 @@
       },
       "automatedEvidence": [
         {
-          "path": "e2e/date-correctness.spec.ts",
-          "testTitle": "enforces RLS isolation for targets and diary entries",
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry",
           "evidenceAxes": [
             "positivePath",
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/setup-persistence.spec.ts",
+          "testTitle": "rejects unauthenticated execution and cannot affect another user",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "CJ-011 preserves date, target, diary, and tenant coherence through browser history without mutation",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/date-correctness.spec.ts",
+          "testTitle": "enforces RLS isolation for targets and diary entries",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/retrieval-and-core-loop.spec.ts",
+          "testTitle": "covers the authenticated core loop and cross-user isolation",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-012 durably converges sequential, concurrent, uncertain, deleted, conflicting, and owner-scoped replays",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-014 hides other-owner existence at the database boundary",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/diary-mutation-correctness.spec.ts",
+          "testTitle": "CJ-015 keeps owner deletion safe across repeated, database, session, tenant, and Hebrew states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/linked-food-write-revalidation.spec.ts",
+          "testTitle": "accepts active readable links and rejects archived, missing, and tenant-inaccessible links",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/food-search.spec.ts",
+          "testTitle": "deduplicates foods, caps results, excludes archived and other-user rows",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "supports own custom food and hides other-user and archived selections",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-persistence.spec.ts",
+          "testTitle": "clears complete child collections and blocks unauthorized writes",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-editor.spec.ts",
+          "testTitle": "keeps editor retrieval authenticated-only, invoker-secured and owner-scoped",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-management.spec.ts",
+          "testTitle": "keeps cross-user and public foods invisible and immutable through the lifecycle contract",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "allows only own favorite rows for readable nonarchived foods",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "enforces ownership and linked-food readability through RLS and RPC validation",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "rolls back meal identity and prior items when a later item is invalid or unreadable",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-diary-reuse.spec.ts",
+          "testTitle": "rolls back a later item failure and reports ownership, stale, archive, and completed-retry states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "rolls back identity, yield, and ingredients when a later ingredient is invalid or unreadable",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/recipe-diary-logging.spec.ts",
+          "testTitle": "preserves completed retries while stale, archive, ownership, integrity, and overflow writes fail closed",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "derives visibility from parent foods and grants no authenticated DML",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-foundation.spec.ts",
+          "testTitle": "returns exact owner-aware precedence, archive, miss, and metadata states",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "keeps the private helper non-exposed and rejects unauthenticated, other-user, and preexisting parents",
+          "evidenceAxes": [
+            "failureStates",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-handoff-persistence.spec.ts",
+          "testTitle": "converges sequential and concurrent same-user retries and permits isolated cross-user mappings",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/barcode-lookup-ui.spec.ts",
+          "testTitle": "keeps archived, other-user, local miss, and database failure states distinct",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
             "tenantIsolation"
           ]
         }
