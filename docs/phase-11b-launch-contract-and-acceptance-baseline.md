@@ -19,7 +19,7 @@
 | Independent reviewer | ChatGPT issued `PHASE_11B_OWNER_DECISION_RECORDING_ACCEPTED_COMPLETION_AND_MERGE_AUTHORIZED` on 2026-07-31 after reviewing recording head `c739df46d960593d0a2306255cdb0b46df29f4bc`; the prior corrected draft was independently accepted at owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | Owner approval | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved all 30 recommended decisions and the stated role dispositions in an attributable Phase 11B owner decision bundle on 2026-07-31 after reviewing source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` |
 | CJ-019 amendment | `PRODUCT_OWNER_APPROVED` — Option B approved by Maor Pichhadze on 2026-08-09 against accepted `main` `afce415350d391bd32f4c3bce562192c6f3d9602`; owners may edit archived custom foods without implicitly restoring or exposing them |
-| CJ-019 amendment review | `INDEPENDENT_REVIEW_REQUIRED_BEFORE_MERGE` |
+| CJ-019 amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
