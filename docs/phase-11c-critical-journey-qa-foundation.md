@@ -58,10 +58,10 @@ PR #84 reconciled the exact evidence inventory at 35 journeys, 127 automated
 links, and 421 evidence-axis claims. Superseded draft PR #81 was closed
 unmerged with its source branch preserved.
 
-The current bounded CJ-022–CJ-027 reconciliation corrects four unsupported
+The current bounded CJ-022–CJ-027 reconciliation corrects five unsupported
 tenant assignments on owner-only replacement/retry tests and moves those
 claims to exact behavioral cross-user evidence. Existing Saved Meal and Recipe
-tests now support 168 automated links and 540 evidence-axis claims; no test
+tests now support 168 automated links and 539 evidence-axis claims; no test
 file or product behavior changed. No-JavaScript classifications remain
 `6 / 1 / 10 / 18`, including `NOT_VERIFIED` for CJ-024 and CJ-027.
 

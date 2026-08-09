@@ -360,7 +360,7 @@ unmerged. Independent review then accepted PR #84 source
 then retained 35 journeys and no-JavaScript totals `6 / 1 / 10 / 18`, with
 127 automated references and 421 automated axis claims. The bounded current
 CJ-022–CJ-027 candidate semantically reconciles existing Saved Meal and Recipe
-automation at 168 references and 540 axis claims, with no executable-test or
+automation at 168 references and 539 axis claims, with no executable-test or
 product-behavior change and unchanged no-JavaScript totals. On 2026-08-09, Maor
 Pichhadze approved CJ-019 Option B: owners may edit archived custom foods while
 preserving archived/search-hidden state, and restore remains explicit. Current

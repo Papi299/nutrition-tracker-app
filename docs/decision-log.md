@@ -1893,16 +1893,17 @@
   evidence. Existing executable assertions cover the bounded automated axes,
   so no test file or product behavior changed.
 - Removed `tenantIsolation` from the owner-only Saved Meal replacement, Saved
-  Meal retry/concurrency, Recipe replacement, and Recipe retry/concurrency
-  references. Tenant evidence now comes only from behavioral cross-user RLS,
-  forged-ownership, unreadable-source, and owner-scoped destination checks.
+  Meal retry/concurrency, Recipe replacement, Recipe retry/concurrency, and
+  Saved Meal UI rejection/reorder references. Tenant evidence now comes only
+  from behavioral cross-user RLS, forged-ownership, unreadable-source, and
+  owner-scoped destination checks.
 - Added exact existing references for positive, failure, retry/conflict,
   integrity, tenant, locale, fixed mobile viewport, and Chromium behavior where
   their bodies support those axes. CJ-022, CJ-023, CJ-025, and CJ-026 failure
   states are now `AUTOMATED_PARTIAL`; supported locale/viewport/browser axes
   are also partial without replacing Phase 11D or Phase 11J obligations.
 - The schema remains 1.1 with 35 ordered journeys, 168 automated evidence
-  links, 540 evidence-axis claims, and unchanged no-JavaScript totals
+  links, 539 evidence-axis claims, and unchanged no-JavaScript totals
   `6 / 1 / 10 / 18`. CJ-024 and CJ-027 no-JavaScript remain `NOT_VERIFIED`;
   observed disabled-JavaScript behavior was not promoted into a commitment.
 - Phase 11C remains active and incomplete. Signed manual evidence and Phase
