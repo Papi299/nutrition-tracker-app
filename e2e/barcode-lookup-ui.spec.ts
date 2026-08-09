@@ -385,6 +385,91 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     await faultContext.close();
   });
 
+  test("keeps a true local miss deterministic through retry and browser history without writes", async ({ browser }) => {
+    const snapshotUserState = () =>
+      queryLocalDatabase(`
+        select jsonb_build_object(
+          'foods', (
+            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+            from (
+              select * from public.foods where owner_user_id = '${userAId}'
+            ) scoped
+          ),
+          'food_barcodes', (
+            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+            from (
+              select barcode.*
+              from public.food_barcodes barcode
+              join public.foods food on food.id = barcode.food_id
+              where food.owner_user_id = '${userAId}'
+            ) scoped
+          ),
+          'food_favorites', (
+            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+            from (
+              select * from public.food_favorites where user_id = '${userAId}'
+            ) scoped
+          ),
+          'diary_entries', (
+            select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+            from (
+              select * from public.diary_entries where user_id = '${userAId}'
+            ) scoped
+          )
+        )::text;
+      `);
+    const context = await newAuthenticatedContext(browser);
+    const page = await context.newPage();
+    const initialUrl = "/en/foods/barcode?date=2026-07-17&mealType=snack";
+    const missUrl = `/en/foods/barcode?code=${codes.notFound}&date=2026-07-17&mealType=snack`;
+    const before = snapshotUserState();
+
+    const expectTrueLocalMiss = async () => {
+      await expect(page).toHaveURL(missUrl);
+      await expect(page.locator("html")).toHaveAttribute("lang", "en");
+      await expect(page.locator('input[name="code"]')).toHaveValue(codes.notFound);
+      await expect(page.locator('input[name="date"]')).toHaveValue("2026-07-17");
+      await expect(page.locator('select[name="mealType"]')).toHaveValue("snack");
+      const miss = page.getByTestId("barcode-not-found");
+      await expect(miss).toBeVisible();
+      await expect(miss).toContainText("No readable local mapping was found");
+      await expect(miss).toContainText(
+        "External provider lookup is not available here",
+      );
+      await expect(miss.getByRole("button")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-invalid")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-unavailable")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-ambiguous")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-database-error")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-found_owned")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-found_public")).toHaveCount(0);
+      await expect(
+        miss.getByRole("link", { name: "Create private food with this barcode" }),
+      ).toHaveAttribute(
+        "href",
+        `/en/foods/custom/new?barcode=${codes.notFound}&date=2026-07-17&mealType=snack`,
+      );
+    };
+
+    await page.goto(initialUrl);
+    await expect(page.getByTestId("barcode-initial")).toBeVisible();
+    await page.locator('input[name="code"]').fill(codes.notFound);
+    await page.getByRole("button", { name: "Look up barcode" }).click();
+    await expectTrueLocalMiss();
+
+    await page.getByRole("button", { name: "Look up barcode" }).click();
+    await expectTrueLocalMiss();
+    await page.reload();
+    await expectTrueLocalMiss();
+    await page.goBack();
+    await expectTrueLocalMiss();
+    await page.goForward();
+    await expectTrueLocalMiss();
+
+    expect(snapshotUserState()).toBe(before);
+    await context.close();
+  });
+
   test("hands off to editable Today prefill, preserves meal removal, and writes only on explicit submission", async ({ browser }) => {
     const context = await newAuthenticatedContext(browser);
     const page = await context.newPage();
