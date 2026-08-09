@@ -234,8 +234,10 @@ and bounded auth/session coverage are present on `main` through PR #73, but
 Phase 11C also now contains independently accepted bounded CJ-009–CJ-021
 automated evidence through current `main`
 `afce415350d391bd32f4c3bce562192c6f3d9602`. The reconciled map contains 35
-journeys, 127 automated references, 421 automated axis claims, and unchanged
-no-JavaScript totals `6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
+journeys. The current bounded CJ-022–CJ-027 candidate credits 168 automated
+references and 539 automated axis claims after exact test-body review, with no
+test-file or behavior change and unchanged no-JavaScript totals
+`6 / 1 / 10 / 18`; CJ-021 no-JavaScript remains
 `NOT_VERIFIED`. The 2026-08-09 CJ-019 Option B decision aligns the archived-edit
 contract with accepted behavior without adding evidence or completing the
 CJ-019 matrix. Phase 11C nevertheless remains active and incomplete.
