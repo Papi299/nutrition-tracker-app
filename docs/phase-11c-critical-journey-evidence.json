@@ -442,7 +442,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
         "status": "AUTOMATED_PARTIAL"
@@ -489,6 +489,20 @@
             "tenantIsolation",
             "locale",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-005 keeps failed English and Hebrew sign-out honest without JavaScript and permits safe retry",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
           ]
         }
       ],

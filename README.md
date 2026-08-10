@@ -233,11 +233,15 @@ is complete for the current MVP scope.
   server/database integrity boundary, while existing disabled-JavaScript
   creation behavior is incidental, non-contractual, and receives no
   no-JavaScript evidence credit. No behavior or executable test changed in
-  that amendment. The bounded CJ-028–CJ-032 reconciliation candidate adds one
-  true local-miss browser test and reattributes exact existing test bodies.
-  Its mechanically validated inventory is 35 journeys, 216 automated
-  references, and 694 automated axis claims with unchanged no-JavaScript
-  totals `6 / 1 / 10 / 18`; independent exact-head review remains required.
+  that amendment. The independently accepted PR #89 reconciliation added one
+  true local-miss browser test and reattributed exact existing test bodies. At
+  the repository state used for independent review, its accepted evidence
+  baseline contained 35 journeys, 216 automated references, and 694 automated
+  axis claims with unchanged no-JavaScript totals `6 / 1 / 10 / 18`. This
+  bounded CJ-005 remediation candidate adds one deterministic sign-out
+  failure/retry reference with eight supported claims, producing a
+  mechanically validated candidate inventory of 35 journeys, 217 references,
+  and 702 claims; independent exact-head review remains required.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

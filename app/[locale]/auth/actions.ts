@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   defaultLocale,
@@ -121,11 +122,26 @@ export async function signUpAction(
 
 export async function signOutAction(localeInput: string) {
   const locale = resolveLocale(localeInput);
+  let signOutFailed = false;
 
   if (isSupabasePublicEnvConfigured()) {
     const supabase = await createServerClient();
-    await supabase.auth.signOut();
+
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        signOutFailed = true;
+      }
+    } catch {
+      signOutFailed = true;
+    }
   }
 
+  if (signOutFailed) {
+    redirect(`/${locale}/sign-out-failed`);
+  }
+
+  revalidatePath("/", "layout");
   redirect(`/${locale}`);
 }

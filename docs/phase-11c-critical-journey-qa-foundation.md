@@ -84,15 +84,18 @@ evidence axis, and is not authorized for behavior change. This resolves the
 contract-language ambiguity without accepting CJ-030 as complete or changing
 any Phase 11C evidence total.
 
-The bounded CJ-028–CJ-032 reconciliation candidate adds one true local-miss
-browser-history/read-only test and reattributes existing evidence from exact
-test bodies. The candidate map contains 216 automated links and 694 evidence-
-axis claims. It removes the CJ-028 miss-only no-JavaScript reference and nine
-unsupported axis assignments, adds 48 existing-test references with 160
-supported claims, and adds the new CJ-029 reference with four supported claims.
-CJ-030 Option A, CJ-031 Phase 11D/11J ownership, every later-slice boundary,
-and no-JavaScript totals `6 / 1 / 10 / 18` remain unchanged. Independent
-exact-head review remains required.
+The independently accepted PR #89 reconciliation added one true local-miss
+browser-history/read-only test and reattributed existing evidence from exact
+test bodies. At the repository state used for independent review, the accepted
+map contained 216 automated links and 694 evidence-axis claims. It removed the
+CJ-028 miss-only no-JavaScript reference and nine unsupported axis assignments,
+added 48 existing-test references with 160 supported claims, and added the new
+CJ-029 reference with four supported claims. This bounded CJ-005 remediation
+candidate adds one deterministic sign-out failure/retry reference with eight
+supported claims. Its mechanically validated candidate map contains 217 links
+and 702 claims. CJ-030 Option A, CJ-031 Phase 11D/11J ownership, every later-
+slice boundary, and no-JavaScript totals `6 / 1 / 10 / 18` remain unchanged.
+Independent exact-head review of the CJ-005 candidate remains required.
 
 ## 3. Scope and non-goals
 
@@ -133,8 +136,8 @@ most important current state without hiding partial evidence on other axes.
 | `CURRENT_EVIDENCE_LINKED` | 27 |
 | `BLOCKED_BY_LATER_SLICE` | 7 |
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
-| Automated evidence references | 216 |
-| Automated evidence-axis claims | 694 |
+| Automated evidence references | 217 |
+| Automated evidence-axis claims | 702 |
 | Journeys with manual evidence still not collected | 35 |
 | Journeys with later-slice dependencies | 35 |
 | Journeys with external evidence still not collected | 35 |
@@ -151,7 +154,7 @@ it is not a general browser or launch-support claim.
 | `CJ-002` | Invited enrollment and account activation | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-003` | Email confirmation | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-004` | Sign-in | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect](../e2e/critical-auth-session.spec.ts)<br>[CJ-004 keeps invalid-credential responses enumeration-safe in English and Hebrew RTL](../e2e/critical-auth-session.spec.ts) |
-| `CJ-005` | Sign-out | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `REQUIRED` / `AUTOMATED_PARTIAL` | [CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage](../e2e/critical-auth-session.spec.ts)<br>[CJ-005 signs out through the Hebrew RTL UI and preserves tenant data](../e2e/critical-auth-session.spec.ts) |
+| `CJ-005` | Sign-out | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `REQUIRED` / `AUTOMATED_PARTIAL` | [CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage](../e2e/critical-auth-session.spec.ts)<br>[CJ-005 signs out through the Hebrew RTL UI and preserves tenant data](../e2e/critical-auth-session.spec.ts)<br>[CJ-005 keeps failed English and Hebrew sign-out honest without JavaScript and permits safe retry](../e2e/critical-auth-session.spec.ts) |
 | `CJ-006` | Expired session | `CURRENT_EVIDENCE_LINKED` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `AUTOMATED_PARTIAL` | `MANUAL_REQUIRED` | `AUTOMATED_PARTIAL` | `NOT_VERIFIED` / `NOT_VERIFIED` | [CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry](../e2e/critical-auth-session.spec.ts)<br>[CJ-006 rejects an expired-session Hebrew RTL diary mutation without partial or cross-tenant disclosure](../e2e/critical-auth-session.spec.ts) |
 | `CJ-007` | Password recovery request | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
 | `CJ-008` | Password recovery completion | `BLOCKED_BY_LATER_SLICE` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `LATER_SLICE (11E)` | `MANUAL_REQUIRED` | `EXTERNAL_REQUIRED` | `NOT_VERIFIED` / `LATER_SLICE (11E)` | None |
