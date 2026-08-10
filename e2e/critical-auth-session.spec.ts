@@ -9,6 +9,8 @@ import type { Database } from "@/lib/supabase/database.types";
 
 const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
+const localSupabaseFaultControlUrl =
+  process.env.LOCAL_SUPABASE_FAULT_CONTROL_URL;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "Phase11C1AuthPassword123!";
 
@@ -40,6 +42,15 @@ function localClient() {
 
 function uniqueEmail(label: string) {
   return `${label}-${Date.now()}-${crypto.randomUUID()}@example.test`;
+}
+
+async function armNextSignOutFailure() {
+  expect(localSupabaseFaultControlUrl).toBeTruthy();
+  const controlUrl = new URL(localSupabaseFaultControlUrl as string);
+
+  expect(["127.0.0.1", "localhost"]).toContain(controlUrl.hostname);
+  const response = await fetch(controlUrl, { method: "POST" });
+  expect(response.status).toBe(204);
 }
 
 async function provisionUser(label: string) {
@@ -329,6 +340,119 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
       .select("food_name")
       .eq("food_name", privateEntry);
     expect(preserved.data).toEqual([{ food_name: privateEntry }]);
+  });
+
+  test("CJ-005 keeps failed English and Hebrew sign-out honest without JavaScript and permits safe retry", async ({
+    browser,
+  }) => {
+    test.slow();
+    const cases = [
+      {
+        locale: "en" as const,
+        dir: "ltr",
+        protectedLabel: "Signed-in manual nutrition tracker",
+        signOutLabel: "Sign out",
+        error:
+          "We could not sign you out. You are still signed in. Try again.",
+        retryLabel: "Try signing out again",
+      },
+      {
+        locale: "he" as const,
+        dir: "rtl",
+        protectedLabel: "מעקב תזונה ידני לחשבון מחובר",
+        signOutLabel: "יציאה",
+        error:
+          "לא הצלחנו לנתק את החשבון. החשבון עדיין מחובר. כדאי לנסות שוב.",
+        retryLabel: "ניסיון נוסף ליציאה",
+      },
+    ];
+
+    for (const signOutCase of cases) {
+      const { email, userId } = await provisionUser(
+        `phase11c1-signout-failure-${signOutCase.locale}`,
+      );
+      const dataClient = await authenticatedClient(email);
+      const date = signOutCase.locale === "en" ? "2032-04-17" : "2032-04-18";
+      const privateEntry = `PHASE11C1 ${signOutCase.locale.toUpperCase()} FAILED SIGNOUT ENTRY`;
+      await addDiaryEntry(dataClient, userId, privateEntry, date);
+      const beforeCounts = await applicationRowCounts(dataClient, userId);
+      expect(beforeCounts).toEqual([0, 0, 1, 0, 0, 0, 0, 0]);
+
+      const signedIn = await openSignedInPage(
+        browser,
+        signOutCase.locale,
+        email,
+      );
+      const storageState = await signedIn.context.storageState();
+      await signedIn.context.close();
+
+      const context = await browser.newContext({
+        javaScriptEnabled: false,
+        storageState,
+      });
+      const page = await context.newPage();
+      const protectedUrl = `/${signOutCase.locale}/today?date=${date}`;
+      await page.goto(protectedUrl);
+      await expect(page.locator("html")).toHaveAttribute("dir", signOutCase.dir);
+      await expect(
+        page.getByText(signOutCase.protectedLabel, { exact: true }),
+      ).toBeVisible();
+      await expect(page.getByText(privateEntry, { exact: true })).toBeVisible();
+
+      await armNextSignOutFailure();
+      await page
+        .getByRole("button", { name: signOutCase.signOutLabel })
+        .click();
+
+      await expect(page).toHaveURL(
+        new RegExp(`/${signOutCase.locale}/sign-out-failed$`),
+      );
+      await expect(page.getByText(signOutCase.error, { exact: true })).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: signOutCase.retryLabel }),
+      ).toBeVisible();
+      await expect(
+        page.getByText(signOutCase.protectedLabel, { exact: true }),
+      ).toBeVisible();
+      await expect(
+        page.getByText("Deterministic local sign-out failure", { exact: true }),
+      ).toHaveCount(0);
+      expect(await applicationRowCounts(dataClient, userId)).toEqual(beforeCounts);
+
+      await page.goto(protectedUrl);
+      await expect(page).toHaveURL(
+        new RegExp(`/${signOutCase.locale}/today\\?date=${date}$`),
+      );
+      await expect(page.getByText(privateEntry, { exact: true })).toBeVisible();
+      await page.goto(`/${signOutCase.locale}/sign-out-failed`);
+      await expect(page.getByText(signOutCase.error, { exact: true })).toBeVisible();
+
+      await page
+        .getByRole("button", { name: signOutCase.retryLabel })
+        .click();
+      await expect(page).toHaveURL(new RegExp(`/${signOutCase.locale}$`));
+      await expect(
+        page.getByText(signOutCase.protectedLabel, { exact: true }),
+      ).toHaveCount(0);
+
+      await page.goto(protectedUrl);
+      await expect(page).toHaveURL(
+        new RegExp(`/${signOutCase.locale}/auth/sign-in$`),
+      );
+      await expect(page.getByText(privateEntry, { exact: true })).toHaveCount(0);
+      await page.goBack();
+      await expect(page.getByText(privateEntry, { exact: true })).toHaveCount(0);
+      await page.goForward();
+      await expect(page).toHaveURL(
+        new RegExp(`/${signOutCase.locale}/auth/sign-in$`),
+      );
+      await context.close();
+
+      const verificationClient = await authenticatedClient(email);
+      expect(await applicationRowCounts(verificationClient, userId)).toEqual(
+        beforeCounts,
+      );
+    }
   });
 
   test("CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry", async ({

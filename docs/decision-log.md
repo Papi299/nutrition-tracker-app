@@ -1983,3 +1983,40 @@
   remote database, Vercel, deployment, Production, backup, restore, DNS,
   environment, secret, launch, or finding-closure operation occurred.
 - This is a draft candidate. Independent exact-head review remains required.
+
+## 2026-08-10: CJ-005 sign-out failure recovery candidate
+
+- Confirmed that the accepted baseline ignored both a returned Supabase Auth
+  sign-out error and a thrown provider/network failure, then redirected as if
+  sign-out had succeeded.
+- The corrected server action redirects only confirmed success to the localized
+  signed-out landing page and revalidates the layout. A failure retains the
+  authenticated session and redirects to a localized protected error route
+  with a non-sensitive message and a plain server-action retry form.
+- Added a loopback-only, local-test-runner fetch interceptor that can fail one
+  exact local `/auth/v1/logout` request before automatically clearing. The
+  production application contains no fault header, query switch, environment
+  branch, credential, remote target, or publicly reachable bypass.
+- Added the exact Playwright test `CJ-005 keeps failed English and Hebrew
+  sign-out honest without JavaScript and permits safe retry`. It proves the
+  localized English/LTR and Hebrew/RTL failure states, retained authenticated
+  state, exact application-row counts, generic error boundary, visible retry,
+  confirmed successful sign-out, protected-route denial, and safe Back/Forward
+  behavior with JavaScript disabled.
+- CJ-005 `failureStates` advances from `NOT_VERIFIED` to
+  `AUTOMATED_PARTIAL`. The candidate inventory is 35 ordered journeys, 217
+  automated evidence links, 699 evidence-axis claims, and unchanged
+  no-JavaScript totals `6 / 1 / 10 / 18`.
+- Independent review removed unsupported `tenantIsolation` credit from both
+  historical CJ-005 references and the new failure/retry reference. All three
+  are single-user scenarios, so CJ-005 `tenantIsolation` is `NOT_VERIFIED`;
+  the new reference contributes seven supported claims.
+- Corrected the living PR #89 wording to identify its independently accepted
+  reconciliation and accepted evidence baseline while preserving the
+  historical 2026-08-09 candidate entry above.
+- Phase 11C remains active and incomplete, overall Phase 11 remains incomplete,
+  all 18 findings remain `OPEN`, and Phase 11K remains the exclusive finding-
+  closure gate. No hosted Supabase, remote database, Vercel, deployment,
+  Production, backup, restore, DNS, environment, secret, launch, or finding-
+  closure operation occurred.
+- This is a draft candidate. Independent exact-head review remains required.
