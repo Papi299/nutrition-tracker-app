@@ -2020,3 +2020,39 @@
   Production, backup, restore, DNS, environment, secret, launch, or finding-
   closure operation occurred.
 - This is a draft candidate. Independent exact-head review remains required.
+
+## 2026-08-10: CJ-022 Saved Meal stale-edit concurrency remediation candidate
+
+- Started from authorized `origin/main`
+  `b47e3eca427a28d12d70c129c7e4b0ec4bfe31b4`, tree
+  `81d4af19e2b291c411d765dcc806feb26cd6fee8`, with accepted contract
+  `1.2-phase-11b-cj019-cj030-amended` and repository evidence baseline
+  35 / 217 / 699 / no-JavaScript `6 / 1 / 10 / 18`.
+- Confirmed that an editor loaded `updated_at` but bound no expected version,
+  while the persistence RPC locked without comparing the loaded aggregate to
+  the current aggregate. An incompatible stale editor could silently overwrite
+  an accepted replacement.
+- Added a database-authoritative positive monotonic Saved Meal edit revision,
+  owner-scoped editor transport, server-action binding, versioned atomic RPC,
+  `PT409` typed conflict, creation-only legacy overload, and protected direct
+  parent/item boundaries. Archive state remains separate and archived edits
+  remain supported without restore.
+- Incompatible stale payloads fail without mutation. Concurrent incompatible
+  same-revision writes produce one complete winner and one conflict. A stale
+  replay that already equals the authoritative aggregate converges without
+  revision, timestamp, or child-ID churn. Fresh retry requires explicit reload
+  and review; English and Hebrew conflict states retain submitted values.
+- Applied the independently accepted post-PR90 attribution corrections for
+  CJ-001 `positivePath`, CJ-018 `tenantIsolation`, and one CJ-030
+  `tenantIsolation` reference. The corrections establish 35 / 217 / 696 before
+  new CJ-022 evidence; three new references add eleven supported claims for a
+  validator-derived 35 / 220 / 707 inventory.
+- Independently accepted PR #90 and the independently accepted post-PR90 census
+  are recorded in the living status documents. Historical candidate entries
+  above remain unchanged.
+- Phase 11C remains active and incomplete, overall Phase 11 remains incomplete,
+  all 18 findings remain `OPEN`, and Phase 11K remains the exclusive
+  finding-closure gate. No hosted Supabase, remote database, Vercel,
+  deployment, Production, backup, restore, DNS, environment, secret, provider,
+  launch, or finding-closure action occurred.
+- This is a draft candidate. Independent exact-head review remains required.

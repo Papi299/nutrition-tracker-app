@@ -49,7 +49,7 @@ export default async function NewSavedMealPage({
       status: "idle",
       values: newSavedMealFormValues(locale, rowKey),
     };
-    const action = saveSavedMealAction.bind(null, locale, null, []);
+    const action = saveSavedMealAction.bind(null, locale, null, null, []);
 
     return (
       <SavedMealEditorPageHeader mode="create" source="blank">
@@ -96,7 +96,7 @@ export default async function NewSavedMealPage({
     food_id: item.food_id,
     row_key: savedMealRowKey("diary", item.diary_entry_id),
   }));
-  const action = saveSavedMealAction.bind(null, locale, null, bindings);
+  const action = saveSavedMealAction.bind(null, locale, null, null, bindings);
   const initialState: SavedMealActionState = {
     status: "idle",
     values: diarySourceSavedMealFormValues(locale, source.data),

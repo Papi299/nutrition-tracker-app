@@ -782,6 +782,7 @@ export type Database = {
           is_archived: boolean
           locale: string
           name: string
+          saved_meal_edit_revision: number
           updated_at: string
           user_id: string
         }
@@ -791,6 +792,7 @@ export type Database = {
           is_archived?: boolean
           locale: string
           name: string
+          saved_meal_edit_revision?: number
           updated_at?: string
           user_id: string
         }
@@ -800,6 +802,7 @@ export type Database = {
           is_archived?: boolean
           locale?: string
           name?: string
+          saved_meal_edit_revision?: number
           updated_at?: string
           user_id?: string
         }
@@ -903,6 +906,7 @@ export type Database = {
         Args: { p_saved_meal_id: string }
         Returns: {
           created_at: string
+          edit_revision: number
           is_archived: boolean
           items: Json
           locale: string
@@ -1085,19 +1089,34 @@ export type Database = {
           recipe_id: string
         }[]
       }
-      persist_saved_meal: {
-        Args: {
-          p_items: Json
-          p_locale: string
-          p_name: string
-          p_saved_meal_id: string
-        }
-        Returns: {
-          is_archived: boolean
-          item_count: number
-          saved_meal_id: string
-        }[]
-      }
+      persist_saved_meal:
+        | {
+            Args: {
+              p_items: Json
+              p_locale: string
+              p_name: string
+              p_saved_meal_id: string
+            }
+            Returns: {
+              is_archived: boolean
+              item_count: number
+              saved_meal_id: string
+            }[]
+          }
+        | {
+            Args: {
+              p_expected_edit_revision: number
+              p_items: Json
+              p_locale: string
+              p_name: string
+              p_saved_meal_id: string
+            }
+            Returns: {
+              is_archived: boolean
+              item_count: number
+              saved_meal_id: string
+            }[]
+          }
       persist_setup: {
         Args: {
           p_calories: number

@@ -23,7 +23,10 @@ test.skip(
 );
 
 type LogArgs = Database["public"]["Functions"]["log_saved_meal_to_diary"]["Args"];
-type PersistArgs = Database["public"]["Functions"]["persist_saved_meal"]["Args"];
+type PersistArgs = Extract<
+  Database["public"]["Functions"]["persist_saved_meal"]["Args"],
+  { p_expected_edit_revision: number }
+>;
 
 test.describe.serial("atomic saved-meal diary reuse", () => {
   let userAClient: SupabaseClient<Database>;
@@ -124,7 +127,18 @@ test.describe.serial("atomic saved-meal diary reuse", () => {
     items: Json,
     savedMealId: string | null = null,
   ) {
+    const expectedEditRevision = savedMealId
+      ? Number(
+          queryDatabase(`
+            select saved_meal_edit_revision
+            from public.saved_meals
+            where id = '${savedMealId}';
+          `),
+        )
+      : null;
+
     return client.rpc("persist_saved_meal", {
+      p_expected_edit_revision: expectedEditRevision as unknown as number,
       p_items: items,
       p_locale: "und",
       p_name: name,

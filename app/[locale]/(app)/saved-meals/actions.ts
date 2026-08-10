@@ -84,6 +84,7 @@ function mapValidationErrors(fieldErrors?: Record<string, string>) {
 export async function saveSavedMealAction(
   localeInput: string,
   expectedSavedMealId: string | null,
+  expectedEditRevision: number | null,
   bindings: SavedMealFoodLinkBinding[],
   _previousState: SavedMealActionState,
   formData: FormData,
@@ -129,6 +130,7 @@ export async function saveSavedMealAction(
     };
   });
   const input = {
+    expected_edit_revision: expectedEditRevision,
     items,
     locale: values.meal_locale,
     name: values.name,

@@ -22,8 +22,15 @@ test.skip(
   "Saved-meal persistence tests require the local-only test runner.",
 );
 
-type PersistArgs = Database["public"]["Functions"]["persist_saved_meal"]["Args"];
-type NullablePersistArgs = Omit<PersistArgs, "p_saved_meal_id"> & {
+type PersistArgs = Extract<
+  Database["public"]["Functions"]["persist_saved_meal"]["Args"],
+  { p_expected_edit_revision: number }
+>;
+type NullablePersistArgs = Omit<
+  PersistArgs,
+  "p_expected_edit_revision" | "p_saved_meal_id"
+> & {
+  p_expected_edit_revision: number | null;
   p_saved_meal_id: string | null;
 };
 
@@ -114,11 +121,12 @@ test.describe.serial("saved-meal persistence foundation", () => {
     overrides: Partial<NullablePersistArgs> = {},
   ): NullablePersistArgs {
     return {
-      p_saved_meal_id: null,
       p_name: "Weekday breakfast",
       p_locale: "en",
       p_items: [item(1)] as Json,
       ...overrides,
+      p_expected_edit_revision: overrides.p_expected_edit_revision ?? null,
+      p_saved_meal_id: overrides.p_saved_meal_id ?? null,
     };
   }
 
@@ -126,7 +134,66 @@ test.describe.serial("saved-meal persistence foundation", () => {
     client: SupabaseClient<Database>,
     overrides: Partial<NullablePersistArgs> = {},
   ) {
-    return client.rpc("persist_saved_meal", args(overrides) as PersistArgs);
+    const rpcArgs = args(overrides);
+
+    if (
+      rpcArgs.p_saved_meal_id !== null &&
+      overrides.p_expected_edit_revision === undefined
+    ) {
+      const editor = await client.rpc("get_owned_saved_meal_editor", {
+        p_saved_meal_id: rpcArgs.p_saved_meal_id,
+      });
+      rpcArgs.p_expected_edit_revision = editor.data?.[0]?.edit_revision ?? 1;
+    }
+
+    return client.rpc("persist_saved_meal", rpcArgs as PersistArgs);
+  }
+
+  function aggregateSnapshot(savedMealId: string) {
+    return JSON.parse(
+      queryDatabase(`
+        select jsonb_build_object(
+          'name', saved_meals.name,
+          'locale', saved_meals.locale,
+          'is_archived', saved_meals.is_archived,
+          'edit_revision', saved_meals.saved_meal_edit_revision,
+          'updated_at', saved_meals.updated_at,
+          'items', coalesce(
+            (
+              select jsonb_agg(
+                jsonb_build_object(
+                  'id', saved_meal_items.id,
+                  'position', saved_meal_items.position,
+                  'food_id', saved_meal_items.food_id,
+                  'food_name', saved_meal_items.food_name,
+                  'brand_name', saved_meal_items.brand_name,
+                  'serving_quantity', saved_meal_items.serving_quantity,
+                  'serving_unit', saved_meal_items.serving_unit,
+                  'calories', saved_meal_items.calories,
+                  'protein_g', saved_meal_items.protein_g,
+                  'carbohydrates_g', saved_meal_items.carbohydrates_g,
+                  'fat_g', saved_meal_items.fat_g,
+                  'notes', saved_meal_items.notes
+                )
+                order by saved_meal_items.position
+              )
+              from public.saved_meal_items
+              where saved_meal_items.saved_meal_id = saved_meals.id
+            ),
+            '[]'::jsonb
+          )
+        )
+        from public.saved_meals
+        where saved_meals.id = '${savedMealId}';
+      `),
+    ) as {
+      edit_revision: number;
+      is_archived: boolean;
+      items: Array<Record<string, Json>>;
+      locale: string;
+      name: string;
+      updated_at: string;
+    };
   }
 
   async function createCustomFood(
@@ -205,8 +272,11 @@ test.describe.serial("saved-meal persistence foundation", () => {
       from pg_proc p
       where p.oid in (
         'public.persist_saved_meal(uuid,text,text,jsonb)'::regprocedure,
+        'public.persist_saved_meal(uuid,text,text,jsonb,bigint)'::regprocedure,
         'public.set_saved_meal_archived(uuid,boolean)'::regprocedure,
-        'public.get_owned_saved_meal_editor(uuid)'::regprocedure
+        'public.get_owned_saved_meal_editor(uuid)'::regprocedure,
+        'public.enforce_saved_meal_edit_revision()'::regprocedure,
+        'public.enforce_saved_meal_item_versioned_edit()'::regprocedure
       );
     `);
 
@@ -216,6 +286,8 @@ test.describe.serial("saved-meal persistence foundation", () => {
     expect(state).toContain('persist_saved_meal|f|f|t|f|search_path=""');
     expect(state).toContain('set_saved_meal_archived|f|f|t|f|search_path=""');
     expect(state).toContain('get_owned_saved_meal_editor|f|f|t|f|search_path=""');
+    expect(state).toContain('enforce_saved_meal_edit_revision|f|f|f|f|search_path=""');
+    expect(state).toContain('enforce_saved_meal_item_versioned_edit|f|f|f|f|search_path=""');
 
     expect(
       queryDatabase(`
@@ -224,6 +296,45 @@ test.describe.serial("saved-meal persistence foundation", () => {
           and column_name in ('total_calories', 'meal_type', 'is_public', 'description');
       `),
     ).toBe("0");
+
+    expect(
+      queryDatabase(`
+        select concat_ws('|',
+          data_type,
+          is_nullable,
+          column_default,
+          has_column_privilege(
+            'authenticated',
+            'public.saved_meals',
+            'saved_meal_edit_revision',
+            'update'
+          ),
+          exists (
+            select 1
+            from pg_constraint
+            where conrelid = 'public.saved_meals'::regclass
+              and conname = 'saved_meals_edit_revision_check'
+          )
+        )
+        from information_schema.columns
+        where table_schema = 'public'
+          and table_name = 'saved_meals'
+          and column_name = 'saved_meal_edit_revision';
+      `),
+    ).toBe("bigint|NO|1|t|t");
+    expect(
+      queryDatabase(`
+        select count(*)
+        from pg_trigger
+        where not tgisinternal
+          and tgname in (
+            'saved_meals_enforce_edit_revision',
+            'saved_meal_items_require_versioned_edit_insert',
+            'saved_meal_items_require_versioned_edit_update',
+            'saved_meal_items_require_versioned_edit_delete'
+          );
+      `),
+    ).toBe("4");
   });
 
   test("creates manual and linked snapshots in stable order, including duplicate links", async () => {
@@ -508,6 +619,173 @@ test.describe.serial("saved-meal persistence foundation", () => {
     expect(
       queryDatabase(`select count(*) from public.saved_meal_items where saved_meal_id = '${primaryMealId}';`),
     ).toBe("2");
+  });
+
+  test("rejects stale incompatible replacement atomically and converges an identical stale replay", async () => {
+    const created = await persist(userAClient, {
+      p_name: "Stale edit source",
+      p_items: [item(1, { food_name: "Original item" })] as Json,
+    });
+    expect(created.error).toBeNull();
+    const savedMealId = created.data?.[0].saved_meal_id as string;
+    const unrelated = await persist(userAClient, {
+      p_name: "Unrelated meal",
+      p_items: [item(1, { food_name: "Unrelated item" })] as Json,
+    });
+    const unrelatedMealId = unrelated.data?.[0].saved_meal_id as string;
+    const unrelatedBefore = aggregateSnapshot(unrelatedMealId);
+    const loadedRevision = aggregateSnapshot(savedMealId).edit_revision;
+    const acceptedItems = [
+      item(1, {
+        food_name: "Accepted A first",
+        brand_name: null,
+        calories: 401,
+        notes: "Accepted A only",
+      }),
+      item(2, {
+        food_name: "Accepted A second",
+        serving_quantity: 0,
+        carbohydrates_g: 0,
+      }),
+    ] as Json;
+    const staleItems = [
+      item(1, {
+        food_name: "Rejected B only",
+        calories: 999,
+        notes: "Must not leak",
+      }),
+    ] as Json;
+
+    const accepted = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_items: acceptedItems,
+      p_locale: "he",
+      p_name: "Accepted aggregate A",
+      p_saved_meal_id: savedMealId,
+    });
+    expect(accepted.error).toBeNull();
+    const afterAccepted = aggregateSnapshot(savedMealId);
+    expect(afterAccepted.edit_revision).toBe(loadedRevision + 1);
+
+    const stale = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_items: staleItems,
+      p_locale: "en",
+      p_name: "Rejected aggregate B",
+      p_saved_meal_id: savedMealId,
+    });
+    expect(stale.error?.code).toBe("PT409");
+    expect(aggregateSnapshot(savedMealId)).toEqual(afterAccepted);
+    expect(JSON.stringify(afterAccepted)).not.toContain("Rejected B");
+    expect(JSON.stringify(afterAccepted)).not.toContain("Must not leak");
+    expect(aggregateSnapshot(unrelatedMealId)).toEqual(unrelatedBefore);
+
+    const directParentBypass = await userAClient
+      .from("saved_meals")
+      .update({ name: "Direct parent bypass" })
+      .eq("id", savedMealId);
+    expect(directParentBypass.error?.code).toBe("22023");
+    const directRevisionBypass = await userAClient
+      .from("saved_meals")
+      .update({ saved_meal_edit_revision: afterAccepted.edit_revision + 10 })
+      .eq("id", savedMealId);
+    expect(directRevisionBypass.error?.code).toBe("22023");
+    const directItemBypass = await userAClient
+      .from("saved_meal_items")
+      .update({ food_name: "Direct child bypass" })
+      .eq("saved_meal_id", savedMealId)
+      .eq("position", 1);
+    expect(directItemBypass.error?.code).toBe("22023");
+    expect(aggregateSnapshot(savedMealId)).toEqual(afterAccepted);
+
+    const identicalReplay = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_items: acceptedItems,
+      p_locale: "he",
+      p_name: "Accepted aggregate A",
+      p_saved_meal_id: savedMealId,
+    });
+    expect(identicalReplay.error).toBeNull();
+    expect(aggregateSnapshot(savedMealId)).toEqual(afterAccepted);
+
+    const unversionedEdit = await userAClient.rpc("persist_saved_meal", {
+      p_items: staleItems,
+      p_locale: "en",
+      p_name: "Legacy bypass attempt",
+      p_saved_meal_id: savedMealId,
+    });
+    expect(unversionedEdit.error?.code).toBe("22023");
+    expect(aggregateSnapshot(savedMealId)).toEqual(afterAccepted);
+
+    const forgedFutureRevision = await persist(userAClient, {
+      p_expected_edit_revision: afterAccepted.edit_revision + 100,
+      p_items: staleItems,
+      p_locale: "en",
+      p_name: "Forged future attempt",
+      p_saved_meal_id: savedMealId,
+    });
+    expect(forgedFutureRevision.error?.code).toBe("PT409");
+    expect(aggregateSnapshot(savedMealId)).toEqual(afterAccepted);
+  });
+
+  test("serializes concurrent incompatible same-revision writers without mixing aggregates", async () => {
+    const created = await persist(userAClient, {
+      p_name: "Concurrent source",
+      p_items: [item(1, { food_name: "Concurrent original" })] as Json,
+    });
+    const savedMealId = created.data?.[0].saved_meal_id as string;
+    const loadedRevision = aggregateSnapshot(savedMealId).edit_revision;
+    const writerA = {
+      p_expected_edit_revision: loadedRevision,
+      p_items: [
+        item(1, { food_name: "Writer A first", calories: 111 }),
+        item(2, { food_name: "Writer A second", calories: 112 }),
+      ] as Json,
+      p_locale: "en",
+      p_name: "Writer A meal",
+      p_saved_meal_id: savedMealId,
+    };
+    const writerB = {
+      p_expected_edit_revision: loadedRevision,
+      p_items: [item(1, { food_name: "Writer B only", calories: 221 })] as Json,
+      p_locale: "he",
+      p_name: "Writer B meal",
+      p_saved_meal_id: savedMealId,
+    };
+
+    const results = await Promise.all([
+      persist(userAClient, writerA),
+      persist(userAClient, writerB),
+    ]);
+    expect(results.filter(({ error }) => error === null)).toHaveLength(1);
+    expect(results.filter(({ error }) => error?.code === "PT409")).toHaveLength(1);
+
+    const finalAggregate = aggregateSnapshot(savedMealId);
+    const finalIdentityAndItems = {
+      items: finalAggregate.items.map(({ calories, food_name, position }) => ({
+        calories,
+        food_name,
+        position,
+      })),
+      locale: finalAggregate.locale,
+      name: finalAggregate.name,
+    };
+    expect([
+      {
+        items: [
+          { calories: 111, food_name: "Writer A first", position: 1 },
+          { calories: 112, food_name: "Writer A second", position: 2 },
+        ],
+        locale: "en",
+        name: "Writer A meal",
+      },
+      {
+        items: [{ calories: 221, food_name: "Writer B only", position: 1 }],
+        locale: "he",
+        name: "Writer B meal",
+      },
+    ]).toContainEqual(finalIdentityAndItems);
+    expect(finalAggregate.edit_revision).toBe(loadedRevision + 1);
   });
 
   test("rolls back meal identity and prior items when a later item is invalid or unreadable", async () => {

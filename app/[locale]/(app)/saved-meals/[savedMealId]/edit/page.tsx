@@ -65,6 +65,7 @@ export default async function EditSavedMealPage({
     null,
     locale,
     savedMealId,
+    editor.data.edit_revision,
     bindings,
   );
   const initialState: SavedMealActionState = {

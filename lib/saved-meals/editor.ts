@@ -14,6 +14,7 @@ export { parseSavedMealEditorItems, type SavedMealEditorItem } from "./editor-pa
 
 export type OwnedSavedMealEditor = {
   created_at: string;
+  edit_revision: number;
   is_archived: boolean;
   items: SavedMealEditorItem[];
   locale: SavedMealLocale;
@@ -49,13 +50,19 @@ export async function getOwnedSavedMealEditor(
 
   const items = parseSavedMealEditorItems(data.items);
 
-  if (!items || !localeSet.has(data.locale)) {
+  if (
+    !items ||
+    !localeSet.has(data.locale) ||
+    !Number.isSafeInteger(data.edit_revision) ||
+    data.edit_revision < 1
+  ) {
     return { code: "database_error", ok: false };
   }
 
   return {
     data: {
       created_at: data.created_at,
+      edit_revision: data.edit_revision,
       is_archived: data.is_archived,
       items,
       locale: data.locale as SavedMealLocale,

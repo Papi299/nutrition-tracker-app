@@ -34,9 +34,19 @@ function rpcError(error: { code?: string } | null) {
   return { code: "database_error", ok: false } as const;
 }
 
+function persistRpcError(error: { code?: string } | null) {
+  if (error?.code === "PT409") {
+    return { code: "conflict", ok: false } as const;
+  }
+
+  return rpcError(error);
+}
+
 export async function persistSavedMealForCurrentUser(
   input: SavedMealInput,
-): Promise<DataResult<PersistedSavedMeal>> {
+): Promise<
+  DataResult<PersistedSavedMeal> | { code: "conflict"; ok: false }
+> {
   const validation = validateSavedMealInput(input);
 
   if (!validation.ok) return validation;
@@ -47,6 +57,7 @@ export async function persistSavedMealForCurrentUser(
 
   const supabase = await createServerClient();
   const args = {
+    p_expected_edit_revision: validation.data.expected_edit_revision,
     p_items: validation.data.items as Json,
     p_locale: validation.data.locale,
     p_name: validation.data.name,
@@ -59,7 +70,7 @@ export async function persistSavedMealForCurrentUser(
     )
     .maybeSingle();
 
-  if (error) return rpcError(error);
+  if (error) return persistRpcError(error);
   if (!data?.saved_meal_id) return { code: "not_found", ok: false };
 
   return { data: data as PersistedSavedMeal, ok: true };

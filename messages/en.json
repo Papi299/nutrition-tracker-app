@@ -825,6 +825,8 @@
     },
     "status": {
       "idle": "Review the meal and save when ready.",
+      "conflict": "This saved meal changed after you loaded the editor. Your submitted values were not saved. Reload the current saved meal and review it before trying again.",
+      "reloadCurrent": "Reload current saved meal and review",
       "databaseError": "We could not save this meal. No partial changes were kept.",
       "notFound": "This saved meal is unavailable to this account.",
       "unauthenticated": "Your session expired. Sign in again before saving.",
