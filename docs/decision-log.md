@@ -2005,8 +2005,12 @@
   behavior with JavaScript disabled.
 - CJ-005 `failureStates` advances from `NOT_VERIFIED` to
   `AUTOMATED_PARTIAL`. The candidate inventory is 35 ordered journeys, 217
-  automated evidence links, 702 evidence-axis claims, and unchanged
+  automated evidence links, 699 evidence-axis claims, and unchanged
   no-JavaScript totals `6 / 1 / 10 / 18`.
+- Independent review removed unsupported `tenantIsolation` credit from both
+  historical CJ-005 references and the new failure/retry reference. All three
+  are single-user scenarios, so CJ-005 `tenantIsolation` is `NOT_VERIFIED`;
+  the new reference contributes seven supported claims.
 - Corrected the living PR #89 wording to identify its independently accepted
   reconciliation and accepted evidence baseline while preserving the
   historical 2026-08-09 candidate entry above.

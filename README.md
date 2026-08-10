@@ -239,9 +239,11 @@ is complete for the current MVP scope.
   baseline contained 35 journeys, 216 automated references, and 694 automated
   axis claims with unchanged no-JavaScript totals `6 / 1 / 10 / 18`. This
   bounded CJ-005 remediation candidate adds one deterministic sign-out
-  failure/retry reference with eight supported claims, producing a
+  failure/retry reference with seven supported claims, producing a
   mechanically validated candidate inventory of 35 journeys, 217 references,
-  and 702 claims; independent exact-head review remains required.
+  and 699 claims. Independent review removed two historical CJ-005 tenant-
+  isolation overclaims plus the new candidate overclaim; independent exact-
+  head review remains required.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

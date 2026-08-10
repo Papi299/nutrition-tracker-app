@@ -252,9 +252,11 @@ added one true local-miss browser test and reattributed exact existing test
 bodies. At the repository state used for independent review, the accepted map
 contained 35 journeys, 216 references, and 694 claims with no-JavaScript totals
 unchanged. This bounded CJ-005 remediation candidate adds one deterministic
-sign-out failure/retry reference with eight supported claims, producing a
-mechanically validated candidate map of 35 journeys, 217 references, and 702
-claims. Independent exact-head review of the CJ-005 candidate remains required.
+sign-out failure/retry reference with seven supported claims, producing a
+mechanically validated candidate map of 35 journeys, 217 references, and 699
+claims. Independent review removed two historical CJ-005 tenant-isolation
+overclaims plus the new candidate overclaim. Independent exact-head review of
+the CJ-005 candidate remains required.
 Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase

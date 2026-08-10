@@ -451,7 +451,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "AUTOMATED_PARTIAL"
+        "status": "NOT_VERIFIED"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -474,7 +474,6 @@
             "positivePath",
             "staleConflictRetry",
             "dataIntegrity",
-            "tenantIsolation",
             "locale",
             "browser",
             "noJavaScript"
@@ -486,7 +485,6 @@
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
-            "tenantIsolation",
             "locale",
             "browser"
           ]
@@ -499,7 +497,6 @@
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
-            "tenantIsolation",
             "locale",
             "browser",
             "noJavaScript"
