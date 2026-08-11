@@ -123,6 +123,34 @@ limited to the Node `module.register()` build deprecation, the Supabase CLI
 existing dependency audit findings; this task does not remediate toolchain or
 dependency warnings.
 
+## Independent review and accepted merge outcome
+
+Independent review returned `APPROVE WITH NON-BLOCKING NOTES` for exact source
+`a068665e0ee54214a912d7695c48cc88dd0fac33`, tree
+`ecc84fc03691c3e23b614d9dd935e59e5f381ef0`. The Product Owner separately
+authorized merge. PR #92 was squash-merged at `2026-08-11T16:16:57Z` as
+`d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`, with the same tree and sole
+parent `cb0c1ccd17968850d1f8ffbc851fdad8ad5bec4c`.
+
+Authoritative push-to-main CI run `31511566717`, run number `146`, Validate job
+`93846376826`, completed `SUCCESS` on the exact squash SHA. The journey
+validator passed `12 / 12`; accepted evidence is `35 / 223 / 718`;
+no-JavaScript remains `6 / 1 / 10 / 18`; unit/pure tests passed `245 / 245`;
+the production build passed `33 / 33`; and Playwright passed `288 / 288` with
+one worker and zero automatic retries. Local migration replay, hosted-role
+compatibility, internal ingestion-type synchronization, and cleanup passed,
+including replay of `20260811142805_cj025_recipe_edit_concurrency.sql`; the
+public privilege fingerprint was unchanged and no failure artifact was produced.
+
+The independent review also recorded three non-blocking notes. The
+transaction-local custom setting protects the intended Supabase/PostgREST
+application trust boundary, not a raw PostgreSQL principal already capable of
+arbitrary SQL and `set_config()`. The two conflict alert surfaces may announce
+the same Recipe conflict twice to assistive technology and belong to later
+UI/accessibility prioritization. Linked foods are revalidated against the
+readable public-or-current-user-owned contract; no new Recipe-specific archive
+predicate was added.
+
 ## Safety and remaining obligations
 
 The migration is forward-only, generated types come from the clean local
@@ -132,5 +160,7 @@ secret, provider, deployment, or launch action is authorized or performed.
 
 Phase 11C remains active and incomplete. Overall Phase 11 remains incomplete,
 all 18 findings remain open, and Phase 11K remains the exclusive
-finding-closure gate. The Draft candidate requires independent exact-head
-review and is not merge-authorized.
+finding-closure gate. The remediation is accepted repository history at
+`d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`; it does not complete Phase 11C or
+overall Phase 11. Accepted terminal marker:
+`PHASE_11C_CJ025_RECIPE_STALE_EDIT_MERGED_ACCEPTED`.

@@ -18,6 +18,7 @@
 | Current Phase 11C2B reconciliation | PR #77 source `644b552f7db5bb8bf3693ea5c22941875b5b3764`; squash `18eae73a91d8e0156702b42bf8327af6ef7e6c9f`; post-merge run `31243356983` / Validate job `93067794693` / `SUCCESS`; independent review `ACCEPTED` |
 | Accepted CJ-016–CJ-021 implementation baseline | PR #83 source `818e19d46863dd1f807e27ee63a61bcb550d2c53`; squash `494907b2c2f34ed49771aef75fd3137a522857e9`; post-merge run `31273568601` / Validate job `93143428615` / `SUCCESS`; independent review `ACCEPTED`; superseded PR #81 closed unmerged |
 | Accepted CJ-022–CJ-027 evidence baseline | PR #86 source `7d7b761b37cca76787b52a36ebca41ce6db638e7`; squash `483df9479ef8b2381da2faef2971c20456404102`; post-merge run `31313589548` / Validate job `93245133253` / `SUCCESS`; independent review `ACCEPTED WITH RECORDED LIMITATION`; documentation-only PR #87 resolved the recorded human-readable baseline/status limitation without changing the evidence map or product behavior |
+| Accepted CJ-025 Recipe stale-edit remediation | PR #92 source `a068665e0ee54214a912d7695c48cc88dd0fac33`; squash `d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`; tree `ecc84fc03691c3e23b614d9dd935e59e5f381ef0`; post-merge run `31511566717` / Validate job `93846376826` / `SUCCESS`; independent review `APPROVE WITH NON-BLOCKING NOTES` |
 | Status | `PHASE_11C_ACTIVE_INCOMPLETE` |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -93,9 +94,10 @@ corrections: CJ-001 `positivePath`, CJ-018 `tenantIsolation`, and one CJ-030
 reference's `tenantIsolation`. Those corrections establish 35 / 217 / 696
 before new CJ-022 evidence. The CJ-022 stale-edit remediation adds three exact
 references with eleven supported claims, producing the accepted 35 / 220 / 707
-inventory. The bounded CJ-025 Recipe stale-edit candidate adds three exact
-references with eleven supported claims for a validator-derived 35 / 223 / 718
-inventory. CJ-030 Option A, CJ-031 Phase 11D/11J ownership, every
+inventory. The bounded CJ-025 Recipe stale-edit remediation was independently
+accepted and squash-merged through PR #92, adding three exact references with
+eleven supported claims and establishing the accepted 35 / 223 / 718 inventory.
+CJ-030 Option A, CJ-031 Phase 11D/11J ownership, every
 later-slice boundary, and no-JavaScript totals `6 / 1 / 10 / 18` remain
 unchanged.
 
