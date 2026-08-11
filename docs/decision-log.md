@@ -2056,3 +2056,36 @@
   deployment, Production, backup, restore, DNS, environment, secret, provider,
   launch, or finding-closure action occurred.
 - This is a draft candidate. Independent exact-head review remains required.
+
+## 2026-08-11: CJ-025 Recipe stale-edit concurrency remediation candidate
+
+- Started from authorized `origin/main`
+  `cb0c1ccd17968850d1f8ffbc851fdad8ad5bec4c`, tree
+  `173ecd399305dcdc713e528281246b0d6565ba2c`, accepted contract
+  `1.2-phase-11b-cj019-cj030-amended`, and evidence baseline 35 / 220 / 707
+  with no-JavaScript totals `6 / 1 / 10 / 18`.
+- Reproduced the lost update: two Recipe editors loaded one aggregate, the
+  first replacement succeeded, and the second incompatible stale replacement
+  also succeeded because the existing row lock had no caller-loaded version to
+  compare.
+- Added a database-authoritative positive safe-integer Recipe edit revision,
+  owner-scoped editor transport, server-bound action token, normalized atomic
+  versioned RPC, `PT409` typed conflict, creation-only legacy overload, and
+  protected direct parent/ingredient mutation boundaries.
+- Compatible changed edits advance the edit revision once while preserving the
+  existing `updated_at` Recipe-use source-version contract. Current or stale
+  identical submissions converge without timestamp, revision, or child-ID
+  churn. Incompatible stale and simultaneous losing writers mutate nothing.
+- English and Hebrew/RTL conflicts retain submitted values and require an
+  explicit fresh GET and review before a newly versioned retry. Archive state,
+  linked-food readability, Recipe calculation, stale reviewed-use detection,
+  and diary receipt/idempotency behavior remain separate and unchanged.
+- Three exact CJ-025 references add eleven supported claims, producing the
+  validator-derived candidate inventory 35 / 223 / 718. No-JavaScript remains
+  `6 / 1 / 10 / 18`, including CJ-025 `NOT_APPLICABLE`.
+- Phase 11C remains active and incomplete, overall Phase 11 remains incomplete,
+  all 18 findings remain `OPEN`, and Phase 11K remains the exclusive
+  finding-closure gate. No hosted Supabase, remote database, Vercel,
+  deployment, Production, backup, restore, DNS, environment, secret, provider,
+  launch, or finding-closure action occurred.
+- This is a draft candidate. Independent exact-head review remains required.

@@ -22,6 +22,7 @@ export type ValidatedRecipeIngredient = {
 };
 
 export type ValidatedRecipeInput = {
+  expected_edit_revision: number | null;
   recipe_id: string | null;
   name: string;
   locale: RecipeLocale;
@@ -36,6 +37,7 @@ export type ValidatedRecipeArchiveInput = {
 
 const localeSet = new Set<string>(recipeLocales);
 const persistenceFields = new Set([
+  "expected_edit_revision",
   "recipe_id",
   "name",
   "locale",
@@ -253,6 +255,24 @@ export function validateRecipeInput(
     }
   }
 
+  let expectedEditRevision: number | null = null;
+  if (recipeId === null) {
+    if (
+      input.expected_edit_revision !== undefined &&
+      input.expected_edit_revision !== null
+    ) {
+      fieldErrors.expected_edit_revision = "unsupported_field";
+    }
+  } else if (
+    typeof input.expected_edit_revision !== "number" ||
+    !Number.isSafeInteger(input.expected_edit_revision) ||
+    input.expected_edit_revision < 1
+  ) {
+    fieldErrors.expected_edit_revision = "invalid_revision";
+  } else {
+    expectedEditRevision = input.expected_edit_revision;
+  }
+
   const name = parseRequiredText(input.name, 200, "name", fieldErrors);
   const locale =
     typeof input.locale === "string" && localeSet.has(input.locale)
@@ -295,6 +315,7 @@ export function validateRecipeInput(
 
   return {
     data: {
+      expected_edit_revision: expectedEditRevision,
       recipe_id: recipeId,
       name,
       locale,

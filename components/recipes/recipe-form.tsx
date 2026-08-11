@@ -319,6 +319,7 @@ export function RecipeForm({
   const linkedRows = new Set(linkedRowKeys);
   const fieldErrors = state.fieldErrors ?? {};
   const statusMessage = {
+    conflict: t("status.conflict"),
     database_error: t("status.databaseError"),
     idle: t("status.idle"),
     not_found: t("status.notFound"),
@@ -347,6 +348,21 @@ export function RecipeForm({
 
       {saved && <div className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900" data-testid="recipe-success" role="status">{t(saved === "created" ? "status.created" : "status.updated")}</div>}
       {archived && <div className="border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950" data-testid="recipe-archived-notice" role="status">{t("archivedNotice")}</div>}
+
+      {mode === "edit" && state.status === "conflict" && (
+        <section
+          className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          data-testid="recipe-edit-conflict"
+        >
+          <p role="alert">{t("status.conflict")}</p>
+          <a
+            className="w-fit font-semibold text-teal-800 underline"
+            href={`/${locale}/recipes/${state.values.recipe_id}/edit`}
+          >
+            {t("status.reloadCurrent")}
+          </a>
+        </section>
+      )}
 
       <section className="grid gap-5" aria-labelledby="recipe-identity-title">
         <div><h2 className="text-xl font-semibold text-slate-950" id="recipe-identity-title">{t("identity.title")}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{t("identity.help")}</p></div>

@@ -23,6 +23,10 @@ test.skip(
 
 type LogArgs = Database["public"]["Functions"]["log_recipe_to_diary"]["Args"];
 type PersistArgs = Database["public"]["Functions"]["persist_recipe"]["Args"];
+type VersionedPersistArgs = Extract<
+  PersistArgs,
+  { p_expected_edit_revision: number }
+>;
 type UseArgs = Database["public"]["Functions"]["get_owned_recipe_use_contract"]["Args"];
 
 test.describe.serial("atomic reviewed recipe diary logging", () => {
@@ -106,13 +110,26 @@ test.describe.serial("atomic reviewed recipe diary logging", () => {
     ingredients: Json,
     recipeId: string | null = null,
   ) {
-    const result = await client.rpc("persist_recipe", {
+    const expectedEditRevision = recipeId
+      ? (
+          await client
+            .from("recipes")
+            .select("recipe_edit_revision")
+            .eq("id", recipeId)
+            .single()
+        ).data?.recipe_edit_revision
+      : null;
+    const args = {
+      ...(recipeId
+        ? { p_expected_edit_revision: expectedEditRevision as number }
+        : {}),
       p_ingredients: ingredients,
       p_locale: "und",
       p_name: name,
       p_recipe_id: recipeId as unknown as string,
       p_yield_servings: yieldServings,
-    } satisfies PersistArgs);
+    } as PersistArgs | VersionedPersistArgs;
+    const result = await client.rpc("persist_recipe", args);
     expect(result.error).toBeNull();
     return result.data?.[0].recipe_id as string;
   }

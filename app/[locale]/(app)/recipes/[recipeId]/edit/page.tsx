@@ -43,7 +43,13 @@ export default async function EditRecipePage({ params, searchParams }: EditRecip
     food_id: ingredient.food_id,
     row_key: recipeRowKey("ingredient", ingredient.ingredient_id),
   }));
-  const action = saveRecipeAction.bind(null, locale, recipeId, bindings);
+  const action = saveRecipeAction.bind(
+    null,
+    locale,
+    recipeId,
+    editor.data.edit_revision,
+    bindings,
+  );
   const initialState: RecipeActionState = { status: "idle", values: editorRecipeFormValues(editor.data) };
   const savedValue = resolvedSearchParams.saved;
   const saved = savedValue === "created" || savedValue === "updated" ? savedValue : null;

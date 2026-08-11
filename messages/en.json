@@ -1173,6 +1173,8 @@
     },
     "status": {
       "idle": "Review the recipe and save when ready.",
+      "conflict": "This recipe changed after you loaded the editor. Your submitted values were not saved. Reload the current recipe and review it before trying again.",
+      "reloadCurrent": "Reload current recipe and review",
       "databaseError": "We could not save this recipe. No partial changes were kept.",
       "notFound": "This recipe is unavailable to this account.",
       "unauthenticated": "Your session expired. Sign in again before saving.",

@@ -540,14 +540,35 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
     const initialVersion = await page.locator("time[datetime]").first().getAttribute("datetime");
     expect(await contractValue(page, "whole_recipe_value", "Calories")).toBe("3");
 
-    const ingredientId = queryLocalDatabase(
-      `select id from public.recipe_ingredients where recipe_id = '${activeRecipeId}' and position = 1;`,
-    );
     await new Promise((resolve) => setTimeout(resolve, 5));
-    const quantityUpdate = await userAClient
-      .from("recipe_ingredients")
-      .update({ quantity: 250 })
-      .eq("id", ingredientId);
+    const editor = await userAClient.rpc("get_owned_recipe_editor", {
+      p_recipe_id: activeRecipeId,
+    });
+    expect(editor.error).toBeNull();
+    const quantityUpdate = await userAClient.rpc("persist_recipe", {
+      p_expected_edit_revision: editor.data?.[0].edit_revision as number,
+      p_ingredients: [
+        ingredient(1, {
+          calories: 1,
+          carbohydrates_g: null,
+          fat_g: 0,
+          food_id: publicFoodId,
+          protein_g: 0.1,
+          quantity: 250,
+          unit: "g",
+        }),
+        ingredient(2, {
+          calories: 2,
+          carbohydrates_g: 5,
+          fat_g: 1,
+          protein_g: 0.2,
+        }),
+      ] as Json,
+      p_locale: "en",
+      p_name: "Preview מרק",
+      p_recipe_id: activeRecipeId,
+      p_yield_servings: 2.5,
+    });
     expect(quantityUpdate.error).toBeNull();
     queryLocalDatabase(`
       update public.foods set name = 'Changed linked food', is_archived = true
