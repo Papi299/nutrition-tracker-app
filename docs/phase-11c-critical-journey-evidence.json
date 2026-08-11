@@ -36,7 +36,7 @@
       "controllingSlice": "11C",
       "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
       "positivePath": {
-        "status": "AUTOMATED_PARTIAL"
+        "status": "NOT_VERIFIED"
       },
       "failureStates": {
         "status": "NOT_VERIFIED"
@@ -69,7 +69,6 @@
           "path": "e2e/smoke.spec.ts",
           "testTitle": "English public home renders with LTR document attributes",
           "evidenceAxes": [
-            "positivePath",
             "locale",
             "browser"
           ]
@@ -2224,7 +2223,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "AUTOMATED_PARTIAL"
+        "status": "NOT_VERIFIED"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -2261,8 +2260,7 @@
           "testTitle": "creates one owned private custom food with one basis and raw aliases",
           "evidenceAxes": [
             "positivePath",
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {
@@ -3083,6 +3081,35 @@
             "positivePath",
             "failureStates",
             "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "rejects stale incompatible replacement atomically and converges an identical stale replay",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-persistence.spec.ts",
+          "testTitle": "serializes concurrent incompatible same-revision writers without mixing aggregates",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/saved-meal-ui.spec.ts",
+          "testTitle": "CJ-022 preserves stale submitted values and requires fresh localized review before retry",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
             "browser"
           ]
         }
@@ -4263,8 +4290,7 @@
           "testTitle": "creates food, nutrients, aliases, and one fixed private mapping atomically without unrelated writes",
           "evidenceAxes": [
             "positivePath",
-            "dataIntegrity",
-            "tenantIsolation"
+            "dataIntegrity"
           ]
         },
         {

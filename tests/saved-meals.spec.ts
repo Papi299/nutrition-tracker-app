@@ -35,6 +35,7 @@ function validItem(overrides: Record<string, unknown> = {}) {
 
 function validInput(overrides: Record<string, unknown> = {}) {
   return {
+    expected_edit_revision: null,
     name: "Saved breakfast",
     locale: "en",
     items: [validItem()],
@@ -86,6 +87,7 @@ test.describe("saved-meal payload validation", () => {
     expect(
       validateSavedMealInput(
         validInput({
+          expected_edit_revision: 7,
           saved_meal_id: savedMealId,
           name: "  ארוחת בוקר  ",
           locale: "he",
@@ -107,6 +109,7 @@ test.describe("saved-meal payload validation", () => {
       ),
     ).toEqual({
       data: {
+        expected_edit_revision: 7,
         saved_meal_id: savedMealId,
         name: "ארוחת בוקר",
         locale: "he",
@@ -127,6 +130,38 @@ test.describe("saved-meal payload validation", () => {
         ],
       },
       ok: true,
+    });
+  });
+
+  test("requires a trusted positive safe edit revision only for existing meals", () => {
+    expect(
+      validateSavedMealInput(
+        validInput({
+          expected_edit_revision: 1,
+          saved_meal_id: savedMealId,
+        }),
+      ),
+    ).toMatchObject({
+      data: { expected_edit_revision: 1, saved_meal_id: savedMealId },
+      ok: true,
+    });
+
+    for (const expected_edit_revision of [null, 0, 1.5, Number.MAX_SAFE_INTEGER + 1]) {
+      expect(
+        validateSavedMealInput(
+          validInput({ expected_edit_revision, saved_meal_id: savedMealId }),
+        ),
+      ).toMatchObject({
+        fieldErrors: { expected_edit_revision: "invalid_revision" },
+        ok: false,
+      });
+    }
+
+    expect(
+      validateSavedMealInput(validInput({ expected_edit_revision: 1 })),
+    ).toMatchObject({
+      fieldErrors: { expected_edit_revision: "unsupported_field" },
+      ok: false,
     });
   });
 

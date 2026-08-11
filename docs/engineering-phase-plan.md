@@ -376,7 +376,15 @@ discrepancy without completing the CJ-019 matrix. Maor also approved CJ-030
 no-JavaScript Option A on 2026-08-09: `NOT_APPLICABLE` remains authoritative;
 existing disabled-JavaScript creation behavior is non-contractual, adds no
 no-JavaScript evidence credit, and is not authorized for behavior change. The
-prior contradictory no-mutation validation instruction is retired. Phase 11C
+prior contradictory no-mutation validation instruction is retired.
+Independently accepted PR #89 established a 35 / 216 / 694 evidence baseline,
+and independently accepted PR #90 established the repository evidence baseline
+of 35 / 217 / 699 after the bounded CJ-005 remediation. The independently
+accepted post-PR90 comprehensive census recorded three exact attribution
+corrections, establishing 35 / 217 / 696 before new CJ-022 evidence. The
+CJ-022 stale-edit remediation adds three exact references with eleven supported
+claims for a validator-derived 35 / 220 / 707 inventory; no-JavaScript totals
+remain `6 / 1 / 10 / 18`. Phase 11C
 remains active and incomplete. This transition authorizes no hosted access,
 deployment, finding closure, or Production action, and no later Phase 11 slice
 has started.

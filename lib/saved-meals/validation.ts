@@ -22,6 +22,7 @@ export type ValidatedSavedMealItem = {
 };
 
 export type ValidatedSavedMealInput = {
+  expected_edit_revision: number | null;
   saved_meal_id: string | null;
   name: string;
   locale: SavedMealLocale;
@@ -34,7 +35,13 @@ export type ValidatedSavedMealArchiveInput = {
 };
 
 const localeSet = new Set<string>(savedMealLocales);
-const persistenceFields = new Set(["saved_meal_id", "name", "locale", "items"]);
+const persistenceFields = new Set([
+  "expected_edit_revision",
+  "saved_meal_id",
+  "name",
+  "locale",
+  "items",
+]);
 const archiveFields = new Set(["saved_meal_id", "is_archived"]);
 const itemFields = new Set([
   "position",
@@ -253,6 +260,25 @@ export function validateSavedMealInput(
     }
   }
 
+  let expectedEditRevision: number | null = null;
+
+  if (savedMealId === null) {
+    if (
+      input.expected_edit_revision !== undefined &&
+      input.expected_edit_revision !== null
+    ) {
+      fieldErrors.expected_edit_revision = "unsupported_field";
+    }
+  } else if (
+    typeof input.expected_edit_revision !== "number" ||
+    !Number.isSafeInteger(input.expected_edit_revision) ||
+    input.expected_edit_revision < 1
+  ) {
+    fieldErrors.expected_edit_revision = "invalid_revision";
+  } else {
+    expectedEditRevision = input.expected_edit_revision;
+  }
+
   const name = parseRequiredText(input.name, 200, "name", fieldErrors);
   const locale =
     typeof input.locale === "string" && localeSet.has(input.locale)
@@ -296,7 +322,13 @@ export function validateSavedMealInput(
   }
 
   return {
-    data: { saved_meal_id: savedMealId, name, locale, items },
+    data: {
+      expected_edit_revision: expectedEditRevision,
+      saved_meal_id: savedMealId,
+      name,
+      locale,
+      items,
+    },
     ok: true,
   };
 }

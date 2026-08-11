@@ -59,16 +59,16 @@ test("rejects Section 7.3 no-JavaScript drift", async () => {
 
 test("rejects automated evidence claiming an axis marked LATER_SLICE", async () => {
   const evidence = evidenceFixture();
-  evidence.journeys[0].positivePath = { status: "LATER_SLICE", slice: "11D" };
-  await assert.rejects(validate(evidence), /claims positivePath while its status is LATER_SLICE/);
+  evidence.journeys[0].locale = { status: "LATER_SLICE", slice: "11D" };
+  await assert.rejects(validate(evidence), /claims locale while its status is LATER_SLICE/);
 });
 
 test("rejects automated evidence claiming an axis marked EXTERNAL_REQUIRED", async () => {
   const evidence = evidenceFixture();
-  evidence.journeys[0].positivePath = { status: "EXTERNAL_REQUIRED" };
+  evidence.journeys[0].locale = { status: "EXTERNAL_REQUIRED" };
   await assert.rejects(
     validate(evidence),
-    /claims positivePath while its status is EXTERNAL_REQUIRED/,
+    /claims locale while its status is EXTERNAL_REQUIRED/,
   );
 });
 

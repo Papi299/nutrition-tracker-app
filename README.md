@@ -233,17 +233,17 @@ is complete for the current MVP scope.
   server/database integrity boundary, while existing disabled-JavaScript
   creation behavior is incidental, non-contractual, and receives no
   no-JavaScript evidence credit. No behavior or executable test changed in
-  that amendment. The independently accepted PR #89 reconciliation added one
-  true local-miss browser test and reattributed exact existing test bodies. At
-  the repository state used for independent review, its accepted evidence
-  baseline contained 35 journeys, 216 automated references, and 694 automated
-  axis claims with unchanged no-JavaScript totals `6 / 1 / 10 / 18`. This
-  bounded CJ-005 remediation candidate adds one deterministic sign-out
-  failure/retry reference with seven supported claims, producing a
-  mechanically validated candidate inventory of 35 journeys, 217 references,
-  and 699 claims. Independent review removed two historical CJ-005 tenant-
-  isolation overclaims plus the new candidate overclaim; independent exact-
-  head review remains required.
+  that amendment. Independently accepted PR #89 established a 35 / 216 / 694
+  evidence baseline. Independently accepted PR #90 then added the bounded
+  CJ-005 failure/retry remediation and established the repository evidence
+  baseline of 35 journeys, 217 automated references, and 699 evidence-axis
+  claims. The independently accepted post-PR90 comprehensive census recorded
+  three exact attribution corrections: CJ-001 `positivePath`, CJ-018
+  `tenantIsolation`, and one CJ-030 reference's `tenantIsolation`. Those
+  corrections establish 35 / 217 / 696 before new CJ-022 evidence. The CJ-022
+  stale-edit remediation adds three exact references with eleven supported
+  claims, so the validator-derived inventory is 35 / 220 / 707; no-JavaScript
+  totals remain `6 / 1 / 10 / 18`.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
@@ -855,9 +855,10 @@ Manual RTL QA checklist:
   30 attributable owner decisions in its
   [accepted contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md);
   all 18 findings remain open, Phase 11K remains their only closure gate, and
-  Phase 11C remains active and incomplete after Phase 11C1 and the accepted
-  bounded CJ-009–CJ-027 automated evidence merged through PRs #73, #77, #83,
-  and #86. CJ-030 no-JavaScript remains `NOT_APPLICABLE` under the
+  Phase 11C remains active and incomplete after Phase 11C1, the accepted
+  bounded evidence merged through PRs #73, #77, #83, #86, #89, and #90, and
+  the bounded CJ-022 stale-edit remediation. CJ-030 no-JavaScript remains
+  `NOT_APPLICABLE` under the
   owner-approved Option A contract amendment; existing disabled-JavaScript
   behavior is not a support commitment or evidence-axis claim.
 - FoodsDictionary integration.

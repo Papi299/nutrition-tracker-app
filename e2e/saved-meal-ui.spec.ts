@@ -94,6 +94,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     name: string,
   ) {
     const result = await client.rpc("persist_saved_meal", {
+      p_expected_edit_revision: null as unknown as number,
       p_items: [
         {
           position: 1,
@@ -422,6 +423,135 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await context.close();
   });
 
+  test("CJ-022 preserves stale submitted values and requires fresh localized review before retry", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser);
+    const winnerPage = await context.newPage();
+    const englishStalePage = await context.newPage();
+    const hebrewStalePage = await context.newPage();
+    const editRevisionBefore = Number(
+      queryLocalDatabase(`
+        select saved_meal_edit_revision
+        from public.saved_meals
+        where id = '${sourceMealId}';
+      `),
+    );
+
+    await Promise.all([
+      winnerPage.goto(`/en/saved-meals/${sourceMealId}/edit`),
+      englishStalePage.goto(`/en/saved-meals/${sourceMealId}/edit`),
+      hebrewStalePage.goto(`/he/saved-meals/${sourceMealId}/edit`),
+    ]);
+    await expect(hebrewStalePage.locator("html")).toHaveAttribute("dir", "rtl");
+
+    await winnerPage.getByLabel("Meal name").fill("Accepted browser aggregate A");
+    await winnerPage.getByLabel("Food name").first().fill("Accepted browser item A");
+    await englishStalePage.getByLabel("Meal name").fill("Preserved stale English B");
+    await englishStalePage
+      .getByLabel("Food name")
+      .first()
+      .fill("Preserved stale English item B");
+    await hebrewStalePage.getByLabel("שם הארוחה").fill("ערכים ישנים שנשמרו בטופס");
+    await hebrewStalePage
+      .getByLabel("שם המזון")
+      .first()
+      .fill("פריט ישן שנשמר בטופס");
+
+    await winnerPage.getByRole("button", { name: "Save changes" }).click();
+    await expect(winnerPage).toHaveURL(
+      new RegExp(`/en/saved-meals/${sourceMealId}/edit\\?saved=updated$`),
+    );
+    expect(
+      queryLocalDatabase(`
+        select saved_meal_edit_revision
+        from public.saved_meals
+        where id = '${sourceMealId}';
+      `),
+    ).toBe(String(editRevisionBefore + 1));
+
+    await englishStalePage.getByRole("button", { name: "Save changes" }).click();
+    const englishConflict = englishStalePage.getByTestId("saved-meal-edit-conflict");
+    await expect(englishConflict).toContainText(
+      "This saved meal changed after you loaded the editor. Your submitted values were not saved. Reload the current saved meal and review it before trying again.",
+    );
+    await expect(englishStalePage.getByLabel("Meal name")).toHaveValue(
+      "Preserved stale English B",
+    );
+    await expect(englishStalePage.getByLabel("Food name").first()).toHaveValue(
+      "Preserved stale English item B",
+    );
+    await expect(englishStalePage).not.toHaveURL(/saved=updated/);
+
+    await hebrewStalePage.getByRole("button", { name: "שמירת שינויים" }).click();
+    const hebrewConflict = hebrewStalePage.getByTestId("saved-meal-edit-conflict");
+    await expect(hebrewConflict).toContainText(
+      "הארוחה השמורה השתנתה לאחר טעינת העורך. הערכים שנשלחו לא נשמרו. יש לטעון מחדש את הארוחה השמורה הנוכחית ולבדוק אותה לפני ניסיון נוסף.",
+    );
+    await expect(hebrewStalePage.getByLabel("שם הארוחה")).toHaveValue(
+      "ערכים ישנים שנשמרו בטופס",
+    );
+    await expect(hebrewStalePage.getByLabel("שם המזון").first()).toHaveValue(
+      "פריט ישן שנשמר בטופס",
+    );
+
+    expect(
+      queryLocalDatabase(`
+        select concat_ws('|',
+          saved_meals.name,
+          (
+            select food_name
+            from public.saved_meal_items
+            where saved_meal_id = saved_meals.id
+            order by position
+            limit 1
+          )
+        )
+        from public.saved_meals
+        where id = '${sourceMealId}';
+      `),
+    ).toBe("Accepted browser aggregate A|Accepted browser item A");
+
+    await englishConflict
+      .getByRole("link", { name: "Reload current saved meal and review" })
+      .click();
+    await expect(englishStalePage.getByLabel("Meal name")).toHaveValue(
+      "Accepted browser aggregate A",
+    );
+    await expect(englishStalePage.getByLabel("Food name").first()).toHaveValue(
+      "Accepted browser item A",
+    );
+    await englishStalePage.getByLabel("Meal name").fill("Intentional fresh retry B");
+    await englishStalePage
+      .getByLabel("Food name")
+      .first()
+      .fill("Intentional fresh retry item B");
+    await englishStalePage.getByRole("button", { name: "Save changes" }).click();
+    await expect(englishStalePage).toHaveURL(
+      new RegExp(`/en/saved-meals/${sourceMealId}/edit\\?saved=updated$`),
+    );
+    expect(
+      queryLocalDatabase(`
+        select concat_ws('|',
+          saved_meals.name,
+          saved_meals.saved_meal_edit_revision,
+          (
+            select food_name
+            from public.saved_meal_items
+            where saved_meal_id = saved_meals.id
+            order by position
+            limit 1
+          )
+        )
+        from public.saved_meals
+        where id = '${sourceMealId}';
+      `),
+    ).toBe(
+      `Intentional fresh retry B|${editRevisionBefore + 2}|Intentional fresh retry item B`,
+    );
+    await context.close();
+  });
+
   test("paginates owned meals and completes archive, archived edit, and restore", async ({
     browser,
   }) => {
@@ -546,7 +676,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.getByRole("heading", { name: /שימוש בארוחה/ })).toBeVisible();
     await expect(page.locator("[data-saved-meal-position]")).toHaveCount(3);
-    await expect(page.getByText("Second linked breakfast snapshot")).toBeVisible();
+    await expect(page.getByText("Intentional fresh retry item B")).toBeVisible();
     await expect(page.getByLabel("תאריך")).toHaveValue("2024-02-29");
     await expect(page.getByRole("link", { name: "עריכת הארוחה השמורה" })).toHaveAttribute(
       "href",
@@ -595,6 +725,13 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
       .order("position");
     expect(sourceItems.error).toBeNull();
     const changed = await userAClient.rpc("persist_saved_meal", {
+      p_expected_edit_revision: Number(
+        queryLocalDatabase(`
+          select saved_meal_edit_revision
+          from public.saved_meals
+          where id = '${sourceMealId}';
+        `),
+      ),
       p_items: sourceItems.data as Json,
       p_locale: "und",
       p_name: "Changed after review loaded",

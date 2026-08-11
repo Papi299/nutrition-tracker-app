@@ -29,6 +29,7 @@ export type SavedMealFormValues = {
 export type SavedMealActionState = {
   fieldErrors?: Record<string, string>;
   status:
+    | "conflict"
     | "database_error"
     | "idle"
     | "not_found"
