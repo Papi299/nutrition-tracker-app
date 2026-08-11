@@ -384,10 +384,12 @@ accepted post-PR90 comprehensive census recorded three exact attribution
 corrections, establishing 35 / 217 / 696 before new CJ-022 evidence. The
 CJ-022 stale-edit remediation adds three exact references with eleven supported
 claims for the accepted 35 / 220 / 707 inventory. The bounded CJ-025 Recipe
-stale-edit candidate adds three exact references and eleven supported claims,
-producing a validator-derived 35 / 223 / 718 inventory; no-JavaScript totals
-remain `6 / 1 / 10 / 18`. Phase 11C
-remains active and incomplete. This transition authorizes no hosted access,
+stale-edit remediation was independently approved at exact source
+`a068665e0ee54214a912d7695c48cc88dd0fac33` and squash-merged through PR #92
+as accepted `main` `d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`, tree
+`ecc84fc03691c3e23b614d9dd935e59e5f381ef0`, establishing the accepted
+35 / 223 / 718 inventory; no-JavaScript totals remain `6 / 1 / 10 / 18`.
+Phase 11C remains active and incomplete. This transition authorizes no hosted access,
 deployment, finding closure, or Production action, and no later Phase 11 slice
 has started.
 All 18 findings remain open; Phase 11K remains their exclusive closure gate.

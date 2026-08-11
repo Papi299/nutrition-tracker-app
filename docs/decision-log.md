@@ -2089,3 +2089,29 @@
   deployment, Production, backup, restore, DNS, environment, secret, provider,
   launch, or finding-closure action occurred.
 - This is a draft candidate. Independent exact-head review remains required.
+
+## 2026-08-11: CJ-025 Recipe stale-edit concurrency accepted merge finalization
+
+- Independent review disposition was `APPROVE WITH NON-BLOCKING NOTES` for
+  exact source `a068665e0ee54214a912d7695c48cc88dd0fac33`, tree
+  `ecc84fc03691c3e23b614d9dd935e59e5f381ef0`. The Product Owner separately
+  authorized merge after that review.
+- PR #92 was squash-merged at `2026-08-11T16:16:57Z` as accepted `main`
+  `d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`, tree
+  `ecc84fc03691c3e23b614d9dd935e59e5f381ef0`, with sole parent
+  `cb0c1ccd17968850d1f8ffbc851fdad8ad5bec4c`.
+- Authoritative push-to-main CI run `31511566717`, Validate job `93846376826`,
+  completed `SUCCESS` on the exact squash SHA. The journey validator passed
+  `12 / 12`; accepted evidence is `35 / 223 / 718`; no-JavaScript remains
+  `6 / 1 / 10 / 18`; unit/pure tests passed `245 / 245`; the production build
+  passed `33 / 33`; and Playwright passed `288 / 288` with one worker and zero
+  automatic retries.
+- No hosted Supabase, remote database, Auth, Vercel, Production, DNS,
+  environment, secret, provider, backup, restore, deployment, launch, or
+  finding-closure operation occurred.
+- Phase 11C remains `ACTIVE / INCOMPLETE`, overall Phase 11 remains
+  `INCOMPLETE`, all 18 findings remain `OPEN`, and Phase 11K remains the
+  exclusive finding-closure gate. The accepted contract remains
+  `1.2-phase-11b-cj019-cj030-amended`.
+- Accepted terminal marker:
+  `PHASE_11C_CJ025_RECIPE_STALE_EDIT_MERGED_ACCEPTED`.
