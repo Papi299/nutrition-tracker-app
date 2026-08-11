@@ -28,6 +28,7 @@ export type RecipeFormValues = {
 export type RecipeActionState = {
   fieldErrors?: Record<string, string>;
   status:
+    | "conflict"
     | "database_error"
     | "idle"
     | "not_found"

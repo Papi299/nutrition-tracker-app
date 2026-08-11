@@ -421,6 +421,154 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     await context.close();
   });
 
+  test("CJ-025 preserves stale submitted values and requires fresh localized review before retry", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser);
+    const winnerPage = await context.newPage();
+    const englishStalePage = await context.newPage();
+    const hebrewStalePage = await context.newPage();
+    const editRevisionBefore = Number(
+      queryLocalDatabase(`
+        select recipe_edit_revision
+        from public.recipes
+        where id = '${sourceRecipeId}';
+      `),
+    );
+
+    await Promise.all([
+      winnerPage.goto(`/en/recipes/${sourceRecipeId}/edit`),
+      englishStalePage.goto(`/en/recipes/${sourceRecipeId}/edit`),
+      hebrewStalePage.goto(`/he/recipes/${sourceRecipeId}/edit`),
+    ]);
+    await expect(hebrewStalePage.locator("html")).toHaveAttribute("dir", "rtl");
+
+    await winnerPage.getByLabel("Recipe name").fill("Accepted browser aggregate A");
+    await winnerPage
+      .getByLabel("Ingredient name")
+      .first()
+      .fill("Accepted browser ingredient A");
+    await englishStalePage
+      .getByLabel("Recipe name")
+      .fill("Preserved stale English B");
+    await englishStalePage
+      .getByLabel("Ingredient name")
+      .first()
+      .fill("Preserved stale English ingredient B");
+    await hebrewStalePage
+      .getByLabel("שם המתכון")
+      .fill("ערכים ישנים שנשמרו בטופס");
+    await hebrewStalePage
+      .getByLabel("שם המרכיב")
+      .first()
+      .fill("מרכיב ישן שנשמר בטופס");
+
+    await winnerPage.getByRole("button", { name: "Save changes" }).click();
+    await expect(winnerPage).toHaveURL(
+      new RegExp(`/en/recipes/${sourceRecipeId}/edit\\?saved=updated$`),
+    );
+    const acceptedSourceVersion = queryLocalDatabase(`
+      select updated_at
+      from public.recipes
+      where id = '${sourceRecipeId}';
+    `);
+    expect(
+      queryLocalDatabase(`
+        select recipe_edit_revision
+        from public.recipes
+        where id = '${sourceRecipeId}';
+      `),
+    ).toBe(String(editRevisionBefore + 1));
+
+    await englishStalePage.getByRole("button", { name: "Save changes" }).click();
+    const englishConflict = englishStalePage.getByTestId("recipe-edit-conflict");
+    await expect(englishConflict).toContainText(
+      "This recipe changed after you loaded the editor. Your submitted values were not saved. Reload the current recipe and review it before trying again.",
+    );
+    await expect(englishStalePage.getByLabel("Recipe name")).toHaveValue(
+      "Preserved stale English B",
+    );
+    await expect(
+      englishStalePage.getByLabel("Ingredient name").first(),
+    ).toHaveValue("Preserved stale English ingredient B");
+    await expect(englishStalePage).not.toHaveURL(/saved=updated/);
+
+    await hebrewStalePage
+      .getByRole("button", { name: "שמירת שינויים" })
+      .click();
+    const hebrewConflict = hebrewStalePage.getByTestId("recipe-edit-conflict");
+    await expect(hebrewConflict).toContainText(
+      "המתכון השתנה לאחר טעינת העורך. הערכים שנשלחו לא נשמרו. יש לטעון מחדש את המתכון הנוכחי ולבדוק אותו לפני ניסיון נוסף.",
+    );
+    await expect(hebrewStalePage.getByLabel("שם המתכון")).toHaveValue(
+      "ערכים ישנים שנשמרו בטופס",
+    );
+    await expect(
+      hebrewStalePage.getByLabel("שם המרכיב").first(),
+    ).toHaveValue("מרכיב ישן שנשמר בטופס");
+
+    expect(
+      queryLocalDatabase(`
+        select concat_ws('|',
+          recipes.name,
+          recipes.updated_at,
+          (
+            select ingredient_name
+            from public.recipe_ingredients
+            where recipe_id = recipes.id
+            order by position
+            limit 1
+          )
+        )
+        from public.recipes
+        where id = '${sourceRecipeId}';
+      `),
+    ).toBe(
+      `Accepted browser aggregate A|${acceptedSourceVersion}|Accepted browser ingredient A`,
+    );
+
+    await englishConflict
+      .getByRole("link", { name: "Reload current recipe and review" })
+      .click();
+    await expect(englishStalePage.getByLabel("Recipe name")).toHaveValue(
+      "Accepted browser aggregate A",
+    );
+    await expect(
+      englishStalePage.getByLabel("Ingredient name").first(),
+    ).toHaveValue("Accepted browser ingredient A");
+    await englishStalePage
+      .getByLabel("Recipe name")
+      .fill("Intentional fresh retry B");
+    await englishStalePage
+      .getByLabel("Ingredient name")
+      .first()
+      .fill("Intentional fresh retry ingredient B");
+    await englishStalePage.getByRole("button", { name: "Save changes" }).click();
+    await expect(englishStalePage).toHaveURL(
+      new RegExp(`/en/recipes/${sourceRecipeId}/edit\\?saved=updated$`),
+    );
+    expect(
+      queryLocalDatabase(`
+        select concat_ws('|',
+          recipes.name,
+          recipes.recipe_edit_revision,
+          (
+            select ingredient_name
+            from public.recipe_ingredients
+            where recipe_id = recipes.id
+            order by position
+            limit 1
+          )
+        )
+        from public.recipes
+        where id = '${sourceRecipeId}';
+      `),
+    ).toBe(
+      `Intentional fresh retry B|${editRevisionBefore + 2}|Intentional fresh retry ingredient B`,
+    );
+    await context.close();
+  });
+
   test("paginates owned recipes and completes archive, archived edit, and restore", async ({
     browser,
   }) => {

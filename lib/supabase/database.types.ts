@@ -636,6 +636,7 @@ export type Database = {
           is_archived: boolean
           locale: string
           name: string
+          recipe_edit_revision: number
           updated_at: string
           user_id: string
           yield_servings: number
@@ -646,6 +647,7 @@ export type Database = {
           is_archived?: boolean
           locale: string
           name: string
+          recipe_edit_revision?: number
           updated_at?: string
           user_id: string
           yield_servings: number
@@ -656,6 +658,7 @@ export type Database = {
           is_archived?: boolean
           locale?: string
           name?: string
+          recipe_edit_revision?: number
           updated_at?: string
           user_id?: string
           yield_servings?: number
@@ -855,6 +858,7 @@ export type Database = {
         Args: { p_recipe_id: string }
         Returns: {
           created_at: string
+          edit_revision: number
           ingredients: Json
           is_archived: boolean
           locale: string
@@ -1075,20 +1079,36 @@ export type Database = {
           result_status: string
         }[]
       }
-      persist_recipe: {
-        Args: {
-          p_ingredients: Json
-          p_locale: string
-          p_name: string
-          p_recipe_id: string
-          p_yield_servings: number
-        }
-        Returns: {
-          ingredient_count: number
-          is_archived: boolean
-          recipe_id: string
-        }[]
-      }
+      persist_recipe:
+        | {
+            Args: {
+              p_ingredients: Json
+              p_locale: string
+              p_name: string
+              p_recipe_id: string
+              p_yield_servings: number
+            }
+            Returns: {
+              ingredient_count: number
+              is_archived: boolean
+              recipe_id: string
+            }[]
+          }
+        | {
+            Args: {
+              p_expected_edit_revision: number
+              p_ingredients: Json
+              p_locale: string
+              p_name: string
+              p_recipe_id: string
+              p_yield_servings: number
+            }
+            Returns: {
+              ingredient_count: number
+              is_archived: boolean
+              recipe_id: string
+            }[]
+          }
       persist_saved_meal:
         | {
             Args: {

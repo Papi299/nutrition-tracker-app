@@ -254,8 +254,10 @@ baseline of 35 journeys, 217 automated references, and 699 evidence-axis
 claims. The independently accepted post-PR90 comprehensive census recorded
 three exact attribution corrections, establishing 35 / 217 / 696 before new
 CJ-022 evidence. The CJ-022 stale-edit remediation adds three exact references
-with eleven supported claims, producing a validator-derived 35 / 220 / 707
-inventory with unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
+with eleven supported claims, producing the accepted 35 / 220 / 707 inventory.
+The bounded CJ-025 Recipe stale-edit candidate adds three exact references and
+eleven supported claims for a validator-derived 35 / 223 / 718 inventory with
+unchanged no-JavaScript totals `6 / 1 / 10 / 18`.
 Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase

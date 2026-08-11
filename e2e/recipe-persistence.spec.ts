@@ -21,9 +21,30 @@ test.skip(
   "Recipe persistence tests require the local-only test runner.",
 );
 
-type PersistArgs = Database["public"]["Functions"]["persist_recipe"]["Args"];
-type NullablePersistArgs = Omit<PersistArgs, "p_recipe_id"> & {
+type PersistArgs = Extract<
+  Database["public"]["Functions"]["persist_recipe"]["Args"],
+  { p_expected_edit_revision: number }
+>;
+type NullablePersistArgs = Omit<
+  PersistArgs,
+  "p_expected_edit_revision" | "p_recipe_id"
+> & {
+  p_expected_edit_revision: number | null;
   p_recipe_id: string | null;
+};
+type AggregateSnapshot = {
+  edit_revision: number;
+  ingredients: Array<{
+    calories: number | null;
+    ingredient_name: string;
+    position: number;
+    [key: string]: unknown;
+  }>;
+  is_archived: boolean;
+  locale: string;
+  name: string;
+  updated_at: string;
+  yield_servings: number;
 };
 
 test.describe.serial("recipe persistence foundation", () => {
@@ -98,12 +119,13 @@ test.describe.serial("recipe persistence foundation", () => {
 
   function args(overrides: Partial<NullablePersistArgs> = {}): NullablePersistArgs {
     return {
-      p_recipe_id: null,
       p_name: "Vegetable soup",
       p_locale: "en",
       p_yield_servings: 4,
       p_ingredients: [ingredient(1)] as Json,
       ...overrides,
+      p_expected_edit_revision: overrides.p_expected_edit_revision ?? null,
+      p_recipe_id: overrides.p_recipe_id ?? null,
     };
   }
 
@@ -111,7 +133,60 @@ test.describe.serial("recipe persistence foundation", () => {
     client: SupabaseClient<Database>,
     overrides: Partial<NullablePersistArgs> = {},
   ) {
-    return client.rpc("persist_recipe", args(overrides) as PersistArgs);
+    const rpcArgs = args(overrides);
+
+    if (
+      rpcArgs.p_recipe_id !== null &&
+      overrides.p_expected_edit_revision === undefined
+    ) {
+      const editor = await client.rpc("get_owned_recipe_editor", {
+        p_recipe_id: rpcArgs.p_recipe_id,
+      });
+      rpcArgs.p_expected_edit_revision = editor.data?.[0]?.edit_revision ?? 1;
+    }
+
+    return client.rpc("persist_recipe", rpcArgs as PersistArgs);
+  }
+
+  function aggregateSnapshot(recipeId: string): AggregateSnapshot {
+    return JSON.parse(
+      queryDatabase(`
+        select jsonb_build_object(
+          'name', recipes.name,
+          'locale', recipes.locale,
+          'yield_servings', recipes.yield_servings,
+          'is_archived', recipes.is_archived,
+          'edit_revision', recipes.recipe_edit_revision,
+          'updated_at', recipes.updated_at,
+          'ingredients', coalesce(
+            (
+              select jsonb_agg(
+                jsonb_build_object(
+                  'id', recipe_ingredients.id,
+                  'position', recipe_ingredients.position,
+                  'food_id', recipe_ingredients.food_id,
+                  'ingredient_name', recipe_ingredients.ingredient_name,
+                  'brand_name', recipe_ingredients.brand_name,
+                  'quantity', recipe_ingredients.quantity,
+                  'unit', recipe_ingredients.unit,
+                  'calories', recipe_ingredients.calories,
+                  'protein_g', recipe_ingredients.protein_g,
+                  'carbohydrates_g', recipe_ingredients.carbohydrates_g,
+                  'fat_g', recipe_ingredients.fat_g,
+                  'notes', recipe_ingredients.notes
+                )
+                order by recipe_ingredients.position
+              )
+              from public.recipe_ingredients
+              where recipe_ingredients.recipe_id = recipes.id
+            ),
+            '[]'::jsonb
+          )
+        )
+        from public.recipes
+        where recipes.id = '${recipeId}';
+      `),
+    );
   }
 
   async function createCustomFood(client: SupabaseClient<Database>, name: string) {
@@ -186,6 +261,7 @@ test.describe.serial("recipe persistence foundation", () => {
       from pg_proc p
       where p.oid in (
         'public.persist_recipe(uuid,text,text,numeric,jsonb)'::regprocedure,
+        'public.persist_recipe(uuid,text,text,numeric,jsonb,bigint)'::regprocedure,
         'public.set_recipe_archived(uuid,boolean)'::regprocedure
       );
 
@@ -213,6 +289,22 @@ test.describe.serial("recipe persistence foundation", () => {
           );
       `),
     ).toBe("0");
+    expect(
+      queryDatabase(`
+        select concat_ws('|', is_nullable, column_default,
+          has_column_privilege(
+            'authenticated',
+            'public.recipes',
+            'recipe_edit_revision',
+            'update'
+          )
+        )
+        from information_schema.columns
+        where table_schema = 'public'
+          and table_name = 'recipes'
+          and column_name = 'recipe_edit_revision';
+      `),
+    ).toBe("NO|1|t");
 
     queryDatabase(`
       insert into public.recipes (id, user_id, name, locale, yield_servings)
@@ -277,7 +369,7 @@ test.describe.serial("recipe persistence foundation", () => {
 
     const recipe = await userAClient
       .from("recipes")
-      .select("user_id,name,locale,yield_servings,is_archived")
+      .select("user_id,name,locale,yield_servings,is_archived,recipe_edit_revision")
       .eq("id", primaryRecipeId)
       .single();
     expect(recipe.data).toEqual({
@@ -286,6 +378,7 @@ test.describe.serial("recipe persistence foundation", () => {
       locale: "he",
       yield_servings: 2.5,
       is_archived: false,
+      recipe_edit_revision: 1,
     });
 
     const ingredients = await userAClient
@@ -436,12 +529,7 @@ test.describe.serial("recipe persistence foundation", () => {
       queryDatabase(`select updated_at from public.recipes where id = '${primaryRecipeId}';`),
     ).not.toBe(originalTimestamp);
 
-    const beforeIdentical = queryDatabase(`
-      select updated_at || '|' ||
-        (select string_agg(id::text, ',' order by position)
-         from public.recipe_ingredients where recipe_id = recipes.id)
-      from public.recipes where id = '${primaryRecipeId}';
-    `);
+    const beforeIdentical = aggregateSnapshot(primaryRecipeId);
     const identical = await persist(userAClient, {
       p_recipe_id: primaryRecipeId,
       p_name: "Updated recipe",
@@ -450,14 +538,7 @@ test.describe.serial("recipe persistence foundation", () => {
       p_ingredients: replacement,
     });
     expect(identical.error).toBeNull();
-    expect(
-      queryDatabase(`
-        select updated_at || '|' ||
-          (select string_agg(id::text, ',' order by position)
-           from public.recipe_ingredients where recipe_id = recipes.id)
-        from public.recipes where id = '${primaryRecipeId}';
-      `),
-    ).toBe(beforeIdentical);
+    expect(aggregateSnapshot(primaryRecipeId)).toEqual(beforeIdentical);
 
     const rows = await userAClient
       .from("recipe_ingredients")
@@ -472,6 +553,192 @@ test.describe.serial("recipe persistence foundation", () => {
       calories: null,
       carbohydrates_g: 0,
     });
+  });
+
+  test("rejects stale incompatible replacement atomically and converges an identical stale replay", async () => {
+    const created = await persist(userAClient, {
+      p_name: "Stale edit source",
+      p_yield_servings: 2,
+      p_ingredients: [ingredient(1, { ingredient_name: "Original ingredient" })] as Json,
+    });
+    expect(created.error).toBeNull();
+    const recipeId = created.data?.[0].recipe_id as string;
+    const unrelated = await persist(userAClient, {
+      p_name: "Unrelated recipe",
+      p_ingredients: [ingredient(1, { ingredient_name: "Unrelated ingredient" })] as Json,
+    });
+    const unrelatedRecipeId = unrelated.data?.[0].recipe_id as string;
+    const unrelatedBefore = aggregateSnapshot(unrelatedRecipeId);
+    const loadedRevision = aggregateSnapshot(recipeId).edit_revision;
+    const acceptedIngredients = [
+      ingredient(1, {
+        food_id: publicFoodId,
+        ingredient_name: "Accepted A first",
+        brand_name: null,
+        calories: 401,
+        notes: "Accepted A only",
+      }),
+      ingredient(2, {
+        ingredient_name: "Accepted A second",
+        quantity: null,
+        unit: null,
+        carbohydrates_g: 0,
+      }),
+    ] as Json;
+    const staleIngredients = [
+      ingredient(1, {
+        ingredient_name: "Rejected B only",
+        calories: 999,
+        notes: "Must not leak",
+      }),
+    ] as Json;
+
+    const accepted = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_recipe_id: recipeId,
+      p_name: "Accepted aggregate A",
+      p_locale: "he",
+      p_yield_servings: 3,
+      p_ingredients: acceptedIngredients,
+    });
+    expect(accepted.error).toBeNull();
+    const afterAccepted = aggregateSnapshot(recipeId);
+    expect(afterAccepted.edit_revision).toBe(loadedRevision + 1);
+
+    const stale = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_recipe_id: recipeId,
+      p_name: "Rejected aggregate B",
+      p_locale: "en",
+      p_yield_servings: 4,
+      p_ingredients: staleIngredients,
+    });
+    expect(stale.error?.code).toBe("PT409");
+    expect(aggregateSnapshot(recipeId)).toEqual(afterAccepted);
+    expect(JSON.stringify(afterAccepted)).not.toContain("Rejected B");
+    expect(JSON.stringify(afterAccepted)).not.toContain("Must not leak");
+    expect(aggregateSnapshot(unrelatedRecipeId)).toEqual(unrelatedBefore);
+
+    const directParentBypass = await userAClient
+      .from("recipes")
+      .update({ name: "Direct parent bypass" })
+      .eq("id", recipeId);
+    expect(directParentBypass.error?.code).toBe("22023");
+    const directRevisionBypass = await userAClient
+      .from("recipes")
+      .update({ recipe_edit_revision: afterAccepted.edit_revision + 10 })
+      .eq("id", recipeId);
+    expect(directRevisionBypass.error?.code).toBe("22023");
+    const directIngredientBypass = await userAClient
+      .from("recipe_ingredients")
+      .update({ ingredient_name: "Direct child bypass" })
+      .eq("recipe_id", recipeId)
+      .eq("position", 1);
+    expect(directIngredientBypass.error?.code).toBe("22023");
+    expect(aggregateSnapshot(recipeId)).toEqual(afterAccepted);
+
+    const identicalReplay = await persist(userAClient, {
+      p_expected_edit_revision: loadedRevision,
+      p_recipe_id: recipeId,
+      p_name: "Accepted aggregate A",
+      p_locale: "he",
+      p_yield_servings: 3,
+      p_ingredients: acceptedIngredients,
+    });
+    expect(identicalReplay.error).toBeNull();
+    expect(aggregateSnapshot(recipeId)).toEqual(afterAccepted);
+
+    const unversionedEdit = await userAClient.rpc("persist_recipe", {
+      p_recipe_id: recipeId,
+      p_name: "Legacy bypass attempt",
+      p_locale: "en",
+      p_yield_servings: 4,
+      p_ingredients: staleIngredients,
+    });
+    expect(unversionedEdit.error?.code).toBe("22023");
+    expect(aggregateSnapshot(recipeId)).toEqual(afterAccepted);
+
+    const forgedFutureRevision = await persist(userAClient, {
+      p_expected_edit_revision: afterAccepted.edit_revision + 100,
+      p_recipe_id: recipeId,
+      p_name: "Forged future attempt",
+      p_locale: "en",
+      p_yield_servings: 4,
+      p_ingredients: staleIngredients,
+    });
+    expect(forgedFutureRevision.error?.code).toBe("PT409");
+    expect(aggregateSnapshot(recipeId)).toEqual(afterAccepted);
+  });
+
+  test("serializes concurrent incompatible same-revision writers without mixing aggregates", async () => {
+    const created = await persist(userAClient, {
+      p_name: "Concurrent source",
+      p_ingredients: [ingredient(1, { ingredient_name: "Concurrent original" })] as Json,
+    });
+    const recipeId = created.data?.[0].recipe_id as string;
+    const loadedRevision = aggregateSnapshot(recipeId).edit_revision;
+    const writerA = {
+      p_expected_edit_revision: loadedRevision,
+      p_recipe_id: recipeId,
+      p_name: "Writer A recipe",
+      p_locale: "en",
+      p_yield_servings: 3,
+      p_ingredients: [
+        ingredient(1, { ingredient_name: "Writer A first", calories: 111 }),
+        ingredient(2, { ingredient_name: "Writer A second", calories: 112 }),
+      ] as Json,
+    };
+    const writerB = {
+      p_expected_edit_revision: loadedRevision,
+      p_recipe_id: recipeId,
+      p_name: "Writer B recipe",
+      p_locale: "he",
+      p_yield_servings: 5,
+      p_ingredients: [
+        ingredient(1, { ingredient_name: "Writer B only", calories: 221 }),
+      ] as Json,
+    };
+
+    const results = await Promise.all([
+      persist(userAClient, writerA),
+      persist(userAClient, writerB),
+    ]);
+    expect(results.filter(({ error }) => error === null)).toHaveLength(1);
+    expect(results.filter(({ error }) => error?.code === "PT409")).toHaveLength(1);
+
+    const finalAggregate = aggregateSnapshot(recipeId);
+    const finalIdentityAndIngredients = {
+      ingredients: finalAggregate.ingredients.map(
+        ({ calories, ingredient_name, position }) => ({
+          calories,
+          ingredient_name,
+          position,
+        }),
+      ),
+      locale: finalAggregate.locale,
+      name: finalAggregate.name,
+      yield_servings: finalAggregate.yield_servings,
+    };
+    expect([
+      {
+        ingredients: [
+          { calories: 111, ingredient_name: "Writer A first", position: 1 },
+          { calories: 112, ingredient_name: "Writer A second", position: 2 },
+        ],
+        locale: "en",
+        name: "Writer A recipe",
+        yield_servings: 3,
+      },
+      {
+        ingredients: [
+          { calories: 221, ingredient_name: "Writer B only", position: 1 },
+        ],
+        locale: "he",
+        name: "Writer B recipe",
+        yield_servings: 5,
+      },
+    ]).toContainEqual(finalIdentityAndIngredients);
+    expect(finalAggregate.edit_revision).toBe(loadedRevision + 1);
   });
 
   test("rolls back identity, yield, and ingredients when a later ingredient is invalid or unreadable", async () => {

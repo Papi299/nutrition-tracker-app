@@ -3524,6 +3524,35 @@
             "tenantIsolation",
             "browser"
           ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "rejects stale incompatible replacement atomically and converges an identical stale replay",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-persistence.spec.ts",
+          "testTitle": "serializes concurrent incompatible same-revision writers without mixing aggregates",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/recipe-ui.spec.ts",
+          "testTitle": "CJ-025 preserves stale submitted values and requires fresh localized review before retry",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser"
+          ]
         }
       ],
       "manualEvidence": [

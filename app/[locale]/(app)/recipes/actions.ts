@@ -176,6 +176,7 @@ export async function selectRecipeIngredientFoodAction(
 export async function saveRecipeAction(
   localeInput: string,
   expectedRecipeId: string | null,
+  expectedEditRevision: number | null,
   bindings: RecipeFoodLinkBinding[],
   _previousState: RecipeActionState,
   formData: FormData,
@@ -241,6 +242,7 @@ export async function saveRecipeAction(
     }),
   );
   const input = {
+    expected_edit_revision: expectedEditRevision,
     ingredients,
     locale: values.recipe_locale,
     name: values.name,

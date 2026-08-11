@@ -14,6 +14,7 @@ export { parseRecipeEditorIngredients, type RecipeEditorIngredient } from "./edi
 
 export type OwnedRecipeEditor = {
   created_at: string;
+  edit_revision: number;
   ingredients: RecipeEditorIngredient[];
   is_archived: boolean;
   locale: RecipeLocale;
@@ -61,6 +62,8 @@ export async function getOwnedRecipeEditor(
     Number.isNaN(Date.parse(data.created_at)) ||
     typeof data.updated_at !== "string" ||
     Number.isNaN(Date.parse(data.updated_at)) ||
+    !Number.isSafeInteger(data.edit_revision) ||
+    data.edit_revision < 1 ||
     typeof data.yield_servings !== "number" ||
     !Number.isFinite(data.yield_servings) ||
     data.yield_servings < 0.001 ||
@@ -72,6 +75,7 @@ export async function getOwnedRecipeEditor(
   return {
     data: {
       created_at: data.created_at,
+      edit_revision: data.edit_revision,
       ingredients,
       is_archived: data.is_archived,
       locale: data.locale as RecipeLocale,

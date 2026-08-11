@@ -22,7 +22,7 @@ export default async function NewRecipePage({ params }: NewRecipePageProps) {
     status: "idle",
     values: newRecipeFormValues(locale, rowKey),
   };
-  const action = saveRecipeAction.bind(null, locale, null, []);
+  const action = saveRecipeAction.bind(null, locale, null, null, []);
   return (
     <RecipeEditorPageHeader mode="create">
       <RecipeForm action={action} archived={false} initialState={initialState} linkedRowKeys={[]} locale={locale} mode="create" saved={null} />

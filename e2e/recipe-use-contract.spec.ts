@@ -22,6 +22,10 @@ test.skip(
 );
 
 type PersistArgs = Database["public"]["Functions"]["persist_recipe"]["Args"];
+type VersionedPersistArgs = Extract<
+  PersistArgs,
+  { p_expected_edit_revision: number }
+>;
 type UseArgs = Database["public"]["Functions"]["get_owned_recipe_use_contract"]["Args"];
 
 test.describe.serial("recipe nutrition use-contract foundation", () => {
@@ -97,14 +101,28 @@ test.describe.serial("recipe nutrition use-contract foundation", () => {
     name: string,
     yieldServings: number,
     ingredients: Json,
+    recipeId: string | null = null,
   ) {
-    const result = await client.rpc("persist_recipe", {
-      p_recipe_id: null as unknown as string,
+    const revision = recipeId
+      ? (
+          await client
+            .from("recipes")
+            .select("recipe_edit_revision")
+            .eq("id", recipeId)
+            .single()
+        ).data?.recipe_edit_revision
+      : null;
+    const args = {
+      ...(recipeId
+        ? { p_expected_edit_revision: revision as number }
+        : {}),
       p_name: name,
       p_locale: "en",
       p_yield_servings: yieldServings,
       p_ingredients: ingredients,
-    } as PersistArgs);
+      p_recipe_id: recipeId as unknown as string,
+    } as PersistArgs | VersionedPersistArgs;
+    const result = await client.rpc("persist_recipe", args);
     expect(result.error).toBeNull();
     return result.data?.[0].recipe_id as string;
   }
@@ -223,15 +241,13 @@ test.describe.serial("recipe nutrition use-contract foundation", () => {
       `),
     ).toThrow();
 
-    const replaced = await userAClient.rpc("persist_recipe", {
-      p_recipe_id: validRecipeId,
-      p_name: "Same transaction replaced",
-      p_locale: "en",
-      p_yield_servings: 2,
-      p_ingredients: [ingredient(1), ingredient(2)] as Json,
-    });
-    expect(replaced.error).toBeNull();
-    expect(replaced.data?.[0].ingredient_count).toBe(2);
+    await persist(
+      userAClient,
+      "Same transaction replaced",
+      2,
+      [ingredient(1), ingredient(2)] as Json,
+      validRecipeId,
+    );
 
     const secondRecipeId = randomUUID();
     queryDatabase(`
@@ -361,11 +377,13 @@ test.describe.serial("recipe nutrition use-contract foundation", () => {
       },
     ];
     for (const nutrientValues of overflowCases) {
-      const updated = await userAClient
-        .from("recipe_ingredients")
-        .update(nutrientValues)
-        .eq("recipe_id", overflowRecipeId);
-      expect(updated.error).toBeNull();
+      await persist(
+        userAClient,
+        "Diary overflow",
+        1,
+        [ingredient(1, nutrientValues)] as Json,
+        overflowRecipeId,
+      );
       expect(await derive(userAClient, overflowRecipeId, 1.001)).toMatchObject({
         result_status: "not_loggable",
         calories_requested: null,
@@ -472,6 +490,11 @@ test.describe.serial("recipe nutrition use-contract foundation", () => {
       begin;
       set local role authenticated;
       set local request.jwt.claim.sub = '${userAId}';
+      select set_config(
+        'nutrition_tracker.recipe_revision_rpc_id',
+        '${derivationRecipeId}',
+        true
+      );
       delete from public.recipe_ingredients where recipe_id = '${derivationRecipeId}';
       select result_status
       from public.get_owned_recipe_use_contract('${derivationRecipeId}', 1);
@@ -512,18 +535,21 @@ test.describe.serial("recipe nutrition use-contract foundation", () => {
       source_updated_at: before?.source_updated_at,
     });
 
-    const ingredientId = queryDatabase(
-      `select id from public.recipe_ingredients where recipe_id = '${linkedRecipeId}';`,
-    );
     await new Promise((resolve) => setTimeout(resolve, 5));
-    expect(
-      (
-        await userAClient
-          .from("recipe_ingredients")
-          .update({ quantity: 2 })
-          .eq("id", ingredientId)
-      ).error,
-    ).toBeNull();
+    await persist(
+      userAClient,
+      "Frozen linked snapshot",
+      1,
+      [
+        ingredient(1, {
+          calories: 42,
+          food_id: publicFoodId,
+          protein_g: 2,
+          quantity: 2,
+        }),
+      ] as Json,
+      linkedRecipeId,
+    );
     const afterIngredientEdit = await derive(userAClient, linkedRecipeId, 1);
     expect(afterIngredientEdit?.source_updated_at).not.toBe(before?.source_updated_at);
     expect(afterIngredientEdit?.calories_whole_recipe).toBe(42);

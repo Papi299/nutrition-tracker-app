@@ -242,8 +242,10 @@ is complete for the current MVP scope.
   `tenantIsolation`, and one CJ-030 reference's `tenantIsolation`. Those
   corrections establish 35 / 217 / 696 before new CJ-022 evidence. The CJ-022
   stale-edit remediation adds three exact references with eleven supported
-  claims, so the validator-derived inventory is 35 / 220 / 707; no-JavaScript
-  totals remain `6 / 1 / 10 / 18`.
+  claims, establishing the accepted 35 / 220 / 707 baseline. The bounded
+  CJ-025 Recipe stale-edit candidate adds three exact references with eleven
+  supported claims for a validator-derived 35 / 223 / 718 inventory;
+  no-JavaScript totals remain `6 / 1 / 10 / 18`.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
@@ -857,7 +859,8 @@ Manual RTL QA checklist:
   all 18 findings remain open, Phase 11K remains their only closure gate, and
   Phase 11C remains active and incomplete after Phase 11C1, the accepted
   bounded evidence merged through PRs #73, #77, #83, #86, #89, and #90, and
-  the bounded CJ-022 stale-edit remediation. CJ-030 no-JavaScript remains
+  the bounded CJ-022 stale-edit remediation, and the current bounded CJ-025
+  Recipe stale-edit candidate. CJ-030 no-JavaScript remains
   `NOT_APPLICABLE` under the
   owner-approved Option A contract amendment; existing disabled-JavaScript
   behavior is not a support commitment or evidence-axis claim.
