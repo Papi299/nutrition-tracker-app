@@ -2115,3 +2115,36 @@
   `1.2-phase-11b-cj019-cj030-amended`.
 - Accepted terminal marker:
   `PHASE_11C_CJ025_RECIPE_STALE_EDIT_MERGED_ACCEPTED`.
+
+## 2026-08-11: CJ-024 and CJ-027 no-JavaScript contract amendment approved
+
+- After the completed read-only CJ-024/CJ-027 technical audit, Product Owner
+  Maor Pichhadze explicitly approved `CJ-024 = NOT_APPLICABLE` and
+  `CJ-027 = NOT_APPLICABLE` for the no-JavaScript acceptance classifications.
+- For CJ-024, Saved Meal review may remain server-rendered and incidental
+  disabled-JavaScript final diary use may continue to function, but the
+  complete supported final diary-use journey has no no-JavaScript
+  launch-support commitment and receives no no-JavaScript acceptance credit.
+- For CJ-027, Recipe calculation and nutrition preview may continue through
+  the existing GET-driven path without JavaScript and incidental final
+  submission may continue to function, but the complete supported Recipe
+  diary-use journey has no no-JavaScript launch-support commitment. Existing
+  incidental success coverage does not create a no-JavaScript acceptance
+  claim.
+- Incidental implemented or tested behavior is distinct from contractual
+  support. No runtime behavior change is authorized: existing behavior must
+  not be deliberately broken, disabled, refused, or removed, and the rejected
+  `<noscript>` final-mutation refusal recommendation is not approved.
+- The current contract advances from historical
+  `1.2-phase-11b-cj019-cj030-amended` to
+  `1.3-phase-11b-cj024-cj027-nojs-amended`. Earlier contract versions and
+  evidence snapshots retain their accurate historical identities and totals.
+- Current no-JavaScript totals are `6 / 1 / 12 / 16`. The evidence inventory
+  remains exactly 35 journeys / 223 automated references / 718 evidence-axis
+  claims; no no-JavaScript automated evidence reference or axis claim is
+  newly credited to CJ-024 or CJ-027.
+- This decision resolves only the two no-JavaScript product-classification
+  gaps. Phase 11C remains `ACTIVE / INCOMPLETE`; overall Phase 11 remains
+  `INCOMPLETE`; all 18 Phase 11A findings, including `P11A-002` and
+  `P11A-015`, remain `OPEN`; and Phase 11K remains the exclusive
+  finding-closure gate.

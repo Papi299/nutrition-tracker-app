@@ -248,6 +248,17 @@ is complete for the current MVP scope.
   accepted `main` `d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`, tree
   `ecc84fc03691c3e23b614d9dd935e59e5f381ef0`, establishing the accepted
   35 / 223 / 718 inventory; no-JavaScript totals remain `6 / 1 / 10 / 18`.
+  That total remains the accurate historical PR #92 acceptance snapshot. On
+  2026-08-11, after the completed read-only technical audit, Maor Pichhadze
+  approved CJ-024 and CJ-027 no-JavaScript as `NOT_APPLICABLE`. Saved Meal
+  server-rendered review and incidental disabled-script diary use may continue,
+  and Recipe GET calculation/preview and incidental disabled-script final use
+  may continue, but neither complete diary-use journey has a no-JavaScript
+  launch-support commitment. Incidental behavior remains non-contractual and
+  creates no acceptance evidence. The current contract is
+  `1.3-phase-11b-cj024-cj027-nojs-amended`; no-JavaScript totals are now
+  `6 / 1 / 12 / 16`, while the evidence inventory remains 35 / 223 / 718 and
+  runtime behavior is unchanged.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
@@ -865,7 +876,10 @@ Manual RTL QA checklist:
   Recipe stale-edit remediation merged through PR #92. CJ-030 no-JavaScript
   remains `NOT_APPLICABLE` under the
   owner-approved Option A contract amendment; existing disabled-JavaScript
-  behavior is not a support commitment or evidence-axis claim.
+  behavior is not a support commitment or evidence-axis claim. CJ-024 and
+  CJ-027 no-JavaScript are also `NOT_APPLICABLE` under the owner-approved
+  2026-08-11 amendment: incidental disabled-script behavior remains permitted
+  but non-contractual, with no acceptance credit and no runtime change.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
 - Vercel deployment and environment configuration.

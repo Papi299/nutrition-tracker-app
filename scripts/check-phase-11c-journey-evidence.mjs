@@ -21,7 +21,7 @@ export const AXIS_FIELDS = [
 ];
 
 const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md";
-const CONTRACT_VERSION = "1.2-phase-11b-cj019-cj030-amended";
+const CONTRACT_VERSION = "1.3-phase-11b-cj024-cj027-nojs-amended";
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
 const REQUIRED_FIELDS = [
   "id",
@@ -517,7 +517,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   );
   requireExactObject(
     noJavaScriptTotals,
-    { REQUIRED: 6, REQUIRED_FALLBACK_ONLY: 1, NOT_APPLICABLE: 10, NOT_VERIFIED: 18 },
+    { REQUIRED: 6, REQUIRED_FALLBACK_ONLY: 1, NOT_APPLICABLE: 12, NOT_VERIFIED: 16 },
     "no-JavaScript totals",
   );
   for (const [id, classification] of [
@@ -551,7 +551,7 @@ export async function validateRepository(rootDir = process.cwd()) {
 async function main() {
   const result = await validateRepository();
   console.log(
-    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, and no-JavaScript totals 6/1/10/18.`,
+    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, and no-JavaScript totals 6/1/12/16.`,
   );
 }
 

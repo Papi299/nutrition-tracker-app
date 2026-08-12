@@ -335,8 +335,9 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended as
-version `1.2-phase-11b-cj019-cj030-amended`. Historical amended version
-`1.1-phase-11b-cj019-amended` remains preserved. It records all 30
+version `1.3-phase-11b-cj024-cj027-nojs-amended`. Historical amended versions
+`1.1-phase-11b-cj019-amended` and `1.2-phase-11b-cj019-cj030-amended` remain
+preserved. It records all 30
 recommendations as
 attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
 owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
@@ -389,6 +390,12 @@ stale-edit remediation was independently approved at exact source
 as accepted `main` `d8970ff20b3bd4d1ca0fe54bb7cd5f0c554d84e5`, tree
 `ecc84fc03691c3e23b614d9dd935e59e5f381ef0`, establishing the accepted
 35 / 223 / 718 inventory; no-JavaScript totals remain `6 / 1 / 10 / 18`.
+That PR #92 total is preserved as its historical acceptance snapshot. On
+2026-08-11, after the completed read-only technical audit, Maor Pichhadze
+approved CJ-024 and CJ-027 no-JavaScript as `NOT_APPLICABLE`. Incidental
+disabled-script behavior may continue but is non-contractual, creates no
+acceptance credit, and is unchanged. Current no-JavaScript totals are
+`6 / 1 / 12 / 16`; the evidence inventory remains 35 / 223 / 718.
 Phase 11C remains active and incomplete. This transition authorizes no hosted access,
 deployment, finding closure, or Production action, and no later Phase 11 slice
 has started.
