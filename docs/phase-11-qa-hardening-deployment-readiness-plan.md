@@ -167,9 +167,11 @@ renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as version
-`1.3-phase-11b-cj024-cj027-nojs-amended`, while historical amended versions
-`1.1-phase-11b-cj019-amended` and `1.2-phase-11b-cj019-cj030-amended` remain
-preserved: Maor Pichhadze approved all
+`1.4-phase-11b-remaining-implemented-nojs-amended`, while historical amended
+versions `1.1-phase-11b-cj019-amended`,
+`1.2-phase-11b-cj019-cj030-amended`, and
+`1.3-phase-11b-cj024-cj027-nojs-amended` remain preserved: Maor Pichhadze
+approved all
 30 recommendations
 against owner-reviewed source head
 `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, accepted the product-owner,
@@ -266,8 +268,14 @@ That PR #92 total remains its accurate historical acceptance snapshot. The
 2026-08-11 Product Owner amendment classifies CJ-024 and CJ-027
 no-JavaScript as `NOT_APPLICABLE`: incidental disabled-script behavior may
 continue but is non-contractual, creates no acceptance credit, and is not
-authorized for behavior change. Current no-JavaScript totals are
-`6 / 1 / 12 / 16`; the evidence inventory remains 35 / 223 / 718.
+authorized for behavior change. Contract 1.3 and totals `6 / 1 / 12 / 16`
+remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
+Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
+CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
+`NOT_APPLICABLE`. The current contract is
+`1.4-phase-11b-remaining-implemented-nojs-amended`, current totals are
+`11 / 4 / 13 / 7`, and the evidence inventory remains 35 / 223 / 718. No
+runtime implementation or automated evidence credit is added.
 Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
 findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase

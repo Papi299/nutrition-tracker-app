@@ -2148,3 +2148,43 @@
   `INCOMPLETE`; all 18 Phase 11A findings, including `P11A-002` and
   `P11A-015`, remain `OPEN`; and Phase 11K remains the exclusive
   finding-closure gate.
+
+## 2026-08-12: Remaining implemented-journey no-JavaScript decisions approved
+
+- Product Owner Maor Pichhadze explicitly approved the attributable decision
+  bundle with authorization marker
+  `PHASE_11C_REMAINING_NOJS_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED`:
+  `CJ-004 = REQUIRED`; `CJ-006 = REQUIRED_FALLBACK_ONLY`;
+  `CJ-009 = REQUIRED`; `CJ-010 = REQUIRED`; `CJ-011 = REQUIRED`;
+  `CJ-012 = REQUIRED`; `CJ-013 = REQUIRED_FALLBACK_ONLY`;
+  `CJ-015 = NOT_APPLICABLE`; and
+  `CJ-021 = REQUIRED_FALLBACK_ONLY`.
+- CJ-004 requires basic disabled-script sign-in. CJ-006 requires fail-closed
+  expiry plus a localized reauthentication fallback, not enhanced in-place
+  continuation. CJ-009, CJ-010, CJ-011, and CJ-012 require their complete
+  bounded core form/navigation paths without JavaScript. CJ-013 requires a
+  safe transition to the CJ-012 manual-entry path without preserving the
+  optional linked-source enhancement. CJ-015 has no separate disabled-script
+  deletion UI commitment. CJ-021 requires recent-food review/reuse through the
+  CJ-013/CJ-012 fallback chain, not disabled-script favorite toggling.
+- Classification is distinct from implementation and evidence. `REQUIRED`
+  does not claim current behavior passes. `REQUIRED_FALLBACK_ONLY` commits
+  only to the named fallback. `NOT_APPLICABLE` does not authorize deliberate
+  breakage, refusal, or removal of incidental behavior. Future implementation,
+  remediation, and evidence require separately scoped tasks.
+- The contract advances from historical
+  `1.3-phase-11b-cj024-cj027-nojs-amended` to
+  `1.4-phase-11b-remaining-implemented-nojs-amended`. Historical contract
+  identities and their accurate snapshots remain unchanged. Current
+  classification totals advance from `6 / 1 / 12 / 16` to
+  `11 / 4 / 13 / 7`.
+- The evidence inventory remains exactly 35 journeys / 223 automated
+  references / 718 evidence-axis claims. No new automated no-JavaScript
+  evidence is credited, and signed manual evidence remains `NOT_COLLECTED`.
+- No application, component, Server Action, database behavior, migration,
+  test, translation, dependency, workflow, receipt/idempotency, hosted,
+  deployment, Production, backup, restore, or finding-closure change is
+  authorized or performed by this recording amendment.
+- Phase 11C remains `ACTIVE / INCOMPLETE`; overall Phase 11 remains
+  `INCOMPLETE`; all 18 findings, including `P11A-002` and `P11A-015`, remain
+  `OPEN`; and Phase 11K remains the exclusive finding-closure gate.

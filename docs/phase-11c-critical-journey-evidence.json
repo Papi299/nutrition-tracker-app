@@ -3,11 +3,11 @@
   "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
-    "version": "1.3-phase-11b-cj024-cj027-nojs-amended",
+    "version": "1.4-phase-11b-remaining-implemented-nojs-amended",
     "fingerprints": {
       "section7_1": "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
-      "section7_2": "da087b95570e623498ebe76a2bb9423cf0cc5b10222215dd66151c9c1caa1a22",
-      "section7_3": "32ae988419e5b5c02eede681372ecd4b8c2c2acae0c039ea15ff19921c687975"
+      "section7_2": "80dd6656788516ed3db5ae98097ea04be3bb3a8611b699b2a9f1232d239b72d2",
+      "section7_3": "f4e51854b0b3a9047bd0d3250f74ffa57df394247f938ef8b0df6fc42a674a82"
     }
   },
   "phase": "11C1",
@@ -354,7 +354,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED"
       },
       "automatedEvidence": [
         {
@@ -417,19 +417,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Labels/errors/focus",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED`",
         "manualRequirement": "Auth exploratory",
         "physicalDeviceRequirement": "Mobile auth in 11J",
         "implementationSlice": "11C/11E",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Sign-in action; redirects",
-        "missingEvidence": "Full E2E/rate-limit/hosted",
+        "missingEvidence": "Required no-JavaScript sign-in evidence; full E2E/rate-limit/hosted",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Sign-in uses a client action-state shell; progressive enhancement has not been established across target browsers.",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Sign-in is a core account-access path. The supported beta must not strand an otherwise supported user solely because client scripting is unavailable; basic credential submission, generic failure, session establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access form the required boundary.",
         "noJavaScriptOwnerSlice": "11C/11E",
-        "noJavaScriptValidationMethod": "Disable JavaScript and test success, failure, focus, cookie, and redirect behavior after an explicit decision."
+        "noJavaScriptValidationMethod": "Disable JavaScript and test valid and invalid sign-in in the bounded supported local environment, including generic denial, session/cookie establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access. Systematic focus/accessibility/browser-platform evidence remains Phase 11D/11J."
       }
     },
     {
@@ -586,7 +586,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
         {
@@ -652,19 +652,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Error/recovery focus",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED_FALLBACK_ONLY`",
         "manualRequirement": "Expiry exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C/11E",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Several expired-session tests",
-        "missingEvidence": "Full post-activation journey/retry evidence, separate from invitation procedure",
+        "missingEvidence": "Required no-JavaScript reauthentication-fallback evidence; full post-activation journey/retry evidence separate from invitation procedure",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Expired-session behavior spans reads, client-enhanced forms, and new recovery paths.",
+        "noJavaScriptClassification": "REQUIRED_FALLBACK_ONLY",
+        "noJavaScriptRationale": "Expired-session safety must survive without JavaScript, but the beta does not require every enhanced interrupted operation to resume in place. The required fallback is fail-closed mutation handling plus a safe localized reauthentication path; richer continuation remains enhanced behavior and later recovery work remains in Phase 11E.",
         "noJavaScriptOwnerSlice": "11C/11E",
-        "noJavaScriptValidationMethod": "Disable JavaScript across a risk-selected expired-session mutation matrix after recovery behavior is implemented."
+        "noJavaScriptValidationMethod": "Disable JavaScript for risk-selected expired-session mutation cases; prove no write, no disclosure, safe localized reauthentication, and one safe post-reauthentication retry through the supported path. Do not require client-enhanced in-place continuation."
       }
     },
     {
@@ -894,7 +894,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED"
       },
       "automatedEvidence": [
         {
@@ -973,19 +973,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Form/errors/focus",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED`",
         "manualRequirement": "Exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Setup atomicity/tests",
-        "missingEvidence": "Full axes/manual review",
+        "missingEvidence": "Required no-JavaScript setup evidence; full axes/manual review",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Setup uses client action state; server-action progressive enhancement is plausible but unproved.",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "First setup is a core post-activation product path and uses ordinary structured form semantics. A supported user must be able to establish the initial profile/target state without relying solely on client scripting.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript; test valid, invalid, retry, blank/null, and explicit-zero paths after commitment."
+        "noJavaScriptValidationMethod": "Disable JavaScript and exercise valid, invalid, blank/null, explicit-zero, retry, authentication, and atomic persistence behavior in the bounded local environment."
       }
     },
     {
@@ -1019,7 +1019,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED"
       },
       "automatedEvidence": [
         {
@@ -1103,19 +1103,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Form/errors/focus",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED`",
         "manualRequirement": "Exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Effective-target tests",
-        "missingEvidence": "Full axes/manual review",
+        "missingEvidence": "Required no-JavaScript target-update evidence; full axes/manual review",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Target update uses the same client-enhanced form and no explicit support decision exists.",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Target maintenance is the ongoing counterpart to the required setup flow and uses the same server-authorized form boundary. The supported core experience therefore includes a no-JavaScript update path.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript; test same-date upsert, history, invalid, and retry behavior after commitment."
+        "noJavaScriptValidationMethod": "Disable JavaScript and test same-date update/upsert, clear/null, explicit zero, invalid input, retry, effective-date/history integrity, and owner-only mutation."
       }
     },
     {
@@ -1149,7 +1149,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED"
       },
       "automatedEvidence": [
         {
@@ -1229,19 +1229,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Date/nav semantics",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED`",
         "manualRequirement": "Back/forward",
         "physicalDeviceRequirement": "Mobile date in 11J",
         "implementationSlice": "11C/11D",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Date/effective-target tests",
-        "missingEvidence": "Full browser/manual matrix",
+        "missingEvidence": "Required no-JavaScript date-navigation evidence; full browser/manual matrix",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Date navigation mixes URL semantics with enhanced controls; the complete no-JavaScript contract is unproved.",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Calendar-date state is fundamentally URL/server driven and controls diary/target interpretation. A supported user must not lose safe date navigation merely because scripting is unavailable.",
         "noJavaScriptOwnerSlice": "11C/11D",
-        "noJavaScriptValidationMethod": "Disable JavaScript; exercise dates, back/forward, locale, and effective target after commitment."
+        "noJavaScriptValidationMethod": "Disable JavaScript and exercise explicit dates, localized navigation, effective targets, refresh/revisit and applicable browser-history behavior, proving date coherence and no unintended mutation. Systematic viewport/browser-engine work remains Phase 11D."
       }
     },
     {
@@ -1275,7 +1275,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED"
       },
       "automatedEvidence": [
         {
@@ -1405,19 +1405,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Form/status/errors",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED`",
         "manualRequirement": "Mutation exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Diary mutation/failure tests",
-        "missingEvidence": "Full axes/interruption",
+        "missingEvidence": "Required no-JavaScript manual-entry evidence; full axes/interruption",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Manual diary creation uses client action state and has no accepted progressive-enhancement baseline.",
+        "noJavaScriptClassification": "REQUIRED",
+        "noJavaScriptRationale": "Manual diary creation is the fundamental nutrition-tracking mutation and also serves as the fallback for enhanced food-entry paths. The supported beta therefore requires a complete safe no-JavaScript manual-entry path.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript; test one successful and all failure/integrity cases after commitment."
+        "noJavaScriptValidationMethod": "Disable JavaScript and test successful manual creation plus the contractually relevant validation, rollback, session, retry/convergence, integrity, and tenant cases. Do not weaken existing receipt/idempotency guarantees."
       }
     },
     {
@@ -1451,7 +1451,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
         {
@@ -1616,19 +1616,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Review/form/status",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED_FALLBACK_ONLY`",
         "manualRequirement": "Mutation exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Prefill/snapshot tests",
-        "missingEvidence": "Full axes/interruption",
+        "missingEvidence": "Required no-JavaScript manual-entry fallback evidence; full axes/interruption",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Prefill is server-read but diary submission uses client action state; end-to-end behavior is unproved.",
+        "noJavaScriptClassification": "REQUIRED_FALLBACK_ONLY",
+        "noJavaScriptRationale": "Linked-food entry is an enhanced convenience path over the core diary model. Without JavaScript, the launch commitment is to preserve the user's ability to log safely through the required manual diary path, not to reproduce every linked-source enhancement.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript; select, review, submit, refresh, and stale-source cases after commitment."
+        "noJavaScriptValidationMethod": "Disable JavaScript from a risk-selected linked-food selection/review state; verify no unsafe mutation or source disclosure and prove an understandable transition to the supported manual-entry flow, which must complete safely under CJ-012. Incidental linked submission beyond this fallback is not required acceptance evidence."
       }
     },
     {
@@ -1799,8 +1799,9 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Diary deletion is a destructive action entered through the supported client confirmation interaction. This beta does not offer a separate no-JavaScript deletion experience; server authorization and mutation safety remain independently mandatory."
       },
       "automatedEvidence": [
         {
@@ -1865,19 +1866,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Confirm/status/focus",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
         "manualRequirement": "Mutation exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Owner/delete tests",
-        "missingEvidence": "Manual/full axes",
+        "missingEvidence": "Supported JavaScript confirmation plus manual/full axes",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Delete is a form mutation but its client action-state dependency and confirmation behavior are unproved.",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Diary deletion is a destructive action entered through the supported client confirmation interaction. This beta does not offer a separate no-JavaScript deletion experience; server authorization and mutation safety remain independently mandatory.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript; test confirmation, repeated delete, focus, and generic denial after commitment."
+        "noJavaScriptValidationMethod": "Validate the supported JavaScript confirmation/deletion path plus direct server/database authorization, repeat safety, rollback, and tenant isolation. Incidental disabled-script behavior, if any, remains non-contractual and must not be deliberately broken by this amendment."
       }
     },
     {
@@ -2840,7 +2841,7 @@
       },
       "noJavaScript": {
         "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
         {
@@ -2962,19 +2963,19 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Control/status/review",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`REQUIRED_FALLBACK_ONLY`",
         "manualRequirement": "Reuse exploratory",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
         "externalValidationSlice": "11J",
         "finalGate": "11K",
         "currentEvidence": "Favorite/recent tests",
-        "missingEvidence": "Full axes/manual review",
+        "missingEvidence": "Required no-JavaScript recent-food fallback evidence; full axes/manual review",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Favorite mutation is client-enhanced while recent-food review contains server navigation; the combined commitment is undecided.",
+        "noJavaScriptClassification": "REQUIRED_FALLBACK_ONLY",
+        "noJavaScriptRationale": "CJ-021 combines a client-enhanced favorite mutation with server-navigable recent-food reuse. The beta requires a no-JavaScript reuse fallback through recent-food review and the supported food-entry chain, but does not require favorite toggling without JavaScript.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Split favorite/recent cases and test with scripting disabled after an explicit product decision."
+        "noJavaScriptValidationMethod": "Disable JavaScript and verify recent-food navigation/review, readability and non-mutation, then follow the supported linked-food/manual-entry fallback. Favorite mutation itself is outside the fallback commitment."
       }
     },
     {

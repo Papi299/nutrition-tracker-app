@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.3-phase-11b-cj024-cj027-nojs-amended` |
+| Version | `1.4-phase-11b-remaining-implemented-nojs-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -26,6 +26,9 @@
 | CJ-030 amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | CJ-024/CJ-027 no-JavaScript amendment | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved both journeys as `NOT_APPLICABLE` on 2026-08-11 after the completed read-only technical audit; incidental disabled-JavaScript behavior remains non-contractual, receives no no-JavaScript acceptance credit, and is not authorized for behavior change |
 | CJ-024/CJ-027 amendment review requirement | Independent review of the exact amendment head is required before merge. |
+| Remaining implemented-journey no-JavaScript amendment | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved the exact nine classifications in Section 2.9 on 2026-08-12; classification is distinct from implementation and evidence, and no runtime change or automated evidence credit is authorized |
+| Remaining no-JavaScript amendment authorization marker | `PHASE_11C_REMAINING_NOJS_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED` |
+| Remaining no-JavaScript amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -33,16 +36,17 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.3-phase-11b-cj024-cj027-nojs-amended` is an amendment on top of
-accepted version `1.2-phase-11b-cj019-cj030-amended`. It preserves the complete
-original `1.0-phase-11b-accepted` baseline and historical amended identities
-`1.1-phase-11b-cj019-amended` and
-`1.2-phase-11b-cj019-cj030-amended`. It applies only the owner-approved CJ-024
-and CJ-027 no-JavaScript classifications recorded in Section 2.8 in addition
-to the preserved CJ-019 and CJ-030 amendments in Sections 2.6 and 2.7. These
-are deliberate current contract updates effective 2026-08-11, not claims that
-the original or prior baselines contained the new classifications and not
-retroactive rewrites of earlier Phase 11C evidence snapshots.
+Version `1.4-phase-11b-remaining-implemented-nojs-amended` is an amendment on
+top of accepted version `1.3-phase-11b-cj024-cj027-nojs-amended`. It preserves
+the complete original `1.0-phase-11b-accepted` baseline and historical amended
+identities `1.1-phase-11b-cj019-amended`,
+`1.2-phase-11b-cj019-cj030-amended`, and
+`1.3-phase-11b-cj024-cj027-nojs-amended`. It applies only the owner-approved
+remaining implemented-journey no-JavaScript classifications recorded in
+Section 2.9 in addition to the preserved amendments in Sections 2.6–2.8.
+These are deliberate current contract updates effective 2026-08-12, not
+claims that the original or prior baselines contained the new classifications
+and not retroactive rewrites of earlier Phase 11C evidence snapshots.
 
 ## 2. Evidence and authority model
 
@@ -438,6 +442,38 @@ totals. It does not establish complete acceptance for either journey, close
 any finding, change runtime behavior, or alter the exclusive Phase 11K
 finding-closure gate.
 
+### 2.9 Owner-approved remaining implemented-journey no-JavaScript amendment
+
+On 2026-08-12, product owner Maor Pichhadze explicitly approved the following
+classifications with status `PRODUCT_OWNER_APPROVED` and authorization marker
+`PHASE_11C_REMAINING_NOJS_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED`:
+
+| Journey | Approved classification | Exact supported boundary |
+| --- | --- | --- |
+| `CJ-004` | `REQUIRED` | Basic valid and invalid credential submission, session/cookie establishment, safe localized redirect, no application-data mutation merely from sign-in, and tenant-safe post-authentication access must not depend entirely on JavaScript. |
+| `CJ-006` | `REQUIRED_FALLBACK_ONLY` | Expired mutation fails closed without partial write or disclosure, reaches a safe localized reauthentication path, and permits one supported post-reauthentication retry; enhanced in-place continuation may remain JavaScript-dependent and new recovery architecture remains in 11E. |
+| `CJ-009` | `REQUIRED` | Initial profile/target setup remains submit-capable without JavaScript with proportionate valid, invalid, blank/null, explicit-zero, retry, atomicity, authentication, and ownership coverage. |
+| `CJ-010` | `REQUIRED` | Target update remains submit-capable without JavaScript with same-date semantics, clear/null, explicit zero, invalid input, retry, effective-date/history integrity, and owner-only mutation. |
+| `CJ-011` | `REQUIRED` | URL/server-driven explicit date navigation, localized route integrity, effective target selection, refresh/revisit and applicable history behavior remain safe without JavaScript and cause no unintended mutation. |
+| `CJ-012` | `REQUIRED` | Complete manual diary creation remains supported without JavaScript, including proportionate validation, rollback, expired-session, retry/convergence, integrity, and tenant cases without weakening receipt/idempotency guarantees. |
+| `CJ-013` | `REQUIRED_FALLBACK_ONLY` | The enhanced linked-food journey may depend on JavaScript, but disabled-script use must avoid unsafe mutation or unreadable-source disclosure and provide an understandable path to the required CJ-012 manual-entry capability; the optional link need not be preserved. |
+| `CJ-015` | `NOT_APPLICABLE` | The supported destructive deletion experience may depend on its JavaScript confirmation interaction; server authorization, owner-only mutation, repeat safety, rollback, integrity, generic denial, and the supported confirmation path remain mandatory. |
+| `CJ-021` | `REQUIRED_FALLBACK_ONLY` | Favorite toggling may remain client-enhanced, but recent-food review/navigation remains server-readable, non-mutating and ownership-safe and leads through the supported CJ-013/CJ-012 food-entry fallback chain. |
+
+Classification is distinct from implementation and evidence. `REQUIRED` does
+not claim that current behavior already passes. `REQUIRED_FALLBACK_ONLY`
+commits only to the named fallback. `NOT_APPLICABLE` does not authorize
+deliberately breaking, refusing, or removing incidental disabled-JavaScript
+behavior. This amendment authorizes no application, component, Server Action,
+database, migration, receipt/idempotency, test, translation, dependency,
+workflow, hosted, deployment, Production, finding-closure, or manual-evidence
+change. Future implementation and evidence require separately scoped tasks.
+
+The classification totals advance from the accurate historical PR #94 state
+`6 / 1 / 12 / 16` to `11 / 4 / 13 / 7`. The evidence inventory remains
+exactly 35 journeys, 223 automated references, and 718 evidence-axis claims,
+and no new no-JavaScript evidence credit is created.
+
 ## 3. Launch-contract decision register
 
 All 30 rows are `PRODUCT_OWNER_APPROVED`. Each approved answer is the exact
@@ -717,24 +753,24 @@ viewport/browser matrix in Section 5; it is not a universal-support claim.
 | `CJ-001` | Required | Required | Matrix | Matrix | Keyboard, zoom, landmarks | `REQUIRED` | Native/visual | Risk-based 11J | 11C/11D | 11D/11J | 11K | Routes, key parity, `lang`/`dir` | Full matrix/manual review | `NOT_VERIFIED` |
 | `CJ-002` | Required | Required | Matrix | Matrix | Labels, errors, focus | `NOT_VERIFIED` | Auth/operator exploratory | Mobile auth in 11J | 11E/11H | 11J | 11K | Auth form/actions; provisioning use | Application E2E, provider-native evidence, restricted register/procedure/reconciliation walkthrough | `NOT_VERIFIED` |
 | `CJ-003` | Required | Required | Matrix | Matrix | Token/error/focus | `NOT_VERIFIED` | Email/callback | Mobile callback in 11J | 11E | 11J | 11K | No complete implementation | Local callback plus configured provider expiry/replay/redirect evidence | `NOT_VERIFIED` |
-| `CJ-004` | Required | Required | Matrix | Matrix | Labels/errors/focus | `NOT_VERIFIED` | Auth exploratory | Mobile auth in 11J | 11C/11E | 11J | 11K | Sign-in action; redirects | Full E2E/rate-limit/hosted | `NOT_VERIFIED` |
+| `CJ-004` | Required | Required | Matrix | Matrix | Labels/errors/focus | `REQUIRED` | Auth exploratory | Mobile auth in 11J | 11C/11E | 11J | 11K | Sign-in action; redirects | Required no-JavaScript sign-in evidence; full E2E/rate-limit/hosted | `NOT_VERIFIED` |
 | `CJ-005` | Required | Required | Matrix | Matrix | Focus/status | `REQUIRED` | Auth exploratory | Mobile auth in 11J | 11C | 11J | 11K | Sign-out action/protected redirect | Complete E2E/session proof | `NOT_VERIFIED` |
-| `CJ-006` | Required | Required | Matrix | Matrix | Error/recovery focus | `NOT_VERIFIED` | Expiry exploratory | Risk-based 11J | 11C/11E | 11J | 11K | Several expired-session tests | Full post-activation journey/retry evidence, separate from invitation procedure | `NOT_VERIFIED` |
+| `CJ-006` | Required | Required | Matrix | Matrix | Error/recovery focus | `REQUIRED_FALLBACK_ONLY` | Expiry exploratory | Risk-based 11J | 11C/11E | 11J | 11K | Several expired-session tests | Required no-JavaScript reauthentication-fallback evidence; full post-activation journey/retry evidence separate from invitation procedure | `NOT_VERIFIED` |
 | `CJ-007` | Required | Required | Matrix | Matrix | Labels/status/errors | `NOT_VERIFIED` | Email capture | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery evidence; provider limits distinguished from invite limits | `NOT_VERIFIED` |
 | `CJ-008` | Required | Required | Matrix | Matrix | Labels/status/errors | `NOT_VERIFIED` | Email completion | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery-token evidence; no token in register | `NOT_VERIFIED` |
-| `CJ-009` | Required | Required | Matrix | Matrix | Form/errors/focus | `NOT_VERIFIED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Setup atomicity/tests | Full axes/manual review | `NOT_VERIFIED` |
-| `CJ-010` | Required | Required | Matrix | Matrix | Form/errors/focus | `NOT_VERIFIED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Effective-target tests | Full axes/manual review | `NOT_VERIFIED` |
-| `CJ-011` | Required | Required | Matrix | Matrix | Date/nav semantics | `NOT_VERIFIED` | Back/forward | Mobile date in 11J | 11C/11D | 11J | 11K | Date/effective-target tests | Full browser/manual matrix | `NOT_VERIFIED` |
-| `CJ-012` | Required | Required | Matrix | Matrix | Form/status/errors | `NOT_VERIFIED` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Diary mutation/failure tests | Full axes/interruption | `NOT_VERIFIED` |
-| `CJ-013` | Required | Required | Matrix | Matrix | Review/form/status | `NOT_VERIFIED` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Prefill/snapshot tests | Full axes/interruption | `NOT_VERIFIED` |
+| `CJ-009` | Required | Required | Matrix | Matrix | Form/errors/focus | `REQUIRED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Setup atomicity/tests | Required no-JavaScript setup evidence; full axes/manual review | `NOT_VERIFIED` |
+| `CJ-010` | Required | Required | Matrix | Matrix | Form/errors/focus | `REQUIRED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Effective-target tests | Required no-JavaScript target-update evidence; full axes/manual review | `NOT_VERIFIED` |
+| `CJ-011` | Required | Required | Matrix | Matrix | Date/nav semantics | `REQUIRED` | Back/forward | Mobile date in 11J | 11C/11D | 11J | 11K | Date/effective-target tests | Required no-JavaScript date-navigation evidence; full browser/manual matrix | `NOT_VERIFIED` |
+| `CJ-012` | Required | Required | Matrix | Matrix | Form/status/errors | `REQUIRED` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Diary mutation/failure tests | Required no-JavaScript manual-entry evidence; full axes/interruption | `NOT_VERIFIED` |
+| `CJ-013` | Required | Required | Matrix | Matrix | Review/form/status | `REQUIRED_FALLBACK_ONLY` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Prefill/snapshot tests | Required no-JavaScript manual-entry fallback evidence; full axes/interruption | `NOT_VERIFIED` |
 | `CJ-014` | Required | Required | Matrix | Matrix | Form/status/errors | `NOT_APPLICABLE` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Owner/edit tests | Stale/manual/full axes | `NOT_VERIFIED` |
-| `CJ-015` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_VERIFIED` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Owner/delete tests | Manual/full axes | `NOT_VERIFIED` |
+| `CJ-015` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_APPLICABLE` | Mutation exploratory | Risk-based 11J | 11C | 11J | 11K | Owner/delete tests | Supported JavaScript confirmation plus manual/full axes | `NOT_VERIFIED` |
 | `CJ-016` | Required | Required | Matrix | Matrix | Search/status/results | `REQUIRED` | Search exploratory | Mobile search in 11J | 11C/11D | 11J | 11K | Search states/ranking tests | Engines/native/visual | `NOT_VERIFIED` |
 | `CJ-017` | Required | Required | Matrix | Matrix | Review/focus/status | `REQUIRED` | Prefill exploratory | Risk-based 11J | 11C | 11J | 11K | Prefill/readability tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-018` | Required | Required | Matrix | Matrix | Form/errors/ordering | `NOT_APPLICABLE` | Creation exploratory | Risk-based 11J | 11C | 11J | 11K | Atomic custom-food tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-019` | Required | Required | Matrix | Matrix | Form/errors/ordering | `NOT_APPLICABLE` | Editing exploratory | Risk-based 11J | 11C | 11J | 11K | Replace/snapshot tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-020` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_APPLICABLE` | Lifecycle exploratory | Risk-based 11J | 11C | 11J | 11K | Archive/restore tests | Full axes/manual review | `NOT_VERIFIED` |
-| `CJ-021` | Required | Required | Matrix | Matrix | Control/status/review | `NOT_VERIFIED` | Reuse exploratory | Risk-based 11J | 11C | 11J | 11K | Favorite/recent tests | Full axes/manual review | `NOT_VERIFIED` |
+| `CJ-021` | Required | Required | Matrix | Matrix | Control/status/review | `REQUIRED_FALLBACK_ONLY` | Reuse exploratory | Risk-based 11J | 11C | 11J | 11K | Favorite/recent tests | Required no-JavaScript recent-food fallback evidence; full axes/manual review | `NOT_VERIFIED` |
 | `CJ-022` | Required | Required | Matrix | Matrix | Ordered form/errors | `NOT_APPLICABLE` | Creation/edit review | Risk-based 11J | 11C | 11J | 11K | Atomic replace tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-023` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_APPLICABLE` | Lifecycle review | Risk-based 11J | 11C | 11J | 11K | Archive/restore tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-024` | Required | Required | Matrix | Matrix | Review/status/errors | `NOT_APPLICABLE` | Use/retry review | Risk-based 11J | 11C | 11J | 11K | Atomic receipt/retry tests | Full axes/interruption | `NOT_VERIFIED` |
@@ -765,24 +801,24 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | `CJ-001` | `REQUIRED` | Public locale entry and navigation are server-rendered entry points and must not strand a user before authentication. | 11C/11D | Disable JavaScript; traverse en/he landing and localized auth links at approved viewports. |
 | `CJ-002` | `NOT_VERIFIED` | The invitation callback and activation UI do not exist; provider token behavior and progressive enhancement are unproved. | 11E | Decide implementation contract, then local email-capture and deployed invite tests with JavaScript disabled where technically supported. |
 | `CJ-003` | `NOT_VERIFIED` | Confirmation callback is new and its provider/browser dependency is undecided. | 11E | Local and deployed valid/expired/replayed callback tests after implementation. |
-| `CJ-004` | `NOT_VERIFIED` | Sign-in uses a client action-state shell; progressive enhancement has not been established across target browsers. | 11C/11E | Disable JavaScript and test success, failure, focus, cookie, and redirect behavior after an explicit decision. |
+| `CJ-004` | `REQUIRED` | Sign-in is a core account-access path. The supported beta must not strand an otherwise supported user solely because client scripting is unavailable; basic credential submission, generic failure, session establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access form the required boundary. | 11C/11E | Disable JavaScript and test valid and invalid sign-in in the bounded supported local environment, including generic denial, session/cookie establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access. Systematic focus/accessibility/browser-platform evidence remains Phase 11D/11J. |
 | `CJ-005` | `REQUIRED` | Sign-out is a server-action form and safe session termination must not depend on client execution. | 11C | Disable JavaScript; submit sign-out, verify cookie/session invalidation and protected-route redirect. |
-| `CJ-006` | `NOT_VERIFIED` | Expired-session behavior spans reads, client-enhanced forms, and new recovery paths. | 11C/11E | Disable JavaScript across a risk-selected expired-session mutation matrix after recovery behavior is implemented. |
+| `CJ-006` | `REQUIRED_FALLBACK_ONLY` | Expired-session safety must survive without JavaScript, but the beta does not require every enhanced interrupted operation to resume in place. The required fallback is fail-closed mutation handling plus a safe localized reauthentication path; richer continuation remains enhanced behavior and later recovery work remains in Phase 11E. | 11C/11E | Disable JavaScript for risk-selected expired-session mutation cases; prove no write, no disclosure, safe localized reauthentication, and one safe post-reauthentication retry through the supported path. Do not require client-enhanced in-place continuation. |
 | `CJ-007` | `NOT_VERIFIED` | Recovery request is not implemented and no non-JavaScript contract exists. | 11E | Local email-capture and deployed request tests after implementation and decision. |
 | `CJ-008` | `NOT_VERIFIED` | Recovery completion is not implemented and callback dependence is unknown. | 11E | Valid/expired/replayed callback and password-completion tests after implementation. |
-| `CJ-009` | `NOT_VERIFIED` | Setup uses client action state; server-action progressive enhancement is plausible but unproved. | 11C | Disable JavaScript; test valid, invalid, retry, blank/null, and explicit-zero paths after commitment. |
-| `CJ-010` | `NOT_VERIFIED` | Target update uses the same client-enhanced form and no explicit support decision exists. | 11C | Disable JavaScript; test same-date upsert, history, invalid, and retry behavior after commitment. |
-| `CJ-011` | `NOT_VERIFIED` | Date navigation mixes URL semantics with enhanced controls; the complete no-JavaScript contract is unproved. | 11C/11D | Disable JavaScript; exercise dates, back/forward, locale, and effective target after commitment. |
-| `CJ-012` | `NOT_VERIFIED` | Manual diary creation uses client action state and has no accepted progressive-enhancement baseline. | 11C | Disable JavaScript; test one successful and all failure/integrity cases after commitment. |
-| `CJ-013` | `NOT_VERIFIED` | Prefill is server-read but diary submission uses client action state; end-to-end behavior is unproved. | 11C | Disable JavaScript; select, review, submit, refresh, and stale-source cases after commitment. |
+| `CJ-009` | `REQUIRED` | First setup is a core post-activation product path and uses ordinary structured form semantics. A supported user must be able to establish the initial profile/target state without relying solely on client scripting. | 11C | Disable JavaScript and exercise valid, invalid, blank/null, explicit-zero, retry, authentication, and atomic persistence behavior in the bounded local environment. |
+| `CJ-010` | `REQUIRED` | Target maintenance is the ongoing counterpart to the required setup flow and uses the same server-authorized form boundary. The supported core experience therefore includes a no-JavaScript update path. | 11C | Disable JavaScript and test same-date update/upsert, clear/null, explicit zero, invalid input, retry, effective-date/history integrity, and owner-only mutation. |
+| `CJ-011` | `REQUIRED` | Calendar-date state is fundamentally URL/server driven and controls diary/target interpretation. A supported user must not lose safe date navigation merely because scripting is unavailable. | 11C/11D | Disable JavaScript and exercise explicit dates, localized navigation, effective targets, refresh/revisit and applicable browser-history behavior, proving date coherence and no unintended mutation. Systematic viewport/browser-engine work remains Phase 11D. |
+| `CJ-012` | `REQUIRED` | Manual diary creation is the fundamental nutrition-tracking mutation and also serves as the fallback for enhanced food-entry paths. The supported beta therefore requires a complete safe no-JavaScript manual-entry path. | 11C | Disable JavaScript and test successful manual creation plus the contractually relevant validation, rollback, session, retry/convergence, integrity, and tenant cases. Do not weaken existing receipt/idempotency guarantees. |
+| `CJ-013` | `REQUIRED_FALLBACK_ONLY` | Linked-food entry is an enhanced convenience path over the core diary model. Without JavaScript, the launch commitment is to preserve the user's ability to log safely through the required manual diary path, not to reproduce every linked-source enhancement. | 11C | Disable JavaScript from a risk-selected linked-food selection/review state; verify no unsafe mutation or source disclosure and prove an understandable transition to the supported manual-entry flow, which must complete safely under CJ-012. Incidental linked submission beyond this fallback is not required acceptance evidence. |
 | `CJ-014` | `NOT_APPLICABLE` | Editing is entered through client-managed edit state; this beta does not propose a separate no-JavaScript editor. | 11C | Validate supported JavaScript path plus safe read-only presentation and server authorization when scripting is absent. |
-| `CJ-015` | `NOT_VERIFIED` | Delete is a form mutation but its client action-state dependency and confirmation behavior are unproved. | 11C | Disable JavaScript; test confirmation, repeated delete, focus, and generic denial after commitment. |
+| `CJ-015` | `NOT_APPLICABLE` | Diary deletion is a destructive action entered through the supported client confirmation interaction. This beta does not offer a separate no-JavaScript deletion experience; server authorization and mutation safety remain independently mandatory. | 11C | Validate the supported JavaScript confirmation/deletion path plus direct server/database authorization, repeat safety, rollback, and tenant isolation. Incidental disabled-script behavior, if any, remains non-contractual and must not be deliberately broken by this amendment. |
 | `CJ-016` | `REQUIRED` | Search is URL/GET-driven and is a core discovery route that can operate without scripting. | 11C/11D | Disable JavaScript; test initial, short, valid, none, unavailable, back/forward, en/he/RTL. |
 | `CJ-017` | `REQUIRED` | Selected-food prefill is a server-side read/review boundary and must remain non-mutating and accessible from search. | 11C | Disable JavaScript; test readable, missing, archived, private, refresh, and no-write states. |
 | `CJ-018` | `NOT_APPLICABLE` | Custom-food creation depends on client-managed basis, nutrient, and alias state; no separate fallback is proposed. | 11C | Validate JavaScript path, server validation/atomicity, and safe refusal if required client state is absent. |
 | `CJ-019` | `NOT_APPLICABLE` | Custom-food editing uses the same client-managed structured editor. | 11C | Validate JavaScript path, authorization, replacement atomicity, stale state, and immutable snapshots. |
 | `CJ-020` | `NOT_APPLICABLE` | Archive/restore uses a client confirmation interaction; no no-JavaScript lifecycle UI is proposed. | 11C | Validate JavaScript confirmation plus direct server-action authorization/idempotency tests. |
-| `CJ-021` | `NOT_VERIFIED` | Favorite mutation is client-enhanced while recent-food review contains server navigation; the combined commitment is undecided. | 11C | Split favorite/recent cases and test with scripting disabled after an explicit product decision. |
+| `CJ-021` | `REQUIRED_FALLBACK_ONLY` | CJ-021 combines a client-enhanced favorite mutation with server-navigable recent-food reuse. The beta requires a no-JavaScript reuse fallback through recent-food review and the supported food-entry chain, but does not require favorite toggling without JavaScript. | 11C | Disable JavaScript and verify recent-food navigation/review, readability and non-mutation, then follow the supported linked-food/manual-entry fallback. Favorite mutation itself is outside the fallback commitment. |
 | `CJ-022` | `NOT_APPLICABLE` | Saved Meal creation/editing requires client-managed ordered item state. | 11C | Validate supported JavaScript editor and server atomicity/authorization independently. |
 | `CJ-023` | `NOT_APPLICABLE` | Saved Meal archive/restore uses client confirmation; no separate fallback is proposed. | 11C | Validate JavaScript confirmation and direct lifecycle authorization/idempotency tests. |
 | `CJ-024` | `NOT_APPLICABLE` | The supported Saved Meal final diary-use experience has no launch-support commitment to remain operable without JavaScript. Server-rendered review and incidental disabled-JavaScript submission behavior may continue to function, but such behavior is non-contractual and is not acceptance evidence for the CJ-024 no-JavaScript axis. | 11C | Validate the supported JavaScript review/use path plus server/database ownership, source-version binding, stale-source rejection, atomic rollback, receipt convergence, session failure, and English/Hebrew behavior. Existing disabled-JavaScript behavior is outside the CJ-024 support commitment and must not be promoted into a no-JavaScript acceptance claim. |
