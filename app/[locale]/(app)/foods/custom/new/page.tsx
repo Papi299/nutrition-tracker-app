@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -26,6 +27,7 @@ import {
   type BarcodeLookupState,
 } from "@/lib/barcodes";
 import { getCustomFoodNutrientDictionary } from "@/lib/custom-foods";
+import { getAuthenticatedUserId } from "@/lib/data/auth";
 import type { Locale } from "@/lib/i18n/routing";
 
 type NewCustomFoodPageProps = Readonly<{
@@ -78,7 +80,10 @@ async function CustomFoodCreateForm({
   locale: Locale;
   query?: Extract<BarcodeCustomHandoffQuery, { status: "valid" }>;
 }) {
-  const dictionary = await getCustomFoodNutrientDictionary();
+  const [auth, dictionary] = await Promise.all([
+    getAuthenticatedUserId(),
+    getCustomFoodNutrientDictionary(),
+  ]);
   const retryHref = query
     ? `/${locale}/foods/custom/new?${barcodeCustomHandoffCanonicalQuery({
         barcode: query.barcode,
@@ -87,8 +92,11 @@ async function CustomFoodCreateForm({
       })}`
     : `/${locale}/foods/custom/new`;
 
-  if (!dictionary.ok) {
-    if (dictionary.code === "unauthenticated") redirect(signInPath(locale));
+  if (!auth.ok || !dictionary.ok) {
+    if (!auth.ok) redirect(signInPath(locale));
+    if (!dictionary.ok && dictionary.code === "unauthenticated") {
+      redirect(signInPath(locale));
+    }
     return <CustomFoodRetrievalError locale={locale} retryHref={retryHref} />;
   }
 
@@ -116,7 +124,13 @@ async function CustomFoodCreateForm({
             : undefined
         }
         dictionary={dictionary.data}
+        draftScope={`${auth.data}:${locale}:${
+          query
+            ? `barcode-handoff:${query.barcode}:${query.date}:${query.meal_type ?? "none"}`
+            : "ordinary-create"
+        }`}
         initialState={initialState}
+        initialCreationKey={randomUUID()}
         locale={locale}
         mode="create"
         saved={null}

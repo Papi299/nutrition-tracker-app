@@ -6,6 +6,7 @@ import { createServerClient } from "@/lib/supabase";
 import type { Database, Json } from "@/lib/supabase/database.types";
 import {
   validateCustomFoodArchiveInput,
+  validateCustomFoodCreationKey,
   validateCustomFoodInput,
   type CustomFoodArchiveInput,
   type CustomFoodInput,
@@ -13,9 +14,11 @@ import {
 } from "./validation";
 
 export type PersistedCustomFood = {
+  completed_at?: string;
   food_id: string;
   is_archived: boolean;
   nutrient_basis: CustomFoodNutrientBasis;
+  replayed?: boolean;
 };
 
 export type ArchivedCustomFood = {
@@ -54,6 +57,74 @@ function persistRpcError(error: { code?: string } | null) {
   }
 
   return rpcError(error);
+}
+
+function createRpcError(error: { code?: string } | null) {
+  if (error?.code === "PT409") {
+    return {
+      code: "creation_idempotency_conflict",
+      ok: false,
+    } as const;
+  }
+
+  return rpcError(error);
+}
+
+export async function createCustomFoodForCurrentUser(
+  input: CustomFoodInput,
+  creationKey: unknown,
+): Promise<
+  | DataResult<PersistedCustomFood>
+  | { code: "creation_idempotency_conflict"; ok: false }
+> {
+  const keyValidation = validateCustomFoodCreationKey(creationKey);
+  const validation = validateCustomFoodInput(input);
+
+  if (!keyValidation.ok) {
+    return keyValidation;
+  }
+
+  if (!validation.ok) {
+    return validation;
+  }
+
+  if (
+    validation.data.food_id !== null ||
+    validation.data.expected_edit_revision !== null
+  ) {
+    return validationError({ food_id: "unsupported_field" });
+  }
+
+  const auth = await getAuthenticatedUserId();
+
+  if (!auth.ok) {
+    return auth;
+  }
+
+  const supabase = await createServerClient();
+  const { data, error } = await supabase
+    .rpc("create_custom_food", {
+      p_aliases: validation.data.aliases as Json,
+      p_brand_name: validation.data.brand_name,
+      p_idempotency_key: keyValidation.data,
+      p_locale: validation.data.locale,
+      p_name: validation.data.name,
+      p_nutrient_basis: validation.data.nutrient_basis,
+      p_nutrients: validation.data.nutrients as Json,
+      p_serving_quantity: validation.data.serving_quantity,
+      p_serving_unit: validation.data.serving_unit,
+    } as Database["public"]["Functions"]["create_custom_food"]["Args"])
+    .maybeSingle();
+
+  if (error) {
+    return createRpcError(error);
+  }
+
+  if (!data?.food_id) {
+    return { code: "not_found", ok: false };
+  }
+
+  return { data: data as PersistedCustomFood, ok: true };
 }
 
 export async function persistCustomFoodForCurrentUser(

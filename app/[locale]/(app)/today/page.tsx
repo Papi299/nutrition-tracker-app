@@ -10,6 +10,7 @@ import {
 } from "@/app/[locale]/(app)/today/actions";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
+import { CustomFoodCreationDraftRetirement } from "@/components/custom-foods/custom-food-form";
 import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
@@ -38,6 +39,7 @@ import {
   type FoodDiarySelectionContext,
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
+import { isUuid } from "@/lib/food-selection/query";
 import { routing } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
@@ -61,6 +63,13 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
   const selectionContext = parseFoodDiarySelectionContext(resolvedSearchParams);
   const customFoodCreated = resolvedSearchParams.customFood === "created";
+  const creationRequestValue = resolvedSearchParams.creationRequest;
+  const creationRequest =
+    customFoodCreated &&
+    typeof creationRequestValue === "string" &&
+    isUuid(creationRequestValue)
+      ? creationRequestValue
+      : null;
   const savedMealLogged = resolvedSearchParams.savedMeal === "logged";
   const recipeLogged = resolvedSearchParams.recipe === "logged";
 
@@ -108,6 +117,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
 
   return (
     <LocalizedTodayPage
+      creationRequest={creationRequest}
       currentUserId={userIdResult.data}
       customFoodCreated={customFoodCreated}
       diaryState={diaryState}
@@ -178,6 +188,7 @@ function LocalizedTodayDateError({
 }
 
 function LocalizedTodayPage({
+  creationRequest,
   currentUserId,
   customFoodCreated,
   diaryState,
@@ -190,6 +201,7 @@ function LocalizedTodayPage({
   selectedDate,
   targetState,
 }: {
+  creationRequest: string | null;
   currentUserId: string;
   customFoodCreated: boolean;
   diaryState: RetrievalState<DiaryEntry[]>;
@@ -252,6 +264,11 @@ function LocalizedTodayPage({
 
   return (
     <section className="flex flex-1 flex-col justify-center gap-8 py-8 text-start">
+      {creationRequest && (
+        <CustomFoodCreationDraftRetirement
+          creationRequest={creationRequest}
+        />
+      )}
       <div className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
           {t("label")}

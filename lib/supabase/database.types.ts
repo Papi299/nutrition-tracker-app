@@ -9,6 +9,47 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      custom_food_creation_requests: {
+        Row: {
+          completed_at: string
+          completed_food_id: string
+          id: string
+          idempotency_key: string
+          live_food_id: string | null
+          request_payload: Json
+          user_id: string
+          write_transaction_id: unknown
+        }
+        Insert: {
+          completed_at?: string
+          completed_food_id: string
+          id?: string
+          idempotency_key: string
+          live_food_id?: string | null
+          request_payload: Json
+          user_id: string
+          write_transaction_id?: unknown
+        }
+        Update: {
+          completed_at?: string
+          completed_food_id?: string
+          id?: string
+          idempotency_key?: string
+          live_food_id?: string | null
+          request_payload?: Json
+          user_id?: string
+          write_transaction_id?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custom_food_creation_requests_live_food_id_fkey"
+            columns: ["live_food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       diary_entries: {
         Row: {
           brand_name: string | null
@@ -816,6 +857,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_custom_food: {
+        Args: {
+          p_aliases: Json
+          p_brand_name: string
+          p_idempotency_key: string
+          p_locale: string
+          p_name: string
+          p_nutrient_basis: string
+          p_nutrients: Json
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          completed_at: string
+          food_id: string
+          is_archived: boolean
+          nutrient_basis: string
+          replayed: boolean
+        }[]
+      }
       create_manual_diary_entry: {
         Args: {
           p_brand_name: string
