@@ -341,7 +341,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -353,10 +353,35 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-004 signs in without JavaScript and binds only the authenticated tenant in English and Hebrew",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-004 keeps no-JavaScript invalid credentials generic, localized, and non-mutating",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
         {
           "path": "e2e/critical-auth-session.spec.ts",
           "testTitle": "CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect",
@@ -450,7 +475,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -466,6 +491,17 @@
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-005 signs out one tenant without affecting another authenticated tenant session",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser",
+            "noJavaScript"
+          ]
+        },
         {
           "path": "e2e/critical-auth-session.spec.ts",
           "testTitle": "CJ-005 signs out through the English server-action UI without JavaScript, data loss, or history leakage",
@@ -585,10 +621,23 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/critical-auth-session.spec.ts",
+          "testTitle": "CJ-006 provides a no-JavaScript localized reauthentication fallback without partial or cross-tenant writes",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
         {
           "path": "e2e/critical-auth-session.spec.ts",
           "testTitle": "CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry",

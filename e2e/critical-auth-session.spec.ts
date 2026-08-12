@@ -3,6 +3,7 @@ import {
   expect,
   test,
   type Browser,
+  type BrowserContext,
   type Page,
 } from "@playwright/test";
 import type { Database } from "@/lib/supabase/database.types";
@@ -12,6 +13,12 @@ const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localSupabaseFaultControlUrl =
   process.env.LOCAL_SUPABASE_FAULT_CONTROL_URL;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
+const configuredAppUrl = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ??
+    `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3100"}`,
+);
+configuredAppUrl.hostname = "localhost";
+const localAppBaseUrl = configuredAppUrl.toString();
 const password = "Phase11C1AuthPassword123!";
 
 test.skip(
@@ -42,6 +49,19 @@ function localClient() {
 
 function uniqueEmail(label: string) {
   return `${label}-${Date.now()}-${crypto.randomUUID()}@example.test`;
+}
+
+async function expireBrowserAuthSession(context: BrowserContext) {
+  const authCookiePattern = /^sb-.*-auth-token(?:\.\d+)?$/;
+  const authCookies = (await context.cookies()).filter(({ name }) =>
+    authCookiePattern.test(name),
+  );
+
+  expect(authCookies.length).toBeGreaterThan(0);
+  await context.clearCookies({ name: authCookiePattern });
+  expect(
+    (await context.cookies()).filter(({ name }) => authCookiePattern.test(name)),
+  ).toEqual([]);
 }
 
 async function armNextSignOutFailure() {
@@ -93,7 +113,9 @@ async function signInThroughUi(
   await page.getByLabel(labels.email).fill(email);
   await page.getByLabel(labels.password).fill(password);
   await page.getByRole("button", { name: labels.submit }).click();
-  await expect(page).toHaveURL(new RegExp(`/${locale}/today\\?date=\\d{4}-\\d{2}-\\d{2}$`));
+  await expect(page).toHaveURL(
+    new RegExp(`/${locale}/today(?:\\?date=\\d{4}-\\d{2}-\\d{2})?$`),
+  );
 }
 
 async function applicationRowCounts(
@@ -167,6 +189,30 @@ async function addDiaryEntry(
   expect(result.error).toBeNull();
 }
 
+async function matchingRowCounts(
+  client: SupabaseClient<Database>,
+  foodName: string,
+) {
+  const [entries, requests] = await Promise.all([
+    client
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true })
+      .eq("food_name", foodName),
+    client
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true })
+      .contains("request_payload", { food_name: foodName }),
+  ]);
+
+  expect(entries.error).toBeNull();
+  expect(requests.error).toBeNull();
+
+  return {
+    entries: entries.count ?? 0,
+    requests: requests.count ?? 0,
+  };
+}
+
 async function expectScopedDiaryIsolation(
   userAClient: SupabaseClient<Database>,
   userBClient: SupabaseClient<Database>,
@@ -191,6 +237,133 @@ async function expectScopedDiaryIsolation(
 }
 
 test.describe("Phase 11C1 critical auth and session acceptance", () => {
+  test("CJ-004 signs in without JavaScript and binds only the authenticated tenant in English and Hebrew", async ({
+    browser,
+  }) => {
+    const userA = await provisionUser("phase11c-auth-nojs-a");
+    const userB = await provisionUser("phase11c-auth-nojs-b");
+    const userAClient = await authenticatedClient(userA.email);
+    const userBClient = await authenticatedClient(userB.email);
+    const date = "2032-05-01";
+    const userAMarker = "PHASE11C AUTH TENANT A PRIVATE";
+    const userBMarker = "PHASE11C AUTH TENANT B PRIVATE";
+    await addDiaryEntry(userAClient, userA.userId, userAMarker, date);
+    await addDiaryEntry(userBClient, userB.userId, userBMarker, date);
+    const beforeA = await applicationRowCounts(userAClient, userA.userId);
+    const beforeB = await applicationRowCounts(userBClient, userB.userId);
+
+    const cases = [
+      {
+        locale: "en" as const,
+        dir: "ltr",
+        email: userA.email,
+        ownMarker: userAMarker,
+        otherMarker: userBMarker,
+      },
+      {
+        locale: "he" as const,
+        dir: "rtl",
+        email: userB.email,
+        ownMarker: userBMarker,
+        otherMarker: userAMarker,
+      },
+    ];
+
+    for (const authCase of cases) {
+      const context = await browser.newContext({ javaScriptEnabled: false });
+      const page = await context.newPage();
+      await signInThroughUi(
+        page,
+        authCase.locale,
+        authCase.email,
+        "?next=https%3A%2F%2Fexample.invalid%2Fprivate",
+      );
+      await expect(page.locator("html")).toHaveAttribute("lang", authCase.locale);
+      await expect(page.locator("html")).toHaveAttribute("dir", authCase.dir);
+      expect(page.url()).not.toContain("example.invalid");
+
+      await page.goto(
+        `/${authCase.locale}/today?date=${date}&user_id=${userB.userId}`,
+      );
+      await expect(page.getByText(authCase.ownMarker, { exact: true })).toBeVisible();
+      await expect(page.getByText(authCase.otherMarker, { exact: true })).toHaveCount(0);
+      await context.close();
+    }
+
+    expect(await applicationRowCounts(userAClient, userA.userId)).toEqual(beforeA);
+    expect(await applicationRowCounts(userBClient, userB.userId)).toEqual(beforeB);
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      userBMarker,
+      userB.userId,
+    );
+    await expectScopedDiaryIsolation(
+      userBClient,
+      userAClient,
+      userAMarker,
+      userA.userId,
+    );
+  });
+
+  test("CJ-004 keeps no-JavaScript invalid credentials generic, localized, and non-mutating", async ({
+    browser,
+  }) => {
+    const user = await provisionUser("phase11c-auth-nojs-invalid");
+    const userClient = await authenticatedClient(user.email);
+    const before = await applicationRowCounts(userClient, user.userId);
+    const cases = [
+      {
+        locale: "en" as const,
+        dir: "ltr",
+        emailLabel: "Email",
+        passwordLabel: "Password",
+        submit: "Sign in",
+        message:
+          "We could not complete that auth request. Check the details and try again.",
+      },
+      {
+        locale: "he" as const,
+        dir: "rtl",
+        emailLabel: "אימייל",
+        passwordLabel: "סיסמה",
+        submit: "כניסה",
+        message:
+          "לא הצלחנו להשלים את פעולת האימות. כדאי לבדוק את הפרטים ולנסות שוב.",
+      },
+    ];
+
+    for (const authCase of cases) {
+      for (const email of [
+        user.email,
+        uniqueEmail(`phase11c-auth-nojs-unknown-${authCase.locale}`),
+      ]) {
+        const context = await browser.newContext({ javaScriptEnabled: false });
+        const page = await context.newPage();
+        await page.goto(
+          `/${authCase.locale}/auth/sign-in?next=%2F%2Fexample.invalid%2Fprivate`,
+        );
+        await page.getByLabel(authCase.emailLabel).fill(email);
+        await page.getByLabel(authCase.passwordLabel).fill(`${password}-wrong`);
+        await page.getByRole("button", { name: authCase.submit }).click();
+        await expect(page.getByText(authCase.message, { exact: true })).toBeVisible();
+        expect(new URL(page.url()).pathname).toBe(
+          `/${authCase.locale}/auth/sign-in`,
+        );
+        expect(new URL(page.url()).hostname).toBe("127.0.0.1");
+        await expect(page.locator("html")).toHaveAttribute("dir", authCase.dir);
+
+        await page.goto(`/${authCase.locale}/today?date=2032-05-01`);
+        await expect(page).toHaveURL(
+          new RegExp(`/${authCase.locale}/auth/sign-in$`),
+        );
+        await context.close();
+      }
+    }
+
+    expect(await applicationRowCounts(userClient, user.userId)).toEqual(before);
+  });
+
   test("CJ-004 signs an existing user in through English UI without application mutation or unsafe redirect", async ({
     page,
   }) => {
@@ -455,6 +628,177 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
     }
   });
 
+  test("CJ-005 signs out one tenant without affecting another authenticated tenant session", async ({
+    browser,
+  }) => {
+    const userA = await provisionUser("phase11c-signout-tenant-a");
+    const userB = await provisionUser("phase11c-signout-tenant-b");
+    const userAClient = await authenticatedClient(userA.email);
+    const userBClient = await authenticatedClient(userB.email);
+    const date = "2032-05-02";
+    const userAMarker = "PHASE11C SIGNOUT TENANT A PRIVATE";
+    const userBMarker = "PHASE11C SIGNOUT TENANT B PRIVATE";
+    await addDiaryEntry(userAClient, userA.userId, userAMarker, date);
+    await addDiaryEntry(userBClient, userB.userId, userBMarker, date);
+    const beforeA = await applicationRowCounts(userAClient, userA.userId);
+    const beforeB = await applicationRowCounts(userBClient, userB.userId);
+
+    const contextA = await browser.newContext({
+      baseURL: localAppBaseUrl,
+      javaScriptEnabled: false,
+    });
+    const contextB = await browser.newContext({
+      baseURL: localAppBaseUrl,
+      javaScriptEnabled: false,
+    });
+    const pageA = await contextA.newPage();
+    const pageB = await contextB.newPage();
+    await signInThroughUi(pageA, "en", userA.email);
+    await signInThroughUi(pageB, "en", userB.email);
+    await pageA.goto(`/en/today?date=${date}&user_id=${userB.userId}`);
+    await pageB.goto(`/en/today?date=${date}&user_id=${userA.userId}`);
+    await expect(pageA.getByText(userAMarker, { exact: true })).toBeVisible();
+    await expect(pageA.getByText(userBMarker, { exact: true })).toHaveCount(0);
+    await expect(pageB.getByText(userBMarker, { exact: true })).toBeVisible();
+    await expect(pageB.getByText(userAMarker, { exact: true })).toHaveCount(0);
+
+    await pageA.getByRole("button", { name: "Sign out" }).click();
+    await expect(pageA).toHaveURL(/\/en$/);
+    await pageA.goto(`/en/today?date=${date}`);
+    await expect(pageA).toHaveURL(/\/en\/auth\/sign-in$/);
+    await expect(pageA.getByText(userAMarker, { exact: true })).toHaveCount(0);
+    await expect(pageA.getByText(userBMarker, { exact: true })).toHaveCount(0);
+
+    await pageB.reload();
+    await expect(pageB).toHaveURL(
+      new RegExp(`/en/today\\?date=${date}&user_id=${userA.userId}$`),
+    );
+    await expect(pageB.getByText(userBMarker, { exact: true })).toBeVisible();
+    await expect(pageB.getByText(userAMarker, { exact: true })).toHaveCount(0);
+
+    expect(await applicationRowCounts(userAClient, userA.userId)).toEqual(beforeA);
+    expect(await applicationRowCounts(userBClient, userB.userId)).toEqual(beforeB);
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      userBMarker,
+      userB.userId,
+    );
+    await contextA.close();
+    await contextB.close();
+  });
+
+  test("CJ-006 provides a no-JavaScript localized reauthentication fallback without partial or cross-tenant writes", async ({
+    browser,
+  }) => {
+    test.slow();
+    const userA = await provisionUser("phase11c-expired-nojs-a");
+    const userB = await provisionUser("phase11c-expired-nojs-b");
+    const userAClient = await authenticatedClient(userA.email);
+    const userBClient = await authenticatedClient(userB.email);
+    const date = "2032-05-03";
+    const attemptedEntry = "PHASE11C NOJS EXPIRED RETRY ENTRY";
+    const otherTenantEntry = "PHASE11C NOJS OTHER TENANT SECRET";
+    await addDiaryEntry(userBClient, userB.userId, otherTenantEntry, date);
+    const beforeA = await applicationRowCounts(userAClient, userA.userId);
+    const beforeB = await applicationRowCounts(userBClient, userB.userId);
+
+    const signedInContext = await browser.newContext({ baseURL: localAppBaseUrl });
+    const signedInPage = await signedInContext.newPage();
+    await signInThroughUi(signedInPage, "en", userA.email);
+    const storageState = await signedInContext.storageState();
+    await signedInContext.close();
+
+    const context = await browser.newContext({
+      baseURL: localAppBaseUrl,
+      javaScriptEnabled: false,
+      storageState,
+    });
+    const page = await context.newPage();
+    await page.goto(`/en/today?date=${date}`);
+    await expect(page.getByText(otherTenantEntry, { exact: true })).toHaveCount(0);
+    await page.locator('input[name="food_name"]').fill(attemptedEntry);
+    await expireBrowserAuthSession(context);
+    await page.getByRole("button", { name: "Add entry" }).click();
+
+    await expect(page).toHaveURL(/\/en\/auth\/sign-in$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.getByText(otherTenantEntry, { exact: true })).toHaveCount(0);
+    expect(await matchingRowCounts(userAClient, attemptedEntry)).toEqual({
+      entries: 0,
+      requests: 0,
+    });
+    expect(await applicationRowCounts(userAClient, userA.userId)).toEqual(beforeA);
+    expect(await applicationRowCounts(userBClient, userB.userId)).toEqual(beforeB);
+    const reauthenticationPath = new URL(page.url()).pathname;
+    await context.close();
+
+    const recoveryContext = await browser.newContext({
+      baseURL: localAppBaseUrl,
+      javaScriptEnabled: false,
+    });
+    const recoveryPage = await recoveryContext.newPage();
+    await recoveryPage.goto(reauthenticationPath);
+    await recoveryPage.getByLabel("Email").fill(userA.email);
+    await recoveryPage.getByLabel("Password").fill(password);
+    await recoveryPage.getByRole("button", { name: "Sign in" }).click();
+    await expect(recoveryPage).toHaveURL(
+      /\/en\/today(?:\?date=\d{4}-\d{2}-\d{2})?$/,
+    );
+    await recoveryPage.goto(`/en/today?date=${date}`);
+    await expect(recoveryPage).toHaveURL(
+      new RegExp(`/en/today\\?date=${date}$`),
+    );
+    await recoveryPage.locator('input[name="food_name"]').fill(attemptedEntry);
+    await recoveryPage.getByRole("button", { name: "Add entry" }).click();
+    expect(await matchingRowCounts(userAClient, attemptedEntry)).toEqual({
+      entries: 1,
+      requests: 1,
+    });
+    await expect(recoveryPage).toHaveURL(
+      new RegExp(`/en/today\\?date=${date}$`),
+    );
+    await expect(
+      recoveryPage.getByText(attemptedEntry, { exact: true }),
+    ).toBeVisible();
+    await expectScopedDiaryIsolation(
+      userAClient,
+      userBClient,
+      otherTenantEntry,
+      userB.userId,
+    );
+    expect(await applicationRowCounts(userBClient, userB.userId)).toEqual(beforeB);
+    await recoveryContext.close();
+
+    const hebrewSignedInContext = await browser.newContext({
+      baseURL: localAppBaseUrl,
+    });
+    const hebrewSignedInPage = await hebrewSignedInContext.newPage();
+    await signInThroughUi(hebrewSignedInPage, "he", userA.email);
+    const hebrewStorageState = await hebrewSignedInContext.storageState();
+    await hebrewSignedInContext.close();
+    const hebrewContext = await browser.newContext({
+      baseURL: localAppBaseUrl,
+      javaScriptEnabled: false,
+      storageState: hebrewStorageState,
+    });
+    const hebrewPage = await hebrewContext.newPage();
+    const hebrewAttempt = "PHASE11C NOJS HEBREW EXPIRED ENTRY";
+    await hebrewPage.goto(`/he/today?date=${date}`);
+    await hebrewPage.locator('input[name="food_name"]').fill(hebrewAttempt);
+    await expireBrowserAuthSession(hebrewContext);
+    await hebrewPage.getByRole("button", { name: "הוספת רשומה" }).click();
+    await expect(hebrewPage).toHaveURL(/\/he\/auth\/sign-in$/);
+    await expect(hebrewPage.locator("html")).toHaveAttribute("lang", "he");
+    await expect(hebrewPage.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(hebrewPage.getByText(otherTenantEntry, { exact: true })).toHaveCount(0);
+    expect(await matchingRowCounts(userAClient, hebrewAttempt)).toEqual({
+      entries: 0,
+      requests: 0,
+    });
+    expect(await applicationRowCounts(userBClient, userB.userId)).toEqual(beforeB);
+    await hebrewContext.close();
+  });
   test("CJ-006 rejects an expired-session English diary mutation and permits one safe reauthenticated retry", async ({
     browser,
   }) => {

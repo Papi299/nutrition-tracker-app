@@ -833,6 +833,7 @@ function LocalizedTodayPage({
               ]}
               optionalLabel={diaryT("form.optional")}
               newDraftLabel={diaryT("form.startNewDraft")}
+              noJavaScriptAction={`/${locale}/today/nojs`}
               pendingLabel={diaryT("form.pending")}
               requiredLabel={diaryT("form.required")}
               sectionLabels={{
