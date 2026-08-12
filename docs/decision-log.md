@@ -2188,3 +2188,37 @@
 - Phase 11C remains `ACTIVE / INCOMPLETE`; overall Phase 11 remains
   `INCOMPLETE`; all 18 findings, including `P11A-002` and `P11A-015`, remain
   `OPEN`; and Phase 11K remains the exclusive finding-closure gate.
+
+## 2026-08-12: CJ-018 custom-food creation idempotency remediation candidate
+
+- Started from the authorized exact `origin/main`
+  `541dd7a13054a9b597f3b1b7be467825544c0927`, tree
+  `4f288ee86cbf4cfe0ce164282ee80cc35148f5fe`, with contract
+  `1.4-phase-11b-remaining-implemented-nojs-amended` and evidence baseline
+  35 / 223 / 718 / no-JavaScript `11 / 4 / 13 / 7`.
+- Confirmed ordinary custom-food creation had no durable logical request
+  identity: a committed transaction whose response was not accepted by the
+  browser could be retried only as an independent creation.
+- Added an owner-scoped durable UUID receipt, canonical JSONB request contract,
+  exact replay convergence, typed changed-payload conflict, and atomic
+  aggregate-plus-receipt completion. Ownership is database-derived; receipts
+  use force-RLS and least-privilege grants; the private definer completion
+  helper proves the aggregate was created by the current transaction.
+- The client keeps one bounded, versioned, tab-scoped draft across validation,
+  database, transport, and unacknowledged-success recovery. Successful
+  acknowledgement retires the draft. A conflict preserves values and requires
+  explicit new-intent key rotation, with English and Hebrew/RTL states.
+- Barcode-attached creation retains its established atomic GTIN contract.
+  Explicit barcode omission uses the new ordinary creation contract. Existing
+  incidental disabled-script barcode attachment remains intact and receives no
+  CJ-018 no-JavaScript evidence credit.
+- Nine exact CJ-018 references add 28 supported claims. The candidate evidence
+  inventory becomes 35 / 232 / 746; CJ-018 `staleConflictRetry` and
+  `tenantIsolation` advance to `AUTOMATED_PARTIAL`. Contract fingerprints and
+  no-JavaScript totals remain unchanged.
+- Phase 11C remains active and incomplete, overall Phase 11 remains incomplete,
+  all 18 findings remain `OPEN`, and Phase 11K remains the exclusive
+  finding-closure gate. No hosted Supabase, remote database, Vercel,
+  deployment, Production, backup, restore, DNS, environment, secret, launch,
+  or finding-closure operation occurred.
+- This is a draft candidate. Independent exact-head review remains required.

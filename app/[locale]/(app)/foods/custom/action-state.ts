@@ -9,6 +9,7 @@ export type CustomFoodActionStatus =
   | "ambiguous"
   | "archived_or_unavailable"
   | "conflict"
+  | "creation_idempotency_conflict"
   | "database_error"
   | "idle"
   | "not_found"
@@ -21,6 +22,7 @@ export type CustomFoodActionStatus =
 export type CustomFoodFormValues = {
   aliases: CustomFoodEditorAlias[];
   brand_name: string;
+  creation_key?: string;
   food_id: string;
   food_locale: string;
   name: string;

@@ -6,6 +6,7 @@ export {
   type CustomFoodBarcodePersistenceState,
 } from "./barcode-persistence-parser";
 export {
+  createCustomFoodForCurrentUser,
   persistCustomFoodForCurrentUser,
   setCustomFoodArchivedForCurrentUser,
   type ArchivedCustomFood,
@@ -40,6 +41,7 @@ export {
   customFoodNutrientBases,
   customFoodNutrientCodes,
   validateCustomFoodArchiveInput,
+  validateCustomFoodCreationKey,
   validateCustomFoodInput,
   type CustomFoodArchiveInput,
   type CustomFoodInput,

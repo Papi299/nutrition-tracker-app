@@ -74,6 +74,16 @@ export type ValidatedCustomFoodArchiveInput = {
   is_archived: boolean;
 };
 
+export function validateCustomFoodCreationKey(
+  value: unknown,
+): DataResult<string> {
+  if (typeof value !== "string" || !isUuid(value)) {
+    return validationError({ creation_key: "invalid_uuid" });
+  }
+
+  return { data: value, ok: true };
+}
+
 const maximumFoodNameLength = 200;
 const maximumBrandNameLength = 120;
 const maximumServingUnitLength = 40;

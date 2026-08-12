@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 import { useTranslations } from "next-intl";
 import type {
   CustomFoodActionState,
@@ -13,6 +19,7 @@ import type {
   CustomFoodNutrientCode,
   CustomFoodNutrientDefinition,
 } from "@/lib/custom-foods";
+import { customFoodNutrientCodes } from "@/lib/custom-foods/validation";
 import type { Locale } from "@/lib/i18n/routing";
 import type { DiaryEntryMealType } from "@/lib/diary-entries";
 
@@ -22,6 +29,222 @@ const coreCodes = new Set<CustomFoodNutrientCode>([
   "carbohydrates_g",
   "fat_g",
 ]);
+
+type PersistedCustomFoodCreationDraft = {
+  barcodeOmitted: boolean;
+  idempotencyKey: string;
+  values: CustomFoodFormValues;
+  version: 1;
+};
+
+const customFoodDraftStoragePrefix =
+  "nutrition-tracker:custom-food-creation-draft:v1:";
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const localeValues = new Set(["en", "he", "und"]);
+const basisValues = new Set(["per_serving", "per_100g", "per_100ml"]);
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function boundedString(value: unknown, maximumLength: number) {
+  return typeof value === "string" && value.length <= maximumLength
+    ? value
+    : null;
+}
+
+function parseDraftValues(value: unknown): CustomFoodFormValues | null {
+  if (!isRecord(value)) return null;
+
+  const name = boundedString(value.name, 200);
+  const brandName = boundedString(value.brand_name, 120);
+  const foodLocale = boundedString(value.food_locale, 3);
+  const nutrientBasis = boundedString(value.nutrient_basis, 20);
+  const servingQuantity = boundedString(value.serving_quantity, 64);
+  const servingUnit = boundedString(value.serving_unit, 40);
+
+  if (
+    name === null ||
+    brandName === null ||
+    foodLocale === null ||
+    !localeValues.has(foodLocale) ||
+    nutrientBasis === null ||
+    !basisValues.has(nutrientBasis) ||
+    servingQuantity === null ||
+    servingUnit === null ||
+    !isRecord(value.nutrients) ||
+    !Array.isArray(value.aliases) ||
+    value.aliases.length > 20
+  ) {
+    return null;
+  }
+
+  const nutrients = {} as Record<CustomFoodNutrientCode, string>;
+  for (const code of Object.keys(value.nutrients)) {
+    if (!customFoodNutrientCodes.includes(code as CustomFoodNutrientCode)) {
+      return null;
+    }
+  }
+  for (const code of customFoodNutrientCodes) {
+    const amount = boundedString(value.nutrients[code], 64);
+    if (amount === null) return null;
+    nutrients[code] = amount;
+  }
+
+  const aliases: CustomFoodEditorAlias[] = [];
+  for (const alias of value.aliases) {
+    if (!isRecord(alias)) return null;
+    const aliasText = boundedString(alias.alias_text, 200);
+    const languageCode = boundedString(alias.language_code, 3);
+    if (
+      aliasText === null ||
+      languageCode === null ||
+      !localeValues.has(languageCode)
+    ) {
+      return null;
+    }
+    aliases.push({
+      alias_text: aliasText,
+      language_code: languageCode as CustomFoodEditorAlias["language_code"],
+    });
+  }
+
+  return {
+    aliases,
+    brand_name: brandName,
+    food_id: "",
+    food_locale: foodLocale,
+    name,
+    nutrient_basis: nutrientBasis,
+    nutrients,
+    serving_quantity: servingQuantity,
+    serving_unit: servingUnit,
+  };
+}
+
+function parsePersistedDraft(rawValue: string | null) {
+  if (!rawValue) return null;
+
+  try {
+    const parsed = JSON.parse(
+      rawValue,
+    ) as Partial<PersistedCustomFoodCreationDraft>;
+    const values = parseDraftValues(parsed.values);
+
+    if (
+      parsed.version !== 1 ||
+      typeof parsed.idempotencyKey !== "string" ||
+      !uuidPattern.test(parsed.idempotencyKey) ||
+      typeof parsed.barcodeOmitted !== "boolean" ||
+      !values
+    ) {
+      return null;
+    }
+
+    return {
+      barcodeOmitted: parsed.barcodeOmitted,
+      idempotencyKey: parsed.idempotencyKey,
+      values,
+      version: 1,
+    } satisfies PersistedCustomFoodCreationDraft;
+  } catch {
+    return null;
+  }
+}
+
+function persistDraft(
+  storageKey: string,
+  draft: PersistedCustomFoodCreationDraft,
+) {
+  try {
+    window.sessionStorage.setItem(storageKey, JSON.stringify(draft));
+  } catch {
+    // Creation remains usable when tab-scoped browser storage is unavailable.
+  }
+}
+
+function readDraftValues(form: HTMLFormElement) {
+  const data = new FormData(form);
+  const nutrients = {} as Record<CustomFoodNutrientCode, string>;
+  for (const code of customFoodNutrientCodes) {
+    const value = data.get(`nutrient_${code}`);
+    nutrients[code] = typeof value === "string" ? value.slice(0, 64) : "";
+  }
+
+  const countValue = Number(data.get("alias_count"));
+  const aliasCount = Number.isSafeInteger(countValue)
+    ? Math.max(0, Math.min(countValue, 20))
+    : 0;
+  const aliases: CustomFoodEditorAlias[] = [];
+  for (let index = 0; index < aliasCount; index += 1) {
+    const aliasText = data.get(`alias_text_${index}`);
+    const languageCode = data.get(`alias_language_${index}`);
+    aliases.push({
+      alias_text:
+        typeof aliasText === "string" ? aliasText.slice(0, 200) : "",
+      language_code: localeValues.has(String(languageCode))
+        ? (languageCode as CustomFoodEditorAlias["language_code"])
+        : "und",
+    });
+  }
+
+  const read = (name: string, maximumLength: number) => {
+    const value = data.get(name);
+    return typeof value === "string" ? value.slice(0, maximumLength) : "";
+  };
+
+  return {
+    aliases,
+    brand_name: read("brand_name", 120),
+    food_id: "",
+    food_locale: read("food_locale", 3),
+    name: read("name", 200),
+    nutrient_basis: read("nutrient_basis", 20),
+    nutrients,
+    serving_quantity: read("serving_quantity", 64),
+    serving_unit: read("serving_unit", 40),
+  } satisfies CustomFoodFormValues;
+}
+
+export function CustomFoodCreationDraftRetirement({
+  creationRequest,
+}: {
+  creationRequest: string;
+}) {
+  useEffect(() => {
+    if (!uuidPattern.test(creationRequest)) return;
+
+    try {
+      for (
+        let index = window.sessionStorage.length - 1;
+        index >= 0;
+        index -= 1
+      ) {
+        const key = window.sessionStorage.key(index);
+        if (!key?.startsWith(customFoodDraftStoragePrefix)) continue;
+        const draft = parsePersistedDraft(window.sessionStorage.getItem(key));
+        if (draft?.idempotencyKey === creationRequest) {
+          window.sessionStorage.removeItem(key);
+        }
+      }
+    } catch {
+      // Successful persistence does not depend on browser storage cleanup.
+    }
+
+    const currentUrl = new URL(window.location.href);
+    if (currentUrl.searchParams.get("creationRequest") === creationRequest) {
+      currentUrl.searchParams.delete("creationRequest");
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
+      );
+    }
+  }, [creationRequest]);
+
+  return null;
+}
 
 function fieldErrorId(field: string) {
   return `custom-food-${field}-error`;
@@ -225,6 +448,8 @@ export function CustomFoodForm({
   archived,
   barcodeContext,
   dictionary,
+  draftScope,
+  initialCreationKey,
   initialState,
   locale,
   mode,
@@ -241,17 +466,131 @@ export function CustomFoodForm({
     mealType: DiaryEntryMealType | null;
   };
   dictionary: CustomFoodNutrientDefinition[];
+  draftScope?: string;
+  initialCreationKey?: string;
   initialState: CustomFoodActionState;
   locale: Locale;
   mode: "create" | "edit";
   saved: "created" | "updated" | null;
 }) {
   const t = useTranslations("CustomFoodEditor");
-  const [state, formAction, isPending] = useActionState(action, initialState);
+  const creationDraftEnabled =
+    mode === "create" &&
+    typeof draftScope === "string" &&
+    typeof initialCreationKey === "string";
+  const [initialValues] = useState(initialState.values);
+  const storageKey = creationDraftEnabled
+    ? `${customFoodDraftStoragePrefix}${encodeURIComponent(draftScope)}`
+    : null;
+  const [draft, setDraft] = useState(() => ({
+    barcodeOmitted: initialState.barcode_omitted ?? false,
+    idempotencyKey: initialCreationKey ?? "",
+    revision: 0,
+    values: initialValues,
+  }));
+  const [state, formAction, isPending] = useActionState(action, {
+    ...initialState,
+    values: creationDraftEnabled
+      ? { ...initialState.values, creation_key: initialCreationKey }
+      : initialState.values,
+  });
+  const [hydrated, setHydrated] = useState(!creationDraftEnabled);
   const [basis, setBasis] = useState<CustomFoodNutrientBasis>(
-    state.values.nutrient_basis as CustomFoodNutrientBasis,
+    initialValues.nutrient_basis as CustomFoodNutrientBasis,
   );
-  const fieldErrors = state.fieldErrors ?? {};
+  const formRef = useRef<HTMLFormElement>(null);
+  const handledStateRef = useRef<CustomFoodActionState | null>(null);
+
+  useEffect(() => {
+    if (!creationDraftEnabled || !storageKey || !initialCreationKey) return;
+
+    let storedDraft: PersistedCustomFoodCreationDraft | null = null;
+    try {
+      storedDraft = parsePersistedDraft(
+        window.sessionStorage.getItem(storageKey),
+      );
+    } catch {
+      storedDraft = null;
+    }
+
+    if (!storedDraft) {
+      persistDraft(storageKey, {
+        barcodeOmitted: initialState.barcode_omitted ?? false,
+        idempotencyKey: initialCreationKey,
+        values: initialValues,
+        version: 1,
+      });
+    }
+
+    queueMicrotask(() => {
+      if (storedDraft) {
+        setDraft((current) => ({
+          ...storedDraft,
+          revision: current.revision + 1,
+        }));
+        setBasis(
+          storedDraft.values.nutrient_basis as CustomFoodNutrientBasis,
+        );
+      }
+      setHydrated(true);
+    });
+  }, [
+    creationDraftEnabled,
+    initialCreationKey,
+    initialState.barcode_omitted,
+    initialValues,
+    storageKey,
+  ]);
+
+  useEffect(() => {
+    const submissionKey = state.values.creation_key;
+    if (
+      !creationDraftEnabled ||
+      !hydrated ||
+      !storageKey ||
+      handledStateRef.current === state ||
+      typeof submissionKey !== "string" ||
+      submissionKey !== draft.idempotencyKey ||
+      state.status === "idle"
+    ) {
+      return;
+    }
+
+    const retainedValues = parseDraftValues(state.values);
+    if (!retainedValues) return;
+
+    handledStateRef.current = state;
+    const retainedDraft: PersistedCustomFoodCreationDraft = {
+      barcodeOmitted: state.barcode_omitted ?? draft.barcodeOmitted,
+      idempotencyKey: submissionKey,
+      values: retainedValues,
+      version: 1,
+    };
+    persistDraft(storageKey, retainedDraft);
+    queueMicrotask(() => {
+      setDraft((current) => ({
+        ...retainedDraft,
+        revision: current.revision + 1,
+      }));
+      setBasis(
+        retainedValues.nutrient_basis as CustomFoodNutrientBasis,
+      );
+    });
+  }, [
+    creationDraftEnabled,
+    draft.barcodeOmitted,
+    draft.idempotencyKey,
+    hydrated,
+    state,
+    storageKey,
+  ]);
+
+  const stateMatchesDraft =
+    !creationDraftEnabled ||
+    state.values.creation_key === draft.idempotencyKey;
+  const displayStatus = stateMatchesDraft ? state.status : "idle";
+  const fieldErrors = stateMatchesDraft ? (state.fieldErrors ?? {}) : {};
+  const values = creationDraftEnabled ? draft.values : state.values;
   const core = dictionary.filter((definition) => coreCodes.has(definition.code));
   const additional = dictionary.filter(
     (definition) =>
@@ -268,6 +607,7 @@ export function CustomFoodForm({
     ambiguous: t("barcode.status.ambiguous"),
     archived_or_unavailable: t("barcode.status.unavailable"),
     conflict: t("status.conflict"),
+    creation_idempotency_conflict: t("status.creationConflict"),
     database_error: t("status.databaseError"),
     idle: t("status.idle"),
     not_found: t("status.notFound"),
@@ -276,7 +616,7 @@ export function CustomFoodForm({
     public_existing: t("barcode.status.publicExisting"),
     unauthenticated: t("status.unauthenticated"),
     validation_error: t("status.validationError"),
-  }[state.status];
+  }[displayStatus];
   const conflictFoodId = state.conflict_food_id;
   const reviewQuery = barcodeContext && conflictFoodId
     ? new URLSearchParams({
@@ -288,9 +628,78 @@ export function CustomFoodForm({
       })
     : null;
 
+  function persistCurrentDraft(form: HTMLFormElement) {
+    if (!creationDraftEnabled || !storageKey) return;
+
+    persistDraft(storageKey, {
+      barcodeOmitted: new FormData(form).get("omit_barcode") === "omit",
+      idempotencyKey: draft.idempotencyKey,
+      values: readDraftValues(form),
+      version: 1,
+    });
+  }
+
+  function handleFormEvent(event: FormEvent<HTMLFormElement>) {
+    if (
+      event.type === "submit" &&
+      creationDraftEnabled &&
+      !hydrated
+    ) {
+      event.preventDefault();
+      return;
+    }
+
+    persistCurrentDraft(event.currentTarget);
+  }
+
+  function startNewCreationIntent() {
+    if (!creationDraftEnabled || !storageKey) return;
+
+    const nextValues = formRef.current
+      ? readDraftValues(formRef.current)
+      : draft.values;
+    const nextDraft: PersistedCustomFoodCreationDraft = {
+      barcodeOmitted: formRef.current
+        ? new FormData(formRef.current).get("omit_barcode") === "omit"
+        : draft.barcodeOmitted,
+      idempotencyKey: crypto.randomUUID(),
+      values: nextValues,
+      version: 1,
+    };
+    persistDraft(storageKey, nextDraft);
+    setDraft((current) => ({
+      ...nextDraft,
+      revision: current.revision + 1,
+    }));
+    setBasis(nextValues.nutrient_basis as CustomFoodNutrientBasis);
+  }
+
   return (
-    <form action={formAction} className="grid gap-8 text-start" noValidate>
-      <input name="food_id" type="hidden" value={state.values.food_id} />
+    <form
+      action={formAction}
+      className="grid gap-8 text-start"
+      data-draft-storage-key={storageKey ?? undefined}
+      data-testid="custom-food-form"
+      key={
+        creationDraftEnabled
+          ? `${draft.idempotencyKey}:${draft.revision}`
+          : undefined
+      }
+      noValidate
+      onChange={handleFormEvent}
+      onInput={handleFormEvent}
+      onSubmit={handleFormEvent}
+      ref={formRef}
+    >
+      <input name="food_id" type="hidden" value={values.food_id} />
+      {creationDraftEnabled && (
+        <input
+          data-testid="custom-food-creation-key"
+          name="creation_key"
+          type="hidden"
+          value={draft.idempotencyKey}
+        />
+      )}
 
       {barcodeContext && (
         <section
@@ -340,8 +749,16 @@ export function CustomFoodForm({
           </dl>
           <label className="flex min-h-11 items-start gap-3 border border-teal-300 bg-white p-4 text-sm leading-6 text-slate-900">
             <input
-              defaultChecked={state.barcode_omitted ?? false}
-              key={String(state.barcode_omitted ?? false)}
+              defaultChecked={
+                creationDraftEnabled
+                  ? draft.barcodeOmitted
+                  : (state.barcode_omitted ?? false)
+              }
+              key={String(
+                creationDraftEnabled
+                  ? draft.barcodeOmitted
+                  : (state.barcode_omitted ?? false),
+              )}
               className="mt-1"
               name="omit_barcode"
               type="checkbox"
@@ -376,7 +793,7 @@ export function CustomFoodForm({
         </div>
       )}
 
-      {mode === "edit" && state.status === "conflict" && (
+      {mode === "edit" && displayStatus === "conflict" && (
         <section
           className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
           data-testid="custom-food-edit-conflict"
@@ -384,14 +801,31 @@ export function CustomFoodForm({
           <p role="alert">{t("status.conflict")}</p>
           <a
             className="w-fit font-semibold text-teal-800 underline"
-            href={`/${locale}/foods/custom/${state.values.food_id}/edit`}
+            href={`/${locale}/foods/custom/${values.food_id}/edit`}
           >
             {t("status.reloadCurrent")}
           </a>
         </section>
       )}
 
-      {barcodeContext && state.status === "owned_existing" && conflictFoodId && (
+      {mode === "create" &&
+        displayStatus === "creation_idempotency_conflict" && (
+          <section
+            className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+            data-testid="custom-food-creation-conflict"
+          >
+            <p role="alert">{t("status.creationConflict")}</p>
+            <button
+              className="min-h-11 w-fit border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800"
+              onClick={startNewCreationIntent}
+              type="button"
+            >
+              {t("status.startNewCreation")}
+            </button>
+          </section>
+        )}
+
+      {barcodeContext && displayStatus === "owned_existing" && conflictFoodId && (
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-owned-conflict">
           <Link
             className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
@@ -410,7 +844,7 @@ export function CustomFoodForm({
         </div>
       )}
 
-      {barcodeContext && state.status === "owned_archived" && conflictFoodId && (
+      {barcodeContext && displayStatus === "owned_archived" && conflictFoodId && (
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-archived-conflict">
           <Link
             className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
@@ -421,7 +855,7 @@ export function CustomFoodForm({
         </div>
       )}
 
-      {barcodeContext && state.status === "public_existing" && conflictFoodId && (
+      {barcodeContext && displayStatus === "public_existing" && conflictFoodId && (
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-public-conflict">
           {reviewQuery && (
             <Link
@@ -460,11 +894,11 @@ export function CustomFoodForm({
               aria-describedby={fieldErrors.name ? fieldErrorId("name") : undefined}
               aria-invalid={Boolean(fieldErrors.name)}
               className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
-              defaultValue={state.values.name}
+              defaultValue={values.name}
               dir="auto"
               maxLength={200}
               name="name"
-              key={state.values.name}
+              key={values.name}
               required
               type="text"
             />
@@ -476,11 +910,11 @@ export function CustomFoodForm({
               aria-describedby={fieldErrors.brand_name ? fieldErrorId("brand_name") : undefined}
               aria-invalid={Boolean(fieldErrors.brand_name)}
               className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
-              defaultValue={state.values.brand_name}
+              defaultValue={values.brand_name}
               dir="auto"
               maxLength={120}
               name="brand_name"
-              key={state.values.brand_name}
+              key={values.brand_name}
               type="text"
             />
             <FieldError code={fieldErrors.brand_name} field="brand_name" />
@@ -491,8 +925,8 @@ export function CustomFoodForm({
               aria-describedby={fieldErrors.food_locale ? fieldErrorId("food_locale") : undefined}
               aria-invalid={Boolean(fieldErrors.food_locale)}
               className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
-              defaultValue={state.values.food_locale}
-              key={state.values.food_locale}
+              defaultValue={values.food_locale}
+              key={values.food_locale}
               name="food_locale"
             >
               <option value="en">{t("languages.en")}</option>
@@ -533,11 +967,11 @@ export function CustomFoodForm({
                 aria-describedby={fieldErrors.serving_quantity ? fieldErrorId("serving_quantity") : undefined}
                 aria-invalid={Boolean(fieldErrors.serving_quantity)}
                 className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
-                defaultValue={state.values.serving_quantity}
+                defaultValue={values.serving_quantity}
                 inputMode="decimal"
                 min="0"
                 name="serving_quantity"
-                key={state.values.serving_quantity}
+                key={values.serving_quantity}
                 required
                 step="any"
                 type="number"
@@ -550,11 +984,11 @@ export function CustomFoodForm({
                 aria-describedby={fieldErrors.serving_unit ? fieldErrorId("serving_unit") : undefined}
                 aria-invalid={Boolean(fieldErrors.serving_unit)}
                 className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
-                defaultValue={state.values.serving_unit}
+                defaultValue={values.serving_unit}
                 dir="auto"
                 maxLength={40}
                 name="serving_unit"
-                key={state.values.serving_unit}
+                key={values.serving_unit}
                 required
                 type="text"
               />
@@ -573,7 +1007,7 @@ export function CustomFoodForm({
           <h2 className="text-xl font-semibold text-slate-950" id="custom-food-nutrients-title">{t("nutrients.title")}</h2>
           <p className="mt-2 text-sm leading-6 text-slate-600" id="custom-food-nutrients-help">{t("nutrients.help")}</p>
         </div>
-        <NutrientGrid definitions={core} fieldErrors={fieldErrors} locale={locale} values={state.values.nutrients} />
+        <NutrientGrid definitions={core} fieldErrors={fieldErrors} locale={locale} values={values.nutrients} />
         {[
           ["additional", additional],
           ["minerals", minerals],
@@ -588,7 +1022,7 @@ export function CustomFoodForm({
                 definitions={definitions as CustomFoodNutrientDefinition[]}
                 fieldErrors={fieldErrors}
                 locale={locale}
-                values={state.values.nutrients}
+                values={values.nutrients}
               />
             </div>
           </details>
@@ -601,18 +1035,19 @@ export function CustomFoodForm({
           <h2 className="text-xl font-semibold text-slate-950" id="custom-food-aliases-title">{t("aliases.title")}</h2>
           <p className="mt-2 text-sm leading-6 text-slate-600">{t("aliases.help")}</p>
         </div>
-        <AliasEditor fieldErrors={fieldErrors} initialAliases={state.values.aliases} />
+        <AliasEditor fieldErrors={fieldErrors} initialAliases={values.aliases} />
       </section>
 
       <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
-        {state.status !== "conflict" && (
+        {displayStatus !== "conflict" &&
+          displayStatus !== "creation_idempotency_conflict" && (
           <div
             className={
-              state.status === "idle"
+              displayStatus === "idle"
                 ? "text-sm text-slate-600"
                 : "text-sm text-red-800"
             }
-            role={state.status === "idle" ? "status" : "alert"}
+            role={displayStatus === "idle" ? "status" : "alert"}
           >
             {statusMessage}
           </div>

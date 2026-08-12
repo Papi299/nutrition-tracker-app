@@ -7,7 +7,10 @@ import {
   editorCustomFoodFormValues,
   type CustomFoodActionState,
 } from "@/app/[locale]/(app)/foods/custom/action-state";
-import { CustomFoodForm } from "@/components/custom-foods/custom-food-form";
+import {
+  CustomFoodCreationDraftRetirement,
+  CustomFoodForm,
+} from "@/components/custom-foods/custom-food-form";
 import {
   CustomFoodEditorPageHeader,
   CustomFoodRetrievalError,
@@ -86,9 +89,21 @@ export default async function EditCustomFoodPage({
   const savedValue = resolvedSearchParams.saved;
   const saved =
     savedValue === "created" || savedValue === "updated" ? savedValue : null;
+  const creationRequestValue = resolvedSearchParams.creationRequest;
+  const creationRequest =
+    saved === "created" &&
+    typeof creationRequestValue === "string" &&
+    isUuid(creationRequestValue)
+      ? creationRequestValue
+      : null;
 
   return (
     <CustomFoodEditorPageHeader mode="edit">
+      {creationRequest && (
+        <CustomFoodCreationDraftRetirement
+          creationRequest={creationRequest}
+        />
+      )}
       <CustomFoodForm
         action={action}
         archived={editor.data.is_archived}

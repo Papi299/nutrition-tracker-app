@@ -6,11 +6,13 @@ import {
   type BarcodeCustomHandoffQuery,
 } from "@/lib/barcodes";
 import {
+  createCustomFoodForCurrentUser,
   customFoodLocales,
   customFoodNutrientCodes,
   parseCustomFoodNutrientFormValue,
   persistCustomFoodForCurrentUser,
   persistCustomFoodWithBarcodeForCurrentUser,
+  validateCustomFoodCreationKey,
   validateCustomFoodInput,
   type CustomFoodEditorAlias,
   type CustomFoodNutrientCode,
@@ -71,6 +73,7 @@ function readValues(formData: FormData): CustomFoodFormValues {
   return {
     aliases: readAliasValues(formData).aliases,
     brand_name: readText(formData, "brand_name"),
+    creation_key: readText(formData, "creation_key"),
     food_id: readText(formData, "food_id"),
     food_locale: readText(formData, "food_locale"),
     name: readText(formData, "name"),
@@ -187,6 +190,16 @@ function prepareCustomFoodSubmission(
   const values = readValues(formData);
   const fieldErrors: Record<string, string> = {};
 
+  if (expectedFoodId === null) {
+    const creationKey = validateCustomFoodCreationKey(values.creation_key);
+
+    if (!creationKey.ok) {
+      Object.assign(fieldErrors, creationKey.fieldErrors);
+    }
+  } else if (values.creation_key) {
+    fieldErrors.creation_key = "unsupported_field";
+  }
+
   if (values.food_id !== (expectedFoodId ?? "")) {
     fieldErrors.food_id = "invalid_link";
   }
@@ -233,11 +246,13 @@ function prepareCustomFoodSubmission(
 }
 
 function customFoodTodayRedirect({
+  creationRequest,
   date,
   foodId,
   locale,
   mealType,
 }: {
+  creationRequest?: string;
   date: string;
   foodId: string;
   locale: Locale;
@@ -245,6 +260,7 @@ function customFoodTodayRedirect({
 }) {
   const query = new URLSearchParams({ date, foodId });
   if (mealType !== null) query.set("mealType", mealType);
+  if (creationRequest) query.set("creationRequest", creationRequest);
   query.set("customFood", "created");
   return `/${locale}/today?${query.toString()}`;
 }
@@ -268,7 +284,12 @@ export async function saveCustomFoodAction(
     return validationFailure(values, fieldErrors);
   }
 
-  const result = await persistCustomFoodForCurrentUser(persistenceInput);
+  const result = expectedFoodId
+    ? await persistCustomFoodForCurrentUser(persistenceInput)
+    : await createCustomFoodForCurrentUser(
+        persistenceInput,
+        values.creation_key,
+      );
 
   if (!result.ok) {
     if (result.code === "validation_error") {
@@ -286,8 +307,14 @@ export async function saveCustomFoodAction(
   }
 
   const savedState = expectedFoodId ? "updated" : "created";
+  const query = new URLSearchParams({ saved: savedState });
+
+  if (!expectedFoodId && values.creation_key) {
+    query.set("creationRequest", values.creation_key);
+  }
+
   redirect(
-    `/${locale}/foods/custom/${result.data.food_id}/edit?saved=${savedState}`,
+    `/${locale}/foods/custom/${result.data.food_id}/edit?${query.toString()}`,
   );
 }
 
@@ -325,7 +352,10 @@ export async function saveBarcodeCustomFoodAction(
   }
 
   if (barcodeOmitted) {
-    const result = await persistCustomFoodForCurrentUser(persistenceInput);
+    const result = await createCustomFoodForCurrentUser(
+      persistenceInput,
+      values.creation_key,
+    );
 
     if (!result.ok) {
       if (result.code === "validation_error") {
@@ -350,6 +380,7 @@ export async function saveBarcodeCustomFoodAction(
         foodId: result.data.food_id,
         locale,
         mealType: context.meal_type,
+        creationRequest: values.creation_key,
       }),
     );
   }

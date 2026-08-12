@@ -2218,13 +2218,13 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
         "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "locale": {
         "status": "AUTOMATED_PARTIAL"
@@ -2329,6 +2329,88 @@
           "evidenceAxes": [
             "positivePath",
             "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 durably converges sequential and concurrent exact creation replays",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 rejects conflicting replays, preserves later state, and permits identical new intent",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 rolls back aggregate and receipt together before same-key retry",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 scopes identical creation keys and receipts to the authenticated owner",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 keeps creation receipts force-RLS and direct-write denied",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 retains one UI creation key through validation and ordinary success",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 retains the UI draft through database rollback and exact retry",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 recovers a committed but unacknowledged creation response",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/custom-food-creation-idempotency.spec.ts",
+          "testTitle": "CJ-018 preserves conflicting values and requires explicit new-intent rotation in English and Hebrew RTL",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
             "browser"
           ]
         }
