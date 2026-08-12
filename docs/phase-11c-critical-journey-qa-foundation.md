@@ -8,7 +8,7 @@
 | Identifier | `PHASE-11C1-CRITICAL-JOURNEY-TRACEABILITY-FOUNDATION-001` |
 | Repository | `Papi299/nutrition-tracker-app` |
 | Exact baseline | `eae0cd64284cf103a2ca326568c0d01e2c71d3ff` |
-| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), original version `1.0-phase-11b-accepted`, historical amended versions `1.1-phase-11b-cj019-amended` and `1.2-phase-11b-cj019-cj030-amended`, current amended version `1.3-phase-11b-cj024-cj027-nojs-amended` |
+| Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), original version `1.0-phase-11b-accepted`, historical amended versions `1.1-phase-11b-cj019-amended`, `1.2-phase-11b-cj019-cj030-amended`, and `1.3-phase-11b-cj024-cj027-nojs-amended`, current amended version `1.4-phase-11b-remaining-implemented-nojs-amended` |
 | Slice | Phase 11C1 |
 | Slice state | `MERGED` |
 | Merged PR | #73 |
@@ -99,6 +99,18 @@ change, deliberate refusal, or removal is authorized. The current
 no-JavaScript totals are therefore `6 / 1 / 12 / 16`, while the evidence
 inventory remains exactly 35 journeys / 223 automated references / 718
 evidence-axis claims.
+
+On 2026-08-12, Product Owner Maor Pichhadze approved the remaining
+implemented-journey no-JavaScript classifications: CJ-004 and CJ-009–CJ-012
+are `REQUIRED`; CJ-006, CJ-013, and CJ-021 are
+`REQUIRED_FALLBACK_ONLY`; and CJ-015 is `NOT_APPLICABLE`. The current
+contract is `1.4-phase-11b-remaining-implemented-nojs-amended` and current
+classification totals are `11 / 4 / 13 / 7`. The eight newly required or
+fallback journeys retain no-JavaScript evidence status `NOT_VERIFIED`;
+CJ-015 advances to evidence status `NOT_APPLICABLE`. No automated reference
+or axis claim was added, so the evidence inventory remains 35 / 223 / 718.
+Classification does not establish implementation or evidence, and the new
+commitments require separately authorized remediation and validation.
 
 Independently accepted PR #89 established a 35 / 216 / 694 evidence baseline.
 Independently accepted PR #90 then added the bounded CJ-005 failure/retry

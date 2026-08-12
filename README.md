@@ -255,9 +255,15 @@ is complete for the current MVP scope.
   and Recipe GET calculation/preview and incidental disabled-script final use
   may continue, but neither complete diary-use journey has a no-JavaScript
   launch-support commitment. Incidental behavior remains non-contractual and
-  creates no acceptance evidence. The current contract is
-  `1.3-phase-11b-cj024-cj027-nojs-amended`; no-JavaScript totals are now
-  `6 / 1 / 12 / 16`, while the evidence inventory remains 35 / 223 / 718 and
+  creates no acceptance evidence. Contract
+  `1.3-phase-11b-cj024-cj027-nojs-amended` and totals `6 / 1 / 12 / 16`
+  remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
+  Maor Pichhadze approved the remaining implemented-journey classifications:
+  CJ-004, CJ-009–CJ-012 `REQUIRED`; CJ-006, CJ-013, CJ-021
+  `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The current contract
+  is `1.4-phase-11b-remaining-implemented-nojs-amended`; current totals are
+  `11 / 4 / 13 / 7`, while the evidence inventory remains 35 / 223 / 718.
+  These decisions add no implementation or automated evidence credit, and
   runtime behavior is unchanged.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
   Phase 11K remains their exclusive closure gate. The merged
