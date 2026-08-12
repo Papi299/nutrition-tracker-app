@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.2-phase-11b-cj019-cj030-amended` |
+| Version | `1.3-phase-11b-cj024-cj027-nojs-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Prior amended version | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -24,6 +24,8 @@
 | CJ-030 amendment | `PRODUCT_OWNER_APPROVED` — Option A approved by Maor Pichhadze on 2026-08-09; `NOT_APPLICABLE` remains authoritative, existing disabled-JavaScript behavior is non-contractual, no CJ-030 no-JavaScript evidence axis is credited, and no behavior change is authorized |
 | CJ-030 authorization marker | `PHASE_11C_CJ030_NOJS_OPTION_A_PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_AUTHORIZED` |
 | CJ-030 amendment review requirement | Independent review of the exact amendment head is required before merge. |
+| CJ-024/CJ-027 no-JavaScript amendment | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze approved both journeys as `NOT_APPLICABLE` on 2026-08-11 after the completed read-only technical audit; incidental disabled-JavaScript behavior remains non-contractual, receives no no-JavaScript acceptance credit, and is not authorized for behavior change |
+| CJ-024/CJ-027 amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -31,14 +33,16 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.2-phase-11b-cj019-cj030-amended` preserves the complete original
-`1.0-phase-11b-accepted` baseline and the historical
-`1.1-phase-11b-cj019-amended` identity. It applies only the owner-approved
-CJ-019 archived-state amendment recorded in Section 2.6 and the later
-CJ-030 no-JavaScript interpretation amendment recorded in Section 2.7. These
-are deliberate contract updates, not claims that the original or prior
-baseline always contained the amended wording and not retroactive rewrites of
-Phase 11C evidence.
+Version `1.3-phase-11b-cj024-cj027-nojs-amended` is an amendment on top of
+accepted version `1.2-phase-11b-cj019-cj030-amended`. It preserves the complete
+original `1.0-phase-11b-accepted` baseline and historical amended identities
+`1.1-phase-11b-cj019-amended` and
+`1.2-phase-11b-cj019-cj030-amended`. It applies only the owner-approved CJ-024
+and CJ-027 no-JavaScript classifications recorded in Section 2.8 in addition
+to the preserved CJ-019 and CJ-030 amendments in Sections 2.6 and 2.7. These
+are deliberate current contract updates effective 2026-08-11, not claims that
+the original or prior baselines contained the new classifications and not
+retroactive rewrites of earlier Phase 11C evidence snapshots.
 
 ## 2. Evidence and authority model
 
@@ -401,6 +405,39 @@ no-JavaScript rationale and validation language. It changes no other Phase 11B
 decision, application behavior, executable test, evidence reference or axis,
 finding state, phase gate, or external-operation authority.
 
+### 2.8 Owner-approved CJ-024 and CJ-027 no-JavaScript amendment
+
+After a completed read-only technical audit, product owner Maor Pichhadze
+explicitly approved the following decisions on 2026-08-11 with status
+`PRODUCT_OWNER_APPROVED`:
+
+1. CJ-024 is `NOT_APPLICABLE`. The supported Saved Meal final diary-use
+   experience has no launch-support commitment to remain operable without
+   JavaScript. Server-rendered review and incidental disabled-JavaScript
+   submission behavior may continue to function, but such behavior is
+   non-contractual and is not acceptance evidence for the CJ-024
+   no-JavaScript axis.
+2. CJ-027 is `NOT_APPLICABLE`. Recipe calculation and nutrition preview may
+   continue through the existing GET-driven path without JavaScript, but the
+   complete supported Recipe diary-use journey has no no-JavaScript
+   launch-support commitment. Incidental disabled-JavaScript final submission
+   may continue to function, but it is non-contractual and is not acceptance
+   evidence for the CJ-027 no-JavaScript axis.
+3. Existing incidental disabled-JavaScript behavior is not deliberately
+   broken, disabled, refused, or removed. No JavaScript capability detection,
+   `<noscript>` refusal, Server Action change, receipt/idempotency change, or
+   remediation of observed retry, session, stale-state, or recovery behavior
+   is authorized by this amendment.
+4. Existing automated coverage may continue to validate the behavioral axes
+   it actually proves, but no automated no-JavaScript evidence reference or
+   no-JavaScript evidence-axis claim is added for CJ-024 or CJ-027.
+
+This amendment changes only the current no-JavaScript product classifications,
+rationales, validation methods, evidence-map decision metadata, and resulting
+totals. It does not establish complete acceptance for either journey, close
+any finding, change runtime behavior, or alter the exclusive Phase 11K
+finding-closure gate.
+
 ## 3. Launch-contract decision register
 
 All 30 rows are `PRODUCT_OWNER_APPROVED`. Each approved answer is the exact
@@ -700,10 +737,10 @@ viewport/browser matrix in Section 5; it is not a universal-support claim.
 | `CJ-021` | Required | Required | Matrix | Matrix | Control/status/review | `NOT_VERIFIED` | Reuse exploratory | Risk-based 11J | 11C | 11J | 11K | Favorite/recent tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-022` | Required | Required | Matrix | Matrix | Ordered form/errors | `NOT_APPLICABLE` | Creation/edit review | Risk-based 11J | 11C | 11J | 11K | Atomic replace tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-023` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_APPLICABLE` | Lifecycle review | Risk-based 11J | 11C | 11J | 11K | Archive/restore tests | Full axes/manual review | `NOT_VERIFIED` |
-| `CJ-024` | Required | Required | Matrix | Matrix | Review/status/errors | `NOT_VERIFIED` | Use/retry review | Risk-based 11J | 11C | 11J | 11K | Atomic receipt/retry tests | Full axes/interruption | `NOT_VERIFIED` |
+| `CJ-024` | Required | Required | Matrix | Matrix | Review/status/errors | `NOT_APPLICABLE` | Use/retry review | Risk-based 11J | 11C | 11J | 11K | Atomic receipt/retry tests | Full axes/interruption | `NOT_VERIFIED` |
 | `CJ-025` | Required | Required | Matrix | Matrix | Ordered form/errors | `NOT_APPLICABLE` | Creation/edit review | Risk-based 11J | 11C | 11J | 11K | Atomic recipe tests | Full axes/manual review | `NOT_VERIFIED` |
 | `CJ-026` | Required | Required | Matrix | Matrix | Confirm/status/focus | `NOT_APPLICABLE` | Lifecycle review | Risk-based 11J | 11C | 11J | 11K | Archive/restore tests | Full axes/manual review | `NOT_VERIFIED` |
-| `CJ-027` | Required | Required | Matrix | Matrix | Nutrition/review/status | `NOT_VERIFIED` | Calculation/use | Risk-based 11J | 11C | 11J | 11K | Derivation/receipt tests | Full axes/interruption | `NOT_VERIFIED` |
+| `CJ-027` | Required | Required | Matrix | Matrix | Nutrition/review/status | `NOT_APPLICABLE` | Calculation/use | Risk-based 11J | 11C | 11J | 11K | Derivation/receipt tests | Full axes/interruption | `NOT_VERIFIED` |
 | `CJ-028` | Required | Required | Matrix | Matrix | Form/results/status | `REQUIRED` | Barcode review | Mobile manual in 11J | 11C/11D | 11J | 11K | Phase 9 lookup tests | Engine/manual/device axes | `NOT_VERIFIED` |
 | `CJ-029` | Required | Required | Matrix | Matrix | Form/status/handoff | `REQUIRED` | Miss/provider copy | Mobile manual in 11J | 11C/11D | 11J | 11K | Phase 9 miss tests | Engine/manual/device axes | `NOT_VERIFIED` |
 | `CJ-030` | Required | Required | Matrix | Matrix | Handoff/form/errors | `NOT_APPLICABLE` | Conflict/retry | Mobile manual in 11J | 11C | 11J | 11K | Atomic handoff tests | Full axes/manual review | `NOT_VERIFIED` |
@@ -748,10 +785,10 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | `CJ-021` | `NOT_VERIFIED` | Favorite mutation is client-enhanced while recent-food review contains server navigation; the combined commitment is undecided. | 11C | Split favorite/recent cases and test with scripting disabled after an explicit product decision. |
 | `CJ-022` | `NOT_APPLICABLE` | Saved Meal creation/editing requires client-managed ordered item state. | 11C | Validate supported JavaScript editor and server atomicity/authorization independently. |
 | `CJ-023` | `NOT_APPLICABLE` | Saved Meal archive/restore uses client confirmation; no separate fallback is proposed. | 11C | Validate JavaScript confirmation and direct lifecycle authorization/idempotency tests. |
-| `CJ-024` | `NOT_VERIFIED` | Preview is GET-driven but final use relies on client action state and receipt handling. | 11C | Disable JavaScript for preview and final submission after deciding the mutation commitment; verify one receipt. |
+| `CJ-024` | `NOT_APPLICABLE` | The supported Saved Meal final diary-use experience has no launch-support commitment to remain operable without JavaScript. Server-rendered review and incidental disabled-JavaScript submission behavior may continue to function, but such behavior is non-contractual and is not acceptance evidence for the CJ-024 no-JavaScript axis. | 11C | Validate the supported JavaScript review/use path plus server/database ownership, source-version binding, stale-source rejection, atomic rollback, receipt convergence, session failure, and English/Hebrew behavior. Existing disabled-JavaScript behavior is outside the CJ-024 support commitment and must not be promoted into a no-JavaScript acceptance claim. |
 | `CJ-025` | `NOT_APPLICABLE` | Recipe creation/editing requires client-managed ordered ingredient state. | 11C | Validate supported JavaScript editor plus server derivation, atomicity, and authorization. |
 | `CJ-026` | `NOT_APPLICABLE` | Recipe archive/restore uses client confirmation; no separate fallback is proposed. | 11C | Validate JavaScript confirmation and direct lifecycle authorization/idempotency tests. |
-| `CJ-027` | `NOT_VERIFIED` | Calculation preview is GET-driven but final use relies on client action state and receipt behavior. | 11C | Disable JavaScript for calculate/preview and use after deciding commitment; verify stale/concurrent receipts. |
+| `CJ-027` | `NOT_APPLICABLE` | Recipe calculation and nutrition preview may continue to operate through the existing GET-driven path without JavaScript, but the complete supported Recipe diary-use journey has no no-JavaScript launch-support commitment. Incidental disabled-JavaScript final submission behavior may continue to function, but it is non-contractual and is not acceptance evidence for the CJ-027 no-JavaScript axis. | 11C | Validate the supported JavaScript calculation/use path plus authoritative nutrition derivation, source-version binding, ownership, archive/invalid/not-loggable rejection, atomic rollback, receipt convergence, session failure, and English/Hebrew behavior. GET-driven calculation/preview behavior may be tested for its actual supported axes, but incidental disabled-JavaScript final submission must not be promoted into a complete CJ-027 no-JavaScript acceptance claim. |
 | `CJ-028` | `REQUIRED` | Manual barcode found is the complete input fallback for unsupported or failed camera scanning. | 11C/11D | Disable JavaScript; submit canonical valid GTIN and verify owned-before-public result and review link. |
 | `CJ-029` | `REQUIRED` | Manual barcode miss is the complete provider-disabled fallback and must distinguish miss from invalid/unavailable. | 11C/11D | Disable JavaScript; test strict miss, invalid, ambiguous, unavailable, private-other-user, en/he/RTL. |
 | `CJ-030` | `NOT_APPLICABLE` | The barcode custom-food handoff enters the client-managed custom-food editor. The product does not make a launch/support commitment that the complete CJ-030 journey remains operable without JavaScript. Existing disabled-JavaScript behavior may function but is non-contractual and is not acceptance evidence for a CJ-030 no-JavaScript axis. | 11C | Validate the supported JavaScript handoff plus server/database atomicity, authorization, ownership binding, conflict handling, rollback, and retry behavior. Existing disabled-JavaScript behavior is outside the CJ-030 support commitment and must not be promoted into a no-JavaScript acceptance claim. |
@@ -762,7 +799,7 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | `CJ-035` | `NOT_VERIFIED` | Closure/deletion is unimplemented and high-risk confirmation/reauthentication behavior is undecided. | 11E | Decide architecture, then test disabled-script confirmation/cancellation/retry where applicable plus lifecycle integrity. |
 
 Counts are fixed for this approved contract: `REQUIRED` 6,
-`REQUIRED_FALLBACK_ONLY` 1, `NOT_APPLICABLE` 10, and `NOT_VERIFIED` 18.
+`REQUIRED_FALLBACK_ONLY` 1, `NOT_APPLICABLE` 12, and `NOT_VERIFIED` 16.
 
 ## 8. Phase 11 finding register
 
@@ -1004,8 +1041,9 @@ its slice and separate authorization boundary.
 
 | Review defect | Corrected sections | Deterministic check | State |
 | --- | --- | --- | --- |
-| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; counts 6/1/10/18; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; implementation/evidence pending |
+| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; current counts 6/1/12/16; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; implementation/evidence pending |
 | CJ-030 `NOT_APPLICABLE` interpretation | 1, 2.1, 2.7, 7.3, 14 | Option A preserves `NOT_APPLICABLE`; existing disabled-JavaScript behavior is non-contractual, receives no no-JavaScript evidence credit, and is not authorized for behavior change | Ambiguity resolved and owner-approved; independent review of the exact amendment head pending |
+| CJ-024/CJ-027 `NOT_APPLICABLE` classifications | 1, 2.1, 2.8, 7.2, 7.3, 14 | Both journeys are `NOT_APPLICABLE`; incidental disabled-JavaScript behavior may continue but is non-contractual, receives no no-JavaScript acceptance credit, and is not authorized for behavior change | Product decision gap resolved and owner-approved; independent review of the exact amendment head pending |
 | Unenforced invitation-only beta | 2.3, DEC-001/009/011/018/019/023/026–029, 4, 6, CJ-002/003/006–008/034/035, 8–10, 12, 13 | One selected Dashboard-issued model; open sign-up disabled; provider-native, operator-procedural, restricted-register, and future-automation layers explicit; all 25 controls fail closed with evidence/slice/gate ownership | Corrected and owner-approved; implementation/procedure/hosted evidence pending |
 | Invitation controls overstated as provider-native or automatic | 2.2–2.3, DEC-001/009/011/018/019/023/026–029, CJ-002/003/006–008/034/035, P11A-001/006/009/014/017/018, EV-011/022/023, 10, 12, 13 | Custom eligibility/cap/outstanding/reissue/revoke/reconcile rules are procedural; restricted register purpose/access/fields/prohibitions/authority/reconciliation/correction/retention/freshness are explicit; single-operator serialization is not called atomic; future trusted automation remains separately gated | Corrected and owner-approved; later owners, implementation, and external evidence pending |
 | Ambiguous browser/platform support | DEC-014/015, 5, 7, 8–10, 13 | Windows/macOS/iOS/Android separated; no Safari on Windows; Edge excluded on macOS; engine versus real-platform evidence explicit | Corrected and owner-approved; implementation/evidence pending |
@@ -1016,7 +1054,7 @@ This checklist records documentation and attributable owner-decision capture
 only. All 30 decisions are `PRODUCT_OWNER_APPROVED`; all 18 findings remain
 `OPEN`; and Phase 11B is `PHASE_11B_COMPLETE`. The original
 `1.0-phase-11b-accepted` baseline recorded Phase 11C as unstarted and next at
-that historical acceptance point. At this `1.2` amendment, Phase 11C is
+that historical acceptance point. At this `1.3` amendment, Phase 11C is
 active and incomplete, overall Phase 11 remains incomplete, and Phase 11K
 remains the exclusive finding-closure gate. No implementation, hosted access,
 deployment, finding closure, or Production release is authorized.

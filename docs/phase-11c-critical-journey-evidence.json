@@ -3,11 +3,11 @@
   "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
-    "version": "1.2-phase-11b-cj019-cj030-amended",
+    "version": "1.3-phase-11b-cj024-cj027-nojs-amended",
     "fingerprints": {
       "section7_1": "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
-      "section7_2": "56b5303ce8f3ef784bf11411b24a27a6cccd30d68d62458a6dc1a09e459772b5",
-      "section7_3": "7193421aaced40d03d31079da1d20d809751931d48ec80e1e1172f6b0d20277d"
+      "section7_2": "da087b95570e623498ebe76a2bb9423cf0cc5b10222215dd66151c9c1caa1a22",
+      "section7_3": "32ae988419e5b5c02eede681372ecd4b8c2c2acae0c039ea15ff19921c687975"
     }
   },
   "phase": "11C1",
@@ -3307,8 +3307,9 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "The supported Saved Meal final diary-use experience has no launch-support commitment to remain operable without JavaScript. Server-rendered review and incidental disabled-JavaScript submission behavior may continue to function, but such behavior is non-contractual and is not acceptance evidence for the CJ-024 no-JavaScript axis."
       },
       "automatedEvidence": [
         {
@@ -3401,7 +3402,7 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Review/status/errors",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
         "manualRequirement": "Use/retry review",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
@@ -3410,10 +3411,10 @@
         "currentEvidence": "Atomic receipt/retry tests",
         "missingEvidence": "Full axes/interruption",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Preview is GET-driven but final use relies on client action state and receipt handling.",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "The supported Saved Meal final diary-use experience has no launch-support commitment to remain operable without JavaScript. Server-rendered review and incidental disabled-JavaScript submission behavior may continue to function, but such behavior is non-contractual and is not acceptance evidence for the CJ-024 no-JavaScript axis.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript for preview and final submission after deciding the mutation commitment; verify one receipt."
+        "noJavaScriptValidationMethod": "Validate the supported JavaScript review/use path plus server/database ownership, source-version binding, stale-source rejection, atomic rollback, receipt convergence, session failure, and English/Hebrew behavior. Existing disabled-JavaScript behavior is outside the CJ-024 support commitment and must not be promoted into a no-JavaScript acceptance claim."
       }
     },
     {
@@ -3755,8 +3756,9 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
-        "classification": "NOT_VERIFIED"
+        "status": "NOT_APPLICABLE",
+        "classification": "NOT_APPLICABLE",
+        "rationale": "Recipe calculation and nutrition preview may continue to operate through the existing GET-driven path without JavaScript, but the complete supported Recipe diary-use journey has no no-JavaScript launch-support commitment. Incidental disabled-JavaScript final submission behavior may continue to function, but it is non-contractual and is not acceptance evidence for the CJ-027 no-JavaScript axis."
       },
       "automatedEvidence": [
         {
@@ -3978,7 +3980,7 @@
         "viewportRequirement": "Matrix",
         "browserRequirement": "Matrix",
         "accessibilityRequirement": "Nutrition/review/status",
-        "noJavaScriptRequirement": "`NOT_VERIFIED`",
+        "noJavaScriptRequirement": "`NOT_APPLICABLE`",
         "manualRequirement": "Calculation/use",
         "physicalDeviceRequirement": "Risk-based 11J",
         "implementationSlice": "11C",
@@ -3987,10 +3989,10 @@
         "currentEvidence": "Derivation/receipt tests",
         "missingEvidence": "Full axes/interruption",
         "currentStatus": "`NOT_VERIFIED`",
-        "noJavaScriptClassification": "NOT_VERIFIED",
-        "noJavaScriptRationale": "Calculation preview is GET-driven but final use relies on client action state and receipt behavior.",
+        "noJavaScriptClassification": "NOT_APPLICABLE",
+        "noJavaScriptRationale": "Recipe calculation and nutrition preview may continue to operate through the existing GET-driven path without JavaScript, but the complete supported Recipe diary-use journey has no no-JavaScript launch-support commitment. Incidental disabled-JavaScript final submission behavior may continue to function, but it is non-contractual and is not acceptance evidence for the CJ-027 no-JavaScript axis.",
         "noJavaScriptOwnerSlice": "11C",
-        "noJavaScriptValidationMethod": "Disable JavaScript for calculate/preview and use after deciding commitment; verify stale/concurrent receipts."
+        "noJavaScriptValidationMethod": "Validate the supported JavaScript calculation/use path plus authoritative nutrition derivation, source-version binding, ownership, archive/invalid/not-loggable rejection, atomic rollback, receipt convergence, session failure, and English/Hebrew behavior. GET-driven calculation/preview behavior may be tested for its actual supported axes, but incidental disabled-JavaScript final submission must not be promoted into a complete CJ-027 no-JavaScript acceptance claim."
       }
     },
     {
