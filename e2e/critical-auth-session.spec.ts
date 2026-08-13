@@ -762,7 +762,7 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
       const responseUrl = new URL(response.url());
       return (
         response.request().method() === "POST" &&
-        responseUrl.pathname === "/en/today/nojs"
+        responseUrl.pathname === "/en/today"
       );
     });
     await recoveryPage.getByRole("button", { name: "Add entry" }).click();

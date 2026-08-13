@@ -45,7 +45,7 @@ export function readInputField(
   return readTextField(formData, field);
 }
 
-function readCreateValues(formData: FormData): DiaryEntryFieldValues {
+export function readCreateValues(formData: FormData): DiaryEntryFieldValues {
   return diaryEntryCreateInputFields.reduce<DiaryEntryFieldValues>(
     (values, field) => {
       values[field] = readInputField(formData, field);
