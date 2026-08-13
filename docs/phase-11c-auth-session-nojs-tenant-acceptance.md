@@ -27,9 +27,10 @@ hydration and uses a localized native POST endpoint before hydration. Both
 paths share the same server-only form parsing and authoritative
 `createDiaryEntryForCurrentUser` mutation. The native path redirects an
 expired session directly to the localized sign-in route. After a successful
-native mutation it returns to the selected localized diary date and preserves
-only the incoming Supabase auth cookies with Supabase's standard cookie
-options.
+native mutation it returns to the selected localized diary date. Normal
+browser cookie retention and the configured Supabase SSR lifecycle remain
+authoritative; the native route does not manually replay incoming Supabase
+auth cookies.
 
 The correction adds no custom token, browser-managed credential storage,
 caller-supplied owner, Production-reachable test switch, database migration,

@@ -1,6 +1,8 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import {
   deleteCurrentDiaryEntry,
   updateCurrentDiaryEntry,
@@ -13,6 +15,7 @@ import {
   type Locale,
 } from "@/lib/i18n/routing";
 import type { DataError } from "@/lib/data/result";
+import { hasAuthenticatedUser, signInPath } from "@/lib/auth/require-user";
 import type {
   DiaryEntryActionState,
   DiaryEntryFieldErrors,
@@ -21,6 +24,7 @@ import type {
 } from "./action-state";
 import {
   diaryEntryCreateInputFields,
+  readCreateValues,
   readInputField,
   readTextField,
   submitDiaryEntryCreate,
@@ -116,9 +120,30 @@ export async function createDiaryEntryAction(
   formData: FormData,
 ): Promise<DiaryEntryActionState> {
   const locale = resolveLocale(localeInput);
+  const nativeSubmission = formData.get("native_submission") === "1";
+  const submissionIntent = formData.get("submission_intent");
+
+  if (submissionIntent === "start_new") {
+    if (nativeSubmission && !(await hasAuthenticatedUser())) {
+      redirect(signInPath(locale));
+    }
+
+    return {
+      status: "idle",
+      values: {
+        ...readCreateValues(formData),
+        idempotency_key: randomUUID(),
+      },
+    };
+  }
+
   const { result, values } = await submitDiaryEntryCreate(formData);
 
   if (!result.ok) {
+    if (nativeSubmission && result.code === "unauthenticated") {
+      redirect(signInPath(locale));
+    }
+
     return actionStateFromError(result, values);
   }
 

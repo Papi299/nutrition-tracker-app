@@ -1323,7 +1323,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
@@ -1413,6 +1413,63 @@
             "failureStates",
             "dataIntegrity",
             "tenantIsolation"
+          ]
+        },
+        {
+          "path": "e2e/diary-nojs-completion.spec.ts",
+          "testTitle": "CJ-012 no-JavaScript success preserves date, snapshot null/zero semantics, receipt identity, and tenant ownership",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/diary-nojs-completion.spec.ts",
+          "testTitle": "CJ-012 no-JavaScript Hebrew validation preserves fields and request identity through correction and retry",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/diary-nojs-completion.spec.ts",
+          "testTitle": "CJ-012 no-JavaScript database rollback retains a retryable draft and converges after local failure removal",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/diary-nojs-completion.spec.ts",
+          "testTitle": "CJ-012 no-JavaScript exact native HTTP replay converges without a duplicate",
+          "evidenceAxes": [
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/diary-nojs-completion.spec.ts",
+          "testTitle": "CJ-012 no-JavaScript conflict retains the completed key until explicit new-entry intent",
+          "evidenceAxes": [
+            "failureStates",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "browser",
+            "noJavaScript"
           ]
         }
       ],

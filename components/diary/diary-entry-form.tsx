@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
   type FormEvent,
+  type MouseEvent,
   type ReactNode,
 } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
@@ -273,8 +274,8 @@ export function DiaryEntryForm({
   labels,
   mealTypeOptions,
   newDraftLabel,
-  noJavaScriptAction,
   optionalLabel,
+  permalink,
   pendingLabel,
   requiredLabel,
   sectionLabels,
@@ -293,34 +294,45 @@ export function DiaryEntryForm({
   labels: FieldLabels;
   mealTypeOptions: MealTypeOption[];
   newDraftLabel: string;
-  noJavaScriptAction: string;
   optionalLabel: string;
+  permalink: string;
   pendingLabel: string;
   requiredLabel: string;
   sectionLabels: SectionLabels;
   statusMessages: Record<DiaryEntryActionStatus, string>;
   submitLabel: string;
 }) {
+  const [state, formAction, isPending] = useActionState(
+    action,
+    {
+      ...initialState,
+      values: {
+        ...initialState.values,
+        idempotency_key: initialIdempotencyKey,
+      },
+    },
+    permalink,
+  );
   const [initialValues] = useState(() =>
-    pickPersistedValues(initialState.values ?? {}),
+    pickPersistedValues(
+      state.status === "success"
+        ? (initialState.values ?? {})
+        : (state.values ?? initialState.values ?? {}),
+    ),
   );
   const storageKey = `${draftStoragePrefix}${encodeURIComponent(draftScope)}`;
   const [draft, setDraft] = useState(() => ({
-    idempotencyKey: initialIdempotencyKey,
+    idempotencyKey:
+      state.status === "success"
+        ? initialIdempotencyKey
+        : (state.values?.idempotency_key ?? initialIdempotencyKey),
     revision: 0,
     values: initialValues,
   }));
-  const [state, formAction, isPending] = useActionState(action, {
-    ...initialState,
-    values: {
-      ...initialState.values,
-      idempotency_key: initialIdempotencyKey,
-    },
-  });
   const [hydrated, setHydrated] = useState(false);
   const [statusOverride, setStatusOverride] = useState<
     "idle" | "success" | null
-  >(null);
+  >(() => (state.status === "success" ? "success" : null));
   const formRef = useRef<HTMLFormElement>(null);
   const handledStateRef = useRef<DiaryEntryActionState | null>(null);
 
@@ -420,8 +432,6 @@ export function DiaryEntryForm({
   const fieldErrors = stateMatchesDraft ? state.fieldErrors : undefined;
   const values = draft.values;
   const statusTone = getStatusTone(displayStatus);
-  const submissionAction = hydrated ? formAction : noJavaScriptAction;
-
   function persistCurrentForm(form: HTMLFormElement) {
     persistDraft(storageKey, {
       idempotencyKey: draft.idempotencyKey,
@@ -443,7 +453,8 @@ export function DiaryEntryForm({
     setStatusOverride(null);
   }
 
-  function startNewDraft() {
+  function startNewDraft(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     const nextDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: crypto.randomUUID(),
       values: formRef.current
@@ -461,12 +472,11 @@ export function DiaryEntryForm({
 
   return (
     <form
-      action={submissionAction}
+      action={formAction}
       className="grid gap-5 text-start"
       data-draft-storage-key={storageKey}
       data-testid="manual-diary-entry-form"
       key={`${draft.idempotencyKey}:${draft.revision}`}
-      method={hydrated ? undefined : "post"}
       noValidate
       onChange={handleFormEvent}
       onInput={handleFormEvent}
@@ -478,6 +488,12 @@ export function DiaryEntryForm({
         name="idempotency_key"
         type="hidden"
         value={draft.idempotencyKey}
+      />
+      <input
+        disabled={hydrated}
+        name="native_submission"
+        type="hidden"
+        value="1"
       />
       {values.food_id && (
         <input name="food_id" type="hidden" value={values.food_id} />
@@ -680,8 +696,10 @@ export function DiaryEntryForm({
               <button
                 className="min-h-12 border border-teal-700 bg-white px-4 text-base font-semibold text-teal-800 transition-colors hover:bg-teal-50"
                 disabled={isPending}
+                name="submission_intent"
                 onClick={startNewDraft}
-                type="button"
+                type="submit"
+                value="start_new"
               >
                 {newDraftLabel}
               </button>
