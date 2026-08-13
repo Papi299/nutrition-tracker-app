@@ -1,29 +1,12 @@
-import { DEFAULT_COOKIE_OPTIONS } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { submitDiaryEntryCreate } from "@/app/[locale]/(app)/today/create-submission";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
 
-const supabaseAuthCookiePattern = /^sb-.*-auth-token(?:\.\d+)?$/;
-
-function redirectSeeOther(
-  request: NextRequest,
-  location: string,
-  preserveAuthCookies = false,
-) {
-  const response = new NextResponse(null, {
+function redirectSeeOther(location: string) {
+  return new NextResponse(null, {
     headers: { location },
     status: 303,
   });
-
-  if (preserveAuthCookies) {
-    for (const { name, value } of request.cookies.getAll()) {
-      if (supabaseAuthCookiePattern.test(name)) {
-        response.cookies.set(name, value, DEFAULT_COOKIE_OPTIONS);
-      }
-    }
-  }
-
-  return response;
 }
 
 export async function POST(
@@ -36,7 +19,7 @@ export async function POST(
   const { result } = await submitDiaryEntryCreate(formData);
 
   if (!result.ok && result.code === "unauthenticated") {
-    return redirectSeeOther(request, `/${locale}/auth/sign-in`);
+    return redirectSeeOther(`/${locale}/auth/sign-in`);
   }
 
   const date = String(formData.get("entry_date") ?? "");
@@ -44,5 +27,5 @@ export async function POST(
     ? `/${locale}/today?date=${encodeURIComponent(date)}`
     : `/${locale}/today`;
 
-  return redirectSeeOther(request, destination, true);
+  return redirectSeeOther(destination);
 }

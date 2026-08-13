@@ -749,8 +749,28 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
     await expect(recoveryPage).toHaveURL(
       new RegExp(`/en/today\\?date=${date}$`),
     );
+    const replaySentinelName = "sb-phase11c-replay-regression-auth-token";
+    await recoveryContext.addCookies([
+      {
+        name: replaySentinelName,
+        url: localAppBaseUrl,
+        value: "must-not-be-replayed",
+      },
+    ]);
     await recoveryPage.locator('input[name="food_name"]').fill(attemptedEntry);
+    const nativePostResponsePromise = recoveryPage.waitForResponse((response) => {
+      const responseUrl = new URL(response.url());
+      return (
+        response.request().method() === "POST" &&
+        responseUrl.pathname === "/en/today/nojs"
+      );
+    });
     await recoveryPage.getByRole("button", { name: "Add entry" }).click();
+    const nativePostResponse = await nativePostResponsePromise;
+    const setCookieHeaders = (await nativePostResponse.headersArray())
+      .filter(({ name }) => name.toLowerCase() === "set-cookie")
+      .map(({ value }) => value);
+    expect(setCookieHeaders.join("\n")).not.toContain(`${replaySentinelName}=`);
     expect(await matchingRowCounts(userAClient, attemptedEntry)).toEqual({
       entries: 1,
       requests: 1,
