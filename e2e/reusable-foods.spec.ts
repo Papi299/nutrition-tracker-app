@@ -617,6 +617,149 @@ test.describe.serial("favorite foods and recent-food reuse", () => {
     await context.close();
   });
 
+  test("CJ-021 no-JavaScript recent-food link completes through the unlinked native diary fallback", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const page = await context.newPage();
+    const selectedDate = "2032-09-21";
+    const manualFoodName = `CJ-021 native fallback ${runId}`;
+    const userAEntriesBefore = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const userAReceiptsBefore = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    const userBEntriesBefore = await userBClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(userAEntriesBefore.error).toBeNull();
+    expect(userAReceiptsBefore.error).toBeNull();
+    expect(userBEntriesBefore.error).toBeNull();
+
+    await page.goto(`/en/foods/reuse?date=${selectedDate}`);
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+    await expect(
+      page.getByRole("heading", { exact: true, name: "Recent foods" }),
+    ).toBeVisible();
+    const recentList = page.getByTestId("recent-foods-list");
+    await expect(recentList).toContainText("Reusable Public Oats");
+    await expect(recentList).not.toContainText("Other private reusable food");
+    const recentOats = recentList.locator(`[data-food-id="${publicFoodId}"]`);
+    const useLink = recentOats.getByRole("link", { name: "Use in diary" });
+    await expect(useLink).toHaveAttribute(
+      "href",
+      `/en/today?date=${selectedDate}&foodId=${publicFoodId}`,
+    );
+    await expect(useLink).toHaveJSProperty("tagName", "A");
+    await useLink.click();
+    await expect(page).toHaveURL(
+      `/en/today?date=${selectedDate}&foodId=${publicFoodId}`,
+    );
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      "Reusable Public Oats",
+    );
+    await expect(page.locator('input[name="entry_date"]')).toHaveValue(
+      selectedDate,
+    );
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(
+      publicFoodId,
+    );
+    await expect(page.locator('input[name="calories"]')).toHaveValue("150");
+    await expect(page.locator('input[name="fat_g"]')).toHaveValue("0");
+    await expect(page.locator('input[name="carbohydrates_g"]')).toHaveValue("");
+
+    const entriesAfterReview = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const receiptsAfterReview = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    expect(entriesAfterReview.count).toBe(userAEntriesBefore.count);
+    expect(receiptsAfterReview.count).toBe(userAReceiptsBefore.count);
+
+    const removeSelection = page.getByRole("link", {
+      name: "Remove selected food",
+    });
+    await expect(removeSelection).toHaveAttribute(
+      "href",
+      `/en/today?date=${selectedDate}`,
+    );
+    await removeSelection.click();
+    await expect(page).toHaveURL(`/en/today?date=${selectedDate}`);
+    await expect(page.locator('input[name="food_id"]')).toHaveCount(0);
+    await expect(page.locator('input[name="food_name"]')).toHaveValue("");
+
+    const form = page.getByTestId("manual-diary-entry-form");
+    const requestKey = await form
+      .getByTestId("manual-diary-idempotency-key")
+      .inputValue();
+    await form.locator('input[name="food_name"]').fill(manualFoodName);
+    await form.locator('input[name="serving_quantity"]').fill("0");
+    await form.locator('input[name="calories"]').fill("0");
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(page).toHaveURL(`/en/today?date=${selectedDate}`);
+    await expect(form).toContainText("Entry added.");
+
+    const savedEntry = await userAClient
+      .from("diary_entries")
+      .select(
+        "calories,entry_date,food_id,food_name,serving_quantity,source,user_id",
+      )
+      .eq("food_name", manualFoodName)
+      .single();
+    const savedReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id,user_id")
+      .eq("idempotency_key", requestKey)
+      .single();
+    const userAEntriesAfter = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const userAReceiptsAfter = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    const userBEntriesAfter = await userBClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(savedEntry.error).toBeNull();
+    expect(savedEntry.data).toEqual({
+      calories: 0,
+      entry_date: selectedDate,
+      food_id: null,
+      food_name: manualFoodName,
+      serving_quantity: 0,
+      source: "manual",
+      user_id: userAId,
+    });
+    expect(savedReceipt.error).toBeNull();
+    expect(savedReceipt.data?.completed_diary_entry_id).not.toBeNull();
+    expect(savedReceipt.data?.user_id).toBe(userAId);
+    expect(userAEntriesAfter.count).toBe((userAEntriesBefore.count ?? 0) + 1);
+    expect(userAReceiptsAfter.count).toBe((userAReceiptsBefore.count ?? 0) + 1);
+    expect(userBEntriesAfter.count).toBe(userBEntriesBefore.count);
+
+    await page.goto(`/he/foods/reuse?date=${selectedDate}`);
+    await expect(page.locator("html")).toHaveAttribute("lang", "he");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(
+      page.getByRole("heading", { exact: true, name: "מזונות אחרונים" }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByTestId("recent-foods-list")
+        .locator(`[data-food-id="${publicFoodId}"]`)
+        .getByRole("link", { name: "שימוש ביומן" }),
+    ).toHaveAttribute(
+      "href",
+      `/he/today?date=${selectedDate}&foodId=${publicFoodId}`,
+    );
+    await expect(page.getByText("Other private reusable food")).toHaveCount(0);
+    await context.close();
+  });
+
   test("renders a generic retrieval failure without exposing database details", async ({
     browser,
   }) => {

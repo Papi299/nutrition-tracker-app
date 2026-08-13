@@ -540,6 +540,142 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     await context.close();
   });
 
+  test("CJ-013 no-JavaScript selected-food review falls back to one safe unlinked native diary creation", async ({
+    browser,
+  }) => {
+    const context = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const page = await context.newPage();
+    const selectedDate = "2032-09-20";
+    const manualFoodName = `CJ-013 native fallback ${runId}`;
+    const userBEntriesBefore = await userBClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const userAEntriesBefore = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const userAReceiptsBefore = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    expect(userBEntriesBefore.error).toBeNull();
+    expect(userAEntriesBefore.error).toBeNull();
+    expect(userAReceiptsBefore.error).toBeNull();
+
+    const publicSelectionPath =
+      `/en/today?date=${selectedDate}&foodId=${perServingFoodId}`;
+    await page.goto(publicSelectionPath);
+    await expect(page).toHaveURL(publicSelectionPath);
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      "Phase 6C Serving Priority",
+    );
+    await expect(page.locator('input[name="entry_date"]')).toHaveValue(
+      selectedDate,
+    );
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(
+      perServingFoodId,
+    );
+    await expect(page.locator('input[name="protein_g"]')).toHaveValue("0");
+    await expect(page.locator('input[name="carbohydrates_g"]')).toHaveValue("");
+
+    const afterPublicReview = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const receiptsAfterPublicReview = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    expect(afterPublicReview.count).toBe(userAEntriesBefore.count);
+    expect(receiptsAfterPublicReview.count).toBe(userAReceiptsBefore.count);
+
+    await page.goto(`/en/today?date=${selectedDate}&foodId=${ownFoodId}`);
+    await expect(page.getByTestId("selected-food-summary")).toContainText(
+      "Your custom food",
+    );
+    await expect(page.locator('input[name="food_id"]')).toHaveValue(ownFoodId);
+
+    for (const unavailableId of [randomUUID(), archivedFoodId, otherFoodId]) {
+      await page.goto(`/en/today?date=${selectedDate}&foodId=${unavailableId}`);
+      await expect(page.getByTestId("food-selection-unavailable")).toBeVisible();
+      await expect(page.getByTestId("selected-food-summary")).toHaveCount(0);
+      await expect(page.locator('input[name="food_id"]')).toHaveCount(0);
+      await expect(page.locator('input[name="food_name"]')).toHaveValue("");
+      await expect(page.getByText("Phase 6C Archived Food")).toHaveCount(0);
+      await expect(page.getByText("Phase 6C Other Private Food")).toHaveCount(0);
+    }
+
+    const afterUnavailableReview = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const receiptsAfterUnavailableReview = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    expect(afterUnavailableReview.count).toBe(userAEntriesBefore.count);
+    expect(receiptsAfterUnavailableReview.count).toBe(userAReceiptsBefore.count);
+
+    await page.goto(publicSelectionPath);
+    const removeSelection = page.getByRole("link", {
+      name: "Remove selected food",
+    });
+    await expect(removeSelection).toHaveAttribute(
+      "href",
+      `/en/today?date=${selectedDate}`,
+    );
+    await removeSelection.click();
+    await expect(page).toHaveURL(`/en/today?date=${selectedDate}`);
+    await expect(page.locator('input[name="food_id"]')).toHaveCount(0);
+    await expect(page.locator('input[name="food_name"]')).toHaveValue("");
+
+    const form = page.getByTestId("manual-diary-entry-form");
+    const requestKey = await form
+      .getByTestId("manual-diary-idempotency-key")
+      .inputValue();
+    await form.locator('input[name="food_name"]').fill(manualFoodName);
+    await form.locator('input[name="serving_quantity"]').fill("0");
+    await form.locator('input[name="calories"]').fill("0");
+    await form.getByRole("button", { name: "Add entry" }).click();
+    await expect(page).toHaveURL(`/en/today?date=${selectedDate}`);
+    await expect(form).toContainText("Entry added.");
+
+    const savedEntry = await userAClient
+      .from("diary_entries")
+      .select(
+        "calories,entry_date,food_id,food_name,serving_quantity,source,user_id",
+      )
+      .eq("food_name", manualFoodName)
+      .single();
+    const savedReceipt = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("completed_diary_entry_id,user_id")
+      .eq("idempotency_key", requestKey)
+      .single();
+    const userAEntriesAfter = await userAClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    const userAReceiptsAfter = await userAClient
+      .from("manual_diary_entry_requests")
+      .select("id", { count: "exact", head: true });
+    const userBEntriesAfter = await userBClient
+      .from("diary_entries")
+      .select("id", { count: "exact", head: true });
+    expect(savedEntry.error).toBeNull();
+    expect(savedEntry.data).toEqual({
+      calories: 0,
+      entry_date: selectedDate,
+      food_id: null,
+      food_name: manualFoodName,
+      serving_quantity: 0,
+      source: "manual",
+      user_id: userAId,
+    });
+    expect(savedReceipt.error).toBeNull();
+    expect(savedReceipt.data?.completed_diary_entry_id).not.toBeNull();
+    expect(savedReceipt.data?.user_id).toBe(userAId);
+    expect(userAEntriesAfter.count).toBe((userAEntriesBefore.count ?? 0) + 1);
+    expect(userAReceiptsAfter.count).toBe((userAReceiptsBefore.count ?? 0) + 1);
+    expect(userBEntriesAfter.count).toBe(userBEntriesBefore.count);
+    await context.close();
+  });
+
   test("rejects invalid and repeated foodId without running a lookup", async ({
     browser,
   }) => {

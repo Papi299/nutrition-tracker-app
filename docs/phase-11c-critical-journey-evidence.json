@@ -1556,10 +1556,22 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/food-diary-prefill.spec.ts",
+          "testTitle": "CJ-013 no-JavaScript selected-food review falls back to one safe unlinked native diary creation",
+          "evidenceAxes": [
+            "positivePath",
+            "failureStates",
+            "dataIntegrity",
+            "tenantIsolation",
+            "browser",
+            "noJavaScript"
+          ]
+        },
         {
           "path": "e2e/food-diary-prefill.spec.ts",
           "testTitle": "preserves a historical date and saves user-edited linked snapshots",
@@ -3028,10 +3040,22 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED_FALLBACK_ONLY"
       },
       "automatedEvidence": [
+        {
+          "path": "e2e/reusable-foods.spec.ts",
+          "testTitle": "CJ-021 no-JavaScript recent-food link completes through the unlinked native diary fallback",
+          "evidenceAxes": [
+            "positivePath",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
         {
           "path": "e2e/reusable-foods.spec.ts",
           "testTitle": "enforces least-privilege grants, invoker RPCs, empty search paths, and RLS",
