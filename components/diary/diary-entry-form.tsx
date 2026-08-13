@@ -273,6 +273,7 @@ export function DiaryEntryForm({
   labels,
   mealTypeOptions,
   newDraftLabel,
+  noJavaScriptAction,
   optionalLabel,
   pendingLabel,
   requiredLabel,
@@ -292,6 +293,7 @@ export function DiaryEntryForm({
   labels: FieldLabels;
   mealTypeOptions: MealTypeOption[];
   newDraftLabel: string;
+  noJavaScriptAction: string;
   optionalLabel: string;
   pendingLabel: string;
   requiredLabel: string;
@@ -418,6 +420,7 @@ export function DiaryEntryForm({
   const fieldErrors = stateMatchesDraft ? state.fieldErrors : undefined;
   const values = draft.values;
   const statusTone = getStatusTone(displayStatus);
+  const submissionAction = hydrated ? formAction : noJavaScriptAction;
 
   function persistCurrentForm(form: HTMLFormElement) {
     persistDraft(storageKey, {
@@ -458,11 +461,12 @@ export function DiaryEntryForm({
 
   return (
     <form
-      action={formAction}
+      action={submissionAction}
       className="grid gap-5 text-start"
       data-draft-storage-key={storageKey}
       data-testid="manual-diary-entry-form"
       key={`${draft.idempotencyKey}:${draft.revision}`}
+      method={hydrated ? undefined : "post"}
       noValidate
       onChange={handleFormEvent}
       onInput={handleFormEvent}
@@ -684,7 +688,7 @@ export function DiaryEntryForm({
             )}
             <button
               className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
-              disabled={isPending || !hydrated}
+              disabled={isPending}
               type="submit"
             >
               {isPending ? pendingLabel : submitLabel}
