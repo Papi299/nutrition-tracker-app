@@ -401,11 +401,17 @@ acceptance credit, and is unchanged. Contract 1.3 and totals
 `REQUIRED`, CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. The current contract is
 `1.4-phase-11b-remaining-implemented-nojs-amended` and current totals are
-`11 / 4 / 13 / 7`; the evidence inventory remains 35 / 223 / 718. The new
-classifications add no implementation or automated evidence credit.
-Phase 11C remains active and incomplete. This transition authorizes no hosted access,
-deployment, finding closure, or Production action, and no later Phase 11 slice
-has started.
+`11 / 4 / 13 / 7`; 35 / 223 / 718 remains the historical classification-
+amendment snapshot. Accepted PRs #96–#102 subsequently completed the known
+repository-owned Phase 11C implementation and automation residuals for CJ-018,
+CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and
+CJ-028/CJ-029. The exact post-PR-102 inventory is 35 / 249 / 854. The fresh
+final automated residual audit found zero known repository-owned Phase 11C
+runtime, implementation, automation, or evidence-attribution gaps.
+Phase 11C remains active and incomplete. The exact continuation point is
+Phase 11C final automated consolidation -> Phase 11C manual evidence and final
+11C acceptance. This transition authorizes no hosted access, deployment,
+finding closure, or Production action, and no later Phase 11 slice has started.
 All 18 findings remain open; Phase 11K remains their exclusive closure gate.
 Overall Phase 11 remains incomplete.
 

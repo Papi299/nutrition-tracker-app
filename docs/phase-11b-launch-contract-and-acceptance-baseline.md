@@ -471,8 +471,10 @@ change. Future implementation and evidence require separately scoped tasks.
 
 The classification totals advance from the accurate historical PR #94 state
 `6 / 1 / 12 / 16` to `11 / 4 / 13 / 7`. The evidence inventory remains
-exactly 35 journeys, 223 automated references, and 718 evidence-axis claims,
-and no new no-JavaScript evidence credit is created.
+35 journeys; repository acceptance work through PR #102 establishes the
+current mechanically verified inventory of 249 automated references and 854
+evidence-axis claims. This derived current-state reconciliation does not alter
+any Section 7.1, 7.2, or 7.3 row or create evidence beyond the accepted tests.
 
 ## 3. Launch-contract decision register
 
@@ -1077,7 +1079,7 @@ its slice and separate authorization boundary.
 
 | Review defect | Corrected sections | Deterministic check | State |
 | --- | --- | --- | --- |
-| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; current counts 6/1/12/16; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; implementation/evidence pending |
+| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; current counts 11/4/13/7; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; repository automation accepted through PR #102; signed manual and later-slice evidence pending |
 | CJ-030 `NOT_APPLICABLE` interpretation | 1, 2.1, 2.7, 7.3, 14 | Option A preserves `NOT_APPLICABLE`; existing disabled-JavaScript behavior is non-contractual, receives no no-JavaScript evidence credit, and is not authorized for behavior change | Ambiguity resolved and owner-approved; independent review of the exact amendment head pending |
 | CJ-024/CJ-027 `NOT_APPLICABLE` classifications | 1, 2.1, 2.8, 7.2, 7.3, 14 | Both journeys are `NOT_APPLICABLE`; incidental disabled-JavaScript behavior may continue but is non-contractual, receives no no-JavaScript acceptance credit, and is not authorized for behavior change | Product decision gap resolved and owner-approved; independent review of the exact amendment head pending |
 | Unenforced invitation-only beta | 2.3, DEC-001/009/011/018/019/023/026–029, 4, 6, CJ-002/003/006–008/034/035, 8–10, 12, 13 | One selected Dashboard-issued model; open sign-up disabled; provider-native, operator-procedural, restricted-register, and future-automation layers explicit; all 25 controls fail closed with evidence/slice/gate ownership | Corrected and owner-approved; implementation/procedure/hosted evidence pending |

@@ -274,14 +274,23 @@ Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
 CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. The current contract is
 `1.4-phase-11b-remaining-implemented-nojs-amended`, current totals are
-`11 / 4 / 13 / 7`, and the evidence inventory remains 35 / 223 / 718. No
-runtime implementation or automated evidence credit is added.
+`11 / 4 / 13 / 7`; 35 / 223 / 718 remains the accurate historical snapshot of
+that classification amendment. Accepted PRs #96–#102 then advanced the
+repository-owned Phase 11C implementation and automation through CJ-018,
+CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and
+CJ-028/CJ-029. The exact post-PR-102 inventory is 35 journeys / 249 automated
+references / 854 evidence-axis claims. A fresh all-journey residual audit found
+zero known repository-owned Phase 11C runtime, implementation, automation, or
+evidence-attribution gaps.
 Phase 11C nevertheless remains active and incomplete.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18
-findings. Signed manual exploratory evidence remains absent. Phase 11D, Phase
-11E, Phase 11G, and Phase 11J retain their existing responsibilities, Phase
-11K remains the exclusive finding-closure gate, and no hosted access or
-deployment is authorized.
+findings. Signed Phase 11C manual exploratory evidence remains absent and is
+the next 11C acceptance boundary. Phase 11D retains the bilingual,
+accessibility, viewport, browser-engine, and visual matrix; Phase 11E retains
+auth/account lifecycle; Phase 11G retains reliability; and Phase 11J retains
+external, deployed, platform, and device evidence. Phase 11K remains the
+exclusive finding-closure gate, and no hosted access or deployment is
+authorized.
 
 ### Objective
 

@@ -262,11 +262,21 @@ is complete for the current MVP scope.
   CJ-004, CJ-009–CJ-012 `REQUIRED`; CJ-006, CJ-013, CJ-021
   `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The current contract
   is `1.4-phase-11b-remaining-implemented-nojs-amended`; current totals are
-  `11 / 4 / 13 / 7`, while the evidence inventory remains 35 / 223 / 718.
+  `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the historical
+  classification-amendment snapshot.
   These decisions add no implementation or automated evidence credit, and
-  runtime behavior is unchanged.
+  runtime behavior is unchanged. Accepted repository work then progressed
+  through PRs #96–#102: CJ-018 creation idempotency; CJ-004–CJ-006 auth/session
+  and tenant acceptance; CJ-012 manual-entry completion; CJ-013/CJ-021
+  fallbacks; CJ-001 public entry; CJ-009–CJ-011 setup/date recovery; and
+  CJ-028/CJ-029 manual barcode lookup. The exact post-PR-102 evidence inventory
+  is now 35 journeys / 249 automated references / 854 evidence-axis claims.
+  A fresh all-journey residual audit found zero known repository-owned Phase
+  11C runtime, implementation, automation, or evidence-attribution gaps.
   Phase 11C remains active and incomplete, all 18 findings remain open, and
-  Phase 11K remains their exclusive closure gate. The merged
+  Phase 11K remains their exclusive closure gate. Signed Phase 11C manual
+  evidence remains outstanding. Phase 11D and later slices have not started,
+  and no launch or deployment is authorized. The merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
   [readiness audit](docs/phase-11-qa-hardening-deployment-readiness-audit.md)
   and [Phase 11 plan](docs/phase-11-qa-hardening-deployment-readiness-plan.md)
