@@ -7,6 +7,7 @@ import {
   test,
   type Browser,
   type BrowserContext,
+  type Page,
 } from "@playwright/test";
 import type { Database } from "@/lib/supabase/database.types";
 
@@ -49,8 +50,11 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
   let otherFoodId: string;
   const publicFoodId = randomUUID();
   const sharedPublicFoodId = randomUUID();
+  const ambiguousPublicFoodAId = randomUUID();
+  const ambiguousPublicFoodBId = randomUUID();
   const runSeed = Date.now() % 100_000_000_000;
   const codes = {
+    ambiguous: canonicalGtin(runSeed + 7),
     archived: canonicalGtin(runSeed + 1),
     notFound: canonicalGtin(runSeed + 2),
     other: canonicalGtin(runSeed + 3),
@@ -131,6 +135,53 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     return result.data?.id as string;
   }
 
+  async function submitNativeBarcode(
+    page: Page,
+    {
+      code,
+      date = "2026-07-17",
+      locale = "en",
+      mealType = "snack",
+    }: {
+      code: string;
+      date?: string;
+      locale?: "en" | "he";
+      mealType?: "breakfast" | "lunch" | "dinner" | "snack" | "other";
+    },
+  ) {
+    await page.goto(`/${locale}/foods/barcode?date=${date}&mealType=${mealType}`);
+    await page.locator('input[name="code"]').fill(code);
+    await page
+      .locator('#barcode-lookup-form button[type="submit"]')
+      .click();
+  }
+
+  function snapshotApplicationState() {
+    return queryLocalDatabase(`
+      select jsonb_build_object(
+        'foods', (
+          select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+          from (select * from public.foods) scoped
+        ),
+        'food_barcodes', (
+          select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+          from (select * from public.food_barcodes) scoped
+        ),
+        'food_favorites', (
+          select coalesce(
+            jsonb_agg(to_jsonb(scoped) order by scoped.user_id, scoped.food_id),
+            '[]'::jsonb
+          )
+          from (select * from public.food_favorites) scoped
+        ),
+        'diary_entries', (
+          select coalesce(jsonb_agg(to_jsonb(scoped) order by scoped.id), '[]'::jsonb)
+          from (select * from public.diary_entries) scoped
+        )
+      )::text;
+    `);
+  }
+
   test.beforeAll(async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -209,6 +260,261 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
         ('${archivedFoodId}', '${codes.archived}', (select id from public.food_sources where code = 'user_custom'), null, 'user_asserted'),
         ('${otherFoodId}', '${codes.other}', (select id from public.food_sources where code = 'user_custom'), null, 'user_asserted');
     `);
+  });
+
+  test("submits owned, public, and owned-before-public results natively without JavaScript or mutation", async ({ browser }) => {
+    const before = snapshotApplicationState();
+    const context = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const page = await context.newPage();
+    const unexpectedExternalRequests: string[] = [];
+    page.on("request", (request) => {
+      const url = new URL(request.url());
+      if (
+        (url.protocol === "http:" || url.protocol === "https:") &&
+        url.hostname !== "127.0.0.1" &&
+        url.hostname !== "localhost"
+      ) {
+        unexpectedExternalRequests.push(request.url());
+      }
+    });
+
+    await submitNativeBarcode(page, {
+      code: codes.owned,
+      mealType: "lunch",
+    });
+    await expect(page).toHaveURL(
+      `/en/foods/barcode?code=${codes.owned}&date=2026-07-17&mealType=lunch`,
+    );
+    const owned = page.getByTestId("barcode-found_owned");
+    await expect(owned).toContainText("My Barcode Oat Bowl");
+    await expect(owned).not.toContainText("Other User Secret Barcode Food");
+    await expect(page.getByTestId("canonical-gtin")).toHaveText(codes.owned);
+    await expect(page.getByTestId("canonical-gtin")).toHaveAttribute("dir", "ltr");
+    await expect(
+      owned.getByRole("link", { name: "Review for diary" }),
+    ).toHaveAttribute(
+      "href",
+      `/en/today?date=2026-07-17&foodId=${ownedFoodId}&mealType=lunch`,
+    );
+
+    await submitNativeBarcode(page, {
+      code: codes.public,
+      locale: "he",
+      mealType: "other",
+    });
+    await expect(page.locator("html")).toHaveAttribute("lang", "he");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const publicReview = page.getByTestId("barcode-found_public");
+    await expect(publicReview).toContainText("Public Barcode Yogurt");
+    await expect(publicReview).not.toContainText("My Barcode Oat Bowl");
+    await expect(page.getByTestId("canonical-gtin")).toHaveText(codes.public);
+    await expect(page.getByTestId("canonical-gtin")).toHaveAttribute("dir", "ltr");
+    await expect(
+      publicReview.getByRole("link", { name: "עיון עבור היומן" }),
+    ).toHaveAttribute(
+      "href",
+      `/he/today?date=2026-07-17&foodId=${publicFoodId}&mealType=other`,
+    );
+
+    await submitNativeBarcode(page, { code: codes.shared });
+    const expectOwnedPrecedence = async () => {
+      const shared = page.getByTestId("barcode-found_owned");
+      await expect(shared).toContainText("My Preferred Shared Barcode");
+      await expect(shared).not.toContainText("Public Shared Barcode Food");
+      await expect(page.getByTestId("barcode-found_public")).toHaveCount(0);
+      await expect(page.locator('input[name="code"]')).toHaveValue(codes.shared);
+    };
+    await expectOwnedPrecedence();
+    await page
+      .locator('#barcode-lookup-form button[type="submit"]')
+      .click();
+    await expectOwnedPrecedence();
+    await page.reload();
+    await expectOwnedPrecedence();
+    await page.goBack();
+    await expectOwnedPrecedence();
+    await page.goForward();
+    await expectOwnedPrecedence();
+
+    expect(unexpectedExternalRequests).toEqual([]);
+    expect(snapshotApplicationState()).toBe(before);
+    await context.close();
+  });
+
+  test("keeps native no-JavaScript miss and negative states distinct, private, localized, and read-only", async ({ browser }) => {
+    const before = snapshotApplicationState();
+    const context = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const page = await context.newPage();
+    const unexpectedExternalRequests: string[] = [];
+    page.on("request", (request) => {
+      const url = new URL(request.url());
+      if (
+        (url.protocol === "http:" || url.protocol === "https:") &&
+        url.hostname !== "127.0.0.1" &&
+        url.hostname !== "localhost"
+      ) {
+        unexpectedExternalRequests.push(request.url());
+      }
+    });
+
+    const expectTrueLocalMiss = async (locale: "en" | "he") => {
+      const miss = page.getByTestId("barcode-not-found");
+      await expect(miss).toBeVisible();
+      await expect(page.getByTestId("barcode-invalid")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-unavailable")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-ambiguous")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-database-error")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-found_owned")).toHaveCount(0);
+      await expect(page.getByTestId("barcode-found_public")).toHaveCount(0);
+      await expect(
+        miss.getByRole("link", {
+          name:
+            locale === "he"
+              ? "יצירת מזון פרטי עם הברקוד הזה"
+              : "Create private food with this barcode",
+        }),
+      ).toHaveAttribute(
+        "href",
+        `/${locale}/foods/custom/new?barcode=${codes.notFound}&date=2026-07-17&mealType=snack`,
+      );
+    };
+
+    await submitNativeBarcode(page, { code: codes.notFound });
+    await expect(page.getByTestId("barcode-not-found")).toContainText(
+      "No readable local mapping was found",
+    );
+    await expect(page.getByTestId("barcode-not-found")).toContainText(
+      "External provider lookup is not available here",
+    );
+    await expectTrueLocalMiss("en");
+    await page
+      .locator('#barcode-lookup-form button[type="submit"]')
+      .click();
+    await expectTrueLocalMiss("en");
+    await page.reload();
+    await expectTrueLocalMiss("en");
+    await page.goBack();
+    await expectTrueLocalMiss("en");
+    await page.goForward();
+    await expectTrueLocalMiss("en");
+
+    await submitNativeBarcode(page, {
+      code: codes.notFound,
+      locale: "he",
+    });
+    await expect(page.locator("html")).toHaveAttribute("lang", "he");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator('input[name="code"]')).toHaveValue(codes.notFound);
+    await expectTrueLocalMiss("he");
+
+    await submitNativeBarcode(page, { code: "12345671" });
+    await expect(page.getByTestId("barcode-invalid")).toContainText(
+      "check digit",
+    );
+    await expect(page.getByTestId("barcode-not-found")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Review for diary" })).toHaveCount(0);
+
+    await submitNativeBarcode(page, { code: codes.other });
+    await expect(page.getByTestId("barcode-not-found")).toBeVisible();
+    await expect(page.locator("body")).not.toContainText(
+      "Other User Secret Barcode Food",
+    );
+    await expect(page.locator("body")).not.toContainText(otherFoodId);
+    await expect(page.getByTestId("barcode-found_owned")).toHaveCount(0);
+    await expect(page.getByTestId("barcode-found_public")).toHaveCount(0);
+
+    await submitNativeBarcode(page, { code: codes.archived });
+    await expect(page.getByTestId("barcode-unavailable")).toBeVisible();
+    await expect(page.getByTestId("barcode-not-found")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Review for diary" })).toHaveCount(0);
+    expect(unexpectedExternalRequests).toEqual([]);
+    await context.close();
+
+    const faultContext = await newAuthenticatedContext(browser, {
+      extraHTTPHeaders: { "x-phase9b-barcode-fault": "database_error" },
+      javaScriptEnabled: false,
+    });
+    const faultPage = await faultContext.newPage();
+    await submitNativeBarcode(faultPage, { code: codes.public });
+    await expect(faultPage.getByTestId("barcode-database-error")).toContainText(
+      "not a not-found result",
+    );
+    await expect(faultPage.getByTestId("barcode-not-found")).toHaveCount(0);
+    await expect(faultPage.locator("body")).not.toContainText("permission denied");
+    await faultContext.close();
+
+    queryLocalDatabase(`
+      alter table public.food_barcodes
+      drop constraint food_barcodes_scope_gtin_key;
+    `);
+    try {
+      queryLocalDatabase(`
+        insert into public.foods (
+          id, food_type, name, locale, serving_size, serving_unit,
+          data_quality, is_public, is_archived, source_id
+        ) values
+          ('${ambiguousPublicFoodAId}', 'generic', 'Ambiguous barcode A', 'en', 100, 'g', 'curated', true, false, (select id from public.food_sources where code = 'manual')),
+          ('${ambiguousPublicFoodBId}', 'generic', 'Ambiguous barcode B', 'en', 100, 'g', 'curated', true, false, (select id from public.food_sources where code = 'manual'));
+
+        insert into public.food_barcodes (
+          food_id, canonical_gtin, provenance_source_id, verification_status
+        ) values
+          ('${ambiguousPublicFoodAId}', '${codes.ambiguous}', (select id from public.food_sources where code = 'manual'), 'curated_verified'),
+          ('${ambiguousPublicFoodBId}', '${codes.ambiguous}', (select id from public.food_sources where code = 'manual'), 'curated_verified');
+      `);
+      const ambiguousContext = await newAuthenticatedContext(browser, {
+        javaScriptEnabled: false,
+      });
+      const ambiguousPage = await ambiguousContext.newPage();
+      await submitNativeBarcode(ambiguousPage, { code: codes.ambiguous });
+      await expect(ambiguousPage.getByTestId("barcode-ambiguous")).toBeVisible();
+      await expect(ambiguousPage.getByTestId("barcode-not-found")).toHaveCount(0);
+      await expect(
+        ambiguousPage.getByRole("link", { name: "Review for diary" }),
+      ).toHaveCount(0);
+      await ambiguousContext.close();
+    } finally {
+      queryLocalDatabase(`
+        delete from public.foods
+        where id in ('${ambiguousPublicFoodAId}', '${ambiguousPublicFoodBId}');
+
+        alter table public.food_barcodes
+        add constraint food_barcodes_scope_gtin_key
+        unique nulls not distinct (canonical_gtin, scope_owner_user_id);
+      `);
+    }
+    expect(
+      queryLocalDatabase(`
+        select count(*)
+        from pg_constraint
+        where conrelid = 'public.food_barcodes'::regclass
+          and conname = 'food_barcodes_scope_gtin_key';
+      `),
+    ).toBe("1");
+
+    const expiredContext = await newAuthenticatedContext(browser, {
+      javaScriptEnabled: false,
+    });
+    const expiredPage = await expiredContext.newPage();
+    await expiredPage.goto("/he/foods/barcode?date=2026-07-17");
+    await expiredContext.clearCookies();
+    await expiredPage.locator('input[name="code"]').fill(codes.owned);
+    await expiredPage
+      .locator('#barcode-lookup-form button[type="submit"]')
+      .click();
+    await expect(expiredPage).toHaveURL(/\/he\/auth\/sign-in$/);
+    await expect(expiredPage.locator("html")).toHaveAttribute("lang", "he");
+    await expect(expiredPage.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(expiredPage.locator("body")).not.toContainText(
+      "My Barcode Oat Bowl",
+    );
+    await expiredContext.close();
+
+    expect(snapshotApplicationState()).toBe(before);
   });
 
   test("bootstraps a browser-local date and supports localized no-JavaScript manual entry", async ({ browser }) => {
