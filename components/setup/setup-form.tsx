@@ -53,6 +53,7 @@ export function SetupForm({
   labels,
   languageOptions,
   pendingLabel,
+  permalink,
   sectionCopy,
   statusMessages,
   submitLabel,
@@ -67,6 +68,7 @@ export function SetupForm({
   labels: Record<SetupVisibleFieldName, string>;
   languageOptions: LanguageOption[];
   pendingLabel: string;
+  permalink: string;
   sectionCopy: {
     profileHelp: string;
     targetDescription: string;
@@ -75,7 +77,11 @@ export function SetupForm({
   statusMessages: Record<SetupActionStatus, string>;
   submitLabel: string;
 }) {
-  const [state, formAction, isPending] = useActionState(action, initialState);
+  const [state, formAction, isPending] = useActionState(
+    action,
+    initialState,
+    permalink,
+  );
   const values: SetupFieldValues = state.values;
   const statusTone = getStatusTone(state.status);
   const statusMessage = getStatusMessage(state.status, statusMessages);

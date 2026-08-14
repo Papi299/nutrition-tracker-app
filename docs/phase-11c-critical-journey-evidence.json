@@ -972,7 +972,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
@@ -998,12 +998,16 @@
         },
         {
           "path": "e2e/setup-persistence.spec.ts",
-          "testTitle": "CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes",
+          "testTitle": "CJ-009 completes first setup and recovers safely without JavaScript in Hebrew",
           "evidenceAxes": [
+            "positivePath",
             "failureStates",
             "staleConflictRetry",
             "dataIntegrity",
-            "browser"
+            "tenantIsolation",
+            "locale",
+            "browser",
+            "noJavaScript"
           ]
         },
         {
@@ -1097,7 +1101,7 @@
         "status": "EXTERNAL_REQUIRED"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
@@ -1137,10 +1141,15 @@
         },
         {
           "path": "e2e/setup-persistence.spec.ts",
-          "testTitle": "CJ-009 and CJ-010 reject application validation, database, and session failures without partial writes",
+          "testTitle": "CJ-010 updates, converges, and recovers safely without JavaScript",
           "evidenceAxes": [
+            "positivePath",
             "failureStates",
-            "dataIntegrity"
+            "staleConflictRetry",
+            "dataIntegrity",
+            "tenantIsolation",
+            "locale",
+            "noJavaScript"
           ]
         }
       ],
@@ -1227,7 +1236,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
@@ -1266,7 +1275,9 @@
             "staleConflictRetry",
             "dataIntegrity",
             "tenantIsolation",
-            "browser"
+            "locale",
+            "browser",
+            "noJavaScript"
           ]
         }
       ],
