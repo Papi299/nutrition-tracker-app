@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { persistSetupForCurrentUser } from "@/lib/setup";
+import { signInPath } from "@/lib/auth/require-user";
 import {
   defaultLocale,
   locales,
@@ -152,6 +153,10 @@ export async function saveSetupAction(
   );
 
   if (!setupResult.ok) {
+    if (setupResult.code === "unauthenticated") {
+      redirect(signInPath(locale));
+    }
+
     if (setupResult.code === "validation_error") {
       return validationFailure(
         values,
@@ -163,10 +168,7 @@ export async function saveSetupAction(
     }
 
     return {
-      status:
-        setupResult.code === "unauthenticated"
-          ? "unauthenticated"
-          : "database_error",
+      status: "database_error",
       values,
     };
   }
