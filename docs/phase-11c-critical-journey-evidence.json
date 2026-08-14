@@ -36,16 +36,16 @@
       "controllingSlice": "11C",
       "phase11cDisposition": "CURRENT_EVIDENCE_LINKED",
       "positivePath": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "failureStates": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "staleConflictRetry": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "dataIntegrity": {
-        "status": "NOT_VERIFIED"
+        "status": "AUTOMATED_PARTIAL"
       },
       "tenantIsolation": {
         "status": "NOT_APPLICABLE",
@@ -61,7 +61,7 @@
         "status": "AUTOMATED_PARTIAL"
       },
       "noJavaScript": {
-        "status": "NOT_VERIFIED",
+        "status": "AUTOMATED_PARTIAL",
         "classification": "REQUIRED"
       },
       "automatedEvidence": [
@@ -71,6 +71,36 @@
           "evidenceAxes": [
             "locale",
             "browser"
+          ]
+        },
+        {
+          "path": "e2e/smoke.spec.ts",
+          "testTitle": "Hebrew public home renders with RTL document attributes",
+          "evidenceAxes": [
+            "locale",
+            "browser"
+          ]
+        },
+        {
+          "path": "e2e/public-entry-nojs.spec.ts",
+          "testTitle": "CJ-001 traverses localized public and auth entry with native history and no application mutation",
+          "evidenceAxes": [
+            "positivePath",
+            "staleConflictRetry",
+            "dataIntegrity",
+            "locale",
+            "browser",
+            "noJavaScript"
+          ]
+        },
+        {
+          "path": "e2e/public-entry-nojs.spec.ts",
+          "testTitle": "CJ-001 rejects an unsupported locale safely without disclosure or application mutation",
+          "evidenceAxes": [
+            "failureStates",
+            "dataIntegrity",
+            "browser",
+            "noJavaScript"
           ]
         }
       ],

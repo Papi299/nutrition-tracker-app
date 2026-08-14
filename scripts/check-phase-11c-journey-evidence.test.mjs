@@ -74,7 +74,12 @@ test("rejects automated evidence claiming an axis marked EXTERNAL_REQUIRED", asy
 
 test("rejects an automated axis with no linked evidence", async () => {
   const evidence = evidenceFixture();
-  evidence.journeys[0].failureStates = { status: "AUTOMATED_PARTIAL" };
+  evidence.journeys[0].automatedEvidence = evidence.journeys[0].automatedEvidence.map(
+    (reference) => ({
+      ...reference,
+      evidenceAxes: reference.evidenceAxes.filter((axis) => axis !== "locale"),
+    }),
+  );
   await assert.rejects(validate(evidence), /claims automation without a linked test/);
 });
 
