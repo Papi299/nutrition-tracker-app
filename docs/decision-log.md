@@ -2246,3 +2246,34 @@
   deployment, Production, backup, restore, DNS, environment, secret, launch,
   or finding-closure operation occurred.
 - This is a draft candidate. Independent exact-head review remains required.
+
+## 2026-08-20: Phase 11C browser exploratory evidence candidate
+
+- Restarted browser exploration from exact accepted post-PR-104 `main`
+  `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
+  `9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. The earlier failed pre-PR-104 M1
+  attempt is superseded and receives no evidence credit.
+- Codex executed M1–M6 in English and Hebrew through the local in-app browser.
+  Automated Playwright was not substituted for those observations. All six
+  sessions passed with zero unresolved exploratory discrepancy, including
+  deterministic local failure/rollback/retry and cross-user nondisclosure
+  where required.
+- Evidence schema `1.2` records exactly 27 controlling Phase 11C journeys as
+  `COLLECTED_PENDING_INDEPENDENT_REVIEW`. The eight later-slice manual journeys
+  and all 35 external-evidence records remain `NOT_COLLECTED`; Codex is not the
+  independent reviewer and no human signature is fabricated.
+- Automated evidence remains exactly 35 journeys / 249 references / 854 claims,
+  with no-JavaScript totals `11 / 4 / 13 / 7`. Contract
+  `1.4-phase-11b-remaining-implemented-nojs-amended` and all normalized Section
+  7.1–7.3 fingerprints remain unchanged.
+- The clean exploratory pass required no application, component, Server
+  Action, translation, RPC, RLS, schema, migration, dependency, lockfile,
+  Supabase configuration, or CI-workflow change. Physical camera/device,
+  deployed, provider, accessibility, systematic viewport/browser-engine,
+  later-slice, and finding-closure evidence is not claimed.
+- Phase 11C is
+  `PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW`. Phase 11 remains
+  `INCOMPLETE`; all 18 findings, including `P11A-002` and `P11A-015`, remain
+  `OPEN`; Phase 11K remains the exclusive finding-closure gate. Phase 11D has
+  not started, and its Native Hebrew reviewer and accessibility/manual owner
+  remain `UNASSIGNED_BLOCKING_BEFORE_11D`.

@@ -282,10 +282,14 @@ CJ-028/CJ-029. The exact post-PR-102 inventory is 35 journeys / 249 automated
 references / 854 evidence-axis claims. A fresh all-journey residual audit found
 zero known repository-owned Phase 11C runtime, implementation, automation, or
 evidence-attribution gaps.
-Phase 11C nevertheless remains active and incomplete.
-`P11A-002` and `P11A-015` remain `OPEN`, as do all 18
-findings. Signed Phase 11C manual exploratory evidence remains absent and is
-the next 11C acceptance boundary. Phase 11D retains the bilingual,
+Codex then executed M1–M6 through the local in-app browser against exact
+post-PR-104 SHA `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
+`9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. Exactly 27 controlling Phase 11C
+manual records are `COLLECTED_PENDING_INDEPENDENT_REVIEW`; the eight
+later-slice manual records and all 35 external records remain `NOT_COLLECTED`.
+Phase 11C is an acceptance candidate pending independent exact-head ChatGPT
+review. `P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase
+11D retains the bilingual,
 accessibility, viewport, browser-engine, and visual matrix; Phase 11E retains
 auth/account lifecycle; Phase 11G retains reliability; and Phase 11J retains
 external, deployed, platform, and device evidence. Phase 11K remains the
