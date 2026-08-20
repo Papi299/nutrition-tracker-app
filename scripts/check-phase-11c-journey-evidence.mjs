@@ -25,10 +25,9 @@ const CONTRACT_VERSION = "1.4-phase-11b-remaining-implemented-nojs-amended";
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
 const EXPLORATORY_EVIDENCE_PATH =
   "docs/phase-11c-browser-exploratory-evidence.md";
-const SCHEMA_VERSION = "1.2";
+const SCHEMA_VERSION = "1.3";
 const TESTED_BASELINE_SHA = "b09ca42873d5114130f7dd9656ae8df185affabb";
-const CANDIDATE_STATUS =
-  "PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW";
+const FINAL_STATUS = "PHASE_11C_ACCEPTED";
 const REQUIRED_FIELDS = [
   "id",
   "journeyName",
@@ -86,7 +85,7 @@ const LATER_SLICE_MANUAL_JOURNEYS = new Set([
 ]);
 const MANUAL_EVIDENCE_VALUES = new Set([
   "NOT_COLLECTED",
-  "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+  "COLLECTED_ACCEPTED",
 ]);
 const EXPLORATORY_SESSIONS = new Set(["M1", "M2", "M3", "M4", "M5", "M6"]);
 
@@ -324,12 +323,12 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   if (evidence.baselineSha !== TESTED_BASELINE_SHA) {
     fail("baselineSha differs from the exact browser-tested baseline");
   }
-  if (evidence.phase !== "11C" || evidence.status !== CANDIDATE_STATUS) {
-    fail("Phase 11C must remain an acceptance candidate pending independent review");
+  if (evidence.phase !== "11C" || evidence.status !== FINAL_STATUS) {
+    fail("Phase 11C evidence must be in the accepted final state");
   }
   requireExactObject(
     evidence.manualEvidenceStatusValues,
-    ["NOT_COLLECTED", "COLLECTED_PENDING_INDEPENDENT_REVIEW"],
+    ["NOT_COLLECTED", "COLLECTED_ACCEPTED"],
     "manual evidence status vocabulary",
   );
   if (evidence.acceptedContract?.path !== CONTRACT_PATH) {
@@ -363,7 +362,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   const normativeById = new Map(normative.journeys.map((journey) => [journey.id, journey]));
   let automatedLinkCount = 0;
   let evidenceAxisClaimCount = 0;
-  let collectedPendingManualCount = 0;
+  let collectedAcceptedManualCount = 0;
   let notCollectedManualCount = 0;
   let notCollectedExternalCount = 0;
 
@@ -528,7 +527,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
         fail(`${journey.id} has unsupported manual evidence status`);
       }
       requireNonemptyString(manual.requirement, `${journey.id} manual requirement`);
-      if (manual.status === "COLLECTED_PENDING_INDEPENDENT_REVIEW") {
+      if (manual.status === "COLLECTED_ACCEPTED") {
         if (!Array.isArray(manual.sessions) || manual.sessions.length === 0) {
           fail(`${journey.id} collected manual evidence requires sessions`);
         }
@@ -556,7 +555,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
         }
         requireNonemptyString(manual.executor, `${journey.id} manual executor`);
         requireNonemptyString(manual.executedAt, `${journey.id} manual executedAt`);
-        collectedPendingManualCount += 1;
+        collectedAcceptedManualCount += 1;
       } else {
         notCollectedManualCount += 1;
       }
@@ -568,9 +567,9 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
       }
       if (
         !LATER_SLICE_MANUAL_JOURNEYS.has(journey.id) &&
-        manual.status !== "COLLECTED_PENDING_INDEPENDENT_REVIEW"
+        manual.status !== "COLLECTED_ACCEPTED"
       ) {
-        fail(`${journey.id} controlling Phase 11C manual evidence must be collected pending review`);
+        fail(`${journey.id} controlling Phase 11C manual evidence must be accepted`);
       }
     }
     for (const external of journey.externalEvidence) {
@@ -601,12 +600,12 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   }
   requireExactObject(
     {
-      collectedPending: collectedPendingManualCount,
+      collectedAccepted: collectedAcceptedManualCount,
       notCollectedLaterSlice: notCollectedManualCount,
       notCollectedExternal: notCollectedExternalCount,
     },
     {
-      collectedPending: 27,
+      collectedAccepted: 27,
       notCollectedLaterSlice: 8,
       notCollectedExternal: 35,
     },
@@ -640,7 +639,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     journeyCount: evidence.journeys.length,
     automatedLinkCount,
     evidenceAxisClaimCount,
-    collectedPendingManualCount,
+    collectedAcceptedManualCount,
     notCollectedManualCount,
     notCollectedExternalCount,
     noJavaScriptTotals,
@@ -659,7 +658,7 @@ export async function validateRepository(rootDir = process.cwd()) {
 async function main() {
   const result = await validateRepository();
   console.log(
-    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, manual evidence 27 collected-pending / 8 later-slice not-collected, 35 external not-collected, and no-JavaScript totals 11/4/13/7.`,
+    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, manual evidence 27 accepted / 8 later-slice not-collected, 35 external not-collected, and no-JavaScript totals 11/4/13/7.`,
   );
 }
 

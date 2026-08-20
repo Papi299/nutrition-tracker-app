@@ -57,13 +57,26 @@ test("rejects Section 7.3 no-JavaScript drift", async () => {
   await assert.rejects(validate(evidenceFixture(), changed), /classifications differ|fingerprints/);
 });
 
+test("rejects the candidate Phase 11C status after finalization", async () => {
+  const evidence = evidenceFixture();
+  evidence.status = "PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW";
+  await assert.rejects(validate(evidence), /must be in the accepted final state/);
+});
+
+test("rejects the old pending manual evidence status", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].manualEvidence[0].status =
+    "COLLECTED_PENDING_INDEPENDENT_REVIEW";
+  await assert.rejects(validate(evidence), /unsupported manual evidence status/);
+});
+
 test("rejects an unsupported manual evidence status", async () => {
   const evidence = evidenceFixture();
   evidence.journeys[0].manualEvidence[0].status = "COLLECTED_PASS";
   await assert.rejects(validate(evidence), /unsupported manual evidence status/);
 });
 
-test("rejects fake manual collection without evidence metadata", async () => {
+test("rejects accepted manual evidence without evidence metadata", async () => {
   const evidence = evidenceFixture();
   const manual = evidence.journeys[0].manualEvidence[0];
   delete manual.sessions;
@@ -95,8 +108,7 @@ test("rejects later-slice manual evidence falsely marked collected", async () =>
 
 test("rejects external evidence falsely marked collected", async () => {
   const evidence = evidenceFixture();
-  evidence.journeys[0].externalEvidence[0].status =
-    "COLLECTED_PENDING_INDEPENDENT_REVIEW";
+  evidence.journeys[0].externalEvidence[0].status = "COLLECTED_ACCEPTED";
   await assert.rejects(validate(evidence), /falsely represents external evidence as collected/);
 });
 

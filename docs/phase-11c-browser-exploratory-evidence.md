@@ -9,14 +9,20 @@
 | Environment | `LOCAL ONLY` |
 | Executor | Codex using the in-app browser |
 | Executed at | `2026-08-20T20:09:55+03:00` |
-| Independent reviewer | `PENDING_CHATGPT_REVIEW` |
-| Candidate state | `PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW` |
+| Independent reviewer | ChatGPT |
+| Reviewed candidate head | `d791013dc047ec40e6a503e5d682bdffdff45f61` |
+| Review result | Sufficient for Phase 11C-owned exploratory acceptance |
+| Final repository state | `PHASE_11C_ACCEPTED` |
 
 Codex executed the exploratory browser actions recorded here. Automated
 Playwright was not substituted for these observations. Database inspection was
 used only to verify the local persistence, rollback, ordering, and isolation
-outcomes of actions performed through the in-app browser. Codex does not grant
-final independent acceptance; exact-head ChatGPT review remains pending.
+outcomes of actions performed through the in-app browser. ChatGPT independently
+reviewed the exact candidate head identified above and found the M1-M6 evidence
+sufficient for Phase 11C-owned exploratory acceptance. The only requested
+change was mechanical final-state reconciliation before merge. This
+finalization is not new browser evidence, and the resulting finalization head
+still requires exact-head ChatGPT re-review before merge.
 
 The earlier failed pre-PR-104 M1 attempt is superseded and receives no evidence
 credit. Every credited observation below was restarted against the exact
@@ -249,8 +255,8 @@ claimed. **Session result: M6 PASS.**
 
 ## Controlling Phase 11C coverage ledger
 
-Exactly 27 controlling journeys have `COLLECTED_PENDING_INDEPENDENT_REVIEW`
-manual evidence in the machine-readable map.
+Exactly 27 controlling journeys have `COLLECTED_ACCEPTED` manual evidence in
+the machine-readable map.
 
 | Journey | Name | Session |
 | --- | --- | --- |
@@ -287,16 +293,19 @@ The eight later-slice journeys `CJ-002`, `CJ-003`, `CJ-007`, `CJ-008`,
 external-evidence records remain `NOT_COLLECTED`. Later-slice evidence is not
 credited here.
 
-## Candidate conclusion
+## Accepted Phase 11C conclusion
 
 All known repository-owned implementation, automation, and evidence-
 attribution gaps remain zero. M1–M6 were executed successfully through the
 in-app browser, all 27 controlling Phase 11C journeys have exploratory evidence,
 and there is zero unresolved exploratory discrepancy.
 
-This is an acceptance candidate, not final Phase 11 or launch acceptance.
-Phase 11 remains incomplete; all 18 findings, including `P11A-002` and
-`P11A-015`, remain open for Phase 11K closure. Phase 11D has not started, and
-the Native Hebrew reviewer and accessibility/manual-validation owner remain
-`UNASSIGNED_BLOCKING_BEFORE_11D`. Final Phase 11C acceptance awaits independent
-exact-head ChatGPT review.
+Phase 11C is accepted and complete for its owned scope. This acceptance closes
+no Phase 11 finding, gives no credit to the eight later-slice manual journeys
+or 35 external records, and does not authorize launch or deployment. Phase 11
+remains incomplete; all 18 findings, including `P11A-002` and `P11A-015`,
+remain open for Phase 11K closure. Phase 11D has not started, and the Native
+Hebrew reviewer and accessibility/manual-validation owner remain
+`UNASSIGNED_BLOCKING_BEFORE_11D`. ChatGPT must still re-review the exact
+finalization head before merge; this bookkeeping change itself is not new
+browser evidence.

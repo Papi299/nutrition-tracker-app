@@ -276,13 +276,17 @@ is complete for the current MVP scope.
   Codex then executed the six local in-app-browser exploratory sessions against
   exact post-PR-104 SHA `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
   `9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. Exactly 27 controlling Phase 11C
-  journeys now have `COLLECTED_PENDING_INDEPENDENT_REVIEW` evidence; the eight
+  journeys now have `COLLECTED_ACCEPTED` evidence; the eight
   later-slice manual journeys and all 35 external records remain
-  `NOT_COLLECTED`. Phase 11C is therefore an acceptance candidate pending
-  independent exact-head ChatGPT review, not self-approved or complete.
-  Overall Phase 11 remains incomplete, all 18 findings remain open, and Phase
-  11K remains their exclusive closure gate. Phase 11D and later slices have not
-  started, and no launch or deployment is authorized. The
+  `NOT_COLLECTED`. ChatGPT independently found the exact PR #105 candidate head
+  sufficient; Phase 11C is accepted and complete for its owned scope. The
+  mechanical finalization head still requires exact-head ChatGPT re-review
+  before merge. Phase 11C acceptance closes no finding and gives no later-slice
+  or external-evidence credit. Overall Phase 11 remains incomplete, all 18
+  findings remain open, including `P11A-002` and `P11A-015`, and Phase 11K
+  remains their exclusive closure gate. Phase 11D has not started; its Native
+  Hebrew reviewer and accessibility/manual-validation owner remain
+  `UNASSIGNED_BLOCKING_BEFORE_11D`. No launch or deployment is authorized. The
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),
@@ -737,7 +741,8 @@ Manual RTL QA checklist:
   documentation, decision, contract, and handoff scope. Overall Phase 11
   remains incomplete. Phase 11C1's traceability foundation and accepted
   bounded CJ-009–CJ-021 automated evidence are merged through PRs #73, #77,
-  and #83, while Phase 11C remains active and incomplete.
+  and #83. At that historical point, Phase 11C remained active and incomplete;
+  its current accepted state is recorded above.
 - Profile rows are not auto-created on signup. The setup flow creates them only
   after an authenticated user intentionally submits setup.
 - Nutrition target rows are manually entered only. No automatic BMR, TDEE, or
@@ -894,10 +899,13 @@ Manual RTL QA checklist:
   30 attributable owner decisions in its
   [accepted contract](docs/phase-11b-launch-contract-and-acceptance-baseline.md);
   all 18 findings remain open, Phase 11K remains their only closure gate, and
-  Phase 11C remains active and incomplete after Phase 11C1, the accepted
-  bounded evidence merged through PRs #73, #77, #83, #86, #89, and #90, and
-  the bounded CJ-022 stale-edit remediation, and the accepted bounded CJ-025
-  Recipe stale-edit remediation merged through PR #92. CJ-030 no-JavaScript
+  Phase 11C is accepted and complete for its owned scope after Phase 11C1, the
+  accepted bounded evidence merged through PRs #73, #77, #83, #86, #89, and
+  #90, the bounded CJ-022 stale-edit remediation, the accepted bounded CJ-025
+  Recipe stale-edit remediation merged through PR #92, later accepted
+  repository-owned corrections through PR #104, and independently reviewed
+  M1-M6 exploratory evidence. This acceptance closes no finding and grants no
+  launch or deployment authority. CJ-030 no-JavaScript
   remains `NOT_APPLICABLE` under the
   owner-approved Option A contract amendment; existing disabled-JavaScript
   behavior is not a support commitment or evidence-axis claim. CJ-024 and

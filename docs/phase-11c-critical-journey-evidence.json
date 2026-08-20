@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.2",
+  "schemaVersion": "1.3",
   "baselineSha": "b09ca42873d5114130f7dd9656ae8df185affabb",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -11,7 +11,7 @@
     }
   },
   "phase": "11C",
-  "status": "PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW",
+  "status": "PHASE_11C_ACCEPTED",
   "evidenceAxisValues": [
     "AUTOMATED",
     "AUTOMATED_PARTIAL",
@@ -106,7 +106,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M1"
@@ -442,7 +442,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M1"
@@ -582,7 +582,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M1"
@@ -713,7 +713,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M1"
@@ -1044,7 +1044,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -1185,7 +1185,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -1319,7 +1319,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -1558,7 +1558,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -1787,7 +1787,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -1931,7 +1931,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -2049,7 +2049,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M2"
@@ -2224,7 +2224,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -2386,7 +2386,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -2654,7 +2654,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -2922,7 +2922,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -3090,7 +3090,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -3276,7 +3276,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M3"
@@ -3472,7 +3472,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M4"
@@ -3588,7 +3588,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M4"
@@ -3734,7 +3734,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M4"
@@ -3932,7 +3932,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M5"
@@ -4055,7 +4055,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M5"
@@ -4330,7 +4330,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M5"
@@ -4493,7 +4493,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M6"
@@ -4652,7 +4652,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M6"
@@ -4856,7 +4856,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M6"
@@ -5350,7 +5350,7 @@
       ],
       "manualEvidence": [
         {
-          "status": "COLLECTED_PENDING_INDEPENDENT_REVIEW",
+          "status": "COLLECTED_ACCEPTED",
           "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
           "sessions": [
             "M1",
@@ -5717,6 +5717,6 @@
   ],
   "manualEvidenceStatusValues": [
     "NOT_COLLECTED",
-    "COLLECTED_PENDING_INDEPENDENT_REVIEW"
+    "COLLECTED_ACCEPTED"
   ]
 }

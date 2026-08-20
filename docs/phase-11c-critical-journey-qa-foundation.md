@@ -11,7 +11,7 @@
 | Current accepted main | `b09ca42873d5114130f7dd9656ae8df185affabb` / tree `9d7875514e860b11c5fd34bfb0086bcee1b2cbfd` |
 | Current accepted merge | PR #104; push CI run #173, attempt 1, Validate job `96484123084`, `SUCCESS` |
 | Accepted contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md), version `1.4-phase-11b-remaining-implemented-nojs-amended` |
-| Current status | `PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW` |
+| Current status | `PHASE_11C_ACCEPTED` — complete for its owned scope |
 | Evidence map | [Machine-readable critical-journey evidence](phase-11c-critical-journey-evidence.json) |
 | Browser evidence | [Consolidated local exploratory evidence](phase-11c-browser-exploratory-evidence.md) |
 | Deterministic checker | [Journey-evidence validator](../scripts/check-phase-11c-journey-evidence.mjs) |
@@ -56,7 +56,7 @@ contracts. The current contract totals are `11 / 4 / 13 / 7`.
 | `EXTERNAL_EVIDENCE_REQUIRED` | 1 |
 | Automated evidence references | 249 |
 | Automated evidence-axis claims | 854 |
-| Phase-11C manual objects at `COLLECTED_PENDING_INDEPENDENT_REVIEW` | 27 |
+| Phase-11C manual objects at `COLLECTED_ACCEPTED` | 27 |
 | Later-slice manual objects at `NOT_COLLECTED` | 8 |
 | External-evidence objects at `NOT_COLLECTED` | 35 |
 
@@ -130,17 +130,21 @@ Codex executed all six compressed sessions through the local in-app browser
 against exact SHA `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
 `9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. The consolidated evidence records
 the actions, observed behavior, retry, integrity, isolation, artifacts, and
-limitations. The resulting 27 controlling-11C records are collected pending
-independent review; Codex is the executor, not the independent reviewer.
+limitations. ChatGPT independently reviewed exact PR #105 candidate head
+`d791013dc047ec40e6a503e5d682bdffdff45f61` and found the resulting 27
+controlling-11C records sufficient for Phase 11C-owned exploratory acceptance.
+Codex remains the evidence executor. The only requested change was mechanical
+final-state reconciliation; it is not new browser evidence, and the resulting
+finalization head still requires exact-head ChatGPT re-review before merge.
 
 | Session | Journey IDs | English/Hebrew requirement and risk focus | Outcome |
 | --- | --- | --- | --- |
-| M1 — Public auth/session | `CJ-001`, `CJ-004`–`CJ-006`, `CJ-032` | English LTR and Hebrew RTL entry, valid/invalid auth, sign-out, expiry, reauthentication, safe redirects, generic failures, retry, and tenant nondisclosure. | `PASS`; collected pending independent review |
-| M2 — Setup/date/diary | `CJ-009`–`CJ-015`, `CJ-032` | English/Hebrew setup, effective dates, blank-as-null, explicit zero, diary create/edit/delete, stale/conflict/session/database recovery, snapshot integrity, and cross-user nondisclosure. | `PASS`; collected pending independent review |
-| M3 — Food discovery/custom/reuse | `CJ-016`–`CJ-021`, `CJ-032` | Bilingual search/prefill, selected-food fallbacks, create/edit/archive/restore, favorites/recents, stale creation/edit conflicts, null/zero semantics, and other-user exclusion. | `PASS`; collected pending independent review |
-| M4 — Saved Meals | `CJ-022`–`CJ-024`, `CJ-032` | Bilingual create/edit/archive/restore/use, stale edit, retry/rollback, ordered snapshots, null/zero behavior, and ownership isolation. | `PASS`; collected pending independent review |
-| M5 — Recipes | `CJ-025`–`CJ-027`, `CJ-032` | Bilingual create/edit/archive/restore/calculate/use, yield and completeness, stale source/review, overflow/invalid states, atomic retry/rollback, and ownership isolation. | `PASS`; collected pending independent review |
-| M6 — Manual barcode and handoff | `CJ-028`–`CJ-030`, `CJ-032` | English/Hebrew found, strict miss, invalid, archived, ambiguous, provider-disabled, session, owned-before-public, custom-food handoff, read-only lookup, and tenant nondisclosure. | `PASS`; collected pending independent review; no camera/device claim |
+| M1 — Public auth/session | `CJ-001`, `CJ-004`–`CJ-006`, `CJ-032` | English LTR and Hebrew RTL entry, valid/invalid auth, sign-out, expiry, reauthentication, safe redirects, generic failures, retry, and tenant nondisclosure. | `PASS`; accepted |
+| M2 — Setup/date/diary | `CJ-009`–`CJ-015`, `CJ-032` | English/Hebrew setup, effective dates, blank-as-null, explicit zero, diary create/edit/delete, stale/conflict/session/database recovery, snapshot integrity, and cross-user nondisclosure. | `PASS`; accepted |
+| M3 — Food discovery/custom/reuse | `CJ-016`–`CJ-021`, `CJ-032` | Bilingual search/prefill, selected-food fallbacks, create/edit/archive/restore, favorites/recents, stale creation/edit conflicts, null/zero semantics, and other-user exclusion. | `PASS`; accepted |
+| M4 — Saved Meals | `CJ-022`–`CJ-024`, `CJ-032` | Bilingual create/edit/archive/restore/use, stale edit, retry/rollback, ordered snapshots, null/zero behavior, and ownership isolation. | `PASS`; accepted |
+| M5 — Recipes | `CJ-025`–`CJ-027`, `CJ-032` | Bilingual create/edit/archive/restore/calculate/use, yield and completeness, stale source/review, overflow/invalid states, atomic retry/rollback, and ownership isolation. | `PASS`; accepted |
+| M6 — Manual barcode and handoff | `CJ-028`–`CJ-030`, `CJ-032` | English/Hebrew found, strict miss, invalid, archived, ambiguous, provider-disabled, session, owned-before-public, custom-food handoff, read-only lookup, and tenant nondisclosure. | `PASS`; accepted; no camera/device claim |
 
 This evidence does not duplicate Phase 11D accessibility, systematic
 viewport/browser-engine/visual matrices, or Phase 11J supported-device,
@@ -161,30 +165,34 @@ physical-camera, deployed-browser, and provider evidence.
 
 ## 7. Contract and checker invariants
 
-`npm run test:journey-evidence` runs 19 self-tests and validates the exact
+`npm run test:journey-evidence` runs 21 self-tests and validates the exact
 evidence map. The accepted normalized fingerprints remain:
 
 - Section 7.1: `40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91`
 - Section 7.2: `80dd6656788516ed3db5ae98097ea04be3bb3a8611b699b2a9f1232d239b72d2`
 - Section 7.3: `f4e51854b0b3a9047bd0d3250f74ffa57df394247f938ef8b0df6fc42a674a82`
 
-The evidence JSON is schema `1.2`, names the exact tested baseline, permits only
-`NOT_COLLECTED` and `COLLECTED_PENDING_INDEPENDENT_REVIEW` manual statuses, and
-remains `PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW`. Automated
-attribution and all normalized contract fingerprints are unchanged.
+The evidence JSON is schema `1.3`, names the exact tested baseline, permits only
+`NOT_COLLECTED` and `COLLECTED_ACCEPTED` manual statuses, and is
+`PHASE_11C_ACCEPTED`. Automated attribution and all normalized contract
+fingerprints are unchanged.
 
 ## 8. Final automated residual conclusion
 
 ZERO known unresolved repository-owned Phase 11C runtime, implementation, or
 automation gaps remain. ZERO existing-evidence attribution gaps remain.
 
-Phase 11C is an acceptance candidate pending independent exact-head review: all
-27 controlling manual-evidence objects are collected pending review, the eight
-later-slice manual objects remain uncollected, and all 35 external objects
-remain uncollected. This is not a launch-readiness claim.
+Phase 11C is accepted and complete for its owned scope: all 27 controlling
+manual-evidence objects are accepted, the eight later-slice manual objects
+remain uncollected, and all 35 external objects remain uncollected. This
+acceptance closes no finding and is not a launch-readiness or deployment claim.
+The mechanical finalization head still requires exact-head ChatGPT re-review
+before merge.
 
 Phase 11 remains `INCOMPLETE`; all 18 findings remain `OPEN`, including
 `P11A-002` and `P11A-015`; and Phase 11K remains the exclusive finding-closure
-gate. No 11D role was assigned, no later slice was started, and no hosted,
+gate. Phase 11D has not started and cannot begin while its Native Hebrew
+reviewer and accessibility/manual-validation owner remain
+`UNASSIGNED_BLOCKING_BEFORE_11D`. No later slice was started, and no hosted,
 deployment, Production, backup, restore, provider, physical-device, or camera
 operation is authorized or credited.
