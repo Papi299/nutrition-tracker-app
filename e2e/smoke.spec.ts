@@ -8,6 +8,14 @@ test.describe("localized public and signed-out route smoke checks", () => {
 
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+    await expect(
+      page.getByText(
+        /recipes—including creation, editing, management, nutrition calculation, and diary use—are implemented/i,
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/recipe nutrition and diary use.*remain unavailable/i),
+    ).toHaveCount(0);
   });
 
   test("Hebrew public home renders with RTL document attributes", async ({
@@ -17,6 +25,14 @@ test.describe("localized public and signed-out route smoke checks", () => {
 
     await expect(page.locator("html")).toHaveAttribute("lang", "he");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(
+      page.getByText(
+        /יצירה, עריכה וניהול של מתכונים, כולל חישוב הערכים התזונתיים שלהם ושימוש בהם ביומן, מיושמים/,
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/תזונת מתכונים ושימוש בהם ביומן.*אינם זמינים/),
+    ).toHaveCount(0);
   });
 
   test("signed-out English today route redirects to localized sign-in", async ({
