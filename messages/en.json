@@ -23,7 +23,7 @@
     },
     "status": {
       "title": "Current scope",
-      "body": "Accounts, profiles and manual targets, diary tracking, food search and reuse, custom-food management, saved meals, and recipe creation, editing, and management are implemented. Barcode scanning, recipe nutrition and diary use, external ingestion, broader analytics, and production deployment remain unavailable."
+      "body": "Accounts, profiles and manual targets, diary tracking, food search and reuse, custom-food management, saved meals, and recipes—including creation, editing, management, nutrition calculation, and diary use—are implemented. Camera barcode scanning, external ingestion, broader analytics, and production deployment remain unavailable."
     },
     "mixedSample": {
       "label": "Mixed-script sample:",
