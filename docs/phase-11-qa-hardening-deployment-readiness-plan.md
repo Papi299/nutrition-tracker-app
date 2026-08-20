@@ -196,7 +196,8 @@ unmerged. Independent review then accepted PR #84 source
 approved CJ-019 Option B: an owner may edit an archived custom food while the
 edit preserves archived/search-hidden state and restore remains separate. The
 accepted behavior matches the amended contract, resolving only that product
-discrepancy. Phase 11C remains active and incomplete. This transition
+discrepancy. At that historical transition, Phase 11C remained active and
+incomplete. This transition
 authorizes no hosted access, finding closure, Production release, deployment,
 or later Phase 11 work. Overall Phase 11 remains incomplete, and the dependency
 graph and two-stage evidence model above remain controlling.
@@ -282,15 +283,24 @@ CJ-028/CJ-029. The exact post-PR-102 inventory is 35 journeys / 249 automated
 references / 854 evidence-axis claims. A fresh all-journey residual audit found
 zero known repository-owned Phase 11C runtime, implementation, automation, or
 evidence-attribution gaps.
-Phase 11C nevertheless remains active and incomplete.
-`P11A-002` and `P11A-015` remain `OPEN`, as do all 18
-findings. Signed Phase 11C manual exploratory evidence remains absent and is
-the next 11C acceptance boundary. Phase 11D retains the bilingual,
+Codex then executed M1–M6 through the local in-app browser against exact
+post-PR-104 SHA `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
+`9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. Exactly 27 controlling Phase 11C
+manual records are `COLLECTED_ACCEPTED`; the eight
+later-slice manual records and all 35 external records remain `NOT_COLLECTED`.
+ChatGPT independently found the exact PR #105 candidate head sufficient; Phase
+11C is accepted and complete for its owned scope. Merge policy requires
+exact-head ChatGPT re-review of the final PR head before merge. This acceptance
+closes no finding and creates no later-slice or external-evidence credit.
+`P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D has
+not started and cannot begin while its Native Hebrew reviewer and
+accessibility/manual-validation owner remain
+`UNASSIGNED_BLOCKING_BEFORE_11D`. Phase 11D retains the bilingual,
 accessibility, viewport, browser-engine, and visual matrix; Phase 11E retains
 auth/account lifecycle; Phase 11G retains reliability; and Phase 11J retains
 external, deployed, platform, and device evidence. Phase 11K remains the
-exclusive finding-closure gate, and no hosted access or deployment is
-authorized.
+exclusive finding-closure gate. Overall Phase 11 remains incomplete, and no
+hosted access, launch, or deployment is authorized.
 
 ### Objective
 

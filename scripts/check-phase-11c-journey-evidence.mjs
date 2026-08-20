@@ -23,6 +23,11 @@ export const AXIS_FIELDS = [
 const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md";
 const CONTRACT_VERSION = "1.4-phase-11b-remaining-implemented-nojs-amended";
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
+const EXPLORATORY_EVIDENCE_PATH =
+  "docs/phase-11c-browser-exploratory-evidence.md";
+const SCHEMA_VERSION = "1.3";
+const TESTED_BASELINE_SHA = "b09ca42873d5114130f7dd9656ae8df185affabb";
+const FINAL_STATUS = "PHASE_11C_ACCEPTED";
 const REQUIRED_FIELDS = [
   "id",
   "journeyName",
@@ -68,6 +73,21 @@ const PHASE_11E_JOURNEYS = new Set([
   "CJ-034",
   "CJ-035",
 ]);
+const LATER_SLICE_MANUAL_JOURNEYS = new Set([
+  "CJ-002",
+  "CJ-003",
+  "CJ-007",
+  "CJ-008",
+  "CJ-031",
+  "CJ-033",
+  "CJ-034",
+  "CJ-035",
+]);
+const MANUAL_EVIDENCE_VALUES = new Set([
+  "NOT_COLLECTED",
+  "COLLECTED_ACCEPTED",
+]);
+const EXPLORATORY_SESSIONS = new Set(["M1", "M2", "M3", "M4", "M5", "M6"]);
 
 const SECTION_DEFINITIONS = {
   section7_1: {
@@ -297,6 +317,20 @@ function requireExactObject(actual, expected, context) {
 
 export async function validateEvidence({ evidence, contract, rootDir = process.cwd() }) {
   const normative = parseNormativeContract(contract);
+  if (evidence.schemaVersion !== SCHEMA_VERSION) {
+    fail(`schemaVersion must be ${SCHEMA_VERSION}`);
+  }
+  if (evidence.baselineSha !== TESTED_BASELINE_SHA) {
+    fail("baselineSha differs from the exact browser-tested baseline");
+  }
+  if (evidence.phase !== "11C" || evidence.status !== FINAL_STATUS) {
+    fail("Phase 11C evidence must be in the accepted final state");
+  }
+  requireExactObject(
+    evidence.manualEvidenceStatusValues,
+    ["NOT_COLLECTED", "COLLECTED_ACCEPTED"],
+    "manual evidence status vocabulary",
+  );
   if (evidence.acceptedContract?.path !== CONTRACT_PATH) {
     fail("accepted contract path differs from the approved path");
   }
@@ -328,6 +362,9 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   const normativeById = new Map(normative.journeys.map((journey) => [journey.id, journey]));
   let automatedLinkCount = 0;
   let evidenceAxisClaimCount = 0;
+  let collectedAcceptedManualCount = 0;
+  let notCollectedManualCount = 0;
+  let notCollectedExternalCount = 0;
 
   for (const journey of evidence.journeys) {
     for (const field of REQUIRED_FIELDS) {
@@ -482,11 +519,58 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
       requireNonemptyString(dependency.slice, `${journey.id} dependency slice`);
       requireNonemptyString(dependency.reason, `${journey.id} dependency reason`);
     }
+    if (journey.manualEvidence.length !== 1) {
+      fail(`${journey.id} must contain exactly one manual evidence record`);
+    }
     for (const manual of journey.manualEvidence) {
-      if (manual.status !== "NOT_COLLECTED") {
-        fail(`${journey.id} falsely represents manual evidence as collected`);
+      if (!MANUAL_EVIDENCE_VALUES.has(manual.status)) {
+        fail(`${journey.id} has unsupported manual evidence status`);
       }
       requireNonemptyString(manual.requirement, `${journey.id} manual requirement`);
+      if (manual.status === "COLLECTED_ACCEPTED") {
+        if (!Array.isArray(manual.sessions) || manual.sessions.length === 0) {
+          fail(`${journey.id} collected manual evidence requires sessions`);
+        }
+        if (
+          new Set(manual.sessions).size !== manual.sessions.length ||
+          manual.sessions.some((session) => !EXPLORATORY_SESSIONS.has(session))
+        ) {
+          fail(`${journey.id} collected manual evidence has an invalid session`);
+        }
+        requireNonemptyString(
+          manual.evidencePath,
+          `${journey.id} manual evidence path`,
+        );
+        if (manual.evidencePath !== EXPLORATORY_EVIDENCE_PATH) {
+          fail(`${journey.id} manual evidence path must use the consolidated evidence file`);
+        }
+        const manualEvidencePath = path.resolve(rootDir, manual.evidencePath);
+        if (!manualEvidencePath.startsWith(`${path.resolve(rootDir)}${path.sep}`)) {
+          fail(`${journey.id} manual evidence path escapes the repository`);
+        }
+        try {
+          await access(manualEvidencePath);
+        } catch {
+          fail(`${journey.id} manual evidence file does not exist`);
+        }
+        requireNonemptyString(manual.executor, `${journey.id} manual executor`);
+        requireNonemptyString(manual.executedAt, `${journey.id} manual executedAt`);
+        collectedAcceptedManualCount += 1;
+      } else {
+        notCollectedManualCount += 1;
+      }
+      if (
+        LATER_SLICE_MANUAL_JOURNEYS.has(journey.id) &&
+        manual.status !== "NOT_COLLECTED"
+      ) {
+        fail(`${journey.id} later-slice manual evidence must remain NOT_COLLECTED`);
+      }
+      if (
+        !LATER_SLICE_MANUAL_JOURNEYS.has(journey.id) &&
+        manual.status !== "COLLECTED_ACCEPTED"
+      ) {
+        fail(`${journey.id} controlling Phase 11C manual evidence must be accepted`);
+      }
     }
     for (const external of journey.externalEvidence) {
       if (external.status !== "NOT_COLLECTED") {
@@ -494,6 +578,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
       }
       requireNonemptyString(external.slice, `${journey.id} external slice`);
       requireNonemptyString(external.requirement, `${journey.id} external requirement`);
+      notCollectedExternalCount += 1;
     }
     for (const limitation of journey.currentLimitations) {
       requireNonemptyString(limitation, `${journey.id} current limitation`);
@@ -507,6 +592,25 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
       fail(`${journey.id} lacks evidence and an explicit blocker`);
     }
   }
+
+  if (automatedLinkCount !== 249 || evidenceAxisClaimCount !== 854) {
+    fail(
+      `automated evidence totals must remain 249 links / 854 claims, found ${automatedLinkCount} / ${evidenceAxisClaimCount}`,
+    );
+  }
+  requireExactObject(
+    {
+      collectedAccepted: collectedAcceptedManualCount,
+      notCollectedLaterSlice: notCollectedManualCount,
+      notCollectedExternal: notCollectedExternalCount,
+    },
+    {
+      collectedAccepted: 27,
+      notCollectedLaterSlice: 8,
+      notCollectedExternal: 35,
+    },
+    "manual and external evidence totals",
+  );
 
   const noJavaScriptTotals = evidence.journeys.reduce(
     (totals, journey) => {
@@ -535,6 +639,9 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     journeyCount: evidence.journeys.length,
     automatedLinkCount,
     evidenceAxisClaimCount,
+    collectedAcceptedManualCount,
+    notCollectedManualCount,
+    notCollectedExternalCount,
     noJavaScriptTotals,
     normative,
   };
@@ -551,7 +658,7 @@ export async function validateRepository(rootDir = process.cwd()) {
 async function main() {
   const result = await validateRepository();
   console.log(
-    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, and no-JavaScript totals 11/4/13/7.`,
+    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, manual evidence 27 accepted / 8 later-slice not-collected, 35 external not-collected, and no-JavaScript totals 11/4/13/7.`,
   );
 }
 

@@ -476,6 +476,20 @@ current mechanically verified inventory of 249 automated references and 854
 evidence-axis claims. This derived current-state reconciliation does not alter
 any Section 7.1, 7.2, or 7.3 row or create evidence beyond the accepted tests.
 
+The separate Phase 11C browser evidence was executed locally by Codex against
+exact post-PR-104 SHA
+`b09ca42873d5114130f7dd9656ae8df185affabb`, tree
+`9d7875514e860b11c5fd34bfb0086bcee1b2cbfd`. It records 27 controlling manual
+journeys as `COLLECTED_ACCEPTED`; the eight later-slice
+manual journeys and all 35 external records remain `NOT_COLLECTED`. This does
+not amend the normative Section 7.1–7.3 contract, its
+`1.4-phase-11b-remaining-implemented-nojs-amended` version, or its normalized
+fingerprints. ChatGPT independently found the exact PR #105 candidate head
+sufficient; Phase 11C is accepted and complete for its owned scope. Merge
+policy requires exact-head ChatGPT re-review of the final PR head before merge.
+Phase 11 remains incomplete, all 18 findings remain open for Phase 11K
+only, Phase 11D has not started, and no launch or deployment is authorized.
+
 ## 3. Launch-contract decision register
 
 All 30 rows are `PRODUCT_OWNER_APPROVED`. Each approved answer is the exact

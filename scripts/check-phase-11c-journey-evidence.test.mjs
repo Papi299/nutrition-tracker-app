@@ -57,6 +57,67 @@ test("rejects Section 7.3 no-JavaScript drift", async () => {
   await assert.rejects(validate(evidenceFixture(), changed), /classifications differ|fingerprints/);
 });
 
+test("rejects the candidate Phase 11C status after finalization", async () => {
+  const evidence = evidenceFixture();
+  evidence.status = "PHASE_11C_ACCEPTANCE_CANDIDATE_PENDING_INDEPENDENT_REVIEW";
+  await assert.rejects(validate(evidence), /must be in the accepted final state/);
+});
+
+test("rejects the old pending manual evidence status", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].manualEvidence[0].status =
+    "COLLECTED_PENDING_INDEPENDENT_REVIEW";
+  await assert.rejects(validate(evidence), /unsupported manual evidence status/);
+});
+
+test("rejects an unsupported manual evidence status", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].manualEvidence[0].status = "COLLECTED_PASS";
+  await assert.rejects(validate(evidence), /unsupported manual evidence status/);
+});
+
+test("rejects accepted manual evidence without evidence metadata", async () => {
+  const evidence = evidenceFixture();
+  const manual = evidence.journeys[0].manualEvidence[0];
+  delete manual.sessions;
+  delete manual.evidencePath;
+  delete manual.executor;
+  delete manual.executedAt;
+  await assert.rejects(validate(evidence), /requires sessions/);
+});
+
+test("rejects an invalid exploratory session", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].manualEvidence[0].sessions = ["M7"];
+  await assert.rejects(validate(evidence), /invalid session/);
+});
+
+test("rejects a missing manual evidence path", async () => {
+  const evidence = evidenceFixture();
+  delete evidence.journeys[0].manualEvidence[0].evidencePath;
+  await assert.rejects(validate(evidence), /manual evidence path must be a nonempty string/);
+});
+
+test("rejects later-slice manual evidence falsely marked collected", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[1].manualEvidence[0] = structuredClone(
+    evidence.journeys[0].manualEvidence[0],
+  );
+  await assert.rejects(validate(evidence), /later-slice manual evidence must remain/);
+});
+
+test("rejects external evidence falsely marked collected", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].externalEvidence[0].status = "COLLECTED_ACCEPTED";
+  await assert.rejects(validate(evidence), /falsely represents external evidence as collected/);
+});
+
+test("rejects automated evidence count or attribution drift", async () => {
+  const evidence = evidenceFixture();
+  evidence.journeys[0].automatedEvidence.shift();
+  await assert.rejects(validate(evidence), /automated evidence totals must remain/);
+});
+
 test("rejects automated evidence claiming an axis marked LATER_SLICE", async () => {
   const evidence = evidenceFixture();
   evidence.journeys[0].locale = { status: "LATER_SLICE", slice: "11D" };

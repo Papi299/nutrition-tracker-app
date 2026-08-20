@@ -1,6 +1,6 @@
 {
-  "schemaVersion": "1.1",
-  "baselineSha": "eae0cd64284cf103a2ca326568c0d01e2c71d3ff",
+  "schemaVersion": "1.3",
+  "baselineSha": "b09ca42873d5114130f7dd9656ae8df185affabb",
   "acceptedContract": {
     "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
     "version": "1.4-phase-11b-remaining-implemented-nojs-amended",
@@ -10,8 +10,8 @@
       "section7_3": "f4e51854b0b3a9047bd0d3250f74ffa57df394247f938ef8b0df6fc42a674a82"
     }
   },
-  "phase": "11C1",
-  "status": "PHASE_11C_ACTIVE_INCOMPLETE",
+  "phase": "11C",
+  "status": "PHASE_11C_ACCEPTED",
   "evidenceAxisValues": [
     "AUTOMATED",
     "AUTOMATED_PARTIAL",
@@ -106,8 +106,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M1"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -436,8 +442,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M1"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -570,8 +582,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M1"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -695,8 +713,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M1"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1020,8 +1044,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1155,8 +1185,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1283,8 +1319,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1516,8 +1558,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1739,8 +1787,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1877,8 +1931,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -1989,8 +2049,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M2"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -2158,8 +2224,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -2314,8 +2386,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -2576,8 +2654,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -2838,8 +2922,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3000,8 +3090,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3180,8 +3276,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M3"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3370,8 +3472,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M4"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3480,8 +3588,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M4"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3620,8 +3734,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M4"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3812,8 +3932,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M5"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -3929,8 +4055,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M5"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -4198,8 +4330,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M5"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -4355,8 +4493,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M6"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -4508,8 +4652,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M6"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -4706,8 +4856,14 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M6"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -5194,8 +5350,19 @@
       ],
       "manualEvidence": [
         {
-          "status": "NOT_COLLECTED",
-          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required."
+          "status": "COLLECTED_ACCEPTED",
+          "requirement": "Signed English/Hebrew exploratory evidence for the approved risk cases remains required.",
+          "sessions": [
+            "M1",
+            "M2",
+            "M3",
+            "M4",
+            "M5",
+            "M6"
+          ],
+          "evidencePath": "docs/phase-11c-browser-exploratory-evidence.md",
+          "executor": "Codex in-app browser",
+          "executedAt": "2026-08-20T20:09:55+03:00"
         }
       ],
       "laterSliceDependencies": [
@@ -5547,5 +5714,9 @@
         "noJavaScriptValidationMethod": "Decide architecture, then test disabled-script confirmation/cancellation/retry where applicable plus lifecycle integrity."
       }
     }
+  ],
+  "manualEvidenceStatusValues": [
+    "NOT_COLLECTED",
+    "COLLECTED_ACCEPTED"
   ]
 }
