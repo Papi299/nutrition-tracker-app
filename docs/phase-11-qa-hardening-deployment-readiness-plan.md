@@ -289,8 +289,8 @@ post-PR-104 SHA `b09ca42873d5114130f7dd9656ae8df185affabb`, tree
 manual records are `COLLECTED_ACCEPTED`; the eight
 later-slice manual records and all 35 external records remain `NOT_COLLECTED`.
 ChatGPT independently found the exact PR #105 candidate head sufficient; Phase
-11C is accepted and complete for its owned scope. The mechanical finalization
-head still requires exact-head ChatGPT re-review before merge. This acceptance
+11C is accepted and complete for its owned scope. Merge policy requires
+exact-head ChatGPT re-review of the final PR head before merge. This acceptance
 closes no finding and creates no later-slice or external-evidence credit.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D has
 not started and cannot begin while its Native Hebrew reviewer and

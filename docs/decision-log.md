@@ -2292,8 +2292,8 @@
   no-JavaScript totals `11 / 4 / 13 / 7`.
 - The tested SHA, tree, executor, execution timestamp, M1-M6 observations, and
   16 screenshots are unchanged. This reconciliation is not new browser
-  evidence. The resulting finalization head still requires exact-head ChatGPT
-  re-review before merge.
+  evidence. Merge policy requires exact-head ChatGPT re-review of the final PR
+  head before merge.
 - Contract `1.4-phase-11b-remaining-implemented-nojs-amended` and the normalized
   Section 7.1-7.3 fingerprints remain unchanged; no normative row or cell was
   amended.

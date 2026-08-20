@@ -280,7 +280,7 @@ is complete for the current MVP scope.
   later-slice manual journeys and all 35 external records remain
   `NOT_COLLECTED`. ChatGPT independently found the exact PR #105 candidate head
   sufficient; Phase 11C is accepted and complete for its owned scope. The
-  mechanical finalization head still requires exact-head ChatGPT re-review
+  merge policy requires exact-head ChatGPT re-review of the final PR head
   before merge. Phase 11C acceptance closes no finding and gives no later-slice
   or external-evidence credit. Overall Phase 11 remains incomplete, all 18
   findings remain open, including `P11A-002` and `P11A-015`, and Phase 11K

@@ -134,8 +134,8 @@ limitations. ChatGPT independently reviewed exact PR #105 candidate head
 `d791013dc047ec40e6a503e5d682bdffdff45f61` and found the resulting 27
 controlling-11C records sufficient for Phase 11C-owned exploratory acceptance.
 Codex remains the evidence executor. The only requested change was mechanical
-final-state reconciliation; it is not new browser evidence, and the resulting
-finalization head still requires exact-head ChatGPT re-review before merge.
+final-state reconciliation; it is not new browser evidence. Merge policy
+requires exact-head ChatGPT re-review of the final PR head before merge.
 
 | Session | Journey IDs | English/Hebrew requirement and risk focus | Outcome |
 | --- | --- | --- | --- |
@@ -186,8 +186,8 @@ Phase 11C is accepted and complete for its owned scope: all 27 controlling
 manual-evidence objects are accepted, the eight later-slice manual objects
 remain uncollected, and all 35 external objects remain uncollected. This
 acceptance closes no finding and is not a launch-readiness or deployment claim.
-The mechanical finalization head still requires exact-head ChatGPT re-review
-before merge.
+Merge policy requires exact-head ChatGPT re-review of the final PR head before
+merge.
 
 Phase 11 remains `INCOMPLETE`; all 18 findings remain `OPEN`, including
 `P11A-002` and `P11A-015`; and Phase 11K remains the exclusive finding-closure

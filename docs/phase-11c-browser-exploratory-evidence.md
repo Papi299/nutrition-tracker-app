@@ -21,8 +21,8 @@ outcomes of actions performed through the in-app browser. ChatGPT independently
 reviewed the exact candidate head identified above and found the M1-M6 evidence
 sufficient for Phase 11C-owned exploratory acceptance. The only requested
 change was mechanical final-state reconciliation before merge. This
-finalization is not new browser evidence, and the resulting finalization head
-still requires exact-head ChatGPT re-review before merge.
+finalization is not new browser evidence. Merge policy requires exact-head
+ChatGPT re-review of the final PR head before merge.
 
 The earlier failed pre-PR-104 M1 attempt is superseded and receives no evidence
 credit. Every credited observation below was restarted against the exact
@@ -306,6 +306,6 @@ or 35 external records, and does not authorize launch or deployment. Phase 11
 remains incomplete; all 18 findings, including `P11A-002` and `P11A-015`,
 remain open for Phase 11K closure. Phase 11D has not started, and the Native
 Hebrew reviewer and accessibility/manual-validation owner remain
-`UNASSIGNED_BLOCKING_BEFORE_11D`. ChatGPT must still re-review the exact
-finalization head before merge; this bookkeeping change itself is not new
-browser evidence.
+`UNASSIGNED_BLOCKING_BEFORE_11D`. Merge policy requires exact-head ChatGPT
+re-review of the final PR head before merge; this bookkeeping change itself is
+not new browser evidence.

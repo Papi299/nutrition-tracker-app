@@ -485,9 +485,9 @@ manual journeys and all 35 external records remain `NOT_COLLECTED`. This does
 not amend the normative Section 7.1–7.3 contract, its
 `1.4-phase-11b-remaining-implemented-nojs-amended` version, or its normalized
 fingerprints. ChatGPT independently found the exact PR #105 candidate head
-sufficient; Phase 11C is accepted and complete for its owned scope. The
-mechanical finalization head still requires exact-head ChatGPT re-review before
-merge. Phase 11 remains incomplete, all 18 findings remain open for Phase 11K
+sufficient; Phase 11C is accepted and complete for its owned scope. Merge
+policy requires exact-head ChatGPT re-review of the final PR head before merge.
+Phase 11 remains incomplete, all 18 findings remain open for Phase 11K
 only, Phase 11D has not started, and no launch or deployment is authorized.
 
 ## 3. Launch-contract decision register
