@@ -420,9 +420,12 @@ does not authorize launch or deployment, and creates no later-slice or external
 evidence credit. No hosted access, Production action, or later Phase 11 slice
 has started. All 18 findings, including `P11A-002` and `P11A-015`, remain open;
 Phase 11K remains their exclusive closure gate. Overall Phase 11 remains
-incomplete. Phase 11D is not started and cannot begin while its Native Hebrew
-reviewer and accessibility/manual-validation owner remain
-`UNASSIGNED_BLOCKING_BEFORE_11D`.
+incomplete. Phase 11D is not started. On 2026-08-21, Product Owner Maor
+Pichhadze explicitly assigned himself as the Native Hebrew reviewer and
+accessibility/manual-validation owner and accepted both assignments. The roles
+are `ASSIGNED_AND_APPROVED`, satisfying the Phase 11D role-governance
+prerequisites without crediting any Phase 11D evidence. Consolidated Phase 11D
+planning/execution is the next justified continuation point.
 
 ## Future PR Documentation Rule
 

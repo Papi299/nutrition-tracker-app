@@ -293,14 +293,15 @@ ChatGPT independently found the exact PR #105 candidate head sufficient; Phase
 exact-head ChatGPT re-review of the final PR head before merge. This acceptance
 closes no finding and creates no later-slice or external-evidence credit.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D has
-not started and cannot begin while its Native Hebrew reviewer and
-accessibility/manual-validation owner remain
-`UNASSIGNED_BLOCKING_BEFORE_11D`. Phase 11D retains the bilingual,
-accessibility, viewport, browser-engine, and visual matrix; Phase 11E retains
-auth/account lifecycle; Phase 11G retains reliability; and Phase 11J retains
-external, deployed, platform, and device evidence. Phase 11K remains the
-exclusive finding-closure gate. Overall Phase 11 remains incomplete, and no
-hosted access, launch, or deployment is authorized.
+not started. On 2026-08-21, Product Owner Maor Pichhadze explicitly assigned
+himself as the Native Hebrew reviewer and accessibility/manual-validation owner
+and accepted both assignments. The two Phase 11D role-governance prerequisites
+are satisfied, but no Phase 11D evidence is credited. Phase 11D retains the
+bilingual, accessibility, viewport, browser-engine, and visual matrix; Phase
+11E retains auth/account lifecycle; Phase 11G retains reliability; and Phase
+11J retains external, deployed, platform, and device evidence. Phase 11K
+remains the exclusive finding-closure gate. Overall Phase 11 remains
+incomplete, and no hosted access, launch, or deployment is authorized.
 
 ### Objective
 
@@ -337,6 +338,13 @@ Focused local tests during development and the authoritative GitHub matrix;
 manual checklist evidence for non-automatable cases.
 
 ## 10. Phase 11D — Accessibility, localization, responsive, and browser UI
+
+**Current status:** Phase 11D has not started. Its Native Hebrew reviewer and
+accessibility/manual-validation owner are `ASSIGNED_AND_APPROVED` to Maor
+Pichhadze through his explicit Product Owner assignment and acceptance on
+2026-08-21. The role-assignment gate is satisfied, making consolidated Phase
+11D planning/execution the next justified work boundary, but this recording
+change provides no Phase 11D implementation, validation, or evidence credit.
 
 ### Objective
 
