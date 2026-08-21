@@ -284,9 +284,13 @@ is complete for the current MVP scope.
   before merge. Phase 11C acceptance closes no finding and gives no later-slice
   or external-evidence credit. Overall Phase 11 remains incomplete, all 18
   findings remain open, including `P11A-002` and `P11A-015`, and Phase 11K
-  remains their exclusive closure gate. Phase 11D has not started; its Native
-  Hebrew reviewer and accessibility/manual-validation owner remain
-  `UNASSIGNED_BLOCKING_BEFORE_11D`. No launch or deployment is authorized. The
+  remains their exclusive closure gate. Phase 11D has not started. On
+  2026-08-21, Product Owner Maor Pichhadze explicitly assigned himself as the
+  Native Hebrew reviewer and accessibility/manual-validation owner and
+  accepted both assignments. Both roles are `ASSIGNED_AND_APPROVED`, satisfying
+  the Phase 11D role-governance prerequisites without crediting any Phase 11D
+  evidence. Consolidated Phase 11D planning/execution is the next justified
+  continuation point. No launch or deployment is authorized. The
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

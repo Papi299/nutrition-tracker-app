@@ -2304,3 +2304,33 @@
   exclusive finding-closure gate. Phase 11D is `NOT STARTED` and cannot begin
   while its Native Hebrew reviewer and accessibility/manual-validation owner
   remain `UNASSIGNED_BLOCKING_BEFORE_11D`.
+
+## 2026-08-21: Phase 11D prerequisite role assignments
+
+- Product Owner Maor Pichhadze explicitly assigned himself as the Native
+  Hebrew reviewer and as the accessibility/manual-validation owner for Phase
+  11D and accepted both assignments.
+- The Native Hebrew reviewer changed from
+  `UNASSIGNED_BLOCKING_BEFORE_11D` with no assignee to
+  `ASSIGNED_AND_APPROVED` with Maor Pichhadze as assignee. The attributable
+  assignment and acceptance date is 2026-08-21, satisfying its before-11D
+  deadline.
+- The accessibility/manual-validation owner changed from
+  `UNASSIGNED_BLOCKING_BEFORE_11D` with no assignee to
+  `ASSIGNED_AND_APPROVED` with Maor Pichhadze as assignee. The attributable
+  assignment and acceptance date is 2026-08-21, satisfying its before-11D
+  deadline.
+- These assignments satisfy the Phase 11D role-governance prerequisites, so
+  consolidated Phase 11D planning/execution is the next justified work
+  boundary. Phase 11D remains not started, and this decision records no Hebrew,
+  accessibility, manual, browser, viewport, camera, or other Phase 11D
+  validation or evidence.
+- Phase 11C remains `PHASE_11C_ACCEPTED`; overall Phase 11 remains
+  `INCOMPLETE`; all 18 findings remain `OPEN`; and Phase 11K remains the
+  exclusive finding-closure gate. Contract
+  `1.4-phase-11b-remaining-implemented-nojs-amended`, all Section 7.1–7.3
+  normative content and fingerprints, the evidence inventory, and all later
+  role assignments remain unchanged.
+- No hosted Supabase, remote database, Vercel, Production, deployment, DNS,
+  environment, secret, provider, backup, restore, launch, or finding-closure
+  operation occurred.

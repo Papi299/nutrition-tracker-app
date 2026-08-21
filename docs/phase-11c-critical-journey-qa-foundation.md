@@ -154,8 +154,11 @@ physical-camera, deployed-browser, and provider evidence.
 
 - Phase 11D remains responsible across all 35 journeys for the approved
   bilingual, accessibility, viewport, browser-engine, and visual matrix and
-  controls CJ-031. The Native Hebrew reviewer and Accessibility and
-  manual-validation owner both remain `UNASSIGNED_BLOCKING_BEFORE_11D`.
+  controls CJ-031. On 2026-08-21, Product Owner Maor Pichhadze explicitly
+  assigned himself as the Native Hebrew reviewer and Accessibility and
+  manual-validation owner and accepted both assignments. Both roles are
+  `ASSIGNED_AND_APPROVED`, satisfying the Phase 11D role-governance
+  prerequisites without starting Phase 11D or crediting its evidence.
 - Phase 11E controls CJ-002, CJ-003, CJ-007, CJ-008, CJ-034, and CJ-035.
 - Phase 11G controls the remaining CJ-033 reliability, recovery,
   observability, and performance work.
@@ -191,8 +194,10 @@ merge.
 
 Phase 11 remains `INCOMPLETE`; all 18 findings remain `OPEN`, including
 `P11A-002` and `P11A-015`; and Phase 11K remains the exclusive finding-closure
-gate. Phase 11D has not started and cannot begin while its Native Hebrew
-reviewer and accessibility/manual-validation owner remain
-`UNASSIGNED_BLOCKING_BEFORE_11D`. No later slice was started, and no hosted,
-deployment, Production, backup, restore, provider, physical-device, or camera
-operation is authorized or credited.
+gate. Phase 11D has not started. Its Native Hebrew reviewer and
+accessibility/manual-validation owner are `ASSIGNED_AND_APPROVED` to Maor
+Pichhadze through his explicit Product Owner assignment and acceptance on
+2026-08-21. The role-governance prerequisites are satisfied, so Phase 11D is
+eligible to begin, but no Phase 11D evidence is credited. No later slice was
+started, and no hosted, deployment, Production, backup, restore, provider,
+physical-device, or camera operation is authorized or credited.

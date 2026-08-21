@@ -110,7 +110,10 @@ Naming is not acceptance; acceptance is not policy approval; none may be
 inferred from document authorship or repository access. The attributable owner
 bundle explicitly records Maor Pichhadze's acceptance of the product-owner,
 launch-decision-authority, and Production-approver assignments. No later role
-or absent person's acceptance is inferred.
+or absent person's acceptance is inferred. The attributable 2026-08-21 Product
+Owner decision separately records Maor Pichhadze's explicit assignment and
+acceptance as both Native Hebrew reviewer and accessibility/manual-validation
+owner; it does not credit Phase 11D work or evidence.
 
 | Role or policy | Current status | Assignee | Acceptance / approval evidence | Blocking deadline |
 | --- | --- | --- | --- | --- |
@@ -118,8 +121,8 @@ or absent person's acceptance is inferred.
 | Launch-decision authority | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable Phase 11B owner decision bundle; approved 2026-07-31 against source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282` | Phase 11B completion — satisfied |
 | Production approver | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable Phase 11B owner decision bundle; role acceptance only, not deployment authorization | Phase 11B completion — satisfied |
 | Release role-separation policy | `ROLE_POLICY_APPROVED` | Not applicable | Product owner approved the recommended `DEC-007` separation policy in the attributable Phase 11B owner decision bundle | Phase 11B completion — satisfied |
-| Native Hebrew reviewer | `UNASSIGNED_BLOCKING_BEFORE_11D` | None | `NOT_VERIFIED` | Before 11D |
-| Accessibility and manual-validation owner | `UNASSIGNED_BLOCKING_BEFORE_11D` | None | `NOT_VERIFIED` | Before 11D |
+| Native Hebrew reviewer | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-21 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-21-phase-11d-prerequisite-role-assignments) | Before 11D — satisfied 2026-08-21 |
+| Accessibility and manual-validation owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-21 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-21-phase-11d-prerequisite-role-assignments) | Before 11D — satisfied 2026-08-21 |
 | Auth and account-lifecycle owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
 | Invitation-control procedure and register owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
 | Legal/privacy review owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
