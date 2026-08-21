@@ -10,6 +10,7 @@ import type {
   RecipeUseNutrientContract,
 } from "@/lib/recipes";
 import type { Locale } from "@/lib/i18n/routing";
+import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 
 const nutrients = [
   ["calories", "calories"],
@@ -38,12 +39,6 @@ type RecipeReviewModel = {
   source_updated_at: string;
 };
 
-function formatter(locale: Locale) {
-  return new Intl.NumberFormat(locale === "he" ? "he-IL" : "en-US", {
-    maximumFractionDigits: 12,
-  });
-}
-
 function formatNutritionValue(
   value: number | null,
   locale: Locale,
@@ -51,7 +46,7 @@ function formatNutritionValue(
   grams: boolean,
 ) {
   if (value === null) return unknown;
-  const formatted = formatter(locale).format(value);
+  const formatted = formatLocalizedNumber(locale, value);
   return grams ? `${formatted} g` : formatted;
 }
 
@@ -218,7 +213,7 @@ function ReviewReady({
       <p className="mt-2 text-sm leading-6 text-teal-950">{t("body")}</p>
       <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
         <div><dt className="font-medium text-slate-600">{t("recipe")}</dt><dd className="mt-1 text-slate-950" dir="auto">{contract.recipe_name}</dd></div>
-        <div><dt className="font-medium text-slate-600">{t("servings")}</dt><dd className="mt-1 text-slate-950">{formatter(locale).format(model.requested_servings)}</dd></div>
+        <div><dt className="font-medium text-slate-600">{t("servings")}</dt><dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, model.requested_servings)}</dd></div>
         <div><dt className="font-medium text-slate-600">{t("date")}</dt><dd className="mt-1 text-slate-950">{dateLabel}</dd></div>
         <div><dt className="font-medium text-slate-600">{t("meal")}</dt><dd className="mt-1 text-slate-950">{mealLabel}</dd></div>
       </dl>
@@ -267,15 +262,13 @@ export function RecipeUsePreview({
 }) {
   const t = useTranslations("RecipeUse");
   const diaryT = useTranslations("Diary");
-  const localizedDate = new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
+  const localizedDate = formatLocalizedDate(locale, date, {
     dateStyle: "long",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T00:00:00Z`));
-  const updated = new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
+  });
+  const updated = formatLocalizedDate(locale, contract.source_updated_at, {
     dateStyle: "medium",
     timeStyle: "short",
-    timeZone: "UTC",
-  }).format(new Date(contract.source_updated_at));
+  });
   const reviewModel: RecipeReviewModel | null = mealType === null ? null : {
     date,
     diary: {
@@ -289,8 +282,6 @@ export function RecipeUsePreview({
     requested_servings: contract.requested_servings,
     source_updated_at: contract.source_updated_at,
   };
-  const numberFormatter = formatter(locale);
-
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
       <header className="max-w-3xl">
@@ -301,14 +292,14 @@ export function RecipeUsePreview({
 
       <dl className="grid max-w-4xl gap-4 border border-slate-200 bg-white p-5 text-sm shadow-sm sm:grid-cols-2 lg:grid-cols-3" data-testid="recipe-use-identity">
         <Detail label={t("identity.language")} value={t(`languages.${contract.recipe_locale}`)} />
-        <Detail label={t("identity.yield")} value={numberFormatter.format(contract.yield_servings)} />
-        <Detail label={t("identity.ingredients")} value={numberFormatter.format(contract.ingredient_count)} />
+        <Detail label={t("identity.yield")} value={formatLocalizedNumber(locale, contract.yield_servings)} />
+        <Detail label={t("identity.ingredients")} value={formatLocalizedNumber(locale, contract.ingredient_count)} />
         <Detail label={t("identity.updated")} value={updated}>
           <time dateTime={contract.source_updated_at}>{updated}</time>
         </Detail>
         <Detail label={t("identity.date")} value={localizedDate} />
         <Detail label={t("identity.meal")} value={mealType === null ? t("identity.notSelected") : diaryT(`mealTypes.${mealType}`)} />
-        <Detail label={t("identity.servings")} value={numberFormatter.format(contract.requested_servings)} />
+        <Detail label={t("identity.servings")} value={formatLocalizedNumber(locale, contract.requested_servings)} />
       </dl>
 
       <RecipeUseContextForm action={routePath} date={date} mealType={mealType} servings={canonicalServings} />
@@ -319,7 +310,7 @@ export function RecipeUsePreview({
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <PerspectiveCard contract={contract} field="whole_recipe_value" locale={locale} title={t("nutrition.whole")} />
           <PerspectiveCard contract={contract} field="per_serving_value" locale={locale} title={t("nutrition.perServing")} />
-          <PerspectiveCard contract={contract} field="requested_value" locale={locale} title={t("nutrition.requested", { servings: numberFormatter.format(contract.requested_servings) })} />
+          <PerspectiveCard contract={contract} field="requested_value" locale={locale} title={t("nutrition.requested", { servings: formatLocalizedNumber(locale, contract.requested_servings) })} />
           <PerspectiveCard contract={contract} field="diary_value" locale={locale} title={t("nutrition.diary")} />
         </div>
       </section>

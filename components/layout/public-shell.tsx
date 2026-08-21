@@ -9,6 +9,7 @@ export function PublicShell({
   navSignUp,
   languageLabel,
   currentLanguageLabel,
+  skipContent,
   foundationLabel,
   title,
   description,
@@ -26,6 +27,7 @@ export function PublicShell({
   navSignUp: string;
   languageLabel: string;
   currentLanguageLabel: string;
+  skipContent: string;
   foundationLabel: string;
   title: string;
   description: string;
@@ -38,6 +40,9 @@ export function PublicShell({
 }) {
   return (
     <main className="min-h-screen bg-stone-50 text-slate-950">
+      <a className="skip-link" href="#main-content">
+        {skipContent}
+      </a>
       <section className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-12 px-6 py-8 sm:px-10 sm:py-12">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-start">
@@ -67,7 +72,11 @@ export function PublicShell({
           />
         </header>
 
-        <div className="flex flex-1 flex-col justify-center gap-12">
+        <div
+          className="flex flex-1 flex-col justify-center gap-12"
+          id="main-content"
+          tabIndex={-1}
+        >
           <div className="max-w-3xl text-start">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
               {foundationLabel}

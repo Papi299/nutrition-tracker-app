@@ -40,7 +40,8 @@ import {
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { isUuid } from "@/lib/food-selection/query";
-import { routing } from "@/lib/i18n/routing";
+import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
+import { routing, type Locale } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
   type NutritionTarget,
@@ -133,7 +134,7 @@ export default async function TodayPage({ params, searchParams }: TodayPageProps
   );
 }
 
-function LocalizedTodayDateBootstrap({ locale }: { locale: string }) {
+function LocalizedTodayDateBootstrap({ locale }: { locale: Locale }) {
   const dateT = useTranslations("CalendarDate");
   const routePath = `/${locale}/today`;
 
@@ -161,7 +162,7 @@ function LocalizedTodayDateError({
     CalendarDateQueryResult,
     { status: "invalid" } | { status: "repeated" }
   >;
-  locale: string;
+  locale: Locale;
 }) {
   const dateT = useTranslations("CalendarDate");
   const description =
@@ -209,7 +210,7 @@ function LocalizedTodayPage({
     FoodDiaryPrefillState,
     { status: "unauthenticated" }
   >;
-  locale: string;
+  locale: Locale;
   profileState: RetrievalState<Profile>;
   recipeLogged: boolean;
   savedMealLogged: boolean;
@@ -243,22 +244,23 @@ function LocalizedTodayPage({
   const targetItems = [
     {
       label: t("targetSummary.calories"),
-      value: formatTargetValue(target?.calories ?? null, t("targetSummary.notSet")),
+      value: formatTargetValue(target?.calories ?? null, t("targetSummary.notSet"), locale),
     },
     {
       label: t("targetSummary.protein"),
-      value: formatTargetValue(target?.protein_g ?? null, t("targetSummary.notSet")),
+      value: formatTargetValue(target?.protein_g ?? null, t("targetSummary.notSet"), locale),
     },
     {
       label: t("targetSummary.carbohydrates"),
       value: formatTargetValue(
         target?.carbohydrates_g ?? null,
         t("targetSummary.notSet"),
+        locale,
       ),
     },
     {
       label: t("targetSummary.fat"),
-      value: formatTargetValue(target?.fat_g ?? null, t("targetSummary.notSet")),
+      value: formatTargetValue(target?.fat_g ?? null, t("targetSummary.notSet"), locale),
     },
   ];
 
@@ -392,7 +394,11 @@ function LocalizedTodayPage({
                 {t("targetSummary.title")}
               </h2>
               <p className="mt-3 text-sm leading-6 text-slate-700">
-                {t("targetSummary.body", { date: selectedDate })}
+                {t("targetSummary.body", {
+                  date: formatLocalizedDate(locale, selectedDate, {
+                    dateStyle: "long",
+                  }),
+                })}
               </p>
             </div>
             <Link
@@ -464,6 +470,7 @@ function LocalizedTodayPage({
               <div className="grid gap-5">
                 <DiaryDailyTotals
                   entries={diaryState.data}
+                  locale={locale}
                   labels={{
                     calories: diaryT("totals.calories"),
                     carbohydrates: diaryT("totals.carbohydrates"),
@@ -477,9 +484,12 @@ function LocalizedTodayPage({
                 {!isRetrievalFailure(targetState) && (
                   <DiaryTargetProgress
                     entries={diaryState.data}
+                    locale={locale}
                     labels={{
                       body: diaryT("targetProgress.body", {
-                        date: selectedDate,
+                        date: formatLocalizedDate(locale, selectedDate, {
+                          dateStyle: "long",
+                        }),
                       }),
                       consumed: diaryT("targetProgress.consumed"),
                       emptyBody: diaryT("targetProgress.emptyBody"),
@@ -587,6 +597,7 @@ function LocalizedTodayPage({
                     saveSuccess: diaryT("list.saveSuccess"),
                     serving: diaryT("list.serving"),
                     source: diaryT("list.source"),
+                    unitGrams: diaryT("totals.unitGrams"),
                     sourceTypes: {
                       manual: diaryT("list.sourceTypes.manual"),
                       recipe: diaryT("list.sourceTypes.recipe"),
@@ -597,6 +608,7 @@ function LocalizedTodayPage({
                       singular: diaryT("list.recipeServingUnits.singular"),
                     },
                   }}
+                  locale={locale}
                   mealTypeLabels={{
                     breakfast: diaryT("mealTypes.breakfast"),
                     dinner: diaryT("mealTypes.dinner"),
@@ -923,8 +935,14 @@ function inputValue(value: null | number | string) {
   return value === null ? "" : String(value);
 }
 
-function formatTargetValue(value: null | number | string, notSetLabel: string) {
-  return value === null ? notSetLabel : String(value);
+function formatTargetValue(
+  value: null | number | string,
+  notSetLabel: string,
+  locale: Locale,
+) {
+  return value === null
+    ? notSetLabel
+    : formatLocalizedNumber(locale, value, { maximumFractionDigits: 2 });
 }
 
 function retrievalErrorKey<T>(

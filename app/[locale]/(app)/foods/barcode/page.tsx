@@ -22,6 +22,7 @@ import {
   diaryEntryMealTypes,
 } from "@/lib/diary-entries";
 import { routing, type Locale } from "@/lib/i18n/routing";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
 
 type PageProps = Readonly<{
   params: Promise<{ locale: string }>;
@@ -229,6 +230,7 @@ function BarcodeLookupResult({
             : null
         }
         food={lookup.data}
+        locale={locale}
         status={lookup.status}
       />
     );
@@ -302,16 +304,23 @@ function BarcodeFoundReview({
   diaryHref,
   editHref,
   food,
+  locale,
   status,
 }: {
   diaryHref: string;
   editHref: string | null;
   food: BarcodeLookupFood;
+  locale: Locale;
   status: "found_owned" | "found_public";
 }) {
   const t = useTranslations("BarcodeLookup");
   const foodT = useTranslations("FoodSearch");
-  const serving = [food.serving_size, food.serving_unit]
+  const serving = [
+    food.serving_size === null
+      ? null
+      : formatLocalizedNumber(locale, food.serving_size),
+    food.serving_unit,
+  ]
     .filter((value) => value !== null && value !== "")
     .join(" ");
   const foodType = {

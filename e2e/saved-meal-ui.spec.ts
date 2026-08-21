@@ -226,7 +226,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await page.goto("/en/saved-meals/new");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
     await expect(page.getByRole("heading", { name: "Create a saved meal." })).toBeVisible();
-    await expect(page.getByLabel("Language")).toHaveValue("en");
+    await expect(page.locator('select[name="meal_locale"]')).toHaveValue("en");
     await expect(page.getByTestId("saved-meal-item")).toHaveCount(1);
     await expect(page.getByRole("link", { name: "Saved meals" }).first()).toHaveAttribute(
       "href",
@@ -239,7 +239,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await page.goto("/he/saved-meals/new");
     await expect(page.locator("html")).toHaveAttribute("lang", "he");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-    await expect(page.getByLabel("שפה")).toHaveValue("he");
+    await expect(page.locator('select[name="meal_locale"]')).toHaveValue("he");
 
     await page.goto(`/en/today?date=${date}`);
     await expect(page.getByTestId("save-diary-meal-links").getByRole("link")).toHaveCount(5);
@@ -294,7 +294,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     );
     await expect(items.nth(1)).toContainText("Linked to a food");
     await page.getByLabel("Meal name").fill("Diary copy meal");
-    await page.getByLabel("Language").selectOption("und");
+    await page.locator('select[name="meal_locale"]').selectOption("und");
     await page.getByRole("button", { name: "Create saved meal" }).click();
     await expect(page).toHaveURL(/\/en\/saved-meals\/[0-9a-f-]+\/edit\?saved=created$/);
     sourceMealId = savedMealIdFromUrl(page);

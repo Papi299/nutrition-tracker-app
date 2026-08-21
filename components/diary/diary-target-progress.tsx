@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { DiaryEntry } from "@/lib/diary-entries";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
+import type { Locale } from "@/lib/i18n/routing";
 import type { NutritionTarget } from "@/lib/nutrition-targets";
 
 type MetricKey = "calories" | "carbohydrates_g" | "fat_g" | "protein_g";
@@ -38,16 +40,15 @@ function calculateTotals(entries: DiaryEntry[]) {
   );
 }
 
-function formatNumber(value: number) {
+function formatNumber(value: number, locale: Locale) {
   const rounded = Math.round(value * 100) / 100;
-
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+  return formatLocalizedNumber(locale, rounded, { maximumFractionDigits: 2 });
 }
 
-function formatValue(value: number, unit: string) {
+function formatValue(value: number, unit: string, locale: Locale) {
   return unit === ""
-    ? formatNumber(Math.round(value))
-    : `${formatNumber(value)}${unit}`;
+    ? formatNumber(Math.round(value), locale)
+    : `${formatNumber(value, locale)} ${unit}`;
 }
 
 function progressPercent(consumed: number, target: null | number) {
@@ -69,11 +70,13 @@ function progressBarWidth(percent: null | number) {
 function remainingText({
   consumed,
   labels,
+  locale,
   target,
   unit,
 }: {
   consumed: number;
   labels: DiaryTargetProgressLabels;
+  locale: Locale;
   target: null | number;
   unit: string;
 }) {
@@ -86,11 +89,11 @@ function remainingText({
   if (remaining < 0) {
     return labels.overTarget.replace(
       "{value}",
-      formatValue(Math.abs(remaining), unit),
+      formatValue(Math.abs(remaining), unit, locale),
     );
   }
 
-  return formatValue(remaining, unit);
+  return formatValue(remaining, unit, locale);
 }
 
 export type DiaryTargetProgressLabels = {
@@ -112,11 +115,13 @@ export type DiaryTargetProgressLabels = {
 export function DiaryTargetProgress({
   entries,
   labels,
+  locale,
   setupHref,
   target,
 }: {
   entries: DiaryEntry[];
   labels: DiaryTargetProgressLabels;
+  locale: Locale;
   setupHref: string;
   target: NutritionTarget | null;
 }) {
@@ -195,7 +200,7 @@ export function DiaryTargetProgress({
           const targetDisplay =
             metric.target === null
               ? labels.notSet
-              : formatValue(metric.target, metric.unit);
+              : formatValue(metric.target, metric.unit, locale);
 
           return (
             <article
@@ -211,7 +216,9 @@ export function DiaryTargetProgress({
                     ? labels.notSet
                     : labels.percentComplete.replace(
                         "{percent}",
-                        String(percent),
+                        formatLocalizedNumber(locale, percent, {
+                          maximumFractionDigits: 0,
+                        }),
                       )}
                 </span>
               </div>
@@ -230,7 +237,7 @@ export function DiaryTargetProgress({
                 <div>
                   <dt className="text-slate-600">{labels.consumed}</dt>
                   <dd className="mt-1 font-semibold text-slate-950">
-                    {formatValue(metric.consumed, metric.unit)}
+                    {formatValue(metric.consumed, metric.unit, locale)}
                   </dd>
                 </div>
                 <div>
@@ -245,6 +252,7 @@ export function DiaryTargetProgress({
                     {remainingText({
                       consumed: metric.consumed,
                       labels,
+                      locale,
                       target: metric.target,
                       unit: metric.unit,
                     })}

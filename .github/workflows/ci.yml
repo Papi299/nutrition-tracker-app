@@ -14,7 +14,7 @@ jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Check out repository
@@ -49,8 +49,8 @@ jobs:
       - name: Build production application
         run: npm run build
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright Phase 11D engines
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Start local Supabase
         run: npx supabase start
@@ -66,6 +66,9 @@ jobs:
 
       - name: Run local-only Playwright suite
         run: npm run test:e2e -- --reporter=line,html
+
+      - name: Run Phase 11D engine, viewport, and accessibility suite
+        run: npm run test:phase11d -- --reporter=line,html
 
       - name: Upload Playwright failure artifacts
         if: failure()

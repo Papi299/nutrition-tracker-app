@@ -6,6 +6,7 @@ import { setCustomFoodArchiveAction } from "./management-actions";
 import { CustomFoodArchiveControl } from "@/components/custom-foods/custom-food-archive-control";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { formatLocalizedDate } from "@/lib/i18n/format";
 import {
   listOwnedCustomFoods,
   parseCustomFoodManagementQuery,
@@ -160,10 +161,7 @@ function ManagedFoodCard({
     food.food_id,
     !food.is_archived,
   );
-  const updatedDate = new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
-    dateStyle: "medium",
-    timeZone: "UTC",
-  }).format(new Date(food.updated_at));
+  const updatedDate = formatLocalizedDate(locale, food.updated_at);
 
   return (
     <li

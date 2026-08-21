@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import type {
   AuthActionCode,
   AuthActionState,
@@ -40,6 +40,7 @@ export function AuthFormShell({
     action,
     initialAuthActionState,
   );
+  const formRef = useRef<HTMLFormElement>(null);
   const statusTone =
     state.status === "idle"
       ? "info"
@@ -52,12 +53,27 @@ export function AuthFormShell({
       : state.status === "success" && state.code
         ? successMessages[state.code as Extract<AuthActionCode, "checkEmail">]
         : statusIdle;
+  const emailInvalid = state.status === "error" && state.code === "invalidEmail";
+  const passwordInvalid =
+    state.status === "error" &&
+    (state.code === "passwordRequired" || state.code === "passwordTooShort");
+
+  useEffect(() => {
+    if (state.status !== "error") return;
+
+    const target = formRef.current?.querySelector<HTMLElement>(
+      '[aria-invalid="true"], [role="alert"]',
+    );
+    target?.focus();
+  }, [state]);
 
   return (
-    <form action={formAction} className="grid gap-5" noValidate>
+    <form action={formAction} className="grid gap-5" noValidate ref={formRef}>
       <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
         <span>{emailLabel}</span>
         <input
+          aria-describedby="auth-form-status"
+          aria-invalid={emailInvalid}
           autoComplete="email"
           className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
           name="email"
@@ -69,6 +85,8 @@ export function AuthFormShell({
       <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
         <span>{passwordLabel}</span>
         <input
+          aria-describedby="auth-form-status"
+          aria-invalid={passwordInvalid}
           autoComplete={autoComplete}
           className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
           name="password"
@@ -85,7 +103,9 @@ export function AuthFormShell({
         {isPending ? pendingLabel : submitLabel}
       </button>
 
-      <AuthStatusNote tone={statusTone}>{statusMessage}</AuthStatusNote>
+      <div id="auth-form-status" tabIndex={-1}>
+        <AuthStatusNote tone={statusTone}>{statusMessage}</AuthStatusNote>
+      </div>
     </form>
   );
 }

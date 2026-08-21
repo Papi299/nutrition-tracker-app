@@ -420,12 +420,19 @@ does not authorize launch or deployment, and creates no later-slice or external
 evidence credit. No hosted access, Production action, or later Phase 11 slice
 has started. All 18 findings, including `P11A-002` and `P11A-015`, remain open;
 Phase 11K remains their exclusive closure gate. Overall Phase 11 remains
-incomplete. Phase 11D is not started. On 2026-08-21, Product Owner Maor
+incomplete. On 2026-08-21, Product Owner Maor
 Pichhadze explicitly assigned himself as the Native Hebrew reviewer and
 accessibility/manual-validation owner and accepted both assignments. The roles
 are `ASSIGNED_AND_APPROVED`, satisfying the Phase 11D role-governance
-prerequisites without crediting any Phase 11D evidence. Consolidated Phase 11D
-planning/execution is the next justified continuation point.
+prerequisites. Phase 11D is now `IN_PROGRESS` through the consolidated Draft
+candidate documented in the
+[Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
+Its repository automation and remediation are implemented, but every required
+Native Hebrew, keyboard/zoom/contrast, VoiceOver/Safari, NVDA/Firefox, and
+local camera/manual record remains `NOT_COLLECTED`. Phase 11J retains real
+browser/platform/physical-device evidence. The next continuation point is
+attributable execution of the Phase 11D manual packet against the exact Draft
+PR head, followed by same-PR correction and rerun for any failure.
 
 ## Future PR Documentation Rule
 

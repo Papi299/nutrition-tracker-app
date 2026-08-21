@@ -339,12 +339,16 @@ manual checklist evidence for non-automatable cases.
 
 ## 10. Phase 11D — Accessibility, localization, responsive, and browser UI
 
-**Current status:** Phase 11D has not started. Its Native Hebrew reviewer and
+**Current status:** `IN_PROGRESS`. Its Native Hebrew reviewer and
 accessibility/manual-validation owner are `ASSIGNED_AND_APPROVED` to Maor
-Pichhadze through his explicit Product Owner assignment and acceptance on
-2026-08-21. The role-assignment gate is satisfied, making consolidated Phase
-11D planning/execution the next justified work boundary, but this recording
-change provides no Phase 11D implementation, validation, or evidence credit.
+Pichhadze. The consolidated Draft candidate implements the bounded axe gate,
+locale/context/formatting remediation, focus/status/motion improvements, and
+proportional Chromium/Firefox/WebKit/mobile/viewport automation recorded in the
+[Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
+Required Native Hebrew, keyboard/zoom/contrast, VoiceOver/Safari,
+NVDA/Firefox, and local camera/manual evidence remains `NOT_COLLECTED`.
+Therefore Phase 11D is not complete and no implementation-complete marker is
+recorded.
 
 ### Objective
 

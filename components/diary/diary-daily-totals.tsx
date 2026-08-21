@@ -1,4 +1,6 @@
 import type { DiaryEntry } from "@/lib/diary-entries";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
+import type { Locale } from "@/lib/i18n/routing";
 
 type DailyTotalKey = "calories" | "carbohydrates_g" | "fat_g" | "protein_g";
 
@@ -30,21 +32,18 @@ function calculateTotals(entries: DiaryEntry[]) {
   );
 }
 
-function formatWholeNumber(value: number) {
-  return String(Math.round(value));
-}
-
-function formatGramValue(value: number) {
+function formatGramValue(value: number, locale: Locale) {
   const rounded = Math.round(value * 100) / 100;
-
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+  return formatLocalizedNumber(locale, rounded, { maximumFractionDigits: 2 });
 }
 
 export function DiaryDailyTotals({
   entries,
   labels,
+  locale,
 }: {
   entries: DiaryEntry[];
+  locale: Locale;
   labels: {
     calories: string;
     carbohydrates: string;
@@ -94,15 +93,17 @@ export function DiaryDailyTotals({
         {items.map((item) => {
           const isCalories = item.key === "calories";
           const value = isCalories
-            ? formatWholeNumber(item.value)
-            : `${formatGramValue(item.value)}${labels.unitGrams}`;
+            ? formatLocalizedNumber(locale, Math.round(item.value), {
+                maximumFractionDigits: 0,
+              })
+            : `${formatGramValue(item.value, locale)} ${labels.unitGrams}`;
 
           return (
             <div className="border border-slate-200 bg-white p-3" key={item.key}>
               <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
                 {item.label}
               </dt>
-              <dd className="mt-2 text-2xl font-semibold text-slate-950">
+              <dd className="mt-2 text-2xl font-semibold text-slate-950" dir="auto">
                 {value}
               </dd>
             </div>

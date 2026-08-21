@@ -2334,3 +2334,43 @@
 - No hosted Supabase, remote database, Vercel, Production, deployment, DNS,
   environment, secret, provider, backup, restore, launch, or finding-closure
   operation occurred.
+
+## 2026-08-21: Consolidated Phase 11D repository implementation candidate
+
+- Began Phase 11D from exact accepted baseline
+  `30586b768aa3f4f9e9c9ecdda2b37e282249860f`, tree
+  `19e65ed4532033f88c9c5aea512045c77892d74b`, after confirming both prerequisite
+  owners are `ASSIGNED_AND_APPROVED`.
+- Added `@axe-core/playwright` `^4.13.0` and a risk-selected eight-state
+  English/Hebrew gate. The focused local result is zero critical, serious,
+  moderate, minor, or unknown findings, with no exception or suppression.
+- Added proportional Chromium, Firefox, WebKit, and 390px mobile Chromium
+  emulation. The local Phase 11D result is 25 passed / 3 intentional shared-DOM
+  axe skips and covers exact 320/390/768/1280 widths, one landscape case,
+  reduced motion, focus/error/status behavior, locale context, forms,
+  navigation, and manual barcode fallback. Engine/emulation evidence is not
+  real Chrome, Edge, Firefox-platform, Safari, OS, or physical-device proof.
+- Remediated verified locale defects by preserving safe route/query/date/meal
+  context, persisting only explicit language choice without browser detection,
+  adding the switch to auth/authenticated shells, and centralizing locale-aware
+  date/number display while preserving canonical stored/input semantics.
+- Added localized skip links, a global visible-focus/forced-colors baseline,
+  reduced-motion behavior, intrinsic-media width containment, form validation
+  association/focus, and one non-empty logical auth alert. Existing camera
+  permission/lifecycle/cleanup tests and complete manual/no-JavaScript lookup
+  remain unchanged and authoritative; the new suite adds cross-engine fallback
+  visibility and no-external-request coverage.
+- The [Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md)
+  records exact automation boundaries and executable human procedures. Native
+  Hebrew, keyboard/actual zoom/contrast, VoiceOver/Safari, NVDA/Firefox, and
+  local camera/manual evidence is `NOT_COLLECTED`. Phase 11J physical/deployed
+  evidence is also `NOT_COLLECTED` and separately authorized.
+- Phase 11D is `IN_PROGRESS`; no implementation-complete marker is recorded.
+  Phase 11C evidence remains unchanged at 35 journeys / 249 references / 854
+  claims and no-JavaScript `11 / 4 / 13 / 7`. `P11A-003`, `P11A-004`, and
+  `P11A-005` remain `OPEN`; all 18 findings remain `OPEN`; Phase 11K remains the
+  exclusive finding-closure gate; overall Phase 11 remains `INCOMPLETE`.
+- No hosted Supabase, remote database, Vercel, Production, deployment, DNS,
+  environment, provider, backup, restore, launch, physical-device, or
+  finding-closure operation occurred. This Draft candidate remains unmerged
+  for exact-head independent review after required manual execution.

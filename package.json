@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:e2e": "node scripts/run-local-date-e2e.mjs",
+    "test:phase11d": "node scripts/run-local-date-e2e.mjs --config=playwright.phase11d.config.ts",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.ts",
     "test:date": "playwright test --config=playwright.unit.config.ts",
     "test:e2e:date": "node scripts/run-local-date-e2e.mjs e2e/date-correctness.spec.ts",
@@ -33,6 +34,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

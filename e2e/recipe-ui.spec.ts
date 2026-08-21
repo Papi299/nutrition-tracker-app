@@ -237,7 +237,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     );
     await page.goto("/en/recipes/new");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
-    await expect(page.getByLabel("Language")).toHaveValue("en");
+    await expect(page.locator('select[name="recipe_locale"]')).toHaveValue("en");
     await expect(page.getByLabel("Yield servings")).toHaveValue("1");
     await expect(page.getByTestId("recipe-ingredient")).toHaveCount(1);
     expect(
@@ -247,7 +247,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     await page.goto("/he/recipes/new");
     await expect(page.locator("html")).toHaveAttribute("lang", "he");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-    await expect(page.getByLabel("שפה")).toHaveValue("he");
+    await expect(page.locator('select[name="recipe_locale"]')).toHaveValue("he");
     await page.goto("/en/recipes/not-a-uuid/edit");
     await expect(page.getByTestId("recipe-invalid-link")).toBeVisible();
     await page.goto(`/en/recipes/${userBRecipeId}/edit`);
@@ -320,7 +320,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     await expect(page.getByTestId("recipe-ingredient")).toHaveCount(1);
 
     await page.getByLabel("Recipe name").fill("Lentil bowl");
-    await page.getByLabel("Language").selectOption("und");
+    await page.locator('select[name="recipe_locale"]').selectOption("und");
     await page.getByLabel("Yield servings").fill("2.5");
     await page.getByRole("button", { name: "Create recipe" }).click();
     await expect(page).toHaveURL(/\/en\/recipes\/[0-9a-f-]+\/edit\?saved=created$/);

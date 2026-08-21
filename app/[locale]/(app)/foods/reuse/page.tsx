@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { FoodFavoriteControl } from "@/components/foods/food-favorite-control";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 import {
   parseCalendarDateQueryValue,
   type CalendarDateQueryResult,
@@ -242,17 +243,22 @@ function ReusableFoodCard({
     user_provided: t("trust.userProvided"),
     verified: t("trust.verified"),
   };
-  const serving = [food.serving_size, food.serving_unit]
+  const serving = [
+    food.serving_size === null
+      ? null
+      : formatLocalizedNumber(locale, food.serving_size),
+    food.serving_unit,
+  ]
     .filter((value) => value !== null && value !== "")
     .join(" ");
   const source = food.source_code
     ? (sourceLabels[food.source_code] ?? food.source_name)
     : food.source_name;
   const lastUsed = food.last_used_at
-    ? new Intl.DateTimeFormat(locale, {
+    ? formatLocalizedDate(locale, food.last_used_at, {
         dateStyle: "medium",
         timeStyle: "short",
-      }).format(new Date(food.last_used_at))
+      })
     : null;
 
   if (selectedDate) {
