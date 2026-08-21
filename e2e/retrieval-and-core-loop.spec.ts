@@ -280,8 +280,8 @@ test.describe.serial("retrieval states and authenticated core loop", () => {
       .getByRole("heading", { name: "Daily totals" })
       .locator("xpath=ancestor::section[1]");
     await expect(totals).toContainText("500");
-    await expect(totals).toContainText("25g");
-    await expect(page.getByTestId("target-progress")).toContainText("2000");
+    await expect(totals).toContainText("25 g");
+    await expect(page.getByTestId("target-progress")).toContainText("2,000");
 
     const entry = page.getByRole("listitem").filter({ hasText: "Core loop meal" });
     await entry.getByRole("button", { name: "Edit" }).click();

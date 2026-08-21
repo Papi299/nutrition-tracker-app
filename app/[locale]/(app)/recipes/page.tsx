@@ -6,6 +6,7 @@ import { setRecipeArchiveAction } from "./management-actions";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { RecipeArchiveControl } from "@/components/recipes/recipe-archive-control";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 import {
   listOwnedRecipes,
   parseRecipeManagementQuery,
@@ -92,14 +93,14 @@ function LocalizedManagement({
 function RecipeCard({ locale, recipe }: { locale: Locale; recipe: ManagedRecipe }) {
   const t = useTranslations("RecipeManagement");
   const action = setRecipeArchiveAction.bind(null, locale, recipe.recipe_id, !recipe.is_archived);
-  const updated = new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(recipe.updated_at));
+  const updated = formatLocalizedDate(locale, recipe.updated_at);
   return (
     <li className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-[1fr_auto] sm:items-start sm:p-6" data-recipe-id={recipe.recipe_id}>
       <div>
         <h2 className="break-words text-xl font-semibold text-slate-950" dir="auto">{recipe.name}</h2>
         <dl className="mt-4 grid gap-x-5 gap-y-3 text-sm sm:grid-cols-2">
           <Detail label={t("card.language")} value={t(`languages.${recipe.locale}`)} />
-          <Detail label={t("card.yield")} value={String(recipe.yield_servings)} />
+          <Detail label={t("card.yield")} value={formatLocalizedNumber(locale, recipe.yield_servings)} />
           <Detail label={t("card.ingredients")} value={t("card.ingredientCount", { count: recipe.ingredient_count })} />
           <Detail label={t("card.status")} value={t(`filters.${recipe.is_archived ? "archived" : "active"}`)} />
           <Detail label={t("card.updated")} value={updated} />

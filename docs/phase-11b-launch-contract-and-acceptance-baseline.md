@@ -1113,3 +1113,30 @@ that historical acceptance point. At this `1.3` amendment, Phase 11C is
 active and incomplete, overall Phase 11 remains incomplete, and Phase 11K
 remains the exclusive finding-closure gate. No implementation, hosted access,
 deployment, finding closure, or Production release is authorized.
+
+## 15. Phase 11D current implementation addendum
+
+This addendum reports current repository state without changing any normative
+decision or accepted historical record above. Phase 11D is `IN_PROGRESS` in a
+single consolidated Draft candidate based on accepted baseline
+`30586b768aa3f4f9e9c9ecdda2b37e282249860f`, tree
+`19e65ed4532033f88c9c5aea512045c77892d74b`.
+
+The candidate implements a bounded eight-state axe gate, proportional
+Chromium/Firefox/WebKit and 390px mobile emulation, exact
+320/390/768/1280-width overflow coverage, locale context and explicit-choice
+persistence, locale-aware display formatting, and focused
+focus/status/reduced-motion remediation. The local focused axe result is zero
+critical, serious, moderate, minor, or unknown findings with no suppression.
+The full local Phase 11D suite result is 25 passed and 3 intentional
+non-Chromium axe skips.
+
+Required Native Hebrew, keyboard/actual-zoom/contrast, VoiceOver/Safari,
+NVDA/Firefox, and local camera/manual evidence remains `NOT_COLLECTED` in the
+[Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
+Real browser/platform/physical-device evidence remains separately governed by
+Phase 11J. Phase 11D is not complete, no implementation-complete marker is
+recorded, all 18 findings remain `OPEN`, and Phase 11K remains their exclusive
+closure gate. No hosted Supabase, remote database, Vercel, Production,
+deployment, launch, or external validation action is authorized by this
+addendum.

@@ -1,6 +1,7 @@
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryListItem } from "@/components/diary/diary-entry-list-item";
 import type { DiaryEntry } from "@/lib/diary-entries";
+import type { Locale } from "@/lib/i18n/routing";
 
 type MealTypeLabels = Record<DiaryEntry["meal_type"], string>;
 type DiaryEntryAction = (
@@ -14,6 +15,7 @@ export function DiaryEntryList({
   emptyMessage,
   fieldErrorMessages,
   labels,
+  locale,
   mealTypeLabels,
   mealTypeOptions,
   notSetLabel,
@@ -42,6 +44,7 @@ export function DiaryEntryList({
     saveSuccess: string;
     serving: string;
     source: string;
+    unitGrams: string;
     sourceTypes: Record<"manual" | "recipe" | "saved_meal", string>;
     recipeServingUnits: { plural: string; singular: string };
     fields: {
@@ -58,6 +61,7 @@ export function DiaryEntryList({
       serving_unit: string;
     };
   };
+  locale: Locale;
   mealTypeLabels: MealTypeLabels;
   mealTypeOptions: { label: string; value: DiaryEntry["meal_type"] }[];
   notSetLabel: string;
@@ -80,6 +84,7 @@ export function DiaryEntryList({
           fieldErrorMessages={fieldErrorMessages}
           key={entry.id}
           labels={labels}
+          locale={locale}
           mealTypeLabels={mealTypeLabels}
           mealTypeOptions={mealTypeOptions}
           notSetLabel={notSetLabel}

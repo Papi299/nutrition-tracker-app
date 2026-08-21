@@ -39,6 +39,7 @@ function LocalizedHome({ locale }: { locale: Locale }) {
       navSignUp={t("nav.signUp")}
       languageLabel={t("language.label")}
       currentLanguageLabel={t("language.current")}
+      skipContent={t("skipContent")}
       foundationLabel={t("foundationLabel")}
       title={t("title")}
       description={t("description")}

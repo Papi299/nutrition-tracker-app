@@ -6,6 +6,7 @@ const baseURL =
 
 export default defineConfig({
   testDir: "./e2e",
+  testIgnore: "phase-11d-ui.spec.ts",
   workers: 1,
   use: {
     baseURL,

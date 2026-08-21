@@ -6,6 +6,7 @@ import { setSavedMealArchiveAction } from "./management-actions";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { SavedMealArchiveControl } from "@/components/saved-meals/saved-meal-archive-control";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { formatLocalizedDate } from "@/lib/i18n/format";
 import {
   listOwnedSavedMeals,
   parseSavedMealManagementQuery,
@@ -125,10 +126,7 @@ function MealCard({ locale, meal }: { locale: Locale; meal: ManagedSavedMeal }) 
     meal.saved_meal_id,
     !meal.is_archived,
   );
-  const updated = new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
-    dateStyle: "medium",
-    timeZone: "UTC",
-  }).format(new Date(meal.updated_at));
+  const updated = formatLocalizedDate(locale, meal.updated_at);
 
   return (
     <li className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-[1fr_auto] sm:items-start sm:p-6" data-saved-meal-id={meal.saved_meal_id}>

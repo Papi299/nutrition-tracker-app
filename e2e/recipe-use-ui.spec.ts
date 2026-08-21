@@ -416,8 +416,8 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
       .getByRole("heading", { name: "סיכום יומי" })
       .locator("xpath=ancestor::section[1]");
     await expect(totals).toContainText("2");
-    await expect(totals).toContainText("0.15גרם");
-    await expect(totals).toContainText("0.50גרם");
+    await expect(totals).toContainText("0.15 גרם");
+    await expect(totals).toContainText("0.5 גרם");
 
     const logged = await userAClient
       .from("diary_entries")

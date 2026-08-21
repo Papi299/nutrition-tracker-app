@@ -284,13 +284,21 @@ is complete for the current MVP scope.
   before merge. Phase 11C acceptance closes no finding and gives no later-slice
   or external-evidence credit. Overall Phase 11 remains incomplete, all 18
   findings remain open, including `P11A-002` and `P11A-015`, and Phase 11K
-  remains their exclusive closure gate. Phase 11D has not started. On
+  remains their exclusive closure gate. On
   2026-08-21, Product Owner Maor Pichhadze explicitly assigned himself as the
   Native Hebrew reviewer and accessibility/manual-validation owner and
   accepted both assignments. Both roles are `ASSIGNED_AND_APPROVED`, satisfying
-  the Phase 11D role-governance prerequisites without crediting any Phase 11D
-  evidence. Consolidated Phase 11D planning/execution is the next justified
-  continuation point. No launch or deployment is authorized. The
+  the Phase 11D role-governance prerequisites. Consolidated Phase 11D is now
+  `IN_PROGRESS` in one Draft candidate. Repository work adds a bounded
+  eight-state axe gate with zero findings, proportional Chromium/Firefox/WebKit
+  engine and 390px mobile emulation, exact 320/390/768/1280 overflow coverage,
+  explicit locale persistence and context preservation, shared locale-aware
+  display formatting, focus/status/reduced-motion remediation, and preserved
+  deterministic camera/manual fallback. Required Native Hebrew,
+  keyboard/zoom/contrast, VoiceOver/Safari, NVDA/Firefox, and local manual
+  camera evidence remains `NOT_COLLECTED`; real platform/device evidence stays
+  deferred to Phase 11J. No launch or deployment is authorized. The
+  [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
   [critical-journey traceability foundation](docs/phase-11c-critical-journey-qa-foundation.md),

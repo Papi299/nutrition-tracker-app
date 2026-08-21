@@ -26,6 +26,7 @@ export default async function SignInPage({ params }: SignInPageProps) {
 
 function LocalizedSignIn({ locale }: { locale: Locale }) {
   const t = useTranslations("Auth");
+  const homeT = useTranslations("HomePage");
   const action = signInAction.bind(null, locale);
 
   return (
@@ -46,6 +47,9 @@ function LocalizedSignIn({ locale }: { locale: Locale }) {
       }}
       homeHref={`/${locale}`}
       homeLabel={t("common.homeLink")}
+      locale={locale}
+      languageLabel={homeT("language.label")}
+      currentLanguageLabel={homeT("language.current")}
       passwordLabel={t("signIn.passwordLabel")}
       passwordPlaceholder={t("common.passwordPlaceholder")}
       pendingLabel={t("signIn.pending")}
@@ -54,6 +58,7 @@ function LocalizedSignIn({ locale }: { locale: Locale }) {
         checkEmail: t("status.checkEmail"),
       }}
       submitLabel={t("signIn.submit")}
+      skipContent={homeT("skipContent")}
       title={t("signIn.title")}
     />
   );
