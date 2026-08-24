@@ -45,16 +45,29 @@ const he01CopyCases = [
   },
   {
     expectedText: [
+      "הגרסה הנוכחית",
+      "מעקב תזונתי ידני בעברית ובאנגלית.",
       "מה זמין עכשיו",
       "יעדים תזונתיים שהוגדרו ידנית",
       "רשומות ביומן היומי",
-      "יעדים שהוגדרו ידנית לפי תאריך תחולה",
+      "מעקב ידני ביומן",
+      "יעדים שהוגדרו ידנית ונכנסים לתוקף לפי תאריך",
       "יצירה ועריכה של מזונות מותאמים אישית",
       "שקיפות לגבי מקור הנתונים והערכים שנשמרו",
+      "היקף המערכת כיום",
       "יכולות ניתוח מתקדמות",
       "פריסה לסביבת הייצור",
+      "דוגמה לשילוב שפות:",
     ],
-    forbiddenText: ["זמין עכשיו ומה עדיין לא זמין"],
+    forbiddenText: [
+      "MVP",
+      "מעקב תזונה ידני",
+      "מעקב יומן ידני",
+      "יעדים שהוגדרו ידנית לפי תאריך תחולה",
+      "היקף נוכחי",
+      "דוגמה לטקסט מעורב:",
+      "זמין עכשיו ומה עדיין לא זמין",
+    ],
     locale: "he",
     path: "/he",
   },
@@ -68,10 +81,12 @@ const he01CopyCases = [
       "חזרה לדף הבית",
       "יעדים תזונתיים שהוגדרו ידנית",
       "רשומות ביומן",
-      "אין לך חשבון?",
-      "צור חשבון",
-      "הטופס משתמש בשירות האימות של Supabase",
+      "כניסה באמצעות אימייל וסיסמה מאפשרת לנהל יעדים תזונתיים שהוגדרו ידנית ורשומות ביומן.",
+      "אין עדיין חשבון?",
+      "הרשמה",
+      "הטופס משתמש בשירות האימות של Supabase. לאחר הכניסה ניתן לגשת לפרופיל, ליעדים התזונתיים שהוגדרו ידנית ולמעקב ביומן.",
     ],
+    forbiddenText: ["אין לך חשבון?", "צור חשבון"],
     locale: "he",
     path: "/he/auth/sign-in",
   },
@@ -90,41 +105,50 @@ const he03ViewportCases = [
 ] as const;
 
 const rejectedSnapshotLiteral = /תצלומ|תצלום|תמונת מצב/;
+const rejectedReviewedDirectForm = /בחרו|הוסיפו|בשבילכם|0 מותר/;
+const rejectedHe03Terminology = /שם פרטי|מטא־נתונים|מזון קריא|נוספו \d+ כינויים|יחושבו/;
 
 const he03CopyCases = [
   {
     expectedText: [
-      "שמירת מזון פרטי עם פרטי המזון, בסיס ייחוס לערכים התזונתיים, ערכים תזונתיים אופציונליים וכינויי חיפוש.",
+      "שמירת מזון פרטי באמצעות הזנת פרטי המזון, בחירת בסיס ייחוס לערכים התזונתיים והוספת ערכים תזונתיים וכינויי חיפוש לפי הצורך.",
       "פרטי המזון",
       "בסיס ייחוס לערכים תזונתיים",
+      "יש לבחור את כמות הייחוס שאליה יתייחסו הערכים התזונתיים שיוזנו בהמשך.",
       "שינוי בסיס הייחוס אינו ממיר את הערכים הקיימים. המערכת תתייחס לערכים שהוזנו בהתאם לבסיס הייחוס החדש שנבחר.",
+      'קלוריות (קק"ל)',
+      "חלבון (גרם)",
       "כינויי חיפוש",
+      "כינויי חיפוש שנוספו: 0 מתוך 20.",
       "מעורב או ללא שיוך לשפה",
-      "יש לבדוק את הטופס המלא ולשמור כאשר הכול מוכן.",
+      "יש לבדוק את הטופס ולשמור לאחר השלמתו.",
     ],
     path: "/he/foods/custom/new",
   },
   {
     expectedText: [
-      "הגדרת המתכון המלא והוספת מרכיבים לפי הסדר, עם פרטים הניתנים לעריכה.",
+      "הגדרת המתכון והוספת מרכיבים לפי הסדר, עם אפשרות לערוך את פרטיהם.",
       "פרטי המתכון",
-      "מספר המנות מציין כמה מנות מתקבלות מהמתכון המלא.",
+      "מספר המנות מציין כמה מנות מתקבלות מהמתכון כולו. הסיכום התזונתי שמופיע בהמשך מחושב אוטומטית על ידי המערכת על סמך הערכים השמורים של מרכיבי המתכון.",
       "מרכיבי המתכון",
-      "יש לשמור בין 1 ל־50 מרכיבים",
+      "המתכון יכול לכלול בין 1 ל־50 מרכיבים, לפי סדר הופעתם.",
       "מרכיב שהוזן ידנית",
       "שם המרכיב הוא שדה חובה וניתן לעריכה.",
+      "בחירת מזון זמין",
+      'קלוריות (קק"ל)',
       "הוספת מרכיב ריק",
     ],
     path: "/he/recipes/new",
   },
   {
     expectedText: [
-      "הגדרת שם לארוחה לשימוש חוזר והזנת פריטי הארוחה, על פרטיהם השמורים, לפי הסדר.",
+      "הגדרת שם לארוחה לשימוש חוזר והוספת פריטים לפי הסדר, תוך שמירת פרטיהם.",
       "פרטי הארוחה",
       "פריטי הארוחה",
-      "הערכים שנשמרו בכל פריט נשארים כפי שנבדקו",
+      "הפריטים נשמרים בסדר זה. הערכים בכל פריט נשמרים כפי שהם בעת השמירה ואינם מתעדכנים אוטומטית מקטלוג המזון.",
       "ללא קישור למזון",
       "שם המזון הוא שדה חובה.",
+      'קלוריות (קק"ל)',
       "הכמות אופציונלית. שדה ריק משמעו שלא הוגדרה כמות; הזנת 0 תשמור אפס כערך.",
       "הוספת פריט ריק",
     ],
@@ -285,7 +309,12 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       for (const expectedText of [
         "מעקב תזונתי ליום נבחר.",
         "צפייה ביעד התקף לתאריך הנבחר, וכן הוספה, עריכה או מחיקה של רשומות ידניות ביומן, לצד סיכום יומי והתקדמות ביחס ליעד.",
-        "הזנת מזון באופן ידני או בחירת מזון זמין כדי למלא מראש את פרטיו ברשומה הניתנת לעריכה ביומן.",
+        "ניתן להזין מזון באופן ידני או לבחור מזון זמין כדי למלא מראש את פרטי הרשומה ביומן.",
+        "התאריך שנבחר ישמש לרשומה זו.",
+        "יש לבחור את סוג הארוחה שאליה שייכת הרשומה.",
+        "ניתן להוסיף מותג רק אם הוא מסייע בזיהוי הפריט.",
+        "מידע נוסף לשימוש אישי.",
+        'קלוריות (קק"ל)',
         "ניתן להשאיר ריק אם אין צורך לציין כמות. אפס נשמר כ־0.",
         "ניתן להוסיף רשומה ידנית לאחר מילוי שדות החובה.",
         "0% מהיעד הושלם",
@@ -298,6 +327,9 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
       await expect(page.locator('input[name="entry_date"]')).toHaveValue("2026-08-21");
       await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+      await expect(page.locator("body")).not.toContainText(
+        rejectedReviewedDirectForm,
+      );
       await expectNoHorizontalOverflow(page);
 
       await page.goto("/he/foods/barcode?date=2026-08-21&mealType=lunch");
@@ -306,10 +338,22 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await expect(page.locator("body")).toContainText(
         "יש להזין ברקוד מזון נתמך כדי לעיין בפרטי מזון הזמין במאגר המקומי, לפני טעינת פרטיו לעריכה ביומן. חיפוש לפי ברקוד אינו יוצר או משנה נתונים.",
       );
+      await expect(page.locator("body")).toContainText(
+        "חיפוש לפי ברקוד במאגר המקומי",
+      );
+      await expect(page.locator("body")).toContainText(
+        "יש להזין ברקוד תקני מסוג GTIN-8",
+      );
+      await expect(page.locator("body")).toContainText(
+        "סריקה באמצעות מצלמת המכשיר",
+      );
       await expect(page.locator("body")).toContainText("תאריך היומן");
       await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
       await expect(page.locator('select[name="mealType"]')).toHaveValue("lunch");
       await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+      await expect(page.locator("body")).not.toContainText(
+        /חיפוש ברקוד מקומי|סריקה באמצעות המכשיר הזה/,
+      );
       await expectNoHorizontalOverflow(page);
     }
 
@@ -330,6 +374,9 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
           await expect(page.locator("body")).toContainText(expectedText);
         }
         await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+        await expect(page.locator("body")).not.toContainText(
+          rejectedHe03Terminology,
+        );
         await expectNoHorizontalOverflow(page);
       }
     }
@@ -434,7 +481,7 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     await expect(hebrewPasswordInput).toBeFocused();
     const hebrewNonemptyAlerts = await page.getByRole("alert").allTextContents();
     expect(hebrewNonemptyAlerts.filter((text) => text.trim() !== "")).toEqual([
-      "הסיסמה חייבת להכיל לפחות 6 תווים.",
+      "הסיסמה צריכה להכיל לפחות 6 תווים.",
     ]);
     await context.close();
   });
@@ -512,13 +559,33 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         const page = await context.newPage();
         await page.setViewportSize(viewportCase);
         await page.goto(`/${locale}/foods/custom/new`);
+        const addAliasButton = page.getByRole("button", {
+          name: locale === "he" ? "הוספת כינוי" : "Add alias",
+        });
+        await addAliasButton.click();
+        await expect(page.getByText(
+          locale === "he"
+            ? "כינויי חיפוש שנוספו: 1 מתוך 20."
+            : "1 alias added (maximum 20).",
+          { exact: true },
+        )).toBeVisible();
+        await addAliasButton.click();
+        await expect(page.getByText(
+          locale === "he"
+            ? "כינויי חיפוש שנוספו: 2 מתוך 20."
+            : "2 aliases added (maximum 20).",
+          { exact: true },
+        )).toBeVisible();
         await page
+          .getByTestId("custom-food-alias-row")
+          .nth(1)
           .getByRole("button", {
-            name: locale === "he" ? "הוספת כינוי" : "Add alias",
+            name: locale === "he" ? "הסרת כינוי" : "Remove alias",
           })
           .click();
 
         const aliasRow = page.getByTestId("custom-food-alias-row");
+        await expect(aliasRow).toHaveCount(1);
         const languageSelect = aliasRow.locator("select");
         const removeButton = aliasRow.getByRole("button", {
           name: locale === "he" ? "הסרת כינוי" : "Remove alias",

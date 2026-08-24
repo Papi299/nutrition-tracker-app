@@ -94,7 +94,7 @@ async function expectLanding(page: Page, locale: Locale) {
           switchHref: "/he",
         }
       : {
-          heading: "מעקב תזונה ידני בעברית ובאנגלית.",
+          heading: "מעקב תזונתי ידני בעברית ובאנגלית.",
           home: "בית",
           signIn: "כניסה",
           signUp: "הרשמה",

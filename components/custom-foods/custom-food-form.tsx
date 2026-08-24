@@ -294,12 +294,18 @@ function NutrientInput({
   value: string;
 }) {
   const name = locale === "he" ? definition.name_he || definition.name_en : definition.name_en;
+  const unit =
+    locale === "he" && definition.unit === "kcal"
+      ? 'קק"ל'
+      : locale === "he" && definition.unit === "g"
+        ? "גרם"
+        : definition.unit;
   const field = `nutrient_${definition.code}`;
 
   return (
     <label className="grid gap-2 text-sm font-medium text-slate-900">
       <span>
-        {name} <span className="font-normal text-slate-600">({definition.unit})</span>
+        {name} <span className="font-normal text-slate-600">({unit})</span>
       </span>
       <input
         aria-describedby={error ? fieldErrorId(field) : undefined}
