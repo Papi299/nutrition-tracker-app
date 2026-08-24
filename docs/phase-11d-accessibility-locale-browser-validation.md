@@ -56,14 +56,18 @@ certification.
 
 ### 3.2 Engine, viewport, and visual matrix
 
-`npm run test:phase11d` runs 28 project/test combinations:
+`npm run test:phase11d` runs 32 project/test combinations:
 
-- `engine-chromium`: seven tests, including the axe subset;
-- `engine-firefox`: six engine tests plus one intentional shared-DOM axe skip;
-- `engine-webkit`: six engine tests plus one intentional shared-DOM axe skip;
-- `mobile-chromium-390`: six emulation tests plus one intentional shared-DOM axe skip.
+- `engine-chromium`: eight tests, including the axe subset;
+- `engine-firefox`: seven engine tests plus one intentional shared-DOM axe skip;
+- `engine-webkit`: seven engine tests plus one intentional shared-DOM axe skip;
+- `mobile-chromium-390`: seven emulation tests plus one intentional shared-DOM axe skip.
 
-The local result is 25 passed / 3 intentional skips. Four full-page Chromium
+The local result is 29 passed / 3 intentional skips. The exact alias-control
+regression covers real English and Hebrew rows at 320, 390, 640 supporting
+reflow, 768, and 1280 CSS px in all four projects. It retains control/container
+rectangles and asserts zero select/remove intersection, containment, 44px
+minimum heights, actionability, and no document overflow. Four full-page Chromium
 attachments cover 320px Hebrew barcode, 390px English diary, 768×390 Hebrew
 Saved Meal, and 1280px English Recipe states. A separate read-only Codex
 in-app-browser technical inspection confirmed the English-to-Hebrew switch at
@@ -93,6 +97,7 @@ decoder, or new barcode format is added.
 | Auth errors were not field-associated or intentionally focused/announced. | Inputs lacked `aria-invalid`/`aria-describedby`; the shared note had no status role. | Associate fields with the status, mark the invalid field, focus the first invalid control, and expose one non-empty logical alert. Remove parent live regions that would duplicate the shared status. | Cross-engine validation/focus test and Hebrew validation axe state. |
 | Reduced-motion behavior had no repository-wide rule. | Transition utilities remained active under the preference. | Collapse animations and transitions and disable smooth scrolling under `prefers-reduced-motion: reduce`. | Reduced-motion test in all four projects. |
 | Media could exceed narrow logical width. | No shared intrinsic-media limit existed. | Limit image, SVG, video, and canvas inline size to the container. | Exact-width overflow matrix and camera preview coverage. |
+| Custom-food alias language and remove controls overlapped in English and Hebrew desktop rows. | A fixed 13rem grid track constrained the label to 208px while the native select retained a 232px intrinsic automatic minimum, overran the 16px gap, and intersected the adjacent button by 8px. | Use responsive zero-minimum columns, keep the remove action on its own row below extra-wide layouts, and allow labels/controls to shrink within their tracks. | Cross-engine EN/HE rectangle, containment, actionability, target-height, and overflow assertions at 320, 390, 640, 768, and 1280px. |
 
 ## 5. Human evidence status
 
@@ -173,8 +178,8 @@ judgment.
 ### `HE-03` — high-density creation forms
 
 - Prerequisite/account: same synthetic account.
-- Routes/locales: `/he/foods/custom/new`, `/he/saved-meals/new`,
-  `/he/recipes/new`.
+- Routes/locales: `/en/foods/custom/new`, `/he/foods/custom/new`,
+  `/he/saved-meals/new`, `/he/recipes/new`.
 - Browser/viewport: recorded desktop browser/OS at 320, 390, 768, and 1280px.
 - Actions: inspect every label/help/status/action; enter mixed synthetic names;
   add/remove/reorder rows without submitting real or personal data.

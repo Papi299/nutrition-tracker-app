@@ -129,6 +129,10 @@ jobs:
               "axe-recipe-form-en",
               "axe-barcode-manual-fallback-he",
               "axe-severity-totals",
+              "alias-control-geometry-engine-chromium",
+              "alias-control-geometry-engine-firefox",
+              "alias-control-geometry-engine-webkit",
+              "alias-control-geometry-mobile-chromium-390",
             ],
             "application/json",
           );

@@ -29,6 +29,14 @@ const viewportCases = [
   { height: 900, locale: "en", path: "/en/recipes/new", width: 1280 },
 ] as const;
 
+const aliasControlViewportCases = [
+  { height: 720, width: 320 },
+  { height: 844, width: 390 },
+  { height: 900, supportingReflow: "200%", width: 640 },
+  { height: 900, width: 768 },
+  { height: 900, width: 1280 },
+] as const;
+
 async function authenticatedContext(
   browser: Browser,
   storageState: Awaited<ReturnType<BrowserContext["storageState"]>>,
@@ -269,6 +277,123 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       }
     }
 
+    await context.close();
+  });
+
+  test("keeps real custom-food alias controls contained, separate, and actionable", async ({ browser }, testInfo) => {
+    const context = await authenticatedContext(browser, storageState);
+    const geometryEvidence = [];
+
+    for (const locale of ["en", "he"] as const) {
+      for (const viewportCase of aliasControlViewportCases) {
+        const page = await context.newPage();
+        await page.setViewportSize(viewportCase);
+        await page.goto(`/${locale}/foods/custom/new`);
+        await page
+          .getByRole("button", {
+            name: locale === "he" ? "הוספת כינוי" : "Add alias",
+          })
+          .click();
+
+        const aliasRow = page.getByTestId("custom-food-alias-row");
+        const languageSelect = aliasRow.locator("select");
+        const removeButton = aliasRow.getByRole("button", {
+          name: locale === "he" ? "הסרת כינוי" : "Remove alias",
+        });
+        await expect(languageSelect).toBeEnabled();
+        await expect(removeButton).toBeEnabled();
+        await languageSelect.selectOption(locale === "he" ? "en" : "he");
+        await expect(languageSelect).toHaveValue(locale === "he" ? "en" : "he");
+
+        const geometry = await aliasRow.evaluate((row) => {
+          const languageControl = row.querySelector("select");
+          const removeControl = row.querySelector("button");
+          if (!languageControl || !removeControl) {
+            throw new Error("Expected alias language and remove controls.");
+          }
+
+          const rectangle = (element: Element) => {
+            const bounds = element.getBoundingClientRect();
+            return {
+              bottom: bounds.bottom,
+              height: bounds.height,
+              left: bounds.left,
+              right: bounds.right,
+              top: bounds.top,
+              width: bounds.width,
+            };
+          };
+          const container = rectangle(row);
+          const select = rectangle(languageControl);
+          const removeButton = rectangle(removeControl);
+          const overlapWidth = Math.max(
+            0,
+            Math.min(select.right, removeButton.right) -
+              Math.max(select.left, removeButton.left),
+          );
+          const overlapHeight = Math.max(
+            0,
+            Math.min(select.bottom, removeButton.bottom) -
+              Math.max(select.top, removeButton.top),
+          );
+          const intersects = overlapWidth > 0 && overlapHeight > 0;
+          const tolerance = 1;
+          const contained = (control: ReturnType<typeof rectangle>) =>
+            control.left >= container.left - tolerance &&
+            control.right <= container.right + tolerance &&
+            control.top >= container.top - tolerance &&
+            control.bottom <= container.bottom + tolerance;
+
+          return {
+            container,
+            containment: {
+              removeButton: contained(removeButton),
+              select: contained(select),
+            },
+            document: {
+              clientWidth: document.documentElement.clientWidth,
+              scrollWidth: document.documentElement.scrollWidth,
+            },
+            intersection: {
+              height: intersects ? overlapHeight : 0,
+              width: intersects ? overlapWidth : 0,
+            },
+            removeButton,
+            select,
+          };
+        });
+
+        expect(geometry.intersection).toEqual({ height: 0, width: 0 });
+        expect(geometry.containment).toEqual({
+          removeButton: true,
+          select: true,
+        });
+        expect(geometry.select.height).toBeGreaterThanOrEqual(44);
+        expect(geometry.removeButton.height).toBeGreaterThanOrEqual(44);
+        expect(geometry.document.scrollWidth).toBeLessThanOrEqual(
+          geometry.document.clientWidth + 1,
+        );
+
+        geometryEvidence.push({
+          locale,
+          supportingReflow:
+            "supportingReflow" in viewportCase
+              ? viewportCase.supportingReflow
+              : null,
+          viewport: viewportCase,
+          ...geometry,
+        });
+
+        await removeButton.click();
+        await expect(aliasRow).toHaveCount(0);
+        await page.close();
+      }
+    }
+
+    await testInfo.attach(`alias-control-geometry-${testInfo.project.name}`, {
+      body: Buffer.from(JSON.stringify(geometryEvidence, null, 2)),
+      contentType: "application/json",
+    });
     await context.close();
   });
 
