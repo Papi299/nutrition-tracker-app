@@ -37,6 +37,44 @@ const aliasControlViewportCases = [
   { height: 900, width: 1280 },
 ] as const;
 
+const he01CopyCases = [
+  {
+    expectedText: ["What's available now"],
+    locale: "en",
+    path: "/en",
+  },
+  {
+    expectedText: [
+      "יעדים תזונתיים שהוגדרו ידנית",
+      "רשומות ביומן היומי",
+      "יעדים שהוגדרו ידנית לפי תאריך תחולה",
+      "יצירה ועריכה של מזונות מותאמים אישית",
+      "שקיפות לגבי מקור הנתונים והערכים שנשמרו",
+      "יכולות ניתוח מתקדמות",
+      "פריסה לסביבת הייצור",
+    ],
+    locale: "he",
+    path: "/he",
+  },
+  {
+    expectedText: ["Back to home"],
+    locale: "en",
+    path: "/en/auth/sign-in",
+  },
+  {
+    expectedText: [
+      "חזרה לדף הבית",
+      "יעדים תזונתיים שהוגדרו ידנית",
+      "רשומות ביומן",
+      "אין לך חשבון?",
+      "צור חשבון",
+      "הטופס משתמש בשירות האימות של Supabase",
+    ],
+    locale: "he",
+    path: "/he/auth/sign-in",
+  },
+] as const;
+
 async function authenticatedContext(
   browser: Browser,
   storageState: Awaited<ReturnType<BrowserContext["storageState"]>>,
@@ -130,6 +168,33 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     await context.close();
   });
 
+  test("renders corrected HE-01 copy with narrow-width locale and overflow semantics", async ({ browser }) => {
+    for (const viewport of [
+      { height: 720, width: 320 },
+      { height: 844, width: 390 },
+    ] as const) {
+      for (const copyCase of he01CopyCases) {
+        const context = await browser.newContext({ viewport });
+        const page = await context.newPage();
+        await page.goto(copyCase.path);
+
+        await expect(page.locator("html")).toHaveAttribute(
+          "lang",
+          copyCase.locale,
+        );
+        await expect(page.locator("html")).toHaveAttribute(
+          "dir",
+          copyCase.locale === "he" ? "rtl" : "ltr",
+        );
+        for (const expectedText of copyCase.expectedText) {
+          await expect(page.locator("body")).toContainText(expectedText);
+        }
+        await expectNoHorizontalOverflow(page);
+        await context.close();
+      }
+    }
+  });
+
   test("preserves explicit locale choice and safe route, date, and meal context", async ({ browser }) => {
     const context = await authenticatedContext(browser, storageState);
     const page = await context.newPage();
@@ -213,6 +278,22 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     });
     expect(focusStyle.outlineStyle).not.toBe("none");
     expect(Number.parseFloat(focusStyle.outlineWidth)).toBeGreaterThanOrEqual(2);
+
+    await page.goto("/he/auth/sign-in");
+    await page.getByLabel("אימייל").fill("synthetic@example.test");
+    const hebrewPasswordInput = page.getByLabel("סיסמה");
+    await hebrewPasswordInput.fill("1");
+    await page.getByRole("button", { name: "כניסה" }).click();
+    await expect(hebrewPasswordInput).toHaveAttribute("aria-invalid", "true");
+    await expect(hebrewPasswordInput).toHaveAttribute(
+      "aria-describedby",
+      "auth-form-status",
+    );
+    await expect(hebrewPasswordInput).toBeFocused();
+    const hebrewNonemptyAlerts = await page.getByRole("alert").allTextContents();
+    expect(hebrewNonemptyAlerts.filter((text) => text.trim() !== "")).toEqual([
+      "הסיסמה חייבת להכיל לפחות 6 תווים.",
+    ]);
     await context.close();
   });
 

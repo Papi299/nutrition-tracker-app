@@ -231,7 +231,9 @@ test.describe.serial("retrieval states and authenticated core loop", () => {
         "לא הצלחנו לטעון את היעדים",
       );
       await expect(
-        page.getByRole("heading", { name: "אין יעד ידני שבתוקף לתאריך הזה" }),
+        page.getByRole("heading", {
+          name: "אין יעד שהוגדר ידנית ובתוקף לתאריך הזה",
+        }),
       ).toHaveCount(0);
       await expect(page.getByTestId("target-progress")).toHaveCount(0);
       await expect(page.locator('input[name="food_name"]')).toBeVisible();

@@ -56,14 +56,17 @@ certification.
 
 ### 3.2 Engine, viewport, and visual matrix
 
-`npm run test:phase11d` runs 32 project/test combinations:
+`npm run test:phase11d` runs 36 project/test combinations:
 
-- `engine-chromium`: eight tests, including the axe subset;
-- `engine-firefox`: seven engine tests plus one intentional shared-DOM axe skip;
-- `engine-webkit`: seven engine tests plus one intentional shared-DOM axe skip;
-- `mobile-chromium-390`: seven emulation tests plus one intentional shared-DOM axe skip.
+- `engine-chromium`: nine tests, including the axe subset;
+- `engine-firefox`: eight engine tests plus one intentional shared-DOM axe skip;
+- `engine-webkit`: eight engine tests plus one intentional shared-DOM axe skip;
+- `mobile-chromium-390`: eight emulation tests plus one intentional shared-DOM axe skip.
 
-The local result is 29 passed / 3 intentional skips. The exact alias-control
+The local result is 33 passed / 3 intentional skips. The HE-01 copy regression
+renders all four approved public/auth routes at 320px and 390px in every
+project, asserts the corrected bounded strings, verifies `lang`/`dir`, and
+rejects document overflow. The exact alias-control
 regression covers real English and Hebrew rows at 320, 390, 640 supporting
 reflow, 768, and 1280 CSS px in all four projects. It retains control/container
 rectangles and asserts zero select/remove intersection, containment, 44px
@@ -98,6 +101,14 @@ decoder, or new barcode format is added.
 | Reduced-motion behavior had no repository-wide rule. | Transition utilities remained active under the preference. | Collapse animations and transitions and disable smooth scrolling under `prefers-reduced-motion: reduce`. | Reduced-motion test in all four projects. |
 | Media could exceed narrow logical width. | No shared intrinsic-media limit existed. | Limit image, SVG, video, and canvas inline size to the container. | Exact-width overflow matrix and camera preview coverage. |
 | Custom-food alias language and remove controls overlapped in English and Hebrew desktop rows. | A fixed 13rem grid track constrained the label to 208px while the native select retained a 232px intrinsic automatic minimum, overran the 16px gap, and intersected the adjacent button by 8px. | Use responsive zero-minimum columns, keep the remove action on its own row below extra-wide layouts, and allow labels/controls to shrink within their tracks. | Cross-engine EN/HE rectangle, containment, actionability, target-height, and overflow assertions at 320, 390, 640, 768, and 1280px. |
+| Native Hebrew reviewer rejected HE-01 terminology/naturalness on candidate `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b`; two bounded English labels were also rejected. | The catalog used literal or unnatural constructions for manually defined nutrition targets, diary entries, Custom Foods, analytics, Production deployment, source/saved-value transparency, auth navigation/CTA, and the Supabase Auth explanation. | Apply the reviewer-approved terminology contextually across same-concept catalog occurrences and correct only the two approved English labels. Application, route, auth, and data semantics are unchanged. | Cross-engine HE-01 public/auth rendering, locale-direction, and narrow-width overflow assertions at 320px and 390px. Native re-review remains required. |
+
+### 4.1 Candidate-bound native-review history
+
+| Candidate | Reviewer/date | HE-01 result | Reason and successor boundary |
+| --- | --- | --- | --- |
+| `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b` | Maor Pichhadze / 2026-08-24 | `FAIL` | The reviewer explicitly rejected the identified Hebrew terminology and naturalness. The deterministic narrow layout was acceptable, but the short-password/traversal portion was not completed. |
+| Successor correction candidate | Maor Pichhadze / pending | `NOT_COLLECTED` | Source copy changed. The prior candidate-bound FAIL is retained as history and is not migrated to PASS; regenerated exact-head evidence requires a new native review. |
 
 ## 5. Human evidence status
 

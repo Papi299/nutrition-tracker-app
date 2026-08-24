@@ -156,7 +156,8 @@ test.describe.serial("CJ-018 custom-food creation idempotency", () => {
   ) {
     await expect(
       page.getByRole("button", {
-        name: locale === "en" ? "Create custom food" : "יצירת מזון אישי",
+        name:
+          locale === "en" ? "Create custom food" : "יצירת מזון מותאם אישית",
       }),
     ).toBeEnabled();
     await page.getByLabel(locale === "en" ? "Name" : "שם").fill(name);
@@ -752,8 +753,8 @@ test.describe.serial("CJ-018 custom-food creation idempotency", () => {
         conflict:
           "בקשת היצירה הזאת כבר הושלמה עם ערכים אחרים. לא נוצר דבר חדש.",
         locale: "he",
-        newIntent: "התחלת מזון אישי חדש עם הערכים האלה",
-        submit: "יצירת מזון אישי",
+        newIntent: "התחלת מזון מותאם אישית חדש עם הערכים האלה",
+        submit: "יצירת מזון מותאם אישית",
       },
     ] as const;
 
