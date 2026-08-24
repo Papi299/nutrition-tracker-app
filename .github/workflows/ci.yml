@@ -14,7 +14,7 @@ jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -68,7 +68,91 @@ jobs:
         run: npm run test:e2e -- --reporter=line,html
 
       - name: Run Phase 11D engine, viewport, and accessibility suite
-        run: npm run test:phase11d -- --reporter=line,html
+        id: phase11d
+        env:
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report-phase11d
+          PLAYWRIGHT_JSON_OUTPUT_FILE: playwright-report-phase11d/results.json
+        run: npm run test:phase11d -- --reporter=line,html,json --output=test-results-phase11d
+
+      - name: Verify Phase 11D evidence files
+        if: ${{ always() && (steps.phase11d.outcome == 'success' || steps.phase11d.outcome == 'failure') }}
+        run: |
+          test -f playwright-report-phase11d/index.html
+          test -f playwright-report-phase11d/results.json
+          test -f test-results-phase11d/.last-run.json
+          test "$(find playwright-report-phase11d/data -type f -name '*.png' | wc -l | tr -d ' ')" -eq 4
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const report = JSON.parse(
+            fs.readFileSync("playwright-report-phase11d/results.json", "utf8"),
+          );
+          const attachments = [];
+          const visit = (value) => {
+            if (Array.isArray(value)) {
+              value.forEach(visit);
+              return;
+            }
+            if (!value || typeof value !== "object") return;
+            if (Array.isArray(value.attachments)) {
+              attachments.push(...value.attachments);
+            }
+            for (const [key, child] of Object.entries(value)) {
+              if (key !== "attachments") visit(child);
+            }
+          };
+          visit(report.suites);
+
+          const requireAttachments = (names, contentType) => {
+            const selected = attachments.filter((attachment) =>
+              names.includes(attachment.name),
+            );
+            if (selected.length !== names.length) {
+              throw new Error(
+                `Expected ${names.length} ${contentType} attachments, found ${selected.length}`,
+              );
+            }
+            for (const attachment of selected) {
+              if (attachment.contentType !== contentType || !attachment.body) {
+                throw new Error(`Missing retained body for ${attachment.name}`);
+              }
+            }
+          };
+
+          requireAttachments(
+            [
+              "axe-public-home-en",
+              "axe-auth-validation-he",
+              "axe-diary-en",
+              "axe-food-search-he",
+              "axe-custom-food-form-en",
+              "axe-saved-meal-form-he",
+              "axe-recipe-form-en",
+              "axe-barcode-manual-fallback-he",
+              "axe-severity-totals",
+            ],
+            "application/json",
+          );
+          requireAttachments(
+            [
+              "viewport-320-he",
+              "viewport-390-en",
+              "viewport-768-he",
+              "viewport-1280-en",
+            ],
+            "image/png",
+          );
+          NODE
+
+      - name: Upload Phase 11D evidence
+        if: ${{ always() && (steps.phase11d.outcome == 'success' || steps.phase11d.outcome == 'failure') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-11d-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report-phase11d/
+            test-results-phase11d/
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Upload Playwright failure artifacts
         if: failure()
