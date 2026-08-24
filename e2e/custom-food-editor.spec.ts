@@ -381,7 +381,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
     await page.goto("/he/foods/custom/new");
     await page.getByLabel("שם").fill("מזון נוזלי אישי");
     await page.getByLabel("שפת המזון").selectOption("he");
-    await selectBasis(page, "ל-100 מ״ל");
+    await selectBasis(page, "ל־100 מ״ל");
     await page
       .getByRole("button", { name: "יצירת מזון מותאם אישית" })
       .click();

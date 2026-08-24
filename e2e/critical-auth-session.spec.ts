@@ -532,7 +532,7 @@ test.describe("Phase 11C1 critical auth and session acceptance", () => {
       {
         locale: "he" as const,
         dir: "rtl",
-        protectedLabel: "מעקב תזונה ידני לחשבון מחובר",
+        protectedLabel: "מעקב תזונתי ידני בחשבון מחובר",
         signOutLabel: "יציאה",
         error:
           "לא הצלחנו לנתק את החשבון. החשבון עדיין מחובר. כדאי לנסות שוב.",

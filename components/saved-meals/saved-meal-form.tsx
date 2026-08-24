@@ -164,7 +164,7 @@ function SavedMealItemCard({
 
   return (
     <fieldset
-      className="grid gap-5 border border-slate-200 bg-stone-50 p-4 sm:p-5"
+      className="grid min-w-0 gap-5 border border-slate-200 bg-stone-50 p-4 sm:p-5"
       data-row-key={item.row_key}
       data-testid="saved-meal-item"
     >

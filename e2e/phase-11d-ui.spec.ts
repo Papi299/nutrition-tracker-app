@@ -77,6 +77,61 @@ const he01CopyCases = [
   },
 ] as const;
 
+const he02ViewportCases = [
+  { height: 844, width: 390 },
+  { height: 900, width: 768 },
+] as const;
+
+const he03ViewportCases = [
+  { height: 720, width: 320 },
+  { height: 844, width: 390 },
+  { height: 900, width: 768 },
+  { height: 900, width: 1280 },
+] as const;
+
+const rejectedSnapshotLiteral = /תצלומ|תצלום|תמונת מצב/;
+
+const he03CopyCases = [
+  {
+    expectedText: [
+      "שמירת מזון פרטי עם פרטי המזון, בסיס ייחוס לערכים התזונתיים, ערכים תזונתיים אופציונליים וכינויי חיפוש.",
+      "פרטי המזון",
+      "בסיס ייחוס לערכים תזונתיים",
+      "שינוי בסיס הייחוס אינו ממיר את הערכים הקיימים. המערכת תתייחס לערכים שהוזנו בהתאם לבסיס הייחוס החדש שנבחר.",
+      "כינויי חיפוש",
+      "מעורב או ללא שיוך לשפה",
+      "יש לבדוק את הטופס המלא ולשמור כאשר הכול מוכן.",
+    ],
+    path: "/he/foods/custom/new",
+  },
+  {
+    expectedText: [
+      "הגדרת המתכון המלא והוספת מרכיבים לפי הסדר, עם פרטים הניתנים לעריכה.",
+      "פרטי המתכון",
+      "מספר המנות מציין כמה מנות מתקבלות מהמתכון המלא.",
+      "מרכיבי המתכון",
+      "יש לשמור בין 1 ל־50 מרכיבים",
+      "מרכיב שהוזן ידנית",
+      "שם המרכיב הוא שדה חובה וניתן לעריכה.",
+      "הוספת מרכיב ריק",
+    ],
+    path: "/he/recipes/new",
+  },
+  {
+    expectedText: [
+      "הגדרת שם לארוחה לשימוש חוזר והזנת פריטי הארוחה, על פרטיהם השמורים, לפי הסדר.",
+      "פרטי הארוחה",
+      "פריטי הארוחה",
+      "הערכים שנשמרו בכל פריט נשארים כפי שנבדקו",
+      "ללא קישור למזון",
+      "שם המזון הוא שדה חובה.",
+      "הכמות אופציונלית. שדה ריק משמעו שלא הוגדרה כמות; הזנת 0 תשמור אפס כערך.",
+      "הוספת פריט ריק",
+    ],
+    path: "/he/saved-meals/new",
+  },
+] as const;
+
 async function authenticatedContext(
   browser: Browser,
   storageState: Awaited<ReturnType<BrowserContext["storageState"]>>,
@@ -88,12 +143,28 @@ async function authenticatedContext(
 async function expectNoHorizontalOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
+    overflowingElements: Array.from(document.body.querySelectorAll("*"))
+      .map((element) => {
+        const bounds = element.getBoundingClientRect();
+        return {
+          className: element.getAttribute("class"),
+          left: bounds.left,
+          right: bounds.right,
+          tagName: element.tagName,
+          testId: element.getAttribute("data-testid"),
+        };
+      })
+      .filter(
+        ({ left, right }) =>
+          left < -1 || right > document.documentElement.clientWidth + 1,
+      )
+      .slice(0, 12),
     scrollWidth: document.documentElement.scrollWidth,
   }));
 
   expect(
     dimensions.scrollWidth,
-    `document width ${dimensions.scrollWidth}px exceeded viewport ${dimensions.clientWidth}px`,
+    `document width ${dimensions.scrollWidth}px exceeded viewport ${dimensions.clientWidth}px; overflowing elements: ${JSON.stringify(dimensions.overflowingElements)}`,
   ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
 }
 
@@ -200,6 +271,70 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         await context.close();
       }
     }
+  });
+
+  test("renders corrected HE-02 Today and Barcode terminology with preserved context", async ({ browser }) => {
+    const context = await authenticatedContext(browser, storageState);
+    const page = await context.newPage();
+
+    for (const viewport of he02ViewportCases) {
+      await page.setViewportSize(viewport);
+      await page.goto("/he/today?date=2026-08-21");
+      await expect(page.locator("html")).toHaveAttribute("lang", "he");
+      await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+      for (const expectedText of [
+        "מעקב תזונתי ליום נבחר.",
+        "צפייה ביעד התקף לתאריך הנבחר, וכן הוספה, עריכה או מחיקה של רשומות ידניות ביומן, לצד סיכום יומי והתקדמות ביחס ליעד.",
+        "הזנת מזון באופן ידני או בחירת מזון זמין כדי למלא מראש את פרטיו ברשומה הניתנת לעריכה ביומן.",
+        "ניתן להשאיר ריק אם אין צורך לציין כמות. אפס נשמר כ־0.",
+        "ניתן להוסיף רשומה ידנית לאחר מילוי שדות החובה.",
+        "0% מהיעד הושלם",
+      ]) {
+        await expect(page.locator("body")).toContainText(expectedText);
+      }
+      await expect(page.getByTestId("target-summary")).toContainText(
+        formatLocalizedNumber("he", 1234, { maximumFractionDigits: 2 }),
+      );
+      await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
+      await expect(page.locator('input[name="entry_date"]')).toHaveValue("2026-08-21");
+      await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+      await expectNoHorizontalOverflow(page);
+
+      await page.goto("/he/foods/barcode?date=2026-08-21&mealType=lunch");
+      await expect(page.locator("html")).toHaveAttribute("lang", "he");
+      await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+      await expect(page.locator("body")).toContainText(
+        "יש להזין ברקוד מזון נתמך כדי לעיין בפרטי מזון הזמין במאגר המקומי, לפני טעינת פרטיו לעריכה ביומן. חיפוש לפי ברקוד אינו יוצר או משנה נתונים.",
+      );
+      await expect(page.locator("body")).toContainText("תאריך היומן");
+      await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
+      await expect(page.locator('select[name="mealType"]')).toHaveValue("lunch");
+      await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+      await expectNoHorizontalOverflow(page);
+    }
+
+    await context.close();
+  });
+
+  test("renders corrected HE-03 editor terminology at the approved widths", async ({ browser }) => {
+    const context = await authenticatedContext(browser, storageState);
+    const page = await context.newPage();
+
+    for (const viewport of he03ViewportCases) {
+      await page.setViewportSize(viewport);
+      for (const copyCase of he03CopyCases) {
+        await page.goto(copyCase.path);
+        await expect(page.locator("html")).toHaveAttribute("lang", "he");
+        await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+        for (const expectedText of copyCase.expectedText) {
+          await expect(page.locator("body")).toContainText(expectedText);
+        }
+        await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
+        await expectNoHorizontalOverflow(page);
+      }
+    }
+
+    await context.close();
   });
 
   test("preserves explicit locale choice and safe route, date, and meal context", async ({ browser }) => {

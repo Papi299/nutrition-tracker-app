@@ -236,7 +236,7 @@ function RecipeIngredientCard({
   const field = (name: string) => `ingredient_${name}_${index}`;
 
   return (
-    <fieldset className="grid gap-5 border border-slate-200 bg-stone-50 p-4 sm:p-5" data-row-key={ingredient.row_key} data-testid="recipe-ingredient">
+    <fieldset className="grid min-w-0 gap-5 border border-slate-200 bg-stone-50 p-4 sm:p-5" data-row-key={ingredient.row_key} data-testid="recipe-ingredient">
       <legend className="px-2 text-base font-semibold text-slate-950">{t("ingredients.number", { number: index + 1 })}</legend>
       <input name={field("row_key")} type="hidden" value={ingredient.row_key} />
       <input name={field("selected_food_id")} type="hidden" value={ingredient.selected_food_id} />
