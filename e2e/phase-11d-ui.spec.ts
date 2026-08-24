@@ -45,6 +45,7 @@ const he01CopyCases = [
   },
   {
     expectedText: [
+      "מה זמין עכשיו",
       "יעדים תזונתיים שהוגדרו ידנית",
       "רשומות ביומן היומי",
       "יעדים שהוגדרו ידנית לפי תאריך תחולה",
@@ -53,6 +54,7 @@ const he01CopyCases = [
       "יכולות ניתוח מתקדמות",
       "פריסה לסביבת הייצור",
     ],
+    forbiddenText: ["זמין עכשיו ומה עדיין לא זמין"],
     locale: "he",
     path: "/he",
   },
@@ -188,6 +190,11 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         );
         for (const expectedText of copyCase.expectedText) {
           await expect(page.locator("body")).toContainText(expectedText);
+        }
+        if ("forbiddenText" in copyCase) {
+          for (const forbiddenText of copyCase.forbiddenText) {
+            await expect(page.locator("body")).not.toContainText(forbiddenText);
+          }
         }
         await expectNoHorizontalOverflow(page);
         await context.close();
