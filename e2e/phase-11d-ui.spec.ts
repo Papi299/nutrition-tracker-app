@@ -16,6 +16,14 @@ const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "Phase11dAccessibilityPassword123!";
+const barcodeTechnicalTokens = [
+  "GTIN-8",
+  "UPC-A",
+  "GTIN-12",
+  "GTIN-13",
+  "GTIN-14",
+  "UPC-E",
+] as const;
 
 test.skip(
   !localOnly || !localSupabaseUrl || !localSupabasePublishableKey,
@@ -48,10 +56,10 @@ const he01CopyCases = [
       "הגרסה הנוכחית",
       "מעקב תזונתי ידני בעברית ובאנגלית.",
       "מה זמין עכשיו",
-      "יעדים תזונתיים שהוגדרו ידנית",
-      "רשומות ביומן היומי",
+      "יעדים תזונתיים שנקבעו ידנית",
+      "רשומות ביומן התזונה",
       "מעקב ידני ביומן",
-      "יעדים שהוגדרו ידנית ונכנסים לתוקף לפי תאריך",
+      "יעדים תזונתיים שנקבעו ידנית עם מועד כניסה לתוקף",
       "יצירה ועריכה של מזונות מותאמים אישית",
       "שקיפות לגבי מקור הנתונים והערכים שנשמרו",
       "היקף המערכת כיום",
@@ -62,8 +70,11 @@ const he01CopyCases = [
     forbiddenText: [
       "MVP",
       "מעקב תזונה ידני",
+      "יעדים תזונתיים שהוגדרו ידנית",
+      "רשומות ביומן היומי",
       "מעקב יומן ידני",
       "יעדים שהוגדרו ידנית לפי תאריך תחולה",
+      "יעדים שהוגדרו ידנית ונכנסים לתוקף לפי תאריך",
       "היקף נוכחי",
       "דוגמה לטקסט מעורב:",
       "זמין עכשיו ומה עדיין לא זמין",
@@ -79,14 +90,20 @@ const he01CopyCases = [
   {
     expectedText: [
       "חזרה לדף הבית",
-      "יעדים תזונתיים שהוגדרו ידנית",
+      "יעדים תזונתיים שנקבעו ידנית",
       "רשומות ביומן",
-      "כניסה באמצעות אימייל וסיסמה מאפשרת לנהל יעדים תזונתיים שהוגדרו ידנית ורשומות ביומן.",
-      "אין עדיין חשבון?",
+      "יש להיכנס באמצעות אימייל וסיסמה כדי לנהל יעדים תזונתיים שנקבעו ידנית ורשומות ביומן.",
+      "עדיין אין חשבון?",
       "הרשמה",
-      "הטופס משתמש בשירות האימות של Supabase. לאחר הכניסה ניתן לגשת לפרופיל, ליעדים התזונתיים שהוגדרו ידנית ולמעקב ביומן.",
+      "הכניסה לחשבון מתבצעת באמצעות שירות האימות של Supabase. לאחר הכניסה ניתן לגשת לפרופיל, ליעדים התזונתיים שנקבעו ידנית ולמעקב ביומן.",
     ],
-    forbiddenText: ["אין לך חשבון?", "צור חשבון"],
+    forbiddenText: [
+      "אין לך חשבון?",
+      "אין עדיין חשבון?",
+      "צור חשבון",
+      "יעדים תזונתיים שהוגדרו ידנית",
+      "הטופס משתמש בשירות האימות של Supabase.",
+    ],
     locale: "he",
     path: "/he/auth/sign-in",
   },
@@ -116,9 +133,11 @@ const he03CopyCases = [
       "בסיס ייחוס לערכים תזונתיים",
       "יש לבחור את כמות הייחוס שאליה יתייחסו הערכים התזונתיים שיוזנו בהמשך.",
       "שינוי בסיס הייחוס אינו ממיר את הערכים הקיימים. המערכת תתייחס לערכים שהוזנו בהתאם לבסיס הייחוס החדש שנבחר.",
+      "כל הערכים התזונתיים אופציונליים ומתייחסים לבסיס הייחוס שנבחר. שדה ריק משמעו שלא יישמר ערך; ניתן להזין 0.",
       'קלוריות (קק"ל)',
       "חלבון (גרם)",
       "כינויי חיפוש",
+      "ניתן להוסיף עד 20 כינויי חיפוש בדיוק כפי שיוזנו. המערכת אינה מתרגמת או מתעתקת אותם אוטומטית.",
       "כינויי חיפוש שנוספו: 0 מתוך 20.",
       "מעורב או ללא שיוך לשפה",
       "יש לבדוק את הטופס ולשמור לאחר השלמתו.",
@@ -134,7 +153,11 @@ const he03CopyCases = [
       "המתכון יכול לכלול בין 1 ל־50 מרכיבים, לפי סדר הופעתם.",
       "מרכיב שהוזן ידנית",
       "שם המרכיב הוא שדה חובה וניתן לעריכה.",
-      "בחירת מזון זמין",
+      "בחירת מזון מהמאגר",
+      "חיפוש מזון",
+      "הכמות אופציונלית וחייבת להיות חיובית. יש למלא את הכמות ואת היחידה יחד, או להשאיר את שתיהן ריקות.",
+      "הערכים התזונתיים מתייחסים לכמות שהוזנה עבור המרכיב. שינוי הכמות אינו מעדכן אותם אוטומטית.",
+      "הערות אופציונליות עבור המרכיב.",
       'קלוריות (קק"ל)',
       "הוספת מרכיב ריק",
     ],
@@ -148,8 +171,10 @@ const he03CopyCases = [
       "הפריטים נשמרים בסדר זה. הערכים בכל פריט נשמרים כפי שהם בעת השמירה ואינם מתעדכנים אוטומטית מקטלוג המזון.",
       "ללא קישור למזון",
       "שם המזון הוא שדה חובה.",
+      "מותג",
       'קלוריות (קק"ל)',
-      "הכמות אופציונלית. שדה ריק משמעו שלא הוגדרה כמות; הזנת 0 תשמור אפס כערך.",
+      "הכמות אופציונלית. שדה ריק משמעו שלא הוגדר ערך; ניתן להזין 0.",
+      "הערות אופציונליות עבור הפריט.",
       "הוספת פריט ריק",
     ],
     path: "/he/saved-meals/new",
@@ -307,9 +332,13 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await expect(page.locator("html")).toHaveAttribute("lang", "he");
       await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
       for (const expectedText of [
+        "מעקב יומי",
         "מעקב תזונתי ליום נבחר.",
         "צפייה ביעד התקף לתאריך הנבחר, וכן הוספה, עריכה או מחיקה של רשומות ידניות ביומן, לצד סיכום יומי והתקדמות ביחס ליעד.",
-        "ניתן להזין מזון באופן ידני או לבחור מזון זמין כדי למלא מראש את פרטי הרשומה ביומן.",
+        "הגדרות הפרופיל, יעדים תזונתיים שנקבעו ידנית עם מועדי כניסה לתוקף, רשומות ביומן, סיכומים והתקדמות נשמרים בחשבון המחובר.",
+        "יעדים תזונתיים יומיים שנקבעו ידנית",
+        "רשומות היומן לתאריך שנבחר. ניתן להזין רשומות באופן ידני או לקשר אותן למזון מהמאגר.",
+        "ניתן להזין מזון באופן ידני או לבחור מזון מהמאגר כדי למלא מראש את פרטי הרשומה ביומן.",
         "התאריך שנבחר ישמש לרשומה זו.",
         "יש לבחור את סוג הארוחה שאליה שייכת הרשומה.",
         "ניתן להוסיף מותג רק אם הוא מסייע בזיהוי הפריט.",
@@ -330,13 +359,16 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await expect(page.locator("body")).not.toContainText(
         rejectedReviewedDirectForm,
       );
+      await expect(page.locator("body")).not.toContainText(
+        /מרחב היום|יעדים יומיים שהוגדרו ידנית|מזון זמין שנבחר/,
+      );
       await expectNoHorizontalOverflow(page);
 
       await page.goto("/he/foods/barcode?date=2026-08-21&mealType=lunch");
       await expect(page.locator("html")).toHaveAttribute("lang", "he");
       await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
       await expect(page.locator("body")).toContainText(
-        "יש להזין ברקוד מזון נתמך כדי לעיין בפרטי מזון הזמין במאגר המקומי, לפני טעינת פרטיו לעריכה ביומן. חיפוש לפי ברקוד אינו יוצר או משנה נתונים.",
+        "יש להזין ברקוד נתמך כדי לאתר מזון במאגר המקומי ולעיין בפרטיו, לפני טעינת הפרטים לרשומה הניתנת לעריכה ביומן. חיפוש לפי ברקוד אינו יוצר או משנה נתונים.",
       );
       await expect(page.locator("body")).toContainText(
         "חיפוש לפי ברקוד במאגר המקומי",
@@ -347,16 +379,112 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await expect(page.locator("body")).toContainText(
         "סריקה באמצעות מצלמת המכשיר",
       );
-      await expect(page.locator("body")).toContainText("תאריך היומן");
-      await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
-      await expect(page.locator('select[name="mealType"]')).toHaveValue("lunch");
+      await expect(page.locator("body")).toContainText(
+        "כאשר המכשיר תומך בסריקה מובנית, תמונות מהמצלמה נשארות בדפדפן ואינן מועלות או נשמרות.",
+      );
+      const barcodeDate = page.locator('input[name="date"]');
+      const barcodeMeal = page.locator('select[name="mealType"]');
+      await expect(barcodeDate).toHaveValue("2026-08-21");
+      await expect(barcodeMeal).toHaveValue("lunch");
+      expect(
+        await barcodeDate.evaluate(
+          (input) =>
+            (input as HTMLInputElement).labels?.[0]?.childNodes[0]?.textContent?.trim(),
+        ),
+      ).toBe("תאריך");
+      expect(
+        await barcodeMeal.evaluate(
+          (select) =>
+            (select as HTMLSelectElement).labels?.[0]?.childNodes[0]?.textContent?.trim(),
+        ),
+      ).toBe("סוג הארוחה");
       await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
       await expect(page.locator("body")).not.toContainText(
-        /חיפוש ברקוד מקומי|סריקה באמצעות המכשיר הזה/,
+        /חיפוש ברקוד מקומי|סריקה באמצעות המכשיר הזה|תמונות המצלמה|סוג ארוחה ביומן/,
       );
       await expectNoHorizontalOverflow(page);
     }
 
+    await context.close();
+  });
+
+  test("keeps barcode identifiers atomic LTR tokens at the narrow Hebrew evidence width", async ({ browser }, testInfo) => {
+    const context = await authenticatedContext(browser, storageState, {
+      viewport: { height: 844, width: 390 },
+    });
+    await context.addInitScript(() => {
+      class Phase11dBarcodeDetector {
+        static async getSupportedFormats() {
+          return ["ean_8", "ean_13", "upc_a", "itf"];
+        }
+
+        async detect() {
+          return [];
+        }
+      }
+
+      Object.defineProperty(globalThis, "BarcodeDetector", {
+        configurable: true,
+        value: Phase11dBarcodeDetector,
+      });
+    });
+    const page = await context.newPage();
+    await page.goto("/he/foods/barcode?date=2026-08-21&mealType=lunch");
+
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator("[data-scanner-state='ready']")).toContainText(
+      "סריקה באמצעות המצלמה זמינה. ניתן להתחיל בסריקה בכל עת; היא אינה מתחילה באופן אוטומטי.",
+    );
+
+    const evidence = [];
+    for (const token of barcodeTechnicalTokens) {
+      const locator = page.locator(
+        `[data-barcode-technical-token="${token}"]`,
+      );
+      await expect(locator).toHaveCount(1);
+      await expect(locator).toHaveText(token);
+      await expect(locator).toHaveAttribute("dir", "ltr");
+
+      const geometry = await locator.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const textRects = Array.from(range.getClientRects()).filter(
+          (rect) => rect.width > 0 && rect.height > 0,
+        );
+        const style = getComputedStyle(element);
+        return {
+          bounds: {
+            bottom: bounds.bottom,
+            left: bounds.left,
+            right: bounds.right,
+            top: bounds.top,
+          },
+          direction: style.direction,
+          display: style.display,
+          text: element.textContent,
+          textRectCount: textRects.length,
+          unicodeBidi: style.unicodeBidi,
+          whiteSpace: style.whiteSpace,
+        };
+      });
+
+      expect(geometry.text).toBe(token);
+      expect(geometry.direction).toBe("ltr");
+      expect(geometry.display).toBe("inline-block");
+      expect(geometry.whiteSpace).toBe("nowrap");
+      expect(geometry.unicodeBidi).toContain("isolate");
+      expect(geometry.textRectCount).toBe(1);
+      expect(geometry.bounds.left).toBeGreaterThanOrEqual(0);
+      expect(geometry.bounds.right).toBeLessThanOrEqual(390);
+      evidence.push({ token, ...geometry });
+    }
+
+    await expectNoHorizontalOverflow(page);
+    await testInfo.attach(`barcode-bidi-${testInfo.project.name}`, {
+      body: Buffer.from(JSON.stringify(evidence, null, 2)),
+      contentType: "application/json",
+    });
     await context.close();
   });
 
@@ -377,6 +505,25 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         await expect(page.locator("body")).not.toContainText(
           rejectedHe03Terminology,
         );
+        await expect(page.locator("body")).not.toContainText(
+          /בחירת מזון זמין|חיפוש מזונות|הערות אופציונליות שנשמרות (?:עם המרכיב|עבור הפריט)|שם המותג/,
+        );
+        if (copyCase.path === "/he/recipes/new") {
+          await expect(
+            page.getByRole("button", { name: "חיפוש מזון", exact: true }),
+          ).toBeVisible();
+        }
+        if (copyCase.path === "/he/saved-meals/new") {
+          const brand = page.locator('input[name*="brand_name"]').first();
+          await expect(brand).toBeVisible();
+          expect(
+            await brand.evaluate(
+              (input) =>
+                (input as HTMLInputElement).labels?.[0]?.querySelector("span")
+                  ?.textContent,
+            ),
+          ).toBe("מותג");
+        }
         await expectNoHorizontalOverflow(page);
       }
     }
@@ -569,6 +716,10 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
             : "1 alias added (maximum 20).",
           { exact: true },
         )).toBeVisible();
+        if (locale === "he") {
+          await expect(page.getByLabel("כינוי", { exact: true })).toBeVisible();
+          await expect(page.locator("body")).not.toContainText("טקסט הכינוי");
+        }
         await addAliasButton.click();
         await expect(page.getByText(
           locale === "he"

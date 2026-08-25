@@ -1,6 +1,34 @@
 import { BARCODE_RAW_INPUT_MAX_LENGTH } from "@/lib/barcodes";
 import type { DiaryEntryMealType } from "@/lib/diary-entries";
 
+const barcodeTechnicalTokens = new Set([
+  "GTIN-8",
+  "UPC-A",
+  "GTIN-12",
+  "GTIN-13",
+  "GTIN-14",
+  "UPC-E",
+]);
+const barcodeTechnicalTokenPattern =
+  /(GTIN-8|UPC-A|GTIN-12|GTIN-13|GTIN-14|UPC-E)/g;
+
+function BarcodeCodeHelp({ text }: { text: string }) {
+  return text.split(barcodeTechnicalTokenPattern).map((part, index) =>
+    barcodeTechnicalTokens.has(part) ? (
+      <bdi
+        className="inline-block whitespace-nowrap"
+        data-barcode-technical-token={part}
+        dir="ltr"
+        key={`${part}-${index}`}
+      >
+        {part}
+      </bdi>
+    ) : (
+      part
+    ),
+  );
+}
+
 export function BarcodeLookupForm({
   action,
   code,
@@ -64,7 +92,7 @@ export function BarcodeLookupForm({
           type="text"
         />
         <span className="text-sm font-normal leading-6 text-slate-600" id={codeHelpId}>
-          {labels.codeHelp}
+          <BarcodeCodeHelp text={labels.codeHelp} />
         </span>
         {error?.field === "code" && (
           <span className="text-sm font-normal leading-6 text-red-800" id={codeErrorId} role="alert">
