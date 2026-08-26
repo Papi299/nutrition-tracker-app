@@ -7,20 +7,23 @@
 | Document | Phase 11E Authentication and Account-Lifecycle Governance |
 | Identifier | `PHASE-11E-AUTH-ACCOUNT-LIFECYCLE-GOVERNANCE-001` |
 | Repository baseline | `6c2634478c93b7f4832616c302e75a4ceff1bf45`, tree `789ea0872f674553740c74846cd9df812c62c76a` |
-| Controlling contract | `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` |
+| Controlling contract | `1.6-phase-11e-nojs-classifications-amended` candidate |
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING` |
+| Current status | `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW` |
+| Contract 1.6 independent review | `PENDING_INDEPENDENT_REVIEW` |
 
-This document records only the role assignments and bounded engineering
-decisions contained in the recommendation immediately preceding the Product
-Owner's attributable approval. It is subordinate to the approved Phase 11B
-contract and does not broaden that approval.
+This document records the role assignments and bounded engineering decisions
+contained in the recommendation immediately preceding the Product Owner's
+attributable approval, plus their exact Contract 1.6 candidate amendment. It
+is subordinate to the accepted Phase 11B contract history and does not broaden
+the Product Owner's approval.
 
-It does not amend contract version 1.5 or Section 7.1–7.3, authorize runtime
-implementation, establish legal sufficiency, collect hosted evidence, close a
-finding, or authorize launch or deployment.
+The Contract 1.6 candidate changes only the six expressly approved
+no-JavaScript cells and matching rows in Sections 7.2–7.3. It does not change
+Section 7.1, authorize runtime implementation, establish legal sufficiency,
+collect hosted evidence, close a finding, or authorize launch or deployment.
 
 ## 2. Phase 11E prerequisite role assignments
 
@@ -41,9 +44,9 @@ The resulting role status is:
 
 `PHASE_11E_ROLE_GOVERNANCE_PREREQUISITE_SATISFIED`
 
-This does not mean `PHASE_11E_IMPLEMENTATION_READY`: the normative
-no-JavaScript contract amendment and qualified policy dependencies remain
-pending, and runtime implementation has not started.
+This does not mean `PHASE_11E_IMPLEMENTATION_READY`: Contract 1.6 remains a
+candidate pending independent review, qualified policy dependencies remain
+unresolved, and runtime implementation has not started.
 
 ## 3. Product Owner-approved engineering decisions
 
@@ -146,20 +149,21 @@ Storage treatment; backup treatment; retention duration; and legal basis. No
 retention period is inferred, and `ON DELETE CASCADE` is not the lifecycle
 policy.
 
-## 4. Owner-approved no-JavaScript decisions pending amendment
+## 4. Owner-approved no-JavaScript decisions implemented in the candidate
 
-The Product Owner approved these future classifications. Each remains
-`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; current Section 7.2/7.3
-and contract version 1.5 are unchanged.
+The Product Owner approved these classifications. Candidate contract version
+1.6 implements each one in exactly one Section 7.2 cell and its matching
+Section 7.3 row. The candidate remains
+`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
 
-| Journey | Approved future classification | Rationale |
+| Journey | Contract 1.6 candidate classification | Rationale |
 | --- | --- | --- |
-| `CJ-002` invited activation | `REQUIRED_FALLBACK_ONLY` | Provider invitation-link mechanics may vary, but the application-owned activation/password fallback must not require JavaScript. |
-| `CJ-003` confirmation callback | `REQUIRED` | Callback exchange and the safe server-rendered destination can remain server operable. |
-| `CJ-007` password-recovery request | `REQUIRED` | This is an ordinary security-sensitive HTML form. |
-| `CJ-008` password-recovery completion | `REQUIRED` | Recovery completion and password submission are ordinary security-sensitive forms. |
-| `CJ-034` synchronous JSON account export | `REQUIRED` | The approved request, reauthentication, and synchronous-download path can remain server operable. |
-| `CJ-035` closure/deletion | `REQUIRED` | Destructive confirmation and submission are security-sensitive server-renderable flows. |
+| `CJ-002` invited activation | `REQUIRED_FALLBACK_ONLY` | Provider invitation-link mechanics may vary, but the application-owned activation/password fallback must remain operable without JavaScript. |
+| `CJ-003` confirmation callback | `REQUIRED` | The confirmation callback exchange and safe localized server-rendered destination can remain server operable. |
+| `CJ-007` password-recovery request | `REQUIRED` | Password-recovery request is a security-sensitive ordinary HTML form and must remain operable without JavaScript. |
+| `CJ-008` password-recovery completion | `REQUIRED` | Password-recovery completion and password submission are security-sensitive ordinary HTML forms and must remain operable without JavaScript. |
+| `CJ-034` synchronous JSON account export | `REQUIRED` | The approved initial account-export architecture is a synchronous versioned JSON download, so reauthentication, request, and download must remain server operable. |
+| `CJ-035` closure/deletion | `REQUIRED` | Account closure/deletion confirmation and submission are security-sensitive server-renderable flows and must remain operable without JavaScript. |
 
 No implementation or evidence credit follows from classification approval.
 
@@ -168,13 +172,13 @@ No implementation or evidence credit follows from classification approval.
 `PHASE_11E0B_CONTRACT_AND_HISTORICAL_EVIDENCE_VALIDATOR_EVOLUTION_REQUIRED`
 
 Phase 11C evidence remains historically bound to
-`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current contract
-remains `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. The
-current journey-evidence validator protects normalized Section 7.1–7.3
-fingerprints and compares historical per-journey normative contract objects to
-the current parsed contract.
+`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current candidate
+is `1.6-phase-11e-nojs-classifications-amended`. The evolved journey-evidence
+validator independently binds historical evidence to immutable accepted
+fingerprints and a canonical normative-projection digest, then validates the
+current candidate through an exact six-journey amendment allowlist.
 
-The separately reviewed 11E0B task must evolve that compatibility model so:
+The 11E0B candidate evolves that compatibility model so:
 
 1. accepted Phase 11C evidence remains bound to its accepted contract identity;
 2. Phase 11C-owned normative facts remain protected;
@@ -184,8 +188,9 @@ The separately reviewed 11E0B task must evolve that compatibility model so:
    because they appear in historical evidence; and
 5. no generic “accept any current contract” bypass is introduced.
 
-This record does not change the validator, historical evidence, Section 7.1–7.3,
-or the contract version.
+Historical evidence is not migrated or rewritten. Section 7.1 and all
+non-allowlisted Section 7.2/7.3 fields remain unchanged, and independent review
+of the exact candidate head is still required.
 
 ## 6. Qualified review remains required
 
@@ -208,6 +213,7 @@ approval is recorded by this document.
 - Runtime implementation has not started, so neither P11A-006 nor P11A-009 is
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-This record authorizes no runtime, test, migration, dependency, validator,
-journey-evidence, hosted Supabase, Dashboard, invitation, remote SQL, Vercel,
-Production, deployment, DNS, secret, launch, finding-closure, or legal action.
+No runtime implementation, migration, dependency, historical-journey-evidence,
+hosted Supabase, Dashboard, invitation, remote SQL, Vercel, Production,
+deployment, DNS, secret, launch, finding-closure, or legal action follows from
+this candidate.

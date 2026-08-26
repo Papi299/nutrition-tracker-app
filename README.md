@@ -260,13 +260,16 @@ is complete for the current MVP scope.
   remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
   Maor Pichhadze approved the remaining implemented-journey classifications:
   CJ-004, CJ-009–CJ-012 `REQUIRED`; CJ-006, CJ-013, CJ-021
-  `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The later
-  Product Owner-approved UI-dependent manual-acceptance timing amendment makes
-  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` the current
-  contract while preserving historical version
-  `1.4-phase-11b-remaining-implemented-nojs-amended`; current no-JavaScript
-  totals remain `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the
-  historical classification-amendment snapshot.
+  `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The later Product
+  Owner-approved UI-dependent manual-acceptance timing amendment is preserved
+  as historical contract
+  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. Candidate
+  contract `1.6-phase-11e-nojs-classifications-amended` changes exactly six
+  Phase 11E no-JavaScript rows and has current totals `16 / 5 / 13 / 1`, while
+  accepted Phase 11C evidence remains bound to historical version
+  `1.4-phase-11b-remaining-implemented-nojs-amended` and historical totals
+  `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the historical
+  classification-amendment snapshot.
   These decisions add no implementation or automated evidence credit, and
   runtime behavior is unchanged. Accepted repository work then progressed
   through PRs #96–#102: CJ-018 creation idempotency; CJ-004–CJ-006 auth/session
@@ -317,11 +320,11 @@ is complete for the current MVP scope.
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
   with status
-  `PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
-  The six owner-approved no-JavaScript classifications still require the
-  separate 11E0B normative contract/validator amendment, qualified
-  legal/privacy/retention/copy dependencies remain open, and no Phase 11E
-  runtime implementation has started. The
+  `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
+  The separate 11E0B normative contract/validator amendment is implemented as
+  a candidate with an exact six-journey allowlist and immutable historical
+  Phase 11C binding. Qualified legal/privacy/retention/copy dependencies remain
+  open, and no Phase 11E runtime implementation has started. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
