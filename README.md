@@ -291,10 +291,13 @@ is complete for the current MVP scope.
   2026-08-21, Product Owner Maor Pichhadze explicitly assigned himself as the
   Native Hebrew reviewer and accessibility/manual-validation owner and
   accepted both assignments. Both roles are `ASSIGNED_AND_APPROVED`, satisfying
-  the Phase 11D role-governance prerequisites. Consolidated Phase 11D is now
-  `IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`
-  in one Draft candidate before exact-head independent review. Repository work
-  adds a bounded
+  the Phase 11D role-governance prerequisites. Phase 11D is now
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. ChatGPT independently
+  reviewed exact head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree
+  `44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued
+  `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`
+  with verdict `APPROVE`, accepting Phase 11D for its amended repository-owned
+  implementation scope only. Repository work adds a bounded
   eight-state axe gate with zero findings, proportional Chromium/Firefox/WebKit
   engine and 390px mobile emulation, exact 320/390/768/1280 overflow coverage,
   explicit locale persistence and context preservation, shared locale-aware
@@ -308,7 +311,10 @@ is complete for the current MVP scope.
   NVDA/Firefox, affected-layout RTL, supported real-browser/device, and manual
   camera acceptance to Phase 11J after material UI/UX redesign and
   stabilization. Phase 11K remains the only finding-closure gate. No
-  requirement is waived and no launch or deployment is authorized. The
+  requirement is waived and no launch or deployment is authorized. Phase 11E
+  — Authentication and account lifecycle — is the next continuation point;
+  its existing prerequisite roles and decisions must be audited before
+  implementation, with no silent owner assignment. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged

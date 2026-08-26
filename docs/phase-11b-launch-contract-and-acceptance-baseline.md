@@ -31,6 +31,7 @@
 | Remaining no-JavaScript amendment review requirement | Independent review of the exact amendment head is required before merge. |
 | UI-dependent manual-acceptance timing amendment | `PRODUCT_OWNER_APPROVED` — Option 2 approved by Maor Pichhadze on 2026-08-26: preserve every approved accessibility/client/locale requirement, retain continuous implementation and regression testing in Phase 11D, and move final launch-facing UI-dependent human acceptance to Phase 11J after the material UI/UX redesign and stabilization |
 | Timing-amendment review requirement | Independent review of the exact documentation-amendment head is required before merge. |
+| Timing-amendment independent review | `APPROVE` — ChatGPT reviewed exact head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree `44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`; acceptance covers Phase 11D's amended repository-owned implementation scope only |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -969,7 +970,7 @@ policy is pending.
 | Slice | Objective | Prerequisites | Authorized scope | Explicit non-goals | Required decisions | Repository acceptance | External evidence | Stop conditions | Findings | Journeys | Required CI / checklist gates | Completion marker | Findings afterward |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | **11C — Critical-journey QA foundation** | Make launch-critical behavior traceable to proportional automation/manual QA. | Approved 11B contract; `P11A-001` decision stage complete. | Fill high-risk auth/core/failure/integrity/tenant/locale/viewport/browser gaps and only the Section 7.3 no-JavaScript commitments; focused fixture/artifact/partition changes. | No universal no-JavaScript baseline, recovery feature, accessibility certification, browser support claim, deployment, or broad test rewrite. | 001, 008, 014–017, 022, 029 | Every approved journey maps to evidence and its exact no-JavaScript value; auth access is not only provisioning; integrity/tenant checks explicit; CI remains deterministic/local-Supabase for DB mutation. | Signed manual exploratory sessions only. | Unapproved matrix; weakened full gate; non-isolated test data; unexplained skip/failure. | 002, 015 | CJ-001–002, 004–006, 009–030, 032 | Focused tests, complete authoritative CI within `CI-001`, trace/link/manual checklist review. | `PHASE_11C_COMPLETE` only after its approved contract passes. | All mapped findings remain `OPEN`. |
-| **11D — Accessibility, localization, responsive, and browser UI** | Meet approved bilingual/accessibility/client implementation targets without overstating final human or platform support. | Approved 11B; 11C journey foundation; accepted Hebrew and accessibility/manual owners. | Bounded axe/remediation; focus/error/status/contrast/reflow/motion foundations; locale context/formatting; Section 5 engine/mobile/visual automation; Section 7.3 fallback checks; deterministic camera automation; native product-copy review; retention of attributable baseline manual observations; exact final 11J checklist. | No certification, equation of engines with real browsers/devices, unsupported camera claim, third-party decoder/provider, unrelated redesign, or final launch-facing UI-dependent human acceptance before the material redesign is stabilized. | 012, 014–017 | Zero unwaived serious automated issues; bilingual/RTL/visual/client automation and deterministic fallbacks pass; native product-copy evidence is attributable; baseline manual observations are reported truthfully; final UI-dependent acceptance remains assigned to 11J. | Final keyboard/focus, actual 200%/400% zoom/reflow, target integrity, contrast, reduced motion, AT, real browser/platform/device, affected-layout RTL, and manual camera evidence in 11J. | Missing required owner; unapproved client/AT matrix; serious issue without valid exception; fallback regression; false final-acceptance/support claim; waived or deleted requirement. | 003, 004, 005 | CJ-001–035 by risk matrix, especially 011, 016, 028–031 | axe and Chromium/Firefox/WebKit/mobile CI; deterministic viewport/motion/camera checks; native-copy evidence; final 11J checklist. | `PHASE_11D_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` subject to exact-head independent review. | All mapped findings remain `OPEN`. |
+| **11D — Accessibility, localization, responsive, and browser UI** | Meet approved bilingual/accessibility/client implementation targets without overstating final human or platform support. | Approved 11B; 11C journey foundation; accepted Hebrew and accessibility/manual owners. | Bounded axe/remediation; focus/error/status/contrast/reflow/motion foundations; locale context/formatting; Section 5 engine/mobile/visual automation; Section 7.3 fallback checks; deterministic camera automation; native product-copy review; retention of attributable baseline manual observations; exact final 11J checklist. | No certification, equation of engines with real browsers/devices, unsupported camera claim, third-party decoder/provider, unrelated redesign, or final launch-facing UI-dependent human acceptance before the material redesign is stabilized. | 012, 014–017 | Zero unwaived serious automated issues; bilingual/RTL/visual/client automation and deterministic fallbacks pass; native product-copy evidence is attributable; baseline manual observations are reported truthfully; final UI-dependent acceptance remains assigned to 11J. | Final keyboard/focus, actual 200%/400% zoom/reflow, target integrity, contrast, reduced motion, AT, real browser/platform/device, affected-layout RTL, and manual camera evidence in 11J. | Missing required owner; unapproved client/AT matrix; serious issue without valid exception; fallback regression; false final-acceptance/support claim; waived or deleted requirement. | 003, 004, 005 | CJ-001–035 by risk matrix, especially 011, 016, 028–031 | axe and Chromium/Firefox/WebKit/mobile CI; deterministic viewport/motion/camera checks; native-copy evidence; final 11J checklist. | `PHASE_11D_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. | All mapped findings remain `OPEN`. |
 | **11E — Authentication and account lifecycle** | Implement the application side of invited activation, prevent lockout, and implement only owner/legal/privacy-approved lifecycle. | Approved 11B decisions/policies; 11C foundation; accepted Auth, invitation-control, legal/privacy, policy-copy, and data-governance owners. | Remove/convert the public sign-up UI; implement callback, confirmation/recovery, generic denial, redirect/identity checks, intentional atomic setup, reauth, export/closure/deletion/retention/support, approved notices/copy, and local tests. | No Dashboard/operator/register implementation claim, hosted Supabase action, app-held admin secret, automatic custom-limit claim, unapproved OAuth, or deletion contradicting approved snapshots/evidence/holds. | 001–003, 009–011, 018–020, 027 | Both locales complete locally; open sign-up UI absent; callback failures are generic; identity mismatch/replay cannot create application rows; setup is atomic; redirect contract, RLS/least privilege, and lifecycle tests pass. | Legal/privacy/register-governance/native review in 11E; provider-native configuration/behavior and operator procedure/register evidence in 11J. | Missing policy/owner approval; open registration; unsafe redirect/enumeration; admin secret exposure; custom procedural rule presented as automatic; unclear retention; unauthorized hosted operation. | 006, 009 | CJ-002–008, 034–035 | Local email capture/callback/failure/concurrency tests, migration/RLS/grant/cascade tests where applicable, privacy/register data-flow checklist, full CI. | `PHASE_11E_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` where hosted/procedural proof remains. | All mapped findings remain `OPEN`. |
 | **11F — Application and supply-chain security** | Close concrete advisory/header/CI/governance risk while preserving authorization invariants. | Approved 11B security/client/release decisions. | Obtain/triage advisories; separately approved minimal dependency changes; threat-model headers/CSP/secrets/origins/leakage; proportional gates; read-only GitHub settings evidence. | No destructive attack, secret access/creation, settings mutation, provider change, certification, or weaker RLS/grants. | 014–015, 029 | No unaccepted reachable critical/high advisory; header policy passes local/config tests; secret/client boundaries and RLS/grants remain green; governance policy documented. | Current advisory and GitHub evidence in 11F; deployed headers/CSP in 11J. | Unknown reachable critical/high risk; unauthorized dependency/settings change; security invariant regression. | 007, 008, 016 | CJ-001–035 reachable/security subset; CJ-032–033 | Advisory report, dependency diff/focused regression, header/config tests, static/secret checks, complete CI, read-only settings checklist. | `PHASE_11F_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` where deployed proof remains. | All mapped findings remain `OPEN`. |
 | **11G — Reliability, observability, and performance** | Make failures detectable/recoverable/privacy-safe and test approved Section 5.2 budgets. | Approved 11B objectives; 11C foundation; bounded 11F security contract; accepted observability, incident/escalation, performance, and reliability owners. | Localized boundaries; interruption/outage/retry/maintenance/version behavior; provider-neutral telemetry/alerts/runbook; all local metric rows with raw artifacts and query-specific plans. | No provider account, Production load, sensitive-field logging, sequential-scan ban, conflation of local/deployed/operational evidence, or universal guarantee. | 004–006, 021–023 | Injected failures preserve integrity; exact signal thresholds/privacy/tabletop pass; every local budget records required dimensions; `CI-001` hard gate/objective remains separate. | Exact-candidate deployed signals/alerts, operation metrics, mobile/desktop CWV, outage/incident rehearsal in 11J. | Unapproved metric or owner; sensitive logging; failed integrity; missing alert/runbook; stale/incomplete artifact; hidden low-volume failure. | 012, 013, 014 | CJ-002–035, especially 006, 012–015, 024, 027, 033 | Failure tests, launch-shaped load/query plans, instrumentation privacy tests, tabletop, complete CI. | `PHASE_11G_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. | All mapped findings remain `OPEN`. |
@@ -1128,9 +1129,12 @@ only. All 30 decisions are `PRODUCT_OWNER_APPROVED`; all 18 findings remain
 `OPEN`; and Phase 11B is `PHASE_11B_COMPLETE`. The original
 `1.0-phase-11b-accepted` baseline recorded Phase 11C as unstarted and next at
 that historical acceptance point. At this `1.5` amendment, Phase 11C is
-accepted for its owned scope, Phase 11D is in progress under the amended
-implementation/evidence boundary, overall Phase 11 remains incomplete, and
-Phase 11K remains the exclusive finding-closure gate. No implementation,
+accepted for its owned scope, Phase 11D is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` under the amended
+implementation/evidence boundary, Phase 11E is the next continuation point,
+overall Phase 11 remains incomplete, and Phase 11K remains the exclusive
+finding-closure gate. Existing Phase 11E prerequisite role and decision
+requirements remain controlling. No implementation,
 hosted access, deployment, finding closure, or Production release is
 authorized by this documentation amendment.
 
@@ -1138,18 +1142,24 @@ authorized by this documentation amendment.
 
 This addendum reports current repository state without changing the substantive
 requirements of any normative decision or accepted historical record above.
-Before independent review of this documentation-only amendment, Phase 11D is
-`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`
-in a single consolidated Draft candidate based on accepted baseline
+Phase 11D is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` in a single
+consolidated Draft candidate based on accepted baseline
 `30586b768aa3f4f9e9c9ecdda2b37e282249860f`, tree
-`19e65ed4532033f88c9c5aea512045c77892d74b`.
+`19e65ed4532033f88c9c5aea512045c77892d74b`. ChatGPT independently reviewed
+exact amendment head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree
+`44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued
+`PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`
+with verdict `APPROVE`. The acceptance covers the amended repository-owned
+implementation scope only and does not establish final launch-facing human
+acceptance or finding closure.
 
 The candidate implements a bounded eight-state axe gate, proportional
 Chromium/Firefox/WebKit and 390px mobile emulation, exact
 320/390/768/1280-width overflow coverage, locale context and explicit-choice
 persistence, locale-aware display formatting, and focused
-focus/status/reduced-motion remediation. Exact-head CI for source candidate
-`a05036e276e0652bc5e8f775dd07678869aeb794` recorded 313 full E2E passes,
+focus/status/reduced-motion remediation. Exact-head CI run `32952921678` for
+reviewed amendment candidate `f05ffbadcd3cb67ff83f66baa595a19e09469692`
+recorded 313 full E2E passes,
 45 Phase 11D passes with 3 intentional non-Chromium axe skips, and zero axe
 critical, serious, moderate, minor, or unknown findings.
 
@@ -1173,4 +1183,6 @@ implementation changes; changed copy requires focused native review.
 `OPEN`; overall Phase 11 remains `INCOMPLETE`; and Phase 11K remains the
 exclusive closure gate. No hosted Supabase, remote database, Vercel,
 Production, deployment, launch, or external validation action is authorized by
-this addendum.
+this addendum. Phase 11E — Authentication and account lifecycle — is the next
+continuation point, subject to its existing prerequisite role and decision
+requirements; this acceptance assigns no Phase 11E owner.

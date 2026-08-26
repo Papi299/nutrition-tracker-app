@@ -7,7 +7,8 @@
 | Phase | 11D — accessibility, localization, responsive, and browser UI |
 | Starting baseline | `30586b768aa3f4f9e9c9ecdda2b37e282249860f` / tree `19e65ed4532033f88c9c5aea512045c77892d74b` |
 | Candidate | Draft PR head; record the exact head SHA and tree at execution time |
-| Current state | `IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE` — repository implementation/automation is complete and native Hebrew evidence is collected; final UI-dependent human accessibility acceptance is deferred to Phase 11J by Product Owner timing amendment, subject to exact-head independent review |
+| Independent review | ChatGPT `APPROVE` on 2026-08-26 for exact amendment head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree `44601639be3d3bf79d78abc8e59d169465ffa6dd`; marker `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED` |
+| Current state | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` — repository implementation/automation is complete and native Hebrew evidence is collected; the partial keyboard baseline remains historical evidence; final UI-dependent human accessibility acceptance remains mandatory and Phase 11J-owned under the Product Owner timing amendment |
 | Normative contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md) |
 | Historical evidence boundary | [Phase 11C evidence JSON](phase-11c-critical-journey-evidence.json) remains unchanged at 35 journeys / 249 references / 854 claims |
 | Human owners | Native Hebrew reviewer and accessibility/manual-validation owner: Maor Pichhadze, `ASSIGNED_AND_APPROVED` |
@@ -406,16 +407,25 @@ packet cannot be relabeled as this evidence.
 
 ## 12. Phase and safety state
 
-Before independent exact-head review of the docs-only amendment, Phase 11D is
-`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`.
-Its repository implementation/automation is complete, native Hebrew evidence
-is collected, and partial keyboard baseline evidence is retained. Final
+ChatGPT independently accepted reviewed amendment head
+`f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree
+`44601639be3d3bf79d78abc8e59d169465ffa6dd`, with marker
+`PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`.
+Phase 11D is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` for its
+amended repository-owned scope. Its repository implementation/automation is
+complete, native Hebrew evidence is collected, and partial keyboard baseline
+evidence is retained without being promoted to PASS. Final
 UI-dependent human acceptance remains mandatory and is deferred to Phase 11J
 by the approved timing amendment. `P11A-003`, `P11A-004`, and `P11A-005`
 remain `OPEN`; all 18 Phase 11 findings remain `OPEN`; Phase 11K is the
 exclusive finding-closure gate and must reject absent, stale, materially
 mismatched, failed, unsupported, or unattributed required 11J evidence;
 overall Phase 11 remains `INCOMPLETE`.
+
+Phase 11E — Authentication and account lifecycle — is the next continuation
+point. Before implementation, its next task must audit current repository state
+and all existing prerequisite role and decision requirements. This closeout
+does not assign any currently unassigned Phase 11E owner.
 
 No hosted Supabase, remote database, Vercel, Production, deployment, DNS,
 environment, provider, backup, restore, launch, physical-device, or

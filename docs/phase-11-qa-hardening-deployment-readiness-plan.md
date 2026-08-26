@@ -296,7 +296,8 @@ ChatGPT independently found the exact PR #105 candidate head sufficient; Phase
 exact-head ChatGPT re-review of the final PR head before merge. This acceptance
 closes no finding and creates no later-slice or external-evidence credit.
 `P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D is
-now in progress under its amended implementation/evidence boundary. On
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` under its amended
+implementation/evidence boundary. On
 2026-08-21, Product Owner Maor Pichhadze explicitly assigned
 himself as the Native Hebrew reviewer and accessibility/manual-validation owner
 and accepted both assignments. The two Phase 11D role-governance prerequisites
@@ -346,8 +347,13 @@ manual checklist evidence for non-automatable cases.
 
 ## 10. Phase 11D — Accessibility, localization, responsive, and browser UI
 
-**Current status before independent exact-head review:**
-`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`.
+**Current status:** `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+ChatGPT independently reviewed exact head
+`f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree
+`44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued
+`PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`
+with verdict `APPROVE`. This accepts Phase 11D for its amended
+repository-owned implementation scope only.
 Its Native Hebrew reviewer and accessibility/manual-validation owner are
 `ASSIGNED_AND_APPROVED` to Maor Pichhadze. The consolidated Draft candidate
 implements the bounded axe gate, locale/context/formatting remediation,
@@ -410,6 +416,11 @@ native-speaker product-copy review, truthful retention of partial baseline
 observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
+
+**Next continuation point:** Phase 11E — Authentication and account lifecycle.
+Before implementation, audit its current repository state and existing
+prerequisite role and decision requirements. This handoff does not assign any
+currently unassigned Phase 11E owner.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 

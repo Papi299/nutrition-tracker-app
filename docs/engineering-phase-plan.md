@@ -433,9 +433,15 @@ Pichhadze explicitly assigned himself as the Native Hebrew reviewer and
 accessibility/manual-validation owner and accepted both assignments. The roles
 are `ASSIGNED_AND_APPROVED`, satisfying the Phase 11D role-governance
 prerequisites. Phase 11D is now
-`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`
-through the consolidated Draft candidate documented in the
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` through the consolidated
+Draft candidate documented in the
 [Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
+ChatGPT independently reviewed exact head
+`f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree
+`44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued
+`PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`
+with verdict `APPROVE`, accepting the amended repository-owned implementation
+scope only.
 Its repository automation and remediation are implemented. HE-01, HE-02, and
 HE-03 are attributable `PASS`, including focused confirmation of the two
 successor Custom Food headings. A11Y-01 is
@@ -447,7 +453,10 @@ contrast, motion, AT, affected-layout RTL, supported-browser/platform/device,
 and camera acceptance against the stabilized pre-release UI. Phase 11K must
 reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
-finding, and authorizes no launch or deployment.
+finding, and authorizes no launch or deployment. Phase 11E — Authentication
+and account lifecycle — is the next continuation point. Its next task must
+first audit current repository state and all existing Phase 11E prerequisite
+roles and decisions; no unassigned owner is assigned by this handoff.
 
 ## Future PR Documentation Rule
 
