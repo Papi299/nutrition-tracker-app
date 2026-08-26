@@ -260,10 +260,13 @@ is complete for the current MVP scope.
   remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
   Maor Pichhadze approved the remaining implemented-journey classifications:
   CJ-004, CJ-009–CJ-012 `REQUIRED`; CJ-006, CJ-013, CJ-021
-  `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The current contract
-  is `1.4-phase-11b-remaining-implemented-nojs-amended`; current totals are
-  `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the historical
-  classification-amendment snapshot.
+  `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The later
+  Product Owner-approved UI-dependent manual-acceptance timing amendment makes
+  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` the current
+  contract while preserving historical version
+  `1.4-phase-11b-remaining-implemented-nojs-amended`; current no-JavaScript
+  totals remain `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the
+  historical classification-amendment snapshot.
   These decisions add no implementation or automated evidence credit, and
   runtime behavior is unchanged. Accepted repository work then progressed
   through PRs #96–#102: CJ-018 creation idempotency; CJ-004–CJ-006 auth/session
@@ -289,15 +292,23 @@ is complete for the current MVP scope.
   Native Hebrew reviewer and accessibility/manual-validation owner and
   accepted both assignments. Both roles are `ASSIGNED_AND_APPROVED`, satisfying
   the Phase 11D role-governance prerequisites. Consolidated Phase 11D is now
-  `IN_PROGRESS` in one Draft candidate. Repository work adds a bounded
+  `IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`
+  in one Draft candidate before exact-head independent review. Repository work
+  adds a bounded
   eight-state axe gate with zero findings, proportional Chromium/Firefox/WebKit
   engine and 390px mobile emulation, exact 320/390/768/1280 overflow coverage,
   explicit locale persistence and context preservation, shared locale-aware
   display formatting, focus/status/reduced-motion remediation, and preserved
-  deterministic camera/manual fallback. Required Native Hebrew,
-  keyboard/zoom/contrast, VoiceOver/Safari, NVDA/Firefox, and local manual
-  camera evidence remains `NOT_COLLECTED`; real platform/device evidence stays
-  deferred to Phase 11J. No launch or deployment is authorized. The
+  deterministic camera/manual fallback. HE-01, HE-02, and HE-03 are
+  attributable `PASS` on the current Hebrew copy, including focused successor
+  confirmation of both changed Custom Food nutrient-group headings. A11Y-01 is
+  `PARTIAL_BASELINE_COLLECTED`. On 2026-08-26, Product Owner Maor Pichhadze
+  approved preserving every accessibility/client requirement while deferring
+  final launch-facing keyboard/zoom/contrast/motion, VoiceOver/Safari,
+  NVDA/Firefox, affected-layout RTL, supported real-browser/device, and manual
+  camera acceptance to Phase 11J after material UI/UX redesign and
+  stabilization. Phase 11K remains the only finding-closure gate. No
+  requirement is waived and no launch or deployment is authorized. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged

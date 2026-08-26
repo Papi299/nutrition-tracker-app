@@ -2374,3 +2374,70 @@
   environment, provider, backup, restore, launch, physical-device, or
   finding-closure operation occurred. This Draft candidate remains unmerged
   for exact-head independent review after required manual execution.
+
+## 2026-08-26: Phase 11 UI-dependent manual-acceptance timing amendment
+
+- Product Owner Maor Pichhadze approved Option 2: preserve all approved
+  accessibility, responsive, browser, assistive-technology, camera, native
+  Hebrew/RTL/bidi, supported-client, and WCAG 2.2 AA engineering requirements,
+  while moving final launch-facing UI-dependent human acceptance from Phase
+  11D to Phase 11J after the planned material UI/UX and visualization redesign
+  is complete and the pre-release interface is stabilized.
+- The rationale is evidence freshness and proportional execution: final
+  expensive human acceptance against an interface intentionally scheduled for
+  material redesign would become stale and require duplicate execution. The
+  governing principle is to build and regression-test accessibility
+  continuously and perform final human acceptance on the interface intended to
+  launch.
+- Created contract version
+  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` on top of
+  preserved historical version
+  `1.4-phase-11b-remaining-implemented-nojs-amended`. The amendment changes
+  evidence timing for `DEC-015`, `DEC-016`, and related rows only; it does not
+  change the substantive requirements of `DEC-014`–`DEC-017`, any
+  no-JavaScript classification/fingerprint, supported-client boundary, waiver
+  rule, or camera claim boundary.
+- Phase 11D retains accessibility foundations/remediation; the zero-unwaived-
+  serious axe gate; Chromium/Firefox/WebKit/mobile, viewport/layout, and
+  reduced-motion automation; focus-visible/skip-link/status/error behavior;
+  bilingual/RTL implementation; deterministic camera/fallback automation;
+  native-Hebrew product-copy acceptance; and attributable baseline manual
+  observations. It must not present those as final launch-facing human
+  accessibility acceptance.
+- Phase 11J now owns final attributable full keyboard/focus, actual 200%/400%
+  zoom/reflow, target-integrity, text/non-text/control/focus contrast,
+  reduced-motion, VoiceOver/Safari, NVDA/Firefox, affected-layout RTL and mixed
+  content, named supported real-browser/platform, physical-device, and manual
+  camera/fallback acceptance against the stabilized exact candidate. Synthetic
+  data and the existing privacy/evidence boundaries remain mandatory.
+- Phase 11K remains the exclusive finding-closure gate and must reject absent,
+  stale, materially mismatched, failed, unsupported, or unattributed required
+  Phase 11J evidence.
+- Current Hebrew successor `a05036e276e0652bc5e8f775dd07678869aeb794`
+  records attributable HE-01 `PASS`, HE-02 `PASS`, and HE-03 `PASS` from Maor
+  Pichhadze on 2026-08-26, including focused confirmation of
+  `סוגי פחמימות ושומן` and `ויטמינים ורכיבי תזונה נוספים`. No further Hebrew
+  wording change is required. Unchanged approved strings do not require repeat
+  native review solely because unrelated layout implementation changes;
+  changed copy requires focused native review.
+- A11Y-01 is `PARTIAL_BASELINE_COLLECTED`: exercised passing portions covered
+  the public skip link/main-content focus, visible focus, logical public
+  navigation, sign-in validation/error focus, authenticated Today reachability,
+  Custom Food EN/HE, Recipe EN/HE, Saved Meal EN/HE, and reorder controls, with
+  no observed trap or lost focus. The complete route matrix was not finished.
+  A11Y-02, A11Y-03, AT-VO-01, AT-NVDA-01, and final manual camera evidence are
+  `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`; no final human PASS is
+  claimed.
+- A material UI/UX change invalidates launch-facing manual accessibility
+  evidence for every materially affected surface, including navigation, DOM or
+  component structure, focus order, forms, typography, spacing, breakpoints,
+  responsive layout, visual hierarchy, color/contrast, motion, or AT semantics.
+  Fresh evidence must bind to the stabilized candidate evaluated by 11K.
+- Before independent exact-head review, Phase 11D is
+  `IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`.
+  `P11A-003`, `P11A-004`, and `P11A-005` remain `OPEN`; all 18 findings remain
+  `OPEN`; overall Phase 11 remains `INCOMPLETE`.
+- This governance amendment authorizes no runtime, test, dependency, workflow,
+  hosted Supabase, remote database, Vercel, Production, deployment,
+  backup/restore, launch, finding-closure, Ready-for-Review, merge, or
+  auto-merge operation.

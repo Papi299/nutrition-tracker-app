@@ -157,9 +157,9 @@ flowchart TD
 decisions and repository contracts are complete. The 11E–11G edges into 11H
 represent completed bounded repository contracts, not closed launch findings.
 Phase 11H defines the architecture that 11J later exercises; 11J collects all
-explicitly deferred hosted/deployed evidence under separate authorization; and
-11K performs final closure. This keeps the graph acyclic without moving or
-renaming a slice.
+explicitly deferred final UI-dependent human and hosted/deployed evidence under
+separate authorization; and 11K performs final closure. This keeps the graph
+acyclic without moving or renaming a slice.
 
 ## 8. Phase 11B — Launch contract and acceptance baseline
 
@@ -167,10 +167,11 @@ renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as version
-`1.4-phase-11b-remaining-implemented-nojs-amended`, while historical amended
-versions `1.1-phase-11b-cj019-amended`,
-`1.2-phase-11b-cj019-cj030-amended`, and
-`1.3-phase-11b-cj024-cj027-nojs-amended` remain preserved: Maor Pichhadze
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, while historical
+amended versions `1.1-phase-11b-cj019-amended`,
+`1.2-phase-11b-cj019-cj030-amended`,
+`1.3-phase-11b-cj024-cj027-nojs-amended`, and
+`1.4-phase-11b-remaining-implemented-nojs-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -273,10 +274,12 @@ authorized for behavior change. Contract 1.3 and totals `6 / 1 / 12 / 16`
 remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
 Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
 CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
-`NOT_APPLICABLE`. The current contract is
-`1.4-phase-11b-remaining-implemented-nojs-amended`, current totals are
-`11 / 4 / 13 / 7`; 35 / 223 / 718 remains the accurate historical snapshot of
-that classification amendment. Accepted PRs #96–#102 then advanced the
+`NOT_APPLICABLE`. That classification amendment produced preserved historical
+contract `1.4-phase-11b-remaining-implemented-nojs-amended`; the current
+contract is `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
+no-JavaScript totals remain `11 / 4 / 13 / 7`; 35 / 223 / 718 remains the
+accurate historical snapshot of that classification amendment. Accepted PRs
+#96–#102 then advanced the
 repository-owned Phase 11C implementation and automation through CJ-018,
 CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and
 CJ-028/CJ-029. The exact post-PR-102 inventory is 35 journeys / 249 automated
@@ -292,14 +295,18 @@ ChatGPT independently found the exact PR #105 candidate head sufficient; Phase
 11C is accepted and complete for its owned scope. Merge policy requires
 exact-head ChatGPT re-review of the final PR head before merge. This acceptance
 closes no finding and creates no later-slice or external-evidence credit.
-`P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D has
-not started. On 2026-08-21, Product Owner Maor Pichhadze explicitly assigned
+`P11A-002` and `P11A-015` remain `OPEN`, as do all 18 findings. Phase 11D is
+now in progress under its amended implementation/evidence boundary. On
+2026-08-21, Product Owner Maor Pichhadze explicitly assigned
 himself as the Native Hebrew reviewer and accessibility/manual-validation owner
 and accepted both assignments. The two Phase 11D role-governance prerequisites
-are satisfied, but no Phase 11D evidence is credited. Phase 11D retains the
-bilingual, accessibility, viewport, browser-engine, and visual matrix; Phase
-11E retains auth/account lifecycle; Phase 11G retains reliability; and Phase
-11J retains external, deployed, platform, and device evidence. Phase 11K
+are satisfied. Current Phase 11D automated and native-copy evidence is credited
+only within its exact scope; partial keyboard observations are baseline history,
+not final acceptance. Phase 11D retains the bilingual, accessibility,
+viewport, browser-engine, and visual implementation matrix; Phase 11E retains
+auth/account lifecycle; Phase 11G retains reliability; and Phase 11J retains
+final UI-dependent human, external, deployed, platform, and device evidence.
+Phase 11K
 remains the exclusive finding-closure gate. Overall Phase 11 remains
 incomplete, and no hosted access, launch, or deployment is authorized.
 
@@ -339,16 +346,20 @@ manual checklist evidence for non-automatable cases.
 
 ## 10. Phase 11D — Accessibility, localization, responsive, and browser UI
 
-**Current status:** `IN_PROGRESS`. Its Native Hebrew reviewer and
-accessibility/manual-validation owner are `ASSIGNED_AND_APPROVED` to Maor
-Pichhadze. The consolidated Draft candidate implements the bounded axe gate,
-locale/context/formatting remediation, focus/status/motion improvements, and
-proportional Chromium/Firefox/WebKit/mobile/viewport automation recorded in the
+**Current status before independent exact-head review:**
+`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`.
+Its Native Hebrew reviewer and accessibility/manual-validation owner are
+`ASSIGNED_AND_APPROVED` to Maor Pichhadze. The consolidated Draft candidate
+implements the bounded axe gate, locale/context/formatting remediation,
+focus/status/motion improvements, and proportional
+Chromium/Firefox/WebKit/mobile/viewport automation recorded in the
 [Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
-Required Native Hebrew, keyboard/zoom/contrast, VoiceOver/Safari,
-NVDA/Firefox, and local camera/manual evidence remains `NOT_COLLECTED`.
-Therefore Phase 11D is not complete and no implementation-complete marker is
-recorded.
+HE-01, HE-02, and HE-03 are attributable `PASS`; A11Y-01 has a truthful partial
+keyboard baseline. Under the Product Owner-approved 2026-08-26 Option 2 timing
+amendment, final launch-facing UI-dependent keyboard/zoom/contrast/motion/AT,
+supported-browser/device, affected-layout RTL, and manual camera acceptance is
+executed in Phase 11J after material redesign and stabilization. No requirement
+is waived and no finding is closed.
 
 ### Objective
 
@@ -363,34 +374,42 @@ overstating certification or physical support.
   centralize locale-aware number/date display where required.
 - Add approved Firefox/WebKit/mobile/visual coverage and fix verified
   RTL/overflow/layout defects.
-- Execute manual keyboard, zoom/reflow, screen-reader, native-speaker, and
-  deterministic camera checks; define the physical-device/camera evidence
-  checklist and keep manual barcode lookup universal.
+- Collect native product-copy acceptance and retain attributable baseline manual
+  observations without promoting partial execution to final PASS. Define the
+  complete Phase 11J keyboard, actual zoom/reflow, contrast, reduced-motion,
+  screen-reader, supported-browser/device, affected-layout RTL, and manual
+  camera evidence checklist while keeping deterministic camera/fallback
+  automation and universal manual barcode lookup in 11D.
 
 ### Non-goals
 
 No formal WCAG certification, unsupported camera promise, third-party decoder,
-external barcode provider, or redesign unrelated to verified findings.
+external barcode provider, waiver of an approved accessibility requirement, or
+claim of final launch-facing human acceptance before the redesigned UI is
+stabilized.
 
 ### Acceptance criteria
 
 - Zero unwaived serious automated accessibility findings.
-- Every critical journey passes the approved manual accessibility checklist.
-- English/Hebrew copy/context/RTL and long mixed content pass supported clients.
+- Native English/Hebrew product copy is attributable; automated locale/context/
+  RTL coverage passes; final materially affected layout validation is assigned
+  to 11J.
 - Firefox/WebKit/mobile automation and visual evidence match the support
   matrix; the required physical-device evidence checklist and stop conditions
   are exact.
 - Camera failure always preserves complete manual/no-JavaScript lookup.
-- `P11A-005` is recorded as
+- `P11A-003`, `P11A-004`, and `P11A-005` remain `OPEN` and use
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` until Phase 11J
-  collects the required physical-device/deployed-browser evidence.
+  collects the required exact-candidate final UI-dependent and external
+  evidence.
 
 ### Validation strategy
 
 Automated accessibility and browser projects, visual baselines where stable,
-native-speaker review, manual AT/zoom/keyboard, and deterministic camera tests.
-Physical-device records are deferred to separately authorized Phase 11J
-evidence collection.
+native-speaker product-copy review, truthful retention of partial baseline
+observations, and deterministic camera tests. Complete manual
+AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
+separately authorized Phase 11J evidence collection against the stabilized UI.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
@@ -626,8 +645,12 @@ architecture, controls, and recovery evidence.
   compatibility; monitoring provider configuration, privacy-safe signal and
   alert delivery, uptime, and deployment notifications; Preview/staging route,
   query, cold-start, timing, and Core Web Vitals evidence; outage/incident
-  rehearsal; physical-device/deployed-browser checks; and non-production
-  migration drift/order preflight.
+  rehearsal; full keyboard/focus matrix; actual 200%/400% zoom/reflow; target
+  integrity; text/non-text/control/focus contrast; reduced motion;
+  VoiceOver/Safari; NVDA/Firefox; affected-layout RTL/mixed-content checks;
+  named supported real-browser/platform and physical-device checks; final
+  manual camera/fallback behavior; and non-production migration drift/order
+  preflight.
 - Rehearse the production checklist without production mutation/deployment.
 
 ### Non-goals
@@ -640,6 +663,9 @@ authorization.
 ### Acceptance criteria
 
 - Preview/staging uses the exact intended source and isolated data target.
+- The exact pre-release UI is stabilized after the material redesign, and all
+  required launch-facing manual accessibility records are fresh, attributable,
+  passing, and candidate-bound.
 - Build, environment, migration, hosted Auth/redirect/cookie, security-header/
   CSP, smoke, monitoring/alert/notification, deployed performance/Core Web
   Vitals, outage/incident, rollback/redeploy, physical-device where required,
@@ -647,7 +673,9 @@ authorization.
 - Every external-validation item deferred from 11D–11G is either attributable
   and `EXTERNAL_VALIDATION_COMPLETE` or remains explicitly open with owner,
   reason, and stop status. Phase 11J does not assign `FINDING_CLOSED`.
-- Required failures stop the rehearsal and are explained/corrected.
+- Absent, stale, materially mismatched, failed, unsupported, or unattributed
+  required manual evidence stops the rehearsal and remains open for correction.
+- Other required failures stop the rehearsal and are explained/corrected.
 - The evidence packet is complete enough for independent Phase 11 acceptance.
 
 ### Validation strategy
@@ -655,8 +683,9 @@ authorization.
 Attributed provider/host configuration exports, deployment logs, environment
 assertions, Auth and smoke journeys, response headers/CSP checks, telemetry/
 uptime/alert/notification delivery, deployed browser performance and Core Web
-Vitals, outage/incident drill, physical-device checks where required,
-rollback/redeploy, cleanup, and final non-production state verification.
+Vitals, outage/incident drill, attributable keyboard/zoom/contrast/motion/AT/
+RTL/supported-browser/physical-device/camera records, rollback/redeploy,
+cleanup, and final non-production state verification.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 

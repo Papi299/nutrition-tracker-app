@@ -7,7 +7,7 @@
 | Phase | 11D — accessibility, localization, responsive, and browser UI |
 | Starting baseline | `30586b768aa3f4f9e9c9ecdda2b37e282249860f` / tree `19e65ed4532033f88c9c5aea512045c77892d74b` |
 | Candidate | Draft PR head; record the exact head SHA and tree at execution time |
-| Current state | `IN_PROGRESS` — repository automation is implemented; required attributable human evidence is `NOT_COLLECTED` |
+| Current state | `IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE` — repository implementation/automation is complete and native Hebrew evidence is collected; final UI-dependent human accessibility acceptance is deferred to Phase 11J by Product Owner timing amendment, subject to exact-head independent review |
 | Normative contract | [Phase 11B Launch Contract and Acceptance Baseline](phase-11b-launch-contract-and-acceptance-baseline.md) |
 | Historical evidence boundary | [Phase 11C evidence JSON](phase-11c-critical-journey-evidence.json) remains unchanged at 35 journeys / 249 references / 854 claims |
 | Human owners | Native Hebrew reviewer and accessibility/manual-validation owner: Maor Pichhadze, `ASSIGNED_AND_APPROVED` |
@@ -16,15 +16,24 @@ This is an engineering target and evidence packet, not WCAG certification,
 launch readiness, real-browser/platform proof, physical-device proof, or a
 finding-closure record.
 
+Product Owner Maor Pichhadze approved Option 2 on 2026-08-26: preserve every
+approved accessibility, client, locale, camera, and WCAG 2.2 AA engineering
+requirement; continue implementation and deterministic regression in Phase
+11D; and execute final launch-facing UI-dependent human acceptance once in
+Phase 11J after the planned material UI/UX redesign is complete and the
+pre-release interface is stabilized. This changes evidence timing only. It is
+not a waiver, reduction, certification, launch authorization, or finding
+closure.
+
 ## 2. Contract audit and verified repository gaps
 
 | Decision | Starting gap | Candidate implementation and evidence boundary |
 | --- | --- | --- |
 | `DEC-012` | Manual/no-JavaScript lookup and strong deterministic camera coverage existed, but there was no proportional cross-engine fallback assertion. | The Phase 11D engine suite verifies that manual input and the progressive-enhancement panel remain visible without an external request. Existing deterministic camera tests remain authoritative for permission timing, denial, supported values, cleanup, retry, and no-JavaScript fallback. Physical cameras remain Phase 11J. |
 | `DEC-014` | The configured Playwright project was Chromium-only. | Risk-selected `engine-chromium`, `engine-firefox`, and `engine-webkit` projects cover the same locale, form, navigation, responsive, focus, reduced-motion, and barcode-fallback cases. These are engine automation, not Chrome, Edge, Firefox-platform, Safari, macOS, Windows, iOS, or Android proof. |
-| `DEC-015` | Selected 390px tests existed, but no single deterministic 320/390/768/1280 and reduced-motion gate existed. | The Phase 11D suite checks those four exact CSS widths, includes a 768×390 landscape case, attaches four stable Chromium visual captures, and adds 390px touch/mobile emulation. The 320px case is the automated effective-width signal for 400% reflow from 1280px; actual 200%/400% browser zoom remains manual. |
-| `DEC-016` | No axe gate, global focus baseline, skip links, or consistent auth status association/focus behavior existed. | `@axe-core/playwright` scans eight risk-selected English/Hebrew states. Global focus-visible, forced-colors and reduced-motion rules, localized skip links, form error association/focus, and single logical status semantics were added. Manual keyboard, contrast, zoom/reflow, VoiceOver/Safari, and NVDA/Firefox evidence remains required. |
-| `DEC-017` | Language switching returned to the locale root, discarded query context, and did not persist an explicit choice; display formatting was scattered. | The switch is available on public, auth, and authenticated shells; it preserves the safe route and query, stores only an explicit `en`/`he` functional preference, and makes `/` honor that choice without browser-language detection. Shared `en-US`/`he-IL` display formatters preserve canonical date-only inputs and stored numeric semantics. Mixed display values use direction isolation where remediated. Native Hebrew acceptance remains required. |
+| `DEC-015` | Selected 390px tests existed, but no single deterministic 320/390/768/1280 and reduced-motion gate existed. | The Phase 11D suite checks those four exact CSS widths, includes a 768×390 landscape case, attaches four stable Chromium visual captures, and adds 390px touch/mobile emulation. The 320px case is an automated effective-width signal only. Actual 200%/400% browser zoom/reflow, target integrity, supported real-browser/platform, and physical-device acceptance remain required and are executed finally in Phase 11J against the stabilized UI. |
+| `DEC-016` | No axe gate, global focus baseline, skip links, or consistent auth status association/focus behavior existed. | `@axe-core/playwright` scans eight risk-selected English/Hebrew states. Global focus-visible, forced-colors and reduced-motion rules, localized skip links, form error association/focus, and single logical status semantics were added. A partial keyboard baseline was collected in 11D. Complete keyboard/focus, contrast, actual zoom/reflow, reduced-motion, VoiceOver/Safari, and NVDA/Firefox acceptance remains required and is executed finally in Phase 11J after UI stabilization. |
+| `DEC-017` | Language switching returned to the locale root, discarded query context, and did not persist an explicit choice; display formatting was scattered. | The switch is available on public, auth, and authenticated shells; it preserves the safe route and query, stores only an explicit `en`/`he` functional preference, and makes `/` honor that choice without browser-language detection. Shared `en-US`/`he-IL` display formatters preserve canonical date-only inputs and stored numeric semantics. Mixed display values use direction isolation where remediated. Current native Hebrew product-copy acceptance is collected in 11D; a later material layout change requires final affected-surface RTL/truncation/mixed-content validation in 11J without repeating unchanged copy approval. |
 
 ## 3. Repository automation
 
@@ -56,14 +65,15 @@ certification.
 
 ### 3.2 Engine, viewport, and visual matrix
 
-`npm run test:phase11d` runs 36 project/test combinations:
+`npm run test:phase11d` runs 48 project/test combinations:
 
-- `engine-chromium`: nine tests, including the axe subset;
-- `engine-firefox`: eight engine tests plus one intentional shared-DOM axe skip;
-- `engine-webkit`: eight engine tests plus one intentional shared-DOM axe skip;
-- `mobile-chromium-390`: eight emulation tests plus one intentional shared-DOM axe skip.
+- `engine-chromium`: twelve tests, including the axe subset;
+- `engine-firefox`: eleven engine tests plus one intentional shared-DOM axe skip;
+- `engine-webkit`: eleven engine tests plus one intentional shared-DOM axe skip;
+- `mobile-chromium-390`: eleven emulation tests plus one intentional shared-DOM axe skip.
 
-The local result is 33 passed / 3 intentional skips. The HE-01 copy regression
+The exact-head local and CI result is 45 passed / 3 intentional skips. The
+HE-01 copy regression
 renders all four approved public/auth routes at 320px and 390px in every
 project, asserts the corrected bounded strings, verifies `lang`/`dir`, and
 rejects document overflow. The exact alias-control
@@ -101,31 +111,48 @@ decoder, or new barcode format is added.
 | Reduced-motion behavior had no repository-wide rule. | Transition utilities remained active under the preference. | Collapse animations and transitions and disable smooth scrolling under `prefers-reduced-motion: reduce`. | Reduced-motion test in all four projects. |
 | Media could exceed narrow logical width. | No shared intrinsic-media limit existed. | Limit image, SVG, video, and canvas inline size to the container. | Exact-width overflow matrix and camera preview coverage. |
 | Custom-food alias language and remove controls overlapped in English and Hebrew desktop rows. | A fixed 13rem grid track constrained the label to 208px while the native select retained a 232px intrinsic automatic minimum, overran the 16px gap, and intersected the adjacent button by 8px. | Use responsive zero-minimum columns, keep the remove action on its own row below extra-wide layouts, and allow labels/controls to shrink within their tracks. | Cross-engine EN/HE rectangle, containment, actionability, target-height, and overflow assertions at 320, 390, 640, 768, and 1280px. |
-| Native Hebrew reviewer rejected HE-01 terminology/naturalness on candidate `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b`; two bounded English labels were also rejected. | The catalog used literal or unnatural constructions for manually defined nutrition targets, diary entries, Custom Foods, analytics, Production deployment, source/saved-value transparency, auth navigation/CTA, and the Supabase Auth explanation. | Apply the reviewer-approved terminology contextually across same-concept catalog occurrences and correct only the two approved English labels. Application, route, auth, and data semantics are unchanged. | Cross-engine HE-01 public/auth rendering, locale-direction, and narrow-width overflow assertions at 320px and 390px. Native re-review remains required. |
+| Native Hebrew reviewer rejected HE-01 terminology/naturalness on candidate `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b`; two bounded English labels were also rejected. | The catalog used literal or unnatural constructions for manually defined nutrition targets, diary entries, Custom Foods, analytics, Production deployment, source/saved-value transparency, auth navigation/CTA, and the Supabase Auth explanation. | Apply the reviewer-approved terminology contextually across same-concept catalog occurrences and correct only the two approved English labels. Application, route, auth, and data semantics are unchanged. | Cross-engine HE-01 public/auth rendering, locale-direction, and narrow-width overflow assertions at 320px and 390px. The then-current candidate required native re-review; the candidate-bound history below records its later outcome. |
+| Native Hebrew reviewer later identified two nutrient-group terminology defects after the broader copy pass. | The Custom Food headings used `פחמימות ושומנים נוספים` and `ויטמינים ורכיבים קשורים`, which were not the approved final category terms. | Candidate `a05036e276e0652bc5e8f775dd07678869aeb794` changes only those labels to `סוגי פחמימות ושומן` and `ויטמינים ורכיבי תזונה נוספים`, plus proportional test assertions. | HE-01, HE-02, and HE-03 are attributable `PASS` on 2026-08-26, including focused confirmation of both successor headings. The suite asserts the final terms and rejects the obsolete terms. |
 
 ### 4.1 Candidate-bound native-review history
 
-| Candidate | Reviewer/date | HE-01 result | Reason and successor boundary |
+| Candidate | Reviewer/date | Result | Reason and successor boundary |
 | --- | --- | --- | --- |
-| `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b` | Maor Pichhadze / 2026-08-24 | `FAIL` | The reviewer explicitly rejected the identified Hebrew terminology and naturalness. The deterministic narrow layout was acceptable, but the short-password/traversal portion was not completed. |
-| Successor correction candidate | Maor Pichhadze / pending | `NOT_COLLECTED` | Source copy changed. The prior candidate-bound FAIL is retained as history and is not migrated to PASS; regenerated exact-head evidence requires a new native review. |
+| `57f4e7079d6b5d3687ce0df77d1ebd2e4791126b` | Maor Pichhadze / 2026-08-24 | HE-01 `FAIL` | The reviewer explicitly rejected the identified Hebrew terminology and naturalness. The deterministic narrow layout was acceptable, but the short-password/traversal portion was not completed. |
+| `ab22b38b90f39458bc425fcbbf5b89c63cb8e3dd` | Maor Pichhadze / 2026-08-25 | HE-01 `PASS`; HE-02 `PASS`; HE-03 `PASS` before later terminology discovery | The attributable broad Hebrew review passed, and the later discovery was bounded to two Custom Food nutrient-group headings. These results remain predecessor-bound history. |
+| `a05036e276e0652bc5e8f775dd07678869aeb794` | Maor Pichhadze / 2026-08-26 | HE-01 `PASS`; HE-02 `PASS`; HE-03 `PASS` | Focused successor confirmation accepted `סוגי פחמימות ושומן` and `ויטמינים ורכיבי תזונה נוספים`. No further Hebrew wording change is required. The successor changed only those two static labels plus proportional assertions. |
 
 ## 5. Human evidence status
 
+The following two status labels are packet-local execution states. They do not
+alter the global Phase 11 authority-status taxonomy:
+
+- `PARTIAL_BASELINE_COLLECTED` means attributable observations exist for an
+  incomplete matrix. It is historical engineering evidence, not a complete or
+  final PASS.
+- `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` means the requirement is
+  still mandatory, but final launch-facing execution is assigned to Phase 11J
+  against the stabilized pre-release UI.
+
 | Evidence class | Required owner | Status |
 | --- | --- | --- |
-| Native Hebrew copy, terminology, RTL, bidi, truncation, and visual review | Maor Pichhadze | `NOT_COLLECTED` |
-| Keyboard, focus, actual 200%/400% zoom/reflow, target size, text/non-text/focus contrast, and reduced motion | Maor Pichhadze | `NOT_COLLECTED` |
-| VoiceOver + Safari | Maor Pichhadze | `NOT_COLLECTED` |
-| NVDA + Firefox | Maor Pichhadze | `NOT_COLLECTED` |
-| Local deterministic/manual camera and fallback review | Maor Pichhadze | `NOT_COLLECTED` |
-| Phase 11J supported real browser/OS and physical-device/camera evidence | Separately authorized later owner | `NOT_COLLECTED` |
+| Native Hebrew copy and terminology | Maor Pichhadze | HE-01 `PASS`; HE-02 `PASS`; HE-03 `PASS` on 2026-08-26, including focused successor confirmation of both changed Custom Food headings |
+| Final launch-candidate RTL, bidi, truncation, and mixed-content visual review after material layout change | Maor Pichhadze / authorized 11J owner | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`; unchanged approved strings do not require repeated copy review |
+| A11Y-01 keyboard/focus | Maor Pichhadze | `PARTIAL_BASELINE_COLLECTED`; public skip/main focus, visible focus, logical public navigation, sign-in error focus, authenticated Today reachability, Custom Food EN/HE, Recipe EN/HE, Saved Meal EN/HE, and reorder controls passed in the exercised portions; no trap or lost focus was observed; the complete route matrix was not finished |
+| A11Y-02 actual 200%/400% zoom/reflow and target integrity | Maor Pichhadze | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`; no final human PASS claimed |
+| A11Y-03 contrast and reduced motion | Maor Pichhadze | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`; no final human PASS claimed |
+| AT-VO-01 VoiceOver + Safari | Maor Pichhadze | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` |
+| AT-NVDA-01 NVDA + Firefox | Maor Pichhadze | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` |
+| Deterministic repository camera/fallback automation | Repository/CI | Valid only within its exact automated scope; not human or universal-camera evidence |
+| Final manual real-browser/device camera and fallback review | Authorized 11J owner | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` |
+| Supported real browser/OS and physical-device evidence | Separately authorized 11J owner | `DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` |
 
-No automated result may change one of these statuses.
+No automated result may promote a manual row to PASS.
 
 ## 6. Evidence record required for every human check
 
-Create one record per checklist ID and include all twelve fields:
+Create one record per checklist ID whenever that checklist is executed and
+include all twelve fields:
 
 1. exact prerequisite and synthetic fixture;
 2. exact route;
@@ -138,14 +165,31 @@ Create one record per checklist ID and include all twelve fields:
 9. explicit PASS criterion;
 10. explicit FAIL criterion;
 11. evidence captured, including screenshot/reference where useful; and
-12. scope: `11D_LOCAL_MANUAL` or `11J_EXTERNAL_DEFERRED`.
+12. scope: `11D_NATIVE_COPY`, `11D_BASELINE_HISTORICAL`, or
+    `11J_FINAL_UI_MANUAL`.
 
 Every record must also contain candidate SHA, candidate tree, result
-`PASS`/`FAIL`, reviewer, execution timestamp with timezone, and notes. The SHA
-must equal the current Draft PR head. A materially affected new head invalidates
-the old result and requires rerun.
+`PASS`/`FAIL`, reviewer, execution timestamp with timezone, and notes. Native
+copy evidence must bind to the exact copy version. Final Phase 11J evidence
+must bind to the exact stabilized candidate evaluated by Phase 11K.
+
+A material UI/UX change after Phase 11D invalidates launch-facing manual
+accessibility evidence for every materially affected surface, including a
+change to navigation hierarchy, DOM/component structure, focus order, forms,
+typography, spacing, breakpoints, responsive layout, visual hierarchy, colors,
+contrast, motion, or assistive-technology semantics. Phase 11J must recollect
+the affected evidence against the stabilized candidate. Unchanged native
+product-copy approval is not repeated merely because unrelated layout changes;
+changed copy requires focused native review.
 
 ## 7. Native Hebrew checklist — Maor Pichhadze
+
+Current exact-copy result on candidate
+`a05036e276e0652bc5e8f775dd07678869aeb794`: HE-01 `PASS`, HE-02 `PASS`, and
+HE-03 `PASS` on 2026-08-26, including focused confirmation of
+`סוגי פחמימות ושומן` and `ויטמינים ורכיבי תזונה נוספים`. The checklist is
+retained for focused re-execution if approved strings change; unrelated layout
+changes do not require repetition of unchanged copy approval.
 
 Use synthetic names and nutrition values only. Record exact English and Hebrew
 copy side by side and judge terminology/naturalness; Codex cannot supply that
@@ -166,7 +210,7 @@ judgment.
   accepted; any mistranslation, unnatural term, truncation, overflow, or
   reversed mixed content is FAIL.
 - Evidence/scope: screenshots of each Hebrew state plus copy notes;
-  `11D_LOCAL_MANUAL`.
+  `11D_NATIVE_COPY`.
 
 ### `HE-02` — authenticated date/meal context and mixed content
 
@@ -184,7 +228,7 @@ judgment.
 - PASS/FAIL: any lost context, wrong meaning, raw display date, misleading bidi,
   overflow, or unacceptable Hebrew is FAIL.
 - Evidence/scope: before/after URLs, screenshots, exact rejected/accepted copy;
-  `11D_LOCAL_MANUAL`.
+  `11D_NATIVE_COPY`.
 
 ### `HE-03` — high-density creation forms
 
@@ -200,9 +244,18 @@ judgment.
 - PASS/FAIL: PASS requires native approval of all observed copy and layout;
   every ambiguous term or layout loss is FAIL.
 - Evidence/scope: route/width screenshots and terminology notes;
-  `11D_LOCAL_MANUAL`.
+  `11D_NATIVE_COPY`.
 
-## 8. Keyboard, focus, reflow, contrast, and motion checklist
+## 8. Phase 11J final keyboard, focus, reflow, contrast, and motion checklist
+
+Phase 11D A11Y-01 is `PARTIAL_BASELINE_COLLECTED`. The exercised passing
+portions were the public skip link/main-content focus, visible focus, logical
+public navigation, sign-in validation/error focus, authenticated Today
+navigation/control reachability, Custom Food EN/HE, Recipe EN/HE, Saved Meal
+EN/HE, and reorder controls; no keyboard trap or lost focus was observed. The
+complete route matrix was not finished. A11Y-02 and A11Y-03 are
+`DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`. No final human PASS is
+claimed for A11Y-01, A11Y-02, or A11Y-03.
 
 ### `A11Y-01` — keyboard and focus
 
@@ -220,7 +273,7 @@ judgment.
 - PASS/FAIL: any unreachable action, trap, invisible/lost focus, unexplained
   error, or duplicate logical announcement is FAIL.
 - Evidence/scope: ordered keystroke log and focused-control screenshots;
-  `11D_LOCAL_MANUAL`.
+  `11J_FINAL_UI_MANUAL`.
 
 ### `A11Y-02` — actual zoom/reflow and target integrity
 
@@ -238,7 +291,7 @@ judgment.
 - PASS/FAIL: horizontal scrolling needed to read or operate essential content,
   hidden controls, overlap, or ambiguous target separation is FAIL.
 - Evidence/scope: screenshots at 100/200/400%, viewport and browser versions;
-  `11D_LOCAL_MANUAL`.
+  `11J_FINAL_UI_MANUAL`.
 
 ### `A11Y-03` — contrast and reduced motion
 
@@ -256,9 +309,13 @@ judgment.
 - PASS/FAIL: insufficient text/non-text/focus contrast, color-only meaning,
   motion that persists, or interaction loss under reduced motion is FAIL.
 - Evidence/scope: screenshots, measured ratios, settings and observations;
-  `11D_LOCAL_MANUAL`. Axe alone cannot pass this record.
+  `11J_FINAL_UI_MANUAL`. Axe alone cannot pass this record.
 
-## 9. Required assistive-technology checklist
+## 9. Phase 11J required assistive-technology checklist
+
+AT-VO-01 and AT-NVDA-01 are
+`DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`. Engine automation does not
+substitute for either attributable final record.
 
 ### `AT-VO-01` — VoiceOver + Safari
 
@@ -277,7 +334,8 @@ judgment.
 - PASS/FAIL: missing/misleading name/state, wrong order/language/direction,
   duplicate/missing announcement, trap, or inoperable action is FAIL.
 - Evidence/scope: exact spoken-output notes, versions, route/state screenshots
-  or recording reference; `11D_LOCAL_MANUAL`. WebKit automation is not a pass.
+  or recording reference; `11J_FINAL_UI_MANUAL`. WebKit automation is not a
+  pass.
 
 ### `AT-NVDA-01` — NVDA + Firefox
 
@@ -293,9 +351,15 @@ judgment.
 - PASS/FAIL: any missing/misleading output, duplicate/missing status, trap,
   lost context, or inoperable action is FAIL.
 - Evidence/scope: exact spoken-output notes, versions, screenshots/recording;
-  `11D_LOCAL_MANUAL`. Playwright Firefox is not a pass.
+  `11J_FINAL_UI_MANUAL`. Playwright Firefox is not a pass.
 
-## 10. Local camera/manual-fallback checklist
+## 10. Phase 11J final manual camera/fallback checklist
+
+The final manual portion is
+`DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`. Existing deterministic
+repository permission, detection, cleanup, and manual-fallback automation
+remains valid only within its exact scope and does not establish universal
+camera support.
 
 ### `CAM-11D-01` — deterministic/manual boundary
 
@@ -313,13 +377,18 @@ judgment.
 - PASS/FAIL: early permission, leaked detail, lost focus/fallback, external
   request, or found/miss regression is FAIL.
 - Evidence/scope: permission timing notes, network observation, URLs, and state
-  screenshots; `11D_LOCAL_MANUAL`. Do not capture or retain camera frames.
+  screenshots; `11J_FINAL_UI_MANUAL`. Do not capture or retain camera frames.
 
-## 11. Phase 11J physical and deployed evidence — do not execute here
+## 11. Phase 11J final UI-dependent, physical, and deployed evidence
 
-Every item below is `NOT_COLLECTED` and `11J_EXTERNAL_DEFERRED` until separately
-authorized against an exact deployed non-production candidate:
+Every item below is
+`DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT` until separately authorized
+against the stabilized exact pre-release candidate:
 
+- the complete final A11Y-01 keyboard/focus route matrix;
+- actual 200% and 400% browser zoom/reflow and target integrity;
+- text, non-text, control, and focus contrast plus reduced-motion behavior;
+- VoiceOver/Safari and NVDA/Firefox;
 - Windows 11 Chrome, Edge, and Firefox current/previous major;
 - supported macOS Safari, Chrome, and Firefox current/previous major;
 - physical iPhone/iPad Safari current/previous with touch, safe area, portrait,
@@ -329,15 +398,24 @@ authorized against an exact deployed non-production candidate:
   and the same touch/rotation/keyboard/camera/lifecycle/fallback checks; and
 - deployed provider-disabled behavior and supported-client visual evidence.
 
+Phase 11J uses synthetic data and the existing privacy, artifact, attribution,
+and camera-frame non-retention boundaries.
+
 WebKit, Chromium, mobile emulation, deterministic mocks, and the local manual
 packet cannot be relabeled as this evidence.
 
 ## 12. Phase and safety state
 
-Phase 11D remains `IN_PROGRESS` until every required 11D human record above is
-attributably `PASS` against the exact candidate. `P11A-003`, `P11A-004`, and
-`P11A-005` remain `OPEN`; all 18 Phase 11 findings remain `OPEN`; Phase 11K is
-the exclusive finding-closure gate; overall Phase 11 remains `INCOMPLETE`.
+Before independent exact-head review of the docs-only amendment, Phase 11D is
+`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`.
+Its repository implementation/automation is complete, native Hebrew evidence
+is collected, and partial keyboard baseline evidence is retained. Final
+UI-dependent human acceptance remains mandatory and is deferred to Phase 11J
+by the approved timing amendment. `P11A-003`, `P11A-004`, and `P11A-005`
+remain `OPEN`; all 18 Phase 11 findings remain `OPEN`; Phase 11K is the
+exclusive finding-closure gate and must reject absent, stale, materially
+mismatched, failed, unsupported, or unattributed required 11J evidence;
+overall Phase 11 remains `INCOMPLETE`.
 
 No hosted Supabase, remote database, Vercel, Production, deployment, DNS,
 environment, provider, backup, restore, launch, physical-device, or

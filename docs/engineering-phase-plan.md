@@ -321,11 +321,12 @@ The recommended dependency order is:
 9. Phase 11J — Preview and release rehearsal.
 10. Phase 11K — Integrated Phase 11 acceptance and launch-authorization gate.
 
-The sequence uses two-stage finding closure. Phase 11E, 11F, and 11G may
-complete bounded repository/local acceptance while recording
+The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
+complete bounded repository/local implementation acceptance while recording
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; their launch findings
 remain open. Phase 11H defines the approved environment architecture, Phase
-11J collects separately authorized hosted/deployed evidence and may record
+11J collects separately authorized final UI-dependent human and
+hosted/deployed evidence and may record
 `EXTERNAL_VALIDATION_COMPLETE`, and Phase 11K alone may assign
 `FINDING_CLOSED` after verifying both stages. No earlier slice or roadmap entry
 authorizes remote Supabase access, provider configuration, Vercel setup,
@@ -335,10 +336,15 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended as
-version `1.4-phase-11b-remaining-implemented-nojs-amended`. Historical amended
-versions `1.1-phase-11b-cj019-amended`,
-`1.2-phase-11b-cj019-cj030-amended`, and
-`1.3-phase-11b-cj024-cj027-nojs-amended` remain preserved. It records all 30
+version `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`.
+Historical amended versions `1.1-phase-11b-cj019-amended`,
+`1.2-phase-11b-cj019-cj030-amended`,
+`1.3-phase-11b-cj024-cj027-nojs-amended`, and
+`1.4-phase-11b-remaining-implemented-nojs-amended` remain preserved. Version
+1.5 records Product Owner Maor Pichhadze's 2026-08-26 Option 2 approval to
+preserve all DEC-014–017 requirement substance while moving final
+launch-facing UI-dependent human acceptance from 11D to the stabilized
+pre-release candidate in 11J. It records all 30
 recommendations as
 attributable `PRODUCT_OWNER_APPROVED` answers from Maor Pichhadze against
 owner-reviewed source head `85dec5e35a6d7aedb8fa265d30d3be27ece27282`, and
@@ -399,10 +405,12 @@ acceptance credit, and is unchanged. Contract 1.3 and totals
 `6 / 1 / 12 / 16` remain the accurate historical PR #94 snapshot. On
 2026-08-12, Product Owner Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as
 `REQUIRED`, CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
-`NOT_APPLICABLE`. The current contract is
-`1.4-phase-11b-remaining-implemented-nojs-amended` and current totals are
-`11 / 4 / 13 / 7`; 35 / 223 / 718 remains the historical classification-
-amendment snapshot. Accepted PRs #96–#102 subsequently completed the known
+`NOT_APPLICABLE`. That classification amendment produced preserved historical
+contract `1.4-phase-11b-remaining-implemented-nojs-amended`; the current
+contract is `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
+the no-JavaScript totals remain `11 / 4 / 13 / 7`; 35 / 223 / 718 remains the
+historical classification-amendment snapshot. Accepted PRs #96–#102
+subsequently completed the known
 repository-owned Phase 11C implementation and automation residuals for CJ-018,
 CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and
 CJ-028/CJ-029. The exact post-PR-102 inventory is 35 / 249 / 854. The fresh
@@ -424,15 +432,22 @@ incomplete. On 2026-08-21, Product Owner Maor
 Pichhadze explicitly assigned himself as the Native Hebrew reviewer and
 accessibility/manual-validation owner and accepted both assignments. The roles
 are `ASSIGNED_AND_APPROVED`, satisfying the Phase 11D role-governance
-prerequisites. Phase 11D is now `IN_PROGRESS` through the consolidated Draft
-candidate documented in the
+prerequisites. Phase 11D is now
+`IN_PROGRESS — IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING_CANDIDATE`
+through the consolidated Draft candidate documented in the
 [Phase 11D validation packet](phase-11d-accessibility-locale-browser-validation.md).
-Its repository automation and remediation are implemented, but every required
-Native Hebrew, keyboard/zoom/contrast, VoiceOver/Safari, NVDA/Firefox, and
-local camera/manual record remains `NOT_COLLECTED`. Phase 11J retains real
-browser/platform/physical-device evidence. The next continuation point is
-attributable execution of the Phase 11D manual packet against the exact Draft
-PR head, followed by same-PR correction and rerun for any failure.
+Its repository automation and remediation are implemented. HE-01, HE-02, and
+HE-03 are attributable `PASS`, including focused confirmation of the two
+successor Custom Food headings. A11Y-01 is
+`PARTIAL_BASELINE_COLLECTED`; A11Y-02, A11Y-03, AT-VO-01, AT-NVDA-01, and the
+final manual camera portion are
+`DEFERRED_TO_11J_BY_PRODUCT_OWNER_TIMING_AMENDMENT`. Phase 11J owns the final
+complete launch-facing keyboard/focus, actual zoom/reflow, target-integrity,
+contrast, motion, AT, affected-layout RTL, supported-browser/platform/device,
+and camera acceptance against the stabilized pre-release UI. Phase 11K must
+reject absent, stale, materially mismatched, failed, unsupported, or
+unattributed evidence. This timing change waives no requirement, closes no
+finding, and authorizes no launch or deployment.
 
 ## Future PR Documentation Rule
 
