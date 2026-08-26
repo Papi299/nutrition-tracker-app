@@ -32,6 +32,8 @@
 | UI-dependent manual-acceptance timing amendment | `PRODUCT_OWNER_APPROVED` — Option 2 approved by Maor Pichhadze on 2026-08-26: preserve every approved accessibility/client/locale requirement, retain continuous implementation and regression testing in Phase 11D, and move final launch-facing UI-dependent human acceptance to Phase 11J after the material UI/UX redesign and stabilization |
 | Timing-amendment review requirement | Independent review of the exact documentation-amendment head is required before merge. |
 | Timing-amendment independent review | `APPROVE` — ChatGPT reviewed exact head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree `44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`; acceptance covers Phase 11D's amended repository-owned implementation scope only |
+| Phase 11E governance and engineering decisions | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze assigned himself to and accepted all five before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on 2026-08-26 through the attributable statement recorded in the [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md) |
+| Phase 11E no-JavaScript amendment state | Six future classifications are `PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; contract version 1.5 and Section 7.1–7.3 remain unchanged until the separately reviewed 11E0B compatibility amendment |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -119,7 +121,12 @@ launch-decision-authority, and Production-approver assignments. No later role
 or absent person's acceptance is inferred. The attributable 2026-08-21 Product
 Owner decision separately records Maor Pichhadze's explicit assignment and
 acceptance as both Native Hebrew reviewer and accessibility/manual-validation
-owner; it does not credit Phase 11D work or evidence.
+owner; it does not credit Phase 11D work or evidence. The attributable
+2026-08-26 Product Owner decision further records Maor Pichhadze's assignment
+and acceptance of the five before-11E prerequisite roles. The exact authority,
+separation boundaries, approved engineering decisions, qualified-review
+dependencies, and pending no-JavaScript amendment are preserved in the
+[Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
 
 | Role or policy | Current status | Assignee | Acceptance / approval evidence | Blocking deadline |
 | --- | --- | --- | --- | --- |
@@ -129,11 +136,11 @@ owner; it does not credit Phase 11D work or evidence.
 | Release role-separation policy | `ROLE_POLICY_APPROVED` | Not applicable | Product owner approved the recommended `DEC-007` separation policy in the attributable Phase 11B owner decision bundle | Phase 11B completion — satisfied |
 | Native Hebrew reviewer | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-21 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-21-phase-11d-prerequisite-role-assignments) | Before 11D — satisfied 2026-08-21 |
 | Accessibility and manual-validation owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-21 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-21-phase-11d-prerequisite-role-assignments) | Before 11D — satisfied 2026-08-21 |
-| Auth and account-lifecycle owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
-| Invitation-control procedure and register owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
-| Legal/privacy review owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
-| Policy-copy owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
-| Data-governance owner | `UNASSIGNED_BLOCKING_BEFORE_11E` | None | `NOT_VERIFIED` | Before 11E |
+| Auth and account-lifecycle owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments) | Before 11E — satisfied 2026-08-26 |
+| Invitation-control procedure and register owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); later operator/reviewer roles remain unassigned | Before 11E — satisfied 2026-08-26 |
+| Legal/privacy review owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 administrative-owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); substantive review remains `QUALIFIED_REVIEW_REQUIRED` | Before 11E — administrative ownership satisfied 2026-08-26 |
+| Policy-copy owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); final reviewed copy is not approved by the role assignment | Before 11E — satisfied 2026-08-26 |
+| Data-governance owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); legal basis and retention periods remain unresolved | Before 11E — satisfied 2026-08-26 |
 | Observability owner | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
 | Incident primary and escalation backup | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
 | Performance and reliability owner | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
@@ -1186,3 +1193,30 @@ Production, deployment, launch, or external validation action is authorized by
 this addendum. Phase 11E — Authentication and account lifecycle — is the next
 continuation point, subject to its existing prerequisite role and decision
 requirements; this acceptance assigns no Phase 11E owner.
+
+## 16. Phase 11E governance and engineering-decision addendum
+
+On 2026-08-26, Product Owner Maor Pichhadze stated, “I approve the Phase 11E
+recommended owner assignments and product/security decisions.” The exact
+approved bundle is preserved in the
+[Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
+Maor assigned himself to and accepted the Auth and account-lifecycle,
+invitation-control procedure/register, administrative legal/privacy review,
+policy-copy, and data-governance owner roles. Each is now
+`ASSIGNED_AND_APPROVED`, satisfying its before-11E assignment deadline while
+preserving the recorded technical-review, invitation operator/reviewer,
+qualified-review, native-Hebrew, and legal-decision boundaries.
+
+The same attributable approval records `P11E-E001`–`P11E-E012`. The six future
+no-JavaScript classifications are
+`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; they do not amend contract
+version 1.5 or Section 7.1–7.3 in this addendum. The required separate handoff
+is
+`PHASE_11E0B_CONTRACT_AND_HISTORICAL_EVIDENCE_VALIDATOR_EVOLUTION_REQUIRED`.
+
+The current Phase 11E status is
+`PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+Qualified legal/privacy/retention/copy evidence remains required, and runtime
+implementation has not started. `P11A-006` and `P11A-009` remain P0
+`RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; overall Phase 11
+remains `INCOMPLETE`; and Phase 11K remains the exclusive finding-closure gate.

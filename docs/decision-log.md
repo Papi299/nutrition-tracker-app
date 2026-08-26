@@ -2471,3 +2471,55 @@
   workflow, hosted Supabase, remote database, Vercel, Production, deployment,
   backup/restore, physical-device, launch, finding-closure, Ready-for-Review,
   merge, or auto-merge operation.
+
+## 2026-08-26: Phase 11E prerequisite roles and engineering decisions
+
+- Product Owner Maor Pichhadze stated, “I approve the Phase 11E recommended
+  owner assignments and product/security decisions.” The approval applies only
+  to the exact bundle immediately preceding that response and is recorded in
+  the
+  [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
+- Maor assigned himself as Auth and account-lifecycle owner,
+  invitation-control procedure and register owner, administrative
+  legal/privacy review owner, policy-copy owner, and data-governance owner, and
+  accepted all five assignments. Each changed from
+  `UNASSIGNED_BLOCKING_BEFORE_11E` with no assignee and `NOT_VERIFIED` evidence
+  to `ASSIGNED_AND_APPROVED` on 2026-08-26. The administrative legal/privacy
+  role does not name or substitute for a qualified substantive reviewer.
+- Invitation operator/reviewer separation remains due at the later approved
+  deadline. Codex requires separate implementation authorization; ChatGPT
+  remains the independent exact-head technical reviewer. Role ownership does
+  not approve legal conclusions, final policy copy, native-Hebrew substantive
+  review, legal basis, or retention periods.
+- `P11E-E001`–`P11E-E012` approve: activation-time 18+/Israel/private-beta
+  self-attestation without identity proofing; versioned explicit policy and
+  eligibility acknowledgment; recent authentication for export,
+  closure/deletion, and password/security changes; server-verified password
+  re-entry with a 10-minute freshness window; no recovery-as-reauth shortcut;
+  synchronous versioned JSON export with the recorded inclusion/exclusion and
+  server-derived protection boundaries; continued OAuth deferral; no runtime
+  Supabase admin/service credential; and a confirmed, cancellable,
+  retry-safe, fail-closed closure boundary whose retention/deletion details
+  remain unresolved pending qualified review.
+- The Product Owner approved future no-JavaScript classifications CJ-002
+  `REQUIRED_FALLBACK_ONLY` and CJ-003/CJ-007/CJ-008/CJ-034/CJ-035 `REQUIRED`.
+  Each is `PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`. Contract
+  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, Section
+  7.1–7.3, historical Phase 11C evidence, and the journey validator remain
+  unchanged in this recording task.
+- The required next compatibility task is
+  `PHASE_11E0B_CONTRACT_AND_HISTORICAL_EVIDENCE_VALIDATOR_EVOLUTION_REQUIRED`.
+  It must preserve historical Phase 11C contract binding while allowing only
+  explicitly owner-amended later-slice classifications, without a generic
+  validator bypass.
+- The resulting status is
+  `PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+  Qualified legal/privacy/retention/copy evidence remains pending and runtime
+  implementation has not started. `P11A-006` and `P11A-009` remain P0
+  `RELEASE_BLOCKER`, `OPEN`, with no waiver; all 18 findings remain `OPEN`;
+  Phase 11 remains `INCOMPLETE`; and Phase 11K remains the sole finding-closure
+  gate.
+- This recording authorizes no runtime, test, migration, dependency,
+  validator, journey-evidence, hosted Supabase, Dashboard, invitation, remote
+  SQL, Vercel, Production, deployment, DNS, secret, legal, launch, or
+  finding-closure action.

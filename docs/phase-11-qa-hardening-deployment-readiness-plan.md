@@ -424,6 +424,18 @@ currently unassigned Phase 11E owner.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
+**Current governance status:**
+`PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+Product Owner Maor Pichhadze assigned himself to and accepted all five
+before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
+2026-08-26. The exact authority, separation, decision, and unresolved
+qualified-review boundaries are in the
+[Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
+The six approved future no-JavaScript classifications remain
+`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; contract version 1.5 and
+Section 7.1–7.3 are unchanged pending 11E0B. Runtime implementation has not
+started.
+
 ### Objective
 
 Prevent account lockout and implement only the account/data lifecycle approved
