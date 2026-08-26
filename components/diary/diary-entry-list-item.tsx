@@ -4,6 +4,8 @@ import { useState } from "react";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
 import { DiaryEntryEditForm } from "@/components/diary/diary-entry-edit-form";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
+import type { Locale } from "@/lib/i18n/routing";
 import type { Tables } from "@/lib/supabase/database.types";
 
 type DiaryEntry = Tables<"diary_entries">;
@@ -17,15 +19,22 @@ function hasValue(value: null | number | string) {
   return value !== null && value !== "";
 }
 
-function formatValue(value: null | number | string, suffix = "") {
-  return hasValue(value) ? `${String(value)}${suffix}` : null;
+function formatValue(
+  value: null | number | string,
+  locale: Locale,
+  suffix = "",
+) {
+  return hasValue(value)
+    ? `${formatLocalizedNumber(locale, value as number | string)}${suffix ? ` ${suffix}` : ""}`
+    : null;
 }
 
 function formatServing(
   entry: DiaryEntry,
+  locale: Locale,
   recipeServingUnits: { plural: string; singular: string },
 ) {
-  const quantity = formatValue(entry.serving_quantity);
+  const quantity = formatValue(entry.serving_quantity, locale);
   const unit = entry.serving_unit;
 
   if (entry.source === "recipe" && quantity && unit === null) {
@@ -48,6 +57,7 @@ export function DiaryEntryListItem({
   entry,
   fieldErrorMessages,
   labels,
+  locale,
   mealTypeLabels,
   mealTypeOptions,
   notSetLabel,
@@ -75,6 +85,7 @@ export function DiaryEntryListItem({
     saveSuccess: string;
     serving: string;
     source: string;
+    unitGrams: string;
     sourceTypes: Record<"manual" | "recipe" | "saved_meal", string>;
     recipeServingUnits: { plural: string; singular: string };
     fields: {
@@ -91,18 +102,19 @@ export function DiaryEntryListItem({
       serving_unit: string;
     };
   };
+  locale: Locale;
   mealTypeLabels: MealTypeLabels;
   mealTypeOptions: { label: string; value: DiaryEntry["meal_type"] }[];
   notSetLabel: string;
   updateAction: DiaryEntryAction;
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const serving = formatServing(entry, labels.recipeServingUnits);
-  const calories = formatValue(entry.calories);
+  const serving = formatServing(entry, locale, labels.recipeServingUnits);
+  const calories = formatValue(entry.calories, locale);
   const macros = [
-    formatValue(entry.protein_g, "g"),
-    formatValue(entry.carbohydrates_g, "g"),
-    formatValue(entry.fat_g, "g"),
+    formatValue(entry.protein_g, locale, labels.unitGrams),
+    formatValue(entry.carbohydrates_g, locale, labels.unitGrams),
+    formatValue(entry.fat_g, locale, labels.unitGrams),
   ];
 
   return (
@@ -131,16 +143,18 @@ export function DiaryEntryListItem({
         <div className="grid gap-3 text-sm leading-6 text-slate-700 sm:justify-items-end sm:text-end">
           <div>
             <p>
-              {labels.serving}: {serving ?? notSetLabel}
+              {labels.serving}: <bdi>{serving ?? notSetLabel}</bdi>
             </p>
             <p>
-              {labels.calories}: {calories ?? notSetLabel}
+              {labels.calories}: <bdi>{calories ?? notSetLabel}</bdi>
             </p>
             <p>
               {labels.macros}:{" "}
-              {macros.some((value) => value !== null)
-                ? macros.map((value) => value ?? notSetLabel).join(" / ")
-                : notSetLabel}
+              <bdi>
+                {macros.some((value) => value !== null)
+                  ? macros.map((value) => value ?? notSetLabel).join(" / ")
+                  : notSetLabel}
+              </bdi>
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:justify-end">

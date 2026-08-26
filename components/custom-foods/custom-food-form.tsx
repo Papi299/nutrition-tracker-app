@@ -294,12 +294,18 @@ function NutrientInput({
   value: string;
 }) {
   const name = locale === "he" ? definition.name_he || definition.name_en : definition.name_en;
+  const unit =
+    locale === "he" && definition.unit === "kcal"
+      ? 'קק"ל'
+      : locale === "he" && definition.unit === "g"
+        ? "גרם"
+        : definition.unit;
   const field = `nutrient_${definition.code}`;
 
   return (
     <label className="grid gap-2 text-sm font-medium text-slate-900">
       <span>
-        {name} <span className="font-normal text-slate-600">({definition.unit})</span>
+        {name} <span className="font-normal text-slate-600">({unit})</span>
       </span>
       <input
         aria-describedby={error ? fieldErrorId(field) : undefined}
@@ -372,17 +378,17 @@ function AliasEditor({
 
         return (
           <fieldset
-            className="grid gap-4 border border-slate-200 p-4 sm:grid-cols-[1fr_13rem_auto] sm:items-end"
+            className="grid gap-4 border border-slate-200 p-4 sm:grid-cols-2 sm:items-end xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]"
             data-testid="custom-food-alias-row"
             key={index}
           >
             <legend className="sr-only">{t("aliases.row", { number: index + 1 })}</legend>
-            <label className="grid gap-2 text-sm font-medium text-slate-900">
+            <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-900">
               <span>{t("aliases.textLabel")}</span>
               <input
                 aria-describedby={fieldErrors[textField] ? fieldErrorId(textField) : undefined}
                 aria-invalid={Boolean(fieldErrors[textField])}
-                className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                className="min-h-11 min-w-0 w-full border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
                 dir="auto"
                 maxLength={200}
                 name={textField}
@@ -392,12 +398,12 @@ function AliasEditor({
               />
               <FieldError code={fieldErrors[textField]} field={textField} />
             </label>
-            <label className="grid gap-2 text-sm font-medium text-slate-900">
+            <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-900">
               <span>{t("aliases.languageLabel")}</span>
               <select
                 aria-describedby={fieldErrors[languageField] ? fieldErrorId(languageField) : undefined}
                 aria-invalid={Boolean(fieldErrors[languageField])}
-                className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                className="h-11 min-w-0 w-full border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
                 name={languageField}
                 onChange={(event) =>
                   updateAlias(index, {
@@ -413,7 +419,7 @@ function AliasEditor({
               <FieldError code={fieldErrors[languageField]} field={languageField} />
             </label>
             <button
-              className="min-h-11 border border-red-300 bg-white px-4 text-sm font-semibold text-red-800 hover:border-red-600"
+              className="min-h-11 border border-red-300 bg-white px-4 text-sm font-semibold text-red-800 hover:border-red-600 sm:col-span-2 xl:col-span-1"
               onClick={() => setAliases((current) => current.filter((_, aliasIndex) => aliasIndex !== index))}
               type="button"
             >

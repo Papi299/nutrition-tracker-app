@@ -41,6 +41,8 @@ function LocalizedProtectedLayout({
   return (
     <AppShell
       appName={t("appName")}
+      currentLanguageLabel={t("language.current")}
+      languageLabel={t("language.label")}
       locale={locale}
       navBarcodeLookup={t("nav.barcodeLookup")}
       navFoodSearch={t("nav.foodSearch")}
@@ -52,6 +54,7 @@ function LocalizedProtectedLayout({
       navToday={t("nav.today")}
       protectedLabel={t("protectedLabel")}
       signOutLabel={t("signOut")}
+      skipContent={t("skipContent")}
     >
       {children}
     </AppShell>

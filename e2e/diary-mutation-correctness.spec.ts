@@ -1048,10 +1048,10 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
     const terminalEditMessage =
       /Entry updated\.|This entry changed after you opened it, so your edit was not saved\./;
     await Promise.all([
-      expect(firstEntry.locator('[aria-live="polite"]')).toContainText(
+      expect(firstEntry.locator('[role="status"], [role="alert"]')).toContainText(
         terminalEditMessage,
       ),
-      expect(secondEntry.locator('[aria-live="polite"]')).toContainText(
+      expect(secondEntry.locator('[role="status"], [role="alert"]')).toContainText(
         terminalEditMessage,
       ),
     ]);

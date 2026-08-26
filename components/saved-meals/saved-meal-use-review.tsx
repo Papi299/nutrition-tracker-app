@@ -5,19 +5,31 @@ import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 import type { SavedMealUseActionState } from "@/app/[locale]/(app)/saved-meals/use-action-state";
 import type { OwnedSavedMealEditor } from "@/lib/saved-meals";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/routing";
 
-function value(value: null | number | string, notSet: string, suffix = "") {
-  return value === null ? notSet : `${String(value)}${suffix}`;
+function value(
+  value: null | number | string,
+  locale: Locale,
+  notSet: string,
+  suffix = "",
+) {
+  return value === null
+    ? notSet
+    : `${formatLocalizedNumber(locale, value)}${suffix ? ` ${suffix}` : ""}`;
 }
 
 function servingValue(
   quantity: null | number,
+  locale: Locale,
   unit: null | string,
   notSet: string,
 ) {
   if (quantity === null && unit === null) return notSet;
-  return [quantity === null ? null : String(quantity), unit]
+  return [
+    quantity === null ? null : formatLocalizedNumber(locale, quantity),
+    unit,
+  ]
     .filter((part): part is string => part !== null)
     .join(" ");
 }
@@ -94,11 +106,11 @@ export function SavedMealUseReview({
               <h3 className="mt-2 break-words text-lg font-semibold text-slate-950" dir="auto">{item.food_name}</h3>
               {item.brand_name && <p className="mt-1 text-sm text-slate-600" dir="auto">{item.brand_name}</p>}
               <dl className="mt-4 grid gap-x-5 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-                <Detail label={t("fields.serving")} value={servingValue(item.serving_quantity, item.serving_unit, t("notSet"))} />
-                <Detail label={t("fields.calories")} value={value(item.calories, t("notSet"))} />
-                <Detail label={t("fields.protein")} value={value(item.protein_g, t("notSet"), "g")} />
-                <Detail label={t("fields.carbohydrates")} value={value(item.carbohydrates_g, t("notSet"), "g")} />
-                <Detail label={t("fields.fat")} value={value(item.fat_g, t("notSet"), "g")} />
+                <Detail label={t("fields.serving")} value={servingValue(item.serving_quantity, locale, item.serving_unit, t("notSet"))} />
+                <Detail label={t("fields.calories")} value={value(item.calories, locale, t("notSet"))} />
+                <Detail label={t("fields.protein")} value={value(item.protein_g, locale, t("notSet"), t("unitGrams"))} />
+                <Detail label={t("fields.carbohydrates")} value={value(item.carbohydrates_g, locale, t("notSet"), t("unitGrams"))} />
+                <Detail label={t("fields.fat")} value={value(item.fat_g, locale, t("notSet"), t("unitGrams"))} />
               </dl>
               {item.notes && <p className="mt-4 text-sm leading-6 text-slate-700" dir="auto">{item.notes}</p>}
             </li>

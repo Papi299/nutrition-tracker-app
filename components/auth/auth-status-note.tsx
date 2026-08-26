@@ -14,6 +14,8 @@ export function AuthStatusNote({
   return (
     <div
       className={`border-s-4 px-4 py-3 text-start text-sm leading-6 ${toneClassName}`}
+      role={tone === "error" ? "alert" : "status"}
+      tabIndex={tone === "error" ? -1 : undefined}
     >
       {children}
     </div>

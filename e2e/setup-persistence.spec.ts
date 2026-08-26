@@ -300,7 +300,7 @@ test.describe.serial("atomic setup persistence", () => {
     });
 
     await page.goto("/en/today?date=2028-02-15");
-    await expect(page.getByTestId("target-summary")).toContainText("2100");
+    await expect(page.getByTestId("target-summary")).toContainText("2,100");
     await page.goto("/en/today?date=2028-03-15");
     await expect(
       page.getByRole("heading", {

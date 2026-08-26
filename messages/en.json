@@ -10,10 +10,11 @@
       "label": "Choose language",
       "current": "current language"
     },
+    "skipContent": "Skip to main content",
     "foundationLabel": "Current MVP",
     "title": "Manual nutrition tracking in English and Hebrew.",
     "description": "Create an account, manage a profile and manual targets, and add, edit, or delete daily diary entries in a direction-aware interface.",
-    "pillarsTitle": "Available now and still unavailable",
+    "pillarsTitle": "What's available now",
     "pillars": {
       "foodLogging": "Manual diary tracking",
       "manualTargets": "Effective-dated manual targets",
@@ -32,7 +33,7 @@
   },
   "Auth": {
     "common": {
-      "homeLink": "Back home",
+      "homeLink": "Back to home",
       "emailPlaceholder": "name@example.com",
       "passwordPlaceholder": "Password"
     },
@@ -893,6 +894,7 @@
       "fat": "Fat"
     },
     "notSet": "Not set",
+    "unitGrams": "g",
     "editMeal": "Edit saved meal",
     "destination": {
       "title": "Diary destination",
@@ -1479,6 +1481,11 @@
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
     "signOut": "Sign out",
+    "skipContent": "Skip to main content",
+    "language": {
+      "label": "Choose language",
+      "current": "current language"
+    },
     "signOutFailure": {
       "title": "Sign-out did not finish",
       "body": "We could not sign you out. You are still signed in. Try again.",

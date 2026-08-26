@@ -5,6 +5,7 @@ import type {
   RecipeUseContractState,
   RecipeUseNutrientContract,
 } from "@/lib/recipes";
+import { formatLocalizedNumber } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/routing";
 
 const nutrients = [
@@ -21,9 +22,9 @@ function formatValue(
   unit: "calories" | "grams",
 ) {
   if (value === null) return unknown;
-  const formatted = new Intl.NumberFormat(locale === "he" ? "he-IL" : "en-US", {
+  const formatted = formatLocalizedNumber(locale, value, {
     maximumFractionDigits: 12,
-  }).format(value);
+  });
   return unit === "grams" ? `${formatted} g` : formatted;
 }
 
@@ -73,20 +74,16 @@ function ReadySummary({
   locale: Locale;
 }) {
   const t = useTranslations("RecipeNutrition");
-  const numberFormatter = new Intl.NumberFormat(
-    locale === "he" ? "he-IL" : "en-US",
-    { maximumFractionDigits: 12 },
-  );
   return (
     <>
       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
         <div>
           <dt className="text-sm font-medium text-slate-600">{t("identity.yield")}</dt>
-          <dd className="mt-1 text-slate-950">{numberFormatter.format(contract.yield_servings)}</dd>
+          <dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, contract.yield_servings)}</dd>
         </div>
         <div>
           <dt className="text-sm font-medium text-slate-600">{t("identity.ingredients")}</dt>
-          <dd className="mt-1 text-slate-950">{numberFormatter.format(contract.ingredient_count)}</dd>
+          <dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, contract.ingredient_count)}</dd>
         </div>
       </dl>
       <dl className="mt-5 grid gap-3 sm:grid-cols-2" data-testid="recipe-editor-nutrition-values">

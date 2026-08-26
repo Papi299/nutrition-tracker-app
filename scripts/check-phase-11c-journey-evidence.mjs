@@ -21,7 +21,10 @@ export const AXIS_FIELDS = [
 ];
 
 const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md";
-const CONTRACT_VERSION = "1.4-phase-11b-remaining-implemented-nojs-amended";
+const EVIDENCE_CONTRACT_VERSION =
+  "1.4-phase-11b-remaining-implemented-nojs-amended";
+const CURRENT_CONTRACT_VERSION =
+  "1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended";
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
 const EXPLORATORY_EVIDENCE_PATH =
   "docs/phase-11c-browser-exploratory-evidence.md";
@@ -335,8 +338,8 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     fail("accepted contract path differs from the approved path");
   }
   if (
-    evidence.acceptedContract?.version !== CONTRACT_VERSION ||
-    normative.version !== CONTRACT_VERSION
+    evidence.acceptedContract?.version !== EVIDENCE_CONTRACT_VERSION ||
+    normative.version !== CURRENT_CONTRACT_VERSION
   ) {
     fail("accepted contract version differs from the approved version");
   }

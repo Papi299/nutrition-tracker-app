@@ -685,7 +685,7 @@ export function DiaryEntryForm({
 
       <FormSection title={sectionLabels.submit}>
         <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-          <div aria-live="polite">
+          <div>
             <AuthStatusNote tone={statusTone}>
               {statusMessages[displayStatus]}
             </AuthStatusNote>

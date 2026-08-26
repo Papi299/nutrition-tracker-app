@@ -574,12 +574,16 @@ test.describe.serial("custom-food management and archive lifecycle", () => {
     await Promise.all([freshPage.goto(editPath), stalePage.goto(editPath)]);
     await expect(stalePage.locator("html")).toHaveAttribute("dir", "rtl");
     await freshPage.getByLabel("שם").fill("עריכה חדשה שהתקבלה");
-    await freshPage.getByRole("button", { name: "שמירת המזון האישי" }).click();
+    await freshPage
+      .getByRole("button", { name: "שמירת המזון המותאם אישית" })
+      .click();
     await expect(freshPage).toHaveURL(new RegExp(`${foodId}/edit\\?saved=updated$`));
     const accepted = fingerprint(foodId);
 
     await stalePage.getByLabel("מותג (אופציונלי)").fill("מותג ישן שנדחה");
-    await stalePage.getByRole("button", { name: "שמירת המזון האישי" }).click();
+    await stalePage
+      .getByRole("button", { name: "שמירת המזון המותאם אישית" })
+      .click();
     await expect(stalePage.getByTestId("custom-food-edit-conflict")).toContainText(
       "המזון השתנה לאחר טעינת העורך.",
     );

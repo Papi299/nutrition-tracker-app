@@ -170,11 +170,11 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     ).toBeVisible();
 
     for (const [date, calories] of [
-      ["2026-01-01", "2000"],
-      ["2026-01-15", "2000"],
-      ["2026-02-01", "2200"],
-      ["2026-02-15", "2200"],
-      ["2027-02-15", "2400"],
+      ["2026-01-01", "2,000"],
+      ["2026-01-15", "2,000"],
+      ["2026-02-01", "2,200"],
+      ["2026-02-15", "2,200"],
+      ["2027-02-15", "2,400"],
     ]) {
       await page.goto(`/en/today?date=${date}`);
       await expect(page.getByTestId("target-summary")).toContainText(calories);
@@ -198,7 +198,7 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     await page.goto("/en/today?date=2026-02-15");
     await expect(page.getByText("February meal", { exact: true })).toBeVisible();
     await expect(page.getByText("January meal", { exact: true })).not.toBeVisible();
-    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByTestId("target-summary")).toContainText("2,200");
 
     await page.goto("/en/today?date=2026-03-15");
     await expect(page.getByTestId("target-summary")).toContainText("0");
@@ -327,26 +327,26 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     ]);
 
     await page.goto("/en/today?date=2026-01-15");
-    await expect(page.getByTestId("target-summary")).toContainText("2000");
+    await expect(page.getByTestId("target-summary")).toContainText("2,000");
     await expect(page.getByText("January meal", { exact: true })).toBeVisible();
     await expect(
       page.getByText("PRIVATE USER B ENTRY", { exact: true }),
     ).toHaveCount(0);
 
     await page.goto("/en/today?date=2026-02-15");
-    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByTestId("target-summary")).toContainText("2,200");
     await expect(page.getByText("February meal", { exact: true })).toBeVisible();
     await expect(page.getByText("January meal", { exact: true })).toHaveCount(0);
 
     await page.goBack();
     await expect(page).toHaveURL(/\/en\/today\?date=2026-01-15$/);
-    await expect(page.getByTestId("target-summary")).toContainText("2000");
+    await expect(page.getByTestId("target-summary")).toContainText("2,000");
     await expect(page.getByText("January meal", { exact: true })).toBeVisible();
     await expect(page.getByText("February meal", { exact: true })).toHaveCount(0);
 
     await page.goForward();
     await expect(page).toHaveURL(/\/en\/today\?date=2026-02-15$/);
-    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByTestId("target-summary")).toContainText("2,200");
     await expect(page.getByText("February meal", { exact: true })).toBeVisible();
     await expect(
       page.getByText("PRIVATE USER B ENTRY", { exact: true }),
@@ -354,13 +354,13 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
 
     await page.reload();
     await expect(page).toHaveURL(/\/en\/today\?date=2026-02-15$/);
-    await expect(page.getByTestId("target-summary")).toContainText("2200");
+    await expect(page.getByTestId("target-summary")).toContainText("2,200");
     await expect(page.getByText("February meal", { exact: true })).toBeVisible();
 
     await page.goto("/he/today?date=2026-01-15");
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page).toHaveURL(/\/he\/today\?date=2026-01-15$/);
-    await expect(page.getByTestId("target-summary")).toContainText("2000");
+    await expect(page.getByTestId("target-summary")).toContainText("2,000");
     await expect(page.getByText("January meal", { exact: true })).toBeVisible();
     await expect(
       page.getByText("PRIVATE USER B ENTRY", { exact: true }),

@@ -27,7 +27,7 @@ test.describe("localized public and signed-out route smoke checks", () => {
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(
       page.getByText(
-        /יצירה, עריכה וניהול של מתכונים, כולל חישוב הערכים התזונתיים שלהם ושימוש בהם ביומן, מיושמים/,
+        /ומתכונים — כולל יצירה, עריכה, ניהול, חישוב ערכים תזונתיים ושימוש ביומן/,
       ),
     ).toBeVisible();
     await expect(

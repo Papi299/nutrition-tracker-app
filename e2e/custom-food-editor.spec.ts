@@ -381,8 +381,10 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
     await page.goto("/he/foods/custom/new");
     await page.getByLabel("שם").fill("מזון נוזלי אישי");
     await page.getByLabel("שפת המזון").selectOption("he");
-    await selectBasis(page, "ל-100 מ״ל");
-    await page.getByRole("button", { name: "יצירת מזון אישי" }).click();
+    await selectBasis(page, "ל־100 מ״ל");
+    await page
+      .getByRole("button", { name: "יצירת מזון מותאם אישית" })
+      .click();
     await expect(page).toHaveURL(/\/he\/foods\/custom\/[0-9a-f-]+\/edit\?saved=created$/);
     const milliliterId = foodIdFromUrl(page);
 
