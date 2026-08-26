@@ -2523,3 +2523,40 @@
   validator, journey-evidence, hosted Supabase, Dashboard, invitation, remote
   SQL, Vercel, Production, deployment, DNS, secret, legal, launch, or
   finding-closure action.
+
+## 2026-08-26: Phase 11E Contract 1.6 and historical-evidence validator candidate
+
+- The hard precondition basis is
+  `EXACT_TREE_EQUIVALENT_CI_ACCEPTED_WITH_RECORDED_GITHUB_ACTIONS_QUEUE_LIMITATION`.
+  PR #108 merged as `f9bfcffc6f398166ef5cb607fa17791bf509c291` with tree
+  `956a94519cda665c62d5a6d867cde01385bf9a8e`, exactly matching reviewed PR
+  head tree `956a94519cda665c62d5a6d867cde01385bf9a8e`. Pull-request Validate run
+  `32983059937`, attempt 2, job `98265826816`, completed successfully against
+  exact PR head `27bb630fb8dfee09c9cd9d8069ea5d02b7178e49`. Exact-merge push run
+  `32985075204` (run #197) remains queued with no conclusion; it receives no
+  success credit and has no adverse conclusion to override the exact-tree
+  evidence.
+- Candidate contract `1.6-phase-11e-nojs-classifications-amended` implements
+  only CJ-002 as `REQUIRED_FALLBACK_ONLY` and CJ-003/CJ-007/CJ-008/CJ-034/CJ-035
+  as `REQUIRED`. Only the matching Section 7.2 classification cells and Section
+  7.3 classification, rationale, owner-slice, and validation-method rows may
+  differ from the accepted historical Phase 11C contract projection. Current
+  candidate no-JavaScript totals are `16 / 5 / 13 / 1`.
+- Historical Phase 11C evidence remains byte-for-byte unchanged and bound to
+  `1.4-phase-11b-remaining-implemented-nojs-amended`, fingerprints
+  `40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91`,
+  `80dd6656788516ed3db5ae98097ea04be3bb3a8611b699b2a9f1232d239b72d2`,
+  and `f4e51854b0b3a9047bd0d3250f74ffa57df394247f938ef8b0df6fc42a674a82`, historical totals
+  `11 / 4 / 13 / 7`, and canonical normative-projection digest
+  `6ba2a6355ecd52d3c74e059f94aabb2c3ed09b3c36bbdf3652df1e7f4545b90f`.
+  The evolved validator contains no generic later-slice or current-contract
+  bypass.
+- The resulting status is
+  `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`. Exact-head CI
+  and independent review are required before acceptance or merge. No runtime
+  implementation or evidence credit is claimed.
+- `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18 findings
+  remain `OPEN`; overall Phase 11 remains `INCOMPLETE`; and Phase 11K remains
+  the sole finding-closure gate. No hosted Supabase, remote database, Auth
+  configuration, migration, deployment, launch, Ready-for-Review, merge, or
+  auto-merge action is authorized by this candidate.

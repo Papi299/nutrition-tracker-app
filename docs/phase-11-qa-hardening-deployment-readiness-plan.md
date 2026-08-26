@@ -165,13 +165,14 @@ acyclic without moving or renaming a slice.
 
 **Current status:** Phase 11B is `PHASE_11B_COMPLETE` for its bounded
 documentation, product-decision, acceptance-contract, and handoff scope. The
-[accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-preserves original version `1.0-phase-11b-accepted` and is amended as version
-`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, while historical
-amended versions `1.1-phase-11b-cj019-amended`,
+[launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
+preserves original version `1.0-phase-11b-accepted` and is amended as candidate
+version `1.6-phase-11e-nojs-classifications-amended`, while historical amended
+versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
-`1.3-phase-11b-cj024-cj027-nojs-amended`, and
-`1.4-phase-11b-remaining-implemented-nojs-amended` remain preserved: Maor Pichhadze
+`1.3-phase-11b-cj024-cj027-nojs-amended`,
+`1.4-phase-11b-remaining-implemented-nojs-amended`, and
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -275,10 +276,11 @@ remain the accurate historical PR #94 snapshot. On 2026-08-12, Product Owner
 Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
 CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
-contract `1.4-phase-11b-remaining-implemented-nojs-amended`; the current
-contract is `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
-no-JavaScript totals remain `11 / 4 / 13 / 7`; 35 / 223 / 718 remains the
-accurate historical snapshot of that classification amendment. Accepted PRs
+contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
+11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current candidate contract
+`1.6-phase-11e-nojs-classifications-amended` changes exactly six Phase 11E rows
+and has current totals `16 / 5 / 13 / 1`; 35 / 223 / 718 remains the accurate
+historical snapshot of the Phase 11C classification amendment. Accepted PRs
 #96–#102 then advanced the
 repository-owned Phase 11C implementation and automation through CJ-018,
 CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and
@@ -417,24 +419,24 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Phase 11E — Authentication and account lifecycle.
-Before implementation, audit its current repository state and existing
-prerequisite role and decision requirements. This handoff does not assign any
-currently unassigned Phase 11E owner.
+**Next continuation point:** Independent review of the exact Phase 11E Contract
+1.6 and historical-evidence-validator candidate head. Runtime implementation
+has not started.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
 **Current governance status:**
-`PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
 qualified-review boundaries are in the
 [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
-The six approved future no-JavaScript classifications remain
-`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; contract version 1.5 and
-Section 7.1–7.3 are unchanged pending 11E0B. Runtime implementation has not
-started.
+The six approved no-JavaScript classifications are implemented in candidate
+contract version 1.6 through exactly six Section 7.2 cells and their matching
+Section 7.3 rows. The validator preserves historical Phase 11C Contract 1.4
+binding and permits no generic later-slice bypass. Independent review remains
+pending, and runtime implementation has not started.
 
 ### Objective
 

@@ -21,10 +21,34 @@ export const AXIS_FIELDS = [
 ];
 
 const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md";
-const EVIDENCE_CONTRACT_VERSION =
+export const HISTORICAL_PHASE_11C_CONTRACT_VERSION =
   "1.4-phase-11b-remaining-implemented-nojs-amended";
-const CURRENT_CONTRACT_VERSION =
-  "1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended";
+export const CURRENT_CONTRACT_VERSION =
+  "1.6-phase-11e-nojs-classifications-amended";
+export const HISTORICAL_PHASE_11C_FINGERPRINTS = Object.freeze({
+  section7_1: "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
+  section7_2: "80dd6656788516ed3db5ae98097ea04be3bb3a8611b699b2a9f1232d239b72d2",
+  section7_3: "f4e51854b0b3a9047bd0d3250f74ffa57df394247f938ef8b0df6fc42a674a82",
+});
+export const CURRENT_CONTRACT_FINGERPRINTS = Object.freeze({
+  section7_1: "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
+  section7_2: "252c0262b27835a3ef6c091510af8307d6dd15f0be4896e4915ebb72d84f01a5",
+  section7_3: "97dcace0a998c7fea3e5d059042193512d399e4995437c40f3effdbbb3792ef1",
+});
+export const HISTORICAL_PHASE_11C_NORMATIVE_DIGEST =
+  "6ba2a6355ecd52d3c74e059f94aabb2c3ed09b3c36bbdf3652df1e7f4545b90f";
+export const HISTORICAL_PHASE_11C_NO_JAVASCRIPT_TOTALS = Object.freeze({
+  REQUIRED: 11,
+  REQUIRED_FALLBACK_ONLY: 4,
+  NOT_APPLICABLE: 13,
+  NOT_VERIFIED: 7,
+});
+export const CURRENT_CONTRACT_NO_JAVASCRIPT_TOTALS = Object.freeze({
+  REQUIRED: 16,
+  REQUIRED_FALLBACK_ONLY: 5,
+  NOT_APPLICABLE: 13,
+  NOT_VERIFIED: 1,
+});
 const EVIDENCE_PATH = "docs/phase-11c-critical-journey-evidence.json";
 const EXPLORATORY_EVIDENCE_PATH =
   "docs/phase-11c-browser-exploratory-evidence.md";
@@ -68,14 +92,81 @@ const NO_JAVASCRIPT_VALUES = new Set([
   "NOT_APPLICABLE",
   "NOT_VERIFIED",
 ]);
-const PHASE_11E_JOURNEYS = new Set([
-  "CJ-002",
-  "CJ-003",
-  "CJ-007",
-  "CJ-008",
-  "CJ-034",
-  "CJ-035",
+export const APPROVED_PHASE_11E_NOJS_AMENDMENTS = new Map([
+  [
+    "CJ-002",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED_FALLBACK_ONLY",
+      rationale:
+        "Provider invitation-link mechanics may vary, but the application-owned activation/password fallback must remain operable without JavaScript.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Use local email capture and provider-compatible invitation fixtures; disable JavaScript and complete the application-owned activation/password fallback; retain hosted invitation-link evidence for 11J.",
+    }),
+  ],
+  [
+    "CJ-003",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED",
+      rationale:
+        "The confirmation callback exchange and safe localized server-rendered destination can remain server operable.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Disable JavaScript; exercise valid, invalid, expired, replayed, and wrong-purpose callback cases locally; collect hosted provider behavior in 11J.",
+    }),
+  ],
+  [
+    "CJ-007",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED",
+      rationale:
+        "Password-recovery request is a security-sensitive ordinary HTML form and must remain operable without JavaScript.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Disable JavaScript; submit existing and absent addresses through the localized recovery form and verify enumeration-safe, non-mutating responses locally; hosted delivery and rate-limit evidence remains for 11J.",
+    }),
+  ],
+  [
+    "CJ-008",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED",
+      rationale:
+        "Password-recovery completion and password submission are security-sensitive ordinary HTML forms and must remain operable without JavaScript.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Disable JavaScript; complete valid recovery and verify invalid, expired, replayed, and wrong-purpose cases plus safe redirect behavior locally; hosted token/session behavior remains for 11J.",
+    }),
+  ],
+  [
+    "CJ-034",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED",
+      rationale:
+        "The approved initial account-export architecture is a synchronous versioned JSON download, so reauthentication, request, and download must remain server operable.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Disable JavaScript; reauthenticate, request the versioned JSON export, and verify ownership, safe headers, and download completion locally; deployed environment evidence remains for 11J.",
+    }),
+  ],
+  [
+    "CJ-035",
+    Object.freeze({
+      from: "NOT_VERIFIED",
+      to: "REQUIRED",
+      rationale:
+        "Account closure/deletion confirmation and submission are security-sensitive server-renderable flows and must remain operable without JavaScript.",
+      ownerSlice: "11E",
+      validationMethod:
+        "Disable JavaScript; traverse reauthentication, destructive confirmation, cancellation, and submission with local lifecycle tests; hosted Auth, Storage, backup, and operator evidence remains later-slice evidence.",
+    }),
+  ],
 ]);
+const PHASE_11E_JOURNEYS = new Set(APPROVED_PHASE_11E_NOJS_AMENDMENTS.keys());
 const LATER_SLICE_MANUAL_JOURNEYS = new Set([
   "CJ-002",
   "CJ-003",
@@ -318,8 +409,74 @@ function requireExactObject(actual, expected, context) {
   }
 }
 
+function canonicalize(value) {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [key, canonicalize(value[key])]),
+    );
+  }
+  return value;
+}
+
+export function historicalNormativeProjection(evidence) {
+  return {
+    acceptedContract: evidence.acceptedContract,
+    journeys: evidence.journeys.map(
+      ({
+        id,
+        journeyName,
+        controllingSlice,
+        phase11cDisposition,
+        noJavaScript,
+        normativeContract,
+      }) => ({
+        id,
+        journeyName,
+        controllingSlice,
+        phase11cDisposition,
+        noJavaScript,
+        normativeContract,
+      }),
+    ),
+  };
+}
+
+export function historicalNormativeDigest(evidence) {
+  return createHash("sha256")
+    .update(JSON.stringify(canonicalize(historicalNormativeProjection(evidence))))
+    .digest("hex");
+}
+
+const ALLOWLISTED_NO_JAVASCRIPT_FIELDS = new Set([
+  "noJavaScriptRequirement",
+  "noJavaScriptClassification",
+  "noJavaScriptRationale",
+  "noJavaScriptValidationMethod",
+]);
+
+function withoutAllowlistedNoJavaScriptFields(normativeContract) {
+  return Object.fromEntries(
+    Object.entries(normativeContract).filter(
+      ([field]) => !ALLOWLISTED_NO_JAVASCRIPT_FIELDS.has(field),
+    ),
+  );
+}
+
+function noJavaScriptTotals(journeys, classificationFor) {
+  return journeys.reduce(
+    (totals, journey) => {
+      totals[classificationFor(journey)] += 1;
+      return totals;
+    },
+    { REQUIRED: 0, REQUIRED_FALLBACK_ONLY: 0, NOT_APPLICABLE: 0, NOT_VERIFIED: 0 },
+  );
+}
+
 export async function validateEvidence({ evidence, contract, rootDir = process.cwd() }) {
-  const normative = parseNormativeContract(contract);
+  const currentContract = parseNormativeContract(contract);
   if (evidence.schemaVersion !== SCHEMA_VERSION) {
     fail(`schemaVersion must be ${SCHEMA_VERSION}`);
   }
@@ -337,16 +494,16 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
   if (evidence.acceptedContract?.path !== CONTRACT_PATH) {
     fail("accepted contract path differs from the approved path");
   }
-  if (
-    evidence.acceptedContract?.version !== EVIDENCE_CONTRACT_VERSION ||
-    normative.version !== CURRENT_CONTRACT_VERSION
-  ) {
-    fail("accepted contract version differs from the approved version");
+  if (evidence.acceptedContract?.version !== HISTORICAL_PHASE_11C_CONTRACT_VERSION) {
+    fail("historical Phase 11C accepted contract version differs from 1.4");
+  }
+  if (currentContract.version !== CURRENT_CONTRACT_VERSION) {
+    fail(`current contract version must be ${CURRENT_CONTRACT_VERSION}`);
   }
   requireExactObject(
     evidence.acceptedContract.fingerprints,
-    normative.fingerprints,
-    "normalized Section 7.1-7.3 fingerprints",
+    HISTORICAL_PHASE_11C_FINGERPRINTS,
+    "historical Phase 11C normalized Section 7.1-7.3 fingerprints",
   );
 
   if (!Array.isArray(evidence.journeys)) fail("top-level journeys must be an array");
@@ -362,7 +519,75 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     fail("journey ordering must be exactly CJ-001 through CJ-035");
   }
 
-  const normativeById = new Map(normative.journeys.map((journey) => [journey.id, journey]));
+  const calculatedHistoricalNormativeDigest = historicalNormativeDigest(evidence);
+  if (calculatedHistoricalNormativeDigest !== HISTORICAL_PHASE_11C_NORMATIVE_DIGEST) {
+    fail("historical Phase 11C canonical normative projection digest differs");
+  }
+
+  const currentContractById = new Map(
+    currentContract.journeys.map((journey) => [journey.id, journey]),
+  );
+  for (const historicalJourney of evidence.journeys) {
+    const currentJourney = currentContractById.get(historicalJourney.id);
+    if (historicalJourney.journeyName !== currentJourney.journeyName) {
+      fail(`${historicalJourney.id} journeyName differs from historical Phase 11C evidence`);
+    }
+
+    const approvedAmendment = APPROVED_PHASE_11E_NOJS_AMENDMENTS.get(
+      historicalJourney.id,
+    );
+    if (!approvedAmendment) {
+      requireExactObject(
+        currentJourney.normativeContract,
+        historicalJourney.normativeContract,
+        `${historicalJourney.id} non-allowlisted current normativeContract`,
+      );
+      continue;
+    }
+
+    if (
+      historicalJourney.normativeContract.noJavaScriptRequirement !==
+        `\`${approvedAmendment.from}\`` ||
+      historicalJourney.normativeContract.noJavaScriptClassification !==
+        approvedAmendment.from
+    ) {
+      fail(
+        `${historicalJourney.id} historical no-JavaScript classification must remain ${approvedAmendment.from}`,
+      );
+    }
+    if (
+      historicalJourney.normativeContract.noJavaScriptOwnerSlice !==
+        approvedAmendment.ownerSlice ||
+      currentJourney.normativeContract.noJavaScriptOwnerSlice !==
+        approvedAmendment.ownerSlice
+    ) {
+      fail(
+        `${historicalJourney.id} no-JavaScript owner slice must remain ${approvedAmendment.ownerSlice}`,
+      );
+    }
+    requireExactObject(
+      withoutAllowlistedNoJavaScriptFields(currentJourney.normativeContract),
+      withoutAllowlistedNoJavaScriptFields(historicalJourney.normativeContract),
+      `${historicalJourney.id} non-no-JavaScript normative fields`,
+    );
+    const exactCurrentAmendment = {
+      noJavaScriptRequirement: `\`${approvedAmendment.to}\``,
+      noJavaScriptClassification: approvedAmendment.to,
+      noJavaScriptRationale: approvedAmendment.rationale,
+      noJavaScriptValidationMethod: approvedAmendment.validationMethod,
+    };
+    for (const [field, expected] of Object.entries(exactCurrentAmendment)) {
+      if (currentJourney.normativeContract[field] !== expected) {
+        fail(`${historicalJourney.id} current ${field} differs from the approved amendment`);
+      }
+    }
+  }
+  requireExactObject(
+    currentContract.fingerprints,
+    CURRENT_CONTRACT_FINGERPRINTS,
+    "current Contract 1.6 normalized Section 7.1-7.3 fingerprints",
+  );
+
   let automatedLinkCount = 0;
   let evidenceAxisClaimCount = 0;
   let collectedAcceptedManualCount = 0;
@@ -376,15 +601,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     requireNonemptyString(journey.journeyName, `${journey.id}.journeyName`);
     requireNonemptyString(journey.controllingSlice, `${journey.id}.controllingSlice`);
 
-    const accepted = normativeById.get(journey.id);
-    if (journey.journeyName !== accepted.journeyName) {
-      fail(`${journey.id} journeyName differs from accepted contract Section 7.1`);
-    }
-    requireExactObject(
-      journey.normativeContract,
-      accepted.normativeContract,
-      `${journey.id}.normativeContract`,
-    );
+    const historicalNormativeContract = journey.normativeContract;
     if (!DISPOSITIONS.has(journey.phase11cDisposition)) {
       fail(`${journey.id} has unsupported Phase 11C disposition`);
     }
@@ -435,7 +652,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
         requireNonemptyString(axis.rationale, `${journey.id}.${axisName}.rationale`);
         if (
           axisName === "noJavaScript" &&
-          axis.rationale !== accepted.normativeContract.noJavaScriptRationale
+          axis.rationale !== historicalNormativeContract.noJavaScriptRationale
         ) {
           fail(`${journey.id}.noJavaScript rationale differs from Section 7.3`);
         }
@@ -451,7 +668,7 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
       }
     }
 
-    const acceptedNoJavaScript = accepted.normativeContract.noJavaScriptClassification;
+    const acceptedNoJavaScript = historicalNormativeContract.noJavaScriptClassification;
     if (
       !NO_JAVASCRIPT_VALUES.has(journey.noJavaScript.classification) ||
       journey.noJavaScript.classification !== acceptedNoJavaScript
@@ -615,17 +832,23 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     "manual and external evidence totals",
   );
 
-  const noJavaScriptTotals = evidence.journeys.reduce(
-    (totals, journey) => {
-      totals[journey.noJavaScript.classification] += 1;
-      return totals;
-    },
-    { REQUIRED: 0, REQUIRED_FALLBACK_ONLY: 0, NOT_APPLICABLE: 0, NOT_VERIFIED: 0 },
+  const historicalEvidenceNoJavaScriptTotals = noJavaScriptTotals(
+    evidence.journeys,
+    (journey) => journey.noJavaScript.classification,
   );
   requireExactObject(
-    noJavaScriptTotals,
-    { REQUIRED: 11, REQUIRED_FALLBACK_ONLY: 4, NOT_APPLICABLE: 13, NOT_VERIFIED: 7 },
-    "no-JavaScript totals",
+    historicalEvidenceNoJavaScriptTotals,
+    HISTORICAL_PHASE_11C_NO_JAVASCRIPT_TOTALS,
+    "historical Phase 11C no-JavaScript totals",
+  );
+  const currentContractNoJavaScriptTotals = noJavaScriptTotals(
+    currentContract.journeys,
+    (journey) => journey.normativeContract.noJavaScriptClassification,
+  );
+  requireExactObject(
+    currentContractNoJavaScriptTotals,
+    CURRENT_CONTRACT_NO_JAVASCRIPT_TOTALS,
+    "current Contract 1.6 no-JavaScript totals",
   );
   for (const [id, classification] of [
     ["CJ-028", "REQUIRED"],
@@ -645,8 +868,10 @@ export async function validateEvidence({ evidence, contract, rootDir = process.c
     collectedAcceptedManualCount,
     notCollectedManualCount,
     notCollectedExternalCount,
-    noJavaScriptTotals,
-    normative,
+    historicalEvidenceNoJavaScriptTotals,
+    currentContractNoJavaScriptTotals,
+    historicalNormativeDigest: calculatedHistoricalNormativeDigest,
+    normative: currentContract,
   };
 }
 
@@ -661,7 +886,7 @@ export async function validateRepository(rootDir = process.cwd()) {
 async function main() {
   const result = await validateRepository();
   console.log(
-    `Verified ${result.journeyCount} ordered journeys, complete Section 7.1-7.3 binding, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, manual evidence 27 accepted / 8 later-slice not-collected, 35 external not-collected, and no-JavaScript totals 11/4/13/7.`,
+    `Verified ${result.journeyCount} ordered journeys, immutable historical Phase 11C Contract 1.4 binding (canonical digest ${result.historicalNormativeDigest}), exact six-journey Contract 1.6 amendment allowlist, ${result.automatedLinkCount} automated evidence links, ${result.evidenceAxisClaimCount} evidence-axis claims, manual evidence 27 accepted / 8 later-slice not-collected, 35 external not-collected, historical no-JavaScript totals 11/4/13/7, and current candidate totals 16/5/13/1.`,
   );
 }
 

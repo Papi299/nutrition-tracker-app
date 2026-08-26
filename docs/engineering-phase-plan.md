@@ -326,12 +326,13 @@ all five before-11E prerequisite roles and approved the bounded engineering
 decisions `P11E-E001`–`P11E-E012`. The
 [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md)
 is authoritative for their scope and separation boundaries. Role governance is
-satisfied, but the six owner-approved no-JavaScript classifications remain
-`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING` until 11E0B evolves the
-contract and historical-evidence compatibility model. Qualified
-legal/privacy/retention/copy dependencies also remain open, and no Phase 11E
-runtime implementation has started. The current status is
-`PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+satisfied, and the six owner-approved no-JavaScript classifications are
+implemented in Contract 1.6 through an exact six-journey allowlist. The
+historical-evidence compatibility model remains strictly bound to accepted
+Phase 11C Contract 1.4. Qualified legal/privacy/retention/copy dependencies
+also remain open, no Phase 11E runtime implementation has started, and the
+current status is
+`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -348,12 +349,13 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended as
-version `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`.
+candidate version `1.6-phase-11e-nojs-classifications-amended`.
 Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
-`1.3-phase-11b-cj024-cj027-nojs-amended`, and
-`1.4-phase-11b-remaining-implemented-nojs-amended` remain preserved. Version
-1.5 records Product Owner Maor Pichhadze's 2026-08-26 Option 2 approval to
+`1.3-phase-11b-cj024-cj027-nojs-amended`,
+`1.4-phase-11b-remaining-implemented-nojs-amended`, and
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` remain preserved.
+Version 1.5 records Product Owner Maor Pichhadze's 2026-08-26 Option 2 approval to
 preserve all DEC-014–017 requirement substance while moving final
 launch-facing UI-dependent human acceptance from 11D to the stabilized
 pre-release candidate in 11J. It records all 30
@@ -418,10 +420,11 @@ acceptance credit, and is unchanged. Contract 1.3 and totals
 2026-08-12, Product Owner Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as
 `REQUIRED`, CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
-contract `1.4-phase-11b-remaining-implemented-nojs-amended`; the current
-contract is `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
-the no-JavaScript totals remain `11 / 4 / 13 / 7`; 35 / 223 / 718 remains the
-historical classification-amendment snapshot. Accepted PRs #96–#102
+contract `1.4-phase-11b-remaining-implemented-nojs-amended`; its historical
+no-JavaScript totals remain `11 / 4 / 13 / 7`. Current candidate Contract 1.6
+changes exactly six Phase 11E rows and has totals `16 / 5 / 13 / 1`; 35 / 223 /
+718 remains the historical Phase 11C classification-amendment snapshot.
+Accepted PRs #96–#102
 subsequently completed the known
 repository-owned Phase 11C implementation and automation residuals for CJ-018,
 CJ-004–CJ-006, CJ-012, CJ-013/CJ-021, CJ-001, CJ-009–CJ-011, and

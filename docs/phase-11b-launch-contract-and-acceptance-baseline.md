@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` |
+| Version | `1.6-phase-11e-nojs-classifications-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -33,7 +33,8 @@
 | Timing-amendment review requirement | Independent review of the exact documentation-amendment head is required before merge. |
 | Timing-amendment independent review | `APPROVE` — ChatGPT reviewed exact head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree `44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`; acceptance covers Phase 11D's amended repository-owned implementation scope only |
 | Phase 11E governance and engineering decisions | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze assigned himself to and accepted all five before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on 2026-08-26 through the attributable statement recorded in the [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md) |
-| Phase 11E no-JavaScript amendment state | Six future classifications are `PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; contract version 1.5 and Section 7.1–7.3 remain unchanged until the separately reviewed 11E0B compatibility amendment |
+| Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are implemented in contract version 1.6 as `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`; this candidate does not claim runtime implementation or acceptance |
+| Phase 11E Contract 1.6 independent review | `PENDING_INDEPENDENT_REVIEW` — the exact candidate head and its historical-evidence compatibility controls require independent review before any acceptance or merge |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -41,20 +42,19 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` is an
-amendment on top of accepted version
-`1.4-phase-11b-remaining-implemented-nojs-amended`. It preserves the complete
-original `1.0-phase-11b-accepted` baseline and historical amended identities
-`1.1-phase-11b-cj019-amended`, `1.2-phase-11b-cj019-cj030-amended`,
-`1.3-phase-11b-cj024-cj027-nojs-amended`, and
-`1.4-phase-11b-remaining-implemented-nojs-amended`. It changes only the
-execution/evidence timing for the UI-dependent manual portions of `DEC-015`,
-`DEC-016`, and related evidence rows: Phase 11D retains implementation,
-automation, deterministic regression, native-copy acceptance, and historical
-baseline observations; Phase 11J owns final launch-facing human accessibility
-acceptance against the stabilized pre-release UI; Phase 11K remains the only
-finding-closure gate. This amendment is effective 2026-08-26 and does not
-weaken, waive, delete, or mark any approved requirement `NOT_APPLICABLE`.
+Version `1.6-phase-11e-nojs-classifications-amended` is a candidate amendment
+on top of accepted version
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. It preserves the
+complete original `1.0-phase-11b-accepted` baseline and historical amended
+identities `1.1` through `1.5`. It changes only the six Product Owner-approved
+Phase 11E no-JavaScript classification cells in Section 7.2 and their matching
+classification, rationale, owner-slice, and validation-method rows in Section
+7.3. Section 7.1 and every other normative field remain unchanged. The
+historical Phase 11C evidence remains bound to accepted contract version 1.4
+and is not migrated, reinterpreted, or credited against this candidate. This
+candidate does not authorize or claim runtime implementation, evidence
+collection, finding closure, deployment, or launch, and remains pending
+independent review.
 
 ## 2. Evidence and authority model
 
@@ -500,9 +500,10 @@ journeys as `COLLECTED_ACCEPTED`; the eight later-slice
 manual journeys and all 35 external records remain `NOT_COLLECTED`. This does
 not amend the normative Section 7.1–7.3 contract, its
 then-current `1.4-phase-11b-remaining-implemented-nojs-amended` version or its
-normalized fingerprints. The current 1.5 timing amendment also leaves those
-journey fingerprints unchanged. ChatGPT independently found the exact PR #105 candidate head
-sufficient; Phase 11C is accepted and complete for its owned scope. Merge
+normalized fingerprints. The subsequent historical 1.5 timing amendment also
+left those journey fingerprints unchanged. ChatGPT independently found the
+exact PR #105 candidate head sufficient; Phase 11C is accepted and complete
+for its owned scope. Merge
 policy requires exact-head ChatGPT re-review of the final PR head before merge.
 Phase 11 remains incomplete, all 18 findings remain open for Phase 11K
 only, Phase 11D is in progress under the amended evidence boundary, and no
@@ -795,13 +796,13 @@ viewport/browser matrix in Section 5; it is not a universal-support claim.
 | ID | en | he / RTL | Viewport | Browser | Accessibility | No-JavaScript classification | Manual evidence | Physical device | Implementation slice | External-validation slice | Final gate | Current evidence | Missing evidence | Current status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `CJ-001` | Required | Required | Matrix | Matrix | Keyboard, zoom, landmarks | `REQUIRED` | Native/visual | Risk-based 11J | 11C/11D | 11D/11J | 11K | Routes, key parity, `lang`/`dir` | Full matrix/manual review | `NOT_VERIFIED` |
-| `CJ-002` | Required | Required | Matrix | Matrix | Labels, errors, focus | `NOT_VERIFIED` | Auth/operator exploratory | Mobile auth in 11J | 11E/11H | 11J | 11K | Auth form/actions; provisioning use | Application E2E, provider-native evidence, restricted register/procedure/reconciliation walkthrough | `NOT_VERIFIED` |
-| `CJ-003` | Required | Required | Matrix | Matrix | Token/error/focus | `NOT_VERIFIED` | Email/callback | Mobile callback in 11J | 11E | 11J | 11K | No complete implementation | Local callback plus configured provider expiry/replay/redirect evidence | `NOT_VERIFIED` |
+| `CJ-002` | Required | Required | Matrix | Matrix | Labels, errors, focus | `REQUIRED_FALLBACK_ONLY` | Auth/operator exploratory | Mobile auth in 11J | 11E/11H | 11J | 11K | Auth form/actions; provisioning use | Application E2E, provider-native evidence, restricted register/procedure/reconciliation walkthrough | `NOT_VERIFIED` |
+| `CJ-003` | Required | Required | Matrix | Matrix | Token/error/focus | `REQUIRED` | Email/callback | Mobile callback in 11J | 11E | 11J | 11K | No complete implementation | Local callback plus configured provider expiry/replay/redirect evidence | `NOT_VERIFIED` |
 | `CJ-004` | Required | Required | Matrix | Matrix | Labels/errors/focus | `REQUIRED` | Auth exploratory | Mobile auth in 11J | 11C/11E | 11J | 11K | Sign-in action; redirects | Required no-JavaScript sign-in evidence; full E2E/rate-limit/hosted | `NOT_VERIFIED` |
 | `CJ-005` | Required | Required | Matrix | Matrix | Focus/status | `REQUIRED` | Auth exploratory | Mobile auth in 11J | 11C | 11J | 11K | Sign-out action/protected redirect | Complete E2E/session proof | `NOT_VERIFIED` |
 | `CJ-006` | Required | Required | Matrix | Matrix | Error/recovery focus | `REQUIRED_FALLBACK_ONLY` | Expiry exploratory | Risk-based 11J | 11C/11E | 11J | 11K | Several expired-session tests | Required no-JavaScript reauthentication-fallback evidence; full post-activation journey/retry evidence separate from invitation procedure | `NOT_VERIFIED` |
-| `CJ-007` | Required | Required | Matrix | Matrix | Labels/status/errors | `NOT_VERIFIED` | Email capture | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery evidence; provider limits distinguished from invite limits | `NOT_VERIFIED` |
-| `CJ-008` | Required | Required | Matrix | Matrix | Labels/status/errors | `NOT_VERIFIED` | Email completion | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery-token evidence; no token in register | `NOT_VERIFIED` |
+| `CJ-007` | Required | Required | Matrix | Matrix | Labels/status/errors | `REQUIRED` | Email capture | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery evidence; provider limits distinguished from invite limits | `NOT_VERIFIED` |
+| `CJ-008` | Required | Required | Matrix | Matrix | Labels/status/errors | `REQUIRED` | Email completion | Mobile/email in 11J | 11E | 11J | 11K | No implementation | Complete local/hosted recovery-token evidence; no token in register | `NOT_VERIFIED` |
 | `CJ-009` | Required | Required | Matrix | Matrix | Form/errors/focus | `REQUIRED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Setup atomicity/tests | Required no-JavaScript setup evidence; full axes/manual review | `NOT_VERIFIED` |
 | `CJ-010` | Required | Required | Matrix | Matrix | Form/errors/focus | `REQUIRED` | Exploratory | Risk-based 11J | 11C | 11J | 11K | Effective-target tests | Required no-JavaScript target-update evidence; full axes/manual review | `NOT_VERIFIED` |
 | `CJ-011` | Required | Required | Matrix | Matrix | Date/nav semantics | `REQUIRED` | Back/forward | Mobile date in 11J | 11C/11D | 11J | 11K | Date/effective-target tests | Required no-JavaScript date-navigation evidence; full browser/manual matrix | `NOT_VERIFIED` |
@@ -827,8 +828,8 @@ viewport/browser matrix in Section 5; it is not a universal-support claim.
 | `CJ-031` | Required | Required | Matrix | Approved runtime subset | Permission/focus/status | `REQUIRED_FALLBACK_ONLY` | Permission/fallback/cleanup | Required iOS/Android in 11J | 11D | 11J | 11K | Deterministic mocks; Phase 9D matrix | Physical cameras/deployed browsers | `EXTERNAL_EVIDENCE_REQUIRED` |
 | `CJ-032` | Required | Required | Matrix | Automated engines | Safe generic denial | `NOT_APPLICABLE` | Adversarial review | `NOT_APPLICABLE` — server isolation is device-independent | 11C | 11J environment smoke | 11K | RLS/ACL/cross-user tests | Integrated matrix/deployed target | `NOT_VERIFIED` |
 | `CJ-033` | Required | Required | Matrix | Matrix | Boundary/focus/status | `NOT_VERIFIED` | Outage/retry drill | Risk-based 11J | 11G | 11J | 11K | Domain failure/rollback tests | Global/network/deployed drill | `NOT_VERIFIED` |
-| `CJ-034` | Required | Required | Matrix | Matrix | Reauth/progress/download | `NOT_VERIFIED` | Privacy/export review | Risk-based 11J | 11E | 11J/legal | 11K | No implementation | Product/export policy plus explicit restricted-register scope/exclusion review | `NOT_VERIFIED` |
-| `CJ-035` | Required | Required | Matrix | Matrix | Reauth/confirm/status | `NOT_VERIFIED` | Privacy/lifecycle review | Risk-based 11J | 11E | 11I/11J/legal | 11K | No implementation | Product lifecycle plus restricted-register retention/correction and recovery proof | `NOT_VERIFIED` |
+| `CJ-034` | Required | Required | Matrix | Matrix | Reauth/progress/download | `REQUIRED` | Privacy/export review | Risk-based 11J | 11E | 11J/legal | 11K | No implementation | Product/export policy plus explicit restricted-register scope/exclusion review | `NOT_VERIFIED` |
+| `CJ-035` | Required | Required | Matrix | Matrix | Reauth/confirm/status | `REQUIRED` | Privacy/lifecycle review | Risk-based 11J | 11E | 11I/11J/legal | 11K | No implementation | Product lifecycle plus restricted-register retention/correction and recovery proof | `NOT_VERIFIED` |
 
 The existing 240 Chromium/local-Supabase Playwright tests are valuable current
 evidence but do not satisfy this launch matrix. Each row remains open until its
@@ -843,13 +844,13 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | Journey | Classification | Exact rationale | Owner slice | Validation method |
 | --- | --- | --- | --- | --- |
 | `CJ-001` | `REQUIRED` | Public locale entry and navigation are server-rendered entry points and must not strand a user before authentication. | 11C/11D | Disable JavaScript; traverse en/he landing and localized auth links at approved viewports. |
-| `CJ-002` | `NOT_VERIFIED` | The invitation callback and activation UI do not exist; provider token behavior and progressive enhancement are unproved. | 11E | Decide implementation contract, then local email-capture and deployed invite tests with JavaScript disabled where technically supported. |
-| `CJ-003` | `NOT_VERIFIED` | Confirmation callback is new and its provider/browser dependency is undecided. | 11E | Local and deployed valid/expired/replayed callback tests after implementation. |
+| `CJ-002` | `REQUIRED_FALLBACK_ONLY` | Provider invitation-link mechanics may vary, but the application-owned activation/password fallback must remain operable without JavaScript. | 11E | Use local email capture and provider-compatible invitation fixtures; disable JavaScript and complete the application-owned activation/password fallback; retain hosted invitation-link evidence for 11J. |
+| `CJ-003` | `REQUIRED` | The confirmation callback exchange and safe localized server-rendered destination can remain server operable. | 11E | Disable JavaScript; exercise valid, invalid, expired, replayed, and wrong-purpose callback cases locally; collect hosted provider behavior in 11J. |
 | `CJ-004` | `REQUIRED` | Sign-in is a core account-access path. The supported beta must not strand an otherwise supported user solely because client scripting is unavailable; basic credential submission, generic failure, session establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access form the required boundary. | 11C/11E | Disable JavaScript and test valid and invalid sign-in in the bounded supported local environment, including generic denial, session/cookie establishment, safe localized redirect, no application mutation, and tenant-safe post-auth access. Systematic focus/accessibility/browser-platform evidence remains Phase 11D/11J. |
 | `CJ-005` | `REQUIRED` | Sign-out is a server-action form and safe session termination must not depend on client execution. | 11C | Disable JavaScript; submit sign-out, verify cookie/session invalidation and protected-route redirect. |
 | `CJ-006` | `REQUIRED_FALLBACK_ONLY` | Expired-session safety must survive without JavaScript, but the beta does not require every enhanced interrupted operation to resume in place. The required fallback is fail-closed mutation handling plus a safe localized reauthentication path; richer continuation remains enhanced behavior and later recovery work remains in Phase 11E. | 11C/11E | Disable JavaScript for risk-selected expired-session mutation cases; prove no write, no disclosure, safe localized reauthentication, and one safe post-reauthentication retry through the supported path. Do not require client-enhanced in-place continuation. |
-| `CJ-007` | `NOT_VERIFIED` | Recovery request is not implemented and no non-JavaScript contract exists. | 11E | Local email-capture and deployed request tests after implementation and decision. |
-| `CJ-008` | `NOT_VERIFIED` | Recovery completion is not implemented and callback dependence is unknown. | 11E | Valid/expired/replayed callback and password-completion tests after implementation. |
+| `CJ-007` | `REQUIRED` | Password-recovery request is a security-sensitive ordinary HTML form and must remain operable without JavaScript. | 11E | Disable JavaScript; submit existing and absent addresses through the localized recovery form and verify enumeration-safe, non-mutating responses locally; hosted delivery and rate-limit evidence remains for 11J. |
+| `CJ-008` | `REQUIRED` | Password-recovery completion and password submission are security-sensitive ordinary HTML forms and must remain operable without JavaScript. | 11E | Disable JavaScript; complete valid recovery and verify invalid, expired, replayed, and wrong-purpose cases plus safe redirect behavior locally; hosted token/session behavior remains for 11J. |
 | `CJ-009` | `REQUIRED` | First setup is a core post-activation product path and uses ordinary structured form semantics. A supported user must be able to establish the initial profile/target state without relying solely on client scripting. | 11C | Disable JavaScript and exercise valid, invalid, blank/null, explicit-zero, retry, authentication, and atomic persistence behavior in the bounded local environment. |
 | `CJ-010` | `REQUIRED` | Target maintenance is the ongoing counterpart to the required setup flow and uses the same server-authorized form boundary. The supported core experience therefore includes a no-JavaScript update path. | 11C | Disable JavaScript and test same-date update/upsert, clear/null, explicit zero, invalid input, retry, effective-date/history integrity, and owner-only mutation. |
 | `CJ-011` | `REQUIRED` | Calendar-date state is fundamentally URL/server driven and controls diary/target interpretation. A supported user must not lose safe date navigation merely because scripting is unavailable. | 11C/11D | Disable JavaScript and exercise explicit dates, localized navigation, effective targets, refresh/revisit and applicable browser-history behavior, proving date coherence and no unintended mutation. Systematic viewport/browser-engine work remains Phase 11D. |
@@ -875,11 +876,11 @@ decision/evidence gap; it does not impose or waive no-JavaScript support.
 | `CJ-031` | `REQUIRED_FALLBACK_ONLY` | Camera scanning intrinsically requires JavaScript/device APIs; CJ-028 and CJ-029 are the required complete fallback. | 11D | Disable JavaScript and prove manual found/miss; separately test camera capability, denial, cleanup, and fallback on devices in 11J. |
 | `CJ-032` | `NOT_APPLICABLE` | Tenant isolation is a server/database property independent of client scripting. | 11C | Authenticated two-user RLS, grant, table, RPC, forged-ID, and concurrent adversarial tests. |
 | `CJ-033` | `NOT_VERIFIED` | Global/dependency recovery is new and may use client or server boundaries by failure class. | 11G | Decide each boundary, then disable JavaScript for server-renderable outage/retry cases and drill deployed failures in 11J. |
-| `CJ-034` | `NOT_VERIFIED` | Export is unimplemented; secure download or async job behavior may impose a justified interaction contract. | 11E | Decide architecture, then test disabled-script request, reauthentication, status/download, and leakage cases where applicable. |
-| `CJ-035` | `NOT_VERIFIED` | Closure/deletion is unimplemented and high-risk confirmation/reauthentication behavior is undecided. | 11E | Decide architecture, then test disabled-script confirmation/cancellation/retry where applicable plus lifecycle integrity. |
+| `CJ-034` | `REQUIRED` | The approved initial account-export architecture is a synchronous versioned JSON download, so reauthentication, request, and download must remain server operable. | 11E | Disable JavaScript; reauthenticate, request the versioned JSON export, and verify ownership, safe headers, and download completion locally; deployed environment evidence remains for 11J. |
+| `CJ-035` | `REQUIRED` | Account closure/deletion confirmation and submission are security-sensitive server-renderable flows and must remain operable without JavaScript. | 11E | Disable JavaScript; traverse reauthentication, destructive confirmation, cancellation, and submission with local lifecycle tests; hosted Auth, Storage, backup, and operator evidence remains later-slice evidence. |
 
-Counts are fixed for this approved contract: `REQUIRED` 6,
-`REQUIRED_FALLBACK_ONLY` 1, `NOT_APPLICABLE` 12, and `NOT_VERIFIED` 16.
+Counts are fixed for this current candidate contract: `REQUIRED` 16,
+`REQUIRED_FALLBACK_ONLY` 5, `NOT_APPLICABLE` 13, and `NOT_VERIFIED` 1.
 
 ## 8. Phase 11 finding register
 
@@ -1121,7 +1122,7 @@ its slice and separate authorization boundary.
 
 | Review defect | Corrected sections | Deterministic check | State |
 | --- | --- | --- | --- |
-| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; current counts 11/4/13/7; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; repository automation accepted through PR #102; signed manual and later-slice evidence pending |
+| Blanket no-JavaScript scope | 2.1, DEC-012/015, 4–7.3, 8, 10, 12, 13 | All CJ-001–035 have exactly one authoritative value; current candidate counts 16/5/13/1; historical Phase 11C evidence counts 11/4/13/7; CJ-028/029 `REQUIRED`; CJ-031 `REQUIRED_FALLBACK_ONLY` | Corrected and owner-approved; repository automation accepted through PR #102; signed manual and later-slice evidence pending |
 | CJ-030 `NOT_APPLICABLE` interpretation | 1, 2.1, 2.7, 7.3, 14 | Option A preserves `NOT_APPLICABLE`; existing disabled-JavaScript behavior is non-contractual, receives no no-JavaScript evidence credit, and is not authorized for behavior change | Ambiguity resolved and owner-approved; review requirement satisfied; amendment merged through PR #88 |
 | CJ-024/CJ-027 `NOT_APPLICABLE` classifications | 1, 2.1, 2.8, 7.2, 7.3, 14 | Both journeys are `NOT_APPLICABLE`; incidental disabled-JavaScript behavior may continue but is non-contractual, receives no no-JavaScript acceptance credit, and is not authorized for behavior change | Product decision gap resolved and owner-approved; review requirement satisfied; amendment merged through PR #94 |
 | Unenforced invitation-only beta | 2.3, DEC-001/009/011/018/019/023/026–029, 4, 6, CJ-002/003/006–008/034/035, 8–10, 12, 13 | One selected Dashboard-issued model; open sign-up disabled; provider-native, operator-procedural, restricted-register, and future-automation layers explicit; all 25 controls fail closed with evidence/slice/gate ownership | Corrected and owner-approved; implementation/procedure/hosted evidence pending |
@@ -1135,15 +1136,15 @@ This checklist records documentation and attributable owner-decision capture
 only. All 30 decisions are `PRODUCT_OWNER_APPROVED`; all 18 findings remain
 `OPEN`; and Phase 11B is `PHASE_11B_COMPLETE`. The original
 `1.0-phase-11b-accepted` baseline recorded Phase 11C as unstarted and next at
-that historical acceptance point. At this `1.5` amendment, Phase 11C is
-accepted for its owned scope, Phase 11D is
+that historical acceptance point. At this `1.6` candidate amendment, Phase 11C
+is accepted for its owned scope, Phase 11D is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` under the amended
-implementation/evidence boundary, Phase 11E is the next continuation point,
-overall Phase 11 remains incomplete, and Phase 11K remains the exclusive
-finding-closure gate. Existing Phase 11E prerequisite role and decision
-requirements remain controlling. No implementation,
-hosted access, deployment, finding closure, or Production release is
-authorized by this documentation amendment.
+implementation/evidence boundary, and Phase 11E awaits exact-head independent
+review of this candidate before runtime continuation. Overall Phase 11 remains
+incomplete, and Phase 11K remains the exclusive finding-closure gate. Existing
+Phase 11E prerequisite role and decision requirements remain controlling. No
+implementation, hosted access, deployment, finding closure, or Production
+release is authorized by this documentation amendment.
 
 ## 15. Phase 11D current implementation addendum
 
@@ -1207,15 +1208,16 @@ policy-copy, and data-governance owner roles. Each is now
 preserving the recorded technical-review, invitation operator/reviewer,
 qualified-review, native-Hebrew, and legal-decision boundaries.
 
-The same attributable approval records `P11E-E001`–`P11E-E012`. The six future
-no-JavaScript classifications are
-`PRODUCT_OWNER_APPROVED_CONTRACT_AMENDMENT_PENDING`; they do not amend contract
-version 1.5 or Section 7.1–7.3 in this addendum. The required separate handoff
-is
-`PHASE_11E0B_CONTRACT_AND_HISTORICAL_EVIDENCE_VALIDATOR_EVOLUTION_REQUIRED`.
+The same attributable approval records `P11E-E001`–`P11E-E012`. The six
+no-JavaScript classifications are implemented only in the exact allowlisted
+Section 7.2 cells and matching Section 7.3 rows of candidate contract version
+1.6. The historical Phase 11C contract identity, evidence classifications,
+rationales, fingerprints, and normative projection remain unchanged. The
+required 11E0B contract-and-validator handoff is implemented in this candidate
+and remains pending independent review.
 
 The current Phase 11E status is
-`PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
 Qualified legal/privacy/retention/copy evidence remains required, and runtime
 implementation has not started. `P11A-006` and `P11A-009` remain P0
 `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; overall Phase 11
