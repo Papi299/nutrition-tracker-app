@@ -312,9 +312,16 @@ is complete for the current MVP scope.
   camera acceptance to Phase 11J after material UI/UX redesign and
   stabilization. Phase 11K remains the only finding-closure gate. No
   requirement is waived and no launch or deployment is authorized. Phase 11E
-  — Authentication and account lifecycle — is the next continuation point;
-  its existing prerequisite roles and decisions must be audited before
-  implementation, with no silent owner assignment. The
+  — Authentication and account lifecycle — is the next continuation point.
+  Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
+  decisions are now attributable in the
+  [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
+  with status
+  `PHASE_11E_GOVERNANCE_PREREQUISITE_SATISFIED_CONTRACT_AMENDMENT_PENDING`.
+  The six owner-approved no-JavaScript classifications still require the
+  separate 11E0B normative contract/validator amendment, qualified
+  legal/privacy/retention/copy dependencies remain open, and no Phase 11E
+  runtime implementation has started. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
