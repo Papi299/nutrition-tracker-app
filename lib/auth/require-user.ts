@@ -6,6 +6,7 @@ import {
 } from "@/lib/i18n/routing";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
+import { getAccountActivationState } from "./account-activation";
 
 export function resolveAuthLocale(locale: string): Locale {
   return (locales as readonly string[]).includes(locale)
@@ -19,6 +20,10 @@ export function protectedHomePath(locale: Locale) {
 
 export function signInPath(locale: Locale) {
   return `/${locale}/auth/sign-in`;
+}
+
+export function activationPath(locale: Locale) {
+  return `/${locale}/auth/activate`;
 }
 
 export async function hasAuthenticatedUser() {
@@ -40,10 +45,28 @@ export async function requireAuthenticatedUser(localeInput: string) {
   }
 }
 
+export async function requireActivatedUser(localeInput: string) {
+  const locale = resolveAuthLocale(localeInput);
+  const state = await getAccountActivationState();
+
+  if (state.status === "unauthenticated") {
+    redirect(signInPath(locale));
+  }
+
+  if (state.status !== "complete") {
+    redirect(activationPath(locale));
+  }
+}
+
 export async function redirectAuthenticatedUser(localeInput: string) {
   const locale = resolveAuthLocale(localeInput);
+  const state = await getAccountActivationState();
 
-  if (await hasAuthenticatedUser()) {
+  if (state.status === "complete") {
     redirect(protectedHomePath(locale));
+  }
+
+  if (state.status !== "unauthenticated") {
+    redirect(activationPath(locale));
   }
 }

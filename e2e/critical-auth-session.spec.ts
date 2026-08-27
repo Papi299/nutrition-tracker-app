@@ -1,3 +1,4 @@
+import { provisionActivatedLocalUser } from "@/e2e/helpers/local-auth";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import {
   expect,
@@ -76,7 +77,7 @@ async function armNextSignOutFailure() {
 async function provisionUser(label: string) {
   const email = uniqueEmail(label);
   const client = localClient();
-  const result = await client.auth.signUp({ email, password });
+  const result = await provisionActivatedLocalUser(client, { email, password });
 
   expect(result.error).toBeNull();
   expect(result.data.session).not.toBeNull();

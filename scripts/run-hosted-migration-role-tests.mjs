@@ -302,14 +302,20 @@ function roleCatalogState() {
 const temporaryRoot = mkdtempSync(join(tmpdir(), "phase10e-hosted-role-"));
 const temporarySupabase = join(temporaryRoot, "supabase");
 const temporaryMigrations = join(temporarySupabase, "migrations");
+const temporaryTemplates = join(temporarySupabase, "templates");
 
 try {
   mkdirSync(temporaryMigrations, { recursive: true });
+  mkdirSync(temporaryTemplates, { recursive: true });
   copyFileSync(
     join(localSupabaseDirectory, "config.toml"),
     join(temporarySupabase, "config.toml"),
   );
   copyFileSync("supabase/seed.sql", join(temporarySupabase, "seed.sql"));
+  copyFileSync(
+    join(localSupabaseDirectory, "templates", "invite.html"),
+    join(temporaryTemplates, "invite.html"),
+  );
   const appliedMigrations = readdirSync("supabase/migrations")
     .filter((file) => /^\d{14}_.+\.sql$/.test(file))
     .filter((file) => file.slice(0, 14) <= appliedCutoff)

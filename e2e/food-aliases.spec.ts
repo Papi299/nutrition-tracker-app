@@ -1,3 +1,4 @@
+import { provisionActivatedLocalUser } from "@/e2e/helpers/local-auth";
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -73,7 +74,7 @@ test.describe.serial("food alias and search-readiness foundation", () => {
 
   async function createUser(emailPrefix: string) {
     const client = localClient();
-    const signUp = await client.auth.signUp({
+    const signUp = await provisionActivatedLocalUser(client, {
       email: `${emailPrefix}-${runId}@example.test`,
       password,
     });
@@ -447,7 +448,7 @@ test.describe.serial("food alias and search-readiness foundation", () => {
         where schemaname = 'public'
           and tablename = 'food_aliases';
       `),
-    ).toBe("4");
+    ).toBe("5");
     expect(
       queryLocalDatabase(`
         select string_agg(privilege_type, ',' order by privilege_type)

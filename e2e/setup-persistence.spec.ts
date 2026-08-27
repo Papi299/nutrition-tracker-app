@@ -1,3 +1,7 @@
+import {
+  provisionActivatedLocalUser,
+  provisionActivatedLocalUserForUi,
+} from "@/e2e/helpers/local-auth";
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -140,7 +144,8 @@ test.describe.serial("atomic setup persistence", () => {
     const email = `setup-${label}-${runId}@example.test`;
     const context = await browser.newContext();
     const page = await context.newPage();
-    await page.goto(`/${locale}/auth/sign-up`);
+    await provisionActivatedLocalUserForUi({ email, password });
+    await page.goto(`/${locale}/auth/sign-in`);
     await page
       .getByLabel(locale === "he" ? "אימייל" : "Email")
       .fill(email);
@@ -149,7 +154,7 @@ test.describe.serial("atomic setup persistence", () => {
       .fill(password);
     await page
       .getByRole("button", {
-        name: locale === "he" ? "יצירת חשבון" : "Create account",
+        name: locale === "he" ? "כניסה" : "Sign in",
       })
       .click();
     await expect(page).toHaveURL(new RegExp(`/${locale}/today\\?date=`));
@@ -171,10 +176,11 @@ test.describe.serial("atomic setup persistence", () => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    await page.goto("/en/auth/sign-up");
+    await provisionActivatedLocalUserForUi({ email: userAEmail, password });
+    await page.goto("/en/auth/sign-in");
     await page.getByLabel("Email").fill(userAEmail);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
     authenticatedState = await context.storageState();
     await context.close();
@@ -188,7 +194,7 @@ test.describe.serial("atomic setup persistence", () => {
     userAId = userASignIn.data.user?.id as string;
 
     userBClient = localClient();
-    const userBSignUp = await userBClient.auth.signUp({
+    const userBSignUp = await provisionActivatedLocalUser(userBClient, {
       email: userBEmail,
       password,
     });

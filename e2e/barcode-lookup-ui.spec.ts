@@ -1,3 +1,7 @@
+import {
+  provisionActivatedLocalUser,
+  provisionActivatedLocalUserForUi,
+} from "@/e2e/helpers/local-auth";
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -188,10 +192,11 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     const userAEmail = `barcode-ui-a-${runId}@example.test`;
     const userBEmail = `barcode-ui-b-${runId}@example.test`;
 
-    await page.goto("/en/auth/sign-up");
+    await provisionActivatedLocalUserForUi({ email: userAEmail, password });
+    await page.goto("/en/auth/sign-in");
     await page.getByLabel("Email").fill(userAEmail);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
     authenticatedState = await context.storageState();
     await context.close();
@@ -205,7 +210,7 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     userAId = userASignIn.data.user?.id as string;
 
     userBClient = localClient();
-    const userBSignUp = await userBClient.auth.signUp({
+    const userBSignUp = await provisionActivatedLocalUser(userBClient, {
       email: userBEmail,
       password,
     });

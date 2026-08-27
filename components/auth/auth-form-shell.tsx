@@ -17,7 +17,6 @@ export function AuthFormShell({
   passwordPlaceholder,
   pendingLabel,
   statusIdle,
-  successMessages,
   submitLabel,
   autoComplete = "current-password",
 }: {
@@ -27,12 +26,11 @@ export function AuthFormShell({
   ) => Promise<AuthActionState>;
   emailLabel: string;
   emailPlaceholder: string;
-  errorMessages: Record<Exclude<AuthActionCode, "checkEmail">, string>;
+  errorMessages: Record<AuthActionCode, string>;
   passwordLabel: string;
   passwordPlaceholder: string;
   pendingLabel: string;
   statusIdle: string;
-  successMessages: Record<Extract<AuthActionCode, "checkEmail">, string>;
   submitLabel: string;
   autoComplete?: "current-password" | "new-password";
 }) {
@@ -42,17 +40,11 @@ export function AuthFormShell({
   );
   const formRef = useRef<HTMLFormElement>(null);
   const statusTone =
-    state.status === "idle"
-      ? "info"
-      : state.status === "error"
-        ? "error"
-        : "success";
+    state.status === "idle" ? "info" : "error";
   const statusMessage =
     state.status === "error" && state.code
-      ? errorMessages[state.code as Exclude<AuthActionCode, "checkEmail">]
-      : state.status === "success" && state.code
-        ? successMessages[state.code as Extract<AuthActionCode, "checkEmail">]
-        : statusIdle;
+      ? errorMessages[state.code]
+      : statusIdle;
   const emailInvalid = state.status === "error" && state.code === "invalidEmail";
   const passwordInvalid =
     state.status === "error" &&

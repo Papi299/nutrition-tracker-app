@@ -4,7 +4,7 @@
     "nav": {
       "home": "Home",
       "signIn": "Sign in",
-      "signUp": "Sign up"
+      "signUp": "Private beta"
     },
     "language": {
       "label": "Choose language",
@@ -13,7 +13,7 @@
     "skipContent": "Skip to main content",
     "foundationLabel": "Current MVP",
     "title": "Manual nutrition tracking in English and Hebrew.",
-    "description": "Create an account, manage a profile and manual targets, and add, edit, or delete daily diary entries in a direction-aware interface.",
+    "description": "Invited private-beta participants can manage a profile and manual targets, and add, edit, or delete daily diary entries in a direction-aware interface.",
     "pillarsTitle": "What's available now",
     "pillars": {
       "foodLogging": "Manual diary tracking",
@@ -44,25 +44,49 @@
       "passwordLabel": "Password",
       "submit": "Sign in",
       "pending": "Signing in...",
-      "createAccountText": "Need an account?",
-      "createAccountLink": "Create one"
+      "createAccountText": "Have a private-beta invitation?",
+      "createAccountLink": "Activation information"
     },
     "signUp": {
-      "title": "Create account",
-      "description": "Create an account with email and password for manual target and diary tracking.",
-      "emailLabel": "Email",
-      "passwordLabel": "Password",
-      "submit": "Create account",
-      "pending": "Creating account...",
-      "haveAccountText": "Already have an account?",
+      "title": "Invitation-only private beta",
+      "description": "New accounts are available only to people who have been invited to the current private beta.",
+      "invitationInstruction": "If you received an invitation, use the activation link in that email.",
+      "haveAccountText": "Already activated?",
       "haveAccountLink": "Sign in"
+    },
+    "confirmationError": {
+      "title": "Invitation link unavailable",
+      "description": "We could not continue with this invitation link. Request a new link from the beta operator if you still need access.",
+      "invitationLink": "View invitation information"
+    },
+    "activation": {
+      "title": "Complete account activation",
+      "description": "Choose a password and confirm the participation boundaries for this invitation-only private beta.",
+      "participationStatement": "This technical eligibility statement records only the approved 18+ and Israel private-beta boundaries. Final policy and legal wording remains subject to qualified review.",
+      "passwordLabel": "Password",
+      "passwordConfirmationLabel": "Confirm password",
+      "ageLabel": "I confirm that I am 18 or older.",
+      "israelLabel": "I confirm that I meet the Israel participation boundary for this private beta.",
+      "submit": "Activate account",
+      "pending": "Activating account...",
+      "statusIdle": "All confirmations are required before activation.",
+      "signOut": "Sign out",
+      "skipContent": "Skip to activation form",
+      "errors": {
+        "activationFailed": "We could not complete activation. Check the details and try again.",
+        "ageRequired": "Confirm the 18+ participation boundary.",
+        "israelRequired": "Confirm the Israel participation boundary.",
+        "missingConfig": "Supabase environment values are missing on this machine.",
+        "passwordMismatch": "The passwords do not match.",
+        "passwordRequired": "Enter a password.",
+        "passwordTooShort": "Password must be at least 6 characters."
+      }
     },
     "signOut": {
       "submit": "Sign out"
     },
     "status": {
-      "ready": "This form uses Supabase Auth. Profile, manual targets, and diary tracking are available after sign-in.",
-      "checkEmail": "The account was created, but this app cannot complete email confirmation yet."
+      "ready": "This form uses Supabase Auth. Activated participants can continue to the protected application."
     },
     "errors": {
       "authFailed": "We could not complete that auth request. Check the details and try again.",

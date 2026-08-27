@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { AppShell } from "@/components/layout/app-shell";
 import {
-  requireAuthenticatedUser,
+  requireActivatedUser,
   resolveAuthLocale,
 } from "@/lib/auth/require-user";
 import type { Locale } from "@/lib/i18n/routing";
@@ -22,7 +22,7 @@ export default async function ProtectedLayout({
   const locale = resolveAuthLocale(localeInput);
 
   setRequestLocale(locale);
-  await requireAuthenticatedUser(locale);
+  await requireActivatedUser(locale);
 
   return (
     <LocalizedProtectedLayout locale={locale}>{children}</LocalizedProtectedLayout>

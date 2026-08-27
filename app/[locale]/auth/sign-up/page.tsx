@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { signUpAction } from "@/app/[locale]/auth/actions";
-import { AuthCard } from "@/components/auth/auth-card";
+import { InvitationOnlyCard } from "@/components/auth/invitation-only-card";
 import { redirectAuthenticatedUser } from "@/lib/auth/require-user";
 import { routing, type Locale } from "@/lib/i18n/routing";
 
@@ -27,38 +26,17 @@ export default async function SignUpPage({ params }: SignUpPageProps) {
 function LocalizedSignUp({ locale }: { locale: Locale }) {
   const t = useTranslations("Auth");
   const homeT = useTranslations("HomePage");
-  const action = signUpAction.bind(null, locale);
 
   return (
-    <AuthCard
-      action={action}
-      alternateHref={`/${locale}/auth/sign-in`}
-      alternateLabel={t("signUp.haveAccountLink")}
-      alternateText={t("signUp.haveAccountText")}
-      autoComplete="new-password"
-      description={t("signUp.description")}
-      emailLabel={t("signUp.emailLabel")}
-      emailPlaceholder={t("common.emailPlaceholder")}
-      errorMessages={{
-        authFailed: t("errors.authFailed"),
-        invalidEmail: t("errors.invalidEmail"),
-        missingConfig: t("errors.missingConfig"),
-        passwordRequired: t("errors.passwordRequired"),
-        passwordTooShort: t("errors.passwordTooShort"),
-      }}
-      homeHref={`/${locale}`}
-      homeLabel={t("common.homeLink")}
-      locale={locale}
-      languageLabel={homeT("language.label")}
+    <InvitationOnlyCard
+      activatedLinkLabel={t("signUp.haveAccountLink")}
+      activatedText={t("signUp.haveAccountText")}
       currentLanguageLabel={homeT("language.current")}
-      passwordLabel={t("signUp.passwordLabel")}
-      passwordPlaceholder={t("common.passwordPlaceholder")}
-      pendingLabel={t("signUp.pending")}
-      statusIdle={t("status.ready")}
-      successMessages={{
-        checkEmail: t("status.checkEmail"),
-      }}
-      submitLabel={t("signUp.submit")}
+      description={t("signUp.description")}
+      homeLabel={t("common.homeLink")}
+      invitationInstruction={t("signUp.invitationInstruction")}
+      languageLabel={homeT("language.label")}
+      locale={locale}
       skipContent={homeT("skipContent")}
       title={t("signUp.title")}
     />

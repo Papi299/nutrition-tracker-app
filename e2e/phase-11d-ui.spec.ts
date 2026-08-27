@@ -1,3 +1,4 @@
+import { provisionActivatedLocalUserForUi } from "@/e2e/helpers/local-auth";
 import AxeBuilder from "@axe-core/playwright";
 import {
   expect,
@@ -99,13 +100,15 @@ const he01CopyCases = [
       "להגדיר יעדים תזונתיים באופן ידני",
       "רשומות ביומן",
       "לאחר הכניסה באמצעות אימייל וסיסמה אפשר להגדיר יעדים תזונתיים באופן ידני ולנהל רשומות ביומן.",
-      "עדיין אין חשבון?",
-      "הרשמה",
-      "הכניסה לחשבון מתבצעת באמצעות שירות האימות של Supabase. לאחר הכניסה אפשר לגשת לפרופיל, להגדיר יעדים תזונתיים באופן ידני ולנהל את יומן התזונה.",
+      "קיבלת הזמנה לבטא הפרטית?",
+      "מידע על ההפעלה",
+      "הכניסה מתבצעת באמצעות שירות האימות של Supabase. משתתפים שהפעילו את החשבון יכולים להמשיך לאפליקציה המוגנת.",
     ],
     forbiddenText: [
       "אין לך חשבון?",
       "אין עדיין חשבון?",
+      "עדיין אין חשבון?",
+      "הרשמה",
       "צור חשבון",
       "יעדים תזונתיים שהוגדרו ידנית",
       "יש להיכנס באמצעות אימייל וסיסמה כדי לנהל יעדים תזונתיים שנקבעו ידנית ורשומות ביומן.",
@@ -287,10 +290,11 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     const projectToken = testInfo.project.name.replace(/[^a-z0-9]/gi, "-");
     const email = `phase11d-${projectToken}-${Date.now()}-${Math.random().toString(36).slice(2)}@example.test`;
 
-    await page.goto("/en/auth/sign-up");
+    await provisionActivatedLocalUserForUi({ email: email, password });
+    await page.goto("/en/auth/sign-in");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
 
     await page.goto("/en/setup?effectiveDate=2026-08-21");

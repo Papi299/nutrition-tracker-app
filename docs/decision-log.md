@@ -2560,3 +2560,120 @@
   the sole finding-closure gate. No hosted Supabase, remote database, Auth
   configuration, migration, deployment, launch, Ready-for-Review, merge, or
   auto-merge action is authorized by this candidate.
+
+## 2026-08-27: Phase 11E0B post-merge acceptance reconciliation
+
+- The independent reviewer accepted the merged Phase 11E0B contract and
+  validator work outside this task. The authoritative current marker is
+  `PHASE_11E0B_POST_MERGE_ACCEPTED`, and
+  `1.6-phase-11e-nojs-classifications-amended` is the accepted current
+  normative contract. Codex is recording that external disposition, not
+  issuing it.
+- PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99`, tree
+  `2e095bb685ee960f999cf978b15347a866b372ff`, with sole parent
+  `f9bfcffc6f398166ef5cb607fa17791bf509c291`.
+- Exact-main run `33008384228` attempt 1 failed in Validate job `98307982662`
+  during local migration replay; downstream ingestion, Playwright, and Phase
+  11D steps were skipped. Attempt 2 reran the identical main SHA without a code
+  change; Validate job `98397229886` completed successfully with every required
+  substantive step and fresh Phase 11D artifact
+  `phase-11d-evidence-33008384228-2`. Attempt 1 is not credited as successful,
+  and the identical-tree rerun means it is not an unresolved code blocker.
+- Historical Phase 11C evidence and Contract Sections 7.1–7.3 are not rewritten
+  by this reconciliation.
+
+## 2026-08-27: Phase 11E1 invited activation and confirmation candidate
+
+- Ordinary application self-enrollment is removed. Local
+  `auth.enable_signup = false` closes direct signup, while the installed local
+  GoTrue email provider remains enabled so administrator-invited users can
+  establish password sessions. The localized sign-up route is informational
+  and non-mutating; hosted Auth configuration is untouched.
+- A localized server callback accepts only one bounded invite token hash and
+  `type=invite`, uses Supabase `verifyOtp`, clears token-bearing URLs, rejects
+  invalid/expired/replayed/wrong-purpose input generically, and never honors an
+  external return path.
+- A localized no-JavaScript activation form establishes a user-chosen password,
+  requires explicit 18+ and Israel private-beta attestations, and records one
+  server-versioned activation through a least-privilege security-definer RPC.
+  Identity and timestamps are server-derived; no caller-owned user ID is
+  accepted. A Supabase password-authentication-method claim is required before
+  durable completion, and retry is idempotent.
+- The protected application layout and password sign-in path both route
+  incomplete or unavailable lifecycle state to activation. Completed users
+  reach the localized Today route. Sign-out remains available from activation.
+- The local fixture uses real local administrative invitations and local email
+  capture. Its ephemeral administrative credential is test-process-only,
+  filtered from the application server environment, not printed, and never
+  written to a repository file. No hosted Supabase, real invitation, remote
+  SQL, Vercel, deployment, or Production action occurred.
+- Final local validation passed: the focused invitation/activation suite was
+  `7 / 7`; the complete Playwright suite was `320 / 320`; unit/date tests were
+  `248 / 248`; Phase 11D was `45` passed with its three intentional
+  non-Chromium axe skips and zero serious automated accessibility findings;
+  and the journey-evidence suite was `52 / 52` with all 35 journeys and both
+  current and historical contract projections intact. Five complete clean
+  migration resets passed, as did migration-role compatibility, generated
+  ingestion-type verification, lint, typecheck, build, and diff hygiene. One
+  stale local-container health failure, one accumulated local Auth rate-state
+  failure, and one immediate post-reset service-settling timeout were
+  investigated as local infrastructure state; unchanged reruns passed after
+  clean reset/health recovery and none is credited as a successful run.
+- Recovery (11E2), recent authentication (11E3), export (11E4),
+  closure/deletion (11E5), final integration/external reconciliation (11E6),
+  OAuth, qualified policy/legal conclusions, and final native-Hebrew acceptance
+  of new copy remain deferred.
+- `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18 findings
+  remain `OPEN`; Phase 11 remains `INCOMPLETE`; and Phase 11K remains the sole
+  finding-closure gate. The Phase 11E1 candidate requires exact-head CI and
+  independent exact-head review before any merge.
+
+## 2026-08-27: Phase 11E1 database activation authorization correction candidate
+
+- Independent review found that callback completion already yielded a valid
+  `authenticated` Supabase session while the database still authorized
+  ordinary application data primarily by ownership. On the unchanged reviewed
+  head, a real callback-complete identity with zero activation rows directly
+  inserted its owner-valid profile and successfully invoked `persist_setup`;
+  the resulting database state contained one profile and one target.
+- A new forward-only migration introduces
+  `public.is_current_account_activated()` with caller-derived identity,
+  caller privileges, an empty search path, minimal authenticated-only
+  execution, and the single current server-owned activation version. The
+  application lifecycle lookup uses the same predicate. The migration adds one
+  restrictive activation policy to each of the 16 protected application
+  tables while preserving every existing permissive ownership/tenant policy
+  and grant.
+- The authenticated callable-function inventory contains public application
+  RPCs that remain `SECURITY INVOKER` and four private data helpers that are
+  `SECURITY DEFINER`. The latter now reject incomplete activation with
+  `account_activation_required` before protected access. Activation completion,
+  own activation lookup, pure/trigger helpers, and reference-only
+  `food_sources` and `nutrients` remain intentionally available before
+  activation.
+- A semantic catalog regression test requires complete classification of every
+  authenticated public table and public/private callable function. A genuine
+  callback-complete session proves protected SELECT, INSERT, UPDATE, public
+  mutation RPC, and each elevated helper fail closed before activation without
+  partial data; the same setup path succeeds after actual activation. The
+  focused invitation/activation suite passes `9 / 9`, including the existing
+  no-JavaScript activation/callback coverage.
+- Final local validation passed: the complete Playwright suite was `322 / 322`;
+  unit/date tests were `248 / 248`; journey evidence was `52 / 52`; and Phase
+  11D was `45` passed with three intentional non-Chromium axe skips and zero
+  serious or critical findings. Repeated clean migration replays,
+  migration-role compatibility, generated ingestion types, database security
+  advisor, lint, typecheck, build, and diff hygiene also passed. Database lint
+  retained three warnings in unchanged ingestion functions and reported none
+  in the correction surfaces. Before the final green run, one complete attempt
+  exposed and stopped on two deterministic legacy policy-shape expectations;
+  both were corrected and passed `17 / 17`. A later `321 / 322` attempt had one
+  pending local sign-in action exceed its five-second URL assertion, and the
+  exact isolated case passed unchanged. A subsequent local container-health
+  failure and a host-contention run were not credited. The final clean run is
+  the only complete browser-suite result credited to this correction.
+- The correction does not change Contract Sections 7.1–7.3 or historical Phase
+  11C evidence. No hosted Supabase, remote SQL/migration, hosted invitation,
+  provider setting, Vercel, deployment, or Production action is authorized or
+  credited. PR #110 remains Draft and the correction remains
+  `PENDING_INDEPENDENT_REVIEW`.
