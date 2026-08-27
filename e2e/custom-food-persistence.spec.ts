@@ -1,3 +1,4 @@
+import { provisionActivatedLocalUser } from "@/e2e/helpers/local-auth";
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -201,7 +202,7 @@ test.describe.serial("custom food nutrient and persistence foundation", () => {
 
   async function createUser(prefix: string) {
     const client = localClient();
-    const signUp = await client.auth.signUp({
+    const signUp = await provisionActivatedLocalUser(client, {
       email: `${prefix}-${runId}@example.test`,
       password,
     });

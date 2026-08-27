@@ -89,7 +89,7 @@ async function expectLanding(page: Page, locale: Locale) {
           heading: "Manual nutrition tracking in English and Hebrew.",
           home: "Home",
           signIn: "Sign in",
-          signUp: "Sign up",
+          signUp: "Private beta",
           switchLanguage: "עברית",
           switchHref: "/he",
         }
@@ -97,7 +97,7 @@ async function expectLanding(page: Page, locale: Locale) {
           heading: "מעקב תזונתי ידני בעברית ובאנגלית.",
           home: "בית",
           signIn: "כניסה",
-          signUp: "הרשמה",
+          signUp: "בטא פרטית",
           switchLanguage: "English",
           switchHref: "/en",
         };
@@ -121,10 +121,10 @@ async function expectAuthPage(
     locale === "en"
       ? path === "sign-in"
         ? "Sign in"
-        : "Create account"
+        : "Invitation-only private beta"
       : path === "sign-in"
         ? "כניסה לחשבון"
-        : "יצירת חשבון";
+        : "בטא פרטית בהזמנה בלבד";
 
   await expect(page).toHaveURL(new RegExp(`/${locale}/auth/${path}$`));
   await expectDocumentLocale(page, locale);
@@ -152,8 +152,10 @@ test.describe.serial("CJ-001 disabled-JavaScript public locale entry", () => {
       await page.goBack();
       await expectLanding(page, "en");
 
-      await page.getByRole("link", { name: "Sign up", exact: true }).click();
+      await page.getByRole("link", { name: "Private beta", exact: true }).click();
       await expectAuthPage(page, "en", "sign-up");
+      await expect(page.getByRole("textbox")).toHaveCount(0);
+      await expect(page.getByRole("button")).toHaveCount(0);
       await page.goBack();
       await expectLanding(page, "en");
 
@@ -166,8 +168,10 @@ test.describe.serial("CJ-001 disabled-JavaScript public locale entry", () => {
       await page.goBack();
       await expectLanding(page, "he");
 
-      await page.getByRole("link", { name: "הרשמה", exact: true }).click();
+      await page.getByRole("link", { name: "בטא פרטית", exact: true }).click();
       await expectAuthPage(page, "he", "sign-up");
+      await expect(page.getByRole("textbox")).toHaveCount(0);
+      await expect(page.getByRole("button")).toHaveCount(0);
       await page.goBack();
       await expectLanding(page, "he");
 

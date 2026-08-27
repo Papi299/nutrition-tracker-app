@@ -314,17 +314,17 @@ is complete for the current MVP scope.
   NVDA/Firefox, affected-layout RTL, supported real-browser/device, and manual
   camera acceptance to Phase 11J after material UI/UX redesign and
   stabilization. Phase 11K remains the only finding-closure gate. No
-  requirement is waived and no launch or deployment is authorized. Phase 11E
-  — Authentication and account lifecycle — is the next continuation point.
+  requirement is waived and no launch or deployment is authorized. Phase 11E1
+  invited activation and confirmation is the current repository candidate.
   Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
-  with status
-  `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
-  The separate 11E0B normative contract/validator amendment is implemented as
-  a candidate with an exact six-journey allowlist and immutable historical
-  Phase 11C binding. Qualified legal/privacy/retention/copy dependencies remain
-  open, and no Phase 11E runtime implementation has started. The
+  Contract 1.6 and the separate 11E0B normative validator amendment are current
+  under the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED` state,
+  with an exact six-journey allowlist and immutable historical Phase 11C
+  binding. Qualified legal/privacy/retention/copy dependencies remain open.
+  Phase 11E1 now implements the local/repository invited activation boundary;
+  hosted configuration and later 11E2–11E6 work remain deferred. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
@@ -448,14 +448,19 @@ Manual RTL QA checklist:
   - `/he/auth/sign-in`
   - `/en/auth/sign-up`
   - `/he/auth/sign-up`
-- The sign-in and sign-up forms use localized Server Actions and Supabase
-  email/password auth.
+- The sign-in form uses a localized Server Action and Supabase email/password
+  auth. The sign-up routes are invitation-only informational pages and perform
+  no account mutation.
 - Sign-in success redirects to `/{locale}/today`.
-- Sign-up redirects to `/{locale}/today` when Supabase returns a session. If
-  confirmation is required and no session is returned, the page shows a
-  localized check-email message.
-- Signed-in users who visit sign-in or sign-up pages are redirected to
-  `/{locale}/today`.
+- Sign-in redirects activated users to `/{locale}/today` and incomplete users
+  to `/{locale}/auth/activate`.
+- A localized `/{locale}/auth/confirm` callback accepts invite purpose only,
+  verifies the token server-side, and immediately clears the token-bearing URL.
+- Invited users complete password setup and explicit 18+/Israel private-beta
+  attestations at `/{locale}/auth/activate`; protected routes remain unavailable
+  until durable activation is recorded.
+- Activated signed-in users who visit sign-in, sign-up, or activation pages are
+  redirected to `/{locale}/today`.
 - The authenticated shell exposes a sign-out control that redirects to
   `/{locale}`.
 - `proxy.ts` composes `next-intl` locale routing first, then applies Supabase
@@ -467,10 +472,11 @@ Manual RTL QA checklist:
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - Real values belong in untracked `.env.local`; `.env.example` must contain
   placeholders only.
-- Email confirmation completion is deferred because no auth callback route is
-  implemented yet. For local functional testing, email confirmation may be
-  temporarily disabled in the Supabase project after human approval.
-- Password reset and OAuth/social auth remain unavailable.
+- Local ordinary signup is disabled. The local test harness uses the real local
+  administrative invitation endpoint and local email capture; no administrative
+  credential is exposed to application runtime or browser code.
+- Password reset/recovery, recent-authentication flows, export,
+  closure/deletion, and OAuth/social auth remain unavailable.
 - Manual QA should confirm each auth route renders in the correct locale,
   Hebrew pages inherit RTL direction, generic localized errors are shown, raw
   Supabase errors are not shown, and functional auth is tested only when local

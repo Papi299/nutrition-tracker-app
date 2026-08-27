@@ -7,23 +7,26 @@
 | Document | Phase 11E Authentication and Account-Lifecycle Governance |
 | Identifier | `PHASE-11E-AUTH-ACCOUNT-LIFECYCLE-GOVERNANCE-001` |
 | Repository baseline | `6c2634478c93b7f4832616c302e75a4ceff1bf45`, tree `789ea0872f674553740c74846cd9df812c62c76a` |
-| Controlling contract | `1.6-phase-11e-nojs-classifications-amended` candidate |
+| Controlling contract | `1.6-phase-11e-nojs-classifications-amended` — current accepted normative contract |
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW` |
-| Contract 1.6 independent review | `PENDING_INDEPENDENT_REVIEW` |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 implementation candidate pending exact-head independent review |
+| Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
 contained in the recommendation immediately preceding the Product Owner's
-attributable approval, plus their exact Contract 1.6 candidate amendment. It
+attributable approval, plus their exact Contract 1.6 amendment. It
 is subordinate to the accepted Phase 11B contract history and does not broaden
 the Product Owner's approval.
 
-The Contract 1.6 candidate changes only the six expressly approved
+The accepted Contract 1.6 changes only the six expressly approved
 no-JavaScript cells and matching rows in Sections 7.2–7.3. It does not change
 Section 7.1, authorize runtime implementation, establish legal sufficiency,
 collect hosted evidence, close a finding, or authorize launch or deployment.
+The independent post-merge review establishing
+`PHASE_11E0B_POST_MERGE_ACCEPTED` occurred outside this task; Codex is only
+reconciling the repository record to that externally established state.
 
 ## 2. Phase 11E prerequisite role assignments
 
@@ -44,9 +47,10 @@ The resulting role status is:
 
 `PHASE_11E_ROLE_GOVERNANCE_PREREQUISITE_SATISFIED`
 
-This does not mean `PHASE_11E_IMPLEMENTATION_READY`: Contract 1.6 remains a
-candidate pending independent review, qualified policy dependencies remain
-unresolved, and runtime implementation has not started.
+This does not mean Phase 11 is complete. Contract 1.6 is accepted, but
+qualified policy dependencies remain unresolved and each Phase 11E runtime
+slice still requires its own implementation, exact-head CI, and independent
+review.
 
 ## 3. Product Owner-approved engineering decisions
 
@@ -149,14 +153,13 @@ Storage treatment; backup treatment; retention duration; and legal basis. No
 retention period is inferred, and `ON DELETE CASCADE` is not the lifecycle
 policy.
 
-## 4. Owner-approved no-JavaScript decisions implemented in the candidate
+## 4. Owner-approved no-JavaScript decisions in accepted Contract 1.6
 
-The Product Owner approved these classifications. Candidate contract version
+The Product Owner approved these classifications. Accepted contract version
 1.6 implements each one in exactly one Section 7.2 cell and its matching
-Section 7.3 row. The candidate remains
-`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
+Section 7.3 row. Its post-merge state is `PHASE_11E0B_POST_MERGE_ACCEPTED`.
 
-| Journey | Contract 1.6 candidate classification | Rationale |
+| Journey | Contract 1.6 classification | Rationale |
 | --- | --- | --- |
 | `CJ-002` invited activation | `REQUIRED_FALLBACK_ONLY` | Provider invitation-link mechanics may vary, but the application-owned activation/password fallback must remain operable without JavaScript. |
 | `CJ-003` confirmation callback | `REQUIRED` | The confirmation callback exchange and safe localized server-rendered destination can remain server operable. |
@@ -167,9 +170,9 @@ Section 7.3 row. The candidate remains
 
 No implementation or evidence credit follows from classification approval.
 
-## 5. 11E0B validator and contract handoff
+## 5. 11E0B validator and contract acceptance
 
-`PHASE_11E0B_CONTRACT_AND_HISTORICAL_EVIDENCE_VALIDATOR_EVOLUTION_REQUIRED`
+`PHASE_11E0B_POST_MERGE_ACCEPTED`
 
 Phase 11C evidence remains historically bound to
 `1.4-phase-11b-remaining-implemented-nojs-amended`, while the current candidate
@@ -178,7 +181,7 @@ validator independently binds historical evidence to immutable accepted
 fingerprints and a canonical normative-projection digest, then validates the
 current candidate through an exact six-journey amendment allowlist.
 
-The 11E0B candidate evolves that compatibility model so:
+The accepted 11E0B implementation evolves that compatibility model so:
 
 1. accepted Phase 11C evidence remains bound to its accepted contract identity;
 2. Phase 11C-owned normative facts remain protected;
@@ -189,8 +192,13 @@ The 11E0B candidate evolves that compatibility model so:
 5. no generic “accept any current contract” bypass is introduced.
 
 Historical evidence is not migrated or rewritten. Section 7.1 and all
-non-allowlisted Section 7.2/7.3 fields remain unchanged, and independent review
-of the exact candidate head is still required.
+non-allowlisted Section 7.2/7.3 fields remain unchanged. Independent review was
+completed outside this task after PR #109 merged. Exact-main run `33008384228`
+attempt 1 failed during local migration replay; attempt 2 reran the identical
+SHA `44dc2db520c8df45f2c037fb0327cebef3de8c99` without a code change and the
+authoritative Validate job `98397229886` completed successfully. Attempt 1 is
+not represented as successful, and its transient runner failure is not an
+unresolved code blocker.
 
 ## 6. Qualified review remains required
 
@@ -210,10 +218,42 @@ approval is recorded by this document.
 - All 18 Phase 11 findings remain `OPEN`.
 - Overall Phase 11 remains `INCOMPLETE`.
 - Phase 11K remains the only `FINDING_CLOSED` gate.
-- Runtime implementation has not started, so neither P11A-006 nor P11A-009 is
-  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E1 now has a repository/local implementation candidate for invited
+  activation and confirmation. This is substantial implementation evidence for
+  `P11A-006`, but the finding remains `OPEN` and no hosted/external evidence is
+  claimed.
 
-No runtime implementation, migration, dependency, historical-journey-evidence,
-hosted Supabase, Dashboard, invitation, remote SQL, Vercel, Production,
-deployment, DNS, secret, launch, finding-closure, or legal action follows from
-this candidate.
+No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
+remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
+legal action follows from the Phase 11E1 candidate.
+
+## 8. Phase 11E1 invited activation and confirmation candidate
+
+The Phase 11E1 repository candidate closes ordinary application self-enrollment
+and changes `/{locale}/auth/sign-up` into a non-mutating invitation-only
+boundary. A localized server callback accepts only `type=invite`, verifies one
+bounded `token_hash`, clears the token-bearing URL, and routes failures to a
+generic no-store error page without external redirect support.
+
+Invited users complete a no-JavaScript-capable password and eligibility form.
+The database records one server-versioned, server-timestamped activation per
+provider-derived identity only after the current Supabase session proves
+password authentication. Protected routes and password sign-in fail closed to
+the activation route until that durable record exists. The activation RPC is
+idempotent and accepts no caller-owned user identifier.
+
+Local tests use the real local administrative invitation endpoint and local
+email capture. The administrative credential is confined to the test process,
+filtered out of the application server environment, never printed, and never
+written to tracked files. Local `auth.enable_signup = false` closes ordinary
+signup; the installed GoTrue image requires the email provider itself to remain
+enabled so invited users can establish password sessions. Direct signup is
+still rejected and creates no lifecycle row. Hosted Auth configuration and
+hosted invitation behavior remain
+`HOSTED_AUTH_CONFIGURATION_PENDING_SEPARATE_AUTHORIZATION`.
+
+Phase 11E2 recovery, Phase 11E3 recent authentication, Phase 11E4 export,
+Phase 11E5 closure/deletion, Phase 11E6 integration/external reconciliation,
+OAuth, qualified legal/policy approval, and final native-Hebrew acceptance for
+new copy remain deferred. The Phase 11E1 candidate itself remains pending
+exact-head independent review.

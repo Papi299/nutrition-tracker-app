@@ -330,9 +330,11 @@ satisfied, and the six owner-approved no-JavaScript classifications are
 implemented in Contract 1.6 through an exact six-journey allowlist. The
 historical-evidence compatibility model remains strictly bound to accepted
 Phase 11C Contract 1.4. Qualified legal/privacy/retention/copy dependencies
-also remain open, no Phase 11E runtime implementation has started, and the
-current status is
-`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
+also remain open. The independent reviewer subsequently established
+`PHASE_11E0B_POST_MERGE_ACCEPTED`, making Contract 1.6 the accepted current
+normative contract. Phase 11E1 now has a local/repository invited-activation
+and confirmation candidate pending exact-head independent review; its hosted
+provider evidence remains deferred.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -468,10 +470,11 @@ contrast, motion, AT, affected-layout RTL, supported-browser/platform/device,
 and camera acceptance against the stabilized pre-release UI. Phase 11K must
 reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
-finding, and authorizes no launch or deployment. Phase 11E — Authentication
-and account lifecycle — is the next continuation point. Its next task must
-first audit current repository state and all existing Phase 11E prerequisite
-roles and decisions; no unassigned owner is assigned by this handoff.
+finding, and authorizes no launch or deployment. Phase 11E1 invited activation
+and confirmation is the current implementation candidate. After its exact-head
+review and merge, the next bounded continuation point is Phase 11E2 password
+recovery request/completion; this does not authorize hosted Auth configuration
+or any later Phase 11E slice.
 
 ## Future PR Documentation Rule
 

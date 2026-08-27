@@ -1,3 +1,7 @@
+import {
+  provisionActivatedLocalUser,
+  provisionActivatedLocalUserForUi,
+} from "@/e2e/helpers/local-auth";
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -146,10 +150,11 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     const signup = await browser.newContext();
     const page = await signup.newPage();
     const emailA = `phase9c-ui-a-${runId}@example.test`;
-    await page.goto("/en/auth/sign-up");
+    await provisionActivatedLocalUserForUi({ email: emailA, password });
+    await page.goto("/en/auth/sign-in");
     await page.getByLabel("Email").fill(emailA);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
     storageState = await signup.storageState();
     await signup.close();
@@ -159,7 +164,7 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     userAId = signedA.data.user?.id as string;
 
     userB = localClient();
-    const signedB = await userB.auth.signUp({
+    const signedB = await provisionActivatedLocalUser(userB, {
       email: `phase9c-ui-b-${runId}@example.test`,
       password,
     });

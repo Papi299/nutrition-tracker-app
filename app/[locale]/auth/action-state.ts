@@ -1,6 +1,5 @@
 export type AuthActionCode =
   | "authFailed"
-  | "checkEmail"
   | "invalidEmail"
   | "missingConfig"
   | "passwordRequired"
@@ -8,7 +7,7 @@ export type AuthActionCode =
 
 export type AuthActionState = {
   code: AuthActionCode | null;
-  status: "idle" | "error" | "success";
+  status: "idle" | "error";
 };
 
 export const initialAuthActionState: AuthActionState = {

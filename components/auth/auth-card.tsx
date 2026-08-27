@@ -26,7 +26,6 @@ export function AuthCard({
   passwordPlaceholder,
   pendingLabel,
   statusIdle,
-  successMessages,
   submitLabel,
   skipContent,
   title,
@@ -42,7 +41,7 @@ export function AuthCard({
   description: string;
   emailLabel: string;
   emailPlaceholder: string;
-  errorMessages: Record<Exclude<AuthActionCode, "checkEmail">, string>;
+  errorMessages: Record<AuthActionCode, string>;
   homeHref: string;
   homeLabel: string;
   locale: Locale;
@@ -52,7 +51,6 @@ export function AuthCard({
   passwordPlaceholder: string;
   pendingLabel: string;
   statusIdle: string;
-  successMessages: Record<Extract<AuthActionCode, "checkEmail">, string>;
   submitLabel: string;
   skipContent: string;
   title: string;
@@ -98,7 +96,6 @@ export function AuthCard({
               passwordPlaceholder={passwordPlaceholder}
               pendingLabel={pendingLabel}
               statusIdle={statusIdle}
-              successMessages={successMessages}
               submitLabel={submitLabel}
             />
           </div>

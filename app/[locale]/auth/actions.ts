@@ -2,11 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-  defaultLocale,
-  locales,
-  type Locale,
-} from "@/lib/i18n/routing";
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/routing";
+import { getAccountActivationState } from "@/lib/auth/account-activation";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
 import type { AuthActionState } from "./action-state";
@@ -81,43 +78,13 @@ export async function signInAction(
     return { code: "authFailed", status: "error" };
   }
 
-  redirect(`/${locale}/today`);
-}
+  const activationState = await getAccountActivationState(supabase);
 
-export async function signUpAction(
-  localeInput: string,
-  _previousState: AuthActionState,
-  formData: FormData,
-): Promise<AuthActionState> {
-  const locale = resolveLocale(localeInput);
-  const validationError = validateCredentials(formData);
-
-  if (validationError) {
-    return validationError;
-  }
-
-  const missingConfig = getMissingConfigState();
-
-  if (missingConfig) {
-    return missingConfig;
-  }
-
-  const { email, password } = readCredentials(formData);
-  const supabase = await createServerClient();
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  if (error) {
-    return { code: "authFailed", status: "error" };
-  }
-
-  if (data.session) {
+  if (activationState.status === "complete") {
     redirect(`/${locale}/today`);
   }
 
-  return { code: "checkEmail", status: "success" };
+  redirect(`/${locale}/auth/activate`);
 }
 
 export async function signOutAction(localeInput: string) {

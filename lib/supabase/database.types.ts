@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      account_activations: {
+        Row: {
+          activation_completed_at: string
+          eligibility_accepted_at: string
+          eligibility_statement_version: string
+          user_id: string
+        }
+        Insert: {
+          activation_completed_at?: string
+          eligibility_accepted_at?: string
+          eligibility_statement_version: string
+          user_id: string
+        }
+        Update: {
+          activation_completed_at?: string
+          eligibility_accepted_at?: string
+          eligibility_statement_version?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       custom_food_creation_requests: {
         Row: {
           completed_at: string
@@ -857,6 +878,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      complete_invited_account_activation: {
+        Args: { p_age_18_attested: boolean; p_israel_attested: boolean }
+        Returns: {
+          activation_completed_at: string
+          eligibility_accepted_at: string
+          eligibility_statement_version: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "account_activations"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_custom_food: {
         Args: {
           p_aliases: Json

@@ -54,9 +54,6 @@ function LocalizedSignIn({ locale }: { locale: Locale }) {
       passwordPlaceholder={t("common.passwordPlaceholder")}
       pendingLabel={t("signIn.pending")}
       statusIdle={t("status.ready")}
-      successMessages={{
-        checkEmail: t("status.checkEmail"),
-      }}
       submitLabel={t("signIn.submit")}
       skipContent={homeT("skipContent")}
       title={t("signIn.title")}

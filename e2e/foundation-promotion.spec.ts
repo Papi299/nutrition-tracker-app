@@ -1,3 +1,7 @@
+import {
+  provisionActivatedLocalUser,
+  provisionActivatedLocalUserForUi,
+} from "@/e2e/helpers/local-auth";
 import { execFileSync, spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -449,7 +453,7 @@ test.describe.serial("Phase 10D.1 controlled Foundation promotion", () => {
     );
     const email = `phase10d1-${Date.now()}@example.test`;
     const password = "Phase10DPromotion123!";
-    const signUp = await client.auth.signUp({ email, password });
+    const signUp = await provisionActivatedLocalUser(client, { email, password });
     expect(signUp.error).toBeNull();
     const search = await client.rpc("search_readable_foods", {
       p_query: "Rehearsal Apple Prepared",
@@ -494,10 +498,11 @@ test.describe.serial("Phase 10D.1 controlled Foundation promotion", () => {
     const page = await context.newPage();
     const email = `phase10d1-ui-${Date.now()}@example.test`;
     const password = "Phase10DPromotion123!";
-    await page.goto("/en/auth/sign-up");
+    await provisionActivatedLocalUserForUi({ email: email, password });
+    await page.goto("/en/auth/sign-in");
     await page.getByLabel("Email").fill(email);
     await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
     authenticatedState = await context.storageState();
     const client = createClient<Database>(

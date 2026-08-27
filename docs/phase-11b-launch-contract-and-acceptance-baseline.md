@@ -33,8 +33,8 @@
 | Timing-amendment review requirement | Independent review of the exact documentation-amendment head is required before merge. |
 | Timing-amendment independent review | `APPROVE` — ChatGPT reviewed exact head `f05ffbadcd3cb67ff83f66baa595a19e09469692`, tree `44601639be3d3bf79d78abc8e59d169465ffa6dd`, on 2026-08-26 and issued `PHASE_11D_UI_DEPENDENT_MANUAL_ACCEPTANCE_TIMING_AMENDMENT_EXACT_HEAD_ACCEPTED`; acceptance covers Phase 11D's amended repository-owned implementation scope only |
 | Phase 11E governance and engineering decisions | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze assigned himself to and accepted all five before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on 2026-08-26 through the attributable statement recorded in the [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md) |
-| Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are implemented in contract version 1.6 as `PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`; this candidate does not claim runtime implementation or acceptance |
-| Phase 11E Contract 1.6 independent review | `PENDING_INDEPENDENT_REVIEW` — the exact candidate head and its historical-evidence compatibility controls require independent review before any acceptance or merge |
+| Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are the accepted current contract version 1.6 under `PHASE_11E0B_POST_MERGE_ACCEPTED`; runtime evidence remains slice-specific |
+| Phase 11E Contract 1.6 independent review | Completed outside the Phase 11E1 task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99`; exact-main run `33008384228` attempt 1 failed during migration replay and identical-SHA attempt 2 passed completely |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -42,8 +42,8 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.6-phase-11e-nojs-classifications-amended` is a candidate amendment
-on top of accepted version
+Version `1.6-phase-11e-nojs-classifications-amended` is the current accepted
+normative amendment on top of accepted version
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. It preserves the
 complete original `1.0-phase-11b-accepted` baseline and historical amended
 identities `1.1` through `1.5`. It changes only the six Product Owner-approved
@@ -51,10 +51,9 @@ Phase 11E no-JavaScript classification cells in Section 7.2 and their matching
 classification, rationale, owner-slice, and validation-method rows in Section
 7.3. Section 7.1 and every other normative field remain unchanged. The
 historical Phase 11C evidence remains bound to accepted contract version 1.4
-and is not migrated, reinterpreted, or credited against this candidate. This
-candidate does not authorize or claim runtime implementation, evidence
-collection, finding closure, deployment, or launch, and remains pending
-independent review.
+and is not migrated, reinterpreted, or credited against current later-slice
+truth. Contract acceptance does not itself authorize or claim runtime
+implementation, evidence collection, finding closure, deployment, or launch.
 
 ## 2. Evidence and authority model
 
@@ -1210,15 +1209,16 @@ qualified-review, native-Hebrew, and legal-decision boundaries.
 
 The same attributable approval records `P11E-E001`–`P11E-E012`. The six
 no-JavaScript classifications are implemented only in the exact allowlisted
-Section 7.2 cells and matching Section 7.3 rows of candidate contract version
+Section 7.2 cells and matching Section 7.3 rows of accepted contract version
 1.6. The historical Phase 11C contract identity, evidence classifications,
 rationales, fingerprints, and normative projection remain unchanged. The
-required 11E0B contract-and-validator handoff is implemented in this candidate
-and remains pending independent review.
+required 11E0B contract-and-validator handoff is accepted under
+`PHASE_11E0B_POST_MERGE_ACCEPTED`. That acceptance was independently
+established outside the later Phase 11E1 implementation task.
 
 The current Phase 11E status is
-`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
-Qualified legal/privacy/retention/copy evidence remains required, and runtime
-implementation has not started. `P11A-006` and `P11A-009` remain P0
+an invited-activation/confirmation repository candidate pending its own
+exact-head independent review. Qualified legal/privacy/retention/copy evidence
+remains required. `P11A-006` and `P11A-009` remain P0
 `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; overall Phase 11
 remains `INCOMPLETE`; and Phase 11K remains the exclusive finding-closure gate.

@@ -419,24 +419,42 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Independent review of the exact Phase 11E Contract
-1.6 and historical-evidence-validator candidate head. Runtime implementation
-has not started.
+**Next continuation point:** Phase 11E1 invited activation and confirmation is
+the current repository candidate. Contract 1.6 and its historical-evidence
+validator are already current under the externally established
+`PHASE_11E0B_POST_MERGE_ACCEPTED` state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
-**Current governance status:**
-`PHASE_11E_CONTRACT_1_6_CANDIDATE_PENDING_INDEPENDENT_REVIEW`.
+**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1
+implementation candidate pending exact-head independent review.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
 qualified-review boundaries are in the
 [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
-The six approved no-JavaScript classifications are implemented in candidate
+The six approved no-JavaScript classifications are implemented in accepted
 contract version 1.6 through exactly six Section 7.2 cells and their matching
 Section 7.3 rows. The validator preserves historical Phase 11C Contract 1.4
-binding and permits no generic later-slice bypass. Independent review remains
-pending, and runtime implementation has not started.
+binding and permits no generic later-slice bypass. Its acceptance was
+independently established outside the Phase 11E1 task after PR #109 merged.
+
+### Current Phase 11E1 slice
+
+The Phase 11E1 candidate removes ordinary application self-registration,
+retains a localized non-mutating invitation route, adds an invite-only
+server-side confirmation callback, creates durable versioned activation state,
+and gates the protected application until an invited identity has established
+a password-authenticated session and submitted both eligibility attestations.
+The fallback and callback are exercised with JavaScript disabled against real
+local Supabase invitations and local email capture.
+
+Local direct signup is disabled and verified as rejected. The installed local
+GoTrue image requires its email provider flag to remain enabled for invited
+password sign-in; the global signup gate remains closed. Hosted Auth settings,
+hosted invitations, and deployed behavior are not changed or credited.
+Recovery, recent authentication, export, closure/deletion, and final Phase 11E
+integration remain separate 11E2–11E6 slices.
 
 ### Objective
 

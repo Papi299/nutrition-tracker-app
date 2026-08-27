@@ -35,17 +35,27 @@ const localEnvironment = parseEnvironment(status.stdout);
 const apiUrl = localEnvironment.get("API_URL");
 const publishableKey =
   localEnvironment.get("PUBLISHABLE_KEY") ?? localEnvironment.get("ANON_KEY");
+const serviceRoleKey =
+  localEnvironment.get("SECRET_KEY") ??
+  localEnvironment.get("SERVICE_ROLE_KEY");
+const mailpitUrl =
+  localEnvironment.get("MAILPIT_URL") ?? localEnvironment.get("INBUCKET_URL");
 
-if (!apiUrl || !publishableKey) {
+if (!apiUrl || !publishableKey || !serviceRoleKey || !mailpitUrl) {
   process.stderr.write(
-    "Local Supabase did not report an API URL and public client key.\n",
+    "Local Supabase did not report the required local test endpoints and keys.\n",
   );
   process.exit(1);
 }
 
 const parsedUrl = new URL(apiUrl);
+const parsedMailpitUrl = new URL(mailpitUrl);
 
-if (parsedUrl.hostname !== "127.0.0.1" && parsedUrl.hostname !== "localhost") {
+if (
+  ![parsedUrl.hostname, parsedMailpitUrl.hostname].every((hostname) =>
+    ["127.0.0.1", "localhost"].includes(hostname),
+  )
+) {
   process.stderr.write(
     "Refusing to run authenticated Playwright tests against a remote API.\n",
   );
@@ -133,7 +143,9 @@ const nodeOptions = childEnvironment.NODE_OPTIONS?.trim();
 Object.assign(childEnvironment, {
   DATE_E2E_LOCAL_SUPABASE: "1",
   LOCAL_SUPABASE_FAULT_CONTROL_URL: faultControl.controlUrl,
+  LOCAL_SUPABASE_MAILPIT_URL: mailpitUrl,
   LOCAL_SUPABASE_PUBLISHABLE_KEY: publishableKey,
+  LOCAL_SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey,
   LOCAL_SUPABASE_URL: apiUrl,
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: publishableKey,
   NEXT_PUBLIC_SUPABASE_URL: apiUrl,
