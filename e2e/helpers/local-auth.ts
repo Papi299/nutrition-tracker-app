@@ -18,7 +18,7 @@ const projectId = readFileSync("supabase/config.toml", "utf8").match(
 )?.[1];
 
 export const localFixtureEligibilityVersion =
-  "phase-11e1-local-test-fixture-v1";
+  "p11e-e001-private-beta-eligibility-v1";
 
 function requireLocalFixtureConfiguration() {
   if (

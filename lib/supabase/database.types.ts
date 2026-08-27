@@ -1058,6 +1058,7 @@ export type Database = {
           source_type: string
         }[]
       }
+      is_current_account_activated: { Args: never; Returns: boolean }
       is_valid_canonical_gtin: { Args: { p_gtin: string }; Returns: boolean }
       is_valid_food_canonical_gtin: {
         Args: { p_gtin: string }

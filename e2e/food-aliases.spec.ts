@@ -448,7 +448,7 @@ test.describe.serial("food alias and search-readiness foundation", () => {
         where schemaname = 'public'
           and tablename = 'food_aliases';
       `),
-    ).toBe("4");
+    ).toBe("5");
     expect(
       queryLocalDatabase(`
         select string_agg(privilege_type, ',' order by privilege_type)

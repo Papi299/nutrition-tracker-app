@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
-import { expect, test, type Browser, type Page } from "@playwright/test";
+import {
+  expect,
+  test,
+  type Browser,
+  type BrowserContext,
+  type Page,
+} from "@playwright/test";
 import {
   expireLocalInvitation,
   issueLocalInvitation,
@@ -19,6 +25,68 @@ const configuredAppOrigin = new URL(
 ).origin;
 const activatedPassword = "Phase11E1ActivatedPassword123!";
 const existingPassword = "Phase11E1ExistingPassword123!";
+const activationRequiredTables = [
+  "custom_food_creation_requests",
+  "diary_entries",
+  "food_aliases",
+  "food_barcodes",
+  "food_favorites",
+  "food_nutrients",
+  "foods",
+  "manual_diary_entry_requests",
+  "nutrition_targets",
+  "profiles",
+  "recipe_diary_runs",
+  "recipe_ingredients",
+  "recipes",
+  "saved_meal_diary_runs",
+  "saved_meal_items",
+  "saved_meals",
+] as const;
+const intentionallyPreActivationTables = [
+  "account_activations",
+  "food_sources",
+  "nutrients",
+] as const;
+const activationRequiredRpcs = [
+  "private.insert_completed_custom_food_creation_request(uuid, jsonb, uuid)|DEFINER",
+  "private.insert_completed_manual_diary_entry_request(uuid, jsonb, uuid)|DEFINER",
+  "private.insert_new_owned_custom_food_barcode(uuid, text)|DEFINER",
+  "private.lock_readable_food_for_diary_create(uuid)|DEFINER",
+  "public.create_custom_food(uuid, text, text, text, text, numeric, text, jsonb, jsonb)|INVOKER",
+  "public.create_manual_diary_entry(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text)|INVOKER",
+  "public.get_owned_custom_food_editor(uuid)|INVOKER",
+  "public.get_owned_recipe_editor(uuid)|INVOKER",
+  "public.get_owned_recipe_use_contract(uuid, numeric)|INVOKER",
+  "public.get_owned_saved_meal_editor(uuid)|INVOKER",
+  "public.get_readable_food_diary_prefill(uuid)|INVOKER",
+  "public.get_reusable_foods()|INVOKER",
+  "public.log_recipe_to_diary(uuid, timestamp with time zone, numeric, date, text, uuid)|INVOKER",
+  "public.log_saved_meal_to_diary(uuid, timestamp with time zone, date, text, uuid)|INVOKER",
+  "public.lookup_readable_food_by_gtin(text)|INVOKER",
+  "public.persist_custom_food(uuid, text, text, text, text, numeric, text, jsonb, jsonb)|INVOKER",
+  "public.persist_custom_food(uuid, text, text, text, text, numeric, text, jsonb, jsonb, bigint)|INVOKER",
+  "public.persist_custom_food_with_barcode(text, text, text, text, text, numeric, text, jsonb, jsonb)|INVOKER",
+  "public.persist_recipe(uuid, text, text, numeric, jsonb)|INVOKER",
+  "public.persist_recipe(uuid, text, text, numeric, jsonb, bigint)|INVOKER",
+  "public.persist_saved_meal(uuid, text, text, jsonb)|INVOKER",
+  "public.persist_saved_meal(uuid, text, text, jsonb, bigint)|INVOKER",
+  "public.persist_setup(text, text, date, integer, numeric, numeric, numeric)|INVOKER",
+  "public.search_readable_foods(text)|INVOKER",
+  "public.set_custom_food_archived(uuid, boolean)|INVOKER",
+  "public.set_food_favorite(uuid, boolean)|INVOKER",
+  "public.set_recipe_archived(uuid, boolean)|INVOKER",
+  "public.set_saved_meal_archived(uuid, boolean)|INVOKER",
+] as const;
+const intentionallyPreActivationRpcs = [
+  "public.complete_invited_account_activation(boolean, boolean)|DEFINER",
+  "public.is_current_account_activated()|INVOKER",
+  "public.is_valid_canonical_gtin(text)|INVOKER",
+  "public.is_valid_food_canonical_gtin(text)|INVOKER",
+  "public.normalize_food_search_text(text)|INVOKER",
+  "public.prevent_diary_provenance_changes()|INVOKER",
+  "public.set_updated_at()|INVOKER",
+] as const;
 
 test.skip(
   !localOnly || !localSupabaseUrl || !localSupabasePublishableKey,
@@ -57,6 +125,29 @@ function tokenHashFromInvitation(link: string) {
 
   expect(tokenHash).toBeTruthy();
   return tokenHash as string;
+}
+
+function sessionFromAuthCookies(contextCookies: Awaited<ReturnType<BrowserContext["cookies"]>>) {
+  const authCookies = contextCookies
+    .filter((cookie) => cookie.name.includes("-auth-token"))
+    .sort((left, right) => left.name.localeCompare(right.name));
+
+  expect(authCookies.length).toBeGreaterThan(0);
+  const encoded = authCookies.map((cookie) => cookie.value).join("");
+  const serialized = encoded.startsWith("base64-")
+    ? Buffer.from(encoded.slice("base64-".length), "base64url").toString(
+        "utf8",
+      )
+    : decodeURIComponent(encoded);
+
+  return JSON.parse(serialized) as {
+    access_token: string;
+    refresh_token: string;
+  };
+}
+
+function sqlString(value: string) {
+  return `'${escapedSqlLiteral(value)}'`;
 }
 
 async function newInvitation(locale: "en" | "he") {
@@ -148,6 +239,106 @@ async function signInThroughUi(
 }
 
 test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
+  test("Phase 11E1 classifies every authenticated table and RPC and applies the restrictive activation gate", () => {
+    const classifiedTables = JSON.parse(
+      queryLocalAuthFixture(`
+        select coalesce(json_agg(table_name order by table_name), '[]'::json)::text
+        from (
+          select relations.relname as table_name
+          from pg_class as relations
+          join pg_namespace as namespaces
+            on namespaces.oid = relations.relnamespace
+          where namespaces.nspname = 'public'
+            and relations.relkind in ('r', 'p')
+            and (
+              has_table_privilege(
+                'authenticated',
+                relations.oid,
+                'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER'
+              )
+              or has_any_column_privilege(
+                'authenticated',
+                relations.oid,
+                'SELECT,INSERT,UPDATE,REFERENCES'
+              )
+            )
+        ) as authenticated_tables;
+      `),
+    );
+    expect(classifiedTables).toEqual(
+      [...activationRequiredTables, ...intentionallyPreActivationTables].sort(),
+    );
+
+    const restrictivelyGatedTables = JSON.parse(
+      queryLocalAuthFixture(`
+        select coalesce(json_agg(table_name order by table_name), '[]'::json)::text
+        from (
+          select relations.relname as table_name
+          from pg_policy as policies
+          join pg_class as relations on relations.oid = policies.polrelid
+          join pg_namespace as namespaces
+            on namespaces.oid = relations.relnamespace
+          where namespaces.nspname = 'public'
+            and policies.polname = 'account_activation_required'
+            and policies.polpermissive is false
+            and policies.polcmd = '*'
+            and policies.polqual is not null
+            and policies.polwithcheck is not null
+            and (
+              select roles.oid
+              from pg_roles as roles
+              where roles.rolname = 'authenticated'
+            ) = any(policies.polroles)
+        ) as gated_tables;
+      `),
+    );
+    expect(restrictivelyGatedTables).toEqual([...activationRequiredTables]);
+
+    const callableRpcs = JSON.parse(
+      queryLocalAuthFixture(`
+        select coalesce(json_agg(identity order by identity), '[]'::json)::text
+        from (
+          select distinct format(
+            '%I.%I(%s)|%s',
+            namespaces.nspname,
+            procedures.proname,
+            oidvectortypes(procedures.proargtypes),
+            case when procedures.prosecdef then 'DEFINER' else 'INVOKER' end
+          ) as identity
+          from pg_proc as procedures
+          join pg_namespace as namespaces
+            on namespaces.oid = procedures.pronamespace
+          where namespaces.nspname in ('public', 'private')
+            and has_function_privilege(
+              'authenticated',
+              procedures.oid,
+              'EXECUTE'
+            )
+        ) as authenticated_functions;
+      `),
+    );
+    expect(callableRpcs).toEqual(
+      [...activationRequiredRpcs, ...intentionallyPreActivationRpcs].sort(),
+    );
+
+    expect(
+      queryLocalAuthFixture(`
+        select concat_ws(
+          '|',
+          procedures.prosecdef,
+          array_to_string(procedures.proconfig, ','),
+          has_function_privilege('public', procedures.oid, 'EXECUTE'),
+          has_function_privilege('anon', procedures.oid, 'EXECUTE'),
+          has_function_privilege('authenticated', procedures.oid, 'EXECUTE'),
+          has_function_privilege('service_role', procedures.oid, 'EXECUTE')
+        )
+        from pg_proc as procedures
+        where procedures.oid =
+          'public.is_current_account_activated()'::regprocedure;
+      `),
+    ).toBe('f|search_path=""|f|f|t|f');
+  });
+
   test("CJ-002 closes public enrollment while preserving the localized no-JavaScript invitation boundary", async ({
     browser,
   }) => {
@@ -253,6 +444,205 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
 
     await page.goto("/en/today");
     await expect(page).toHaveURL("/en/auth/activate");
+    await context.close();
+  });
+
+  test("CJ-002 blocks direct protected table and RPC access until durable activation", async ({
+    browser,
+  }) => {
+    const invitation = await newInvitation("en");
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+
+    await page.goto(invitation.link);
+    await expect(page).toHaveURL("/en/auth/activate");
+    expect(
+      queryLocalAuthFixture(`
+        select count(*) from public.account_activations
+        where user_id = '${invitation.userId}'::uuid;
+      `),
+    ).toBe("0");
+
+    const preActivation = localClient();
+    const restored = await preActivation.auth.setSession(
+      sessionFromAuthCookies(await context.cookies()),
+    );
+    expect(restored.error).toBeNull();
+    expect(restored.data.user?.id).toBe(invitation.userId);
+
+    const activationState = await preActivation.rpc(
+      "is_current_account_activated",
+    );
+    expect(activationState).toMatchObject({ data: false, error: null });
+
+    const directInsert = await preActivation.from("profiles").insert({
+      id: invitation.userId,
+      display_name: "Blocked pre-activation insert",
+      preferred_language: "en",
+      unit_system: "metric",
+    });
+    expect(directInsert.error?.code).toBe("42501");
+    expect(
+      queryLocalAuthFixture(`
+        select count(*) from public.profiles
+        where id = '${invitation.userId}'::uuid;
+      `),
+    ).toBe("0");
+
+    queryLocalAuthFixture(`
+      insert into public.profiles (
+        id,
+        display_name,
+        preferred_language,
+        unit_system
+      ) values (
+        '${invitation.userId}'::uuid,
+        'Protected fixture profile',
+        'en',
+        'metric'
+      );
+
+      insert into public.nutrition_targets (
+        user_id,
+        effective_from,
+        calories,
+        protein_g,
+        carbohydrates_g,
+        fat_g
+      ) values (
+        '${invitation.userId}'::uuid,
+        '2026-08-27',
+        1900,
+        100,
+        180,
+        60
+      );
+    `);
+
+    const protectedRead = await preActivation
+      .from("profiles")
+      .select("id, display_name")
+      .eq("id", invitation.userId);
+    expect(protectedRead.error).toBeNull();
+    expect(protectedRead.data).toEqual([]);
+
+    const protectedUpdate = await preActivation
+      .from("profiles")
+      .update({ display_name: "Blocked pre-activation update" })
+      .eq("id", invitation.userId)
+      .select("id");
+    expect(protectedUpdate.error).toBeNull();
+    expect(protectedUpdate.data).toEqual([]);
+
+    const preActivationSetup = await preActivation.rpc("persist_setup", {
+      p_calories: 2200,
+      p_carbohydrates_g: 230,
+      p_display_name: "Blocked pre-activation RPC",
+      p_effective_from: "2026-08-27",
+      p_fat_g: 75,
+      p_preferred_language: "en",
+      p_protein_g: 125,
+    });
+    expect(preActivationSetup.error?.code).toBe("42501");
+    expect(
+      JSON.parse(
+        queryLocalAuthFixture(`
+        select json_build_object(
+          'display_name', profiles.display_name,
+          'calories', targets.calories
+        )::text
+        from public.profiles as profiles
+        join public.nutrition_targets as targets
+          on targets.user_id = profiles.id
+        where profiles.id = '${invitation.userId}'::uuid
+          and targets.effective_from = '2026-08-27';
+        `),
+      ),
+    ).toEqual({
+      calories: 1900,
+      display_name: "Protected fixture profile",
+    });
+
+    for (const definerInvocation of [
+      "select private.insert_completed_custom_food_creation_request(null, null, null);",
+      "select private.insert_completed_manual_diary_entry_request(null, null, null);",
+      "select private.insert_new_owned_custom_food_barcode(null, null);",
+      "select private.lock_readable_food_for_diary_create(null);",
+    ]) {
+      expect(() =>
+        queryLocalAuthFixture(`
+          select set_config(
+            'request.jwt.claim.sub',
+            ${sqlString(invitation.userId)},
+            false
+          );
+          set role authenticated;
+          ${definerInvocation}
+        `),
+      ).toThrow(/account_activation_required/);
+    }
+
+    await completeActivationForm(page, "en");
+    await expect(page).toHaveURL(/\/en\/today(?:\?|$)/);
+
+    const activated = localClient();
+    const activatedSignIn = await activated.auth.signInWithPassword({
+      email: invitation.email,
+      password: activatedPassword,
+    });
+    expect(activatedSignIn.error).toBeNull();
+    expect(
+      await activated.rpc("is_current_account_activated"),
+    ).toMatchObject({ data: true, error: null });
+
+    const activatedSetup = await activated.rpc("persist_setup", {
+      p_calories: 2200,
+      p_carbohydrates_g: 230,
+      p_display_name: "Activated setup succeeds",
+      p_effective_from: "2026-08-27",
+      p_fat_g: 75,
+      p_preferred_language: "en",
+      p_protein_g: 125,
+    });
+    expect(activatedSetup.error).toBeNull();
+
+    const activatedRead = await activated
+      .from("profiles")
+      .select("id, display_name")
+      .eq("id", invitation.userId)
+      .single();
+    expect(activatedRead).toMatchObject({
+      data: {
+        display_name: "Activated setup succeeds",
+        id: invitation.userId,
+      },
+      error: null,
+    });
+
+    const activatedUpdate = await activated
+      .from("profiles")
+      .update({ display_name: "Activated direct update succeeds" })
+      .eq("id", invitation.userId)
+      .select("id, display_name")
+      .single();
+    expect(activatedUpdate).toMatchObject({
+      data: {
+        display_name: "Activated direct update succeeds",
+        id: invitation.userId,
+      },
+      error: null,
+    });
+
+    const activatedDefinerResult = queryLocalAuthFixture(`
+      select set_config(
+        'request.jwt.claim.sub',
+        ${sqlString(invitation.userId)},
+        false
+      );
+      set role authenticated;
+      select private.lock_readable_food_for_diary_create(null);
+    `);
+    expect(activatedDefinerResult).toMatch(/f$/);
     await context.close();
   });
 

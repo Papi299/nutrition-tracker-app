@@ -449,12 +449,23 @@ a password-authenticated session and submitted both eligibility attestations.
 The fallback and callback are exercised with JavaScript disabled against real
 local Supabase invitations and local email capture.
 
+The corrected candidate also enforces durable activation below the page layer.
+A caller-derived activation predicate is combined through restrictive RLS with
+the existing ownership/tenant policies on all 16 protected application tables;
+four callable private `SECURITY DEFINER` data helpers fail closed explicitly.
+Activation state/completion and the reference-only source/nutrient tables
+remain intentional pre-activation exceptions. Semantic table/function
+inventory tests and a real callback-complete attack session cover direct read,
+insert, update, and RPC denial before activation plus the corresponding
+post-activation success path.
+
 Local direct signup is disabled and verified as rejected. The installed local
 GoTrue image requires its email provider flag to remain enabled for invited
 password sign-in; the global signup gate remains closed. Hosted Auth settings,
 hosted invitations, and deployed behavior are not changed or credited.
 Recovery, recent authentication, export, closure/deletion, and final Phase 11E
 integration remain separate 11E2–11E6 slices.
+The corrected Phase 11E1 candidate remains `PENDING_INDEPENDENT_REVIEW`.
 
 ### Objective
 

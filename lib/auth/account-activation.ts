@@ -30,17 +30,15 @@ export async function getAccountActivationState(
     return { status: "unauthenticated" };
   }
 
-  const { data, error } = await supabase
-    .from("account_activations")
-    .select("activation_completed_at")
-    .eq("user_id", userId)
-    .maybeSingle();
+  const { data, error } = await supabase.rpc(
+    "is_current_account_activated",
+  );
 
   if (error) {
     return { status: "unavailable", userId };
   }
 
-  if (!data?.activation_completed_at) {
+  if (data !== true) {
     return { status: "incomplete", userId };
   }
 

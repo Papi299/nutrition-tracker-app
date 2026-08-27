@@ -336,6 +336,15 @@ normative contract. Phase 11E1 now has a local/repository invited-activation
 and confirmation candidate pending exact-head independent review; its hosted
 provider evidence remains deferred.
 
+The Phase 11E1 correction candidate supplements the Next.js lifecycle gate
+with a centralized database activation predicate, restrictive activation
+policies on the complete protected application-table inventory, and explicit
+checks in callable private `SECURITY DEFINER` helpers. Existing owner/tenant
+RLS predicates remain in force. Activation lookup/completion and reference-only
+tables remain available before activation, while systematic catalog and real
+pre-activation-session tests cover direct data and RPC access. Its status is
+`PENDING_INDEPENDENT_REVIEW`.
+
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; their launch findings

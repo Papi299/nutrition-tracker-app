@@ -324,7 +324,11 @@ is complete for the current MVP scope.
   with an exact six-journey allowlist and immutable historical Phase 11C
   binding. Qualified legal/privacy/retention/copy dependencies remain open.
   Phase 11E1 now implements the local/repository invited activation boundary;
-  hosted configuration and later 11E2–11E6 work remain deferred. The
+  the correction candidate also requires durable activation at the database
+  boundary through a caller-derived predicate, restrictive RLS layered over
+  existing ownership, and explicit checks in elevated data helpers. It remains
+  `PENDING_INDEPENDENT_REVIEW`; hosted configuration and later 11E2–11E6 work
+  remain deferred. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged

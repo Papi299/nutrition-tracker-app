@@ -197,8 +197,10 @@ completed outside this task after PR #109 merged. Exact-main run `33008384228`
 attempt 1 failed during local migration replay; attempt 2 reran the identical
 SHA `44dc2db520c8df45f2c037fb0327cebef3de8c99` without a code change and the
 authoritative Validate job `98397229886` completed successfully. Attempt 1 is
-not represented as successful, and its transient runner failure is not an
-unresolved code blocker.
+not represented as successful. It is recorded as transient CI/local-Supabase
+execution evidence on a GitHub-hosted runner, not as a proven runner or
+hardware failure, and the identical-tree success means it is not an unresolved
+code blocker.
 
 ## 6. Qualified review remains required
 
@@ -242,6 +244,38 @@ password authentication. Protected routes and password sign-in fail closed to
 the activation route until that durable record exists. The activation RPC is
 idempotent and accepts no caller-owned user identifier.
 
+The correction candidate also makes durable activation a database
+authorization condition rather than relying on the application route gate.
+`public.is_current_account_activated()` derives only `auth.uid()`, uses an
+explicit empty search path, executes with caller privileges, and accepts the
+current server-owned eligibility version. The application lifecycle lookup
+uses this same predicate. A restrictive authenticated-role policy adds
+activation to every existing ownership/tenant policy on the 16 protected
+application tables: profiles, nutrition targets, diary entries, foods and
+their aliases/barcodes/nutrients, favorites, Saved Meals and items/runs,
+Recipes and ingredients/runs, and the two request/receipt tables. Existing
+ownership predicates, grants, and RLS remain intact.
+
+All authenticated public application-data RPCs remain `SECURITY INVOKER` and
+therefore traverse the restrictive table policies. The four callable private
+`SECURITY DEFINER` data helpers additionally reject incomplete activation with
+the stable `account_activation_required` contract before protected access.
+`account_activations`, reference-only `food_sources` and `nutrients`, the own
+activation predicate, and `complete_invited_account_activation(...)` remain
+available where necessary before activation. Invitation confirmation, session
+operations, and sign-out do not depend on protected application data.
+
+The independent-review finding was reproduced against the unchanged reviewed
+head before this correction: a real callback-complete, activation-incomplete
+local session had zero activation rows, directly inserted its owner-valid
+profile, and successfully invoked `persist_setup`, leaving one profile and one
+target. Focused correction tests use that same real session boundary to prove
+pre-activation SELECT, INSERT, UPDATE, public mutation RPC, and all four
+elevated helper paths fail closed without partial application data. The same
+setup RPC succeeds after actual activation. A semantic catalog test binds the
+complete authenticated table and function inventories so an unclassified new
+surface fails the suite.
+
 Local tests use the real local administrative invitation endpoint and local
 email capture. The administrative credential is confined to the test process,
 filtered out of the application server environment, never printed, and never
@@ -256,4 +290,4 @@ Phase 11E2 recovery, Phase 11E3 recent authentication, Phase 11E4 export,
 Phase 11E5 closure/deletion, Phase 11E6 integration/external reconciliation,
 OAuth, qualified legal/policy approval, and final native-Hebrew acceptance for
 new copy remain deferred. The Phase 11E1 candidate itself remains pending
-exact-head independent review.
+exact-head independent review with status `PENDING_INDEPENDENT_REVIEW`.

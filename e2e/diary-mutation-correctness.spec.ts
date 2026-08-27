@@ -765,13 +765,15 @@ test.describe.serial("Phase 11C2A diary mutation correctness", () => {
     ).toBe("t|f");
     expect(
       queryDatabase(`
-        select cmd || '|' || array_to_string(roles, ',')
+        select permissive || '|' || cmd || '|' || array_to_string(roles, ',')
         from pg_policies
         where schemaname = 'public'
           and tablename = 'manual_diary_entry_requests'
         order by policyname;
       `),
-    ).toBe("SELECT|authenticated");
+    ).toBe(
+      "PERMISSIVE|SELECT|authenticated\nRESTRICTIVE|ALL|authenticated",
+    );
     expect(
       queryDatabase(`
         select concat_ws('|',
