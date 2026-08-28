@@ -9,6 +9,7 @@ export function AppShell({
   locale,
   languageLabel,
   currentLanguageLabel,
+  navAccount,
   navBarcodeLookup,
   navFoodSearch,
   navMyFoods,
@@ -26,6 +27,7 @@ export function AppShell({
   locale: Locale;
   languageLabel: string;
   currentLanguageLabel: string;
+  navAccount: string;
   navBarcodeLookup: string;
   navFoodSearch: string;
   navMyFoods: string;
@@ -108,6 +110,12 @@ export function AppShell({
               href={`/${locale}/setup`}
             >
               {navProfileTargets}
+            </Link>
+            <Link
+              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+              href={`/${locale}/account`}
+            >
+              {navAccount}
             </Link>
             <SignOutButton label={signOutLabel} locale={locale} />
           </nav>

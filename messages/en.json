@@ -1547,6 +1547,21 @@
       }
     }
   },
+  "Account": {
+    "title": "Account",
+    "description": "Review account tools for your signed-in Nutrition Tracker account.",
+    "export": {
+      "title": "Download your data",
+      "summary": "Prepare a versioned JSON file containing your supported account, profile, target, diary, custom-food, favorite, saved-meal, and recipe data.",
+      "open": "Open data export",
+      "back": "Back to Account",
+      "description": "Your download is a UTF-8 JSON file generated for this request. It is not stored as an export file on the server.",
+      "security": "For security, confirm your current password before downloading your account data. Confirmation remains valid for 10 minutes in this signed-in session.",
+      "reauthRequired": "Password confirmation is required before the download is available.",
+      "confirmPassword": "Confirm current password",
+      "download": "Download my data"
+    }
+  },
   "AppShell": {
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
@@ -1562,6 +1577,7 @@
       "retry": "Try signing out again"
     },
     "nav": {
+      "account": "Account",
       "today": "Today",
       "foodSearch": "Food search",
       "barcodeLookup": "Barcode lookup",
