@@ -8,9 +8,13 @@ import { getAccountActivationState } from "@/lib/auth/account-activation";
 import { inspectRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import {
   activationPath,
-  protectedHomePath,
   signInPath,
 } from "@/lib/auth/require-user";
+import {
+  reauthenticationDestination,
+  resolveReauthenticationIntent,
+  type ReauthenticationIntent,
+} from "@/lib/auth/reauthentication-intent";
 import { routing, type Locale } from "@/lib/i18n/routing";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +22,7 @@ export const revalidate = 0;
 
 type ReauthenticationPageProps = Readonly<{
   params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ intent?: string | string[] }>;
 }>;
 
 export function generateStaticParams() {
@@ -26,8 +31,11 @@ export function generateStaticParams() {
 
 export default async function ReauthenticationPage({
   params,
+  searchParams,
 }: ReauthenticationPageProps) {
   const { locale } = await params;
+  const query = await searchParams;
+  const intent = resolveReauthenticationIntent(query.intent);
 
   setRequestLocale(locale);
   const activation = await getAccountActivationState();
@@ -43,16 +51,22 @@ export default async function ReauthenticationPage({
   const recentAuthentication = await inspectRecentPasswordAuthentication();
 
   if (recentAuthentication.status === "valid") {
-    redirect(protectedHomePath(locale));
+    redirect(reauthenticationDestination(locale, intent));
   }
 
-  return <LocalizedReauthenticationPage locale={locale} />;
+  return <LocalizedReauthenticationPage intent={intent} locale={locale} />;
 }
 
-function LocalizedReauthenticationPage({ locale }: { locale: Locale }) {
+function LocalizedReauthenticationPage({
+  intent,
+  locale,
+}: {
+  intent: ReauthenticationIntent | null;
+  locale: Locale;
+}) {
   const t = useTranslations("Auth.reauthentication");
   const homeT = useTranslations("HomePage");
-  const action = reauthenticateWithPasswordAction.bind(null, locale);
+  const action = reauthenticateWithPasswordAction.bind(null, locale, intent);
 
   return (
     <main className="min-h-screen bg-stone-50 px-6 py-8 text-slate-950 sm:px-10 sm:py-12">

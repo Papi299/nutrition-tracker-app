@@ -4,18 +4,23 @@ import { redirect } from "next/navigation";
 import { verifyCurrentPasswordAndIssueRecentAuthentication } from "@/lib/auth/recent-password-auth";
 import {
   activationPath,
-  protectedHomePath,
   resolveAuthLocale,
   signInPath,
 } from "@/lib/auth/require-user";
+import {
+  reauthenticationDestination,
+  resolveReauthenticationIntent,
+} from "@/lib/auth/reauthentication-intent";
 import type { ReauthenticationActionState } from "./action-state";
 
 export async function reauthenticateWithPasswordAction(
   localeInput: string,
+  intentInput: string | null,
   _previousState: ReauthenticationActionState,
   formData: FormData,
 ): Promise<ReauthenticationActionState> {
   const locale = resolveAuthLocale(localeInput);
+  const intent = resolveReauthenticationIntent(intentInput);
   const password = String(formData.get("password") ?? "");
 
   if (!password) {
@@ -35,7 +40,7 @@ export async function reauthenticateWithPasswordAction(
   }
 
   if (result.status === "success") {
-    redirect(protectedHomePath(locale));
+    redirect(reauthenticationDestination(locale, intent));
   }
 
   return {

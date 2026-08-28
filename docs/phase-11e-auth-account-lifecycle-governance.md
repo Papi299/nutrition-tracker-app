@@ -11,7 +11,7 @@
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 and Phase 11E2 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E3 implementation candidate pending exact-head independent review |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1, Phase 11E2, and Phase 11E3 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; CI-maintenance PR #113 accepted; Phase 11E4 `PENDING_INDEPENDENT_REVIEW` |
 | Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
@@ -224,14 +224,17 @@ approval is recorded by this document.
   merged with status `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 - Phase 11E2 password recovery is independently accepted and merged with
   status `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
-- Phase 11E3 now has a repository/local implementation candidate for recent
-  explicit password reauthentication. Together these are substantial
+- Phase 11E3 recent explicit password reauthentication is independently
+  accepted and merged with status
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E4 now has a repository/local implementation candidate for the
+  synchronous versioned JSON account export. Together these are substantial
   implementation evidence for `P11A-006`, but the finding remains `OPEN` and
   no hosted/external evidence is claimed.
 
 No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
 remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
-legal action follows from the Phase 11E1/11E2 acceptance or Phase 11E3
+legal action follows from the Phase 11E1–11E3 acceptance or Phase 11E4
 candidate.
 
 ## 8. Accepted Phase 11E1 invited activation and confirmation
@@ -357,7 +360,7 @@ accepted Phase 11E2 and PR #111 was squash-merged as
 `98763090759`. Phase 11E2 is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-## 10. Phase 11E3 recent password reauthentication candidate
+## 10. Accepted Phase 11E3 recent password reauthentication
 
 The Phase 11E3 repository candidate implements the sensitive-action
 authorization prerequisite approved by `P11E-E003`–`P11E-E006`. The localized
@@ -398,8 +401,50 @@ and the accepted incomplete-invite activation/RLS boundary. The focused record
 is
 [`phase-11e3-recent-password-reauthentication-validation.md`](phase-11e3-recent-password-reauthentication-validation.md).
 
-This candidate adds no migration, account-wide recent-auth timestamp, public
-proof-minting RPC, export, or closure/deletion implementation. Hosted Auth
-behavior, real server-secret provisioning, deployment, final native-Hebrew
-acceptance, qualified legal/privacy evidence, OAuth, and Phase 11E4–11E6 remain
-uncollected. Phase 11E3 remains `PENDING_INDEPENDENT_REVIEW`.
+This implementation adds no migration, account-wide recent-auth timestamp,
+public proof-minting RPC, export, or closure/deletion behavior. Independent
+review accepted Phase 11E3 and PR #112 was squash-merged as
+`c54d0d1ed6149563ef33f1934ee3bfbc09e3a6cb`, tree
+`a0ed2c67abacb3361c173244df68a698c269b019`. Post-merge exact-main CI run
+`33164308402`, run number `206`, succeeded on attempt `3` through Validate job
+`98835074428`; the earlier failed attempts are not represented as successful.
+Phase 11E3 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+The accepted CI-maintenance follow-up PR #113 was squash-merged as
+`da8904d3a4d2535bfe1b3d23af9108a7607afadb`, tree
+`6b955af86342db318de9d836cd93362017ced30a`. Exact-main CI run `33170624228`,
+run number `208`, attempt `1`, succeeded through Validate job `98846611166`.
+The workflow retains Node.js 22 for repository commands and the Node-24-native
+v7 checkout, setup-node, and artifact Actions.
+
+Hosted Auth behavior, real server-secret provisioning, deployment, final
+native-Hebrew acceptance, qualified legal/privacy evidence, OAuth, and Phase
+11E4–11E6 were not collected by the E3 slice.
+
+## 11. Phase 11E4 synchronous JSON account export candidate
+
+The Phase 11E4 repository candidate implements CJ-034 as a localized
+server-rendered account surface and synchronous in-memory version-1 JSON
+download. The dedicated POST Route Handler independently requires current
+authentication, completed activation, the accepted E3 exact-session
+recent-password proof, authoritative provider identity, and same-origin request
+metadata when supplied. The server-derived user ID and ordinary RLS-protected
+session are the only data authority.
+
+The explicit field contract includes minimal account identity, profile, full
+effective-dated targets, immutable diary snapshots, owned custom foods and
+children, favorites, Saved Meals/items, Recipes/ingredients, selected safe
+request/run receipts, and exact referenced source/nutrient/food descriptors.
+Auth/provider secrets, idempotency and concurrency internals, unrelated
+catalog and ingestion data, and restricted operational state are excluded.
+Recents have no independent persistent state and remain derivable from the
+exported diary history.
+
+Every unbounded collection is deterministically paginated; local evidence
+crosses the provider limit with 1,002 exported diary rows. English and Hebrew
+no-JavaScript journeys perform real password reauthentication and actual JSON
+downloads. The candidate adds no migration, privileged credential, persistent
+export artifact, deployment, or E5 deletion behavior. Its focused evidence is
+recorded in
+[`phase-11e4-account-export-validation.md`](phase-11e4-account-export-validation.md).
+Phase 11E4 remains `PENDING_INDEPENDENT_REVIEW`.

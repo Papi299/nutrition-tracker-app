@@ -44,6 +44,7 @@ function LocalizedProtectedLayout({
       currentLanguageLabel={t("language.current")}
       languageLabel={t("language.label")}
       locale={locale}
+      navAccount={t("nav.account")}
       navBarcodeLookup={t("nav.barcodeLookup")}
       navFoodSearch={t("nav.foodSearch")}
       navMyFoods={t("nav.myFoods")}
