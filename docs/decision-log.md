@@ -2734,3 +2734,58 @@
   `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; Phase 11 remains
   `INCOMPLETE`; Phase 11K remains the sole finding-closure gate; no launch or
   deployment is authorized.
+
+## 2026-08-28: Phase 11E2 post-merge acceptance reconciliation
+
+- Independent review accepted Phase 11E2 password recovery. PR #111 was
+  squash-merged as `7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+  `30f06a9c1210bde8933852d48309d8437cbabdc7`.
+- Exact-main CI run `33144707646`, run number `204`, attempt `1`, passed at that
+  SHA through Validate job `98763090759`.
+- Phase 11E2 is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; hosted recovery,
+  provider/session, final native-Hebrew, and other launch-facing evidence
+  remains uncollected. This disposition closes no finding and authorizes no
+  hosted action, deployment, or launch.
+
+## 2026-08-28: Phase 11E3 recent password reauthentication candidate
+
+- Added a localized `/{locale}/auth/reauthenticate` password-only route and
+  Server Action that operate as ordinary HTML with JavaScript disabled. The
+  surface accepts no user, email, session, or redirect authority from the
+  caller.
+- A server-only boundary derives the current activated user and exact Supabase
+  `session_id`, verifies the provider user, and authenticates the submitted
+  password through an isolated public non-persistent client. Returned user,
+  session-user, and claim identities must match. The temporary provider session
+  is disposed with local scope and bounded retry; the unchanged primary session
+  is revalidated before proof issuance. Global sign-out is never used.
+- The proof is a bounded canonical Base64URL payload authenticated with
+  HMAC-SHA256. It contains only version, user ID, exact session ID, server issue
+  time, and server expiry. A server-only secret of at least 32 bytes signs the
+  fixed 600-second lifetime. Unsupported, malformed, noncanonical, oversized,
+  tampered, future, expired, user-mismatched, and session-mismatched proofs fail
+  closed.
+- The host-only HttpOnly cookie uses path `/`, SameSite=Strict, a maximum age of
+  600 seconds, and Secure in Production. Successful sign-out and successful
+  recovery completion expire it. Recovery and ordinary new-password sign-in do
+  not create proof; only explicit reauthentication with the replacement
+  password does, preserving `P11E-E006`.
+- Focused deterministic unit and local GoTrue browser evidence covers exact
+  freshness boundaries; one-byte tampering; wrong password and cross-account
+  input; same-user cross-session copying; provider failure, identity mismatch,
+  and cleanup retry; primary/unrelated-session survival; EN/HE no-JavaScript
+  use; accessibility; and the incomplete-invite activation/RLS boundary.
+- The candidate adds no migration, account-wide recent-auth timestamp,
+  proof-minting RPC, export, closure/deletion, hosted secret, hosted Auth action,
+  Vercel action, deployment, or Production action. Contract Sections 7.1–7.3
+  and historical Phase 11C evidence remain unchanged.
+- Validation is recorded in
+  `docs/phase-11e3-recent-password-reauthentication-validation.md`. Phase 11E3
+  remains `PENDING_INDEPENDENT_REVIEW`; ChatGPT acceptance is not claimed.
+- OAuth, 11E4 export, 11E5 closure/deletion, 11E6 integration/external
+  reconciliation, qualified legal/privacy approval, final native-Hebrew review,
+  hosted configuration, and all finding closure remain deferred. `P11A-006`
+  and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain
+  `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11K remains the sole
+  finding-closure gate; no launch or deployment is authorized.
