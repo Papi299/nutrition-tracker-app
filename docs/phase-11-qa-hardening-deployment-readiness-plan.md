@@ -419,17 +419,21 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Phase 11E1 invited activation and confirmation is
-accepted and merged at `ce615fa14d39af9329af7458f08cc83efd7728fe`.
-Phase 11E2 password recovery request/completion is the current repository
-candidate. Contract 1.6 and its historical-evidence validator are current under
-the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED` state.
+**Next continuation point:** Phase 11E1 invited activation and confirmation and
+Phase 11E2 password recovery are accepted and merged. Phase 11E2 merged as
+`7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+`30f06a9c1210bde8933852d48309d8437cbabdc7`, with exact-main CI run
+`33144707646` / run number `204` / attempt `1` / Validate job `98763090759`
+successful. Phase 11E3 recent password reauthentication is the current
+repository candidate. Contract 1.6 and its historical-evidence validator are
+current under the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED`
+state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
-**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 is
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E2 is the
-implementation candidate pending exact-head independent review.
+**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 and
+Phase 11E2 are `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase
+11E3 is the implementation candidate pending exact-head independent review.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
@@ -472,9 +476,9 @@ squash-merged as `ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; hosted evidence remains
 Phase 11J-owned.
 
-### Current Phase 11E2 slice
+### Accepted Phase 11E2 slice
 
-The Phase 11E2 candidate implements localized password-recovery request and
+The Phase 11E2 implementation provides localized password-recovery request and
 completion for CJ-007/CJ-008 with JavaScript disabled. The application uses the
 public provider recovery API with a server-owned callback origin, gives the
 same qualified outward response for all syntactically valid addresses and
@@ -496,11 +500,42 @@ continued activation/RLS gate for incomplete invited identities. The
 [Phase 11E2 validation record](phase-11e2-password-recovery-validation.md)
 contains the bounded evidence. Hosted Auth configuration, hosted mail,
 deployed redirect/rate-limit/session behavior, final native-Hebrew review, and
-qualified legal/privacy evidence remain uncollected. Phase 11E2 remains
+qualified legal/privacy evidence remain uncollected. Independent review
+accepted the slice and PR #111 was squash-merged as
+`7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+`30f06a9c1210bde8933852d48309d8437cbabdc7`. Exact-main CI run
+`33144707646`, run number `204`, attempt `1`, passed through Validate job
+`98763090759`. Phase 11E2 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+### Current Phase 11E3 slice
+
+The Phase 11E3 candidate implements explicit password re-entry through a
+localized ordinary HTML route. The server derives the activated current user
+and exact Supabase `session_id`, verifies the password with an isolated public
+non-persistent client, disposes only the temporary verification session, and
+rechecks that the original primary session is still current before issuing a
+proof. Caller user/email/session/redirect input has no authority.
+
+The proof is an HMAC-SHA256 authenticated, canonical bounded payload containing
+only version, user ID, session ID, issued time, and expiry. Its 10-minute window
+is enforced server-side. The host-only cookie is HttpOnly, SameSite=Strict,
+path `/`, and Secure in Production. Sign-out and recovery completion expire it;
+recovery request/callback/completion and ordinary new-password sign-in create no
+proof, preserving `P11E-E006`.
+
+Focused local evidence covers deterministic freshness boundaries, malformed and
+tampered proofs, user/session mismatch, temporary-session containment, provider
+failures, EN/HE no-JavaScript operation, accessibility, and the accepted
+activation/RLS boundary. The
+[Phase 11E3 validation record](phase-11e3-recent-password-reauthentication-validation.md)
+contains the bounded evidence. Hosted secret provisioning and Auth behavior,
+final native-Hebrew review, qualified legal/privacy evidence, export,
+closure/deletion, and final integration remain uncollected. Phase 11E3 remains
 `PENDING_INDEPENDENT_REVIEW`.
 
-Recent authentication, export, closure/deletion, and final Phase 11E
-integration remain separate 11E3–11E6 slices.
+Export, closure/deletion, and final Phase 11E integration remain separate
+11E4–11E6 slices.
 
 ### Objective
 

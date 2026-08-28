@@ -10,6 +10,7 @@ import {
   recoveryErrorPath,
 } from "@/lib/auth/password-recovery";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
+import { clearRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import { createServerClient } from "@/lib/supabase";
 import type { RecoveryResetActionState } from "./action-state";
 
@@ -121,6 +122,7 @@ export async function completePasswordRecoveryAction(
   }
 
   cookieStore.set(cookieName, "", expiredRecoveryCookieOptions(locale));
+  await clearRecentPasswordAuthentication();
 
   redirect(`${signInPath(locale)}?recovery=complete`);
 }

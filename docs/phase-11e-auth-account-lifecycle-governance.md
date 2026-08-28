@@ -11,7 +11,7 @@
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E2 implementation candidate pending exact-head independent review |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 and Phase 11E2 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E3 implementation candidate pending exact-head independent review |
 | Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
@@ -222,14 +222,17 @@ approval is recorded by this document.
 - Phase 11K remains the only `FINDING_CLOSED` gate.
 - Phase 11E1 invited activation and confirmation is independently accepted and
   merged with status `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
-- Phase 11E2 now has a repository/local implementation candidate for password
-  recovery request and completion. Together these are substantial
+- Phase 11E2 password recovery is independently accepted and merged with
+  status `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E3 now has a repository/local implementation candidate for recent
+  explicit password reauthentication. Together these are substantial
   implementation evidence for `P11A-006`, but the finding remains `OPEN` and
   no hosted/external evidence is claimed.
 
 No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
 remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
-legal action follows from the Phase 11E1 acceptance or Phase 11E2 candidate.
+legal action follows from the Phase 11E1/11E2 acceptance or Phase 11E3
+candidate.
 
 ## 8. Accepted Phase 11E1 invited activation and confirmation
 
@@ -297,9 +300,9 @@ through Validate job `98653770632`; attempt 1 remains honestly retained as a
 transient local-Supabase startup failure. Phase 11E1 is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-## 9. Phase 11E2 password recovery candidate
+## 9. Accepted Phase 11E2 password recovery
 
-The Phase 11E2 repository candidate implements CJ-007 and CJ-008 through the
+The Phase 11E2 repository implementation provides CJ-007 and CJ-008 through the
 localized `/{locale}/auth/recover` namespace. Sign-in links to an ordinary
 HTML request form. Syntactically valid known, absent, repeated,
 provider-rate-limited, configuration-unavailable, and provider-failure requests
@@ -346,5 +349,57 @@ The focused evidence is in
 Hosted Supabase configuration, real mail delivery, deployed redirect
 allowlisting, hosted rate/session behavior, physical-device evidence, final
 native-Hebrew acceptance, qualified legal/privacy approval, OAuth, and Phase
-11E3–11E6 are not collected or implemented. The Phase 11E2 status is
-`PENDING_INDEPENDENT_REVIEW`.
+11E3–11E6 were not collected or implemented by that slice. Independent review
+accepted Phase 11E2 and PR #111 was squash-merged as
+`7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+`30f06a9c1210bde8933852d48309d8437cbabdc7`. Exact-main CI run
+`33144707646`, run number `204`, attempt `1`, passed through Validate job
+`98763090759`. Phase 11E2 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+## 10. Phase 11E3 recent password reauthentication candidate
+
+The Phase 11E3 repository candidate implements the sensitive-action
+authorization prerequisite approved by `P11E-E003`–`P11E-E006`. The localized
+`/{locale}/auth/reauthenticate` surface accepts only the current password and
+works as an ordinary HTML form without JavaScript. It does not accept caller
+user IDs, emails, session IDs, destinations, or redirect parameters as
+authority.
+
+The server derives the current user and exact `session_id` from the primary
+Supabase session, confirms durable activation, and verifies the provider user.
+It then authenticates the server-derived email and submitted password through
+an isolated public non-persistent Supabase client. The returned provider user,
+session user, and claims must all match the current primary user. The temporary
+verification session is signed out with local scope and a bounded retry; global
+sign-out is never used. Only after successful disposal and revalidation of the
+unchanged primary user/session may the server issue proof.
+
+The proof is `v1.<canonical-base64url-payload>.<HMAC-SHA256-signature>`. The
+bounded canonical payload contains only version, current user ID, exact session
+ID, server issue time, and server expiry. The 600-second lifetime is fixed and
+verified server-side; malformed, oversized, noncanonical, tampered, future,
+expired, user-mismatched, and session-mismatched values fail closed. The
+server-only secret is configured through `AUTH_REAUTH_PROOF_SECRET` with at
+least 32 bytes of material and is never exposed through a `NEXT_PUBLIC_`
+variable.
+
+The proof cookie is host-only, HttpOnly, SameSite=Strict, path `/`, and Secure
+in Production, with a maximum age of 600 seconds. Successful sign-out and
+successful password-recovery completion expire it. Recovery request, callback,
+completion, and ordinary new-password sign-in create no proof; only explicit
+new-password re-entry after recovery does so, preserving `P11E-E006`.
+
+Focused deterministic unit and real local GoTrue browser evidence covers exact
+freshness boundaries, tampering and malformed encodings, cross-user and
+same-user/cross-session attacks, provider failure and identity mismatch,
+temporary-session containment, EN/HE no-JavaScript operation, accessibility,
+and the accepted incomplete-invite activation/RLS boundary. The focused record
+is
+[`phase-11e3-recent-password-reauthentication-validation.md`](phase-11e3-recent-password-reauthentication-validation.md).
+
+This candidate adds no migration, account-wide recent-auth timestamp, public
+proof-minting RPC, export, or closure/deletion implementation. Hosted Auth
+behavior, real server-secret provisioning, deployment, final native-Hebrew
+acceptance, qualified legal/privacy evidence, OAuth, and Phase 11E4–11E6 remain
+uncollected. Phase 11E3 remains `PENDING_INDEPENDENT_REVIEW`.

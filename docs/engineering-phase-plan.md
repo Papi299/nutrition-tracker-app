@@ -338,8 +338,15 @@ independently accepted and squash-merged through PR #110 as
 `97f140223afc7387f5a0cddea5531c99414c1e28`; exact-main CI run
 `33110726658` passed on unchanged-SHA attempt 2. Its bounded state is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`, with hosted provider
-evidence still deferred. Phase 11E2 password recovery is the current
-repository candidate pending exact-head independent review.
+evidence still deferred. Phase 11E2 password recovery was independently
+accepted and squash-merged through PR #111 as
+`7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+`30f06a9c1210bde8933852d48309d8437cbabdc7`; exact-main CI run
+`33144707646`, run number `204`, attempt `1`, passed through Validate job
+`98763090759`. Its bounded state is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E3 recent
+password reauthentication is the current repository candidate pending
+exact-head independent review.
 
 The Phase 11E1 correction candidate supplements the Next.js lifecycle gate
 with a centralized database activation predicate, restrictive activation
@@ -350,7 +357,7 @@ tables remain available before activation, while systematic catalog and real
 pre-activation-session tests cover direct data and RPC access. Its accepted
 status is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-The Phase 11E2 candidate adds recovery-specific request, callback, reset, and
+The accepted Phase 11E2 slice adds recovery-specific request, callback, reset, and
 generic failure routes in both locales. It uses the public provider recovery
 API, a server-owned callback origin, exact recovery-purpose binding, a
 short-lived path-scoped HttpOnly token-hash cookie, provider-derived identity,
@@ -358,8 +365,21 @@ and explicit return to password sign-in. Real local GoTrue/Mailpit tests cover
 no-JavaScript CJ-007/CJ-008, enumeration, expiry, replay, cross-user attacks,
 credential replacement, local session observations, and preservation of the
 accepted activation/RLS boundary. Recovery creates no recent-auth evidence.
-Hosted Auth, final Hebrew review, and later Phase 11E work remain uncredited and
-deferred. The candidate status is `PENDING_INDEPENDENT_REVIEW`.
+Hosted Auth and final Hebrew review remain uncredited and deferred. Its status
+is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+The Phase 11E3 candidate adds localized explicit current-password
+reauthentication for an activated user. A server-only module derives the
+current user and `session_id`, verifies the password through an isolated
+non-persistent provider session, disposes that temporary session locally, and
+only then issues a 10-minute HMAC proof bound to that exact primary session.
+The host-only HttpOnly SameSite=Strict cookie is cleared on sign-out and
+recovery completion; ordinary recovery or sign-in never creates it. Focused
+local tests cover no-JavaScript EN/HE behavior, freshness, tampering,
+user/session mismatch, provider failures, temporary-session containment, and
+the activation/RLS boundary. The candidate status is
+`PENDING_INDEPENDENT_REVIEW`; export, closure/deletion, and external
+reconciliation remain separate Phase 11E4–11E6 work.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -496,12 +516,12 @@ and camera acceptance against the stabilized pre-release UI. Phase 11K must
 reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
 finding, and authorizes no launch or deployment. Phase 11E1 invited activation
-and confirmation is accepted and merged. Phase 11E2 password recovery
-request/completion is the current implementation candidate. After its
-exact-head review and merge, the next bounded continuation point is Phase 11E3
-recent password reauthentication and the sensitive-action authorization
-foundation; this does not authorize hosted Auth configuration or any later
-Phase 11E slice.
+and confirmation and Phase 11E2 password recovery are accepted and merged.
+Phase 11E3 recent password reauthentication is the current implementation
+candidate. After its exact-head review and merge, the next bounded continuation
+point is Phase 11E4 synchronous JSON account export; this does not authorize
+hosted Auth configuration, export implementation in this slice, or any later
+Phase 11E work.
 
 ## Future PR Documentation Rule
 

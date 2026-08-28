@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/routing";
 import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { clearRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
 import type { AuthActionState } from "./action-state";
@@ -108,6 +109,8 @@ export async function signOutAction(localeInput: string) {
   if (signOutFailed) {
     redirect(`/${locale}/sign-out-failed`);
   }
+
+  await clearRecentPasswordAuthentication();
 
   revalidatePath("/", "layout");
   redirect(`/${locale}`);

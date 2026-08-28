@@ -92,6 +92,19 @@
       "description": "We could not continue with this recovery process. Start a new request to try again.",
       "restartLink": "Start a new recovery request"
     },
+    "reauthentication": {
+      "title": "Confirm your current password",
+      "description": "Re-enter the password for your current account before continuing with a security-sensitive action.",
+      "passwordLabel": "Current password",
+      "submit": "Confirm password",
+      "pending": "Confirming password...",
+      "statusIdle": "This confirmation is valid for this signed-in session for 10 minutes.",
+      "errors": {
+        "passwordRequired": "Enter your current password.",
+        "unavailable": "We could not confirm your password right now. Try again.",
+        "verificationFailed": "We could not confirm that password. Check it and try again."
+      }
+    },
     "activation": {
       "title": "Complete account activation",
       "description": "Choose a password and confirm the participation boundaries for this invitation-only private beta.",

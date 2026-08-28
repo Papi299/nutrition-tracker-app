@@ -322,7 +322,14 @@ is complete for the current MVP scope.
   `33110726658` / run number `202` passed on unchanged-SHA attempt 2; attempt 1
   remains recorded as a transient local-Supabase startup failure. Its bounded
   state is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E2
-  password recovery request and completion is the current repository candidate.
+  password recovery request and completion was independently accepted and
+  squash-merged through PR #111 as
+  `7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
+  `30f06a9c1210bde8933852d48309d8437cbabdc7`. Exact-main CI run
+  `33144707646` / run number `204` / attempt `1` passed through Validate job
+  `98763090759`. Its bounded state is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E3 recent
+  password reauthentication is the current repository candidate.
   Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
@@ -341,10 +348,15 @@ is complete for the current MVP scope.
   credential, creates no recent-auth evidence, and preserves activation/RLS.
   See the
   [Phase 11E2 validation record](docs/phase-11e2-password-recovery-validation.md).
-  The Phase 11E2 candidate remains `PENDING_INDEPENDENT_REVIEW`; hosted Auth
-  configuration, hosted mail/redirect/rate-limit behavior, final native-Hebrew
-  review, qualified legal/privacy review, OAuth, and later 11E3–11E6 work remain
-  deferred. The
+  Phase 11E3 adds explicit server-side current-password verification for the
+  current activated user, disposes the isolated provider verification session,
+  and issues a 10-minute server-signed HttpOnly proof bound to the exact current
+  Supabase session. The localized route works without JavaScript; sign-out and
+  recovery completion clear the proof; recovery never creates one. See the
+  [Phase 11E3 validation record](docs/phase-11e3-recent-password-reauthentication-validation.md).
+  The Phase 11E3 candidate remains `PENDING_INDEPENDENT_REVIEW`; hosted Auth
+  behavior, hosted secret provisioning, final native-Hebrew review, qualified
+  legal/privacy review, OAuth, and later 11E4–11E6 work remain deferred. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
