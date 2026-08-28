@@ -4,6 +4,7 @@ import type {
   AuthActionState,
 } from "@/app/[locale]/auth/action-state";
 import { AuthFormShell } from "@/components/auth/auth-form-shell";
+import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import type { Locale } from "@/lib/i18n/routing";
 
@@ -25,6 +26,9 @@ export function AuthCard({
   passwordLabel,
   passwordPlaceholder,
   pendingLabel,
+  recoveryHref,
+  recoveryLabel,
+  successNotice,
   statusIdle,
   submitLabel,
   skipContent,
@@ -50,6 +54,9 @@ export function AuthCard({
   passwordLabel: string;
   passwordPlaceholder: string;
   pendingLabel: string;
+  recoveryHref: string;
+  recoveryLabel: string;
+  successNotice?: string;
   statusIdle: string;
   submitLabel: string;
   skipContent: string;
@@ -86,6 +93,11 @@ export function AuthCard({
           </div>
 
           <div className="mt-8">
+            {successNotice ? (
+              <div className="mb-5" id="auth-success-status">
+                <AuthStatusNote tone="success">{successNotice}</AuthStatusNote>
+              </div>
+            ) : null}
             <AuthFormShell
               action={action}
               autoComplete={autoComplete}
@@ -99,6 +111,15 @@ export function AuthCard({
               submitLabel={submitLabel}
             />
           </div>
+
+          <p className="mt-5 text-start text-sm">
+            <Link
+              className="font-medium text-teal-700 hover:text-teal-900"
+              href={recoveryHref}
+            >
+              {recoveryLabel}
+            </Link>
+          </p>
 
           <p className="mt-6 text-start text-sm text-slate-700">
             {alternateText}{" "}

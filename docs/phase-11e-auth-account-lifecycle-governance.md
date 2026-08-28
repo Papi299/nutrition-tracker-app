@@ -11,7 +11,7 @@
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 implementation candidate pending exact-head independent review |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E2 implementation candidate pending exact-head independent review |
 | Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
@@ -220,18 +220,20 @@ approval is recorded by this document.
 - All 18 Phase 11 findings remain `OPEN`.
 - Overall Phase 11 remains `INCOMPLETE`.
 - Phase 11K remains the only `FINDING_CLOSED` gate.
-- Phase 11E1 now has a repository/local implementation candidate for invited
-  activation and confirmation. This is substantial implementation evidence for
-  `P11A-006`, but the finding remains `OPEN` and no hosted/external evidence is
-  claimed.
+- Phase 11E1 invited activation and confirmation is independently accepted and
+  merged with status `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E2 now has a repository/local implementation candidate for password
+  recovery request and completion. Together these are substantial
+  implementation evidence for `P11A-006`, but the finding remains `OPEN` and
+  no hosted/external evidence is claimed.
 
 No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
 remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
-legal action follows from the Phase 11E1 candidate.
+legal action follows from the Phase 11E1 acceptance or Phase 11E2 candidate.
 
-## 8. Phase 11E1 invited activation and confirmation candidate
+## 8. Accepted Phase 11E1 invited activation and confirmation
 
-The Phase 11E1 repository candidate closes ordinary application self-enrollment
+The accepted Phase 11E1 repository implementation closes ordinary application self-enrollment
 and changes `/{locale}/auth/sign-up` into a non-mutating invitation-only
 boundary. A localized server callback accepts only `type=invite`, verifies one
 bounded `token_hash`, clears the token-bearing URL, and routes failures to a
@@ -286,8 +288,63 @@ still rejected and creates no lifecycle row. Hosted Auth configuration and
 hosted invitation behavior remain
 `HOSTED_AUTH_CONFIGURATION_PENDING_SEPARATE_AUTHORIZATION`.
 
-Phase 11E2 recovery, Phase 11E3 recent authentication, Phase 11E4 export,
-Phase 11E5 closure/deletion, Phase 11E6 integration/external reconciliation,
-OAuth, qualified legal/policy approval, and final native-Hebrew acceptance for
-new copy remain deferred. The Phase 11E1 candidate itself remains pending
-exact-head independent review with status `PENDING_INDEPENDENT_REVIEW`.
+Independent review accepted Phase 11E1 and its database authorization
+correction. PR #110 was squash-merged as
+`ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
+`97f140223afc7387f5a0cddea5531c99414c1e28`. Exact-main CI run
+`33110726658`, run number `202`, passed at that unchanged SHA on attempt 2
+through Validate job `98653770632`; attempt 1 remains honestly retained as a
+transient local-Supabase startup failure. Phase 11E1 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+## 9. Phase 11E2 password recovery candidate
+
+The Phase 11E2 repository candidate implements CJ-007 and CJ-008 through the
+localized `/{locale}/auth/recover` namespace. Sign-in links to an ordinary
+HTML request form. Syntactically valid known, absent, repeated,
+provider-rate-limited, configuration-unavailable, and provider-failure requests
+receive the same qualified outward state. The server calls only the public
+Supabase recovery API and constructs the exact callback from the server-owned
+`APP_ORIGIN`; caller redirects and the request Host header are not authority.
+
+The recovery-specific callback accepts exactly one bounded `token_hash` and
+one `type=recovery`. It immediately transfers the temporary bearer to a
+ten-minute, recovery-path-scoped, HttpOnly, SameSite=Lax cookie (Secure in
+Production) and issues a relative 303 with `Cache-Control: private, no-store`
+to the token-free reset URL. Structural failures clear the scoped cookie and
+reach a localized generic restart surface. The invite-only Phase 11E1 callback
+remains unchanged and accepts only `type=invite`.
+
+The reset action validates empty, short, and mismatched passwords before
+reading or verifying the recovery bearer. An isolated non-persistent provider
+client verifies the token specifically as `recovery`, derives the user identity
+from that result, and updates that same identity. Caller-provided IDs, emails,
+redirects, and existing browser identity cannot select the target. Success
+discards the isolated recovery session, clears recovery and browser Auth
+cookies, and returns to localized sign-in; failure clears recovery state and
+returns a generic restart path. No recovery token is persisted in application
+data, logs, analytics, or evidence.
+
+Real local GoTrue and Mailpit coverage proves provider-generated recovery
+email/link use, local resend throttling with identical outward application
+state, old-password failure, new-password success, token expiry/replay/purpose
+failure, and cross-user binding. In the tested local GoTrue version, password
+replacement invalidated the pre-existing session; the completed isolated flow
+left zero active sessions and zero unrevoked refresh tokens for that fixture.
+This is local provider evidence only and is not a claim about hosted or global
+session policy.
+
+Recovery writes no recent-auth timestamp or equivalent record and does not
+satisfy Phase 11E3, preserving `P11E-E006`. Activated application and attestation
+state remains unchanged. An invitation-created but activation-incomplete
+identity remains without an activation row, is routed to activation after
+explicit new-password sign-in, and remains denied by the restrictive RLS/RPC
+boundary. No application migration is added.
+
+The focused evidence is in
+[`phase-11e2-password-recovery-validation.md`](phase-11e2-password-recovery-validation.md).
+Hosted Supabase configuration, real mail delivery, deployed redirect
+allowlisting, hosted rate/session behavior, physical-device evidence, final
+native-Hebrew acceptance, qualified legal/privacy approval, OAuth, and Phase
+11E3–11E6 are not collected or implemented. The Phase 11E2 status is
+`PENDING_INDEPENDENT_REVIEW`.

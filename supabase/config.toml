@@ -161,6 +161,12 @@ additional_redirect_urls = [
   "http://127.0.0.1:3100/he/auth/confirm",
   "http://localhost:3100/en/auth/confirm",
   "http://localhost:3100/he/auth/confirm",
+  "http://127.0.0.1:3100/en/auth/recover/confirm",
+  "http://127.0.0.1:3100/he/auth/recover/confirm",
+  "http://localhost:3100/en/auth/recover/confirm",
+  "http://localhost:3100/he/auth/recover/confirm",
+  "http://127.0.0.1:3200/en/auth/recover/confirm",
+  "http://127.0.0.1:3200/he/auth/recover/confirm",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
@@ -229,7 +235,10 @@ enable_confirmations = false
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
-max_frequency = "1s"
+# Keep the local recovery resend throttle long enough for deterministic
+# end-to-end coverage under full-suite load. Hosted policy remains an
+# independently validated deployment concern.
+max_frequency = "10s"
 # Number of characters used in the email OTP.
 otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
@@ -249,6 +258,10 @@ otp_expiry = 3600
 [auth.email.template.invite]
 subject = "Your local private-beta invitation"
 content_path = "./supabase/templates/invite.html"
+
+[auth.email.template.recovery]
+subject = "Your local password-recovery link"
+content_path = "./supabase/templates/recovery.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
