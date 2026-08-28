@@ -16,6 +16,10 @@ if (controlUrlValue && localSupabaseUrlValue) {
   }
 
   const originalFetch = globalThis.fetch.bind(globalThis);
+  const consumeRecoveryUrl = new URL(
+    "/__phase11e2/recovery-failure/consume",
+    controlUrl,
+  );
   const consumeUrl = new URL(
     "/__phase11c/signout-failure/consume",
     controlUrl,
@@ -28,6 +32,30 @@ if (controlUrlValue && localSupabaseUrlValue) {
     const method = (
       init?.method ?? (input instanceof Request ? input.method : "GET")
     ).toUpperCase();
+
+    if (
+      method === "POST" &&
+      requestUrl.origin === localSupabaseUrl.origin &&
+      requestUrl.pathname === "/auth/v1/recover"
+    ) {
+      const consumeResponse = await originalFetch(consumeRecoveryUrl, {
+        method: "POST",
+      });
+
+      if (consumeResponse.status === 204) {
+        return new Response(
+          JSON.stringify({
+            code: 503,
+            error_code: "unexpected_failure",
+            msg: "Deterministic local recovery failure",
+          }),
+          {
+            headers: { "content-type": "application/json" },
+            status: 503,
+          },
+        );
+      }
+    }
 
     if (
       method === "POST" &&

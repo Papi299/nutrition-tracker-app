@@ -44,6 +44,8 @@
       "passwordLabel": "Password",
       "submit": "Sign in",
       "pending": "Signing in...",
+      "recoveryLink": "Forgot your password?",
+      "recoveryComplete": "Your password was updated. Sign in with the new password.",
       "createAccountText": "Have a private-beta invitation?",
       "createAccountLink": "Activation information"
     },
@@ -58,6 +60,37 @@
       "title": "Invitation link unavailable",
       "description": "We could not continue with this invitation link. Request a new link from the beta operator if you still need access.",
       "invitationLink": "View invitation information"
+    },
+    "recoveryRequest": {
+      "title": "Recover your password",
+      "description": "Enter the email address you use for this private-beta account.",
+      "emailLabel": "Email",
+      "submit": "Request recovery instructions",
+      "pending": "Requesting recovery instructions...",
+      "signInLink": "Back to sign in",
+      "statusIdle": "We will respond without confirming whether an account exists.",
+      "statusSuccess": "If an eligible account exists and this request can be processed, recovery instructions will be sent. Wait before trying again.",
+      "invalidEmail": "Enter a valid email address."
+    },
+    "recoveryReset": {
+      "title": "Set a new password",
+      "description": "Choose a new password for the account verified by this recovery link.",
+      "passwordLabel": "New password",
+      "passwordConfirmationLabel": "Confirm new password",
+      "submit": "Update password",
+      "pending": "Updating password...",
+      "statusIdle": "Enter the same password in both fields.",
+      "skipContent": "Skip to password form",
+      "errors": {
+        "passwordMismatch": "The passwords do not match.",
+        "passwordRequired": "Enter a password.",
+        "passwordTooShort": "Password must be at least 6 characters."
+      }
+    },
+    "recoveryError": {
+      "title": "Password recovery unavailable",
+      "description": "We could not continue with this recovery process. Start a new request to try again.",
+      "restartLink": "Start a new recovery request"
     },
     "activation": {
       "title": "Complete account activation",

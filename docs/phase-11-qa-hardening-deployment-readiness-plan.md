@@ -420,13 +420,15 @@ AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
 **Next continuation point:** Phase 11E1 invited activation and confirmation is
-the current repository candidate. Contract 1.6 and its historical-evidence
-validator are already current under the externally established
-`PHASE_11E0B_POST_MERGE_ACCEPTED` state.
+accepted and merged at `ce615fa14d39af9329af7458f08cc83efd7728fe`.
+Phase 11E2 password recovery request/completion is the current repository
+candidate. Contract 1.6 and its historical-evidence validator are current under
+the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED` state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
-**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1
+**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E2 is the
 implementation candidate pending exact-head independent review.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
@@ -439,9 +441,9 @@ Section 7.3 rows. The validator preserves historical Phase 11C Contract 1.4
 binding and permits no generic later-slice bypass. Its acceptance was
 independently established outside the Phase 11E1 task after PR #109 merged.
 
-### Current Phase 11E1 slice
+### Accepted Phase 11E1 slice
 
-The Phase 11E1 candidate removes ordinary application self-registration,
+Phase 11E1 removes ordinary application self-registration,
 retains a localized non-mutating invitation route, adds an invite-only
 server-side confirmation callback, creates durable versioned activation state,
 and gates the protected application until an invited identity has established
@@ -463,9 +465,42 @@ Local direct signup is disabled and verified as rejected. The installed local
 GoTrue image requires its email provider flag to remain enabled for invited
 password sign-in; the global signup gate remains closed. Hosted Auth settings,
 hosted invitations, and deployed behavior are not changed or credited.
-Recovery, recent authentication, export, closure/deletion, and final Phase 11E
-integration remain separate 11E2–11E6 slices.
-The corrected Phase 11E1 candidate remains `PENDING_INDEPENDENT_REVIEW`.
+Independent review accepted the corrected implementation and PR #110 was
+squash-merged as `ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
+`97f140223afc7387f5a0cddea5531c99414c1e28`. Exact-main CI run
+`33110726658` passed on unchanged-SHA attempt 2. Its status is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; hosted evidence remains
+Phase 11J-owned.
+
+### Current Phase 11E2 slice
+
+The Phase 11E2 candidate implements localized password-recovery request and
+completion for CJ-007/CJ-008 with JavaScript disabled. The application uses the
+public provider recovery API with a server-owned callback origin, gives the
+same qualified outward response for all syntactically valid addresses and
+provider outcomes, and never creates an absent identity or invitation record.
+
+The recovery-only callback accepts exactly one bounded token hash and
+`type=recovery`, moves it into a ten-minute path-scoped HttpOnly SameSite=Lax
+cookie, and redirects immediately to a clean private/no-store URL. Password
+validation runs before token verification. Provider verification derives the
+only password-update identity; caller IDs, emails, existing browser sessions,
+and redirect parameters have no authority. Success discards recovery/browser
+session state and requires explicit localized sign-in with the new password.
+No recent-auth record is created, preserving `P11E-E006`.
+
+Real local GoTrue and Mailpit coverage proves provider-generated email/link,
+credential replacement, expiry, replay, purpose isolation, cross-user safety,
+local resend throttling, non-mutation of application/activation state, and the
+continued activation/RLS gate for incomplete invited identities. The
+[Phase 11E2 validation record](phase-11e2-password-recovery-validation.md)
+contains the bounded evidence. Hosted Auth configuration, hosted mail,
+deployed redirect/rate-limit/session behavior, final native-Hebrew review, and
+qualified legal/privacy evidence remain uncollected. Phase 11E2 remains
+`PENDING_INDEPENDENT_REVIEW`.
+
+Recent authentication, export, closure/deletion, and final Phase 11E
+integration remain separate 11E3–11E6 slices.
 
 ### Objective
 

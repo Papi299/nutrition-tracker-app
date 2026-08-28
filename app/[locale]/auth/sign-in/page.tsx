@@ -9,22 +9,39 @@ export const dynamic = "force-dynamic";
 
 type SignInPageProps = Readonly<{
   params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ recovery?: string | string[] }>;
 }>;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function SignInPage({ params }: SignInPageProps) {
+export default async function SignInPage({
+  params,
+  searchParams,
+}: SignInPageProps) {
   const { locale } = await params;
+  const query = await searchParams;
+  const recoveryCompleted = query.recovery === "complete";
 
   setRequestLocale(locale);
   await redirectAuthenticatedUser(locale);
 
-  return <LocalizedSignIn locale={locale} />;
+  return (
+    <LocalizedSignIn
+      locale={locale}
+      recoveryCompleted={recoveryCompleted}
+    />
+  );
 }
 
-function LocalizedSignIn({ locale }: { locale: Locale }) {
+function LocalizedSignIn({
+  locale,
+  recoveryCompleted,
+}: {
+  locale: Locale;
+  recoveryCompleted: boolean;
+}) {
   const t = useTranslations("Auth");
   const homeT = useTranslations("HomePage");
   const action = signInAction.bind(null, locale);
@@ -53,6 +70,11 @@ function LocalizedSignIn({ locale }: { locale: Locale }) {
       passwordLabel={t("signIn.passwordLabel")}
       passwordPlaceholder={t("common.passwordPlaceholder")}
       pendingLabel={t("signIn.pending")}
+      recoveryHref={`/${locale}/auth/recover`}
+      recoveryLabel={t("signIn.recoveryLink")}
+      successNotice={
+        recoveryCompleted ? t("signIn.recoveryComplete") : undefined
+      }
       statusIdle={t("status.ready")}
       submitLabel={t("signIn.submit")}
       skipContent={homeT("skipContent")}

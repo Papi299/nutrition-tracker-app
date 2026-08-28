@@ -316,6 +316,10 @@ try {
     join(localSupabaseDirectory, "templates", "invite.html"),
     join(temporaryTemplates, "invite.html"),
   );
+  copyFileSync(
+    join(localSupabaseDirectory, "templates", "recovery.html"),
+    join(temporaryTemplates, "recovery.html"),
+  );
   const appliedMigrations = readdirSync("supabase/migrations")
     .filter((file) => /^\d{14}_.+\.sql$/.test(file))
     .filter((file) => file.slice(0, 14) <= appliedCutoff)

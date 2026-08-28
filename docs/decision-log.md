@@ -2677,3 +2677,60 @@
   provider setting, Vercel, deployment, or Production action is authorized or
   credited. PR #110 remains Draft and the correction remains
   `PENDING_INDEPENDENT_REVIEW`.
+
+## 2026-08-28: Phase 11E1 post-merge acceptance reconciliation
+
+- Independent review accepted Phase 11E1 and its database authorization
+  correction. PR #110 was squash-merged as
+  `ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
+  `97f140223afc7387f5a0cddea5531c99414c1e28`.
+- Exact-main CI run `33110726658`, run number `202`, attempt 2 passed at that
+  unchanged SHA through Validate job `98653770632`. Attempt 1 remains retained
+  honestly as a transient local-Supabase startup failure and is not credited as
+  successful.
+- Phase 11E1 is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; its hosted provider
+  and final launch-facing evidence remains Phase 11J-owned. This disposition
+  does not close `P11A-006`, `P11A-009`, or any other finding.
+
+## 2026-08-28: Phase 11E2 password recovery candidate
+
+- Added localized `/{locale}/auth/recover`, purpose-specific `/confirm`, clean
+  `/reset`, and generic `/error` surfaces. CJ-007 and CJ-008 are ordinary HTML
+  paths and complete with JavaScript disabled.
+- Well-formed recovery requests always return the same qualified confirmation,
+  including known, absent, repeated, provider-rate-limited, configuration, and
+  provider-failure states. The server calls the public recovery API with an
+  `APP_ORIGIN`-derived exact callback; no caller redirect or Host header is an
+  authority. Local direct signup remains closed.
+- The callback accepts exactly one bounded token hash and `type=recovery`, moves
+  the temporary bearer to a ten-minute, path-scoped, HttpOnly, SameSite=Lax
+  cookie, and immediately issues a private/no-store same-origin redirect to a
+  token-free URL. Password validation precedes token verification. Provider
+  verification derives the identity; caller IDs, emails, authenticated browser
+  identity, and redirect parameters have no authority.
+- A successful reset discards the isolated recovery session, clears recovery
+  and browser Auth cookies, and returns to localized sign-in. It writes no
+  recent-auth state and therefore preserves `P11E-E006`. Local GoTrue invalidated
+  the tested pre-existing session; hosted/global session behavior is not
+  inferred from that local observation.
+- Real local GoTrue and Mailpit evidence covers request, generated recovery
+  message/link, token verification, credential replacement, old/new password
+  behavior, expiry, replay, wrong purpose, and local resend throttling. Activated
+  state is byte-for-byte unchanged; invitation-created incomplete identities
+  remain activation- and RLS-gated after recovery.
+- The implementation adds no migration, runtime service-role credential,
+  recovery database state, invitation-register record, hosted Auth action,
+  Vercel action, deployment, or Production action. Contract Sections 7.1–7.3,
+  historical Phase 11C evidence, and its validator remain unchanged.
+- Final candidate validation is recorded in
+  `docs/phase-11e2-password-recovery-validation.md`. The candidate remains
+  `PENDING_INDEPENDENT_REVIEW`. Phase 11E3 recent password reauthentication is
+  the next intended slice only after independent acceptance and merge.
+- OAuth, 11E4 export, 11E5 closure/deletion, 11E6 integration/external
+  reconciliation, qualified legal/privacy approval, final native-Hebrew review,
+  hosted recovery configuration/delivery/redirect/rate-limit evidence, and all
+  finding closure remain deferred. `P11A-006` and `P11A-009` remain P0
+  `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; Phase 11 remains
+  `INCOMPLETE`; Phase 11K remains the sole finding-closure gate; no launch or
+  deployment is authorized.

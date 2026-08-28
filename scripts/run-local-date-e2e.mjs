@@ -63,10 +63,39 @@ if (
 }
 
 function startLocalSupabaseFaultControl() {
+  let pendingRecoveryFailures = 0;
   let pendingSignOutFailures = 0;
 
   const server = createServer((request, response) => {
     const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
+
+    if (
+      request.method === "POST" &&
+      requestUrl.pathname === "/__phase11e2/recovery-failure"
+    ) {
+      pendingRecoveryFailures += 1;
+      request.resume();
+      response.writeHead(204);
+      response.end();
+      return;
+    }
+
+    if (
+      request.method === "POST" &&
+      requestUrl.pathname === "/__phase11e2/recovery-failure/consume"
+    ) {
+      request.resume();
+
+      if (pendingRecoveryFailures > 0) {
+        pendingRecoveryFailures -= 1;
+        response.writeHead(204);
+      } else {
+        response.writeHead(200);
+      }
+
+      response.end();
+      return;
+    }
 
     if (
       request.method === "POST" &&
@@ -141,6 +170,9 @@ const signOutFaultPreload = new URL(
 const nodeOptions = childEnvironment.NODE_OPTIONS?.trim();
 
 Object.assign(childEnvironment, {
+  APP_ORIGIN:
+    process.env.PLAYWRIGHT_BASE_URL ??
+    `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3100"}`,
   DATE_E2E_LOCAL_SUPABASE: "1",
   LOCAL_SUPABASE_FAULT_CONTROL_URL: faultControl.controlUrl,
   LOCAL_SUPABASE_MAILPIT_URL: mailpitUrl,

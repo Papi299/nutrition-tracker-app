@@ -315,7 +315,14 @@ is complete for the current MVP scope.
   camera acceptance to Phase 11J after material UI/UX redesign and
   stabilization. Phase 11K remains the only finding-closure gate. No
   requirement is waived and no launch or deployment is authorized. Phase 11E1
-  invited activation and confirmation is the current repository candidate.
+  invited activation and confirmation was independently accepted and
+  squash-merged through PR #110 as
+  `ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
+  `97f140223afc7387f5a0cddea5531c99414c1e28`. Exact-main CI run
+  `33110726658` / run number `202` passed on unchanged-SHA attempt 2; attempt 1
+  remains recorded as a transient local-Supabase startup failure. Its bounded
+  state is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E2
+  password recovery request and completion is the current repository candidate.
   Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
@@ -323,12 +330,21 @@ is complete for the current MVP scope.
   under the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED` state,
   with an exact six-journey allowlist and immutable historical Phase 11C
   binding. Qualified legal/privacy/retention/copy dependencies remain open.
-  Phase 11E1 now implements the local/repository invited activation boundary;
-  the correction candidate also requires durable activation at the database
-  boundary through a caller-derived predicate, restrictive RLS layered over
-  existing ownership, and explicit checks in elevated data helpers. It remains
-  `PENDING_INDEPENDENT_REVIEW`; hosted configuration and later 11E2–11E6 work
-  remain deferred. The
+  Phase 11E1 implements the accepted local/repository invited activation
+  boundary, including durable activation at the database boundary through a
+  caller-derived predicate, restrictive RLS layered over existing ownership,
+  and explicit checks in elevated data helpers. Phase 11E2 adds localized,
+  no-JavaScript password-recovery request and completion routes backed by real
+  local GoTrue recovery email/token behavior, a recovery-purpose-only callback,
+  a short-lived path-scoped HttpOnly bearer cookie, provider-derived identity,
+  and an explicit safe return to sign-in. Recovery changes only the Auth
+  credential, creates no recent-auth evidence, and preserves activation/RLS.
+  See the
+  [Phase 11E2 validation record](docs/phase-11e2-password-recovery-validation.md).
+  The Phase 11E2 candidate remains `PENDING_INDEPENDENT_REVIEW`; hosted Auth
+  configuration, hosted mail/redirect/rate-limit behavior, final native-Hebrew
+  review, qualified legal/privacy review, OAuth, and later 11E3–11E6 work remain
+  deferred. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged

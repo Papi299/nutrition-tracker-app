@@ -17,6 +17,10 @@ import type { Database } from "@/lib/supabase/database.types";
 const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
+const configuredAppOrigin = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ??
+    `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3100"}`,
+).origin;
 const password = "SetupPersistencePassword123!";
 const supabaseProjectId = readFileSync("supabase/config.toml", "utf8").match(
   /^project_id\s*=\s*"([^"]+)"/m,
@@ -594,12 +598,12 @@ test.describe.serial("atomic setup persistence", () => {
       {
         method: "POST",
         status: 303,
-        url: `http://127.0.0.1:3100/he/setup/nojs?effectiveDate=${firstDate}`,
+        url: `${configuredAppOrigin}/he/setup/nojs?effectiveDate=${firstDate}`,
       },
       {
         method: "GET",
         status: 200,
-        url: "http://127.0.0.1:3100/he/auth/sign-in",
+        url: `${configuredAppOrigin}/he/auth/sign-in`,
       },
     ]);
     expect(
@@ -848,12 +852,12 @@ test.describe.serial("atomic setup persistence", () => {
       {
         method: "POST",
         status: 303,
-        url: `http://127.0.0.1:3100/en/setup/nojs?effectiveDate=${expiredDate}`,
+        url: `${configuredAppOrigin}/en/setup/nojs?effectiveDate=${expiredDate}`,
       },
       {
         method: "GET",
         status: 200,
-        url: "http://127.0.0.1:3100/en/auth/sign-in",
+        url: `${configuredAppOrigin}/en/auth/sign-in`,
       },
     ]);
     const profileAfterExpiry = await account.client

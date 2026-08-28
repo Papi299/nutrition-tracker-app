@@ -332,9 +332,14 @@ historical-evidence compatibility model remains strictly bound to accepted
 Phase 11C Contract 1.4. Qualified legal/privacy/retention/copy dependencies
 also remain open. The independent reviewer subsequently established
 `PHASE_11E0B_POST_MERGE_ACCEPTED`, making Contract 1.6 the accepted current
-normative contract. Phase 11E1 now has a local/repository invited-activation
-and confirmation candidate pending exact-head independent review; its hosted
-provider evidence remains deferred.
+normative contract. Phase 11E1 invited activation and confirmation was
+independently accepted and squash-merged through PR #110 as
+`ce615fa14d39af9329af7458f08cc83efd7728fe`, tree
+`97f140223afc7387f5a0cddea5531c99414c1e28`; exact-main CI run
+`33110726658` passed on unchanged-SHA attempt 2. Its bounded state is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`, with hosted provider
+evidence still deferred. Phase 11E2 password recovery is the current
+repository candidate pending exact-head independent review.
 
 The Phase 11E1 correction candidate supplements the Next.js lifecycle gate
 with a centralized database activation predicate, restrictive activation
@@ -342,8 +347,19 @@ policies on the complete protected application-table inventory, and explicit
 checks in callable private `SECURITY DEFINER` helpers. Existing owner/tenant
 RLS predicates remain in force. Activation lookup/completion and reference-only
 tables remain available before activation, while systematic catalog and real
-pre-activation-session tests cover direct data and RPC access. Its status is
-`PENDING_INDEPENDENT_REVIEW`.
+pre-activation-session tests cover direct data and RPC access. Its accepted
+status is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+The Phase 11E2 candidate adds recovery-specific request, callback, reset, and
+generic failure routes in both locales. It uses the public provider recovery
+API, a server-owned callback origin, exact recovery-purpose binding, a
+short-lived path-scoped HttpOnly token-hash cookie, provider-derived identity,
+and explicit return to password sign-in. Real local GoTrue/Mailpit tests cover
+no-JavaScript CJ-007/CJ-008, enumeration, expiry, replay, cross-user attacks,
+credential replacement, local session observations, and preservation of the
+accepted activation/RLS boundary. Recovery creates no recent-auth evidence.
+Hosted Auth, final Hebrew review, and later Phase 11E work remain uncredited and
+deferred. The candidate status is `PENDING_INDEPENDENT_REVIEW`.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -480,10 +496,12 @@ and camera acceptance against the stabilized pre-release UI. Phase 11K must
 reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
 finding, and authorizes no launch or deployment. Phase 11E1 invited activation
-and confirmation is the current implementation candidate. After its exact-head
-review and merge, the next bounded continuation point is Phase 11E2 password
-recovery request/completion; this does not authorize hosted Auth configuration
-or any later Phase 11E slice.
+and confirmation is accepted and merged. Phase 11E2 password recovery
+request/completion is the current implementation candidate. After its
+exact-head review and merge, the next bounded continuation point is Phase 11E3
+recent password reauthentication and the sensitive-action authorization
+foundation; this does not authorize hosted Auth configuration or any later
+Phase 11E slice.
 
 ## Future PR Documentation Rule
 

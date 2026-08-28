@@ -207,6 +207,22 @@ export async function provisionUnactivatedLocalUser(
   return signedIn;
 }
 
+export async function provisionInvitedIncompleteLocalUser(
+  client: SupabaseClient<Database>,
+  credentials: { email: string; password: string },
+): Promise<AuthTokenResponsePassword> {
+  requireSyntheticEmail(credentials.email);
+  await provisionInvitedIdentityWithPassword(credentials);
+
+  const signedIn = await client.auth.signInWithPassword(credentials);
+
+  if (signedIn.error || !signedIn.data.user || !signedIn.data.session) {
+    throw new Error("Local invited incomplete-user sign-in failed.");
+  }
+
+  return signedIn;
+}
+
 export async function issueLocalInvitation({
   appOrigin,
   email,
@@ -245,7 +261,19 @@ export function expireLocalInvitation(userId: string) {
   `);
 }
 
-export async function waitForLocalInvitationLink(email: string) {
+export function expireLocalRecovery(userId: string) {
+  requireUuid(userId);
+  queryLocalAuthFixture(`
+    update auth.users
+    set recovery_sent_at = statement_timestamp() - interval '2 hours'
+    where id = '${userId}'::uuid;
+  `);
+}
+
+async function waitForLocalAuthLink(
+  email: string,
+  purpose: "invite" | "recovery",
+) {
   requireSyntheticEmail(email);
   const { mailpitUrl } = requireLocalFixtureConfiguration();
   const searchUrl = new URL("/api/v1/search", mailpitUrl);
@@ -258,9 +286,8 @@ export async function waitForLocalInvitationLink(email: string) {
       const search = (await searchResponse.json()) as {
         messages?: Array<{ ID?: string }>;
       };
-      const messageId = search.messages?.[0]?.ID;
-
-      if (messageId) {
+      for (const { ID: messageId } of search.messages ?? []) {
+        if (!messageId) continue;
         const messageResponse = await fetch(
           new URL(`/api/v1/message/${encodeURIComponent(messageId)}`, mailpitUrl),
         );
@@ -273,20 +300,25 @@ export async function waitForLocalInvitationLink(email: string) {
           const contents = [message.HTML, message.Text]
             .filter(Boolean)
             .join("\n");
-          const link = contents.match(/https?:\/\/[^\s"'<]+token_hash=[^\s"'<]+/i)?.[0]
-            .replaceAll("&amp;", "&");
+          const links = contents.match(/https?:\/\/[^\s"'<]+/gi) ?? [];
 
-          if (link) {
+          for (const candidate of links) {
+            const link = candidate.replaceAll("&amp;", "&");
             const parsedLink = new URL(link);
 
             if (
               parsedLink.hostname !== "127.0.0.1" &&
               parsedLink.hostname !== "localhost"
             ) {
-              throw new Error("Local invitation email contained a nonlocal link.");
+              throw new Error("Local Auth email contained a nonlocal link.");
             }
 
-            return link;
+            if (
+              parsedLink.searchParams.get("type") === purpose &&
+              parsedLink.searchParams.has("token_hash")
+            ) {
+              return link;
+            }
           }
         }
       }
@@ -295,5 +327,13 @@ export async function waitForLocalInvitationLink(email: string) {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 
-  throw new Error("Local invitation email was not captured.");
+  throw new Error(`Local ${purpose} email was not captured.`);
+}
+
+export async function waitForLocalInvitationLink(email: string) {
+  return waitForLocalAuthLink(email, "invite");
+}
+
+export async function waitForLocalRecoveryLink(email: string) {
+  return waitForLocalAuthLink(email, "recovery");
 }
