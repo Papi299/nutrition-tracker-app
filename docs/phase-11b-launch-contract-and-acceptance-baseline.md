@@ -35,6 +35,7 @@
 | Phase 11E governance and engineering decisions | `PRODUCT_OWNER_APPROVED` — Maor Pichhadze assigned himself to and accepted all five before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on 2026-08-26 through the attributable statement recorded in the [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md) |
 | Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are the accepted current contract version 1.6 under `PHASE_11E0B_POST_MERGE_ACCEPTED`; runtime evidence remains slice-specific |
 | Phase 11E Contract 1.6 independent review | Completed outside the Phase 11E1 task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99`; exact-main run `33008384228` attempt 1 failed during migration replay and identical-SHA attempt 2 passed completely |
+| Phase 11G prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-08-29 Maor Pichhadze assigned and explicitly recorded acceptance by Maor Pichhadze as Observability owner, Performance and reliability owner, and Incident primary, and by Jimmy Peachy as Incident escalation backup; the attributable statement is recorded in the [decision log](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -126,6 +127,10 @@ and acceptance of the five before-11E prerequisite roles. The exact authority,
 separation boundaries, approved engineering decisions, qualified-review
 dependencies, and pending no-JavaScript amendment are preserved in the
 [Phase 11E governance record](phase-11e-auth-account-lifecycle-governance.md).
+The attributable 2026-08-29 Product Owner statement records the accepted
+Observability, Performance and reliability, Incident primary, and distinct
+Incident escalation-backup assignments shown below; it changes no approved
+Phase 11G technical policy and credits no implementation.
 
 | Role or policy | Current status | Assignee | Acceptance / approval evidence | Blocking deadline |
 | --- | --- | --- | --- | --- |
@@ -140,9 +145,9 @@ dependencies, and pending no-JavaScript amendment are preserved in the
 | Legal/privacy review owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 administrative-owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); substantive review remains `QUALIFIED_REVIEW_REQUIRED` | Before 11E — administrative ownership satisfied 2026-08-26 |
 | Policy-copy owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); final reviewed copy is not approved by the role assignment | Before 11E — satisfied 2026-08-26 |
 | Data-governance owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-26 Product Owner assignment and acceptance](phase-11e-auth-account-lifecycle-governance.md#2-phase-11e-prerequisite-role-assignments); legal basis and retention periods remain unresolved | Before 11E — satisfied 2026-08-26 |
-| Observability owner | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
-| Incident primary and escalation backup | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
-| Performance and reliability owner | `UNASSIGNED_BLOCKING_BEFORE_11G` | None | `NOT_VERIFIED` | Before 11G |
+| Observability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
+| Incident primary and escalation backup | `ASSIGNED_AND_APPROVED` | Maor Pichhadze (primary); Jimmy Peachy (escalation backup) | [Attributable 2026-08-29 Product Owner assignments and explicit acceptance by both assignees](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
+| Performance and reliability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
 | Vercel owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
 | Supabase owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
 | Environment and secrets owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
@@ -1222,3 +1227,37 @@ exact-head independent review. Qualified legal/privacy/retention/copy evidence
 remains required. `P11A-006` and `P11A-009` remain P0
 `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain `OPEN`; overall Phase 11
 remains `INCOMPLETE`; and Phase 11K remains the exclusive finding-closure gate.
+
+## 17. Phase 11G prerequisite role-assignment addendum
+
+On 2026-08-29, Product Owner Maor Pichhadze supplied the attributable Phase
+11G prerequisite assignment statement and explicitly recorded acceptance of
+each assignment:
+
+- Observability owner: Maor Pichhadze — accepted.
+- Performance and reliability owner: Maor Pichhadze — accepted.
+- Incident primary: Maor Pichhadze — accepted.
+- Incident escalation backup: Jimmy Peachy — accepted.
+
+The Incident primary and escalation backup are distinct people. No role was
+inferred from repository authorship, GitHub ownership, prior work, or likely
+responsibility. These assignments change only the three before-11G role rows
+in Section 2.2 from `UNASSIGNED_BLOCKING_BEFORE_11G` to
+`ASSIGNED_AND_APPROVED`; they do not amend the accepted role-separation policy
+or any substantive technical policy.
+
+`DEC-004`, `DEC-006`, `DEC-021`, `DEC-022`, and `DEC-023` remain approved and
+unchanged. Phase 11F repository implementation was independently accepted and
+merged through PR #117 as `249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+`8da9f8559e63365cea821bd7766cdc6fbb4af178`; exact-main CI run
+`33267622104`, run number `218`, event `push`, attempt `1`, succeeded. External
+GitHub owner settings and later Phase 11J deployed evidence remain pending.
+
+This Phase 11G0 record contains no reliability, observability, incident,
+performance, telemetry, health, provider, load, deployment, or runtime
+implementation. `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`, as do
+all 18 Phase 11 findings. Overall Phase 11 remains `INCOMPLETE`, and Phase 11K
+remains the sole formal finding-closure gate. Once this prerequisite record is
+independently accepted and merged, Phase 11G engineering may begin with
+`PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`; no Phase 11G1 credit is
+claimed here.

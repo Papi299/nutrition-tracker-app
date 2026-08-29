@@ -425,10 +425,14 @@ merged with bounded status
 through PR #116 as `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
 `3715c555f690851edc06a542d06701b42add1df2`, with exact-main CI run
 `33252845493` / run number `215` / attempt `1` / Validate job `99101399894`
-successful. Phase 11F is the current application and supply-chain security
-repository candidate. Contract 1.6 and its historical-evidence validator
-remain current under the externally established
-`PHASE_11E0B_POST_MERGE_ACCEPTED` state.
+successful. Phase 11F repository implementation was independently accepted and
+squash-merged through PR #117 as
+`249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+`8da9f8559e63365cea821bd7766cdc6fbb4af178`; exact-main CI run
+`33267622104`, run number `218`, event `push`, attempt `1`, succeeded. Contract
+1.6 and its historical-evidence validator remain current under the externally
+established `PHASE_11E0B_POST_MERGE_ACCEPTED` state. Phase 11F external GitHub
+owner settings and Phase 11J deployed evidence remain pending.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
@@ -631,16 +635,20 @@ preflight are deferred to separately authorized Phase 11J evidence collection.
 
 ### Current Phase 11F slice
 
-The current repository candidate has a complete fresh advisory inventory and
-reachability analysis, zero post-change npm advisories, bounded framework/CLI
-and transitive security updates, enforced and tested browser headers/CSP,
-server-only build-canary checks, full-SHA GitHub Action pins, and a recurring
-high/critical production-advisory gate. Read-only GitHub evidence shows the
-repository still lacks the approved `main` ruleset/check enforcement,
-restricted Actions and merge methods, automated branch cleanup, Dependabot,
-secret scanning/push protection, and code scanning. Those owner settings are
-documented but were not mutated. Exact evidence and the owner packet are in
-[`phase-11f-security-and-dependency-hardening.md`](phase-11f-security-and-dependency-hardening.md).
+The repository implementation was independently accepted and squash-merged
+through PR #117 as `249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+`8da9f8559e63365cea821bd7766cdc6fbb4af178`; exact-main CI run
+`33267622104`, run number `218`, event `push`, attempt `1`, succeeded. It has a
+complete fresh advisory inventory and reachability analysis, zero post-change
+npm advisories, bounded framework/CLI and transitive security updates,
+enforced and tested browser headers/CSP, server-only build-canary checks,
+full-SHA GitHub Action pins, and a recurring high/critical production-advisory
+gate. Read-only GitHub evidence shows the repository still lacks the approved
+`main` ruleset/check enforcement, restricted Actions and merge methods,
+automated branch cleanup, Dependabot, secret scanning/push protection, and code
+scanning. Those owner settings and Phase 11J deployed compatibility evidence
+remain pending; no setting was mutated. Exact evidence and the owner packet
+are in [`phase-11f-security-and-dependency-hardening.md`](phase-11f-security-and-dependency-hardening.md).
 
 ### Objective
 
@@ -688,6 +696,18 @@ complete CI, and read-only GitHub settings evidence. Deployed header/CSP smoke
 is deferred to separately authorized Phase 11J evidence collection.
 
 ## 13. Phase 11G — Reliability, observability, and performance
+
+### Current prerequisite state
+
+On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
+acceptance by Maor Pichhadze as Observability owner, Performance and
+reliability owner, and Incident primary, and by Jimmy Peachy as the distinct
+Incident escalation backup. All three canonical before-11G role rows are
+`ASSIGNED_AND_APPROVED`. `DEC-004`, `DEC-006`, `DEC-021`, `DEC-022`, and
+`DEC-023` remain approved and unchanged. This Phase 11G0 prerequisite record
+adds no implementation credit. Once it is independently accepted and merged,
+`PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001` is the next bounded
+engineering task.
 
 ### Objective
 

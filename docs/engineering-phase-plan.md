@@ -408,12 +408,25 @@ repository lifecycle and supplied the bounded
 Independent review accepted it in PR #116 and it is merged on `main` as
 `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
 `3715c555f690851edc06a542d06701b42add1df2`; external execution remains later,
-separately authorized work. Phase 11F is the current repository candidate. Its
+separately authorized work. Phase 11F repository implementation was
+independently accepted and squash-merged through PR #117 as
+`249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+`8da9f8559e63365cea821bd7766cdc6fbb4af178`; exact-main CI run
+`33267622104`, run number `218`, event `push`, attempt `1`, succeeded. Its
 [security and dependency record](phase-11f-security-and-dependency-hardening.md)
 documents the complete advisory/reachability inventory, bounded patched
 dependency graph, tested headers/CSP and secret boundary, immutable Action
-pins, recurring production-advisory gate, and the still-pending GitHub owner
-settings packet.
+pins, recurring production-advisory gate, and the still-pending external
+GitHub owner settings and Phase 11J deployed evidence.
+
+On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
+acceptance by Maor Pichhadze as Observability owner, Performance and
+reliability owner, and Incident primary, and by Jimmy Peachy as Incident
+escalation backup. The distinct primary/backup and all three canonical
+before-11G role rows are `ASSIGNED_AND_APPROVED`. The approved Phase 11G
+technical policies remain unchanged. This Phase 11G0 record adds no
+engineering credit; once independently accepted and merged, Phase 11G1 is the
+next bounded engineering task.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -554,12 +567,18 @@ Phase 11E2 password recovery, Phase 11E3 recent password reauthentication, and
 Phase 11E4 synchronous JSON export, and Phase 11E5 immediate irreversible
 logical account closure are accepted and merged. All five bounded states are
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E6 is accepted
-and merged through PR #116. Phase 11F is the current application and
-supply-chain security repository candidate; exact-head CI, independent review,
-GitHub owner setting changes, and Phase 11J deployed compatibility evidence
-remain pending. This does not authorize hosted Auth or secret configuration,
-physical deletion, retention/pseudonymization decisions, GitHub settings
-mutation, deployment, or later external actions.
+and merged through PR #116. Phase 11F repository implementation is accepted
+and merged through PR #117 as `249868d7084b95011bc4de18ad69fd93d5e0175b`,
+with successful exact-main CI run `33267622104`; GitHub owner setting changes
+and Phase 11J deployed compatibility evidence remain pending. The attributable
+Phase 11G prerequisite assignments are `ASSIGNED_AND_APPROVED`: Maor Pichhadze
+is Observability owner, Performance and reliability owner, and Incident
+primary; Jimmy Peachy is the distinct Incident escalation backup. No Phase
+11G engineering is credited by this record. All 18 findings remain `OPEN`,
+Phase 11 remains `INCOMPLETE`, and Phase 11K remains the sole formal
+finding-closure gate. This does not authorize hosted Auth or secret
+configuration, physical deletion, retention/pseudonymization decisions,
+GitHub settings mutation, deployment, or later external actions.
 
 ## Future PR Documentation Rule
 

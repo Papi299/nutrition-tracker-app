@@ -390,15 +390,31 @@ is complete for the current MVP scope.
   Independent review accepted that reconciliation in PR #116; it is merged on
   `main` as `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
   `3715c555f690851edc06a542d06701b42add1df2`, with exact-main CI run
-  `33252845493` successful. Phase 11F is now the current repository candidate.
-  It removes every observed npm advisory through bounded dependency updates,
-  adds tested browser security headers and an exact Supabase-origin CSP,
-  verifies server-only secret build boundaries, pins all GitHub Actions to
-  reviewed commits, and adds a recurring production-advisory gate. Read-only
-  GitHub evidence also records that branch/ruleset, Actions, Dependabot,
-  scanning, merge-method, and branch-cleanup owner settings remain pending.
+  `33252845493` successful. Phase 11F repository implementation was then
+  independently accepted and squash-merged through PR #117 as
+  `249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+  `8da9f8559e63365cea821bd7766cdc6fbb4af178`; exact-main CI run
+  `33267622104`, run number `218`, event `push`, attempt `1`, succeeded on the
+  same SHA. It removes every observed npm advisory through bounded dependency
+  updates, adds tested browser security headers and an exact Supabase-origin
+  CSP, verifies server-only secret build boundaries, pins all GitHub Actions
+  to reviewed commits, and adds a recurring production-advisory gate.
+  Read-only GitHub evidence also records that branch/ruleset, Actions,
+  Dependabot, scanning, merge-method, and branch-cleanup owner settings remain
+  pending.
   See the
   [Phase 11F application and supply-chain security record](docs/phase-11f-security-and-dependency-hardening.md).
+  On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
+  acceptance by Maor Pichhadze as Observability owner, Performance and
+  reliability owner, and Incident primary, and by Jimmy Peachy as Incident
+  escalation backup. The distinct primary/backup and all three canonical
+  before-11G role rows are now `ASSIGNED_AND_APPROVED`; the approved Phase 11G
+  technical policies remain unchanged. This Phase 11G0 record adds no Phase
+  11G implementation credit. Once independently accepted and merged, the next
+  bounded engineering task is
+  `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`. All 18 Phase 11
+  findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11K remains
+  the sole formal finding-closure gate.
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,
   deployment, and Production remain deferred and uncredited. The

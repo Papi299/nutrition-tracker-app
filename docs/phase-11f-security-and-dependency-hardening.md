@@ -1,9 +1,10 @@
 # Phase 11F — Application and Supply-Chain Security
 
-Status: repository implementation candidate; exact-head CI and independent
-review pending. All 18 Phase 11 findings remain `OPEN`. This record authorizes
-no hosted Supabase, Vercel, Production, deployment, secret, or GitHub-settings
-mutation.
+Status: repository implementation accepted and merged through PR #117;
+external validation pending. All 18 Phase 11 findings remain `OPEN`. This
+record authorizes no hosted Supabase, Vercel, Production, deployment, secret,
+or GitHub-settings mutation. Sections 1–17 preserve the candidate-stage
+evidence; Section 18 records the later acceptance and exact-main CI facts.
 
 ## 1. Exact baseline
 
@@ -321,8 +322,8 @@ Supabase startup created no containers and stalled without usable progress, so
 it was stopped without reset or database mutation; focused database-backed
 Auth/camera evidence is not claimed from that attempt.
 
-Exact-head CI and fresh artifact fields remain pending before independent
-review handoff.
+At the candidate stage, exact-head CI and fresh artifact fields remained
+pending before independent review handoff.
 
 ## 16. External Phase 11J evidence still required
 
@@ -346,5 +347,24 @@ Repository header presence is not deployed evidence.
   11 remains incomplete, Phase 11K remains the only closure gate, and no launch
   or deployment is authorized.
 
-After independent review and merge of the accepted Phase 11F candidate, the
-next bounded repository phase is Phase 11G. No Phase 11G work is included here.
+At the candidate stage, the next bounded repository phase after independent
+review and merge was Phase 11G. No Phase 11G work is included in this Phase 11F
+record.
+
+## 18. Post-merge acceptance closeout
+
+Independent review accepted Phase 11F, and PR #117 was squash-merged as
+`249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+`8da9f8559e63365cea821bd7766cdc6fbb4af178`, with sole parent
+`5730716a675a6aac8a53f9bec9519f79bfbfd6be`. Exact-main CI run
+`33267622104`, run number `218`, event `push`, attempt `1`, completed
+successfully on the same SHA. This accepts Phase 11F repository implementation
+without crediting the still-pending external GitHub owner settings or Phase
+11J deployed compatibility evidence.
+
+The separately attributable Phase 11G0 role-assignment record resolves the
+before-11G human ownership prerequisite only after its own independent review
+and merge. It does not add Phase 11G engineering, close `P11A-007`,
+`P11A-008`, `P11A-016`, or any other finding, or change the Phase 11F evidence
+record above. All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, and
+Phase 11K remains the sole formal finding-closure gate.

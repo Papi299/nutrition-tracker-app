@@ -2937,3 +2937,40 @@
   `INCOMPLETE`; Phase 11K remains the sole finding-closure gate. No hosted
   Supabase, Vercel, Production, deployment, secret, GitHub-settings, or later
   phase action occurred.
+
+## 2026-08-29: Phase 11F acceptance and Phase 11G prerequisite role assignments
+
+- Independent review accepted Phase 11F, and PR #117 was squash-merged as
+  `249868d7084b95011bc4de18ad69fd93d5e0175b`, tree
+  `8da9f8559e63365cea821bd7766cdc6fbb4af178`, with sole parent
+  `5730716a675a6aac8a53f9bec9519f79bfbfd6be`. Exact-main CI run
+  `33267622104`, run number `218`, event `push`, attempt `1`, completed
+  successfully on the same SHA. Phase 11F repository implementation is
+  accepted; its external GitHub owner settings and Phase 11J deployed evidence
+  remain pending and uncredited.
+- Product Owner Maor Pichhadze supplied an attributable Phase 11G prerequisite
+  assignment statement. He assigned himself as Observability owner,
+  Performance and reliability owner, and Incident primary and explicitly
+  accepted all three roles. He assigned Jimmy Peachy as Incident escalation
+  backup and explicitly recorded Jimmy Peachy's acceptance. The Incident
+  primary and escalation backup are distinct people.
+- The Observability owner, combined Incident primary/escalation-backup row, and
+  Performance and reliability owner each changed from
+  `UNASSIGNED_BLOCKING_BEFORE_11G` with no assignee and `NOT_VERIFIED` evidence
+  to `ASSIGNED_AND_APPROVED` on 2026-08-29. No assignment was inferred from
+  repository authorship, GitHub ownership, prior work, or likely
+  responsibility.
+- `DEC-004`, `DEC-006`, `DEC-021`, `DEC-022`, and `DEC-023` remain approved and
+  unchanged. This prerequisite record does not redesign availability,
+  incident, scale/performance, reliability, observability, retention,
+  escalation, or provider policy.
+- This Phase 11G0 documentation task adds no Phase 11G engineering or runtime
+  credit. `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18
+  findings. Overall Phase 11 remains `INCOMPLETE`, and Phase 11K remains the
+  sole formal finding-closure gate. Once this prerequisite record is
+  independently accepted and merged, the next bounded engineering task is
+  `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`.
+- No application, test, dependency, schema, migration, RLS, grant, hosted
+  Supabase, Vercel, provider, telemetry, alert, deployment, Production,
+  GitHub-settings, secret, backup, restore, launch, or finding-closure action
+  occurred.
