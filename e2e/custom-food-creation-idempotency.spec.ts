@@ -686,15 +686,24 @@ test.describe.serial("CJ-018 custom-food creation idempotency", () => {
     const name = `Unacknowledged CJ-018 ${originalKey}`;
     await fillMinimalCreation(page, name);
 
-    let resolveIntercepted: (status: number) => void = () => undefined;
-    const intercepted = new Promise<number>((resolve) => {
+    let resolveIntercepted: (response: {
+      redirect: string | undefined;
+      status: number;
+    }) => void = () => undefined;
+    const intercepted = new Promise<{
+      redirect: string | undefined;
+      status: number;
+    }>((resolve) => {
       resolveIntercepted = resolve;
     });
     await page.route("**/*", async (route) => {
       const request = route.request();
       if (request.method() === "POST" && request.headers()["next-action"]) {
         const upstream = await route.fetch();
-        resolveIntercepted(upstream.status());
+        resolveIntercepted({
+          redirect: upstream.headers()["x-action-redirect"],
+          status: upstream.status(),
+        });
         await route.abort("failed");
         return;
       }
@@ -702,7 +711,13 @@ test.describe.serial("CJ-018 custom-food creation idempotency", () => {
     });
 
     await page.getByRole("button", { name: "Create custom food" }).click();
-    expect(await intercepted).toBe(303);
+    const interceptedResponse = await intercepted;
+    expect(interceptedResponse.status).toBe(200);
+    expect(interceptedResponse.redirect).toMatch(
+      new RegExp(
+        `^/en/foods/custom/[0-9a-f-]+/edit\\?saved=created&creationRequest=${originalKey};push$`,
+      ),
+    );
     const committedReceipt = await expect
       .poll(async () => {
         const receipt = await userAClient

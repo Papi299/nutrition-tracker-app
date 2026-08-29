@@ -2899,3 +2899,41 @@
   `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18
   findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11K remains the
   sole finding-closure gate.
+
+## 2026-08-29: Phase 11E6 acceptance and Phase 11F security candidate
+
+- Independent review accepted Phase 11E6 and PR #116 was squash-merged as
+  `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
+  `3715c555f690851edc06a542d06701b42add1df2`, with sole parent
+  `256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`. Exact-main CI run
+  `33252845493`, run number `215`, event `push`, attempt `1`, succeeded through
+  Validate job `99101399894`. Evidence artifact
+  `phase-11d-evidence-33252845493-1`, ID `9715056150`, has digest
+  `sha256:46f3bc4229b6b505f8d83b37f64d98dacd629f0541aaf93a79daedcbf232db12`.
+  Phase 11E6 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` and was
+  not reopened.
+- Phase 11F inventories every fresh npm advisory and its exact dependency
+  path, analyzes actual production/build reachability, and applies bounded
+  compatible updates. Post-change all-dependency and production-only audits
+  report zero advisories, and no high/critical production advisory is accepted
+  or allowlisted.
+- The candidate adds enforced CSP, framing, MIME, referrer, and least-privilege
+  camera policies with configuration, production-route, real-browser, and
+  no-JavaScript compatibility coverage. It also adds a deterministic
+  server-secret build boundary, a fail-closed recurring production audit gate,
+  immutable reviewed GitHub Action pins, and minimal workflow permissions.
+- Read-only GitHub evidence shows the repository does not yet match the
+  approved release policy for branch/ruleset enforcement, required `Validate`,
+  merge methods and cleanup, Action restrictions, dependency automation,
+  secret scanning/push protection, or code scanning. Exact owner changes and
+  verification steps are recorded in
+  `docs/phase-11f-security-and-dependency-hardening.md`; no setting was
+  mutated.
+- Phase 11F is
+  `PHASE_11F_APPLICATION_SUPPLY_CHAIN_SECURITY_CANDIDATE` and
+  `PHASE_11F_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Exact-head
+  CI and independent review remain pending. `P11A-007`, `P11A-008`, and
+  `P11A-016` remain `OPEN`; all 18 findings remain `OPEN`; Phase 11 remains
+  `INCOMPLETE`; Phase 11K remains the sole finding-closure gate. No hosted
+  Supabase, Vercel, Production, deployment, secret, GitHub-settings, or later
+  phase action occurred.

@@ -9,6 +9,10 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "security:dependencies": "node scripts/check-production-advisories.mjs",
+    "security:workflow": "node scripts/check-workflow-security.mjs",
+    "security:build-boundary": "node scripts/check-client-secret-boundary.mjs",
+    "test:security": "node --test scripts/check-production-advisories.test.mjs && playwright test --config=playwright.unit.config.ts security-headers.spec.ts",
     "test:e2e": "node scripts/run-local-date-e2e.mjs",
     "test:phase11d": "node scripts/run-local-date-e2e.mjs --config=playwright.phase11d.config.ts",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.ts",
@@ -28,7 +32,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.1",
-    "next": "16.2.11",
+    "next": "16.3.3",
     "next-intl": "^4.9.2",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -41,8 +45,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.11",
-    "supabase": "^2.95.6",
+    "eslint-config-next": "16.3.3",
+    "supabase": "2.116.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

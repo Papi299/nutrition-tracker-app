@@ -387,6 +387,18 @@ is complete for the current MVP scope.
   Phase 11E6 reconciles the accepted slices as one lifecycle and records the
   remaining operator-owned work in the
   [Phase 11E integration and external-readiness handoff](docs/phase-11e-integration-external-readiness-handoff.md).
+  Independent review accepted that reconciliation in PR #116; it is merged on
+  `main` as `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
+  `3715c555f690851edc06a542d06701b42add1df2`, with exact-main CI run
+  `33252845493` successful. Phase 11F is now the current repository candidate.
+  It removes every observed npm advisory through bounded dependency updates,
+  adds tested browser security headers and an exact Supabase-origin CSP,
+  verifies server-only secret build boundaries, pins all GitHub Actions to
+  reviewed commits, and adds a recurring production-advisory gate. Read-only
+  GitHub evidence also records that branch/ruleset, Actions, Dependabot,
+  scanning, merge-method, and branch-cleanup owner settings remain pending.
+  See the
+  [Phase 11F application and supply-chain security record](docs/phase-11f-security-and-dependency-hardening.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,
   deployment, and Production remain deferred and uncredited. The
@@ -423,6 +435,10 @@ Then open `http://localhost:3000`.
 npm run lint
 npm run typecheck
 npm run build
+npm run test:security
+npm run security:dependencies
+npm run security:workflow
+npm run security:build-boundary
 npm run test:date
 npm run test:e2e:smoke
 npm run test:e2e:date

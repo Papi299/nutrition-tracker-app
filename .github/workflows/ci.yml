@@ -6,6 +6,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -18,18 +21,24 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
           cache: npm
 
       - name: Install dependencies from lockfile
         run: npm ci
+
+      - name: Verify workflow supply-chain policy
+        run: npm run security:workflow
+
+      - name: Enforce production dependency advisory policy
+        run: npm run security:dependencies
 
       - name: Check repository hygiene
         run: git diff --check "${{ github.event.pull_request.base.sha || github.event.before }}..${{ github.sha }}"
@@ -40,14 +49,17 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Verify security policy regressions
+        run: npm run test:security
+
       - name: Verify Phase 11 critical-journey evidence map
         run: npm run test:journey-evidence
 
       - name: Run pure unit tests
         run: npm run test:date
 
-      - name: Build production application
-        run: npm run build
+      - name: Build production application and verify client secret boundary
+        run: npm run security:build-boundary
 
       - name: Install Playwright Phase 11D engines
         run: npx playwright install --with-deps chromium firefox webkit
@@ -149,7 +161,7 @@ jobs:
 
       - name: Upload Phase 11D evidence
         if: ${{ always() && (steps.phase11d.outcome == 'success' || steps.phase11d.outcome == 'failure') }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: phase-11d-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -161,7 +173,7 @@ jobs:
 
       - name: Upload Playwright failure artifacts
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: playwright-failure-${{ github.run_id }}
           path: |
