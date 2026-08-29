@@ -504,12 +504,15 @@ identity, accepted activation, and absence of a closure row. It now gates all
 
 The localized no-JavaScript closure POST boundary verifies current account
 state, exact destructive confirmation, same-origin metadata, and the accepted
-E3 user/session-bound proof before it mints an in-memory 60-second-or-less
+E3 user/session-bound proof, then calls the provider `getUser()` boundary and
+requires the same user before it mints an in-memory 60-second-or-less
 `account-closure` capability. The capability cannot outlive E3, uses a
 dedicated application secret, and is verified inside PostgreSQL against a
-protected database-local secret before the narrowly granted atomic closure
-RPC inserts or converges on the immutable record. Local tests provision only a
-fresh synthetic Vault secret; no real secret, hosted secret, privileged
+protected database-local secret. The narrowly granted atomic closure RPC also
+requires the exact `auth.sessions` row for `auth.uid()` and the JWT
+`session_id` before it accepts the capability and inserts or converges on the
+immutable record. Local tests provision only a fresh synthetic Vault secret;
+no real secret, hosted secret, privileged
 application credential, deployment, physical deletion, retention duration,
 pseudonymization, backup action, Storage action, or invitation-register action
 is part of this candidate.

@@ -370,8 +370,11 @@ is complete for the current MVP scope.
   RLS-protected account session and exact E3 proof, with no durable artifact or
   privileged credential. Phase 11E5 adds an immutable closure record, separate
   canonical account-access predicate, EN/HE no-JavaScript confirmation flow,
-  and a short-lived E3 user/session-bound database-verifiable capability. It
-  is closure only: physical deletion, retention/pseudonymization decisions,
+  and a short-lived E3 user/session-bound database-verifiable capability. The
+  closure handler revalidates the provider user after E3 and before minting,
+  while the closure RPC independently requires the exact current
+  `auth.sessions` row before accepting that capability. It is closure only:
+  physical deletion, retention/pseudonymization decisions,
   hosted secret provisioning, backups, Storage, restricted-register action,
   and deployment remain deferred. See the
   [Phase 11E5 validation record](docs/phase-11e5-account-closure-validation.md).

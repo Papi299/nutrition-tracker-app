@@ -104,9 +104,12 @@ HttpOnly proof cookie. The fixed intent allowlist contains only
 
 Only the POST Route Handler mints a capability, after it independently
 verifies exact confirmation, same-origin metadata, current active identity,
-authoritative provider identity/session, and the valid E3 binding. The browser
-receives no capability in HTML, a hidden input, URL, cookie, browser storage,
-or persistence layer.
+authoritative provider identity/session, and the valid E3 binding. After E3
+verification and before minting, it calls `supabase.auth.getUser()` and
+requires a successful result with the exact same server-derived user ID. A
+revoked or stale session therefore fails before capability issuance. The
+browser receives no capability in HTML, a hidden input, URL, cookie, browser
+storage, or persistence layer.
 
 The canonical format is `v1.<base64url-canonical-json>.<base64url-hmac>`. The
 payload order and fields are `v`, `sub`, `sid`, `intent`, `rid`, `policy`,
@@ -145,8 +148,10 @@ immutable row or read the protected verification secret. It uses an empty
 search path, fully qualified relations/functions, no caller-owned user/email,
 no dynamic relation names, explicit revoke/grant, and authenticated-only
 execution. It derives `auth.uid()` and current JWT `session_id`, verifies every
-binding, requires historical activation, and atomically inserts with a unique
-user convergence point. Its only outcomes are `closed` and `already_closed`.
+binding, requires the exact `auth.sessions` row whose ID and user match those
+derived values, requires historical activation, and atomically inserts with a
+unique user convergence point. Its only outcomes are `closed` and
+`already_closed`.
 
 ## 6. CJ-035 route, UI, and cleanup behavior
 
@@ -159,9 +164,11 @@ cancel link, required semantic confirmation checkbox, and standard POST form.
 
 `POST /{locale}/account/closure/submit` independently requires a supported
 locale, exact one-value confirmation, supplied same-origin metadata, active
-account, exact provider identity/session, valid E3 proof, policy version,
-available dedicated secret, successful capability mint, and convergent RPC.
-Cross-site requests fail, and `GET` returns `405` with `Allow: POST`.
+account, exact provider identity/session, valid E3 proof, successful live-user
+revalidation before minting, policy version, available dedicated secret,
+successful capability mint, and convergent RPC. The RPC independently repeats
+the exact live-session-row requirement. Cross-site requests fail, and `GET`
+returns `405` with `Allow: POST`.
 
 The sequence is commit first, cleanup second. Once the row exists, the account
 is closed even if global sign-out reports an error. Cleanup attempts global
@@ -172,7 +179,7 @@ deletion, backup-erasure, retention, or legal-compliance claim.
 
 ## 7. Focused security and lifecycle results
 
-The final focused suite has five real local-Supabase tests and passes 5/5:
+The final focused suite has seven real local-Supabase tests and passes 7/7:
 
 1. Cross-language capability and database attacks prove malformed, mutated,
    wrong-secret/user/session/intent/request/policy, expired, and future inputs
@@ -185,7 +192,14 @@ The final focused suite has five real local-Supabase tests and passes 5/5:
    identity despite User B ownership hints in the query, form body, and
    headers; they converge to exactly one User A closure while User B remains
    active, and stale retries/revisits remain closed without a second row.
-3. English/LTR JavaScript-disabled CJ-035 proves the consequences/export
+3. After E3 is established, local Auth globally revokes the exact browser
+   session while its JWT/cookies and E3 proof remain stale. The ordinary
+   closure POST is rejected by live provider revalidation before minting and
+   creates zero closure rows.
+4. A valid capability is created for an active exact session, that session is
+   then revoked, and a direct RPC call with the stale JWT and capability is
+   denied with `42501`; zero closure rows are created.
+5. English/LTR JavaScript-disabled CJ-035 proves the consequences/export
    offer, absence of browser capability/identity fields, fixed E3 intent,
    an actual pre-closure E4 download,
    no-proof/forged/cross-session denial, pre- and post-proof cancellation,
@@ -193,7 +207,7 @@ The final focused suite has five real local-Supabase tests and passes 5/5:
    pre-commit fault zero mutation, successful checkbox POST, cleanup, stale
    JWT denial across product data/protected routes/E4, closed sign-in routing,
    and byte-stable representative product data.
-4. Hebrew/RTL JavaScript-disabled CJ-035 proves the full Account to Close
+6. Hebrew/RTL JavaScript-disabled CJ-035 proves the full Account to Close
    account to consequences/export-link to pre-proof cancellation to E3 to
    post-proof cancellation to final ordinary form POST path, plus a
    deterministic post-commit global-sign-out failure: closure remains
@@ -201,7 +215,7 @@ The final focused suite has five real local-Supabase tests and passes 5/5:
    JavaScript-enabled audit contexts report zero serious/critical axe findings
    in English and Hebrew; this is not WCAG certification or final human/native-
    Hebrew acceptance.
-5. Recovery after direct database closure proves the provider password may
+7. Recovery after direct database closure proves the provider password may
    change locally, but the immutable closure remains, subsequent sign-in
    resolves to closed, product access is not restored, and E3 is not credited.
 
@@ -222,7 +236,7 @@ attempt is credited as passing.
 | --- | --- |
 | Baseline SHA/tree/parent and protected-checkout preflight | Exact match; protected dirty checkout untouched |
 | Focused account-closure unit suite | Passed: 3/3 |
-| Focused E5 Playwright suite | Passed: 5/5 in 37.2 seconds; both EN and HE functional journeys JavaScript-disabled |
+| Focused E5 Playwright suite | Passed: 7/7 in 31.3 seconds; both revoked-session regressions and both EN/HE JavaScript-disabled functional journeys passed |
 | `git diff --check` | Passed |
 | `npm run lint` | Passed with zero warnings |
 | `npm run typecheck` | Passed |
@@ -230,10 +244,10 @@ attempt is credited as passing.
 | `npm run test:date` | Passed: 267/267 |
 | `npm run build` | Passed: Next.js 16.2.11; 55 static pages generated; closure, account-closed, and existing routes compiled |
 | `npx supabase db reset --local` | Passed through all five pending migrations and seed immediately before the final full E2E suite |
-| `PLAYWRIGHT_PORT=3200 npm run test:e2e` | Passed: 348/348 in 5.9 minutes |
+| `PLAYWRIGHT_PORT=3200 npm run test:e2e` | Passed: 350/350 in 5.8 minutes |
 | `npm run test:migration-roles` | Passed: migration replay, exact public fingerprint, grants, rollback/check injections, and all five pending migrations |
 | `npm run types:ingestion:check` | Passed: committed ingestion types synchronized |
-| `PLAYWRIGHT_PORT=3200 npm run test:phase11d` | Passed: 45 tests, 3 intentional skips, in 1.3 minutes; Chromium axe serious/critical totals zero |
+| `PLAYWRIGHT_PORT=3200 npm run test:phase11d` | Passed: 45 tests, 3 intentional skips, in 1.5 minutes; Chromium axe serious/critical totals zero |
 | `npx supabase db lint --local --level warning` | No new E5 warnings; only the three documented pre-existing ingestion warnings |
 | Full diff secret/privacy/logging scan | Passed: no credential value, token, capability, E3 proof, user data, real email, hosted secret, or sensitive logging; only empty configuration names and bounded synthetic test sentinels are present |
 | `npx supabase stop --no-backup` | Passed; isolated local stack stopped without backup after all local database checks |
@@ -265,6 +279,17 @@ No incomplete attempt is counted as success:
 - The first intent-to-add command omitted shell quoting around route paths that
   contain brackets and parentheses. `zsh` rejected it before Git ran; the
   corrected quoted command succeeded and no protected-checkout state changed.
+- Two initial focused revoked-session runs used the prior production build
+  because Playwright's local `next start` serves the existing build artifact.
+  The new database guard still denied closure with `503`, but those runs did
+  not exercise the updated handler and receive no credit. After rebuilding,
+  the exact handler returned the expected sign-in redirect and the complete
+  focused suite passed 7/7.
+- A temporary diagnostic session-preflight RPC was added after the stale-build
+  result was initially misattributed to `getUser()`. The cause was corrected,
+  the extra RPC and its generated type/inventory entry were removed, and the
+  clean replay/final tests cover only the requested `getUser()` and closure-RPC
+  session-row checks.
 
 ## 10. Explicit external limitations and later work
 

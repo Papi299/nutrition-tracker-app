@@ -593,6 +593,16 @@ begin
 
   v_session_id := v_session_text::uuid;
 
+  perform sessions.id
+  from auth.sessions as sessions
+  where sessions.id = v_session_id
+    and sessions.user_id = v_user_id;
+
+  if not found then
+    raise insufficient_privilege using
+      message = 'Account closure authorization is unavailable.';
+  end if;
+
   if not private.verify_account_closure_capability(
     p_capability,
     v_user_id,

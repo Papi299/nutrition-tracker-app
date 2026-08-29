@@ -15,7 +15,10 @@ import {
   activationPath,
   signInPath,
 } from "@/lib/auth/require-user";
-import { cleanupClosedAccountSession } from "@/lib/auth/session-cleanup";
+import {
+  cleanupClosedAccountSession,
+  clearBrowserAuthenticationState,
+} from "@/lib/auth/session-cleanup";
 import {
   accountClosureReauthenticationIntent,
   reauthenticationPath,
@@ -173,6 +176,13 @@ export async function POST(
     return redirectResponse(
       reauthenticationPath(locale, accountClosureReauthenticationIntent),
     );
+  }
+
+  const liveUser = await supabase.auth.getUser();
+
+  if (liveUser.error || liveUser.data.user?.id !== userId) {
+    await clearBrowserAuthenticationState();
+    return redirectResponse(signInPath(locale));
   }
 
   const nowSeconds = Math.floor(Date.now() / 1000);

@@ -85,6 +85,27 @@ function jwtClaims(accessToken: string) {
   };
 }
 
+function sessionFromAuthCookies(
+  contextCookies: Awaited<ReturnType<BrowserContext["cookies"]>>,
+) {
+  const authCookies = contextCookies
+    .filter((cookie) => cookie.name.includes("-auth-token"))
+    .sort((left, right) => left.name.localeCompare(right.name));
+
+  expect(authCookies.length).toBeGreaterThan(0);
+  const encoded = authCookies.map((cookie) => cookie.value).join("");
+  const serialized = encoded.startsWith("base64-")
+    ? Buffer.from(encoded.slice("base64-".length), "base64url").toString(
+        "utf8",
+      )
+    : decodeURIComponent(encoded);
+
+  return JSON.parse(serialized) as {
+    access_token: string;
+    refresh_token: string;
+  };
+}
+
 function signRawCapability(payload: string, secret: string) {
   const encoded = Buffer.from(payload).toString("base64url");
   const authenticated = `v1.${encoded}`;
@@ -801,6 +822,90 @@ test.describe.serial("Phase 11E5 account closure", () => {
     expect(closureCount(userA)).toBe("1");
     await staleContext.close();
     await signedIn.context.close();
+  });
+
+  test("rejects a stale cookie closure POST after E3 when the exact Auth session is globally revoked", async ({
+    browser,
+  }) => {
+    const credentials = uniqueCredentials("phase11e5-revoked-post");
+    await provisionActivatedLocalUserForUi(credentials);
+    const userId = queryLocalAuthFixture(`
+      select id::text from auth.users where email = '${credentials.email}';
+    `);
+    const signedIn = await signInThroughUi(browser, "en", credentials, false);
+    await establishClosureProof(signedIn.page, "en", credentials.password);
+    const session = sessionFromAuthCookies(await signedIn.context.cookies());
+    const claims = jwtClaims(session.access_token);
+
+    expect(claims.sub).toBe(userId);
+    expect(
+      queryLocalAuthFixture(`
+        select count(*)
+        from auth.sessions
+        where id = '${claims.session_id}'::uuid
+          and user_id = '${userId}'::uuid;
+      `),
+    ).toBe("1");
+
+    const revoked = await localAdminClient().auth.admin.signOut(
+      session.access_token,
+      "global",
+    );
+    expect(revoked.error).toBeNull();
+    expect(
+      queryLocalAuthFixture(`
+        select count(*)
+        from auth.sessions
+        where id = '${claims.session_id}'::uuid
+          and user_id = '${userId}'::uuid;
+      `),
+    ).toBe("0");
+    const response = await directClosurePost(signedIn.context, "en");
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe(
+      `${appOrigin}/en/auth/sign-in`,
+    );
+    expect(closureCount(userId)).toBe("0");
+    await signedIn.context.close();
+  });
+
+  test("denies a valid capability at the RPC after its exact Auth session is revoked", async () => {
+    const credentials = uniqueCredentials("phase11e5-revoked-rpc");
+    const client = localClient();
+    const signed = await provisionActivatedLocalUser(client, credentials);
+    const session = signed.data.session!;
+    const userId = signed.data.user!.id;
+    const capability = capabilityForSession(session.access_token);
+
+    expect(
+      queryLocalAuthFixture(`
+        select count(*)
+        from auth.sessions
+        where id = '${capability.claims.session_id}'::uuid
+          and user_id = '${userId}'::uuid;
+      `),
+    ).toBe("1");
+
+    const revoked = await localAdminClient().auth.admin.signOut(
+      session.access_token,
+      "local",
+    );
+    expect(revoked.error).toBeNull();
+    expect(
+      queryLocalAuthFixture(`
+        select count(*)
+        from auth.sessions
+        where id = '${capability.claims.session_id}'::uuid
+          and user_id = '${userId}'::uuid;
+      `),
+    ).toBe("0");
+
+    const denied = await client.rpc("close_current_account", {
+      p_capability: capability.capability,
+      p_closure_request_id: capability.requestId,
+    });
+    expect(denied.error?.code).toBe("42501");
+    expect(closureCount(userId)).toBe("0");
   });
 
   test("CJ-035 completes the English cancellation and closure journey without JavaScript while all product data remains unchanged", async ({

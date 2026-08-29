@@ -2842,9 +2842,12 @@
 - The no-JavaScript EN/HE flow reuses E3 through the fixed
   `account-closure` intent. The server validates same-origin metadata, exact
   confirmation, active identity, and exact user/session E3 proof before
-  minting an in-memory canonical short-lived HMAC capability. PostgreSQL
-  verifies it against a protected Vault secret and the authenticated-only
-  narrow closure RPC atomically inserts or converges on one closure row.
+  revalidating the same provider user through `getUser()` and minting an
+  in-memory canonical short-lived HMAC capability. PostgreSQL verifies it
+  against a protected Vault secret, and the authenticated-only narrow closure
+  RPC additionally requires the exact live `auth.sessions` row for the JWT
+  session and user before it atomically inserts or converges on one closure
+  row.
 - Local tests provision a fresh synthetic secret without printing or
   persisting it. No real or hosted secret, service/admin application runtime
   credential, physical deletion, product-data mutation, receipt/FK rewrite,
