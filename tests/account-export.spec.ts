@@ -8,6 +8,7 @@ import {
   type AccountExportSourceData,
 } from "@/lib/account-export/schema";
 import {
+  accountClosureReauthenticationIntent,
   accountExportReauthenticationIntent,
   reauthenticationDestination,
   resolveReauthenticationIntent,
@@ -284,12 +285,18 @@ test.describe("versioned account export contract", () => {
     expect(() => accountExportFilename(new Date("invalid"))).toThrow();
   });
 
-  test("accepts only the bounded account-export reauthentication intent", () => {
+  test("accepts only the two fixed account-action reauthentication intents", () => {
     expect(
       resolveReauthenticationIntent(accountExportReauthenticationIntent),
     ).toBe(accountExportReauthenticationIntent);
     expect(reauthenticationDestination("he", "account-export")).toBe(
       "/he/account/export",
+    );
+    expect(
+      resolveReauthenticationIntent(accountClosureReauthenticationIntent),
+    ).toBe(accountClosureReauthenticationIntent);
+    expect(reauthenticationDestination("en", "account-closure")).toBe(
+      "/en/account/closure",
     );
     expect(resolveReauthenticationIntent("https://evil.example")).toBeNull();
     expect(resolveReauthenticationIntent(["account-export"])).toBeNull();

@@ -2789,3 +2789,74 @@
   and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18 findings remain
   `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11K remains the sole
   finding-closure gate; no launch or deployment is authorized.
+
+## 2026-08-29: Phase 11E3, CI-maintenance, and Phase 11E4 acceptance reconciliation
+
+- Independent review accepted Phase 11E3. PR #112 was squash-merged as
+  `c54d0d1ed6149563ef33f1934ee3bfbc09e3a6cb`, tree
+  `a0ed2c67abacb3361c173244df68a698c269b019`. Exact-main CI run
+  `33164308402`, run number `206`, succeeded on attempt `3` through Validate
+  job `98835074428`; earlier failed attempts remain non-successful evidence.
+- The accepted CI-maintenance PR #113 was squash-merged as
+  `da8904d3a4d2535bfe1b3d23af9108a7607afadb`, tree
+  `6b955af86342db318de9d836cd93362017ced30a`. Exact-main CI run
+  `33170624228`, run number `208`, attempt `1`, succeeded through Validate job
+  `98846611166`.
+- Independent review accepted Phase 11E4 synchronous JSON export. PR #114 was
+  squash-merged as `5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+  `88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`. Exact-main CI run
+  `33211476519`, run number `210`, succeeded on attempt `2` through Validate
+  job `98988364780`. Evidence artifact
+  `phase-11d-evidence-33211476519-2`, ID `9702437001`, has digest
+  `sha256:553c9a4a5e2e4fe364020bc1c28b6eb080f995f1f26451c2257075499bc08759`.
+  The earlier failed attempt is not represented as successful.
+- Phase 11E3 and Phase 11E4 are
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Hosted, deployed,
+  final native-Hebrew, qualified-review, and other external evidence remains
+  uncollected. No finding closes and no launch or deployment is authorized.
+
+## 2026-08-29: Phase 11E5 owner decisions and account-closure candidate
+
+- Product Owner Maor Pichhadze stated: “I approve Phase 11E5 Product Owner
+  decisions P11E-E5D-001 through P11E-E5D-015 as modified and refined by
+  ChatGPT above, including the closure-only scope, immutable account-closure
+  record, separate account-access predicate, DB-verifiable E3-bound closure
+  capability, and deferral of all physical deletion, retention-duration,
+  pseudonymization, backup-erasure, hosted-secret, and legally dependent
+  decisions/evidence.”
+- `P11E-E5D-001`–`015` approve immediate irreversible logical closure with no
+  grace/reopen; retained but inaccessible product data; unchanged receipt/FK
+  treatment; one immutable closure record as the idempotent convergence point;
+  later procedural `ACCOUNT_CLOSED` invitation-register handling; no current
+  Storage scope; no backup-erasure or retention claim; truthful Close account
+  terminology; optional pre-closure E4 export; commit-first cleanup; closed
+  sign-in/recovery fail-closed behavior; later separately authorized physical
+  deletion; and qualified-review-dependent retention/pseudonymization/legal
+  policy. The governance record contains the exact per-decision state.
+- A forward-only migration creates the minimal immutable closure row with RLS,
+  `ON DELETE RESTRICT`, unique user/request constraints, and no authenticated
+  DML. Historical activation semantics remain unchanged. A separate
+  server-derived access predicate replaces the restrictive authorization gate
+  on all 16 protected tables and all four protected-data private
+  `SECURITY DEFINER` helpers; activation completion explicitly rejects closure.
+- The no-JavaScript EN/HE flow reuses E3 through the fixed
+  `account-closure` intent. The server validates same-origin metadata, exact
+  confirmation, active identity, and exact user/session E3 proof before
+  revalidating the same provider user through `getUser()` and minting an
+  in-memory canonical short-lived HMAC capability. PostgreSQL verifies it
+  against a protected Vault secret, and the authenticated-only narrow closure
+  RPC additionally requires the exact live `auth.sessions` row for the JWT
+  session and user before it atomically inserts or converges on one closure
+  row.
+- Local tests provision a fresh synthetic secret without printing or
+  persisting it. No real or hosted secret, service/admin application runtime
+  credential, physical deletion, product-data mutation, receipt/FK rewrite,
+  pseudonymization, backup action, Storage action, restricted-register action,
+  hosted Supabase action, Vercel action, deployment, or Production action is
+  included.
+- Focused evidence is recorded in
+  `docs/phase-11e5-account-closure-validation.md`. Phase 11E5 remains a
+  repository/local implementation candidate pending exact-head CI and
+  independent review. `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`,
+  `OPEN`; all 18 findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase
+  11K remains the sole finding-closure gate.

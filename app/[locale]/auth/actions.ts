@@ -3,8 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/routing";
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
 import { clearRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
+import { cleanupClosedAccountSession } from "@/lib/auth/session-cleanup";
+import { accountClosedPath } from "@/lib/auth/require-user";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
 import type { AuthActionState } from "./action-state";
@@ -79,13 +81,23 @@ export async function signInAction(
     return { code: "authFailed", status: "error" };
   }
 
-  const activationState = await getAccountActivationState(supabase);
+  const accessState = await getAccountAccessState(supabase);
 
-  if (activationState.status === "complete") {
+  if (accessState.status === "active") {
     redirect(`/${locale}/today`);
   }
 
-  redirect(`/${locale}/auth/activate`);
+  if (accessState.status === "closed") {
+    await cleanupClosedAccountSession(supabase);
+    redirect(accountClosedPath(locale));
+  }
+
+  if (accessState.status === "activation_required") {
+    redirect(`/${locale}/auth/activate`);
+  }
+
+  await cleanupClosedAccountSession(supabase);
+  return { code: "authFailed", status: "error" };
 }
 
 export async function signOutAction(localeInput: string) {

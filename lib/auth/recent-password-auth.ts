@@ -5,7 +5,7 @@ import {
   createClient as createSupabaseClient,
   type SupabaseClient,
 } from "@supabase/supabase-js";
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
 import {
   expiredRecentPasswordAuthCookieOptions,
   issueRecentPasswordAuthProof,
@@ -37,6 +37,7 @@ export type RecentPasswordAuthInspection =
   | Readonly<{
       status:
         | "activation_required"
+        | "closed"
         | "invalid"
         | "missing"
         | "unauthenticated"
@@ -46,6 +47,7 @@ export type RecentPasswordAuthInspection =
 export type RecentPasswordVerificationResult = Readonly<{
   status:
     | "activation_required"
+    | "closed"
     | "success"
     | "unauthenticated"
     | "unavailable"
@@ -148,13 +150,17 @@ export async function inspectRecentPasswordAuthentication(): Promise<RecentPassw
       return { status: "unauthenticated" };
     }
 
-    const activation = await getAccountActivationState(supabase);
+    const access = await getAccountAccessState(supabase);
 
-    if (activation.status === "incomplete") {
+    if (access.status === "activation_required") {
       return { status: "activation_required" };
     }
 
-    if (activation.status !== "complete" || activation.userId !== identity.userId) {
+    if (access.status === "closed") {
+      return { status: "closed" };
+    }
+
+    if (access.status !== "active" || access.userId !== identity.userId) {
       return { status: "unavailable" };
     }
 
@@ -222,13 +228,17 @@ export async function verifyCurrentPasswordAndIssueRecentAuthentication(
       return { status: "unauthenticated" };
     }
 
-    const activation = await getAccountActivationState(primaryClient);
+    const access = await getAccountAccessState(primaryClient);
 
-    if (activation.status === "incomplete") {
+    if (access.status === "activation_required") {
       return { status: "activation_required" };
     }
 
-    if (activation.status !== "complete" || activation.userId !== identity.userId) {
+    if (access.status === "closed") {
+      return { status: "closed" };
+    }
+
+    if (access.status !== "active" || access.userId !== identity.userId) {
       return { status: "unavailable" };
     }
 

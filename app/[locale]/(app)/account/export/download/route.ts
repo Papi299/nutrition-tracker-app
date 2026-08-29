@@ -1,9 +1,10 @@
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
 import {
   RecentPasswordAuthenticationRequiredError,
   requireRecentPasswordAuthentication,
 } from "@/lib/auth/recent-password-auth";
 import {
+  accountClosedPath,
   activationPath,
   resolveAuthLocale,
   signInPath,
@@ -90,14 +91,22 @@ export async function POST(
     return redirectResponse(signInPath(locale));
   }
 
-  const activation = await getAccountActivationState(supabase);
+  const access = await getAccountAccessState(supabase);
 
-  if (activation.status === "unauthenticated") {
+  if (access.status === "unauthenticated") {
     return redirectResponse(signInPath(locale));
   }
 
-  if (activation.status !== "complete" || activation.userId !== userId) {
+  if (access.status === "closed") {
+    return redirectResponse(accountClosedPath(locale));
+  }
+
+  if (access.status === "activation_required") {
     return redirectResponse(activationPath(locale));
+  }
+
+  if (access.status !== "active" || access.userId !== userId) {
+    return safeFailure(locale, 503);
   }
 
   try {

@@ -12,7 +12,7 @@
 | Baseline exact-main CI | Run `33170624228`, run number `208`, attempt `1`, `success`; Validate job `98846611166`; evidence artifact `phase-11d-evidence-33170624228-1`, ID `9685734980`, digest `sha256:bded015a51f4ee7fb7d6c7ea409190758eb502a3a0e17bf3d54588603f6718c8` |
 | Worktree | `/Users/maor/Documents/Codex/2026-08-28/phase-11e4-account-export` |
 | Branch | `codex/phase-11e4-account-export` |
-| Candidate status | `PENDING_INDEPENDENT_REVIEW` |
+| Accepted state | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` |
 
 The controlling decisions are `P11E-E003` through `P11E-E009`, and the
 controlling no-JavaScript contract is
@@ -229,8 +229,14 @@ or native-Hebrew acceptance evidence.
 ## 9. Validation results
 
 Final validation ran from the isolated Phase 11E4 worktree against local
-Supabase only. Exact-head CI identity is recorded after the immutable candidate
-is pushed; incomplete or failed attempts are never credited here.
+Supabase only. Independent review subsequently accepted the slice. PR #114 was
+squash-merged as `5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+`88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`. Exact-main CI run
+`33211476519`, run number `210`, succeeded on attempt `2` through Validate job
+`98988364780`; its evidence artifact
+`phase-11d-evidence-33211476519-2`, ID `9702437001`, has digest
+`sha256:553c9a4a5e2e4fe364020bc1c28b6eb080f995f1f26451c2257075499bc08759`.
+The earlier failed attempt remains non-successful evidence and is not credited.
 
 | Command | Result |
 | --- | --- |
@@ -289,7 +295,7 @@ No failed, blocked, partial, or superseded attempt is counted as successful:
   run. After a clean full migration replay, the unchanged Phase 11D suite
   passed 45 with its 3 intentional skips. Only the complete rerun is credited.
 
-## 11. Candidate identity and external boundary
+## 11. Accepted identity and external boundary
 
 The exact final PR head SHA, tree SHA, parent, changed-file count, and line
 statistics are recorded in the Draft PR and final delivery report after the
@@ -308,8 +314,9 @@ did not deploy or collect hosted export/header behavior, Production behavior,
 physical-device evidence, final screen-reader evidence, final native-Hebrew
 acceptance, or qualified legal/privacy sufficiency evidence.
 
+Phase 11E4 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18 Phase 11
 findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; and Phase 11K remains
-the exclusive `FINDING_CLOSED` gate. After independent E4 review and merge, the
-next bounded continuation is Phase 11E5 account closure/deletion lifecycle
-(CJ-035).
+the exclusive `FINDING_CLOSED` gate. Phase 11E5 irreversible logical account
+closure (CJ-035) is now the repository/local implementation candidate pending
+exact-head CI and independent review.

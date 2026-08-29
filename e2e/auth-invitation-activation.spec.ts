@@ -25,7 +25,7 @@ const configuredAppOrigin = new URL(
 ).origin;
 const activatedPassword = "Phase11E1ActivatedPassword123!";
 const existingPassword = "Phase11E1ExistingPassword123!";
-const activationRequiredTables = [
+const accountAccessRequiredTables = [
   "custom_food_creation_requests",
   "diary_entries",
   "food_aliases",
@@ -43,12 +43,13 @@ const activationRequiredTables = [
   "saved_meal_items",
   "saved_meals",
 ] as const;
-const intentionallyPreActivationTables = [
+const intentionallyLifecycleTables = [
   "account_activations",
+  "account_closures",
   "food_sources",
   "nutrients",
 ] as const;
-const activationRequiredRpcs = [
+const accountAccessRequiredRpcs = [
   "private.insert_completed_custom_food_creation_request(uuid, jsonb, uuid)|DEFINER",
   "private.insert_completed_manual_diary_entry_request(uuid, jsonb, uuid)|DEFINER",
   "private.insert_new_owned_custom_food_barcode(uuid, text)|DEFINER",
@@ -78,9 +79,13 @@ const activationRequiredRpcs = [
   "public.set_recipe_archived(uuid, boolean)|INVOKER",
   "public.set_saved_meal_archived(uuid, boolean)|INVOKER",
 ] as const;
-const intentionallyPreActivationRpcs = [
+const intentionallyLifecycleRpcs = [
+  "public.close_current_account(uuid, text)|DEFINER",
   "public.complete_invited_account_activation(boolean, boolean)|DEFINER",
+  "public.current_account_access_state()|INVOKER",
+  "public.is_current_account_access_allowed()|INVOKER",
   "public.is_current_account_activated()|INVOKER",
+  "public.is_current_account_closed()|INVOKER",
   "public.is_valid_canonical_gtin(text)|INVOKER",
   "public.is_valid_food_canonical_gtin(text)|INVOKER",
   "public.normalize_food_search_text(text)|INVOKER",
@@ -239,7 +244,7 @@ async function signInThroughUi(
 }
 
 test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
-  test("Phase 11E1 classifies every authenticated table and RPC and applies the restrictive activation gate", () => {
+  test("classifies every authenticated table and RPC and applies the canonical restrictive account-access gate", () => {
     const classifiedTables = JSON.parse(
       queryLocalAuthFixture(`
         select coalesce(json_agg(table_name order by table_name), '[]'::json)::text
@@ -266,7 +271,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
       `),
     );
     expect(classifiedTables).toEqual(
-      [...activationRequiredTables, ...intentionallyPreActivationTables].sort(),
+      [...accountAccessRequiredTables, ...intentionallyLifecycleTables].sort(),
     );
 
     const restrictivelyGatedTables = JSON.parse(
@@ -279,7 +284,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
           join pg_namespace as namespaces
             on namespaces.oid = relations.relnamespace
           where namespaces.nspname = 'public'
-            and policies.polname = 'account_activation_required'
+            and policies.polname = 'account_access_required'
             and policies.polpermissive is false
             and policies.polcmd = '*'
             and policies.polqual is not null
@@ -292,7 +297,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
         ) as gated_tables;
       `),
     );
-    expect(restrictivelyGatedTables).toEqual([...activationRequiredTables]);
+    expect(restrictivelyGatedTables).toEqual([...accountAccessRequiredTables]);
 
     const callableRpcs = JSON.parse(
       queryLocalAuthFixture(`
@@ -318,7 +323,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
       `),
     );
     expect(callableRpcs).toEqual(
-      [...activationRequiredRpcs, ...intentionallyPreActivationRpcs].sort(),
+      [...accountAccessRequiredRpcs, ...intentionallyLifecycleRpcs].sort(),
     );
 
     expect(
@@ -579,7 +584,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
           set role authenticated;
           ${definerInvocation}
         `),
-      ).toThrow(/account_activation_required/);
+      ).toThrow(/account_access_required/);
     }
 
     await completeActivationForm(page, "en");

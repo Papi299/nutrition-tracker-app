@@ -419,21 +419,23 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Phase 11E1 invited activation and confirmation and
-Phase 11E2 password recovery are accepted and merged. Phase 11E2 merged as
-`7331fa38be2d2f63bfb65038860dd870548fdcdc`, tree
-`30f06a9c1210bde8933852d48309d8437cbabdc7`, with exact-main CI run
-`33144707646` / run number `204` / attempt `1` / Validate job `98763090759`
-successful. Phase 11E3 recent password reauthentication is the current
-repository candidate. Contract 1.6 and its historical-evidence validator are
-current under the externally established `PHASE_11E0B_POST_MERGE_ACCEPTED`
-state.
+**Next continuation point:** Phase 11E1 through Phase 11E4 are accepted and
+merged. Phase 11E4 merged as
+`5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+`88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`, with exact-main CI run
+`33211476519` / run number `210` / attempt `2` / Validate job `98988364780`
+successful. Phase 11E5 irreversible logical account closure is the current
+repository/local implementation candidate. Contract 1.6 and its historical-
+evidence validator remain current under the externally established
+`PHASE_11E0B_POST_MERGE_ACCEPTED` state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
-**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 and
-Phase 11E2 are `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase
-11E3 is the implementation candidate pending exact-head independent review.
+**Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1
+through Phase 11E4 are
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E5 is the
+repository/local implementation candidate pending exact-head CI and
+independent review.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
@@ -508,9 +510,9 @@ accepted the slice and PR #111 was squash-merged as
 `98763090759`. Phase 11E2 is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-### Current Phase 11E3 slice
+### Accepted Phase 11E3 slice
 
-The Phase 11E3 candidate implements explicit password re-entry through a
+The Phase 11E3 implementation provides explicit password re-entry through a
 localized ordinary HTML route. The server derives the activated current user
 and exact Supabase `session_id`, verifies the password with an isolated public
 non-persistent client, disposes only the temporary verification session, and
@@ -529,13 +531,40 @@ tampered proofs, user/session mismatch, temporary-session containment, provider
 failures, EN/HE no-JavaScript operation, accessibility, and the accepted
 activation/RLS boundary. The
 [Phase 11E3 validation record](phase-11e3-recent-password-reauthentication-validation.md)
-contains the bounded evidence. Hosted secret provisioning and Auth behavior,
-final native-Hebrew review, qualified legal/privacy evidence, export,
-closure/deletion, and final integration remain uncollected. Phase 11E3 remains
-`PENDING_INDEPENDENT_REVIEW`.
+contains the bounded evidence. Independent review accepted Phase 11E3 and PR
+#112 was squash-merged as `c54d0d1ed6149563ef33f1934ee3bfbc09e3a6cb`,
+tree `a0ed2c67abacb3361c173244df68a698c269b019`. Exact-main CI run
+`33164308402`, run number `206`, succeeded on attempt `3` through Validate job
+`98835074428`; earlier failed attempts are not represented as passing. Phase
+11E3 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-Export, closure/deletion, and final Phase 11E integration remain separate
-11E4–11E6 slices.
+### Accepted Phase 11E4 slice
+
+Phase 11E4 adds localized no-JavaScript synchronous version-1 JSON export,
+requires the exact E3 user/session proof, and uses only the ordinary
+RLS-protected account session. It creates no persistent artifact, job, Storage
+object, or privileged credential. Independent review accepted it and PR #114
+was squash-merged as `5acfce0f0d45c80dc4c8d8131b67e915e421cd13`,
+tree `88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`. Exact-main CI run
+`33211476519`, run number `210`, succeeded on attempt `2` through Validate job
+`98988364780`; earlier failure remains non-successful evidence. Phase 11E4 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+### Current Phase 11E5 slice
+
+The Product Owner approved `P11E-E5D-001`–`015` on 2026-08-29. The candidate
+implements immediate irreversible logical account closure through one
+immutable RLS-protected closure row, a separate server-derived account-access
+predicate, and a short-lived database-verifiable capability bound to the exact
+E3 user/session proof. It supports EN/HE CJ-035 with JavaScript disabled,
+atomic/idempotent commit, commit-first cleanup, closed sign-in/recovery routing,
+stale-JWT denial, and E4 denial after closure.
+
+Physical Auth/data deletion, receipt/FK rewriting, retention duration,
+pseudonymization, backup and Storage actions, invitation-register mutation,
+hosted secret provisioning, deployment, and qualified legal/privacy or final
+native-Hebrew evidence remain excluded. Phase 11E5 remains pending exact-head
+CI and independent review; Phase 11E6 external reconciliation remains separate.
 
 ### Objective
 

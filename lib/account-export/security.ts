@@ -1,48 +1,15 @@
 import "server-only";
 
 import type { AccountExportFailureInjection } from "@/lib/account-export/collector";
+import {
+  applicationUrl,
+  requestIsSameOrigin,
+} from "@/lib/security/same-origin";
 
-function applicationOrigin() {
-  const rawOrigin = process.env.APP_ORIGIN;
-
-  if (!rawOrigin) {
-    throw new Error("The server-owned application origin is not configured.");
-  }
-
-  const origin = new URL(rawOrigin);
-
-  if (
-    !["http:", "https:"].includes(origin.protocol) ||
-    origin.username ||
-    origin.password ||
-    origin.pathname !== "/" ||
-    origin.search ||
-    origin.hash
-  ) {
-    throw new Error("The server-owned application origin is invalid.");
-  }
-
-  return origin;
-}
+export { applicationUrl };
 
 export function accountExportRequestIsSameOrigin(request: Request) {
-  const fetchSite = request.headers.get("sec-fetch-site");
-
-  if (fetchSite && fetchSite !== "same-origin" && fetchSite !== "none") {
-    return false;
-  }
-
-  const suppliedOrigin = request.headers.get("origin");
-
-  if (!suppliedOrigin) {
-    return true;
-  }
-
-  try {
-    return new URL(suppliedOrigin).origin === applicationOrigin().origin;
-  } catch {
-    return false;
-  }
+  return requestIsSameOrigin(request);
 }
 
 export function accountExportFailureInjection(
@@ -56,8 +23,4 @@ export function accountExportFailureInjection(
   }
 
   return undefined;
-}
-
-export function applicationUrl(path: string) {
-  return new URL(path, applicationOrigin());
 }

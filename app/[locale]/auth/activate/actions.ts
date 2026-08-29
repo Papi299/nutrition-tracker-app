@@ -3,8 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
+import { cleanupClosedAccountSession } from "@/lib/auth/session-cleanup";
 import {
+  accountClosedPath,
   protectedHomePath,
   resolveAuthLocale,
   signInPath,
@@ -65,14 +67,23 @@ export async function activateAccountAction(
   }
 
   const supabase = await createServerClient();
-  const state = await getAccountActivationState(supabase);
+  const state = await getAccountAccessState(supabase);
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));
   }
 
-  if (state.status === "complete") {
+  if (state.status === "closed") {
+    await cleanupClosedAccountSession(supabase);
+    redirect(accountClosedPath(locale));
+  }
+
+  if (state.status === "active") {
     redirect(protectedHomePath(locale));
+  }
+
+  if (state.status !== "activation_required") {
+    return { code: "activationFailed", status: "error" };
   }
 
   const { data: identityData, error: identityError } =

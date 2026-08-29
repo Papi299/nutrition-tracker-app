@@ -4,8 +4,9 @@ import { setRequestLocale } from "next-intl/server";
 import { activateAccountAction } from "@/app/[locale]/auth/activate/actions";
 import { ActivationForm } from "@/components/auth/activation-form";
 import { SignOutButton } from "@/components/auth/sign-out-button";
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
 import {
+  accountClosedPath,
   protectedHomePath,
   signInPath,
 } from "@/lib/auth/require-user";
@@ -26,14 +27,22 @@ export default async function ActivationPage({ params }: ActivationPageProps) {
   const { locale } = await params;
 
   setRequestLocale(locale);
-  const state = await getAccountActivationState();
+  const state = await getAccountAccessState();
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));
   }
 
-  if (state.status === "complete") {
+  if (state.status === "closed") {
+    redirect(accountClosedPath(locale));
+  }
+
+  if (state.status === "active") {
     redirect(protectedHomePath(locale));
+  }
+
+  if (state.status !== "activation_required") {
+    redirect(signInPath(locale));
   }
 
   return <LocalizedActivationPage locale={locale} />;

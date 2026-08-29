@@ -345,8 +345,18 @@ accepted and squash-merged through PR #111 as
 `33144707646`, run number `204`, attempt `1`, passed through Validate job
 `98763090759`. Its bounded state is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E3 recent
-password reauthentication is the current repository candidate pending
-exact-head independent review.
+password reauthentication was independently accepted and squash-merged
+through PR #112 as `c54d0d1ed6149563ef33f1934ee3bfbc09e3a6cb`, tree
+`a0ed2c67abacb3361c173244df68a698c269b019`; exact-main CI run
+`33164308402`, run number `206`, succeeded on attempt `3` through Validate job
+`98835074428`. Phase 11E4 synchronous JSON export was independently accepted
+and squash-merged through PR #114 as
+`5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+`88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`; exact-main CI run
+`33211476519`, run number `210`, succeeded on attempt `2` through Validate job
+`98988364780`. Both bounded states are
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5 logical
+account closure is the current repository/local implementation candidate.
 
 The Phase 11E1 correction candidate supplements the Next.js lifecycle gate
 with a centralized database activation predicate, restrictive activation
@@ -368,7 +378,7 @@ accepted activation/RLS boundary. Recovery creates no recent-auth evidence.
 Hosted Auth and final Hebrew review remain uncredited and deferred. Its status
 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-The Phase 11E3 candidate adds localized explicit current-password
+The accepted Phase 11E3 slice adds localized explicit current-password
 reauthentication for an activated user. A server-only module derives the
 current user and `session_id`, verifies the password through an isolated
 non-persistent provider session, disposes that temporary session locally, and
@@ -377,9 +387,18 @@ The host-only HttpOnly SameSite=Strict cookie is cleared on sign-out and
 recovery completion; ordinary recovery or sign-in never creates it. Focused
 local tests cover no-JavaScript EN/HE behavior, freshness, tampering,
 user/session mismatch, provider failures, temporary-session containment, and
-the activation/RLS boundary. The candidate status is
-`PENDING_INDEPENDENT_REVIEW`; export, closure/deletion, and external
-reconciliation remain separate Phase 11E4–11E6 work.
+the activation/RLS boundary. Its status is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+The accepted Phase 11E4 slice adds localized synchronous version-1 JSON
+export through the ordinary RLS-protected session and exact current E3 proof,
+with no durable artifact or privileged credential. The current Phase 11E5
+candidate adds immediate irreversible logical closure through one immutable
+closure record, a separate canonical account-access predicate, and an
+E3/session-bound database-verifiable short-lived capability. It performs no
+physical Auth/data deletion, retention or pseudonymization decision, hosted
+secret action, backup/Storage action, or deployment. Phase 11E6 external
+reconciliation remains separate later work.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -515,13 +534,14 @@ contrast, motion, AT, affected-layout RTL, supported-browser/platform/device,
 and camera acceptance against the stabilized pre-release UI. Phase 11K must
 reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
-finding, and authorizes no launch or deployment. Phase 11E1 invited activation
-and confirmation and Phase 11E2 password recovery are accepted and merged.
-Phase 11E3 recent password reauthentication is the current implementation
-candidate. After its exact-head review and merge, the next bounded continuation
-point is Phase 11E4 synchronous JSON account export; this does not authorize
-hosted Auth configuration, export implementation in this slice, or any later
-Phase 11E work.
+finding, and authorizes no launch or deployment. Phase 11E1 invited activation,
+Phase 11E2 password recovery, Phase 11E3 recent password reauthentication, and
+Phase 11E4 synchronous JSON export are accepted and merged. Phase 11E5
+immediate irreversible logical account closure is the current repository/local
+implementation candidate pending exact-head CI and independent review. This
+does not authorize merge, hosted Auth or secret configuration, physical
+deletion, retention/pseudonymization decisions, deployment, or later Phase 11E
+work.
 
 ## Future PR Documentation Rule
 

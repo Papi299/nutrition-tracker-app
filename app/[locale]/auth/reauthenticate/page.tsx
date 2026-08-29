@@ -4,9 +4,10 @@ import { setRequestLocale } from "next-intl/server";
 import { reauthenticateWithPasswordAction } from "./actions";
 import { ReauthenticationForm } from "@/components/auth/reauthentication-form";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
-import { getAccountActivationState } from "@/lib/auth/account-activation";
+import { getAccountAccessState } from "@/lib/auth/account-access";
 import { inspectRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import {
+  accountClosedPath,
   activationPath,
   signInPath,
 } from "@/lib/auth/require-user";
@@ -38,14 +39,22 @@ export default async function ReauthenticationPage({
   const intent = resolveReauthenticationIntent(query.intent);
 
   setRequestLocale(locale);
-  const activation = await getAccountActivationState();
+  const access = await getAccountAccessState();
 
-  if (activation.status === "unauthenticated") {
+  if (access.status === "unauthenticated") {
     redirect(signInPath(locale));
   }
 
-  if (activation.status !== "complete") {
+  if (access.status === "closed") {
+    redirect(accountClosedPath(locale));
+  }
+
+  if (access.status === "activation_required") {
     redirect(activationPath(locale));
+  }
+
+  if (access.status !== "active") {
+    redirect(signInPath(locale));
   }
 
   const recentAuthentication = await inspectRecentPasswordAuthentication();

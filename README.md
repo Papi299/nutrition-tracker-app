@@ -329,7 +329,19 @@ is complete for the current MVP scope.
   `33144707646` / run number `204` / attempt `1` passed through Validate job
   `98763090759`. Its bounded state is
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E3 recent
-  password reauthentication is the current repository candidate.
+  password reauthentication was independently accepted and squash-merged
+  through PR #112 as `c54d0d1ed6149563ef33f1934ee3bfbc09e3a6cb`, tree
+  `a0ed2c67abacb3361c173244df68a698c269b019`; exact-main CI run
+  `33164308402` / run number `206` succeeded on attempt `3` through Validate
+  job `98835074428`. Phase 11E4 synchronous JSON export was independently
+  accepted and squash-merged through PR #114 as
+  `5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+  `88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`; exact-main CI run
+  `33211476519` / run number `210` succeeded on attempt `2` through Validate
+  job `98988364780`. Both bounded states are
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5
+  irreversible logical account closure is the current repository/local
+  implementation candidate.
   Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
@@ -354,9 +366,22 @@ is complete for the current MVP scope.
   Supabase session. The localized route works without JavaScript; sign-out and
   recovery completion clear the proof; recovery never creates one. See the
   [Phase 11E3 validation record](docs/phase-11e3-recent-password-reauthentication-validation.md).
-  The Phase 11E3 candidate remains `PENDING_INDEPENDENT_REVIEW`; hosted Auth
-  behavior, hosted secret provisioning, final native-Hebrew review, qualified
-  legal/privacy review, OAuth, and later 11E4–11E6 work remain deferred. The
+  Phase 11E4 adds synchronous version-1 JSON export through the ordinary
+  RLS-protected account session and exact E3 proof, with no durable artifact or
+  privileged credential. Phase 11E5 adds an immutable closure record, separate
+  canonical account-access predicate, EN/HE no-JavaScript confirmation flow,
+  and a short-lived E3 user/session-bound database-verifiable capability. The
+  closure handler revalidates the provider user after E3 and before minting,
+  while the closure RPC independently requires the exact current
+  `auth.sessions` row before accepting that capability. It is closure only:
+  physical deletion, retention/pseudonymization decisions,
+  hosted secret provisioning, backups, Storage, restricted-register action,
+  and deployment remain deferred. See the
+  [Phase 11E5 validation record](docs/phase-11e5-account-closure-validation.md).
+  The Phase 11E5 candidate remains pending exact-head CI and independent
+  review; hosted Auth behavior, final native-Hebrew review, qualified
+  legal/privacy review, OAuth, and Phase 11E6 external reconciliation remain
+  deferred. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
