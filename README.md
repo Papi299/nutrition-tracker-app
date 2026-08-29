@@ -263,9 +263,10 @@ is complete for the current MVP scope.
   `REQUIRED_FALLBACK_ONLY`; and CJ-015 `NOT_APPLICABLE`. The later Product
   Owner-approved UI-dependent manual-acceptance timing amendment is preserved
   as historical contract
-  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. Candidate
-  contract `1.6-phase-11e-nojs-classifications-amended` changes exactly six
-  Phase 11E no-JavaScript rows and has current totals `16 / 5 / 13 / 1`, while
+  `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. Current
+  accepted contract `1.6-phase-11e-nojs-classifications-amended` changes
+  exactly six Phase 11E no-JavaScript rows and has current totals
+  `16 / 5 / 13 / 1`, while
   accepted Phase 11C evidence remains bound to historical version
   `1.4-phase-11b-remaining-implemented-nojs-amended` and historical totals
   `11 / 4 / 13 / 7`. That 35 / 223 / 718 inventory remains the historical
@@ -340,8 +341,13 @@ is complete for the current MVP scope.
   `33211476519` / run number `210` succeeded on attempt `2` through Validate
   job `98988364780`. Both bounded states are
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5
-  irreversible logical account closure is the current repository/local
-  implementation candidate.
+  irreversible logical account closure was independently accepted and
+  squash-merged through PR #115 as
+  `256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+  `ecbc8845b6eee16089e97447d108ac557bb0e67f`; exact-main CI run
+  `33249888401`, run number `213`, attempt `1`, succeeded through Validate job
+  `99093634771`. All Phase 11E1–E5 repository slices are
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
   Its five prerequisite roles and bounded `P11E-E001`–`P11E-E012` engineering
   decisions are now attributable in the
   [Phase 11E governance record](docs/phase-11e-auth-account-lifecycle-governance.md),
@@ -378,10 +384,12 @@ is complete for the current MVP scope.
   hosted secret provisioning, backups, Storage, restricted-register action,
   and deployment remain deferred. See the
   [Phase 11E5 validation record](docs/phase-11e5-account-closure-validation.md).
-  The Phase 11E5 candidate remains pending exact-head CI and independent
-  review; hosted Auth behavior, final native-Hebrew review, qualified
-  legal/privacy review, OAuth, and Phase 11E6 external reconciliation remain
-  deferred. The
+  Phase 11E6 reconciles the accepted slices as one lifecycle and records the
+  remaining operator-owned work in the
+  [Phase 11E integration and external-readiness handoff](docs/phase-11e-integration-external-readiness-handoff.md).
+  Hosted Auth behavior, hosted secrets, invitation-register operations, final
+  native-Hebrew review, qualified legal/privacy review, backups, devices,
+  deployment, and Production remain deferred and uncredited. The
   [Phase 11D validation packet](docs/phase-11d-accessibility-locale-browser-validation.md),
   [browser exploratory evidence](docs/phase-11c-browser-exploratory-evidence.md),
   merged
@@ -508,9 +516,9 @@ Manual RTL QA checklist:
 - The sign-in form uses a localized Server Action and Supabase email/password
   auth. The sign-up routes are invitation-only informational pages and perform
   no account mutation.
-- Sign-in success redirects to `/{locale}/today`.
-- Sign-in redirects activated users to `/{locale}/today` and incomplete users
-  to `/{locale}/auth/activate`.
+- Sign-in redirects active users to `/{locale}/today`, incomplete invited users
+  to `/{locale}/auth/activate`, and closed identities to the localized
+  no-store account-closed surface after browser/session cleanup.
 - A localized `/{locale}/auth/confirm` callback accepts invite purpose only,
   verifies the token server-side, and immediately clears the token-bearing URL.
 - Invited users complete password setup and explicit 18+/Israel private-beta
@@ -527,13 +535,20 @@ Manual RTL QA checklist:
 - Required local Supabase values for functional auth testing:
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- Sensitive local lifecycle tests also use separate server-only
+  `AUTH_REAUTH_PROOF_SECRET` and `ACCOUNT_CLOSURE_CAPABILITY_SECRET` values.
+  The latter must match the database-side Vault secret named
+  `account_closure_capability_v1`; no hosted value is provisioned by the
+  repository.
 - Real values belong in untracked `.env.local`; `.env.example` must contain
   placeholders only.
 - Local ordinary signup is disabled. The local test harness uses the real local
   administrative invitation endpoint and local email capture; no administrative
   credential is exposed to application runtime or browser code.
-- Password reset/recovery, recent-authentication flows, export,
-  closure/deletion, and OAuth/social auth remain unavailable.
+- Password recovery, exact-session recent password reauthentication,
+  synchronous versioned JSON export, and irreversible logical account closure
+  are implemented locally. OAuth/social auth and physical deletion remain
+  deferred.
 - Manual QA should confirm each auth route renders in the correct locale,
   Hebrew pages inherit RTL direction, generic localized errors are shown, raw
   Supabase errors are not shown, and functional auth is tested only when local

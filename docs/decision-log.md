@@ -2860,3 +2860,42 @@
   independent review. `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`,
   `OPEN`; all 18 findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase
   11K remains the sole finding-closure gate.
+
+## 2026-08-29: Phase 11E5 acceptance and Phase 11E6 integration-reconciliation candidate
+
+- Independent review accepted Phase 11E5 and PR #115 was squash-merged as
+  `256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+  `ecbc8845b6eee16089e97447d108ac557bb0e67f`, with sole parent
+  `5acfce0f0d45c80dc4c8d8131b67e915e421cd13`. Exact-main CI run
+  `33249888401`, run number `213`, event `push`, attempt `1`, succeeded through
+  Validate job `99093634771`. Evidence artifact
+  `phase-11d-evidence-33249888401-1`, ID `9714182997`, has digest
+  `sha256:b3844b873ed360064797fd484d6347bd04b7fe7848a56a69efd492d50080a23e`.
+  Phase 11E5 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E6 audited invitation confirmation, incomplete and successful
+  activation, protected access, recovery, recovery-to-sign-in, exact-session
+  E3, E4 export, E5 closure, stale sessions, closed sign-in, closed recovery,
+  and activation replay as one lifecycle. The accepted implementation and
+  focused tests compose coherently; no integration defect, runtime change,
+  migration, RLS change, or additional duplicate browser test was justified.
+- The canonical model distinguishes provider identity/session/password state
+  from application `activation_required`, `active`, and immutable `closed`
+  state. Recovery may change a password before activation or after closure but
+  never changes application lifecycle or creates E3. Closure overrides the
+  historical activation record and blocks stale access, E3, export, ordinary
+  sign-in routing, recovery-based reopening, and activation replay.
+- `docs/phase-11e-integration-external-readiness-handoff.md` is the
+  authoritative repository-to-external handoff. It inventories E1–E5, records
+  integrated invariants, assigns every remaining hosted/manual/legal evidence
+  category, and provides bounded future procedures for hosted Auth, distinct
+  E3/E5 application secrets, matching E5 Vault secret, secret-match smoke,
+  restricted invitation operations and `ACCOUNT_CLOSED` reconciliation, and
+  the later hosted E1–E5 smoke.
+- No hosted Supabase, Vercel, Production, secret, invitation, legal, backup,
+  Storage, device, deployment, physical deletion, or finding-closure action
+  occurred. Phase 11E6 is
+  `PHASE_11E6_INTEGRATION_RECONCILIATION_CANDIDATE`; Phase 11E is
+  `PHASE_11E_REPOSITORY_IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+  `P11A-006` and `P11A-009` remain P0 `RELEASE_BLOCKER`, `OPEN`; all 18
+  findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11K remains the
+  sole finding-closure gate.

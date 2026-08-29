@@ -11,7 +11,7 @@
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 through Phase 11E4 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; CI-maintenance PR #113 accepted; Phase 11E5 is the repository/local implementation candidate pending exact-head CI and independent review |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 through Phase 11E5 independently accepted and merged as `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; CI-maintenance PR #113 accepted; Phase 11E6 is the repository integration and external-readiness reconciliation candidate |
 | Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
@@ -175,11 +175,11 @@ No implementation or evidence credit follows from classification approval.
 `PHASE_11E0B_POST_MERGE_ACCEPTED`
 
 Phase 11C evidence remains historically bound to
-`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current candidate
-is `1.6-phase-11e-nojs-classifications-amended`. The evolved journey-evidence
-validator independently binds historical evidence to immutable accepted
+`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current accepted
+contract is `1.6-phase-11e-nojs-classifications-amended`. The evolved
+journey-evidence validator independently binds historical evidence to immutable accepted
 fingerprints and a canonical normative-projection digest, then validates the
-current candidate through an exact six-journey amendment allowlist.
+current accepted contract through an exact six-journey amendment allowlist.
 
 The accepted 11E0B implementation evolves that compatibility model so:
 
@@ -230,15 +230,15 @@ approval is recorded by this document.
 - Phase 11E4 synchronous versioned JSON account export is independently
   accepted and merged with status
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
-- Phase 11E5 now has a repository/local implementation candidate for immediate
-  irreversible logical account closure. Together these are substantial
-  implementation evidence for `P11A-006`, but the finding remains `OPEN` and
-  no hosted/external evidence is claimed.
+- Phase 11E5 immediate irreversible logical account closure is independently
+  accepted and merged with status
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Together these are
+  substantial implementation evidence for `P11A-006`, but the finding remains
+  `OPEN` and no hosted/external evidence is claimed.
 
 No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
 remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
-legal action follows from the Phase 11E1–11E4 acceptance or Phase 11E5
-candidate.
+legal action follows from the Phase 11E1–11E5 repository acceptance.
 
 ## 8. Accepted Phase 11E1 invited activation and confirmation
 
@@ -255,7 +255,7 @@ password authentication. Protected routes and password sign-in fail closed to
 the activation route until that durable record exists. The activation RPC is
 idempotent and accepts no caller-owned user identifier.
 
-The correction candidate also makes durable activation a database
+The accepted correction also makes durable activation a database
 authorization condition rather than relying on the application route gate.
 `public.is_current_account_activated()` derives only `auth.uid()`, uses an
 explicit empty search path, executes with caller privileges, and accepts the
@@ -365,7 +365,7 @@ accepted Phase 11E2 and PR #111 was squash-merged as
 
 ## 10. Accepted Phase 11E3 recent password reauthentication
 
-The Phase 11E3 repository candidate implements the sensitive-action
+The accepted Phase 11E3 repository implementation provides the sensitive-action
 authorization prerequisite approved by `P11E-E003`–`P11E-E006`. The localized
 `/{locale}/auth/reauthenticate` surface accepts only the current password and
 works as an ordinary HTML form without JavaScript. It does not accept caller
@@ -461,7 +461,7 @@ The earlier failed attempt is retained as non-successful evidence and is not
 represented as passing. Phase 11E4 is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-## 12. Phase 11E5 approved decisions and implementation candidate
+## 12. Phase 11E5 approved decisions and accepted implementation
 
 On 2026-08-29, Product Owner Maor Pichhadze gave this attributable approval:
 
@@ -492,7 +492,7 @@ The approved, refined decisions are:
 | `P11E-E5D-014` — Physical deletion executor | Physical Auth/data disposition is deferred to a separately authorized operator procedure or future trusted automation. No service-role/admin credential enters ordinary application runtime. |
 | `P11E-E5D-015` — Retention-policy dependency | Auth identity, product data, receipts/evidence, invitation history, Storage if later applicable, and backups have no final retention period in E5. Deletion, pseudonymization, evidence preservation, legal basis, and duration require qualified review and separate authorization. |
 
-The Phase 11E5 repository candidate records closure in
+The accepted Phase 11E5 repository implementation records closure in
 `public.account_closures`, with server-generated identity/time/policy fields,
 unique user and request constraints, an `ON DELETE RESTRICT` Auth foreign key,
 RLS, and no ordinary authenticated insert, update, or delete privilege. The
@@ -515,11 +515,31 @@ immutable record. Local tests provision only a fresh synthetic Vault secret;
 no real secret, hosted secret, privileged
 application credential, deployment, physical deletion, retention duration,
 pseudonymization, backup action, Storage action, or invitation-register action
-is part of this candidate.
+is part of this accepted repository slice.
 
 Focused evidence is recorded in
 [`phase-11e5-account-closure-validation.md`](phase-11e5-account-closure-validation.md).
-Phase 11E5 remains a repository/local implementation candidate pending
-exact-head CI and independent review. It closes no finding and does not
-authorize merge, deployment, hosted configuration, legal acceptance, or
-launch.
+Independent review accepted Phase 11E5 and PR #115 was squash-merged as
+`256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+`ecbc8845b6eee16089e97447d108ac557bb0e67f`. Exact-main CI run
+`33249888401`, run number `213`, attempt `1`, succeeded through Validate job
+`99093634771`. Evidence artifact `phase-11d-evidence-33249888401-1`, ID
+`9714182997`, has digest
+`sha256:b3844b873ed360064797fd484d6347bd04b7fe7848a56a69efd492d50080a23e`.
+Phase 11E5 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. It closes
+no finding and does not authorize deployment, hosted configuration, legal
+acceptance, or launch.
+
+## 13. Phase 11E6 integration and external-readiness handoff
+
+The Phase 11E6 repository audit found the accepted E1–E5 slices coherent as
+one lifecycle and found no bounded integration defect requiring runtime,
+migration, RLS, or test changes. The canonical state model, integrated
+invariants, external dependency matrix, evidence ownership, unresolved policy
+items, and future operator procedures are maintained in the
+[Phase 11E integration and external-readiness handoff](phase-11e-integration-external-readiness-handoff.md).
+
+This reconciliation gives no hosted Supabase, Vercel, secret, invitation,
+legal, backup, Storage, device, deployment, Production, or finding-closure
+credit. All 18 findings remain `OPEN`, and Phase 11K remains the exclusive
+finding-closure gate.
