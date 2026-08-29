@@ -11,7 +11,7 @@
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
-| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1, Phase 11E2, and Phase 11E3 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; CI-maintenance PR #113 accepted; Phase 11E4 `PENDING_INDEPENDENT_REVIEW` |
+| Current status | `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1 through Phase 11E4 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; CI-maintenance PR #113 accepted; Phase 11E5 is the repository/local implementation candidate pending exact-head CI and independent review |
 | Contract 1.6 independent review | Accepted outside this task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99` |
 
 This document records the role assignments and bounded engineering decisions
@@ -227,14 +227,17 @@ approval is recorded by this document.
 - Phase 11E3 recent explicit password reauthentication is independently
   accepted and merged with status
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
-- Phase 11E4 now has a repository/local implementation candidate for the
-  synchronous versioned JSON account export. Together these are substantial
+- Phase 11E4 synchronous versioned JSON account export is independently
+  accepted and merged with status
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+- Phase 11E5 now has a repository/local implementation candidate for immediate
+  irreversible logical account closure. Together these are substantial
   implementation evidence for `P11A-006`, but the finding remains `OPEN` and
   no hosted/external evidence is claimed.
 
 No historical-journey-evidence rewrite, hosted Supabase, Dashboard invitation,
 remote SQL, Vercel, Production, deployment, DNS, launch, finding-closure, or
-legal action follows from the Phase 11E1–11E3 acceptance or Phase 11E4
+legal action follows from the Phase 11E1–11E4 acceptance or Phase 11E5
 candidate.
 
 ## 8. Accepted Phase 11E1 invited activation and confirmation
@@ -421,9 +424,9 @@ Hosted Auth behavior, real server-secret provisioning, deployment, final
 native-Hebrew acceptance, qualified legal/privacy evidence, OAuth, and Phase
 11E4–11E6 were not collected by the E3 slice.
 
-## 11. Phase 11E4 synchronous JSON account export candidate
+## 11. Accepted Phase 11E4 synchronous JSON account export
 
-The Phase 11E4 repository candidate implements CJ-034 as a localized
+The accepted Phase 11E4 repository implementation implements CJ-034 as a localized
 server-rendered account surface and synchronous in-memory version-1 JSON
 download. The dedicated POST Route Handler independently requires current
 authentication, completed activation, the accepted E3 exact-session
@@ -443,8 +446,77 @@ exported diary history.
 Every unbounded collection is deterministically paginated; local evidence
 crosses the provider limit with 1,002 exported diary rows. English and Hebrew
 no-JavaScript journeys perform real password reauthentication and actual JSON
-downloads. The candidate adds no migration, privileged credential, persistent
+downloads. The implementation adds no migration, privileged credential, persistent
 export artifact, deployment, or E5 deletion behavior. Its focused evidence is
 recorded in
 [`phase-11e4-account-export-validation.md`](phase-11e4-account-export-validation.md).
-Phase 11E4 remains `PENDING_INDEPENDENT_REVIEW`.
+Independent review accepted Phase 11E4 and PR #114 was squash-merged as
+`5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
+`88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`. Post-merge exact-main CI run
+`33211476519`, run number `210`, succeeded on attempt `2` through Validate job
+`98988364780`. Evidence artifact `phase-11d-evidence-33211476519-2`, ID
+`9702437001`, has digest
+`sha256:553c9a4a5e2e4fe364020bc1c28b6eb080f995f1f26451c2257075499bc08759`.
+The earlier failed attempt is retained as non-successful evidence and is not
+represented as passing. Phase 11E4 is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+## 12. Phase 11E5 approved decisions and implementation candidate
+
+On 2026-08-29, Product Owner Maor Pichhadze gave this attributable approval:
+
+> I approve Phase 11E5 Product Owner decisions P11E-E5D-001 through
+> P11E-E5D-015 as modified and refined by ChatGPT above, including the
+> closure-only scope, immutable account-closure record, separate
+> account-access predicate, DB-verifiable E3-bound closure capability, and
+> deferral of all physical deletion, retention-duration, pseudonymization,
+> backup-erasure, hosted-secret, and legally dependent decisions/evidence.
+
+The approved, refined decisions are:
+
+| Decision | Approved state |
+| --- | --- |
+| `P11E-E5D-001` — Lifecycle model | Immediate irreversible logical application-account closure. E5 is not physical deletion. |
+| `P11E-E5D-002` — Grace period / reactivation | No grace period, post-commit undo, reopening, or self-reactivation. Pre-commit cancel means zero lifecycle mutation. |
+| `P11E-E5D-003` — Auth-user treatment | The database closure record immediately removes application access. Current-session cleanup follows best effort; physical Auth-user deletion and privileged cross-session disposition are deferred. |
+| `P11E-E5D-004` — Active application-data treatment | Product data remains physically unchanged but inaccessible through the fail-closed account-access predicate. This is not a retention-duration decision. |
+| `P11E-E5D-005` — Immutable receipts / historical evidence | Existing receipt, run, activation, and historical rows are not deleted, pseudonymized, or re-keyed in E5. Their eventual disposition remains qualified-review and later-authorization work. |
+| `P11E-E5D-006` — Idempotency model | One immutable closure row per provider identity and one unique request ID are the convergence boundary. Repeats, concurrency, replay, and lost responses converge to `closed` or `already_closed` without caller-owned identity. |
+| `P11E-E5D-007` — Restricted invitation-register treatment | Runtime automation is excluded. A later operator must append attributable `ACCOUNT_CLOSED` status/correction, preserve issuance history, keep provider action distinct, and reconcile separately. |
+| `P11E-E5D-008` — Storage treatment | `NO_CURRENT_USER_STORAGE_OBJECT_SCOPE_IDENTIFIED`; E5 adds and mutates no Storage object or bucket. Any later identified scope needs separate treatment. |
+| `P11E-E5D-009` — Backup treatment | No backup mutation, erasure claim, or invented retention period. Backup treatment remains deferred to qualified review and recovery governance. |
+| `P11E-E5D-010` — User-facing terminology and truthfulness | Use **Close account** and **Account closed**. Do not claim permanent deletion, data erasure, backup erasure, or legal compliance. Final legally material and native-Hebrew acceptance remains external. |
+| `P11E-E5D-011` — Export relationship | Strongly offer the accepted E4 export before closure, but never require it. Export must fail closed after commit. |
+| `P11E-E5D-012` — Post-commit UX/session behavior | Commit closure first, then attempt global sign-out and clear local Auth/E3 state, and always route outside the protected app to the localized no-store closed-account surface. Cleanup failure cannot reverse closure. |
+| `P11E-E5D-013` — Closed-account sign-in behavior | Successful provider authentication of a retained closed identity is followed by live lifecycle classification, cleanup, and localized closed status; it never restores product access or creates an enumeration distinction before successful authentication. |
+| `P11E-E5D-014` — Physical deletion executor | Physical Auth/data disposition is deferred to a separately authorized operator procedure or future trusted automation. No service-role/admin credential enters ordinary application runtime. |
+| `P11E-E5D-015` — Retention-policy dependency | Auth identity, product data, receipts/evidence, invitation history, Storage if later applicable, and backups have no final retention period in E5. Deletion, pseudonymization, evidence preservation, legal basis, and duration require qualified review and separate authorization. |
+
+The Phase 11E5 repository candidate records closure in
+`public.account_closures`, with server-generated identity/time/policy fields,
+unique user and request constraints, an `ON DELETE RESTRICT` Auth foreign key,
+RLS, and no ordinary authenticated insert, update, or delete privilege. The
+historical activation predicate remains unchanged. A separate zero-argument
+`public.is_current_account_access_allowed()` predicate requires provider
+identity, accepted activation, and absence of a closure row. It now gates all
+16 protected product tables and every protected-data private
+`SECURITY DEFINER` helper.
+
+The localized no-JavaScript closure POST boundary verifies current account
+state, exact destructive confirmation, same-origin metadata, and the accepted
+E3 user/session-bound proof before it mints an in-memory 60-second-or-less
+`account-closure` capability. The capability cannot outlive E3, uses a
+dedicated application secret, and is verified inside PostgreSQL against a
+protected database-local secret before the narrowly granted atomic closure
+RPC inserts or converges on the immutable record. Local tests provision only a
+fresh synthetic Vault secret; no real secret, hosted secret, privileged
+application credential, deployment, physical deletion, retention duration,
+pseudonymization, backup action, Storage action, or invitation-register action
+is part of this candidate.
+
+Focused evidence is recorded in
+[`phase-11e5-account-closure-validation.md`](phase-11e5-account-closure-validation.md).
+Phase 11E5 remains a repository/local implementation candidate pending
+exact-head CI and independent review. It closes no finding and does not
+authorize merge, deployment, hosted configuration, legal acceptance, or
+launch.

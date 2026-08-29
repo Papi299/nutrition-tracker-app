@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { verifyCurrentPasswordAndIssueRecentAuthentication } from "@/lib/auth/recent-password-auth";
 import {
+  accountClosedPath,
   activationPath,
   resolveAuthLocale,
   signInPath,
@@ -37,6 +38,10 @@ export async function reauthenticateWithPasswordAction(
 
   if (result.status === "activation_required") {
     redirect(activationPath(locale));
+  }
+
+  if (result.status === "closed") {
+    redirect(accountClosedPath(locale));
   }
 
   if (result.status === "success") {

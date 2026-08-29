@@ -30,6 +30,30 @@ export type Database = {
         }
         Relationships: []
       }
+      account_closures: {
+        Row: {
+          closed_at: string
+          closure_id: string
+          closure_policy_version: string
+          closure_request_id: string
+          user_id: string
+        }
+        Insert: {
+          closed_at?: string
+          closure_id?: string
+          closure_policy_version: string
+          closure_request_id: string
+          user_id: string
+        }
+        Update: {
+          closed_at?: string
+          closure_id?: string
+          closure_policy_version?: string
+          closure_request_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       custom_food_creation_requests: {
         Row: {
           completed_at: string
@@ -878,6 +902,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      close_current_account: {
+        Args: { p_capability: string; p_closure_request_id: string }
+        Returns: {
+          closed_at: string
+          outcome: string
+        }[]
+      }
       complete_invited_account_activation: {
         Args: { p_age_18_attested: boolean; p_israel_attested: boolean }
         Returns: {
@@ -935,6 +966,7 @@ export type Database = {
           result_status: string
         }[]
       }
+      current_account_access_state: { Args: never; Returns: string }
       get_owned_custom_food_editor: {
         Args: { p_food_id: string }
         Returns: {
@@ -1058,7 +1090,9 @@ export type Database = {
           source_type: string
         }[]
       }
+      is_current_account_access_allowed: { Args: never; Returns: boolean }
       is_current_account_activated: { Args: never; Returns: boolean }
+      is_current_account_closed: { Args: never; Returns: boolean }
       is_valid_canonical_gtin: { Args: { p_gtin: string }; Returns: boolean }
       is_valid_food_canonical_gtin: {
         Args: { p_gtin: string }

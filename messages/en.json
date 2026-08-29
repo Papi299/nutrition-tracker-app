@@ -128,6 +128,12 @@
         "passwordTooShort": "Password must be at least 6 characters."
       }
     },
+    "accountClosed": {
+      "title": "Account closed",
+      "description": "Access to this Nutrition Tracker account is closed and cannot be restored in the app.",
+      "dataNotice": "This status does not mean that account data or backup copies were synchronously physically deleted.",
+      "home": "Back to home"
+    },
     "signOut": {
       "submit": "Sign out"
     },
@@ -1560,6 +1566,25 @@
       "reauthRequired": "Password confirmation is required before the download is available.",
       "confirmPassword": "Confirm current password",
       "download": "Download my data"
+    },
+    "closure": {
+      "title": "Close account",
+      "summary": "Close access to this account immediately and irreversibly in the application.",
+      "open": "Review account closure",
+      "back": "Back to Account",
+      "description": "Review these consequences before closing your account.",
+      "consequences": {
+        "immediate": "You will lose access to the application immediately after closure.",
+        "irreversible": "Closure cannot be undone or reactivated in the application.",
+        "data": "This action does not synchronously physically delete your product data, Auth identity, Storage objects, or backup copies. Their later disposition is separate."
+      },
+      "exportOffer": "If you want a copy, you can export your data first. Export is optional and becomes unavailable after closure.",
+      "exportLink": "Export my data first",
+      "reauthRequired": "Confirm your current password before account closure becomes available.",
+      "confirmPassword": "Confirm current password",
+      "confirmation": "I understand that closing this account takes effect immediately and cannot be undone in the app.",
+      "submit": "Close my account",
+      "cancel": "Cancel and keep my account active"
     }
   },
   "AppShell": {

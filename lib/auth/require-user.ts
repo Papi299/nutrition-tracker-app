@@ -6,7 +6,7 @@ import {
 } from "@/lib/i18n/routing";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
-import { getAccountActivationState } from "./account-activation";
+import { getAccountAccessState } from "./account-access";
 
 export function resolveAuthLocale(locale: string): Locale {
   return (locales as readonly string[]).includes(locale)
@@ -24,6 +24,10 @@ export function signInPath(locale: Locale) {
 
 export function activationPath(locale: Locale) {
   return `/${locale}/auth/activate`;
+}
+
+export function accountClosedPath(locale: Locale) {
+  return `/${locale}/auth/account-closed`;
 }
 
 export async function hasAuthenticatedUser() {
@@ -45,28 +49,40 @@ export async function requireAuthenticatedUser(localeInput: string) {
   }
 }
 
-export async function requireActivatedUser(localeInput: string) {
+export async function requireAccountAccess(localeInput: string) {
   const locale = resolveAuthLocale(localeInput);
-  const state = await getAccountActivationState();
+  const state = await getAccountAccessState();
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));
   }
 
-  if (state.status !== "complete") {
+  if (state.status === "closed") {
+    redirect(accountClosedPath(locale));
+  }
+
+  if (state.status === "activation_required") {
     redirect(activationPath(locale));
+  }
+
+  if (state.status !== "active") {
+    redirect(signInPath(locale));
   }
 }
 
 export async function redirectAuthenticatedUser(localeInput: string) {
   const locale = resolveAuthLocale(localeInput);
-  const state = await getAccountActivationState();
+  const state = await getAccountAccessState();
 
-  if (state.status === "complete") {
+  if (state.status === "active") {
     redirect(protectedHomePath(locale));
   }
 
-  if (state.status !== "unauthenticated") {
+  if (state.status === "closed") {
+    redirect(accountClosedPath(locale));
+  }
+
+  if (state.status === "activation_required") {
     redirect(activationPath(locale));
   }
 }

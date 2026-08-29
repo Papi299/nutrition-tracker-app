@@ -1,16 +1,24 @@
 import type { Locale } from "@/lib/i18n/routing";
 
 export const accountExportReauthenticationIntent = "account-export";
+export const accountClosureReauthenticationIntent = "account-closure";
 
 export type ReauthenticationIntent =
-  typeof accountExportReauthenticationIntent;
+  | typeof accountExportReauthenticationIntent
+  | typeof accountClosureReauthenticationIntent;
 
 export function resolveReauthenticationIntent(
   value: unknown,
 ): ReauthenticationIntent | null {
-  return value === accountExportReauthenticationIntent
-    ? accountExportReauthenticationIntent
-    : null;
+  if (value === accountExportReauthenticationIntent) {
+    return accountExportReauthenticationIntent;
+  }
+
+  if (value === accountClosureReauthenticationIntent) {
+    return accountClosureReauthenticationIntent;
+  }
+
+  return null;
 }
 
 export function reauthenticationDestination(
@@ -19,6 +27,10 @@ export function reauthenticationDestination(
 ) {
   if (intent === accountExportReauthenticationIntent) {
     return `/${locale}/account/export`;
+  }
+
+  if (intent === accountClosureReauthenticationIntent) {
+    return `/${locale}/account/closure`;
   }
 
   return `/${locale}/today`;

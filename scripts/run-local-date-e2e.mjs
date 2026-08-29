@@ -1,4 +1,6 @@
 import { spawn, spawnSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { createServer } from "node:http";
 
 function parseEnvironment(output) {
@@ -50,8 +52,12 @@ if (!apiUrl || !publishableKey || !serviceRoleKey || !mailpitUrl) {
 
 const parsedUrl = new URL(apiUrl);
 const parsedMailpitUrl = new URL(mailpitUrl);
+const projectId = readFileSync("supabase/config.toml", "utf8").match(
+  /^project_id\s*=\s*"([^"]+)"/m,
+)?.[1];
 
 if (
+  !projectId ||
   ![parsedUrl.hostname, parsedMailpitUrl.hostname].every((hostname) =>
     ["127.0.0.1", "localhost"].includes(hostname),
   )
@@ -60,6 +66,63 @@ if (
     "Refusing to run authenticated Playwright tests against a remote API.\n",
   );
   process.exit(1);
+}
+
+const accountClosureCapabilitySecret = randomBytes(48).toString("base64url");
+const vaultProvisioning = spawnSync(
+  "docker",
+  [
+    "exec",
+    "-i",
+    `supabase_db_${projectId}`,
+    "psql",
+    "-U",
+    "postgres",
+    "-d",
+    "postgres",
+    "-X",
+    "-v",
+    "ON_ERROR_STOP=1",
+    "-q",
+  ],
+  {
+    encoding: "utf8",
+    input: `
+      do $$
+      declare
+        v_secret_id uuid;
+      begin
+        select secrets.id
+        into v_secret_id
+        from vault.secrets as secrets
+        where secrets.name = 'account_closure_capability_v1';
+
+        if v_secret_id is null then
+          perform vault.create_secret(
+            '${accountClosureCapabilitySecret}',
+            'account_closure_capability_v1',
+            'Synthetic local E5 test secret'
+          );
+        else
+          perform vault.update_secret(
+            v_secret_id,
+            '${accountClosureCapabilitySecret}',
+            'account_closure_capability_v1',
+            'Synthetic local E5 test secret'
+          );
+        end if;
+      end;
+      $$;
+    `,
+  },
+);
+
+if (vaultProvisioning.status !== 0) {
+  process.stderr.write(
+    vaultProvisioning.stderr ||
+      "Could not provision the synthetic local closure secret.\n",
+  );
+  process.exit(vaultProvisioning.status ?? 1);
 }
 
 function startLocalSupabaseFaultControl() {
@@ -228,6 +291,7 @@ const signOutFaultPreload = new URL(
 const nodeOptions = childEnvironment.NODE_OPTIONS?.trim();
 
 Object.assign(childEnvironment, {
+  ACCOUNT_CLOSURE_CAPABILITY_SECRET: accountClosureCapabilitySecret,
   APP_ORIGIN:
     process.env.PLAYWRIGHT_BASE_URL ??
     `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3100"}`,
