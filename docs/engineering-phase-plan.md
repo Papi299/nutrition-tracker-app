@@ -356,9 +356,14 @@ and squash-merged through PR #114 as
 `33211476519`, run number `210`, succeeded on attempt `2` through Validate job
 `98988364780`. Both bounded states are
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5 logical
-account closure is the current repository/local implementation candidate.
+account closure was independently accepted and squash-merged through PR #115
+as `256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+`ecbc8845b6eee16089e97447d108ac557bb0e67f`; exact-main CI run
+`33249888401`, run number `213`, attempt `1`, succeeded through Validate job
+`99093634771`. Its bounded state is also
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-The Phase 11E1 correction candidate supplements the Next.js lifecycle gate
+The accepted Phase 11E1 correction supplements the Next.js lifecycle gate
 with a centralized database activation predicate, restrictive activation
 policies on the complete protected application-table inventory, and explicit
 checks in callable private `SECURITY DEFINER` helpers. Existing owner/tenant
@@ -392,13 +397,15 @@ the activation/RLS boundary. Its status is
 
 The accepted Phase 11E4 slice adds localized synchronous version-1 JSON
 export through the ordinary RLS-protected session and exact current E3 proof,
-with no durable artifact or privileged credential. The current Phase 11E5
-candidate adds immediate irreversible logical closure through one immutable
+with no durable artifact or privileged credential. The accepted Phase 11E5
+slice adds immediate irreversible logical closure through one immutable
 closure record, a separate canonical account-access predicate, and an
 E3/session-bound database-verifiable short-lived capability. It performs no
 physical Auth/data deletion, retention or pseudonymization decision, hosted
-secret action, backup/Storage action, or deployment. Phase 11E6 external
-reconciliation remains separate later work.
+secret action, backup/Storage action, or deployment. Phase 11E6 reconciles the
+repository lifecycle and supplies the bounded
+[external-readiness handoff](phase-11e-integration-external-readiness-handoff.md);
+external execution remains later, separately authorized work.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -414,8 +421,8 @@ deployment, backup, or restore.
 Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
-preserves original version `1.0-phase-11b-accepted` and is now amended as
-candidate version `1.6-phase-11e-nojs-classifications-amended`.
+preserves original version `1.0-phase-11b-accepted` and is now amended by
+accepted version `1.6-phase-11e-nojs-classifications-amended`.
 Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
@@ -487,7 +494,7 @@ acceptance credit, and is unchanged. Contract 1.3 and totals
 `REQUIRED`, CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; its historical
-no-JavaScript totals remain `11 / 4 / 13 / 7`. Current candidate Contract 1.6
+no-JavaScript totals remain `11 / 4 / 13 / 7`. Current accepted Contract 1.6
 changes exactly six Phase 11E rows and has totals `16 / 5 / 13 / 1`; 35 / 223 /
 718 remains the historical Phase 11C classification-amendment snapshot.
 Accepted PRs #96–#102
@@ -536,12 +543,12 @@ reject absent, stale, materially mismatched, failed, unsupported, or
 unattributed evidence. This timing change waives no requirement, closes no
 finding, and authorizes no launch or deployment. Phase 11E1 invited activation,
 Phase 11E2 password recovery, Phase 11E3 recent password reauthentication, and
-Phase 11E4 synchronous JSON export are accepted and merged. Phase 11E5
-immediate irreversible logical account closure is the current repository/local
-implementation candidate pending exact-head CI and independent review. This
-does not authorize merge, hosted Auth or secret configuration, physical
-deletion, retention/pseudonymization decisions, deployment, or later Phase 11E
-work.
+Phase 11E4 synchronous JSON export, and Phase 11E5 immediate irreversible
+logical account closure are accepted and merged. All five bounded states are
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E6 is the
+current repository integration and external-readiness reconciliation slice.
+This does not authorize hosted Auth or secret configuration, physical deletion,
+retention/pseudonymization decisions, deployment, or later external actions.
 
 ## Future PR Documentation Rule
 

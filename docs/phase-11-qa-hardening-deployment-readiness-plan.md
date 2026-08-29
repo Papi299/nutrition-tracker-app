@@ -277,7 +277,7 @@ Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
 CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
-11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current candidate contract
+11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current accepted contract
 `1.6-phase-11e-nojs-classifications-amended` changes exactly six Phase 11E rows
 and has current totals `16 / 5 / 13 / 1`; 35 / 223 / 718 remains the accurate
 historical snapshot of the Phase 11C classification amendment. Accepted PRs
@@ -419,23 +419,23 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Phase 11E1 through Phase 11E4 are accepted and
-merged. Phase 11E4 merged as
-`5acfce0f0d45c80dc4c8d8131b67e915e421cd13`, tree
-`88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`, with exact-main CI run
-`33211476519` / run number `210` / attempt `2` / Validate job `98988364780`
-successful. Phase 11E5 irreversible logical account closure is the current
-repository/local implementation candidate. Contract 1.6 and its historical-
+**Next continuation point:** Phase 11E1 through Phase 11E5 are accepted and
+merged with bounded status
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5 merged as
+`256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+`ecbc8845b6eee16089e97447d108ac557bb0e67f`, with exact-main CI run
+`33249888401` / run number `213` / attempt `1` / Validate job `99093634771`
+successful. Phase 11E6 is the current repository integration and
+external-readiness reconciliation slice. Contract 1.6 and its historical-
 evidence validator remain current under the externally established
 `PHASE_11E0B_POST_MERGE_ACCEPTED` state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
 **Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1
-through Phase 11E4 are
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E5 is the
-repository/local implementation candidate pending exact-head CI and
-independent review.
+through Phase 11E5 are independently accepted and merged with bounded status
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E6 is the
+repository integration and external-readiness reconciliation candidate.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
@@ -457,7 +457,7 @@ a password-authenticated session and submitted both eligibility attestations.
 The fallback and callback are exercised with JavaScript disabled against real
 local Supabase invitations and local email capture.
 
-The corrected candidate also enforces durable activation below the page layer.
+The accepted correction also enforces durable activation below the page layer.
 A caller-derived activation predicate is combined through restrictive RLS with
 the existing ownership/tenant policies on all 16 protected application tables;
 four callable private `SECURITY DEFINER` data helpers fail closed explicitly.
@@ -550,21 +550,37 @@ tree `88ee03a0322dbf3cdcd5f27a3af9c49af0e893e6`. Exact-main CI run
 `98988364780`; earlier failure remains non-successful evidence. Phase 11E4 is
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-### Current Phase 11E5 slice
+### Accepted Phase 11E5 slice
 
-The Product Owner approved `P11E-E5D-001`–`015` on 2026-08-29. The candidate
-implements immediate irreversible logical account closure through one
-immutable RLS-protected closure row, a separate server-derived account-access
-predicate, and a short-lived database-verifiable capability bound to the exact
-E3 user/session proof. It supports EN/HE CJ-035 with JavaScript disabled,
-atomic/idempotent commit, commit-first cleanup, closed sign-in/recovery routing,
-stale-JWT denial, and E4 denial after closure.
+The Product Owner approved `P11E-E5D-001`–`015` on 2026-08-29. The accepted
+implementation provides immediate irreversible logical account closure
+through one immutable RLS-protected closure row, a separate server-derived
+account-access predicate, and a short-lived database-verifiable capability
+bound to the exact E3 user/session proof. It supports EN/HE CJ-035 with
+JavaScript disabled, atomic/idempotent commit, commit-first cleanup, closed
+sign-in/recovery routing, stale-JWT denial, and E4 denial after closure.
 
 Physical Auth/data deletion, receipt/FK rewriting, retention duration,
 pseudonymization, backup and Storage actions, invitation-register mutation,
 hosted secret provisioning, deployment, and qualified legal/privacy or final
-native-Hebrew evidence remain excluded. Phase 11E5 remains pending exact-head
-CI and independent review; Phase 11E6 external reconciliation remains separate.
+native-Hebrew evidence remain excluded. Independent review accepted Phase 11E5
+and PR #115 was squash-merged as
+`256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
+`ecbc8845b6eee16089e97447d108ac557bb0e67f`. Exact-main CI run
+`33249888401`, run number `213`, attempt `1`, succeeded through Validate job
+`99093634771`; artifact `phase-11d-evidence-33249888401-1`, ID `9714182997`,
+has digest
+`sha256:b3844b873ed360064797fd484d6347bd04b7fe7848a56a69efd492d50080a23e`.
+Phase 11E5 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+
+### Current Phase 11E6 slice
+
+Phase 11E6 audits E1–E5 as one lifecycle, reconciles living status documents,
+and provides the executable repository-to-external handoff. It performs no
+hosted Supabase, Vercel, Production, secret, invitation, legal, backup,
+Storage, device, or deployment action and gives no credit for those deferred
+evidence categories. The authoritative handoff is
+[`phase-11e-integration-external-readiness-handoff.md`](phase-11e-integration-external-readiness-handoff.md).
 
 ### Objective
 
