@@ -402,10 +402,18 @@ slice adds immediate irreversible logical closure through one immutable
 closure record, a separate canonical account-access predicate, and an
 E3/session-bound database-verifiable short-lived capability. It performs no
 physical Auth/data deletion, retention or pseudonymization decision, hosted
-secret action, backup/Storage action, or deployment. Phase 11E6 reconciles the
-repository lifecycle and supplies the bounded
-[external-readiness handoff](phase-11e-integration-external-readiness-handoff.md);
-external execution remains later, separately authorized work.
+secret action, backup/Storage action, or deployment. Phase 11E6 reconciled the
+repository lifecycle and supplied the bounded
+[external-readiness handoff](phase-11e-integration-external-readiness-handoff.md).
+Independent review accepted it in PR #116 and it is merged on `main` as
+`5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
+`3715c555f690851edc06a542d06701b42add1df2`; external execution remains later,
+separately authorized work. Phase 11F is the current repository candidate. Its
+[security and dependency record](phase-11f-security-and-dependency-hardening.md)
+documents the complete advisory/reachability inventory, bounded patched
+dependency graph, tested headers/CSP and secret boundary, immutable Action
+pins, recurring production-advisory gate, and the still-pending GitHub owner
+settings packet.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -545,10 +553,13 @@ finding, and authorizes no launch or deployment. Phase 11E1 invited activation,
 Phase 11E2 password recovery, Phase 11E3 recent password reauthentication, and
 Phase 11E4 synchronous JSON export, and Phase 11E5 immediate irreversible
 logical account closure are accepted and merged. All five bounded states are
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E6 is the
-current repository integration and external-readiness reconciliation slice.
-This does not authorize hosted Auth or secret configuration, physical deletion,
-retention/pseudonymization decisions, deployment, or later external actions.
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E6 is accepted
+and merged through PR #116. Phase 11F is the current application and
+supply-chain security repository candidate; exact-head CI, independent review,
+GitHub owner setting changes, and Phase 11J deployed compatibility evidence
+remain pending. This does not authorize hosted Auth or secret configuration,
+physical deletion, retention/pseudonymization decisions, GitHub settings
+mutation, deployment, or later external actions.
 
 ## Future PR Documentation Rule
 

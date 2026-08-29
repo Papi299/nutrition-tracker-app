@@ -419,23 +419,22 @@ observations, and deterministic camera tests. Complete manual
 AT/zoom/keyboard/contrast/motion and physical-device records are deferred to
 separately authorized Phase 11J evidence collection against the stabilized UI.
 
-**Next continuation point:** Phase 11E1 through Phase 11E5 are accepted and
+**Next continuation point:** Phase 11E1 through Phase 11E6 are accepted and
 merged with bounded status
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E5 merged as
-`256001bc442a0d7c1cb6d3299a7ee90ebea7cc7d`, tree
-`ecbc8845b6eee16089e97447d108ac557bb0e67f`, with exact-main CI run
-`33249888401` / run number `213` / attempt `1` / Validate job `99093634771`
-successful. Phase 11E6 is the current repository integration and
-external-readiness reconciliation slice. Contract 1.6 and its historical-
-evidence validator remain current under the externally established
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11E6 merged
+through PR #116 as `5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
+`3715c555f690851edc06a542d06701b42add1df2`, with exact-main CI run
+`33252845493` / run number `215` / attempt `1` / Validate job `99101399894`
+successful. Phase 11F is the current application and supply-chain security
+repository candidate. Contract 1.6 and its historical-evidence validator
+remain current under the externally established
 `PHASE_11E0B_POST_MERGE_ACCEPTED` state.
 
 ## 11. Phase 11E — Authentication and account lifecycle
 
 **Current governance status:** `PHASE_11E0B_POST_MERGE_ACCEPTED`; Phase 11E1
-through Phase 11E5 are independently accepted and merged with bounded status
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11E6 is the
-repository integration and external-readiness reconciliation candidate.
+through Phase 11E6 are independently accepted and merged with bounded status
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 Product Owner Maor Pichhadze assigned himself to and accepted all five
 before-11E prerequisite roles and approved `P11E-E001`–`P11E-E012` on
 2026-08-26. The exact authority, separation, decision, and unresolved
@@ -573,7 +572,7 @@ has digest
 `sha256:b3844b873ed360064797fd484d6347bd04b7fe7848a56a69efd492d50080a23e`.
 Phase 11E5 is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
 
-### Current Phase 11E6 slice
+### Accepted Phase 11E6 slice
 
 Phase 11E6 audits E1–E5 as one lifecycle, reconciles living status documents,
 and provides the executable repository-to-external handoff. It performs no
@@ -581,6 +580,10 @@ hosted Supabase, Vercel, Production, secret, invitation, legal, backup,
 Storage, device, or deployment action and gives no credit for those deferred
 evidence categories. The authoritative handoff is
 [`phase-11e-integration-external-readiness-handoff.md`](phase-11e-integration-external-readiness-handoff.md).
+Independent review accepted the slice in PR #116 and it is merged on `main` as
+`5730716a675a6aac8a53f9bec9519f79bfbfd6be`, tree
+`3715c555f690851edc06a542d06701b42add1df2`, with exact-main CI run
+`33252845493` successful.
 
 ### Objective
 
@@ -626,6 +629,19 @@ preflight are deferred to separately authorized Phase 11J evidence collection.
 
 ## 12. Phase 11F — Application and supply-chain security
 
+### Current Phase 11F slice
+
+The current repository candidate has a complete fresh advisory inventory and
+reachability analysis, zero post-change npm advisories, bounded framework/CLI
+and transitive security updates, enforced and tested browser headers/CSP,
+server-only build-canary checks, full-SHA GitHub Action pins, and a recurring
+high/critical production-advisory gate. Read-only GitHub evidence shows the
+repository still lacks the approved `main` ruleset/check enforcement,
+restricted Actions and merge methods, automated branch cleanup, Dependabot,
+secret scanning/push protection, and code scanning. Those owner settings are
+documented but were not mutated. Exact evidence and the owner packet are in
+[`phase-11f-security-and-dependency-hardening.md`](phase-11f-security-and-dependency-hardening.md).
+
 ### Objective
 
 Close concrete dependency/browser/CI/governance risks while preserving the
@@ -657,7 +673,9 @@ mutation, provider change, ASVS certification, or weakening of RLS/grants.
 - Secret scans and server/client environment boundaries pass.
 - RLS, grants, `SECURITY DEFINER` ownership/empty `search_path`, authenticated
   mutation, and tenant isolation remain green.
-- GitHub governance evidence matches the approved release policy.
+- GitHub governance evidence is collected read-only; every match, mismatch,
+  invisible control, and required owner change is explicit. Settings do not
+  need to be mutated inside this repository slice.
 - `P11A-008` is recorded as
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; actual response-header
   and CSP compatibility evidence remains a Phase 11J gate.
