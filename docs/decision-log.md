@@ -3019,3 +3019,34 @@
   remain incomplete; Phase 11K remains the only closure gate. After independent
   acceptance and merge, the recommended next task is
   `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`.
+
+## 2026-08-30: Phase 11G2 performance and capacity qualification blocked candidate
+
+- Independent review accepted Phase 11G1 and PR #119 was squash-merged as
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`, tree
+  `b2e6da55eeb31d15bcc2f03e316e19638c435298`; exact-main CI run
+  `33304466800`, run number `222`, push, attempt 1, succeeded on that SHA.
+- G2 started from that exact baseline in an isolated worktree. It added a
+  deterministic local 100-invited-identity fixture, exact cardinality manifest,
+  strict sample/percentile/privacy contracts and tests, real ten-operation
+  overlap proof, a local Auth/operation diagnostic, and the required 12-query
+  DB-001 plan corpus. No hosted Supabase, external provider, deployment,
+  Production, real identity, or real nutrition data was accessed.
+- The initial search plan breached 750 ms at p95 891 ms and used about 13,552
+  shared-buffer hits. A bounded migration preserved restrictive authenticated
+  RLS semantics while making the stable account-access predicate a statement
+  initplan. Final search plans used 5,447 shared hits, about 60% fewer, and all
+  60 final plans passed without spill, temp write, or cardinality blowup. The
+  repeated control timing was variable, so no isolated latency-improvement
+  claim is made.
+- The corrected server-boundary run retained 3,348 samples, one cold and 30 warm
+  per group, all 162 real-overlap waves, six successful stale-revision probes,
+  zero reliability/integrity failures, and exact post-run fixture cardinalities.
+  It nevertheless breached 19 of 108 approved latency groups. Phase 11B also
+  requires Playwright plus stable UI/trace timing; the diagnostic does not meet
+  that boundary and now fails closed on it.
+- G2 is therefore `BLOCKED`, unmerged, and not ready for independent acceptance.
+  No `PHASE_11G2_PERFORMANCE_CAPACITY_QUALIFICATION_CANDIDATE_READY_FOR_INDEPENDENT_REVIEW`
+  marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`,
+  all 18 findings remain `OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`,
+  and deployed performance/CWV/REL/provider/device evidence remains deferred.

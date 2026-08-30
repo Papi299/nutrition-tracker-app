@@ -409,20 +409,29 @@ is complete for the current MVP scope.
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
   escalation backup. The distinct primary/backup and all three canonical
   before-11G role rows are now `ASSIGNED_AND_APPROVED`; the approved Phase 11G
-  technical policies remain unchanged. Phase 11G1 now has a bounded Draft
-  candidate with localized App Router recovery, mutation-safe reload guidance,
+  technical policies remain unchanged. Phase 11G1 was independently accepted
+  and squash-merged through PR #119 as
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`, tree
+  `b2e6da55eeb31d15bcc2f03e316e19638c435298`, with successful exact-main CI
+  run `33304466800`. It provides localized App Router recovery, mutation-safe reload guidance,
   a strict provider-neutral privacy-minimal event contract, opaque per-failure
   correlation, failure-isolated console/in-memory sinks, a truthful liveness
   endpoint, representative Auth/database/error instrumentation, a repository
   incident runbook, and deterministic local render/dependency/network recovery
   tests. No provider, alert delivery, telemetry persistence, deployment,
   Production action, remote Supabase action, or performance qualification is
-  credited. After independent acceptance and merge, the next bounded task is
-  `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`. `P11A-012`,
+  credited. Phase 11G2 now has an unmerged blocked Draft candidate with a
+  deterministic 100-identity fixture, strict privacy-safe timing/concurrency
+  contracts, 60 passing local DB-001 plans, and a bounded RLS initplan
+  optimization. Its corrected server-boundary diagnostic retained 3,348 raw
+  samples but failed 19 of 108 latency groups, and it does not yet satisfy the
+  required Playwright stable-UI/trace boundary. It therefore receives no final
+  PERF-001--PERF-006 acceptance credit and no readiness marker. `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal
   finding-closure gate. See the
-  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md)
+  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md),
+  [Phase 11G2 blocked qualification record](docs/phase-11g2-performance-capacity-qualification.md),
   and [incident-response runbook](docs/incident-response-runbook.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,
