@@ -709,6 +709,16 @@ adds no implementation credit. Once it is independently accepted and merged,
 `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001` is the next bounded
 engineering task.
 
+Phase 11G1 now has a bounded Draft implementation candidate. It adds localized
+segment/root recovery, explicit no-mutation-replay guidance, a strict
+provider-neutral event boundary, opaque short-lived correlation, local
+failure-isolated sinks, a liveness-only health route, representative central
+instrumentation, a repository incident runbook/tabletop, and deterministic
+local render/dependency/network recovery evidence. It does not perform G2
+performance/capacity qualification or Phase 11H/11J provider, deployment,
+alert, uptime, maintenance/version-detection, or outage-rehearsal work. All
+findings remain `OPEN`; exact-head CI and independent review remain required.
+
 ### Objective
 
 Make failures detectable, recoverable, privacy-safe, and proportionate to the

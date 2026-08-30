@@ -189,6 +189,7 @@ test.describe.serial("retrieval states and authenticated core loop", () => {
     browser,
   }) => {
     const { context, page } = await openAuthenticatedPage(browser);
+    let selectRevoked = true;
     setAuthenticatedSelect("profiles", false);
 
     try {
@@ -208,9 +209,21 @@ test.describe.serial("retrieval states and authenticated core loop", () => {
       await expect(
         page.getByRole("heading", { name: "Finish the basic setup" }),
       ).toHaveCount(0);
-      await expect(page.getByRole("heading", { name: "Add manual entry" })).toBeVisible();
-    } finally {
+      await expect(
+        page.getByRole("heading", { name: "Add manual entry" }),
+      ).toBeVisible();
+
       setAuthenticatedSelect("profiles", true);
+      selectRevoked = false;
+      await page.goto(`/en/setup?effectiveDate=${selectedDate}`);
+      await expect(page.getByTestId("setup-retrieval-error")).toHaveCount(0);
+      await expect(
+        page.locator('form:has(input[name="effectiveDate"])'),
+      ).toBeVisible();
+    } finally {
+      if (selectRevoked) {
+        setAuthenticatedSelect("profiles", true);
+      }
       await context.close();
     }
   });

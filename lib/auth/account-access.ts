@@ -4,6 +4,10 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createServerClient } from "@/lib/supabase";
 import type { Database } from "@/lib/supabase/database.types";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
+import {
+  classifyObservabilityEnvironment,
+  emitObservabilityEvent,
+} from "@/lib/observability";
 
 export type AccountAccessState =
   | { status: "unauthenticated" }
@@ -33,6 +37,17 @@ export async function getAccountAccessState(
   );
 
   if (error) {
+    emitObservabilityEvent({
+      environment: classifyObservabilityEnvironment(),
+      errorCode: "database_unexpected",
+      name: "dependency.failure",
+      operation: "read",
+      outcome: "unavailable",
+      routeTemplate: "server_operation",
+      runtime: "node",
+      severity: "error",
+      surface: "database",
+    });
     return { status: "unavailable", userId };
   }
 

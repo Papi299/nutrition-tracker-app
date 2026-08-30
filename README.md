@@ -409,12 +409,21 @@ is complete for the current MVP scope.
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
   escalation backup. The distinct primary/backup and all three canonical
   before-11G role rows are now `ASSIGNED_AND_APPROVED`; the approved Phase 11G
-  technical policies remain unchanged. This Phase 11G0 record adds no Phase
-  11G implementation credit. Once independently accepted and merged, the next
-  bounded engineering task is
-  `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`. All 18 Phase 11
-  findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11K remains
-  the sole formal finding-closure gate.
+  technical policies remain unchanged. Phase 11G1 now has a bounded Draft
+  candidate with localized App Router recovery, mutation-safe reload guidance,
+  a strict provider-neutral privacy-minimal event contract, opaque per-failure
+  correlation, failure-isolated console/in-memory sinks, a truthful liveness
+  endpoint, representative Auth/database/error instrumentation, a repository
+  incident runbook, and deterministic local render/dependency/network recovery
+  tests. No provider, alert delivery, telemetry persistence, deployment,
+  Production action, remote Supabase action, or performance qualification is
+  credited. After independent acceptance and merge, the next bounded task is
+  `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`. `P11A-012`,
+  `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
+  and Phase 11 remain incomplete, and Phase 11K remains the sole formal
+  finding-closure gate. See the
+  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md)
+  and [incident-response runbook](docs/incident-response-runbook.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,
   deployment, and Production remain deferred and uncredited. The

@@ -31,6 +31,27 @@
       "text": "קוטג 5% Tnuva"
     }
   },
+  "Reliability": {
+    "boundary": {
+      "title": "This page needs to recover",
+      "body": "Something interrupted this page. No submission was repeated. Reload the latest state before deciding whether to submit again.",
+      "retry": "Reload latest state",
+      "home": "Go to a safe home page",
+      "reference": "Reference"
+    },
+    "maintenance": {
+      "title": "Service temporarily unavailable",
+      "body": "Wait before trying again. Review the latest saved state before resubmitting any change."
+    },
+    "versionMismatch": {
+      "title": "A newer application version is available",
+      "body": "Reload the application before starting a new submission. No previous submission will be repeated automatically."
+    },
+    "mutationUncertain": {
+      "title": "Review the latest saved state",
+      "body": "The result of the last change is not confirmed. Reload and review current data before deciding whether to submit again."
+    }
+  },
   "Auth": {
     "common": {
       "homeLink": "Back to home",

@@ -2974,3 +2974,48 @@
   Supabase, Vercel, provider, telemetry, alert, deployment, Production,
   GitHub-settings, secret, backup, restore, launch, or finding-closure action
   occurred.
+
+## 2026-08-30: Phase 11G1 reliability and observability foundation candidate
+
+- Verified unchanged accepted baseline
+  `6a84fdfa76fd81a3fead1597a0e17e40a337fd07`, tree
+  `abde878e9efa8c7b47b9889b99649259929524fc`, parent
+  `249868d7084b95011bc4de18ad69fd93d5e0175b`, merged PR #118, and exact-main
+  CI run `33291062160` / run number `220` successful on the same SHA.
+- Added locale and protected-segment App Router boundaries plus a self-contained
+  bilingual catastrophic fallback. Recovery resets and reloads current state
+  through a safe GET, never automatically replays a mutation, and never renders
+  the caught error, digest, provider message, identity, or application data.
+- Chose a dependency-free version-1 repository observability contract with six
+  signal families, scalar allowlisted fields, family-specific classification,
+  opaque per-event correlation, a privacy-safe console sink, a bounded memory
+  sink, and failure isolation. No metadata bag, user/session identity,
+  nutrition content, raw error/provider payload, or external provider API is
+  accepted.
+- Added a truthful `GET`/`HEAD /api/health` liveness contract. It does not query
+  dependencies or claim readiness. Maintenance and version-mismatch recovery
+  semantics are localized and typed, while environment-owned detection/wiring
+  remains Phase 11H/11J work.
+- Added representative central instrumentation for App Router failures, shared
+  retrieval failures, account-access dependency failure, Supabase session
+  refresh exceptions, and liveness. Broad server-action instrumentation and
+  the G2 performance corpus were deliberately not started.
+- Added the repository incident-response runbook with accepted ownership,
+  exact approved thresholds/windows, 30-day operational retention,
+  escalation, safe mutation-uncertainty handling, communication, evidence, and
+  post-incident procedure. The deterministic tabletop is explicitly synthetic
+  and configures no delivery integration.
+- Added loopback-only failure injection guarded by the local E2E flag plus
+  loopback application, Supabase, and control URLs. EN/HE render recovery,
+  browser-network restoration, dependency restoration, no mutation replay,
+  unchanged row counts, and tenant nondisclosure are covered. The historical
+  Phase 11C journey map remains unchanged because its validator intentionally
+  fixes the accepted 249-link/854-claim evidence inventory; new CJ-033 evidence
+  is recorded in the Phase 11G1 record.
+- Added no dependency, migration, schema, RLS, grant, telemetry table,
+  privileged runtime client, provider credential, cookie/localStorage
+  tracking, deployment, remote Supabase operation, or Production action.
+  `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`; Phase 11G and Phase 11
+  remain incomplete; Phase 11K remains the only closure gate. After independent
+  acceptance and merge, the recommended next task is
+  `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`.
