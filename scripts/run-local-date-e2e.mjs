@@ -130,9 +130,38 @@ function startLocalSupabaseFaultControl() {
   let pendingReauthenticationPasswordFailures = 0;
   let pendingRecoveryFailures = 0;
   let pendingSignOutFailures = 0;
+  let pendingRenderFailures = 0;
 
   const server = createServer((request, response) => {
     const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
+
+    if (
+      request.method === "POST" &&
+      requestUrl.pathname === "/__phase11g1/render-failure"
+    ) {
+      pendingRenderFailures += 1;
+      request.resume();
+      response.writeHead(204);
+      response.end();
+      return;
+    }
+
+    if (
+      request.method === "POST" &&
+      requestUrl.pathname === "/__phase11g1/render-failure/consume"
+    ) {
+      request.resume();
+
+      if (pendingRenderFailures > 0) {
+        pendingRenderFailures -= 1;
+        response.writeHead(204);
+      } else {
+        response.writeHead(200);
+      }
+
+      response.end();
+      return;
+    }
 
     if (
       request.method === "POST" &&
@@ -264,6 +293,7 @@ function startLocalSupabaseFaultControl() {
       const controlBaseUrl = `http://127.0.0.1:${address.port}`;
       resolve({
         controlUrl: `${controlBaseUrl}/__phase11c/signout-failure`,
+        reliabilityControlUrl: `${controlBaseUrl}/__phase11g1/render-failure`,
         close: () =>
           new Promise((closeResolve, closeReject) => {
             server.close((error) => {
@@ -300,6 +330,7 @@ Object.assign(childEnvironment, {
     "phase11e3-local-e2e-only-proof-secret-material-0123456789",
   DATE_E2E_LOCAL_SUPABASE: "1",
   LOCAL_SUPABASE_FAULT_CONTROL_URL: faultControl.controlUrl,
+  LOCAL_RELIABILITY_FAULT_CONTROL_URL: faultControl.reliabilityControlUrl,
   LOCAL_SUPABASE_MAILPIT_URL: mailpitUrl,
   LOCAL_SUPABASE_PUBLISHABLE_KEY: publishableKey,
   LOCAL_SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey,

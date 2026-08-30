@@ -1,4 +1,8 @@
 import type { DataErrorCode, DataResult } from "./result";
+import {
+  classifyObservabilityEnvironment,
+  emitObservabilityEvent,
+} from "@/lib/observability";
 
 export type RetrievalFailureStatus =
   | "database_error"
@@ -11,6 +15,20 @@ export type RetrievalState<T> =
   | { status: RetrievalFailureStatus };
 
 function resolveFailureStatus(code: DataErrorCode): RetrievalFailureStatus {
+  if (code === "database_error") {
+    emitObservabilityEvent({
+      environment: classifyObservabilityEnvironment(),
+      errorCode: "dependency_unavailable",
+      name: "dependency.failure",
+      operation: "read",
+      outcome: "unavailable",
+      routeTemplate: "server_operation",
+      runtime: "node",
+      severity: "error",
+      surface: "database",
+    });
+  }
+
   if (code === "unauthenticated" || code === "validation_error") {
     return code;
   }

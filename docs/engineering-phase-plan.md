@@ -574,9 +574,13 @@ and Phase 11J deployed compatibility evidence remain pending. The attributable
 Phase 11G prerequisite assignments are `ASSIGNED_AND_APPROVED`: Maor Pichhadze
 is Observability owner, Performance and reliability owner, and Incident
 primary; Jimmy Peachy is the distinct Incident escalation backup. No Phase
-11G engineering is credited by this record. All 18 findings remain `OPEN`,
-Phase 11 remains `INCOMPLETE`, and Phase 11K remains the sole formal
-finding-closure gate. This does not authorize hosted Auth or secret
+11G engineering is credited by that prerequisite record. Phase 11G1 now has a
+bounded Draft candidate for localized failure recovery, provider-neutral
+observability, liveness, and repository incident response. G2 performance and
+capacity qualification remains separate, and provider/deployed evidence
+remains Phase 11H/11J work. All 18 findings remain `OPEN`, Phase 11G and Phase
+11 remain `INCOMPLETE`, and Phase 11K remains the sole formal finding-closure
+gate. This does not authorize hosted Auth or secret
 configuration, physical deletion, retention/pseudonymization decisions,
 GitHub settings mutation, deployment, or later external actions.
 

@@ -2,6 +2,10 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import type { Database } from "@/lib/supabase/database.types";
 import { getOptionalSupabasePublicEnv } from "@/lib/supabase/env";
+import {
+  classifyObservabilityEnvironment,
+  emitObservabilityEvent,
+} from "@/lib/observability";
 
 export async function updateSession(
   request: NextRequest,
@@ -37,6 +41,17 @@ export async function updateSession(
   try {
     await supabase.auth.getClaims();
   } catch {
+    emitObservabilityEvent({
+      environment: classifyObservabilityEnvironment(),
+      errorCode: "auth_dependency_unavailable",
+      name: "auth.failure",
+      operation: "session",
+      outcome: "unavailable",
+      routeTemplate: "/[locale]",
+      runtime: "node",
+      severity: "warning",
+      surface: "authentication",
+    });
     return response;
   }
 
