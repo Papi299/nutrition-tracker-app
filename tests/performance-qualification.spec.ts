@@ -1,12 +1,16 @@
 import { expect, test } from "@playwright/test";
 import {
+  aggregateNormativeQualificationGroup,
   aggregateQualificationGroup,
   classifyTimedResult,
   nearestRankPercentile,
   serializePrivacySafeEvidence,
   validateConcurrencyOverlap,
   validateFixtureManifest,
+  validateNormativeConcurrencyOverlap,
+  validateNormativePerformanceSample,
   validatePerformanceSample,
+  type NormativePerformanceSample,
   type PerformanceSample,
 } from "@/lib/performance";
 
@@ -32,6 +36,77 @@ function sample(
     classification: "succeeded",
     correlationId: "perf_0123456789abcdef0123456789abcdef",
     integrityPassed: true,
+    ...overrides,
+  };
+}
+
+function normativeSample(
+  overrides: Partial<NormativePerformanceSample> = {},
+): NormativePerformanceSample {
+  const base = sample(overrides);
+  const startedAtMs = base.startedAtMs;
+  const endedAtMs = base.endedAtMs;
+  const serverStartedAtMs = startedAtMs + 10;
+  const serverEndedAtMs = endedAtMs - 10;
+  const serverDurationMs = serverEndedAtMs - serverStartedAtMs;
+
+  return {
+    ...base,
+    browserEvidence: {
+      sourceBoundary: "playwright_application",
+      browserAction: {
+        kind: "click",
+        triggerId: "diary.create.submit",
+        startedAtMs,
+      },
+      profileConfig: base.profile === "desktop"
+        ? {
+            engine: "chromium",
+            engineVersion: "140.0.7339.16",
+            deviceScaleFactor: 1,
+            hasTouch: false,
+            isMobile: false,
+            javaScriptEnabled: true,
+            profileId: "desktop-chromium-1280x900",
+            viewportHeight: 900,
+            viewportWidth: 1280,
+          }
+        : {
+            engine: "chromium",
+            engineVersion: "140.0.7339.16",
+            deviceScaleFactor: 2,
+            hasTouch: true,
+            isMobile: true,
+            javaScriptEnabled: true,
+            profileId: "mobile-chromium-390x844",
+            viewportHeight: 844,
+            viewportWidth: 390,
+          },
+      serverBoundary: {
+        correlationId: base.correlationId,
+        durationMs: serverDurationMs,
+        endedAtMs: serverEndedAtMs,
+        matched: true,
+        method: "POST",
+        routeTemplate: "/[locale]/today",
+        serverTimingMs: serverDurationMs,
+        startedAtMs: serverStartedAtMs,
+        status: 200,
+      },
+      stableUi: {
+        conditionId: "diary.create.visible",
+        endedAtMs,
+        routeTemplate: "/[locale]/today",
+        satisfied: true,
+      },
+      traceEvidence: {
+        actionPresent: true,
+        archiveId: "trace_desktop_ctx01",
+        contextId: "ctx_0123456789abcdef",
+        serverBoundaryPresent: true,
+        stableUiPresent: true,
+      },
+    },
     ...overrides,
   };
 }
@@ -222,4 +297,224 @@ test("rejects invalid sample fields, classifications, and timeout duration", () 
       }),
     ),
   ).toThrow(/ten-second/);
+});
+
+test("requires the real Playwright application boundary for normative credit", () => {
+  expect(validateNormativePerformanceSample(normativeSample())).toMatchObject({
+    browserEvidence: { sourceBoundary: "playwright_application" },
+  });
+  expect(() => validateNormativePerformanceSample(sample())).toThrow(
+    /requires Playwright browser evidence/,
+  );
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...normativeSample(),
+      browserEvidence: {
+        ...normativeSample().browserEvidence,
+        sourceBoundary: "supabase_rpc_diagnostic",
+      },
+    }),
+  ).toThrow(/Lower-level diagnostics/);
+});
+
+test("requires exact action, stable UI, server timing, correlation, and trace evidence", () => {
+  const valid = normativeSample();
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...valid,
+      browserEvidence: {
+        ...valid.browserEvidence,
+        stableUi: { ...valid.browserEvidence.stableUi, satisfied: false },
+      },
+    }),
+  ).toThrow(/application boundary|timing is invalid/);
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...valid,
+      browserEvidence: {
+        ...valid.browserEvidence,
+        serverBoundary: {
+          ...valid.browserEvidence.serverBoundary,
+          correlationId: "perf_ffffffffffffffffffffffffffffffff",
+        },
+      },
+    }),
+  ).toThrow(/timing is invalid/);
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...valid,
+      browserEvidence: {
+        ...valid.browserEvidence,
+        traceEvidence: {
+          ...valid.browserEvidence.traceEvidence,
+          stableUiPresent: false,
+        },
+      },
+    }),
+  ).toThrow(/trace evidence is incomplete/);
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...valid,
+      browserEvidence: {
+        ...valid.browserEvidence,
+        serverBoundary: {
+          ...valid.browserEvidence.serverBoundary,
+          serverTimingMs: valid.browserEvidence.serverBoundary.durationMs + 2,
+        },
+      },
+    }),
+  ).toThrow(/timing is invalid/);
+});
+
+test("retains a failed browser attempt without crediting a missing stable UI", () => {
+  const valid = normativeSample();
+  const failed = {
+    ...valid,
+    classification: "incorrect_visibility" as const,
+    integrityPassed: false,
+    outcome: "failure" as const,
+    browserEvidence: {
+      ...valid.browserEvidence,
+      stableUi: { ...valid.browserEvidence.stableUi, satisfied: false },
+      traceEvidence: {
+        ...valid.browserEvidence.traceEvidence,
+        stableUiPresent: false,
+      },
+    },
+  };
+
+  expect(validateNormativePerformanceSample(failed)).toMatchObject({
+    classification: "incorrect_visibility",
+    outcome: "failure",
+    browserEvidence: {
+      stableUi: { satisfied: false },
+      traceEvidence: { stableUiPresent: false },
+    },
+  });
+});
+
+test("records accepted desktop and mobile browser characteristics", () => {
+  expect(validateNormativePerformanceSample(normativeSample()).browserEvidence.profileConfig)
+    .toMatchObject({ profileId: "desktop-chromium-1280x900" });
+  expect(
+    validateNormativePerformanceSample(normativeSample({ profile: "mobile" }))
+      .browserEvidence.profileConfig,
+  ).toMatchObject({
+    deviceScaleFactor: 2,
+    hasTouch: true,
+    isMobile: true,
+    profileId: "mobile-chromium-390x844",
+  });
+  const invalid = normativeSample();
+  expect(() =>
+    validateNormativePerformanceSample({
+      ...invalid,
+      browserEvidence: {
+        ...invalid.browserEvidence,
+        profileConfig: {
+          ...invalid.browserEvidence.profileConfig,
+          viewportWidth: 1024,
+        },
+      },
+    }),
+  ).toThrow(/accepted profile/);
+});
+
+test("enforces overlap on the correlated real application requests", () => {
+  const overlapping = Array.from({ length: 10 }, (_, index) => {
+    const evidence = normativeSample().browserEvidence;
+    return normativeSample({
+      concurrency: 10,
+      waveId: "normative-wave-1",
+      sampleIndex: index,
+      startedAtMs: 100,
+      endedAtMs: 300,
+      durationMs: 200,
+      browserEvidence: {
+        ...evidence,
+        browserAction: { ...evidence.browserAction, startedAtMs: 100 },
+        serverBoundary: {
+          ...evidence.serverBoundary,
+          durationMs: 100,
+          endedAtMs: 250 + index,
+          serverTimingMs: 100,
+          startedAtMs: 150 + index,
+        },
+        stableUi: { ...evidence.stableUi, endedAtMs: 300 },
+      },
+    });
+  });
+  const serial = overlapping.map((entry, index) => ({
+    ...entry,
+    browserEvidence: {
+      ...entry.browserEvidence,
+      serverBoundary: {
+        ...entry.browserEvidence.serverBoundary,
+        durationMs: 5,
+        endedAtMs: 110 + index * 10,
+        serverTimingMs: 5,
+        startedAtMs: 105 + index * 10,
+      },
+    },
+  }));
+
+  expect(validateNormativeConcurrencyOverlap(overlapping)).toBe(true);
+  expect(validateNormativeConcurrencyOverlap(serial)).toBe(false);
+  const incompleteBoundary = overlapping.map((entry, index) =>
+    index === 0
+      ? {
+          ...entry,
+          endedAtMs: 10_100,
+          durationMs: 10_000,
+          outcome: "failure" as const,
+          classification: "timeout" as const,
+          integrityPassed: false,
+          browserEvidence: {
+            ...entry.browserEvidence,
+            serverBoundary: {
+              ...entry.browserEvidence.serverBoundary,
+              matched: false,
+              status: 500,
+            },
+            stableUi: {
+              ...entry.browserEvidence.stableUi,
+              endedAtMs: 10_100,
+              satisfied: false,
+            },
+            traceEvidence: {
+              ...entry.browserEvidence.traceEvidence,
+              serverBoundaryPresent: false,
+              stableUiPresent: false,
+            },
+          },
+        }
+      : entry,
+  );
+  expect(validateNormativeConcurrencyOverlap(incompleteBoundary)).toBe(false);
+  expect(
+    aggregateNormativeQualificationGroup({
+      samples: [
+        normativeSample({
+          concurrency: 10,
+          temperature: "cold",
+          waveId: "normative-cold",
+        }),
+        ...overlapping,
+      ],
+      minimumWarmSamples: 10,
+      thresholdMs: 1_000,
+    }).passed,
+  ).toBe(true);
+});
+
+test("rejects sensitive normative metadata values", () => {
+  expect(() =>
+    serializePrivacySafeEvidence({
+      routeTemplate: "/[locale]/today",
+      traceId: "123e4567-e89b-42d3-a456-426614174000",
+    }),
+  ).toThrow(/sensitive value/);
+  expect(() =>
+    serializePrivacySafeEvidence({ material: "sb-local-auth-token" }),
+  ).toThrow(/sensitive value/);
 });

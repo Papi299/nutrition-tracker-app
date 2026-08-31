@@ -1,0 +1,294 @@
+{
+  "schemaVersion": "1",
+  "architecture": "arm64",
+  "browser": {
+    "engine": "chromium",
+    "version": "149.0.7827.55"
+  },
+  "cpuLogicalCount": 10,
+  "dockerLocalSupabaseHealth": "healthy",
+  "nodeVersion": "v26.5.1",
+  "operationOrder": [
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "sign_in",
+      "profile": "desktop",
+      "sequence": 1
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "sign_in",
+      "profile": "mobile",
+      "sequence": 2
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "sign_in",
+      "profile": "mobile",
+      "sequence": 3
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "sign_in",
+      "profile": "desktop",
+      "sequence": 4
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "sign_out",
+      "profile": "desktop",
+      "sequence": 5
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "sign_out",
+      "profile": "mobile",
+      "sequence": 6
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "sign_out",
+      "profile": "mobile",
+      "sequence": 7
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "sign_out",
+      "profile": "desktop",
+      "sequence": 8
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "recovery_request",
+      "profile": "desktop",
+      "sequence": 9
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "recovery_request",
+      "profile": "mobile",
+      "sequence": 10
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "recovery_request",
+      "profile": "mobile",
+      "sequence": 11
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "recovery_request",
+      "profile": "desktop",
+      "sequence": 12
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "recovery_completion",
+      "profile": "desktop",
+      "sequence": 13
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-001",
+      "operationId": "recovery_completion",
+      "profile": "mobile",
+      "sequence": 14
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "recovery_completion",
+      "profile": "mobile",
+      "sequence": 15
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-001",
+      "operationId": "recovery_completion",
+      "profile": "desktop",
+      "sequence": 16
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-002",
+      "operationId": "setup",
+      "profile": "desktop",
+      "sequence": 17
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-002",
+      "operationId": "setup",
+      "profile": "mobile",
+      "sequence": 18
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-002",
+      "operationId": "setup",
+      "profile": "mobile",
+      "sequence": 19
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-002",
+      "operationId": "setup",
+      "profile": "desktop",
+      "sequence": 20
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-002",
+      "operationId": "diary_create",
+      "profile": "desktop",
+      "sequence": 21
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-002",
+      "operationId": "diary_create",
+      "profile": "mobile",
+      "sequence": 22
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-002",
+      "operationId": "diary_create",
+      "profile": "mobile",
+      "sequence": 23
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-002",
+      "operationId": "diary_create",
+      "profile": "desktop",
+      "sequence": 24
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-003",
+      "operationId": "search",
+      "profile": "desktop",
+      "sequence": 25
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-003",
+      "operationId": "search",
+      "profile": "mobile",
+      "sequence": 26
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-003",
+      "operationId": "search",
+      "profile": "mobile",
+      "sequence": 27
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-003",
+      "operationId": "search",
+      "profile": "desktop",
+      "sequence": 28
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_small",
+      "profile": "desktop",
+      "sequence": 29
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_small",
+      "profile": "mobile",
+      "sequence": 30
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_median",
+      "profile": "mobile",
+      "sequence": 31
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_median",
+      "profile": "desktop",
+      "sequence": 32
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_maximum",
+      "profile": "desktop",
+      "sequence": 33
+    },
+    {
+      "concurrency": 1,
+      "metricId": "PERF-006",
+      "operationId": "account_export_maximum",
+      "profile": "mobile",
+      "sequence": 34
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-006",
+      "operationId": "account_export_mixed_concurrent",
+      "profile": "mobile",
+      "sequence": 35
+    },
+    {
+      "concurrency": 10,
+      "metricId": "PERF-006",
+      "operationId": "account_export_mixed_concurrent",
+      "profile": "desktop",
+      "sequence": 36
+    }
+  ],
+  "os": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "type": "Darwin"
+  },
+  "playwrightVersion": "1.61.1",
+  "postgresqlVersion": "17.6",
+  "qualificationEndedAt": "2026-08-31T15:53:11.471Z",
+  "qualificationStartedAt": "2026-08-31T15:47:47.285Z",
+  "runtimeAfter": {
+    "availableMemoryBytes": 2362114048,
+    "loadAverage": [
+      12.965,
+      25.465,
+      54.926
+    ],
+    "processUptimeSeconds": 326.127
+  },
+  "runtimeBefore": {
+    "availableMemoryBytes": 196820992,
+    "loadAverage": [
+      17.259,
+      44.407,
+      72.788
+    ],
+    "processUptimeSeconds": 1.843
+  },
+  "supabaseCliVersion": "2.116.0",
+  "totalMemoryBytes": 17179869184
+}

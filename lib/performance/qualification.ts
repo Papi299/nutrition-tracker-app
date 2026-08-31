@@ -61,6 +61,55 @@ export type PerformanceSample = Readonly<{
   integrityPassed: boolean;
 }>;
 
+export type NormativeProfileConfig = Readonly<{
+  engine: "chromium";
+  engineVersion: string;
+  deviceScaleFactor: 1 | 2;
+  hasTouch: boolean;
+  isMobile: boolean;
+  javaScriptEnabled: true;
+  profileId: "desktop-chromium-1280x900" | "mobile-chromium-390x844";
+  viewportHeight: 844 | 900;
+  viewportWidth: 390 | 1280;
+}>;
+
+export type NormativeBrowserEvidence = Readonly<{
+  sourceBoundary: "playwright_application";
+  browserAction: Readonly<{
+    kind: "click" | "press" | "submit";
+    triggerId: string;
+    startedAtMs: number;
+  }>;
+  profileConfig: NormativeProfileConfig;
+  serverBoundary: Readonly<{
+    correlationId: string;
+    durationMs: number;
+    endedAtMs: number;
+    matched: boolean;
+    method: "GET" | "POST";
+    routeTemplate: string;
+    serverTimingMs: number;
+    startedAtMs: number;
+    status: number;
+  }>;
+  stableUi: Readonly<{
+    conditionId: string;
+    endedAtMs: number;
+    routeTemplate: string;
+    satisfied: boolean;
+  }>;
+  traceEvidence: Readonly<{
+    actionPresent: boolean;
+    archiveId: string;
+    contextId: string;
+    serverBoundaryPresent: boolean;
+    stableUiPresent: boolean;
+  }>;
+}>;
+
+export type NormativePerformanceSample = PerformanceSample &
+  Readonly<{ browserEvidence: NormativeBrowserEvidence }>;
+
 export type FixtureManifest = Readonly<{
   schemaVersion: "1";
   fixtureVersion: string;
@@ -100,6 +149,12 @@ export type QualificationGroup = Readonly<{
   passed: boolean;
 }>;
 
+export type NormativeQualificationGroup = QualificationGroup &
+  Readonly<{
+    browserBoundaryPassed: boolean;
+    serverOverlapPassed: boolean;
+  }>;
+
 const expectedClassifications = new Set<PerformanceClassification>([
   "validation_rejection",
   "authorization_denial",
@@ -113,6 +168,10 @@ const sensitiveKeyPattern =
 const emailValuePattern = /\b[^\s@]+@[^\s@]+\.[^\s@]+\b/;
 const jwtValuePattern = /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/;
 const bearerValuePattern = /\bBearer\s+[A-Za-z0-9._~-]+/i;
+const uuidValuePattern =
+  /\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/i;
+const authMaterialValuePattern =
+  /(?:^|[^a-z])(access_token|refresh_token|auth-token|code-verifier|set-cookie)(?:[^a-z]|$)/i;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -160,7 +219,9 @@ function assertSafeEvidenceValue(value: unknown, path: readonly string[] = []) {
     if (
       emailValuePattern.test(value) ||
       jwtValuePattern.test(value) ||
-      bearerValuePattern.test(value)
+      bearerValuePattern.test(value) ||
+      uuidValuePattern.test(value) ||
+      authMaterialValuePattern.test(value)
     ) {
       throw new TypeError("Performance evidence contains a sensitive value.");
     }
@@ -402,6 +463,243 @@ export function validatePerformanceSample(value: unknown): PerformanceSample {
   });
 }
 
+function performanceSampleFields(value: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(value).filter(([key]) => key !== "browserEvidence"),
+  );
+}
+
+function requireExactFields(value: Record<string, unknown>, fields: readonly string[]) {
+  const allowed = new Set(fields);
+  if (
+    Object.keys(value).length !== fields.length ||
+    Object.keys(value).some((key) => !allowed.has(key))
+  ) {
+    throw new TypeError("Normative browser evidence contains unsupported fields.");
+  }
+}
+
+function validateProfileConfig(
+  value: unknown,
+  profile: PerformanceProfile,
+): NormativeProfileConfig {
+  if (!isRecord(value)) {
+    throw new TypeError("Normative browser profile evidence is missing.");
+  }
+  requireExactFields(value, [
+    "engine",
+    "engineVersion",
+    "deviceScaleFactor",
+    "hasTouch",
+    "isMobile",
+    "javaScriptEnabled",
+    "profileId",
+    "viewportHeight",
+    "viewportWidth",
+  ]);
+
+  const expected = profile === "desktop"
+    ? {
+        deviceScaleFactor: 1 as const,
+        hasTouch: false,
+        isMobile: false,
+        profileId: "desktop-chromium-1280x900" as const,
+        viewportHeight: 900 as const,
+        viewportWidth: 1280 as const,
+      }
+    : {
+        deviceScaleFactor: 2 as const,
+        hasTouch: true,
+        isMobile: true,
+        profileId: "mobile-chromium-390x844" as const,
+        viewportHeight: 844 as const,
+        viewportWidth: 390 as const,
+      };
+
+  if (
+    value.engine !== "chromium" ||
+    typeof value.engineVersion !== "string" ||
+    !/^\d+\.\d+\.\d+\.\d+$/.test(value.engineVersion) ||
+    value.javaScriptEnabled !== true ||
+    value.deviceScaleFactor !== expected.deviceScaleFactor ||
+    value.hasTouch !== expected.hasTouch ||
+    value.isMobile !== expected.isMobile ||
+    value.profileId !== expected.profileId ||
+    value.viewportHeight !== expected.viewportHeight ||
+    value.viewportWidth !== expected.viewportWidth
+  ) {
+    throw new TypeError("Normative browser profile does not match the accepted profile.");
+  }
+
+  return Object.freeze({
+    engine: "chromium",
+    engineVersion: value.engineVersion,
+    javaScriptEnabled: true,
+    ...expected,
+  });
+}
+
+export function validateNormativePerformanceSample(
+  value: unknown,
+): NormativePerformanceSample {
+  if (!isRecord(value)) {
+    throw new TypeError("Normative performance sample must be an object.");
+  }
+
+  const sample = validatePerformanceSample(performanceSampleFields(value));
+  const evidence = value.browserEvidence;
+  if (!isRecord(evidence)) {
+    throw new TypeError("Normative sample requires Playwright browser evidence.");
+  }
+  requireExactFields(evidence, [
+    "sourceBoundary",
+    "browserAction",
+    "profileConfig",
+    "serverBoundary",
+    "stableUi",
+    "traceEvidence",
+  ]);
+  if (evidence.sourceBoundary !== "playwright_application") {
+    throw new TypeError("Lower-level diagnostics cannot qualify as browser samples.");
+  }
+
+  const browserAction = evidence.browserAction;
+  const stableUi = evidence.stableUi;
+  const serverBoundary = evidence.serverBoundary;
+  const traceEvidence = evidence.traceEvidence;
+  if (
+    !isRecord(browserAction) ||
+    !isRecord(stableUi) ||
+    !isRecord(serverBoundary) ||
+    !isRecord(traceEvidence)
+  ) {
+    throw new TypeError("Normative browser boundary evidence is incomplete.");
+  }
+  requireExactFields(browserAction, ["kind", "triggerId", "startedAtMs"]);
+  requireExactFields(stableUi, [
+    "conditionId",
+    "endedAtMs",
+    "routeTemplate",
+    "satisfied",
+  ]);
+  requireExactFields(serverBoundary, [
+    "correlationId",
+    "durationMs",
+    "endedAtMs",
+    "matched",
+    "method",
+    "routeTemplate",
+    "serverTimingMs",
+    "startedAtMs",
+    "status",
+  ]);
+  requireExactFields(traceEvidence, [
+    "actionPresent",
+    "archiveId",
+    "contextId",
+    "serverBoundaryPresent",
+    "stableUiPresent",
+  ]);
+
+  const actionStartedAtMs = requireFiniteNumber(browserAction.startedAtMs);
+  const stableEndedAtMs = requireFiniteNumber(stableUi.endedAtMs);
+  const serverStartedAtMs = requireFiniteNumber(serverBoundary.startedAtMs);
+  const serverEndedAtMs = requireFiniteNumber(serverBoundary.endedAtMs);
+  const serverDurationMs = requireFiniteNumber(serverBoundary.durationMs);
+  const serverTimingMs = requireFiniteNumber(serverBoundary.serverTimingMs);
+  const serverStatus = requireInteger(serverBoundary.status, 100);
+  const routeTemplatePattern = /^\/\[locale\](?:\/[A-Za-z0-9_.\-[\]]+)*$/;
+  if (
+    !["click", "press", "submit"].includes(String(browserAction.kind)) ||
+    typeof browserAction.triggerId !== "string" ||
+    !/^[a-z][a-z0-9_.-]{0,95}$/.test(browserAction.triggerId) ||
+    typeof stableUi.conditionId !== "string" ||
+    !/^[a-z][a-z0-9_.-]{0,95}$/.test(stableUi.conditionId) ||
+    typeof stableUi.routeTemplate !== "string" ||
+    !routeTemplatePattern.test(stableUi.routeTemplate) ||
+    typeof stableUi.satisfied !== "boolean" ||
+    actionStartedAtMs !== sample.startedAtMs ||
+    stableEndedAtMs !== sample.endedAtMs ||
+    typeof serverBoundary.routeTemplate !== "string" ||
+    !routeTemplatePattern.test(serverBoundary.routeTemplate) ||
+    !["GET", "POST"].includes(String(serverBoundary.method)) ||
+    typeof serverBoundary.matched !== "boolean" ||
+    serverBoundary.correlationId !== sample.correlationId ||
+    serverStatus < 200 ||
+    serverStatus >= 600 ||
+    serverStartedAtMs < actionStartedAtMs ||
+    serverEndedAtMs < serverStartedAtMs ||
+    serverEndedAtMs > stableEndedAtMs + 1 ||
+    Math.abs(serverEndedAtMs - serverStartedAtMs - serverDurationMs) > 1 ||
+    serverTimingMs < 0 ||
+    serverTimingMs > serverDurationMs + 1
+  ) {
+    throw new TypeError("Normative action, server, or stable-UI timing is invalid.");
+  }
+  const succeeded = sample.outcome === "success";
+  if (
+    succeeded &&
+    (
+      stableUi.satisfied !== true ||
+      serverBoundary.matched !== true ||
+      serverStatus >= 500
+    )
+  ) {
+    throw new TypeError("Successful normative samples require a complete application boundary.");
+  }
+  if (
+    typeof traceEvidence.actionPresent !== "boolean" ||
+    typeof traceEvidence.serverBoundaryPresent !== "boolean" ||
+    typeof traceEvidence.stableUiPresent !== "boolean" ||
+    traceEvidence.actionPresent !== true ||
+    (succeeded && traceEvidence.serverBoundaryPresent !== true) ||
+    (succeeded && traceEvidence.stableUiPresent !== true) ||
+    typeof traceEvidence.archiveId !== "string" ||
+    !/^trace_[a-z0-9][a-z0-9_.-]{0,95}$/.test(traceEvidence.archiveId) ||
+    typeof traceEvidence.contextId !== "string" ||
+    !/^ctx_[a-f0-9]{16}$/.test(traceEvidence.contextId)
+  ) {
+    throw new TypeError("Normative Playwright trace evidence is incomplete.");
+  }
+
+  return Object.freeze({
+    ...sample,
+    browserEvidence: Object.freeze({
+      sourceBoundary: "playwright_application",
+      browserAction: Object.freeze({
+        kind: browserAction.kind as "click" | "press" | "submit",
+        triggerId: browserAction.triggerId,
+        startedAtMs: actionStartedAtMs,
+      }),
+      profileConfig: validateProfileConfig(evidence.profileConfig, sample.profile),
+      serverBoundary: Object.freeze({
+        correlationId: sample.correlationId,
+        durationMs: serverDurationMs,
+        endedAtMs: serverEndedAtMs,
+        matched: serverBoundary.matched,
+        method: serverBoundary.method as "GET" | "POST",
+        routeTemplate: serverBoundary.routeTemplate,
+        serverTimingMs,
+        startedAtMs: serverStartedAtMs,
+        status: serverStatus,
+      }),
+      stableUi: Object.freeze({
+        conditionId: stableUi.conditionId,
+        endedAtMs: stableEndedAtMs,
+        routeTemplate: stableUi.routeTemplate,
+        satisfied: stableUi.satisfied,
+      }),
+      traceEvidence: Object.freeze({
+        actionPresent: traceEvidence.actionPresent,
+        archiveId: traceEvidence.archiveId,
+        contextId: traceEvidence.contextId,
+        serverBoundaryPresent: traceEvidence.serverBoundaryPresent,
+        stableUiPresent: traceEvidence.stableUiPresent,
+      }),
+    }),
+  });
+}
+
 export function nearestRankPercentile(values: readonly number[], percentile: number) {
   if (
     values.length === 0 ||
@@ -441,6 +739,41 @@ export function validateConcurrencyOverlap(samples: readonly PerformanceSample[]
       maximum = Math.max(maximum, active);
     }
 
+    if (maximum !== 10) return false;
+  }
+
+  return true;
+}
+
+export function validateNormativeConcurrencyOverlap(
+  samples: readonly NormativePerformanceSample[],
+) {
+  if (samples.length === 0) return false;
+  const validated = samples.map(validateNormativePerformanceSample);
+  const waves = Map.groupBy(validated, (sample) => sample.waveId ?? "");
+
+  for (const [waveId, waveSamples] of waves) {
+    if (!waveId || waveSamples.length !== 10) return false;
+    if (
+      waveSamples.some(
+        (sample) =>
+          sample.browserEvidence.serverBoundary.matched !== true ||
+          sample.browserEvidence.serverBoundary.status >= 500 ||
+          sample.browserEvidence.traceEvidence.serverBoundaryPresent !== true,
+      )
+    ) return false;
+    const points = waveSamples
+      .flatMap((sample) => [
+        { at: sample.browserEvidence.serverBoundary.startedAtMs, delta: 1 },
+        { at: sample.browserEvidence.serverBoundary.endedAtMs, delta: -1 },
+      ])
+      .sort((left, right) => left.at - right.at || left.delta - right.delta);
+    let active = 0;
+    let maximum = 0;
+    for (const point of points) {
+      active += point.delta;
+      maximum = Math.max(maximum, active);
+    }
     if (maximum !== 10) return false;
   }
 
@@ -520,6 +853,39 @@ export function aggregateQualificationGroup({
     thresholdPassed,
     integrityPassed,
     passed,
+  });
+}
+
+export function aggregateNormativeQualificationGroup({
+  samples,
+  thresholdMs,
+  minimumWarmSamples = 30,
+}: {
+  samples: readonly NormativePerformanceSample[];
+  thresholdMs: number;
+  minimumWarmSamples?: number;
+}): NormativeQualificationGroup {
+  const validated = samples.map(validateNormativePerformanceSample);
+  const baseSamples = validated.map(({ browserEvidence, ...sample }) => {
+    void browserEvidence;
+    return sample;
+  });
+  const base = aggregateQualificationGroup({
+    samples: baseSamples,
+    thresholdMs,
+    minimumWarmSamples,
+  });
+  const warm = validated.filter((sample) => sample.temperature === "warm");
+  const browserBoundaryPassed = validated.length === samples.length;
+  const serverOverlapPassed =
+    base.concurrency === 1 || validateNormativeConcurrencyOverlap(warm);
+
+  return Object.freeze({
+    ...base,
+    overlapPassed: base.overlapPassed && serverOverlapPassed,
+    browserBoundaryPassed,
+    serverOverlapPassed,
+    passed: base.passed && browserBoundaryPassed && serverOverlapPassed,
   });
 }
 

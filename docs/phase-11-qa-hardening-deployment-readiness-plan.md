@@ -726,10 +726,14 @@ Phase 11G2 now has a blocked, unmerged Draft candidate. It establishes a
 deterministic 100-identity/10-concurrent local fixture, strict privacy-safe
 sample and concurrency contracts, and a passing 60-plan DB-001 corpus. A
 bounded restrictive-RLS initplan optimization reduced search shared-buffer hits
-by about 60%. The corrected 3,348-sample server-boundary diagnostic nevertheless
-breached 19 of 108 latency groups and does not include the normative Playwright
-stable-UI/trace boundary. It is non-credited and fail-closed; Phase 11G2,
-Phase 11G, and Phase 11 remain incomplete.
+by about 60%. Correction 01 now establishes the normative Playwright action-to-
+stable-UI boundary, actual desktop/mobile contexts, correlated server timing,
+real c10 overlap, counterbalanced execution, and bounded sanitized trace
+evidence. Its complete 396-sample focused diagnostic still breaches mobile
+sign-in c10 and desktop/mobile search c10 and retains two proxy-idle reliability
+events. The required 3,348-sample final corpus remains gated and was not run.
+The evidence is non-credited and fail-closed; Phase 11G2, Phase 11G, and Phase
+11 remain incomplete.
 
 ### Objective
 

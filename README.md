@@ -423,15 +423,19 @@ is complete for the current MVP scope.
   credited. Phase 11G2 now has an unmerged blocked Draft candidate with a
   deterministic 100-identity fixture, strict privacy-safe timing/concurrency
   contracts, 60 passing local DB-001 plans, and a bounded RLS initplan
-  optimization. Its corrected server-boundary diagnostic retained 3,348 raw
-  samples but failed 19 of 108 latency groups, and it does not yet satisfy the
-  required Playwright stable-UI/trace boundary. It therefore receives no final
-  PERF-001--PERF-006 acceptance credit and no readiness marker. `P11A-012`,
+  optimization. Correction 01 establishes the normative Playwright action-to-
+  stable-UI boundary, real desktop/mobile contexts, correlated server timing,
+  real c10 overlap, deterministic counterbalancing, and 20 bounded sanitized
+  trace archives. Its complete 396-sample focused diagnostic still fails mobile
+  sign-in c10 and both search c10 profiles and retains two proxy-idle reliability
+  events, so the gated 3,348-sample final corpus was not run. It therefore
+  receives no final PERF-001--PERF-006 acceptance credit and no readiness
+  marker. `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal
   finding-closure gate. See the
   [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md),
-  [Phase 11G2 blocked qualification record](docs/phase-11g2-performance-capacity-qualification.md),
+  [Phase 11G2 blocked qualification and correction record](docs/phase-11g2-performance-capacity-qualification.md),
   and [incident-response runbook](docs/incident-response-runbook.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,

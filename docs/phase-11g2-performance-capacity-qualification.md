@@ -3,12 +3,15 @@
 ## 1. Status
 
 Task `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001` is **BLOCKED** and is
-not a successful G2 candidate. The repository now contains a deterministic
-launch-shaped fixture, a privacy-safe timing and concurrency diagnostic, a
-DB-001 plan corpus, and a bounded RLS optimization. The corrected diagnostic
-run did not satisfy 19 of 108 operation/profile/concurrency latency groups.
-It also does not yet exercise the normative Playwright UI/trace boundary from
-Phase 11B Section 5.2, so it is explicitly fail-closed and receives no final
+not a successful G2 candidate. Correction 01 establishes the previously
+missing normative Playwright action-to-stable-UI boundary, real desktop/mobile
+contexts, correlated full-response server intervals, actual ten-request
+overlap, deterministic AB/BA ordering, bounded sanitized traces, and
+machine-checked evidence. Its complete 396-sample focused diagnostic is still
+adverse: mobile sign-in c10 and desktop/mobile search c10 breach their approved
+thresholds, and two post-measurement export proxy-idle reliability events were
+retained. Section 26 of the corrective task therefore prohibits the expensive
+3,348-sample final corpus. No focused sample is promoted to final
 PERF-001--PERF-006 acceptance credit.
 
 No readiness marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014`
@@ -33,12 +36,105 @@ The Draft PR head and tree are the immutable candidate identifiers and are
 reported with the PR/CI record; generated evidence additionally binds the
 fixture, migrations, queries/indexes, and harness sources by SHA-256.
 
-## 3. Pre-implementation audit
+## 3. Correction 01 normative boundary and focused disposition
 
-- Playwright already provides unit, complete E2E, Phase 11D cross-engine/mobile,
-  axe, no-JavaScript, local-auth, and local-fault fixtures. Phase 11B requires
-  Playwright plus server timing for the final performance boundary; no existing
-  benchmark or reusable trace aggregator implemented that requirement.
+The authoritative browser duration starts immediately before the named
+Playwright click/press/submit and ends only after the operation's deterministic
+stable UI assertion succeeds. Preparation, fixture mutation, integrity reads,
+and cleanup are outside that duration. Integrity runs immediately afterward
+and can still fail the sample. Each sample records the action, actual Chromium
+profile, an opaque correlation, the matching Next request interval, response-
+start `Server-Timing`, the stable condition, and its bounded trace archive.
+Missing or inconsistent evidence fails closed.
+
+`performance/evidence/focused-normative/operation-boundaries.json` is the
+machine-readable catalog of the exact trigger, request method/template, stable
+route/condition, timer start, and timer end for every measured focused
+operation. The full runner catalog defines the same fields for all 29 required
+operations, including real Auth, setup/diary, foods, Saved Meals, Recipes,
+barcode, synchronous export, and account-closure application paths. No
+benchmark-owned RPC or export reconstruction receives normative credit.
+
+### Browser profiles and execution order
+
+| Profile | Actual context |
+| --- | --- |
+| Desktop | Chromium, Desktop Chrome base, 1280x900, device scale 1, no touch, non-mobile |
+| Mobile | Chromium, Desktop Chrome base, 390x844, device scale 2, touch, mobile emulation |
+
+Both use JavaScript and the same unthrottled loopback network model. The actual
+Chromium version is recorded, and no physical-device claim is made. For each
+operation/concurrency shape, profiles run in deterministic alternating AB/BA
+order. Concurrency-ten preparation is sequential and untimed; only the ten
+actions run concurrently. Unique opaque correlations pre-arm a wave barrier,
+and credit requires all ten matching real server intervals to overlap.
+
+### Trace, timing, and privacy architecture
+
+Ten contexts per profile are traced into exactly 20 bounded archives. A trace
+map connects every sample to metric, operation, profile, concurrency, sample,
+action, correlation, stable condition, and archive. Sanitization removes
+network payload metadata, headers, bodies, cookies, values, stacks, resources,
+screenshots, snapshots, and sources. The evidence validator requires exact
+coverage and rejects identities, credentials, tokens, JWTs, UUIDs, sensitive
+keys/values, unsupported trace entries, and any raw archive.
+
+The loopback timing proxy forwards to the real production Next server. Its
+correlated server interval runs from proxy request receipt through the complete
+response body; response-start latency is separately exposed as `Server-Timing`.
+The full browser action-to-stable-UI duration remains authoritative. The
+production child receives only public local Supabase configuration and the
+existing runtime-only synthetic test secrets; service-role material is removed
+from its environment. Direct local PostgreSQL access is used only for untimed
+fixture/integrity work because the public application roles intentionally lack
+those privileges.
+
+### Focused final diagnostic
+
+The final focused run began from a fresh local reset and exact fixture. It
+recorded 396/396 samples across 36/36 groups, one cold and ten warm samples per
+group, 20/20 bounded trace archives, exact observed cardinalities, complete
+browser/server evidence, and source identity
+`fad75cd27a7dbbe292d1d703d63b401d32863c536b58565fd7c31f910753a881`.
+The evidence/privacy validator passed. It is diagnostic only and does not
+replace the required one-cold/30-warm full corpus.
+
+| Metric | Focused groups | Result |
+| --- | ---: | --- |
+| PERF-001 | 16 | 15 pass; mobile sign-in c10 p95 2,214.727 ms > 1,000 ms |
+| PERF-002 | 8 | all focused setup/diary-create groups pass |
+| PERF-003 | 4 | c1 profiles pass; desktop c10 p95 8,973.570 ms and mobile c10 p95 4,074.574 ms > 750 ms |
+| PERF-006 | 8 | all focused small/median/maximum/mixed export groups pass |
+
+For failed warm groups, the p95 decomposition was:
+
+| Operation/profile | Browser total | Response start | Complete server response | Server end to stable UI |
+| --- | ---: | ---: | ---: | ---: |
+| sign-in/mobile c10 | 2,214.727 ms | 1,384.793 ms | 1,598.498 ms | 571.692 ms |
+| search/desktop c10 | 8,973.570 ms | 430.483 ms | 8,349.128 ms | 1,031.121 ms |
+| search/mobile c10 | 4,074.574 ms | 2,914.189 ms | 3,966.070 ms | 155.285 ms |
+
+The sign-in breach spans local Auth/account-access processing plus final Today
+render stabilization. Search is dominated by the Next/server/database response
+under c10, with additional desktop render stabilization. The prior apparent
+setup/diary/export breaches disappeared after measuring the accepted browser
+boundary correctly and moving untimed integrity work outside the timer; no
+threshold, sample count, fixture, concurrency, RLS, Auth, transaction, or UI
+contract was weakened. No application optimization was made without a safe,
+isolated causal correction.
+
+Two `background_request_timeout` reliability events were retained after the
+cold mobile and desktop mixed-export groups while the proxy waited for all
+background streams to become idle. Their measured export samples and integrity
+checks passed, but the events independently keep the focused report adverse.
+No final normative run was started.
+
+## 4. Historical pre-implementation audit
+
+- Playwright already provided unit, complete E2E, Phase 11D cross-engine/mobile,
+  axe, no-JavaScript, local-auth, and local-fault fixtures. Phase 11B required
+  Playwright plus server timing for the final performance boundary; before
+  Correction 01, no benchmark or reusable trace aggregator implemented it.
 - `supabase/seed.sql` intentionally contains no launch fixture. Existing E2E
   helpers create small per-test identities and require a loopback, unlinked
   Supabase instance. G2 therefore needed a separate deterministic fixture.
@@ -47,8 +143,8 @@ fixture, migrations, queries/indexes, and harness sources by SHA-256.
   The G2 artifacts reuse opaque correlation and classifications without turning
   the observability sink into a user/session analytics store.
 - Server timing opportunities exist at Next server actions/routes, Supabase Auth,
-  PostgREST RPCs, and PostgreSQL. The current diagnostic measures the latter
-  two boundaries; the missing accepted UI boundary is a recorded blocker.
+  PostgREST RPCs, and PostgreSQL. The historical diagnostic measured the latter
+  two boundaries; Correction 01 now measures the accepted UI and Next boundary.
 - Critical database surfaces are the exact DB-001 RPC/query set in Phase 11B.
   There was no existing EXPLAIN harness.
 - Local invitation, activation, sign-in/out, recovery, reauthentication, export,
@@ -66,7 +162,7 @@ fixture, migrations, queries/indexes, and harness sources by SHA-256.
   self-hosted gateway changes, and Node 20 deprecation; none justified unrelated
   application changes. All Supabase work remained local and unlinked.
 
-## 4. Fixture architecture
+## 5. Fixture architecture
 
 `performance/fixture-manifest.json` is version
 `phase-11g2-launch-shape-v1`. Provisioning requires a runtime-only password,
@@ -107,16 +203,17 @@ approved 100-identity beta assumption.
 | saved_meal_items | 1,350 |
 | saved_meals | 450 |
 
-## 5. Harness and privacy architecture
+## 6. Historical lower-level harness and privacy architecture
 
-`lib/performance/qualification.ts` supplies strict versioned sample validation,
+Before Correction 01, `lib/performance/qualification.ts` supplied strict
+versioned lower-level sample validation,
 nearest-rank percentiles, cold/warm and operation/profile separation, minimum
 sample enforcement, timeout/failure retention, overlap validation, exact
 manifest validation, and a deny-by-default privacy serializer. Unit tests cover
 percentiles, timeout/failure handling, thresholds, minimum samples, separation,
 overlap, fixture shape, invalid classifications, and sensitive keys/values.
 
-The explicit local runner uses a 10-second timeout, one cold sample, 30 warm
+The historical explicit local runner used a 10-second timeout, one cold sample, 30 warm
 samples per group, separate desktop/mobile client headers, concurrency 1 and 10
 where applicable, integrity reads, stale-revision probes, and post-run exact
 cardinality comparison. Ten-operation load consists of three synchronized
@@ -131,13 +228,15 @@ food/recipe/note, capability, reauthentication proof, and JWT-shaped values.
 Export payloads are generated only in memory from synthetic data and are not
 persisted.
 
-The run boundary is Supabase client submission through stable server response
+That historical run boundary was Supabase client submission through stable server response
 and immediate integrity verification. It does **not** include the accepted
 Playwright submit/action-to-stable-UI trace. `normativePlaywrightBoundarySatisfied`
 is therefore hard-coded `false` and participates in the aggregate pass gate.
-This prevents the diagnostic from being mistaken for final G2 evidence.
+This prevented the lower-level diagnostic from being mistaken for final G2
+evidence. Correction 01 adds a separate normative sample contract and runner;
+the historical artifacts and runner remain available as diagnostics only.
 
-## 6. Corrected diagnostic results (non-credited)
+## 7. Historical corrected lower-level diagnostic results (non-credited)
 
 Attempt 2 collected 3,348 samples across 108 groups in 1,360,062.749 ms.
 Every group had one successful cold sample and 30 successful warm samples;
@@ -195,7 +294,7 @@ artifact.
 | PERF-005 | 360 / 12; max cold 120.604 ms | p95 <= 750 ms | 0 | DIAGNOSTIC PASS; camera numeric objective correctly omitted |
 | PERF-006 | 360 / 12; max cold 2077.492 ms | p95 <= 2000 ms | 4 | FAIL |
 
-## 7. PERF-006 contract reconciliation
+## 8. PERF-006 contract reconciliation
 
 Phase 11E decisions `P11E-E007` and E5 are unambiguous: export is a complete
 synchronous versioned JSON response and closure is an immediate synchronous
@@ -207,7 +306,7 @@ shapes plus closure at concurrency 1/10. Four export groups breach the accepted
 2-second budget, so the synchronous architecture remains a real blocker rather
 than being reclassified as async.
 
-## 8. DB-001 qualification
+## 9. DB-001 qualification
 
 The final local corpus contains five `EXPLAIN (ANALYZE, BUFFERS)` plans for each
 of the 12 required query shapes under `authenticated` role, JWT claims, RLS,
@@ -234,7 +333,7 @@ No final plan shows a disk spill, temp write, material row-estimate explosion,
 or unexplained query-specific breach. Function-scan internals are retained in
 the raw plans; no sequential scan is treated as an automatic failure.
 
-## 9. Optimization and before/after evidence
+## 10. Historical DB optimization and before/after evidence
 
 The first plan attempt found `search_readable_foods` p95 891 ms, above its
 750 ms budget, with approximately 13,552 shared-buffer hits per plan. Inspection
@@ -258,7 +357,7 @@ timings do not prove an isolated latency improvement, so the record does not
 claim one. RLS/policy correctness remains subject to the complete repository
 security/E2E and migration-role gates.
 
-## 10. Failed and non-credited attempts
+## 11. Failed and non-credited attempts
 
 1. Initial DB plans recorded a truthful search breach (p95 891 ms). The raw and
    aggregate artifacts are retained.
@@ -291,6 +390,13 @@ security/E2E and migration-role gates.
    exactly the permitted 30 seconds ahead during preceding RPC calls. The test
    fixture now uses `iat + 60` / `exp + 90`, retaining the 30-second lifetime
    while remaining invalid. Its seven-test file and the complete suite passed.
+9. The first focused Playwright run retained a concise 396-sample summary with
+   ten failing groups. It exposed an invalid timing staircase caused by running
+   synchronous integrity checks before the other c10 browser actions had ended.
+   Integrity was moved outside every measured action-to-stable-UI interval.
+10. The final focused Playwright run retained the complete 396-sample corpus and
+    20 sanitized traces. Three threshold groups and two proxy-idle reliability
+    events remain adverse, so the 3,348-sample final run was correctly withheld.
 
 Observed failures are not formal `REL-001` acceptance evidence. Attempt 2 has
 zero unhandled reliability events, but formal exact-candidate `REL-001` remains
@@ -298,7 +404,7 @@ Phase 11J work. Deployed `CWV-001`, device/camera evidence, cold starts,
 provider behavior, Production RUM, alert delivery, uptime, and incident/outage
 rehearsal also remain explicitly deferred to Phase 11J/later Production work.
 
-## 11. Files, dependencies, database, and commands
+## 12. Files, dependencies, database, and commands
 
 Implementation adds the fixture manifest/SQL and provisioner, qualification
 library/tests, diagnostic runner, plan runner, compact evidence, this record,
@@ -317,47 +423,55 @@ npx supabase start
 npx supabase db reset
 npm run performance:fixture
 npm run performance:plans
+npm run performance:diagnostic
 npm run performance:qualify
 ```
 
-The full performance command is expected to exit nonzero until the normative
-Playwright boundary and all approved thresholds pass. Local Supabase must be
-stopped without retaining benchmark data after validation.
+`performance:diagnostic` preserves the historical lower-level runner;
+`performance:qualify` is now the normative Playwright runner. A focused run uses
+`--focused`; a final run requires at least 30 warm samples and is prohibited
+until focused evidence is satisfactory. Local Supabase must be stopped without
+retaining benchmark data after validation.
 
-## 12. Validation and delivery state
+## 13. Validation and delivery state
 
 | Validation | Result |
 | --- | --- |
 | `npm ci` | PASS; 399 packages, zero reported vulnerabilities, lockfile unchanged |
 | `git diff --check`; lint; TypeScript | PASS |
-| Pure/unit suite | PASS; 291/291, including 8/8 qualification-harness tests |
+| Pure/unit suite | PASS; 297/297, including 14 normative qualification-harness tests |
 | Journey evidence | PASS; 52/52 validator tests and exact 35-journey corpus |
 | Workflow, production advisory, and security regressions | PASS; zero dependency advisories; 5/5 Node and 4/4 header-policy tests |
 | Production build/client-secret boundary | PASS with webpack fallback; 128 browser/static artifacts inspected; local default Turbopack attempts were sandbox-blocked, so exact-head CI remains authoritative |
 | Fresh local migration replay/seed and hosted-role simulation | PASS; all migrations including G2 replayed; migration-role compatibility passed |
 | Internal ingestion type synchronization | PASS |
-| Phase 11E5 stabilized focused regression | PASS; 7/7 |
-| Complete local Playwright suite | PASS; 360/360 in 4.6 minutes from a fresh reset |
+| Phase 11E5 account-closure coverage | PASS; all 7 tests in the complete suite |
+| Complete local Playwright suite | PASS; 360/360 in 6.1 minutes from a fresh reset and newly started app server |
 | Phase 11D | PASS; 45 passed, 3 expected non-Chromium axe skips, zero serious/critical Chromium axe findings |
-| Machine evidence validation/privacy scan | PASS; every JSON artifact parses; no email, password, bearer/JWT, Auth-token, session-ID, user-ID value, or UUID value was found |
-| Performance qualification | **FAIL/BLOCKED**; 19 threshold breaches and no normative Playwright UI/trace boundary |
+| Normative harness unit tests | PASS; 14/14, including browser/profile/stable-state/correlation/trace/overlap/privacy fail-closed cases |
+| Focused machine evidence/privacy validation | PASS; exact 36 groups, 396 samples, 20 traces, source identity, aggregation, correlations, cardinalities, and sanitized archive structure |
+| Performance qualification | **FAIL/BLOCKED**; normative boundary established, but three focused threshold groups and two reliability events remain; final corpus not run |
 
 The Draft PR head/tree, PR URL, and exact-head CI run are reported after the
 immutable candidate exists. A successful repository regression/CI run does not
 override the failed performance result. The Draft PR must remain unmerged with
 auto-merge disabled.
 
-## 13. Recommended next task
+Two earlier complete-suite starts were non-credited: the first followed the
+hosted-role migration simulator without resetting its historical schema, and
+the second reused the orphaned app server left by the interrupted first start.
+The exact process was removed, the database was reset through every migration,
+and the credited 360-test run started a new server and passed.
 
-Keep this Draft PR unmerged and perform a bounded G2 corrective task that:
+## 14. Recommended next task
 
-1. implements Playwright desktop/mobile submit/action-to-stable-UI timing and
-   trace capture while reusing the strict sample/privacy/concurrency contracts;
-2. counterbalances profile/order and records host/Docker health so temporal
-   contention cannot masquerade as a profile effect;
-3. diagnoses Auth/server-action and synchronous-export breaches at the accepted
-   application boundary; and
-4. reruns the complete 30-sample corpus only after focused corrective evidence.
+Keep this Draft PR unmerged and perform a bounded G2 performance correction that:
+
+1. isolates and safely reduces mobile c10 Auth/account-access/render latency;
+2. isolates and safely reduces desktop/mobile c10 search server/database cost;
+3. resolves the mixed-export background-stream proxy-idle reliability events;
+4. reruns only the affected focused groups, then the complete focused matrix;
+5. runs the 3,348-sample final corpus only after the focused report is clean.
 
 Do not change thresholds, shrink the fixture, reduce concurrency, bypass RLS or
 server validation, begin Phase 11H/11J, or issue the G2 readiness marker.

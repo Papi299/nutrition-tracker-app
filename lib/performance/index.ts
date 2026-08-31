@@ -1,4 +1,5 @@
 export {
+  aggregateNormativeQualificationGroup,
   aggregateQualificationGroup,
   classifyTimedResult,
   nearestRankPercentile,
@@ -10,10 +11,16 @@ export {
   serializePrivacySafeEvidence,
   validateConcurrencyOverlap,
   validateFixtureManifest,
+  validateNormativeConcurrencyOverlap,
+  validateNormativePerformanceSample,
   validatePerformanceSample,
 } from "./qualification";
 export type {
   FixtureManifest,
+  NormativeBrowserEvidence,
+  NormativePerformanceSample,
+  NormativeProfileConfig,
+  NormativeQualificationGroup,
   PerformanceClassification,
   PerformanceMetricId,
   PerformanceOutcome,

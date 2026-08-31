@@ -3050,3 +3050,32 @@
   marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`,
   all 18 findings remain `OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`,
   and deployed performance/CWV/REL/provider/device evidence remains deferred.
+
+## 2026-08-31: Phase 11G2 Correction 01 establishes the normative boundary but remains blocked
+
+- The corrective work preserves blocked head
+  `97704112e718108261cc0998ff254c9524e08f0d` and its unfavorable evidence. It
+  adds a separate normative Playwright runner instead of rewriting or promoting
+  the historical lower-level diagnostic.
+- Every normative sample now requires a real Playwright action through the
+  production Next application and local Supabase to a deterministic stable UI,
+  plus the matching opaque-correlated full-response server interval,
+  response-start `Server-Timing`, actual browser profile, integrity result, and
+  bounded trace mapping. Validation fails closed on missing, inconsistent, or
+  sensitive evidence.
+- Desktop is Chromium 1280x900/dSF1/no-touch/non-mobile; mobile is Chromium
+  390x844/dSF2/touch/mobile emulation. Execution alternates profiles AB/BA by
+  operation/concurrency shape. Concurrency-ten credit requires all ten uniquely
+  correlated real server intervals to overlap.
+- The complete final focused diagnostic retained 396/396 samples, 36/36 groups,
+  exact fixture cardinalities, 20 sanitized trace archives, exact source
+  identity, and a passing machine evidence/privacy validation. It still failed
+  mobile sign-in c10 at p95 2,214.727 ms versus 1,000 ms and search c10 at p95
+  8,973.570 ms desktop / 4,074.574 ms mobile versus 750 ms. Two post-measurement
+  mixed-export proxy-idle reliability events were also retained.
+- Because focused evidence is not satisfactory, the required 3,348-sample final
+  corpus was not run. No focused metric receives final PERF credit, no readiness
+  marker is authorized, and PR #120 remains Draft/unmerged. No hosted Supabase,
+  provider, deployment, Production, monitoring, or real-user operation occurred.
+  `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`; all 18 findings remain
+  `OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`.
