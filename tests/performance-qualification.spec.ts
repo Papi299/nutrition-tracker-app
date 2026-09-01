@@ -3,6 +3,7 @@ import {
   aggregateNormativeQualificationGroup,
   aggregateQualificationGroup,
   classifyTimedResult,
+  createProxyActivityTracker,
   nearestRankPercentile,
   serializePrivacySafeEvidence,
   validateConcurrencyOverlap,
@@ -273,6 +274,51 @@ test("rejects sensitive fields and values from serialized evidence", () => {
   expect(() => serializePrivacySafeEvidence({ request_payload: "safe" })).toThrow(
     /sensitive field/,
   );
+});
+
+test("clears proxy activity after an early downstream cancellation", () => {
+  const activity = createProxyActivityTracker();
+  const stream = activity.start({
+    method: "GET",
+    relevance: "uncorrelated_background",
+    routeTemplate: "/[locale]/foods",
+    startedAtMs: 100,
+    trafficKind: "rsc",
+  });
+
+  stream.markHeadersArrived();
+  stream.finish();
+  stream.finish();
+
+  expect(activity.activeCount()).toBe(0);
+  expect(activity.inventory(500)).toEqual([]);
+});
+
+test("retains a genuinely stuck measured stream in privacy-safe diagnostics", () => {
+  const activity = createProxyActivityTracker();
+  const stream = activity.start({
+    method: "POST",
+    relevance: "measured",
+    routeTemplate: "/[locale]/account/export",
+    startedAtMs: 100,
+    trafficKind: "navigation",
+  });
+  stream.markHeadersArrived();
+
+  expect(activity.activeCount()).toBe(1);
+  const activeStreams = activity.inventory(600);
+  expect(activeStreams).toEqual([
+    {
+      ageMs: 500,
+      contentCompleted: false,
+      headersArrived: true,
+      method: "POST",
+      relevance: "measured",
+      routeTemplate: "/[locale]/account/export",
+      trafficKind: "navigation",
+    },
+  ]);
+  expect(() => serializePrivacySafeEvidence({ activeStreams })).not.toThrow();
 });
 
 test("rejects invalid sample fields, classifications, and timeout duration", () => {

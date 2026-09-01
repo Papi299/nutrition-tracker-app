@@ -426,10 +426,20 @@ is complete for the current MVP scope.
   optimization. Correction 01 establishes the normative Playwright action-to-
   stable-UI boundary, real desktop/mobile contexts, correlated server timing,
   real c10 overlap, deterministic counterbalancing, and 20 bounded sanitized
-  trace archives. Its complete 396-sample focused diagnostic still fails mobile
-  sign-in c10 and both search c10 profiles and retains two proxy-idle reliability
-  events, so the gated 3,348-sample final corpus was not run. It therefore
-  receives no final PERF-001--PERF-006 acceptance credit and no readiness
+  trace archives. Correction 02 replaces the food-search native GET reload
+  with the progressively enhanced Next form navigation after direct RPC,
+  concurrent HTML, no-JavaScript, and browser decomposition proved the database
+  and server render were not the c10 bottleneck. Repeated targeted search c1/c10
+  and mixed-export c10 runs pass with exact integrity and zero idle events. The
+  timing proxy now tracks privacy-safe active-stream state, accounts for early
+  downstream cancellation, still fails a genuinely stuck measured stream, and
+  recycles completed pages between groups without changing the accepted timing
+  boundary. Complete 396-sample attempts remain non-qualifying because this
+  host produced temporally shifting cross-operation stalls under 85--248 MB
+  reported free memory; the current complete report has four threshold failures
+  and one correlated-boundary event. The gated 3,348-sample final corpus was
+  therefore not run. Correction 02 receives no final PERF-001--PERF-006
+  acceptance credit and no readiness
   marker. `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal

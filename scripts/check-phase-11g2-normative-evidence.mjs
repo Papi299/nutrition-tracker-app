@@ -14,6 +14,7 @@ const SOURCE_PATHS = [
   "scripts/run-phase-11g2-playwright-qualification.mjs",
   "scripts/phase-11g2-playwright-operations.mjs",
   "lib/performance/qualification.ts",
+  "app/[locale]/(app)/foods/page.tsx",
   "performance/fixture-manifest.json",
   "performance/fixture.sql",
 ];

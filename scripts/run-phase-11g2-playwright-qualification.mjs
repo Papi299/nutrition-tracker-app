@@ -25,6 +25,7 @@ import { createClient } from "@supabase/supabase-js";
 import { chromium, devices } from "@playwright/test";
 import {
   aggregateNormativeQualificationGroup,
+  createProxyActivityTracker,
   serializePrivacySafeEvidence,
   validateFixtureManifest,
   validateNormativePerformanceSample,
@@ -202,11 +203,47 @@ function routePathname(requestUrl) {
   return new URL(requestUrl ?? "/", `http://127.0.0.1:${browserPort}`).pathname;
 }
 
+function privacySafeRouteTemplate(requestUrl) {
+  return routePathname(requestUrl)
+    .split("/")
+    .map((segment) => {
+      if (["en", "he"].includes(segment)) return "[locale]";
+      if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(segment)) {
+        return "[id]";
+      }
+      return segment;
+    })
+    .join("/");
+}
+
+function normalizedMethod(method) {
+  return ["GET", "POST", "HEAD"].includes(method) ? method : "OTHER";
+}
+
+function trafficKind(incoming) {
+  if (incoming.headers["next-router-prefetch"] === "1") return "prefetch";
+  if (incoming.headers.rsc === "1") return "rsc";
+  if (routePathname(incoming.url).startsWith("/_next/")) return "framework_asset";
+  if (
+    incoming.headers["sec-fetch-mode"] === "navigate" ||
+    incoming.headers["sec-fetch-dest"] === "document"
+  ) return "navigation";
+  return "other";
+}
+
+class ProxyIdleTimeoutError extends Error {
+  constructor(activeStreams) {
+    super("The timing proxy did not return to an idle state.");
+    this.name = "ProxyIdleTimeoutError";
+    this.activeStreams = activeStreams;
+  }
+}
+
 async function startTimingProxy() {
   const records = new Map();
   const expected = new Map();
   const waves = new Map();
-  let activeRequests = 0;
+  const activity = createProxyActivityTracker();
 
   function addRecord(correlationId, record) {
     const current = records.get(correlationId) ?? [];
@@ -215,14 +252,22 @@ async function startTimingProxy() {
   }
 
   function beginUpstream(incoming, outgoing, correlationId) {
-    activeRequests += 1;
-    let active = true;
-    const finishActive = () => {
-      if (!active) return;
-      active = false;
-      activeRequests -= 1;
-    };
     const startedAtMs = nowMs();
+    const definition = correlationId ? expected.get(correlationId) : undefined;
+    const measured = definition &&
+      definition.method === incoming.method &&
+      definition.pathname === routePathname(incoming.url);
+    const stream = activity.start({
+      method: normalizedMethod(incoming.method),
+      relevance: measured
+        ? "measured"
+        : correlationId
+          ? "correlated_background"
+          : "uncorrelated_background",
+      routeTemplate: privacySafeRouteTemplate(incoming.url),
+      startedAtMs,
+      trafficKind: trafficKind(incoming),
+    });
     const headers = { ...incoming.headers };
     headers.host = `127.0.0.1:${browserPort}`;
     const upstream = httpRequest(
@@ -234,6 +279,7 @@ async function startTimingProxy() {
         port: applicationPort,
       },
       (response) => {
+        stream.markHeadersArrived();
         const responseStartedAtMs = nowMs();
         const responseStartMs = Number((responseStartedAtMs - startedAtMs).toFixed(3));
         const responseHeaders = { ...response.headers };
@@ -241,6 +287,7 @@ async function startTimingProxy() {
           responseHeaders["server-timing"] = `phase11g2_app;dur=${responseStartMs}`;
           responseHeaders["x-phase11g2-correlation"] = correlationId;
           response.once("end", () => {
+            stream.markContentCompleted();
             const endedAtMs = nowMs();
             addRecord(correlationId, {
               correlationId,
@@ -252,23 +299,31 @@ async function startTimingProxy() {
               startedAtMs,
               status: response.statusCode ?? 500,
             });
-            finishActive();
+            stream.finish();
           });
         }
-        if (!correlationId) response.once("end", finishActive);
-        response.once("aborted", finishActive);
-        response.once("error", finishActive);
-        response.once("close", finishActive);
+        if (!correlationId) {
+          response.once("end", () => {
+            stream.markContentCompleted();
+            stream.finish();
+          });
+        }
+        response.once("aborted", stream.finish);
+        response.once("error", stream.finish);
+        response.once("close", stream.finish);
         outgoing.writeHead(response.statusCode ?? 500, responseHeaders);
         response.pipe(outgoing);
       },
     );
     upstream.on("error", (error) => {
-      finishActive();
+      stream.finish();
       outgoing.destroy(error);
     });
     outgoing.on("close", () => {
-      if (!outgoing.writableEnded) upstream.destroy();
+      if (!outgoing.writableEnded) {
+        upstream.destroy();
+        stream.finish();
+      }
     });
     incoming.pipe(upstream);
   }
@@ -379,10 +434,10 @@ async function startTimingProxy() {
     },
     async waitForIdle() {
       for (let attempt = 0; attempt < 600; attempt += 1) {
-        if (activeRequests === 0 && waves.size === 0) return;
+        if (activity.activeCount() === 0 && waves.size === 0) return;
         await new Promise((resolve) => setTimeout(resolve, 50));
       }
-      throw new Error("The timing proxy did not return to an idle state.");
+      throw new ProxyIdleTimeoutError(activity.inventory(nowMs()));
     },
   };
 }
@@ -836,6 +891,13 @@ try {
     return { actor, operation, slot, state };
   }
 
+  async function recycleProfilePages(profile) {
+    for (const slot of slots[profile]) {
+      await slot.page.close({ runBeforeUnload: false });
+      slot.page = await slot.context.newPage();
+    }
+  }
+
   async function runMeasured(prepared, profile, concurrency, temperature, sampleIndex, waveId) {
     const { actor, operation, slot, state } = prepared;
     slot.page.setDefaultTimeout(timeoutMs);
@@ -1135,8 +1197,11 @@ try {
       }
       try {
         await proxy.waitForIdle();
-      } catch {
+      } catch (error) {
         reliabilityEvents.push({
+          ...(error instanceof ProxyIdleTimeoutError
+            ? { activeStreams: error.activeStreams }
+            : {}),
           classification: "framework_failure",
           concurrency,
           correlationId: opaqueCorrelation(),
@@ -1145,6 +1210,25 @@ try {
           phase: "proxy_idle",
           profile,
           reasonCode: "background_request_timeout",
+          sampleIndex: 0,
+        });
+      }
+      try {
+        // Keep the accepted browser contexts, profile schedule, tracing, and
+        // cache boundary while releasing completed page documents that no
+        // later operation consumes. Retaining all 20 loaded pages caused
+        // cross-operation memory pressure during the long normative run.
+        await recycleProfilePages(profile);
+      } catch {
+        reliabilityEvents.push({
+          classification: "framework_failure",
+          concurrency,
+          correlationId: opaqueCorrelation(),
+          metricId: operation.metricId,
+          operationId: operation.id,
+          phase: "profile_page_recycle",
+          profile,
+          reasonCode: "page_recycle_failure",
           sampleIndex: 0,
         });
       }
@@ -1241,6 +1325,7 @@ for (const path of [
   "scripts/run-phase-11g2-playwright-qualification.mjs",
   "scripts/phase-11g2-playwright-operations.mjs",
   "lib/performance/qualification.ts",
+  "app/[locale]/(app)/foods/page.tsx",
   "performance/fixture-manifest.json",
   "performance/fixture.sql",
 ]) {

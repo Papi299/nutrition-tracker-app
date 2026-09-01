@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-correction-02-summary",
+  "startingCandidate": {
+    "head": "a76430b3f721b6eb75ae436e7b324d05a0f85196",
+    "tree": "e2caac4803e2751889b1042fa14cd03df6d48fda",
+    "parent": "97704112e718108261cc0998ff254c9524e08f0d",
+    "base": "2d35278f68d33397b9a75eba37dc83ee5a307d9d"
+  },
+  "correction01Blockers": {
+    "signInMobileC10P95Ms": 2214.727,
+    "searchDesktopC10P95Ms": 8973.57,
+    "searchMobileC10P95Ms": 4074.574,
+    "exportIdleEventCount": 2
+  },
+  "cleanReproduction": {
+    "signInDesktopC10P95Ms": 642.426,
+    "signInMobileC10P95Ms": 590.038,
+    "searchDesktopC1P95Ms": 180.258,
+    "searchMobileC1P95Ms": 175.749,
+    "searchDesktopC10P95Ms": 9789.889,
+    "searchMobileC10P95Ms": 10000,
+    "exportDesktopC10P95Ms": 364.251,
+    "exportMobileC10P95Ms": 340.342,
+    "exportIdleEventCount": 0
+  },
+  "targetedAfterCorrection": {
+    "searchC10Runs": [
+      {
+        "desktopP95Ms": 397.023,
+        "mobileP95Ms": 318.857,
+        "eventCount": 0
+      },
+      {
+        "desktopP95Ms": 492.635,
+        "mobileP95Ms": 549.15,
+        "eventCount": 0
+      }
+    ],
+    "searchC1Runs": [
+      {
+        "desktopP95Ms": 158.606,
+        "mobileP95Ms": 111.14,
+        "eventCount": 0
+      },
+      {
+        "desktopP95Ms": 129.432,
+        "mobileP95Ms": 128.374,
+        "eventCount": 0
+      }
+    ],
+    "exportC10Runs": [
+      {
+        "desktopP95Ms": 520.965,
+        "mobileP95Ms": 460.607,
+        "eventCount": 0
+      },
+      {
+        "desktopP95Ms": 555.313,
+        "mobileP95Ms": 888.309,
+        "eventCount": 0
+      }
+    ]
+  },
+  "completeFocusedAttempts": [
+    {
+      "sampleCount": 396,
+      "groupCount": 36,
+      "thresholdFailureCount": 0,
+      "eventCount": 1,
+      "disposition": "failed_correlated_boundary"
+    },
+    {
+      "sampleCount": 396,
+      "groupCount": 36,
+      "thresholdFailureCount": 1,
+      "eventCount": 0,
+      "disposition": "failed_isolated_complete_stream_stall"
+    },
+    {
+      "sampleCount": 396,
+      "groupCount": 36,
+      "thresholdFailureCount": 3,
+      "eventCount": 0,
+      "disposition": "noncredited_host_contention"
+    },
+    {
+      "sampleCount": 396,
+      "groupCount": 36,
+      "thresholdFailureCount": 4,
+      "eventCount": 1,
+      "disposition": "noncredited_host_contention_after_page_recycle"
+    }
+  ],
+  "currentFocusedEvidence": {
+    "sourceIdentitySha256": "99e756e54652bec7568586b1073712ff983d359483a21b92a383a35abb4d47ad",
+    "availableMemoryBytesBefore": 84721664,
+    "loadAverageBefore": [
+      11.118,
+      7.847,
+      5.466
+    ],
+    "failedGroupCount": 5,
+    "eventCount": 1,
+    "passed": false
+  },
+  "databaseChanged": false,
+  "db001Freshness": "retained",
+  "finalCorpusAuthorized": false,
+  "finalCorpusRun": false,
+  "status": "PHASE_11G2_CORRECTION_02_BLOCKED"
+}

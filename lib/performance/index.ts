@@ -2,6 +2,7 @@ export {
   aggregateNormativeQualificationGroup,
   aggregateQualificationGroup,
   classifyTimedResult,
+  createProxyActivityTracker,
   nearestRankPercentile,
   performanceClassifications,
   performanceMetricIds,
@@ -27,5 +28,7 @@ export type {
   PerformanceProfile,
   PerformanceSample,
   PerformanceTemperature,
+  ProxyStreamInventoryEntry,
+  ProxyStreamRelevance,
   QualificationGroup,
 } from "./qualification";

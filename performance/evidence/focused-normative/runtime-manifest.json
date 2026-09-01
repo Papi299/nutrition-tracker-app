@@ -269,25 +269,25 @@
   },
   "playwrightVersion": "1.61.1",
   "postgresqlVersion": "17.6",
-  "qualificationEndedAt": "2026-08-31T15:53:11.471Z",
-  "qualificationStartedAt": "2026-08-31T15:47:47.285Z",
+  "qualificationEndedAt": "2026-09-01T03:16:14.728Z",
+  "qualificationStartedAt": "2026-09-01T03:11:43.945Z",
   "runtimeAfter": {
-    "availableMemoryBytes": 2362114048,
+    "availableMemoryBytes": 380813312,
     "loadAverage": [
-      12.965,
-      25.465,
-      54.926
+      6.582,
+      7.595,
+      6.028
     ],
-    "processUptimeSeconds": 326.127
+    "processUptimeSeconds": 272.906
   },
   "runtimeBefore": {
-    "availableMemoryBytes": 196820992,
+    "availableMemoryBytes": 84721664,
     "loadAverage": [
-      17.259,
-      44.407,
-      72.788
+      11.118,
+      7.847,
+      5.466
     ],
-    "processUptimeSeconds": 1.843
+    "processUptimeSeconds": 2.065
   },
   "supabaseCliVersion": "2.116.0",
   "totalMemoryBytes": 17179869184

@@ -155,6 +155,88 @@ export type NormativeQualificationGroup = QualificationGroup &
     serverOverlapPassed: boolean;
   }>;
 
+export type ProxyStreamRelevance =
+  | "measured"
+  | "correlated_background"
+  | "uncorrelated_background";
+
+export type ProxyStreamInventoryEntry = Readonly<{
+  routeTemplate: string;
+  method: "GET" | "POST" | "HEAD" | "OTHER";
+  ageMs: number;
+  headersArrived: boolean;
+  contentCompleted: boolean;
+  relevance: ProxyStreamRelevance;
+  trafficKind: "navigation" | "rsc" | "prefetch" | "framework_asset" | "other";
+}>;
+
+export function createProxyActivityTracker() {
+  let nextStreamId = 0;
+  const activeStreams = new Map<
+    number,
+    ProxyStreamInventoryEntry & Readonly<{ startedAtMs: number }>
+  >();
+
+  return {
+    activeCount() {
+      return activeStreams.size;
+    },
+    start({
+      method,
+      relevance,
+      routeTemplate,
+      startedAtMs,
+      trafficKind,
+    }: Readonly<{
+      method: ProxyStreamInventoryEntry["method"];
+      relevance: ProxyStreamRelevance;
+      routeTemplate: string;
+      startedAtMs: number;
+      trafficKind: ProxyStreamInventoryEntry["trafficKind"];
+    }>) {
+      const streamId = (nextStreamId += 1);
+      activeStreams.set(streamId, {
+        ageMs: 0,
+        contentCompleted: false,
+        headersArrived: false,
+        method,
+        relevance,
+        routeTemplate,
+        startedAtMs,
+        trafficKind,
+      });
+      let finished = false;
+
+      function update(values: Partial<ProxyStreamInventoryEntry>) {
+        const current = activeStreams.get(streamId);
+        if (current) activeStreams.set(streamId, { ...current, ...values });
+      }
+
+      return {
+        finish() {
+          if (finished) return;
+          finished = true;
+          activeStreams.delete(streamId);
+        },
+        markContentCompleted() {
+          update({ contentCompleted: true });
+        },
+        markHeadersArrived() {
+          update({ headersArrived: true });
+        },
+      };
+    },
+    inventory(observedAtMs: number): readonly ProxyStreamInventoryEntry[] {
+      return [...activeStreams.values()]
+        .map(({ startedAtMs, ...entry }) => ({
+          ...entry,
+          ageMs: Number(Math.max(0, observedAtMs - startedAtMs).toFixed(3)),
+        }))
+        .sort((left, right) => right.ageMs - left.ageMs);
+    },
+  };
+}
+
 const expectedClassifications = new Set<PerformanceClassification>([
   "validation_rejection",
   "authorization_denial",

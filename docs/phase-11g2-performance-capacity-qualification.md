@@ -2,16 +2,20 @@
 
 ## 1. Status
 
-Task `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001` is **BLOCKED** and is
-not a successful G2 candidate. Correction 01 establishes the previously
-missing normative Playwright action-to-stable-UI boundary, real desktop/mobile
-contexts, correlated full-response server intervals, actual ten-request
-overlap, deterministic AB/BA ordering, bounded sanitized traces, and
-machine-checked evidence. Its complete 396-sample focused diagnostic is still
-adverse: mobile sign-in c10 and desktop/mobile search c10 breach their approved
-thresholds, and two post-measurement export proxy-idle reliability events were
-retained. Section 26 of the corrective task therefore prohibits the expensive
-3,348-sample final corpus. No focused sample is promoted to final
+Task `PHASE-11G2-CORRECTION-02-PERFORMANCE-BLOCKER-REMEDIATION-001` is
+**BLOCKED** and is not a successful G2 candidate. Correction 01's normative
+Playwright architecture remains established. Correction 02 resolves the
+reproducible search full-document-navigation bottleneck and the proxy's early
+downstream-cancellation bookkeeping gap, while the historical sign-in spike
+and export-idle events did not reproduce on fresh targeted runs. Repeated
+targeted search c1/c10 and mixed-export c10 evidence is clean. Four complete
+396-sample attempts were nevertheless adverse: one retained a missing complete
+correlated boundary, one retained an isolated 979.612 ms search stream, and two
+were objectively host-contended across unrelated operations. The current
+complete report started with 84,721,664 available bytes and load average
+11.118/7.847/5.466; it contains four threshold failures and one reliability
+event. The clean focused prerequisite was not met, so the 3,348-sample final
+corpus remains prohibited. No focused sample is promoted to final
 PERF-001--PERF-006 acceptance credit.
 
 No readiness marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014`
@@ -475,3 +479,109 @@ Keep this Draft PR unmerged and perform a bounded G2 performance correction that
 
 Do not change thresholds, shrink the fixture, reduce concurrency, bypass RLS or
 server validation, begin Phase 11H/11J, or issue the G2 readiness marker.
+
+## 15. Correction 02 reproduction, remediation, and blocked disposition
+
+Correction 02 verified starting head
+`a76430b3f721b6eb75ae436e7b324d05a0f85196`, tree
+`e2caac4803e2751889b1042fa14cd03df6d48fda`, parent
+`97704112e718108261cc0998ff254c9524e08f0d`, and unchanged accepted `main`
+`2d35278f68d33397b9a75eba37dc83ee5a307d9d`. PR #120 was open, Draft,
+unmerged, based on accepted `main`, auto-merge disabled, and exact-head CI
+successful. Correction 01 commits and adverse evidence remain in history.
+
+### Controlled reproduction and decomposition
+
+After removing one stale target-worktree Next process, resetting local
+Supabase, and reprovisioning the exact fixture, sign-in passed at desktop c10
+p95 642.426 ms and mobile c10 p95 590.038 ms. The prior 2,214.727 ms mobile
+result therefore did not reproduce and was not attributed to the viewport.
+The same local Auth provider/account-access/Today path served both profiles; no
+Auth, lifecycle, RLS, or Today-data shortcut was justified or made.
+
+Search c1 passed at 180.258/175.749 ms, while c10 reproduced at desktop p95
+9,789.889 ms and mobile p95 10,000 ms. Direct claims completed in about 13 ms,
+direct `search_readable_foods` calls returned exactly 20 rows at c10 in at most
+about 200 ms, concurrent full Next HTML completed in at most about 267 ms, and
+PostgreSQL showed no lock wait. With JavaScript disabled, ten browser searches
+completed in at most 375.613 ms. With JavaScript and the native GET form, full
+browser navigation took 6.6--13.3 seconds and produced closed-destination
+streams. Removing favorite controls did not cure it. The cause was ten complete
+document reload/boot/hydration cycles, not SQL, RLS, Auth, result ranking, or
+the 20-result contract.
+
+The bounded application change uses Next's progressively enhanced string-GET
+form navigation. It retains URL parameters, no-JavaScript behavior, locale,
+RTL/LTR, exact results, favorites, account-access enforcement, and RLS while
+using client navigation when JavaScript is available. Repeated post-change
+search c10 runs passed at 397.023/318.857 ms and 492.635/549.150 ms; repeated
+c1 runs passed at 158.606/111.140 ms and 129.432/128.374 ms. All runs retained
+exactly 20 correct rows, isolation, integrity, and real server overlap.
+
+Mixed export itself reproduced cleanly at 364.251/340.342 ms with zero idle
+events. The proxy audit found a lifecycle gap: an early downstream close
+destroyed the upstream connection but did not directly retire the tracked
+stream. The tracker now retires that path idempotently and, on a real idle
+timeout, records only route template, method, age, header/content completion,
+measured relevance, and navigation/RSC/prefetch/framework classification. A
+regression proves cancellation clears the stream; another proves a measured
+stream whose content never completes remains active and therefore still
+produces a reliability failure. Repeated mixed-export c10 runs passed at
+520.965/460.607 ms and 555.313/888.309 ms with zero events. The historical two
+events remain preserved; because they predate the inventory and did not
+reproduce, the record does not overclaim their exact traffic class.
+
+### Complete focused attempts and final gate
+
+All attempts retained all 396 samples, 36 groups, exact fixture cardinalities,
+20 sanitized traces, and privacy validation.
+
+| Attempt | Threshold failures | Reliability events | Disposition |
+| --- | ---: | ---: | --- |
+| 1 | 0 | 1 | Stable Today UI and correct setup data, but one cold setup response lacked a complete correlated boundary; failed closed |
+| 2 | 1 | 0 | One mobile c1 search complete stream took 979.612 ms; the other nine were 106--327 ms; retained |
+| 3 | 3 | 0 | Cross-operation c10 waves shifted together under 138,854,400 bytes starting free memory; non-credited host contention |
+| 4 | 4 | 1 | Page documents were recycled between groups, but the run began with 84,721,664 bytes free and load 11.118; retained as the current adverse complete report |
+
+Page recycling preserves contexts, tracing, caches, AB/BA order, thresholds,
+samples, concurrency, and the action-to-stable timer while releasing documents
+no later operation consumes. It stabilized later search/export groups but
+cannot neutralize unrelated host contention. No numerical machine-health
+acceptance threshold was invented, no slow sample was removed, and no failed
+complete attempt is credited.
+
+No SQL, RPC, index, policy, statistics, schema, fixture-shape, or migration
+behavior changed, so the accepted 60-plan DB-001 evidence remains fresh. The
+affected food-search/account-export correctness run passed 17/17 on a clean
+ordinary fixture, including authenticated-only invoker/RLS behavior, private
+row isolation, exact result cap, EN/HE, RTL, no-JavaScript, ownership,
+reauthentication, accessibility, and failure handling. An earlier invocation
+on top of the performance fixture was non-credited because its 1,480 search
+rows crowded a test-owned result outside the 20-row cap.
+
+The machine-readable Correction 02 summary is
+`performance/evidence/correction-02-summary.json`. The current complete focused
+report remains `passed: false`; the 3,348-sample/108-group corpus was correctly
+withheld. `PHASE_11G2_CORRECTION_02_BLOCKED` is the only authorized status.
+`P11A-012`, `P11A-013`, and `P11A-014`, all 18 findings, Phase 11G, and Phase 11
+remain open/incomplete. Phase 11H/11J did not begin.
+
+### Correction 02 repository gates
+
+The final local validation passed `git diff --check`, lint, typecheck, 16/16
+performance-harness tests, machine/privacy evidence validation, 299/299
+pure/unit tests, 52/52 journey-evidence tests with exact 35/249/854
+cardinalities, workflow-security validation, dependency advisory validation
+with zero findings at every severity, ingestion type synchronization, a fresh
+local migration replay, migration-role compatibility with the original hosted
+permission failure reproduced and cleanup verified, the complete Playwright
+suite at 360/360, and Phase 11D at 45 passed / 3 expected engine-specific axe
+skips. The affected food-search/account-export suite separately passed 17/17.
+
+The default Turbopack production build could not bind its internal worker port
+in this restricted execution environment (`Operation not permitted`) on two
+attempts. The documented webpack security-boundary build passed, inspected 128
+browser/static artifacts without finding either secret canary, and generated
+all 57 static pages. A second local-Supabase webpack production build used by
+the complete browser suites also passed. No database migration or remote system
+was changed.

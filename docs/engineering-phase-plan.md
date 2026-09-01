@@ -583,10 +583,14 @@ accepted and merged through PR #119. Phase 11G2 now has a blocked unmerged
 Draft with deterministic launch-shaped fixture/query tooling and non-credited
 diagnostics. Correction 01 establishes the required Playwright stable-UI/trace
 boundary, actual browser profiles, correlated server timing, real c10 overlap,
-counterbalanced ordering, and machine-checked privacy-safe evidence. The
-complete focused matrix still fails mobile sign-in c10 and both search c10
-profiles and retains two reliability events, so the full final corpus remains
-gated. Provider/deployed evidence
+counterbalanced ordering, and machine-checked privacy-safe evidence. Correction
+02 proves the historical sign-in spike does not repeat on a freshly prepared
+host, isolates search c10 to native full-document reloads, adopts progressive
+Next form navigation, and resolves the proxy's downstream-cancellation idle
+leak with fail-closed active-stream diagnostics. Repeated targeted search and
+mixed-export groups pass, but four complete focused attempts remain adverse or
+objectively host-contended; the latest has four threshold failures and one
+correlated-boundary event. The full final corpus remains gated. Provider/deployed evidence
 remains Phase 11H/11J work. All 18 findings remain `OPEN`, Phase 11G and Phase
 11 remain `INCOMPLETE`, and Phase 11K remains the sole formal finding-closure
 gate. This does not authorize hosted Auth or secret

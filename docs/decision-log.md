@@ -3079,3 +3079,33 @@
   provider, deployment, Production, monitoring, or real-user operation occurred.
   `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`; all 18 findings remain
   `OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`.
+
+## 2026-09-01: Phase 11G2 Correction 02 resolves targeted blockers but the complete gate remains blocked
+
+- Fresh local reproduction did not reproduce the historical mobile sign-in c10
+  spike or either export-idle event, but did reproduce search c10 at p95
+  9,789.889 ms desktop / 10,000 ms mobile while c1 passed. Lower-level RPC,
+  concurrent HTML, PostgreSQL wait-state, no-JavaScript, and full-browser
+  decomposition isolated the cause to native GET full-document reloads.
+- Food search now uses the progressively enhanced Next string-GET form. It
+  preserves query URLs, disabled-script operation, Auth/account enforcement,
+  RLS, exact 20-result ranking/isolation, favorites, localization, and RTL/LTR.
+  Two search c10 repeats passed at 397.023/318.857 ms and 492.635/549.150 ms;
+  two c1 repeats also passed.
+- The timing proxy now inventories only privacy-safe active-stream lifecycle
+  fields and retires an early downstream cancellation idempotently. Regression
+  coverage proves that cancelled background traffic clears but a genuinely
+  stuck measured stream remains reliability-failing. Two repeated mixed-export
+  c10 runs passed with zero events; historical events remain in the audit trail.
+- Four complete 396-sample attempts remain adverse. The first had one missing
+  correlated completion, the second retained one 979.612 ms search stream, and
+  later attempts showed cross-operation c10 shifts under 84--139 MB reported
+  starting free memory and substantial unrelated host load. Completed pages are
+  now recycled between groups without changing the accepted normative boundary,
+  but the latest full focused report still has four threshold failures and one
+  reliability event.
+- No database/query/schema behavior changed, so the 60-plan DB-001 corpus
+  remains fresh. The clean focused prerequisite was not met and the full 3,348-
+  sample corpus was not run. Status is `PHASE_11G2_CORRECTION_02_BLOCKED`; PR
+  #120 remains Draft/unmerged, no readiness marker or final PERF credit is
+  authorized, all 18 findings remain `OPEN`, and Phase 11 remains `INCOMPLETE`.
