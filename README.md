@@ -409,20 +409,48 @@ is complete for the current MVP scope.
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
   escalation backup. The distinct primary/backup and all three canonical
   before-11G role rows are now `ASSIGNED_AND_APPROVED`; the approved Phase 11G
-  technical policies remain unchanged. Phase 11G1 now has a bounded Draft
-  candidate with localized App Router recovery, mutation-safe reload guidance,
+  technical policies remain unchanged. Phase 11G1 was independently accepted
+  and squash-merged through PR #119 as
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`, tree
+  `b2e6da55eeb31d15bcc2f03e316e19638c435298`, with successful exact-main CI
+  run `33304466800`. It provides localized App Router recovery, mutation-safe reload guidance,
   a strict provider-neutral privacy-minimal event contract, opaque per-failure
   correlation, failure-isolated console/in-memory sinks, a truthful liveness
   endpoint, representative Auth/database/error instrumentation, a repository
   incident runbook, and deterministic local render/dependency/network recovery
   tests. No provider, alert delivery, telemetry persistence, deployment,
   Production action, remote Supabase action, or performance qualification is
-  credited. After independent acceptance and merge, the next bounded task is
-  `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`. `P11A-012`,
+  credited. Phase 11G2 now has an unmerged blocked Draft candidate with a
+  deterministic 100-identity fixture, strict privacy-safe timing/concurrency
+  contracts, 60 passing local DB-001 plans, and a bounded RLS initplan
+  optimization. Correction 01 establishes the normative Playwright action-to-
+  stable-UI boundary, real desktop/mobile contexts, correlated server timing,
+  real c10 overlap, deterministic counterbalancing, and 20 bounded sanitized
+  trace archives. Correction 02 replaces the food-search native GET reload
+  with the progressively enhanced Next form navigation after direct RPC,
+  concurrent HTML, no-JavaScript, and browser decomposition proved the database
+  and server render were not the c10 bottleneck. Repeated targeted search c1/c10
+  and mixed-export c10 runs pass with exact integrity and zero idle events. The
+  timing proxy now tracks privacy-safe active-stream state, accounts for early
+  downstream cancellation, still fails a genuinely stuck measured stream, and
+  recycles completed pages between groups without changing the accepted timing
+  boundary. Complete 396-sample attempts remain non-qualifying because this
+  host produced temporally shifting cross-operation stalls under 85--248 MB
+  reported free memory; the current complete report has four threshold failures
+  and one correlated-boundary event. The gated 3,348-sample final corpus was
+  therefore not run. Correction 03 verified the exact unchanged candidate but
+  stopped before any qualifying run because the controlled host remained
+  materially non-quiescent after confirming there was no task-owned runtime to
+  clean up; unrelated workloads were not terminated. Both preflights, both
+  complete matrices, and the final corpus remain unrun. Correction 03 receives
+  no final PERF-001--PERF-006 acceptance credit and returns
+  `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`, not a readiness marker.
+  `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal
   finding-closure gate. See the
-  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md)
+  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md),
+  [Phase 11G2 blocked qualification and correction record](docs/phase-11g2-performance-capacity-qualification.md),
   and [incident-response runbook](docs/incident-response-runbook.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,

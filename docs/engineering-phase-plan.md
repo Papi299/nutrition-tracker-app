@@ -425,8 +425,12 @@ reliability owner, and Incident primary, and by Jimmy Peachy as Incident
 escalation backup. The distinct primary/backup and all three canonical
 before-11G role rows are `ASSIGNED_AND_APPROVED`. The approved Phase 11G
 technical policies remain unchanged. This Phase 11G0 record adds no
-engineering credit; once independently accepted and merged, Phase 11G1 is the
-next bounded engineering task.
+engineering credit. Phase 11G1 was subsequently independently accepted and
+merged through PR #119 as `2d35278f68d33397b9a75eba37dc83ee5a307d9d`,
+tree `b2e6da55eeb31d15bcc2f03e316e19638c435298`; exact-main CI run
+`33304466800` succeeded. Phase 11G2 is the current bounded performance and
+capacity task, with its current Draft blocked by approved latency breaches and
+the missing normative Playwright UI/trace measurement boundary.
 
 The sequence uses two-stage finding closure. Phase 11D, 11E, 11F, and 11G may
 complete bounded repository/local implementation acceptance while recording
@@ -574,13 +578,25 @@ and Phase 11J deployed compatibility evidence remain pending. The attributable
 Phase 11G prerequisite assignments are `ASSIGNED_AND_APPROVED`: Maor Pichhadze
 is Observability owner, Performance and reliability owner, and Incident
 primary; Jimmy Peachy is the distinct Incident escalation backup. No Phase
-11G engineering is credited by that prerequisite record. Phase 11G1 now has a
-bounded Draft candidate for localized failure recovery, provider-neutral
-observability, liveness, and repository incident response. G2 performance and
-capacity qualification remains separate, and provider/deployed evidence
-remains Phase 11H/11J work. All 18 findings remain `OPEN`, Phase 11G and Phase
-11 remain `INCOMPLETE`, and Phase 11K remains the sole formal finding-closure
-gate. This does not authorize hosted Auth or secret
+11G engineering is credited by that prerequisite record. Phase 11G1 is
+accepted and merged through PR #119. Phase 11G2 now has a blocked unmerged
+Draft with deterministic launch-shaped fixture/query tooling and non-credited
+diagnostics. Correction 01 establishes the required Playwright stable-UI/trace
+boundary, actual browser profiles, correlated server timing, real c10 overlap,
+counterbalanced ordering, and machine-checked privacy-safe evidence. Correction
+02 proves the historical sign-in spike does not repeat on a freshly prepared
+host, isolates search c10 to native full-document reloads, adopts progressive
+Next form navigation, and resolves the proxy's downstream-cancellation idle
+leak with fail-closed active-stream diagnostics. Repeated targeted search and
+mixed-export groups pass, but four complete focused attempts remain adverse or
+objectively host-contended; the latest has four threshold failures and one
+correlated-boundary event. Correction 03 verified the exact unchanged
+candidate but stopped at the controlled-host gate because substantial unrelated
+load remained and Docker was unavailable; no unrelated process was terminated,
+and no preflight or matrix began. The full final corpus remains gated.
+Provider/deployed evidence remains Phase 11H/11J work. All 18 findings remain
+`OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`, and Phase 11K remains the
+sole formal finding-closure gate. This does not authorize hosted Auth or secret
 configuration, physical deletion, retention/pseudonymization decisions,
 GitHub settings mutation, deployment, or later external actions.
 

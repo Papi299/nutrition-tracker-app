@@ -575,7 +575,8 @@ test.describe.serial("Phase 11E5 account closure", () => {
       { ...basePayload, sid: jwtClaims(otherSession.data.session!.access_token).session_id },
       { ...basePayload, rid: crypto.randomUUID() },
       { ...basePayload, iat: now - 120, exp: now - 60 },
-      { ...basePayload, iat: now + 31, exp: now + 60 },
+      // Stay beyond the allowed 30-second skew after preceding RPC assertions.
+      { ...basePayload, iat: now + 60, exp: now + 90 },
       { ...basePayload, iat: now + 0.5 },
       { ...basePayload, unexpected: true },
       Object.fromEntries(

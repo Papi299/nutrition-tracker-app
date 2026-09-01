@@ -3019,3 +3019,123 @@
   remain incomplete; Phase 11K remains the only closure gate. After independent
   acceptance and merge, the recommended next task is
   `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`.
+
+## 2026-08-30: Phase 11G2 performance and capacity qualification blocked candidate
+
+- Independent review accepted Phase 11G1 and PR #119 was squash-merged as
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`, tree
+  `b2e6da55eeb31d15bcc2f03e316e19638c435298`; exact-main CI run
+  `33304466800`, run number `222`, push, attempt 1, succeeded on that SHA.
+- G2 started from that exact baseline in an isolated worktree. It added a
+  deterministic local 100-invited-identity fixture, exact cardinality manifest,
+  strict sample/percentile/privacy contracts and tests, real ten-operation
+  overlap proof, a local Auth/operation diagnostic, and the required 12-query
+  DB-001 plan corpus. No hosted Supabase, external provider, deployment,
+  Production, real identity, or real nutrition data was accessed.
+- The initial search plan breached 750 ms at p95 891 ms and used about 13,552
+  shared-buffer hits. A bounded migration preserved restrictive authenticated
+  RLS semantics while making the stable account-access predicate a statement
+  initplan. Final search plans used 5,447 shared hits, about 60% fewer, and all
+  60 final plans passed without spill, temp write, or cardinality blowup. The
+  repeated control timing was variable, so no isolated latency-improvement
+  claim is made.
+- The corrected server-boundary run retained 3,348 samples, one cold and 30 warm
+  per group, all 162 real-overlap waves, six successful stale-revision probes,
+  zero reliability/integrity failures, and exact post-run fixture cardinalities.
+  It nevertheless breached 19 of 108 approved latency groups. Phase 11B also
+  requires Playwright plus stable UI/trace timing; the diagnostic does not meet
+  that boundary and now fails closed on it.
+- G2 is therefore `BLOCKED`, unmerged, and not ready for independent acceptance.
+  No `PHASE_11G2_PERFORMANCE_CAPACITY_QUALIFICATION_CANDIDATE_READY_FOR_INDEPENDENT_REVIEW`
+  marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`,
+  all 18 findings remain `OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`,
+  and deployed performance/CWV/REL/provider/device evidence remains deferred.
+
+## 2026-08-31: Phase 11G2 Correction 01 establishes the normative boundary but remains blocked
+
+- The corrective work preserves blocked head
+  `97704112e718108261cc0998ff254c9524e08f0d` and its unfavorable evidence. It
+  adds a separate normative Playwright runner instead of rewriting or promoting
+  the historical lower-level diagnostic.
+- Every normative sample now requires a real Playwright action through the
+  production Next application and local Supabase to a deterministic stable UI,
+  plus the matching opaque-correlated full-response server interval,
+  response-start `Server-Timing`, actual browser profile, integrity result, and
+  bounded trace mapping. Validation fails closed on missing, inconsistent, or
+  sensitive evidence.
+- Desktop is Chromium 1280x900/dSF1/no-touch/non-mobile; mobile is Chromium
+  390x844/dSF2/touch/mobile emulation. Execution alternates profiles AB/BA by
+  operation/concurrency shape. Concurrency-ten credit requires all ten uniquely
+  correlated real server intervals to overlap.
+- The complete final focused diagnostic retained 396/396 samples, 36/36 groups,
+  exact fixture cardinalities, 20 sanitized trace archives, exact source
+  identity, and a passing machine evidence/privacy validation. It still failed
+  mobile sign-in c10 at p95 2,214.727 ms versus 1,000 ms and search c10 at p95
+  8,973.570 ms desktop / 4,074.574 ms mobile versus 750 ms. Two post-measurement
+  mixed-export proxy-idle reliability events were also retained.
+- Because focused evidence is not satisfactory, the required 3,348-sample final
+  corpus was not run. No focused metric receives final PERF credit, no readiness
+  marker is authorized, and PR #120 remains Draft/unmerged. No hosted Supabase,
+  provider, deployment, Production, monitoring, or real-user operation occurred.
+  `P11A-012`, `P11A-013`, and `P11A-014` remain `OPEN`; all 18 findings remain
+  `OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`.
+
+## 2026-09-01: Phase 11G2 Correction 02 resolves targeted blockers but the complete gate remains blocked
+
+- Fresh local reproduction did not reproduce the historical mobile sign-in c10
+  spike or either export-idle event, but did reproduce search c10 at p95
+  9,789.889 ms desktop / 10,000 ms mobile while c1 passed. Lower-level RPC,
+  concurrent HTML, PostgreSQL wait-state, no-JavaScript, and full-browser
+  decomposition isolated the cause to native GET full-document reloads.
+- Food search now uses the progressively enhanced Next string-GET form. It
+  preserves query URLs, disabled-script operation, Auth/account enforcement,
+  RLS, exact 20-result ranking/isolation, favorites, localization, and RTL/LTR.
+  Two search c10 repeats passed at 397.023/318.857 ms and 492.635/549.150 ms;
+  two c1 repeats also passed.
+- The timing proxy now inventories only privacy-safe active-stream lifecycle
+  fields and retires an early downstream cancellation idempotently. Regression
+  coverage proves that cancelled background traffic clears but a genuinely
+  stuck measured stream remains reliability-failing. Two repeated mixed-export
+  c10 runs passed with zero events; historical events remain in the audit trail.
+- Four complete 396-sample attempts remain adverse. The first had one missing
+  correlated completion, the second retained one 979.612 ms search stream, and
+  later attempts showed cross-operation c10 shifts under 84--139 MB reported
+  starting free memory and substantial unrelated host load. Completed pages are
+  now recycled between groups without changing the accepted normative boundary,
+  but the latest full focused report still has four threshold failures and one
+  reliability event.
+- No database/query/schema behavior changed, so the 60-plan DB-001 corpus
+  remains fresh. The clean focused prerequisite was not met and the full 3,348-
+  sample corpus was not run. Status is `PHASE_11G2_CORRECTION_02_BLOCKED`; PR
+  #120 remains Draft/unmerged, no readiness marker or final PERF credit is
+  authorized, all 18 findings remain `OPEN`, and Phase 11 remains `INCOMPLETE`.
+
+## 2026-09-01: Phase 11G2 Correction 03 stops at the controlled-host gate
+
+- Fresh verification matched the required unchanged candidate head
+  `6dc8399e03be1484684d714e3984a29346350ee3`, tree
+  `704dddcc464e76ccff1151c8af82e015aabcd36b`, parent
+  `a76430b3f721b6eb75ae436e7b324d05a0f85196`, and accepted `main`
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`. PR #120 remained open, Draft,
+  unmerged, and auto-merge-disabled with successful exact-head Validate run
+  `33466587992`.
+- No qualification-port listener or stale task-owned Next, proxy,
+  Playwright/Chromium, Node, or repository Supabase runtime was found, so no
+  task-owned cleanup action was necessary. Uncommitted work in the unrelated
+  source checkout remained untouched.
+- Privacy-safe host observations showed initial load 31.81/52.33/28.08 and
+  confirmation load 14.07/43.95/26.48 on ten logical CPUs, together with
+  unrelated 60% maintenance-utility and 39.7% browser-renderer CPU bursts and
+  about 5.7 GiB of compressed memory. Docker was unavailable. No private user
+  activity was recorded and no unrelated process was terminated.
+- The mandated environment-control gate therefore stopped the task before
+  local stack startup or qualifying evidence. Neither controlled preflight,
+  neither complete 396-sample matrix, nor the 3,348-sample final corpus ran.
+  Status is `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; human action is
+  required to pause unrelated heavy workloads and make Docker Desktop
+  available before resuming.
+- No application, harness, threshold, fixture, SQL, migration, RLS, Auth,
+  search, or proxy behavior changed. Correction 02 evidence and fixes remain
+  preserved, DB-001 remains fresh, PR #120 remains Draft/unmerged, no readiness
+  marker or final PERF credit is authorized, all 18 findings remain `OPEN`, and
+  Phase 11 remains `INCOMPLETE`.

@@ -1,0 +1,1540 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "DB-001-local-query-plan-qualification",
+  "sourceIdentitySha256": "983318c88476a969f4e81e0eeeeeef53e8061cb242adc1bccfa09a580643ada8",
+  "fixtureVersion": "phase-11g2-launch-shape-v1",
+  "fixtureCardinalities": {
+    "account_activations": 90,
+    "custom_food_creation_requests": 90,
+    "diary_entries": 3802,
+    "food_aliases": 2960,
+    "food_barcodes": 110,
+    "food_favorites": 900,
+    "food_nutrients": 5920,
+    "foods": 1480,
+    "manual_diary_entry_requests": 90,
+    "nutrition_targets": 270,
+    "profiles": 90,
+    "recipe_diary_runs": 90,
+    "recipe_ingredients": 1800,
+    "recipes": 450,
+    "saved_meal_diary_runs": 90,
+    "saved_meal_items": 1350,
+    "saved_meals": 450
+  },
+  "schemaIdentitySha256": "93e420acaa3c2d8ec4f80263ef3ea152f3f1da36a08afc252f06cbcc3cf7ecd3",
+  "indexIdentitySha256": "dc96d8406a62af954518c452daac9a00e59d3831964d340100076fb15d7fb62b",
+  "databaseVersion": "17.6",
+  "percentileMethod": "nearest-rank; five plans means p95 is the maximum",
+  "coldQualification": "first_observed is recorded separately; a physically cold OS/database cache was not forced because that would make the shared local stack nondeterministic",
+  "queries": [
+    {
+      "queryId": "search_readable_foods",
+      "queryIdentitySha256": "9b6ca46efd0e1a676ed8de64d60581f47cbbe54b0d63c24c9815ac6f662749ad",
+      "planCount": 5,
+      "firstObservedExecutionMs": 467.864,
+      "warmExecutionMs": [
+        347.917,
+        144.901,
+        220.986,
+        285.754
+      ],
+      "p95ExecutionMs": 467.864,
+      "comparisonBudgetMs": 750,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.079,
+          "executionTimeMs": 467.864,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 20,
+          "maximumCardinalityRatio": 0.02,
+          "sharedHitBlocks": 5466,
+          "sharedReadBlocks": 3,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.13,
+          "executionTimeMs": 347.917,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 20,
+          "maximumCardinalityRatio": 0.02,
+          "sharedHitBlocks": 5447,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.016,
+          "executionTimeMs": 144.901,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 20,
+          "maximumCardinalityRatio": 0.02,
+          "sharedHitBlocks": 5447,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.03,
+          "executionTimeMs": 220.986,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 20,
+          "maximumCardinalityRatio": 0.02,
+          "sharedHitBlocks": 5447,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.254,
+          "executionTimeMs": 285.754,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 20,
+          "maximumCardinalityRatio": 0.02,
+          "sharedHitBlocks": 5447,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "get_readable_food_prefill",
+      "queryIdentitySha256": "77f570594e19e4e027d352aaeb7dc02e2c952bceaf2b072baa816bf7edb9d347",
+      "planCount": 5,
+      "firstObservedExecutionMs": 76.258,
+      "warmExecutionMs": [
+        64.221,
+        61.341,
+        31.194,
+        33.849
+      ],
+      "p95ExecutionMs": 76.258,
+      "comparisonBudgetMs": 750,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.81,
+          "executionTimeMs": 76.258,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1697,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.061,
+          "executionTimeMs": 64.221,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1689,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.049,
+          "executionTimeMs": 61.341,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1689,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.016,
+          "executionTimeMs": 31.194,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1689,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.017,
+          "executionTimeMs": 33.849,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1689,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "lookup_readable_food_by_gtin",
+      "queryIdentitySha256": "576a3b345115d66e3addac957086bf575e5ae809b509f7aa14a4eab1117534bd",
+      "planCount": 5,
+      "firstObservedExecutionMs": 49.205,
+      "warmExecutionMs": [
+        42.803,
+        32.59,
+        38.922,
+        50.014
+      ],
+      "p95ExecutionMs": 50.014,
+      "comparisonBudgetMs": 750,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.057,
+          "executionTimeMs": 49.205,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1231,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.193,
+          "executionTimeMs": 42.803,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1227,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.026,
+          "executionTimeMs": 32.59,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1227,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.042,
+          "executionTimeMs": 38.922,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1227,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.048,
+          "executionTimeMs": 50.014,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1227,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "persist_custom_food",
+      "queryIdentitySha256": "2ca2d428a06d5ef4436b4eac6a3c599a48df2a64b5b72cf4f062d83862a817c8",
+      "planCount": 5,
+      "firstObservedExecutionMs": 81.997,
+      "warmExecutionMs": [
+        168.515,
+        937.282,
+        125.846,
+        96.533
+      ],
+      "p95ExecutionMs": 937.282,
+      "comparisonBudgetMs": 1250,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.056,
+          "executionTimeMs": 81.997,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 3107,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.208,
+          "executionTimeMs": 168.515,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 3093,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 2.942,
+          "executionTimeMs": 937.282,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 3094,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.103,
+          "executionTimeMs": 125.846,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 3095,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.087,
+          "executionTimeMs": 96.533,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 3094,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "log_saved_meal_to_diary",
+      "queryIdentitySha256": "b04b787818f4d86b30f915bd74927249891a1acefcbccc8389f683ea07138d56",
+      "planCount": 5,
+      "firstObservedExecutionMs": 63.547,
+      "warmExecutionMs": [
+        45.08,
+        32.237,
+        26.177,
+        28.801
+      ],
+      "p95ExecutionMs": 63.547,
+      "comparisonBudgetMs": 1250,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.018,
+          "executionTimeMs": 63.547,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2196,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.036,
+          "executionTimeMs": 45.08,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2170,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.034,
+          "executionTimeMs": 32.237,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2170,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.024,
+          "executionTimeMs": 26.177,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2170,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.027,
+          "executionTimeMs": 28.801,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2170,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "persist_recipe",
+      "queryIdentitySha256": "3766059bae38331cbb6f50d22e52e21d8fde0b5af069c2d1be12314206245bdc",
+      "planCount": 5,
+      "firstObservedExecutionMs": 75.142,
+      "warmExecutionMs": [
+        40.645,
+        140.545,
+        114.215,
+        160.311
+      ],
+      "p95ExecutionMs": 160.311,
+      "comparisonBudgetMs": 1250,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.337,
+          "executionTimeMs": 75.142,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2557,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.019,
+          "executionTimeMs": 40.645,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2538,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.043,
+          "executionTimeMs": 140.545,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2538,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.038,
+          "executionTimeMs": 114.215,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2538,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.115,
+          "executionTimeMs": 160.311,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2538,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "get_owned_recipe_use_contract",
+      "queryIdentitySha256": "0eb16310aba24aed9e63d5117a7f87524cf10aacff5533c163b8e1fa013fc21d",
+      "planCount": 5,
+      "firstObservedExecutionMs": 87.71,
+      "warmExecutionMs": [
+        38.441,
+        14.857,
+        9.602,
+        9.831
+      ],
+      "p95ExecutionMs": 87.71,
+      "comparisonBudgetMs": 1250,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 1.096,
+          "executionTimeMs": 87.71,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1107,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 1.062,
+          "executionTimeMs": 38.441,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1106,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.044,
+          "executionTimeMs": 14.857,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1106,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.031,
+          "executionTimeMs": 9.602,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1106,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.089,
+          "executionTimeMs": 9.831,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 1106,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "log_recipe_to_diary",
+      "queryIdentitySha256": "fc3098332639e8a7c9d75e807da11fede094967359d41b992625016eb5f2f4a3",
+      "planCount": 5,
+      "firstObservedExecutionMs": 34.367,
+      "warmExecutionMs": [
+        25.796,
+        22.919,
+        16.66,
+        21.385
+      ],
+      "p95ExecutionMs": 34.367,
+      "comparisonBudgetMs": 1250,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.058,
+          "executionTimeMs": 34.367,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2280,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.041,
+          "executionTimeMs": 25.796,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2283,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.024,
+          "executionTimeMs": 22.919,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2283,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.022,
+          "executionTimeMs": 16.66,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2283,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.032,
+          "executionTimeMs": 21.385,
+          "nodeCount": 1,
+          "nodeTypes": [
+            "Function Scan"
+          ],
+          "relations": [],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 0.001,
+          "sharedHitBlocks": 2283,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "owner_date_diary_read",
+      "queryIdentitySha256": "3ff9bc1eb4e5cf0bf52f5bb7188f3a36367ebd98515e88cd4d516b64ea3a7dd9",
+      "planCount": 5,
+      "firstObservedExecutionMs": 5.914,
+      "warmExecutionMs": [
+        0.852,
+        1.471,
+        0.688,
+        3.447
+      ],
+      "p95ExecutionMs": 5.914,
+      "comparisonBudgetMs": 1000,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 10.246,
+          "executionTimeMs": 5.914,
+          "nodeCount": 5,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "diary_entries"
+          ],
+          "indexes": [
+            "diary_entries_user_date_created_at_idx"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 306,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.934,
+          "executionTimeMs": 0.852,
+          "nodeCount": 5,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "diary_entries"
+          ],
+          "indexes": [
+            "diary_entries_user_date_created_at_idx"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 306,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 1.017,
+          "executionTimeMs": 1.471,
+          "nodeCount": 5,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "diary_entries"
+          ],
+          "indexes": [
+            "diary_entries_user_date_created_at_idx"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 306,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.848,
+          "executionTimeMs": 0.688,
+          "nodeCount": 5,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "diary_entries"
+          ],
+          "indexes": [
+            "diary_entries_user_date_created_at_idx"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 306,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 3.202,
+          "executionTimeMs": 3.447,
+          "nodeCount": 5,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "diary_entries"
+          ],
+          "indexes": [
+            "diary_entries_user_date_created_at_idx"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 306,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "owner_date_diary_write",
+      "queryIdentitySha256": "ec3acc72a05ff8cb2291ba51fab3e674b7a00d8ac457c98cdd3fb57e557c6f31",
+      "planCount": 5,
+      "firstObservedExecutionMs": 10.89,
+      "warmExecutionMs": [
+        6.253,
+        3.36,
+        31.043,
+        24.636
+      ],
+      "p95ExecutionMs": 31.043,
+      "comparisonBudgetMs": 1000,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 6.945,
+          "executionTimeMs": 10.89,
+          "nodeCount": 26,
+          "nodeTypes": [
+            "Index Scan",
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "diary_entries",
+            "foods",
+            "recipe_diary_runs",
+            "saved_meal_diary_runs"
+          ],
+          "indexes": [
+            "diary_entries_pkey",
+            "foods_pkey",
+            "recipe_diary_runs_user_created_idx",
+            "saved_meal_diary_runs_user_created_idx"
+          ],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 548,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 2.484,
+          "executionTimeMs": 6.253,
+          "nodeCount": 26,
+          "nodeTypes": [
+            "Index Scan",
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "diary_entries",
+            "foods",
+            "recipe_diary_runs",
+            "saved_meal_diary_runs"
+          ],
+          "indexes": [
+            "diary_entries_pkey",
+            "foods_pkey",
+            "recipe_diary_runs_user_created_idx",
+            "saved_meal_diary_runs_user_created_idx"
+          ],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 554,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 1.606,
+          "executionTimeMs": 3.36,
+          "nodeCount": 26,
+          "nodeTypes": [
+            "Index Scan",
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "diary_entries",
+            "foods",
+            "recipe_diary_runs",
+            "saved_meal_diary_runs"
+          ],
+          "indexes": [
+            "diary_entries_pkey",
+            "foods_pkey",
+            "recipe_diary_runs_user_created_idx",
+            "saved_meal_diary_runs_user_created_idx"
+          ],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 553,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 10.53,
+          "executionTimeMs": 31.043,
+          "nodeCount": 26,
+          "nodeTypes": [
+            "Index Scan",
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "diary_entries",
+            "foods",
+            "recipe_diary_runs",
+            "saved_meal_diary_runs"
+          ],
+          "indexes": [
+            "diary_entries_pkey",
+            "foods_pkey",
+            "recipe_diary_runs_user_created_idx",
+            "saved_meal_diary_runs_user_created_idx"
+          ],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 563,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 12.843,
+          "executionTimeMs": 24.636,
+          "nodeCount": 26,
+          "nodeTypes": [
+            "Index Scan",
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "diary_entries",
+            "foods",
+            "recipe_diary_runs",
+            "saved_meal_diary_runs"
+          ],
+          "indexes": [
+            "diary_entries_pkey",
+            "foods_pkey",
+            "recipe_diary_runs_user_created_idx",
+            "saved_meal_diary_runs_user_created_idx"
+          ],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 552,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "owner_date_target_read",
+      "queryIdentitySha256": "2c0c74ba32b58cf2ea8d5227a234e9b23213de4c3389b0355ef1ce16d1bdbc09",
+      "planCount": 5,
+      "firstObservedExecutionMs": 3.523,
+      "warmExecutionMs": [
+        2.38,
+        2.629,
+        1.51,
+        2.156
+      ],
+      "p95ExecutionMs": 3.523,
+      "comparisonBudgetMs": 1000,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 3.563,
+          "executionTimeMs": 3.523,
+          "nodeCount": 6,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Limit",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [
+            "nutrition_targets_user_effective_from_key"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 461,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 2.132,
+          "executionTimeMs": 2.38,
+          "nodeCount": 6,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Limit",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [
+            "nutrition_targets_user_effective_from_key"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 461,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 3.435,
+          "executionTimeMs": 2.629,
+          "nodeCount": 6,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Limit",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [
+            "nutrition_targets_user_effective_from_key"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 461,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.97,
+          "executionTimeMs": 1.51,
+          "nodeCount": 6,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Limit",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [
+            "nutrition_targets_user_effective_from_key"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 461,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 1.43,
+          "executionTimeMs": 2.156,
+          "nodeCount": 6,
+          "nodeTypes": [
+            "Bitmap Heap Scan",
+            "Bitmap Index Scan",
+            "Limit",
+            "Result",
+            "Sort"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [
+            "nutrition_targets_user_effective_from_key"
+          ],
+          "maximumActualRows": 3,
+          "maximumCardinalityRatio": 3,
+          "sharedHitBlocks": 461,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    },
+    {
+      "queryId": "owner_date_target_write",
+      "queryIdentitySha256": "20c7947d137ed2ce98407ec0d538eae60a9662398b98f12b0af4e5144e7042ed",
+      "planCount": 5,
+      "firstObservedExecutionMs": 9.234,
+      "warmExecutionMs": [
+        2.318,
+        2.031,
+        12.86,
+        12.563
+      ],
+      "p95ExecutionMs": 12.86,
+      "comparisonBudgetMs": 1000,
+      "materialFindings": [],
+      "passed": true,
+      "representativePlans": [
+        {
+          "planIndex": 1,
+          "cacheClassification": "first_observed",
+          "planningTimeMs": 0.97,
+          "executionTimeMs": 9.234,
+          "nodeCount": 8,
+          "nodeTypes": [
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 195,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 2,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.554,
+          "executionTimeMs": 2.318,
+          "nodeCount": 8,
+          "nodeTypes": [
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 196,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 3,
+          "cacheClassification": "warm",
+          "planningTimeMs": 0.493,
+          "executionTimeMs": 2.031,
+          "nodeCount": 8,
+          "nodeTypes": [
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 196,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 4,
+          "cacheClassification": "warm",
+          "planningTimeMs": 2.725,
+          "executionTimeMs": 12.86,
+          "nodeCount": 8,
+          "nodeTypes": [
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 196,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        },
+        {
+          "planIndex": 5,
+          "cacheClassification": "warm",
+          "planningTimeMs": 2.809,
+          "executionTimeMs": 12.563,
+          "nodeCount": 8,
+          "nodeTypes": [
+            "ModifyTable",
+            "Result"
+          ],
+          "relations": [
+            "nutrition_targets"
+          ],
+          "indexes": [],
+          "maximumActualRows": 1,
+          "maximumCardinalityRatio": 1,
+          "sharedHitBlocks": 196,
+          "sharedReadBlocks": 0,
+          "tempReadBlocks": 0,
+          "tempWrittenBlocks": 0,
+          "diskSpill": false
+        }
+      ]
+    }
+  ],
+  "planCount": 60,
+  "passed": true
+}
