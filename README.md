@@ -438,9 +438,14 @@ is complete for the current MVP scope.
   host produced temporally shifting cross-operation stalls under 85--248 MB
   reported free memory; the current complete report has four threshold failures
   and one correlated-boundary event. The gated 3,348-sample final corpus was
-  therefore not run. Correction 02 receives no final PERF-001--PERF-006
-  acceptance credit and no readiness
-  marker. `P11A-012`,
+  therefore not run. Correction 03 verified the exact unchanged candidate but
+  stopped before any qualifying run because the controlled host remained
+  materially non-quiescent after confirming there was no task-owned runtime to
+  clean up; unrelated workloads were not terminated. Both preflights, both
+  complete matrices, and the final corpus remain unrun. Correction 03 receives
+  no final PERF-001--PERF-006 acceptance credit and returns
+  `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`, not a readiness marker.
+  `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal
   finding-closure gate. See the

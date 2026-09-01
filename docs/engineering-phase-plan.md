@@ -590,10 +590,13 @@ Next form navigation, and resolves the proxy's downstream-cancellation idle
 leak with fail-closed active-stream diagnostics. Repeated targeted search and
 mixed-export groups pass, but four complete focused attempts remain adverse or
 objectively host-contended; the latest has four threshold failures and one
-correlated-boundary event. The full final corpus remains gated. Provider/deployed evidence
-remains Phase 11H/11J work. All 18 findings remain `OPEN`, Phase 11G and Phase
-11 remain `INCOMPLETE`, and Phase 11K remains the sole formal finding-closure
-gate. This does not authorize hosted Auth or secret
+correlated-boundary event. Correction 03 verified the exact unchanged
+candidate but stopped at the controlled-host gate because substantial unrelated
+load remained and Docker was unavailable; no unrelated process was terminated,
+and no preflight or matrix began. The full final corpus remains gated.
+Provider/deployed evidence remains Phase 11H/11J work. All 18 findings remain
+`OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`, and Phase 11K remains the
+sole formal finding-closure gate. This does not authorize hosted Auth or secret
 configuration, physical deletion, retention/pseudonymization decisions,
 GitHub settings mutation, deployment, or later external actions.
 

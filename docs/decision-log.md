@@ -3109,3 +3109,33 @@
   sample corpus was not run. Status is `PHASE_11G2_CORRECTION_02_BLOCKED`; PR
   #120 remains Draft/unmerged, no readiness marker or final PERF credit is
   authorized, all 18 findings remain `OPEN`, and Phase 11 remains `INCOMPLETE`.
+
+## 2026-09-01: Phase 11G2 Correction 03 stops at the controlled-host gate
+
+- Fresh verification matched the required unchanged candidate head
+  `6dc8399e03be1484684d714e3984a29346350ee3`, tree
+  `704dddcc464e76ccff1151c8af82e015aabcd36b`, parent
+  `a76430b3f721b6eb75ae436e7b324d05a0f85196`, and accepted `main`
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`. PR #120 remained open, Draft,
+  unmerged, and auto-merge-disabled with successful exact-head Validate run
+  `33466587992`.
+- No qualification-port listener or stale task-owned Next, proxy,
+  Playwright/Chromium, Node, or repository Supabase runtime was found, so no
+  task-owned cleanup action was necessary. Uncommitted work in the unrelated
+  source checkout remained untouched.
+- Privacy-safe host observations showed initial load 31.81/52.33/28.08 and
+  confirmation load 14.07/43.95/26.48 on ten logical CPUs, together with
+  unrelated 60% maintenance-utility and 39.7% browser-renderer CPU bursts and
+  about 5.7 GiB of compressed memory. Docker was unavailable. No private user
+  activity was recorded and no unrelated process was terminated.
+- The mandated environment-control gate therefore stopped the task before
+  local stack startup or qualifying evidence. Neither controlled preflight,
+  neither complete 396-sample matrix, nor the 3,348-sample final corpus ran.
+  Status is `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; human action is
+  required to pause unrelated heavy workloads and make Docker Desktop
+  available before resuming.
+- No application, harness, threshold, fixture, SQL, migration, RLS, Auth,
+  search, or proxy behavior changed. Correction 02 evidence and fixes remain
+  preserved, DB-001 remains fresh, PR #120 remains Draft/unmerged, no readiness
+  marker or final PERF credit is authorized, all 18 findings remain `OPEN`, and
+  Phase 11 remains `INCOMPLETE`.

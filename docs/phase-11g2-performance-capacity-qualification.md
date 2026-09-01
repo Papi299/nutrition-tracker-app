@@ -2,21 +2,24 @@
 
 ## 1. Status
 
-Task `PHASE-11G2-CORRECTION-02-PERFORMANCE-BLOCKER-REMEDIATION-001` is
-**BLOCKED** and is not a successful G2 candidate. Correction 01's normative
-Playwright architecture remains established. Correction 02 resolves the
-reproducible search full-document-navigation bottleneck and the proxy's early
-downstream-cancellation bookkeeping gap, while the historical sign-in spike
-and export-idle events did not reproduce on fresh targeted runs. Repeated
-targeted search c1/c10 and mixed-export c10 evidence is clean. Four complete
-396-sample attempts were nevertheless adverse: one retained a missing complete
-correlated boundary, one retained an isolated 979.612 ms search stream, and two
-were objectively host-contended across unrelated operations. The current
-complete report started with 84,721,664 available bytes and load average
-11.118/7.847/5.466; it contains four threshold failures and one reliability
-event. The clean focused prerequisite was not met, so the 3,348-sample final
-corpus remains prohibited. No focused sample is promoted to final
-PERF-001--PERF-006 acceptance credit.
+Task `PHASE-11G2-CORRECTION-03-CONTROLLED-HOST-REQUALIFICATION-001` stopped at
+the mandatory controlled-host gate with
+`PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; it is not a successful G2
+candidate. The exact unchanged Correction 02 candidate was verified, and no
+stale task-owned Next application, timing proxy, Playwright/Chromium process,
+qualification-port listener, or repository Supabase container was eligible for
+cleanup. Substantial unrelated host activity nevertheless remained across the
+confirmation window, including load averages above the ten logical CPU count,
+unrelated 60% maintenance and 39.7% browser-renderer CPU bursts, and about 5.7
+GiB of compressed memory. Docker was not available. No unrelated user process
+was terminated, and no preflight, focused matrix, or final corpus was started.
+
+Correction 01's normative Playwright architecture remains established.
+Correction 02's search-navigation and proxy-lifecycle fixes, all historical
+adverse evidence, and the accepted 60-plan DB-001 corpus remain preserved. The
+current 396-sample report still contains four threshold failures and one
+reliability event; the 3,348-sample final corpus remains prohibited. No focused
+sample is promoted to final PERF-001--PERF-006 acceptance credit.
 
 No readiness marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014`
 remain `OPEN`; all 18 findings remain `OPEN`; Phase 11G and Phase 11 remain
@@ -585,3 +588,60 @@ browser/static artifacts without finding either secret canary, and generated
 all 57 static pages. A second local-Supabase webpack production build used by
 the complete browser suites also passed. No database migration or remote system
 was changed.
+
+## 16. Correction 03 controlled-host disposition
+
+Correction 03 freshly verified starting head
+`6dc8399e03be1484684d714e3984a29346350ee3`, tree
+`704dddcc464e76ccff1151c8af82e015aabcd36b`, parent
+`a76430b3f721b6eb75ae436e7b324d05a0f85196`, and unchanged accepted `main`
+`2d35278f68d33397b9a75eba37dc83ee5a307d9d`. PR #120 remained open, Draft,
+unmerged, based on accepted `main`, with auto-merge disabled and exact-head
+Validate run `33466587992` successful.
+
+### Cleanup and host gate
+
+The target worktree was clean and the unrelated source checkout's uncommitted
+Phase 11C2B work was left untouched. Ports 3100 and 3101 had no listeners. A
+privacy-safe process inspection found no stale task-owned Next application,
+qualification proxy, Playwright/Chromium, or Node runtime, and Docker reported
+no reachable daemon or repository Supabase stack. There was therefore no
+task-owned process or container to stop.
+
+The arm64 macOS 26.6.2 host had ten logical and ten physical CPUs, 16 GiB of
+memory, and no configured swap. Initial load was 31.81/52.33/28.08. A later
+three-sample inspection observed 76.42--93.95% instantaneous CPU idle but also
+unrelated bursts of 60% from a maintenance utility and 39.7% from a browser
+renderer; load remained 14.07/43.95/26.48. The system reported 46--51% memory
+free through its pressure interface while `top` reported about 5.7 GiB in the
+compressor. This evidence demonstrates active unrelated workload and retained
+pressure rather than a quiescent qualification host. No document name, browser
+URL, user content, credential, or sensitive command argument was collected.
+No unrelated process was terminated.
+
+The installed runtime record is Node v26.5.1, Playwright 1.61.1, Chromium
+149.0.7827.55, and Supabase CLI 2.116.0. PostgreSQL and local Supabase health
+were not queried because the Docker daemon was unavailable and the controlled
+host gate prohibited advancing to environment startup. The machine-readable
+record is `performance/evidence/correction-03-host-disposition.json`.
+
+### Qualification and preservation
+
+Controlled preflights 1 and 2, complete focused matrices 1 and 2, and the full
+3,348-sample corpus were not run. No reproduced controlled-host operation
+failure or root-cause change is claimed. Application code, SQL, migrations,
+RLS, indexes, Auth behavior, search, thresholds, fixture shape, concurrency,
+operation definitions, stable-UI definitions, and the timing harness were
+unchanged. The Next `<Form>` search fix and export-proxy lifecycle correction
+remain intact. Because there was no database-relevant change, DB-001 remains
+fresh.
+
+Human action is required to close or pause unrelated heavy workloads and make
+Docker Desktop available. Correction 03 should then resume from the same host
+gate and, only after a demonstrably quiescent snapshot, prepare fresh local
+Supabase state and run both representative preflights. The existing focused
+and final-corpus sequence remains unchanged.
+
+`P11A-012`, `P11A-013`, and `P11A-014`, all 18 findings, Phase 11G, and Phase 11
+remain open/incomplete. Phase 11H and Phase 11J did not begin, and Phase 11K
+remains the formal finding-closure gate.
