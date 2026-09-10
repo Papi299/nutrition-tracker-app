@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -10,16 +9,17 @@ import {
   validateNormativePerformanceSample,
 } from "../lib/performance/qualification.ts";
 import { verifyEvidenceManifest } from "./phase-11g2-evidence-preservation.mjs";
-
-const SOURCE_PATHS = [
-  "scripts/run-phase-11g2-playwright-qualification.mjs",
-  "scripts/phase-11g2-playwright-operations.mjs",
-  "scripts/phase-11g2-evidence-preservation.mjs",
-  "lib/performance/qualification.ts",
-  "app/[locale]/(app)/foods/page.tsx",
-  "performance/fixture-manifest.json",
-  "performance/fixture.sql",
-];
+import {
+  NORMATIVE_MEASUREMENT_BOUNDARY,
+  NORMATIVE_TIMER_END,
+  NORMATIVE_TIMER_START,
+  SERVER_TIMING_DIAGNOSTIC_BOUNDARY,
+  phase11g2SourceIdentitySha256,
+} from "./phase-11g2-evidence-contract.mjs";
+import {
+  parseGitObjectSha,
+  readGitProvenance,
+} from "./phase-11g2-git-provenance.mjs";
 
 const FORBIDDEN_TEXT = [
   [/(?:authorization|set-cookie|refresh[_-]?token|access[_-]?token|token_hash)/i, "credential metadata"],
@@ -46,17 +46,6 @@ function readPrivacySafeJson(filePath) {
   return parsed;
 }
 
-function sourceIdentity() {
-  const hasher = createHash("sha256");
-  for (const sourcePath of SOURCE_PATHS) {
-    hasher.update(sourcePath);
-    hasher.update("\0");
-    hasher.update(readFileSync(sourcePath));
-    hasher.update("\0");
-  }
-  return hasher.digest("hex");
-}
-
 export function parseExpectedSourceIdentitySha256(value) {
   if (value === undefined) return undefined;
   if (!/^[0-9a-f]{64}$/.test(value)) {
@@ -65,6 +54,95 @@ export function parseExpectedSourceIdentitySha256(value) {
     );
   }
   return value;
+}
+
+function requireSourceIdentitySha256(value, label) {
+  const parsed = parseExpectedSourceIdentitySha256(value);
+  if (parsed === undefined) {
+    throw new TypeError(`${label} is required.`);
+  }
+  return parsed;
+}
+
+function requireRepository(value, label) {
+  assert(value && typeof value === "object" && !Array.isArray(value), `${label} is required.`);
+  return {
+    commitSha: parseGitObjectSha(value.commitSha, `${label} commit SHA`),
+    trackedWorktreeCleanAtStart: value.trackedWorktreeCleanAtStart,
+    treeSha: parseGitObjectSha(value.treeSha, `${label} tree SHA`),
+  };
+}
+
+export function validateEvidenceProvenance({
+  currentRepository,
+  currentSourceIdentitySha256,
+  legacyHistoricalNonPassing,
+  report,
+  runtimeManifest,
+}) {
+  const currentSource = requireSourceIdentitySha256(
+    currentSourceIdentitySha256,
+    "Current source identity",
+  );
+
+  if (legacyHistoricalNonPassing !== undefined) {
+    assert.equal(
+      report.passed,
+      false,
+      "Legacy historical evidence compatibility is allowed only for non-passing evidence.",
+    );
+    const expectedHistoricalSourceIdentitySha256 = requireSourceIdentitySha256(
+      legacyHistoricalNonPassing.expectedSourceIdentitySha256,
+      "Legacy historical source identity",
+    );
+    assert.equal(report.sourceIdentitySha256, expectedHistoricalSourceIdentitySha256);
+    return "explicit_historical_nonpassing";
+  }
+
+  assert.equal(
+    report.sourceIdentitySha256,
+    currentSource,
+    "Current evidence must match the current source identity.",
+  );
+  const expectedRepository = requireRepository(currentRepository, "Current repository");
+  const reportRepository = requireRepository(report.repository, "Report repository");
+  const runtimeRepository = requireRepository(
+    runtimeManifest.repository,
+    "Runtime-manifest repository",
+  );
+  assert.equal(
+    reportRepository.trackedWorktreeCleanAtStart,
+    true,
+    "Current evidence must record a clean tracked worktree at start.",
+  );
+  assert.equal(
+    runtimeRepository.trackedWorktreeCleanAtStart,
+    true,
+    "Runtime evidence must record a clean tracked worktree at start.",
+  );
+  for (const field of ["commitSha", "treeSha"]) {
+    assert.equal(
+      reportRepository[field],
+      expectedRepository[field],
+      `Report repository ${field} must match the current Git candidate.`,
+    );
+    assert.equal(
+      runtimeRepository[field],
+      expectedRepository[field],
+      `Runtime repository ${field} must match the current Git candidate.`,
+    );
+  }
+  return "current";
+}
+
+export function validateCurrentMeasurementMetadata(report, boundaries) {
+  assert.equal(report.timeoutMs, 10_000);
+  assert.equal(report.measurementBoundary, NORMATIVE_MEASUREMENT_BOUNDARY);
+  assert.equal(report.serverTimingBoundary, SERVER_TIMING_DIAGNOSTIC_BOUNDARY);
+  for (const boundary of boundaries) {
+    assert.equal(boundary.timerStart, NORMATIVE_TIMER_START);
+    assert.equal(boundary.timerEnd, NORMATIVE_TIMER_END);
+  }
 }
 
 function groupKey(value) {
@@ -126,7 +204,9 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
   const boundaries = readPrivacySafeJson(
     path.join(evidenceDirectory, "operation-boundaries.json"),
   );
-  readPrivacySafeJson(path.join(evidenceDirectory, "runtime-manifest.json"));
+  const runtimeManifest = readPrivacySafeJson(
+    path.join(evidenceDirectory, "runtime-manifest.json"),
+  );
   const checksumManifestPath = path.join(
     evidenceDirectory,
     "raw-evidence-manifest.json",
@@ -155,17 +235,17 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
   assert.equal(samples.length, expectedSampleCount);
   assert.equal(traceMap.length, expectedSampleCount);
   assert.equal(boundaries.length, expectedOperationCount);
-  const currentSourceIdentitySha256 = sourceIdentity();
-  const expectedSourceIdentitySha256 =
-    expectations.sourceIdentitySha256 ?? currentSourceIdentitySha256;
-  if (expectedSourceIdentitySha256 !== currentSourceIdentitySha256) {
-    assert.equal(
-      report.passed,
-      false,
-      "A historical source identity is allowed only for non-passing diagnostic evidence.",
-    );
+  const currentSourceIdentitySha256 = phase11g2SourceIdentitySha256();
+  const sourceIdentity = validateEvidenceProvenance({
+    currentRepository: readGitProvenance(),
+    currentSourceIdentitySha256,
+    legacyHistoricalNonPassing: expectations.legacyHistoricalNonPassing,
+    report,
+    runtimeManifest,
+  });
+  if (sourceIdentity === "current") {
+    validateCurrentMeasurementMetadata(report, boundaries);
   }
-  assert.equal(report.sourceIdentitySha256, expectedSourceIdentitySha256);
   assert.deepEqual(report.fixtureCardinalities, report.observedFixtureCardinalities);
 
   const validated = samples.map(validateNormativePerformanceSample);
@@ -225,25 +305,23 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
     groupCount: report.groupCount,
     passed: report.passed,
     sampleCount: report.sampleCount,
-    sourceIdentity:
-      expectedSourceIdentitySha256 === currentSourceIdentitySha256
-        ? "current"
-        : "explicit_historical_nonpassing",
+    sourceIdentity,
   };
 }
 
 async function main() {
-  const expectedSourceIdentityPrefix = "--expected-source-identity-sha256=";
-  const expectedSourceIdentityArguments = process.argv
+  const historicalSourceIdentityPrefix =
+    "--legacy-historical-non-passing-source-identity-sha256=";
+  const historicalSourceIdentityArguments = process.argv
     .slice(2)
-    .filter((argument) => argument.startsWith(expectedSourceIdentityPrefix));
+    .filter((argument) => argument.startsWith(historicalSourceIdentityPrefix));
   assert(
-    expectedSourceIdentityArguments.length <= 1,
-    "Only one expected source identity may be provided.",
+    historicalSourceIdentityArguments.length <= 1,
+    "Only one legacy historical non-passing source identity may be provided.",
   );
   const evidenceDirectoryArguments = process.argv
     .slice(2)
-    .filter((argument) => !argument.startsWith(expectedSourceIdentityPrefix));
+    .filter((argument) => !argument.startsWith(historicalSourceIdentityPrefix));
   assert(
     evidenceDirectoryArguments.length <= 1,
     "Only one evidence directory may be provided.",
@@ -269,9 +347,13 @@ async function main() {
         groupCount: numberFromEnvironment("PHASE11G2_EXPECTED_GROUP_COUNT"),
         operationCount: numberFromEnvironment("PHASE11G2_EXPECTED_OPERATION_COUNT"),
         sampleCount: numberFromEnvironment("PHASE11G2_EXPECTED_SAMPLE_COUNT"),
-        sourceIdentitySha256: parseExpectedSourceIdentitySha256(
-          expectedSourceIdentityArguments[0]?.slice(expectedSourceIdentityPrefix.length),
-        ),
+        legacyHistoricalNonPassing: historicalSourceIdentityArguments[0]
+          ? {
+              expectedSourceIdentitySha256: historicalSourceIdentityArguments[0].slice(
+                historicalSourceIdentityPrefix.length,
+              ),
+            }
+          : undefined,
         warmSamples: numberFromEnvironment("PHASE11G2_EXPECTED_WARM_SAMPLES"),
       }),
     )}\n`,

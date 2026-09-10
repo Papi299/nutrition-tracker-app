@@ -35,11 +35,20 @@ import {
   resolveQualificationOutputDirectory,
   writeAndVerifyEvidenceManifest,
 } from "./phase-11g2-evidence-preservation.mjs";
+import {
+  NORMATIVE_MEASUREMENT_BOUNDARY,
+  NORMATIVE_TIMER_END,
+  NORMATIVE_TIMER_START,
+  SERVER_TIMING_DIAGNOSTIC_BOUNDARY,
+  phase11g2SourceIdentitySha256,
+} from "./phase-11g2-evidence-contract.mjs";
+import { readGitProvenance } from "./phase-11g2-git-provenance.mjs";
 
 const browserPort = 3100;
 const applicationPort = 3101;
 const timeoutMs = 10_000;
 const preparationTimeoutMs = 30_000;
+const repository = readGitProvenance({ requireTrackedWorktreeClean: true });
 const isFocused = process.argv.includes("--focused");
 const warmSamples = Number(
   process.env.PHASE11G2_WARM_SAMPLES ?? (isFocused ? "10" : "30"),
@@ -1345,26 +1354,12 @@ const hostManifest = {
   postgresqlVersion: psql("show server_version;"),
   qualificationEndedAt: runtimeEndedAt,
   qualificationStartedAt: runtimeStartedAt,
+  repository,
   runtimeAfter: hostSnapshot(),
   runtimeBefore,
   supabaseCliVersion: command("npx", ["supabase", "--version"]),
   totalMemoryBytes: totalmem(),
 };
-const sourceHasher = createHash("sha256");
-for (const path of [
-  "scripts/run-phase-11g2-playwright-qualification.mjs",
-  "scripts/phase-11g2-playwright-operations.mjs",
-  "scripts/phase-11g2-evidence-preservation.mjs",
-  "lib/performance/qualification.ts",
-  "app/[locale]/(app)/foods/page.tsx",
-  "performance/fixture-manifest.json",
-  "performance/fixture.sql",
-]) {
-  sourceHasher.update(path);
-  sourceHasher.update("\0");
-  sourceHasher.update(readFileSync(path));
-  sourceHasher.update("\0");
-}
 const report = {
   schemaVersion: "1",
   evidenceType: isFocused
@@ -1381,10 +1376,8 @@ const report = {
   fixtureVersion: fixtureManifest.fixtureVersion,
   groupCount: groups.length,
   groups,
-  measurementBoundary:
-    "Playwright user action through the real Next application and local Supabase to deterministic stable UI; correlated loopback Next server-response timing is recorded separately.",
-  serverTimingBoundary:
-    "The correlated server interval runs from proxy request receipt through the complete Next response body; Server-Timing records response-start latency for the same request.",
+  measurementBoundary: NORMATIVE_MEASUREMENT_BOUNDARY,
+  serverTimingBoundary: SERVER_TIMING_DIAGNOSTIC_BOUNDARY,
   normativePlaywrightBoundarySatisfied:
     validatedSamples.length === samples.length && groups.every((group) => group.browserBoundaryPassed),
   passed:
@@ -1394,9 +1387,10 @@ const report = {
     groups.every((group) => group.passed),
   percentileMethod: "nearest-rank",
   profileSchedule: "deterministic counterbalanced AB/BA profile order per operation/concurrency shape",
+  repository,
   reliabilityEvents,
   sampleCount: validatedSamples.length,
-  sourceIdentitySha256: sourceHasher.digest("hex"),
+  sourceIdentitySha256: phase11g2SourceIdentitySha256(),
   timeoutMs,
   warmSamplesPerGroup: warmSamples,
 };
@@ -1429,8 +1423,8 @@ writeFileSync(
       stableCondition: operation.stableDescription,
       stableConditionId: operation.stableConditionId,
       stableRouteTemplate: operation.stableRouteTemplate,
-      timerEnd: "after deterministic stable UI assertion succeeds",
-      timerStart: "immediately before the triggering Playwright action",
+      timerEnd: NORMATIVE_TIMER_END,
+      timerStart: NORMATIVE_TIMER_START,
       trigger: operation.triggerDescription,
       triggerId: operation.triggerId,
     })),

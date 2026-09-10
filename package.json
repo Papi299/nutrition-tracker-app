@@ -20,7 +20,7 @@
     "test:e2e:date": "node scripts/run-local-date-e2e.mjs e2e/date-correctness.spec.ts",
     "test:journey-evidence": "node --test scripts/check-phase-11c-journey-evidence.test.mjs && node scripts/check-phase-11c-journey-evidence.mjs",
     "test:performance-harness": "playwright test --config=playwright.unit.config.ts tests/performance-qualification.spec.ts",
-    "test:performance-evidence": "node --experimental-strip-types --test scripts/check-phase-11g2-normative-evidence.test.mjs scripts/phase-11g2-evidence-preservation.test.mjs && node --experimental-strip-types scripts/check-phase-11g2-normative-evidence.mjs --expected-source-identity-sha256=99e756e54652bec7568586b1073712ff983d359483a21b92a383a35abb4d47ad",
+    "test:performance-evidence": "node --experimental-strip-types --test scripts/check-phase-11g2-normative-evidence.test.mjs scripts/phase-11g2-evidence-preservation.test.mjs scripts/phase-11g2-git-provenance.test.mjs && node --experimental-strip-types scripts/check-phase-11g2-normative-evidence.mjs --legacy-historical-non-passing-source-identity-sha256=99e756e54652bec7568586b1073712ff983d359483a21b92a383a35abb4d47ad",
     "performance:fixture": "node scripts/provision-phase-11g2-fixture.mjs",
     "performance:plans": "node scripts/run-phase-11g2-db-plans.mjs",
     "performance:diagnostic": "node --experimental-strip-types scripts/run-phase-11g2-qualification.mjs",

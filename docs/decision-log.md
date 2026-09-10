@@ -3221,3 +3221,32 @@
 - Status is `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`. Local Supabase was
   stopped without backup. No implementation candidate, corpus, full gate,
   commit, push, CI, PR mutation, or merge occurred.
+
+## 2026-09-10: Correction 03 checkpoint binds future evidence to exact Git provenance
+
+- Independent review accepted the bounded product corrections but found that
+  qualification artifacts were not bound to the complete Git candidate, the
+  generated metadata described a stable-UI-only boundary instead of the
+  implemented joint boundary, and historical source compatibility lacked
+  direct regression tests.
+- Every new run now derives the exact `HEAD` commit and `HEAD^{tree}` through
+  Git before setup, rejects any tracked worktree difference without resetting
+  it, and records the clean-at-start result with the same commit/tree in both
+  the normative report and runtime manifest. Untracked and ignored output does
+  not fail the tracked-tree guard; a dedicated clean worktree is required for
+  future controlled qualification.
+- Current validation requires exact agreement with the validator checkout's
+  commit, full tree, and current source digest. Source identity is secondary.
+  The retained hard-coded historical digest is available only through an
+  explicit legacy-historical-non-passing mode and cannot validate a passing
+  report.
+- Generated report and operation metadata now describe the authoritative outer
+  duration as the later of stable-UI satisfaction and complete matching
+  correlated response under the shared 10,000 ms deadline. Server-response and
+  `Server-Timing` intervals are diagnostic. Regression coverage exercises both
+  provenance modes, stale/malformed identities, tracked cleanliness, and the
+  corrected metadata without running any performance workload.
+- No product or database behavior changed, no preflight/matrix/corpus ran, and
+  preserved adverse/non-credited evidence was not rewritten. PR #120 remains
+  Draft and unmerged; all 18 findings remain `OPEN`; Phase 11G and Phase 11
+  remain `INCOMPLETE` pending controlled-host qualification.

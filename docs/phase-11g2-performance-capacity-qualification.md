@@ -58,14 +58,16 @@ fixture, migrations, queries/indexes, and harness sources by SHA-256.
 
 ## 3. Correction 01 normative boundary and focused disposition
 
-The authoritative browser duration starts immediately before the named
-Playwright click/press/submit and ends only after the operation's deterministic
-stable UI assertion succeeds. Preparation, fixture mutation, integrity reads,
-and cleanup are outside that duration. Integrity runs immediately afterward
-and can still fail the sample. Each sample records the action, actual Chromium
-profile, an opaque correlation, the matching Next request interval, response-
-start `Server-Timing`, the stable condition, and its bounded trace archive.
-Missing or inconsistent evidence fails closed.
+The authoritative outer duration starts immediately before the named
+Playwright click/press/submit and ends at the later of the operation's
+deterministic stable-UI satisfaction and completion of the matching correlated
+application response. Both must complete within the same ten-second deadline.
+Preparation, fixture mutation, integrity reads, and cleanup are outside that
+duration. Integrity runs immediately afterward and can still fail the sample.
+Each sample records the action, actual Chromium profile, an opaque correlation,
+the matching Next request interval, response-start `Server-Timing`, the stable
+condition, and its bounded trace archive. Missing or inconsistent evidence
+fails closed.
 
 `performance/evidence/focused-normative/operation-boundaries.json` is the
 machine-readable catalog of the exact trigger, request method/template, stable
@@ -102,12 +104,12 @@ keys/values, unsupported trace entries, and any raw archive.
 The loopback timing proxy forwards to the real production Next server. Its
 correlated server interval runs from proxy request receipt through the complete
 response body; response-start latency is separately exposed as `Server-Timing`.
-The full browser action-to-stable-UI duration remains authoritative. The
-production child receives only public local Supabase configuration and the
-existing runtime-only synthetic test secrets; service-role material is removed
-from its environment. Direct local PostgreSQL access is used only for untimed
-fixture/integrity work because the public application roles intentionally lack
-those privileges.
+Those server values are diagnostic and neither replace nor shorten the outer
+joint browser/correlated-response duration. The production child receives only
+public local Supabase configuration and the existing runtime-only synthetic
+test secrets; service-role material is removed from its environment. Direct
+local PostgreSQL access is used only for untimed fixture/integrity work because
+the public application roles intentionally lack those privileges.
 
 ### Focused final diagnostic
 
@@ -886,3 +888,51 @@ implementation candidate, final corpus, full gate, commit, push, PR mutation,
 CI run, or merge followed. DB-001 remains fresh; PR #120 remains Draft and
 unmerged; all 18 findings remain `OPEN`; and Phase 11G and Phase 11 remain
 `INCOMPLETE`.
+
+## 20. Correction 03 checkpoint provenance correction (2026-09-10)
+
+Independent checkpoint review accepted the bounded product corrections but
+found that generated qualification evidence was not bound to the complete Git
+implementation, its generated boundary descriptions still described a
+stable-UI-only timer, and the historical source-identity exception lacked
+direct regression coverage. This checkpoint corrects those evidence controls
+only. It does not add product, Auth, RLS, SQL, schema, fixture, threshold,
+concurrency, operation, or stable-condition changes, and it does not run a
+preflight, focused matrix, or final corpus.
+
+Every new Correction 03 qualifying run now obtains its commit with
+`git rev-parse HEAD`, its full tracked repository tree with
+`git rev-parse HEAD^{tree}`, and its tracked-worktree state with Git status
+before local Supabase or browser preparation. A tracked difference from `HEAD`
+stops the run without resetting it; ignored and untracked output does not make
+that guard fail. The report and runtime manifest both carry the same
+`repository` block with commit SHA, tree SHA, and
+`trackedWorktreeCleanAtStart: true`; no checkout path is recorded. Future
+qualification should therefore use a dedicated clean worktree at the exact
+candidate commit.
+
+The validator's normal mode derives the expected commit and tree from the
+current checkout and requires report, runtime manifest, and current
+source-identity SHA-256 to agree exactly. Source identity remains a secondary
+source-set digest and cannot substitute for Git provenance. Passing evidence
+cannot provide an arbitrary historical identity. Compatibility for the
+retained adverse package is explicit as `legacyHistoricalNonPassing`, requires
+the hard-coded historical source digest, and requires `report.passed` to be
+false; the package is not rewritten.
+
+Generated report and operation-boundary metadata now state the implemented
+timer exactly: start immediately before the Playwright action, finish at the
+later of stable-UI satisfaction and completion of the matching correlated
+application response, and require both within the shared 10,000 ms deadline.
+The server interval and response-start `Server-Timing` are labeled diagnostic.
+Current-mode validation enforces these exact descriptions. Regression tests
+cover current/stale/malformed source and Git identities, report/runtime
+agreement, clean and dirty tracked worktrees, untracked-output tolerance,
+legacy non-passing admission, passing legacy rejection, and the corrected
+boundary contract while retaining the existing preservation and privacy tests.
+
+The implementation remains a checkpoint correction only. Product corrections
+are still unqualified, the preserved adverse and non-credited evidence remains
+untouched, PR #120 remains Draft/unmerged, all 18 findings remain `OPEN`, and
+Phase 11G and Phase 11 remain `INCOMPLETE`. A controlled-host qualification from
+a dedicated clean worktree is still required before any candidate-ready claim.
