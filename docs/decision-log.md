@@ -3139,3 +3139,85 @@
   preserved, DB-001 remains fresh, PR #120 remains Draft/unmerged, no readiness
   marker or final PERF credit is authorized, all 18 findings remain `OPEN`, and
   Phase 11 remains `INCOMPLETE`.
+
+## 2026-09-10: Correction 03 resume reaches current preflights but host pressure blocks matrix 1
+
+- The resume verified starting head
+  `c2454a023d702d6a10d34af1e0ba8873e92c6499`, tree
+  `bd6ed8b02a1b519ed8cb1e00fafcefae5868cdef`, unchanged accepted `main`, and
+  open Draft PR #120 with auto-merge disabled. Docker and local Supabase became
+  healthy, and exact 100-identity fixture provisioning passed.
+- Controlled evidence corrected a one-tick stable-UI/response-completion race,
+  an overlength activation diagnostic password, native full-document recipe and
+  barcode GET navigation, and unnecessary dynamic rendering of the localized
+  account-closed page. Thresholds, concurrency, stable conditions, fixture,
+  SQL, migrations, RLS, indexes, and query behavior remain unchanged.
+- A September 8 regression test proved that invitation activation still
+  requires a password-authenticated session. Password sign-in was restored on
+  the existing Auth client before other sessions are revoked. All nine
+  invitation tests and the targeted 44-sample activation matrix passed. Two
+  fresh representative preflights then passed 132/132 and 12/12 with zero
+  threshold, reliability, integrity, isolation, or overlap failures.
+- The clean matrices collected before that Auth correction remain historical.
+  A September 10 matrix-1 repeat completed all 396 samples with zero reliability
+  or integrity failures but retained one desktop recovery-completion c1 p95 of
+  1,828.853 ms. Swap-outs increased by 87,552 during the run; a subsequent host
+  window included 40--45% CPU idle and another 30,088 swap-outs. The matrix is
+  non-credited host-contended evidence, and matrix 2 and the final corpus did
+  not start.
+- Local Supabase was stopped without backup. Status remains
+  `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; PR #120 remains Draft and
+  unmerged, DB-001 remains fresh, no final PERF credit or readiness marker is
+  authorized, all 18 findings remain `OPEN`, and Phase 11 remains `INCOMPLETE`.
+
+## 2026-09-10: Resume-02 rejects the second preflight after in-run host contamination
+
+- The uncommitted Correction 03 implementation passed 16/16 harness tests,
+  34/34 focused browser tests, lint, type checking, and diff checking. The only
+  test changes align assertions with the intentional static account-closed
+  response and Next Form same-destination history behavior; security,
+  no-JavaScript, English/Hebrew, directionality, and GET-query behavior remain
+  covered.
+- Docker and local Supabase were healthy, and both preflight preparations used
+  a fresh reset with the exact 100-identity fixture. No hosted Supabase or
+  unrelated-process termination occurred.
+- New controlled preflight 1 passed 132/132 and 12/12 with no threshold,
+  reliability, integrity, isolation, or overlap failure. During preflight 2,
+  however, CPU idle fell to 14.48%, swap-outs increased by 12,228, compressed
+  memory reached about 7,831 MiB, and unrelated system/media-analysis activity
+  appeared. Although the runner reported all 132 samples and 12 groups passed,
+  the whole preflight is non-credited and matrix 1 did not start.
+- A malformed evidence-copy check also overwrote the raw preflight-2 directory
+  during canonical-snapshot restoration. The transcript retains the runner
+  result, but the raw report, samples, manifest, boundaries, and traces are not
+  available. The misleading copied matrix snapshot is retained under an
+  explicit `preservation-error-...` incident name and cannot receive credit.
+- The implementation commit, current matrices, final corpus, full gates, push,
+  CI, PR update, and merge were withheld. Status is
+  `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; no final PERF credit or
+  readiness marker is authorized. Local Supabase was stopped without backup,
+  and the task-owned runtime-secret directory was removed.
+
+## 2026-09-10: Resume-03 adds loss-resistant evidence handling and stops on fresh preflight host contamination
+
+- A verified external snapshot preserved the initial 36 modified tracked files,
+  131 untracked evidence files, patches, lists, and file checksums before local
+  stack work. The snapshot archive SHA-256 is
+  `e2a906aecdd8176cc325f892267fd4f69d3440e4d496b29627d10de46271dd88`.
+- Qualification output can now target a new run-specific Correction 03
+  directory. Existing destinations are rejected, and the runner verifies a
+  25-file raw-evidence checksum manifest before reporting completion. The
+  established measurement and threshold semantics did not change.
+- Evidence/privacy tests passed 7/7, harness tests passed 16/16, focused browser
+  regressions passed 34/34, and lint/typecheck/diff checking passed. A barcode
+  test attempt against the large performance fixture hit its snapshot helper's
+  subprocess buffer; the unchanged complete focused suite passed after its
+  normal fresh local reset, so no product correction was made.
+- Fresh preflight 1 completed 132/132 and 12/12 with a passing report and fully
+  validated raw artifacts. It is non-credited because in-run swap-outs rose by
+  16,216, CPU idle fell to 27.28%, and repeated unrelated browser/editor CPU
+  bursts materially contaminated the host. Preflight 2 and both matrices did
+  not start.
+- Status is `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`. Local Supabase was
+  stopped without backup. No implementation candidate, corpus, full gate,
+  commit, push, CI, PR mutation, or merge occurred.

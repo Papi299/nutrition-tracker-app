@@ -20,7 +20,7 @@
     "test:e2e:date": "node scripts/run-local-date-e2e.mjs e2e/date-correctness.spec.ts",
     "test:journey-evidence": "node --test scripts/check-phase-11c-journey-evidence.test.mjs && node scripts/check-phase-11c-journey-evidence.mjs",
     "test:performance-harness": "playwright test --config=playwright.unit.config.ts tests/performance-qualification.spec.ts",
-    "test:performance-evidence": "node --experimental-strip-types --test scripts/check-phase-11g2-normative-evidence.test.mjs && node --experimental-strip-types scripts/check-phase-11g2-normative-evidence.mjs",
+    "test:performance-evidence": "node --experimental-strip-types --test scripts/check-phase-11g2-normative-evidence.test.mjs scripts/phase-11g2-evidence-preservation.test.mjs && node --experimental-strip-types scripts/check-phase-11g2-normative-evidence.mjs",
     "performance:fixture": "node scripts/provision-phase-11g2-fixture.mjs",
     "performance:plans": "node scripts/run-phase-11g2-db-plans.mjs",
     "performance:diagnostic": "node --experimental-strip-types scripts/run-phase-11g2-qualification.mjs",

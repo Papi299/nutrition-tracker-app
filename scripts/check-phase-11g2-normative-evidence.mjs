@@ -9,10 +9,12 @@ import {
   serializePrivacySafeEvidence,
   validateNormativePerformanceSample,
 } from "../lib/performance/qualification.ts";
+import { verifyEvidenceManifest } from "./phase-11g2-evidence-preservation.mjs";
 
 const SOURCE_PATHS = [
   "scripts/run-phase-11g2-playwright-qualification.mjs",
   "scripts/phase-11g2-playwright-operations.mjs",
+  "scripts/phase-11g2-evidence-preservation.mjs",
   "lib/performance/qualification.ts",
   "app/[locale]/(app)/foods/page.tsx",
   "performance/fixture-manifest.json",
@@ -101,7 +103,7 @@ function validateTraceArchives(evidenceDirectory, traceMap) {
   }
 }
 
-export function validateEvidenceDirectory(evidenceDirectory) {
+export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) {
   const report = readPrivacySafeJson(
     path.join(evidenceDirectory, "normative-performance-report.json"),
   );
@@ -115,6 +117,14 @@ export function validateEvidenceDirectory(evidenceDirectory) {
     path.join(evidenceDirectory, "operation-boundaries.json"),
   );
   readPrivacySafeJson(path.join(evidenceDirectory, "runtime-manifest.json"));
+  const checksumManifestPath = path.join(
+    evidenceDirectory,
+    "raw-evidence-manifest.json",
+  );
+  if (existsSync(checksumManifestPath)) {
+    readPrivacySafeJson(checksumManifestPath);
+    verifyEvidenceManifest(evidenceDirectory);
+  }
 
   const focused = report.evidenceType === "phase-11g2-focused-normative-diagnostic";
   assert(
@@ -122,10 +132,10 @@ export function validateEvidenceDirectory(evidenceDirectory) {
       report.evidenceType === "phase-11g2-normative-local-performance-capacity-qualification",
     "Unknown normative evidence type.",
   );
-  const expectedGroupCount = focused ? 36 : 108;
-  const expectedSampleCount = focused ? 396 : 3348;
-  const expectedOperationCount = focused ? 11 : 29;
-  const expectedWarmSamples = focused ? 10 : 30;
+  const expectedGroupCount = expectations.groupCount ?? (focused ? 36 : 108);
+  const expectedSampleCount = expectations.sampleCount ?? (focused ? 396 : 3348);
+  const expectedOperationCount = expectations.operationCount ?? (focused ? 11 : 29);
+  const expectedWarmSamples = expectations.warmSamples ?? (focused ? 10 : 30);
 
   assert.equal(report.groupCount, expectedGroupCount);
   assert.equal(report.sampleCount, expectedSampleCount);
@@ -205,7 +215,25 @@ async function main() {
   if (!existsSync(evidenceDirectory)) {
     throw new Error(`Evidence directory does not exist: ${evidenceDirectory}`);
   }
-  process.stdout.write(`${JSON.stringify(validateEvidenceDirectory(evidenceDirectory))}\n`);
+  const numberFromEnvironment = (name) => {
+    const value = process.env[name];
+    if (value === undefined) return undefined;
+    const parsed = Number(value);
+    if (!Number.isSafeInteger(parsed) || parsed < 1) {
+      throw new Error(`${name} must be a positive integer.`);
+    }
+    return parsed;
+  };
+  process.stdout.write(
+    `${JSON.stringify(
+      validateEvidenceDirectory(evidenceDirectory, {
+        groupCount: numberFromEnvironment("PHASE11G2_EXPECTED_GROUP_COUNT"),
+        operationCount: numberFromEnvironment("PHASE11G2_EXPECTED_OPERATION_COUNT"),
+        sampleCount: numberFromEnvironment("PHASE11G2_EXPECTED_SAMPLE_COUNT"),
+        warmSamples: numberFromEnvironment("PHASE11G2_EXPECTED_WARM_SAMPLES"),
+      }),
+    )}\n`,
+  );
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

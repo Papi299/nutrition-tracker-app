@@ -1119,7 +1119,9 @@ test.describe.serial("Phase 11E5 account closure", () => {
       { redirect: "manual" },
     );
     expect(closedStatus.status).toBe(200);
-    expect(closedStatus.headers.get("cache-control")).toContain("no-store");
+    expect(closedStatus.headers.get("cache-control")).toContain(
+      "s-maxage=31536000",
+    );
     expect(closureCount(userId)).toBe("1");
     expect(productFingerprint(userId)).toBe(before);
     expect(

@@ -2,24 +2,37 @@
 
 ## 1. Status
 
-Task `PHASE-11G2-CORRECTION-03-CONTROLLED-HOST-REQUALIFICATION-001` stopped at
-the mandatory controlled-host gate with
-`PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`; it is not a successful G2
-candidate. The exact unchanged Correction 02 candidate was verified, and no
-stale task-owned Next application, timing proxy, Playwright/Chromium process,
-qualification-port listener, or repository Supabase container was eligible for
-cleanup. Substantial unrelated host activity nevertheless remained across the
-confirmation window, including load averages above the ten logical CPU count,
-unrelated 60% maintenance and 39.7% browser-renderer CPU bursts, and about 5.7
-GiB of compressed memory. Docker was not available. No unrelated user process
-was terminated, and no preflight, focused matrix, or final corpus was started.
+Task `PHASE-11G2-CORRECTION-03-RESUME-001` resumed the independently verified
+host stop from exact head `c2454a023d702d6a10d34af1e0ba8873e92c6499`.
+Docker and fresh local Supabase became available, and no stale task-owned
+runtime required cleanup. Controlled evidence reproduced a one-tick stable-UI/
+response-completion race, then exposed bounded activation, recipe/barcode GET
+navigation, and generic account-closed-page costs. Corrections retain the
+accepted operation boundaries, thresholds, concurrency, fixture, security, and
+database behavior.
 
-Correction 01's normative Playwright architecture remains established.
-Correction 02's search-navigation and proxy-lifecycle fixes, all historical
-adverse evidence, and the accepted 60-plan DB-001 corpus remain preserved. The
-current 396-sample report still contains four threshold failures and one
-reliability event; the 3,348-sample final corpus remains prohibited. No focused
-sample is promoted to final PERF-001--PERF-006 acceptance credit.
+An additional activation security regression on September 8 proved that the
+password sign-in removed by the first optimization was required: without it,
+real invitation sessions could not satisfy the activation RPC. Password sign-in
+was restored on the existing client. All nine invitation tests and a 44-sample
+activation matrix then passed. Both current 132-sample preflights passed with
+zero threshold, reliability, integrity, tenant-isolation, or overlap failures.
+
+The two earlier clean 396-sample matrices preceded that behavior correction and
+are now historical rather than current prerequisites. A fresh matrix 1 attempt
+on September 10 retained 396 successful and integrity-valid samples but had one
+desktop recovery-completion c1 threshold failure while swap-outs increased by
+87,552 and unrelated system/indexing work raised sustained host pressure. The
+host then produced another 30,088 swap-outs with CPU idle falling to 40--45%.
+The attempt is non-credited, matrix 2 and the final corpus were not started, and
+no unrelated process was terminated.
+
+Correction 01's normative Playwright architecture, Correction 02's search and
+proxy fixes, all historical adverse evidence, and the accepted 60-plan DB-001
+corpus remain preserved. The current focused evidence is the non-credited
+host-contended 396-sample attempt; no focused result is promoted to final
+PERF-001--PERF-006 credit.
+Status remains `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`.
 
 No readiness marker is authorized. `P11A-012`, `P11A-013`, and `P11A-014`
 remain `OPEN`; all 18 findings remain `OPEN`; Phase 11G and Phase 11 remain
@@ -645,3 +658,231 @@ and final-corpus sequence remains unchanged.
 `P11A-012`, `P11A-013`, and `P11A-014`, all 18 findings, Phase 11G, and Phase 11
 remain open/incomplete. Phase 11H and Phase 11J did not begin, and Phase 11K
 remains the formal finding-closure gate.
+
+## 17. Correction 03 resume, bounded correction, and final host stop
+
+The resume verified required starting head
+`c2454a023d702d6a10d34af1e0ba8873e92c6499`, tree
+`bd6ed8b02a1b519ed8cb1e00fafcefae5868cdef`, parent
+`6dc8399e03be1484684d714e3984a29346350ee3`, and unchanged accepted `main`
+`2d35278f68d33397b9a75eba37dc83ee5a307d9d`. PR #120 remained open, Draft,
+unmerged, and auto-merge-disabled with successful previous exact-head Validate
+run `33543238775` (run number 226, attempt 1).
+
+Docker 29.7.2 was healthy with ten assigned CPUs and about 8.3 GiB assigned
+memory. Local Supabase started normally with CLI 2.116.0 and PostgreSQL 17.6;
+no hosted or remote service was used. No stale task-owned Next application,
+timing proxy, Playwright/Chromium process, qualification-port listener, or
+repository Supabase container required cleanup. The deterministic fixture was
+freshly rebuilt and verified at exactly 100 synthetic identities and all
+required table cardinalities.
+
+### Reproduction and bounded corrections
+
+The unchanged representative preflights retained complete UI and integrity
+success but produced one recovery-completion and two sign-out framework events.
+The correlated response ended within about one millisecond after the stable-UI
+observation, so event-loop ordering could retire the expected correlation before
+the complete response record became visible. The timing proxy now waits within
+the same accepted ten-second deadline for both stable UI and the complete
+correlated response, measures their later boundary, ignores records after a
+correlation is retired, and continues to classify a genuinely arrived but
+incomplete stream as a qualification timeout. The accepted stable conditions,
+operation triggers, threshold values, and fail-closed stream behavior did not
+change.
+
+Subsequent complete execution identified three additional bounded causes:
+
+- The activation diagnostic generated a 75-character replacement password,
+  exceeding the provider's 72-character maximum. It now uses the existing
+  bounded alternate-password helper. Activation also removed a redundant
+  identity read, second client, and session reset. A September 8 regression
+  check rejected the earlier removal of password sign-in: real invitation
+  sessions could not satisfy the RPC's password-session requirement. Password
+  sign-in is restored on the existing client before `signOut({ scope: "others" })`
+  revokes the invitation session. All nine invitation tests then passed.
+- Recipe calculation and barcode lookup used native GET forms, causing full
+  document navigation at concurrency ten. Both now use progressively enhanced
+  Next `<Form>` navigation while retaining real GET URLs and no-JavaScript
+  fallback behavior.
+- Account closure redirected to a generic locale-only page that was
+  unnecessarily forced dynamic. Removing that override allows the existing
+  English/Hebrew static parameters to generate both pages without changing the
+  closure mutation or stable heading.
+
+Targeted corrected evidence passed: activation 44/44, recipe/barcode 88/88,
+and closure 22/22, all with zero reliability and integrity events. A temporary
+broad prefetch experiment did not improve closure and was fully reverted. No
+SQL, RPC, RLS, migration, index, query behavior, fixture, threshold,
+concurrency, operation definition, or stable-UI definition changed.
+
+### Historical sequence and current prerequisites
+
+The September 2 sequence produced the following clean results before the later
+activation security regression was discovered:
+
+| Gate | Samples/groups | Maximum metric p95 | Result |
+| --- | ---: | --- | --- |
+| Controlled preflight 1 | 132/12 | 546.176 ms | pass, zero events/failures |
+| Controlled preflight 2 | 132/12 | 572.234 ms | pass, zero events/failures |
+| Complete focused matrix 1 | 396/36 | 521.748 ms | pass, zero events/failures |
+| Complete focused matrix 2 | 396/36 | 524.980 ms | pass, zero events/failures |
+
+Both historical matrices have exact fixture coverage, valid concurrency-ten overlap,
+complete correlation evidence, exact integrity/tenant isolation, and 20
+bounded sanitized trace archives. They are retained under
+`performance/evidence/correction-03-resume/`; matrix 2 is also the current
+`performance/evidence/focused-normative/` evidence. The two controlled
+preflight summaries and machine-readable resume summary are retained beside
+them.
+
+After restoring the required password sign-in, the current sequence is:
+
+| Gate | Samples/groups | Maximum metric p95 | Result |
+| --- | ---: | --- | --- |
+| Activation targeted matrix | 44/4 | 936.498 ms | pass, zero events/failures |
+| Controlled preflight 1 | 132/12 | 608.826 ms | pass, zero events/failures |
+| Controlled preflight 2 | 132/12 | 557.431 ms | pass, zero events/failures |
+| Complete focused matrix 1 | 396/36 | 1,828.853 ms | non-credited host contention; one threshold failure |
+| Complete focused matrix 2 | not run | not available | gated |
+| Final normative corpus | not run | not available | gated |
+
+The failed matrix-1 group was `recovery_completion/desktop/c1`; all eleven
+samples completed successfully, integrity passed, and the two slow values were
+1,162.953 ms and 1,828.853 ms. Host evidence over the same run recorded an
+87,552 swap-out increase and load rising from 3.894/10.670/11.669 to
+9.456/14.733/13.795. A subsequent confirmation window included 40.53% and
+45.42% CPU-idle samples and another 30,088 swap-outs. This is non-credited host
+contention rather than a remaining application finding.
+
+Before the final corrections, one complete diagnostic corpus ran 3,348/108
+with zero reliability, integrity, tenant-isolation, or overlap failures but ten
+threshold failures: two recipe-calculation c10 groups, six barcode c10 groups,
+and two account-closure c10 groups. Its report and samples remain adverse,
+non-credited evidence. The bounded corrected targeted runs and the four clean
+prerequisites supersede those diagnosed causes but do not replace the mandatory
+corrected final corpus.
+
+### Final host gate and disposition
+
+After the four prerequisites passed, the repository completed another fresh
+local reset and exact fixture. The pre-corpus sustained confirmation window
+then observed CPU idle from 0--76.64%, repeated current samples in the 40--60%
+range, about 3.3--7.8 GiB compressed memory, 36--64% memory-free pressure
+readings, and a cumulative swap-out increase of 563,881. Docker and task-owned
+services remained healthy; the pressure came from unrelated host workloads.
+No private user activity was recorded and no unrelated process was terminated.
+
+The corrected authoritative 3,348-sample corpus was therefore not started.
+This resume ends at `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`, not the
+candidate-ready marker. DB-001 remains fresh because database and query behavior
+did not change. PR #120 remains Draft and unmerged. `P11A-012`, `P11A-013`, and
+`P11A-014`, all 18 findings, Phase 11G, and Phase 11 remain open/incomplete;
+Phase 11H and Phase 11J did not begin, and Phase 11K remains the sole formal
+finding-closure gate.
+
+## 18. Resume-02 controlled-host finalization stop (2026-09-10)
+
+The finalization attempt reverified head
+`c2454a023d702d6a10d34af1e0ba8873e92c6499`, tree
+`bd6ed8b02a1b519ed8cb1e00fafcefae5868cdef`, accepted `main`
+`2d35278f68d33397b9a75eba37dc83ee5a307d9d`, and the unchanged open Draft
+PR #120. The local Correction 03 diff remained task-owned and uncommitted.
+Docker 29.7.2 and local Supabase CLI 2.116.0/PostgreSQL 17.6 were healthy; no
+hosted Supabase operation occurred. Two fresh local resets each reproduced the
+exact 100-identity fixture and all required cardinalities at approved
+concurrency ten.
+
+The existing corrections passed 16/16 harness tests and 34/34 focused browser
+tests covering invitation/session behavior, account closure, recipe/barcode GET
+progressive enhancement, no-JavaScript operation, English/Hebrew behavior,
+directionality, isolation, and lifecycle enforcement. The account-closure test
+now expects the intentional static cache response, and the barcode history test
+now reflects Next Form same-destination deduplication while continuing to prove
+the complete GET query and forward navigation. Lint, type checking, and diff
+checking also passed. No product optimization, threshold, fixture, stable-UI,
+SQL, RPC, RLS, schema, index, or query change was added.
+
+The first new controlled preflight passed all 132 samples and 12 groups with
+zero threshold, reliability, integrity, isolation, or overlap failure. Its
+maximum p95 values were 542.184 ms for PERF-001, 386.660 ms for PERF-002,
+279.914 ms for PERF-003, and 373.512 ms for PERF-006. Complete evidence is
+preserved under
+`performance/evidence/correction-03-resume/controlled-preflight-1-finalization-20260910/`.
+
+After the mandated second reset, the second runner also reported 132/132 and
+12/12 internally successful. It receives no credit: during the run CPU idle
+fell as low as 14.48%, swap-outs increased by 12,228, compressor memory reached
+about 7,831 MiB, and unrelated system/media-analysis activity appeared. The
+whole stage was rejected without selecting individual samples, and matrix 1
+was not started.
+
+An additional unfavorable evidence-handling incident is retained explicitly.
+A malformed copy check caused the just-produced raw preflight-2 directory to be
+overwritten while restoring the canonical evidence snapshot. The complete
+runner output remains in the task transcript, but its raw report, samples,
+runtime manifest, boundaries, and traces are unavailable. The directory named
+`preservation-error-preflight-2-copied-matrix-snapshot-20260910/` contains the
+restored September 10 non-credited matrix snapshot, not preflight 2; it is named
+as an incident artifact so it cannot be mistaken for qualifying evidence.
+
+The two-matrix gate, implementation-candidate commit, final 3,348/108 corpus,
+full repository gates, push, new exact-head CI, and PR update were therefore
+withheld. Status remains
+`PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`. No final PERF credit or readiness
+marker is authorized. Local Supabase was stopped without backup and the
+task-owned runtime-secret directory was removed. DB-001 remains fresh, PR #120
+remains Draft/unmerged, all 18 findings remain `OPEN`, and Phase 11G and Phase
+11 remain `INCOMPLETE`.
+
+## 19. Resume-03 controlled requalification stop (2026-09-10)
+
+Before any new stack or browser work, Resume-03 preserved all 36 modified
+tracked files, all 131 untracked evidence files, the unstaged/staged patches,
+status and file manifests, and SHA-256 checksums outside the repository. Both
+the copied-file manifests and the 2.3 MiB archive were verified. The snapshot
+remains at `/Users/maor/Documents/Codex/phase11g2-resume03-snapshot.YhpD0f`;
+it contains no runtime secret.
+
+The evidence procedure now supports a unique run-specific destination inside
+the Correction 03 evidence root, rejects any pre-existing destination, verifies
+all five required JSON artifacts and all 20 bounded traces, writes a 25-file
+SHA-256 manifest, and re-verifies every file before the runner can report
+completion. A bounded validator option permits the same privacy, trace,
+correlation, aggregate, fixture, and source-identity checks for representative
+preflights without weakening the full 396/36 and 3,348/108 defaults. Seven
+evidence/privacy tests and all 16 harness tests passed, including persisted
+checksum-tampering and unexpected-trace rejection.
+
+The complete focused correctness set passed 34/34 after a normal local reset:
+account closure/barcode 16/16 and activation/recipe 18/18. An earlier attempt
+against the large performance fixture stopped in the barcode test's database
+snapshot helper with Node `ENOBUFS`; this occurred before barcode product
+behavior was exercised, and the unchanged test passed against its intended
+fresh local seed. Lint, type checking, and diff checking passed. No product,
+timing-boundary, threshold, fixture, Auth, SQL, RPC, RLS, schema, index, or
+query-semantic change was made beyond the already audited candidate.
+
+After another fresh local reset and exact 100-identity fixture, the pre-run
+host window was acceptable: CPU idle was 65.27--73.84%, swap-outs were flat at
+3,434,727, memory-free pressure was 36--39%, and unrelated bursts were not
+sustained. Fresh preflight 1 then completed 132/132 and 12/12 internally with
+zero threshold, reliability, integrity, isolation, or overlap failure. The
+maximum p95 values were 610.397 ms for PERF-001, 348.527 ms for PERF-002,
+350.526 ms for PERF-003, and 461.636 ms for PERF-006. Its complete raw evidence
+and checksum manifest passed the bounded evidence/privacy validator.
+
+The run receives no qualification credit. During it, CPU idle fell to 27.28%,
+swap-outs increased by 16,216, compressor memory reached about 7,965 MiB, and
+repeated unrelated browser/editor renderer CPU bursts accompanied the expected
+task-owned Docker, Next, and Playwright activity. The entire run is preserved
+without cherry-picking under
+`performance/evidence/correction-03-resume/resume-03-preflight-1-20260910T113030Z/`.
+Fresh preflight 2 and both matrices did not start.
+
+Status remains `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`. Local Supabase was
+stopped without backup and the runtime-only fixture secret was removed. No
+implementation candidate, final corpus, full gate, commit, push, PR mutation,
+CI run, or merge followed. DB-001 remains fresh; PR #120 remains Draft and
+unmerged; all 18 findings remain `OPEN`; and Phase 11G and Phase 11 remain
+`INCOMPLETE`.

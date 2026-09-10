@@ -56,7 +56,7 @@ export function createPlaywrightOperationCatalog(helpers) {
         const original = await selectRows("account_activations", "*", {
           user_id: actor.identityId,
         });
-        const activationPassword = `${actor.password}-activation`;
+        const activationPassword = alternatePassword(actor.password);
         await deleteRows("account_activations", { user_id: actor.identityId });
         await clearSession(slot);
         await page.locator('input[name="email"]').fill(actor.email);

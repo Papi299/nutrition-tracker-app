@@ -434,17 +434,43 @@ is complete for the current MVP scope.
   timing proxy now tracks privacy-safe active-stream state, accounts for early
   downstream cancellation, still fails a genuinely stuck measured stream, and
   recycles completed pages between groups without changing the accepted timing
-  boundary. Complete 396-sample attempts remain non-qualifying because this
-  host produced temporally shifting cross-operation stalls under 85--248 MB
-  reported free memory; the current complete report has four threshold failures
-  and one correlated-boundary event. The gated 3,348-sample final corpus was
-  therefore not run. Correction 03 verified the exact unchanged candidate but
-  stopped before any qualifying run because the controlled host remained
-  materially non-quiescent after confirming there was no task-owned runtime to
-  clean up; unrelated workloads were not terminated. Both preflights, both
-  complete matrices, and the final corpus remain unrun. Correction 03 receives
-  no final PERF-001--PERF-006 acceptance credit and returns
+  boundary. Correction 03's resume used healthy Docker and fresh local Supabase,
+  reproduced a one-tick stable-UI/response-completion race, and retained the
+  ten-second fail-closed boundary while waiting for both signals. Bounded
+  controlled evidence then corrected an overlength activation diagnostic,
+  reused one Auth client for the required password sign-in, changed
+  recipe/barcode GET flows to progressively enhanced Next forms, and statically
+  generated the generic localized account-closed page. A September 8 security
+  regression restored password sign-in after all nine invitation tests proved
+  the activation RPC requires its password-authenticated session. The targeted
+  activation matrix passed 44/44, and an earlier pair of current-code
+  132-sample preflights passed with zero threshold, reliability, integrity,
+  isolation, or overlap failures.
+  The earlier clean matrices are historical because they preceded that behavior
+  correction. A September 10 matrix-1 repeat retained 396 successful,
+  integrity-valid samples but was non-credited after swap-outs increased by
+  87,552 and one recovery-completion group exceeded its threshold; a subsequent
+  window added 30,088 swap-outs while CPU idle fell to 40--45%. Matrix 2 and the
+  final corpus remain gated. No unrelated workload was terminated. Correction
+  03 receives no final PERF-001--PERF-006 acceptance credit and returns
   `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`, not a readiness marker.
+  A Resume-02 finalization attempt then passed the focused correction suite and
+  a fresh 132/12 preflight. Its second fresh preflight was rejected in full
+  after an in-run 12,228 swap-out increase, CPU idle falling to 14.48%, and
+  unrelated system/media-analysis activity, even though the runner itself
+  reported 132/132. The raw second-preflight artifacts were also lost in a
+  documented copy/restoration incident, so they could not qualify in any case.
+  No new matrix, implementation commit, final corpus, push, CI run, or PR
+  update followed.
+  Resume-03 first created and checksum-verified an external snapshot of the
+  complete dirty candidate, then added unique evidence destinations and a
+  required 25-artifact SHA-256 manifest without changing measurement semantics.
+  The focused regression set passed 34/34, the harness passed 16/16, and the
+  evidence/privacy checks passed 7/7. A new preflight completed 132/132 and
+  12/12 with complete validated artifacts, but was non-credited after in-run
+  swap-outs rose by 16,216, CPU idle fell to 27.28%, and repeated unrelated
+  browser/editor CPU bursts appeared. The second preflight and both matrices
+  were withheld; the host-not-quiescent marker remains in force.
   `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal

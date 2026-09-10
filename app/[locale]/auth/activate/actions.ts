@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { getAccountAccessState } from "@/lib/auth/account-access";
 import { cleanupClosedAccountSession } from "@/lib/auth/session-cleanup";
 import {
@@ -12,11 +11,7 @@ import {
   signInPath,
 } from "@/lib/auth/require-user";
 import { createServerClient } from "@/lib/supabase";
-import type { Database } from "@/lib/supabase/database.types";
-import {
-  getSupabasePublicEnv,
-  isSupabasePublicEnvConfigured,
-} from "@/lib/supabase/env";
+import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
 import type { ActivationActionState } from "./action-state";
 
 const minimumPasswordLength = 6;
@@ -86,38 +81,27 @@ export async function activateAccountAction(
     return { code: "activationFailed", status: "error" };
   }
 
-  const { data: identityData, error: identityError } =
-    await supabase.auth.getUser();
-
-  if (identityError || !identityData.user?.email) {
-    return { code: "activationFailed", status: "error" };
-  }
-
   const password = String(formData.get("password"));
-  const { error: passwordError } = await supabase.auth.updateUser({ password });
+  const { data: passwordData, error: passwordError } =
+    await supabase.auth.updateUser({ password });
 
-  if (passwordError) {
+  if (passwordError || !passwordData.user?.email) {
     return { code: "activationFailed", status: "error" };
   }
 
-  const { publishableKey, url } = getSupabasePublicEnv();
-  const passwordSupabase = createSupabaseClient<Database>(url, publishableKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
-  const { data: passwordSignInData, error: passwordSignInError } =
-    await passwordSupabase.auth.signInWithPassword({
-      email: identityData.user.email,
+  // Activation requires a password-authenticated session. Replace the invite
+  // session before revoking other sessions and completing the guarded RPC.
+  const { data: signInData, error: signInError } =
+    await supabase.auth.signInWithPassword({
+      email: passwordData.user.email,
       password,
     });
 
-  if (passwordSignInError || !passwordSignInData.session) {
+  if (signInError || !signInData.session) {
     return { code: "activationFailed", status: "error" };
   }
 
-  const { error: staleSessionError } = await passwordSupabase.auth.signOut({
+  const { error: staleSessionError } = await supabase.auth.signOut({
     scope: "others",
   });
 
@@ -125,7 +109,7 @@ export async function activateAccountAction(
     return { code: "activationFailed", status: "error" };
   }
 
-  const { error: activationError } = await passwordSupabase.rpc(
+  const { error: activationError } = await supabase.rpc(
     "complete_invited_account_activation",
     {
       p_age_18_attested: true,
@@ -134,15 +118,6 @@ export async function activateAccountAction(
   );
 
   if (activationError) {
-    return { code: "activationFailed", status: "error" };
-  }
-
-  const { error: sessionCookieError } = await supabase.auth.setSession({
-    access_token: passwordSignInData.session.access_token,
-    refresh_token: passwordSignInData.session.refresh_token,
-  });
-
-  if (sessionCookieError) {
     return { code: "activationFailed", status: "error" };
   }
 

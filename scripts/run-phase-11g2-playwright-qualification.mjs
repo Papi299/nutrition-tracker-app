@@ -31,6 +31,10 @@ import {
   validateNormativePerformanceSample,
 } from "../lib/performance/qualification.ts";
 import { createPlaywrightOperationCatalog } from "./phase-11g2-playwright-operations.mjs";
+import {
+  resolveQualificationOutputDirectory,
+  writeAndVerifyEvidenceManifest,
+} from "./phase-11g2-evidence-preservation.mjs";
 
 const browserPort = 3100;
 const applicationPort = 3101;
@@ -53,9 +57,14 @@ const concurrencyFilter = process.env.PHASE11G2_CONCURRENCY_FILTER
 if (concurrencyFilter !== null && ![1, 10].includes(concurrencyFilter)) {
   throw new Error("The optional concurrency filter must be 1 or 10.");
 }
-const outputDirectory = isFocused
+const defaultOutputDirectory = isFocused
   ? "performance/evidence/focused-normative"
   : "performance/evidence/normative";
+const { directory: outputDirectory, runSpecific: runSpecificOutput } =
+  resolveQualificationOutputDirectory({
+    defaultDirectory: defaultOutputDirectory,
+    requestedDirectory: process.env.PHASE11G2_EVIDENCE_OUTPUT_DIRECTORY,
+  });
 
 if (!fixturePassword || fixturePassword.length < 20) {
   throw new Error("A runtime-only G2 fixture password is required.");
@@ -242,10 +251,12 @@ class ProxyIdleTimeoutError extends Error {
 async function startTimingProxy() {
   const records = new Map();
   const expected = new Map();
+  const arrivals = new Set();
   const waves = new Map();
   const activity = createProxyActivityTracker();
 
   function addRecord(correlationId, record) {
+    if (!expected.has(correlationId)) return;
     const current = records.get(correlationId) ?? [];
     current.push(record);
     records.set(correlationId, current);
@@ -268,6 +279,7 @@ async function startTimingProxy() {
       startedAtMs,
       trafficKind: trafficKind(incoming),
     });
+    if (measured) arrivals.add(correlationId);
     const headers = { ...incoming.headers };
     headers.host = `127.0.0.1:${browserPort}`;
     const upstream = httpRequest(
@@ -398,26 +410,31 @@ async function startTimingProxy() {
       server.closeAllConnections?.();
       server.close((error) => (error ? reject(error) : resolve()));
     }),
-    async take(correlationId, definition, stableEndedAtMs) {
-      for (let attempt = 0; attempt < 20; attempt += 1) {
+    async take(correlationId, definition, deadlineAtMs) {
+      while (nowMs() <= deadlineAtMs) {
         if (
           (records.get(correlationId) ?? []).some(
             (record) =>
               record.method === definition.expectedMethod &&
-              record.pathname === definition.expectedPath,
+              record.pathname === definition.expectedPath &&
+              record.endedAtMs <= deadlineAtMs,
           )
         ) break;
-        await new Promise((resolve) => setTimeout(resolve, 5));
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.min(5, Math.max(0, deadlineAtMs - nowMs()))),
+        );
       }
+      const requestArrived = arrivals.delete(correlationId);
       expected.delete(correlationId);
       const matching = (records.get(correlationId) ?? []).filter(
         (record) =>
           record.method === definition.expectedMethod &&
           record.pathname === definition.expectedPath &&
-          record.endedAtMs <= stableEndedAtMs + 1,
+          record.endedAtMs <= deadlineAtMs,
       );
       records.delete(correlationId);
       if (matching.length === 0) {
+        if (requestArrived) throw new Error("qualification_timeout");
         throw new Error("The browser action did not map to an application request.");
       }
       const startedAtMs = Math.min(...matching.map((record) => record.startedAtMs));
@@ -832,7 +849,9 @@ if (operationFilter.size && operations.length !== operationFilter.size) {
   throw new Error("The operation filter contains an unknown operation.");
 }
 
-rmSync(outputDirectory, { force: true, recursive: true });
+if (!runSpecificOutput) {
+  rmSync(outputDirectory, { force: true, recursive: true });
+}
 mkdirSync(outputDirectory, { recursive: true });
 mkdirSync(`${outputDirectory}/traces`, { recursive: true });
 const proxy = await startTimingProxy();
@@ -912,6 +931,7 @@ try {
     let classification = "succeeded";
     let outcome = "success";
     let stableSatisfied = false;
+    let stableReachedAtMs;
     let failureDiagnostic;
     let serverBoundary;
     const startedAtMs = nowMs();
@@ -924,9 +944,11 @@ try {
         await operation.stable({ actor, page: slot.page, state });
       });
       stableSatisfied = true;
+      stableReachedAtMs = nowMs();
     } catch (error) {
       outcome = "failure";
       classification = classifyError(error);
+      stableReachedAtMs = nowMs();
       failureDiagnostic = operation.failureDiagnostic
         ? await operation.failureDiagnostic({ actor, page: slot.page, state }).catch(() => ({
             currentPath: "unavailable",
@@ -934,27 +956,35 @@ try {
           }))
         : undefined;
     }
-    const observedStableEnd = nowMs();
-    const durationMs = classification === "timeout"
-      ? timeoutMs
-      : Number((observedStableEnd - startedAtMs).toFixed(3));
-    const endedAtMs = Number((startedAtMs + durationMs).toFixed(3));
     if (classification === "timeout") {
       await slot.page.close({ runBeforeUnload: false }).catch(() => {});
       slot.page = await slot.context.newPage();
     }
     try {
+      // The normative boundary closes only after both the stable UI and the
+      // correlated application response are complete. The shared deadline
+      // retains the accepted ten-second cap and keeps incomplete streams
+      // fail-closed without relying on event-loop ordering within one tick.
       serverBoundary = await proxy.take(
         correlationId,
         measurementDefinition,
-        endedAtMs,
+        outcome === "success"
+          ? startedAtMs + timeoutMs
+          : Math.min(startedAtMs + timeoutMs, nowMs() + 100),
       );
-    } catch {
+    } catch (error) {
       if (outcome === "success") {
         outcome = "failure";
-        classification = "framework_failure";
+        classification = classifyError(error);
       }
     }
+    const observedStableEnd = serverBoundary && stableSatisfied
+      ? Math.max(stableReachedAtMs, serverBoundary.endedAtMs)
+      : nowMs();
+    const durationMs = classification === "timeout"
+      ? timeoutMs
+      : Number((observedStableEnd - startedAtMs).toFixed(3));
+    const endedAtMs = Number((startedAtMs + durationMs).toFixed(3));
     await slot.context.tracing.groupEnd().catch(() => {});
     await slot.page.setExtraHTTPHeaders({}).catch(() => {});
     const fallbackBoundary = {
@@ -1324,6 +1354,7 @@ const sourceHasher = createHash("sha256");
 for (const path of [
   "scripts/run-phase-11g2-playwright-qualification.mjs",
   "scripts/phase-11g2-playwright-operations.mjs",
+  "scripts/phase-11g2-evidence-preservation.mjs",
   "lib/performance/qualification.ts",
   "app/[locale]/(app)/foods/page.tsx",
   "performance/fixture-manifest.json",
@@ -1406,11 +1437,16 @@ writeFileSync(
   ),
 );
 
+const rawEvidence = writeAndVerifyEvidenceManifest(outputDirectory);
+
 process.stdout.write(
   `${JSON.stringify({
     cardinalityPassed,
+    evidenceDirectory: outputDirectory,
     groupCount: groups.length,
     passed: report.passed,
+    rawEvidenceComplete: true,
+    rawEvidenceManifestSha256: rawEvidence.manifestSha256,
     sampleCount: validatedSamples.length,
   })}\n`,
 );

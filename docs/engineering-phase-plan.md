@@ -587,13 +587,35 @@ counterbalanced ordering, and machine-checked privacy-safe evidence. Correction
 02 proves the historical sign-in spike does not repeat on a freshly prepared
 host, isolates search c10 to native full-document reloads, adopts progressive
 Next form navigation, and resolves the proxy's downstream-cancellation idle
-leak with fail-closed active-stream diagnostics. Repeated targeted search and
-mixed-export groups pass, but four complete focused attempts remain adverse or
-objectively host-contended; the latest has four threshold failures and one
-correlated-boundary event. Correction 03 verified the exact unchanged
-candidate but stopped at the controlled-host gate because substantial unrelated
-load remained and Docker was unavailable; no unrelated process was terminated,
-and no preflight or matrix began. The full final corpus remains gated.
+leak with fail-closed active-stream diagnostics. Correction 03's resume ran on
+healthy Docker and fresh local Supabase, corrected a one-tick stable-UI/response
+correlation race without changing the ten-second operation boundary, and used
+complete diagnostic evidence to bound activation, recipe/barcode navigation,
+and localized account-closed-page corrections. A later security regression
+restored the required password sign-in on the existing Auth client; all nine
+invitation tests, the 44-sample activation matrix, and both current 132-sample
+preflights pass. The earlier clean matrices are now historical because they
+preceded that behavior correction. A fresh 396-sample matrix-1 attempt was
+non-credited when substantial unrelated CPU and memory/swap pressure returned;
+matrix 2 and the corrected authoritative corpus did not start. No unrelated
+process was terminated. The final corpus remains gated at
+`PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT` and no final PERF credit is
+authorized.
+Resume-02 subsequently passed 16 harness tests, 34 focused browser tests, and a
+fresh 132/12 preflight. The second freshly reset 132/12 run was rejected in
+full after CPU idle fell to 14.48%, swap-outs increased by 12,228, compressed
+memory reached about 7,831 MiB, and unrelated system/media-analysis activity
+appeared. Its raw evidence was also lost in a documented copy/restoration
+incident. Matrix 1 did not start, and the implementation commit, final corpus,
+push, and CI remain gated.
+Resume-03 preserved and checksum-verified the complete dirty candidate outside
+the repository, then added guarded unique evidence destinations and a required
+25-file checksum manifest without changing measurement semantics. Focused
+correctness passed 34/34 and the new evidence/harness checks passed 23/23. A
+fresh 132/12 preflight produced a clean, complete report but was non-credited
+after swap-outs rose by 16,216, CPU idle fell to 27.28%, and repeated unrelated
+browser/editor CPU bursts appeared. The second preflight and both matrices did
+not start; `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT` remains in force.
 Provider/deployed evidence remains Phase 11H/11J work. All 18 findings remain
 `OPEN`, Phase 11G and Phase 11 remain `INCOMPLETE`, and Phase 11K remains the
 sole formal finding-closure gate. This does not authorize hosted Auth or secret
