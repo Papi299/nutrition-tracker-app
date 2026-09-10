@@ -3261,10 +3261,9 @@
   measured commit exists, has the reported tree, and is a strict ancestor of a
   clean current evidence-container commit.
 - The ancestor path hashes the measured commit's tracked source blobs through
-  Git rather than the later working tree. It accepts only normal non-executable
-  canonical focused-evidence files and the two G2 status documents between the
-  measured commit and current `HEAD`; product, harness, test, fixture,
-  dependency/configuration, SQL, migration, RLS, or mixed changes fail closed.
+  Git rather than the later working tree. Its initial path boundary targeted
+  focused diagnostic evidence; the final-path correction below supersedes that
+  root without weakening the Git, source, file-mode, or mixed-diff protections.
 - The legacy historical non-passing path remains separate, explicit,
   fixed-digest, and unable to validate passing evidence. Existing adverse and
   non-credited evidence was not rewritten, and no performance workload ran.
@@ -3274,3 +3273,25 @@
   Product and database behavior remain unchanged; all 18 findings remain
   `OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`; PR #120 remains Draft and
   unmerged.
+
+## 2026-09-10: Correction 03 aligns ancestor provenance with final normative evidence
+
+- Confirmed that `performance/evidence/focused-normative/` is the canonical
+  396-sample focused diagnostic root, while the non-focused 3,348-sample,
+  108-group final local qualification writes to
+  `performance/evidence/normative/`.
+- Restricted measured-implementation-ancestor mode to passing reports whose
+  evidence type is exactly
+  `phase-11g2-normative-local-performance-capacity-qualification`. A passing
+  focused diagnostic cannot enter that finalization path.
+- Narrowed the post-measurement diff boundary to the six named final JSON
+  artifacts, the exact desktop/mobile `ctx01` through `ctx10` traces under the
+  normative root, and the two approved G2 status documents. Focused, temporary,
+  broad, executable, symlink, deletion, product, harness, configuration,
+  package, fixture, migration, and mixed changes fail closed.
+- Preserved same-commit validation before evidence is committed and kept the
+  historical non-passing focused package confined to its explicit fixed-digest
+  legacy mode. No evidence was rewritten and no performance workload ran.
+- Product and database behavior remain unchanged; all 18 findings and
+  `P11A-012` through `P11A-014` remain `OPEN`; Phase 11G and Phase 11 remain
+  `INCOMPLETE`; PR #120 remains Draft and unmerged.

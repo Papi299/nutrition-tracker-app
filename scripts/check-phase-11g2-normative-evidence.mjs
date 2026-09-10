@@ -18,6 +18,7 @@ import {
   phase11g2SourceIdentitySha256AtGitCommit,
 } from "./phase-11g2-evidence-contract.mjs";
 import {
+  PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
   parseGitObjectSha,
   readGitProvenance,
   validateMeasuredImplementationAncestor,
@@ -125,6 +126,11 @@ export function validateEvidenceProvenance({
       true,
       "Measured-implementation-ancestor mode is allowed only for passing evidence.",
     );
+    assert.equal(
+      report.evidenceType,
+      PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
+      "Measured-implementation-ancestor mode is allowed only for final normative qualification evidence.",
+    );
     for (const field of ["commitSha", "treeSha"]) {
       assert.equal(
         runtimeRepository[field],
@@ -135,6 +141,7 @@ export function validateEvidenceProvenance({
 
     const proof = validateMeasuredImplementationAncestor({
       cwd: measuredImplementationAncestor.cwd,
+      evidenceType: report.evidenceType,
       measuredCommitSha: reportRepository.commitSha,
       measuredTreeSha: reportRepository.treeSha,
     });
@@ -272,7 +279,7 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
   const focused = report.evidenceType === "phase-11g2-focused-normative-diagnostic";
   assert(
     focused ||
-      report.evidenceType === "phase-11g2-normative-local-performance-capacity-qualification",
+      report.evidenceType === PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
     "Unknown normative evidence type.",
   );
   const expectedGroupCount = expectations.groupCount ?? (focused ? 36 : 108);

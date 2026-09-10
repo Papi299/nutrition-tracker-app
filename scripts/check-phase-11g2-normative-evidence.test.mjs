@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { chmodSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -13,7 +20,10 @@ import {
   phase11g2SourceIdentitySha256,
   phase11g2SourceIdentitySha256AtGitCommit,
 } from "./phase-11g2-evidence-contract.mjs";
-import { readGitProvenance } from "./phase-11g2-git-provenance.mjs";
+import {
+  PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
+  readGitProvenance,
+} from "./phase-11g2-git-provenance.mjs";
 import {
   assertPrivacySafeText,
   validateCurrentMeasurementMetadata,
@@ -26,6 +36,8 @@ const currentRepository = Object.freeze({
   treeSha: "b".repeat(40),
 });
 const currentSourceIdentitySha256 = "c".repeat(64);
+const focusedDiagnosticEvidenceType =
+  "phase-11g2-focused-normative-diagnostic";
 
 function git(cwd, args) {
   return execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
@@ -69,6 +81,7 @@ function measuredAncestorEvidence(fixture, passed = true) {
   const repository = { ...fixture.measuredRepository };
   return {
     report: {
+      evidenceType: PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
       passed,
       repository: { ...repository },
       sourceIdentitySha256: fixture.measuredSourceIdentitySha256,
@@ -85,18 +98,31 @@ function validateMeasuredAncestor(fixture, evidence = measuredAncestorEvidence(f
   });
 }
 
-function commitEvidenceOnlyDescendant(fixture) {
+function commitEvidenceOnlyDescendant(
+  fixture,
+  filePath = "performance/evidence/normative/normative-performance-report.json",
+) {
   writeRepositoryFile(
     fixture.directory,
-    "performance/evidence/focused-normative/normative-performance-report.json",
+    filePath,
     "{}\n",
   );
   return commitAll(fixture.directory, "commit evidence");
 }
 
+function recordMeasuredImplementation(fixture, message) {
+  fixture.measuredRepository = commitAll(fixture.directory, message);
+  fixture.measuredSourceIdentitySha256 =
+    phase11g2SourceIdentitySha256AtGitCommit({
+      commitSha: fixture.measuredRepository.commitSha,
+      cwd: fixture.directory,
+    });
+}
+
 function currentEvidence(passed = true) {
   return {
     report: {
+      evidenceType: PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE,
       passed,
       repository: { ...currentRepository },
       sourceIdentitySha256: currentSourceIdentitySha256,
@@ -181,7 +207,11 @@ test("rejects passing evidence with stale source, commit, or tree identity", () 
 
 test("accepts only explicitly identified historical non-passing evidence", () => {
   const historicalSource = "d".repeat(64);
-  const report = { passed: false, sourceIdentitySha256: historicalSource };
+  const report = {
+    evidenceType: focusedDiagnosticEvidenceType,
+    passed: false,
+    sourceIdentitySha256: historicalSource,
+  };
   assert.equal(
     validateEvidenceProvenance({
       currentRepository,
@@ -276,12 +306,35 @@ test("binds generated metadata to the joint outer normative duration", () => {
   );
 });
 
-test("accepts passing evidence measured at an exact implementation ancestor", (t) => {
+test("accepts passing final normative evidence measured at an exact implementation ancestor", (t) => {
   const fixture = createMeasuredRepository(t);
   commitEvidenceOnlyDescendant(fixture);
   assert.equal(
     validateMeasuredAncestor(fixture),
     "measured_implementation_ancestor",
+  );
+});
+
+test("rejects passing focused diagnostic evidence in measured-ancestor mode", (t) => {
+  const fixture = createMeasuredRepository(t);
+  commitEvidenceOnlyDescendant(fixture);
+  const evidence = measuredAncestorEvidence(fixture);
+  evidence.report.evidenceType = focusedDiagnosticEvidenceType;
+  assert.throws(
+    () => validateMeasuredAncestor(fixture, evidence),
+    /only for final normative qualification evidence/,
+  );
+});
+
+test("does not admit focused diagnostic paths as a final passing descendant package", (t) => {
+  const fixture = createMeasuredRepository(t);
+  commitEvidenceOnlyDescendant(
+    fixture,
+    "performance/evidence/focused-normative/normative-performance-report.json",
+  );
+  assert.throws(
+    () => validateMeasuredAncestor(fixture),
+    /focused-normative\/normative-performance-report\.json/,
   );
 });
 
@@ -434,10 +487,25 @@ test("historical non-passing evidence does not automatically enter ancestor mode
       validateEvidenceProvenance({
         currentRepository,
         currentSourceIdentitySha256,
-        report: { passed: false, sourceIdentitySha256: historicalSource },
+        report: {
+          evidenceType: focusedDiagnosticEvidenceType,
+          passed: false,
+          sourceIdentitySha256: historicalSource,
+        },
         runtimeManifest: {},
       }),
     /Report repository is required/,
+  );
+});
+
+test("historical non-passing focused evidence is rejected by ancestor mode", (t) => {
+  const fixture = createMeasuredRepository(t);
+  commitEvidenceOnlyDescendant(fixture);
+  const evidence = measuredAncestorEvidence(fixture, false);
+  evidence.report.evidenceType = focusedDiagnosticEvidenceType;
+  assert.throws(
+    () => validateMeasuredAncestor(fixture, evidence),
+    /only for passing evidence/,
   );
 });
 
@@ -485,7 +553,7 @@ test("rejects a mixed allowed and forbidden descendant diff", (t) => {
   const fixture = createMeasuredRepository(t);
   writeRepositoryFile(
     fixture.directory,
-    "performance/evidence/focused-normative/runtime-manifest.json",
+    "performance/evidence/normative/runtime-manifest.json",
     "{}\n",
   );
   writeRepositoryFile(fixture.directory, "next.config.ts", "export default {};\n");
@@ -499,12 +567,55 @@ test("rejects a mixed allowed and forbidden descendant diff", (t) => {
 test("rejects executable content even at an allowed evidence path", (t) => {
   const fixture = createMeasuredRepository(t);
   const evidencePath =
-    "performance/evidence/focused-normative/runtime-manifest.json";
+    "performance/evidence/normative/runtime-manifest.json";
   writeRepositoryFile(fixture.directory, evidencePath, "{}\n");
   chmodSync(path.join(fixture.directory, evidencePath), 0o755);
   commitAll(fixture.directory, "executable evidence");
   assert.throws(
     () => validateMeasuredAncestor(fixture),
     /normal non-executable tracked file/,
+  );
+});
+
+test("rejects a symlink at an allowed final evidence path", (t) => {
+  const fixture = createMeasuredRepository(t);
+  const evidencePath =
+    "performance/evidence/normative/runtime-manifest.json";
+  mkdirSync(path.dirname(path.join(fixture.directory, evidencePath)), {
+    recursive: true,
+  });
+  symlinkSync("missing-target", path.join(fixture.directory, evidencePath));
+  commitAll(fixture.directory, "symlink evidence");
+  assert.throws(
+    () => validateMeasuredAncestor(fixture),
+    /normal non-executable tracked file/,
+  );
+});
+
+test("rejects deletion of an allowed final evidence path", (t) => {
+  const fixture = createMeasuredRepository(t);
+  const evidencePath =
+    "performance/evidence/normative/runtime-manifest.json";
+  writeRepositoryFile(fixture.directory, evidencePath, "{}\n");
+  recordMeasuredImplementation(fixture, "measured implementation with evidence");
+  rmSync(path.join(fixture.directory, evidencePath));
+  commitAll(fixture.directory, "delete evidence");
+  assert.throws(
+    () => validateMeasuredAncestor(fixture),
+    /normal non-executable tracked file/,
+  );
+});
+
+test("rejects a dirty tracked evidence-container worktree", (t) => {
+  const fixture = createMeasuredRepository(t);
+  commitEvidenceOnlyDescendant(fixture);
+  writeRepositoryFile(
+    fixture.directory,
+    "performance/evidence/normative/normative-performance-report.json",
+    "{\"dirty\":true}\n",
+  );
+  assert.throws(
+    () => validateMeasuredAncestor(fixture),
+    /clean tracked evidence-container worktree/,
   );
 });

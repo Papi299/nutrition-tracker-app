@@ -2,6 +2,9 @@ import { execFileSync, spawnSync } from "node:child_process";
 
 const gitObjectShaPattern = /^[0-9a-f]{40}$/;
 
+export const PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE =
+  "phase-11g2-normative-local-performance-capacity-qualification";
+
 const postMeasurementDocumentationPaths = new Set([
   "docs/decision-log.md",
   "docs/phase-11g2-performance-capacity-qualification.md",
@@ -14,7 +17,7 @@ const postMeasurementEvidenceFiles = new Set([
   "raw-evidence-manifest.json",
   "runtime-manifest.json",
 ]);
-const postMeasurementEvidenceRoot = "performance/evidence/focused-normative/";
+const postMeasurementEvidenceRoot = "performance/evidence/normative/";
 const postMeasurementTracePattern =
   /^traces\/trace_(?:desktop|mobile)_ctx(?:0[1-9]|10)\.zip$/;
 
@@ -47,7 +50,8 @@ function gitNullSeparated(args, cwd) {
     .filter(Boolean);
 }
 
-export function isAllowedPhase11g2PostMeasurementPath(filePath) {
+export function isAllowedPhase11g2PostMeasurementPath(filePath, evidenceType) {
+  if (evidenceType !== PHASE11G2_FINAL_NORMATIVE_EVIDENCE_TYPE) return false;
   if (postMeasurementDocumentationPaths.has(filePath)) return true;
   if (!filePath.startsWith(postMeasurementEvidenceRoot)) return false;
 
@@ -88,6 +92,7 @@ export function readGitProvenance({
 
 export function validateMeasuredImplementationAncestor({
   cwd = process.cwd(),
+  evidenceType,
   measuredCommitSha,
   measuredTreeSha,
 } = {}) {
@@ -166,7 +171,8 @@ export function validateMeasuredImplementationAncestor({
   }
 
   const forbiddenPaths = changedPaths.filter(
-    (filePath) => !isAllowedPhase11g2PostMeasurementPath(filePath),
+    (filePath) =>
+      !isAllowedPhase11g2PostMeasurementPath(filePath, evidenceType),
   );
   if (forbiddenPaths.length > 0) {
     throw new Error(

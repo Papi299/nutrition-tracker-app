@@ -948,15 +948,18 @@ measured, not claim that the self-referentially impossible evidence commit was
 measured.
 
 Default validation remains the strongest same-commit path. Immediately after
-a run and before evidence is committed, report and runtime-manifest provenance
-must equal the validator checkout's exact `HEAD` and `HEAD^{tree}`, and the
-source-set digest must equal the current source files. There is no automatic
-fallback. After evidence is committed, passing evidence requires the explicit
-`--measured-implementation-ancestor` mode. That mode is valid only when report
-and runtime manifest agree on a clean-at-start measured commit/tree, Git proves
-that object exists and its exact full tree matches, and
-`git merge-base --is-ancestor` proves it is a strict ancestor of the current
-clean evidence-container `HEAD`.
+the final non-focused run and before evidence is committed, report and
+runtime-manifest provenance must equal the validator checkout's exact `HEAD`
+and `HEAD^{tree}`, and the source-set digest must equal the current source
+files. There is no automatic fallback. After final evidence is committed,
+passing evidence requires the explicit `--measured-implementation-ancestor`
+mode. That mode accepts only
+`phase-11g2-normative-local-performance-capacity-qualification`; a passing
+`phase-11g2-focused-normative-diagnostic` report is still only a prerequisite
+diagnostic and is rejected. Report and runtime manifest must agree on a
+clean-at-start measured commit/tree, Git must prove that object exists and its
+exact full tree matches, and `git merge-base --is-ancestor` must prove it is a
+strict ancestor of the current clean evidence-container `HEAD`.
 
 Ancestor-mode source identity is recalculated from each
 `PHASE11G2_SOURCE_PATHS` blob at the measured commit with `git show`; it is
@@ -967,12 +970,18 @@ non-executable blobs in this exact post-measurement boundary:
 - `docs/decision-log.md`;
 - `docs/phase-11g2-performance-capacity-qualification.md`;
 - the six named JSON outputs directly under
-  `performance/evidence/focused-normative/`; and
+  `performance/evidence/normative/`; and
 - the exact ten desktop and ten mobile `ctx01` through `ctx10` trace archives.
 
-No broad documentation or evidence directory is admitted. `README.md`, other
-evidence roots, product code, components, libraries, scripts, tests, fixtures,
-dependencies, package or workflow configuration, SQL, migrations, RLS, and
+`performance/evidence/focused-normative/` remains the canonical 396-sample
+focused diagnostic root. It is not final qualification evidence and is not
+admitted by the passing ancestor lifecycle. The canonical final local
+qualification root is `performance/evidence/normative/`, produced by the
+non-focused 3,348-sample run with 108 groups and at least 30 warm samples per
+required group. No broad documentation or evidence directory is admitted.
+`README.md`, other evidence roots (including Correction-03 temporary roots),
+product code, components, libraries, scripts, tests, fixtures, dependencies,
+package or workflow configuration, SQL, migrations, RLS, and
 measurement-contract changes are categorically outside the boundary. A mixed
 diff, missing object, sibling history, wrong tree, wrong digest, deletion,
 symlink, executable mode, or any other tree-entry type fails closed. The full
@@ -980,9 +989,17 @@ measured tree remains the ordinary immutable Git tree; no synthetic tree that
 excludes evidence is created.
 
 `legacyHistoricalNonPassing` remains a distinct explicit compatibility path
-for the retained adverse package. It still requires the fixed historical
-source digest and `report.passed === false`, cannot accept passing evidence,
-and cannot select ancestor mode. The existing package is not rewritten.
+for the retained adverse focused diagnostic package. It still requires the
+fixed historical source digest and `report.passed === false`, cannot accept
+passing evidence, and cannot select ancestor mode. The existing package under
+`performance/evidence/focused-normative/` is not rewritten.
+
+The complete controlled lifecycle is: two credited preflights, focused matrix
+1, focused matrix 2, the final non-focused 3,348-sample corpus, same-commit
+validation, an evidence-only descendant commit under
+`performance/evidence/normative/`, explicit measured-implementation-ancestor
+validation, exact-head CI, and independent review. The focused matrices do not
+replace the final corpus at any point in that sequence.
 
 The later controlled qualification must use a dedicated clean worktree at the
 exact candidate SHA. Before its first qualifying run, record exact `HEAD` and
