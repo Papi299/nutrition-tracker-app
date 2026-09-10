@@ -57,6 +57,16 @@ function sourceIdentity() {
   return hasher.digest("hex");
 }
 
+export function parseExpectedSourceIdentitySha256(value) {
+  if (value === undefined) return undefined;
+  if (!/^[0-9a-f]{64}$/.test(value)) {
+    throw new TypeError(
+      "The expected evidence source identity must be a lowercase SHA-256 digest.",
+    );
+  }
+  return value;
+}
+
 function groupKey(value) {
   return `${value.metricId}/${value.operationId}/${value.profile}/c${value.concurrency}`;
 }
@@ -145,7 +155,17 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
   assert.equal(samples.length, expectedSampleCount);
   assert.equal(traceMap.length, expectedSampleCount);
   assert.equal(boundaries.length, expectedOperationCount);
-  assert.equal(report.sourceIdentitySha256, sourceIdentity());
+  const currentSourceIdentitySha256 = sourceIdentity();
+  const expectedSourceIdentitySha256 =
+    expectations.sourceIdentitySha256 ?? currentSourceIdentitySha256;
+  if (expectedSourceIdentitySha256 !== currentSourceIdentitySha256) {
+    assert.equal(
+      report.passed,
+      false,
+      "A historical source identity is allowed only for non-passing diagnostic evidence.",
+    );
+  }
+  assert.equal(report.sourceIdentitySha256, expectedSourceIdentitySha256);
   assert.deepEqual(report.fixtureCardinalities, report.observedFixtureCardinalities);
 
   const validated = samples.map(validateNormativePerformanceSample);
@@ -205,12 +225,31 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
     groupCount: report.groupCount,
     passed: report.passed,
     sampleCount: report.sampleCount,
+    sourceIdentity:
+      expectedSourceIdentitySha256 === currentSourceIdentitySha256
+        ? "current"
+        : "explicit_historical_nonpassing",
   };
 }
 
 async function main() {
+  const expectedSourceIdentityPrefix = "--expected-source-identity-sha256=";
+  const expectedSourceIdentityArguments = process.argv
+    .slice(2)
+    .filter((argument) => argument.startsWith(expectedSourceIdentityPrefix));
+  assert(
+    expectedSourceIdentityArguments.length <= 1,
+    "Only one expected source identity may be provided.",
+  );
+  const evidenceDirectoryArguments = process.argv
+    .slice(2)
+    .filter((argument) => !argument.startsWith(expectedSourceIdentityPrefix));
+  assert(
+    evidenceDirectoryArguments.length <= 1,
+    "Only one evidence directory may be provided.",
+  );
   const evidenceDirectory = path.resolve(
-    process.argv[2] ?? "performance/evidence/focused-normative",
+    evidenceDirectoryArguments[0] ?? "performance/evidence/focused-normative",
   );
   if (!existsSync(evidenceDirectory)) {
     throw new Error(`Evidence directory does not exist: ${evidenceDirectory}`);
@@ -230,6 +269,9 @@ async function main() {
         groupCount: numberFromEnvironment("PHASE11G2_EXPECTED_GROUP_COUNT"),
         operationCount: numberFromEnvironment("PHASE11G2_EXPECTED_OPERATION_COUNT"),
         sampleCount: numberFromEnvironment("PHASE11G2_EXPECTED_SAMPLE_COUNT"),
+        sourceIdentitySha256: parseExpectedSourceIdentitySha256(
+          expectedSourceIdentityArguments[0]?.slice(expectedSourceIdentityPrefix.length),
+        ),
         warmSamples: numberFromEnvironment("PHASE11G2_EXPECTED_WARM_SAMPLES"),
       }),
     )}\n`,
