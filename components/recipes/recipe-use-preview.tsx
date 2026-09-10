@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Form from "next/form";
 import { useTranslations } from "next-intl";
 import {
   RecipeUseConfirmation,
@@ -126,7 +127,7 @@ export function RecipeUseContextForm({
   const t = useTranslations("RecipeUse.form");
   const diaryT = useTranslations("Diary");
   return (
-    <form action={action} className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6" method="get">
+    <Form action={action} className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
       <div>
         <h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">{t("help")}</p>
@@ -153,7 +154,7 @@ export function RecipeUseContextForm({
       <button className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white" type="submit">
         {t("submit")}
       </button>
-    </form>
+    </Form>
   );
 }
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Form from "next/form";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -126,10 +127,9 @@ function LocalizedFoodsPage({
         />
       )}
 
-      <form
+      <Form
         action={`/${locale}/foods`}
         className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-        method="get"
         role="search"
       >
         {selectedDate && <input name="date" type="hidden" value={selectedDate} />}
@@ -157,7 +157,7 @@ function LocalizedFoodsPage({
             {t("form.submit")}
           </button>
         </div>
-      </form>
+      </Form>
 
       {state.status === "initial" && (
         <SearchState

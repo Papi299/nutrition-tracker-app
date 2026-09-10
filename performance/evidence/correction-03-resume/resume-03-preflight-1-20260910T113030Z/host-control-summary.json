@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-privacy-safe-host-control-summary",
+  "stage": "resume-03-preflight-1",
+  "recordedAt": "2026-09-10T11:34:33Z",
+  "preRun": {
+    "observationCount": 8,
+    "cpuIdlePercentRange": [65.27, 73.84],
+    "memoryFreePercentRange": [36, 39],
+    "approximateCompressorMemoryMiBRange": [7121, 7516],
+    "swapOutCountInitial": 3434727,
+    "swapOutCountFinal": 3434727,
+    "swapOutCountDelta": 0,
+    "loadAverageOneMinuteRange": [5.4, 6.46],
+    "unrelatedBursts": "intermittent_not_sustained",
+    "stageStartAuthorized": true
+  },
+  "inRun": {
+    "observationCount": 16,
+    "cpuIdlePercentRange": [27.28, 76.65],
+    "memoryFreePercentRange": [33, 42],
+    "approximateCompressorMemoryMiBRange": [6533, 7965],
+    "swapOutCountInitial": 3434727,
+    "swapOutCountFinal": 3450943,
+    "swapOutCountDelta": 16216,
+    "substantialUnrelatedActivity": [
+      "repeated browser-renderer CPU bursts",
+      "repeated editor-renderer CPU bursts"
+    ],
+    "taskOwnedActivityAlsoObserved": [
+      "Docker virtual machine",
+      "Next server",
+      "Playwright Chromium",
+      "qualification runner"
+    ],
+    "privateUserContentRecorded": false,
+    "unrelatedProcessTerminated": false,
+    "materialContamination": true
+  },
+  "qualificationReport": {
+    "sampleCount": 132,
+    "groupCount": 12,
+    "runnerPassed": true,
+    "thresholdFailureCount": 0,
+    "reliabilityEventCount": 0,
+    "integrityFailureCount": 0,
+    "isolationFailureCount": 0,
+    "maximumP95Ms": {
+      "PERF-001": 610.397,
+      "PERF-002": 348.527,
+      "PERF-003": 350.526,
+      "PERF-006": 461.636
+    },
+    "rawEvidenceArtifactCount": 25,
+    "rawEvidenceManifestSha256": "6aee29accd186ff2b0561ec71c2f173f10b6f993db3453dd378dcf527cd5b479",
+    "evidenceCompletenessAndPrivacyValidationPassed": true,
+    "credited": false,
+    "disposition": "noncredited_host_contamination"
+  }
+}

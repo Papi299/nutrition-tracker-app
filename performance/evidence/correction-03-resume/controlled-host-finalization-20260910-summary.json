@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-correction-03-resume-02-controlled-host-finalization-summary",
+  "recordedAt": "2026-09-10T07:04:52Z",
+  "status": "PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT",
+  "startingCandidate": {
+    "head": "c2454a023d702d6a10d34af1e0ba8873e92c6499",
+    "tree": "bd6ed8b02a1b519ed8cb1e00fafcefae5868cdef",
+    "parent": "6dc8399e03be1484684d714e3984a29346350ee3",
+    "acceptedMain": "2d35278f68d33397b9a75eba37dc83ee5a307d9d"
+  },
+  "pullRequestAtStart": {
+    "number": 120,
+    "state": "OPEN",
+    "isDraft": true,
+    "merged": false,
+    "autoMergeEnabled": false,
+    "head": "c2454a023d702d6a10d34af1e0ba8873e92c6499"
+  },
+  "previousExactHeadCi": {
+    "runId": 33543238775,
+    "runNumber": 226,
+    "attempt": 1,
+    "head": "c2454a023d702d6a10d34af1e0ba8873e92c6499",
+    "conclusion": "SUCCESS",
+    "qualifiesUncommittedCorrections": false
+  },
+  "initialWorktree": {
+    "stagedChangeCount": 0,
+    "unrelatedUserChangesFound": false,
+    "taskOwnedAreas": [
+      "README.md",
+      "app/[locale]/auth/account-closed/page.tsx",
+      "app/[locale]/auth/activate/actions.ts",
+      "components/barcodes/barcode-lookup-form.tsx",
+      "components/recipes/recipe-use-preview.tsx",
+      "docs/decision-log.md",
+      "docs/engineering-phase-plan.md",
+      "docs/phase-11g2-performance-capacity-qualification.md",
+      "performance/evidence/correction-03-resume/",
+      "performance/evidence/focused-normative/",
+      "scripts/phase-11g2-playwright-operations.mjs",
+      "scripts/run-phase-11g2-playwright-qualification.mjs"
+    ],
+    "preserved": true
+  },
+  "correctionAudit": {
+    "jointStableUiAndResponseCorrelationWithinTenSecondDeadline": true,
+    "incompleteCorrelatedStreamStillFails": true,
+    "privacySafeEvidenceOnly": true,
+    "activationReplacementPasswordWithinProviderLimit": true,
+    "activationUsesOneClientForRequiredPasswordSignInAndOtherSessionRevocation": true,
+    "recipeAndBarcodeGetNavigationUsesNextForm": true,
+    "recipeAndBarcodeNoJavaScriptGetFallbackPreserved": true,
+    "genericLocalizedAccountClosedPageStaticallyGenerated": true,
+    "englishHebrewAndDirectionalityPreserved": true,
+    "thresholdsChanged": false,
+    "concurrencyChanged": false,
+    "stableUiDefinitionsChanged": false,
+    "databaseOrQueryBehaviorChanged": false,
+    "speculativeOptimizationAdded": false
+  },
+  "environment": {
+    "dockerVersion": "29.7.2",
+    "dockerCpuCount": 10,
+    "dockerMemoryBytesApproximate": 8319504384,
+    "dockerHealthAtQualification": "healthy",
+    "supabaseCliVersion": "2.116.0",
+    "postgresqlVersion": "17.6",
+    "supabaseMode": "local_only",
+    "hostedSupabaseUsed": false
+  },
+  "fixture": {
+    "freshResetBeforePreflight1": true,
+    "freshResetBeforePreflight2": true,
+    "approvedConcurrency": 10,
+    "identities": 100,
+    "foods": 1480,
+    "recipes": 450,
+    "profiles": 90,
+    "savedMeals": 450,
+    "foodAliases": 2960,
+    "diaryEntries": 3802,
+    "foodBarcodes": 110,
+    "foodFavorites": 900,
+    "foodNutrients": 5920,
+    "savedMealItems": 1350,
+    "nutritionTargets": 270,
+    "recipeDiaryRuns": 90,
+    "recipeIngredients": 1800,
+    "accountActivations": 90,
+    "savedMealDiaryRuns": 90,
+    "manualDiaryEntryRequests": 90,
+    "customFoodCreationRequests": 90,
+    "cardinalityPassed": true
+  },
+  "regressionValidation": {
+    "performanceHarness": {
+      "passed": 16,
+      "failed": 0
+    },
+    "focusedPlaywright": {
+      "passed": 34,
+      "failed": 0,
+      "accountClosureAndBarcode": 16,
+      "activationAndRecipe": 18
+    },
+    "lint": "passed",
+    "typecheck": "passed",
+    "diffCheckIncludingFinalDocumentation": "passed",
+    "expectationCorrections": [
+      "Account-closed regression now expects the intentional static s-maxage response.",
+      "Barcode same-destination client navigation regression now expects Next Form history deduplication while verifying preserved GET parameters and forward navigation."
+    ]
+  },
+  "controlledPreflight1": {
+    "sampleCount": 132,
+    "groupCount": 12,
+    "thresholdFailureCount": 0,
+    "reliabilityEventCount": 0,
+    "integrityFailureCount": 0,
+    "tenantIsolationFailureCount": 0,
+    "overlapPassed": true,
+    "maximumMetricP95Ms": {
+      "PERF-001": 542.184,
+      "PERF-002": 386.66,
+      "PERF-003": 279.914,
+      "PERF-006": 373.512
+    },
+    "passed": true,
+    "credited": true,
+    "evidencePath": "performance/evidence/correction-03-resume/controlled-preflight-1-finalization-20260910"
+  },
+  "controlledPreflight2": {
+    "sampleCount": 132,
+    "groupCount": 12,
+    "runnerReportedCardinalityPassed": true,
+    "runnerReportedPassed": true,
+    "observedSampleFailures": 0,
+    "hostCpuIdlePercentRangeDuringRun": [
+      14.48,
+      56.33
+    ],
+    "hostSwapOutCountInitial": 2864279,
+    "hostSwapOutCountFinal": 2876507,
+    "hostSwapOutCountDelta": 12228,
+    "approximatePeakCompressorMemoryMiB": 7831,
+    "substantialUnrelatedCpuActivityObserved": true,
+    "notablePrivacySafeProcessClasses": [
+      "media analysis service",
+      "system activity service"
+    ],
+    "privateUserActivityRecorded": false,
+    "unrelatedProcessTerminated": false,
+    "credited": false,
+    "disposition": "noncredited_host_contamination",
+    "rawEvidencePreserved": false,
+    "preservationError": "A malformed copy check caused the just-produced raw preflight directory to be overwritten during canonical-evidence restoration. The complete runner output remains in the task transcript, but no raw report, samples, runtime manifest, boundary file, or trace set from this preflight remains available. The directory named preservation-error-preflight-2-copied-matrix-snapshot-20260910 is explicitly retained as a mislabeled-copy incident artifact and contains the restored September 10 non-credited matrix snapshot, not preflight 2."
+  },
+  "controlledHostDisposition": {
+    "preflight1StartedOnReasonablyStableHost": true,
+    "preflight2StartedAfterASecondFreshResetAndConfirmationWindow": true,
+    "contaminationStartedDuringPreflight2": true,
+    "wholePreflight2Rejected": true,
+    "individualSamplesCherryPicked": false,
+    "nextStageStarted": false
+  },
+  "remainingQualificationStages": {
+    "focusedMatrix1": "not_run_preflight2_not_credited",
+    "focusedMatrix2": "not_run",
+    "implementationCandidateCommit": "not_created",
+    "fullCorpus3348Samples108Groups": "not_run",
+    "completeRepositoryGate": "not_run",
+    "newExactHeadCi": "not_run",
+    "prBodyUpdate": "not_required_existing_pr_remains_blocked_and_draft",
+    "push": "not_run",
+    "merge": "not_run"
+  },
+  "cleanup": {
+    "localSupabaseFinalState": "stopped_without_backup",
+    "repositorySupabaseContainerCountAfterStop": 0,
+    "taskOwnedRuntimeSecretDirectoryRemoved": true
+  },
+  "performanceDisposition": {
+    "PERF-001": "pending_no_final_credit",
+    "PERF-002": "pending_no_final_credit",
+    "PERF-003": "pending_no_final_credit",
+    "PERF-004": "pending_no_current_credited_matrix_or_final_corpus",
+    "PERF-005": "pending_no_current_credited_matrix_or_final_corpus",
+    "PERF-006": "pending_no_final_credit"
+  },
+  "database": {
+    "sqlChanged": false,
+    "migrationChanged": false,
+    "rpcChanged": false,
+    "rlsChanged": false,
+    "indexChanged": false,
+    "queryBehaviorChanged": false,
+    "db001Freshness": "retained_accepted_60_plan_corpus"
+  },
+  "governance": {
+    "P11A-012": "OPEN",
+    "P11A-013": "OPEN",
+    "P11A-014": "OPEN",
+    "all18Findings": "OPEN",
+    "phase11G": "INCOMPLETE",
+    "phase11": "INCOMPLETE",
+    "phase11HStarted": false,
+    "phase11JStarted": false,
+    "phase11KRemainsSoleFindingClosureGate": true
+  },
+  "recommendedNextTask": "On a genuinely quiescent controlled host, start again with a fresh local reset and exact fixture, then rerun the complete two-preflight/two-matrix gate before creating an implementation-candidate commit or running the final corpus."
+}

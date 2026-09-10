@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-correction-03-controlled-host-disposition",
+  "recordedAt": "2026-09-01T18:18:16Z",
+  "startingCandidate": {
+    "head": "6dc8399e03be1484684d714e3984a29346350ee3",
+    "tree": "704dddcc464e76ccff1151c8af82e015aabcd36b",
+    "parent": "a76430b3f721b6eb75ae436e7b324d05a0f85196",
+    "base": "2d35278f68d33397b9a75eba37dc83ee5a307d9d"
+  },
+  "pullRequest": {
+    "number": 120,
+    "state": "OPEN",
+    "draft": true,
+    "autoMergeEnabled": false,
+    "headMatchedStartingCandidate": true,
+    "exactHeadValidateRun": 33466587992,
+    "exactHeadValidateConclusion": "SUCCESS"
+  },
+  "environment": {
+    "os": {
+      "name": "macOS",
+      "version": "26.6.2",
+      "build": "25G83",
+      "kernelRelease": "25.6.0",
+      "architecture": "arm64"
+    },
+    "logicalCpuCount": 10,
+    "physicalCpuCount": 10,
+    "totalMemoryBytes": 17179869184,
+    "swapBytes": 0,
+    "nodeVersion": "v26.5.1",
+    "playwrightVersion": "1.61.1",
+    "installedChromiumVersion": "149.0.7827.55",
+    "supabaseCliVersion": "2.116.0",
+    "dockerLocalSupabaseHealth": "not_started_docker_daemon_unavailable",
+    "postgresqlVersion": "not_queried_local_stack_not_started"
+  },
+  "taskOwnedCleanup": {
+    "qualificationPortListenerCount": 0,
+    "staleNextApplicationProcessCount": 0,
+    "staleQualificationProxyProcessCount": 0,
+    "stalePlaywrightChromiumProcessCount": 0,
+    "staleRepositorySupabaseContainerCount": 0,
+    "actionsPerformed": []
+  },
+  "privacySafeHostObservations": {
+    "initialLoadAverage": [
+      31.81,
+      52.33,
+      28.08
+    ],
+    "confirmationLoadAverage": [
+      14.07,
+      43.95,
+      26.48
+    ],
+    "cpuSamples": [
+      {
+        "observedAt": "2026-09-01T18:17:27Z",
+        "userPercent": 5.88,
+        "systemPercent": 11.33,
+        "idlePercent": 82.78
+      },
+      {
+        "observedAt": "2026-09-01T18:17:30Z",
+        "userPercent": 16.62,
+        "systemPercent": 6.94,
+        "idlePercent": 76.42
+      },
+      {
+        "observedAt": "2026-09-01T18:17:33Z",
+        "userPercent": 3.26,
+        "systemPercent": 2.78,
+        "idlePercent": 93.95
+      }
+    ],
+    "memoryFreePercentRange": [
+      46,
+      51
+    ],
+    "approximateCompressorMemoryMiBRange": [
+      5685,
+      5739
+    ],
+    "swapInCount": 0,
+    "swapOutCount": 0,
+    "unrelatedCpuBursts": [
+      {
+        "category": "maintenance_utility",
+        "percent": 60.0
+      },
+      {
+        "category": "browser_renderer",
+        "percent": 39.7
+      }
+    ],
+    "privateUserActivityRecorded": false,
+    "substantialUnrelatedActivityRemained": true
+  },
+  "qualificationRuns": {
+    "controlledPreflight1": "not_run_host_gate_failed",
+    "controlledPreflight2": "not_run_host_gate_failed",
+    "completeFocusedMatrix1": "not_run_host_gate_failed",
+    "completeFocusedMatrix2": "not_run_host_gate_failed",
+    "finalCorpus": "not_authorized"
+  },
+  "changes": {
+    "applicationCodeChanged": false,
+    "performanceHarnessChanged": false,
+    "thresholdsChanged": false,
+    "fixtureChanged": false,
+    "databaseChanged": false,
+    "searchFixPreserved": true,
+    "exportProxyFixPreserved": true,
+    "db001Freshness": "retained"
+  },
+  "humanActionRequired": "Close or pause unrelated heavy workloads, ensure Docker Desktop is available, and resume Correction 03 from the same controlled-host gate.",
+  "status": "PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT"
+}

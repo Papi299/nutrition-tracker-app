@@ -409,20 +409,74 @@ is complete for the current MVP scope.
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
   escalation backup. The distinct primary/backup and all three canonical
   before-11G role rows are now `ASSIGNED_AND_APPROVED`; the approved Phase 11G
-  technical policies remain unchanged. Phase 11G1 now has a bounded Draft
-  candidate with localized App Router recovery, mutation-safe reload guidance,
+  technical policies remain unchanged. Phase 11G1 was independently accepted
+  and squash-merged through PR #119 as
+  `2d35278f68d33397b9a75eba37dc83ee5a307d9d`, tree
+  `b2e6da55eeb31d15bcc2f03e316e19638c435298`, with successful exact-main CI
+  run `33304466800`. It provides localized App Router recovery, mutation-safe reload guidance,
   a strict provider-neutral privacy-minimal event contract, opaque per-failure
   correlation, failure-isolated console/in-memory sinks, a truthful liveness
   endpoint, representative Auth/database/error instrumentation, a repository
   incident runbook, and deterministic local render/dependency/network recovery
   tests. No provider, alert delivery, telemetry persistence, deployment,
   Production action, remote Supabase action, or performance qualification is
-  credited. After independent acceptance and merge, the next bounded task is
-  `PHASE-11G2-PERFORMANCE-CAPACITY-QUALIFICATION-001`. `P11A-012`,
+  credited. Phase 11G2 now has an unmerged blocked Draft candidate with a
+  deterministic 100-identity fixture, strict privacy-safe timing/concurrency
+  contracts, 60 passing local DB-001 plans, and a bounded RLS initplan
+  optimization. Correction 01 establishes the normative Playwright action-to-
+  stable-UI boundary, real desktop/mobile contexts, correlated server timing,
+  real c10 overlap, deterministic counterbalancing, and 20 bounded sanitized
+  trace archives. Correction 02 replaces the food-search native GET reload
+  with the progressively enhanced Next form navigation after direct RPC,
+  concurrent HTML, no-JavaScript, and browser decomposition proved the database
+  and server render were not the c10 bottleneck. Repeated targeted search c1/c10
+  and mixed-export c10 runs pass with exact integrity and zero idle events. The
+  timing proxy now tracks privacy-safe active-stream state, accounts for early
+  downstream cancellation, still fails a genuinely stuck measured stream, and
+  recycles completed pages between groups without changing the accepted timing
+  boundary. Correction 03's resume used healthy Docker and fresh local Supabase,
+  reproduced a one-tick stable-UI/response-completion race, and retained the
+  ten-second fail-closed boundary while waiting for both signals. Bounded
+  controlled evidence then corrected an overlength activation diagnostic,
+  reused one Auth client for the required password sign-in, changed
+  recipe/barcode GET flows to progressively enhanced Next forms, and statically
+  generated the generic localized account-closed page. A September 8 security
+  regression restored password sign-in after all nine invitation tests proved
+  the activation RPC requires its password-authenticated session. The targeted
+  activation matrix passed 44/44, and an earlier pair of current-code
+  132-sample preflights passed with zero threshold, reliability, integrity,
+  isolation, or overlap failures.
+  The earlier clean matrices are historical because they preceded that behavior
+  correction. A September 10 matrix-1 repeat retained 396 successful,
+  integrity-valid samples but was non-credited after swap-outs increased by
+  87,552 and one recovery-completion group exceeded its threshold; a subsequent
+  window added 30,088 swap-outs while CPU idle fell to 40--45%. Matrix 2 and the
+  final corpus remain gated. No unrelated workload was terminated. Correction
+  03 receives no final PERF-001--PERF-006 acceptance credit and returns
+  `PHASE_11G2_CORRECTION_03_HOST_NOT_QUIESCENT`, not a readiness marker.
+  A Resume-02 finalization attempt then passed the focused correction suite and
+  a fresh 132/12 preflight. Its second fresh preflight was rejected in full
+  after an in-run 12,228 swap-out increase, CPU idle falling to 14.48%, and
+  unrelated system/media-analysis activity, even though the runner itself
+  reported 132/132. The raw second-preflight artifacts were also lost in a
+  documented copy/restoration incident, so they could not qualify in any case.
+  No new matrix, implementation commit, final corpus, push, CI run, or PR
+  update followed.
+  Resume-03 first created and checksum-verified an external snapshot of the
+  complete dirty candidate, then added unique evidence destinations and a
+  required 25-artifact SHA-256 manifest without changing measurement semantics.
+  The focused regression set passed 34/34, the harness passed 16/16, and the
+  evidence/privacy checks passed 7/7. A new preflight completed 132/132 and
+  12/12 with complete validated artifacts, but was non-credited after in-run
+  swap-outs rose by 16,216, CPU idle fell to 27.28%, and repeated unrelated
+  browser/editor CPU bursts appeared. The second preflight and both matrices
+  were withheld; the host-not-quiescent marker remains in force.
+  `P11A-012`,
   `P11A-013`, and `P11A-014` remain `OPEN`, as do all 18 findings. Phase 11G
   and Phase 11 remain incomplete, and Phase 11K remains the sole formal
   finding-closure gate. See the
-  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md)
+  [Phase 11G1 foundation record](docs/phase-11g1-reliability-observability-foundation.md),
+  [Phase 11G2 blocked qualification and correction record](docs/phase-11g2-performance-capacity-qualification.md),
   and [incident-response runbook](docs/incident-response-runbook.md).
   Hosted Auth behavior, hosted secrets, invitation-register operations, final
   native-Hebrew review, qualified legal/privacy review, backups, devices,
