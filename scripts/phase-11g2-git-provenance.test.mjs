@@ -4,7 +4,10 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { readGitProvenance } from "./phase-11g2-git-provenance.mjs";
+import {
+  isAllowedPhase11g2PostMeasurementPath,
+  readGitProvenance,
+} from "./phase-11g2-git-provenance.mjs";
 
 function git(cwd, args) {
   return execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
@@ -49,5 +52,33 @@ test("derives HEAD and its complete tree and distinguishes tracked dirt from unt
     );
   } finally {
     rmSync(directory, { force: true, recursive: true });
+  }
+});
+
+test("allows only exact final G2 evidence and status-document paths after measurement", () => {
+  for (const filePath of [
+    "docs/decision-log.md",
+    "docs/phase-11g2-performance-capacity-qualification.md",
+    "performance/evidence/focused-normative/normative-performance-report.json",
+    "performance/evidence/focused-normative/raw-evidence-manifest.json",
+    "performance/evidence/focused-normative/traces/trace_desktop_ctx01.zip",
+    "performance/evidence/focused-normative/traces/trace_mobile_ctx10.zip",
+  ]) {
+    assert.equal(isAllowedPhase11g2PostMeasurementPath(filePath), true, filePath);
+  }
+  for (const filePath of [
+    "README.md",
+    "app/page.tsx",
+    "components/example.tsx",
+    "lib/example.ts",
+    "scripts/check-phase-11g2-normative-evidence.mjs",
+    "supabase/migrations/20990101000000_forbidden.sql",
+    "package.json",
+    "performance/fixture.sql",
+    "performance/evidence/focused-normative/run.js",
+    "performance/evidence/correction-03-resume/new-report.json",
+    "performance/evidence/focused-normative/traces/trace_desktop_ctx11.zip",
+  ]) {
+    assert.equal(isAllowedPhase11g2PostMeasurementPath(filePath), false, filePath);
   }
 });

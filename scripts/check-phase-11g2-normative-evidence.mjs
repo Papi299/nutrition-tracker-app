@@ -15,10 +15,12 @@ import {
   NORMATIVE_TIMER_START,
   SERVER_TIMING_DIAGNOSTIC_BOUNDARY,
   phase11g2SourceIdentitySha256,
+  phase11g2SourceIdentitySha256AtGitCommit,
 } from "./phase-11g2-evidence-contract.mjs";
 import {
   parseGitObjectSha,
   readGitProvenance,
+  validateMeasuredImplementationAncestor,
 } from "./phase-11g2-git-provenance.mjs";
 
 const FORBIDDEN_TEXT = [
@@ -77,12 +79,13 @@ export function validateEvidenceProvenance({
   currentRepository,
   currentSourceIdentitySha256,
   legacyHistoricalNonPassing,
+  measuredImplementationAncestor,
   report,
   runtimeManifest,
 }) {
-  const currentSource = requireSourceIdentitySha256(
-    currentSourceIdentitySha256,
-    "Current source identity",
+  assert(
+    !(legacyHistoricalNonPassing && measuredImplementationAncestor),
+    "Legacy historical and measured-implementation-ancestor modes are mutually exclusive.",
   );
 
   if (legacyHistoricalNonPassing !== undefined) {
@@ -99,11 +102,6 @@ export function validateEvidenceProvenance({
     return "explicit_historical_nonpassing";
   }
 
-  assert.equal(
-    report.sourceIdentitySha256,
-    currentSource,
-    "Current evidence must match the current source identity.",
-  );
   const expectedRepository = requireRepository(currentRepository, "Current repository");
   const reportRepository = requireRepository(report.repository, "Report repository");
   const runtimeRepository = requireRepository(
@@ -119,6 +117,61 @@ export function validateEvidenceProvenance({
     runtimeRepository.trackedWorktreeCleanAtStart,
     true,
     "Runtime evidence must record a clean tracked worktree at start.",
+  );
+
+  if (measuredImplementationAncestor !== undefined) {
+    assert.equal(
+      report.passed,
+      true,
+      "Measured-implementation-ancestor mode is allowed only for passing evidence.",
+    );
+    for (const field of ["commitSha", "treeSha"]) {
+      assert.equal(
+        runtimeRepository[field],
+        reportRepository[field],
+        `Report and runtime manifest must agree on measured ${field}.`,
+      );
+    }
+
+    const proof = validateMeasuredImplementationAncestor({
+      cwd: measuredImplementationAncestor.cwd,
+      measuredCommitSha: reportRepository.commitSha,
+      measuredTreeSha: reportRepository.treeSha,
+    });
+    assert.equal(
+      proof.currentRepository.trackedWorktreeCleanAtStart,
+      true,
+      "Descendant validation requires a clean tracked evidence-container worktree.",
+    );
+    for (const field of ["commitSha", "treeSha"]) {
+      assert.equal(
+        proof.currentRepository[field],
+        expectedRepository[field],
+        `Validated evidence-container ${field} must match the current repository.`,
+      );
+    }
+
+    const measuredSourceIdentitySha256 =
+      phase11g2SourceIdentitySha256AtGitCommit({
+        commitSha: reportRepository.commitSha,
+        cwd: measuredImplementationAncestor.cwd,
+      });
+    assert.equal(
+      report.sourceIdentitySha256,
+      measuredSourceIdentitySha256,
+      "Evidence source identity must match the measured implementation commit.",
+    );
+    return "measured_implementation_ancestor";
+  }
+
+  const currentSource = requireSourceIdentitySha256(
+    currentSourceIdentitySha256,
+    "Current source identity",
+  );
+  assert.equal(
+    report.sourceIdentitySha256,
+    currentSource,
+    "Current evidence must match the current source identity.",
   );
   for (const field of ["commitSha", "treeSha"]) {
     assert.equal(
@@ -235,15 +288,23 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
   assert.equal(samples.length, expectedSampleCount);
   assert.equal(traceMap.length, expectedSampleCount);
   assert.equal(boundaries.length, expectedOperationCount);
-  const currentSourceIdentitySha256 = phase11g2SourceIdentitySha256();
-  const sourceIdentity = validateEvidenceProvenance({
-    currentRepository: readGitProvenance(),
+  const repositoryCwd = expectations.repositoryCwd ?? process.cwd();
+  const currentSourceIdentitySha256 =
+    expectations.measuredImplementationAncestor ||
+    expectations.legacyHistoricalNonPassing
+      ? undefined
+      : phase11g2SourceIdentitySha256({ cwd: repositoryCwd });
+  const provenanceValidationMode = validateEvidenceProvenance({
+    currentRepository: readGitProvenance({ cwd: repositoryCwd }),
     currentSourceIdentitySha256,
     legacyHistoricalNonPassing: expectations.legacyHistoricalNonPassing,
+    measuredImplementationAncestor: expectations.measuredImplementationAncestor
+      ? { cwd: repositoryCwd }
+      : undefined,
     report,
     runtimeManifest,
   });
-  if (sourceIdentity === "current") {
+  if (provenanceValidationMode !== "explicit_historical_nonpassing") {
     validateCurrentMeasurementMetadata(report, boundaries);
   }
   assert.deepEqual(report.fixtureCardinalities, report.observedFixtureCardinalities);
@@ -305,13 +366,22 @@ export function validateEvidenceDirectory(evidenceDirectory, expectations = {}) 
     groupCount: report.groupCount,
     passed: report.passed,
     sampleCount: report.sampleCount,
-    sourceIdentity,
+    sourceIdentity: provenanceValidationMode,
   };
 }
 
 async function main() {
   const historicalSourceIdentityPrefix =
     "--legacy-historical-non-passing-source-identity-sha256=";
+  const measuredImplementationAncestorArgument =
+    "--measured-implementation-ancestor";
+  const measuredImplementationAncestorArguments = process.argv
+    .slice(2)
+    .filter((argument) => argument === measuredImplementationAncestorArgument);
+  assert(
+    measuredImplementationAncestorArguments.length <= 1,
+    "Measured-implementation-ancestor mode may be provided only once.",
+  );
   const historicalSourceIdentityArguments = process.argv
     .slice(2)
     .filter((argument) => argument.startsWith(historicalSourceIdentityPrefix));
@@ -319,9 +389,20 @@ async function main() {
     historicalSourceIdentityArguments.length <= 1,
     "Only one legacy historical non-passing source identity may be provided.",
   );
+  assert(
+    !(
+      historicalSourceIdentityArguments.length > 0 &&
+      measuredImplementationAncestorArguments.length > 0
+    ),
+    "Legacy historical and measured-implementation-ancestor modes are mutually exclusive.",
+  );
   const evidenceDirectoryArguments = process.argv
     .slice(2)
-    .filter((argument) => !argument.startsWith(historicalSourceIdentityPrefix));
+    .filter(
+      (argument) =>
+        !argument.startsWith(historicalSourceIdentityPrefix) &&
+        argument !== measuredImplementationAncestorArgument,
+    );
   assert(
     evidenceDirectoryArguments.length <= 1,
     "Only one evidence directory may be provided.",
@@ -354,6 +435,8 @@ async function main() {
               ),
             }
           : undefined,
+        measuredImplementationAncestor:
+          measuredImplementationAncestorArguments.length === 1,
         warmSamples: numberFromEnvironment("PHASE11G2_EXPECTED_WARM_SAMPLES"),
       }),
     )}\n`,

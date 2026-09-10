@@ -936,3 +936,66 @@ are still unqualified, the preserved adverse and non-credited evidence remains
 untouched, PR #120 remains Draft/unmerged, all 18 findings remain `OPEN`, and
 Phase 11G and Phase 11 remain `INCOMPLETE`. A controlled-host qualification from
 a dedicated clean worktree is still required before any candidate-ready claim.
+
+## 21. Correction 03 post-measurement provenance lifecycle (2026-09-10)
+
+Independent review accepted the exact-Git checkpoint in substance and found
+one remaining evidence-lifecycle defect. A qualifying run measures a clean
+implementation commit and its complete Git tree. Committing the generated
+evidence necessarily creates a later container commit and a different complete
+tree; the report must continue to identify the implementation actually
+measured, not claim that the self-referentially impossible evidence commit was
+measured.
+
+Default validation remains the strongest same-commit path. Immediately after
+a run and before evidence is committed, report and runtime-manifest provenance
+must equal the validator checkout's exact `HEAD` and `HEAD^{tree}`, and the
+source-set digest must equal the current source files. There is no automatic
+fallback. After evidence is committed, passing evidence requires the explicit
+`--measured-implementation-ancestor` mode. That mode is valid only when report
+and runtime manifest agree on a clean-at-start measured commit/tree, Git proves
+that object exists and its exact full tree matches, and
+`git merge-base --is-ancestor` proves it is a strict ancestor of the current
+clean evidence-container `HEAD`.
+
+Ancestor-mode source identity is recalculated from each
+`PHASE11G2_SOURCE_PATHS` blob at the measured commit with `git show`; it is
+never calculated from the later checkout's working files. The complete tracked
+diff from the measured commit to evidence `HEAD` must contain only normal,
+non-executable blobs in this exact post-measurement boundary:
+
+- `docs/decision-log.md`;
+- `docs/phase-11g2-performance-capacity-qualification.md`;
+- the six named JSON outputs directly under
+  `performance/evidence/focused-normative/`; and
+- the exact ten desktop and ten mobile `ctx01` through `ctx10` trace archives.
+
+No broad documentation or evidence directory is admitted. `README.md`, other
+evidence roots, product code, components, libraries, scripts, tests, fixtures,
+dependencies, package or workflow configuration, SQL, migrations, RLS, and
+measurement-contract changes are categorically outside the boundary. A mixed
+diff, missing object, sibling history, wrong tree, wrong digest, deletion,
+symlink, executable mode, or any other tree-entry type fails closed. The full
+measured tree remains the ordinary immutable Git tree; no synthetic tree that
+excludes evidence is created.
+
+`legacyHistoricalNonPassing` remains a distinct explicit compatibility path
+for the retained adverse package. It still requires the fixed historical
+source digest and `report.passed === false`, cannot accept passing evidence,
+and cannot select ancestor mode. The existing package is not rewritten.
+
+The later controlled qualification must use a dedicated clean worktree at the
+exact candidate SHA. Before its first qualifying run, record exact `HEAD` and
+`HEAD^{tree}`, prove tracked cleanliness, remove only stale task-owned ignored
+build output in that worktree if present, install from the lockfile, and create
+a fresh production build from that exact candidate. `next start` must serve
+that fresh build. `.next` remains ignored build output and is not part of Git
+provenance. The historical/development checkout continues to preserve the old
+adverse and non-credited raw material; it must not run the qualifying workload.
+
+This lifecycle correction changes no product, database, fixture cardinality,
+threshold, sample count, concurrency, timer, or stable-condition behavior and
+runs no performance workload. `P11A-012`, `P11A-013`, and `P11A-014` remain
+`OPEN`; all 18 findings remain `OPEN`; Phase 11G and Phase 11 remain
+`INCOMPLETE`; Phase 11H/J, deployment, Production, and finding closure remain
+unauthorized.

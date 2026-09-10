@@ -1,5 +1,8 @@
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import path from "node:path";
+import { parseGitObjectSha } from "./phase-11g2-git-provenance.mjs";
 
 export const PHASE11G2_SOURCE_PATHS = Object.freeze([
   "scripts/run-phase-11g2-playwright-qualification.mjs",
@@ -25,13 +28,35 @@ export const NORMATIVE_TIMER_END =
 export const SERVER_TIMING_DIAGNOSTIC_BOUNDARY =
   "Diagnostic only: the correlated server interval runs from proxy request receipt through the complete Next response body; Server-Timing records response-start latency for that request and does not replace or shorten the outer normative duration.";
 
-export function phase11g2SourceIdentitySha256() {
+function calculateSourceIdentity(readSource) {
   const hasher = createHash("sha256");
   for (const sourcePath of PHASE11G2_SOURCE_PATHS) {
     hasher.update(sourcePath);
     hasher.update("\0");
-    hasher.update(readFileSync(sourcePath));
+    hasher.update(readSource(sourcePath));
     hasher.update("\0");
   }
   return hasher.digest("hex");
+}
+
+export function phase11g2SourceIdentitySha256({ cwd = process.cwd() } = {}) {
+  return calculateSourceIdentity((sourcePath) =>
+    readFileSync(path.join(cwd, sourcePath)),
+  );
+}
+
+export function phase11g2SourceIdentitySha256AtGitCommit({
+  commitSha,
+  cwd = process.cwd(),
+}) {
+  const measuredCommitSha = parseGitObjectSha(
+    commitSha,
+    "Measured implementation commit SHA",
+  );
+  return calculateSourceIdentity((sourcePath) =>
+    execFileSync("git", ["show", `${measuredCommitSha}:${sourcePath}`], {
+      cwd,
+      maxBuffer: 10 * 1024 * 1024,
+    }),
+  );
 }

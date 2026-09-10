@@ -3250,3 +3250,27 @@
   preserved adverse/non-credited evidence was not rewritten. PR #120 remains
   Draft and unmerged; all 18 findings remain `OPEN`; Phase 11G and Phase 11
   remain `INCOMPLETE` pending controlled-host qualification.
+
+## 2026-09-10: Correction 03 supports the post-measurement evidence lifecycle
+
+- Retained the runner's exact clean-at-start commit/tree identity as the
+  measured implementation. A later evidence commit must not be relabeled as
+  measured, and the complete measured Git tree remains authoritative.
+- Preserved strict same-commit validation as the default and added an explicit
+  passing-only measured-implementation-ancestor mode. Git must prove the
+  measured commit exists, has the reported tree, and is a strict ancestor of a
+  clean current evidence-container commit.
+- The ancestor path hashes the measured commit's tracked source blobs through
+  Git rather than the later working tree. It accepts only normal non-executable
+  canonical focused-evidence files and the two G2 status documents between the
+  measured commit and current `HEAD`; product, harness, test, fixture,
+  dependency/configuration, SQL, migration, RLS, or mixed changes fail closed.
+- The legacy historical non-passing path remains separate, explicit,
+  fixed-digest, and unable to validate passing evidence. Existing adverse and
+  non-credited evidence was not rewritten, and no performance workload ran.
+- The future controlled qualification must use a dedicated clean candidate
+  worktree, a lockfile install, a fresh candidate-built `.next`, and
+  `next start` from that build. `.next` is ignored output, not provenance.
+  Product and database behavior remain unchanged; all 18 findings remain
+  `OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`; PR #120 remains Draft and
+  unmerged.
