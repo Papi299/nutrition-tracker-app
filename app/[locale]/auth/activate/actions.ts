@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getAccountAccessState } from "@/lib/auth/account-access";
+import { getAccountLifecycleState } from "@/lib/auth/account-access";
 import { cleanupClosedAccountSession } from "@/lib/auth/session-cleanup";
 import {
   accountClosedPath,
@@ -62,7 +62,7 @@ export async function activateAccountAction(
   }
 
   const supabase = await createServerClient();
-  const state = await getAccountAccessState(supabase);
+  const state = await getAccountLifecycleState(supabase);
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));

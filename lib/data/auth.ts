@@ -1,10 +1,11 @@
 import "server-only";
 
+import { cache } from "react";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
 import type { DataResult } from "./result";
 
-export async function getAuthenticatedUserId(): Promise<DataResult<string>> {
+async function resolveAuthenticatedUserId(): Promise<DataResult<string>> {
   if (!isSupabasePublicEnvConfigured()) {
     return { code: "unauthenticated", ok: false };
   }
@@ -19,3 +20,5 @@ export async function getAuthenticatedUserId(): Promise<DataResult<string>> {
 
   return { data: userId, ok: true };
 }
+
+export const getAuthenticatedUserId = cache(resolveAuthenticatedUserId);
