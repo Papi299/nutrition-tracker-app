@@ -1016,3 +1016,49 @@ runs no performance workload. `P11A-012`, `P11A-013`, and `P11A-014` remain
 `OPEN`; all 18 findings remain `OPEN`; Phase 11G and Phase 11 remain
 `INCOMPLETE`; Phase 11H/J, deployment, Production, and finding closure remain
 unauthorized.
+
+## 22. Correction 05 account-closure post-response latency (2026-09-15)
+
+The prior exact candidate `3d206125031a0c48237b1554f41f85c9c053f9a3`
+completed 3,348 samples but failed one of 108 groups: desktop c10 account
+closure reported p95 3,634.784 ms against the unchanged 2,000 ms limit. Exact
+trace reconstruction showed that the correlated closure response completed in
+about 212 ms and the destination loaded shortly afterward; the remaining delay
+was the stable-heading wait in the first warm wave. The cold run initialized
+only context 1, while contexts 2 through 10 entered that first measured wave
+without equivalent route and asset state. The cold context was also finalized
+before its post-load App Router traffic had reached sustained quiescence. This
+was classified as `C`, a generic benchmark warm-state defect, not product,
+database, authorization, or account-closure latency.
+
+Candidate `9e896dfdae1343d3d5be01a24699f69074e65937` (tree
+`1503d80b18bd06ac99e01222692c0e013a7dbc5b`) establishes equivalent unmeasured
+warm execution state for every participating browser context and requires 100
+ms of sustained proxy quiescence. The correction applies to every operation,
+profile, and concurrency level. It does not special-case account closure or
+change product code, SQL, schema, fixture cardinality, thresholds, sample
+counts, concurrency, timer boundaries, or stable conditions. Focused tests
+cover the previously uninitialized c10 contexts, complete initialization before
+warm measurement, and the no-duplicate c1 path.
+
+The 124-sample targeted closure proof passed all four groups with zero
+reliability, integrity, isolation, or overlap failures. Both 132-sample
+preflights and both 396-sample focused matrices then passed on their first
+attempt with fresh local fixtures. The first final corpus attempt passed all
+3,348 samples and all 108 groups across 29 operations. It recorded zero
+reliability events, unexpected failures, threshold failures, integrity
+failures, isolation failures, overlap failures, and browser-boundary failures.
+Desktop c10 account closure measured cold 135.562 ms, p50 368.517 ms, and p95
+418.246 ms; mobile c10 p95 was 445.273 ms. The tightest full-corpus gate was
+the unrelated desktop c10 diary edit at 980.704 ms against 1,000 ms.
+
+The raw final manifest SHA-256 is
+`4f7c4bf6dcc52e32223abc6b18de64e0c7e996ac22b7ce4d2de622d73ba19e22`.
+Same-commit validation passed before canonical promotion. The six final JSON
+artifacts and exact 20 context traces are recorded only under
+`performance/evidence/normative/`; the later evidence-only descendant must pass
+explicit measured-implementation-ancestor validation and exact-head CI before
+independent review. PR #120 remains Draft and unmerged with auto-merge disabled.
+All 18 findings, including `P11A-012`, `P11A-013`, and `P11A-014`, remain
+`OPEN`; Phase 11G and Phase 11 remain `INCOMPLETE`; Phase 11H/J, deployment,
+Production, finding closure, and merge remain unauthorized.

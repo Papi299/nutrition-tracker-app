@@ -3295,3 +3295,30 @@
 - Product and database behavior remain unchanged; all 18 findings and
   `P11A-012` through `P11A-014` remain `OPEN`; Phase 11G and Phase 11 remain
   `INCOMPLETE`; PR #120 remains Draft and unmerged.
+
+## 2026-09-15: Correction 05 qualifies account closure after generic warm-state repair
+
+- Reconstructed the prior desktop c10 closure failure from exact traces. The
+  application response completed in about 212 ms; the 3.6-second p95 came from
+  the first warm wave using browser contexts that had not received the cold
+  context's route/asset initialization or sustained post-load quiescence.
+- Classified the defect as `C` and corrected only the generic qualification
+  harness. Candidate `9e896dfdae1343d3d5be01a24699f69074e65937`
+  initializes every participating context equivalently and waits for 100 ms of
+  sustained proxy idle without changing the measured boundary, stable
+  conditions, thresholds, workload, product, Auth, database, or ownership.
+- Passed the 124-sample closure proof, two 132-sample preflights, two 396-sample
+  focused matrices, and the 3,348-sample/108-group final corpus on their first
+  attempts with fresh local fixtures. Final desktop c10 closure p95 was 418.246
+  ms against 2,000 ms; the corpus had zero reliability, integrity, isolation,
+  overlap, browser-boundary, threshold, or unexpected failures.
+- Recorded raw manifest SHA-256
+  `4f7c4bf6dcc52e32223abc6b18de64e0c7e996ac22b7ce4d2de622d73ba19e22`.
+  Same-commit evidence validation and candidate exact-head CI passed. Only the
+  six canonical JSON artifacts, 20 context traces, and these two status
+  documents enter the evidence-only descendant before ancestor validation and
+  final exact-head CI.
+- PR #120 remains Draft, open, unmerged, and without auto-merge. All 18 findings
+  and `P11A-012` through `P11A-014` remain `OPEN`; Phase 11G and Phase 11 remain
+  `INCOMPLETE`; no production, deployment, later-phase, closure, or merge action
+  is authorized.
