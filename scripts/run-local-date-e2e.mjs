@@ -322,6 +322,7 @@ const nodeOptions = childEnvironment.NODE_OPTIONS?.trim();
 
 Object.assign(childEnvironment, {
   ACCOUNT_CLOSURE_CAPABILITY_SECRET: accountClosureCapabilitySecret,
+  APP_ENVIRONMENT: "local",
   APP_ORIGIN:
     process.env.PLAYWRIGHT_BASE_URL ??
     `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3100"}`,
@@ -337,6 +338,8 @@ Object.assign(childEnvironment, {
   LOCAL_SUPABASE_URL: apiUrl,
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: publishableKey,
   NEXT_PUBLIC_SUPABASE_URL: apiUrl,
+  SUPABASE_ENVIRONMENT: "local",
+  SUPABASE_PROJECT_REF: "local",
   NODE_OPTIONS: [nodeOptions, `--import=${signOutFaultPreload.href}`]
     .filter(Boolean)
     .join(" "),

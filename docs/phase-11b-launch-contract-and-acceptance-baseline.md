@@ -36,6 +36,7 @@
 | Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are the accepted current contract version 1.6 under `PHASE_11E0B_POST_MERGE_ACCEPTED`; runtime evidence remains slice-specific |
 | Phase 11E Contract 1.6 independent review | Completed outside the Phase 11E1 task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99`; exact-main run `33008384228` attempt 1 failed during migration replay and identical-SHA attempt 2 passed completely |
 | Phase 11G prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-08-29 Maor Pichhadze assigned and explicitly recorded acceptance by Maor Pichhadze as Observability owner, Performance and reliability owner, and Incident primary, and by Jimmy Peachy as Incident escalation backup; the attributable statement is recorded in the [decision log](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) |
+| Phase 11H prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-09-15 Maor Pichhadze assigned himself to and explicitly accepted the Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and deployment/runbook owner roles; this satisfies only the before-11H governance prerequisite and grants none of the external authorities listed in Section 18 |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -148,12 +149,12 @@ Phase 11G technical policy and credits no implementation.
 | Observability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
 | Incident primary and escalation backup | `ASSIGNED_AND_APPROVED` | Maor Pichhadze (primary); Jimmy Peachy (escalation backup) | [Attributable 2026-08-29 Product Owner assignments and explicit acceptance by both assignees](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
 | Performance and reliability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
-| Vercel owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Supabase owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Environment and secrets owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Auth URL owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Domain/DNS owner, if applicable | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Deployment/runbook owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
+| Vercel owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Supabase owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Environment and secrets owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Auth URL owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Domain/DNS owner, if applicable | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18; applicability does not authorize or require a change | Before 11H — satisfied 2026-09-15 |
+| Deployment/runbook owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
 | Backup owner | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
 | Restore executor | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
 | Recovery approver and backup | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
@@ -1261,3 +1262,30 @@ remains the sole formal finding-closure gate. Once this prerequisite record is
 independently accepted and merged, Phase 11G engineering may begin with
 `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`; no Phase 11G1 credit is
 claimed here.
+
+## 18. Phase 11H prerequisite assignments and repository contract
+
+On 2026-09-15, Product Owner Maor Pichhadze supplied an attributable statement
+assigning himself to and explicitly accepting each before-11H role: Vercel
+owner, Supabase owner, environment and secrets owner, Auth URL owner,
+domain/DNS owner if applicable, and deployment/runbook owner. The domain/DNS
+assignment establishes accountability for any future decision or configuration
+but neither authorizes nor requires a domain or DNS change.
+
+These assignments satisfy only the before-11H governance prerequisite. They do
+not authorize Vercel setup or deployment, hosted Supabase access or mutation,
+DNS/domain changes, credential creation or rotation, invitations,
+backup/restore operations, Production action, launch, or finding closure.
+`DEC-026`, `DEC-027`, `DEC-028`, the existing release-role separation policy,
+and all later 11I/11J/11K role deadlines remain unchanged.
+
+The Phase 11H repository candidate is defined by the
+[deployment architecture and release runbook](phase-11h-deployment-architecture-release-runbook.md)
+and its machine-checkable deployment contract. It begins from accepted main
+`f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+`8a85a186699e9495032b9ea01eb7081b84d04b14`, after PR #120 and exact-main CI
+run `34982739418` succeeded. Until independent review and merge, its bounded
+state is implementation complete pending independent review. `P11A-010` and
+`P11A-017` remain `OPEN`; after repository acceptance their maximum stage is
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11K remains the
+only finding-closure gate.

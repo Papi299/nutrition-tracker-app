@@ -494,6 +494,19 @@ is complete for the current MVP scope.
   durable evidence is in
   [`docs/phase-9-acceptance-report.md`](docs/phase-9-acceptance-report.md).
 
+  The Phase 11G2 narrative above is preserved as historical candidate context.
+  PR #120 was subsequently accepted and merged as current main
+  `f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+  `8a85a186699e9495032b9ea01eb7081b84d04b14`, with successful exact-main CI
+  run `34982739418`. Phase 11H is now the active bounded slice. Its repository
+  candidate adds a single machine-checkable environment contract and the
+  canonical
+  [deployment architecture and release runbook](docs/phase-11h-deployment-architecture-release-runbook.md).
+  The before-11H owner assignments are accepted, but no Vercel, hosted
+  Supabase, DNS, credential, invitation, backup/restore, deployment, or
+  Production action is authorized or performed. `P11A-010` and `P11A-017`
+  remain `OPEN`; external validation is deferred.
+
 ## Install Dependencies
 
 ```bash
@@ -513,6 +526,7 @@ Then open `http://localhost:3000`.
 ```bash
 npm run lint
 npm run typecheck
+npm run test:deployment-contract
 npm run build
 npm run test:security
 npm run security:dependencies
@@ -706,7 +720,9 @@ Manual RTL QA checklist:
 
 - The V1 backend uses Supabase Auth, Supabase Postgres, Row Level Security, and
   Git-versioned Supabase migrations.
-- Approved hosting direction is Vercel later; Vercel is not configured yet.
+- Approved hosting direction is Vercel. The repository-owned Preview, staging,
+  and Production architecture is defined and validated locally, but Vercel is
+  not configured or linked and no deployment has occurred.
 - Current status: email/password auth, session refresh, protected routes,
   profile/target setup, diary snapshot CRUD, daily totals, target progress,
   food search/prefill, custom foods, favorites/recents, Saved Meals, Recipes,
@@ -1082,18 +1098,21 @@ Manual RTL QA checklist:
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `.env.local` must stay untracked, and `.env.example` must contain
   placeholders only.
+- `deployment/phase-11h-contract.json` is the single authoritative
+  environment/deployment manifest. Hosted builds fail closed unless explicit
+  application, Supabase, project-reference, origin, and Vercel identities agree.
 - Service-role keys must never be exposed in browser/client code.
 - Supabase service-role keys are not used by the current helpers.
 - RLS is required for every future user-owned table. User-owned rows must be
   isolated by authenticated user ownership, and server code must not trust a
   client-supplied `user_id`.
-- Vercel and production environment setup remain deferred to deployment
-  readiness work and require human approval.
+- Vercel/provider configuration and every non-production or Production
+  deployment remain deferred to separately authorized later work.
 
 ## Intentionally Not Implemented Yet
 
 - Synced accounts beyond Supabase auth identity.
-- Vercel deployment wiring.
+- Vercel project linkage, provider-side configuration, and deployment wiring.
 - Additional product schema beyond the current profile, target, diary, and
   nutrition-domain foundations.
 - Food-search pagination, analytics, or ranking controls.
@@ -1126,7 +1145,7 @@ Manual RTL QA checklist:
   but non-contractual, with no acceptance credit and no runtime change.
 - FoodsDictionary integration.
 - Automatic calorie, TDEE, or medical diagnosis features.
-- Vercel deployment and environment configuration.
+- Vercel deployment and provider-side environment configuration.
 
 ## Current Product Decisions
 

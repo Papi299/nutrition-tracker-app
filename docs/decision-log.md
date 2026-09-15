@@ -3322,3 +3322,37 @@
   and `P11A-012` through `P11A-014` remain `OPEN`; Phase 11G and Phase 11 remain
   `INCOMPLETE`; no production, deployment, later-phase, closure, or merge action
   is authorized.
+
+## 2026-09-15: Phase 11H prerequisite assignments and deployment architecture candidate
+
+- PR #120 was subsequently accepted and merged as current main
+  `f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+  `8a85a186699e9495032b9ea01eb7081b84d04b14`; exact-main CI run
+  `34982739418`, run number 235, attempt 1, succeeded. Earlier Phase 11G2
+  entries remain historical snapshots of the candidate state at their dates.
+- Product Owner Maor Pichhadze assigned himself to and explicitly accepted the
+  Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS,
+  and deployment/runbook owner roles. The assignments satisfy only the
+  before-11H governance prerequisite. They authorize no provider action,
+  deployment, credentials, invitation, backup/restore, Production action,
+  launch, or finding closure.
+- Preserved `DEC-026` as distinct Preview, staging, and Production application
+  targets with distinct corresponding Supabase identities. A single explicit
+  manifest and fail-closed build validator reject missing or contradictory
+  identities, cross-environment project references, URL/reference mismatches,
+  insecure hosted origins, and public service-role material.
+- Preserved `DEC-027` ownership and existing release-role separation, and
+  preserved `DEC-028` as a forward-only release model with an exact candidate,
+  drift/ledger preflight, compatibility-first migration order, smoke gate,
+  redeploy/forward-fix distinction, and separate recovery and Production
+  authorization paths.
+- Added the canonical Phase 11H runbook, an unpopulated privacy-safe future
+  evidence template, the fail-closed invitation/register/reconciliation
+  procedure, synthetic contract tests, and routine CI validation. No deploy
+  workflow or real provider identifier, secret, invitation datum, or hosted
+  evidence was added.
+- The candidate begins as implementation complete pending independent review.
+  `P11A-010` and `P11A-017` remain `OPEN`; after repository acceptance their
+  maximum stage is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+  Phase 11I and Phase 11J remain unstarted, and Phase 11K remains the sole
+  finding-closure gate.

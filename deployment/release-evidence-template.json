@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1",
+  "status": "TEMPLATE_NOT_EXECUTED",
+  "candidate": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "commit": null,
+    "tree": null,
+    "baseCommit": null,
+    "buildProvenance": null
+  },
+  "deployment": {
+    "provider": "Vercel",
+    "deploymentIdentifier": null,
+    "target": null,
+    "applicationOrigin": null,
+    "revisionVerified": false
+  },
+  "environment": {
+    "applicationEnvironment": null,
+    "vercelEnvironment": null,
+    "vercelTargetEnvironment": null,
+    "supabaseEnvironment": null,
+    "supabaseProjectReference": null,
+    "productionProjectComparison": null,
+    "authSiteUrlVerified": false,
+    "authRedirectAllowListVerified": false,
+    "secretMetadataScopesVerified": false
+  },
+  "database": {
+    "localMigrationBaseline": null,
+    "targetAppliedLedger": null,
+    "driftResult": null,
+    "compatibilityDisposition": null,
+    "migrationExecutionResult": null
+  },
+  "ci": {
+    "runId": null,
+    "runNumber": null,
+    "attempt": null,
+    "headCommit": null,
+    "validateResult": null,
+    "durationSeconds": null
+  },
+  "authorization": {
+    "candidateApprovalReference": null,
+    "deploymentOrRehearsalAuthorizationReference": null,
+    "productionAuthorizationReference": null,
+    "productionAuthorized": false,
+    "authorizedTarget": null,
+    "authorizedWindow": null,
+    "expiresAt": null
+  },
+  "execution": {
+    "operator": null,
+    "independentReviewer": null,
+    "maintenanceWindow": null,
+    "writeRestriction": null,
+    "abortOrStopEvents": []
+  },
+  "smoke": {
+    "startedAt": null,
+    "completedAt": null,
+    "checks": [],
+    "result": null
+  },
+  "observability": {
+    "livenessVerified": false,
+    "signalDeliveryVerified": false,
+    "acknowledgementVerified": false,
+    "result": null
+  },
+  "recovery": {
+    "action": null,
+    "previousApplicationDeployment": null,
+    "redeployResult": null,
+    "forwardFixReference": null,
+    "incidentOrRecoveryQualificationReference": null
+  },
+  "timestamps": {
+    "preflightStartedAt": null,
+    "deploymentStartedAt": null,
+    "verificationCompletedAt": null,
+    "windowClosedAt": null
+  },
+  "review": {
+    "operatorAttestation": null,
+    "independentReviewDisposition": null,
+    "openGaps": [],
+    "evidenceDigest": null
+  }
+}

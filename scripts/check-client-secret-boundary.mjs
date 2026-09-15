@@ -116,10 +116,13 @@ function run() {
     env: {
       ...process.env,
       ACCOUNT_CLOSURE_CAPABILITY_SECRET: closureCanary,
+      APP_ENVIRONMENT: "local",
       APP_ORIGIN: "http://127.0.0.1:3100",
       AUTH_REAUTH_PROOF_SECRET: authCanary,
       NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "phase11f-public-build-key",
       NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321",
+      SUPABASE_ENVIRONMENT: "local",
+      SUPABASE_PROJECT_REF: "local",
     },
     stdio: "inherit",
   });
