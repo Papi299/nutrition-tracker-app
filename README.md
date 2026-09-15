@@ -504,8 +504,12 @@ is complete for the current MVP scope.
   [deployment architecture and release runbook](docs/phase-11h-deployment-architecture-release-runbook.md).
   The before-11H owner assignments are accepted, but no Vercel, hosted
   Supabase, DNS, credential, invitation, backup/restore, deployment, or
-  Production action is authorized or performed. `P11A-010` and `P11A-017`
-  remain `OPEN`; external validation is deferred.
+  Production action is performed. `DEC-031` records one future separately
+  authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first deployment required
+  by Vercel; it is infrastructure, not release, launch, user, or finding
+  credit. The repository disables automatic Git deployments and validates
+  target-bound origins. `P11A-010`, `P11A-017`, and `P11A-018` remain `OPEN`;
+  external validation is deferred.
 
 ## Install Dependencies
 
@@ -720,9 +724,11 @@ Manual RTL QA checklist:
 
 - The V1 backend uses Supabase Auth, Supabase Postgres, Row Level Security, and
   Git-versioned Supabase migrations.
-- Approved hosting direction is Vercel. The repository-owned Preview, staging,
-  and Production architecture is defined and validated locally, but Vercel is
-  not configured or linked and no deployment has occurred.
+- Approved hosting direction is one Vercel project with Preview, custom
+  staging, and Production targets. The repository architecture, one-time
+  bootstrap exception, disabled automatic Git deployment, and environment
+  binding are validated locally, but Vercel is not configured or linked and
+  no deployment has occurred.
 - Current status: email/password auth, session refresh, protected routes,
   profile/target setup, diary snapshot CRUD, daily totals, target progress,
   food search/prefill, custom foods, favorites/recents, Saved Meals, Recipes,
@@ -1100,7 +1106,8 @@ Manual RTL QA checklist:
   placeholders only.
 - `deployment/phase-11h-contract.json` is the single authoritative
   environment/deployment manifest. Hosted builds fail closed unless explicit
-  application, Supabase, project-reference, origin, and Vercel identities agree.
+  application, deployment-class, Supabase, origin-registry, repository, and
+  Vercel project/deployment identities agree.
 - Service-role keys must never be exposed in browser/client code.
 - Supabase service-role keys are not used by the current helpers.
 - RLS is required for every future user-owned table. User-owned rows must be

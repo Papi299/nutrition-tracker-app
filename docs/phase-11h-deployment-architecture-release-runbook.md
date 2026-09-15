@@ -21,7 +21,10 @@ when the explicit identities conflict.
 This phase performs no Vercel setup or deployment, hosted Supabase access,
 domain or DNS action, credential creation or rotation, invitation, populated
 register creation, backup, restore, Production action, or launch action. It
-does not start Phase 11I or 11J. `P11A-010` and `P11A-017` remain `OPEN`.
+does not start Phase 11I or 11J. `P11A-010`, `P11A-017`, and `P11A-018`
+remain `OPEN` at
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; all 18 findings remain
+open and Phase 11 remains incomplete.
 
 ## 2. Authoritative decisions and ownership
 
@@ -38,6 +41,27 @@ The accepted Phase 11B wording remains controlling:
   configuration; fail-closed invitation reconciliation; smoke followed by a
   separately authorized rollback/redeploy rehearsal; an exact window; and the
   `DEC-007` abort boundary. Procedural serialization is not provider atomicity.
+
+`DEC-031 — One-time Production bootstrap exception` is approved as follows:
+
+| Field | Recorded decision |
+| --- | --- |
+| Decision | One-time Production bootstrap exception |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-15 |
+| Rationale | Vercel requires the first deployment of a new project to be a provider Production deployment. A tightly bounded, protected Production bootstrap is operationally simpler and less drift-prone than permanently maintaining two Vercel projects solely to avoid the provider bootstrap behavior. The bootstrap creates infrastructure only and does not constitute a Production release. |
+
+`DEC-031` preserves the single-Vercel-project architecture and permits only a
+later, separately and exactly authorized `PRODUCTION_BOOTSTRAP_ONLY`
+deployment. It supersedes the prior interpretation that every Production-target
+deployment must wait for actual release authorization. It does not authorize
+the bootstrap in this task. `DEC-030` remains controlling for the actual
+Production release, normal Production traffic, users, invitations, custom
+Production-domain activation, and every later Production deployment.
+
+```text
+Production deployment exists != Production release authorized
+```
 
 On 2026-09-15, Product Owner Maor Pichhadze approved, accepted, and supplied
 attributable evidence for all before-11H assignments:
@@ -88,9 +112,10 @@ independent contradiction and provenance assertions.
 | --- | --- | --- | --- | --- | --- |
 | `local` | Local development | Vercel variables absent | Loopback local stack, ref `local` | Loopback HTTP/HTTPS | Synthetic/local only |
 | `test` | CI/test | Vercel variables absent | Loopback local stack, ref `local` | Loopback HTTP/HTTPS | Synthetic/local only |
-| `preview` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=preview` | Dedicated Preview project | HTTPS non-loopback | Synthetic/non-production only |
-| `staging` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=staging` | Dedicated staging project | HTTPS non-loopback | Synthetic/non-production only |
-| `production` | Production | Both Vercel declarations `production` | Dedicated Production project | HTTPS non-loopback | Approved Production data only |
+| `preview` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=preview`, `DEPLOYMENT_CLASS=PREVIEW` | Dedicated Preview project | Exact `PREVIEW_APP_ORIGIN=https://${VERCEL_URL}` | Synthetic/non-production only |
+| `staging` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=staging`, `DEPLOYMENT_CLASS=STAGING` | Dedicated staging project | Exact persistent `STAGING_APP_ORIGIN=https://${VERCEL_BRANCH_URL}` | Synthetic/non-production only |
+| `production` bootstrap | Production infrastructure only | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY` | Dedicated empty Production project | `PRODUCTION_APP_ORIGIN=https://${VERCEL_PROJECT_PRODUCTION_URL}` on the provider-owned `vercel.app` origin only | No real beta users or copied non-production data |
+| `production` release | Production release | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_RELEASE` | Dedicated qualified Production project | Exact separately approved Production origin | Only data authorized by the later release contract |
 
 Hosted environments configure a registry of
 `PREVIEW_SUPABASE_PROJECT_REF`, `STAGING_SUPABASE_PROJECT_REF`, and
@@ -99,10 +124,20 @@ Hosted environments configure a registry of
 the project reference in `NEXT_PUBLIC_SUPABASE_URL`. Thus a Preview build
 pointing at the Production URL fails even if another declaration is relabeled.
 
+Hosted scopes also configure distinct `PREVIEW_APP_ORIGIN`,
+`STAGING_APP_ORIGIN`, and `PRODUCTION_APP_ORIGIN` registry entries. The active
+`APP_ORIGIN` must equal its environment entry and the applicable provider
+assertion. The build additionally requires exact matching
+`EXPECTED_VERCEL_PROJECT_ID`/`VERCEL_PROJECT_ID`, a
+`VERCEL_DEPLOYMENT_ID`, and Git provider/owner/repository/SHA metadata for
+`Papi299/nutrition-tracker-app`.
+
 `next.config.ts` executes the validator for build/config loading. Missing
-identity, a contradictory Vercel target, insecure hosted origin, wrong
+identity, a contradictory Vercel target, insecure or cross-environment origin, wrong
 Supabase URL/ref, shared project reference, service-role key in the public key
-slot, short/matching E3/E5 secrets, or hosted `NODE_ENV` mismatch stops the
+slot, short/matching E3/E5 secrets, wrong deployment class, wrong Vercel
+project/repository, missing trusted-origin assertion, provider-origin
+contradiction, or hosted `NODE_ENV` mismatch stops the
 build. Request input cannot override any identity.
 
 ## 5. Vercel architecture contract
@@ -115,20 +150,80 @@ if the approved account cannot represent `staging`, stop with
 `PHASE_11H_PRODUCT_DECISION_REQUIRED`. Do not silently collapse staging into
 Preview or create a second project without a reviewed contract amendment.
 
+Current official Vercel documentation was re-checked on 2026-09-15:
+
+- [Environments](https://vercel.com/docs/deployments/environments#first-deployment)
+  says the first deployment of every new project is Production even when the
+  repository is imported, the CLI omits `--prod`, or a non-Production branch
+  is selected. This is why `DEC-031` is necessary.
+- [Git behavior](https://vercel.com/docs/git) says Production-branch commits
+  normally create Production deployments, allows an exact commit SHA to be
+  selected for a manual Git-reference deployment after project creation, and
+  allows repository/environment settings to be reviewed before the initial
+  **Deploy** action. The Git-source path supplies the provider Git metadata
+  required by this contract, while
+  [`git.deploymentEnabled`](https://vercel.com/docs/project-configuration/git-configuration)
+  defaults to `true` and may be set to `false` for all branches.
+- [Staged Production](https://vercel.com/docs/deployments/promoting-a-deployment)
+  only withholds custom-domain promotion; it still creates a Production-target
+  deployment and is not a substitute for the bootstrap classification.
+- [Deployment Protection](https://vercel.com/docs/deployment-protection)
+  supports `All Deployments`, including Production and generated URLs, and
+  [Vercel Authentication](https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication)
+  restricts access to authorized Vercel/project members.
+- [System environment variables](https://vercel.com/docs/environment-variables/system-environment-variables)
+  provide target, exact deployment/project IDs, exact generated/branch/project
+  hostnames, repository identity, and Git SHA metadata used by this validator.
+
 | Concern | Contract |
 | --- | --- |
-| Preview | Non-production branch/PR build; exact commit-specific deployment; dedicated Preview variable scope and Supabase project |
-| Staging | Explicit deployment to the custom `staging` target from the exact authorized candidate; persistent canonical staging origin; dedicated staging variables/project |
-| Production | Production target exists only as architecture. Automatic domain assignment/promotion must be disabled before any future connection so a merge cannot authorize release. |
+| Preview | Explicit non-production exact-commit deployment; dedicated Preview variable scope and Supabase project; no automatic branch/PR deployment |
+| Staging | Explicit deployment to the custom `staging` target from the exact authorized candidate; persistent canonical staging origin; dedicated staging variables/project; no automatic branch-tracking deployment |
+| Production bootstrap | One future exact `PRODUCTION_BOOTSTRAP_ONLY` first deployment, protected, provider-domain-only, with no release/user/invitation/launch/closure credit |
+| Production release | A later exact Production build requiring fresh release authorization and current recovery qualification; the bootstrap authorization is insufficient |
 | Branch/revision | A branch selects build input, never security identity or release authority. `VERCEL_GIT_COMMIT_SHA` must match the authorized candidate and CI head. |
 | Variables | No variable is shared by convenience across scopes. Each scope is reviewed against the manifest; imported values must be detached and independently verified. |
 | Domains | Preview uses provider deployment URLs; staging needs one canonical HTTPS origin before Auth configuration; Production canonical domain/DNS is a separate later decision/action. |
-| Promotion | Preview-to-Production promotion is not the release mechanism because environment-scoped values differ. Production uses a Production-target build of the exact candidate and separate explicit authorization. |
+| Promotion | Preview-to-Production promotion is not the release mechanism because environment-scoped values differ. Disabling automatic Production-domain assignment does not make a deployment non-Production. |
 | Provenance | Evidence records repository, candidate commit/tree/base, Vercel deployment ID, target, build commit, configuration metadata versions, and timestamps. |
 
-System environment variables must be exposed so `VERCEL_ENV`,
-`VERCEL_TARGET_ENV`, and `VERCEL_GIT_COMMIT_SHA` are available. Missing values
-stop a hosted build. This document does not enable that setting.
+The repository-owned [`vercel.json`](../vercel.json) sets
+`git.deploymentEnabled=false`. This is inert until a future project uses the
+repository, but then prevents Git push, merge, PR, and branch tracking from
+creating automatic deployments. All Preview, staging, bootstrap, release,
+redeploy, and rollback actions therefore require exact operator action and
+authorization. `merge != deployment authorization`,
+`push != deployment authorization`, and
+`CI success != deployment authorization`.
+
+The bootstrap must be Git-sourced because the repository/SHA assertions below
+depend on provider-supplied `VERCEL_GIT_*` metadata. A raw CLI or prebuilt
+upload is not an acceptable bootstrap source. Before the later exact execution
+window, apply a team default of `All Deployments` plus Vercel Authentication
+for new projects where the account permits it. Inside that window, select the
+exact GitHub repository and verify that the selected Vercel Production branch
+head equals the authorized SHA/tree immediately before the single initial
+**Deploy** action. Configure the project and Production-scoped values before
+that action as the import flow permits; record the exact project identity as
+soon as the provider assigns it.
+
+Git selection, connection, import, and the first **Deploy** action are one
+bounded bootstrap boundary. If Vercel would deploy merely by connecting Git,
+the connection itself may occur only when it will create the one authorized,
+protected, exact-SHA bootstrap; otherwise stop before connecting. An
+unexpected deployment, an intervening push/merge, inability to prove the
+selected SHA/tree, or inability to establish protection before exposure is
+`STOP + ESCALATE`. After that single deployment, Git may remain connected only
+with the repository-owned disable policy verified effective. Do not perform a
+test push or merge. The bootstrap creates no shareable link, protection
+exception, automation bypass, or other public-access path.
+
+System environment variables must be available so `VERCEL_ENV`,
+`VERCEL_TARGET_ENV`, `VERCEL_URL`, `VERCEL_BRANCH_URL`,
+`VERCEL_PROJECT_PRODUCTION_URL`, `VERCEL_PROJECT_ID`,
+`VERCEL_DEPLOYMENT_ID`, Git provider/owner/repository, and
+`VERCEL_GIT_COMMIT_SHA` can be checked. Missing values stop a hosted build.
+This document does not enable or inspect that provider setting.
 
 ## 6. Supabase architecture contract
 
@@ -162,6 +257,25 @@ Hosted Storage reality and backup/recovery remain external. Phase 11I owns the
 daily/30-day backup contract, RPO 24 hours, RTO 8 hours, isolated restore, and
 quarterly qualification. Restore is not an ordinary release rollback.
 
+The future Production bootstrap may provision a Production Supabase project
+only when the protected application build cannot be internally coherent
+without it and only under the same later exact bootstrap authorization. That
+project must be dedicated to Production, contain no copied Preview/staging or
+real beta-user dataset, have the exact repository migration ledger, preserve
+RLS and least-privilege grants, and verify explicit Data API grants where the
+project's current exposure settings require them. Open signup remains disabled.
+Production-specific publishable/server secrets and the matching
+`account_closure_capability_v1` Vault value are scoped only to Production.
+Auth Site URL/redirect entries are limited to the protected provider-owned
+bootstrap origin. No invitation, recovery-delivery acceptance, ordinary user
+activity, or final public custom domain is permitted.
+
+Creating infrastructure does not qualify recovery. The bootstrap may precede
+Phase 11I only because it is not a release. After infrastructure exists, no
+actual Production release is eligible until Phase 11I has supplied current
+recovery qualification and the later Phase 11K/Production authorization gates
+are satisfied.
+
 ## 7. Environment variables and secret ownership
 
 The manifest inventories every application and repository-tool variable with
@@ -174,6 +288,7 @@ literal `process.env` read without manifest metadata fails CI.
 | Variable | Visibility | Required | Owner | Core boundary |
 | --- | --- | --- | --- | --- |
 | `APP_ENVIRONMENT` | Server-only | All | Environment/secrets | Sole explicit app security identity |
+| `DEPLOYMENT_CLASS` | Server-only metadata | Hosted | Deployment/runbook | Must be `PREVIEW`, `STAGING`, `PRODUCTION_BOOTSTRAP_ONLY`, or `PRODUCTION_RELEASE` and agree with the target; classification grants no authority |
 | `SUPABASE_ENVIRONMENT` | Server-only metadata | All | Supabase | Must equal the app environment (local for test) |
 | `SUPABASE_PROJECT_REF` | Server-only metadata | All | Supabase | Must match current URL and target registry |
 | `PREVIEW_SUPABASE_PROJECT_REF` | Server-only metadata | Hosted | Supabase | Dedicated Preview identity |
@@ -181,11 +296,20 @@ literal `process.env` read without manifest metadata fails CI.
 | `PRODUCTION_SUPABASE_PROJECT_REF` | Server-only metadata | Hosted | Supabase | Dedicated Production identity and non-production denial comparator |
 | `NEXT_PUBLIC_SUPABASE_URL` | Public browser | All | Supabase | Only public API endpoint; target-bound |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Public browser | All | Supabase | Publishable key only; secret/service-role patterns rejected |
-| `APP_ORIGIN` | Server-only config | All | Auth URL | Exact canonical origin; never request-derived |
+| `APP_ORIGIN` | Server-only config | All | Auth URL | Exact canonical origin; must match the environment registry and trusted provider assertion; never request-derived |
+| `PREVIEW_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Exact Preview deployment-origin registry entry; active Preview must match `VERCEL_URL` |
+| `STAGING_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Persistent staging-origin registry entry; active staging must match `VERCEL_BRANCH_URL` |
+| `PRODUCTION_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Production-origin registry entry; bootstrap must match provider-owned `VERCEL_PROJECT_PRODUCTION_URL` |
 | `AUTH_REAUTH_PROOF_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; environment-unique E3 secret |
 | `ACCOUNT_CLOSURE_CAPABILITY_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; distinct E5 secret; Vault match required |
 | `VERCEL_ENV` | Server-only provider metadata | Hosted | Vercel | Default-target contradiction check |
 | `VERCEL_TARGET_ENV` | Server-only provider metadata | Hosted | Vercel | Custom/default target contradiction check |
+| `EXPECTED_VERCEL_PROJECT_ID` | Server-only metadata | Hosted | Vercel | Reviewed identity of the one authorized project |
+| `VERCEL_URL` | Server-only provider metadata | Hosted | Vercel | Exact deployment hostname; Preview origin authority |
+| `VERCEL_BRANCH_URL` | Server-only provider metadata | Hosted | Vercel | Persistent Git branch hostname; staging origin authority |
+| `VERCEL_PROJECT_PRODUCTION_URL` | Server-only provider metadata | Hosted | Vercel | Project Production hostname; Production/bootstrap origin authority |
+| `VERCEL_PROJECT_ID` / `VERCEL_DEPLOYMENT_ID` | Server-only provider metadata | Hosted | Vercel | Exact project and deployment identity; project must match expected registry |
+| `VERCEL_GIT_PROVIDER` / `VERCEL_GIT_REPO_OWNER` / `VERCEL_GIT_REPO_SLUG` | Server-only provider metadata | Hosted | Vercel | Must identify `Papi299/nutrition-tracker-app` on GitHub |
 | `VERCEL_GIT_COMMIT_SHA` | Server-only provider metadata | Hosted | Vercel | Exact build provenance |
 | `NODE_ENV` | Framework metadata | All | Platform | Framework mode only; never environment authority |
 
@@ -220,19 +344,29 @@ app/Vault operation; mismatch fails closure and blocks release.
 ## 8. Auth URL and application-origin contract
 
 For each hosted environment, `APP_ORIGIN` is one exact canonical HTTPS origin.
-Supabase Auth Site URL and allow-list evidence must name that same environment.
+It must equal the correct registry entry and trusted Vercel system hostname;
+request Host, forwarded Host, browser input, caller redirect, branch name
+alone, and arbitrary URL shape are never authority. Supabase Auth Site URL and
+allow-list evidence must name the same environment.
 
 | Environment | Canonical origin | Required allowed callbacks |
 | --- | --- | --- |
-| Preview | Exact authorized commit deployment origin | `/en/auth/confirm`, `/he/auth/confirm`, `/en/auth/recover/confirm`, `/he/auth/recover/confirm` on that origin only |
-| Staging | Exact persistent staging origin | Same four exact paths on staging only |
-| Production | Exact separately approved Production origin | Same four exact paths on Production only |
+| Preview | `PREVIEW_APP_ORIGIN` equals exact `https://${VERCEL_URL}` | Exact callback paths only when Supabase can represent that exact deployment origin safely; otherwise no hosted Auth acceptance |
+| Staging | `STAGING_APP_ORIGIN` equals persistent `https://${VERCEL_BRANCH_URL}` | `/en/auth/confirm`, `/he/auth/confirm`, `/en/auth/recover/confirm`, `/he/auth/recover/confirm` on staging only |
+| Production bootstrap | `PRODUCTION_APP_ORIGIN` equals provider-owned `https://${VERCEL_PROJECT_PRODUCTION_URL}` | Only entries strictly necessary for coherent protected bootstrap smoke; no invitations or recovery delivery |
+| Production release | Exact separately approved Production origin | Same four exact paths only after separate release/domain configuration review |
 
-The provider may require additional exact template/redirect entries, but a
-broad wildcard is not accepted for staging or Production. A bounded provider
-pattern for ephemeral Preview is permitted only after the Auth URL owner proves
-it cannot match staging, Production, or an unrelated account and records the
-exact rule. OAuth remains deferred; this contract does not add a provider.
+The provider may require additional exact template/redirect entries, but no
+wildcard may match staging, Production, unrelated branches, deployments, or
+accounts. Do not broaden Supabase Auth policy for ephemeral Preview. When the
+exact Preview callback cannot be represented safely, Preview is limited to
+public/signed-out/deployment/environment smoke and staging owns the full hosted
+Auth, invitation, and recovery rehearsal. OAuth remains deferred.
+
+The bootstrap never adds the final public custom domain, enables ordinary
+signup, sends an invitation, or tests real recovery delivery. A later custom
+domain changes the trusted origin and therefore requires a fresh Production
+release authorization, Auth URL review, environment rebind, and new build.
 
 Before rehearsal, the Auth URL owner compares the application origin, Vercel
 target, Supabase project, Site URL, redirect allow-list, both locales, invite
@@ -269,9 +403,61 @@ remote reset are not release preflight actions.
 
 ## 10. Deterministic forward-only release sequence
 
+### One-time Production infrastructure bootstrap
+
+The mandatory first deployment may occur only after this repository contract
+is accepted and a later authorization explicitly names
+`PRODUCTION_BOOTSTRAP_ONLY`. It is a bounded operational prerequisite, not a
+Phase 11J action, Production release, launch, user-access event, or finding
+closure. Execute exactly this sequence:
+
+1. obtain exact `PRODUCTION_BOOTSTRAP_ONLY` authorization with operator,
+   reviewer, UTC window, stop boundary, and one-execution limit;
+2. record the exact candidate SHA, tree, base, and successful exact-head CI;
+3. select the exact GitHub repository and Vercel Production branch, verify its
+   head equals the authorized SHA/tree, configure (but do not yet initiate)
+   the Git-sourced project import, and record the exact project identity as
+   soon as Vercel assigns it;
+4. establish `All Deployments` protection plus Vercel Authentication through
+   the team default before creation where available, then verify it on that
+   exact empty project before deployment;
+5. configure only required Production-target variables/secrets and the three
+   distinct Supabase and origin registries, with
+   `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY`;
+6. if the build requires it, provision only the dedicated, empty Production
+   Supabase project and minimum coherent migration/RLS/grant/Auth/Vault state
+   under the same bounded authorization; do not copy non-production data;
+7. verify exact Vercel project, Production target, Production Supabase project,
+   provider-owned Production origin, repository, SHA, tree, and configuration
+   bindings;
+8. verify invitation-only configuration and that there are no real users,
+   invitations, beta enrollment, or launch communication;
+9. explicitly perform the single mandatory first Vercel Production deployment
+   from the exact Git-sourced candidate, without a custom Production domain;
+10. verify `VERCEL_GIT_COMMIT_SHA`, repository metadata, project/deployment
+    IDs, and recorded tree/provenance against the authorization;
+11. verify Vercel Authentication protects the provider-owned deployment and
+    project Production URLs with no shareable link, exception, or bypass;
+12. verify no public custom Production domain is attached or active;
+13. perform only the read-only bootstrap smoke in Section 12;
+14. verify the deployed [`vercel.json`](../vercel.json) keeps
+    `git.deploymentEnabled=false` effective for every branch; leave Git
+    connected only in that disabled state and do not create a test push, PR,
+    branch-tracking event, or merge;
+15. record the privacy-safe bootstrap evidence packet and independent review;
+16. stop without invitations, users, Product Production mutation, Phase 11J
+    credit, launch communication, promotion, or further Production deployment.
+
+Any inability to apply or verify protection before exposure, any unexpected
+automatic deployment, any custom domain, real user/data, invitation, identity
+mismatch, or second Production deployment is `STOP + ESCALATE`.
+
+### Ordinary rehearsal and actual release
+
 1. **Authorize.** Obtain an exact deployment/rehearsal authorization naming
    candidate SHA, target, allowed actions, window, operator, reviewer, and
-   abort boundary. Production requires its own later authorization.
+   abort boundary. The actual Production release requires its own later
+   authorization; the bootstrap authorization is stale and insufficient.
 2. **Serialize.** One technical executor acknowledges control. Block parallel
    release or migration operators.
 3. **Freeze candidate.** Record commit/tree/base; require the authoritative
@@ -280,9 +466,10 @@ remote reset are not release preflight actions.
 4. **Bind configuration.** Validate the manifest against the target. Record
    only variable presence/scope/version metadata and the three distinct
    project references; never values or fingerprints.
-5. **Confirm recovery prerequisite.** For Production eligibility, require
-   current Phase 11I qualification. Absence blocks Production. It is not
-   created during release.
+5. **Confirm recovery prerequisite.** For actual Production release
+   eligibility, require current Phase 11I qualification. Absence blocks the
+   release even when Production infrastructure already exists. Qualification
+   is not created during release.
 6. **Run drift preflight.** Complete Section 9 against the exact target under
    its separate authorization.
 7. **Select compatibility order.** With no schema change, deploy the app. For
@@ -355,6 +542,15 @@ Smoke is exact-candidate, exact-target, non-cached, and evidence-bound:
 | Database readiness | One approved ordinary RLS-protected safe read through a disposable controlled account, only when authorized | Read only |
 | Auth boundary | Signed-out sign-in/recovery surfaces load; hostile/wrong-environment redirects are absent | Read only |
 | Observability | Liveness and deployment/version signals are accepted/delivered as required by the rehearsal | No user data |
+
+For `PRODUCTION_BOOTSTRAP_ONLY`, the smoke is narrower: prove that the
+protected deployment exists, its SHA/tree/project/deployment/target/config and
+Production Supabase identities agree, the environment validator passed,
+`GET`/`HEAD /api/health` respond behind protection, `/en` and `/he` render the
+application shell, and security headers are present. It is read-only. Do not
+invite a user, create a normal beta account, execute E1-E5, write nutrition
+data, test real recovery delivery, claim performance acceptance, claim launch
+readiness, or attach/promote a custom Production domain.
 
 Mutation smoke is excluded from the base release smoke because retries can
 duplicate or ambiguously commit writes. Phase 11J may run the separately
@@ -473,15 +669,26 @@ minimization and qualified legal/privacy review remain external requirements.
 
 [`deployment/release-evidence-template.json`](../deployment/release-evidence-template.json)
 is an unexecuted, synthetic-free shape with `TEMPLATE_NOT_EXECUTED` and
-`productionAuthorized=false`. CI validates its exact top-level structure.
+`productionReleaseAuthorized=false`. CI validates its exact top-level
+structure and deployment-class policy.
 
-The future packet records candidate commit/tree/base and build provenance;
-deployment ID/target/origin; explicit environment and Supabase project
-identity; migration baseline/applied ledger/drift/compatibility/result; CI run,
-number, attempt, result, head, and duration; candidate, rehearsal, and separate
-Production authorization; operator/reviewer/window; smoke and observability;
-redeploy/forward-fix/incident result; timestamps; evidence digest; and open
-gaps.
+The future packet records `deploymentClass`,
+`productionReleaseAuthorized`, bootstrap and release authorization references,
+candidate SHA/tree/base, deployment/project IDs, target, expected project,
+canonical/provider origin, application/Supabase environments and project
+reference, migration baseline/applied ledger/drift/compatibility/result, CI
+run/number/attempt/result/head/duration, operator, independent reviewer,
+protection, automatic Git disposition, custom-domain absence/presence, real
+user/invitation/beta/communication/ordinary-access disposition, smoke,
+timestamps, recovery, evidence digest, and open gaps.
+
+For bootstrap evidence, `deploymentClass=PRODUCTION_BOOTSTRAP_ONLY` and
+`productionReleaseAuthorized=false` are mandatory. Vercel Authentication must
+be verified, automatic Git deployments and every exposure/invitation/domain
+field must be false, and finding/Phase 11K credit must be false. For an actual
+release, the evidence must name a fresh Production authorization distinct from
+the bootstrap reference and a current recovery qualification. The validator
+rejects bootstrap/release equivalence.
 
 It never contains secret values or fingerprints, passwords, tokens, cookies,
 authorization headers, service-role keys, database passwords, raw invitation
@@ -500,10 +707,15 @@ failed smoke/observability; invitation discrepancy; capacity/attempt unknown;
 sensitive evidence exposure; or elapsed window.
 
 Candidate approval says the code may be considered. Deployment/rehearsal
-authorization permits only the named non-production action. Production release
-authorization is a separate, exact, human act after all prerequisites; it names
-SHA, Production target, window, executor, approver, and rollback boundary.
-None is implied by another.
+authorization permits only the named non-production action. A later exact
+`PRODUCTION_BOOTSTRAP_ONLY` authorization permits only the single protected
+first deployment and minimum coherent empty infrastructure described here.
+Production release authorization remains a separate, exact, human act after
+all prerequisites; it names SHA, Production target, release window, technical
+executor, independent approver, current recovery qualification, required
+external evidence, and rollback/redeploy boundary. Bootstrap existence or its
+authorization cannot satisfy it. None is implied by merge, push, CI, role
+acceptance, candidate acceptance, another environment, or another phase.
 
 ## 18. Phase 11I handoff
 
@@ -514,18 +726,26 @@ environment; verify Postgres, Auth identity/config evidence, migrations,
 roles/grants/RLS, any Storage, application/lifecycle/snapshot integrity, and
 timing; meet RPO 24 hours and RTO 8 hours; record 30-day retention and quarterly
 cadence; and tear down safely. No backup or restore was performed here.
+The existence of a separately authorized Production bootstrap may be treated
+as an infrastructure fact, but gives no recovery credit and does not bypass
+any 11I qualification requirement for actual release.
 
 ## 19. Phase 11J handoff
 
 Phase 11J remains unstarted and needs separate exact non-production authority.
-It must verify provider capability for the declared Vercel topology, create or
-link only the authorized non-production scope, configure isolated Preview and
-staging Supabase/Auth/secret metadata, run drift/order preflight, deploy the
-exact candidate, smoke, observe signals, rehearse compatible app redeploy,
-exercise invitation conflicts with controlled identities, and complete the
-evidence packet. It also owns previously deferred deployed Auth, header,
-browser/device/accessibility, performance, observability, incident, and
-operator evidence. No Production mutation or authorization belongs to 11J.
+It must verify provider capability for the declared single-project topology,
+configure isolated Preview and staging Supabase/Auth/secret metadata, run
+drift/order preflight, explicitly deploy the exact candidate, smoke, observe
+signals, rehearse compatible app redeploy, exercise invitation conflicts with
+controlled identities, and complete the evidence packet. It also owns
+previously deferred deployed Auth, header, browser/device/accessibility,
+performance, observability, incident, and operator evidence.
+
+Phase 11J remains a non-Production acceptance rehearsal. It may verify the
+separately authorized bootstrap's existence, isolation, Git-disable state, and
+protection only as environmental facts. The bootstrap is not Phase 11J
+acceptance evidence. Phase 11J must not create, redeploy, mutate, promote, or
+open Product Production without another exact action authorization.
 
 ## 20. External-validation gaps and finding status
 
@@ -536,10 +756,29 @@ redirects, signup disablement, delivery/SMTP, rate limits, secrets/Vault match,
 Storage reality, invitations, register system/access, deployed smoke,
 observability delivery, and recovery qualification remain uncollected.
 
+`P11A-018` repository guidance is now reconciled without duplicating the
+accepted sources:
+
+| Need | Canonical repository guidance |
+| --- | --- |
+| Contributor/local operation | [`README.md`](../README.md) install, local Supabase, checks, and development boundaries |
+| Environment ownership/configuration | Sections 2, 4, 6, 7, and 8 of this runbook plus the machine-readable manifest |
+| Deployment and migration/drift sequencing | Sections 5, 9, 10, and 11 of this runbook |
+| Release and Production authorization | Sections 2, 10, and 17 plus `DEC-030`/`DEC-031` in [`docs/decision-log.md`](decision-log.md) |
+| Rollback/redeploy | Section 13 of this runbook |
+| Recovery | Section 18 and the future separately authorized Phase 11I qualification |
+| Incident response | [`docs/incident-response-runbook.md`](incident-response-runbook.md) |
+| Support boundary | `DEC-005` and the role/deadline table in [`docs/phase-11b-launch-contract-and-acceptance-baseline.md`](phase-11b-launch-contract-and-acceptance-baseline.md) |
+| Invitations/reconciliation | Sections 14 and 15 plus [`docs/phase-11e-auth-account-lifecycle-governance.md`](phase-11e-auth-account-lifecycle-governance.md) |
+
+Operator walkthrough and external/provider evidence remain pending for 11J;
+Phase 11K remains the closure gate.
+
 | Finding | Status | Implementation stage | Closure gate |
 | --- | --- | --- | --- |
-| `P11A-010` | `OPEN` | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` after review/merge | Phase 11J external drift/order evidence; Phase 11K closure |
-| `P11A-017` | `OPEN` | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` after review/merge | Phase 11J Vercel/environment/rehearsal evidence; Phase 11K closure |
+| `P11A-010` | `OPEN` | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Phase 11J external drift/order evidence; Phase 11K closure |
+| `P11A-017` | `OPEN` | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Phase 11J Vercel/environment/rehearsal evidence; Phase 11K closure |
+| `P11A-018` | `OPEN` | `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Phase 11J operator walkthrough/external evidence; Phase 11K closure |
 
 Phase 11 remains `INCOMPLETE`. This record does not establish
 `EXTERNAL_VALIDATION_COMPLETE`, `FINDING_CLOSED`, launch readiness, Production

@@ -637,8 +637,14 @@ single machine-checkable deployment contract and canonical
 [release runbook](phase-11h-deployment-architecture-release-runbook.md) for
 separate Preview, staging, and Production identities, fail-closed Supabase
 target matching, forward-only migration/release order, safe smoke and redeploy
-decisions, invitation reconciliation, and future evidence. It performs no
-external operation. `P11A-010` and `P11A-017` remain `OPEN`; pending
+decisions, invitation reconciliation, and future evidence. `DEC-031` retains
+one Vercel project and permits only a later separately authorized, protected
+`PRODUCTION_BOOTSTRAP_ONLY` first deployment; bootstrap is not release or
+Phase 11J/11K evidence. Inert `git.deploymentEnabled=false` configuration
+prevents ordinary Git activity from creating later deployments, and
+`APP_ORIGIN` is bound to an environment registry plus trusted Vercel metadata.
+This task performs no external operation. `P11A-010`, `P11A-017`, and
+`P11A-018` remain `OPEN`; pending
 independent review and merge, the candidate is implementation complete pending
 independent review, and Phase 11K remains the only closure gate.
 

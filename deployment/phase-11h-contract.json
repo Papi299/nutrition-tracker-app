@@ -1,6 +1,6 @@
 {
   "contractId": "PHASE-11H-DEPLOYMENT-ENVIRONMENT-CONTRACT-001",
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "status": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
   "applicationEnvironments": {
     "local": {
@@ -8,6 +8,8 @@
       "supabaseEnvironment": "local",
       "vercelEnvironment": null,
       "vercelTargetEnvironment": null,
+      "deploymentClasses": [],
+      "originProviderVariable": null,
       "requiresHostedProjectIdentity": false,
       "productionProjectRelationship": "not-applicable"
     },
@@ -16,6 +18,8 @@
       "supabaseEnvironment": "local",
       "vercelEnvironment": null,
       "vercelTargetEnvironment": null,
+      "deploymentClasses": [],
+      "originProviderVariable": null,
       "requiresHostedProjectIdentity": false,
       "productionProjectRelationship": "not-applicable"
     },
@@ -24,6 +28,8 @@
       "supabaseEnvironment": "preview",
       "vercelEnvironment": "preview",
       "vercelTargetEnvironment": "preview",
+      "deploymentClasses": ["PREVIEW"],
+      "originProviderVariable": "VERCEL_URL",
       "requiresHostedProjectIdentity": true,
       "productionProjectRelationship": "must-differ"
     },
@@ -32,6 +38,8 @@
       "supabaseEnvironment": "staging",
       "vercelEnvironment": "preview",
       "vercelTargetEnvironment": "staging",
+      "deploymentClasses": ["STAGING"],
+      "originProviderVariable": "VERCEL_BRANCH_URL",
       "requiresHostedProjectIdentity": true,
       "productionProjectRelationship": "must-differ"
     },
@@ -40,9 +48,210 @@
       "supabaseEnvironment": "production",
       "vercelEnvironment": "production",
       "vercelTargetEnvironment": "production",
+      "deploymentClasses": ["PRODUCTION_BOOTSTRAP_ONLY", "PRODUCTION_RELEASE"],
+      "originProviderVariable": "VERCEL_PROJECT_PRODUCTION_URL",
       "requiresHostedProjectIdentity": true,
       "productionProjectRelationship": "must-match"
     }
+  },
+  "providerArchitecture": {
+    "vercelProjectCount": 1,
+    "topology": "single-project",
+    "applicationTargets": ["preview", "staging", "production"],
+    "automaticGitDeployments": false,
+    "repositoryConfiguration": {
+      "path": "vercel.json",
+      "git.deploymentEnabled": false
+    },
+    "authorityInvariants": [
+      "merge != deployment authorization",
+      "push != deployment authorization",
+      "CI success != deployment authorization"
+    ],
+    "officialProviderReferences": [
+      "https://vercel.com/docs/deployments/environments#first-deployment",
+      "https://vercel.com/docs/git",
+      "https://vercel.com/docs/project-configuration/git-configuration",
+      "https://vercel.com/docs/deployments/promoting-a-deployment",
+      "https://vercel.com/docs/deployment-protection",
+      "https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication",
+      "https://vercel.com/docs/environment-variables/system-environment-variables"
+    ]
+  },
+  "deploymentClasses": {
+    "PREVIEW": {
+      "applicationEnvironment": "preview",
+      "vercelTarget": "preview",
+      "productionReleaseAuthorizationRequired": false,
+      "productionReleaseAuthorizedInEvidence": false,
+      "exactActionAuthorizationRequired": true,
+      "phase11JAcceptanceEligible": true
+    },
+    "STAGING": {
+      "applicationEnvironment": "staging",
+      "vercelTarget": "staging",
+      "productionReleaseAuthorizationRequired": false,
+      "productionReleaseAuthorizedInEvidence": false,
+      "exactActionAuthorizationRequired": true,
+      "phase11JAcceptanceEligible": true
+    },
+    "PRODUCTION_BOOTSTRAP_ONLY": {
+      "applicationEnvironment": "production",
+      "vercelTarget": "production",
+      "maximumAuthorizedExecutions": 1,
+      "productionReleaseAuthorizationRequired": false,
+      "productionReleaseAuthorizedInEvidence": false,
+      "exactActionAuthorizationRequired": true,
+      "realUsersAllowed": false,
+      "invitationsAllowed": false,
+      "betaEnrollmentAllowed": false,
+      "externalLaunchCommunicationAllowed": false,
+      "ordinaryProductionAccessAllowed": false,
+      "deploymentProtectionBypassAllowed": false,
+      "shareableLinksAllowed": false,
+      "protectionExceptionsAllowed": false,
+      "customProductionDomainAllowed": false,
+      "findingClosureCredit": false,
+      "phase11KLaunchCredit": false,
+      "phase11JAcceptanceEligible": false,
+      "subsequentProductionDeploymentsAllowed": false
+    },
+    "PRODUCTION_RELEASE": {
+      "applicationEnvironment": "production",
+      "vercelTarget": "production",
+      "productionReleaseAuthorizationRequired": true,
+      "productionReleaseAuthorizedInEvidence": true,
+      "exactActionAuthorizationRequired": true,
+      "freshAuthorizationRequired": true,
+      "currentRecoveryQualificationRequired": true,
+      "bootstrapAuthorizationIsInsufficient": true,
+      "phase11JAcceptanceEligible": false
+    }
+  },
+  "productionBootstrapPolicy": {
+    "decision": "DEC-031",
+    "classification": "PRODUCTION_BOOTSTRAP_ONLY",
+    "authorizationRequiredLater": true,
+    "executedByThisRepositoryTask": false,
+    "sourceMethod": {
+      "type": "vercel-git-source",
+      "repository": "Papi299/nutrition-tracker-app",
+      "candidateConstraint": "authorized SHA and tree equal the selected Production branch head immediately before the single initial Deploy action",
+      "rawCliOrPrebuiltUploadAllowed": false,
+      "gitConnectionOutsideBootstrapAuthorizationAllowed": false,
+      "connectionTriggeredDeploymentDisposition": "The connection is the single authorized bootstrap action only when protection, Production target, exact SHA/tree, project, and configuration are already bound; otherwise stop before connecting.",
+      "postBootstrapGitState": "connected only with git.deploymentEnabled=false verified effective; no test push, PR, branch tracking event, or merge"
+    },
+    "deploymentProtection": "All Deployments with Vercel Authentication, established through a team default before project creation where available and verified on the exact project before the first deployment",
+    "productionInfrastructureBoundary": "Only the minimum empty, isolated Production infrastructure required for a coherent protected build",
+    "identityBindings": [
+      "one exact repository commit",
+      "one exact repository tree",
+      "one exact Vercel project",
+      "one exact Vercel Production target",
+      "one exact environment configuration"
+    ],
+    "requiredEvidenceFields": [
+      "deploymentClass",
+      "authorization.bootstrapAuthorizationReference",
+      "productionReleaseAuthorized",
+      "candidate.commit",
+      "candidate.tree",
+      "deployment.deploymentIdentifier",
+      "deployment.target",
+      "deployment.projectIdentity",
+      "environment.applicationEnvironment",
+      "environment.supabaseEnvironment",
+      "environment.supabaseProjectReference",
+      "environment.configurationCandidateIdentifier",
+      "deployment.applicationOrigin",
+      "bootstrap.deploymentProtectionDisposition",
+      "bootstrap.protectionBypassConfigured",
+      "bootstrap.shareableLinksCreated",
+      "bootstrap.protectionExceptionsConfigured",
+      "bootstrap.automaticGitDeploymentsEnabled",
+      "bootstrap.customProductionDomainAttached",
+      "bootstrap.realUsersPresent",
+      "bootstrap.invitationsExecuted",
+      "bootstrap.bootstrapSmokeResult",
+      "timestamps",
+      "execution.operator",
+      "execution.independentReviewer"
+    ],
+    "orderedBootstrapSteps": [
+      "obtain exact PRODUCTION_BOOTSTRAP_ONLY authorization",
+      "record candidate SHA and tree",
+      "record Vercel project identity",
+      "establish deployment protection before exposure",
+      "configure required Production-target variables and secrets",
+      "provision a dedicated empty Production Supabase project only if required",
+      "establish exact Production project, Supabase, and origin bindings",
+      "confirm invitation-only and no-user boundary",
+      "perform the mandatory first Vercel Production deployment",
+      "verify exact Git provenance",
+      "verify Deployment Protection",
+      "verify no custom Production domain",
+      "perform read-only bootstrap smoke",
+      "verify automatic Git-triggered deployments are disabled",
+      "record evidence",
+      "stop"
+    ],
+    "productionSupabaseRequirements": [
+      "dedicated Production project",
+      "empty/no real beta-user dataset at bootstrap",
+      "Production-only project identity",
+      "correct migration ledger",
+      "RLS/grant contract, including explicit Data API grants where current project settings require them",
+      "signup remains invitation-only",
+      "Production-specific secrets",
+      "Production-specific Vault match",
+      "Production Auth URL configuration limited to the protected bootstrap origin"
+    ],
+    "bootstrapSmokeAllowed": [
+      "protected deployment exists",
+      "exact revision matches",
+      "environment validator passed",
+      "/api/health responds behind protection",
+      "/en and /he application shells respond",
+      "security headers are present",
+      "Production environment and Supabase identities agree"
+    ],
+    "bootstrapSmokeProhibited": [
+      "invite users",
+      "create normal beta accounts",
+      "execute the full E1-E5 acceptance journey",
+      "write representative user nutrition data",
+      "claim deployed performance acceptance",
+      "claim launch readiness"
+    ],
+    "orderedPhases": [
+      "Production infrastructure bootstrap",
+      "Phase 11I recovery qualification",
+      "Phase 11J non-Production rehearsal",
+      "Phase 11K integrated acceptance",
+      "actual separately authorized Production release"
+    ]
+  },
+  "trustedOriginPolicy": {
+    "registryVariables": [
+      "PREVIEW_APP_ORIGIN",
+      "STAGING_APP_ORIGIN",
+      "PRODUCTION_APP_ORIGIN"
+    ],
+    "activeOriginVariable": "APP_ORIGIN",
+    "providerBindings": {
+      "preview": "VERCEL_URL",
+      "staging": "VERCEL_BRANCH_URL",
+      "production": "VERCEL_PROJECT_PRODUCTION_URL"
+    },
+    "forbiddenAuthorities": [
+      "request Host",
+      "forwarded Host",
+      "browser input",
+      "caller redirect",
+      "branch name alone",
+      "arbitrary URL shape"
+    ]
   },
   "environmentVariables": [
     {
@@ -53,6 +262,17 @@
       "purpose": "Authoritative application security-environment identity; never inferred from a host, branch, URL, or request.",
       "sourceBoundary": "Explicit runtime/deployment configuration.",
       "rotation": "Change only through reviewed environment rebinding; redeploy required.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "DEPLOYMENT_CLASS",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "deployment/runbook owner",
+      "purpose": "Classifies a hosted deployment as PREVIEW, STAGING, PRODUCTION_BOOTSTRAP_ONLY, or PRODUCTION_RELEASE without granting authority to execute it.",
+      "sourceBoundary": "Explicit environment-scoped metadata checked against APP_ENVIRONMENT and the deployment evidence authorization.",
+      "rotation": "Change only for an exact separately authorized action; a new Production release cannot reuse the bootstrap classification.",
       "browserExposure": "forbidden",
       "vaultMatch": null
     },
@@ -145,6 +365,39 @@
       "vaultMatch": null
     },
     {
+      "name": "PREVIEW_APP_ORIGIN",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Auth URL owner",
+      "purpose": "Trusted exact Preview deployment origin registry entry; must match VERCEL_URL when Preview is active.",
+      "sourceBoundary": "Reviewed environment metadata plus the provider-supplied exact generated deployment URL.",
+      "rotation": "Rebind for each exact Preview deployment used as APP_ORIGIN; redeploy and review Auth configuration.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "STAGING_APP_ORIGIN",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Auth URL owner",
+      "purpose": "Trusted persistent staging origin registry entry; must match VERCEL_BRANCH_URL when staging is active.",
+      "sourceBoundary": "Reviewed staging target metadata plus the provider-supplied Git branch URL.",
+      "rotation": "Change only with an authorized staging origin rebind and Auth allow-list review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PRODUCTION_APP_ORIGIN",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Auth URL owner",
+      "purpose": "Trusted Production origin registry entry; the bootstrap uses only the provider-owned project Production URL.",
+      "sourceBoundary": "Reviewed Production target metadata plus VERCEL_PROJECT_PRODUCTION_URL.",
+      "rotation": "Custom-domain cutover requires a separate Production release authorization, Auth review, and redeploy.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "AUTH_REAUTH_PROOF_SECRET",
       "visibility": "server-only application",
       "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
@@ -167,6 +420,17 @@
       "vaultMatch": "account_closure_capability_v1"
     },
     {
+      "name": "EXPECTED_VERCEL_PROJECT_ID",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Reviewed non-secret identity of the single authorized Vercel project.",
+      "sourceBoundary": "Explicit target registry metadata; compared with provider-managed VERCEL_PROJECT_ID.",
+      "rotation": "Change only through an approved single-project rebind and contract review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "VERCEL_ENV",
       "visibility": "server-only application",
       "requiredEnvironments": ["preview", "staging", "production"],
@@ -185,6 +449,94 @@
       "purpose": "Provider target assertion, including the staging custom environment, checked against APP_ENVIRONMENT.",
       "sourceBoundary": "Vercel system environment variable.",
       "rotation": "Provider-managed; target binding changes require review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_URL",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider exact generated deployment hostname; authoritative origin binding for Preview and a contradiction assertion elsewhere.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed per deployment.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_BRANCH_URL",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider Git branch hostname; authoritative persistent-origin binding for staging and a contradiction assertion elsewhere.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed with the bound Git branch; branch binding changes require review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_PROJECT_PRODUCTION_URL",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider project Production hostname; authoritative Production/bootstrap origin binding and never Preview authority.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed; custom-domain selection changes require Production authorization and review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_PROJECT_ID",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider project identity assertion compared with EXPECTED_VERCEL_PROJECT_ID.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_DEPLOYMENT_ID",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Unique provider deployment identity for evidence and contradiction checks.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed per deployment.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_GIT_PROVIDER",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider Git provenance assertion; must identify GitHub.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_GIT_REPO_OWNER",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider Git provenance assertion; must identify repository owner Papi299.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed; repository transfer requires contract review.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "VERCEL_GIT_REPO_SLUG",
+      "visibility": "server-only application",
+      "requiredEnvironments": ["preview", "staging", "production"],
+      "ownerCategory": "Vercel owner",
+      "purpose": "Provider Git provenance assertion; must identify nutrition-tracker-app.",
+      "sourceBoundary": "Vercel system environment variable.",
+      "rotation": "Provider-managed; repository rename requires contract review.",
       "browserExposure": "forbidden",
       "vaultMatch": null
     },
@@ -525,8 +877,10 @@
     "locales": ["en", "he"],
     "inviteCallbackPath": "/{locale}/auth/confirm",
     "recoveryCallbackPath": "/{locale}/auth/recover/confirm",
-    "originAuthority": "APP_ORIGIN",
-    "forbiddenAuthorities": ["request Host", "forwarded Host", "caller redirect", "branch name", "Vercel URL shape"]
+    "originAuthority": "APP_ORIGIN bound to the environment origin registry and applicable Vercel system URL",
+    "previewHostedAuthDisposition": "Signed-out/public/deployment/environment smoke only unless the exact Preview callback can be represented without any wildcard that reaches staging, Production, or unrelated deployments.",
+    "productionBootstrapAuthDisposition": "Only configuration strictly required for the protected provider-owned bootstrap origin; no ordinary signup, invitation, recovery-delivery test, or final custom domain.",
+    "forbiddenAuthorities": ["request Host", "forwarded Host", "browser input", "caller redirect", "branch name alone", "arbitrary URL shape"]
   },
   "invitationRegister": {
     "classification": "restricted personal operational record",
@@ -566,11 +920,32 @@
     "correctionModel": "append-only-attributable",
     "atomicity": "No atomic transaction across the register, Supabase Auth, and application lifecycle state is claimed."
   },
+  "findingDispositions": {
+    "P11A-010": {
+      "status": "OPEN",
+      "implementationStage": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
+      "closureGate": "Phase 11K"
+    },
+    "P11A-017": {
+      "status": "OPEN",
+      "implementationStage": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
+      "closureGate": "Phase 11K"
+    },
+    "P11A-018": {
+      "status": "OPEN",
+      "implementationStage": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
+      "closureGate": "Phase 11K"
+    },
+    "allPhase11FindingsOpen": true,
+    "phase11Status": "INCOMPLETE"
+  },
   "releaseEvidencePacket": {
     "template": "deployment/release-evidence-template.json",
     "requiredTopLevelFields": [
       "schemaVersion",
       "status",
+      "deploymentClass",
+      "productionReleaseAuthorized",
       "candidate",
       "deployment",
       "environment",
@@ -581,6 +956,7 @@
       "smoke",
       "observability",
       "recovery",
+      "bootstrap",
       "timestamps",
       "review"
     ],
