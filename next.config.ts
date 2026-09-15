@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { browserSecurityHeaders } from "./lib/security/browser-headers";
+import { assertDeploymentEnvironment } from "./lib/deployment/environment.mjs";
+
+assertDeploymentEnvironment(process.env);
 
 const nextConfig: NextConfig = {
   async headers() {

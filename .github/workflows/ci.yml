@@ -49,6 +49,9 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Verify Phase 11H deployment and environment contract
+        run: npm run test:deployment-contract
+
       - name: Verify security policy regressions
         run: npm run test:security
 

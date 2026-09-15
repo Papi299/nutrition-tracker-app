@@ -556,6 +556,11 @@ be described as closing a finding that requires external evidence.
 - **Validation:** Phase 11H owns local clean replay, hosted-role simulation, and
   runbook review. Phase 11J owns non-destructive environment preflight and
   rehearsal evidence.
+- **Phase 11H reconciliation (2026-09-15):** The repository now defines the
+  exact forward-only ledger/drift/compatibility/deploy/abort contract and
+  synthetic checks. `P11A-010` remains `OPEN`; its repository implementation
+  stage is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11J
+  external evidence and Phase 11K closure remain pending.
 
 ### P11A-011 — Current recovery evidence cannot support launch authorization
 
@@ -816,6 +821,15 @@ be described as closing a finding that requires external evidence.
 - **Validation:** Phase 11H owns configuration/runbook review and local
   environment assertions. Phase 11J owns Preview smoke, rollback/redeploy, and
   the attributable external evidence packet.
+- **Phase 11H reconciliation (2026-09-15):** The single-project
+  Preview/staging/Production architecture, one-time protected
+  `PRODUCTION_BOOTSTRAP_ONLY` exception, disabled automatic Git deployment,
+  environment/Supabase/origin isolation, release authorization, smoke,
+  rollback/redeploy, and evidence contracts are now repository-defined and
+  synthetically checked. `P11A-017` remains `OPEN`; its repository
+  implementation stage is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Provider evidence and
+  Phase 11K closure remain pending.
 
 ### P11A-018 — Contributor, operator, support, and launch documentation is incomplete
 
@@ -846,6 +860,19 @@ be described as closing a finding that requires external evidence.
 - **Acceptance criterion:** A new contributor and designated operator complete
   a dry run using repository docs only, with no unsafe assumption.
 - **Validation:** Link/command checks, contradiction scan, and observed dry run.
+- **Phase 11H reconciliation (2026-09-15):** Repository guidance now links
+  contributor/local operation (`README.md`), environment ownership and
+  configuration, deployment, migration/drift, release, rollback/redeploy,
+  Production authorization, and invitation procedures
+  (`docs/phase-11h-deployment-architecture-release-runbook.md`); incident
+  response (`docs/incident-response-runbook.md`); account/invitation lifecycle
+  (`docs/phase-11e-auth-account-lifecycle-governance.md`); and support policy
+  and role deadlines
+  (`docs/phase-11b-launch-contract-and-acceptance-baseline.md`). Recovery
+  qualification remains Phase 11I work. `P11A-018` remains `OPEN`; its
+  repository implementation stage is
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. The 11J operator
+  walkthrough/external evidence and Phase 11K closure remain pending.
 
 ## 10. P0 release blockers
 

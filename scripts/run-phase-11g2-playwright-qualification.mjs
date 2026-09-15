@@ -489,6 +489,7 @@ function childEnvironment() {
   delete value.SUPABASE_SECRET_KEY;
   Object.assign(value, {
     ACCOUNT_CLOSURE_CAPABILITY_SECRET: closureSecret,
+    APP_ENVIRONMENT: "local",
     APP_ORIGIN: `http://127.0.0.1:${browserPort}`,
     AUTH_REAUTH_PROOF_SECRET:
       "phase11e3-local-e2e-only-proof-secret-material-0123456789",
@@ -498,6 +499,8 @@ function childEnvironment() {
     LOCAL_SUPABASE_URL: apiUrl,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: publishableKey,
     NEXT_PUBLIC_SUPABASE_URL: apiUrl,
+    SUPABASE_ENVIRONMENT: "local",
+    SUPABASE_PROJECT_REF: "local",
   });
   return value;
 }

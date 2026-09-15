@@ -36,6 +36,8 @@
 | Phase 11E no-JavaScript amendment state | The six exactly allowlisted classifications are the accepted current contract version 1.6 under `PHASE_11E0B_POST_MERGE_ACCEPTED`; runtime evidence remains slice-specific |
 | Phase 11E Contract 1.6 independent review | Completed outside the Phase 11E1 task after PR #109 merged as `44dc2db520c8df45f2c037fb0327cebef3de8c99`; exact-main run `33008384228` attempt 1 failed during migration replay and identical-SHA attempt 2 passed completely |
 | Phase 11G prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-08-29 Maor Pichhadze assigned and explicitly recorded acceptance by Maor Pichhadze as Observability owner, Performance and reliability owner, and Incident primary, and by Jimmy Peachy as Incident escalation backup; the attributable statement is recorded in the [decision log](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) |
+| Phase 11H prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-09-15 Maor Pichhadze assigned himself to and explicitly accepted the Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and deployment/runbook owner roles; this satisfies only the before-11H governance prerequisite and grants none of the external authorities listed in Section 18 |
+| Phase 11H Production bootstrap decision | `PRODUCT_OWNER_APPROVED` — `DEC-031` permits one future separately and exactly authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first Vercel deployment; it is infrastructure, not release/launch/user/finding credit, and no bootstrap is executed by the repository correction |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -148,12 +150,12 @@ Phase 11G technical policy and credits no implementation.
 | Observability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
 | Incident primary and escalation backup | `ASSIGNED_AND_APPROVED` | Maor Pichhadze (primary); Jimmy Peachy (escalation backup) | [Attributable 2026-08-29 Product Owner assignments and explicit acceptance by both assignees](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
 | Performance and reliability owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-08-29 Product Owner assignment and explicit acceptance](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) | Before 11G — satisfied 2026-08-29 |
-| Vercel owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Supabase owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Environment and secrets owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Auth URL owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Domain/DNS owner, if applicable | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
-| Deployment/runbook owner | `UNASSIGNED_BLOCKING_BEFORE_11H` | None | `NOT_VERIFIED` | Before 11H |
+| Vercel owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Supabase owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Environment and secrets owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Auth URL owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
+| Domain/DNS owner, if applicable | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18; applicability does not authorize or require a change | Before 11H — satisfied 2026-09-15 |
+| Deployment/runbook owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
 | Backup owner | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
 | Restore executor | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
 | Recovery approver and backup | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
@@ -922,7 +924,7 @@ totals. Every finding remains `OPEN`.
 | `P11A-014` | Observability / incident | `RELEASE_BLOCKER` | P0 | `OPEN` | `DEC-004`–`DEC-006`, `DEC-023` | Product owner | Observability/incident owner | 11G | Approved privacy-safe telemetry, alert policy, owners, runbook, and escalation for invitation reconciliation/secret-recording discrepancies pass synthetic/tabletop checks; then `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Provider signals, uptime, deployment notification, alert delivery, discrepancy/incident drill | 11J | 11K | `P11A-001` | CI and ingestion evidence only; not live monitoring | Monitoring/alert/incident architecture plus separate restricted audit evidence and observed proof | No — P0 | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-014--no-minimum-production-observability-or-incident-response-exists); `EV-017`, `EV-022` |
 | `P11A-015` | CI / test strategy | `PARTIALLY_READY` | P1 | `OPEN` | `DEC-022`, `DEC-029` | Product owner | QA/CI owner | 11C | Approved launch gates map to authoritative jobs or signed checklists; no unexplained skip/failure | Rehearsal gates and CI reliability history | 11J | 11K | `P11A-001`, `P11A-002` | One comprehensive 30-minute Validate job passed on accepted prior SHA | Launch matrices, security/accessibility/deployment gates, flake evidence | Yes — Section 11 only | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-015--ci-is-authoritative-but-not-yet-a-launch-quality-strategy); `EV-001`–`EV-003` |
 | `P11A-016` | Repository governance | `EXTERNAL_EVIDENCE_REQUIRED` | P2 | `OPEN` | `DEC-029` | Product owner | Repository/security owner | 11F | Approved review/check/scanning/merge policy documented and matched | Read-only GitHub settings/security-feature evidence | 11F | 11K | `P11A-001` | Public repo, focused PR history, one workflow; mutable action tags | Branch/ruleset/review/check/scanning/alert settings | No — P2 managed normally | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-016--repository-governance-and-supply-chain-settings-are-not-evidenced); `EV-013` |
-| `P11A-017` | Deployment / environments | `RELEASE_BLOCKER` | P0 | `OPEN` | `DEC-007`, `DEC-026`–`DEC-030` | Product owner | Deployment architecture owner | 11H | Reviewed isolation/order/ownership/approval/rollback and invitation procedure/register/reconciliation runbook; then `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Vercel/environment/domain/configuration/deployment/smoke/rollback plus hosted Auth and register-binding evidence | 11J | 11K | `P11A-001`; bounded 11E–11G contracts | Production build succeeds; env access fails closed; no Vercel config | Entire controlled deployment and invitation-operations path with external proof | No — P0 | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-017--deployment-and-environment-architecture-is-entirely-unstarted); `EV-019`, `EV-024` |
+| `P11A-017` | Deployment / environments | `RELEASE_BLOCKER` | P0 | `OPEN` | `DEC-007`, `DEC-026`–`DEC-031` | Product owner | Deployment architecture owner | 11H | Reviewed isolation/order/ownership/approval/rollback and invitation procedure/register/reconciliation runbook; then `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING` | Vercel/environment/domain/configuration/deployment/smoke/rollback plus hosted Auth and register-binding evidence | 11J | 11K | `P11A-001`; bounded 11E–11G contracts | Production build succeeds; env access fails closed; no Vercel config | Entire controlled deployment and invitation-operations path with external proof | No — P0 | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-017--deployment-and-environment-architecture-is-entirely-unstarted); `EV-019`, `EV-024` |
 | `P11A-018` | Documentation / operations | `GAP` | P1 | `OPEN` | `DEC-005`–`DEC-007`, `DEC-027`, `DEC-028` | Product owner | Runbook owner | 11H | Owner-specific deploy/rollback/recovery/support/incident/launch and invitation issue/reissue/revoke/reconcile documentation is link/command reviewed | Operator walkthrough, conflict drill, and reconciliation using repository docs | 11J | 11K | All control-owning slices | Extensive local and historical docs | Concise current runbooks, accepted owners, restricted-register controls, and observed dry run | Yes — Section 11 only | — | [Audit](phase-11-qa-hardening-deployment-readiness-audit.md#p11a-018--contributor-operator-support-and-launch-documentation-is-incomplete); `EV-022` |
 
 For P0/P1 traceability, the **Controlling implementation / decision slice**
@@ -1261,3 +1263,54 @@ remains the sole formal finding-closure gate. Once this prerequisite record is
 independently accepted and merged, Phase 11G engineering may begin with
 `PHASE-11G1-RELIABILITY-OBSERVABILITY-FOUNDATION-001`; no Phase 11G1 credit is
 claimed here.
+
+## 18. Phase 11H prerequisite assignments and repository contract
+
+On 2026-09-15, Product Owner Maor Pichhadze supplied an attributable statement
+assigning himself to and explicitly accepting each before-11H role: Vercel
+owner, Supabase owner, environment and secrets owner, Auth URL owner,
+domain/DNS owner if applicable, and deployment/runbook owner. The domain/DNS
+assignment establishes accountability for any future decision or configuration
+but neither authorizes nor requires a domain or DNS change.
+
+These assignments satisfy only the before-11H governance prerequisite. They do
+not authorize Vercel setup or deployment, hosted Supabase access or mutation,
+DNS/domain changes, credential creation or rotation, invitations,
+backup/restore operations, Production action, launch, or finding closure.
+`DEC-026`, `DEC-027`, `DEC-028`, the existing release-role separation policy,
+and all later 11I/11J/11K role deadlines remain unchanged.
+
+The Phase 11H repository candidate is defined by the
+[deployment architecture and release runbook](phase-11h-deployment-architecture-release-runbook.md)
+and its machine-checkable deployment contract. It begins from accepted main
+`f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+`8a85a186699e9495032b9ea01eb7081b84d04b14`, after PR #120 and exact-main CI
+run `34982739418` succeeded. Until independent review and merge, its bounded
+state is implementation complete pending independent review. `P11A-010`,
+`P11A-017`, and `P11A-018` remain `OPEN` with repository implementation stage
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11K remains the
+only finding-closure gate.
+
+## 19. DEC-031 Production bootstrap exception
+
+On 2026-09-15, Product Owner Maor Pichhadze approved `DEC-031 — One-time
+Production bootstrap exception`. Vercel's mandatory first deployment for a new
+project is a provider Production deployment, so the accepted single-project
+architecture may perform one future, separately authorized, protected
+`PRODUCTION_BOOTSTRAP_ONLY` first deployment. A tightly bounded bootstrap is
+operationally simpler and less drift-prone than maintaining two Vercel projects
+solely to avoid the provider behavior.
+
+The bootstrap creates infrastructure only and does not constitute a Production
+release. It authorizes no real users/data, invitations, beta enrollment,
+external launch communication, ordinary Production access, final custom
+Production domain, later Production deployment, Phase 11J/11K credit, launch
+credit, or finding closure. `DEC-031` supersedes only the prior interpretation
+that every Production-target deployment must wait for actual release
+authorization. `DEC-030` remains the gate for the actual Production release
+and all normal Production activity.
+
+This repository correction records and validates that distinction but performs
+no Vercel, hosted Supabase, Auth, secret, domain/DNS, deployment, Production,
+invitation, recovery, Phase 11I, or Phase 11J operation. Actual bootstrap
+execution requires a separate future exact authorization.

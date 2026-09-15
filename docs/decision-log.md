@@ -3322,3 +3322,78 @@
   and `P11A-012` through `P11A-014` remain `OPEN`; Phase 11G and Phase 11 remain
   `INCOMPLETE`; no production, deployment, later-phase, closure, or merge action
   is authorized.
+
+## 2026-09-15: Phase 11H prerequisite assignments and deployment architecture candidate
+
+- PR #120 was subsequently accepted and merged as current main
+  `f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+  `8a85a186699e9495032b9ea01eb7081b84d04b14`; exact-main CI run
+  `34982739418`, run number 235, attempt 1, succeeded. Earlier Phase 11G2
+  entries remain historical snapshots of the candidate state at their dates.
+- Product Owner Maor Pichhadze assigned himself to and explicitly accepted the
+  Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS,
+  and deployment/runbook owner roles. The assignments satisfy only the
+  before-11H governance prerequisite. They authorize no provider action,
+  deployment, credentials, invitation, backup/restore, Production action,
+  launch, or finding closure.
+- Preserved `DEC-026` as distinct Preview, staging, and Production application
+  targets with distinct corresponding Supabase identities. A single explicit
+  manifest and fail-closed build validator reject missing or contradictory
+  identities, cross-environment project references, URL/reference mismatches,
+  insecure hosted origins, and public service-role material.
+- Preserved `DEC-027` ownership and existing release-role separation, and
+  preserved `DEC-028` as a forward-only release model with an exact candidate,
+  drift/ledger preflight, compatibility-first migration order, smoke gate,
+  redeploy/forward-fix distinction, and separate recovery and Production
+  authorization paths.
+- Added the canonical Phase 11H runbook, an unpopulated privacy-safe future
+  evidence template, the fail-closed invitation/register/reconciliation
+  procedure, synthetic contract tests, and routine CI validation. No deploy
+  workflow or real provider identifier, secret, invitation datum, or hosted
+  evidence was added.
+- The candidate begins as implementation complete pending independent review.
+  `P11A-010` and `P11A-017` remain `OPEN`; after repository acceptance their
+  maximum stage is `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+  Phase 11I and Phase 11J remain unstarted, and Phase 11K remains the sole
+  finding-closure gate.
+
+## 2026-09-15: DEC-031 and Phase 11H Correction 01
+
+### DEC-031 — One-time Production bootstrap exception
+
+| Field | Decision record |
+| --- | --- |
+| Decision | One-time Production bootstrap exception |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-15 |
+| Rationale | Vercel requires the first deployment of a new project to be a provider Production deployment. A tightly bounded, protected Production bootstrap is operationally simpler and less drift-prone than permanently maintaining two Vercel projects solely to avoid the provider bootstrap behavior. The bootstrap creates infrastructure only and does not constitute a Production release. |
+
+The application retains one Vercel project with Preview, custom staging, and
+Production targets. `DEC-031` authorizes only one future, separately and
+exactly authorized `PRODUCTION_BOOTSTRAP_ONLY` first deployment. It supersedes
+the prior interpretation that every Production-target deployment must wait for
+actual release authorization. The distinction is
+`Production deployment exists != Production release authorized`.
+
+`DEC-030` remains controlling for the actual Production release, normal
+Production traffic, Production users/invitations, custom Production-domain
+activation, and every later Production deployment. The bootstrap creates no
+release, launch, Phase 11J, Phase 11K, or finding-closure credit and may contain
+no real users/data, invitations, beta enrollment, external launch
+communication, or ordinary Production access.
+
+Correction 01 records the current provider-mandated first-deployment behavior,
+adds inert `git.deploymentEnabled=false` repository configuration, separates
+Preview/staging/bootstrap/release classes, binds `APP_ORIGIN` to distinct
+environment registry entries and trusted Vercel URL/project metadata, and
+adds negative environment/evidence/policy tests. It also reconciles
+`P11A-018` to the existing contributor, deployment, migration, recovery,
+incident, support, invitation, and authorization documents.
+
+`P11A-010`, `P11A-017`, and `P11A-018` remain `OPEN` at
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. All 18 findings remain
+`OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11K remains the only closure
+gate. This correction performs no Vercel, hosted Supabase, deployment,
+Production, domain/DNS, credential, invitation, backup/restore, Phase 11I, or
+Phase 11J operation. The actual bootstrap still requires a separate future
+authorization.

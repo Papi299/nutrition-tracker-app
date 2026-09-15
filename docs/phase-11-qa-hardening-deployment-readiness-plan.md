@@ -815,7 +815,7 @@ query/mutation, backup, or restore in the architecture PR.
   and stop conditions are executable and reviewed.
 - Preview cannot silently target production data.
 - Production release remains a separate explicit authorization.
-- `P11A-010` and `P11A-017` remain
+- `P11A-010`, `P11A-017`, and `P11A-018` remain
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; Phase 11H makes no
   remote configuration, deployment, drift, or rehearsal claim.
 
@@ -823,6 +823,36 @@ query/mutation, backup, or restore in the architecture PR.
 
 Configuration schema checks, local build/env checks, threat model, runbook
 tabletop, and independent review.
+
+### Current Phase 11H candidate
+
+The candidate starts from accepted main
+`f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+`8a85a186699e9495032b9ea01eb7081b84d04b14`, after PR #120 and exact-main CI
+run `34982739418` succeeded. The before-11H Vercel, Supabase, environment and
+secrets, Auth URL, applicable domain/DNS, and deployment/runbook owner roles
+are `ASSIGNED_AND_APPROVED` to Maor Pichhadze by his attributable 2026-09-15
+assignment and explicit acceptance.
+
+The bounded repository implementation is the
+[Phase 11H deployment architecture and release runbook](phase-11h-deployment-architecture-release-runbook.md),
+the single machine-checkable environment manifest, its fail-closed validator,
+synthetic environment-isolation tests, and the unpopulated release-evidence
+template. It defines separate Preview, staging, and Production application and
+Supabase identities, deterministic forward-only release and migration order,
+safe smoke and redeploy boundaries, and the fail-closed private-beta invitation
+procedure. `DEC-031` retains the one-project Vercel topology while permitting
+only a future separately authorized protected `PRODUCTION_BOOTSTRAP_ONLY`
+first deployment. Bootstrap remains distinct from release, launch, Phase 11J,
+and finding credit. The candidate disables automatic Git deployments and
+fail-closes cross-environment `APP_ORIGIN` use against trusted Vercel metadata.
+It creates no provider resource and performs no external operation.
+
+Pending exact-head CI and independent review, Phase 11H is implementation
+complete pending independent review. `P11A-010`, `P11A-017`, and `P11A-018`
+remain `OPEN` at implementation stage
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
+Phase 11I and Phase 11J remain unstarted and separately authorized.
 
 ## 15. Phase 11I — Recovery qualification
 
@@ -870,8 +900,12 @@ architecture, controls, and recovery evidence.
 
 ### Authorized scope
 
-- Under separate authorization, create/link the approved Vercel project and
-  configure only non-production environment scope.
+- Under separate authorization, use only the approved single Vercel project,
+  verify any earlier bootstrap existence/isolation/protection/Git-disable state
+  as environmental facts, and configure only non-production environment scope.
+- A `PRODUCTION_BOOTSTRAP_ONLY` action is a separate prerequisite under its own
+  exact authorization. It is not Phase 11J acceptance evidence and Phase 11J
+  may not create, repeat, promote, or mutate it.
 - Deploy Preview or staging, apply the approved non-production migration
   sequence where needed, run deployment smoke, observe signals, rehearse
   rollback/redeploy, and capture evidence.

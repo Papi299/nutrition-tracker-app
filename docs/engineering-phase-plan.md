@@ -622,6 +622,32 @@ sole formal finding-closure gate. This does not authorize hosted Auth or secret
 configuration, physical deletion, retention/pseudonymization decisions,
 GitHub settings mutation, deployment, or later external actions.
 
+The narrative above is the historical pre-merge Phase 11G2 record. PR #120 was
+subsequently accepted and merged, producing current main
+`f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
+`8a85a186699e9495032b9ea01eb7081b84d04b14`; exact-main CI run
+`34982739418` (run number 235, attempt 1) succeeded. Phase 11H is therefore the
+current bounded slice.
+
+On 2026-09-15, Maor Pichhadze assigned himself to and explicitly accepted the
+Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and
+deployment/runbook owner roles. That attributable statement satisfies only the
+before-11H governance prerequisite. The current Phase 11H candidate defines a
+single machine-checkable deployment contract and canonical
+[release runbook](phase-11h-deployment-architecture-release-runbook.md) for
+separate Preview, staging, and Production identities, fail-closed Supabase
+target matching, forward-only migration/release order, safe smoke and redeploy
+decisions, invitation reconciliation, and future evidence. `DEC-031` retains
+one Vercel project and permits only a later separately authorized, protected
+`PRODUCTION_BOOTSTRAP_ONLY` first deployment; bootstrap is not release or
+Phase 11J/11K evidence. Inert `git.deploymentEnabled=false` configuration
+prevents ordinary Git activity from creating later deployments, and
+`APP_ORIGIN` is bound to an environment registry plus trusted Vercel metadata.
+This task performs no external operation. `P11A-010`, `P11A-017`, and
+`P11A-018` remain `OPEN`; pending
+independent review and merge, the candidate is implementation complete pending
+independent review, and Phase 11K remains the only closure gate.
+
 ## Future PR Documentation Rule
 
 Every future product PR should update `README.md` with the current phase or
