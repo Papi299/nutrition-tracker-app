@@ -4,6 +4,7 @@ import {
   aggregateQualificationGroup,
   classifyTimedResult,
   createProxyActivityTracker,
+  establishEquivalentWarmExecutionState,
   nearestRankPercentile,
   serializePrivacySafeEvidence,
   validateConcurrencyOverlap,
@@ -11,6 +12,7 @@ import {
   validateNormativeConcurrencyOverlap,
   validateNormativePerformanceSample,
   validatePerformanceSample,
+  warmContextIndexesAfterCold,
   type NormativePerformanceSample,
   type PerformanceSample,
 } from "@/lib/performance";
@@ -319,6 +321,63 @@ test("retains a genuinely stuck measured stream in privacy-safe diagnostics", ()
     },
   ]);
   expect(() => serializePrivacySafeEvidence({ activeStreams })).not.toThrow();
+});
+
+test("identifies every c10 context that the single cold sample did not initialize", () => {
+  expect(warmContextIndexesAfterCold(1)).toEqual([]);
+  expect(warmContextIndexesAfterCold(10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  expect(() => warmContextIndexesAfterCold(0)).toThrow(/positive integer/);
+});
+
+test("establishes equivalent warm state generically before recorded warm samples", async () => {
+  const initializedContexts = new Set([0]);
+  const events: string[] = [];
+
+  await establishEquivalentWarmExecutionState({
+    concurrency: 10,
+    executeUnmeasured: async (contextIndex) => {
+      events.push(`initialize:${contextIndex}`);
+      initializedContexts.add(contextIndex);
+    },
+    waitForQuiescence: async () => {
+      events.push("quiescent");
+    },
+  });
+
+  expect([...initializedContexts].sort((left, right) => left - right)).toEqual([
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  ]);
+  expect(events).toEqual([
+    "quiescent",
+    "initialize:1",
+    "initialize:2",
+    "initialize:3",
+    "initialize:4",
+    "initialize:5",
+    "initialize:6",
+    "initialize:7",
+    "initialize:8",
+    "initialize:9",
+    "quiescent",
+  ]);
+});
+
+test("settles the recorded cold execution without duplicating c1 warm-up work", async () => {
+  let quiescenceCount = 0;
+  let executionCount = 0;
+
+  await establishEquivalentWarmExecutionState({
+    concurrency: 1,
+    executeUnmeasured: async () => {
+      executionCount += 1;
+    },
+    waitForQuiescence: async () => {
+      quiescenceCount += 1;
+    },
+  });
+
+  expect(executionCount).toBe(0);
+  expect(quiescenceCount).toBe(1);
 });
 
 test("rejects invalid sample fields, classifications, and timeout duration", () => {

@@ -26,6 +26,7 @@ import { chromium, devices } from "@playwright/test";
 import {
   aggregateNormativeQualificationGroup,
   createProxyActivityTracker,
+  establishEquivalentWarmExecutionState,
   serializePrivacySafeEvidence,
   validateFixtureManifest,
   validateNormativePerformanceSample,
@@ -458,9 +459,22 @@ async function startTimingProxy() {
         status: Math.max(...matching.map((record) => record.status)),
       };
     },
-    async waitForIdle() {
+    async waitForIdle({ minimumIdleMs = 100 } = {}) {
+      let idleStartedAtMs;
+      let observedRevision = activity.activityRevision();
       for (let attempt = 0; attempt < 600; attempt += 1) {
-        if (activity.activeCount() === 0 && waves.size === 0) return;
+        const currentRevision = activity.activityRevision();
+        if (
+          activity.activeCount() === 0 &&
+          waves.size === 0 &&
+          currentRevision === observedRevision
+        ) {
+          idleStartedAtMs ??= nowMs();
+          if (nowMs() - idleStartedAtMs >= minimumIdleMs) return;
+        } else {
+          idleStartedAtMs = undefined;
+          observedRevision = currentRevision;
+        }
         await new Promise((resolve) => setTimeout(resolve, 50));
       }
       throw new ProxyIdleTimeoutError(activity.inventory(nowMs()));
@@ -1131,6 +1145,38 @@ try {
     return sample;
   }
 
+  async function executeUnmeasuredWarmup(prepared) {
+    const { actor, operation, slot, state } = prepared;
+    slot.page.setDefaultTimeout(timeoutMs);
+    slot.page.setDefaultNavigationTimeout(timeoutMs);
+    let executionError;
+
+    try {
+      await withTimeout(async () => {
+        await operation.trigger({ actor, page: slot.page, state });
+        await operation.stable({ actor, page: slot.page, state });
+      });
+      const integrityPassed = await operation.integrity({
+        actor,
+        page: slot.page,
+        state,
+      });
+      if (!integrityPassed) throw new Error("warm_state_integrity_failure");
+    } catch (error) {
+      executionError = error;
+    }
+
+    try {
+      if (operation.cleanup) {
+        await withTimeout(() => operation.cleanup({ actor, page: slot.page, state }));
+      }
+    } catch (error) {
+      executionError ??= error;
+    }
+
+    if (executionError) throw executionError;
+  }
+
   async function runGroup(operation, profile, concurrency) {
     process.stderr.write(
       `G2 Playwright ${operation.metricId} ${operation.id} ${profile} c${concurrency}\n`,
@@ -1153,6 +1199,20 @@ try {
         concurrency === 10 ? `${operation.id}-${profile}-cold` : undefined,
       ),
     );
+    await establishEquivalentWarmExecutionState({
+      concurrency,
+      executeUnmeasured: async (actorIndex) => {
+        const prepared = await prepareMeasured(
+          operation,
+          profile,
+          concurrency,
+          0,
+          actorIndex,
+        );
+        await executeUnmeasuredWarmup(prepared);
+      },
+      waitForQuiescence: () => proxy.waitForIdle(),
+    });
     if (concurrency === 1) {
       for (let sampleIndex = 1; sampleIndex <= warmSamples; sampleIndex += 1) {
         const prepared = await prepareMeasured(operation, profile, concurrency, sampleIndex, 0);

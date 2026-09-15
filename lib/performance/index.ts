@@ -3,6 +3,7 @@ export {
   aggregateQualificationGroup,
   classifyTimedResult,
   createProxyActivityTracker,
+  establishEquivalentWarmExecutionState,
   nearestRankPercentile,
   performanceClassifications,
   performanceMetricIds,
@@ -15,6 +16,7 @@ export {
   validateNormativeConcurrencyOverlap,
   validateNormativePerformanceSample,
   validatePerformanceSample,
+  warmContextIndexesAfterCold,
 } from "./qualification";
 export type {
   FixtureManifest,

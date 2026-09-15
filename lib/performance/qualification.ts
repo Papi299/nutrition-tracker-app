@@ -172,6 +172,7 @@ export type ProxyStreamInventoryEntry = Readonly<{
 
 export function createProxyActivityTracker() {
   let nextStreamId = 0;
+  let revision = 0;
   const activeStreams = new Map<
     number,
     ProxyStreamInventoryEntry & Readonly<{ startedAtMs: number }>
@@ -180,6 +181,9 @@ export function createProxyActivityTracker() {
   return {
     activeCount() {
       return activeStreams.size;
+    },
+    activityRevision() {
+      return revision;
     },
     start({
       method,
@@ -195,6 +199,7 @@ export function createProxyActivityTracker() {
       trafficKind: ProxyStreamInventoryEntry["trafficKind"];
     }>) {
       const streamId = (nextStreamId += 1);
+      revision += 1;
       activeStreams.set(streamId, {
         ageMs: 0,
         contentCompleted: false,
@@ -216,6 +221,7 @@ export function createProxyActivityTracker() {
         finish() {
           if (finished) return;
           finished = true;
+          revision += 1;
           activeStreams.delete(streamId);
         },
         markContentCompleted() {
@@ -235,6 +241,34 @@ export function createProxyActivityTracker() {
         .sort((left, right) => right.ageMs - left.ageMs);
     },
   };
+}
+
+export function warmContextIndexesAfterCold(concurrency: number): readonly number[] {
+  if (!Number.isSafeInteger(concurrency) || concurrency < 1) {
+    throw new TypeError("Warm-state concurrency must be a positive integer.");
+  }
+
+  return Object.freeze(
+    Array.from({ length: concurrency - 1 }, (_, index) => index + 1),
+  );
+}
+
+export async function establishEquivalentWarmExecutionState({
+  concurrency,
+  executeUnmeasured,
+  waitForQuiescence,
+}: Readonly<{
+  concurrency: number;
+  executeUnmeasured: (contextIndex: number) => Promise<void>;
+  waitForQuiescence: () => Promise<void>;
+}>) {
+  await waitForQuiescence();
+
+  const uninitializedContexts = warmContextIndexesAfterCold(concurrency);
+  if (uninitializedContexts.length === 0) return;
+
+  await Promise.all(uninitializedContexts.map(executeUnmeasured));
+  await waitForQuiescence();
 }
 
 const expectedClassifications = new Set<PerformanceClassification>([
