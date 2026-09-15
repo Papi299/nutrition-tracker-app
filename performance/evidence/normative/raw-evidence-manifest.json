@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-raw-evidence-checksum-manifest",
+  "artifactCount": 25,
+  "artifacts": [
+    {
+      "path": "normative-browser-trace-map.json",
+      "sha256": "1d84a3c9d7187368cfb45a29cbccfb98770c85056fceacf04034bbf589160e49",
+      "sizeBytes": 1176273
+    },
+    {
+      "path": "normative-performance-report.json",
+      "sha256": "1b4068f0e0584786198b2761e85cde4428e3044f2081a902051a447f0b3b1768",
+      "sizeBytes": 74527
+    },
+    {
+      "path": "normative-performance-samples.json",
+      "sha256": "1fa30a306c1674babe4532f26a73c8e3f776d2ac53c2cd44bcad7aed08b75a23",
+      "sizeBytes": 6160339
+    },
+    {
+      "path": "operation-boundaries.json",
+      "sha256": "5153445f7b0f6713f92ce18a4d35ccf82d339efe5ec22dc8ecdeca8aa9a45f01",
+      "sizeBytes": 22517
+    },
+    {
+      "path": "runtime-manifest.json",
+      "sha256": "58aa136b7266195943628015cd7349c51991b40a79015ced5516b6d5cec6862b",
+      "sizeBytes": 17786
+    },
+    {
+      "path": "traces/trace_desktop_ctx01.zip",
+      "sha256": "1306a970ebc737cf6098771ef28710f76254cb617486960e3aafd6ae2b96a5c9",
+      "sizeBytes": 289307
+    },
+    {
+      "path": "traces/trace_desktop_ctx02.zip",
+      "sha256": "04793588ba876d54a416d6ead4895e9bf1a4bdf827f168ad2c716fb1b767e25d",
+      "sizeBytes": 36298
+    },
+    {
+      "path": "traces/trace_desktop_ctx03.zip",
+      "sha256": "7e2b1dd8ce1544cea4ff2ba5239858e0c7d2875ba89c6141c25124987eaa510d",
+      "sizeBytes": 36395
+    },
+    {
+      "path": "traces/trace_desktop_ctx04.zip",
+      "sha256": "bb45dee8e09ff7253ff6c02f624f0506cc88331d50b719c1af991f2bcb2b398b",
+      "sizeBytes": 36365
+    },
+    {
+      "path": "traces/trace_desktop_ctx05.zip",
+      "sha256": "b38d81e0d968fa8aa4457d8b652e22c2ac54c632f00882ef215be73cb2442627",
+      "sizeBytes": 36388
+    },
+    {
+      "path": "traces/trace_desktop_ctx06.zip",
+      "sha256": "4daf7ff9367ea28cb70ba4ead49e7695d20b55aa1220ca3fb3c16236c11c292f",
+      "sizeBytes": 36228
+    },
+    {
+      "path": "traces/trace_desktop_ctx07.zip",
+      "sha256": "be03dcdf4cdb0908b71aa3fe2ffe748dec09911c70efbd1abd9d91c7d1abbd8d",
+      "sizeBytes": 36433
+    },
+    {
+      "path": "traces/trace_desktop_ctx08.zip",
+      "sha256": "e62fb6b2f1d45b99b1f74aa77fae69aa4a2207cc0320b7c08e78c37a13573ce7",
+      "sizeBytes": 36432
+    },
+    {
+      "path": "traces/trace_desktop_ctx09.zip",
+      "sha256": "45d617cc6d013a444c77ca9ad132037f3ebe302108460584ab7d02aad2dc4d96",
+      "sizeBytes": 36317
+    },
+    {
+      "path": "traces/trace_desktop_ctx10.zip",
+      "sha256": "f9a677eb740a466d2188fbdbf9fa8f40fcd9edf22d8e80df9fa325ed0e773349",
+      "sizeBytes": 36280
+    },
+    {
+      "path": "traces/trace_mobile_ctx01.zip",
+      "sha256": "0b8b37cbb7f5225f150ce040905ffeaaa331271c1c7cec4ba4199bebdc0f10d7",
+      "sizeBytes": 289226
+    },
+    {
+      "path": "traces/trace_mobile_ctx02.zip",
+      "sha256": "9e8b70460d782ece7419968731a0fc48fbf590f8cddfde89a09dad532b1731d9",
+      "sizeBytes": 36265
+    },
+    {
+      "path": "traces/trace_mobile_ctx03.zip",
+      "sha256": "7c0f3b3454badca76de452003533ec65cbc22c68b920fc8a3435b5eba203407d",
+      "sizeBytes": 36248
+    },
+    {
+      "path": "traces/trace_mobile_ctx04.zip",
+      "sha256": "f418fbfe7e0eee5c76cc194b4c5df0eb92a014723aebb1c045d142c199a9806f",
+      "sizeBytes": 36325
+    },
+    {
+      "path": "traces/trace_mobile_ctx05.zip",
+      "sha256": "9487caab1bdbe93f1331527fe54bed3e0a3097a1c6ea937b3a65a7675947f882",
+      "sizeBytes": 36264
+    },
+    {
+      "path": "traces/trace_mobile_ctx06.zip",
+      "sha256": "d432e66c6221adfc2cef7447225410a862c7be0659a877c112e341fdfc9ad470",
+      "sizeBytes": 36331
+    },
+    {
+      "path": "traces/trace_mobile_ctx07.zip",
+      "sha256": "d42e09669a9910d2de54e13553d3d482b10d86471ed8c69e7cbea4a925798ca8",
+      "sizeBytes": 36315
+    },
+    {
+      "path": "traces/trace_mobile_ctx08.zip",
+      "sha256": "045fe84a6eabcf8ae63c35abaecdaf6156a93eceed2f2ee0bed3534bb791fa43",
+      "sizeBytes": 36291
+    },
+    {
+      "path": "traces/trace_mobile_ctx09.zip",
+      "sha256": "2393decdbeaa360a5ec0a11a82585bba71a853ff487644ec6bb52e5918ec4731",
+      "sizeBytes": 36278
+    },
+    {
+      "path": "traces/trace_mobile_ctx10.zip",
+      "sha256": "f797d2494869452271ace16b72493bd9542cae89fe856f0bca9c1cd20676d41f",
+      "sizeBytes": 36237
+    }
+  ]
+}

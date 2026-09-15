@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-focused-normative-before-correction-summary",
+  "fixtureVersion": "phase-11g2-launch-shape-v1",
+  "sourceIdentitySha256": "5063fbdda391457fc7c1e3784d32f138ee743615e326b1b8ac94c438243ff989",
+  "qualificationStartedAt": "2026-08-31T03:59:14.216Z",
+  "qualificationEndedAt": "2026-08-31T04:04:55.511Z",
+  "sampleCount": 396,
+  "groupCount": 36,
+  "passed": false,
+  "cardinalityPassed": true,
+  "normativePlaywrightBoundarySatisfied": true,
+  "reliabilityEventCount": 0,
+  "note": "Preserved non-credited first complete focused corpus. It exposed an invalid c10 timing staircase because per-sample integrity work ran before every browser action in the wave had ended. The corrective runner moved integrity outside all measured action-to-stable-UI intervals, measured the complete correlated server response, isolated timed-out pages, and retained these earlier adverse values only as historical before-correction evidence.",
+  "failedGroups": [
+    { "metricId": "PERF-001", "operationId": "recovery_request", "profile": "desktop", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 148.949, "p50Ms": 1420.2, "p95Ms": 1683.391 },
+    { "metricId": "PERF-001", "operationId": "recovery_request", "profile": "mobile", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 160.061, "p50Ms": 1566.837, "p95Ms": 1942.12 },
+    { "metricId": "PERF-001", "operationId": "recovery_completion", "profile": "desktop", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 417.527, "p50Ms": 1363.588, "p95Ms": 1413.341 },
+    { "metricId": "PERF-001", "operationId": "recovery_completion", "profile": "mobile", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 404.969, "p50Ms": 1375.442, "p95Ms": 1405.086 },
+    { "metricId": "PERF-002", "operationId": "setup", "profile": "desktop", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 192.443, "p50Ms": 1357.997, "p95Ms": 1888.961 },
+    { "metricId": "PERF-002", "operationId": "setup", "profile": "mobile", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 168.794, "p50Ms": 1378.266, "p95Ms": 2049.932 },
+    { "metricId": "PERF-002", "operationId": "diary_create", "profile": "desktop", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 148.872, "p50Ms": 1567.377, "p95Ms": 2673.951 },
+    { "metricId": "PERF-002", "operationId": "diary_create", "profile": "mobile", "concurrency": 10, "thresholdMs": 1000, "coldDurationMs": 151.414, "p50Ms": 1366.532, "p95Ms": 1627.374 },
+    { "metricId": "PERF-003", "operationId": "search", "profile": "desktop", "concurrency": 10, "thresholdMs": 750, "coldDurationMs": 145.003, "p50Ms": 8250.465, "p95Ms": 8275.297 },
+    { "metricId": "PERF-003", "operationId": "search", "profile": "mobile", "concurrency": 10, "thresholdMs": 750, "coldDurationMs": 157.795, "p50Ms": 6931.928, "p95Ms": 6950.246 }
+  ]
+}

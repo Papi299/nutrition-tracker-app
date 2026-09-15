@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1",
+  "evidenceType": "phase-11g2-correction-03-controlled-preflight-summary",
+  "sequence": 1,
+  "qualificationStartedAt": "2026-09-08T07:07:23.535Z",
+  "qualificationEndedAt": "2026-09-08T07:08:29.022Z",
+  "sourceIdentitySha256": "f02b9e81fce21d0705f7affec4ccc1902c4a4646a358fd78d88bb42618f4077c",
+  "sampleCount": 132,
+  "groupCount": 12,
+  "metricMaximumP95Ms": {
+    "PERF-001": 608.826,
+    "PERF-002": 377.994,
+    "PERF-003": 382.258,
+    "PERF-006": 421.906
+  },
+  "thresholdFailureCount": 0,
+  "reliabilityEventCount": 0,
+  "integrityFailureCount": 0,
+  "tenantIsolationFailureCount": 0,
+  "validConcurrencyTenOverlap": true,
+  "fixtureCardinalityPassed": true,
+  "passed": true
+}

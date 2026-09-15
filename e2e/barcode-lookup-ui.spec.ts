@@ -773,7 +773,11 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     await page.reload();
     await expectTrueLocalMiss();
     await page.goBack();
-    await expectTrueLocalMiss();
+    await expect(page).toHaveURL(initialUrl);
+    await expect(page.getByTestId("barcode-initial")).toBeVisible();
+    await expect(page.locator('input[name="code"]')).toHaveValue("");
+    await expect(page.locator('input[name="date"]')).toHaveValue("2026-07-17");
+    await expect(page.locator('select[name="mealType"]')).toHaveValue("snack");
     await page.goForward();
     await expectTrueLocalMiss();
 

@@ -6,7 +6,7 @@ import {
 } from "@/lib/i18n/routing";
 import { createServerClient } from "@/lib/supabase";
 import { isSupabasePublicEnvConfigured } from "@/lib/supabase/env";
-import { getAccountAccessState } from "./account-access";
+import { getAccountLifecycleState } from "./account-access";
 
 export function resolveAuthLocale(locale: string): Locale {
   return (locales as readonly string[]).includes(locale)
@@ -51,7 +51,7 @@ export async function requireAuthenticatedUser(localeInput: string) {
 
 export async function requireAccountAccess(localeInput: string) {
   const locale = resolveAuthLocale(localeInput);
-  const state = await getAccountAccessState();
+  const state = await getAccountLifecycleState();
 
   if (state.status === "unauthenticated") {
     redirect(signInPath(locale));
@@ -72,7 +72,7 @@ export async function requireAccountAccess(localeInput: string) {
 
 export async function redirectAuthenticatedUser(localeInput: string) {
   const locale = resolveAuthLocale(localeInput);
-  const state = await getAccountAccessState();
+  const state = await getAccountLifecycleState();
 
   if (state.status === "active") {
     redirect(protectedHomePath(locale));

@@ -55,6 +55,11 @@ jobs:
       - name: Verify Phase 11 critical-journey evidence map
         run: npm run test:journey-evidence
 
+      - name: Verify Phase 11G2 performance harness and evidence
+        run: |
+          npm run test:performance-harness
+          npm run test:performance-evidence
+
       - name: Run pure unit tests
         run: npm run test:date
 

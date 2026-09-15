@@ -1,3 +1,4 @@
+import Form from "next/form";
 import { BARCODE_RAW_INPUT_MAX_LENGTH } from "@/lib/barcodes";
 import type { DiaryEntryMealType } from "@/lib/diary-entries";
 
@@ -68,10 +69,9 @@ export function BarcodeLookupForm({
   const mealErrorId = error?.field === "mealType" ? "barcode-meal-error" : undefined;
 
   return (
-    <form
+    <Form
       action={action}
       className="grid max-w-3xl gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-      method="get"
       id={formId}
     >
       <label className="grid gap-2 text-sm font-semibold text-slate-900">
@@ -156,6 +156,6 @@ export function BarcodeLookupForm({
       >
         {labels.submit}
       </button>
-    </form>
+    </Form>
   );
 }
