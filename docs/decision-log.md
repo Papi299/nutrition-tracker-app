@@ -3432,3 +3432,35 @@ deletion, migration, schema remediation, Auth or Vault mutation, Vercel
 project creation or deployment, domain/DNS action, invitation, release, or
 launch. The sole Vercel Production bootstrap deployment attempt remains
 unused.
+
+## 2026-09-16: DEC-033 Free-plan leaked-password limitation
+
+### DEC-033 — Accept Supabase Free-plan leaked-password limitation for pre-launch bootstrap
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Accept Supabase Free-plan leaked-password limitation for pre-launch bootstrap |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-16 |
+| Rationale | Leaked-password protection remains a paid Supabase feature. Upgrading solely for the protected, pre-launch, zero-user bootstrap is not proportionate, provided signup remains closed, no invitation occurs, and the strongest available Free-plan password policy is enforced. |
+
+The project remains on Supabase Free for this bootstrap. Leaked-password
+protection is accepted as unavailable; no plan upgrade is authorized. Public
+and anonymous signup remain disabled, all historical users are removed before
+Production classification, and no real-user invitation or recovery-delivery
+test is authorized during bootstrap. Email/password remains enabled only for
+future administrator-invited identities.
+
+The hosted minimum password length must be at least 12 characters and the
+strongest provider-supported character-class requirement must be enabled.
+If leaked-password protection becomes available on Free, enable it. Before
+the first real-user invitation is authorized, the leaked-password risk and
+SMTP delivery qualification must be revisited in the applicable Phase 11
+gate.
+
+`DEC-033` authorizes no invitation, user creation, Production release, custom
+domain, paid upgrade, Phase 11I or Phase 11J execution, or finding closure.
+`P11A-010`, `P11A-017`, and `P11A-018` remain `OPEN` at
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; all 18 findings remain
+`OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11K remains the exclusive
+closure gate.
