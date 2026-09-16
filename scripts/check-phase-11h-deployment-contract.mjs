@@ -35,6 +35,11 @@ const extraSourceFiles = [
   "playwright.unit.config.ts",
 ];
 const exactShaPattern = /^[0-9a-f]{40}$/;
+const registryDispositionFields = {
+  preview: "previewRegistryDisposition",
+  production: "productionRegistryDisposition",
+  staging: "stagingRegistryDisposition",
+};
 
 function fail(errors, message) {
   errors.push(message);
@@ -189,6 +194,37 @@ export function validateDeploymentPolicy(contract = phase11hContract) {
   ) {
     fail(errors, "Deployment classes must distinguish Preview, staging, Production bootstrap, and Production release.");
   }
+  const expectedRegistryLifecycles = {
+    PREVIEW: {
+      requiredRegistryEnvironments: ["preview", "production"],
+      optionalRegistryEnvironments: ["staging"],
+    },
+    STAGING: {
+      requiredRegistryEnvironments: ["staging", "production"],
+      optionalRegistryEnvironments: ["preview"],
+    },
+    PRODUCTION_BOOTSTRAP_ONLY: {
+      requiredRegistryEnvironments: ["production"],
+      optionalRegistryEnvironments: ["preview", "staging"],
+    },
+    PRODUCTION_RELEASE: {
+      requiredRegistryEnvironments: ["preview", "staging", "production"],
+      optionalRegistryEnvironments: [],
+    },
+  };
+  for (const [deploymentClass, expectedLifecycle] of Object.entries(
+    expectedRegistryLifecycles,
+  )) {
+    if (
+      JSON.stringify(deploymentClasses?.[deploymentClass]?.registryLifecycle) !==
+      JSON.stringify(expectedLifecycle)
+    ) {
+      fail(
+        errors,
+        `${deploymentClass} must retain its lifecycle-accurate required and optional registry environments.`,
+      );
+    }
+  }
   if (
     bootstrap?.applicationEnvironment !== "production" ||
     bootstrap?.vercelTarget !== "production" ||
@@ -316,6 +352,24 @@ export function validateEvidencePacket(packet) {
   }
   if (packet.productionReleaseAuthorized !== definition.productionReleaseAuthorizedInEvidence) {
     fail(errors, "Evidence Production authorization must match the deployment class.");
+  }
+  for (const registryEnvironment of definition.registryLifecycle.requiredRegistryEnvironments) {
+    const field = registryDispositionFields[registryEnvironment];
+    if (packet.environment?.[field] !== "VERIFIED") {
+      fail(
+        errors,
+        `Evidence must mark required ${registryEnvironment} registry identity VERIFIED.`,
+      );
+    }
+  }
+  for (const registryEnvironment of definition.registryLifecycle.optionalRegistryEnvironments) {
+    const field = registryDispositionFields[registryEnvironment];
+    if (!["NOT_YET_PROVISIONED", "VERIFIED"].includes(packet.environment?.[field])) {
+      fail(
+        errors,
+        `Evidence must mark optional ${registryEnvironment} registry identity NOT_YET_PROVISIONED or VERIFIED.`,
+      );
+    }
   }
   if (
     packet.deployment?.projectIdentity == null ||

@@ -117,17 +117,29 @@ independent contradiction and provenance assertions.
 | `production` bootstrap | Production infrastructure only | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY` | Dedicated empty Production project | `PRODUCTION_APP_ORIGIN=https://${VERCEL_PROJECT_PRODUCTION_URL}` on the provider-owned `vercel.app` origin only | No real beta users or copied non-production data |
 | `production` release | Production release | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_RELEASE` | Dedicated qualified Production project | Exact separately approved Production origin | Only data authorized by the later release contract |
 
-Hosted environments configure a registry of
-`PREVIEW_SUPABASE_PROJECT_REF`, `STAGING_SUPABASE_PROJECT_REF`, and
-`PRODUCTION_SUPABASE_PROJECT_REF`. All three must be distinct. The current
-`SUPABASE_PROJECT_REF` must equal its environment-specific registry entry and
-the project reference in `NEXT_PUBLIC_SUPABASE_URL`. Thus a Preview build
-pointing at the Production URL fails even if another declaration is relabeled.
+The hosted identity registry is populated incrementally only as infrastructure
+actually comes into existence. A registry identity is the paired Supabase
+project ref and application origin for one environment; placeholder refs,
+sentinel values, and fabricated URLs are prohibited.
 
-Hosted scopes also configure distinct `PREVIEW_APP_ORIGIN`,
-`STAGING_APP_ORIGIN`, and `PRODUCTION_APP_ORIGIN` registry entries. The active
-`APP_ORIGIN` must equal its environment entry and the applicable provider
-assertion. The build additionally requires exact matching
+| Deployment class | Required registry environments | Optional only when already provisioned |
+| --- | --- | --- |
+| `PREVIEW` | Preview, Production | staging |
+| `STAGING` | staging, Production | Preview |
+| `PRODUCTION_BOOTSTRAP_ONLY` | Production | Preview, staging |
+| `PRODUCTION_RELEASE` | Preview, staging, Production | none |
+
+Optional means that a not-yet-provisioned pair may be absent. If either member
+of an optional pair is supplied, both must be present, valid, and distinct from
+every other supplied environment. Every new environment adds its real project
+ref and origin to the registry. The actual Production release therefore
+requires the complete pairwise-distinct three-environment topology.
+
+For the active environment, `SUPABASE_PROJECT_REF` must equal its registry
+entry and the project reference in `NEXT_PUBLIC_SUPABASE_URL`; `APP_ORIGIN`
+must equal its registry entry and the applicable provider assertion. Thus a
+Preview or staging build pointing at the Production project fails even if
+another declaration is relabeled. The build additionally requires exact matching
 `EXPECTED_VERCEL_PROJECT_ID`/`VERCEL_PROJECT_ID`, a
 `VERCEL_DEPLOYMENT_ID`, and Git provider/owner/repository/SHA metadata for
 `Papi299/nutrition-tracker-app`.
@@ -219,11 +231,17 @@ test push or merge. The bootstrap creates no shareable link, protection
 exception, automation bypass, or other public-access path.
 
 System environment variables must be available so `VERCEL_ENV`,
-`VERCEL_TARGET_ENV`, `VERCEL_URL`, `VERCEL_BRANCH_URL`,
-`VERCEL_PROJECT_PRODUCTION_URL`, `VERCEL_PROJECT_ID`,
-`VERCEL_DEPLOYMENT_ID`, Git provider/owner/repository, and
-`VERCEL_GIT_COMMIT_SHA` can be checked. Missing values stop a hosted build.
-This document does not enable or inspect that provider setting.
+`VERCEL_TARGET_ENV`, `VERCEL_PROJECT_ID`, `VERCEL_DEPLOYMENT_ID`, Git
+provider/owner/repository, and `VERCEL_GIT_COMMIT_SHA` can be checked. The
+active trusted-origin assertion is target-specific: Preview requires
+`VERCEL_URL`, staging requires `VERCEL_BRANCH_URL`, and Production requires
+`VERCEL_PROJECT_PRODUCTION_URL`. Vercel documents all three as build/runtime
+system variables, describes the first two as generated deployment/branch
+hostnames, and states that the project Production URL is always set, including
+on Preview deployments. The validator nevertheless requires only the value
+applicable to the active target; another provider URL is validated if supplied
+but is not a prerequisite. This document does not enable or inspect the provider
+setting.
 
 ## 6. Supabase architecture contract
 
@@ -291,23 +309,23 @@ literal `process.env` read without manifest metadata fails CI.
 | `DEPLOYMENT_CLASS` | Server-only metadata | Hosted | Deployment/runbook | Must be `PREVIEW`, `STAGING`, `PRODUCTION_BOOTSTRAP_ONLY`, or `PRODUCTION_RELEASE` and agree with the target; classification grants no authority |
 | `SUPABASE_ENVIRONMENT` | Server-only metadata | All | Supabase | Must equal the app environment (local for test) |
 | `SUPABASE_PROJECT_REF` | Server-only metadata | All | Supabase | Must match current URL and target registry |
-| `PREVIEW_SUPABASE_PROJECT_REF` | Server-only metadata | Hosted | Supabase | Dedicated Preview identity |
-| `STAGING_SUPABASE_PROJECT_REF` | Server-only metadata | Hosted | Supabase | Dedicated staging identity |
-| `PRODUCTION_SUPABASE_PROJECT_REF` | Server-only metadata | Hosted | Supabase | Dedicated Production identity and non-production denial comparator |
+| `PREVIEW_SUPABASE_PROJECT_REF` | Server-only metadata | `PREVIEW`, `PRODUCTION_RELEASE`; optional elsewhere | Supabase | Dedicated Preview identity; validated whenever supplied |
+| `STAGING_SUPABASE_PROJECT_REF` | Server-only metadata | `STAGING`, `PRODUCTION_RELEASE`; optional elsewhere | Supabase | Dedicated staging identity; validated whenever supplied |
+| `PRODUCTION_SUPABASE_PROJECT_REF` | Server-only metadata | Every hosted deployment class | Supabase | Dedicated Production identity and non-production denial comparator |
 | `NEXT_PUBLIC_SUPABASE_URL` | Public browser | All | Supabase | Only public API endpoint; target-bound |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Public browser | All | Supabase | Publishable key only; secret/service-role patterns rejected |
 | `APP_ORIGIN` | Server-only config | All | Auth URL | Exact canonical origin; must match the environment registry and trusted provider assertion; never request-derived |
-| `PREVIEW_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Exact Preview deployment-origin registry entry; active Preview must match `VERCEL_URL` |
-| `STAGING_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Persistent staging-origin registry entry; active staging must match `VERCEL_BRANCH_URL` |
-| `PRODUCTION_APP_ORIGIN` | Server-only metadata | Hosted | Auth URL | Production-origin registry entry; bootstrap must match provider-owned `VERCEL_PROJECT_PRODUCTION_URL` |
+| `PREVIEW_APP_ORIGIN` | Server-only metadata | `PREVIEW`, `PRODUCTION_RELEASE`; optional elsewhere | Auth URL | Exact Preview origin; active Preview must match `VERCEL_URL`; validated whenever supplied |
+| `STAGING_APP_ORIGIN` | Server-only metadata | `STAGING`, `PRODUCTION_RELEASE`; optional elsewhere | Auth URL | Persistent staging origin; active staging must match `VERCEL_BRANCH_URL`; validated whenever supplied |
+| `PRODUCTION_APP_ORIGIN` | Server-only metadata | Every hosted deployment class | Auth URL | Production-origin registry entry; bootstrap must match provider-owned `VERCEL_PROJECT_PRODUCTION_URL` |
 | `AUTH_REAUTH_PROOF_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; environment-unique E3 secret |
 | `ACCOUNT_CLOSURE_CAPABILITY_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; distinct E5 secret; Vault match required |
 | `VERCEL_ENV` | Server-only provider metadata | Hosted | Vercel | Default-target contradiction check |
 | `VERCEL_TARGET_ENV` | Server-only provider metadata | Hosted | Vercel | Custom/default target contradiction check |
 | `EXPECTED_VERCEL_PROJECT_ID` | Server-only metadata | Hosted | Vercel | Reviewed identity of the one authorized project |
-| `VERCEL_URL` | Server-only provider metadata | Hosted | Vercel | Exact deployment hostname; Preview origin authority |
-| `VERCEL_BRANCH_URL` | Server-only provider metadata | Hosted | Vercel | Persistent Git branch hostname; staging origin authority |
-| `VERCEL_PROJECT_PRODUCTION_URL` | Server-only provider metadata | Hosted | Vercel | Project Production hostname; Production/bootstrap origin authority |
+| `VERCEL_URL` | Server-only provider metadata | Active Preview | Vercel | Exact deployment hostname; Preview origin authority |
+| `VERCEL_BRANCH_URL` | Server-only provider metadata | Active staging | Vercel | Persistent Git branch hostname; staging origin authority |
+| `VERCEL_PROJECT_PRODUCTION_URL` | Server-only provider metadata | Active Production | Vercel | Project Production hostname; Production/bootstrap origin authority |
 | `VERCEL_PROJECT_ID` / `VERCEL_DEPLOYMENT_ID` | Server-only provider metadata | Hosted | Vercel | Exact project and deployment identity; project must match expected registry |
 | `VERCEL_GIT_PROVIDER` / `VERCEL_GIT_REPO_OWNER` / `VERCEL_GIT_REPO_SLUG` | Server-only provider metadata | Hosted | Vercel | Must identify `Papi299/nutrition-tracker-app` on GitHub |
 | `VERCEL_GIT_COMMIT_SHA` | Server-only provider metadata | Hosted | Vercel | Exact build provenance |
@@ -421,9 +439,10 @@ closure. Execute exactly this sequence:
 4. establish `All Deployments` protection plus Vercel Authentication through
    the team default before creation where available, then verify it on that
    exact empty project before deployment;
-5. configure only required Production-target variables/secrets and the three
-   distinct Supabase and origin registries, with
-   `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY`;
+5. configure only required Production-target variables/secrets and the real
+   Production Supabase/origin registry pair, with
+   `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY`; leave not-yet-provisioned
+   Preview/staging registry variables absent rather than inventing values;
 6. if the build requires it, provision only the dedicated, empty Production
    Supabase project and minimum coherent migration/RLS/grant/Auth/Vault state
    under the same bounded authorization; do not copy non-production data;
@@ -676,7 +695,8 @@ The future packet records `deploymentClass`,
 `productionReleaseAuthorized`, bootstrap and release authorization references,
 candidate SHA/tree/base, deployment/project IDs, target, expected project,
 canonical/provider origin, application/Supabase environments and project
-reference, migration baseline/applied ledger/drift/compatibility/result, CI
+reference, per-environment registry dispositions, migration
+baseline/applied ledger/drift/compatibility/result, CI
 run/number/attempt/result/head/duration, operator, independent reviewer,
 protection, automatic Git disposition, custom-domain absence/presence, real
 user/invitation/beta/communication/ordinary-access disposition, smoke,
@@ -688,7 +708,12 @@ be verified, automatic Git deployments and every exposure/invitation/domain
 field must be false, and finding/Phase 11K credit must be false. For an actual
 release, the evidence must name a fresh Production authorization distinct from
 the bootstrap reference and a current recovery qualification. The validator
-rejects bootstrap/release equivalence.
+rejects bootstrap/release equivalence. A truthful pre-11J bootstrap records
+`previewRegistryDisposition=NOT_YET_PROVISIONED`,
+`stagingRegistryDisposition=NOT_YET_PROVISIONED`, and
+`productionRegistryDisposition=VERIFIED`; if an optional environment already
+exists, its disposition may instead be `VERIFIED`. A Production release must
+record all three as `VERIFIED`.
 
 It never contains secret values or fingerprints, passwords, tokens, cookies,
 authorization headers, service-role keys, database passwords, raw invitation
@@ -740,6 +765,15 @@ signals, rehearse compatible app redeploy, exercise invitation conflicts with
 controlled identities, and complete the evidence packet. It also owns
 previously deferred deployed Auth, header, browser/device/accessibility,
 performance, observability, incident, and operator evidence.
+
+Phase 11J may provision Preview and staging sequentially. Preview can be built
+once the real Preview and Production registry pairs exist without inventing a
+staging identity; staging can be built once the real staging and Production
+pairs exist without inventing a Preview identity. If both non-production
+environments have already been provisioned, the supplied optional peer pair is
+validated and must remain distinct. Each provisioned environment is added to
+the registry, and the complete registry is mandatory before actual Production
+release.
 
 Phase 11J remains a non-Production acceptance rehearsal. It may verify the
 separately authorized bootstrap's existence, isolation, Git-disable state, and
