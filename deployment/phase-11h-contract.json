@@ -1,6 +1,6 @@
 {
   "contractId": "PHASE-11H-DEPLOYMENT-ENVIRONMENT-CONTRACT-001",
-  "schemaVersion": "2",
+  "schemaVersion": "3",
   "status": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
   "applicationEnvironments": {
     "local": {
@@ -82,6 +82,10 @@
     "PREVIEW": {
       "applicationEnvironment": "preview",
       "vercelTarget": "preview",
+      "registryLifecycle": {
+        "requiredRegistryEnvironments": ["preview", "production"],
+        "optionalRegistryEnvironments": ["staging"]
+      },
       "productionReleaseAuthorizationRequired": false,
       "productionReleaseAuthorizedInEvidence": false,
       "exactActionAuthorizationRequired": true,
@@ -90,6 +94,10 @@
     "STAGING": {
       "applicationEnvironment": "staging",
       "vercelTarget": "staging",
+      "registryLifecycle": {
+        "requiredRegistryEnvironments": ["staging", "production"],
+        "optionalRegistryEnvironments": ["preview"]
+      },
       "productionReleaseAuthorizationRequired": false,
       "productionReleaseAuthorizedInEvidence": false,
       "exactActionAuthorizationRequired": true,
@@ -98,6 +106,10 @@
     "PRODUCTION_BOOTSTRAP_ONLY": {
       "applicationEnvironment": "production",
       "vercelTarget": "production",
+      "registryLifecycle": {
+        "requiredRegistryEnvironments": ["production"],
+        "optionalRegistryEnvironments": ["preview", "staging"]
+      },
       "maximumAuthorizedExecutions": 1,
       "productionReleaseAuthorizationRequired": false,
       "productionReleaseAuthorizedInEvidence": false,
@@ -119,6 +131,10 @@
     "PRODUCTION_RELEASE": {
       "applicationEnvironment": "production",
       "vercelTarget": "production",
+      "registryLifecycle": {
+        "requiredRegistryEnvironments": ["preview", "staging", "production"],
+        "optionalRegistryEnvironments": []
+      },
       "productionReleaseAuthorizationRequired": true,
       "productionReleaseAuthorizedInEvidence": true,
       "exactActionAuthorizationRequired": true,
@@ -164,6 +180,9 @@
       "environment.supabaseEnvironment",
       "environment.supabaseProjectReference",
       "environment.configurationCandidateIdentifier",
+      "environment.previewRegistryDisposition",
+      "environment.stagingRegistryDisposition",
+      "environment.productionRegistryDisposition",
       "deployment.applicationOrigin",
       "bootstrap.deploymentProtectionDisposition",
       "bootstrap.protectionBypassConfigured",
@@ -301,9 +320,9 @@
     {
       "name": "PREVIEW_SUPABASE_PROJECT_REF",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["preview"],
       "ownerCategory": "Supabase owner",
-      "purpose": "Non-secret registry identity for the isolated Preview Supabase project.",
+      "purpose": "Non-secret registry identity for the isolated Preview Supabase project; required by PREVIEW and PRODUCTION_RELEASE and validated whenever supplied elsewhere.",
       "sourceBoundary": "Explicit environment-scoped metadata; never populated with a credential.",
       "rotation": "Change only when the Preview Supabase project is separately reauthorized and rebound.",
       "browserExposure": "forbidden",
@@ -312,9 +331,9 @@
     {
       "name": "STAGING_SUPABASE_PROJECT_REF",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["staging"],
       "ownerCategory": "Supabase owner",
-      "purpose": "Non-secret registry identity for the isolated staging Supabase project.",
+      "purpose": "Non-secret registry identity for the isolated staging Supabase project; required by STAGING and PRODUCTION_RELEASE and validated whenever supplied elsewhere.",
       "sourceBoundary": "Explicit environment-scoped metadata; never populated with a credential.",
       "rotation": "Change only when the staging Supabase project is separately reauthorized and rebound.",
       "browserExposure": "forbidden",
@@ -367,9 +386,9 @@
     {
       "name": "PREVIEW_APP_ORIGIN",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["preview"],
       "ownerCategory": "Auth URL owner",
-      "purpose": "Trusted exact Preview deployment origin registry entry; must match VERCEL_URL when Preview is active.",
+      "purpose": "Trusted exact Preview deployment origin registry entry; required by PREVIEW and PRODUCTION_RELEASE, validated whenever supplied, and matched to VERCEL_URL when Preview is active.",
       "sourceBoundary": "Reviewed environment metadata plus the provider-supplied exact generated deployment URL.",
       "rotation": "Rebind for each exact Preview deployment used as APP_ORIGIN; redeploy and review Auth configuration.",
       "browserExposure": "forbidden",
@@ -378,9 +397,9 @@
     {
       "name": "STAGING_APP_ORIGIN",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["staging"],
       "ownerCategory": "Auth URL owner",
-      "purpose": "Trusted persistent staging origin registry entry; must match VERCEL_BRANCH_URL when staging is active.",
+      "purpose": "Trusted persistent staging origin registry entry; required by STAGING and PRODUCTION_RELEASE, validated whenever supplied, and matched to VERCEL_BRANCH_URL when staging is active.",
       "sourceBoundary": "Reviewed staging target metadata plus the provider-supplied Git branch URL.",
       "rotation": "Change only with an authorized staging origin rebind and Auth allow-list review.",
       "browserExposure": "forbidden",
@@ -455,9 +474,9 @@
     {
       "name": "VERCEL_URL",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["preview"],
       "ownerCategory": "Vercel owner",
-      "purpose": "Provider exact generated deployment hostname; authoritative origin binding for Preview and a contradiction assertion elsewhere.",
+      "purpose": "Provider exact generated deployment hostname; required as the authoritative active-origin binding for Preview and validated if supplied elsewhere.",
       "sourceBoundary": "Vercel system environment variable.",
       "rotation": "Provider-managed per deployment.",
       "browserExposure": "forbidden",
@@ -466,9 +485,9 @@
     {
       "name": "VERCEL_BRANCH_URL",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["staging"],
       "ownerCategory": "Vercel owner",
-      "purpose": "Provider Git branch hostname; authoritative persistent-origin binding for staging and a contradiction assertion elsewhere.",
+      "purpose": "Provider Git branch hostname; required as the authoritative active-origin binding for staging and validated if supplied elsewhere.",
       "sourceBoundary": "Vercel system environment variable.",
       "rotation": "Provider-managed with the bound Git branch; branch binding changes require review.",
       "browserExposure": "forbidden",
@@ -477,9 +496,9 @@
     {
       "name": "VERCEL_PROJECT_PRODUCTION_URL",
       "visibility": "server-only application",
-      "requiredEnvironments": ["preview", "staging", "production"],
+      "requiredEnvironments": ["production"],
       "ownerCategory": "Vercel owner",
-      "purpose": "Provider project Production hostname; authoritative Production/bootstrap origin binding and never Preview authority.",
+      "purpose": "Provider project Production hostname; required as the authoritative Production/bootstrap active-origin binding, never Preview authority, and validated if supplied elsewhere.",
       "sourceBoundary": "Vercel system environment variable.",
       "rotation": "Provider-managed; custom-domain selection changes require Production authorization and review.",
       "browserExposure": "forbidden",

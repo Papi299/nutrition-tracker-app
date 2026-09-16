@@ -48,6 +48,9 @@ function bootstrapEvidence() {
   packet.environment.supabaseEnvironment = "production";
   packet.environment.supabaseProjectReference = syntheticRefs.production;
   packet.environment.configurationCandidateIdentifier = "synthetic-config-v1";
+  packet.environment.previewRegistryDisposition = "NOT_YET_PROVISIONED";
+  packet.environment.stagingRegistryDisposition = "NOT_YET_PROVISIONED";
+  packet.environment.productionRegistryDisposition = "VERIFIED";
   packet.authorization.bootstrapAuthorizationReference =
     "synthetic-production-bootstrap-authorization";
   packet.execution.operator = "Synthetic Operator";
@@ -93,11 +96,23 @@ function localEnvironment(overrides = {}) {
 function hostedEnvironment(appEnvironment, overrides = {}) {
   const production = appEnvironment === "production";
   const projectRef = syntheticRefs[appEnvironment];
-  const deploymentClass = {
-    preview: "PREVIEW",
-    production: "PRODUCTION_BOOTSTRAP_ONLY",
-    staging: "STAGING",
-  }[appEnvironment];
+  const deploymentClass =
+    overrides.DEPLOYMENT_CLASS ??
+    {
+      preview: "PREVIEW",
+      production: "PRODUCTION_BOOTSTRAP_ONLY",
+      staging: "STAGING",
+    }[appEnvironment];
+  const registry = {};
+  for (const registryEnvironment of phase11hContract.deploymentClasses[deploymentClass]
+    .registryLifecycle.requiredRegistryEnvironments) {
+    registry[`${registryEnvironment.toUpperCase()}_SUPABASE_PROJECT_REF`] =
+      syntheticRefs[registryEnvironment];
+    registry[`${registryEnvironment.toUpperCase()}_APP_ORIGIN`] =
+      syntheticOrigins[registryEnvironment];
+  }
+  const providerOriginVariable =
+    phase11hContract.applicationEnvironments[appEnvironment].originProviderVariable;
   return {
     ACCOUNT_CLOSURE_CAPABILITY_SECRET:
       "synthetic-hosted-closure-secret-material-0000000000",
@@ -110,18 +125,9 @@ function hostedEnvironment(appEnvironment, overrides = {}) {
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_synthetic_only",
     NEXT_PUBLIC_SUPABASE_URL: `https://${projectRef}.supabase.co`,
     NODE_ENV: "production",
-    PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
-    PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
-    PRODUCTION_SUPABASE_PROJECT_REF: syntheticRefs.production,
-    PRODUCTION_APP_ORIGIN: syntheticOrigins.production,
-    STAGING_SUPABASE_PROJECT_REF: syntheticRefs.staging,
-    STAGING_APP_ORIGIN: syntheticOrigins.staging,
+    ...registry,
     SUPABASE_ENVIRONMENT: appEnvironment,
     SUPABASE_PROJECT_REF: projectRef,
-    VERCEL_BRANCH_URL:
-      appEnvironment === "staging"
-        ? hostname(syntheticOrigins.staging)
-        : `${appEnvironment}-branch-synthetic.vercel.app`,
     VERCEL_DEPLOYMENT_ID: "dpl_SyntheticDeployment001",
     VERCEL_ENV: production ? "production" : "preview",
     VERCEL_GIT_COMMIT_SHA: "a".repeat(40),
@@ -129,12 +135,8 @@ function hostedEnvironment(appEnvironment, overrides = {}) {
     VERCEL_GIT_REPO_OWNER: "Papi299",
     VERCEL_GIT_REPO_SLUG: "nutrition-tracker-app",
     VERCEL_PROJECT_ID: "prj_SyntheticNutritionTracker001",
-    VERCEL_PROJECT_PRODUCTION_URL: hostname(syntheticOrigins.production),
     VERCEL_TARGET_ENV: appEnvironment,
-    VERCEL_URL:
-      appEnvironment === "preview"
-        ? hostname(syntheticOrigins.preview)
-        : `${appEnvironment}-deployment-synthetic.vercel.app`,
+    [providerOriginVariable]: hostname(syntheticOrigins[appEnvironment]),
     ...overrides,
   };
 }
@@ -152,16 +154,33 @@ test("accepts a valid CI/test configuration", () => {
   );
 });
 
-test("accepts a valid Preview origin binding", () => {
-  assert.equal(validateDeploymentEnvironment(hostedEnvironment("preview")).ok, true);
+test("accepts Preview with Preview and Production registry identities but no staging identity", () => {
+  const environment = hostedEnvironment("preview");
+  assert.equal("STAGING_SUPABASE_PROJECT_REF" in environment, false);
+  assert.equal("STAGING_APP_ORIGIN" in environment, false);
+  assert.equal(validateDeploymentEnvironment(environment).ok, true);
 });
 
-test("accepts a valid staging origin binding", () => {
-  assert.equal(validateDeploymentEnvironment(hostedEnvironment("staging")).ok, true);
+test("accepts staging with staging and Production registry identities but no Preview identity", () => {
+  const environment = hostedEnvironment("staging");
+  assert.equal("PREVIEW_SUPABASE_PROJECT_REF" in environment, false);
+  assert.equal("PREVIEW_APP_ORIGIN" in environment, false);
+  assert.equal(validateDeploymentEnvironment(environment).ok, true);
 });
 
-test("accepts a valid Production bootstrap origin binding", () => {
-  assert.equal(validateDeploymentEnvironment(hostedEnvironment("production")).ok, true);
+test("accepts Production bootstrap with only the real Production registry identity", () => {
+  const environment = hostedEnvironment("production");
+  for (const name of [
+    "PREVIEW_SUPABASE_PROJECT_REF",
+    "STAGING_SUPABASE_PROJECT_REF",
+    "PREVIEW_APP_ORIGIN",
+    "STAGING_APP_ORIGIN",
+    "VERCEL_URL",
+    "VERCEL_BRANCH_URL",
+  ]) {
+    assert.equal(name in environment, false, `${name} must not be a bootstrap prerequisite`);
+  }
+  assert.equal(validateDeploymentEnvironment(environment).ok, true);
 });
 
 for (const [appEnvironment, wrongEnvironment] of [
@@ -214,6 +233,27 @@ test("rejects Production configured against a non-production project identity", 
   );
   assert.equal(result.ok, false);
   assert.match(result.errors.join("\n"), /Production must target the declared Production/);
+});
+
+test("rejects a Production current project that differs from its Production registry entry", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      NEXT_PUBLIC_SUPABASE_URL: "https://differentproduction001.supabase.co",
+      SUPABASE_PROJECT_REF: "differentproduction001",
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /Production must target the declared Production/);
+});
+
+test("rejects a Production Supabase URL and current project-ref mismatch", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      NEXT_PUBLIC_SUPABASE_URL: "https://differentproduction001.supabase.co",
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /must match NEXT_PUBLIC_SUPABASE_URL/);
 });
 
 test("rejects a missing required application environment identity", () => {
@@ -289,6 +329,29 @@ test("rejects a provider-origin contradiction", () => {
   assert.match(result.errors.join("\n"), /contradicts trusted provider assertion VERCEL_URL/);
 });
 
+test("rejects a Production bootstrap origin that differs from its Production registry entry", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      APP_ORIGIN: "https://different-production-synthetic.vercel.app",
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /must match its declared origin-registry entry/);
+});
+
+test("rejects a Production bootstrap origin that differs from the provider Production origin", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      VERCEL_PROJECT_PRODUCTION_URL: "different-production-synthetic.vercel.app",
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(
+    result.errors.join("\n"),
+    /contradicts trusted provider assertion VERCEL_PROJECT_PRODUCTION_URL/,
+  );
+});
+
 test("rejects a Production bootstrap origin on a custom domain", () => {
   const customOrigin = "https://production.synthetic.invalid";
   const result = validateDeploymentEnvironment(
@@ -301,6 +364,110 @@ test("rejects a Production bootstrap origin on a custom domain", () => {
   assert.equal(result.ok, false);
   assert.match(result.errors.join("\n"), /must remain on the provider-owned vercel.app origin/);
 });
+
+for (const [name, optionalRegistry] of [
+  ["Preview", "preview"],
+  ["staging", "staging"],
+]) {
+  test(`rejects optional ${name} project identity equal to Production`, () => {
+    const result = validateDeploymentEnvironment(
+      hostedEnvironment("production", {
+        [`${optionalRegistry.toUpperCase()}_SUPABASE_PROJECT_REF`]: syntheticRefs.production,
+        [`${optionalRegistry.toUpperCase()}_APP_ORIGIN`]: syntheticOrigins[optionalRegistry],
+      }),
+    );
+    assert.equal(result.ok, false);
+    assert.match(result.errors.join("\n"), /supplied hosted Supabase project references/);
+  });
+}
+
+test("rejects duplicate optional non-Production project identities", () => {
+  const duplicateRef = "syntheticoptional001";
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      PREVIEW_SUPABASE_PROJECT_REF: duplicateRef,
+      PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
+      STAGING_SUPABASE_PROJECT_REF: duplicateRef,
+      STAGING_APP_ORIGIN: syntheticOrigins.staging,
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /supplied hosted Supabase project references/);
+});
+
+test("rejects duplicate optional non-Production origins", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
+      STAGING_SUPABASE_PROJECT_REF: syntheticRefs.staging,
+      STAGING_APP_ORIGIN: syntheticOrigins.preview,
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /supplied hosted application origins/);
+});
+
+test("rejects an invalid optional project identity", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      PREVIEW_SUPABASE_PROJECT_REF: "INVALID_REF",
+      PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /PREVIEW_SUPABASE_PROJECT_REF must be/);
+});
+
+for (const [description, origin] of [
+  ["an HTTP", "http://preview-commit-synthetic.vercel.app"],
+  ["a loopback", "https://127.0.0.1"],
+]) {
+  test(`rejects ${description} optional hosted origin`, () => {
+    const result = validateDeploymentEnvironment(
+      hostedEnvironment("production", {
+        PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+        PREVIEW_APP_ORIGIN: origin,
+      }),
+    );
+    assert.equal(result.ok, false);
+    assert.match(result.errors.join("\n"), /PREVIEW_APP_ORIGIN must use HTTPS and a non-loopback host/);
+  });
+}
+
+test("rejects a half-populated optional registry identity", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
+      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /PREVIEW_APP_ORIGIN is required/);
+});
+
+test("accepts Production release only with the complete three-environment registry", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", { DEPLOYMENT_CLASS: "PRODUCTION_RELEASE" }),
+  );
+  assert.equal(result.ok, true);
+});
+
+for (const name of [
+  "PREVIEW_SUPABASE_PROJECT_REF",
+  "STAGING_SUPABASE_PROJECT_REF",
+  "PREVIEW_APP_ORIGIN",
+  "STAGING_APP_ORIGIN",
+]) {
+  test(`rejects Production release without ${name}`, () => {
+    const environment = hostedEnvironment("production", {
+      DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
+    });
+    delete environment[name];
+    const result = validateDeploymentEnvironment(environment);
+    assert.equal(result.ok, false);
+    assert.match(result.errors.join("\n"), new RegExp(`${name} is required`));
+  });
+}
 
 test("rejects a mismatched Vercel project identity", () => {
   const result = validateDeploymentEnvironment(
@@ -341,6 +508,14 @@ test("rejects hosted identity metadata in a local declaration", () => {
 
 test("accepts synthetic evidence for the bounded Production bootstrap only", () => {
   assert.equal(validateEvidencePacket(bootstrapEvidence()).ok, true);
+});
+
+test("rejects bootstrap evidence that omits an optional registry disposition", () => {
+  const packet = bootstrapEvidence();
+  packet.environment.previewRegistryDisposition = null;
+  const result = validateEvidencePacket(packet);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /optional preview registry identity/);
 });
 
 test("rejects Production bootstrap evidence that claims release authorization", () => {
@@ -419,6 +594,17 @@ test("repository policy rejects collapsing bootstrap into Production release", (
   const result = validateDeploymentPolicy(contract);
   assert.equal(result.ok, false);
   assert.match(result.errors.join("\n"), /PRODUCTION_BOOTSTRAP_ONLY/);
+});
+
+test("repository policy rejects weakening the Production release registry lifecycle", () => {
+  const contract = clone(phase11hContract);
+  contract.deploymentClasses.PRODUCTION_RELEASE.registryLifecycle = {
+    requiredRegistryEnvironments: ["production"],
+    optionalRegistryEnvironments: ["preview", "staging"],
+  };
+  const result = validateDeploymentPolicy(contract);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /PRODUCTION_RELEASE.*lifecycle-accurate/);
 });
 
 test("repository policy rejects a raw CLI or prebuilt Production bootstrap", () => {

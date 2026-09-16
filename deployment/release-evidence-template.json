@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2",
+  "schemaVersion": "3",
   "status": "TEMPLATE_NOT_EXECUTED",
   "deploymentClass": null,
   "productionReleaseAuthorized": false,
@@ -27,6 +27,9 @@
     "supabaseEnvironment": null,
     "supabaseProjectReference": null,
     "configurationCandidateIdentifier": null,
+    "previewRegistryDisposition": null,
+    "stagingRegistryDisposition": null,
+    "productionRegistryDisposition": null,
     "productionProjectComparison": null,
     "authSiteUrlVerified": false,
     "authRedirectAllowListVerified": false,
