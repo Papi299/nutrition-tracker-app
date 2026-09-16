@@ -1314,3 +1314,29 @@ This repository correction records and validates that distinction but performs
 no Vercel, hosted Supabase, Auth, secret, domain/DNS, deployment, Production,
 invitation, recovery, Phase 11I, or Phase 11J operation. Actual bootstrap
 execution requires a separate future exact authorization.
+
+## 20. DEC-032 existing Supabase Production conversion
+
+On 2026-09-16, Product Owner Maor Pichhadze approved `DEC-032 — Convert
+existing Nutrition Tracker Supabase project to Production`. Project
+`hskfanrqwtqknzpquwhg` is intentionally reassigned from its historical
+development role and enters `PRODUCTION_CONVERSION_IN_PROGRESS`. Do not create
+a paid third Supabase project or upgrade the organization merely to obtain
+another project slot.
+
+The project may be classified `PRODUCTION` only after separately authorized
+cleanup removes all development identities and user-owned data, migration and
+schema state exactly match the repository, remote drift is remediated through
+the repository, RLS/grants and Security Advisor state are accepted, and Auth,
+Vault, secrets, and the bootstrap origin satisfy the Production contract.
+Valid repository-sanctioned reference and ingestion data remain. Preview and
+staging isolation under `DEC-026` is unchanged.
+
+`DEC-031` is amended only operationally: its one future protected
+`PRODUCTION_BOOTSTRAP_ONLY` deployment uses the converted project after all
+conversion gates pass rather than provisioning a newly allocated Production
+project. `PRODUCTION_BOOTSTRAP_ONLY != PRODUCTION_RELEASE`, and `DEC-030`
+continues to govern actual Production release and normal Production activity.
+This record authorizes no deletion, migration, provider configuration,
+deployment, invitation, release, or launch; the sole Vercel Production
+bootstrap attempt remains unused.

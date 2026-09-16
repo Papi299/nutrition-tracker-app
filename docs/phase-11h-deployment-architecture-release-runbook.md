@@ -59,6 +59,24 @@ the bootstrap in this task. `DEC-030` remains controlling for the actual
 Production release, normal Production traffic, users, invitations, custom
 Production-domain activation, and every later Production deployment.
 
+`DEC-032 — Convert existing Nutrition Tracker Supabase project to Production`
+is approved as follows:
+
+| Field | Recorded decision |
+| --- | --- |
+| Decision | Convert existing Nutrition Tracker Supabase project to Production |
+| Project ref | `hskfanrqwtqknzpquwhg` |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-16 |
+| Rationale | The established project will be cleaned, reconciled to the exact repository schema, hardened, and permanently reassigned from development to Production instead of creating a paid third project. |
+
+The project is `PRODUCTION_CONVERSION_IN_PROGRESS`, must no longer receive
+development activity, and is not `PRODUCTION` until its cleanup, migration,
+security, Auth, Vault, and bootstrap-acceptance gates pass. Do not create a
+third Supabase project or upgrade the organization merely to obtain another
+project slot. `DEC-026` isolation remains unchanged: Preview and staging use
+separate non-production identities and never connect to this project.
+
 ```text
 Production deployment exists != Production release authorized
 ```
@@ -250,7 +268,7 @@ setting.
 | Local | `local`, `test` | Loopback only; synthetic fixtures; local service-role use restricted to fixture setup and stripped from the app process |
 | Preview | `preview` only | Dedicated hosted non-production project; synthetic/test identities; never Production data |
 | Staging | `staging` only | Dedicated hosted non-production project, separate from Preview and Production; rehearsal data only |
-| Production | `production` only | Dedicated Production project; no Preview or staging connection |
+| Production | `production` only | Dedicated Production project, including an approved historical project only after accepted conversion; no Preview or staging connection |
 
 Application, Auth, database, Storage, Vault, and migration state belong to the
 same named environment. A provider identity or register record cannot cross
@@ -275,18 +293,21 @@ Hosted Storage reality and backup/recovery remain external. Phase 11I owns the
 daily/30-day backup contract, RPO 24 hours, RTO 8 hours, isolated restore, and
 quarterly qualification. Restore is not an ordinary release rollback.
 
-The future Production bootstrap may provision a Production Supabase project
-only when the protected application build cannot be internally coherent
-without it and only under the same later exact bootstrap authorization. That
-project must be dedicated to Production, contain no copied Preview/staging or
-real beta-user dataset, have the exact repository migration ledger, preserve
-RLS and least-privilege grants, and verify explicit Data API grants where the
-project's current exposure settings require them. Open signup remains disabled.
-Production-specific publishable/server secrets and the matching
-`account_closure_capability_v1` Vault value are scoped only to Production.
-Auth Site URL/redirect entries are limited to the protected provider-owned
-bootstrap origin. No invitation, recovery-delivery acceptance, ordinary user
-activity, or final public custom domain is permitted.
+Under `DEC-032`, the future Production bootstrap must use project
+`hskfanrqwtqknzpquwhg` only after its conversion is accepted as
+`PRODUCTION`; it must not provision a third Supabase project. Until then the
+project remains `PRODUCTION_CONVERSION_IN_PROGRESS` and cannot be used by a
+Vercel target. Conversion acceptance requires development use to have ended;
+zero Auth users and user-owned development rows; no unclassified personal or
+development data; the exact repository migration ledger; repository-controlled
+remediation of remote schema drift; accepted RLS and least-privilege grants;
+invitation-only Auth with Production-approved password protection; the exact
+bootstrap Auth origin; fresh Production application secrets; exactly one
+matching `account_closure_capability_v1` Vault value; a browser-safe
+publishable key; and no unresolved blocking Security Advisor finding. Preserve
+valid repository-sanctioned reference and food-ingestion data. No invitation,
+recovery-delivery acceptance, ordinary user activity, or final public custom
+domain is permitted.
 
 Creating infrastructure does not qualify recovery. The bootstrap may precede
 Phase 11I only because it is not a release. After infrastructure exists, no
@@ -443,9 +464,11 @@ closure. Execute exactly this sequence:
    Production Supabase/origin registry pair, with
    `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY`; leave not-yet-provisioned
    Preview/staging registry variables absent rather than inventing values;
-6. if the build requires it, provision only the dedicated, empty Production
-   Supabase project and minimum coherent migration/RLS/grant/Auth/Vault state
-   under the same bounded authorization; do not copy non-production data;
+6. require accepted `DEC-032` conversion evidence for
+   `hskfanrqwtqknzpquwhg`, including zero users and user-owned development
+   rows, exact migration/schema state, accepted security/Auth/Vault state, and
+   formal `PRODUCTION` classification; do not create a third project or copy
+   non-production data;
 7. verify exact Vercel project, Production target, Production Supabase project,
    provider-owned Production origin, repository, SHA, tree, and configuration
    bindings;

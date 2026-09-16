@@ -3397,3 +3397,38 @@ gate. This correction performs no Vercel, hosted Supabase, deployment,
 Production, domain/DNS, credential, invitation, backup/restore, Phase 11I, or
 Phase 11J operation. The actual bootstrap still requires a separate future
 authorization.
+
+## 2026-09-16: DEC-032 existing Supabase Production conversion
+
+### DEC-032 — Convert existing Nutrition Tracker Supabase project to Production
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Convert existing Nutrition Tracker Supabase project to Production |
+| Project ref | `hskfanrqwtqknzpquwhg` |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-16 |
+| Rationale | The project is the established Nutrition Tracker Supabase environment. The Supabase Free-plan project limit prevents allocating an additional Production project without upgrading the organization. The application has not launched, so the existing project will be deliberately cleaned, brought to the exact repository schema, hardened, and permanently reassigned from development to Production instead of introducing a paid third project. The project may be classified Production only after conversion acceptance. |
+
+The project immediately ceases to be a development, Preview, or staging
+target and enters `PRODUCTION_CONVERSION_IN_PROGRESS`. It may become
+`PRODUCTION` only after destructive cleanup is separately authorized and
+accepted; all development users and user-owned data are absent; migration,
+schema, RLS, grant, Auth, Vault, and security gates pass; and no personal or
+development data remains unclassified. The conversion preserves valid,
+repository-sanctioned reference and food-ingestion state.
+
+Do not create a third Supabase project or upgrade the organization merely to
+obtain another project slot. `DEC-026` remains unchanged: Preview and staging
+must use isolated non-production Supabase identities and must never connect to
+this project. `DEC-031` is amended only operationally: the one authorized
+`PRODUCTION_BOOTSTRAP_ONLY` Vercel deployment will use the converted project
+after its conversion gates pass instead of provisioning a newly allocated
+Production project. `PRODUCTION_BOOTSTRAP_ONLY != PRODUCTION_RELEASE` and
+`DEC-030` remain unchanged.
+
+This decision record performs no user or application-data deletion, Storage
+deletion, migration, schema remediation, Auth or Vault mutation, Vercel
+project creation or deployment, domain/DNS action, invitation, release, or
+launch. The sole Vercel Production bootstrap deployment attempt remains
+unused.
