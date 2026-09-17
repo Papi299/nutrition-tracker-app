@@ -1,6 +1,6 @@
 # Phase 11I Recovery Qualification
 
-Status: `CANDIDATE_PENDING_EXACT_HEAD_CI_AND_INDEPENDENT_REVIEWS`
+Status: `TECHNICAL_QUALIFICATION_COMPLETE_RECOVERY_APPROVER_AND_INDEPENDENT_REVIEW_PENDING_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD`
 
 Task: `PHASE-11I-RECOVERY-QUALIFICATION-001`
 
@@ -33,7 +33,7 @@ The qualification used the existing Production Supabase project
 
 - commit `ad92dadc985e66ac1e6453537d629f6d13ccda5f`;
 - tree `dcfbd33b330e1796869040686f2efb8167893993`;
-- parent `b9ac622b63d6536fd1d7a35585f02a4bd194b8ae`;
+- parent `b9ac622324583c11c5ee8e4ff9a18e87f607023a`;
 - exact-main CI run `35090822424`, run number 244, passed on that head; and
 - 43 ordered migrations ending at `20260830143000`.
 
