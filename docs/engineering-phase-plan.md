@@ -318,8 +318,18 @@ The recommended dependency order is:
 6. Phase 11G — Reliability, observability, and performance.
 7. Phase 11H — Deployment architecture and release runbook.
 8. Phase 11I — Recovery qualification.
-9. Phase 11J — Preview and release rehearsal.
+9. Phase 11J — Personal-use local/CI release rehearsal and release readiness.
 10. Phase 11K — Integrated Phase 11 acceptance and launch-authorization gate.
+
+Product Owner decision `DEC-035` activates `PERSONAL_USE_FREE_TIER` for the
+current single-owner personal application. Under this profile, Phase 11J uses
+isolated local Supabase and CI as its authoritative full-stack non-Production
+environment; hosted Preview is optional and may never bind Production
+Supabase; permanent hosted staging and paid provider plans are not required.
+The historical `DEC-026` Preview/staging/Production capability remains
+documented for a future expanded profile. The active profile, roles, evidence
+classification, and revised 11J1–11J6 sequence are canonical in
+[`phase-11j0-personal-use-free-tier-profile.md`](phase-11j0-personal-use-free-tier-profile.md).
 
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted
 all five before-11E prerequisite roles and approved the bounded engineering
@@ -447,12 +457,13 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended by
-accepted version `1.6-phase-11e-nojs-classifications-amended`.
+accepted version `1.7-personal-use-free-tier-profile-amended`.
 Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
-`1.4-phase-11b-remaining-implemented-nojs-amended`, and
-`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` remain preserved.
+`1.4-phase-11b-remaining-implemented-nojs-amended`,
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
+`1.6-phase-11e-nojs-classifications-amended` remain preserved.
 Version 1.5 records Product Owner Maor Pichhadze's 2026-08-26 Option 2 approval to
 preserve all DEC-014–017 requirement substance while moving final
 launch-facing UI-dependent human acceptance from 11D to the stabilized
@@ -669,12 +680,14 @@ identity. Independent ChatGPT engineering review accepted corrected exact head
 `dfe92bc9cd1bcb0361937bcc5067090acad4a3d7`, tree
 `50846dc6cd6f1555bf30c1ea1eade9b1860744d5`, with exact-head CI run
 `35185758896`, run number 246, attempt 1, successful. Product Owner decision
-`DEC-034` now supersedes the unsuitable sleeping operator-host schedule with a
+`DEC-034` supersedes the unsuitable sleeping operator-host schedule with a
 GitHub Actions encrypted-artifact cadence. The default-branch workflow,
 ciphertext/redaction boundary, explicit 30-day retention, IANA timezone, and
-public-repository inactivity controls are implemented; activation remains
-pending merge, exact-main CI, secret setup, and the first successful operational
-run.
+public-repository inactivity controls are active. Workflow run `35236459394`
+on exact main `35306d10808ae1f55ef83816f507c3e714a1278e` succeeded and
+retained the verified encrypted artifact. Phase 11I remains
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`; `DEC-035` does not repeat or alter
+its accepted backup/restore outcome.
 `P11A-011` and all 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`,
 Phase 11J has not begun, and Phase 11K remains the exclusive closure gate.
 

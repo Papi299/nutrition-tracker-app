@@ -69,7 +69,7 @@ function mutateSection7_3Row(source, id, transform) {
   );
 }
 
-test("accepts the exact Contract 1.6 candidate with immutable historical evidence", async () => {
+test("accepts the exact Contract 1.7 profile amendment with immutable historical evidence", async () => {
   const result = await validate(evidenceFixture());
   assert.equal(baselineEvidence.acceptedContract.version, HISTORICAL_PHASE_11C_CONTRACT_VERSION);
   assert.equal(result.normative.version, CURRENT_CONTRACT_VERSION);
@@ -148,10 +148,10 @@ test("rejects current contract version 1.5", async () => {
   await assert.rejects(validate(evidenceFixture(), changed), /current contract version must be/);
 });
 
-test("rejects an unapproved current contract version 1.7", async () => {
+test("rejects an unapproved current contract version 1.8", async () => {
   const changed = contract.replace(
     CURRENT_CONTRACT_VERSION,
-    "1.7-unapproved-contract-version",
+    "1.8-unapproved-contract-version",
   );
   await assert.rejects(validate(evidenceFixture(), changed), /current contract version must be/);
 });

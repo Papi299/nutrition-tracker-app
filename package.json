@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "test": "npm run test:date",
     "deployment:validate": "node scripts/check-phase-11h-deployment-contract.mjs",
     "recovery:backup": "node scripts/run-phase-11i-backup.mjs",
     "recovery:verify-github-artifact": "node scripts/verify-phase-11i-github-artifact.mjs",

@@ -7,7 +7,7 @@
 | Document | Phase 11E Authentication and Account-Lifecycle Governance |
 | Identifier | `PHASE-11E-AUTH-ACCOUNT-LIFECYCLE-GOVERNANCE-001` |
 | Repository baseline | `6c2634478c93b7f4832616c302e75a4ceff1bf45`, tree `789ea0872f674553740c74846cd9df812c62c76a` |
-| Controlling contract | `1.6-phase-11e-nojs-classifications-amended` — current accepted normative contract |
+| Controlling Phase 11E amendment | `1.6-phase-11e-nojs-classifications-amended`, preserved unchanged within current contract `1.7-personal-use-free-tier-profile-amended` |
 | Product owner | Maor Pichhadze |
 | Approval date | 2026-08-26 |
 | Attributable approval | “I approve the Phase 11E recommended owner assignments and product/security decisions.” |
@@ -175,8 +175,9 @@ No implementation or evidence credit follows from classification approval.
 `PHASE_11E0B_POST_MERGE_ACCEPTED`
 
 Phase 11C evidence remains historically bound to
-`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current accepted
-contract is `1.6-phase-11e-nojs-classifications-amended`. The evolved
+`1.4-phase-11b-remaining-implemented-nojs-amended`, while the current contract
+is `1.7-personal-use-free-tier-profile-amended` and preserves the Phase 11E
+version 1.6 amendment unchanged. The evolved
 journey-evidence validator independently binds historical evidence to immutable accepted
 fingerprints and a canonical normative-projection digest, then validates the
 current accepted contract through an exact six-journey amendment allowlist.

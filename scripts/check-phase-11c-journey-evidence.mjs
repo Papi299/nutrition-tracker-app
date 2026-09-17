@@ -24,7 +24,7 @@ const CONTRACT_PATH = "docs/phase-11b-launch-contract-and-acceptance-baseline.md
 export const HISTORICAL_PHASE_11C_CONTRACT_VERSION =
   "1.4-phase-11b-remaining-implemented-nojs-amended";
 export const CURRENT_CONTRACT_VERSION =
-  "1.6-phase-11e-nojs-classifications-amended";
+  "1.7-personal-use-free-tier-profile-amended";
 export const HISTORICAL_PHASE_11C_FINGERPRINTS = Object.freeze({
   section7_1: "40e580aa18dd9f0dfd3cb09b5a5176942fafdd16f2b21d7a0e1b3d031a6c5a91",
   section7_2: "80dd6656788516ed3db5ae98097ea04be3bb3a8611b699b2a9f1232d239b72d2",

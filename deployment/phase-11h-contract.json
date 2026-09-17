@@ -1,7 +1,80 @@
 {
   "contractId": "PHASE-11H-DEPLOYMENT-ENVIRONMENT-CONTRACT-001",
-  "schemaVersion": "3",
+  "schemaVersion": "4",
   "status": "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING",
+  "activeReleaseProfile": "PERSONAL_USE_FREE_TIER",
+  "releaseProfiles": {
+    "PERSONAL_USE_FREE_TIER": {
+      "decision": "DEC-035",
+      "status": "ACTIVE",
+      "classification": "single-owner personal application",
+      "publicBeta": false,
+      "externalInvitedUsers": false,
+      "commercialSla": false,
+      "operations": "best-effort",
+      "hostedTopology": {
+        "productionApplication": {
+          "provider": "Vercel",
+          "plan": "Hobby"
+        },
+        "productionDatabaseAuth": {
+          "provider": "Supabase",
+          "plan": "Free",
+          "projectRef": "hskfanrqwtqknzpquwhg"
+        }
+      },
+      "protectedUnrelatedProjects": [
+        {
+          "provider": "Supabase",
+          "projectRef": "lioxtgiputfniqbktcsz",
+          "projectName": "academic-papers-index",
+          "nutritionTrackerUseAllowed": false,
+          "mutationAuthorized": false
+        }
+      ],
+      "authoritativeFullStackNonProductionEnvironments": ["local", "test"],
+      "requiredHostedApplicationTargets": ["production"],
+      "optionalHostedApplicationTargets": ["preview"],
+      "inactiveHostedCapabilities": ["staging"],
+      "requiredHostedSupabaseEnvironments": ["production"],
+      "requiredPaidProviderEntitlements": [],
+      "providerPurchaseAuthorized": false,
+      "hostedPreviewDispositionDefault": "OPTIONAL_NOT_PROVISIONED",
+      "hostedPreviewAllowedDispositions": [
+        "NOT_REQUIRED",
+        "OPTIONAL_NOT_PROVISIONED",
+        "USED_NONPROD_ONLY"
+      ],
+      "hostedPreviewProductionSupabaseAllowed": false,
+      "hostedStagingDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "localCiRehearsal": "REQUIRED",
+      "productionProviderPreflight": "REQUIRED_READ_ONLY",
+      "postDeployVerification": "REQUIRED_AFTER_SEPARATE_RELEASE_AUTHORIZATION",
+      "productionReleaseRegistryLifecycle": {
+        "requiredRegistryEnvironments": ["production"],
+        "optionalRegistryEnvironments": ["preview", "staging"]
+      }
+    },
+    "FULL_MULTI_ENVIRONMENT": {
+      "decision": "DEC-026",
+      "status": "HISTORICAL_INACTIVE_CAPABILITY",
+      "classification": "private-beta multi-environment application",
+      "authoritativeFullStackNonProductionEnvironments": ["preview", "staging"],
+      "requiredHostedApplicationTargets": ["preview", "staging", "production"],
+      "optionalHostedApplicationTargets": [],
+      "inactiveHostedCapabilities": [],
+      "requiredHostedSupabaseEnvironments": ["preview", "staging", "production"],
+      "requiredPaidProviderEntitlements": [
+        "Vercel Custom Environment",
+        "Supabase Branching or equivalent isolated hosted projects"
+      ],
+      "providerPurchaseAuthorized": false,
+      "productionReleaseRegistryLifecycle": {
+        "requiredRegistryEnvironments": ["preview", "staging", "production"],
+        "optionalRegistryEnvironments": []
+      }
+    }
+  },
   "applicationEnvironments": {
     "local": {
       "class": "local",
@@ -58,6 +131,11 @@
     "vercelProjectCount": 1,
     "topology": "single-project",
     "applicationTargets": ["preview", "staging", "production"],
+    "applicationTargetsMeaning": "Retained provider capabilities, not requirements of every release profile.",
+    "activeProfileRequiredTargets": ["production"],
+    "activeProfileOptionalTargets": ["preview"],
+    "activeProfileInactiveCapabilities": ["staging"],
+    "paidProviderEntitlementsRequiredByActiveProfile": [],
     "automaticGitDeployments": false,
     "repositoryConfiguration": {
       "path": "vercel.json",
@@ -135,6 +213,7 @@
         "requiredRegistryEnvironments": ["preview", "staging", "production"],
         "optionalRegistryEnvironments": []
       },
+      "registryLifecycleMeaning": "Historical DEC-026 full multi-environment lifecycle; the active release profile selects its current lifecycle from releaseProfiles.",
       "productionReleaseAuthorizationRequired": true,
       "productionReleaseAuthorizedInEvidence": true,
       "exactActionAuthorizationRequired": true,
@@ -143,6 +222,58 @@
       "bootstrapAuthorizationIsInsufficient": true,
       "phase11JAcceptanceEligible": false
     }
+  },
+  "phase11JProfile": {
+    "status": "NOT_STARTED",
+    "objective": "Rehearse the exact release candidate using isolated local/CI full-stack infrastructure, validate all machine-verifiable launch controls, collect owner-relevant manual evidence, verify live Production provider configuration read-only, and prepare an exact separately authorized Production release procedure.",
+    "paidInfrastructureProvisioningRequired": false,
+    "roles": {
+      "technicalReleaseExecutor": {
+        "assignee": "Maor Pichhadze",
+        "status": "ASSIGNED_AND_APPROVED"
+      },
+      "rehearsalApprover": {
+        "assignee": "Product Owner authorization + independent ChatGPT engineering review",
+        "status": "PROFILE_GOVERNANCE_APPROVED"
+      },
+      "supportPrimary": {
+        "assignee": "Maor Pichhadze",
+        "status": "ASSIGNED_AND_APPROVED"
+      },
+      "supportBackup": {
+        "assignee": null,
+        "status": "NOT_REQUIRED_PERSONAL_USE_PROFILE"
+      },
+      "physicalDeviceValidationOwner": {
+        "assignee": "Maor Pichhadze",
+        "status": "ASSIGNED_AND_APPROVED"
+      },
+      "externalEvidenceOwner": {
+        "assignee": "Maor Pichhadze",
+        "status": "ASSIGNED_AND_APPROVED"
+      },
+      "authorizedInvitationOperator": {
+        "assignee": null,
+        "status": "NOT_APPLICABLE_PERSONAL_USE_PROFILE"
+      },
+      "invitationReconciliationReviewer": {
+        "assignee": null,
+        "status": "NOT_APPLICABLE_PERSONAL_USE_PROFILE"
+      }
+    },
+    "evidenceClassifications": [
+      "PRE_RELEASE_REQUIRED",
+      "OWNER_USE_MANUAL_VALIDATION",
+      "POST_DEPLOY_RELEASE_VERIFICATION"
+    ],
+    "executionSequence": [
+      "11J1 exact candidate freeze and local/CI release rehearsal",
+      "11J2 Auth/security/account lifecycle full-stack local acceptance",
+      "11J3 owner-relevant browser/accessibility/device/manual validation",
+      "11J4 Production provider read-only preflight and backup/recovery freshness",
+      "11J5 release/rollback checklist dry run and evidence reconciliation",
+      "11J6 independent review handoff to Phase 11K"
+    ]
   },
   "productionBootstrapPolicy": {
     "decision": "DEC-031",
@@ -1117,6 +1248,8 @@
     "requiredTopLevelFields": [
       "schemaVersion",
       "status",
+      "releaseProfile",
+      "profile",
       "deploymentClass",
       "productionReleaseAuthorized",
       "candidate",
@@ -1157,7 +1290,8 @@
       "17. Stop conditions and authorization boundaries",
       "18. Phase 11I handoff",
       "19. Phase 11J handoff",
-      "20. External-validation gaps and finding status"
+      "20. External-validation gaps and finding status",
+      "21. DEC-035 active personal-use profile"
     ]
   }
 }

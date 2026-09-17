@@ -6,7 +6,10 @@ import {
 } from "node:fs";
 import { extname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { phase11hContract } from "../lib/deployment/environment.mjs";
+import {
+  phase11hContract,
+  registryLifecycleForDeployment,
+} from "../lib/deployment/environment.mjs";
 
 const requiredVariableFields = [
   "name",
@@ -163,6 +166,96 @@ export function validateDeploymentPolicy(contract = phase11hContract) {
   const deploymentClasses = contract.deploymentClasses;
   const bootstrap = deploymentClasses?.PRODUCTION_BOOTSTRAP_ONLY;
   const release = deploymentClasses?.PRODUCTION_RELEASE;
+  const activeProfile = contract.releaseProfiles?.[contract.activeReleaseProfile];
+  const historicalProfile = contract.releaseProfiles?.FULL_MULTI_ENVIRONMENT;
+
+  if (
+    contract.activeReleaseProfile !== "PERSONAL_USE_FREE_TIER" ||
+    activeProfile?.decision !== "DEC-035" ||
+    activeProfile?.status !== "ACTIVE" ||
+    activeProfile?.classification !== "single-owner personal application" ||
+    activeProfile?.publicBeta !== false ||
+    activeProfile?.externalInvitedUsers !== false ||
+    activeProfile?.commercialSla !== false ||
+    activeProfile?.operations !== "best-effort" ||
+    activeProfile?.hostedTopology?.productionApplication?.provider !== "Vercel" ||
+    activeProfile?.hostedTopology?.productionApplication?.plan !== "Hobby" ||
+    activeProfile?.hostedTopology?.productionDatabaseAuth?.provider !== "Supabase" ||
+    activeProfile?.hostedTopology?.productionDatabaseAuth?.plan !== "Free" ||
+    activeProfile?.hostedTopology?.productionDatabaseAuth?.projectRef !==
+      "hskfanrqwtqknzpquwhg" ||
+    activeProfile?.protectedUnrelatedProjects?.length !== 1 ||
+    activeProfile?.protectedUnrelatedProjects?.[0]?.provider !== "Supabase" ||
+    activeProfile?.protectedUnrelatedProjects?.[0]?.projectRef !==
+      "lioxtgiputfniqbktcsz" ||
+    activeProfile?.protectedUnrelatedProjects?.[0]?.projectName !==
+      "academic-papers-index" ||
+    activeProfile?.protectedUnrelatedProjects?.[0]?.nutritionTrackerUseAllowed !== false ||
+    activeProfile?.protectedUnrelatedProjects?.[0]?.mutationAuthorized !== false ||
+    JSON.stringify(activeProfile?.authoritativeFullStackNonProductionEnvironments) !==
+      JSON.stringify(["local", "test"]) ||
+    JSON.stringify(activeProfile?.requiredHostedApplicationTargets) !==
+      JSON.stringify(["production"]) ||
+    JSON.stringify(activeProfile?.optionalHostedApplicationTargets) !==
+      JSON.stringify(["preview"]) ||
+    JSON.stringify(activeProfile?.inactiveHostedCapabilities) !==
+      JSON.stringify(["staging"]) ||
+    JSON.stringify(activeProfile?.requiredHostedSupabaseEnvironments) !==
+      JSON.stringify(["production"]) ||
+    JSON.stringify(activeProfile?.requiredPaidProviderEntitlements) !== JSON.stringify([]) ||
+    activeProfile?.providerPurchaseAuthorized !== false ||
+    activeProfile?.hostedPreviewDispositionDefault !== "OPTIONAL_NOT_PROVISIONED" ||
+    JSON.stringify(activeProfile?.hostedPreviewAllowedDispositions) !==
+      JSON.stringify(["NOT_REQUIRED", "OPTIONAL_NOT_PROVISIONED", "USED_NONPROD_ONLY"]) ||
+    activeProfile?.hostedPreviewProductionSupabaseAllowed !== false ||
+    activeProfile?.hostedStagingDisposition !== "NOT_REQUIRED_PERSONAL_USE_PROFILE" ||
+    activeProfile?.localCiRehearsal !== "REQUIRED" ||
+    activeProfile?.productionProviderPreflight !== "REQUIRED_READ_ONLY" ||
+    activeProfile?.postDeployVerification !==
+      "REQUIRED_AFTER_SEPARATE_RELEASE_AUTHORIZATION"
+  ) {
+    fail(errors, "DEC-035 PERSONAL_USE_FREE_TIER requirements are incomplete or weakened.");
+  }
+  if (
+    historicalProfile?.decision !== "DEC-026" ||
+    historicalProfile?.status !== "HISTORICAL_INACTIVE_CAPABILITY" ||
+    JSON.stringify(historicalProfile?.requiredHostedApplicationTargets) !==
+      JSON.stringify(["preview", "staging", "production"]) ||
+    JSON.stringify(historicalProfile?.requiredHostedSupabaseEnvironments) !==
+      JSON.stringify(["preview", "staging", "production"])
+  ) {
+    fail(errors, "The historical DEC-026 full multi-environment capability must remain coherent.");
+  }
+  const phase11JProfile = contract.phase11JProfile;
+  const roles = phase11JProfile?.roles;
+  if (
+    phase11JProfile?.status !== "NOT_STARTED" ||
+    phase11JProfile?.paidInfrastructureProvisioningRequired !== false ||
+    roles?.technicalReleaseExecutor?.assignee !== "Maor Pichhadze" ||
+    roles?.technicalReleaseExecutor?.status !== "ASSIGNED_AND_APPROVED" ||
+    roles?.supportPrimary?.assignee !== "Maor Pichhadze" ||
+    roles?.supportPrimary?.status !== "ASSIGNED_AND_APPROVED" ||
+    roles?.physicalDeviceValidationOwner?.assignee !== "Maor Pichhadze" ||
+    roles?.physicalDeviceValidationOwner?.status !== "ASSIGNED_AND_APPROVED" ||
+    roles?.externalEvidenceOwner?.assignee !== "Maor Pichhadze" ||
+    roles?.externalEvidenceOwner?.status !== "ASSIGNED_AND_APPROVED" ||
+    roles?.supportBackup?.status !== "NOT_REQUIRED_PERSONAL_USE_PROFILE" ||
+    roles?.authorizedInvitationOperator?.status !==
+      "NOT_APPLICABLE_PERSONAL_USE_PROFILE" ||
+    roles?.invitationReconciliationReviewer?.status !==
+      "NOT_APPLICABLE_PERSONAL_USE_PROFILE" ||
+    roles?.rehearsalApprover?.assignee !==
+      "Product Owner authorization + independent ChatGPT engineering review" ||
+    JSON.stringify(phase11JProfile?.evidenceClassifications) !==
+      JSON.stringify([
+        "PRE_RELEASE_REQUIRED",
+        "OWNER_USE_MANUAL_VALIDATION",
+        "POST_DEPLOY_RELEASE_VERIFICATION",
+      ]) ||
+    phase11JProfile?.executionSequence?.length !== 6
+  ) {
+    fail(errors, "The DEC-035 Phase 11J role, evidence, or execution profile is incomplete.");
+  }
 
   if (
     architecture?.vercelProjectCount !== 1 ||
@@ -171,6 +264,18 @@ export function validateDeploymentPolicy(contract = phase11hContract) {
       JSON.stringify(["preview", "staging", "production"])
   ) {
     fail(errors, "Phase 11H must retain one Vercel project with Preview, staging, and Production targets.");
+  }
+  if (
+    JSON.stringify(architecture?.activeProfileRequiredTargets) !==
+      JSON.stringify(["production"]) ||
+    JSON.stringify(architecture?.activeProfileOptionalTargets) !==
+      JSON.stringify(["preview"]) ||
+    JSON.stringify(architecture?.activeProfileInactiveCapabilities) !==
+      JSON.stringify(["staging"]) ||
+    JSON.stringify(architecture?.paidProviderEntitlementsRequiredByActiveProfile) !==
+      JSON.stringify([])
+  ) {
+    fail(errors, "The active personal-use profile must not require hosted Preview, staging, or paid provider entitlements.");
   }
   if (
     architecture?.automaticGitDeployments !== false ||
@@ -224,6 +329,16 @@ export function validateDeploymentPolicy(contract = phase11hContract) {
         `${deploymentClass} must retain its lifecycle-accurate required and optional registry environments.`,
       );
     }
+  }
+  const expectedPersonalReleaseLifecycle = {
+    requiredRegistryEnvironments: ["production"],
+    optionalRegistryEnvironments: ["preview", "staging"],
+  };
+  if (
+    JSON.stringify(activeProfile?.productionReleaseRegistryLifecycle) !==
+    JSON.stringify(expectedPersonalReleaseLifecycle)
+  ) {
+    fail(errors, "PERSONAL_USE_FREE_TIER Production release must require only the Production registry identity.");
   }
   if (
     bootstrap?.applicationEnvironment !== "production" ||
@@ -328,6 +443,24 @@ export function validateEvidencePacket(packet) {
   if (packet.productionReleaseAuthorized !== packet.authorization?.productionAuthorized) {
     fail(errors, "Evidence production-release authorization declarations must agree.");
   }
+  const profile = phase11hContract.releaseProfiles?.[packet.releaseProfile];
+  if (
+    packet.releaseProfile !== phase11hContract.activeReleaseProfile ||
+    profile?.status !== "ACTIVE"
+  ) {
+    fail(errors, "Evidence must identify the active release profile.");
+  }
+  if (
+    !profile?.hostedPreviewAllowedDispositions?.includes(
+      packet.profile?.hostedPreviewDisposition,
+    ) ||
+    packet.profile?.hostedStagingDisposition !== profile?.hostedStagingDisposition ||
+    packet.profile?.localCiRehearsal !== profile?.localCiRehearsal ||
+    packet.profile?.productionProviderPreflight !== profile?.productionProviderPreflight ||
+    packet.profile?.postDeployVerification !== profile?.postDeployVerification
+  ) {
+    fail(errors, "Evidence profile requirements must match the active release profile.");
+  }
   if (packet.bootstrap?.findingClosureCreditClaimed !== false) {
     fail(errors, "Deployment evidence cannot claim finding-closure credit before Phase 11K.");
   }
@@ -353,7 +486,15 @@ export function validateEvidencePacket(packet) {
   if (packet.productionReleaseAuthorized !== definition.productionReleaseAuthorizedInEvidence) {
     fail(errors, "Evidence Production authorization must match the deployment class.");
   }
-  for (const registryEnvironment of definition.registryLifecycle.requiredRegistryEnvironments) {
+  const registryLifecycle = registryLifecycleForDeployment(
+    packet.deploymentClass,
+    packet.releaseProfile,
+  );
+  if (!registryLifecycle) {
+    fail(errors, "Executed evidence must have a release-profile registry lifecycle.");
+    return { errors, ok: false };
+  }
+  for (const registryEnvironment of registryLifecycle.requiredRegistryEnvironments) {
     const field = registryDispositionFields[registryEnvironment];
     if (packet.environment?.[field] !== "VERIFIED") {
       fail(
@@ -362,7 +503,7 @@ export function validateEvidencePacket(packet) {
       );
     }
   }
-  for (const registryEnvironment of definition.registryLifecycle.optionalRegistryEnvironments) {
+  for (const registryEnvironment of registryLifecycle.optionalRegistryEnvironments) {
     const field = registryDispositionFields[registryEnvironment];
     if (!["NOT_YET_PROVISIONED", "VERIFIED"].includes(packet.environment?.[field])) {
       fail(

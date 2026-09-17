@@ -1052,3 +1052,18 @@ This audit performed no application, migration, test, security, accessibility,
 monitoring, infrastructure, deployment, production, provider, remote Supabase,
 backup, or restore implementation or operation. It created documentation only
 and does not authorize launch or any later Phase 11 slice.
+
+## 20. DEC-035 active-profile amendment
+
+This audit remains the historical 2026 Phase 11A snapshot. On 2026-09-17,
+Product Owner decision `DEC-035` activated `PERSONAL_USE_FREE_TIER` for the
+single-owner personal application. It supersedes the audit's assumption that
+paid hosted Preview and staging evidence is required for current acceptance.
+Isolated local/CI is now the authoritative full-stack non-Production rehearsal;
+hosted Preview is optional and may never use Production Supabase; permanent
+hosted staging is not required. Evidence is classified as
+`PRE_RELEASE_REQUIRED`, `OWNER_USE_MANUAL_VALIDATION`, or
+`POST_DEPLOY_RELEASE_VERIFICATION` as defined in the
+[Phase 11J0 profile](phase-11j0-personal-use-free-tier-profile.md). Historical
+findings are not erased or closed: all 18 remain `OPEN`, Phase 11 remains
+`INCOMPLETE`, and Phase 11K remains the finding-closure gate.
