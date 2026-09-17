@@ -1,10 +1,10 @@
 # Phase 11I Recovery Qualification
 
-Status: `TECHNICAL_QUALIFICATION_COMPLETE_RECOVERY_APPROVER_AND_INDEPENDENT_REVIEW_PENDING_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD`
+Status: `RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD`
 
 Task: `PHASE-11I-RECOVERY-QUALIFICATION-001`
 
-Recovery Approver decision: `PENDING`
+Recovery Approver decision: `APPROVE` (`2026-09-17`)
 
 This record implements and executes the already approved `DEC-024` and
 `DEC-025` policy. It does not amend either decision, authorize a Production
@@ -18,12 +18,15 @@ finding. All 18 Phase 11 findings remain `OPEN`, Phase 11 remains
 | --- | --- | --- | --- |
 | Backup Owner | Maor Pichhadze | `ASSIGNED_AND_APPROVED` | Product Owner assignment and acceptance in the 2026-09-17 Phase 11I task |
 | Restore Executor | Maor Pichhadze | `ASSIGNED_AND_APPROVED` | Product Owner assignment and acceptance in the 2026-09-17 Phase 11I task |
-| Recovery Approver and Backup | Jimmy Peachy | `ASSIGNED_AND_APPROVED` | Product Owner-supplied explicit acceptance dated 2026-09-17; Codex did not independently authenticate Jimmy's identity |
+| Recovery Approver and Backup | Jimmy Peachy | `ASSIGNED_AND_APPROVED` | Product Owner-supplied attributable Recovery Approver approval dated 2026-09-17; Codex did not independently authenticate Jimmy's identity |
 
 The Restore Executor collected the evidence. The Recovery Approver did not
-alter the restore or perform corrective actions to make it pass. Jimmy Peachy
-must independently approve or reject the completed packet. Until that happens,
-`RECOVERY_APPROVER_DECISION=PENDING`.
+alter the restore or perform corrective actions to make it pass. Product
+Owner-supplied attributable evidence records Jimmy Peachy's approval of the
+completed recovery packet on 2026-09-17; Codex did not independently
+authenticate Jimmy's identity. `RECOVERY_APPROVER_DECISION=APPROVE`. This
+approves the qualification evidence, not Production restore/release, finding
+closure, Phase 11J, or a claim that daily automation is already operational.
 
 ## 2. Qualified source and baseline
 
@@ -305,7 +308,10 @@ The Recovery Approver should independently verify:
 
 Decision field:
 
-`RECOVERY_APPROVER_DECISION=PENDING`
+`RECOVERY_APPROVER_DECISION=APPROVE`
 
-Allowed independent outcomes are `APPROVE` or `REJECT` with attributable date
-and rationale. Codex must not self-approve on Jimmy Peachy's behalf.
+Decision date: `2026-09-17`
+
+Provenance: Product Owner-supplied attributable Recovery Approver approval.
+Codex did not independently authenticate Jimmy Peachy's identity and did not
+self-approve on his behalf.

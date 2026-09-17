@@ -662,10 +662,15 @@ isolated local stack, passed exact migration/data/Auth/ACL/RLS/security and
 recovered-application checks, met conservative RPO 24h/RTO 8h, verified
 Production remained unchanged, and destroyed all isolated synthetic and
 decrypted temporary state. The
-[redacted evidence](phase-11i-recovery-qualification-evidence.json) is pending
-Jimmy Peachy's approve/reject decision and independent ChatGPT engineering
-review. Daily backup automation is implemented as an inert operator-host
-schedule and remains `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`.
+[redacted evidence](phase-11i-recovery-qualification-evidence.json) is approved
+through Product Owner-supplied attributable Recovery Approver approval from
+Jimmy Peachy dated 2026-09-17; Codex did not independently authenticate his
+identity. Independent ChatGPT engineering review accepted corrected exact head
+`dfe92bc9cd1bcb0361937bcc5067090acad4a3d7`, tree
+`50846dc6cd6f1555bf30c1ea1eade9b1860744d5`, with exact-head CI run
+`35185758896`, run number 246, attempt 1, successful. Daily backup automation is
+implemented as an inert operator-host schedule and remains
+`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`.
 `P11A-011` and all 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`,
 Phase 11J has not begun, and Phase 11K remains the exclusive closure gate.
 

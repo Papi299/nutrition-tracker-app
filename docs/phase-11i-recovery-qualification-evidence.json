@@ -171,7 +171,10 @@
   },
   "restoreExecutor": "Maor Pichhadze",
   "recoveryApprover": "Jimmy Peachy",
-  "recoveryApproverDecision": "PENDING",
+  "recoveryApproverDecision": "APPROVE",
+  "recoveryApproverDecisionDate": "2026-09-17",
+  "recoveryApproverDecisionProvenance": "PRODUCT_OWNER_SUPPLIED_ATTRIBUTABLE_RECOVERY_APPROVER_APPROVAL",
+  "recoveryApproverIdentityIndependentlyAuthenticatedByCodex": false,
   "teardown": {
     "completedAt": "2026-09-17T03:19:28Z",
     "isolatedStackDestroyed": true,
@@ -202,5 +205,5 @@
   "openFindingCount": 18,
   "phase11Status": "INCOMPLETE",
   "phase11JStarted": false,
-  "candidateStatus": "TECHNICAL_QUALIFICATION_COMPLETE_RECOVERY_APPROVER_AND_INDEPENDENT_REVIEW_PENDING_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD"
+  "candidateStatus": "RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD"
 }

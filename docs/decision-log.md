@@ -3526,3 +3526,26 @@ Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, and Phase 11K remains
 the exclusive finding-closure gate. No Production restore, release, launch,
 deployment, invitation, provider configuration, or finding closure is
 authorized.
+
+## 2026-09-17: Phase 11I Recovery Approver approval and independent acceptance
+
+- Product Owner-supplied attributable evidence records Jimmy Peachy's Recovery
+  Approver decision `APPROVE` dated 2026-09-17 for the completed Phase 11I
+  recovery packet. Codex did not independently authenticate Jimmy's identity
+  and did not self-approve on his behalf.
+- The approval covers the recorded source commit/tree, restricted encrypted
+  backup and hashes, isolated restore, 43-migration and application/Auth/ACL/RLS
+  evidence, cross-user isolation, RPO/RTO, recovered-application smoke,
+  teardown, and Production non-mutation. It does not authorize a Production
+  restore/release, finding closure, Phase 11J, or arbitrary Production changes.
+- Independent engineering review accepted corrected exact head
+  `dfe92bc9cd1bcb0361937bcc5067090acad4a3d7`, tree
+  `50846dc6cd6f1555bf30c1ea1eade9b1860744d5`; exact-head CI run
+  `35185758896`, run number 246, attempt 1, passed.
+- Daily backup automation remains
+  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`; operational cadence and
+  final Phase 11I external-validation credit require post-merge scheduler
+  activation and scheduler-path proof. `P11A-011` and all 18 findings remain
+  `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, Phase 11K
+  remains the exclusive finding-closure gate, and
+  `productionReleaseAuthorized=false`.

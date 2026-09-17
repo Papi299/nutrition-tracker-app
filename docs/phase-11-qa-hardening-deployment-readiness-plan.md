@@ -911,13 +911,14 @@ canonical redacted packet is
 [`phase-11i-recovery-qualification-evidence.json`](phase-11i-recovery-qualification-evidence.json).
 
 Daily operator-host automation is implemented but not installed:
-`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Independent Recovery
-Approver decision and independent ChatGPT engineering review remain pending,
-while technical qualification is complete. Every current candidate head must
-pass exact-head CI; its run identity is recorded in the final report rather
-than committed into the head it verifies. `P11A-011` and all other findings
-remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11J has not begun; Phase
-11K remains the exclusive finding-closure gate.
+`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Technical qualification and
+independent ChatGPT engineering review are complete. Product Owner-supplied
+attributable evidence records Jimmy Peachy's Recovery Approver decision
+`APPROVE` on 2026-09-17; Codex did not independently authenticate his identity.
+Every current candidate head must pass exact-head CI; its run identity is
+recorded in the final report rather than committed into the head it verifies.
+`P11A-011` and all other findings remain `OPEN`; Phase 11 remains `INCOMPLETE`;
+Phase 11J has not begun; Phase 11K remains the exclusive finding-closure gate.
 
 ## 16. Phase 11J — Preview and release rehearsal
 

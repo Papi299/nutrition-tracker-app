@@ -604,11 +604,13 @@ be described as closing a finding that requires external evidence.
   stack and plaintext staging. The
   [runbook](phase-11i-recovery-qualification.md) and
   [redacted packet](phase-11i-recovery-qualification-evidence.json) record the
-  evidence. Technical qualification is complete. Daily automation activation,
-  the distinct Recovery Approver's decision, and independent engineering review
-  remain pending. Every current candidate head must pass exact-head CI; its run
-  identity is recorded in the final report rather than committed into the head
-  it verifies. `P11A-011` remains `OPEN` at
+  evidence. Technical qualification and independent engineering review are
+  complete. Product Owner-supplied attributable evidence records Jimmy
+  Peachy's Recovery Approver decision `APPROVE` on 2026-09-17; Codex did not
+  independently authenticate his identity. Daily automation activation remains
+  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Every current candidate
+  head must pass exact-head CI; its run identity is recorded in the final report
+  rather than committed into the head it verifies. `P11A-011` remains `OPEN` at
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; only Phase 11K may
   close it.
 
