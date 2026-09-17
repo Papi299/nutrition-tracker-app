@@ -3549,3 +3549,59 @@ authorized.
   `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, Phase 11K
   remains the exclusive finding-closure gate, and
   `productionReleaseAuthorized=false`.
+
+## 2026-09-17: DEC-034 GitHub Actions encrypted-artifact backup cadence
+
+### DEC-034 — Use GitHub Actions and encrypted workflow artifacts for Phase 11 Production backups
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Use a scheduled GitHub-hosted runner and GitHub Actions workflow artifact expiry for the current daily Production backup cadence |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-17 |
+| Rationale | The only local operator host sleeps and cannot guarantee daily execution. The Product Owner selected GitHub Actions scheduled execution and encrypted workflow artifacts as the current no-additional-cost transport/retention mechanism. |
+
+The workflow reads exact Production project `hskfanrqwtqknzpquwhg`, reuses the
+reviewed repository backup command, encrypts before upload with the committed
+public recipient certificate, and retains only the CMS ciphertext plus redacted
+manifest for exactly 30 days. The private recovery key remains outside Git,
+GitHub Actions, and the scheduled runner. The repository is public, so artifact
+access is not a confidentiality control:
+
+```text
+ARTIFACT_CONFIDENTIALITY_MODEL =
+PUBLIC_REPOSITORY_CIPHERTEXT_ASSUMED_DOWNLOADABLE
+```
+
+The Product Owner explicitly accepts that repository readers may be able to
+obtain those encrypted bytes. This acceptance never permits plaintext database
+exports, raw Auth material, credentials, Vault values, or private keys in
+GitHub artifacts or logs. GitHub artifact expiry is authoritative for this
+recurring path; the existing local retention command remains authoritative for
+approved operator-host and qualification storage.
+
+GitHub currently documents IANA timezone-aware schedules, public-repository
+artifact retention up to 90 days, and automatic scheduled-workflow disablement
+after 60 days without repository activity. The workflow therefore targets
+02:17 daily in `Asia/Jerusalem`, explicitly sets `retention-days: 30`, and
+carries
+`PUBLIC_REPOSITORY_SCHEDULE_INACTIVITY_MONITORING_REQUIRED`. The Backup Owner
+must monitor workflow-enabled state and backup freshness as inactivity
+approaches 60 days. Artificial heartbeat commits and repository-write
+permissions solely to keep the schedule alive are prohibited.
+
+The implementation begins from accepted `main`
+`8259a33752209226c2e3886aba5d4a6a5ce5f570`, tree
+`eb9712f323c258f4cc5c84a08cb18292fc799f4e`, and remains
+`GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
+until default-branch merge, exact-main CI, secure Actions-secret setup, enabled
+workflow verification, one successful `workflow_dispatch` run, artifact
+metadata verification, Production non-mutation verification, and the Vercel
+no-deployment guard all pass.
+
+`DEC-034` does not amend `DEC-024` RPO 24h, 30-day retention, or restricted
+recovery access. It does not amend `DEC-025` RTO 8h, quarterly isolated restore,
+or approver/executor separation. `P11A-011` and all 18 findings remain `OPEN`,
+Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, and Phase 11K remains
+the exclusive finding-closure gate. No Production restore, mutation, release,
+deployment, invitation, or launch is authorized.

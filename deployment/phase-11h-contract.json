@@ -593,6 +593,50 @@
       "vaultMatch": null
     },
     {
+      "name": "RUNNER_TEMP",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "GitHub Actions platform",
+      "purpose": "Provider-supplied ephemeral filesystem root for the encrypted Phase 11I backup staging directory.",
+      "sourceBoundary": "GitHub-hosted runner system environment; backup tooling requires an absolute path outside the checkout.",
+      "rotation": "Provider-managed per job.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "GITHUB_WORKSPACE",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "GitHub Actions platform",
+      "purpose": "Provider-supplied checkout root used to prove backup output remains outside Git workspace.",
+      "sourceBoundary": "GitHub-hosted runner system environment.",
+      "rotation": "Provider-managed per job.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "GITHUB_SHA",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "GitHub Actions platform",
+      "purpose": "Exact workflow head required to match the source commit recorded in the encrypted-backup manifest.",
+      "sourceBoundary": "GitHub-hosted runner system environment.",
+      "rotation": "Provider-managed per run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "GITHUB_OUTPUT",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "GitHub Actions platform",
+      "purpose": "Provider-supplied step-output channel for validated non-secret backup identity, paths, and hashes.",
+      "sourceBoundary": "GitHub-hosted runner system environment; secret values are prohibited.",
+      "rotation": "Provider-managed per step.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "DATE_E2E_LOCAL_SUPABASE",
       "visibility": "local test only",
       "requiredEnvironments": ["test"],
@@ -894,9 +938,9 @@
       "visibility": "operator-only",
       "requiredEnvironments": [],
       "ownerCategory": "backup owner",
-      "purpose": "Absolute owner-restricted off-Git directory for encrypted backup and redacted manifest pairs.",
-      "sourceBoundary": "Operator-host filesystem path; symlinks and group/world access are rejected.",
-      "rotation": "Change only through reviewed backup-destination rebinding.",
+      "purpose": "Absolute restricted off-Git or runner-temporary directory for encrypted backup and redacted manifest pairs.",
+      "sourceBoundary": "Approved operator host or GitHub RUNNER_TEMP under DEC-034; symlinks and group/world access are rejected.",
+      "rotation": "Change only through reviewed backup-destination rebinding or uniquely per GitHub Actions run.",
       "browserExposure": "forbidden",
       "vaultMatch": null
     },
@@ -927,8 +971,8 @@
       "visibility": "operator-only",
       "requiredEnvironments": [],
       "ownerCategory": "Supabase owner",
-      "purpose": "Optional operator-session token for redacted Supabase Management API metadata reads during an authorized backup; native credential-store lookup is preferred.",
-      "sourceBoundary": "Ephemeral approved operator environment only; prohibited from evidence, logs, Git, application runtime, and schedulers without an approved secret store.",
+      "purpose": "Approved operator or GitHub Actions token for non-interactive exact-project link and redacted Supabase Management API reads during an authorized backup.",
+      "sourceBoundary": "Native operator credential store or the DEC-034 GitHub Actions repository secret; prohibited from evidence, logs, Git, application runtime, variables, and artifacts.",
       "rotation": "Provider-managed token rotation and immediate revocation on suspected disclosure.",
       "browserExposure": "forbidden",
       "vaultMatch": null

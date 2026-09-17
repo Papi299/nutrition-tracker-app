@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "deployment:validate": "node scripts/check-phase-11h-deployment-contract.mjs",
     "recovery:backup": "node scripts/run-phase-11i-backup.mjs",
+    "recovery:verify-github-artifact": "node scripts/verify-phase-11i-github-artifact.mjs",
     "recovery:restore": "node scripts/run-phase-11i-restore.mjs",
     "recovery:retention": "node scripts/run-phase-11i-retention.mjs",
     "recovery:scheduled": "node scripts/run-phase-11i-scheduled-backup.mjs",

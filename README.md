@@ -509,11 +509,15 @@ is complete for the current MVP scope.
   stack, and records matching migration/data/Auth/ACL/RLS plus recovered-app
   smoke inside the approved RPO/RTO. Production remained unchanged and no
   Production restore, release, deployment, invitation, or launch was
-  authorized. Daily operator-host automation is implemented but awaits
-  post-merge activation. The Recovery Approver decision, independent
-  engineering review, and candidate exact-head CI are pending. `P11A-011` and
-  all 18 findings remain `OPEN`; Phase 11 remains incomplete, Phase 11J has not
-  begun, and Phase 11K remains the exclusive closure gate.
+  authorized. The Recovery Approver decision and independent engineering review
+  are complete. Product Owner decision `DEC-034` supersedes the unsuitable
+  sleeping operator-host cadence with a GitHub Actions ciphertext-only artifact
+  workflow. Its explicit 30-day retention, 02:17 `Asia/Jerusalem` schedule,
+  public-artifact risk, and 60-day inactivity monitoring controls are
+  implemented; activation awaits merge, exact-main CI, secret setup, and the
+  first successful operational run. `P11A-011` and all 18 findings remain
+  `OPEN`; Phase 11 remains incomplete, Phase 11J has not begun, and Phase 11K
+  remains the exclusive closure gate.
 
 ## Install Dependencies
 
