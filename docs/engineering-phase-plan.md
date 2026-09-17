@@ -668,9 +668,13 @@ Jimmy Peachy dated 2026-09-17; Codex did not independently authenticate his
 identity. Independent ChatGPT engineering review accepted corrected exact head
 `dfe92bc9cd1bcb0361937bcc5067090acad4a3d7`, tree
 `50846dc6cd6f1555bf30c1ea1eade9b1860744d5`, with exact-head CI run
-`35185758896`, run number 246, attempt 1, successful. Daily backup automation is
-implemented as an inert operator-host schedule and remains
-`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`.
+`35185758896`, run number 246, attempt 1, successful. Product Owner decision
+`DEC-034` now supersedes the unsuitable sleeping operator-host schedule with a
+GitHub Actions encrypted-artifact cadence. The default-branch workflow,
+ciphertext/redaction boundary, explicit 30-day retention, IANA timezone, and
+public-repository inactivity controls are implemented; activation remains
+pending merge, exact-main CI, secret setup, and the first successful operational
+run.
 `P11A-011` and all 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`,
 Phase 11J has not begun, and Phase 11K remains the exclusive closure gate.
 

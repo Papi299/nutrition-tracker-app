@@ -1,18 +1,22 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   assertBackupId,
   assertEncryptedDurableOutput,
   assertEncryptionRecipient,
+  assertGitHubBackupWorkflowContract,
   assertHash,
   assertIsolatedRestoreTarget,
   assertMigrationHistory,
   assertPre11KStatus,
   assertProductionSource,
+  assertRecipientCertificateFingerprint,
   assertRedactedEvidence,
   assertRoleSeparation,
   assertStorageScope,
   buildRetentionPlan,
+  EXPECTED_RECIPIENT_CERT_SHA256,
   EXPECTED_MIGRATION_COUNT,
   EXPECTED_MIGRATION_HEAD,
   measureRpo,
@@ -25,6 +29,18 @@ import {
 
 const backupId = "phase11i-hskfanrqwtqknzpquwhg-20260917T120000Z-deadbeef";
 const root = "/restricted/phase11i";
+const githubBackupWorkflow = readFileSync(
+  ".github/workflows/phase-11i-production-backup.yml",
+  "utf8",
+);
+const githubBackupRunbook = readFileSync(
+  "docs/phase-11i-github-artifact-backup-automation.md",
+  "utf8",
+);
+
+function assertWorkflowRejected(workflow = githubBackupWorkflow, runbook = githubBackupRunbook) {
+  assert.throws(() => assertGitHubBackupWorkflowContract({ workflow, runbook }));
+}
 
 test("wrong Production project ref is rejected", () => {
   assert.throws(() =>
@@ -46,6 +62,13 @@ test("non-Production source is rejected for a Production backup", () => {
 
 test("missing encryption recipient is rejected", () => {
   assert.throws(() => assertEncryptionRecipient(""));
+});
+
+test("unexpected encryption recipient fingerprint is rejected", () => {
+  assert.doesNotThrow(() =>
+    assertRecipientCertificateFingerprint(EXPECTED_RECIPIENT_CERT_SHA256),
+  );
+  assert.throws(() => assertRecipientCertificateFingerprint("0".repeat(64)));
 });
 
 test("plaintext durable output is rejected", () => {
@@ -219,5 +242,119 @@ test("finding closure and Phase 11J credit before Phase 11K are rejected", () =>
       phase11Status: "COMPLETE",
       phase11JStarted: true,
     }),
+  );
+});
+
+test("GitHub backup workflow and runbook satisfy the complete contract", () => {
+  assert.doesNotThrow(() =>
+    assertGitHubBackupWorkflowContract({
+      workflow: githubBackupWorkflow,
+      runbook: githubBackupRunbook,
+    }),
+  );
+});
+
+test("GitHub backup workflow requires the daily 02:17 schedule", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("17 2 * * *", "18 2 * * *"));
+});
+
+test("GitHub backup workflow requires the Asia/Jerusalem timezone", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("Asia/Jerusalem", "UTC"));
+});
+
+test("GitHub backup workflow requires workflow_dispatch", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("  workflow_dispatch:\n", ""));
+});
+
+test("GitHub backup workflow requires least-privilege contents read", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("contents: read", "contents: write"));
+});
+
+test("GitHub backup workflow fixes the exact Production project", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace("hskfanrqwtqknzpquwhg", "wrongprojectref00000"),
+  );
+});
+
+test("GitHub backup workflow forbids a private recovery key reference", () => {
+  assertWorkflowRejected(`${githubBackupWorkflow}\n# PHASE11I_RECOVERY_PRIVATE_KEY\n`);
+});
+
+test("GitHub backup workflow forbids plaintext artifact selection", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace(
+      "${{ steps.verify.outputs.archive_path }}",
+      "/tmp/phase11i-backup.sql",
+    ),
+  );
+});
+
+test("GitHub backup workflow uploads both verified files and no weaker subset", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace(
+      "            ${{ steps.verify.outputs.manifest_path }}\n",
+      "",
+    ),
+  );
+});
+
+test("GitHub backup workflow requires exactly 30-day retention", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("retention-days: 30", "retention-days: 29"));
+});
+
+test("GitHub backup workflow fails when selected artifact files are missing", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace("if-no-files-found: error", "if-no-files-found: warn"),
+  );
+});
+
+test("GitHub backup workflow accepts credentials only from Actions secrets", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace(
+      "secrets.SUPABASE_ACCESS_TOKEN",
+      "vars.SUPABASE_ACCESS_TOKEN",
+    ),
+  );
+});
+
+test("GitHub backup workflow queues rather than cancels overlapping runs", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace("cancel-in-progress: false", "cancel-in-progress: true"),
+  );
+});
+
+test("GitHub backup workflow forbids Production mutation", () => {
+  assertWorkflowRejected(`${githubBackupWorkflow}\n# npx supabase db push\n`);
+});
+
+test("GitHub backup workflow forbids Vercel deployment", () => {
+  assertWorkflowRejected(`${githubBackupWorkflow}\n# vercel deploy\n`);
+});
+
+test("GitHub backup workflow forbids restore execution", () => {
+  assertWorkflowRejected(`${githubBackupWorkflow}\n# npm run recovery:restore\n`);
+});
+
+test("GitHub backup runbook records the public-artifact risk", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow,
+    githubBackupRunbook.replace("PUBLIC_REPOSITORY_CIPHERTEXT_ASSUMED_DOWNLOADABLE", "REMOVED"),
+  );
+});
+
+test("GitHub backup runbook records the 60-day inactivity risk", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow,
+    githubBackupRunbook.replace(
+      "PUBLIC_REPOSITORY_SCHEDULE_INACTIVITY_MONITORING_REQUIRED",
+      "REMOVED",
+    ),
+  );
+});
+
+test("GitHub backup runbook preserves all pre-Phase-11K findings", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow,
+    githubBackupRunbook.replace("ALL_18_FINDINGS=OPEN", "ALL_18_FINDINGS=CLOSED"),
   );
 });

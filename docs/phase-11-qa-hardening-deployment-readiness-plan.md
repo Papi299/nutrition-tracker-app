@@ -910,13 +910,18 @@ unchanged, and destroyed the isolated stack and decrypted temporary state. The
 canonical redacted packet is
 [`phase-11i-recovery-qualification-evidence.json`](phase-11i-recovery-qualification-evidence.json).
 
-Daily operator-host automation is implemented but not installed:
-`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Technical qualification and
-independent ChatGPT engineering review are complete. Product Owner-supplied
-attributable evidence records Jimmy Peachy's Recovery Approver decision
-`APPROVE` on 2026-09-17; Codex did not independently authenticate his identity.
-Every current candidate head must pass exact-head CI; its run identity is
-recorded in the final report rather than committed into the head it verifies.
+Product Owner decision `DEC-034` supersedes the sleeping operator-host cadence
+with the reviewed
+[GitHub artifact backup automation](phase-11i-github-artifact-backup-automation.md).
+The workflow is implemented with ciphertext-only 30-day artifacts and explicit
+public-repository/inactivity risk controls; activation remains pending merge,
+exact-main CI, Actions-secret setup, enabled-state verification, and the first
+successful operational run. Technical recovery qualification and independent
+ChatGPT engineering review are complete. Product Owner-supplied attributable
+evidence records Jimmy Peachy's Recovery Approver decision `APPROVE` on
+2026-09-17; Codex did not independently authenticate his identity. Every
+current candidate head must pass exact-head CI; its run identity is recorded in
+the final report rather than committed into the head it verifies.
 `P11A-011` and all other findings remain `OPEN`; Phase 11 remains `INCOMPLETE`;
 Phase 11J has not begun; Phase 11K remains the exclusive finding-closure gate.
 

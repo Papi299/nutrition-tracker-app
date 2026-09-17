@@ -19,6 +19,7 @@ import {
   assertEncryptionRecipient,
   assertMigrationHistory,
   assertProductionSource,
+  assertRecipientCertificateFingerprint,
   assertRedactedEvidence,
   assertStorageScope,
   EXPECTED_MIGRATION_HEAD,
@@ -457,6 +458,7 @@ try {
     .at(-1)
     .replaceAll(":", "")
     .toLowerCase();
+  assertRecipientCertificateFingerprint(recipientFingerprint);
   const contentManifest = {
     schemaVersion: "phase-11i-backup-content/v1",
     taskId: TASK_ID,

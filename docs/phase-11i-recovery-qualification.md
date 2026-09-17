@@ -1,6 +1,6 @@
 # Phase 11I Recovery Qualification
 
-Status: `RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD`
+Status: `RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
 
 Task: `PHASE-11I-RECOVERY-QUALIFICATION-001`
 
@@ -212,23 +212,34 @@ names, ownership boundary, and 30-day window before producing a dry-run plan.
 current valid backup. The 2026-09-17 dry run retained the current backup and
 selected nothing for deletion.
 
-`npm run recovery:scheduled` runs backup and then applied retention. The inert
-operator-host schedule template in `ops/recovery/phase-11i-crontab.example`
-targets 02:17 daily. It is intentionally not installed by this PR because
-installation requires the merged reviewed code, exact linked Production host,
-restricted credential store, final paths, and operator acceptance. A GitHub
-Actions schedule was not added: sending encrypted Production data to GitHub
-Actions would introduce an unapproved backup destination and recurring
-Production access.
+`npm run recovery:scheduled` and the inert operator-host schedule remain valid
+for approved restricted operator-host storage, but that sleeping-host design is
+not the current operational cadence. Product Owner decision `DEC-034`
+supersedes it for recurring Production backups with a GitHub-hosted scheduled
+runner and 30-day GitHub Actions artifact expiry. The full security, retention,
+public-artifact, inactivity, activation, and failure contract is in the
+[GitHub artifact backup automation runbook](phase-11i-github-artifact-backup-automation.md).
+
+The new workflow reuses `npm run recovery:backup`, encrypts before upload, and
+retains only the CMS encrypted archive plus redacted manifest. GitHub artifact
+privacy is explicitly not the confidentiality boundary; the public repository
+is treated as if readers may obtain the ciphertext. The private recovery key
+never enters GitHub. Local `recovery:retention` remains available for the
+original qualified backup and other approved off-Git storage, while GitHub
+artifact expiry is authoritative for the recurring workflow path.
 
 Current status:
 
-`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`
+`GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
 
-After merge and explicit operator activation, record the scheduler identity,
-host, final paths, first successful run, alert/failure destination, and next
-quarterly qualification date. Silence is not success: a missing daily artifact,
-failed hash, stale artifact, or retention failure is operationally actionable.
+After merge and exact-main CI, configure only the two required Actions secrets,
+confirm the default-branch workflow is enabled, dispatch the exact scheduled
+path once, verify its artifact through GitHub metadata, and perform the safe
+Production non-mutation/Vercel guards. Silence is not success: a missing daily
+artifact, failed hash, stale artifact, disabled workflow, or retention failure
+is operationally actionable. Public scheduled workflows may be disabled after
+60 days without repository activity, so enabled state and freshness require
+ongoing owner monitoring.
 
 ## 8. Teardown and incident boundary
 
@@ -303,7 +314,7 @@ The Recovery Approver should independently verify:
 - application smoke and cross-user isolation;
 - conservative RPO/RTO;
 - teardown and Production non-mutation;
-- 30-day retention and pending daily scheduler activation; and
+- 30-day retention and pending GitHub workflow activation/first-run evidence;
 - all open-finding/Phase 11/Production authorization boundaries.
 
 Decision field:

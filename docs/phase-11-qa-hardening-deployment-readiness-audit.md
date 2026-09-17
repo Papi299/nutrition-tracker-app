@@ -607,9 +607,13 @@ be described as closing a finding that requires external evidence.
   evidence. Technical qualification and independent engineering review are
   complete. Product Owner-supplied attributable evidence records Jimmy
   Peachy's Recovery Approver decision `APPROVE` on 2026-09-17; Codex did not
-  independently authenticate his identity. Daily automation activation remains
-  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Every current candidate
-  head must pass exact-head CI; its run identity is recorded in the final report
+  independently authenticate his identity. Product Owner decision `DEC-034`
+  supersedes the unsuitable sleeping operator host with a GitHub Actions
+  ciphertext-only 30-day artifact cadence. The workflow is implemented, while
+  activation and the first operational run remain pending merge and exact-main
+  CI. Public-repository artifact access and the 60-day scheduled-workflow
+  inactivity limitation are accepted and tracked. Every current candidate head
+  must pass exact-head CI; its run identity is recorded in the final report
   rather than committed into the head it verifies. `P11A-011` remains `OPEN` at
   `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; only Phase 11K may
   close it.

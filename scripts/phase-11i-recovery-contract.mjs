@@ -10,6 +10,8 @@ export const EXPECTED_MIGRATION_HEAD = "20260830143000";
 export const RPO_LIMIT_MS = 24 * 60 * 60 * 1_000;
 export const RTO_LIMIT_MS = 8 * 60 * 60 * 1_000;
 export const RETENTION_DAYS = 30;
+export const EXPECTED_RECIPIENT_CERT_SHA256 =
+  "f7d2a4a53e2c381fbae728a20c2b0fc02e9e9fb526852b71ebf98b668e7261c0";
 export const BACKUP_ID_PATTERN =
   /^phase11i-hskfanrqwtqknzpquwhg-\d{8}T\d{6}Z-[a-f0-9]{8}$/;
 
@@ -79,6 +81,12 @@ export function assertProductionSource({ projectRef, sourceEnvironment }) {
 export function assertEncryptionRecipient(recipientPath) {
   if (!recipientPath || !isAbsolute(recipientPath)) {
     fail("A trusted absolute encryption-recipient certificate path is required.");
+  }
+}
+
+export function assertRecipientCertificateFingerprint(fingerprint) {
+  if (fingerprint !== EXPECTED_RECIPIENT_CERT_SHA256) {
+    fail("Encryption recipient certificate fingerprint mismatch.");
   }
 }
 
@@ -203,6 +211,76 @@ export function assertPre11KStatus({
   ) {
     fail("Finding closure or later-phase credit is forbidden before Phase 11K.");
   }
+}
+
+export function assertGitHubBackupWorkflowContract({ workflow, runbook }) {
+  const requireWorkflow = (pattern, message) => {
+    if (!pattern.test(workflow)) fail(message);
+  };
+  const forbidWorkflow = (pattern, message) => {
+    if (pattern.test(workflow)) fail(message);
+  };
+  const requireRunbook = (value, message) => {
+    if (!runbook.includes(value)) fail(message);
+  };
+
+  requireWorkflow(/^\s+- cron: ["']17 2 \* \* \*["']$/m, "GitHub backup cadence must be daily at 02:17.");
+  requireWorkflow(/^\s+timezone: ["']?Asia\/Jerusalem["']?$/m, "GitHub backup schedule must use Asia/Jerusalem.");
+  requireWorkflow(/^  workflow_dispatch:$/m, "GitHub backup workflow_dispatch trigger is required.");
+  requireWorkflow(
+    /^permissions:\n  contents: read\n\nconcurrency:\n  group: phase-11i-production-backup\n  cancel-in-progress: false$/m,
+    "GitHub backup permissions or concurrency are not least privilege.",
+  );
+  if ((workflow.match(/^\s*permissions:/gm) ?? []).length !== 1) {
+    fail("GitHub backup workflow must not add permission overrides.");
+  }
+  requireWorkflow(/^    timeout-minutes: 20$/m, "GitHub backup workflow timeout must be 20 minutes.");
+  requireWorkflow(
+    /npx --no-install supabase link --project-ref hskfanrqwtqknzpquwhg --yes/,
+    "GitHub backup workflow must bind the exact Production project.",
+  );
+  requireWorkflow(/SUPABASE_NO_KEYRING:\s*["']1["']/, "GitHub backup must not rely on runner keyring state.");
+  requireWorkflow(
+    /TMPDIR:\s*\$\{\{ steps\.destination\.outputs\.backup_root \}\}/,
+    "Plaintext staging must remain inside the always-cleaned runner backup root.",
+  );
+  requireWorkflow(/GITHUB_REF.*refs\/heads\/main/s, "GitHub backup workflow must fail closed off main.");
+  forbidWorkflow(/\$\{\{\s*inputs\./, "Production identity must not be workflow-input controlled.");
+  forbidWorkflow(/PHASE11I_RECOVERY_PRIVATE_KEY|PRIVATE[_ -]?KEY/i, "Private recovery keys are forbidden in GitHub Actions.");
+  requireWorkflow(
+    /SUPABASE_ACCESS_TOKEN:\s*\$\{\{\s*secrets\.SUPABASE_ACCESS_TOKEN\s*\}\}/,
+    "Supabase access token must come from an Actions secret.",
+  );
+  forbidWorkflow(/SUPABASE_DB_PASSWORD/, "An unnecessary persistent database password secret is forbidden.");
+  forbidWorkflow(/\$\{\{\s*vars\./, "Secrets must not come from GitHub repository variables.");
+  requireWorkflow(
+    /path: \|\n\s+\$\{\{ steps\.verify\.outputs\.archive_path \}\}\n\s+\$\{\{ steps\.verify\.outputs\.manifest_path \}\}/,
+    "Artifact upload must select exactly the verified archive and manifest paths.",
+  );
+  forbidWorkflow(/^\s+.*\.(?:sql|dump|tar)\s*$/mi, "Plaintext backup files are forbidden from artifact upload.");
+  requireWorkflow(/^\s+retention-days: 30$/m, "GitHub artifact retention must be exactly 30 days.");
+  requireWorkflow(/^\s+if-no-files-found: error$/m, "Missing backup files must fail artifact upload.");
+  requireWorkflow(/^\s+compression-level: 0$/m, "Encrypted archives must not receive redundant compression.");
+  requireWorkflow(/cancel-in-progress: false/, "Overlapping Production backups must queue, not cancel.");
+  forbidWorkflow(
+    /supabase\s+(?:db\s+(?:push|reset)|migration\s+repair|secrets\s+(?:set|unset)|storage\s+(?:cp|mv|rm))|recovery:restore/i,
+    "GitHub backup workflow must not mutate or restore Production.",
+  );
+  forbidWorkflow(/\bvercel\b|deploymentEnabled|deploy/i, "GitHub backup workflow must not deploy Vercel.");
+  requireWorkflow(/if:\s+always\(\)/, "Ephemeral backup state must be cleaned on every outcome.");
+
+  requireRunbook(
+    "PUBLIC_REPOSITORY_CIPHERTEXT_ASSUMED_DOWNLOADABLE",
+    "Public-artifact confidentiality risk must be documented.",
+  );
+  requireRunbook(
+    "PUBLIC_REPOSITORY_SCHEDULE_INACTIVITY_MONITORING_REQUIRED",
+    "Public scheduled-workflow inactivity monitoring must be documented.",
+  );
+  requireRunbook("60 days", "The 60-day public-repository inactivity limit must be documented.");
+  requireRunbook("P11A-011=OPEN", "P11A-011 must remain open before Phase 11K.");
+  requireRunbook("ALL_18_FINDINGS=OPEN", "All 18 findings must remain open before Phase 11K.");
+  requireRunbook("PHASE_11_J_STARTED=false", "Phase 11J must not start in this task.");
 }
 
 function assertOwnedPath(rootRealPath, candidatePath) {

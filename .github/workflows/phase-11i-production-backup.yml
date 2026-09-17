@@ -1,0 +1,115 @@
+name: Phase 11I Production Backup
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+      timezone: "Asia/Jerusalem"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phase-11i-production-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Encrypted Production backup
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Require the default branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF}" != "refs/heads/main" ]]; then
+            echo "::error::Production backup execution is restricted to the default main branch."
+            exit 1
+          fi
+
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Create restricted ephemeral destination
+        id: destination
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          backup_root="${RUNNER_TEMP}/phase11i-production-backup-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          install -d -m 0700 "${backup_root}"
+          printf 'backup_root=%s\n' "${backup_root}" >> "${GITHUB_OUTPUT}"
+
+      - name: Bind the exact Production project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_NO_KEYRING: "1"
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SUPABASE_ACCESS_TOKEN}"
+          npx --no-install supabase link --project-ref hskfanrqwtqknzpquwhg --yes
+          test "$(cat supabase/.temp/project-ref)" = "hskfanrqwtqknzpquwhg"
+
+      - name: Create encrypted Production backup
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_NO_KEYRING: "1"
+          PHASE11I_SOURCE_ENVIRONMENT: Production
+          PHASE11I_OPERATOR: GitHub Actions scheduled runner
+          PHASE11I_BACKUP_ROOT: ${{ steps.destination.outputs.backup_root }}
+          PHASE11I_RECIPIENT_CERT: ${{ github.workspace }}/ops/recovery/phase-11i-recipient.pem
+          TMPDIR: ${{ steps.destination.outputs.backup_root }}
+        run: npm run recovery:backup >/dev/null
+
+      - name: Verify ciphertext-only artifact pair
+        id: verify
+        env:
+          PHASE11I_BACKUP_ROOT: ${{ steps.destination.outputs.backup_root }}
+        run: npm run recovery:verify-github-artifact
+
+      - name: Upload encrypted backup artifact
+        id: upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: phase-11i-production-backup-${{ github.run_id }}
+          path: |
+            ${{ steps.verify.outputs.archive_path }}
+            ${{ steps.verify.outputs.manifest_path }}
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Verify upload metadata outputs
+        env:
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${ARTIFACT_ID}"
+          test -n "${ARTIFACT_DIGEST}"
+
+      - name: Remove ephemeral backup state
+        if: always()
+        env:
+          BACKUP_ROOT: ${{ steps.destination.outputs.backup_root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "${BACKUP_ROOT:-}" && "${BACKUP_ROOT}" == "${RUNNER_TEMP}"/phase11i-production-backup-* ]]; then
+            rm -rf -- "${BACKUP_ROOT}"
+          fi
