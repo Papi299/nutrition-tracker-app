@@ -498,18 +498,22 @@ is complete for the current MVP scope.
   PR #120 was subsequently accepted and merged as current main
   `f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
   `8a85a186699e9495032b9ea01eb7081b84d04b14`, with successful exact-main CI
-  run `34982739418`. Phase 11H is now the active bounded slice. Its repository
-  candidate adds a single machine-checkable environment contract and the
-  canonical
+  run `34982739418`. Phase 11H subsequently established the accepted
+  machine-checkable environment contract and canonical
   [deployment architecture and release runbook](docs/phase-11h-deployment-architecture-release-runbook.md).
-  The before-11H owner assignments are accepted, but no Vercel, hosted
-  Supabase, DNS, credential, invitation, backup/restore, deployment, or
-  Production action is performed. `DEC-031` records one future separately
-  authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first deployment required
-  by Vercel; it is infrastructure, not release, launch, user, or finding
-  credit. The repository disables automatic Git deployments and validates
-  target-bound origins. `P11A-010`, `P11A-017`, and `P11A-018` remain `OPEN`;
-  external validation is deferred.
+  Phase 11I is now the active bounded slice. Its
+  [recovery qualification candidate](docs/phase-11i-recovery-qualification.md)
+  starts from accepted main `ad92dadc985e66ac1e6453537d629f6d13ccda5f`,
+  creates one restricted encrypted Production logical backup under separate
+  authorization, restores it only into a destroyed-after-use local recovery
+  stack, and records matching migration/data/Auth/ACL/RLS plus recovered-app
+  smoke inside the approved RPO/RTO. Production remained unchanged and no
+  Production restore, release, deployment, invitation, or launch was
+  authorized. Daily operator-host automation is implemented but awaits
+  post-merge activation. The Recovery Approver decision, independent
+  engineering review, and candidate exact-head CI are pending. `P11A-011` and
+  all 18 findings remain `OPEN`; Phase 11 remains incomplete, Phase 11J has not
+  begun, and Phase 11K remains the exclusive closure gate.
 
 ## Install Dependencies
 

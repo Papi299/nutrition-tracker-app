@@ -156,9 +156,9 @@ Phase 11G technical policy and credits no implementation.
 | Auth URL owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
 | Domain/DNS owner, if applicable | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18; applicability does not authorize or require a change | Before 11H — satisfied 2026-09-15 |
 | Deployment/runbook owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable 2026-09-15 Product Owner assignment and explicit acceptance in Section 18 | Before 11H — satisfied 2026-09-15 |
-| Backup owner | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
-| Restore executor | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
-| Recovery approver and backup | `UNASSIGNED_BLOCKING_BEFORE_11I` | None | `NOT_VERIFIED` | Before 11I execution |
+| Backup owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-17 Product Owner assignment and explicit acceptance](phase-11i-recovery-qualification.md#1-governance-and-separation) | Before 11I — satisfied 2026-09-17 |
+| Restore executor | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-17 Product Owner assignment and explicit acceptance](phase-11i-recovery-qualification.md#1-governance-and-separation) | Before 11I — satisfied 2026-09-17 |
+| Recovery approver and backup | `ASSIGNED_AND_APPROVED` | Jimmy Peachy | [Attributable Product Owner-supplied explicit acceptance dated 2026-09-17](phase-11i-recovery-qualification.md#1-governance-and-separation); identity was not independently authenticated by Codex | Before 11I — satisfied 2026-09-17 |
 | Technical release executor | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
 | Rehearsal approver | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
 | Support primary and backup | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |

@@ -595,6 +595,24 @@ be described as closing a finding that requires external evidence.
   isolated recovery environment and passes the complete approved checklist.
 - **Validation:** Hash verification, isolated restore, application/security
   smoke, timing record, and teardown evidence. No production restore.
+- **Phase 11I candidate reconciliation (2026-09-17):** The separately
+  authorized candidate created and decrypt-verified a fresh restricted
+  encrypted Production backup, restored it only to
+  `PHASE_11I_RECOVERY_ISOLATED`, matched migration/application/Auth/ACL/RLS and
+  safe count evidence, passed recovered-application smoke inside conservative
+  RPO/RTO, verified Production remained unchanged, and destroyed the isolated
+  stack and plaintext staging. The
+  [runbook](phase-11i-recovery-qualification.md) and
+  [redacted packet](phase-11i-recovery-qualification-evidence.json) record the
+  evidence. Technical qualification and independent engineering review are
+  complete. Product Owner-supplied attributable evidence records Jimmy
+  Peachy's Recovery Approver decision `APPROVE` on 2026-09-17; Codex did not
+  independently authenticate his identity. Daily automation activation remains
+  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Every current candidate
+  head must pass exact-head CI; its run identity is recorded in the final report
+  rather than committed into the head it verifies. `P11A-011` remains `OPEN` at
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; only Phase 11K may
+  close it.
 
 ### P11A-012 — General application performance and capacity are unproven
 

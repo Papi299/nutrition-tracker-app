@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "phase-11i-recovery-qualification-evidence/v1",
+  "taskId": "PHASE-11I-RECOVERY-QUALIFICATION-001",
+  "sourceRepository": "https://github.com/Papi299/nutrition-tracker-app.git",
+  "sourceCommit": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+  "sourceTree": "dcfbd33b330e1796869040686f2efb8167893993",
+  "sourceEnvironment": "Production",
+  "sourceSupabaseProjectRef": "hskfanrqwtqknzpquwhg",
+  "backupId": "phase11i-hskfanrqwtqknzpquwhg-20260916T225531Z-ad92dadc",
+  "backupCreatedAt": "2026-09-16T22:55:31.016Z",
+  "backupCompletedAt": "2026-09-16T22:57:20.027Z",
+  "backupArchiveSha256": "a8c6ca0afd372589203975c5034366e5417be41cd9253879d499d65302902122",
+  "backupManifestSha256": "8a33884ddb3a0f5015975dd9d814efed3d84ad569de973b0de500f5f3f67111d",
+  "backupScope": {
+    "applicationSchemas": [
+      "public",
+      "ingestion"
+    ],
+    "migrationLedger": true,
+    "applicationRolesAndGrants": true,
+    "referenceAndIngestionData": true,
+    "encryption": "CMS AuthEnvelopedData with AES-256-GCM and RSA-3072 recipient",
+    "recipientCertificateSha256": "f7d2a4a53e2c381fbae728a20c2b0fc02e9e9fb526852b71ebf98b668e7261c0",
+    "durablePlaintextRetained": false,
+    "restrictedModesVerified": true
+  },
+  "authRecoveryScope": {
+    "durableTables": [
+      "auth.users",
+      "auth.identities",
+      "auth.mfa_factors",
+      "auth.webauthn_credentials"
+    ],
+    "volatileSessionsExcluded": true,
+    "redactedHostedConfigurationRecorded": true,
+    "hostedSmtpQualified": false,
+    "realUserCount": 0
+  },
+  "storageScope": {
+    "classification": "STORAGE_NOT_USED_CURRENTLY",
+    "buckets": 0,
+    "objects": 0,
+    "nonzeroStateStopRule": "PHASE_11I_STORAGE_BACKUP_SCOPE_EXPANSION_REQUIRED"
+  },
+  "secretRecoveryBoundary": {
+    "productionVaultValuesCopied": false,
+    "recordedVaultIdentifiers": [
+      "account_closure_capability_v1"
+    ],
+    "isolatedSmokeUsedSyntheticSecret": true,
+    "privateRecoveryKeyCommitted": false
+  },
+  "migrationHead": "20260830143000",
+  "sourceSafeCounts": {
+    "migrationCount": 43,
+    "applicationTableCount": 61,
+    "foods": 353,
+    "foodNutrients": 1199,
+    "nutrients": 35,
+    "foodSources": 4,
+    "foodPortions": 375,
+    "sourceRecords": 353,
+    "sourceRecordVersions": 353,
+    "stagedCandidates": 353,
+    "stagedSourceRecords": 363,
+    "importRuns": 1,
+    "importRunItems": 1734,
+    "importRunEvents": 6,
+    "authUsers": 0,
+    "authIdentities": 0,
+    "userOwnedRows": 0
+  },
+  "restoreSafeCounts": {
+    "migrationCount": 43,
+    "applicationTableCount": 61,
+    "foods": 353,
+    "foodNutrients": 1199,
+    "nutrients": 35,
+    "foodSources": 4,
+    "foodPortions": 375,
+    "sourceRecords": 353,
+    "sourceRecordVersions": 353,
+    "stagedCandidates": 353,
+    "stagedSourceRecords": 363,
+    "importRuns": 1,
+    "importRunItems": 1734,
+    "importRunEvents": 6,
+    "authUsers": 0,
+    "authIdentities": 0,
+    "userOwnedRows": 0
+  },
+  "schemaComparison": {
+    "applicationStructureDifferences": 0,
+    "canonicalSourceSha256": "f16e58794d1e7fdb1527ad6796979afdc667ced10dad924bcc948c89b14a3bd2",
+    "canonicalRestoreSha256": "f16e58794d1e7fdb1527ad6796979afdc667ced10dad924bcc948c89b14a3bd2",
+    "applicationAclCompatibilityTransform": {
+      "classification": "DETERMINISTIC_APPLICATION_ACL_SYNCHRONIZATION",
+      "sourcePrivilegesAdded": 22,
+      "targetOnlyPrivilegesRemoved": 70,
+      "result": "PASS"
+    },
+    "providerManagedRoleCompatibility": {
+      "sourceOnlyStatements": 1,
+      "localOnlyStatements": 1,
+      "applicationAndCustomRolesEqual": true,
+      "classification": "EXPECTED_SUPABASE_PROVIDER_VERSION_DELTA"
+    }
+  },
+  "rlsComparison": {
+    "disabledRequiredPublicTables": [],
+    "result": "PASS"
+  },
+  "grantComparison": {
+    "unexpectedAnonymousOrPublicMutationGrants": [],
+    "securityDefinerFunctionsMissingIntentionalSearchPath": [],
+    "result": "PASS"
+  },
+  "authComparison": {
+    "durableStateEqual": true,
+    "sourceUsers": 0,
+    "restoreUsers": 0,
+    "sourceIdentities": 0,
+    "restoreIdentities": 0,
+    "volatileSessionsRestored": false,
+    "result": "PASS"
+  },
+  "rpo": {
+    "measurement": "backup completion to final mandatory smoke completion",
+    "startUtc": "2026-09-16T22:57:20.027Z",
+    "endUtc": "2026-09-16T23:12:51.000Z",
+    "elapsedMs": 930973,
+    "thresholdMs": 86400000,
+    "result": "PASS"
+  },
+  "rto": {
+    "measurement": "conservative qualification recovery window beginning at backup completion and including retries",
+    "startUtc": "2026-09-16T22:57:20.027Z",
+    "endUtc": "2026-09-16T23:12:51.000Z",
+    "elapsedMs": 930973,
+    "thresholdMs": 28800000,
+    "result": "PASS"
+  },
+  "applicationSmoke": {
+    "productionBuild": "PASS",
+    "healthEndpoint": "PASS",
+    "englishLtr": "PASS",
+    "hebrewRtl": "PASS",
+    "recoveredReferenceSearch": "PASS",
+    "localizedPublicAndSignedOutTests": "4/4 PASS",
+    "authenticatedCoreLoopAndCrossUserIsolation": "5/5 PASS",
+    "externalDeliveryUsed": false
+  },
+  "finalToolingRevalidation": {
+    "purpose": "post-hardening execution of the final committed restore path",
+    "recoveryStartedAt": "2026-09-17T03:17:38.748Z",
+    "recoveryRestoredAt": "2026-09-17T03:18:20.238Z",
+    "archiveIntegrity": "PASS",
+    "contentIntegrity": "PASS",
+    "migrationAndAllTableCounts": "PASS",
+    "schemaAclRlsAndGrantChecks": "PASS",
+    "recoveredApplicationSmoke": "PASS",
+    "syntheticUsersAfterCleanup": 0,
+    "isolatedStackDestroyed": true
+  },
+  "restoreEnvironment": {
+    "identity": "PHASE_11I_RECOVERY_ISOLATED",
+    "projectId": "phase-11i-recovery-isolated",
+    "localOnly": true,
+    "productionSecretsReused": false,
+    "productionTrafficConnected": false
+  },
+  "restoreExecutor": "Maor Pichhadze",
+  "recoveryApprover": "Jimmy Peachy",
+  "recoveryApproverDecision": "APPROVE",
+  "recoveryApproverDecisionDate": "2026-09-17",
+  "recoveryApproverDecisionProvenance": "PRODUCT_OWNER_SUPPLIED_ATTRIBUTABLE_RECOVERY_APPROVER_APPROVAL",
+  "recoveryApproverIdentityIndependentlyAuthenticatedByCodex": false,
+  "teardown": {
+    "completedAt": "2026-09-17T03:19:28Z",
+    "isolatedStackDestroyed": true,
+    "syntheticStateRetained": false,
+    "decryptedTemporaryDirectoriesRetained": false,
+    "encryptedBackupRetained": true
+  },
+  "backupAutomationStatus": "BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE",
+  "retention": {
+    "days": 30,
+    "dryRunResult": "PASS",
+    "currentValidBackupProtected": true,
+    "quarterlyQualificationRequired": true
+  },
+  "productionMutated": false,
+  "productionReleaseAuthorized": false,
+  "productionNonMutationRecheck": {
+    "migrationCount": 43,
+    "migrationHead": "20260830143000",
+    "authUsers": 0,
+    "storageObjects": 0,
+    "foods": 353,
+    "foodNutrients": 1199,
+    "userOwnedRows": 0,
+    "result": "PASS"
+  },
+  "findingStatus": "OPEN",
+  "openFindingCount": 18,
+  "phase11Status": "INCOMPLETE",
+  "phase11JStarted": false,
+  "candidateStatus": "RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE_EXACT_HEAD_CI_REQUIRED_FOR_CURRENT_HEAD"
+}

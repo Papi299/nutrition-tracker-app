@@ -1,0 +1,5 @@
+# Install only after independent review and merge. This file is inert in Git.
+# The operator host must have the exact Production project pre-linked in the
+# Supabase CLI, with credentials restricted to its native credential store.
+# Replace the two absolute path placeholders before installation.
+17 2 * * * cd /absolute/path/to/nutrition-tracker-app && PHASE11I_SOURCE_ENVIRONMENT=Production PHASE11I_OPERATOR=Maor_Pichhadze PHASE11I_BACKUP_ROOT=/absolute/restricted/off-git/backup/root PHASE11I_RECIPIENT_CERT=/absolute/path/to/nutrition-tracker-app/ops/recovery/phase-11i-recipient.pem npm run recovery:scheduled

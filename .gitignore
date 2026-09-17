@@ -15,6 +15,12 @@
 /playwright-report/
 /test-results/
 /.ingestion-workspace/
+/.phase-11i-recovery/
+/recovery-artifacts/
+*.phase11i.sql
+*.phase11i.dump
+*.phase11i.tar
+*.phase11i.cms
 
 # next.js
 /.next/
@@ -26,6 +32,8 @@
 # misc
 .DS_Store
 *.pem
+# Public encryption recipient only; private recovery keys remain ignored.
+!ops/recovery/phase-11i-recipient.pem
 
 # debug
 npm-debug.log*

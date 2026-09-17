@@ -3464,3 +3464,88 @@ domain, paid upgrade, Phase 11I or Phase 11J execution, or finding closure.
 `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; all 18 findings remain
 `OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11K remains the exclusive
 closure gate.
+
+## 2026-09-17: Phase 11I recovery qualification candidate
+
+This is execution under existing `DEC-024` and `DEC-025`; it creates no new
+Product Owner decision ID and does not amend their policy.
+
+- Product Owner Maor Pichhadze assigned himself and explicitly accepted Backup
+  Owner and Restore Executor. Product Owner-supplied attributable evidence
+  records Jimmy Peachy's explicit acceptance as the distinct Recovery Approver
+  and Backup. Codex did not independently authenticate Jimmy's identity.
+- The candidate starts from exact accepted main
+  `ad92dadc985e66ac1e6453537d629f6d13ccda5f`, tree
+  `dcfbd33b330e1796869040686f2efb8167893993`, with exact-head passing CI run
+  `35090822424`, run number 244.
+- Under the exact separate authorization, the implementation created one fresh
+  owner-restricted encrypted logical backup from Production project
+  `hskfanrqwtqknzpquwhg`. It covered the application schemas, exact migration
+  ledger, portable roles/grants, reference and ingestion data, durable Auth
+  identity state, redacted hosted Auth configuration, and the verified zero
+  Storage state. No encrypted backup bytes, private key, plaintext database
+  dump, credential, raw Auth material, or Vault value entered Git.
+- The backup restored only to `PHASE_11I_RECOVERY_ISOLATED`. Structural schema
+  comparison found zero differences. A deterministic privilege-faithful
+  transform removed 70 local-image-only application grants and applied 22
+  source grants/default privileges, yielding equal canonical source/restore
+  fingerprint
+  `f16e58794d1e7fdb1527ad6796979afdc667ced10dad924bcc948c89b14a3bd2`.
+  Two provider-managed role statements remain an explicitly classified hosted
+  versus local Supabase-version delta; application/custom roles match.
+- The final restore matched all 43 migrations and all 61 application-table
+  counts, including 353 foods, 1,199 food nutrients, and the complete current
+  ingestion state. Durable Auth and Storage remained zero. RLS, anonymous/public
+  mutation exposure, and definer search-path checks passed.
+- Production build, `/api/health`, English LTR, Hebrew RTL, recovered USDA
+  search, and synthetic authenticated core-loop/cross-user isolation checks
+  passed. The conservative recovery window was 15m 30.973s, within RPO 24h and
+  RTO 8h.
+- The isolated stack, synthetic identities/data/secrets, and decrypted
+  temporary state were destroyed. A final read-only Production check confirmed
+  the same migration head/counts and zero users/Storage/user-owned rows.
+  `productionMutated=false` and `productionReleaseAuthorized=false`.
+- The 30-day retention dry run retained the current valid backup. Daily
+  operator-host automation is implemented but not installed:
+  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. A GitHub Actions schedule
+  was not added because recurring Production access and encrypted Production
+  backup egress to GitHub Actions were not approved.
+- The canonical records are
+  [`phase-11i-recovery-qualification.md`](phase-11i-recovery-qualification.md)
+  and
+  [`phase-11i-recovery-qualification-evidence.json`](phase-11i-recovery-qualification-evidence.json).
+  `RECOVERY_APPROVER_DECISION=PENDING`; independent ChatGPT engineering review
+  and final candidate exact-head CI are also pending at this record point.
+- The hosted observability environment classification can still be `unknown`;
+  it remains a Phase 11J carry-forward, not a Phase 11I recovery blocker.
+
+`P11A-011` remains `OPEN` at
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. `P11A-010`,
+`P11A-017`, and `P11A-018` also remain `OPEN`; all 18 findings remain `OPEN`,
+Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, and Phase 11K remains
+the exclusive finding-closure gate. No Production restore, release, launch,
+deployment, invitation, provider configuration, or finding closure is
+authorized.
+
+## 2026-09-17: Phase 11I Recovery Approver approval and independent acceptance
+
+- Product Owner-supplied attributable evidence records Jimmy Peachy's Recovery
+  Approver decision `APPROVE` dated 2026-09-17 for the completed Phase 11I
+  recovery packet. Codex did not independently authenticate Jimmy's identity
+  and did not self-approve on his behalf.
+- The approval covers the recorded source commit/tree, restricted encrypted
+  backup and hashes, isolated restore, 43-migration and application/Auth/ACL/RLS
+  evidence, cross-user isolation, RPO/RTO, recovered-application smoke,
+  teardown, and Production non-mutation. It does not authorize a Production
+  restore/release, finding closure, Phase 11J, or arbitrary Production changes.
+- Independent engineering review accepted corrected exact head
+  `dfe92bc9cd1bcb0361937bcc5067090acad4a3d7`, tree
+  `50846dc6cd6f1555bf30c1ea1eade9b1860744d5`; exact-head CI run
+  `35185758896`, run number 246, attempt 1, passed.
+- Daily backup automation remains
+  `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`; operational cadence and
+  final Phase 11I external-validation credit require post-merge scheduler
+  activation and scheduler-path proof. `P11A-011` and all 18 findings remain
+  `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, Phase 11K
+  remains the exclusive finding-closure gate, and
+  `productionReleaseAuthorized=false`.
