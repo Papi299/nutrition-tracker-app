@@ -241,8 +241,20 @@ export function assertGitHubBackupWorkflowContract({ workflow, runbook }) {
   );
   requireWorkflow(/SUPABASE_NO_KEYRING:\s*["']1["']/, "GitHub backup must not rely on runner keyring state.");
   requireWorkflow(
+    /runtime_root="\$\{RUNNER_TEMP\}\/phase11i-production-runtime-\$\{GITHUB_RUN_ID\}-\$\{GITHUB_RUN_ATTEMPT\}"/,
+    "GitHub backup must create a run-specific runtime root.",
+  );
+  requireWorkflow(
+    /TMPDIR:\s*\$\{\{ steps\.destination\.outputs\.runtime_root \}\}/,
+    "Plaintext staging must remain inside a separate always-cleaned runtime root.",
+  );
+  forbidWorkflow(
     /TMPDIR:\s*\$\{\{ steps\.destination\.outputs\.backup_root \}\}/,
-    "Plaintext staging must remain inside the always-cleaned runner backup root.",
+    "Runtime caches and plaintext staging must not share the retained artifact root.",
+  );
+  requireWorkflow(
+    /- name: Remove plaintext runtime state before verification[\s\S]*?rm -rf -- "\$\{RUNTIME_ROOT\}"[\s\S]*?test ! -e "\$\{RUNTIME_ROOT\}"[\s\S]*?- name: Verify ciphertext-only artifact pair/,
+    "Runtime state must be removed and proved absent before artifact verification.",
   );
   requireWorkflow(/GITHUB_REF.*refs\/heads\/main/s, "GitHub backup workflow must fail closed off main.");
   forbidWorkflow(/\$\{\{\s*inputs\./, "Production identity must not be workflow-input controlled.");
@@ -268,6 +280,10 @@ export function assertGitHubBackupWorkflowContract({ workflow, runbook }) {
   );
   forbidWorkflow(/\bvercel\b|deploymentEnabled|deploy/i, "GitHub backup workflow must not deploy Vercel.");
   requireWorkflow(/if:\s+always\(\)/, "Ephemeral backup state must be cleaned on every outcome.");
+  requireWorkflow(
+    /if: always\(\)[\s\S]*?phase11i-production-backup-\*[\s\S]*?phase11i-production-runtime-\*/,
+    "Final cleanup must cover both artifact and runtime roots.",
+  );
 
   requireRunbook(
     "PUBLIC_REPOSITORY_CIPHERTEXT_ASSUMED_DOWNLOADABLE",
