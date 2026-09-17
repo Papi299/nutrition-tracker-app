@@ -104,11 +104,14 @@ value is not a GitHub variable, command argument, file, artifact, or evidence.
 
 ## 4. Ephemeral destination and artifact contract
 
-Each run creates a unique mode-`0700` directory beneath `RUNNER_TEMP`, outside
-the Git checkout. `TMPDIR` is bound to that same always-cleaned root, so all
-plaintext staging remains inside the run-specific boundary. The backup command
-creates mode-`0600` outputs, encrypts the archive before durable retention, and
-removes its plaintext staging directory in a `finally` cleanup.
+Each run creates separate unique mode-`0700` artifact and runtime directories
+beneath `RUNNER_TEMP`, outside the Git checkout. `TMPDIR` is bound only to the
+runtime directory so Node/Bun caches and plaintext backup staging cannot enter
+the retained artifact root. The backup command creates mode-`0600` outputs,
+encrypts the archive before durable retention, and removes its plaintext
+staging directory in a `finally` cleanup. The workflow then removes and proves
+the whole runtime directory absent before artifact verification or upload; the
+final `always()` cleanup covers both directories on every outcome.
 
 Before upload, the repository verifier requires exactly one matching pair:
 

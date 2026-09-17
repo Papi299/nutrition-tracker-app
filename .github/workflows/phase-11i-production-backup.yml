@@ -50,8 +50,10 @@ jobs:
           set -euo pipefail
           umask 077
           backup_root="${RUNNER_TEMP}/phase11i-production-backup-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          install -d -m 0700 "${backup_root}"
+          runtime_root="${RUNNER_TEMP}/phase11i-production-runtime-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          install -d -m 0700 "${backup_root}" "${runtime_root}"
           printf 'backup_root=%s\n' "${backup_root}" >> "${GITHUB_OUTPUT}"
+          printf 'runtime_root=%s\n' "${runtime_root}" >> "${GITHUB_OUTPUT}"
 
       - name: Bind the exact Production project
         env:
@@ -72,8 +74,21 @@ jobs:
           PHASE11I_OPERATOR: GitHub Actions scheduled runner
           PHASE11I_BACKUP_ROOT: ${{ steps.destination.outputs.backup_root }}
           PHASE11I_RECIPIENT_CERT: ${{ github.workspace }}/ops/recovery/phase-11i-recipient.pem
-          TMPDIR: ${{ steps.destination.outputs.backup_root }}
+          TMPDIR: ${{ steps.destination.outputs.runtime_root }}
         run: npm run recovery:backup >/dev/null
+
+      - name: Remove plaintext runtime state before verification
+        env:
+          RUNTIME_ROOT: ${{ steps.destination.outputs.runtime_root }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${RUNTIME_ROOT:-}" || "${RUNTIME_ROOT}" != "${RUNNER_TEMP}"/phase11i-production-runtime-* ]]; then
+            echo "::error::Runtime cleanup path escaped the run-specific runner boundary."
+            exit 1
+          fi
+          rm -rf -- "${RUNTIME_ROOT}"
+          test ! -e "${RUNTIME_ROOT}"
 
       - name: Verify ciphertext-only artifact pair
         id: verify
@@ -107,9 +122,13 @@ jobs:
         if: always()
         env:
           BACKUP_ROOT: ${{ steps.destination.outputs.backup_root }}
+          RUNTIME_ROOT: ${{ steps.destination.outputs.runtime_root }}
         shell: bash
         run: |
           set -euo pipefail
           if [[ -n "${BACKUP_ROOT:-}" && "${BACKUP_ROOT}" == "${RUNNER_TEMP}"/phase11i-production-backup-* ]]; then
             rm -rf -- "${BACKUP_ROOT}"
+          fi
+          if [[ -n "${RUNTIME_ROOT:-}" && "${RUNTIME_ROOT}" == "${RUNNER_TEMP}"/phase11i-production-runtime-* ]]; then
+            rm -rf -- "${RUNTIME_ROOT}"
           fi

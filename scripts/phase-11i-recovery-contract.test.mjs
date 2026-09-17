@@ -317,6 +317,28 @@ test("GitHub backup workflow accepts credentials only from Actions secrets", () 
   );
 });
 
+test("GitHub backup workflow isolates runtime state from retained artifacts", () => {
+  assertWorkflowRejected(
+    githubBackupWorkflow.replace(
+      "TMPDIR: ${{ steps.destination.outputs.runtime_root }}",
+      "TMPDIR: ${{ steps.destination.outputs.backup_root }}",
+    ),
+  );
+});
+
+test("GitHub backup workflow removes runtime state before artifact verification", () => {
+  const cleanupStart = githubBackupWorkflow.indexOf(
+    "      - name: Remove plaintext runtime state before verification\n",
+  );
+  const verifyStart = githubBackupWorkflow.indexOf(
+    "      - name: Verify ciphertext-only artifact pair\n",
+  );
+  assert.ok(cleanupStart >= 0 && verifyStart > cleanupStart);
+  assertWorkflowRejected(
+    githubBackupWorkflow.slice(0, cleanupStart) + githubBackupWorkflow.slice(verifyStart),
+  );
+});
+
 test("GitHub backup workflow queues rather than cancels overlapping runs", () => {
   assertWorkflowRejected(
     githubBackupWorkflow.replace("cancel-in-progress: false", "cancel-in-progress: true"),
