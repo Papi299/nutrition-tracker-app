@@ -767,13 +767,14 @@ acceptance, candidate acceptance, another environment, or another phase.
 
 ## 18. Phase 11I handoff
 
-Phase 11I remains unstarted. Under its own authorization it must assign the
-backup owner, restore executor, and recovery approver/backup; select or create
-the approved restricted launch-shaped backup; restore only to an isolated
-environment; verify Postgres, Auth identity/config evidence, migrations,
-roles/grants/RLS, any Storage, application/lifecycle/snapshot integrity, and
-timing; meet RPO 24 hours and RTO 8 hours; record 30-day retention and quarterly
-cadence; and tear down safely. No backup or restore was performed here.
+Phase 11I subsequently proceeded under its own authorization. Its current
+[recovery qualification candidate](phase-11i-recovery-qualification.md)
+records the approved roles, fresh restricted encrypted backup, isolated local
+restore, Postgres/Auth/migration/role/grant/RLS/Storage/application checks,
+RPO 24h and RTO 8h evidence, 30-day retention contract, quarterly cadence, and
+safe teardown. The Recovery Approver decision and independent engineering
+review remain pending. No backup or restore was performed as part of Phase 11H
+itself.
 The existence of a separately authorized Production bootstrap may be treated
 as an infrastructure fact, but gives no recovery credit and does not bypass
 any 11I qualification requirement for actual release.

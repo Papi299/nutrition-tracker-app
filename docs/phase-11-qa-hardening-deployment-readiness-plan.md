@@ -848,11 +848,11 @@ and finding credit. The candidate disables automatic Git deployments and
 fail-closes cross-environment `APP_ORIGIN` use against trusted Vercel metadata.
 It creates no provider resource and performs no external operation.
 
-Pending exact-head CI and independent review, Phase 11H is implementation
-complete pending independent review. `P11A-010`, `P11A-017`, and `P11A-018`
-remain `OPEN` at implementation stage
-`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`.
-Phase 11I and Phase 11J remain unstarted and separately authorized.
+Phase 11H is now part of accepted main. `P11A-010`, `P11A-017`, and
+`P11A-018` remain `OPEN` at implementation stage
+`IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`. Phase 11I proceeded
+under its separate exact authorization; Phase 11J remains unstarted and
+separately authorized.
 
 ## 15. Phase 11I — Recovery qualification
 
@@ -890,6 +890,32 @@ migration repair, or reuse of promotion/bootstrap.
 
 Artifact hash checks, isolated restore, database/Auth/role verification,
 application smoke, timing, and independent operator review.
+
+### Current Phase 11I candidate
+
+The [Phase 11I recovery qualification](phase-11i-recovery-qualification.md)
+starts from exact accepted main
+`ad92dadc985e66ac1e6453537d629f6d13ccda5f`, tree
+`dcfbd33b330e1796869040686f2efb8167893993`, and exact-head passing CI run
+`35090822424`. The before-11I roles are `ASSIGNED_AND_APPROVED`: Maor
+Pichhadze is Backup Owner and Restore Executor; Jimmy Peachy is the distinct
+Recovery Approver and Backup under Product Owner-supplied acceptance evidence.
+
+The candidate created one fresh restricted encrypted Production logical backup,
+restored it only into `PHASE_11I_RECOVERY_ISOLATED`, reproduced the source
+application structure and privilege fingerprint, matched all 61 table and
+durable Auth counts, passed RLS/grant/security checks, built and exercised the
+recovered application, met conservative RPO/RTO, verified Production remained
+unchanged, and destroyed the isolated stack and decrypted temporary state. The
+canonical redacted packet is
+[`phase-11i-recovery-qualification-evidence.json`](phase-11i-recovery-qualification-evidence.json).
+
+Daily operator-host automation is implemented but not installed:
+`BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`. Independent Recovery
+Approver decision and independent ChatGPT engineering review remain pending,
+as do final candidate exact-head CI at this pre-review stage. `P11A-011` and
+all other findings remain `OPEN`; Phase 11 remains `INCOMPLETE`; Phase 11J has
+not begun; Phase 11K remains the exclusive finding-closure gate.
 
 ## 16. Phase 11J — Preview and release rehearsal
 

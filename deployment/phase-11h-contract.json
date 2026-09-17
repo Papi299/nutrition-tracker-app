@@ -877,6 +877,116 @@
       "rotation": "Per test case.",
       "browserExposure": "forbidden",
       "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_SOURCE_ENVIRONMENT",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "backup owner",
+      "purpose": "Exact case-sensitive Production classification required by the Phase 11I backup fail-closed source guard.",
+      "sourceBoundary": "Approved operator invocation only; never application runtime or browser configuration.",
+      "rotation": "Per authorized backup invocation.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_BACKUP_ROOT",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "backup owner",
+      "purpose": "Absolute owner-restricted off-Git directory for encrypted backup and redacted manifest pairs.",
+      "sourceBoundary": "Operator-host filesystem path; symlinks and group/world access are rejected.",
+      "rotation": "Change only through reviewed backup-destination rebinding.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_RECIPIENT_CERT",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "backup owner",
+      "purpose": "Absolute path to the trusted public recovery-recipient certificate used for encrypted backups and restore identity matching.",
+      "sourceBoundary": "Reviewed public certificate file; private key material is not permitted in this variable.",
+      "rotation": "Rebind when the approved recovery recipient rotates; retain old private material only under the approved retention policy.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_OPERATOR",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "backup owner",
+      "purpose": "Attributable backup operator identity recorded in the restricted manifest.",
+      "sourceBoundary": "Approved operator invocation; must not contain credentials or contact data.",
+      "rotation": "Per authorized operator assignment.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "SUPABASE_ACCESS_TOKEN",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "Supabase owner",
+      "purpose": "Optional operator-session token for redacted Supabase Management API metadata reads during an authorized backup; native credential-store lookup is preferred.",
+      "sourceBoundary": "Ephemeral approved operator environment only; prohibited from evidence, logs, Git, application runtime, and schedulers without an approved secret store.",
+      "rotation": "Provider-managed token rotation and immediate revocation on suspected disclosure.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_RECOVERY_PRIVATE_KEY",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "recovery approver and backup",
+      "purpose": "Absolute path to the owner-restricted private key used only for isolated decrypt verification and restore.",
+      "sourceBoundary": "Restricted operator-host filesystem or approved secret manager; never Git, evidence, logs, application runtime, or browser state.",
+      "rotation": "Rotate with the approved recipient certificate and retain only while required to decrypt retained backups.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_ARCHIVE",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "restore executor",
+      "purpose": "Absolute path to the selected encrypted Phase 11I archive for an approved isolated restore.",
+      "sourceBoundary": "Owner-restricted off-Git recovery storage; filename and hash must match the selected manifest.",
+      "rotation": "Per selected qualification or incident-authorized backup.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_MANIFEST",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "restore executor",
+      "purpose": "Absolute path to the redacted manifest paired with the selected encrypted archive.",
+      "sourceBoundary": "Owner-restricted off-Git recovery storage; secret and PII fields are rejected.",
+      "rotation": "Per selected qualification or incident-authorized backup.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_RESTORE_REPORT",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "restore executor",
+      "purpose": "Absolute owner-restricted output path for the redacted isolated-restore report.",
+      "sourceBoundary": "Operator-host filesystem outside public artifacts; contents must pass the redacted-evidence scanner.",
+      "rotation": "Unique per qualification or incident-authorized restore.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PHASE11I_RESTORE_TARGET",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "restore executor",
+      "purpose": "Exact target guard; qualification accepts only PHASE_11I_RECOVERY_ISOLATED with a loopback database.",
+      "sourceBoundary": "Approved restore invocation; never inferred from a URL, host, branch, or Production source.",
+      "rotation": "Per separately authorized restore class.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
     }
   ],
   "databaseSecrets": [

@@ -52,6 +52,9 @@ jobs:
       - name: Verify Phase 11H deployment and environment contract
         run: npm run test:deployment-contract
 
+      - name: Verify Phase 11I recovery safety contract
+        run: npm run test:recovery-contract
+
       - name: Verify security policy regressions
         run: npm run test:security
 

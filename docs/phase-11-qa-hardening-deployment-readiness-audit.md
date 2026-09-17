@@ -595,6 +595,20 @@ be described as closing a finding that requires external evidence.
   isolated recovery environment and passes the complete approved checklist.
 - **Validation:** Hash verification, isolated restore, application/security
   smoke, timing record, and teardown evidence. No production restore.
+- **Phase 11I candidate reconciliation (2026-09-17):** The separately
+  authorized candidate created and decrypt-verified a fresh restricted
+  encrypted Production backup, restored it only to
+  `PHASE_11I_RECOVERY_ISOLATED`, matched migration/application/Auth/ACL/RLS and
+  safe count evidence, passed recovered-application smoke inside conservative
+  RPO/RTO, verified Production remained unchanged, and destroyed the isolated
+  stack and plaintext staging. The
+  [runbook](phase-11i-recovery-qualification.md) and
+  [redacted packet](phase-11i-recovery-qualification-evidence.json) record the
+  evidence. Daily automation activation, the distinct Recovery Approver's
+  decision, independent engineering review, and candidate exact-head CI remain
+  pending. `P11A-011` remains `OPEN` at
+  `IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING`; only Phase 11K may
+  close it.
 
 ### P11A-012 — General application performance and capacity are unproven
 

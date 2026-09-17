@@ -626,8 +626,12 @@ The narrative above is the historical pre-merge Phase 11G2 record. PR #120 was
 subsequently accepted and merged, producing current main
 `f258ed34dab50d95e0abdbb45897921a2d81acd8`, tree
 `8a85a186699e9495032b9ea01eb7081b84d04b14`; exact-main CI run
-`34982739418` (run number 235, attempt 1) succeeded. Phase 11H is therefore the
-current bounded slice.
+`34982739418` (run number 235, attempt 1) succeeded. That historical handoff
+led to the accepted Phase 11H architecture and later exact accepted main
+`ad92dadc985e66ac1e6453537d629f6d13ccda5f`, tree
+`dcfbd33b330e1796869040686f2efb8167893993`; exact-head CI run
+`35090822424`, run number 244, succeeded. Phase 11I is therefore the current
+bounded slice.
 
 On 2026-09-15, Maor Pichhadze assigned himself to and explicitly accepted the
 Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and
@@ -643,10 +647,27 @@ one Vercel project and permits only a later separately authorized, protected
 Phase 11J/11K evidence. Inert `git.deploymentEnabled=false` configuration
 prevents ordinary Git activity from creating later deployments, and
 `APP_ORIGIN` is bound to an environment registry plus trusted Vercel metadata.
-This task performs no external operation. `P11A-010`, `P11A-017`, and
-`P11A-018` remain `OPEN`; pending
-independent review and merge, the candidate is implementation complete pending
-independent review, and Phase 11K remains the only closure gate.
+The Phase 11H implementation is accepted on main. `P11A-010`, `P11A-017`, and
+`P11A-018` remain `OPEN` pending their later external stages, and Phase 11K
+remains the only closure gate.
+
+On 2026-09-17, Maor Pichhadze assigned himself and explicitly accepted Backup
+Owner and Restore Executor. Product Owner-supplied attributable evidence records
+Jimmy Peachy's explicit acceptance as the distinct Recovery Approver and
+Backup; Codex did not independently authenticate Jimmy's identity. Under the
+exact Phase 11I authorization, the
+[recovery qualification](phase-11i-recovery-qualification.md) created a fresh
+restricted encrypted Production logical backup, reproduced it in a strictly
+isolated local stack, passed exact migration/data/Auth/ACL/RLS/security and
+recovered-application checks, met conservative RPO 24h/RTO 8h, verified
+Production remained unchanged, and destroyed all isolated synthetic and
+decrypted temporary state. The
+[redacted evidence](phase-11i-recovery-qualification-evidence.json) is pending
+Jimmy Peachy's approve/reject decision and independent ChatGPT engineering
+review. Daily backup automation is implemented as an inert operator-host
+schedule and remains `BACKUP_AUTOMATION_ACTIVATION_PENDING_POST_MERGE`.
+`P11A-011` and all 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`,
+Phase 11J has not begun, and Phase 11K remains the exclusive closure gate.
 
 ## Future PR Documentation Rule
 
