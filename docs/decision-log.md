@@ -3696,3 +3696,37 @@ occurred. The state is
 Phase 11J2 through 11J6 remain `NOT_STARTED`; all 18 findings remain `OPEN`,
 Phase 11 remains `INCOMPLETE`, Phase 11K remains the exclusive finding-closure
 gate, and `productionReleaseAuthorized=false`.
+
+## 2026-09-18: Phase 11J2 local Auth and account-lifecycle acceptance
+
+After Phase 11J1 post-merge independent acceptance, Phase 11J2 executed from
+exact accepted `main` `24b974d9d3c92573269fe4ca65d167bb211d4c7c`,
+tree `f291db761d50940c97d2cb226902142c92e7544c`, under active decision
+`DEC-035` and release profile `PERSONAL_USE_FREE_TIER`. Accepted baseline CI
+run `35319319011`, job `105518006487`, was successful before execution.
+
+The final credited local stack exposed PostgreSQL, Kong/GoTrue, and Mailpit on
+loopback only. Loopback probes succeeded and LAN-address probes failed. After
+hosted-role compatibility, a fresh reset replayed and seeded all 43 migrations
+through `20260830143000_cache_search_account_access_policy`. The authoritative
+focused inventory passed 79/79 cases: 56 browser lifecycle/security/no-JavaScript
+cases and 23 recent-auth/export/closure/header unit cases. The exact ten-minute
+recent-auth boundary accepted second 599 and rejected second 600; recovery did
+not create recent-auth authority; signup remained closed; activation, callback,
+sign-in/session, recovery, export, closure, post-closure, and cross-user
+boundaries all passed.
+
+Required lint, typecheck, workflow/dependency security, 64 deployment-contract,
+41 recovery-contract, 52 journey-evidence, webpack build, and 140-artifact
+client-secret-boundary checks passed. Exact final PR-head CI remains the
+authoritative default Turbopack gate.
+
+No application, schema, migration, RLS, Auth, security, ownership, runtime, or
+account-lifecycle behavior changed. No hosted Supabase or Production access,
+provider mutation, real email, deployment, paid entitlement, or release
+occurred. Hosted provider and deployed-origin claims remain
+`POST_DEPLOY_RELEASE_VERIFICATION`. Phase 11J2 is
+`IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`; Phase 11J3
+through 11J6 remain `NOT_STARTED`. All 18 findings remain `OPEN`, Phase 11
+remains `INCOMPLETE`, Phase 11K remains the exclusive finding-closure gate, and
+`productionReleaseAuthorized=false`.
