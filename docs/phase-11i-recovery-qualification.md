@@ -1,6 +1,8 @@
 # Phase 11I Recovery Qualification
 
-Status: `RECOVERY_QUALIFICATION_EVIDENCE_APPROVED_GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
+Status: `RECOVERY_QUALIFICATION_EVIDENCE_APPROVED`,
+`BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS`, and
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`
 
 Task: `PHASE-11I-RECOVERY-QUALIFICATION-001`
 
@@ -230,12 +232,12 @@ artifact expiry is authoritative for the recurring workflow path.
 
 Current status:
 
-`GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
+`BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS`
 
-After merge and exact-main CI, configure only the two required Actions secrets,
-confirm the default-branch workflow is enabled, dispatch the exact scheduled
-path once, verify its artifact through GitHub metadata, and perform the safe
-Production non-mutation/Vercel guards. Silence is not success: a missing daily
+Post-merge workflow run `35236459394`, run number `2`, attempt `1`, succeeded
+on exact main `35306d10808ae1f55ef83816f507c3e714a1278e` and retained the
+verified encrypted two-file artifact with 30-day expiry. The accepted
+qualification remains unchanged. Silence is not success: a missing daily
 artifact, failed hash, stale artifact, disabled workflow, or retention failure
 is operationally actionable. Public scheduled workflows may be disabled after
 60 days without repository activity, so enabled state and freshness require
@@ -314,7 +316,7 @@ The Recovery Approver should independently verify:
 - application smoke and cross-user isolation;
 - conservative RPO/RTO;
 - teardown and Production non-mutation;
-- 30-day retention and pending GitHub workflow activation/first-run evidence;
+- 30-day retention and accepted GitHub workflow activation/first-run evidence;
 - all open-finding/Phase 11/Production authorization boundaries.
 
 Decision field:

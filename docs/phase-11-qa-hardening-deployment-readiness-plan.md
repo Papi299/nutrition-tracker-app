@@ -68,9 +68,10 @@ The application is launch-ready only when:
     deploy, rollback, and recovery runbooks;
 11. a current restricted backup restores successfully to an isolated
     launch-shaped recovery environment within the approved objectives;
-12. Preview/release rehearsal proves build, environment, Auth redirects,
-    migration order, smoke, observability, rollback/redeploy, and evidence
-    capture; and
+12. the active-profile release rehearsal proves the local/CI build,
+    environment, Auth, migration order, security, rollback procedure, and
+    evidence capture, while hosted-only claims remain explicitly deferred to
+    bounded post-deploy verification; and
 13. the integrated Phase 11 gate and independent review pass with no pending,
     failing, cancelled, skipped-without-rationale, or unexplained required gate.
 
@@ -92,7 +93,7 @@ exact slice deadlines.
 | WCAG target and browser/device/assistive-tech support matrix | Phase 11D scope |
 | Privacy/terms/consent, retention, export/deletion, support/admin access, USDA attribution, and health disclaimer | Phase 11E scope; legal review |
 | Expected volume, performance budgets, SLOs, alerts, incident owners, and escalation | Phase 11G scope |
-| Preview/staging/production topology, Supabase separation, domain, secret owners, maintenance window, and release authority | Phase 11H scope |
+| Historical Preview/staging/Production capability and active-profile topology, Supabase separation, domain, secret owners, maintenance window, and release authority | Phase 11H plus `DEC-035` Phase 11J0 amendment |
 | Backup scope, retention, RPO, RTO, owners, and recurring qualification | Phase 11I scope |
 | Explicit acceptance of any remaining P1, with owner and expiry | Phase 11K |
 
@@ -105,9 +106,12 @@ repository-verified fact:
 - manual accessibility and physical-device evidence;
 - current dependency advisory/reachability analysis;
 - GitHub governance/security settings;
-- hosted Supabase Auth, migration, and environment evidence;
-- deployed response headers, performance, monitoring, and uptime evidence;
-- Vercel project/environment/domain/deployment evidence;
+- hosted Supabase Auth and exact Production environment evidence, classified as
+  read-only preflight or post-deploy verification under the active profile;
+- deployed response headers, performance, monitoring, and uptime evidence only
+  after a separately authorized exact Production deployment;
+- read-only Vercel project/environment metadata and later candidate-bound
+  Production deployment evidence;
 - restricted backup and isolated restore evidence; and
 - observed deploy, rollback/redeploy, incident, and operator walkthroughs.
 
@@ -167,12 +171,13 @@ acyclic without moving or renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as candidate
-version `1.6-phase-11e-nojs-classifications-amended`, while historical amended
+version `1.7-personal-use-free-tier-profile-amended`, while historical amended
 versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
-`1.4-phase-11b-remaining-implemented-nojs-amended`, and
-`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` remain preserved: Maor Pichhadze
+`1.4-phase-11b-remaining-implemented-nojs-amended`,
+`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
+`1.6-phase-11e-nojs-classifications-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -278,8 +283,9 @@ CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
 11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current accepted contract
-`1.6-phase-11e-nojs-classifications-amended` changes exactly six Phase 11E rows
-and has current totals `16 / 5 / 13 / 1`; 35 / 223 / 718 remains the accurate
+`1.7-personal-use-free-tier-profile-amended` preserves the exact six Phase 11E
+rows established by version 1.6 and has current totals `16 / 5 / 13 / 1`;
+35 / 223 / 718 remains the accurate
 historical snapshot of the Phase 11C classification amendment. Accepted PRs
 #96–#102 then advanced the
 repository-owned Phase 11C implementation and automation through CJ-018,
@@ -914,10 +920,13 @@ Product Owner decision `DEC-034` supersedes the sleeping operator-host cadence
 with the reviewed
 [GitHub artifact backup automation](phase-11i-github-artifact-backup-automation.md).
 The workflow is implemented with ciphertext-only 30-day artifacts and explicit
-public-repository/inactivity risk controls; activation remains pending merge,
-exact-main CI, Actions-secret setup, enabled-state verification, and the first
-successful operational run. Technical recovery qualification and independent
-ChatGPT engineering review are complete. Product Owner-supplied attributable
+public-repository/inactivity risk controls. Activation completed successfully
+in workflow run `35236459394` on exact main
+`35306d10808ae1f55ef83816f507c3e714a1278e`, so
+`BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS` and
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE` are the current states. Technical
+recovery qualification and independent ChatGPT engineering review are
+complete. Product Owner-supplied attributable
 evidence records Jimmy Peachy's Recovery Approver decision `APPROVE` on
 2026-09-17; Codex did not independently authenticate his identity. Every
 current candidate head must pass exact-head CI; its run identity is recorded in
@@ -925,71 +934,64 @@ the final report rather than committed into the head it verifies.
 `P11A-011` and all other findings remain `OPEN`; Phase 11 remains `INCOMPLETE`;
 Phase 11J has not begun; Phase 11K remains the exclusive finding-closure gate.
 
-## 16. Phase 11J — Preview and release rehearsal
+## 16. Phase 11J — Personal-use release rehearsal
 
 ### Objective
 
-Exercise the complete non-production release loop using the approved
-architecture, controls, and recovery evidence.
+Under active `PERSONAL_USE_FREE_TIER` decision `DEC-035`, rehearse the exact
+release candidate using isolated local/CI full-stack infrastructure, validate
+machine-verifiable launch controls, collect owner-relevant manual evidence,
+verify live Production provider configuration read-only, and prepare a
+separately authorized Production release procedure.
 
 ### Authorized scope
 
-- Under separate authorization, use only the approved single Vercel project,
-  verify any earlier bootstrap existence/isolation/protection/Git-disable state
-  as environmental facts, and configure only non-production environment scope.
-- A `PRODUCTION_BOOTSTRAP_ONLY` action is a separate prerequisite under its own
-  exact authorization. It is not Phase 11J acceptance evidence and Phase 11J
-  may not create, repeat, promote, or mutate it.
-- Deploy Preview or staging, apply the approved non-production migration
-  sequence where needed, run deployment smoke, observe signals, rehearse
-  rollback/redeploy, and capture evidence.
-- Collect every hosted/deployed validation explicitly deferred by earlier
-  slices: hosted Supabase Auth/site URLs, SMTP, confirmation, rate limits,
-  cookies, and redirect behavior; response headers and CSP/Auth/camera
-  compatibility; monitoring provider configuration, privacy-safe signal and
-  alert delivery, uptime, and deployment notifications; Preview/staging route,
-  query, cold-start, timing, and Core Web Vitals evidence; outage/incident
-  rehearsal; full keyboard/focus matrix; actual 200%/400% zoom/reflow; target
-  integrity; text/non-text/control/focus contrast; reduced motion;
-  VoiceOver/Safari; NVDA/Firefox; affected-layout RTL/mixed-content checks;
-  named supported real-browser/platform and physical-device checks; final
-  manual camera/fallback behavior; and non-production migration drift/order
-  preflight.
-- Rehearse the production checklist without production mutation/deployment.
+- Freeze one exact candidate and execute complete local/CI release rehearsal
+  against isolated local Supabase with synthetic identities and data.
+- Validate migration reset/replay, Auth/account lifecycle, RLS, cross-user
+  isolation, core journeys, EN/HE/RTL, accessibility automation, dependency and
+  security gates, build, and rollback procedure.
+- Collect attributable manual evidence for the Product Owner's actually
+  supported browsers/devices and materially relevant touch, layout, Hebrew,
+  zoom/reflow, and camera/barcode behavior.
+- Verify Production Vercel/Supabase identity and configuration read-only and
+  recheck Phase 11I backup/workflow/recovery freshness.
+- Reconcile `PRE_RELEASE_REQUIRED`, `OWNER_USE_MANUAL_VALIDATION`, and
+  `POST_DEPLOY_RELEASE_VERIFICATION` evidence without fabricating hosted facts.
+- Dry-run the exact Production release, stop, rollback/redeploy, and
+  post-deployment verification checklists without deploying.
 
 ### Non-goals
 
-No production deployment/domain switch, production Supabase mutation,
-production provider operation, provider configuration beyond the exact
-separately authorized non-production scope, production restore, or launch
-authorization.
+No paid plan, Supabase project/branch, Vercel Custom Environment, hosted
+staging, database-connected Preview without isolated non-Production Supabase,
+Production deployment/mutation/domain switch, Production restore, external
+invitation, finding closure, or launch authorization. The unrelated
+`academic-papers-index` project is never paused, mutated, deleted, or reused.
 
 ### Acceptance criteria
 
-- Preview/staging uses the exact intended source and isolated data target.
-- The exact pre-release UI is stabilized after the material redesign, and all
-  required launch-facing manual accessibility records are fresh, attributable,
-  passing, and candidate-bound.
-- Build, environment, migration, hosted Auth/redirect/cookie, security-header/
-  CSP, smoke, monitoring/alert/notification, deployed performance/Core Web
-  Vitals, outage/incident, rollback/redeploy, physical-device where required,
-  and cleanup gates pass.
-- Every external-validation item deferred from 11D–11G is either attributable
-  and `EXTERNAL_VALIDATION_COMPLETE` or remains explicitly open with owner,
-  reason, and stop status. Phase 11J does not assign `FINDING_CLOSED`.
-- Absent, stale, materially mismatched, failed, unsupported, or unattributed
-  required manual evidence stops the rehearsal and remains open for correction.
-- Other required failures stop the rehearsal and are explained/corrected.
-- The evidence packet is complete enough for independent Phase 11 acceptance.
+- Exact candidate, local/CI rehearsal, build, CI, migration, Auth, RLS,
+  security, journey, locale, automation, backup/recovery, and checklist gates
+  pass.
+- Required owner-use manual evidence is current, attributable, candidate-bound,
+  and limited to declared supported use. Broader commercial matrices are
+  `NOT_REQUIRED_PERSONAL_USE_PROFILE`, not `PASS`.
+- Hosted-only claims remain `POST_DEPLOY_RELEASE_VERIFICATION` until a later
+  separately authorized exact Production deployment.
+- Provider preflight is read-only and confirms Production identity without
+  changing it. Preview/local/test binding to Production Supabase remains
+  rejected.
+- The complete packet is ready for independent review; Phase 11J assigns no
+  `FINDING_CLOSED` status.
 
 ### Validation strategy
 
-Attributed provider/host configuration exports, deployment logs, environment
-assertions, Auth and smoke journeys, response headers/CSP checks, telemetry/
-uptime/alert/notification delivery, deployed browser performance and Core Web
-Vitals, outage/incident drill, attributable keyboard/zoom/contrast/motion/AT/
-RTL/supported-browser/physical-device/camera records, rollback/redeploy,
-cleanup, and final non-production state verification.
+Local Supabase reset/replay and full-stack tests, exact-head CI, security and
+dependency checks, build, attributed owner-use manual records, read-only
+provider metadata, current recovery evidence, release/rollback tabletop, and
+independent evidence review. The bounded 11J1–11J6 sequence is defined in the
+[Phase 11J0 profile](phase-11j0-personal-use-free-tier-profile.md).
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
@@ -1053,7 +1055,7 @@ capability is outside the slice.
 | 11G Reliability/observability/performance | Code/tests/instrumentation/docs as approved | Yes | No | No | No | No | No | Provider/deployed signal/performance/incident evidence deferred to 11J | No | No |
 | 11H Deployment architecture | Repository config/docs only | Yes | No | No | No | No | No | Architecture/runbook review only | No | No |
 | 11I Recovery qualification | Verification/docs only | Conditional local checks | Conditional backup metadata reads | No | No | No | No | Restricted recovery evidence | Conditional / conditional isolated only | No |
-| 11J Preview/release rehearsal | Non-production config/tests/docs only | Yes | Conditional | Conditional non-production only | Conditional non-production only | Conditional | Conditional non-production only | Yes, attributable deferred evidence | Conditional backup gate / no production restore | No |
+| 11J Personal-use release rehearsal | Local/CI tests/docs only | Yes | Production preflight only | No | No | No | Optional frontend-only Preview; never Production Supabase | Owner-use manual evidence plus post-deploy deferrals | Freshness check only / no restore | No |
 | 11K Integrated acceptance | Acceptance docs only | Yes | Conditional verification | No | No new configuration | No | No new deployment | Verify complete evidence packet | No new backup or restore | Yes, where both stages pass |
 
 No matrix cell authorizes remote Supabase access or mutation, provider access

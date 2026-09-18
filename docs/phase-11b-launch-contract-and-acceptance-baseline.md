@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.6-phase-11e-nojs-classifications-amended` |
+| Version | `1.7-personal-use-free-tier-profile-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -38,6 +38,7 @@
 | Phase 11G prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-08-29 Maor Pichhadze assigned and explicitly recorded acceptance by Maor Pichhadze as Observability owner, Performance and reliability owner, and Incident primary, and by Jimmy Peachy as Incident escalation backup; the attributable statement is recorded in the [decision log](decision-log.md#2026-08-29-phase-11f-acceptance-and-phase-11g-prerequisite-role-assignments) |
 | Phase 11H prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-09-15 Maor Pichhadze assigned himself to and explicitly accepted the Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and deployment/runbook owner roles; this satisfies only the before-11H governance prerequisite and grants none of the external authorities listed in Section 18 |
 | Phase 11H Production bootstrap decision | `PRODUCT_OWNER_APPROVED` — `DEC-031` permits one future separately and exactly authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first Vercel deployment; it is infrastructure, not release/launch/user/finding credit, and no bootstrap is executed by the repository correction |
+| Phase 11J0 personal-use profile | `PRODUCT_OWNER_APPROVED` — `DEC-035` activates `PERSONAL_USE_FREE_TIER`; isolated local/CI is the required full-stack rehearsal environment, hosted Preview is optional and Production-Supabase-forbidden, hosted staging and paid plans are not required, and the attributable role dispositions in Section 21 apply |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -45,14 +46,14 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.6-phase-11e-nojs-classifications-amended` is the current accepted
-normative amendment on top of accepted version
-`1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. It preserves the
-complete original `1.0-phase-11b-accepted` baseline and historical amended
-identities `1.1` through `1.5`. It changes only the six Product Owner-approved
-Phase 11E no-JavaScript classification cells in Section 7.2 and their matching
-classification, rationale, owner-slice, and validation-method rows in Section
-7.3. Section 7.1 and every other normative field remain unchanged. The
+Version `1.7-personal-use-free-tier-profile-amended` is the current accepted
+normative amendment. It preserves the complete original
+`1.0-phase-11b-accepted` baseline and historical amended identities `1.1`
+through `1.6`. Version 1.6 remains authoritative for the six Product
+Owner-approved Phase 11E no-JavaScript classification cells in Section 7.2 and
+their matching classification, rationale, owner-slice, and validation-method
+rows in Section 7.3. Version 1.7 adds only the `DEC-035` active release-profile,
+role, and evidence-governance changes in this document. The
 historical Phase 11C evidence remains bound to accepted contract version 1.4
 and is not migrated, reinterpreted, or credited against current later-slice
 truth. Contract acceptance does not itself authorize or claim runtime
@@ -159,13 +160,14 @@ Phase 11G technical policy and credits no implementation.
 | Backup owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-17 Product Owner assignment and explicit acceptance](phase-11i-recovery-qualification.md#1-governance-and-separation) | Before 11I — satisfied 2026-09-17 |
 | Restore executor | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-17 Product Owner assignment and explicit acceptance](phase-11i-recovery-qualification.md#1-governance-and-separation) | Before 11I — satisfied 2026-09-17 |
 | Recovery approver and backup | `ASSIGNED_AND_APPROVED` | Jimmy Peachy | [Attributable Product Owner-supplied explicit acceptance dated 2026-09-17](phase-11i-recovery-qualification.md#1-governance-and-separation); identity was not independently authenticated by Codex | Before 11I — satisfied 2026-09-17 |
-| Technical release executor | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| Rehearsal approver | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| Support primary and backup | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| Physical-device validation owner | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| External-evidence owner | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| Authorized invitation operator | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
-| Invitation reconciliation reviewer | `UNASSIGNED_BLOCKING_BEFORE_11J` | None | `NOT_VERIFIED` | Before 11J execution |
+| Technical release executor | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable `DEC-035` Product Owner direction and self-acceptance; assignment does not authorize a Production action | Before 11J — satisfied 2026-09-17 |
+| Rehearsal approver | `PROFILE_GOVERNANCE_APPROVED` | Product Owner authorization plus independent ChatGPT engineering review | `DEC-035`; Codex remains non-self-approving executor | Before 11J — satisfied by profile governance |
+| Support primary | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | `DEC-035`; best-effort personal-use support, no commercial SLA | Before 11J — satisfied 2026-09-17 |
+| Support backup | `NOT_REQUIRED_PERSONAL_USE_PROFILE` | None | `DEC-035`; no commercial availability or SLA implied | Not active for personal-use profile |
+| Physical-device validation owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable `DEC-035` Product Owner direction and self-acceptance | Before 11J — satisfied 2026-09-17 |
+| External-evidence owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable `DEC-035` Product Owner direction and self-acceptance | Before 11J — satisfied 2026-09-17 |
+| Authorized invitation operator | `NOT_APPLICABLE_PERSONAL_USE_PROFILE` | None | External invitations are not in active product scope; historical governance retained | Reactivates before external invitations/users |
+| Invitation reconciliation reviewer | `NOT_APPLICABLE_PERSONAL_USE_PROFILE` | None | External invitations are not in active product scope; historical governance retained | Reactivates before external invitations/users |
 | Independent acceptance reviewer | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
 | Candidate release approver | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
 | P1 exception authority | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
@@ -1338,5 +1340,43 @@ conversion gates pass rather than provisioning a newly allocated Production
 project. `PRODUCTION_BOOTSTRAP_ONLY != PRODUCTION_RELEASE`, and `DEC-030`
 continues to govern actual Production release and normal Production activity.
 This record authorizes no deletion, migration, provider configuration,
-deployment, invitation, release, or launch; the sole Vercel Production
-bootstrap attempt remains unused.
+deployment, invitation, release, or launch. At this historical record point the
+bootstrap was unused; it was subsequently executed and accepted as protected
+infrastructure deployment `dpl_cydL1xMN2TMPFaU3WAQai91BHxQg` from
+`ad92dadc985e66ac1e6453537d629f6d13ccda5f`. It remains a bootstrap, not a
+Production release.
+
+## 21. DEC-035 personal-use free-tier release profile
+
+On 2026-09-17, Product Owner Maor Pichhadze approved:
+
+> Nutrition Tracker is for personal use. Do whatever is necessary to complete
+> the project safely, but do not require paid Supabase or Vercel plans at this
+> time. Do not disrupt the separate academic-papers-index project.
+
+The active profile is `PERSONAL_USE_FREE_TIER`. It supersedes `DEC-026` only
+where the historical decision made paid hosted Preview/staging infrastructure
+mandatory for current launch acceptance. `DEC-026` remains the preserved full
+multi-environment capability for a later multi-user, shared, commercial,
+public-beta, externally invited, or SLA-backed profile.
+
+The required full-stack rehearsal environment is isolated local/CI Supabase
+with repository migrations and synthetic identities/data. Hosted Preview is
+optional and must never connect to Production project
+`hskfanrqwtqknzpquwhg`; hosted staging, a third Supabase project, Supabase
+Branching, Vercel Custom Environments, and paid plans are not current
+prerequisites. The unrelated `academic-papers-index` project remains untouched
+and unavailable for Nutrition Tracker use.
+
+Phase 11J evidence is reclassified as `PRE_RELEASE_REQUIRED`,
+`OWNER_USE_MANUAL_VALIDATION`, or `POST_DEPLOY_RELEASE_VERIFICATION`. Broad
+commercial device/assistive-technology matrices and external invitation roles
+are `NOT_REQUIRED_PERSONAL_USE_PROFILE` or
+`NOT_APPLICABLE_PERSONAL_USE_PROFILE`, not `PASS`. Production still requires a
+fresh exact authorization after Phase 11K and independent review. The complete
+active contract is the
+[Phase 11J0 profile record](phase-11j0-personal-use-free-tier-profile.md).
+
+This amendment closes no finding. All 18 findings remain `OPEN`, Phase 11
+remains `INCOMPLETE`, Phase 11J remains unstarted, and Phase 11K remains the
+exclusive finding-closure gate.

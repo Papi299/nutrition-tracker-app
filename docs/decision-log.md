@@ -3590,14 +3590,15 @@ must monitor workflow-enabled state and backup freshness as inactivity
 approaches 60 days. Artificial heartbeat commits and repository-write
 permissions solely to keep the schedule alive are prohibited.
 
-The implementation begins from accepted `main`
+At the DEC-034 implementation-record point, work began from accepted `main`
 `8259a33752209226c2e3886aba5d4a6a5ce5f570`, tree
-`eb9712f323c258f4cc5c84a08cb18292fc799f4e`, and remains
+`eb9712f323c258f4cc5c84a08cb18292fc799f4e`, and remained
 `GITHUB_BACKUP_AUTOMATION_IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_RUN`
 until default-branch merge, exact-main CI, secure Actions-secret setup, enabled
 workflow verification, one successful `workflow_dispatch` run, artifact
 metadata verification, Production non-mutation verification, and the Vercel
-no-deployment guard all pass.
+no-deployment guard all passed. The DEC-035 entry below records the accepted
+active outcome.
 
 `DEC-034` does not amend `DEC-024` RPO 24h, 30-day retention, or restricted
 recovery access. It does not amend `DEC-025` RTO 8h, quarterly isolated restore,
@@ -3605,3 +3606,58 @@ or approver/executor separation. `P11A-011` and all 18 findings remain `OPEN`,
 Phase 11 remains `INCOMPLETE`, Phase 11J has not begun, and Phase 11K remains
 the exclusive finding-closure gate. No Production restore, mutation, release,
 deployment, invitation, or launch is authorized.
+
+## 2026-09-17: DEC-035 personal-use free-tier release profile
+
+### DEC-035 — Personal-use free-tier release profile
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Nutrition Tracker is for personal use. Do whatever is necessary to complete the project safely, but do not require paid Supabase or Vercel plans at this time. Do not disrupt the separate academic-papers-index project. |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-17 |
+| Active profile | `PERSONAL_USE_FREE_TIER` |
+
+The active hosted requirement is the existing protected Vercel Hobby
+Production target plus Supabase Free Production project
+`hskfanrqwtqknzpquwhg`. Isolated local Supabase and CI are the authoritative
+full-stack non-Production and release-rehearsal topology. Hosted Preview is
+optional and must never bind Production Supabase. Permanent hosted staging,
+Vercel Custom Environments, Supabase Branching, paid provider plans, and a
+third Supabase project are not current acceptance prerequisites.
+
+`DEC-026` remains the historical full multi-environment capability. `DEC-035`
+supersedes it only where paid hosted Preview/staging infrastructure was treated
+as mandatory for the current personal-use profile. Full-profile requirements
+must be re-evaluated before multi-user, shared, commercial, public-beta,
+externally invited, or SLA-backed use. Supabase project
+`lioxtgiputfniqbktcsz` (`academic-papers-index`) is unrelated and may not be
+paused, deleted, mutated, or reused.
+
+The Product Owner assignment is accepted for Maor Pichhadze as Technical
+Release Executor, Support Primary, Physical-device Validation Owner, and
+External-evidence Owner. Support Backup is
+`NOT_REQUIRED_PERSONAL_USE_PROFILE`; invitation operator and reconciliation
+reviewer are `NOT_APPLICABLE_PERSONAL_USE_PROFILE`. Phase 11J rehearsal
+approval is Product Owner authorization plus independent ChatGPT engineering
+review. Jimmy Peachy's accepted Recovery Approver record remains Phase 11I-only.
+
+Phase 11J is right-sized into exact-candidate local/CI rehearsal; local Auth,
+security, and account lifecycle; owner-relevant browser/accessibility/device
+validation; read-only Production provider and recovery-freshness checks;
+release/rollback dry run and evidence reconciliation; and independent-review
+handoff to Phase 11K. Evidence is classified as `PRE_RELEASE_REQUIRED`,
+`OWNER_USE_MANUAL_VALIDATION`, or `POST_DEPLOY_RELEASE_VERIFICATION`.
+
+The accepted Phase 11I state remains
+`BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS` and
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`: workflow run `35236459394`, run
+number `2`, attempt `1`, succeeded on exact main
+`35306d10808ae1f55ef83816f507c3e714a1278e` and retained the verified encrypted
+30-day artifact. No new backup or restore is authorized by `DEC-035`.
+
+This repository-only amendment authorizes no provider mutation, deployment,
+plan change, invitation, user, or Production action. The protected bootstrap
+remains infrastructure only and `productionReleaseAuthorized=false`. All 18
+findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11J execution is
+`NOT_STARTED`, and Phase 11K remains the exclusive finding-closure gate.

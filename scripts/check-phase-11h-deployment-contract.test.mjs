@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   phase11hContract,
+  registryLifecycleForDeployment,
   validateDeploymentEnvironment,
 } from "../lib/deployment/environment.mjs";
 import {
@@ -104,8 +105,8 @@ function hostedEnvironment(appEnvironment, overrides = {}) {
       staging: "STAGING",
     }[appEnvironment];
   const registry = {};
-  for (const registryEnvironment of phase11hContract.deploymentClasses[deploymentClass]
-    .registryLifecycle.requiredRegistryEnvironments) {
+  for (const registryEnvironment of registryLifecycleForDeployment(deploymentClass)
+    .requiredRegistryEnvironments) {
     registry[`${registryEnvironment.toUpperCase()}_SUPABASE_PROJECT_REF`] =
       syntheticRefs[registryEnvironment];
     registry[`${registryEnvironment.toUpperCase()}_APP_ORIGIN`] =
@@ -153,6 +154,84 @@ test("accepts a valid CI/test configuration", () => {
     true,
   );
 });
+
+test("activates the DEC-035 personal-use free-tier profile", () => {
+  assert.equal(phase11hContract.activeReleaseProfile, "PERSONAL_USE_FREE_TIER");
+  const profile = phase11hContract.releaseProfiles.PERSONAL_USE_FREE_TIER;
+  assert.deepEqual(profile.authoritativeFullStackNonProductionEnvironments, [
+    "local",
+    "test",
+  ]);
+  assert.deepEqual(profile.requiredHostedApplicationTargets, ["production"]);
+  assert.deepEqual(profile.requiredHostedSupabaseEnvironments, ["production"]);
+  assert.deepEqual(profile.requiredPaidProviderEntitlements, []);
+  assert.equal(profile.providerPurchaseAuthorized, false);
+  assert.deepEqual(profile.hostedTopology, {
+    productionApplication: { provider: "Vercel", plan: "Hobby" },
+    productionDatabaseAuth: {
+      provider: "Supabase",
+      plan: "Free",
+      projectRef: "hskfanrqwtqknzpquwhg",
+    },
+  });
+  assert.deepEqual(profile.protectedUnrelatedProjects, [
+    {
+      provider: "Supabase",
+      projectRef: "lioxtgiputfniqbktcsz",
+      projectName: "academic-papers-index",
+      nutritionTrackerUseAllowed: false,
+      mutationAuthorized: false,
+    },
+  ]);
+});
+
+test("retains DEC-026 staging as an inactive coherent capability", () => {
+  const profile = phase11hContract.releaseProfiles.FULL_MULTI_ENVIRONMENT;
+  assert.equal(profile.decision, "DEC-026");
+  assert.equal(profile.status, "HISTORICAL_INACTIVE_CAPABILITY");
+  assert.deepEqual(profile.requiredHostedApplicationTargets, [
+    "preview",
+    "staging",
+    "production",
+  ]);
+  assert.equal(validateDeploymentEnvironment(hostedEnvironment("staging")).ok, true);
+});
+
+test("personal-use Production release requires only the Production registry identity", () => {
+  assert.deepEqual(registryLifecycleForDeployment("PRODUCTION_RELEASE"), {
+    requiredRegistryEnvironments: ["production"],
+    optionalRegistryEnvironments: ["preview", "staging"],
+  });
+  const environment = hostedEnvironment("production", {
+    DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
+  });
+  for (const name of [
+    "PREVIEW_SUPABASE_PROJECT_REF",
+    "STAGING_SUPABASE_PROJECT_REF",
+    "PREVIEW_APP_ORIGIN",
+    "STAGING_APP_ORIGIN",
+  ]) {
+    assert.equal(name in environment, false, `${name} must not be required by DEC-035`);
+  }
+  assert.equal(validateDeploymentEnvironment(environment).ok, true);
+});
+
+for (const appEnvironment of ["local", "test"]) {
+  test(`rejects ${appEnvironment} configured with the Production Supabase identity`, () => {
+    const result = validateDeploymentEnvironment(
+      localEnvironment({
+        APP_ENVIRONMENT: appEnvironment,
+        NODE_ENV: appEnvironment === "test" ? "test" : "development",
+        NEXT_PUBLIC_SUPABASE_URL: `https://${syntheticRefs.production}.supabase.co`,
+        PRODUCTION_SUPABASE_PROJECT_REF: syntheticRefs.production,
+        SUPABASE_ENVIRONMENT: "production",
+        SUPABASE_PROJECT_REF: syntheticRefs.production,
+      }),
+    );
+    assert.equal(result.ok, false);
+    assert.match(result.errors.join("\n"), /loopback-only|must be local|contradicts/);
+  });
+}
 
 test("accepts Preview with Preview and Production registry identities but no staging identity", () => {
   const environment = hostedEnvironment("preview");
@@ -445,29 +524,30 @@ test("rejects a half-populated optional registry identity", () => {
   assert.match(result.errors.join("\n"), /PREVIEW_APP_ORIGIN is required/);
 });
 
-test("accepts Production release only with the complete three-environment registry", () => {
+test("accepts optional isolated Preview and staging identities on a personal-use Production release", () => {
   const result = validateDeploymentEnvironment(
-    hostedEnvironment("production", { DEPLOYMENT_CLASS: "PRODUCTION_RELEASE" }),
+    hostedEnvironment("production", {
+      DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
+      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
+      STAGING_SUPABASE_PROJECT_REF: syntheticRefs.staging,
+      STAGING_APP_ORIGIN: syntheticOrigins.staging,
+    }),
   );
   assert.equal(result.ok, true);
 });
 
-for (const name of [
-  "PREVIEW_SUPABASE_PROJECT_REF",
-  "STAGING_SUPABASE_PROJECT_REF",
-  "PREVIEW_APP_ORIGIN",
-  "STAGING_APP_ORIGIN",
-]) {
-  test(`rejects Production release without ${name}`, () => {
-    const environment = hostedEnvironment("production", {
+test("rejects a personal-use Production release with Preview bound to Production", () => {
+  const result = validateDeploymentEnvironment(
+    hostedEnvironment("production", {
       DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
-    });
-    delete environment[name];
-    const result = validateDeploymentEnvironment(environment);
-    assert.equal(result.ok, false);
-    assert.match(result.errors.join("\n"), new RegExp(`${name} is required`));
-  });
-}
+      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.production,
+      PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
+    }),
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /hosted Supabase project references must be distinct/);
+});
 
 test("rejects a mismatched Vercel project identity", () => {
   const result = validateDeploymentEnvironment(
@@ -508,6 +588,22 @@ test("rejects hosted identity metadata in a local declaration", () => {
 
 test("accepts synthetic evidence for the bounded Production bootstrap only", () => {
   assert.equal(validateEvidencePacket(bootstrapEvidence()).ok, true);
+});
+
+test("rejects evidence that does not identify the active release profile", () => {
+  const packet = bootstrapEvidence();
+  packet.releaseProfile = "FULL_MULTI_ENVIRONMENT";
+  const result = validateEvidencePacket(packet);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /active release profile/);
+});
+
+test("rejects evidence that treats hosted staging as required by the personal profile", () => {
+  const packet = bootstrapEvidence();
+  packet.profile.hostedStagingDisposition = "REQUIRED";
+  const result = validateEvidencePacket(packet);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /profile requirements/);
 });
 
 test("rejects bootstrap evidence that omits an optional registry disposition", () => {
@@ -555,6 +651,18 @@ test("rejects Production bootstrap evidence that claims Phase 11J acceptance cre
   const result = validateEvidencePacket(packet);
   assert.equal(result.ok, false);
   assert.match(result.errors.join("\n"), /acceptance|credit|boundary/i);
+});
+
+test("accepts separately authorized personal-use Production evidence without hosted Preview or staging", () => {
+  const packet = bootstrapEvidence();
+  packet.deploymentClass = "PRODUCTION_RELEASE";
+  packet.productionReleaseAuthorized = true;
+  packet.authorization.productionAuthorized = true;
+  packet.authorization.productionAuthorizationReference =
+    "synthetic-separate-production-release-authorization";
+  packet.recovery.incidentOrRecoveryQualificationReference =
+    "synthetic-current-phase-11i";
+  assert.equal(validateEvidencePacket(packet).ok, true);
 });
 
 test("rejects a Production release that reuses bootstrap authorization", () => {
@@ -605,6 +713,27 @@ test("repository policy rejects weakening the Production release registry lifecy
   const result = validateDeploymentPolicy(contract);
   assert.equal(result.ok, false);
   assert.match(result.errors.join("\n"), /PRODUCTION_RELEASE.*lifecycle-accurate/);
+});
+
+test("repository policy rejects requiring hosted staging in the active profile", () => {
+  const contract = clone(phase11hContract);
+  contract.releaseProfiles.PERSONAL_USE_FREE_TIER.requiredHostedApplicationTargets = [
+    "staging",
+    "production",
+  ];
+  const result = validateDeploymentPolicy(contract);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /PERSONAL_USE_FREE_TIER/);
+});
+
+test("repository policy rejects requiring paid provider entitlements", () => {
+  const contract = clone(phase11hContract);
+  contract.releaseProfiles.PERSONAL_USE_FREE_TIER.requiredPaidProviderEntitlements = [
+    "Vercel Pro",
+  ];
+  const result = validateDeploymentPolicy(contract);
+  assert.equal(result.ok, false);
+  assert.match(result.errors.join("\n"), /PERSONAL_USE_FREE_TIER/);
 });
 
 test("repository policy rejects a raw CLI or prebuilt Production bootstrap", () => {

@@ -1,6 +1,14 @@
 {
-  "schemaVersion": "3",
+  "schemaVersion": "4",
   "status": "TEMPLATE_NOT_EXECUTED",
+  "releaseProfile": "PERSONAL_USE_FREE_TIER",
+  "profile": {
+    "hostedPreviewDisposition": "OPTIONAL_NOT_PROVISIONED",
+    "hostedStagingDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+    "localCiRehearsal": "REQUIRED",
+    "productionProviderPreflight": "REQUIRED_READ_ONLY",
+    "postDeployVerification": "REQUIRED_AFTER_SEPARATE_RELEASE_AUTHORIZATION"
+  },
   "deploymentClass": null,
   "productionReleaseAuthorized": false,
   "candidate": {

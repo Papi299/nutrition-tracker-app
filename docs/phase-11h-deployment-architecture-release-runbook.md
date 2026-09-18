@@ -18,6 +18,13 @@ The application build loads that contract through
 `lib/deployment/environment.mjs` and fails before producing a deployable build
 when the explicit identities conflict.
 
+`DEC-035`, recorded in Section 21, now selects
+`PERSONAL_USE_FREE_TIER` as the active release profile. Sections that describe
+Preview, staging, invitations, or a three-hosted-environment registry remain
+the historical `DEC-026` full-profile capability unless an active-profile
+statement says otherwise. Retained capability is not a current launch
+prerequisite.
+
 This phase performs no Vercel setup or deployment, hosted Supabase access,
 domain or DNS action, credential creation or rotation, invitation, populated
 register creation, backup, restore, Production action, or launch action. It
@@ -70,12 +77,26 @@ is approved as follows:
 | Date | 2026-09-16 |
 | Rationale | The established project will be cleaned, reconciled to the exact repository schema, hardened, and permanently reassigned from development to Production instead of creating a paid third project. |
 
-The project is `PRODUCTION_CONVERSION_IN_PROGRESS`, must no longer receive
-development activity, and is not `PRODUCTION` until its cleanup, migration,
-security, Auth, Vault, and bootstrap-acceptance gates pass. Do not create a
-third Supabase project or upgrade the organization merely to obtain another
-project slot. `DEC-026` isolation remains unchanged: Preview and staging use
-separate non-production identities and never connect to this project.
+The conversion gates subsequently passed and the project is now the protected
+Production database/Auth target. It must not receive development, Preview,
+staging, local, or CI activity. Do not create a third Supabase project or
+upgrade the organization merely to obtain another project slot. Retained
+`DEC-026` Preview and staging capabilities use separate non-production
+identities and never connect to this project.
+
+`DEC-035 — Personal-use free-tier release profile` is approved as follows:
+
+| Field | Recorded decision |
+| --- | --- |
+| Decision | Nutrition Tracker is for personal use. Do whatever is necessary to complete the project safely, but do not require paid Supabase or Vercel plans at this time. Do not disrupt the separate academic-papers-index project. |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-17 |
+| Active profile | `PERSONAL_USE_FREE_TIER` |
+
+`DEC-035` supersedes only the current-profile requirement for paid hosted
+Preview/staging infrastructure. It does not erase `DEC-026`, authorize a
+Production release, weaken cross-environment isolation, or permit any use of
+the unrelated `academic-papers-index` Supabase project.
 
 ```text
 Production deployment exists != Production release authorized
@@ -93,12 +114,16 @@ attributable evidence for all before-11H assignments:
 | Domain/DNS | Maor Pichhadze | Applicable decision/configuration owner; no domain or DNS action |
 | Deployment/runbook | Maor Pichhadze | Repository procedure ownership only |
 
-The existing release-role separation is unchanged. Candidate approval,
-deployment or rehearsal authorization, and Production release authorization
-are distinct acts. The technical release executor, rehearsal approver,
-authorized invitation operator, and independent invitation reconciliation
-reviewer remain subject to their before-11J deadlines. Maor's infrastructure
-ownership does not credit him as both operator and independent reviewer.
+Candidate approval, rehearsal authorization, and Production release
+authorization remain distinct acts. For the active personal-use profile, Maor
+Pichhadze is the assigned and approved Technical Release Executor, Support
+Primary, Physical-device Validation Owner, and External-evidence Owner. The
+rehearsal approval model is Product Owner authorization plus independent
+ChatGPT engineering review. Support Backup is
+`NOT_REQUIRED_PERSONAL_USE_PROFILE`; invitation operator and reconciliation
+reviewer are `NOT_APPLICABLE_PERSONAL_USE_PROFILE`. Codex remains executor and
+must not self-approve. The historical full-profile separation rules reactivate
+before external-user scope is enabled.
 
 ## 3. Pre-implementation repository audit
 
@@ -126,19 +151,21 @@ request headers, URL shape, branch name, `NODE_ENV`, and Vercel-generated
 hostname are never sufficient security authority. Vercel system variables are
 independent contradiction and provenance assertions.
 
-| App environment | Class | Vercel target assertion | Supabase target | Origin rule | Permitted data |
+| App environment | Class | Vercel target assertion | Supabase target | Active-profile disposition | Permitted data |
 | --- | --- | --- | --- | --- | --- |
-| `local` | Local development | Vercel variables absent | Loopback local stack, ref `local` | Loopback HTTP/HTTPS | Synthetic/local only |
-| `test` | CI/test | Vercel variables absent | Loopback local stack, ref `local` | Loopback HTTP/HTTPS | Synthetic/local only |
-| `preview` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=preview`, `DEPLOYMENT_CLASS=PREVIEW` | Dedicated Preview project | Exact `PREVIEW_APP_ORIGIN=https://${VERCEL_URL}` | Synthetic/non-production only |
-| `staging` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=staging`, `DEPLOYMENT_CLASS=STAGING` | Dedicated staging project | Exact persistent `STAGING_APP_ORIGIN=https://${VERCEL_BRANCH_URL}` | Synthetic/non-production only |
-| `production` bootstrap | Production infrastructure only | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY` | Dedicated empty Production project | `PRODUCTION_APP_ORIGIN=https://${VERCEL_PROJECT_PRODUCTION_URL}` on the provider-owned `vercel.app` origin only | No real beta users or copied non-production data |
-| `production` release | Production release | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_RELEASE` | Dedicated qualified Production project | Exact separately approved Production origin | Only data authorized by the later release contract |
+| `local` | Local development | Vercel variables absent | Loopback local stack, ref `local` | Required full-stack rehearsal | Synthetic/local only |
+| `test` | CI/test | Vercel variables absent | Loopback local stack, ref `local` | Required full-stack rehearsal | Synthetic/local only |
+| `preview` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=preview`, `DEPLOYMENT_CLASS=PREVIEW` | Dedicated Preview project | Optional; isolated non-Production backend only | Synthetic/non-production only |
+| `staging` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=staging`, `DEPLOYMENT_CLASS=STAGING` | Dedicated staging project | `NOT_REQUIRED_PERSONAL_USE_PROFILE`; retained capability | Synthetic/non-production only |
+| `production` bootstrap | Production infrastructure only | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY` | Production project `hskfanrqwtqknzpquwhg` | Existing protected infrastructure only | No real beta users or copied non-production data |
+| `production` release | Production release | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_RELEASE` | Production project `hskfanrqwtqknzpquwhg` | Required later under separate exact authorization | Only data authorized by the later release contract |
 
 The hosted identity registry is populated incrementally only as infrastructure
 actually comes into existence. A registry identity is the paired Supabase
 project ref and application origin for one environment; placeholder refs,
 sentinel values, and fabricated URLs are prohibited.
+
+Historical `FULL_MULTI_ENVIRONMENT` registry lifecycle:
 
 | Deployment class | Required registry environments | Optional only when already provisioned |
 | --- | --- | --- |
@@ -150,8 +177,13 @@ sentinel values, and fabricated URLs are prohibited.
 Optional means that a not-yet-provisioned pair may be absent. If either member
 of an optional pair is supplied, both must be present, valid, and distinct from
 every other supplied environment. Every new environment adds its real project
-ref and origin to the registry. The actual Production release therefore
-requires the complete pairwise-distinct three-environment topology.
+ref and origin to the registry. Under historical `DEC-026`, the actual
+Production release requires the complete pairwise-distinct three-environment
+topology. Under active `PERSONAL_USE_FREE_TIER`, `PRODUCTION_RELEASE` requires
+only the Production registry pair; Preview and staging pairs are optional and
+validated whenever present. `PREVIEW` and `STAGING` retain their strict
+non-Production plus Production comparison so neither can bind Production
+Supabase. Local and CI accept loopback `local` only.
 
 For the active environment, `SUPABASE_PROJECT_REF` must equal its registry
 entry and the project reference in `NEXT_PUBLIC_SUPABASE_URL`; `APP_ORIGIN`
@@ -172,13 +204,15 @@ build. Request input cannot override any identity.
 
 ## 5. Vercel architecture contract
 
-The intended topology is one Vercel project with the default Preview and
-Production environments plus a custom `staging` environment. This preserves
-one build configuration while keeping target-scoped variables distinct. The
-availability and plan entitlement for a custom environment is not verified;
-if the approved account cannot represent `staging`, stop with
-`PHASE_11H_PRODUCT_DECISION_REQUIRED`. Do not silently collapse staging into
-Preview or create a second project without a reviewed contract amendment.
+The historical `DEC-026` capability is one Vercel project with Preview,
+Production, and a custom `staging` environment. `DEC-035` makes only the
+existing protected Production target on Vercel Hobby required for the active
+personal-use profile. Hosted Preview is optional; permanent hosted staging and
+Vercel Custom Environments are not required. Do not buy an entitlement, create
+a custom environment, or create another provider project merely to satisfy the
+historical capability. If Preview is used, it must be backend-free or bind a
+dedicated non-Production Supabase project; it must never bind
+`hskfanrqwtqknzpquwhg`.
 
 Current official Vercel documentation was re-checked on 2026-09-15:
 
@@ -207,8 +241,8 @@ Current official Vercel documentation was re-checked on 2026-09-15:
 
 | Concern | Contract |
 | --- | --- |
-| Preview | Explicit non-production exact-commit deployment; dedicated Preview variable scope and Supabase project; no automatic branch/PR deployment |
-| Staging | Explicit deployment to the custom `staging` target from the exact authorized candidate; persistent canonical staging origin; dedicated staging variables/project; no automatic branch-tracking deployment |
+| Preview | Optional exact-commit deployment; frontend-only with no backend or a dedicated non-Production Supabase project; no automatic branch/PR deployment |
+| Staging | Historical full-profile capability; `NOT_REQUIRED_PERSONAL_USE_PROFILE` |
 | Production bootstrap | One future exact `PRODUCTION_BOOTSTRAP_ONLY` first deployment, protected, provider-domain-only, with no release/user/invitation/launch/closure credit |
 | Production release | A later exact Production build requiring fresh release authorization and current recovery qualification; the bootstrap authorization is insufficient |
 | Branch/revision | A branch selects build input, never security identity or release authority. `VERCEL_GIT_COMMIT_SHA` must match the authorized candidate and CI head. |
@@ -293,11 +327,10 @@ Hosted Storage reality and backup/recovery remain external. Phase 11I owns the
 daily/30-day backup contract, RPO 24 hours, RTO 8 hours, isolated restore, and
 quarterly qualification. Restore is not an ordinary release rollback.
 
-Under `DEC-032`, the future Production bootstrap must use project
-`hskfanrqwtqknzpquwhg` only after its conversion is accepted as
-`PRODUCTION`; it must not provision a third Supabase project. Until then the
-project remains `PRODUCTION_CONVERSION_IN_PROGRESS` and cannot be used by a
-Vercel target. Conversion acceptance requires development use to have ended;
+Under `DEC-032`, the Production bootstrap used project
+`hskfanrqwtqknzpquwhg` after its conversion was accepted as `PRODUCTION`; it
+did not provision a third Supabase project. Conversion acceptance required
+development use to have ended;
 zero Auth users and user-owned development rows; no unclassified personal or
 development data; the exact repository migration ledger; repository-controlled
 remediation of remote schema drift; accepted RLS and least-privilege grants;
@@ -330,14 +363,14 @@ literal `process.env` read without manifest metadata fails CI.
 | `DEPLOYMENT_CLASS` | Server-only metadata | Hosted | Deployment/runbook | Must be `PREVIEW`, `STAGING`, `PRODUCTION_BOOTSTRAP_ONLY`, or `PRODUCTION_RELEASE` and agree with the target; classification grants no authority |
 | `SUPABASE_ENVIRONMENT` | Server-only metadata | All | Supabase | Must equal the app environment (local for test) |
 | `SUPABASE_PROJECT_REF` | Server-only metadata | All | Supabase | Must match current URL and target registry |
-| `PREVIEW_SUPABASE_PROJECT_REF` | Server-only metadata | `PREVIEW`, `PRODUCTION_RELEASE`; optional elsewhere | Supabase | Dedicated Preview identity; validated whenever supplied |
-| `STAGING_SUPABASE_PROJECT_REF` | Server-only metadata | `STAGING`, `PRODUCTION_RELEASE`; optional elsewhere | Supabase | Dedicated staging identity; validated whenever supplied |
+| `PREVIEW_SUPABASE_PROJECT_REF` | Server-only metadata | `PREVIEW`; optional for active-profile `PRODUCTION_RELEASE` | Supabase | Dedicated Preview identity; validated whenever supplied |
+| `STAGING_SUPABASE_PROJECT_REF` | Server-only metadata | `STAGING`; optional for active-profile `PRODUCTION_RELEASE` | Supabase | Dedicated staging identity; validated whenever supplied |
 | `PRODUCTION_SUPABASE_PROJECT_REF` | Server-only metadata | Every hosted deployment class | Supabase | Dedicated Production identity and non-production denial comparator |
 | `NEXT_PUBLIC_SUPABASE_URL` | Public browser | All | Supabase | Only public API endpoint; target-bound |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Public browser | All | Supabase | Publishable key only; secret/service-role patterns rejected |
 | `APP_ORIGIN` | Server-only config | All | Auth URL | Exact canonical origin; must match the environment registry and trusted provider assertion; never request-derived |
-| `PREVIEW_APP_ORIGIN` | Server-only metadata | `PREVIEW`, `PRODUCTION_RELEASE`; optional elsewhere | Auth URL | Exact Preview origin; active Preview must match `VERCEL_URL`; validated whenever supplied |
-| `STAGING_APP_ORIGIN` | Server-only metadata | `STAGING`, `PRODUCTION_RELEASE`; optional elsewhere | Auth URL | Persistent staging origin; active staging must match `VERCEL_BRANCH_URL`; validated whenever supplied |
+| `PREVIEW_APP_ORIGIN` | Server-only metadata | `PREVIEW`; optional for active-profile `PRODUCTION_RELEASE` | Auth URL | Exact Preview origin; active Preview must match `VERCEL_URL`; validated whenever supplied |
+| `STAGING_APP_ORIGIN` | Server-only metadata | `STAGING`; optional for active-profile `PRODUCTION_RELEASE` | Auth URL | Persistent staging origin; active staging must match `VERCEL_BRANCH_URL`; validated whenever supplied |
 | `PRODUCTION_APP_ORIGIN` | Server-only metadata | Every hosted deployment class | Auth URL | Production-origin registry entry; bootstrap must match provider-owned `VERCEL_PROJECT_PRODUCTION_URL` |
 | `AUTH_REAUTH_PROOF_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; environment-unique E3 secret |
 | `ACCOUNT_CLOSURE_CAPABILITY_SECRET` | Server-only secret | All | Environment/secrets | At least 32 bytes; distinct E5 secret; Vault match required |
@@ -506,8 +539,9 @@ mismatch, or second Production deployment is `STOP + ESCALATE`.
    exact-head `Validate` job to be successful with no pending, cancelled,
    failing, or unexplained required check.
 4. **Bind configuration.** Validate the manifest against the target. Record
-   only variable presence/scope/version metadata and the three distinct
-   project references; never values or fingerprints.
+   only variable presence/scope/version metadata and the active profile's
+   required Production reference plus any optional provisioned non-Production
+   references; never values or fingerprints.
 5. **Confirm recovery prerequisite.** For actual Production release
    eligibility, require current Phase 11I qualification. Absence blocks the
    release even when Production infrastructure already exists. Qualification
@@ -714,7 +748,9 @@ is an unexecuted, synthetic-free shape with `TEMPLATE_NOT_EXECUTED` and
 `productionReleaseAuthorized=false`. CI validates its exact top-level
 structure and deployment-class policy.
 
-The future packet records `deploymentClass`,
+The future packet records `releaseProfile`, its hosted Preview/staging,
+local/CI, read-only Production preflight, and post-deploy dispositions,
+`deploymentClass`,
 `productionReleaseAuthorized`, bootstrap and release authorization references,
 candidate SHA/tree/base, deployment/project IDs, target, expected project,
 canonical/provider origin, application/Supabase environments and project
@@ -735,8 +771,11 @@ rejects bootstrap/release equivalence. A truthful pre-11J bootstrap records
 `previewRegistryDisposition=NOT_YET_PROVISIONED`,
 `stagingRegistryDisposition=NOT_YET_PROVISIONED`, and
 `productionRegistryDisposition=VERIFIED`; if an optional environment already
-exists, its disposition may instead be `VERIFIED`. A Production release must
-record all three as `VERIFIED`.
+exists, its disposition may instead be `VERIFIED`. Under
+`PERSONAL_USE_FREE_TIER`, a Production release requires Production
+`VERIFIED`; Preview/staging retain their truthful optional or not-required
+profile dispositions. The historical `FULL_MULTI_ENVIRONMENT` profile still
+requires all three as `VERIFIED`.
 
 It never contains secret values or fingerprints, passwords, tokens, cookies,
 authorization headers, service-role keys, database passwords, raw invitation
@@ -767,52 +806,55 @@ acceptance, candidate acceptance, another environment, or another phase.
 
 ## 18. Phase 11I handoff
 
-Phase 11I subsequently proceeded under its own authorization. Its current
-[recovery qualification candidate](phase-11i-recovery-qualification.md)
-records the approved roles, fresh restricted encrypted backup, isolated local
-restore, Postgres/Auth/migration/role/grant/RLS/Storage/application checks,
-RPO 24h and RTO 8h evidence, 30-day retention contract, quarterly cadence, and
-safe teardown. The Recovery Approver decision and independent engineering
-review remain pending. No backup or restore was performed as part of Phase 11H
-itself.
+Phase 11I subsequently proceeded under its own authorization and is accepted
+as `PHASE_11I_EXTERNAL_VALIDATION_COMPLETE` with
+`BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS`. Its
+[recovery qualification](phase-11i-recovery-qualification.md) records the
+approved roles, restricted encrypted backup, isolated local restore,
+Postgres/Auth/migration/role/grant/RLS/Storage/application checks, RPO 24h and
+RTO 8h evidence, 30-day retention, and safe teardown. The daily encrypted
+GitHub Actions path is active. Jimmy Peachy's Recovery Approver record remains
+valid for Phase 11I only. No new backup or restore is part of `DEC-035`.
 The existence of a separately authorized Production bootstrap may be treated
 as an infrastructure fact, but gives no recovery credit and does not bypass
 any 11I qualification requirement for actual release.
 
 ## 19. Phase 11J handoff
 
-Phase 11J remains unstarted and needs separate exact non-production authority.
-It must verify provider capability for the declared single-project topology,
-configure isolated Preview and staging Supabase/Auth/secret metadata, run
-drift/order preflight, explicitly deploy the exact candidate, smoke, observe
-signals, rehearse compatible app redeploy, exercise invitation conflicts with
-controlled identities, and complete the evidence packet. It also owns
-previously deferred deployed Auth, header, browser/device/accessibility,
-performance, observability, incident, and operator evidence.
+Phase 11J remains unstarted. Under `PERSONAL_USE_FREE_TIER`, it uses isolated
+local Supabase plus CI as the authoritative full-stack release-rehearsal
+environment. It does not provision paid hosted Preview/staging infrastructure:
 
-Phase 11J may provision Preview and staging sequentially. Preview can be built
-once the real Preview and Production registry pairs exist without inventing a
-staging identity; staging can be built once the real staging and Production
-pairs exist without inventing a Preview identity. If both non-production
-environments have already been provisioned, the supplied optional peer pair is
-validated and must remain distinct. Each provisioned environment is added to
-the registry, and the complete registry is mandatory before actual Production
-release.
+1. `11J1` — exact candidate freeze plus local/CI release rehearsal;
+2. `11J2` — Auth, security, and account-lifecycle full-stack local acceptance;
+3. `11J3` — owner-relevant browser, accessibility, device, and manual validation;
+4. `11J4` — Production provider read-only preflight plus backup/recovery freshness;
+5. `11J5` — release/rollback checklist dry run plus evidence reconciliation; and
+6. `11J6` — independent-review handoff to Phase 11K.
 
-Phase 11J remains a non-Production acceptance rehearsal. It may verify the
-separately authorized bootstrap's existence, isolation, Git-disable state, and
-protection only as environmental facts. The bootstrap is not Phase 11J
-acceptance evidence. Phase 11J must not create, redeploy, mutate, promote, or
-open Product Production without another exact action authorization.
+Hosted Preview remains optional, and no database-connected Preview may exist
+without an isolated non-Production Supabase target. Permanent hosted staging
+is `NOT_REQUIRED_PERSONAL_USE_PROFILE`. Phase 11J may inspect the protected
+Production bootstrap and provider configuration read-only, but it must not
+create, deploy, mutate, promote, invite, or open Production. Exact hosted facts
+that cannot be established without a later deployment are classified
+`POST_DEPLOY_RELEASE_VERIFICATION`, not fabricated or converted to a staging
+requirement.
 
 ## 20. External-validation gaps and finding status
 
-Vercel project/custom-environment capability, environment scopes, domains,
-HTTPS, auto-promotion settings, deployments, and build provenance remain
-unverified. All hosted Supabase projects, migration ledgers, Auth Site URLs and
-redirects, signup disablement, delivery/SMTP, rate limits, secrets/Vault match,
-Storage reality, invitations, register system/access, deployed smoke,
-observability delivery, and recovery qualification remain uncollected.
+The active profile classifies remaining evidence as
+`PRE_RELEASE_REQUIRED`, `OWNER_USE_MANUAL_VALIDATION`, or
+`POST_DEPLOY_RELEASE_VERIFICATION`. Local/CI release rehearsal, security, Auth,
+RLS, core journeys, EN/HE and RTL, applicable accessibility, build/dependency
+checks, backup/recovery freshness, release/rollback procedure, and read-only
+Production provider verification remain pre-release work. Owner-supported
+browser/device rendering and materially relevant camera, touch, zoom/reflow,
+and Hebrew usability are owner-use manual evidence. Exact deployed headers,
+cold start, telemetry identity, hosted Auth redirects, provider email, and
+hosted web vitals are post-deploy evidence after separate Production release
+authorization. Inapplicable commercial matrices and external-invitation work
+are recorded with the profile disposition, never falsely marked `PASS`.
 
 `P11A-018` repository guidance is now reconciled without duplicating the
 accepted sources:
@@ -841,3 +883,26 @@ Phase 11K remains the closure gate.
 Phase 11 remains `INCOMPLETE`. This record does not establish
 `EXTERNAL_VALIDATION_COMPLETE`, `FINDING_CLOSED`, launch readiness, Production
 readiness, or Production authorization.
+
+## 21. DEC-035 active personal-use profile
+
+The canonical amendment is
+[`phase-11j0-personal-use-free-tier-profile.md`](phase-11j0-personal-use-free-tier-profile.md).
+The active hosted requirement is Vercel Hobby Production plus Supabase Free
+Production project `hskfanrqwtqknzpquwhg`. Local/CI is the authoritative
+full-stack non-Production topology. Hosted Preview is optional and must never
+use Production Supabase. Hosted staging is not required. No paid entitlement,
+provider project, branch, custom environment, or plan change is assumed.
+
+Supabase project `lioxtgiputfniqbktcsz` (`academic-papers-index`) is unrelated
+and must not be paused, deleted, mutated, or reused. The existing protected
+Production bootstrap remains infrastructure only, and
+`productionReleaseAuthorized=false`.
+
+The later release flow is Phase 11J completion, Phase 11K integrated
+acceptance, independent ChatGPT review, explicit Product Owner Production
+authorization, exact-candidate Production deployment, bounded
+`POST_DEPLOY_RELEASE_VERIFICATION`, then personal use. Failure in that bounded
+verification stops normal use and invokes fix/redeploy/rollback procedure.
+All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11J
+execution remains `NOT_STARTED`.

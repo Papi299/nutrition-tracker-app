@@ -27,6 +27,17 @@ entries, daily totals, and target progress while preserving LTR/RTL behavior.
 - next-intl
 - npm
 
+## Active Release Profile
+
+The current release profile is `PERSONAL_USE_FREE_TIER`: a single-owner
+personal application using the existing Vercel Hobby Production target and
+Supabase Free Production project. Isolated local Supabase plus CI is the
+authoritative full-stack non-Production rehearsal environment. Hosted Preview
+is optional and must never connect to Production Supabase; permanent hosted
+staging is not required. The historical full multi-environment architecture is
+retained as an inactive capability for a future expanded profile. See the
+[Phase 11J0 profile record](docs/phase-11j0-personal-use-free-tier-profile.md).
+
 ## Engineering Roadmap
 
 The engineering phase roadmap lives in
@@ -264,8 +275,9 @@ is complete for the current MVP scope.
   Owner-approved UI-dependent manual-acceptance timing amendment is preserved
   as historical contract
   `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`. Current
-  accepted contract `1.6-phase-11e-nojs-classifications-amended` changes
-  exactly six Phase 11E no-JavaScript rows and has current totals
+  accepted contract `1.7-personal-use-free-tier-profile-amended` preserves the
+  exact six Phase 11E no-JavaScript rows established by version 1.6 and has
+  current totals
   `16 / 5 / 13 / 1`, while
   accepted Phase 11C evidence remains bound to historical version
   `1.4-phase-11b-remaining-implemented-nojs-amended` and historical totals

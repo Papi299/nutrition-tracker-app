@@ -1,6 +1,7 @@
 # Phase 11I GitHub Artifact Backup Automation
 
-Status: `IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_OPERATIONAL_RUN`
+Status: `BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS` and
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`
 
 Task: `PHASE-11I-GITHUB-ACTIONS-ARTIFACT-BACKUP-AUTOMATION-001`
 
@@ -11,6 +12,15 @@ Starting accepted `main`: commit
 This runbook implements Product Owner decision `DEC-034`. It does not amend
 `DEC-024` or `DEC-025`, authorize a Production restore or release, close a
 finding, or start Phase 11J.
+
+The post-merge activation completed on exact `main`
+`35306d10808ae1f55ef83816f507c3e714a1278e`: workflow run `35236459394`,
+run number `2`, attempt `1`, event `workflow_dispatch`, succeeded. Job
+`Encrypted Production backup` succeeded and retained exactly one encrypted
+artifact, `phase-11i-production-backup-35236459394`, with two files,
+30-day expiry, and no plaintext payload. Artifact ID `10503389168` was
+11,893,376 bytes and expires on 2026-10-17. This accepted outcome is preserved;
+`DEC-035` creates no backup or restore operation.
 
 ## 1. DEC-034 architecture and accepted risk
 
@@ -170,11 +180,11 @@ Activation requires all of the following:
    `dpl_cydL1xMN2TMPFaU3WAQai91BHxQg`, with `git.deploymentEnabled=false` and
    `productionReleaseAuthorized=false`.
 
-Until every item passes, status remains
-`IMPLEMENTED_ACTIVATION_PENDING_MERGE_AND_FIRST_OPERATIONAL_RUN`. After all
-items pass, operational reporting may record
+All activation items passed for workflow run `35236459394`. The active state is
 `BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS` and
-`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`.
+`PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`. Future Phase 11J/11K checks must
+verify current workflow-enabled state and backup freshness; they do not repeat
+or replace the accepted restore qualification.
 
 ## 7. Failure and governance boundaries
 
@@ -198,6 +208,8 @@ PHASE_11_J_STARTED=false
 PHASE_11_K_EXCLUSIVE_CLOSURE_GATE=true
 ```
 
-Carry forward to Phase 11J both the hosted observability environment
+`DEC-035` carries forward to Phase 11J both the hosted observability
 classification that may report `unknown` and the public-repository scheduled
-workflow inactivity/freshness monitoring requirement.
+workflow inactivity/freshness monitoring requirement. The active
+`PERSONAL_USE_FREE_TIER` profile changes neither the daily encrypted GitHub
+Actions backup, 30-day retention, tested isolated restore, RPO 24h, nor RTO 8h.
