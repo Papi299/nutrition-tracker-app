@@ -1,0 +1,462 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J2-LOCAL-AUTH-SECURITY-ACCOUNT-LIFECYCLE-ACCEPTANCE-001",
+  "evidenceClassification": "PRE_RELEASE_REQUIRED",
+  "status": "PHASE_11J2_LOCAL_AUTH_LIFECYCLE_COMPLETE",
+  "releaseProfile": "PERSONAL_USE_FREE_TIER",
+  "decision": "DEC-035",
+  "acceptedPrerequisite": {
+    "phase11J0": "COMPLETE",
+    "phase11J1": "POST_MERGE_INDEPENDENTLY_ACCEPTED",
+    "authorizationMarker": "PHASE_11J1_POST_MERGE_INDEPENDENTLY_ACCEPTED_PHASE_11J2_AUTHORIZED",
+    "backupStatePreserved": "BACKUP_AUTOMATION_ACTIVE_GITHUB_ACTIONS",
+    "externalValidationStatePreserved": "PHASE_11I_EXTERNAL_VALIDATION_COMPLETE"
+  },
+  "candidateBaseline": {
+    "commitSha": "24b974d9d3c92573269fe4ca65d167bb211d4c7c",
+    "treeSha": "f291db761d50940c97d2cb226902142c92e7544c",
+    "soleParentSha": "99c9c74af83084eb6926683263bdd46b4bb7e30c"
+  },
+  "acceptedMainCi": {
+    "workflow": "CI",
+    "runId": 35319319011,
+    "runNumber": 256,
+    "attempt": 1,
+    "event": "push",
+    "headSha": "24b974d9d3c92573269fe4ca65d167bb211d4c7c",
+    "jobName": "Validate",
+    "jobId": 105518006487,
+    "conclusion": "SUCCESS"
+  },
+  "execution": {
+    "branch": "codex/phase-11j2-local-auth-lifecycle-acceptance",
+    "executionSourceSha": "24b974d9d3c92573269fe4ca65d167bb211d4c7c",
+    "executionSourceTreeSha": "f291db761d50940c97d2cb226902142c92e7544c",
+    "startedAt": "2026-09-18T11:59:09Z",
+    "completedAt": "2026-09-18T12:57:54Z",
+    "trackedWorktreeCleanAtStart": true,
+    "syntheticIdentitiesAndDataOnly": true
+  },
+  "toolVersions": {
+    "localNode": "26.5.1",
+    "authoritativeCiNodeMajor": "22",
+    "npm": "11.17.0",
+    "supabaseCli": "2.116.0",
+    "playwright": "1.61.1",
+    "nextJs": "16.3.3",
+    "postgresql": "17.6",
+    "localPostgresImage": "public.ecr.aws/supabase/postgres:17.6.1.165",
+    "dockerEngine": "29.8.0",
+    "git": "2.54.0 (Apple Git-157)",
+    "kernelArchitecture": "Darwin 25.6.0 arm64"
+  },
+  "localSupabase": {
+    "classification": "ISOLATED_LOOPBACK_ONLY_REDUCED_REQUIRED_SERVICES",
+    "includedServices": [
+      "PostgreSQL",
+      "Kong",
+      "GoTrue",
+      "PostgREST",
+      "postgres-meta",
+      "Mailpit"
+    ],
+    "excludedNonRequiredServices": [
+      "Storage API",
+      "imgproxy",
+      "Studio",
+      "Realtime",
+      "Edge Runtime",
+      "Logflare",
+      "Vector",
+      "Supavisor"
+    ],
+    "loopbackOnly": true,
+    "publishedPorts": {
+      "api": "127.0.0.1-only",
+      "database": "127.0.0.1-only",
+      "mailCapture": "127.0.0.1-only"
+    },
+    "loopbackConnectionProbes": {
+      "api": "PASS",
+      "database": "PASS",
+      "mailCapture": "PASS"
+    },
+    "lanConnectionRejectionProbes": {
+      "api": "PASS",
+      "database": "PASS",
+      "mailCapture": "PASS"
+    },
+    "bindingHarness": {
+      "classification": "EPHEMERAL_LOCAL_DOCKER_PORT_BINDING_ONLY",
+      "repositoryConfigurationChanged": false,
+      "applicationBehaviorChanged": false,
+      "schemaChanged": false,
+      "securityBehaviorChanged": false,
+      "temporaryRollbackContainersRemovedBeforeCreditedRun": true
+    },
+    "freshStackCreated": true,
+    "hostedRoleCompatibilityHarness": "PASS_BEFORE_FINAL_RESET",
+    "freshResetAfterCompatibilityHarness": true,
+    "migrationReplay": "PASS",
+    "seed": "PASS",
+    "migrationCount": 43,
+    "migrationHead": "20260830143000_cache_search_account_access_policy",
+    "finalLifecycleTablesPresent": true,
+    "ingestionTypeSynchronization": "PASS",
+    "localAdministrativeCredentialBoundary": {
+      "result": "PASS",
+      "localOnly": true,
+      "testProcessOnly": true,
+      "browserExposed": false,
+      "ordinaryApplicationRuntimeExposed": false,
+      "printedOrRecordedInEvidence": false
+    },
+    "nonCreditedAttempts": [
+      {
+        "result": "EXCLUDED",
+        "reason": "Docker Desktop published the initial default local ports on all host interfaces; the run was excluded before evidence credit."
+      },
+      {
+        "result": "EXCLUDED",
+        "reason": "A diagnostic run followed the migration-role harness before the required final reset and therefore saw only its intentional migration-32 end state."
+      }
+    ]
+  },
+  "focusedTestInventory": {
+    "browser": [
+      {
+        "path": "e2e/auth-invitation-activation.spec.ts",
+        "area": "invitation, signup closure, activation enforcement, confirmation callback, cross-user identity binding, no-JavaScript",
+        "tests": 9
+      },
+      {
+        "path": "e2e/critical-auth-session.spec.ts",
+        "area": "password sign-in, sign-out, stale session, tenant isolation, no-JavaScript",
+        "tests": 11
+      },
+      {
+        "path": "e2e/auth-password-recovery.spec.ts",
+        "area": "recovery request, callback, completion, identity binding, no-JavaScript",
+        "tests": 7
+      },
+      {
+        "path": "e2e/auth-reauthentication.spec.ts",
+        "area": "recent password proof, tampering, cross-session isolation, recovery-not-reauth, no-JavaScript",
+        "tests": 6
+      },
+      {
+        "path": "e2e/account-export.spec.ts",
+        "area": "synchronous export, scope, headers, proof denial, activation and ownership isolation, no-JavaScript",
+        "tests": 8
+      },
+      {
+        "path": "e2e/account-closure.spec.ts",
+        "area": "closure capability, cancellation, commitment, idempotency, post-closure denial, no-JavaScript",
+        "tests": 7
+      },
+      {
+        "path": "e2e/security-headers.spec.ts",
+        "area": "security headers, CSP compatibility, public/Auth no-JavaScript entry",
+        "tests": 8
+      }
+    ],
+    "unit": [
+      {
+        "path": "tests/recent-password-auth-proof.spec.ts",
+        "area": "server-verified proof, tampering, one-byte mutation, exact 10-minute boundary, secret and cookie safety",
+        "tests": 11
+      },
+      {
+        "path": "tests/account-export.spec.ts",
+        "area": "versioned export allowlist, scope, excluded secrets, response safety",
+        "tests": 5
+      },
+      {
+        "path": "tests/account-closure-capability.spec.ts",
+        "area": "server-only closure capability and mutation resistance",
+        "tests": 3
+      },
+      {
+        "path": "tests/security-headers.spec.ts",
+        "area": "security header contract",
+        "tests": 4
+      }
+    ],
+    "phase11EAuthoritativeRecords": [
+      "docs/phase-11e-auth-account-lifecycle-governance.md",
+      "docs/phase-11e3-recent-password-reauthentication-validation.md",
+      "docs/phase-11e4-account-export-validation.md"
+    ]
+  },
+  "focusedExecution": {
+    "browser": {
+      "activationAndConfirmation": 9,
+      "signInAndSession": 11,
+      "passwordRecovery": 7,
+      "recentPasswordReauthentication": 6,
+      "accountExport": 8,
+      "accountClosure": 7,
+      "securityHeadersAndNoJavaScriptEntry": 8,
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0
+    },
+    "unit": {
+      "recentPasswordProof": 11,
+      "accountExport": 5,
+      "accountClosureCapability": 3,
+      "securityHeaders": 4,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "uniqueFocusedTotal": {
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "lifecycleAuthorizationMatrix": {
+    "actions": [
+      "protectedRead",
+      "protectedMutation",
+      "export",
+      "closure",
+      "passwordOrSecuritySensitiveAction"
+    ],
+    "states": {
+      "anonymous": ["DENY", "DENY", "DENY", "DENY", "DENY"],
+      "authenticatedActivationIncomplete": ["DENY", "DENY", "DENY", "DENY", "DENY"],
+      "activated": ["ALLOW", "ALLOW", "DENY", "DENY", "DENY"],
+      "recoveryCompleteNotReauthenticated": ["ALLOW", "ALLOW", "DENY", "DENY", "DENY"],
+      "activatedWithRecentAuth": ["ALLOW", "ALLOW", "ALLOW", "ALLOW", "ALLOW"],
+      "closed": ["DENY", "DENY", "DENY", "DENY", "DENY"]
+    },
+    "result": "PASS",
+    "evidence": "Every PRE_RELEASE_REQUIRED cell is exercised by the focused browser or unit suites."
+  },
+  "results": {
+    "ordinarySignup": {
+      "result": "PASS",
+      "classification": "REJECTED_NON_MUTATING_ENUMERATION_SAFE"
+    },
+    "invitedActivation": {
+      "result": "PASS",
+      "journey": "CJ-002",
+      "providerDerivedIdentity": true,
+      "durableSingleActivation": true,
+      "idempotent": true
+    },
+    "preActivationEnforcement": {
+      "result": "PASS",
+      "selectInsertUpdateRpcAndElevatedPathsDenied": true,
+      "partialProtectedDataReturned": false
+    },
+    "confirmationCallback": {
+      "result": "PASS",
+      "journey": "CJ-003",
+      "wrongMalformedExpiredReplayedAndHostileInputsDenied": true,
+      "tokenBearingUrlCleared": true,
+      "hostedConfigurationClaimed": false
+    },
+    "passwordSignInAndSession": {
+      "result": "PASS",
+      "genericCredentialFailure": true,
+      "signOutRemovesEffectiveAccess": true,
+      "staleSessionDenied": true
+    },
+    "recoveryRequest": {
+      "result": "PASS",
+      "journey": "CJ-007",
+      "knownVsUnknownEnumerationSafe": true,
+      "localMailCaptureOnly": true
+    },
+    "recoveryCompletion": {
+      "result": "PASS",
+      "journey": "CJ-008",
+      "oldPasswordRejected": true,
+      "newPasswordAccepted": true,
+      "providerDerivedIdentity": true
+    },
+    "recoveryDoesNotReauthenticate": {
+      "result": "PASS",
+      "decision": "P11E-E006",
+      "sensitiveActionImmediatelyAfterRecovery": "DENY",
+      "sensitiveActionAfterExplicitNewPasswordReauthentication": "ALLOW"
+    },
+    "recentPasswordAuthentication": {
+      "result": "PASS",
+      "serverVerified": true,
+      "tamperingAndOneByteMutationDenied": true,
+      "crossSessionAndIdentityMismatchDenied": true,
+      "providerFailureDenied": true,
+      "freshnessWindowSeconds": 600,
+      "validAtSecond": 599,
+      "invalidAtSecond": 600
+    },
+    "reauthenticationMaterialSafety": {
+      "result": "PASS",
+      "proofContainsPasswordEmailTokenOrProviderSecret": false,
+      "cookieAndNoSharedCacheContract": "PASS"
+    },
+    "accountExport": {
+      "result": "PASS",
+      "journey": "CJ-034",
+      "synchronousInMemoryVersionedJson": true,
+      "serverDerivedIdentity": true,
+      "ownershipSelectionByCallerDenied": true,
+      "safeHttpAndCacheHeaders": true,
+      "persistentArtifactCreated": false
+    },
+    "exportScopeAndExcludedSecrets": {
+      "result": "PASS",
+      "acceptedUserFacingScopeCovered": true,
+      "passwordHashTokenInvitationRecoveryProviderApplicationSecretsExcluded": true,
+      "sharedCatalogAndUnrelatedOperationalDataExcluded": true
+    },
+    "accountClosure": {
+      "result": "PASS",
+      "journey": "CJ-035",
+      "cancellationMutatesLifecycle": false,
+      "providerDerivedIdentity": true,
+      "singleCommitAndIdempotency": true,
+      "closureCapabilityBrowserExposed": false
+    },
+    "postClosureDenial": {
+      "result": "PASS",
+      "existingSessionNavigationRouteTableMutationExportAndSensitiveActionDenied": true
+    },
+    "crossUserIsolation": {
+      "result": "PASS",
+      "readModifyExportReauthenticateCloseAndProofReuseDenied": true,
+      "serverDerivedIdentity": true,
+      "rlsAndGrantEnforcement": true,
+      "bolaOrIdorPathFound": false
+    },
+    "noJavaScript": {
+      "result": "PASS",
+      "classifications": {
+        "CJ-002": "REQUIRED_FALLBACK_ONLY",
+        "CJ-003": "REQUIRED",
+        "CJ-007": "REQUIRED",
+        "CJ-008": "REQUIRED",
+        "CJ-034": "REQUIRED",
+        "CJ-035": "REQUIRED"
+      }
+    },
+    "securityFailureBehavior": {
+      "result": "PASS",
+      "unnecessaryAccountProviderStackTokenSecretAndCrossUserDisclosure": false,
+      "openRedirectRejected": true,
+      "requestIntegrityPreserved": true
+    },
+    "clientSecretBoundary": {
+      "result": "PASS",
+      "browserStaticArtifactsInspected": 140,
+      "serverOnlyCanariesPresent": false,
+      "serviceRoleClosureRecoveryDatabaseProductionOrPrivateServerSecretPresent": false
+    },
+    "localMailCapture": {
+      "result": "PASS",
+      "provider": "Mailpit",
+      "realEmailSent": false,
+      "realSmtpDeliverabilityClaimed": false
+    }
+  },
+  "requiredValidation": {
+    "gitDiffCheck": "PASS",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "security": {
+      "result": "PASS",
+      "advisoryPolicyTests": 5,
+      "securityHeaderUnitTests": 4
+    },
+    "workflowSupplyChain": "PASS",
+    "productionDependencies": {
+      "result": "PASS",
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
+    },
+    "deploymentContract": {
+      "passed": 64,
+      "failed": 0,
+      "validator": "PASS"
+    },
+    "recoveryContract": {
+      "passed": 41,
+      "failed": 0
+    },
+    "criticalJourneyEvidence": {
+      "passed": 52,
+      "failed": 0,
+      "currentContract": "1.7-personal-use-free-tier-profile-amended",
+      "journeys": 35,
+      "automatedEvidenceLinks": 249,
+      "evidenceAxisClaims": 854
+    },
+    "productionBuild": {
+      "result": "PASS_WITH_LOCAL_ENVIRONMENT_LIMITATION",
+      "webpackPages": 57,
+      "clientSecretBoundary": "PASS",
+      "defaultTurbopackLocalResult": "LOCAL_WORKER_PORT_BINDING_DENIED",
+      "authoritativeDefaultTurbopackFinalHeadCi": "PENDING_POST_PUSH"
+    },
+    "databaseLint": {
+      "result": "PASS_WITH_ACCEPTED_PRE_EXISTING_WARNINGS",
+      "newWarnings": 0
+    }
+  },
+  "hostedEvidence": {
+    "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+    "pending": [
+      "Production Auth Site URL behavior",
+      "Production redirect configuration",
+      "real hosted confirmation callback",
+      "real SMTP/provider delivery",
+      "hosted rate limits",
+      "Production cookies at deployed origin",
+      "deployed CSP/header behavior",
+      "Production owner bootstrap"
+    ],
+    "legalOrPrivacyQualifiedReviewStatusChanged": false
+  },
+  "candidateFreeze": {
+    "filesChangedAfterMeasurement": [
+      "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+      "docs/decision-log.md",
+      "docs/phase-11-qa-hardening-deployment-readiness-plan.md",
+      "docs/phase-11j2-local-auth-security-account-lifecycle.md"
+    ],
+    "evidenceTestHarnessDocumentationOnly": true,
+    "runtimeProductSchemaRlsAuthSecurityBehaviorDifference": false,
+    "finalEvidencePrHead": "RECORDED_IN_DRAFT_PR_AND_FINAL_REPORT",
+    "exactHeadCi": "PENDING_POST_PUSH"
+  },
+  "boundaries": {
+    "productionIsolation": true,
+    "productionAccessPerformed": false,
+    "providerMutationPerformed": false,
+    "hostedDeploymentPerformed": false,
+    "realEmailSent": false,
+    "paidProviderUsed": false,
+    "runtimeCorrectionRequired": false,
+    "productionReleaseAuthorized": false
+  },
+  "governance": {
+    "phase11": "INCOMPLETE",
+    "phase11J0": "COMPLETE",
+    "phase11J1": "COMPLETE",
+    "phase11J2": "IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+    "phase11J3": "NOT_STARTED",
+    "phase11J4": "NOT_STARTED",
+    "phase11J5": "NOT_STARTED",
+    "phase11J6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0
+  }
+}

@@ -1003,10 +1003,20 @@ migration replay, security gates, build fallback and client-secret boundary,
 performance regression gates, and health/locale smoke passed. The canonical
 record is the [Phase 11J1 local/CI release rehearsal](phase-11j1-local-ci-release-rehearsal.md).
 
-Phase 11J1 is `IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`.
-Phase 11J2 through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete.
-All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
-the exclusive finding-closure gate, and `productionReleaseAuthorized=false`.
+Phase 11J1 is `COMPLETE` after post-merge independent acceptance. Phase 11J2
+then executed against accepted baseline
+`24b974d9d3c92573269fe4ca65d167bb211d4c7c`, tree
+`f291db761d50940c97d2cb226902142c92e7544c`. The fresh loopback-only local
+stack replayed 43 migrations and the focused Auth, account-lifecycle,
+cross-user, no-JavaScript, security, and browser-secret boundaries passed
+79/79 cases. The canonical record is the
+[Phase 11J2 local Auth and account-lifecycle acceptance](phase-11j2-local-auth-security-account-lifecycle.md).
+
+Phase 11J2 is
+`IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`. Phase 11J3
+through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete. All 18
+findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains the
+exclusive finding-closure gate, and `productionReleaseAuthorized=false`.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
