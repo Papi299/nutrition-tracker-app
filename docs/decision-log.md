@@ -3661,3 +3661,38 @@ plan change, invitation, user, or Production action. The protected bootstrap
 remains infrastructure only and `productionReleaseAuthorized=false`. All 18
 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11J execution is
 `NOT_STARTED`, and Phase 11K remains the exclusive finding-closure gate.
+
+## 2026-09-18: Phase 11J1 exact-candidate local/CI release rehearsal
+
+Phase 11J1 executed from exact accepted `main`
+`99c9c74af83084eb6926683263bdd46b4bb7e30c`, tree
+`c5460e0768e1c231f1df634c8d4bb3e7002ef83d`, under active decision `DEC-035`
+and release profile `PERSONAL_USE_FREE_TIER`. Accepted baseline CI run
+`35308902525`, job `105486651418`, was successful before the rehearsal.
+
+The fresh isolated local stack replayed and seeded all 43 migrations through
+`20260830143000_cache_search_account_access_policy`. Hosted-role compatibility,
+ingestion type synchronization, workflow and dependency security, lint,
+typecheck, 64 deployment-contract tests, 41 recovery-contract tests, 302 unit
+tests, 52 critical-journey evidence tests, 360 local Playwright tests, the
+45-pass/3-intentional-skip Phase 11D matrix and its evidence verifier, 19
+performance harness tests, 50 performance evidence-contract tests, and explicit
+health/EN/HE smoke all passed.
+
+The local sandbox denied Turbopack's internal loopback port bind under both the
+host Node runtime and a Node 22 cross-check. The documented webpack fallback
+build passed, including inspection of 140 browser/static artifacts for the
+client-secret boundary. Accepted-main CI already passed the normal Node 22
+Turbopack path; exact final PR-head CI remains authoritative.
+
+No application, schema, RLS, Auth, security, runtime, or release behavior was
+changed. Only the Phase 11J1 evidence packet and minimal canonical records were
+added after measurement. No Production access, hosted deployment, provider
+mutation, paid entitlement, invitation, user, billing change, or release
+occurred. The state is
+`PHASE_11J1_LOCAL_REHEARSAL_COMPLETE` and
+`IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`.
+
+Phase 11J2 through 11J6 remain `NOT_STARTED`; all 18 findings remain `OPEN`,
+Phase 11 remains `INCOMPLETE`, Phase 11K remains the exclusive finding-closure
+gate, and `productionReleaseAuthorized=false`.
