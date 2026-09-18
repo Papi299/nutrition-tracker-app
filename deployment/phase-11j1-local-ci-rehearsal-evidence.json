@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J1-EXACT-CANDIDATE-LOCAL-CI-REHEARSAL-001",
+  "evidenceClassification": "PRE_RELEASE_REQUIRED",
+  "status": "PHASE_11J1_LOCAL_REHEARSAL_COMPLETE",
+  "releaseProfile": "PERSONAL_USE_FREE_TIER",
+  "decision": "DEC-035",
+  "candidateBaseline": {
+    "commitSha": "99c9c74af83084eb6926683263bdd46b4bb7e30c",
+    "treeSha": "c5460e0768e1c231f1df634c8d4bb3e7002ef83d",
+    "soleParentSha": "35306d10808ae1f55ef83816f507c3e714a1278e"
+  },
+  "rehearsal": {
+    "branch": "codex/phase-11j1-local-ci-release-rehearsal",
+    "executionSourceSha": "99c9c74af83084eb6926683263bdd46b4bb7e30c",
+    "executionSourceTreeSha": "c5460e0768e1c231f1df634c8d4bb3e7002ef83d",
+    "startedAt": "2026-09-18T05:45:02.871Z",
+    "completedAt": "2026-09-18T06:12:08Z",
+    "trackedWorktreeCleanAtStart": true,
+    "environmentOverlay": {
+      "classification": "EPHEMERAL_LOCAL_PORT_ISOLATION_ONLY",
+      "reason": "The protected academic-papers-index local stack occupied the repository default ports at preflight.",
+      "fileTemporarilyOverlaid": "supabase/config.toml",
+      "changedOnly": [
+        "local Supabase project_id",
+        "local API port",
+        "local database port",
+        "local pooler port",
+        "local Studio port",
+        "local Mailpit port",
+        "local analytics port"
+      ],
+      "applicationBehaviorChanged": false,
+      "schemaChanged": false,
+      "securityBehaviorChanged": false,
+      "repositoryConfigurationRestored": true,
+      "trackedDiffAfterRestore": false
+    }
+  },
+  "acceptedMainCi": {
+    "workflow": "CI",
+    "runId": 35308902525,
+    "runNumber": 254,
+    "attempt": 1,
+    "event": "push",
+    "headSha": "99c9c74af83084eb6926683263bdd46b4bb7e30c",
+    "jobName": "Validate",
+    "jobId": 105486651418,
+    "conclusion": "SUCCESS"
+  },
+  "toolVersions": {
+    "localNode": "26.5.1",
+    "authoritativeCiNodeMajor": "22",
+    "localNode22CrossCheck": "22.23.2",
+    "npm": "11.17.0",
+    "supabaseCli": "2.116.0",
+    "playwright": "1.61.1",
+    "nextJs": "16.3.3",
+    "postgresql": "17.6",
+    "localPostgresImage": "public.ecr.aws/supabase/postgres:17.6.1.165",
+    "dockerEngine": "29.8.0",
+    "git": "2.54.0 (Apple Git-157)",
+    "os": "macOS 26.6.2",
+    "kernelArchitecture": "Darwin 25.6.0 arm64"
+  },
+  "localSupabase": {
+    "classification": "ISOLATED_LOCAL_ONLY",
+    "loopbackOnly": true,
+    "syntheticDataOnly": true,
+    "freshStackCreated": true,
+    "freshResetAfterCompatibilityHarness": true,
+    "migrationReplay": "PASS",
+    "seed": "PASS",
+    "migrationCount": 43,
+    "migrationHead": "20260830143000_cache_search_account_access_policy",
+    "hostedRoleCompatibilityHarness": "PASS",
+    "ingestionTypeSynchronization": "PASS",
+    "stoppedWithoutBackupAfterRehearsal": true
+  },
+  "validation": {
+    "repositoryHygiene": {
+      "gitDiffCheck": "PASS",
+      "packageLockPresent": true,
+      "unexpectedOpenCandidatePrs": 0
+    },
+    "static": {
+      "npmRunLint": "PASS",
+      "npmRunTypecheck": "PASS"
+    },
+    "security": {
+      "workflowSupplyChain": "PASS",
+      "productionDependencies": {
+        "result": "PASS",
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "productionAdvisoryPolicyTests": {
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0
+      },
+      "securityHeaderUnitTests": {
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0
+      },
+      "clientSecretBoundary": {
+        "result": "PASS",
+        "browserStaticArtifactsInspected": 140,
+        "serverOnlyCanariesPresent": false
+      }
+    },
+    "deploymentContract": {
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "validator": "PASS"
+    },
+    "recoveryContract": {
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "phase11IStatePreserved": true
+    },
+    "unit": {
+      "passed": 302,
+      "failed": 0,
+      "skipped": 0
+    },
+    "criticalJourneyEvidence": {
+      "contractTestsPassed": 52,
+      "contractTestsFailed": 0,
+      "contractTestsSkipped": 0,
+      "currentContractVersion": "1.7-personal-use-free-tier-profile-amended",
+      "historicalContractVersion": "1.4-phase-11b-remaining-implemented-nojs-amended",
+      "historicalProvenancePreserved": true,
+      "orderedJourneys": 35,
+      "automatedEvidenceLinks": 249,
+      "evidenceAxisClaims": 854
+    },
+    "productionBuild": {
+      "result": "PASS_WITH_LOCAL_ENVIRONMENT_LIMITATION",
+      "defaultEngine": "Turbopack",
+      "defaultEngineLocalResult": "LOCAL_ENVIRONMENT_LIMITATION",
+      "defaultEngineLocalReason": "The execution sandbox denied Turbopack's internal loopback port binding under both local Node 26.5.1 and Node 22.23.2.",
+      "webpackFallbackResult": "PASS",
+      "authoritativeDefaultEngineAcceptedMainCi": "PASS",
+      "authoritativeDefaultEngineFinalHeadCi": "PENDING_POST_PUSH",
+      "productionCredentialsRequired": false,
+      "hostedProviderRequired": false
+    },
+    "fullLocalPlaywright": {
+      "passed": 360,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "5.3m",
+      "creditedRunIsolation": "CI_STYLE_FRESH_SERVER",
+      "nonCreditedAttempts": [
+        {
+          "result": "ABORTED",
+          "reason": "The prebuilt bundle still targeted the repository default local API port before the isolated-port rebuild."
+        },
+        {
+          "result": "ABORTED",
+          "reason": "Playwright reused the stale server from the first invalid attempt; the credited run disabled reuse."
+        }
+      ]
+    },
+    "phase11D": {
+      "total": 48,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 3,
+      "projects": [
+        "engine-chromium",
+        "engine-firefox",
+        "engine-webkit",
+        "mobile-chromium-390"
+      ],
+      "viewportWidthsCssPx": [
+        320,
+        390,
+        768,
+        1280
+      ],
+      "axeSeverityTotals": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0,
+        "unknown": 0
+      },
+      "intentionalSkips": [
+        {
+          "project": "engine-firefox",
+          "test": "has zero serious or critical axe findings on the approved critical subset",
+          "reason": "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        },
+        {
+          "project": "engine-webkit",
+          "test": "has zero serious or critical axe findings on the approved critical subset",
+          "reason": "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        },
+        {
+          "project": "mobile-chromium-390",
+          "test": "has zero serious or critical axe findings on the approved critical subset",
+          "reason": "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        }
+      ],
+      "evidenceVerification": "PASS",
+      "requiredJsonAttachmentsPresent": true,
+      "viewportScreenshotCount": 4,
+      "humanDeviceEvidenceSatisfied": false
+    },
+    "performance": {
+      "harnessTestsPassed": 19,
+      "harnessTestsFailed": 0,
+      "evidenceContractTestsPassed": 50,
+      "evidenceContractTestsFailed": 0,
+      "retainedFinalNormativeEvidence": {
+        "passed": true,
+        "sampleCount": 3348,
+        "groupCount": 108,
+        "operationCount": 29,
+        "measuredCommitSha": "9e896dfdae1343d3d5be01a24699f69074e65937",
+        "measuredTreeSha": "1503d80b18bd06ac99e01222692c0e013a7dbc5b"
+      },
+      "deployedPerformanceSatisfied": false
+    },
+    "smoke": {
+      "health": {
+        "path": "/api/health",
+        "status": 200,
+        "body": {
+          "status": "live"
+        }
+      },
+      "english": {
+        "path": "/en",
+        "status": 200,
+        "lang": "en",
+        "dir": "ltr"
+      },
+      "hebrew": {
+        "path": "/he",
+        "status": 200,
+        "lang": "he",
+        "dir": "rtl"
+      },
+      "unexpectedServerError": false
+    }
+  },
+  "coreAcceptance": {
+    "freshLocalDatabaseFromRepository": true,
+    "freshSyntheticUserLifecycleWorks": true,
+    "criticalJourneysWork": true,
+    "englishHebrewRender": true,
+    "localAuthWorks": true,
+    "rlsCrossUserIsolationWorks": true,
+    "productionBuildValidated": true,
+    "securityContractsSucceed": true,
+    "productionCredentialsNeeded": false,
+    "providerMutationNeeded": false,
+    "paidProviderFeatureNeeded": false
+  },
+  "candidateFreeze": {
+    "filesChangedAfterRehearsal": [
+      "deployment/phase-11j1-local-ci-rehearsal-evidence.json",
+      "docs/decision-log.md",
+      "docs/phase-11-qa-hardening-deployment-readiness-plan.md",
+      "docs/phase-11j1-local-ci-release-rehearsal.md"
+    ],
+    "evidenceHarnessDocumentationOnly": true,
+    "runtimeProductSchemaSecurityBehaviorDifference": false,
+    "finalEvidencePrHead": "RECORDED_IN_DRAFT_PR_AND_FINAL_REPORT",
+    "exactHeadCi": "PENDING_POST_PUSH"
+  },
+  "boundaries": {
+    "productionIsolation": true,
+    "productionAccessPerformed": false,
+    "providerMutationPerformed": false,
+    "hostedDeploymentPerformed": false,
+    "paidProviderUsed": false,
+    "runtimeCorrectionRequired": false,
+    "productionReleaseAuthorized": false
+  },
+  "governance": {
+    "phase11": "INCOMPLETE",
+    "phase11J0": "COMPLETE",
+    "phase11J1": "IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+    "phase11J2": "NOT_STARTED",
+    "phase11J3": "NOT_STARTED",
+    "phase11J4": "NOT_STARTED",
+    "phase11J5": "NOT_STARTED",
+    "phase11J6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0
+  }
+}

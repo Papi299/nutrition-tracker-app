@@ -993,6 +993,21 @@ provider metadata, current recovery evidence, release/rollback tabletop, and
 independent evidence review. The bounded 11J1–11J6 sequence is defined in the
 [Phase 11J0 profile](phase-11j0-personal-use-free-tier-profile.md).
 
+### Current Phase 11J state
+
+Phase 11J1 executed against accepted baseline
+`99c9c74af83084eb6926683263bdd46b4bb7e30c`, tree
+`c5460e0768e1c231f1df634c8d4bb3e7002ef83d`. The isolated local rehearsal,
+migration replay, security gates, build fallback and client-secret boundary,
+360-test full-stack suite, Phase 11D automation, critical-journey evidence,
+performance regression gates, and health/locale smoke passed. The canonical
+record is the [Phase 11J1 local/CI release rehearsal](phase-11j1-local-ci-release-rehearsal.md).
+
+Phase 11J1 is `IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`.
+Phase 11J2 through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete.
+All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
+the exclusive finding-closure gate, and `productionReleaseAuthorized=false`.
+
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
 ### Objective
