@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "TEMPLATE_NOT_EXECUTED",
-  "executionReadiness": "BLOCKED_PENDING_TOPOLOGY_PREFLIGHT",
+  "executionReadiness": "BLOCKED_PENDING_PREVIEW_ORIGIN_CANDIDATE_CORRECTION_AND_PROVIDER_AUTHORIZATION",
   "runtimeCandidateSha": "713a8c9e0678ed685cb616311f8a36e9fed96520",
   "runtimeCandidateTree": "eefbdcb3344fbc3a62274787b06f7aa39e4fb85e",
   "executionEnvironment": null,
