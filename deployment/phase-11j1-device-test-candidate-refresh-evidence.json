@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J1-DEVICE-TEST-CANDIDATE-REFRESH-AND-J3-REBIND-001",
+  "evidenceClassification": "PRE_RELEASE_REQUIRED_CURRENT_CANDIDATE",
+  "status": "PHASE_11J1_DEVICE_TEST_CANDIDATE_REFRESH_COMPLETE",
+  "reviewState": "PENDING_INDEPENDENT_REVIEW",
+  "runtimeTestCandidate": {
+    "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+    "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1",
+    "soleParentSha": "7b03f4679ca08d9299040ebbfb0434d8b25fb952",
+    "commitSubject": "ci: allow fresh exact-main workflow dispatch (#136)",
+    "sourcePullRequests": [
+      {
+        "number": 135,
+        "mergeSha": "7b03f4679ca08d9299040ebbfb0434d8b25fb952",
+        "scope": "private device-test execution contract"
+      },
+      {
+        "number": 136,
+        "mergeSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "scope": "CI dispatch and workflow policy only; no application runtime change"
+      }
+    ]
+  },
+  "governance": {
+    "releaseProfile": "PERSONAL_USE_FREE_TIER",
+    "currentContractVersion": "1.8-personal-use-owner-client-matrix-amended",
+    "activeDecisions": ["DEC-035", "DEC-036"],
+    "phase11J2": "INDEPENDENTLY_ACCEPTED",
+    "phase11J3PhysicalObservations": "NOT_STARTED",
+    "phase11J4ThroughJ6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0,
+    "productionReleaseAuthorized": false
+  },
+  "historicalJ1EvidencePreserved": [
+    "docs/phase-11j1-local-ci-release-rehearsal.md",
+    "deployment/phase-11j1-local-ci-rehearsal-evidence.json",
+    "docs/phase-11j1-current-candidate-refresh.md",
+    "deployment/phase-11j1-current-candidate-refresh-evidence.json"
+  ],
+  "exactMainCi": {
+    "workflow": "CI",
+    "runId": 35468587676,
+    "runNumber": 273,
+    "jobName": "Validate",
+    "jobId": 105965315951,
+    "event": "push",
+    "runAttempt": 1,
+    "headSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+    "status": "completed",
+    "conclusion": "success",
+    "authoritativeStepsFailed": 0,
+    "advisory": {
+      "result": "PASS",
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
+    },
+    "pureUnit": { "passed": 311, "failed": 0 },
+    "localSupabase": {
+      "startup": "PASS",
+      "hostedMigrationRoleCompatibility": "PASS",
+      "freshResetAndSeed": "PASS",
+      "migrationReplayCount": 43,
+      "latestMigration": "20260830143000_cache_search_account_access_policy.sql",
+      "ingestionTypes": "PASS",
+      "teardownWithoutBackup": "PASS",
+      "syntheticLocalDataOnly": true,
+      "physicalTopologyProven": false
+    },
+    "fullPlaywright": { "passed": 364, "failed": 0, "skipped": 0 },
+    "phase11D": {
+      "passed": 53,
+      "skipped": 3,
+      "failed": 0,
+      "flaky": 0,
+      "intentionalSkips": "Shared-DOM axe check in Firefox, WebKit, and mobile Chromium; Chromium runs the approved critical subset.",
+      "evidenceFilesVerified": true,
+      "artifact": {
+        "id": 10592680798,
+        "name": "phase-11d-evidence-35468587676-1",
+        "digest": "sha256:2fc1310ec6235307fe9771c425e62389fb28f4493b0dc6800317c1c7ea0cad39"
+      }
+    }
+  },
+  "ciIncidentContext": {
+    "run271Attempt1": "EXTERNAL_ADVISORY_SERVICE_INDETERMINATE",
+    "run271Attempt2": "TECHNICALLY_CLEAN_RETRY_DEPENDENT_HISTORICAL_ONLY",
+    "run273Attempt1": "FRESH_EXACT_MAIN_PUSH_AUTHORITATIVE",
+    "manualDispatchNeededForThisCandidate": false
+  },
+  "deviceTestContract": {
+    "disposition": "AUTOMATED_REPOSITORY_CONTRACT_PASS_PHYSICAL_TOPOLOGY_UNPROVEN",
+    "appEnvironment": "device-test",
+    "nodeEnvironment": "production",
+    "appOrigin": "exact HTTPS two-label node.tailnet.ts.net on port 443",
+    "supabaseEnvironment": "local",
+    "supabaseProjectRef": "local",
+    "supabaseUrl": "loopback-only",
+    "hostedProductionLanTailnetSupabaseRejected": true,
+    "hostedRegistryAndVercelIdentityRejected": true,
+    "requestHostAndForwardedHostNonAuthoritative": true,
+    "browserConnectSrc": "'self'",
+    "sessionCookiesSecure": true,
+    "localTestPreviewStagingProductionRegressionsPassed": true
+  },
+  "browserDirectSupabaseAudit": {
+    "disposition": "NO_REQUIRED_PRODUCTION_BROWSER_DIRECT_SUPABASE_CALL_SITE_IDENTIFIED",
+    "browserFactoryExists": true,
+    "requiredJ3Path": "physical browser -> Next.js application -> server-side local Supabase",
+    "staticClientComponentGuard": "scripts/check-phase-11h-deployment-contract.test.mjs: current client components have no direct Supabase runtime import",
+    "physicalDeviceNetworkInspectionStillRequired": true
+  },
+  "j2Impact": {
+    "disposition": "NO_J2_SEMANTIC_CHANGE_IDENTIFIED",
+    "activationRecoveryRecentAuthExportClosureRlsOwnershipUnchanged": true,
+    "focusedAuthOriginSecurityCheckedByCi": true,
+    "historicalJ2EvidenceUnchanged": true,
+    "fullJ2RepeatClaimed": false
+  },
+  "j3": {
+    "executionReadiness": "BLOCKED_PENDING_PRIVATE_DEVICE_TEST_TOPOLOGY_PROVISION_AND_PREFLIGHT",
+    "templateStatus": "TEMPLATE_NOT_EXECUTED",
+    "observationCount": 39,
+    "physicalPassRecorded": false,
+    "selectedTopology": "Physical tailnet client -> private HTTPS Tailscale Serve -> loopback Next.js production-mode device-test app -> loopback synthetic local Supabase",
+    "serverActionsReverseProxyPreflightRequired": true,
+    "unprovenPhysicalBoundaries": [
+      "Linux/Docker published port bindings and absence of 0.0.0.0 or [::] Supabase exposure",
+      "Lima/macOS host-side forwarding and listeners",
+      "Tailscale installation, intended tailnet membership, Serve configuration, exact upstream, and Funnel absence",
+      "actual iPhone/Android TLS trust and window.isSecureContext",
+      "physical session-cookie behavior and authenticated Server Actions through Serve",
+      "physical camera permission, getUserMedia, barcode decoding, and same-origin navigation",
+      "physical device network traffic proving no direct Supabase access"
+    ],
+    "previewOriginDefect": "PREVIEW_ORIGIN_CONTRACT_NOT_EXECUTABLE_AS_CURRENTLY_CONFIGURED",
+    "previewDefectBlocksSelectedPrivateJ3Path": false
+  },
+  "noSecondCloudSupabaseProjectRequired": "The selected J3 path does not require a second cloud Supabase project.",
+  "productionSupabaseProjectRefExcluded": "hskfanrqwtqknzpquwhg",
+  "unrelatedProtectedProjectRefUntouched": "lioxtgiputfniqbktcsz",
+  "providerOrSystemMutationPerformed": false,
+  "evidencePr": {
+    "classification": "EVIDENCE_STATUS_TEMPLATE_ONLY",
+    "branch": "codex/phase-11j1-device-test-candidate-refresh",
+    "prHeadIsRuntimeCandidate": false
+  }
+}
