@@ -155,6 +155,7 @@ independent contradiction and provenance assertions.
 | --- | --- | --- | --- | --- | --- |
 | `local` | Local development | Vercel variables absent | Loopback local stack, ref `local` | Required full-stack rehearsal | Synthetic/local only |
 | `test` | CI/test | Vercel variables absent | Loopback local stack, ref `local` | Required full-stack rehearsal | Synthetic/local only |
+| `device-test` | Private physical-device acceptance | Vercel variables absent | Loopback local stack, ref `local` | Proposed J3 path pending independent review and live topology preflight | Synthetic/local only |
 | `preview` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=preview`, `DEPLOYMENT_CLASS=PREVIEW` | Dedicated Preview project | Optional; isolated non-Production backend only | Synthetic/non-production only |
 | `staging` | Non-production | `VERCEL_ENV=preview`, `VERCEL_TARGET_ENV=staging`, `DEPLOYMENT_CLASS=STAGING` | Dedicated staging project | `NOT_REQUIRED_PERSONAL_USE_PROFILE`; retained capability | Synthetic/non-production only |
 | `production` bootstrap | Production infrastructure only | Both Vercel declarations `production`; `DEPLOYMENT_CLASS=PRODUCTION_BOOTSTRAP_ONLY` | Production project `hskfanrqwtqknzpquwhg` | Existing protected infrastructure only | No real beta users or copied non-production data |
@@ -183,7 +184,11 @@ topology. Under active `PERSONAL_USE_FREE_TIER`, `PRODUCTION_RELEASE` requires
 only the Production registry pair; Preview and staging pairs are optional and
 validated whenever present. `PREVIEW` and `STAGING` retain their strict
 non-Production plus Production comparison so neither can bind Production
-Supabase. Local and CI accept loopback `local` only.
+Supabase. Local, CI, and private `device-test` accept loopback `local` only. The
+private application origin is a separately configured exact HTTPS
+`node.tailnet.ts.net` Serve hostname, not a hosted registry entry or a request
+header. [Phase 11J3 private topology preflight](phase-11j3-private-device-test-topology.md)
+must prove Serve-only app ingress and loopback Supabase before owner use.
 
 For the active environment, `SUPABASE_PROJECT_REF` must equal its registry
 entry and the project reference in `NEXT_PUBLIC_SUPABASE_URL`; `APP_ORIGIN`
@@ -299,7 +304,7 @@ setting.
 
 | Supabase environment | Permitted application | Isolation and data contract |
 | --- | --- | --- |
-| Local | `local`, `test` | Loopback only; synthetic fixtures; local service-role use restricted to fixture setup and stripped from the app process |
+| Local | `local`, `test`, `device-test` | Loopback Supabase only; synthetic fixtures; local service-role use restricted to fixture setup and stripped from the app process. `device-test` exposes only the Next.js app through private HTTPS Serve. |
 | Preview | `preview` only | Dedicated hosted non-production project; synthetic/test identities; never Production data |
 | Staging | `staging` only | Dedicated hosted non-production project, separate from Preview and Production; rehearsal data only |
 | Production | `production` only | Dedicated Production project, including an approved historical project only after accepted conversion; no Preview or staging connection |
@@ -423,6 +428,7 @@ allow-list evidence must name the same environment.
 
 | Environment | Canonical origin | Required allowed callbacks |
 | --- | --- | --- |
+| Private device-test | Exact server-configured `https://node.tailnet.ts.net` origin | Exact English/Hebrew local Auth callbacks only if exercised; no wildcard or Production Auth use |
 | Preview | `PREVIEW_APP_ORIGIN` equals exact `https://${VERCEL_URL}` | Exact callback paths only when Supabase can represent that exact deployment origin safely; otherwise no hosted Auth acceptance |
 | Staging | `STAGING_APP_ORIGIN` equals persistent `https://${VERCEL_BRANCH_URL}` | `/en/auth/confirm`, `/he/auth/confirm`, `/en/auth/recover/confirm`, `/he/auth/recover/confirm` on staging only |
 | Production bootstrap | `PRODUCTION_APP_ORIGIN` equals provider-owned `https://${VERCEL_PROJECT_PRODUCTION_URL}` | Only entries strictly necessary for coherent protected bootstrap smoke; no invitations or recovery delivery |

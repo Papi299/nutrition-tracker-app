@@ -1,0 +1,41 @@
+# Phase 11J3 private device-test topology proposal
+
+Status: repository support proposed for independent review; physical topology unproven; no J3 observation executed. This supersedes the proposed J3 Preview-origin correction as a prerequisite, while leaving the optional Preview defect unresolved.
+
+## Intended network path
+
+```text
+Physical iPhone/Android/desktop in the intended tailnet
+  -> trusted HTTPS https://node.tailnet.ts.net (Tailscale Serve only)
+  -> Linux execution host http://127.0.0.1:<app-port> (Next.js)
+  -> Linux execution host http://127.0.0.1:<supabase-api-port> (local Supabase)
+  -> synthetic local Auth/Postgres
+```
+
+Only the app port may be proxied by Serve. Funnel, public ingress, LAN/tailnet Supabase listeners, a hosted Supabase project, Production credentials/data, and Vercel Preview are outside this topology. The host should be a dedicated disposable Linux VM or equivalently isolated Linux environment. An unrelated VM must not be reused. Supabase's [local development guidance](https://supabase.com/docs/guides/local-development) explicitly recommends a separate Docker network bound to `127.0.0.1` on untrusted networks. The previous Mac Docker Desktop attempt exposed published ports on `0.0.0.0` and IPv6 and remains disallowed. Linux Docker behavior must be measured, not inferred from configuration alone.
+
+Tailscale [Serve](https://tailscale.com/docs/features/tailscale-serve) can proxy a local HTTP port behind tailnet HTTPS; [Funnel](https://tailscale.com/docs/features/tailscale-funnel) exposes a similar `*.ts.net` URL to the public Internet. The hostname alone cannot prove the difference. A trusted HTTPS context permits the browser to request camera access, subject to physical browser permission and compatibility; [getUserMedia requires a secure context](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia). Actual iPhone/Android behavior remains a J3 observation, not a repository test result.
+
+## Repository contract
+
+`APP_ENVIRONMENT=device-test` is separate from unchanged `local` and `test`. It requires `NODE_ENV=production` so recovery and recent-auth cookies are Secure; the server/proxy Supabase clients also set Secure on their session cookies in this environment. It requires `SUPABASE_ENVIRONMENT=local`; `SUPABASE_PROJECT_REF=local`; distinct application secrets; a publishable local key; an exact canonical `APP_ORIGIN=https://node.tailnet.ts.net` using a two-label Tailscale Serve hostname on HTTPS port 443; and a loopback-only Supabase URL (`localhost`, `127.0.0.1`, or `[::1]`). It rejects hosted registry entries, deployment classes, and all nonempty Vercel identity variables. `APP_ORIGIN` remains server-owned configuration; request `Host`, `Origin`, and forwarded headers do not define it. Same-origin validation and recovery callbacks retain that configured origin. Browser CSP in `device-test` allows `connect-src 'self'`, so a browser cannot use the local Supabase URL even though the publishable key and URL retain their existing `NEXT_PUBLIC_` names. This is defense in depth, not a substitute for the call-site audit.
+
+The validator proves only configuration syntax and target class. It cannot prove an actual tailnet membership, Serve rather than Funnel, a certificate trusted by a phone, process bindings, Docker forwarding rules, or lack of public exposure. A `*.ts.net` hostname could still have Funnel enabled. The Phase 11H Preview, staging, and Production contracts remain as before; the known generated Preview-origin configuration defect is not corrected here.
+
+## Browser-to-backend audit at the starting main tree
+
+The only production browser factory is `lib/supabase/client.ts`, re-exported by `lib/supabase/index.ts`; no production file calls or imports `createBrowserClient`. The J3 client components use server actions, same-origin navigation, and static assets. The client component Supabase imports found in the diary UI are type-only. Auth sign-in/activation/recovery use server actions or Next.js routes; protected account access, food search/barcode lookup, Today/diary and form mutations use server-side Supabase clients. Barcode detection runs in browser memory and loads same-origin WASM before same-origin navigation to the authenticated lookup page. Account export and closure use same-origin Next.js routes. No current J3 call site uses browser Realtime, subscriptions, Storage, or direct Supabase fetch. A static call-site search does not prove future code or physical network traffic: repeat the audit and observe the device network before accepting J3.
+
+The public Supabase URL/key remain embedded configuration by existing application design, but only a publishable local key is allowed. An operator must verify a physical device makes no requests to `127.0.0.1:54321`, LAN/tailnet Supabase, or hosted Supabase. If any required journey does, stop for separate review rather than adding an unreviewed proxy.
+
+## Required operator preflight before any of the 39 observations
+
+Provisioning is separate from this repository PR. On the eventual dedicated Linux host, the operator must record the exact candidate SHA/tree, Linux/Docker/Supabase/Tailscale versions, dedicated VM identity, synthetic Auth/data identity, and private hostname. Use a production-mode Next.js server explicitly bound to `127.0.0.1:<app-port>`. Bind every local Supabase published port to Linux loopback. Verify Docker's published `HostIp` for **every** Supabase container using read-only `docker ps` and `docker inspect`; inspect kernel listeners with `ss -ltnp`. `ss` alone is insufficient because Docker may forward ports without a userspace listening process. Reject `0.0.0.0`, `[::]`, LAN IPs, and Tailscale IPs. Check Lima's host-side port forwarding and macOS listeners with read-only `limactl list` and `lsof -nP -iTCP -sTCP:LISTEN`; guest loopback alone does not rule out host-side exposure. Probe the Supabase ports from separate LAN and tailnet clients and require failure. Verify the app port is loopback-bound too, and that no other VM service is reachable by J3 clients.
+
+Inspect `tailscale status --json`, `tailscale serve status --json`, and `tailscale funnel status --json` using the installed CLI version's documented format. Confirm the dedicated node and test devices belong to the intended tailnet, Serve has only the HTTPS app endpoint and exact `http://127.0.0.1:<app-port>` upstream, and Funnel has no published endpoint. Probe the HTTPS app from the intended devices, then verify it is unreachable from a device outside the tailnet. Verify the certificate and `window.isSecureContext`, actual camera permission and `getUserMedia`, secure Auth cookies, sign-in, same-origin actions/forms, protected navigation, food lookup, diary, and the English/Hebrew recovery callback URLs if exercised. Check browser network traffic for app-only requests and absence of direct Supabase calls. Stop if any observation disagrees with the intended path.
+
+The current macOS inspection found Lima 2.2.0 and Docker 29.8.0, one unrelated stopped `videofetch` VM, and no `tailscale` executable. No dedicated J3 VM or running Linux/Tailscale topology was inspected. Because the eventual Linux and Tailscale versions and live socket/Serve formats are not available here, this PR does not add a machine-readable preflight script that could falsely pass. The exact read-only commands above and cross-device probes form a mandatory recorded manual preflight. A later script can be proposed against the actual pinned execution host if its interfaces prove stable.
+
+## Candidate and governance boundary
+
+This runtime environment addition requires independent review, merge, successful exact-main CI, and a bounded current-candidate J1 refresh/rebind before any J3 evidence uses the new SHA/tree. J2 activation, recovery purpose, recent-auth threshold, export, closure, RLS, and ownership semantics are unchanged; focused automated Auth/origin/security regressions are required because a new trusted-origin class is added. A complete J2 repeat is not indicated by this proposal unless testing finds a semantic change. The 39-case owner template remains blank and bound to its historical candidate until those gates pass. Phase 11K alone may close findings; Production release remains unauthorized.
