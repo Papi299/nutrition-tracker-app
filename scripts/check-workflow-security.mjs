@@ -33,6 +33,118 @@ const workflowExpectations = new Map([
     },
   ],
 ]);
+const ciSteps = [
+  "Check out repository",
+  "Require main for manual dispatch",
+  "Set up Node.js",
+  "Install dependencies from lockfile",
+  "Verify workflow supply-chain policy",
+  "Enforce production dependency advisory policy",
+  "Check repository hygiene",
+  "Lint",
+  "Type check",
+  "Verify Phase 11H deployment and environment contract",
+  "Verify Phase 11I recovery safety contract",
+  "Verify security policy regressions",
+  "Verify Phase 11 critical-journey evidence map",
+  "Verify Phase 11G2 performance harness and evidence",
+  "Run pure unit tests",
+  "Build production application and verify client secret boundary",
+  "Install Playwright Phase 11D engines",
+  "Start local Supabase",
+  "Verify hosted migration-role compatibility",
+  "Replay migrations and seed locally",
+  "Verify internal ingestion types",
+  "Run local-only Playwright suite",
+  "Run Phase 11D engine, viewport, and accessibility suite",
+  "Verify Phase 11D evidence files",
+  "Upload Phase 11D evidence",
+  "Upload Playwright failure artifacts",
+  "Stop local Supabase",
+];
+
+function checkCiDispatchContract(workflow) {
+  const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
+  if (
+    triggerSection !==
+    "  pull_request:\n    branches: [main]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+  ) {
+    fail("ci.yml must retain only main PR, main push, and manual dispatch triggers");
+  }
+  if (
+    !workflow.includes(
+      "concurrency:\n  group: ci-${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: true",
+    )
+  ) {
+    fail("ci.yml must retain the shared main concurrency boundary");
+  }
+  const jobHeader = workflow.match(/^jobs:\n  validate:\n([\s\S]*?)^    steps:/m)?.[1];
+  if (
+    jobHeader !== "    name: Validate\n    runs-on: ubuntu-latest\n    timeout-minutes: 30\n\n" ||
+    (workflow.slice(workflow.indexOf("jobs:\n")).match(/^  [a-z][\w-]*:$/gm) ?? [])
+      .map((line) => line.trim()).join() !== "validate:"
+  ) {
+    fail("ci.yml must retain one unconditional Validate job");
+  }
+
+  const matches = [...workflow.matchAll(/^      - name: (.+)$/gm)];
+  const names = matches.map((match) => match[1]);
+  if (JSON.stringify(names) !== JSON.stringify(ciSteps)) {
+    fail("ci.yml must retain every reviewed Validate step in order");
+  }
+  const steps = new Map(
+    matches.map((match, index) => [
+      match[1],
+      workflow.slice(match.index, matches[index + 1]?.index ?? workflow.length),
+    ]),
+  );
+  const guard = steps.get("Require main for manual dispatch");
+  if (
+    !guard.includes("if: ${{ github.event_name == 'workflow_dispatch' }}") ||
+    !guard.includes('if [ "$GITHUB_REF" != "refs/heads/main" ]; then') ||
+    !guard.includes("exit 1")
+  ) {
+    fail("ci.yml manual dispatch must fail early outside refs/heads/main");
+  }
+  const checkout = steps.get("Check out repository");
+  if (/^\s+ref:/m.test(checkout)) {
+    fail("ci.yml checkout must use GitHub's workflow context SHA");
+  }
+
+  const hygiene = steps.get("Check repository hygiene");
+  const hygieneLines = [
+    "CI_EVENT_NAME: ${{ github.event_name }}",
+    "CI_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}",
+    "CI_PUSH_BEFORE_SHA: ${{ github.event.before }}",
+    "CI_HEAD_SHA: ${{ github.sha }}",
+    'pull_request) base="$CI_PR_BASE_SHA" ;;',
+    'push) base="$CI_PUSH_BEFORE_SHA" ;;',
+    'workflow_dispatch) base="$CI_HEAD_SHA^" ;;',
+    '[ -z "$base" ] || ! git rev-parse --verify --quiet "${base}^{commit}"',
+    'git diff --check "$base..$CI_HEAD_SHA"',
+  ];
+  if (hygieneLines.some((line) => !hygiene.includes(line))) {
+    fail("ci.yml repository hygiene must use resolvable event-specific bases");
+  }
+  if (!steps.get("Start local Supabase").includes("id: supabase")) {
+    fail("ci.yml must identify local Supabase startup for safe teardown");
+  }
+
+  const allowedConditions = new Map([
+    ["Require main for manual dispatch", "if: ${{ github.event_name == 'workflow_dispatch' }}"],
+    ["Verify Phase 11D evidence files", "if: ${{ always() && (steps.phase11d.outcome == 'success' || steps.phase11d.outcome == 'failure') }}"],
+    ["Upload Phase 11D evidence", "if: ${{ always() && (steps.phase11d.outcome == 'success' || steps.phase11d.outcome == 'failure') }}"],
+    ["Upload Playwright failure artifacts", "if: failure()"],
+    ["Stop local Supabase", "if: ${{ always() && (steps.supabase.outcome == 'success' || steps.supabase.outcome == 'failure') }}"],
+  ]);
+  for (const [name, body] of steps) {
+    const conditions = body.match(/^        if: .+$/gm) ?? [];
+    const expected = allowedConditions.get(name);
+    if (conditions.length !== (expected ? 1 : 0) || (expected && !conditions[0].includes(expected))) {
+      fail(`ci.yml step ${name} has an unreviewed condition`);
+    }
+  }
+}
 
 function fail(message) {
   console.error(`Workflow security validation FAILED: ${message}`);
@@ -50,6 +162,8 @@ if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
 for (const [workflowName, expectation] of workflowExpectations) {
   const workflow = readFileSync(join(workflowDirectory, workflowName), "utf8");
   const observedCounts = new Map();
+
+  if (workflowName === "ci.yml") checkCiDispatchContract(workflow);
 
   if (!/^permissions:\n  contents: read$/m.test(workflow)) {
     fail(`${workflowName} top-level permissions must be exactly contents: read`);

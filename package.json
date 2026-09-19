@@ -20,7 +20,7 @@
     "recovery:smoke": "node scripts/run-phase-11i-recovery-smoke.mjs",
     "test:recovery-contract": "node --test scripts/phase-11i-recovery-contract.test.mjs",
     "security:dependencies": "node scripts/check-production-advisories.mjs",
-    "security:workflow": "node scripts/check-workflow-security.mjs",
+    "security:workflow": "node --test scripts/check-workflow-security.test.mjs && node scripts/check-workflow-security.mjs",
     "security:build-boundary": "node scripts/check-client-secret-boundary.mjs",
     "test:security": "node --test scripts/check-production-advisories.test.mjs && playwright test --config=playwright.unit.config.ts security-headers.spec.ts supabase-cookie-options.spec.ts",
     "test:deployment-contract": "node --test scripts/check-phase-11h-deployment-contract.test.mjs && npm run deployment:validate",

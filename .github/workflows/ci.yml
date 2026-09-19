@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,6 +26,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Require main for manual dispatch
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "::error::Manual CI dispatch requires refs/heads/main."
+            exit 1
+          fi
+
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
@@ -41,7 +50,23 @@ jobs:
         run: npm run security:dependencies
 
       - name: Check repository hygiene
-        run: git diff --check "${{ github.event.pull_request.base.sha || github.event.before }}..${{ github.sha }}"
+        env:
+          CI_EVENT_NAME: ${{ github.event_name }}
+          CI_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          CI_HEAD_SHA: ${{ github.sha }}
+        run: |
+          case "$CI_EVENT_NAME" in
+            pull_request) base="$CI_PR_BASE_SHA" ;;
+            push) base="$CI_PUSH_BEFORE_SHA" ;;
+            workflow_dispatch) base="$CI_HEAD_SHA^" ;;
+            *) echo "::error::Unsupported CI event: $CI_EVENT_NAME"; exit 1 ;;
+          esac
+          if [ -z "$base" ] || ! git rev-parse --verify --quiet "${base}^{commit}" >/dev/null; then
+            echo "::error::Cannot resolve repository hygiene base for $CI_EVENT_NAME."
+            exit 1
+          fi
+          git diff --check "$base..$CI_HEAD_SHA"
 
       - name: Lint
         run: npm run lint
@@ -76,6 +101,7 @@ jobs:
         run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Start local Supabase
+        id: supabase
         run: npx supabase start
 
       - name: Verify hosted migration-role compatibility
@@ -198,5 +224,5 @@ jobs:
           retention-days: 7
 
       - name: Stop local Supabase
-        if: always()
+        if: ${{ always() && (steps.supabase.outcome == 'success' || steps.supabase.outcome == 'failure') }}
         run: npx supabase stop --no-backup
