@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import type { Database } from "@/lib/supabase/database.types";
 import { getOptionalSupabasePublicEnv } from "@/lib/supabase/env";
+import { supabaseSessionCookieOptions } from "@/lib/supabase/cookie-options";
 import {
   classifyObservabilityEnvironment,
   emitObservabilityEvent,
@@ -21,6 +22,7 @@ export async function updateSession(
     supabaseEnv.url,
     supabaseEnv.publishableKey,
     {
+      cookieOptions: supabaseSessionCookieOptions(process.env.APP_ENVIRONMENT),
       cookies: {
         getAll() {
           return request.cookies.getAll();

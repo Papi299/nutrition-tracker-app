@@ -96,6 +96,16 @@
       "requiresHostedProjectIdentity": false,
       "productionProjectRelationship": "not-applicable"
     },
+    "device-test": {
+      "class": "private-physical-device-acceptance",
+      "supabaseEnvironment": "local",
+      "vercelEnvironment": null,
+      "vercelTargetEnvironment": null,
+      "deploymentClasses": [],
+      "originProviderVariable": null,
+      "requiresHostedProjectIdentity": false,
+      "productionProjectRelationship": "not-applicable"
+    },
     "preview": {
       "class": "non-production",
       "supabaseEnvironment": "preview",
@@ -394,6 +404,12 @@
       "staging": "VERCEL_BRANCH_URL",
       "production": "VERCEL_PROJECT_PRODUCTION_URL"
     },
+    "deviceTest": {
+      "applicationOrigin": "exact HTTPS node.tailnet.ts.net origin, configured by the operator",
+      "supabaseEndpoint": "loopback-only local Supabase",
+      "providerDeploymentIdentityAllowed": false,
+      "serveAndFunnelState": "operator preflight; not provable by application environment validation"
+    },
     "forbiddenAuthorities": [
       "request Host",
       "forwarded Host",
@@ -407,7 +423,7 @@
     {
       "name": "APP_ENVIRONMENT",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "environment and secrets owner",
       "purpose": "Authoritative application security-environment identity; never inferred from a host, branch, URL, or request.",
       "sourceBoundary": "Explicit runtime/deployment configuration.",
@@ -429,7 +445,7 @@
     {
       "name": "SUPABASE_ENVIRONMENT",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Supabase owner",
       "purpose": "Declares the logical Supabase target class and must match APP_ENVIRONMENT compatibility rules.",
       "sourceBoundary": "Explicit runtime/deployment configuration; non-secret metadata.",
@@ -440,7 +456,7 @@
     {
       "name": "SUPABASE_PROJECT_REF",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Supabase owner",
       "purpose": "Binds the declared target to the project reference encoded by the public Supabase URL.",
       "sourceBoundary": "Explicit non-secret target metadata; use local for loopback Supabase.",
@@ -484,9 +500,9 @@
     {
       "name": "NEXT_PUBLIC_SUPABASE_URL",
       "visibility": "public browser",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Supabase owner",
-      "purpose": "Public Supabase API endpoint used by browser and server session clients.",
+      "purpose": "Public Supabase API endpoint for Supabase clients; the current J3 browser surface has no direct call site, and device-test CSP blocks browser access to its loopback value.",
       "sourceBoundary": "Local CLI output or environment-scoped hosted Supabase project metadata.",
       "rotation": "Rebind and redeploy when the project endpoint changes.",
       "browserExposure": "permitted",
@@ -495,7 +511,7 @@
     {
       "name": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
       "visibility": "public browser",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Supabase owner",
       "purpose": "Browser-safe publishable Supabase API key; never a secret or service-role key.",
       "sourceBoundary": "Local CLI output or environment-scoped hosted Supabase publishable-key metadata.",
@@ -506,7 +522,7 @@
     {
       "name": "APP_ORIGIN",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Auth URL owner",
       "purpose": "Canonical absolute application origin for trusted Auth callbacks and same-origin checks.",
       "sourceBoundary": "Environment-scoped canonical origin; never derived from request Host or caller input.",
@@ -550,7 +566,7 @@
     {
       "name": "AUTH_REAUTH_PROOF_SECRET",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "environment and secrets owner",
       "purpose": "Signs exact-user/session recent-password proofs for E3.",
       "sourceBoundary": "Generated and stored only in the approved environment-scoped secret manager; synthetic local values only in tests.",
@@ -561,7 +577,7 @@
     {
       "name": "ACCOUNT_CLOSURE_CAPABILITY_SECRET",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "environment and secrets owner",
       "purpose": "Signs one-minute E5 account-closure capabilities verified by the matching database secret.",
       "sourceBoundary": "Generated and stored only in the approved environment-scoped secret manager; synthetic local values only in tests.",
@@ -704,7 +720,7 @@
     {
       "name": "NODE_ENV",
       "visibility": "server-only application",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "build/runtime platform",
       "purpose": "Framework mode only; explicitly not an application security-environment identity.",
       "sourceBoundary": "Node.js/Next.js/Vercel runtime.",
@@ -1168,10 +1184,10 @@
     {
       "name": "account_closure_capability_v1",
       "visibility": "database-side/Vault",
-      "requiredEnvironments": ["local", "test", "preview", "staging", "production"],
+      "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
       "ownerCategory": "Supabase owner",
       "purpose": "Verifies E5 account-closure capabilities inside PostgreSQL.",
-      "sourceBoundary": "Supabase Vault for the exact bound project; synthetic local provisioning in tests only.",
+      "sourceBoundary": "Supabase Vault for the exact bound project; synthetic local provisioning in tests and private device-test only.",
       "rotation": "Jointly with ACCOUNT_CLOSURE_CAPABILITY_SECRET; metadata-only evidence.",
       "browserExposure": "forbidden",
       "matchesApplicationVariable": "ACCOUNT_CLOSURE_CAPABILITY_SECRET"
@@ -1181,7 +1197,7 @@
     "locales": ["en", "he"],
     "inviteCallbackPath": "/{locale}/auth/confirm",
     "recoveryCallbackPath": "/{locale}/auth/recover/confirm",
-    "originAuthority": "APP_ORIGIN bound to the environment origin registry and applicable Vercel system URL",
+    "originAuthority": "APP_ORIGIN bound to the hosted origin registry and applicable Vercel system URL, or to the exact configured device-test tailnet HTTPS origin with loopback local Supabase",
     "previewHostedAuthDisposition": "Signed-out/public/deployment/environment smoke only unless the exact Preview callback can be represented without any wildcard that reaches staging, Production, or unrelated deployments.",
     "productionBootstrapAuthDisposition": "Only configuration strictly required for the protected provider-owned bootstrap origin; no ordinary signup, invitation, recovery-delivery test, or final custom domain.",
     "forbiddenAuthorities": ["request Host", "forwarded Host", "browser input", "caller redirect", "branch name alone", "arbitrary URL shape"]

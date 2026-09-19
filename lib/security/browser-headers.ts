@@ -1,4 +1,5 @@
 type BrowserSecurityHeaderEnvironment = Readonly<{
+  appEnvironment?: string;
   appOrigin?: string;
   environment?: string;
   supabaseUrl?: string;
@@ -51,6 +52,7 @@ function applicationUsesHttps(rawOrigin?: string) {
 }
 
 export function contentSecurityPolicy({
+  appEnvironment,
   appOrigin,
   environment,
   supabaseUrl,
@@ -67,7 +69,11 @@ export function contentSecurityPolicy({
     ["style-src", "'self'", "'unsafe-inline'"],
     ["img-src", "'self'", "blob:", "data:"],
     ["font-src", "'self'"],
-    ["connect-src", "'self'", ...supabaseConnectSources(supabaseUrl)],
+    [
+      "connect-src",
+      "'self'",
+      ...(appEnvironment === "device-test" ? [] : supabaseConnectSources(supabaseUrl)),
+    ],
     ["media-src", "'self'", "blob:"],
     ["object-src", "'none'"],
     ["base-uri", "'self'"],

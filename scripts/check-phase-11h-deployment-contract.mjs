@@ -410,9 +410,12 @@ export function validateDeploymentPolicy(contract = phase11hContract) {
     contract.trustedOriginPolicy?.providerBindings?.preview !== "VERCEL_URL" ||
     contract.trustedOriginPolicy?.providerBindings?.staging !== "VERCEL_BRANCH_URL" ||
     contract.trustedOriginPolicy?.providerBindings?.production !==
-      "VERCEL_PROJECT_PRODUCTION_URL"
+      "VERCEL_PROJECT_PRODUCTION_URL" ||
+    contract.trustedOriginPolicy?.deviceTest?.providerDeploymentIdentityAllowed !== false ||
+    contract.trustedOriginPolicy?.deviceTest?.supabaseEndpoint !==
+      "loopback-only local Supabase"
   ) {
-    fail(errors, "APP_ORIGIN must remain target-bound to the origin registry and trusted Vercel metadata.");
+    fail(errors, "APP_ORIGIN must remain bound to hosted origin metadata or the explicit private device-test contract.");
   }
   for (const finding of ["P11A-010", "P11A-017", "P11A-018"]) {
     const disposition = contract.findingDispositions?.[finding];
@@ -623,9 +626,9 @@ function inspectWorkflow(root, errors) {
 export function validateRepositoryContract(root = process.cwd()) {
   const errors = [];
   const contract = phase11hContract;
-  const expectedEnvironments = ["local", "test", "preview", "staging", "production"];
+  const expectedEnvironments = ["local", "test", "device-test", "preview", "staging", "production"];
   if (JSON.stringify(Object.keys(contract.applicationEnvironments)) !== JSON.stringify(expectedEnvironments)) {
-    fail(errors, "Application environments must be exactly local, test, preview, staging, and production.");
+    fail(errors, "Application environments must be exactly local, test, device-test, preview, staging, and production.");
   }
   if (contract.status !== "IMPLEMENTATION_COMPLETE_EXTERNAL_VALIDATION_PENDING") {
     fail(errors, "The repository contract must not claim external validation or finding closure.");

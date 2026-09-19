@@ -77,6 +77,18 @@ test("development adds only the framework-required eval relaxation", () => {
   expect(directives(production).has("upgrade-insecure-requests")).toBe(false);
 });
 
+test("device-test CSP permits only the application as a browser connection target", () => {
+  const policy = contentSecurityPolicy({
+    appEnvironment: "device-test",
+    appOrigin: "https://nutrition-j3.example-tailnet.ts.net",
+    environment: "production",
+    supabaseUrl: "http://127.0.0.1:54321",
+  });
+  const parsed = directives(policy);
+  expect(parsed.get("connect-src")).toEqual(["'self'"]);
+  expect(parsed.has("upgrade-insecure-requests")).toBe(true);
+});
+
 test("required browser headers are exact and avoid premature global policies", () => {
   const headers = new Map(
     browserSecurityHeaders({ environment: "production" }).map(

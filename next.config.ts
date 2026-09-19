@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: browserSecurityHeaders({
+          appEnvironment: process.env.APP_ENVIRONMENT,
           appOrigin: process.env.APP_ORIGIN,
           environment: process.env.NODE_ENV,
           supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,

@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { join, relative } from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import {
   phase11hContract,
   registryLifecycleForDeployment,
@@ -94,6 +96,15 @@ function localEnvironment(overrides = {}) {
   };
 }
 
+function deviceTestEnvironment(overrides = {}) {
+  return localEnvironment({
+    APP_ENVIRONMENT: "device-test",
+    APP_ORIGIN: "https://nutrition-j3.example-tailnet.ts.net",
+    NODE_ENV: "production",
+    ...overrides,
+  });
+}
+
 function hostedEnvironment(appEnvironment, overrides = {}) {
   const production = appEnvironment === "production";
   const projectRef = syntheticRefs[appEnvironment];
@@ -153,6 +164,112 @@ test("accepts a valid CI/test configuration", () => {
     ).ok,
     true,
   );
+});
+
+test("accepts a private device-test origin with a loopback-only local backend", () => {
+  const result = validateDeploymentEnvironment(deviceTestEnvironment());
+  assert.equal(result.ok, true, result.errors.join("\n"));
+  assert.equal(result.appOrigin, "https://nutrition-j3.example-tailnet.ts.net");
+  assert.equal(result.supabaseEnvironment, "local");
+  assert.equal(result.supabaseProjectRef, "local");
+  assert.equal(result.appEnvironment, "device-test");
+  assert.equal(
+    validateDeploymentEnvironment(deviceTestEnvironment({
+      NEXT_PUBLIC_SUPABASE_URL: "http://[::1]:54321",
+    })).ok,
+    true,
+  );
+  assert.equal(
+    validateDeploymentEnvironment(deviceTestEnvironment({
+      NEXT_PUBLIC_SUPABASE_URL: "http://localhost:54321",
+    })).ok,
+    true,
+  );
+});
+
+for (const [name, overrides] of Object.entries({
+  "HTTP app origin": { APP_ORIGIN: "http://nutrition-j3.example-tailnet.ts.net" },
+  "loopback app origin": { APP_ORIGIN: "https://localhost" },
+  "public app origin": { APP_ORIGIN: "https://nutrition.example.com" },
+  "incomplete tailnet hostname": { APP_ORIGIN: "https://example-tailnet.ts.net" },
+  "nonstandard app port": { APP_ORIGIN: "https://nutrition-j3.example-tailnet.ts.net:8443" },
+  "malformed app origin": { APP_ORIGIN: "not-an-origin" },
+  "credential-bearing app origin": {
+    APP_ORIGIN: "https://user:pass@nutrition-j3.example-tailnet.ts.net",
+  },
+  "app origin path": { APP_ORIGIN: "https://nutrition-j3.example-tailnet.ts.net/path" },
+  "app origin query": { APP_ORIGIN: "https://nutrition-j3.example-tailnet.ts.net/?x=1" },
+  "app origin fragment": { APP_ORIGIN: "https://nutrition-j3.example-tailnet.ts.net/#x" },
+  "Production Supabase URL": {
+    NEXT_PUBLIC_SUPABASE_URL: "https://hskfanrqwtqknzpquwhg.supabase.co",
+  },
+  "other hosted Supabase URL": {
+    NEXT_PUBLIC_SUPABASE_URL: "https://syntheticpreview001.supabase.co",
+  },
+  "LAN Supabase URL": { NEXT_PUBLIC_SUPABASE_URL: "http://192.168.1.4:54321" },
+  "tailnet Supabase URL": { NEXT_PUBLIC_SUPABASE_URL: "http://100.64.0.4:54321" },
+  "tailnet hostname Supabase URL": {
+    NEXT_PUBLIC_SUPABASE_URL: "https://database.example-tailnet.ts.net",
+  },
+  "non-local project ref": { SUPABASE_PROJECT_REF: "syntheticpreview001" },
+  "hosted Supabase class": { SUPABASE_ENVIRONMENT: "preview" },
+  "Vercel environment": { VERCEL_ENV: "preview" },
+  "Vercel Production environment": { VERCEL_ENV: "production" },
+  "Vercel target environment": { VERCEL_TARGET_ENV: "production" },
+  "Vercel deployment metadata": { VERCEL_REGION: "iad1" },
+  "Production registry identity": {
+    PRODUCTION_SUPABASE_PROJECT_REF: "hskfanrqwtqknzpquwhg",
+  },
+  "Production origin registry": {
+    PRODUCTION_APP_ORIGIN: "https://nutrition.example.com",
+  },
+  "deployment class": { DEPLOYMENT_CLASS: "PREVIEW" },
+  "insecure cookie mode": { NODE_ENV: "development" },
+})) {
+  test(`rejects device-test with ${name}`, () => {
+    const result = validateDeploymentEnvironment(deviceTestEnvironment(overrides));
+    assert.equal(result.ok, false, name);
+  });
+}
+
+test("header-like process values cannot redefine the device-test canonical origin", () => {
+  const result = validateDeploymentEnvironment(deviceTestEnvironment({
+    HOST: "attacker.example",
+    HTTP_HOST: "attacker.example",
+    HTTP_ORIGIN: "https://attacker.example",
+    HTTP_X_FORWARDED_HOST: "attacker.example",
+  }));
+  assert.equal(result.ok, true, result.errors.join("\n"));
+  assert.equal(result.appOrigin, "https://nutrition-j3.example-tailnet.ts.net");
+});
+
+test("current client components have no direct Supabase runtime import", () => {
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  const files = [];
+  function visit(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) visit(path);
+      else if (/\.(?:ts|tsx)$/.test(entry.name)) files.push(path);
+    }
+  }
+  for (const directory of ["app", "components", "lib"]) visit(join(root, directory));
+  for (const path of files) {
+    const relativePath = relative(root, path);
+    const source = readFileSync(path, "utf8");
+    if (!["lib/supabase/client.ts", "lib/supabase/index.ts"].includes(relativePath)) {
+      assert.doesNotMatch(source, /\bcreateBrowserClient\b/, relativePath);
+    }
+    if (!/^\s*["']use client["'];/m.test(source)) continue;
+    for (const statement of source.match(/import\s+[^;]+;/g) ?? []) {
+      if (/^import\s+type\b/.test(statement)) continue;
+      assert.doesNotMatch(
+        statement,
+        /from\s+["'](?:@supabase\/|@\/lib\/supabase(?:\/|["']))/,
+        relativePath,
+      );
+    }
+  }
 });
 
 test("activates the DEC-035 personal-use free-tier profile", () => {
