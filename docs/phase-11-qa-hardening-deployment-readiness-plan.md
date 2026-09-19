@@ -1004,8 +1004,12 @@ migration replay, security gates, build fallback and client-secret boundary,
 performance regression gates, and health/locale smoke passed. The canonical
 record is the [Phase 11J1 local/CI release rehearsal](phase-11j1-local-ci-release-rehearsal.md).
 
-Phase 11J1 is `COMPLETE` after post-merge independent acceptance. Phase 11J2
-then executed against accepted baseline
+That historical Phase 11J1 rehearsal is `COMPLETE` for its original candidate
+after post-merge independent acceptance. The [current-candidate CI refresh](phase-11j1-current-candidate-refresh.md)
+records exact accepted `main` `fc26ee80038dae2ed400cc6a7e7fba334dd7f508`
+after PR #131's barcode-camera correction and PR #132's Phase 11D timing
+hardening. Its CI execution evidence is complete and pending independent
+review. Phase 11J2 executed against accepted baseline
 `24b974d9d3c92573269fe4ca65d167bb211d4c7c`, tree
 `f291db761d50940c97d2cb226902142c92e7544c`. The fresh loopback-only local
 stack replayed 43 migrations and the focused Auth, account-lifecycle,
@@ -1013,11 +1017,15 @@ cross-user, no-JavaScript, security, and browser-secret boundaries passed
 79/79 cases. The canonical record is the
 [Phase 11J2 local Auth and account-lifecycle acceptance](phase-11j2-local-auth-security-account-lifecycle.md).
 
-Phase 11J2 is
-`IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW`. Phase 11J3
-through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete. All 18
-findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains the
-exclusive finding-closure gate, and `productionReleaseAuthorized=false`.
+The historical J2 packet records
+`IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW` at authorship;
+subsequent independent acceptance made current Phase 11J2 `COMPLETE`. PR #131
+merged the iPhone-camera implementation prerequisite for J3, while J3
+physical/manual iPhone and Android camera validation remains incomplete.
+Phase 11J4 through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete.
+All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
+the exclusive finding-closure gate, and
+`productionReleaseAuthorized=false`.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
