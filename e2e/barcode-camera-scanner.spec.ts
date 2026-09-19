@@ -216,6 +216,41 @@ async function installScannerMock(
   }, options);
 }
 
+async function installSoftwareCameraMock(context: BrowserContext, fixture: string) {
+  await context.addInitScript((svg) => {
+    delete (window as typeof window & { BarcodeDetector?: unknown }).BarcodeDetector;
+    const state = { permissionRequests: 0, trackStops: 0 };
+    Object.defineProperty(window, "__softwareCamera", { value: state });
+    Object.defineProperty(navigator, "mediaDevices", {
+      configurable: true,
+      value: {
+        getUserMedia: async (constraints: MediaStreamConstraints) => {
+          state.permissionRequests += 1;
+          if (constraints.audio !== false) throw new Error("Audio must be disabled.");
+          const canvas = document.createElement("canvas");
+          canvas.width = 960;
+          canvas.height = 560;
+          const image = new Image();
+          image.src = `data:image/svg+xml;base64,${svg}`;
+          await image.decode();
+          const drawing = canvas.getContext("2d");
+          if (!drawing) throw new Error("Canvas unavailable.");
+          drawing.fillStyle = "white";
+          drawing.fillRect(0, 0, canvas.width, canvas.height);
+          drawing.drawImage(image, 40, 40, 880, 480);
+          const stream = canvas.captureStream(10);
+          const repaint = window.setInterval(() => drawing.drawImage(image, 40, 40, 880, 480), 100);
+          for (const track of stream.getTracks()) {
+            const originalStop = track.stop.bind(track);
+            track.stop = () => { state.trackStops += 1; window.clearInterval(repaint); originalStop(); };
+          }
+          return stream;
+        },
+      },
+    });
+  }, fixture);
+}
+
 async function mockState(page: Page) {
   return page.evaluate(() =>
     (
@@ -362,11 +397,8 @@ test.describe.serial("native camera barcode scanning progressive enhancement", (
 
   test("keeps manual and no-JavaScript lookup complete when capability is unavailable", async ({ browser }) => {
     for (const scannerOptions of [
-      { missingDetector: true },
       { secure: false },
       { missingMediaDevices: true },
-      { supportedFormats: ["qr_code", "upc_e"] },
-      { getSupportedFormatsRejects: true },
     ]) {
       const context = await authenticatedContext(browser);
       await installScannerMock(context, scannerOptions);
@@ -391,6 +423,98 @@ test.describe.serial("native camera barcode scanning progressive enhancement", (
     );
     await expect(page.getByTestId("barcode-not-found")).toBeVisible();
     await noJs.close();
+  });
+
+  test("offers software scanning without native formats while keeping initialization lazy", async ({ browser }) => {
+    for (const scannerOptions of [
+      { missingDetector: true },
+      { supportedFormats: ["qr_code", "upc_e"] },
+      { getSupportedFormatsRejects: true },
+    ]) {
+      const context = await authenticatedContext(browser);
+      await installScannerMock(context, scannerOptions);
+      const page = await context.newPage();
+      const wasmRequests: string[] = [];
+      page.on("request", (request) => {
+        if (request.url().includes("zxing_reader.wasm")) wasmRequests.push(request.url());
+      });
+      await page.goto("/en/foods/barcode?date=2026-07-18");
+      await expect(page.locator('[data-scanner-state="ready"]')).toBeVisible();
+      expect(wasmRequests).toEqual([]);
+      expect((await mockState(page)).permissionRequests).toBe(0);
+      await context.close();
+    }
+  });
+
+  test("decodes local synthetic barcodes with real same-origin WASM under production CSP", async ({ browser }) => {
+    for (const [fixtureName, expected] of [
+      ["ean8", "00000096385074"],
+      ["ean13", "04006381333931"],
+      ["upca", "00036000291452"],
+      ["itf14", "10012345000017"],
+    ] as const) {
+      const context = await authenticatedContext(browser);
+      const fixture = readFileSync(`e2e/fixtures/barcodes/${fixtureName}.svg`).toString("base64");
+      await installSoftwareCameraMock(context, fixture);
+      const page = await context.newPage();
+      const scannerRequests: string[] = [];
+      page.on("request", (request) => scannerRequests.push(request.url()));
+      await page.goto("/en/foods/barcode?date=2026-07-18");
+      await expect(page.locator('[data-scanner-state="ready"]')).toBeVisible();
+      expect(scannerRequests.some((url) => url.includes("zxing_reader.wasm"))).toBe(false);
+      await page.route("**/barcode/csp-probe.js", (route) => route.fulfill({
+        contentType: "text/javascript",
+        body: "try { eval('1 + 1'); window.__scannerEvalBlocked = false; } catch { window.__scannerEvalBlocked = true; }",
+      }));
+      await page.evaluate(() => {
+        const script = document.createElement("script");
+        script.src = "/barcode/csp-probe.js";
+        document.head.append(script);
+      });
+      await expect.poll(() => page.evaluate(() =>
+        (window as typeof window & { __scannerEvalBlocked?: boolean }).__scannerEvalBlocked,
+      )).toBe(true);
+      await page.getByRole("button", { name: "Scan barcode" }).click();
+      await expect(page).toHaveURL(new RegExp(`code=${expected}&date=2026-07-18`), { timeout: 15_000 });
+      const wasm = scannerRequests.filter((url) => url.includes("zxing_reader.wasm"));
+      const applicationOrigin = new URL(page.url()).origin;
+      expect(wasm).toEqual([`${applicationOrigin}/barcode/zxing_reader.wasm`]);
+      expect(scannerRequests.filter((url) =>
+        ![applicationOrigin, new URL(localSupabaseUrl as string).origin].includes(new URL(url).origin),
+      )).toEqual([]);
+      await context.close();
+    }
+  });
+
+  test("failed software initialization keeps manual entry and never requests camera permission", async ({ browser }) => {
+    const context = await authenticatedContext(browser);
+    await installSoftwareCameraMock(context, readFileSync("e2e/fixtures/barcodes/ean13.svg").toString("base64"));
+    const page = await context.newPage();
+    await page.route("**/barcode/zxing_reader.wasm", (route) => route.abort());
+    await page.goto("/he/foods/barcode?date=2026-07-18");
+    await page.getByRole("button", { name: "סריקת ברקוד" }).click();
+    await expect(page.locator('[data-scanner-state="detection_error"]')).toBeVisible();
+    await expect(page.locator('input[name="code"]')).toBeVisible();
+    expect(await page.evaluate(() => (window as typeof window & { __softwareCamera: { permissionRequests: number } }).__softwareCamera.permissionRequests)).toBe(0);
+    await context.close();
+  });
+
+  test("software scanning ignores an unsupported QR fixture and releases its camera on cancel", async ({ browser }) => {
+    const context = await authenticatedContext(browser);
+    await installSoftwareCameraMock(context, readFileSync("e2e/fixtures/barcodes/qr.svg").toString("base64"));
+    const page = await context.newPage();
+    await page.goto("/en/foods/barcode?date=2026-07-18");
+    const initialUrl = page.url();
+    await page.getByRole("button", { name: "Scan barcode" }).click();
+    await expect(page.locator('[data-scanner-state="camera_active"]')).toBeVisible();
+    await page.waitForTimeout(800);
+    expect(page.url()).toBe(initialUrl);
+    await page.getByRole("button", { name: "Cancel camera" }).click();
+    await expect(page.locator('[data-scanner-state="cancelled"]')).toBeVisible();
+    expect(await page.evaluate(() =>
+      (window as typeof window & { __softwareCamera: { trackStops: number } }).__softwareCamera.trackStops,
+    )).toBeGreaterThan(0);
+    await context.close();
   });
 
   test("requests permission only on action, classifies failures, and bounds constraint fallback", async ({ browser }) => {

@@ -26,7 +26,7 @@ test("production CSP is restrictive and permits only the configured Supabase ori
   const parsed = directives(policy);
 
   expect(parsed.get("default-src")).toEqual(["'self'"]);
-  expect(parsed.get("script-src")).toEqual(["'self'", "'unsafe-inline'"]);
+  expect(parsed.get("script-src")).toEqual(["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"]);
   expect(parsed.get("style-src")).toEqual(["'self'", "'unsafe-inline'"]);
   expect(parsed.get("img-src")).toEqual(["'self'", "blob:", "data:"]);
   expect(parsed.get("font-src")).toEqual(["'self'"]);
@@ -62,6 +62,7 @@ test("development adds only the framework-required eval relaxation", () => {
   expect(directives(production).get("script-src")).toEqual([
     "'self'",
     "'unsafe-inline'",
+    "'wasm-unsafe-eval'",
   ]);
   expect(directives(development).get("script-src")).toEqual([
     "'self'",

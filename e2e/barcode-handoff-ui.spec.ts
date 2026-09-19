@@ -330,7 +330,8 @@ test.describe.serial("not-found custom-food barcode handoff UI", () => {
     await page.reload();
     expect(queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`)).toBe(beforeDiary);
     await page.getByRole("button", { name: "Add entry" }).click();
-    expect(queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`)).toBe(String(Number(beforeDiary) + 1));
+    await expect.poll(() => queryDatabase(`select count(*) from public.diary_entries where user_id = '${userAId}';`))
+      .toBe(String(Number(beforeDiary) + 1));
     await page.goto(`/en/foods/barcode?code=${codes.attach}&date=2026-07-17`);
     await expect(page.getByTestId("barcode-found_owned")).toContainText(
       `Phase 9C attached UI ${runId}`,

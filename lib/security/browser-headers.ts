@@ -59,6 +59,7 @@ export function contentSecurityPolicy({
   const scriptSources = ["'self'", "'unsafe-inline'"];
 
   if (development) scriptSources.push("'unsafe-eval'");
+  else scriptSources.push("'wasm-unsafe-eval'");
 
   const directives = [
     ["default-src", "'self'"],

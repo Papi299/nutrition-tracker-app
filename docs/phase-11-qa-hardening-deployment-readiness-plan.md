@@ -171,13 +171,14 @@ acyclic without moving or renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as candidate
-version `1.7-personal-use-free-tier-profile-amended`, while historical amended
+version `1.8-personal-use-owner-client-matrix-amended`, while historical amended
 versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
 `1.4-phase-11b-remaining-implemented-nojs-amended`,
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
-`1.6-phase-11e-nojs-classifications-amended` remain preserved: Maor Pichhadze
+`1.6-phase-11e-nojs-classifications-amended` and
+`1.7-personal-use-free-tier-profile-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -283,7 +284,7 @@ CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
 11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current accepted contract
-`1.7-personal-use-free-tier-profile-amended` preserves the exact six Phase 11E
+`1.8-personal-use-owner-client-matrix-amended` preserves the exact six Phase 11E
 rows established by version 1.6 and has current totals `16 / 5 / 13 / 1`;
 35 / 223 / 718 remains the accurate
 historical snapshot of the Phase 11C classification amendment. Accepted PRs

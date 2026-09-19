@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.7-personal-use-free-tier-profile-amended` |
+| Version | `1.8-personal-use-owner-client-matrix-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment; `1.7-personal-use-free-tier-profile-amended` — accepted DEC-035 personal-use profile and preserved as the historical seventh amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -39,6 +39,7 @@
 | Phase 11H prerequisite role assignments | `PRODUCT_OWNER_APPROVED` — on 2026-09-15 Maor Pichhadze assigned himself to and explicitly accepted the Vercel, Supabase, environment and secrets, Auth URL, applicable domain/DNS, and deployment/runbook owner roles; this satisfies only the before-11H governance prerequisite and grants none of the external authorities listed in Section 18 |
 | Phase 11H Production bootstrap decision | `PRODUCT_OWNER_APPROVED` — `DEC-031` permits one future separately and exactly authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first Vercel deployment; it is infrastructure, not release/launch/user/finding credit, and no bootstrap is executed by the repository correction |
 | Phase 11J0 personal-use profile | `PRODUCT_OWNER_APPROVED` — `DEC-035` activates `PERSONAL_USE_FREE_TIER`; isolated local/CI is the required full-stack rehearsal environment, hosted Preview is optional and Production-Supabase-forbidden, hosted staging and paid plans are not required, and the attributable role dispositions in Section 21 apply |
+| Phase 11J3 client and camera amendment | `PRODUCT_OWNER_APPROVED` — `DEC-036` defines the personal-use desktop/mobile support target and required physical iPhone/Android camera scanning; Section 22 is a forward amendment, not physical-device acceptance |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -46,14 +47,16 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.7-personal-use-free-tier-profile-amended` is the current accepted
-normative amendment. It preserves the complete original
+Version `1.8-personal-use-owner-client-matrix-amended` is the current
+owner-approved normative amendment. It preserves the complete original
 `1.0-phase-11b-accepted` baseline and historical amended identities `1.1`
-through `1.6`. Version 1.6 remains authoritative for the six Product
+through `1.7`. Version 1.6 remains authoritative for the six Product
 Owner-approved Phase 11E no-JavaScript classification cells in Section 7.2 and
 their matching classification, rationale, owner-slice, and validation-method
 rows in Section 7.3. Version 1.7 adds only the `DEC-035` active release-profile,
-role, and evidence-governance changes in this document. The
+role, and evidence-governance changes in this document. Version 1.8 adds only
+the `DEC-036` owner-supported client/camera matrix and implementation security
+boundary in Section 22. The
 historical Phase 11C evidence remains bound to accepted contract version 1.4
 and is not migrated, reinterpreted, or credited against current later-slice
 truth. Contract acceptance does not itself authorize or claim runtime
@@ -1380,3 +1383,40 @@ active contract is the
 This amendment closes no finding. All 18 findings remain `OPEN`, Phase 11
 remains `INCOMPLETE`, Phase 11J remains unstarted, and Phase 11K remains the
 exclusive finding-closure gate.
+
+## 22. DEC-036 personal-use client and camera matrix
+
+On 2026-09-19, Product Owner Maor Pichhadze supplied the attributable
+`PHASE-11J3-PREREQ-IOS-BARCODE-CAMERA-COMPATIBILITY-002` direction. For the
+active `PERSONAL_USE_FREE_TIER` profile, desktop support covers macOS Safari,
+Chrome, and Firefox and Windows Chrome, Edge, and Firefox, retaining the
+`DEC-014` browser set. Final owner-use evidence records the installed OS and
+browser versions actually exercised; it does not require a commercial
+multi-machine certification matrix. Desktop camera scanning is optional.
+
+Mobile support covers iPhone Safari and Chrome and Android Chrome. Physical
+barcode-camera scanning is required on both an iPhone and an Android phone.
+No iPad/tablet support is inferred. Runtime capability, never browser-name
+sniffing, chooses native barcode detection where usable or a lazy, same-origin
+software decoder otherwise. Only EAN-8, EAN-13, UPC-A, and accepted ITF/GTIN-14
+values may navigate, after canonical validation. Manual entry remains complete.
+Camera frames stay in the browser and are neither uploaded nor persisted.
+
+The owner explicitly authorizes production `script-src 'wasm-unsafe-eval'` for
+the local ZXing reader. Production JavaScript `'unsafe-eval'`, external code or
+WASM origins, and any other CSP relaxation remain unauthorized. The decoder
+binary must derive deterministically from the exact locked dependency and be
+served from the application origin. Automated compatibility is implementation
+evidence only; physical Safari, iPhone Chrome, and Android Chrome acceptance
+remains Phase 11J3 owner evidence. Existing axe, semantics, keyboard/focus,
+reduced-motion, RTL/LTR, and zoom/reflow engineering remain required. This
+decision alone does not reactivate a broad commercial assistive-technology
+certification matrix.
+
+Historical Contract 1.7 and J1/J2 packets remain attributed to their actual
+candidates. The runtime correction requires an affected J1 exact-candidate
+refresh after merge and affected Phase 11D automation rerun. It does not by
+itself alter J2 Auth, RLS, ownership, account export/closure, recovery, or
+activation semantics; the changed CSP/header tests are rerun separately.
+`productionReleaseAuthorized=false`; all 18 findings remain `OPEN`, with Phase
+11K alone owning closure. No provider mutation or deployment is authorized.

@@ -457,13 +457,14 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended by
-accepted version `1.7-personal-use-free-tier-profile-amended`.
+owner-approved version `1.8-personal-use-owner-client-matrix-amended`.
 Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
 `1.4-phase-11b-remaining-implemented-nojs-amended`,
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
-`1.6-phase-11e-nojs-classifications-amended` remain preserved.
+`1.6-phase-11e-nojs-classifications-amended` and
+`1.7-personal-use-free-tier-profile-amended` remain preserved.
 Version 1.5 records Product Owner Maor Pichhadze's 2026-08-26 Option 2 approval to
 preserve all DEC-014–017 requirement substance while moving final
 launch-facing UI-dependent human acceptance from 11D to the stabilized

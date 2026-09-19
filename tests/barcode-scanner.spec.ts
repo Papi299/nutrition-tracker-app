@@ -1,7 +1,10 @@
 import { expect, test } from "@playwright/test";
 import {
   approvedNativeBarcodeFormats,
+  approvedSoftwareBarcodeFormats,
+  createScannerBackendDetector,
   createNativeBarcodeDetector,
+  resolveScannerCapability,
   resolveNativeScannerCapability,
   type NativeBarcodeDetection,
 } from "@/lib/barcodes/scanner-capabilities";
@@ -122,6 +125,64 @@ test.describe("native scanner capability resolution", () => {
 
     createNativeBarcodeDetector(capability);
     expect(received).toEqual([{ formats: ["upc_a", "itf"] }]);
+  });
+});
+
+test.describe("scanner backend selection", () => {
+  test("keeps the native backend and never loads software when native is usable", async () => {
+    const capability = await resolveScannerCapability(capabilityEnvironment());
+    expect(capability).toMatchObject({ backend: "native", status: "available" });
+    if (capability.status !== "available") return;
+    let softwareLoads = 0;
+    await createScannerBackendDetector(capability, async () => {
+      softwareLoads += 1;
+      return { detect: async () => [] };
+    });
+    expect(softwareLoads).toBe(0);
+  });
+
+  test("selects software for absent, broken, and unsupported native APIs", async () => {
+    for (const barcodeDetector of [
+      undefined,
+      detectorConstructor(new Error("broken")),
+      detectorConstructor(["qr_code", "upc_e"]),
+    ]) {
+      const capability = await resolveScannerCapability(
+        capabilityEnvironment({ barcodeDetector }),
+      );
+      expect(capability).toEqual({ backend: "software", status: "available" });
+      if (capability.status !== "available") continue;
+      let softwareLoads = 0;
+      await createScannerBackendDetector(capability, async () => {
+        softwareLoads += 1;
+        return { detect: async () => [] };
+      });
+      expect(softwareLoads).toBe(1);
+    }
+  });
+
+  test("falls back when native construction fails and propagates software failure safely", async () => {
+    const broken = class BrokenNative {
+      static async getSupportedFormats() { return ["ean_13"]; }
+      constructor() { throw new Error("native constructor failed"); }
+    };
+    const capability = await resolveScannerCapability(
+      capabilityEnvironment({ barcodeDetector: broken }),
+    );
+    expect(capability.status).toBe("available");
+    if (capability.status !== "available") return;
+    const software = { detect: async () => [] };
+    await expect(createScannerBackendDetector(capability, async () => software)).resolves.toBe(software);
+    await expect(createScannerBackendDetector(capability, async () => {
+      throw new Error("software unavailable");
+    })).rejects.toThrow("software unavailable");
+  });
+
+  test("requires secure camera APIs before offering either backend", async () => {
+    for (const overrides of [{ isSecureContext: false }, { mediaDevices: undefined }]) {
+      await expect(resolveScannerCapability(capabilityEnvironment(overrides))).resolves.toEqual({ status: "unavailable" });
+    }
+    expect(approvedSoftwareBarcodeFormats).toEqual(["ean_8", "ean_13", "upc_a", "itf", "itf_14"]);
   });
 });
 

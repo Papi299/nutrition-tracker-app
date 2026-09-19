@@ -154,6 +154,13 @@ mobile layout, Hebrew/RTL usability, zoom/reflow, and camera/barcode behavior
 when used. Automated accessibility, semantic, contrast-tooling, reduced-motion,
 keyboard/focus, RTL, and zoom/reflow engineering remain required.
 
+`DEC-036` later makes the supported owner-use client set explicit: macOS
+Safari/Chrome/Firefox, Windows Chrome/Edge/Firefox, iPhone Safari/Chrome, and
+Android Chrome. Physical barcode-camera scanning is required on an iPhone and
+Android phone, with each mobile browser recorded separately; desktop camera
+scanning is not required. Actual installed OS/browser versions are recorded in
+J3. This forward amendment does not change earlier J1/J2 candidate evidence.
+
 Broad commercial certification matrices such as NVDA/Firefox, multiple Android
 devices, multiple iOS/iPadOS generations, or broad assistive-technology
 certification are `NOT_REQUIRED_PERSONAL_USE_PROFILE` unless the Product Owner
