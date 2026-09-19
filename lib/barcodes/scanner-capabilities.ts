@@ -5,6 +5,11 @@ export const approvedNativeBarcodeFormats = [
   "itf",
 ] as const;
 
+export const approvedSoftwareBarcodeFormats = [
+  ...approvedNativeBarcodeFormats,
+  "itf_14",
+] as const;
+
 export type ApprovedNativeBarcodeFormat =
   (typeof approvedNativeBarcodeFormats)[number];
 
@@ -37,6 +42,11 @@ export type NativeScannerCapability =
       formats: ApprovedNativeBarcodeFormat[];
       status: "available";
     };
+
+export type ScannerCapability =
+  | { status: "unavailable" }
+  | ({ backend: "native" } & Extract<NativeScannerCapability, { status: "available" }>)
+  | { backend: "software"; status: "available" };
 
 function hasGetUserMedia(
   value: unknown,
@@ -96,4 +106,31 @@ export function createNativeBarcodeDetector(
   capability: Extract<NativeScannerCapability, { status: "available" }>,
 ) {
   return new capability.detector({ formats: [...capability.formats] });
+}
+
+export async function resolveScannerCapability(
+  environment: ScannerCapabilityEnvironment,
+): Promise<ScannerCapability> {
+  if (!environment.isSecureContext || !hasGetUserMedia(environment.mediaDevices)) {
+    return { status: "unavailable" };
+  }
+
+  const native = await resolveNativeScannerCapability(environment);
+  return native.status === "available"
+    ? { ...native, backend: "native" }
+    : { backend: "software", status: "available" };
+}
+
+export function createScannerBackendDetector(
+  capability: Extract<ScannerCapability, { status: "available" }>,
+  loadSoftware: () => Promise<NativeBarcodeDetector>,
+): NativeBarcodeDetector | Promise<NativeBarcodeDetector> {
+  if (capability.backend === "native") {
+    try {
+      return createNativeBarcodeDetector(capability);
+    } catch {
+      // A broken native constructor can fall back before camera permission.
+    }
+  }
+  return loadSoftware();
 }

@@ -406,7 +406,7 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         "בעת המעבר למסך „היום”, התאריך הזה יישאר נבחר. חיפוש לפי ברקוד אינו יוצר רשומה ביומן.",
       );
       await expect(page.locator("body")).toContainText(
-        "כאשר המכשיר תומך בסריקה מובנית, תמונות מהמצלמה נשארות בדפדפן ואינן מועלות או נשמרות.",
+        "תמונות מהמצלמה נשארות בדפדפן ואינן מועלות או נשמרות. פענוח תוכנתי משתמש ברכיב המוגש מהיישום.",
       );
       const barcodeDate = page.locator('input[name="date"]');
       const barcodeMeal = page.locator('select[name="mealType"]');
@@ -713,6 +713,43 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     await expect(page.locator('input[name="code"]')).toBeVisible();
     await expect(page.getByTestId("barcode-camera-scanner")).toBeVisible();
     await expect(externalRequests).toEqual([]);
+    await context.close();
+  });
+
+  test("initializes the local software scanner without native detection in each engine", async ({ browser }) => {
+    const context = await authenticatedContext(browser, storageState, {
+      viewport: { height: 844, width: 390 },
+    });
+    await context.addInitScript(() => {
+      delete (window as typeof window & { BarcodeDetector?: unknown }).BarcodeDetector;
+      const state = { permissionRequests: 0 };
+      Object.defineProperty(window, "__softwareCameraState", { value: state });
+      Object.defineProperty(navigator, "mediaDevices", {
+        configurable: true,
+        value: {
+          getUserMedia: async () => {
+            state.permissionRequests += 1;
+            throw new DOMException("private detail", "NotAllowedError");
+          },
+        },
+      });
+    });
+    const page = await context.newPage();
+    const wasmRequests: string[] = [];
+    page.on("request", (request) => {
+      if (request.url().includes("zxing_reader.wasm")) wasmRequests.push(request.url());
+    });
+    await page.goto("/he/foods/barcode?date=2026-08-21");
+    await expect(page.locator('[data-scanner-state="ready"]')).toBeVisible();
+    expect(wasmRequests).toEqual([]);
+    await page.getByRole("button", { name: "סריקת ברקוד" }).press("Enter");
+    await expect(page.locator('[data-scanner-state="permission_denied"]')).toHaveAttribute("role", "alert");
+    await expect(page.getByRole("heading", { name: "סריקה במצלמת המכשיר" })).toBeFocused();
+    await expect(page.locator('input[name="code"]')).toBeVisible();
+    expect(wasmRequests).toEqual([`${new URL(page.url()).origin}/barcode/zxing_reader.wasm`]);
+    expect(await page.evaluate(() =>
+      (window as typeof window & { __softwareCameraState: { permissionRequests: number } }).__softwareCameraState.permissionRequests,
+    )).toBe(1);
     await context.close();
   });
 

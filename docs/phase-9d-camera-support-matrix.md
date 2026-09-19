@@ -33,3 +33,23 @@ safely treated as GTIN-8; expansion remains deferred to a separately approved,
 fixture-backed task. QR, Data Matrix, GS1 Digital Link, and all other formats
 are rejected. Frames remain attached only to the live `MediaStream`; they are
 not uploaded, copied, stored, logged, or sent to Supabase or a provider.
+
+## Forward amendment: Phase 11J3 prerequisite, 2026-09-19
+
+The matrix above records the historical Phase 9D native-only candidate and
+its then-unverified physical devices. `DEC-036` and Contract 1.8 later require
+physical iPhone and Android camera scanning for personal use. The current
+implementation adds a lazy `barcode-detector/ponyfill` 3.2.2 (MIT) backend
+when native `BarcodeDetector` is unusable. Its pinned `zxing-wasm` 3.1.3
+reader (SHA-256
+`2ebda08a93eea3efcd8399cda6b276e6a0b1de4fec60b4d8988a047de4c6d1ba`)
+is copied from the verified lockfile dependency to
+`/barcode/zxing_reader.wasm` by `npm run prebuild` and served by this
+application, with no decoder CDN or image upload. The existing global
+application CSP adds only `'wasm-unsafe-eval'` because headers apply to all
+routes and a route split would add duplicate policy handling. Native decoding remains
+preferred and manual entry remains available. Production CSP permits only
+WebAssembly compilation through `'wasm-unsafe-eval'`; ordinary JavaScript
+`'unsafe-eval'` remains prohibited. Automation does not establish physical
+iPhone Safari, iPhone Chrome, or Android Chrome acceptance; those remain J3
+owner evidence.

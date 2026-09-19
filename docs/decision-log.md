@@ -3730,3 +3730,36 @@ occurred. Hosted provider and deployed-origin claims remain
 through 11J6 remain `NOT_STARTED`. All 18 findings remain `OPEN`, Phase 11
 remains `INCOMPLETE`, Phase 11K remains the exclusive finding-closure gate, and
 `productionReleaseAuthorized=false`.
+
+## 2026-09-19: DEC-036 personal-use supported client and camera matrix
+
+### DEC-036 — Personal-use supported client and camera matrix
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Under `PERSONAL_USE_FREE_TIER`, support macOS Safari/Chrome/Firefox, Windows Chrome/Edge/Firefox, iPhone Safari/Chrome, and Android Chrome. Physical barcode-camera scanning is required on iPhone and Android phones; desktop camera scanning is not required. Preserve automated accessibility, keyboard/focus, reduced-motion, RTL/LTR, and zoom/reflow engineering without reactivating a broad commercial assistive-technology certification matrix. |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-19 |
+| Attributable direction | `PHASE-11J3-PREREQ-IOS-BARCODE-CAMERA-COMPATIBILITY-002`, supplied directly by the Product Owner after the blocked `-001` attempt and independent engineering/security review |
+| Current contract | `1.8-personal-use-owner-client-matrix-amended` |
+
+The prior `-001` attempt stopped without implementation because WebAssembly
+execution required a CSP change that had then been prohibited. That blocked
+attempt remains historical. This decision now explicitly permits production
+`'wasm-unsafe-eval'` for same-origin barcode-reader WebAssembly only. It does
+not permit production JavaScript `'unsafe-eval'`, external code or WASM,
+third-party decoding, image upload, deployment, or provider mutation. The
+existing native decoder remains preferred; the lazy software decoder is the
+compatibility path when native detection is unusable. Only approved EAN-8,
+EAN-13, UPC-A, and ITF/GTIN-14 results may navigate through canonical
+validation. Manual lookup remains universal.
+
+Final personal-use manual evidence records the installed owner-used OS and
+browser versions actually exercised. Engine automation is not physical iPhone
+Safari, iPhone Chrome, or Android Chrome proof. No tablet support is inferred.
+Historical Contract 1.7 and Phase 11J1/J2 packets retain their original
+candidate attribution. The affected J1 candidate and Phase 11D camera/browser
+automation require refresh after this correction; the J2 Auth/account scope
+does not change, while the affected CSP/header tests are rerun. All 18 findings
+remain `OPEN`, Phase 11K alone may close them, and
+`productionReleaseAuthorized=false`.

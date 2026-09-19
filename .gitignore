@@ -28,6 +28,7 @@
 
 # production
 /build
+/public/barcode/zxing_reader.wasm
 
 # misc
 .DS_Store

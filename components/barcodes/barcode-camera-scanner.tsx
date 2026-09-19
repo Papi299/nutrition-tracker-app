@@ -10,10 +10,10 @@ import {
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
-  createNativeBarcodeDetector,
-  resolveNativeScannerCapability,
+  createScannerBackendDetector,
+  resolveScannerCapability,
   type NativeBarcodeDetector,
-  type NativeScannerCapability,
+  type ScannerCapability,
 } from "@/lib/barcodes/scanner-capabilities";
 import {
   classifyCameraError,
@@ -29,6 +29,7 @@ type ScannerState =
   | "checking_capability"
   | "capability_unavailable"
   | "ready"
+  | "initializing_decoder"
   | "requesting_permission"
   | "camera_active"
   | "completing"
@@ -107,7 +108,7 @@ export function BarcodeCameraScanner({
   const [state, setState] = useState<ScannerState>("checking_capability");
   const stateRef = useRef<ScannerState>("checking_capability");
   const capabilityRef = useRef<Extract<
-    NativeScannerCapability,
+    ScannerCapability,
     { status: "available" }
   > | null>(null);
   const [lifecycle] = useState(createScannerLifecycle);
@@ -129,7 +130,7 @@ export function BarcodeCameraScanner({
     const detector = (globalThis as { BarcodeDetector?: unknown })
       .BarcodeDetector;
 
-    void resolveNativeScannerCapability({
+    void resolveScannerCapability({
       barcodeDetector: detector,
       isSecureContext: window.isSecureContext,
       mediaDevices: navigator.mediaDevices,
@@ -152,6 +153,7 @@ export function BarcodeCameraScanner({
   useEffect(() => {
     function stopForPageExit() {
       if (
+        stateRef.current === "initializing_decoder" ||
         stateRef.current === "requesting_permission" ||
         stateRef.current === "camera_active"
       ) {
@@ -308,6 +310,23 @@ export function BarcodeCameraScanner({
     if (capability === null) return;
 
     const session = lifecycle.begin();
+    if (capability.backend === "software") transition("initializing_decoder");
+
+    let detector: NativeBarcodeDetector;
+    try {
+      const selected = createScannerBackendDetector(capability, async () => {
+        transition("initializing_decoder");
+        const software = await import("@/lib/barcodes/scanner-software");
+        return software.createSoftwareBarcodeDetector();
+      });
+      detector = selected instanceof Promise ? await selected : selected;
+    } catch {
+      if (!lifecycle.isCurrent(session)) return;
+      transition("detection_error");
+      lifecycle.release(session);
+      return;
+    }
+    if (!lifecycle.isCurrent(session)) return;
     transition("requesting_permission");
 
     let stream: MediaStream;
@@ -359,7 +378,6 @@ export function BarcodeCameraScanner({
     try {
       await video.play();
       if (!lifecycle.isCurrent(session)) return;
-      const detector = createNativeBarcodeDetector(capability);
       transition("camera_active");
       startDetectionLoop(session, detector, video);
     } catch {
@@ -374,6 +392,7 @@ export function BarcodeCameraScanner({
     state === "camera_active" ||
     state === "completing";
   const showCancel =
+    state === "initializing_decoder" ||
     state === "requesting_permission" || state === "camera_active";
   const showStart = state === "ready";
   const showRetry = retryStates.has(state);
