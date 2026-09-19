@@ -784,11 +784,11 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     await context.close();
   });
 
-  test("keeps real custom-food alias controls contained, separate, and actionable", async ({ browser }, testInfo) => {
-    const context = await authenticatedContext(browser, storageState);
-    const geometryEvidence = [];
+  for (const locale of ["en", "he"] as const) {
+    test(`keeps real custom-food alias controls contained, separate, and actionable in ${locale}`, async ({ browser }, testInfo) => {
+      const context = await authenticatedContext(browser, storageState);
+      const geometryEvidence = [];
 
-    for (const locale of ["en", "he"] as const) {
       for (const viewportCase of aliasControlViewportCases) {
         const page = await context.newPage();
         await page.setViewportSize(viewportCase);
@@ -916,14 +916,13 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         await expect(aliasRow).toHaveCount(0);
         await page.close();
       }
-    }
-
-    await testInfo.attach(`alias-control-geometry-${testInfo.project.name}`, {
-      body: Buffer.from(JSON.stringify(geometryEvidence, null, 2)),
-      contentType: "application/json",
+      await testInfo.attach(`alias-control-geometry-${testInfo.project.name}-${locale}`, {
+        body: Buffer.from(JSON.stringify(geometryEvidence, null, 2)),
+        contentType: "application/json",
+      });
+      await context.close();
     });
-    await context.close();
-  });
+  }
 
   test("honors reduced-motion preference without removing interaction", async ({ browser }) => {
     const context = await authenticatedContext(browser, storageState, {
