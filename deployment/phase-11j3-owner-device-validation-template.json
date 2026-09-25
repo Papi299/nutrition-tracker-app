@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "TEMPLATE_NOT_EXECUTED",
-  "executionReadiness": "BLOCKED_LOCAL_SUPABASE_RESET_WILDCARD_DB_BINDING",
+  "executionReadiness": "BLOCKED_PENDING_REMAINING_PRIVATE_DEVICE_TEST_TOPOLOGY_PREFLIGHT",
   "runtimeCandidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
   "runtimeCandidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
   "executionEnvironment": null,
