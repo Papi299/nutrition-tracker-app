@@ -11,9 +11,9 @@ const primaryRoutes = [
 ];
 
 function primaryNav(page: Page, locale: string) {
-  return page.locator("header nav").filter({
-    has: page.locator(`a[href="/${locale}/today"]`),
-  });
+  return page.locator("header nav")
+    .filter({ has: page.locator(`a[href="/${locale}/today"]`) })
+    .filter({ has: page.locator(`a[href="/${locale}/foods/barcode"]`) });
 }
 
 async function expectActive(nav: Locator, locale: string, route: string) {
