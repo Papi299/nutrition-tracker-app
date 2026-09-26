@@ -2,7 +2,7 @@
   "schemaVersion": "1",
   "taskId": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001",
   "status": "PHASE_11J1_NAVIGATION_FIX_CANDIDATE_REFRESH_EVIDENCE_COMPLETE",
-  "reviewState": "PENDING_INDEPENDENT_REVIEW_OF_NEW_FORWARD_PACKET",
+  "reviewState": "SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW",
   "runtimeTestCandidate": {
     "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
     "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
@@ -236,5 +236,6 @@
   "readinessAfterForwardPacketReview": "READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES",
   "evidencePrHeadIsRuntimeCandidate": false,
   "providerOrSystemMutationPerformed": false,
-  "ownerDeviceExecutionPerformed": false
+  "ownerDeviceExecutionPerformed": false,
+  "cameraDecisionProvenanceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval"
 }

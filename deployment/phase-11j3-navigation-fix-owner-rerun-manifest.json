@@ -957,7 +957,7 @@
     }
   ],
   "nextOwnerSessionPrerequisites": [
-    "Independent acceptance of this J1/forward packet and successful exact-head attempt-1 PR CI",
+    "Exact-head independent review of the corrected J1/forward record and successful exact-head attempt-1 PR CI; the substantive 30-camera no-impact carry-forward was already accepted in review of PR #144 head 89359656ac2b998d3d48e8385e20203e1afc44e5",
     "Separate owner-session authorization; no VM startup, Tailscale authentication, UI rerun or camera execution in this task",
     "Install/verify accepted f50d7448 candidate source or exact tree/archive provenance in the private runtime; current guest source remains historical and is not changed here",
     "Revalidate saved synthetic state, trusted private HTTPS, device-test contract, Secure cookies and authenticated Server Actions",
@@ -1010,5 +1010,7 @@
     },
     "productionReleaseAuthorized": false
   },
-  "providerOrSystemMutationPerformed": false
+  "providerOrSystemMutationPerformed": false,
+  "reviewState": "SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW",
+  "cameraDecisionProvenanceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval"
 }

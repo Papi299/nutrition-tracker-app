@@ -2,10 +2,38 @@
 
 Task: `PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001`.
 Decision: **`CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT`**.
-The narrow independent ChatGPT exception was explicitly supplied by the
-Product Owner in task sections 6 and 7. This document records that accepted
-decision; the accuracy/provenance of this new forward packet awaits independent
-review. No separate review URL or timestamp was supplied or invented.
+Independent ChatGPT review of Draft PR #144 head
+`89359656ac2b998d3d48e8385e20203e1afc44e5`, tree
+`1666d9237f1bf8e9881323967320580d2cbf68c8`, accepted the narrow carry-forward
+for all 30 historical mobile camera PASS observations, including `-05` routing
+and `-08` lifecycle. The overall verdict was `REQUEST CHANGES` for incorrect
+review provenance and chronology. The substantive decision remains accepted;
+faithful recording on the corrected PR head awaits exact-head re-review before
+merge: `SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW`.
+No external review URL or precise review timestamp is supplied or invented.
+
+## Independent review chronology
+
+1. The original task authorized a camera evidence-impact proposal.
+2. Codex created Draft PR #144 and prematurely recorded that proposal as
+   already independently accepted.
+3. Independent ChatGPT reviewed the exact PR head/tree above.
+4. The review found the technical no-impact analysis sound.
+5. The review accepted the narrow 30-camera carry-forward on substance,
+   including `NO_CAMERA_05_ROUTING_IMPACT_IDENTIFIED` and
+   `NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED`.
+6. The overall review returned `REQUEST CHANGES` because the packet attributed
+   acceptance to the wrong source and time.
+7. This correction records that already-issued decision; the corrected PR
+   head must return for exact-head review before merge.
+
+The acceptance occurred during that PR review. The original Product Owner
+task did not supply the independent decision. The
+[structured approval record](../deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval)
+identifies its reviewer, reviewed PR/head/tree, substantive disposition and
+required correction. This record preserves a decision on a fixed reviewed
+head; later verification of the correction does not require rewriting the
+decision's head to the corrected head or creating another source commit.
 
 ## Two candidate identities and evidence authority
 
@@ -60,7 +88,9 @@ carry-forward, with the original per-browser observation limits intact.
 **`NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED`**: scanner effects, stream ownership,
 release, cancel/decode/page-exit cleanup and child route mount/unmount authority
 are unchanged. `AppShell` still renders children in the same content container.
-The header subscriber has no camera lifecycle control. All three camera `-08`
+The navigation client component is a sibling in the header, not an owner or
+controller of the scanner subtree; it has no camera lifecycle control. All three
+camera `-08`
 IDs, including navigation-away observations, are included in accepted
 carry-forward.
 
@@ -141,7 +171,7 @@ individual provenance record and have no fresh physical observation. All nine
 pending UI rows contain blank new-candidate result, disposition, timestamp and
 actual-device fields; those blanks are separate from historical FAIL/null cells.
 
-After this J1/forward packet passes review, status is
+After exact-head review verifies this corrected J1/forward record, status is
 `READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES`. This is
 case/evidence readiness, not proof of live new-candidate deployment. The future
 separately authorized session must install/verify the accepted candidate or

@@ -1047,12 +1047,21 @@ The independently accepted post-PR-143 runtime candidate is
 [fresh J1 refresh](phase-11j1-navigation-fix-candidate-refresh.md) binds it to
 exact-main push CI #288, attempt 1: 351 unit passes, 366 full Playwright passes,
 Phase 11D 53 passes/3 intentional skips/zero failures or flakes, and advisories
-0/0/0/0. Its new evidence packet awaits independent review; older J1 packets
-remain unchanged. The inspected navigation-only runtime delta records
+0/0/0/0. Its corrected evidence record awaits exact-head independent review;
+older J1 packets remain unchanged. The inspected navigation-only runtime delta
+records
 `NO_J2_SEMANTIC_CHANGE_IDENTIFIED` and claims no new full J2 execution.
 
-The Product Owner supplied independent ChatGPT approval of
-`CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT`. The
+Independent ChatGPT review of Draft PR #144 head
+`89359656ac2b998d3d48e8385e20203e1afc44e5`, tree
+`1666d9237f1bf8e9881323967320580d2cbf68c8`, accepted
+`CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT` for all 30 camera
+cases, including `-05` routing and `-08` lifecycle, but returned `REQUEST CHANGES`
+for review-provenance/chronology correction. The original task authorized a
+proposal; Codex prematurely recorded prior independent acceptance. Acceptance
+actually occurred during that PR review. The corrected head remains pending
+exact-head review:
+`SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW`. The
 [separate camera forward packet](phase-11j3-camera-evidence-carry-forward.md)
 records all 30 old physical PASSs without changing PR #142 attribution and
 without claiming fresh execution. Camera `-05` routing and `-08` lifecycle
@@ -1062,7 +1071,7 @@ classifies all 39 cases as 30 carry-forward accepted, five complete UI reruns
 required, and four still unexecuted (Mac Firefox and Windows Chrome/Edge/Firefox).
 Windows remains deferred until the temporary owner PC; Mac Firefox is pending.
 
-After independent review of this J1/forward packet, readiness is
+After exact-head review verifies this corrected J1/forward record, readiness is
 `READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES`, subject
 to new-candidate installation and live private-topology preflight in a separate
 owner session. J3 remains incomplete. No VM startup, Tailscale authentication,

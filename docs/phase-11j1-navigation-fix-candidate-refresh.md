@@ -1,8 +1,9 @@
 # Phase 11J1 navigation-fix current-candidate refresh
 
 Task: `PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001`.
-Status: automated current-candidate evidence complete; this new forward packet
-awaits independent review. No physical-device execution is claimed.
+Status: automated current-candidate evidence complete; the substantive camera
+carry-forward decision is accepted, while this corrected forward record awaits
+exact-head independent review. No physical-device execution is claimed.
 
 ## Candidate and fresh repository gate
 
@@ -88,8 +89,14 @@ changes no system or provider configuration.
 
 ## J3 forward state and remaining work
 
-The Product Owner supplied independent ChatGPT approval of the narrow camera
-no-impact carry-forward exception in task sections 6 and 7. The
+Independent ChatGPT review of Draft PR #144 head
+`89359656ac2b998d3d48e8385e20203e1afc44e5`, tree
+`1666d9237f1bf8e9881323967320580d2cbf68c8`, accepted the narrow 30-camera
+no-impact carry-forward, including routing `-05` and lifecycle `-08`, but
+returned `REQUEST CHANGES` for incorrect review provenance and chronology.
+The original task authorized a proposal; Codex prematurely recorded independent
+acceptance and attributed it to that task. The acceptance actually occurred during
+the independent PR review. The
 [separate carry-forward packet](phase-11j3-camera-evidence-carry-forward.md)
 records 30 historical mobile camera PASS observations with original attribution,
 including explicit routing `-05` and lifecycle `-08` assessment. It does not
@@ -97,8 +104,11 @@ claim they were physically reexecuted on this candidate.
 
 The [new owner execution manifest](../deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json)
 classifies all 39 IDs: 30 `CARRY_FORWARD_ACCEPTED`, five `RERUN_REQUIRED`, four
-`NOT_EXECUTED`. After independent review of these forward packets, readiness
-is `READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES`, subject
+`NOT_EXECUTED`. Review state is
+`SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW`.
+The corrected PR head has not yet been independently accepted. After exact-head
+review verifies the corrected forward record, readiness is
+`READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES`, subject
 to fresh new-candidate runtime/topology checks in the future owner session.
 J3 remains incomplete. J4-J6 remain not started. All 18 findings remain
 `OPEN`; Phase 11K is the exclusive closure gate. Production remains

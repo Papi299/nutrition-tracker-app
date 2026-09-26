@@ -2,7 +2,7 @@
   "schemaVersion": "1",
   "taskId": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001",
   "status": "CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT",
-  "forwardPacketReviewState": "PENDING_INDEPENDENT_REVIEW_OF_RECORDING_AND_PROVENANCE",
+  "forwardPacketReviewState": "SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW",
   "originalPhysicalObservationCandidate": {
     "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
     "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
@@ -15,15 +15,35 @@
     "decision": "CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT",
     "classification": "NARROW_EVIDENCE_GOVERNANCE_EXCEPTION",
     "reviewer": "Independent ChatGPT review",
-    "approvalSource": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001, user-supplied task sections 6 and 7",
-    "approvalAttribution": "Independent approval explicitly supplied by the Product Owner in the task request; this packet records that decision.",
+    "approvalSource": "Independent ChatGPT review of Draft PR #144 at the exact reviewed head",
+    "approvalAttribution": "The independent review of PR #144 accepted the narrow 30-camera carry-forward on substance, but returned REQUEST CHANGES for incorrect approval provenance and chronology. This corrected record remains pending exact-head re-review before merge.",
     "externalReviewRecordUrl": null,
-    "externalReviewRecordUrlExplanation": "No separate review URL or review timestamp was supplied; neither is invented.",
+    "externalReviewRecordUrlExplanation": "The review outcome and exact reviewed head/tree are reported in the review-correction request. No external review URL or reliable precise review timestamp was supplied; neither is invented.",
     "impactReviewReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
     "navigationCorrectionPullRequest": "https://github.com/Papi299/nutrition-tracker-app/pull/143",
     "exactMainCiReference": "deployment/phase-11j1-navigation-fix-candidate-refresh-evidence.json#/exactMainCi",
     "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
-    "scope": "Only the 30 historical mobile camera PASS observations; excludes every UI FAIL and unexecuted case."
+    "scope": "Only the 30 historical mobile camera PASS observations; excludes every UI FAIL and unexecuted case.",
+    "reviewedPullRequest": 144,
+    "reviewedHeadSha": "89359656ac2b998d3d48e8385e20203e1afc44e5",
+    "reviewedTreeSha": "1666d9237f1bf8e9881323967320580d2cbf68c8",
+    "disposition": "SUBSTANTIVE_CAMERA_CARRY_FORWARD_ACCEPTED",
+    "overallPullRequestVerdict": "REQUEST_CHANGES",
+    "correctionRequired": "Provenance/chronology recording correction and exact-head re-review before merge",
+    "acceptedImpactDispositions": [
+      "NO_CAMERA_05_ROUTING_IMPACT_IDENTIFIED",
+      "NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED"
+    ],
+    "reviewedAt": null,
+    "reviewChronology": [
+      "The original task authorized creation of a camera evidence-impact proposal.",
+      "Codex created Draft PR #144 and prematurely recorded the proposal as already independently accepted.",
+      "Independent ChatGPT reviewed exact PR #144 head 89359656ac2b998d3d48e8385e20203e1afc44e5, tree 1666d9237f1bf8e9881323967320580d2cbf68c8.",
+      "That review found the technical no-impact analysis sound.",
+      "That review accepted the narrow carry-forward for all 30 historical mobile camera PASS observations, including -05 routing and -08 lifecycle.",
+      "That review returned REQUEST CHANGES because the packet attributed acceptance to the wrong source and time.",
+      "The corrected PR head must return for exact-head independent review before merge."
+    ]
   },
   "sourceDelta": {
     "runtimeChangedFiles": [
