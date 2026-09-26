@@ -1,0 +1,1203 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11J3-NON-WINDOWS-OWNER-DEVICE-OBSERVATION-EXECUTION-001",
+  "status": "AVAILABLE_NON_WINDOWS_OWNER_OBSERVATIONS_COMPLETE_WINDOWS_AND_MAC_FIREFOX_DEFERRED",
+  "recordedAt": "2026-09-26T16:20:20Z",
+  "documentationBaseline": {
+    "sha": "d11457f85496af4b20ca550da7fd237bad03b0f2",
+    "tree": "093de8907e4fea0708b82b30a26c8480a7607e29",
+    "parent": "a857cb491af8d6c5b204fecdc705b51c82c74c91",
+    "commit": "docs(phase11j3): checkpoint missing Windows owner client (#141)",
+    "openPullRequestsAtStart": 0,
+    "freshIdentityGate": "PASS"
+  },
+  "authoritativeBaselineCi": {
+    "runId": 36228441331,
+    "runNumber": 284,
+    "jobId": 108366839598,
+    "event": "push",
+    "attempt": 1,
+    "headSha": "d11457f85496af4b20ca550da7fd237bad03b0f2",
+    "conclusion": "success",
+    "rawLogsIndependentlyInspected": true,
+    "artifactResultsIndependentlyInspected": true,
+    "advisories": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
+    },
+    "unitPassed": 311,
+    "localMigrationResetSeed": "PASS",
+    "fullPlaywrightPassed": 364,
+    "phase11d": {
+      "passed": 53,
+      "intentionalSkips": 3,
+      "failed": 0,
+      "flaky": 0,
+      "retries": 0,
+      "intentionalSkippedProjects": [
+        "engine-firefox",
+        "engine-webkit",
+        "mobile-chromium-390"
+      ],
+      "intentionalSkippedCase": "has zero serious or critical axe findings on the approved critical subset"
+    },
+    "artifactId": 10901632589,
+    "artifactName": "phase-11d-evidence-36228441331-1",
+    "artifactDigest": "sha256:bbfbc954b64e56c9532e9f56350632cd8aa5e7a224102acd83ef6a90b9d56330"
+  },
+  "runtime": {
+    "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+    "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+    "freshGuestIntegrityGate": "PASS",
+    "documentationMainExecutedAsRuntime": false,
+    "trackedRuntimeFilesChangedByTask": false,
+    "guestImportCommit": "c513ff58353510d23ec1f351cf052f658f9af98b",
+    "guestTreeVerified": "02e86af4db29d0f509c35308727f876ed607dba1",
+    "trackedGuestTreeClean": true,
+    "guestProvenance": "Preserved accepted candidate archive import; fresh exact tree comparison.",
+    "sessionRunnerSha256": "60f15ac71c0a2b7b5c0303e4c3d58f29f1427dfe2b46f6a0603c52b109c1a6e5",
+    "sessionRunnerMode": "0600"
+  },
+  "historicalCheckpoint": {
+    "pullRequest": 141,
+    "evidenceReference": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+    "narrativeReference": "docs/phase-11j3-owner-device-validation-results.md",
+    "preservedUnchanged": true,
+    "formerActiveStatus": "HUMAN_WINDOWS_CLIENT_REQUIRED"
+  },
+  "clientAvailability": {
+    "source": "Product Owner inventory and independent browser-specific observation reports; read-only supporting host OS/browser metadata.",
+    "macosSafari": "AVAILABLE_OWNER_REPORTED",
+    "macosChrome": "AVAILABLE_OWNER_REPORTED",
+    "macosFirefox": "DEFERRED_NOT_REPORTED_AVAILABLE",
+    "iphoneSafari": "AVAILABLE_OWNER_REPORTED",
+    "iphoneChrome": "AVAILABLE_OWNER_REPORTED",
+    "androidChrome": "AVAILABLE_OWNER_REPORTED",
+    "physicalRetailBarcode": "AVAILABLE_OWNER_REPORTED",
+    "unsupportedQrOrOtherCode": "AVAILABLE_GENERATED_QR_PHYSICALLY_EXERCISED_ON_MAC_DISPLAY",
+    "windows": "DEFERRED_TO_LATER_OWNER_SESSION",
+    "pendingWindowsCaseIds": [
+      "J3-WIN-CHROME-01",
+      "J3-WIN-EDGE-01",
+      "J3-WIN-FIREFOX-01"
+    ],
+    "sessionPrerequisites": [
+      "WINDOWS_CASES_DEFERRED_PENDING_TEMPORARY_WINDOWS_PC",
+      "MACOS_FIREFOX_CLIENT_DEFERRED"
+    ],
+    "formalClientsUsed": [
+      "iPhone 17 Safari",
+      "iPhone 17 Chrome",
+      "Samsung Galaxy S21 Plus Chrome",
+      "MacBook Pro M1 Pro Safari",
+      "MacBook Pro M1 Pro Chrome"
+    ],
+    "formalOsBrowserVersions": [
+      {
+        "device": "iPhone 17",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported"
+      },
+      {
+        "device": "iPhone 17",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55"
+      },
+      {
+        "device": "Samsung Galaxy S21 Plus",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "browserVersionPending": false
+      },
+      {
+        "device": "MacBook Pro M1 Pro",
+        "osVersion": "macOS 27.0 (26A428)",
+        "browser": "Safari",
+        "browserVersion": "27.0",
+        "browserBuild": "22625.1.29.11.27",
+        "versionEvidence": "Read-only host metadata",
+        "windowModes": [
+          "full-screen",
+          "windowed"
+        ]
+      },
+      {
+        "device": "MacBook Pro M1 Pro",
+        "osVersion": "macOS 27.0 (26A428)",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.54",
+        "versionEvidence": "Read-only host metadata",
+        "windowModeSeparatelyReported": false
+      }
+    ],
+    "hostSupportingInventory": {
+      "macosVersion": "27.0",
+      "macosBuild": "26A428",
+      "safariVersion": "27.0",
+      "chromeVersion": "153.0.8010.54",
+      "ownerAvailabilityConfirmed": false,
+      "safariBuild": "22625.1.29.11.27",
+      "versionsRecheckedAt": "2026-09-26T15:56:12Z",
+      "firefoxAtStandardInstallPathAtInitialInventory": false,
+      "tailscaleAtStandardInstallPathAtInitialInventory": false,
+      "initialAppPathChecksScope": "Pre-enrollment inventory only; later browser-version recheck did not repeat Tailscale or Firefox app-path checks."
+    },
+    "ownerStatement": "MacBook Pro M1 Pro with MacOS 27 and Google CHrome and Safari\niPhone 17 with iOS 27 with Google Chrome and Safari\nSamsung Galaxy S21 Plus with Google Chrome",
+    "ownerReportedDevices": [
+      {
+        "model": "MacBook Pro M1 Pro",
+        "os": "macOS 27",
+        "browsers": [
+          "Safari",
+          "Chrome"
+        ]
+      },
+      {
+        "model": "iPhone 17",
+        "os": "iOS 27.0",
+        "browsers": [
+          "Safari",
+          "Chrome"
+        ],
+        "chromeVersion": "154.0.8037.55"
+      },
+      {
+        "model": "Samsung Galaxy S21 Plus",
+        "osVersion": "Android 15",
+        "browsers": [
+          "Chrome"
+        ],
+        "chromeVersion": "153.0.8010.52"
+      }
+    ],
+    "materialsOwnerReport": {
+      "retailPrintedCode": "794504487565",
+      "retailType": "UPC-A",
+      "supportedLengthAndChecksum": "PASS",
+      "physicalDecode": "PASS_IPHONE_SAFARI_PACKAGE_DIGITS_PRESERVED_CANONICAL_00794504487565",
+      "otherPrintedCode": "7290108351675",
+      "otherOwnerDescription": "laundry gel",
+      "otherCodeType": "SUPPORTED_EAN13",
+      "unsupportedQrOrOtherSymbol": "GENERATED_QR_PHYSICALLY_EXERCISED_IN_IPHONE_SAFARI"
+    },
+    "clientConnectivity": {
+      "iphone": "CONNECTED_OWNER_REPORTED",
+      "android": "CONNECTED_OWNER_REPORTED",
+      "macos": "PRIVATE_APP_OPENS_IN_SAFARI_AND_CHROME_OWNER_REPORTED; TAILSCALE_CLIENT_STATE_NOT_SEPARATELY_RESTATED"
+    },
+    "macPrivateAppOwnerReport": {
+      "reportedAt": "2026-09-26T15:56:12Z",
+      "statement": "The private app opened in Mac Safari and Chrome",
+      "formalUiCaseCredit": false,
+      "remainingChecklistRequired": true
+    }
+  },
+  "sessionPreflight": {
+    "vm": "nutrition-j3",
+    "vmInitially": "STOPPED",
+    "vmStartedByTask": true,
+    "localSupabaseRestoration": "PASS",
+    "localDatabaseResetExecuted": false,
+    "syntheticAuthentication": "PASS",
+    "loopbackIsolation": "PASS",
+    "deviceTestValidator": "PASS",
+    "applicationStarted": true,
+    "tailnetIdentity": "PASS_EXPECTED_NODE_AND_TAILNET_ONLINE",
+    "serveAndFunnel": "PASS_HTTPS_443_APP_ONLY_TAILNET_ONLY_NO_FUNNEL",
+    "physicalHttps": "OBSERVED_IPHONE_SAFARI_UI_CHECKLIST; OTHER_CLIENTS_PENDING",
+    "formalObservationSessionStarted": true,
+    "servicesStartedByTask": [
+      "docker",
+      "docker.socket",
+      "tailscaled",
+      "local Supabase containers",
+      "Next.js"
+    ],
+    "privateOriginRedacted": "https://lima-nutrition-j3.<tailnet>.ts.net",
+    "currentVmState": "STOPPED",
+    "automaticStartupChangedByTask": false,
+    "runtimeIdentityGate": "PASS",
+    "productionBuild": "PASS",
+    "clientSecretBoundary": "PASS",
+    "browserArtifactsInspected": 114,
+    "applicationBind": "127.0.0.1:3001",
+    "applicationHealth": "live",
+    "englishRoute": "PASS_LTR",
+    "hebrewRoute": "PASS_RTL",
+    "securityHeaders": "PASS",
+    "startupErrors": 0,
+    "guestTrustedPrivateHttps": "PASS",
+    "automaticStartup": "DISABLED",
+    "localSyntheticStateRestored": true,
+    "savedVolumeCount": 3,
+    "supabaseContainerCount": 12,
+    "supabasePublishedPorts": {
+      "54321": "127.0.0.1",
+      "54322": "127.0.0.1",
+      "54323": "127.0.0.1",
+      "54324": "127.0.0.1",
+      "54327": "127.0.0.1"
+    },
+    "guestNonloopbackProbes": "ALL_REJECTED_GUEST_LAN_AND_TAILSCALE",
+    "limaJ3SupabaseForwardPresent": false,
+    "macOverlappingSupabasePortListeners": "Unrelated Docker Desktop process; no J3 Lima forwarding.",
+    "matchingLocalVaultRestored": true,
+    "remoteProjectLinkAbsent": true,
+    "macPrivateAppReachabilityBeforeEnrollment": "FAIL_CLOSED_PRIVATE_DNS_UNRESOLVED",
+    "macPrivateAppReachabilityCurrent": "OWNER_REPORTED_APP_OPEN_IN_SAFARI_AND_CHROME"
+  },
+  "formalObservations": {
+    "authoritativeTemplate": "deployment/phase-11j3-owner-device-validation-template.json",
+    "total": 39,
+    "eligibleNonWindows": 36,
+    "executed": 35,
+    "counts": {
+      "PASS": 30,
+      "FAIL": 5,
+      "BLOCKED": 0,
+      "NOT_APPLICABLE": 0,
+      "NOT_EXECUTED": 4
+    },
+    "failedIds": [
+      "J3-MAC-SAFARI-01",
+      "J3-MAC-CHROME-01",
+      "J3-IOS-SAFARI-UI-01",
+      "J3-IOS-CHROME-UI-01",
+      "J3-ANDROID-CHROME-UI-01"
+    ],
+    "blockedObservationIds": [],
+    "windowsObservationRecordsRemainNull": true,
+    "barcodeTypesActuallyTested": [
+      "UPC-A"
+    ],
+    "leadingZeroPreservation": "PHYSICAL_LEADING_ZERO_NOT_EXERCISED; CANONICAL_GTIN14_PADDING_00_OBSERVED",
+    "unsupportedQrRejection": "PASS_IPHONE_SAFARI_EXERCISED_QR_NOT_ACCEPTED_NO_GTIN_NAVIGATION_CONTINUED_SCANNING",
+    "cameraPermissionDenialRecovery": "PASS_DENIAL_EXPLANATION_AND_MANUAL_FALLBACK; ACCESS_RECOVERY_OBSERVED_ACTIVE_LIVE_PREVIEW",
+    "rearCamera": "PASS_IPHONE_SAFARI_REAR_LENS_OCCLUSION_BLACKENED_LIVE_PREVIEW",
+    "cameraResourceRelease": "PASS_IPHONE_SAFARI_ACTUAL_INDICATOR_AFTER_CANCEL_SUCCESS_AND_NAVIGATION",
+    "manualBarcodeFallback": "PASS_IPHONE_SAFARI_ACTUAL_MANUAL_LOOKUP_AFTER_CANCEL_HONEST_NOT_FOUND",
+    "boundedNoUploadObservation": "PASS_IPHONE_SAFARI_OWNER_UI_NO_IMAGE_FRAME_UPLOAD_OR_SAVING_APPARENT_NO_PACKET_PROOF",
+    "templateInvariants": "PASS",
+    "clientResults": {
+      "macosSafari": {
+        "executed": 1,
+        "total": 1,
+        "PASS": 0,
+        "FAIL": 1,
+        "windowModes": [
+          "full-screen",
+          "windowed"
+        ]
+      },
+      "macosChrome": {
+        "executed": 1,
+        "total": 1,
+        "PASS": 0,
+        "FAIL": 1
+      },
+      "macosFirefox": {
+        "executed": 0,
+        "total": 1,
+        "sessionState": "DEFERRED_NOT_REPORTED_AVAILABLE"
+      },
+      "iphoneSafari": {
+        "executed": 11,
+        "total": 11,
+        "PASS": 10,
+        "FAIL": 1
+      },
+      "iphoneChrome": {
+        "executed": 11,
+        "total": 11,
+        "PASS": 10,
+        "FAIL": 1,
+        "uiCase": "FAIL_MISLEADING_TODAY_HIGHLIGHT",
+        "cameraBatch": "ALL_10_PASS_OWNER_REPORTED"
+      },
+      "androidChrome": {
+        "executed": 11,
+        "total": 11,
+        "PASS": 10,
+        "FAIL": 1,
+        "uiCase": "FAIL_MISLEADING_TODAY_HIGHLIGHT",
+        "cameraBatch": "ALL_10_PASS_OWNER_REPORTED",
+        "browserVersionPending": false,
+        "remainingUiChecklistCoveragePending": false
+      },
+      "windows": {
+        "executed": 0,
+        "total": 3,
+        "sessionState": "DEFERRED_TO_LATER_OWNER_SESSION"
+      }
+    },
+    "physicalRetailBarcodeDecode": "PASS_IPHONE_SAFARI_PACKAGE_794504487565_CANONICAL_00794504487565",
+    "postDecodeContextAndLookup": "PASS_IPHONE_SAFARI_DATE_2026_09_26_DINNER_AUTHENTICATED_NOT_FOUND_LOCAL",
+    "cancelAndRetry": "PASS_IPHONE_SAFARI_CANCEL_STOPPED_PREVIEW_EXPLICIT_RETRY_REACQUIRED_AND_DECODED",
+    "iphoneChromeCameraEvidence": {
+      "device": "iPhone 17",
+      "osVersion": "iOS 27.0",
+      "browserVersion": "154.0.8037.55",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "observedAt": "2026-09-26T15:43:18Z",
+      "completedCaseIds": [
+        "J3-IOS-CHROME-CAMERA-01",
+        "J3-IOS-CHROME-CAMERA-02",
+        "J3-IOS-CHROME-CAMERA-03",
+        "J3-IOS-CHROME-CAMERA-04",
+        "J3-IOS-CHROME-CAMERA-05",
+        "J3-IOS-CHROME-CAMERA-06",
+        "J3-IOS-CHROME-CAMERA-07",
+        "J3-IOS-CHROME-CAMERA-08",
+        "J3-IOS-CHROME-CAMERA-09",
+        "J3-IOS-CHROME-CAMERA-10"
+      ],
+      "physicalBarcodeType": "UPC-A",
+      "printedCode": "794504487565",
+      "expectedCanonicalCode": "00794504487565",
+      "physicalPrintedLeadingZeroPresent": false,
+      "physicalLeadingZeroPreservationTested": false,
+      "selectedDateMealValuesSeparatelyRestated": false,
+      "exactLookupOutcomeSeparatelyRestated": false,
+      "matchingFoodSuccessClaimed": false,
+      "noUploadEvidenceScope": "Owner UI observation only; no network capture or packet-level proof."
+    },
+    "androidChromeCameraEvidence": {
+      "device": "Samsung Galaxy S21 Plus",
+      "osVersion": "Android 15",
+      "browserVersion": "153.0.8010.52",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "observedAt": "2026-09-26T15:51:08Z",
+      "completedCaseIds": [
+        "J3-ANDROID-CHROME-CAMERA-01",
+        "J3-ANDROID-CHROME-CAMERA-02",
+        "J3-ANDROID-CHROME-CAMERA-03",
+        "J3-ANDROID-CHROME-CAMERA-04",
+        "J3-ANDROID-CHROME-CAMERA-05",
+        "J3-ANDROID-CHROME-CAMERA-06",
+        "J3-ANDROID-CHROME-CAMERA-07",
+        "J3-ANDROID-CHROME-CAMERA-08",
+        "J3-ANDROID-CHROME-CAMERA-09",
+        "J3-ANDROID-CHROME-CAMERA-10"
+      ],
+      "physicalBarcodeType": "UPC-A",
+      "printedCode": "794504487565",
+      "expectedCanonicalCode": "00794504487565",
+      "physicalPrintedLeadingZeroPresent": false,
+      "physicalLeadingZeroPreservationTested": false,
+      "selectedDateMealValuesSeparatelyRestated": false,
+      "exactLookupOutcomeSeparatelyRestated": false,
+      "matchingFoodSuccessClaimed": false,
+      "noUploadEvidenceScope": "Owner UI observation only; no network capture or packet-level proof.",
+      "browserVersionPending": false,
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    "distinctProductDefectCount": 1
+  },
+  "resume": {
+    "requiredAction": "All five available client groups are executed. Future independent owner session still requires Windows Chrome/Edge/Firefox and Mac Firefox if available; rerun resume gates against the unchanged accepted candidate. Today navigation defect requires a separately authorized engineering task and candidate rebind assessment.",
+    "environmentRunbook": "docs/phase-11j3-private-device-test-remaining-topology-preflight.md",
+    "restoreSavedLocalStateWithoutReset": true,
+    "ownerMustPersonallyReportEachCase": true,
+    "candidateMustRemainUnchanged": true,
+    "pendingFormalCaseIds": [
+      "J3-MAC-FIREFOX-01",
+      "J3-WIN-CHROME-01",
+      "J3-WIN-EDGE-01",
+      "J3-WIN-FIREFOX-01"
+    ]
+  },
+  "physicalPassRecorded": false,
+  "productionReleaseAuthorized": false,
+  "phase11FindingCount": 18,
+  "phase11FindingStates": "OPEN",
+  "findingClosureGate": "Phase 11K",
+  "vercelMutation": false,
+  "hostedSupabaseAccessOrMutation": false,
+  "productionSupabaseAccessOrMutation": false,
+  "applicationCodeChanges": false,
+  "schemaOrMigrationChanges": false,
+  "publicExposure": false,
+  "funnelEnabledByTask": false,
+  "deliveryPolicy": "Draft PR only after a stable owner-session checkpoint; do not merge.",
+  "deliveryState": "STATE_PRESERVED_DRAFT_EVIDENCE_CHECKPOINT_READY_NORMAL_PR_CI_REQUIRED",
+  "completedOwnerCases": [
+    {
+      "testCaseId": "J3-IOS-SAFARI-UI-01",
+      "instructionsIssuedAt": "2026-09-26T14:33:41Z",
+      "ownerReport": "Today remains bold green on Food Search and Barcode Lookup. Entering a barcode and tapping Look up barcode produces no success/failure message. Everything else looks fine.",
+      "formalRecordPopulated": true,
+      "reasonForOrder": "Both phones report connected; Mac tailnet enrollment is pending. Mac groups remain pending and will resume independently.",
+      "ownerReportRecordedAt": "2026-09-26T14:45:21Z",
+      "followupPending": [],
+      "boundedRuntimeDiagnostics": {
+        "inspectedAt": "2026-09-26T14:44:39.988861Z",
+        "appListenerPresent": true,
+        "runtimeErrorCount": 0,
+        "scope": "Bounded existing server logs; no client-side network or screenshot evidence. Absence of server errors does not negate the owner-reported behavior."
+      },
+      "staticCorroboration": {
+        "todayNavigation": "components/layout/app-shell.tsx uses constant primary-link styling for Today across routes. This corroborates appearance only.",
+        "barcodeResultLocation": "app/[locale]/(app)/foods/barcode/page.tsx renders lookup result after form and scanner. Actual submission outcome still needs owner clarification."
+      },
+      "ownerClarification": {
+        "reportedAt": "2026-09-26T14:48:36Z",
+        "osVersion": "iOS 27.0",
+        "manualBarcodeResult": "No readable local mapping was found, visible at bottom of page. Equivalent localized Hebrew message also observed.",
+        "priorNoResultReportWithdrawn": true,
+        "ownerCorrection": "My mistake",
+        "barcodeConcernResolved": true
+      },
+      "ownerFinalConfirmation": "The remaining checklist was exercised. The green Today button misleadingly suggests it is the selected page.",
+      "finalDisposition": "FAIL",
+      "completedAt": "2026-09-26T14:51:21Z"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-01",
+      "instructionsIssuedAt": "2026-09-26T14:52:06Z",
+      "ownerReport": "Owner confirmed no camera permission prompt or live camera view before tapping Scan barcode. After tapping, the camera activation prompt appeared; the owner chose Allow.",
+      "formalRecordPopulated": true,
+      "permissionInstruction": "Leave any prompt unanswered for the following deliberate-denial case.",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T14:54:21Z",
+      "actualPermissionChoice": "Allow"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+      "instructionsIssuedAt": "2026-09-26T14:55:25Z",
+      "ownerReport": "I choose Cancel and the camera did not start. Manual barcode entry remains available.",
+      "formalRecordPopulated": true,
+      "permissionPreparation": "Cancel existing scan, set this site Camera to Ask in Safari Page Menu/Website Settings, reload, tap Scan barcode and deny. Restore permission only after recording denial.",
+      "permissionPreparationSource": "https://support.apple.com/guide/iphone/browse-the-web-privately-iphb01fc3c85/ios",
+      "ownerReportRecordedAt": "2026-09-26T14:57:57Z",
+      "followupPending": [],
+      "permissionActionClarification": "Cancel in Safari camera-permission popup",
+      "ownerFinalClarification": "Camera access was denied by the browser, site policy or settings. Adjust access if appropriate, then retry explicitly or use manual entry",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:02:15Z",
+      "supersededOwnerFinalClarification": "No message. The app displays Scan again.",
+      "ownerCorrectionRecordedAt": "2026-09-26T15:02:15Z"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-03",
+      "instructionsIssuedAt": "2026-09-26T15:02:46Z",
+      "ownerReport": "Pointed the rear camera at a plain object and covered rear lenses; saw black screen in live view.",
+      "formalRecordPopulated": true,
+      "permissionPreparation": "Restore this site Camera to Ask, reload, explicitly scan and choose Allow; report actual recovery.",
+      "expectedObservation": "Clearly observed rear/environment camera using a plain object and rear-lens occlusion; no barcode scan yet.",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:06:38Z"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-04",
+      "instructionsIssuedAt": "2026-09-26T15:07:19Z",
+      "ownerReport": "Every printed digit is preserved. The number shown is 00794504487565.",
+      "formalRecordPopulated": true,
+      "physicalBarcodePrintedDigits": "794504487565",
+      "physicalBarcodeType": "UPC-A",
+      "expectedObservation": "Physical retail decode; compare every package digit and report exact displayed code including any canonical padding.",
+      "contextPreparation": "Owner asked to note selected diary date/meal before scanning for the separate -05 observation.",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:09:31Z",
+      "observedCanonicalCode": "00794504487565"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-05",
+      "instructionsIssuedAt": "2026-09-26T15:10:13Z",
+      "ownerReport": "Date and meal match pre-scan values (26 Sep 2026, Dinner); remain signed in on Barcode Lookup; No readable local mapping was found with private custom-food offer and external-provider-unavailable notice.",
+      "formalRecordPopulated": true,
+      "expectedCanonicalCode": "00794504487565",
+      "expectedObservation": "Owner confirms before/after diary date and meal, exact code, signed-in Barcode Lookup navigation, and actual local found/not-found/error outcome.",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:13:50Z",
+      "preScanContext": {
+        "date": "2026-09-26",
+        "mealType": "dinner"
+      },
+      "postScanContext": {
+        "date": "2026-09-26",
+        "mealType": "dinner"
+      },
+      "lookupOutcome": "NOT_FOUND_LOCAL"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-06",
+      "instructionsIssuedAt": "2026-09-26T15:16:05Z",
+      "ownerReport": "It just stays scanning; iPhone does not recognize the supplied QR.",
+      "formalRecordPopulated": true,
+      "unsupportedSymbol": "Actual generated QR displayed on Mac screen for physical iPhone camera observation",
+      "qrPayload": "7290108351675",
+      "qrAssetSha256": "763cc24162304f463a00096a0db990a830f10e0c65e1c173ed15e0611522b3ff",
+      "expectedObservation": "QR format not accepted as food GTIN; no navigation to its code. Owner observes for approximately 5\u201310 seconds.",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:18:54Z",
+      "explicitUnsupportedMessageObserved": false,
+      "decodedThenRejectedClaimed": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-07",
+      "instructionsIssuedAt": "2026-09-26T15:19:40Z",
+      "ownerReport": "Both checks passed.",
+      "formalRecordPopulated": true,
+      "expectedObservation": "Cancel stops scanning/live preview and does not automatically restart; explicit Scan again reacquires camera and decodes actual UPC-A retail package.",
+      "physicalBarcodePrintedDigits": "794504487565",
+      "expectedCanonicalCode": "00794504487565",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:22:20Z",
+      "cancelStopsScanning": "PASS_OWNER_REPORTED",
+      "explicitRetryReacquiresAndDecodes": "PASS_OWNER_REPORTED",
+      "exactRetryDisplaySeparatelyRestated": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-08",
+      "instructionsIssuedAt": "2026-09-26T15:23:04Z",
+      "ownerReport": "The indicator is working well in the three scenarios.",
+      "formalRecordPopulated": true,
+      "requiredReleaseActions": [
+        "cancel",
+        "successful retail decode",
+        "in-app navigation away while camera active"
+      ],
+      "observationAuthority": "Actual iPhone green camera-use indicator and live-view state, reported separately for each action. No source-code inference.",
+      "indicatorGuidanceSource": "https://support.apple.com/en-vn/guide/iphone/iph168c4bbd5/ios",
+      "finalDisposition": "PASS",
+      "completedAt": "2026-09-26T15:25:27Z",
+      "indicatorOutcomes": {
+        "cancel": "PASS_OWNER_REPORTED",
+        "successfulDecode": "PASS_OWNER_REPORTED",
+        "navigationAway": "PASS_OWNER_REPORTED"
+      },
+      "liveViewAndTimingSeparatelyRestated": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-09",
+      "instructionsIssuedAt": "2026-09-26T15:26:51Z",
+      "ownerReport": "Manual entry worked; message correctly starts with No readable local mapping was found.",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:30:41Z",
+      "workflow": "Owner-requested camera batch report"
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-10",
+      "instructionsIssuedAt": "2026-09-26T15:26:51Z",
+      "ownerReport": "No image/frame was saved by the app; no image/frame upload was apparent in the UI.",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:35:58Z",
+      "workflow": "Owner-requested camera batch report with minimum UI-scope clarification",
+      "evidenceScope": "Bounded UI observation; no packet-level proof claimed."
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-01",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "No camera permission prompt or live view before explicit Scan barcode; the scanner appeared after the action.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-02",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "Permission denial gave a clear explanation, kept the camera off, and preserved manual entry.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-03",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "After permission restoration and explicit retry, covering the rear lenses blackened the preview, confirming rear-camera use.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-04",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "The physical UPC-A package 794504487565 decoded as expected canonical GTIN-14 00794504487565, preserving every printed digit.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-05",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "Decoded code and selected date/meal were preserved; authenticated Barcode Lookup navigation produced a correct local result or honest not-found state.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-06",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "The supplied actual QR was not accepted or navigated as a food GTIN.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-07",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "Cancel stopped scanning; explicit retry reacquired the camera and decoded the physical retail barcode.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-08",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "The actual camera-use indicator cleared after cancel, successful decode, and navigation away.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-09",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "Manual barcode entry remained usable after cancellation or denial.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-10",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "all 10 tests passed in iPhone Chrome (Version 154.0.8037.55)",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:43:18Z",
+      "workflow": "Owner-requested independent iPhone Chrome camera batch report",
+      "observedChecklistOutcome": "No image/frame saving or upload was apparent in the UI.",
+      "browserVersion": "154.0.8037.55"
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-UI-01",
+      "instructionsIssuedAt": "2026-09-26T15:35:58Z",
+      "ownerReport": "UI checklist completed; Today stayed misleadingly green; everything else passed",
+      "finalDisposition": "FAIL",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:45:20Z",
+      "browserVersion": "154.0.8037.55",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-01",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. No camera permission prompt or live view before explicit Scan barcode; the scanner appeared after the action.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-02",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Permission denial gave a clear explanation, kept the camera off, and preserved manual entry.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-03",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. After permission restoration and explicit retry, covering the rear lenses blackened the preview, confirming rear-camera use.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-04",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The physical UPC-A package 794504487565 decoded as expected canonical GTIN-14 00794504487565, preserving every printed digit.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-05",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Decoded code and selected date/meal were preserved; authenticated Barcode Lookup navigation produced a correct local result or honest not-found state.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-06",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The supplied actual QR was not accepted or navigated as a food GTIN.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-07",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Cancel stopped scanning; explicit retry reacquired the camera and decoded the physical retail barcode.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-08",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The actual camera-use indicator cleared after cancel, successful decode, and navigation away.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-09",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Manual barcode entry remained usable after cancellation or denial.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-10",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "PASS",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "workflow": "Owner-requested independent Android Chrome camera batch report",
+      "browserVersionPending": false,
+      "observedChecklistOutcome": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. No image/frame saving or upload was apparent in the UI.",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-UI-01",
+      "instructionsIssuedAt": "2026-09-26T15:45:20Z",
+      "ownerReport": "UI problem persists. 01-10 checks are passed",
+      "finalDisposition": "FAIL",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T15:51:08Z",
+      "browserVersionPending": false,
+      "remainingUiChecklistCoveragePending": false,
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01",
+      "ownerChecklistConfirmation": "I exercised the rest of the UI checklist and it passed",
+      "ownerChecklistConfirmationRecordedAt": "2026-09-26T15:52:16Z",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionReportedAt": "2026-09-26T15:56:12Z"
+    },
+    {
+      "testCaseId": "J3-MAC-SAFARI-01",
+      "instructionsIssuedAt": "2026-09-26T15:56:12Z",
+      "ownerReport": "all seven were exercised and passed. The Safari was in full-screen and also windowed",
+      "finalDisposition": "FAIL",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T16:16:15Z",
+      "windowModes": [
+        "full-screen",
+        "windowed"
+      ],
+      "browserVersion": "27.0",
+      "browserBuild": "22625.1.29.11.27",
+      "keyboardFocusAndApproximate200PercentZoom": "PASS_OWNER_REPORTED",
+      "ownerCorrection": "Today bolding persists in Safari too",
+      "ownerCorrectionRecordedAt": "2026-09-26T16:16:15Z",
+      "supersededDisposition": "PASS"
+    },
+    {
+      "testCaseId": "J3-MAC-CHROME-01",
+      "instructionsIssuedAt": "2026-09-26T16:10:55Z",
+      "ownerReport": "all seven passed. But the UI regarding the Today bolding still persists (And in Safari too if I did not mention)",
+      "finalDisposition": "FAIL",
+      "formalRecordPopulated": true,
+      "completedAt": "2026-09-26T16:16:15Z",
+      "browserVersion": "153.0.8010.54",
+      "windowModeSeparatelyReported": false,
+      "keyboardFocusAndApproximate200PercentZoom": "PASS_OWNER_REPORTED",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    }
+  ],
+  "productDefects": [
+    {
+      "caseId": "J3-IOS-SAFARI-UI-01",
+      "device": "iPhone 17",
+      "osVersion": "iOS 27.0",
+      "browser": "Safari",
+      "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+      "observedBehavior": "Today remains bold green on Food Search and Barcode Lookup; owner finds this misleadingly indicates the selected page.",
+      "expectedBehavior": "Navigation appearance should indicate the current page without falsely suggesting Today is selected.",
+      "reproductionSteps": [
+        "Sign in to the protected application in iPhone Safari.",
+        "Open Food Search and observe Today retains green emphasis.",
+        "Open Barcode Lookup and observe the same misleading Today emphasis."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-IOS-SAFARI-UI-01",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required."
+    },
+    {
+      "caseId": "J3-IOS-CHROME-UI-01",
+      "device": "iPhone 17",
+      "osVersion": "iOS 27.0",
+      "browser": "Chrome",
+      "browserVersion": "154.0.8037.55",
+      "observedBehavior": "Today remains misleadingly bold green when Food Search or Barcode Lookup is open; owner completed all other UI checklist points successfully.",
+      "expectedBehavior": "Navigation appearance should indicate the current page without falsely suggesting Today is selected.",
+      "reproductionSteps": [
+        "Sign in to the protected application in physical iPhone Chrome.",
+        "Open Food Search or Barcode Lookup.",
+        "Observe Today retaining misleading green emphasis."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-IOS-CHROME-UI-01",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required.",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    },
+    {
+      "caseId": "J3-ANDROID-CHROME-UI-01",
+      "device": "Samsung Galaxy S21 Plus",
+      "osVersion": "Android 15",
+      "browser": "Chrome",
+      "browserVersion": "153.0.8010.52",
+      "browserVersionPending": false,
+      "observedBehavior": "Owner reports the same misleading Today emphasis persists in Android Chrome when another page is selected.",
+      "expectedBehavior": "Navigation appearance should indicate the current page without falsely suggesting Today is selected.",
+      "reproductionSteps": [
+        "Sign in to the protected application in physical Galaxy S21 Plus Chrome.",
+        "Open Food Search or Barcode Lookup.",
+        "Observe Today retaining misleading green emphasis."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-ANDROID-CHROME-UI-01",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required.",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    },
+    {
+      "caseId": "J3-MAC-SAFARI-01",
+      "device": "MacBook Pro M1 Pro",
+      "osVersion": "macOS 27.0 (26A428)",
+      "browser": "Safari",
+      "browserVersion": "27.0 (build 22625.1.29.11.27)",
+      "observedBehavior": "Today remains misleadingly bold green when another application page is open; remaining UI checklist points passed.",
+      "expectedBehavior": "Navigation appearance should indicate the current page without falsely suggesting Today is selected.",
+      "reproductionSteps": [
+        "Sign in to the protected application in the named Mac browser.",
+        "Open Food Search or Barcode Lookup.",
+        "Observe Today retaining misleading bold green emphasis."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-MAC-SAFARI-01",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required.",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    },
+    {
+      "caseId": "J3-MAC-CHROME-01",
+      "device": "MacBook Pro M1 Pro",
+      "osVersion": "macOS 27.0 (26A428)",
+      "browser": "Chrome",
+      "browserVersion": "153.0.8010.54",
+      "observedBehavior": "Today remains misleadingly bold green when another application page is open; remaining UI checklist points passed.",
+      "expectedBehavior": "Navigation appearance should indicate the current page without falsely suggesting Today is selected.",
+      "reproductionSteps": [
+        "Sign in to the protected application in the named Mac browser.",
+        "Open Food Search or Barcode Lookup.",
+        "Observe Today retaining misleading bold green emphasis."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-MAC-CHROME-01",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required.",
+      "sameProductIssueAs": "J3-IOS-SAFARI-UI-01"
+    }
+  ],
+  "cameraPermissionState": {
+    "client": "iPhone Safari",
+    "accessRecovery": "OBSERVED_ACTIVE_SCANNER_LIVE_PREVIEW_AFTER_DENIAL",
+    "lastObservedView": "Black while rear lenses were covered",
+    "exactPermissionSettingStepsIndependentlyRestated": false
+  },
+  "ownerReportCorrections": [
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+      "recordedAt": "2026-09-26T15:02:15Z",
+      "supersededDisposition": "FAIL",
+      "currentDisposition": "PASS",
+      "reason": "Owner supplied the visible denial explanation, withdrawing prior no-message report.",
+      "supersededObservedResult": "FAIL: Owner chose Cancel in Safari camera-permission popup. Camera did not start and manual barcode entry remained available. The app showed no denial message and displayed Scan again.",
+      "currentObservedResult": "PASS: Owner chose Cancel in Safari camera-permission popup. Camera did not start and manual barcode entry remained available. The app displayed an understandable denial explanation: Camera access was denied by the browser, site policy or settings. Adjust access if appropriate, then retry explicitly or use manual entry. Scan again was also available."
+    },
+    {
+      "testCaseId": "J3-MAC-SAFARI-01",
+      "recordedAt": "2026-09-26T16:16:15Z",
+      "supersededDisposition": "PASS",
+      "currentDisposition": "FAIL",
+      "reason": "Owner explicitly clarified Today bolding persists in Mac Safari too; all other UI points passed.",
+      "supersededObservedAt": "2026-09-26T16:10:55Z",
+      "supersededObservedResult": "PASS: Owner confirmed all seven issued Mac Safari UI checklist items were exercised and passed in full-screen and windowed modes: synthetic sign-in/protected navigation, EN/LTR and HE/RTL layout, navigation/Today indication, food search and representative form/button, manual barcode lookup with feedback, visible keyboard focus, and approximately 200% zoom/reflow.",
+      "currentObservedResult": "FAIL: Owner clarified that the misleading bold Today highlight also persists in Mac Safari when another page is open. Every other issued UI checklist item passed in full-screen and windowed modes."
+    }
+  ],
+  "withdrawnProductDefectReports": [
+    {
+      "caseId": "J3-IOS-SAFARI-CAMERA-02",
+      "device": "iPhone 17",
+      "osVersion": "iOS 27.0",
+      "browser": "Safari",
+      "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+      "observedBehavior": "Native Safari camera permission was cancelled. Camera stayed off, manual entry stayed available, but no app denial message appeared; Scan again was shown.",
+      "expectedBehavior": "Show an understandable denial explanation and preserve manual fallback.",
+      "reproductionSteps": [
+        "Prepare site camera permission to prompt; reload Barcode Lookup.",
+        "Tap Scan barcode.",
+        "Choose Cancel in Safari camera-permission popup.",
+        "Observe no app denial message and Scan again button, with camera off and manual entry available."
+      ],
+      "evidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#J3-IOS-SAFARI-CAMERA-02",
+      "screenshotReference": null,
+      "safeToContinueIndependentObservations": true,
+      "runtimeCorrectionApplied": false,
+      "correctionPolicy": "Separate engineering task; candidate/J1/J2/J3 rebind assessment required.",
+      "withdrawnAt": "2026-09-26T15:02:15Z",
+      "reason": "Owner correction confirmed expected denial explanation is visible."
+    }
+  ],
+  "barcodeObservations": {
+    "physicalPrintedCode": "794504487565",
+    "physicalType": "UPC-A",
+    "observedCanonicalCode": "00794504487565",
+    "allPackageDigitsPreserved": true,
+    "canonicalPaddingZeros": "00",
+    "physicalPrintedLeadingZeroPresent": false,
+    "physicalLeadingZeroPreservationTested": false,
+    "intendedDate": "2026-09-26",
+    "preservedDate": "2026-09-26",
+    "intendedMealType": "dinner",
+    "preservedMealType": "dinner",
+    "authenticatedLookupOutcome": "NOT_FOUND_LOCAL",
+    "matchingFoodSuccessClaimed": false
+  },
+  "generatedQrTestMaterial": {
+    "symbolType": "QR",
+    "payload": "7290108351675",
+    "errorCorrection": "M",
+    "matrixModules": 21,
+    "quietZoneModules": 4,
+    "imagePixels": [
+      464,
+      464
+    ],
+    "temporaryFilename": "phase11j3-unsupported-qr.png",
+    "sha256": "763cc24162304f463a00096a0db990a830f10e0c65e1c173ed15e0611522b3ff",
+    "generationMethod": "Bundled ReportLab QR encoder rendered with bundled Pillow; no repository dependency changes.",
+    "physicalOwnerUse": "OBSERVED_IPHONE_SAFARI_SCANNER_REMAINED_SCANNING_NO_GTIN_ACCEPTANCE",
+    "automatedObservationCredit": false,
+    "physicalOwnerClients": [
+      "iPhone Safari",
+      "iPhone Chrome (batch PASS report)",
+      "Android Chrome (batch PASS report)"
+    ]
+  },
+  "observationWorkflow": {
+    "mode": "CAMERA_CHECKLIST_BATCH_PER_BROWSER",
+    "ownerAuthorization": "Give me all checks regarding the camera. There is no need to make each one separately.",
+    "changedAt": "2026-09-26T15:26:51Z",
+    "supersedes": "Original per-case conversational pause/checkpoint sequence for camera guidance.",
+    "formalCasesRemainDistinct": true,
+    "ownerActualReportsRequired": true,
+    "noCrossBrowserPassInference": true,
+    "checkpointPolicy": "Record each reported case after receiving the batch and validate the completed client group.",
+    "existingSafariCameraCompleted": [
+      "J3-IOS-SAFARI-CAMERA-01",
+      "J3-IOS-SAFARI-CAMERA-02",
+      "J3-IOS-SAFARI-CAMERA-03",
+      "J3-IOS-SAFARI-CAMERA-04",
+      "J3-IOS-SAFARI-CAMERA-05",
+      "J3-IOS-SAFARI-CAMERA-06",
+      "J3-IOS-SAFARI-CAMERA-07",
+      "J3-IOS-SAFARI-CAMERA-08",
+      "J3-IOS-SAFARI-CAMERA-09",
+      "J3-IOS-SAFARI-CAMERA-10"
+    ],
+    "existingSafariCameraRemaining": [],
+    "remainingChromeCameraGroups": [],
+    "iphoneChromeCameraCompleted": [
+      "J3-IOS-CHROME-CAMERA-01",
+      "J3-IOS-CHROME-CAMERA-02",
+      "J3-IOS-CHROME-CAMERA-03",
+      "J3-IOS-CHROME-CAMERA-04",
+      "J3-IOS-CHROME-CAMERA-05",
+      "J3-IOS-CHROME-CAMERA-06",
+      "J3-IOS-CHROME-CAMERA-07",
+      "J3-IOS-CHROME-CAMERA-08",
+      "J3-IOS-CHROME-CAMERA-09",
+      "J3-IOS-CHROME-CAMERA-10"
+    ],
+    "androidChromeCameraCompleted": [
+      "J3-ANDROID-CHROME-CAMERA-01",
+      "J3-ANDROID-CHROME-CAMERA-02",
+      "J3-ANDROID-CHROME-CAMERA-03",
+      "J3-ANDROID-CHROME-CAMERA-04",
+      "J3-ANDROID-CHROME-CAMERA-05",
+      "J3-ANDROID-CHROME-CAMERA-06",
+      "J3-ANDROID-CHROME-CAMERA-07",
+      "J3-ANDROID-CHROME-CAMERA-08",
+      "J3-ANDROID-CHROME-CAMERA-09",
+      "J3-ANDROID-CHROME-CAMERA-10"
+    ]
+  },
+  "activeOwnerCase": null,
+  "activeCameraBatch": {
+    "iphoneSafariPending": [],
+    "iphoneChromePending": [],
+    "androidChromePending": [],
+    "ownerReports": "ALL_THREE_MOBILE_CAMERA_GROUPS_COMPLETE_30_PASS",
+    "cameraPermissionStatesMustBeIndependent": true,
+    "denialRecoveryBeforeRearCamera": true,
+    "actualChromeVersionsRequired": true,
+    "uiCasesStillOutstanding": [],
+    "iphoneChromeVersion": "154.0.8037.55",
+    "androidGuidanceIssuedAt": "2026-09-26T15:45:20Z",
+    "androidGuidance": "Ordered camera checklist 01 explicit activation, 02 permission denial/manual fallback, restore permission then 03 rear-lens occlusion, 04 physical retail 794504487565 to 00794504487565, 05 code/date/meal/authenticated lookup, 06 actual QR nonacceptance, 07 cancel/retry, 08 actual indicator release after cancel/decode/navigation, 09 manual entry after cancel/denial, 10 bounded UI no apparent image/frame saving/upload.",
+    "androidMetadataPending": [],
+    "androidChromeVersion": "153.0.8010.52"
+  },
+  "resolvedOwnerClarifications": [
+    {
+      "client": "Android Chrome",
+      "requestedAt": "2026-09-26T15:51:08Z",
+      "fields": [
+        "Actual Chrome version"
+      ],
+      "formalDispositionAlreadyRecorded": true,
+      "lastRequestedAt": "2026-09-26T15:52:16Z",
+      "remainingUiChecklistConfirmedAt": "2026-09-26T15:52:16Z",
+      "remainingUiChecklistOutcome": "PASS_OWNER_REPORTED",
+      "resolvedAt": "2026-09-26T15:56:12Z",
+      "resolution": "Android Chrome version 153.0.8010.52"
+    },
+    {
+      "client": "Mac Safari and Chrome",
+      "requestedAt": "2026-09-26T15:51:08Z",
+      "fields": [
+        "Trusted private HTTPS app opens with Mac Tailscale connected to existing tailnet"
+      ],
+      "formalDispositionAlreadyRecorded": false,
+      "resolvedAt": "2026-09-26T15:56:12Z",
+      "resolution": "Owner reports private app opened in both Mac Safari and Chrome; complete UI observations remain pending."
+    }
+  ],
+  "sessionShutdown": {
+    "status": "PASS",
+    "verifiedAt": "2026-09-26T16:20:20Z",
+    "vm": "nutrition-j3",
+    "vmFinalState": "STOPPED",
+    "recordedNextProcessGroupStopped": 8547,
+    "appListenerClosed": true,
+    "supabaseStopCommand": "npx supabase --network-id nutrition-j3-loopback stop",
+    "supabaseStateBackupSucceeded": true,
+    "preservedSyntheticVolumeCount": 3,
+    "remainingJ3ContainerCount": 0,
+    "remainingJ3AppOrSupabaseListeners": 0,
+    "servicesInactiveAndDisabled": [
+      "tailscaled",
+      "docker",
+      "docker.socket"
+    ],
+    "runtimeTreeStillExact": "02e86af4db29d0f509c35308727f876ed607dba1",
+    "trackedRuntimeStillClean": true,
+    "resetExecuted": false,
+    "noBackupFlagUsed": false,
+    "vmOrSyntheticAccountDeleted": false,
+    "unrelatedVmOperatedOn": false
+  },
+  "deliveryValidation": {
+    "draftOnly": true,
+    "mergeAuthorized": false,
+    "normalPullRequestCiRequired": true,
+    "exactHeadRequired": true,
+    "authoritativeAttemptRequired": 1,
+    "identityAndCiEvidenceReference": "Draft PR description and checks; raw logs and Phase 11D artifact independently inspected before final reporting."
+  },
+  "finalTaskStatus": "PHASE_11J3_AVAILABLE_NON_WINDOWS_OWNER_OBSERVATIONS_CHECKPOINT_READY",
+  "j3OverallComplete": false
+}
