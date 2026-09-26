@@ -171,14 +171,15 @@ acyclic without moving or renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as candidate
-version `1.8-personal-use-owner-client-matrix-amended`, while historical amended
+version `1.9-personal-use-firefox-excluded-amended`, while historical amended
 versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
 `1.4-phase-11b-remaining-implemented-nojs-amended`,
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
 `1.6-phase-11e-nojs-classifications-amended` and
-`1.7-personal-use-free-tier-profile-amended` remain preserved: Maor Pichhadze
+`1.7-personal-use-free-tier-profile-amended` and
+`1.8-personal-use-owner-client-matrix-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -283,8 +284,8 @@ Maor Pichhadze approved CJ-004 and CJ-009–CJ-012 as `REQUIRED`,
 CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
-11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current accepted contract
-`1.8-personal-use-owner-client-matrix-amended` preserves the exact six Phase 11E
+11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current contract candidate
+`1.9-personal-use-firefox-excluded-amended` preserves the exact six Phase 11E
 rows established by version 1.6 and has current totals `16 / 5 / 13 / 1`;
 35 / 223 / 718 remains the accurate
 historical snapshot of the Phase 11C classification amendment. Accepted PRs
@@ -1101,6 +1102,25 @@ authorship/review records above remain historical; no prior physical evidence or
 merged manifest is rewritten. J3 remains `INCOMPLETE`, `physicalPassRecorded=false`,
 J4–J6 and integrated acceptance remain `NOT_STARTED`, all 18 findings remain
 `OPEN`, and `productionReleaseAuthorized=false`.
+
+### 16.7.4 Current DEC-037 Firefox plan amendment
+
+On 2026-09-27, the Product Owner directed "I don't need FireFOx at all. remove
+it from the plan" and reported "Windows PC is unavailable now". DEC-037 removes
+both desktop Firefox requirements under the personal-use profile; independent
+review of this contract amendment is pending. The current
+[owner plan](phase-11j3-owner-device-validation-plan.md) and
+[JSON reconciliation](../deployment/phase-11j3-current-owner-ui-validation-plan.json)
+contain 37 active required cases: 30 accepted camera carry-forwards, five accepted
+UI PASSs from PR #145, and Windows Chrome/Edge NOT_EXECUTED. Historical 39-case
+records above remain unchanged; excluded Firefox rows receive no PASS credit.
+
+No client is executable now, so no VM/service startup, installation, or physical
+execution occurs. The candidate remains f50d7448a080dbc0a5968c00fd6747ced36d822b,
+tree f3ac6117f70af8d7a6261c803576d6ecf72ec80f. Mobile exact 200% zoom remains
+unmeasured, and the prior eight refresh-token events remain unresolved. J3 is
+INCOMPLETE, physicalPassRecorded=false, J4–J6 and integrated acceptance remain
+NOT_STARTED, all 18 findings remain OPEN, and productionReleaseAuthorized=false.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 

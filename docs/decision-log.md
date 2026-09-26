@@ -3763,3 +3763,37 @@ automation require refresh after this correction; the J2 Auth/account scope
 does not change, while the affected CSP/header tests are rerun. All 18 findings
 remain `OPEN`, Phase 11K alone may close them, and
 `productionReleaseAuthorized=false`.
+
+## 2026-09-27: DEC-037 remove Firefox from the personal-use plan
+
+### DEC-037 — Exclude desktop Firefox from personal-use support and J3
+
+| Field | Decision record |
+| --- | --- |
+| Decision | Remove macOS Firefox and Windows Firefox from the active personal-use support target and required physical J3 UI plan |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-27 (Asia/Jerusalem) |
+| Attributable owner direction | "I don't need FireFOx at all. remove it from the plan" — direct reply to the Mac Firefox installation/validation availability gate |
+| Explicit scope confirmation | "Remove both Mac Firefox and Windows Firefox" — direct Product Owner reply to the amendment-scope question |
+| Companion availability statement | "Windows PC is unavailable now" |
+| Superseded requirement | Only the Firefox portion of DEC-036/DEC-014 under PERSONAL_USE_FREE_TIER; the earlier task's frozen-matrix instruction is overridden by this later owner direction |
+| Current contract candidate | `1.9-personal-use-firefox-excluded-amended` |
+| Independent review | PENDING — exact amendment head must be reviewed before merge |
+
+The active matrix has 37 required cases: 30 accepted camera carry-forwards,
+five accepted current-candidate UI PASSs from PR #145, and unexecuted physical
+Windows Chrome/Edge. The two excluded Firefox IDs receive
+`NOT_REQUIRED_PERSONAL_USE_PROFILE`, never PASS. Historical 39-case packets and
+all owner statements remain unchanged. The
+[current plan](phase-11j3-owner-device-validation-plan.md) and its
+[JSON reconciliation](../deployment/phase-11j3-current-owner-ui-validation-plan.json)
+record the active requirements separately.
+
+Affected findings P11A-002/004/005 and all 18 findings remain OPEN; CJ-001–035
+retain their behavior and existing evidence. Automated Firefox coverage,
+accessibility, EN/HE, LTR/RTL, keyboard/focus and zoom/reflow remain required.
+No application code, candidate, security boundary, camera decision, or runtime
+behavior changes. No physical cell, software installation, VM/service startup,
+provider operation, or Production action occurs. J3 remains INCOMPLETE,
+physicalPassRecorded=false, J4–J6 and integrated acceptance remain NOT_STARTED,
+and productionReleaseAuthorized=false. Phase 11K alone may close findings.

@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.8-personal-use-owner-client-matrix-amended` |
+| Version | `1.9-personal-use-firefox-excluded-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment; `1.7-personal-use-free-tier-profile-amended` — accepted DEC-035 personal-use profile and preserved as the historical seventh amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment; `1.7-personal-use-free-tier-profile-amended` — accepted DEC-035 personal-use profile and preserved as the historical seventh amendment; `1.8-personal-use-owner-client-matrix-amended` — accepted DEC-036 client/camera matrix, preserved as the historical eighth amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -40,6 +40,7 @@
 | Phase 11H Production bootstrap decision | `PRODUCT_OWNER_APPROVED` — `DEC-031` permits one future separately and exactly authorized protected `PRODUCTION_BOOTSTRAP_ONLY` first Vercel deployment; it is infrastructure, not release/launch/user/finding credit, and no bootstrap is executed by the repository correction |
 | Phase 11J0 personal-use profile | `PRODUCT_OWNER_APPROVED` — `DEC-035` activates `PERSONAL_USE_FREE_TIER`; isolated local/CI is the required full-stack rehearsal environment, hosted Preview is optional and Production-Supabase-forbidden, hosted staging and paid plans are not required, and the attributable role dispositions in Section 21 apply |
 | Phase 11J3 client and camera amendment | `PRODUCT_OWNER_APPROVED` — `DEC-036` defines the personal-use desktop/mobile support target and required physical iPhone/Android camera scanning; Section 22 is a forward amendment, not physical-device acceptance |
+| Phase 11J3 Firefox exclusion | `PRODUCT_OWNER_APPROVED` — `DEC-037` removes macOS and Windows Firefox from the active personal-use support and physical UI matrix; Section 23 records the owner direction and pending independent amendment review |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -47,16 +48,17 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.8-personal-use-owner-client-matrix-amended` is the current
+Version `1.9-personal-use-firefox-excluded-amended` is the current
 owner-approved normative amendment. It preserves the complete original
 `1.0-phase-11b-accepted` baseline and historical amended identities `1.1`
-through `1.7`. Version 1.6 remains authoritative for the six Product
+through `1.8`. Version 1.6 remains authoritative for the six Product
 Owner-approved Phase 11E no-JavaScript classification cells in Section 7.2 and
 their matching classification, rationale, owner-slice, and validation-method
 rows in Section 7.3. Version 1.7 adds only the `DEC-035` active release-profile,
 role, and evidence-governance changes in this document. Version 1.8 adds only
 the `DEC-036` owner-supported client/camera matrix and implementation security
-boundary in Section 22. The
+boundary in Section 22. Version 1.9 adds only the `DEC-037` desktop Firefox
+exclusion in Section 23; independent review of this amendment is pending. The
 historical Phase 11C evidence remains bound to accepted contract version 1.4
 and is not migrated, reinterpreted, or credited against current later-slice
 truth. Contract acceptance does not itself authorize or claim runtime
@@ -605,6 +607,10 @@ other journey. No physical
 camera support, external provider, Phase 10F, or Phase 10G approval is implied.
 
 ## 5. Approved supported-client and accessibility matrix
+
+For the active personal-use profile, the desktop client requirements below are
+superseded by [DEC-037 in Section 23](#23-dec-037-exclude-firefox-from-the-personal-use-client-matrix).
+The original full-profile matrix and automation boundaries remain historical.
 
 | Platform | Approved supported target | Required evidence | Explicit boundary |
 | --- | --- | --- | --- |
@@ -1386,6 +1392,9 @@ exclusive finding-closure gate.
 
 ## 22. DEC-036 personal-use client and camera matrix
 
+The original DEC-036 decision below is preserved. Its desktop Firefox
+requirements are superseded by [DEC-037 in Section 23](#23-dec-037-exclude-firefox-from-the-personal-use-client-matrix).
+
 On 2026-09-19, Product Owner Maor Pichhadze supplied the attributable
 `PHASE-11J3-PREREQ-IOS-BARCODE-CAMERA-COMPATIBILITY-002` direction. For the
 active `PERSONAL_USE_FREE_TIER` profile, desktop support covers macOS Safari,
@@ -1420,3 +1429,49 @@ itself alter J2 Auth, RLS, ownership, account export/closure, recovery, or
 activation semantics; the changed CSP/header tests are rerun separately.
 `productionReleaseAuthorized=false`; all 18 findings remain `OPEN`, with Phase
 11K alone owning closure. No provider mutation or deployment is authorized.
+
+## 23. DEC-037 exclude Firefox from the personal-use client matrix
+
+On 2026-09-27 (Asia/Jerusalem), Product Owner Maor Pichhadze directed:
+
+> I don't need FireFOx at all. remove it from the plan
+
+This later instruction supersedes the frozen-matrix restriction in
+`PHASE-11J3-REMAINING-DESKTOP-OWNER-UI-EXECUTION-001` for this repository-only
+amendment. The owner then explicitly confirmed: "Remove both Mac Firefox and
+Windows Firefox". `DEC-037` supersedes only the Firefox part of the `DEC-036` and
+`DEC-014` desktop set for `PERSONAL_USE_FREE_TIER`. Active desktop support is
+macOS Safari/Chrome and Windows Chrome/Edge. iPhone Safari/Chrome and Android
+Chrome remain required, including all 30 accepted mobile camera cases.
+
+The current [owner validation plan](phase-11j3-owner-device-validation-plan.md)
+and [machine-readable plan](../deployment/phase-11j3-current-owner-ui-validation-plan.json)
+reconcile **37 active required cases**: 30 accepted camera carry-forwards, five
+accepted current-candidate UI PASSs from PR #145, and Windows Chrome/Edge still
+`NOT_EXECUTED`. `J3-MAC-FIREFOX-01` and `J3-WIN-FIREFOX-01` are
+`NOT_REQUIRED_PERSONAL_USE_PROFILE` under this new decision, with no execution
+or PASS credit. Historical Contract 1.8 and all 39-case templates, manifests,
+owner reports and camera decisions remain immutable historical evidence.
+
+Affected findings are `P11A-002`, `P11A-004`, and `P11A-005`; they remain OPEN.
+The client-support evidence boundary applies to CJ-001 through CJ-035 without
+changing journey behavior, no-JavaScript classifications, accessibility,
+keyboard/focus, English/Hebrew, LTR/RTL, desktop 200% zoom/reflow, or existing
+Chromium/Firefox/WebKit automated regression coverage. This exclusion adds no
+assistive-technology certification claim. J1/J2 remain historical evidence at
+their actual candidates; no application/runtime change requires a new physical
+candidate. The current physical candidate remains
+`f50d7448a080dbc0a5968c00fd6747ced36d822b`, tree
+`f3ac6117f70af8d7a6261c803576d6ecf72ec80f`.
+
+The owner also reported "Windows PC is unavailable now". No client is executable
+in this session; Firefox installation is not authorized. The dedicated VM and
+services are not started. Future Windows Chrome and Edge observations must use
+the actual owner PC and complete UI checklist through private Tailscale HTTPS.
+No emulation, accepted UI rerun, or camera rerun supplies their physical credit.
+
+Independent review of this exact amendment head is required before merge.
+Product Owner approval is recorded; independent acceptance is not claimed.
+J3 remains INCOMPLETE, `physicalPassRecorded=false`, J4–J6 and integrated
+acceptance remain NOT_STARTED, all 18 findings remain OPEN, Phase 11K alone
+may close them, and `productionReleaseAuthorized=false`.

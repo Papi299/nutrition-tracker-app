@@ -159,7 +159,15 @@ Safari/Chrome/Firefox, Windows Chrome/Edge/Firefox, iPhone Safari/Chrome, and
 Android Chrome. Physical barcode-camera scanning is required on an iPhone and
 Android phone, with each mobile browser recorded separately; desktop camera
 scanning is not required. Actual installed OS/browser versions are recorded in
-J3. This forward amendment does not change earlier J1/J2 candidate evidence.
+J3. This historical forward amendment does not change earlier J1/J2 candidate evidence.
+
+`DEC-037` on 2026-09-27 supersedes only the desktop Firefox requirements for the
+active personal-use profile: the current set is macOS Safari/Chrome, Windows
+Chrome/Edge, iPhone Safari/Chrome, and Android Chrome. The
+[current J3 plan](phase-11j3-owner-device-validation-plan.md) reconciles 37 active
+cases and separately retains the two excluded historical Firefox IDs without
+PASS credit. Independent amendment review remains pending; Windows Chrome/Edge
+remain unexecuted and J3 remains incomplete.
 
 Broad commercial certification matrices such as NVDA/Firefox, multiple Android
 devices, multiple iOS/iPadOS generations, or broad assistive-technology
