@@ -1,0 +1,585 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11J3-FIREFOX-PLAN-AMENDMENT-001",
+  "status": "PLAN_AMENDMENT_PENDING_INDEPENDENT_REVIEW",
+  "currentContractVersion": "1.9-personal-use-firefox-excluded-amended",
+  "decision": {
+    "id": "DEC-037",
+    "productOwner": "Maor Pichhadze",
+    "approvedOn": "2026-09-27",
+    "timezone": "Asia/Jerusalem",
+    "ownerStatementVerbatim": "I don't need FireFOx at all. remove it from the plan",
+    "scope": "Both desktop Firefox requirements excluded for PERSONAL_USE_FREE_TIER",
+    "scopeAttribution": "Interprets 'at all' as both desktop Firefox rows; no separate per-platform confirmation is claimed.",
+    "supersedes": "Only desktop Firefox requirements in DEC-036/DEC-014 and the earlier execution brief frozen-matrix restriction",
+    "independentAcceptance": "PENDING"
+  },
+  "repositoryBaseline": {
+    "sha": "62c906ee3aa4f1b995df81f2bc65fabeafc9be3e",
+    "tree": "09572c2c544680734cfcdd164d8485effd1ba0ea",
+    "soleParent": "64f6c09f22c54c9e2e47ac38fa609e791c59c34b",
+    "pr145Merged": true,
+    "openPrCountAtInspection": 0,
+    "ci": {
+      "id": 36276657329,
+      "number": 293,
+      "event": "push",
+      "attempt": 1,
+      "head": "62c906ee3aa4f1b995df81f2bc65fabeafc9be3e",
+      "conclusion": "success",
+      "job": 108500610287,
+      "artifact": {
+        "id": 10917374342,
+        "name": "phase-11d-evidence-36276657329-1",
+        "digest": "sha256:6608604906e8bf558938064ef386d3a1b69164edbea5365deed04d11347a5a22"
+      }
+    }
+  },
+  "physicalRuntimeCandidate": {
+    "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+  },
+  "runtimeServedInThisTask": false,
+  "availability": {
+    "macFirefoxInstalledInStandardApplicationLocations": false,
+    "firefoxInstallAuthorized": false,
+    "firefoxInstalledInThisTask": false,
+    "actualWindowsPcAvailable": false,
+    "windowsOwnerStatementVerbatim": "Windows PC is unavailable now",
+    "windowsBrowserAvailability": {
+      "Chrome": null,
+      "Edge": null,
+      "Firefox": null
+    },
+    "nutritionJ3ObservedState": "Stopped",
+    "videofetchObservedState": "Stopped",
+    "vmStarted": false,
+    "servicesStarted": false,
+    "newAuthenticatedPreflight": "NOT_RUN_NO_CLIENT_AVAILABLE",
+    "preservedGuestState": "NOT_ACCESSED_OR_MODIFIED; volumes not freshly inspected while VM stopped"
+  },
+  "counts": {
+    "historicalFormalCases": 39,
+    "activeRequiredCases": 37,
+    "excludedByOwnerDecision": 2,
+    "cameraCarryForwardAccepted": 30,
+    "previouslyAcceptedUiPass": 5,
+    "uiNotExecuted": 2,
+    "newFormalUiExecutions": 0,
+    "physicalCameraExecutionsInThisTask": 0
+  },
+  "records": [
+    {
+      "testCaseId": "J3-MAC-SAFARI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "macOS",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/0",
+      "evidenceDisposition": "ACCEPTED_PRIOR_UI_PASS",
+      "evidenceReference": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations/0",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-MAC-CHROME-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "macOS",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/1",
+      "evidenceDisposition": "ACCEPTED_PRIOR_UI_PASS",
+      "evidenceReference": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations/1",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-WIN-CHROME-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Windows",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/3",
+      "evidenceDisposition": "NOT_EXECUTED",
+      "reason": "Actual Product Owner Windows PC is unavailable now; no substitution or emulation.",
+      "newPhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-WIN-EDGE-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Windows",
+      "requiredBrowser": "Edge",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/4",
+      "evidenceDisposition": "NOT_EXECUTED",
+      "reason": "Actual Product Owner Windows PC is unavailable now; no substitution or emulation.",
+      "newPhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/6",
+      "evidenceDisposition": "ACCEPTED_PRIOR_UI_PASS",
+      "evidenceReference": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations/2",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/7",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/0",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/8",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/1",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/9",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/2",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/10",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/3",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/11",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/4",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/12",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/5",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/13",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/6",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/14",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/7",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/15",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/8",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/16",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/9",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/17",
+      "evidenceDisposition": "ACCEPTED_PRIOR_UI_PASS",
+      "evidenceReference": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations/3",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/18",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/10",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/19",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/11",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/20",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/12",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/21",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/13",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/22",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/14",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/23",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/15",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/24",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/16",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/25",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/17",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/26",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/18",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/27",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/19",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/28",
+      "evidenceDisposition": "ACCEPTED_PRIOR_UI_PASS",
+      "evidenceReference": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations/4",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/29",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/20",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/30",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/21",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/31",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/22",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/32",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/23",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/33",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/24",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/34",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/25",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/35",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/26",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/36",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/27",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/37",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/28",
+      "physicallyReexecutedInThisTask": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "historicalManifestReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/38",
+      "evidenceDisposition": "CARRY_FORWARD_ACCEPTED",
+      "evidenceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/29",
+      "physicallyReexecutedInThisTask": false
+    }
+  ],
+  "excludedHistoricalCases": [
+    {
+      "testCaseId": "J3-MAC-FIREFOX-01",
+      "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "decision": "DEC-037",
+      "historicalExecutionDisposition": "NOT_EXECUTED",
+      "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/2",
+      "physicalPassCredit": false
+    },
+    {
+      "testCaseId": "J3-WIN-FIREFOX-01",
+      "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "decision": "DEC-037",
+      "historicalExecutionDisposition": "NOT_EXECUTED",
+      "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/5",
+      "physicalPassCredit": false
+    }
+  ],
+  "remainingRequiredUiCases": [
+    "J3-WIN-CHROME-01",
+    "J3-WIN-EDGE-01"
+  ],
+  "cameraDecision": {
+    "reference": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+    "decision": "CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT",
+    "routing": "NO_CAMERA_05_ROUTING_IMPACT_IDENTIFIED",
+    "lifecycle": "NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED"
+  },
+  "diagnosticLimitations": {
+    "mobileZoom": "Mobile pinch zoom/reflow was exercised. Exact 200% mobile zoom was not measured.",
+    "priorRefreshTokenNotFoundEvents": 8,
+    "priorCauseAndBrowserAttribution": "UNKNOWN_UNRESOLVED",
+    "priorOwnerVisibleAuthDefectEstablished": false,
+    "newRuntimeLogInspection": "NOT_RUN_NO_RUNTIME_SESSION",
+    "newSessionRefreshTokenEventCount": null,
+    "priorEventsResolved": false
+  },
+  "futureExecution": {
+    "requiredDevice": "Actual Product Owner physical Windows PC",
+    "requiredBrowsers": [
+      "Chrome",
+      "Edge"
+    ],
+    "completeUiChecklist": "docs/phase-11j3-owner-device-validation-plan.md#bounded-owner-procedure-and-passfail-observations",
+    "privateTopology": "Physical Windows browser -> private Tailscale HTTPS -> Next.js guest loopback -> synthetic local Supabase loopback",
+    "freshRepositoryCandidateIsolationAuthPreflightRequired": true,
+    "missingBrowserOrTailscaleInstallationRequiresExplicitOwnerAuthorization": true,
+    "acceptedUiRerunRequired": false,
+    "cameraRerunRequired": false,
+    "ownerCompleteCellConfirmationRequired": true,
+    "independentCompleteJ3AcceptanceRequired": true
+  },
+  "historicalFilesPreserved": [
+    {
+      "path": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+      "sha256": "edf325c368c96b2eb0a4086a39ec4f6789cc2ce18bd0f4549a7f6ab60aaa0da9"
+    },
+    {
+      "path": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json",
+      "sha256": "d36c3c4555ce0b8841612a0854fbc7ad1c538d23460799b741b870351c6d15f1"
+    },
+    {
+      "path": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+      "sha256": "d8e05db2f3c955d61ccd7a7cc64dc2cc6dcee16cee273b4e6a90a18a60204285"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-validation-template.json",
+      "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2"
+    },
+    {
+      "path": "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+      "sha256": "3f6fef5f47e02e2710694cb702b110d607bf793314cfdc4a4193a5918a1a5ec7"
+    },
+    {
+      "path": "docs/phase-11j3-camera-evidence-carry-forward.md",
+      "sha256": "6a3f0759dd25fc431a4c79cddd476c4676b3e26f6e0bf30f698da95cd6532f9e"
+    },
+    {
+      "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+      "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7"
+    },
+    {
+      "path": "docs/phase-11j3-non-windows-owner-device-validation-results.md",
+      "sha256": "fb02011e071b7a119aaf38adda7aee61a20008015297ec69c307989ce17af246"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+      "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f"
+    },
+    {
+      "path": "docs/phase-11j3-owner-device-validation-results.md",
+      "sha256": "96eba50e3e62f77ffc7e6cd73128fa3c34dc1c256f966501f5d2a10dbfa19eaa"
+    }
+  ],
+  "governance": {
+    "releaseProfile": "PERSONAL_USE_FREE_TIER",
+    "activeDecisions": [
+      "DEC-035",
+      "DEC-036",
+      "DEC-037"
+    ],
+    "j3Complete": false,
+    "physicalPassRecorded": false,
+    "j4": "NOT_STARTED",
+    "j5": "NOT_STARTED",
+    "j6": "NOT_STARTED",
+    "integratedAcceptance": "NOT_STARTED",
+    "openFindings": 18,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "findingClosureAuthority": "Phase 11K only",
+    "productionReleaseAuthorized": false
+  },
+  "safety": {
+    "applicationCodeModified": false,
+    "softwareInstalled": false,
+    "vmOrServiceMutation": false,
+    "resetOrReseed": false,
+    "publicExposure": false,
+    "funnelEnabled": false,
+    "unrelatedOriginalCheckoutModified": false,
+    "hostedSupabaseOrVercelAccessOrMutation": false
+  },
+  "repositoryPlanAmendmentPerformed": true
+}

@@ -69,7 +69,7 @@ function mutateSection7_3Row(source, id, transform) {
   );
 }
 
-test("accepts the exact Contract 1.8 client matrix amendment with immutable historical evidence", async () => {
+test("accepts the exact Contract 1.9 Firefox exclusion amendment with immutable historical evidence", async () => {
   const result = await validate(evidenceFixture());
   assert.equal(baselineEvidence.acceptedContract.version, HISTORICAL_PHASE_11C_CONTRACT_VERSION);
   assert.equal(result.normative.version, CURRENT_CONTRACT_VERSION);
