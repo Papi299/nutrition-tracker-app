@@ -1079,6 +1079,29 @@ owner execution or provider/system mutation occurs in this repository task.
 All 18 findings remain `OPEN`; Phase 11K remains the exclusive closure gate,
 and `productionReleaseAuthorized=false`.
 
+### Navigation-fix owner UI execution checkpoint
+
+After independently approved PR #144 merged at repository main
+`64f6c09f22c54c9e2e47ac38fa609e791c59c34b` (tree
+`568ae09039e5dda909264db996878f1123af4c74`) and exact-main CI #291 passed,
+the separate [owner UI execution packet](phase-11j3-navigation-fix-owner-ui-execution-results.md)
+records five complete-cell owner PASSs on the physically served runtime
+`f50d7448a080dbc0a5968c00fd6747ced36d822b` (tree
+`f3ac6117f70af8d7a6261c803576d6ecf72ec80f`). Mac Safari/Chrome, iPhone
+Safari/Chrome and Samsung Chrome passed their individually issued full UI
+checklists. Mobile zoom was touchscreen pinch zoom; exact 200% was not measured.
+Mac Firefox is uninstalled and remains `NOT_EXECUTED`, as do all three Windows
+cells. The 30 accepted camera cases were carried forward with zero reruns.
+Synthetic local state was restored without reset/reseed and preserved on shutdown;
+the dedicated VM is stopped. Eight Auth refresh-token-not-found log events are
+retained as a diagnostic limitation alongside the owner PASS reports.
+
+This new Draft evidence awaits independent ChatGPT review. Earlier forward-packet
+authorship/review records above remain historical; no prior physical evidence or
+merged manifest is rewritten. J3 remains `INCOMPLETE`, `physicalPassRecorded=false`,
+J4–J6 and integrated acceptance remain `NOT_STARTED`, all 18 findings remain
+`OPEN`, and `productionReleaseAuthorized=false`.
+
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
 ### Objective
