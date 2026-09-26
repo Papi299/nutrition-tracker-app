@@ -834,5 +834,21 @@
     "NOT_APPLICABLE"
   ],
   "productionReleaseAuthorized": false,
-  "physicalPassRecorded": false
+  "physicalPassRecorded": false,
+  "executionCheckpoint": {
+    "status": "HUMAN_WINDOWS_CLIENT_REQUIRED",
+    "recordedAt": "2026-09-26T07:33:56Z",
+    "taskId": "PHASE-11J3-OWNER-DEVICE-OBSERVATION-EXECUTION-001",
+    "ownerReportedAvailability": "I don't have a Windows device at all at the moment",
+    "requiredClient": "Actual Windows device with Chrome, Edge, and Firefox",
+    "pendingTestCaseIds": [
+      "J3-WIN-CHROME-01",
+      "J3-WIN-EDGE-01",
+      "J3-WIN-FIREFOX-01"
+    ],
+    "formalObservationsStarted": false,
+    "observationFieldsPreservedBlank": true,
+    "vmFinalState": "STOPPED",
+    "evidenceReference": "docs/phase-11j3-owner-device-validation-results.md"
+  }
 }
