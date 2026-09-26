@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001",
+  "status": "PHASE_11J1_NAVIGATION_FIX_CANDIDATE_REFRESH_EVIDENCE_COMPLETE",
+  "reviewState": "SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW",
+  "runtimeTestCandidate": {
+    "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+  },
+  "repositoryStartingGate": {
+    "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+    "soleParentSha": "af8c592f1396dc556eb5aac6b5f1aa3ba225cb6c",
+    "commitSubject": "fix(phase11j3): align primary navigation with the current route (#143)",
+    "openPullRequestsBeforeTask": 0
+  },
+  "exactMainCi": {
+    "workflow": "CI",
+    "runId": 36260419591,
+    "runNumber": 288,
+    "runUrl": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36260419591",
+    "jobName": "Validate",
+    "jobId": 108455043812,
+    "event": "push",
+    "runAttempt": 1,
+    "headSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "status": "completed",
+    "conclusion": "success",
+    "authoritativeStepsFailed": 0,
+    "advisory": {
+      "result": "PASS",
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
+    },
+    "pureUnit": {
+      "passed": 351,
+      "failed": 0
+    },
+    "lockfileInstallWorkflowPolicyHygieneLintTypecheck": "PASS",
+    "deploymentRecoverySecurityJourneyPerformanceContracts": "PASS",
+    "productionBuild": {
+      "result": "PASS",
+      "bundler": "Turbopack",
+      "staticPages": 57
+    },
+    "clientSecretBoundary": {
+      "result": "PASS",
+      "artifactsInspected": 115,
+      "serverOnlyCanaryFound": false
+    },
+    "localSupabase": {
+      "startup": "PASS",
+      "hostedMigrationRoleCompatibility": "PASS_LOCAL_SIMULATION_ONLY",
+      "freshResetAndSeed": "PASS",
+      "migrationReplayCount": 43,
+      "latestMigration": "20260830143000_cache_search_account_access_policy.sql",
+      "ingestionTypes": "PASS",
+      "teardownWithoutBackup": "PASS",
+      "syntheticLocalDataOnly": true,
+      "executionClassification": "EPHEMERAL_GITHUB_HOSTED_CI_VM_SYNTHETIC_LOCAL_STACK",
+      "loopbackOnlyBindingClaimed": false,
+      "privateJ3TopologyRevalidated": false
+    },
+    "fullPlaywright": {
+      "passed": 366,
+      "failed": 0,
+      "skipped": 0
+    },
+    "phase11D": {
+      "passed": 53,
+      "skipped": 3,
+      "failed": 0,
+      "flaky": 0,
+      "errors": 0,
+      "retries": 0,
+      "intentionalSkips": "Shared-DOM axe subset on engine-firefox, engine-webkit, and mobile-chromium-390; desktop Chromium executed that subset.",
+      "evidenceFilesVerified": true,
+      "artifact": {
+        "id": 10911974418,
+        "name": "phase-11d-evidence-36260419591-1",
+        "digest": "sha256:d868fca71b38485fe6cf9e347957bbe983cb27f233e3663fd1d177c82b160abe",
+        "downloadedZipSha256MatchesApiAndUploadLog": true,
+        "downloadedJsonStatsAndAllRetryValuesVerified": true
+      }
+    },
+    "independentVerification": [
+      "GitHub run and job metadata",
+      "raw Validate job logs",
+      "artifact API metadata",
+      "downloaded ZIP SHA-256",
+      "downloaded Phase 11D JSON and last-run status"
+    ],
+    "physicalOwnerExecutionClaimed": false
+  },
+  "historicalEvidencePreservation": [
+    {
+      "path": "docs/phase-11j1-local-ci-release-rehearsal.md",
+      "sha256": "685722e08d245f541a4a164d104aeca85a08cd6d1c7a5db238468f5f9b84a2b8",
+      "gitBlobShaAtStartingMain": "3b56c33f433b7fa1980e285f942b3818f2c9c484"
+    },
+    {
+      "path": "deployment/phase-11j1-local-ci-rehearsal-evidence.json",
+      "sha256": "838b394555443ef71350bd57a6bc29908185f10c7a38521f2937c7de82290f76",
+      "gitBlobShaAtStartingMain": "fc50769d2c547395a463a31c86f01b88193d41cb"
+    },
+    {
+      "path": "docs/phase-11j1-current-candidate-refresh.md",
+      "sha256": "e43717d698941ac9c0745d99c57b939a2295cbd5cc273e840b97e455420346bb",
+      "gitBlobShaAtStartingMain": "7550c31ac87eda4e6e55723654896e9a9e616e08"
+    },
+    {
+      "path": "deployment/phase-11j1-current-candidate-refresh-evidence.json",
+      "sha256": "a82bc2e8b7e387b6fbf53a752baefc670357b0db26db9c97003f78e4bc18a036",
+      "gitBlobShaAtStartingMain": "62f1a626f6d478a898fbe675c3ddb8d4e627ae34"
+    },
+    {
+      "path": "docs/phase-11j1-device-test-candidate-refresh.md",
+      "sha256": "bbad46f9820c03f8586190bd14df5322ac4dd8dcb04a6a8ce7062aa7d1349fea",
+      "gitBlobShaAtStartingMain": "a3e77e92f1880e366ff6d3aa16ee1f85ab5f81df"
+    },
+    {
+      "path": "deployment/phase-11j1-device-test-candidate-refresh-evidence.json",
+      "sha256": "95041319ff7431c1f0d8a0f7129a503f7064213a94f12f66df4bee66c7a93442",
+      "gitBlobShaAtStartingMain": "2b4b694c014ca0fcbd2d7901d22b5aeaeae07e29"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-validation-template.json",
+      "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2",
+      "gitBlobShaAtStartingMain": "9a98740a9bca5c43ea99a6e15068779be3e79377"
+    },
+    {
+      "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+      "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7",
+      "gitBlobShaAtStartingMain": "7fc66b555ceeba6e46f27bdbb7e8e1a853e210bf"
+    },
+    {
+      "path": "docs/phase-11j3-non-windows-owner-device-validation-results.md",
+      "sha256": "fb02011e071b7a119aaf38adda7aee61a20008015297ec69c307989ce17af246",
+      "gitBlobShaAtStartingMain": "eab53640273987a8f2f60a83456629f1ef68b65b"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+      "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f",
+      "gitBlobShaAtStartingMain": "13c67c2e3b7ae43e7d5f43b85fa2294daf51c082"
+    },
+    {
+      "path": "docs/phase-11j3-owner-device-validation-results.md",
+      "sha256": "96eba50e3e62f77ffc7e6cd73128fa3c34dc1c256f966501f5d2a10dbfa19eaa",
+      "gitBlobShaAtStartingMain": "bdbc266c6bd698963376bc3f81d4902175551e0b"
+    },
+    {
+      "path": "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+      "sha256": "3598fd6d6a37523d858440e0fd3aa9df06d412b70a4f566cf05cb702d33e3985",
+      "gitBlobShaAtStartingMain": "f3e673d0778405d2fa7527ff138205a539f3fd40"
+    }
+  ],
+  "j2Impact": {
+    "disposition": "NO_J2_SEMANTIC_CHANGE_IDENTIFIED",
+    "reason": "Runtime source delta changes only current-route navigation interpretation/presentation; other changes are tests and historical evidence/documentation.",
+    "unchanged": [
+      "Auth",
+      "sessions",
+      "cookies",
+      "account lifecycle",
+      "RLS",
+      "grants",
+      "database functions",
+      "schema",
+      "migrations",
+      "Supabase configuration",
+      "CSP",
+      "service-role handling",
+      "application authority/trust boundaries"
+    ],
+    "fullJ2ExecutionClaimed": false,
+    "reference": "docs/phase-11j3-today-navigation-active-state-correction.md#j1-and-j2-impact"
+  },
+  "governance": {
+    "releaseProfile": "PERSONAL_USE_FREE_TIER",
+    "currentContractVersion": "1.8-personal-use-owner-client-matrix-amended",
+    "activeDecisions": [
+      "DEC-035",
+      "DEC-036"
+    ],
+    "phase11J2": "INDEPENDENTLY_ACCEPTED_HISTORICAL_EXECUTION_NO_NEW_FULL_REPEAT",
+    "phase11J3Complete": false,
+    "phase11J4ThroughJ6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "productionReleaseAuthorized": false
+  },
+  "privateExecutionContract": {
+    "repositoryContractAutomatedResult": "PASS_ON_EXACT_MAIN_CI_288",
+    "environment": "device-test",
+    "nodeEnvironment": "production",
+    "origin": "exact private HTTPS two-label node.tailnet.ts.net on port 443",
+    "supabaseEnvironmentAndProjectRef": "local",
+    "supabaseUrl": "loopback-only",
+    "requiredPath": "physical browser -> Next.js app -> server-side synthetic local Supabase",
+    "browserConnectSrc": "'self'",
+    "sessionCookies": "Secure",
+    "repositoryContractSourceUnchanged": true,
+    "liveNutritionJ3TopologyRevalidatedInThisTask": false,
+    "historicalTopologyReferences": [
+      "docs/phase-11j3-private-device-test-remaining-topology-preflight.md",
+      "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json"
+    ],
+    "resumeContract": "Existing runbook is historical and contains the old candidate. A separately authorized session must bind/deploy the new candidate and verify source tree, private origin, runner, loopback-only network, synthetic state and reverse-proxy boundaries before owner observations."
+  },
+  "j3ForwardPacket": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+  "j3OwnerExecutionManifest": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+  "readinessAfterForwardPacketReview": "READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES",
+  "evidencePrHeadIsRuntimeCandidate": false,
+  "providerOrSystemMutationPerformed": false,
+  "ownerDeviceExecutionPerformed": false,
+  "cameraDecisionProvenanceReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval"
+}

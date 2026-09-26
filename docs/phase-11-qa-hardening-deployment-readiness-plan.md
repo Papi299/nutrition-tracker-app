@@ -1013,10 +1013,11 @@ authorship and was subsequently accepted. The separate
 [device-test current-candidate refresh](phase-11j1-device-test-candidate-refresh.md)
 binds to accepted `main` `bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c`,
 tree `02e86af4db29d0f509c35308727f876ed607dba1`, after PRs #135 and
-#136. Its fresh exact-main push CI run #273 passed on attempt 1. The new
-packet and 39-case blank J3 template rebind await independent review; the
-private Linux/Tailscale/Supabase topology has not been provisioned or
-preflighted. The selected J3 path needs no second cloud Supabase project.
+#136. Its fresh exact-main push CI run #273 passed on attempt 1. At that
+packet's authorship, its new packet and 39-case blank J3 template rebind
+awaited independent review and private topology provisioning/preflight. Those
+authorship-time records remain historical. The selected J3 path needs no
+second cloud Supabase project.
 
 Phase 11J2 executed against accepted baseline
 `24b974d9d3c92573269fe4ca65d167bb211d4c7c`, tree
@@ -1030,12 +1031,53 @@ The historical J2 packet records
 `IMPLEMENTATION_EVIDENCE_COMPLETE_PENDING_INDEPENDENT_REVIEW` at authorship;
 subsequent independent acceptance made current Phase 11J2 `COMPLETE`. PR #131
 merged the iPhone-camera implementation prerequisite for J3. PR #135 merged
-the private `device-test` repository prerequisite; J3 physical/manual iPhone
-and Android camera validation remains unstarted.
+the private `device-test` repository prerequisite. Subsequent topology
+preflight and PR #142 owner execution are historical evidence for the old
+physical candidate, as recorded below.
 Phase 11J4 through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
 the exclusive finding-closure gate, and
 `productionReleaseAuthorized=false`.
+
+### Navigation-fix candidate forward packet
+
+The independently accepted post-PR-143 runtime candidate is
+`f50d7448a080dbc0a5968c00fd6747ced36d822b`, tree
+`f3ac6117f70af8d7a6261c803576d6ecf72ec80f`. The
+[fresh J1 refresh](phase-11j1-navigation-fix-candidate-refresh.md) binds it to
+exact-main push CI #288, attempt 1: 351 unit passes, 366 full Playwright passes,
+Phase 11D 53 passes/3 intentional skips/zero failures or flakes, and advisories
+0/0/0/0. Its corrected evidence record awaits exact-head independent review;
+older J1 packets remain unchanged. The inspected navigation-only runtime delta
+records
+`NO_J2_SEMANTIC_CHANGE_IDENTIFIED` and claims no new full J2 execution.
+
+Independent ChatGPT review of Draft PR #144 head
+`89359656ac2b998d3d48e8385e20203e1afc44e5`, tree
+`1666d9237f1bf8e9881323967320580d2cbf68c8`, accepted
+`CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT` for all 30 camera
+cases, including `-05` routing and `-08` lifecycle, but returned `REQUEST CHANGES`
+for review-provenance/chronology correction. The original task authorized a
+proposal; Codex prematurely recorded prior independent acceptance. Acceptance
+actually occurred during that PR review. The corrected head remains pending
+exact-head review:
+`SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW`. The
+[separate camera forward packet](phase-11j3-camera-evidence-carry-forward.md)
+records all 30 old physical PASSs without changing PR #142 attribution and
+without claiming fresh execution. Camera `-05` routing and `-08` lifecycle
+are explicitly included under the reviewed no-impact exception. The
+[new owner execution manifest](../deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json)
+classifies all 39 cases as 30 carry-forward accepted, five complete UI reruns
+required, and four still unexecuted (Mac Firefox and Windows Chrome/Edge/Firefox).
+Windows remains deferred until the temporary owner PC; Mac Firefox is pending.
+
+After exact-head review verifies this corrected J1/forward record, readiness is
+`READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES`, subject
+to new-candidate installation and live private-topology preflight in a separate
+owner session. J3 remains incomplete. No VM startup, Tailscale authentication,
+owner execution or provider/system mutation occurs in this repository task.
+All 18 findings remain `OPEN`; Phase 11K remains the exclusive closure gate,
+and `productionReleaseAuthorized=false`.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 

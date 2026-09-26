@@ -1,0 +1,1580 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001",
+  "status": "CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT",
+  "forwardPacketReviewState": "SUBSTANTIVE_DECISION_ACCEPTED_CORRECTED_RECORD_PENDING_EXACT_HEAD_REVIEW",
+  "originalPhysicalObservationCandidate": {
+    "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+    "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+  },
+  "newRuntimeCandidate": {
+    "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+  },
+  "independentApproval": {
+    "decision": "CAMERA_PHYSICAL_EVIDENCE_CARRY_FORWARD_ACCEPTED_NO_IMPACT",
+    "classification": "NARROW_EVIDENCE_GOVERNANCE_EXCEPTION",
+    "reviewer": "Independent ChatGPT review",
+    "approvalSource": "Independent ChatGPT review of Draft PR #144 at the exact reviewed head",
+    "approvalAttribution": "The independent review of PR #144 accepted the narrow 30-camera carry-forward on substance, but returned REQUEST CHANGES for incorrect approval provenance and chronology. This corrected record remains pending exact-head re-review before merge.",
+    "externalReviewRecordUrl": null,
+    "externalReviewRecordUrlExplanation": "The review outcome and exact reviewed head/tree are reported in the review-correction request. No external review URL or reliable precise review timestamp was supplied; neither is invented.",
+    "impactReviewReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+    "navigationCorrectionPullRequest": "https://github.com/Papi299/nutrition-tracker-app/pull/143",
+    "exactMainCiReference": "deployment/phase-11j1-navigation-fix-candidate-refresh-evidence.json#/exactMainCi",
+    "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+    "scope": "Only the 30 historical mobile camera PASS observations; excludes every UI FAIL and unexecuted case.",
+    "reviewedPullRequest": 144,
+    "reviewedHeadSha": "89359656ac2b998d3d48e8385e20203e1afc44e5",
+    "reviewedTreeSha": "1666d9237f1bf8e9881323967320580d2cbf68c8",
+    "disposition": "SUBSTANTIVE_CAMERA_CARRY_FORWARD_ACCEPTED",
+    "overallPullRequestVerdict": "REQUEST_CHANGES",
+    "correctionRequired": "Provenance/chronology recording correction and exact-head re-review before merge",
+    "acceptedImpactDispositions": [
+      "NO_CAMERA_05_ROUTING_IMPACT_IDENTIFIED",
+      "NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED"
+    ],
+    "reviewedAt": null,
+    "reviewChronology": [
+      "The original task authorized creation of a camera evidence-impact proposal.",
+      "Codex created Draft PR #144 and prematurely recorded the proposal as already independently accepted.",
+      "Independent ChatGPT reviewed exact PR #144 head 89359656ac2b998d3d48e8385e20203e1afc44e5, tree 1666d9237f1bf8e9881323967320580d2cbf68c8.",
+      "That review found the technical no-impact analysis sound.",
+      "That review accepted the narrow carry-forward for all 30 historical mobile camera PASS observations, including -05 routing and -08 lifecycle.",
+      "That review returned REQUEST CHANGES because the packet attributed acceptance to the wrong source and time.",
+      "The corrected PR head must return for exact-head independent review before merge."
+    ]
+  },
+  "sourceDelta": {
+    "runtimeChangedFiles": [
+      "components/layout/app-navigation.tsx",
+      "components/layout/app-shell.tsx",
+      "components/layout/primary-navigation.ts"
+    ],
+    "otherDelta": "tests and documentation/evidence only",
+    "scopeComparison": "Historical physical candidate to accepted navigation-fix candidate",
+    "cameraBehaviorDisposition": "NO_CAMERA_BEHAVIOR_IMPACT_IDENTIFIED",
+    "navigationImports": [
+      "Next Link",
+      "Next usePathname",
+      "primary-navigation route table/helper",
+      "type-only Locale"
+    ],
+    "cameraRuntimeImportOrApiAdded": false,
+    "byteIdenticalGeneratedBundlesClaimed": false
+  },
+  "cameraDependencyPathReview": [
+    {
+      "behavior": "Scanner, permission handling, getUserMedia and activation",
+      "paths": [
+        "components/barcodes/barcode-camera-scanner.tsx",
+        "lib/barcodes/scanner-detection.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "BarcodeDetector capability path",
+      "paths": [
+        "lib/barcodes/scanner-capabilities.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "ZXing/WASM dependency and preparation",
+      "paths": [
+        "lib/barcodes/scanner-software.ts",
+        "scripts/prepare-barcode-wasm.mjs",
+        "package.json",
+        "package-lock.json"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "GTIN normalization and decoded query/routing",
+      "paths": [
+        "lib/barcodes/validation.ts",
+        "lib/barcodes/query.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "Stream ownership, release and cleanup",
+      "paths": [
+        "lib/barcodes/scanner-lifecycle.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "Manual fallback and authenticated local lookup",
+      "paths": [
+        "app/[locale]/(app)/foods/barcode/page.tsx",
+        "lib/barcodes/lookup.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    },
+    {
+      "behavior": "CSP and application policy",
+      "paths": [
+        "lib/security/browser-headers.ts",
+        "next.config.ts"
+      ],
+      "oldToNewSourceComparison": "UNCHANGED"
+    }
+  ],
+  "wasm": {
+    "package": "zxing-wasm",
+    "version": "3.1.3",
+    "readerSha256": "2ebda08a93eea3efcd8399cda6b276e6a0b1de4fec60b4d8988a047de4c6d1ba",
+    "verifiedInExactMainCi288BuildLog": true
+  },
+  "camera05": {
+    "disposition": "NO_CAMERA_05_ROUTING_IMPACT_IDENTIFIED",
+    "includedInAcceptedCarryForward": true,
+    "reason": "Scanner router.push, barcode query construction and destination route are unchanged. Header usePathname only derives primary selection after route changes.",
+    "paths": [
+      "components/barcodes/barcode-camera-scanner.tsx",
+      "lib/barcodes/query.ts"
+    ]
+  },
+  "camera08": {
+    "disposition": "NO_CAMERA_08_LIFECYCLE_IMPACT_IDENTIFIED",
+    "includedInAcceptedCarryForward": true,
+    "reason": "Scanner lifecycle/effects, stream release and child route mount/unmount authority are unchanged. AppShell renders children in the same content container; the header subscriber has no camera effect or router action.",
+    "paths": [
+      "components/barcodes/barcode-camera-scanner.tsx",
+      "lib/barcodes/scanner-lifecycle.ts",
+      "components/layout/app-shell.tsx",
+      "components/layout/app-navigation.tsx"
+    ]
+  },
+  "counts": {
+    "cameraCasesCarriedForward": 30,
+    "physicalCasesReexecutedOnNewCandidate": 0,
+    "uiFailsCarriedForward": 0
+  },
+  "records": [
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-01",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-01",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T14:54:21Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Scanner offered after explicit action; permission not requested earlier.",
+        "observedResult": "Owner confirmed no camera permission prompt or live camera view before tapping Scan barcode. After tapping, the camera activation prompt appeared; the owner chose Allow.",
+        "disposition": "PASS",
+        "notes": "Product Owner report for this exact case. Explicit-action gating passed. Choosing Allow changed permission state; next case must deliberately restore Ask/deny before testing denial. No physical barcode scan, rear-camera, live-view success, or camera resource-release result is inferred. Timestamp is the checkpoint time of owner report.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/7",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:02:15Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Permission prompt and denial are understandable; manual fallback survives.",
+        "observedResult": "PASS: Owner chose Cancel in Safari camera-permission popup. Camera did not start and manual barcode entry remained available. The app displayed an understandable denial explanation: Camera access was denied by the browser, site policy or settings. Adjust access if appropriate, then retry explicitly or use manual entry. Scan again was also available.",
+        "disposition": "PASS",
+        "notes": "Product Owner corrected the preliminary no-message report before the next formal case started. Native Cancel denied Safari camera permission; camera remained off, the denial message explained browser/site/settings causes and explicit retry/manual entry, and manual fallback remained available. The earlier FAIL classification is superseded by this actual message observation. Permission recovery has not yet been observed and must be guided before -03. No screenshot/client network log collected. Exact orientation/page-size settings not reported. Timestamp is the checkpoint time of owner correction. No runtime change was made.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/8",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-03",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-03",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:06:38Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Rear/environment camera selected where browser and device honor request.",
+        "observedResult": "Owner pointed the rear camera at a plain object and covered the rear lenses; the active scanner live view became black. Rear/environment camera use is confirmed by this physical lens-occlusion observation.",
+        "disposition": "PASS",
+        "notes": "The live camera preview after the earlier native denial also demonstrates restored camera access. Permission recovery was guided using this site Camera=Ask, reload, explicit scan, and Allow; the owner did not separately restate each permission-setting step. Rear-camera PASS is based only on the actual live view becoming black with rear lenses covered. No barcode decoding, leading-zero, cancellation/retry, resource-release, or no-upload result inferred. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/9",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-04",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-04",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:09:31Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Real supported retail barcode decoded with every leading digit preserved.",
+        "observedResult": "Owner scanned the real retail UPC-A printed as 794504487565 and confirmed every printed digit was preserved. The app displayed canonical GTIN-14 00794504487565, adding two padding zeros without changing the 12 package digits.",
+        "disposition": "PASS",
+        "notes": "Physical retail barcode decoding personally reported for this case. Canonical GTIN-14 padding verified by comparing the reported 14-digit value with the owner-provided 12-digit package code. The physical code itself has no leading zero, so preservation of a leading zero printed on a package was not exercised; added canonical padding is not evidence of that distinct condition. Barcode type: UPC-A. No matching-food success, date/meal preservation, unsupported-code rejection, or camera resource-release result is inferred. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; package 794504487565; observed canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/10",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-05",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-05",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:13:50Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Decoded code/date/meal navigate correctly and authenticated lookup is correct or honestly not found.",
+        "observedResult": "Owner confirmed post-scan diary date and meal matched pre-scan values: 26 September 2026 and Dinner. Owner remained signed in on Barcode Lookup. The local result said No readable local mapping was found, with an offer to create a private custom food with/without the barcode and a notice that external provider lookup is unavailable. Canonical code 00794504487565 was observed in the immediately preceding -04 report.",
+        "disposition": "PASS",
+        "notes": "Intended diary date 2026-09-26 and meal dinner preserved after actual retail scan. Authenticated Barcode Lookup navigation and honest not-found state personally reported for -05. Exact code was observed for the same scan in -04; it was not separately retyped in the -05 reply, and no changed-code symptom was reported. No matching-food success, custom-food creation, diary mutation, unsupported-code rejection, or camera resource-release claim. Expected code was 00794504487565. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; package 794504487565; observed canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/11",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera05",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-06",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-06",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:18:54Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Unsupported QR/other code does not navigate as food GTIN.",
+        "observedResult": "Owner aimed the physical iPhone scanner at the supplied square QR symbol. The app stayed scanning and did not recognize/accept it or navigate as a food GTIN.",
+        "disposition": "PASS",
+        "notes": "Actual QR displayed on Mac screen and observed through physical iPhone Safari camera. QR payload 7290108351675; asset SHA-256 763cc24162304f463a00096a0db990a830f10e0c65e1c173ed15e0611522b3ff. Owner reported continued scanning/nonrecognition, not an explicit unsupported-symbol message or a decoded-then-rejected event. This is bounded evidence that the exercised QR was not treated as a valid food GTIN; no broader detector or packet-level claim. The observation duration was guided as 5–10 seconds but not independently reported. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "QR symbol; payload 7290108351675; displayed on Mac screen for physical camera observation"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/12",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-07",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-07",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:22:20Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Cancel stops scan; retry can acquire camera and decode.",
+        "observedResult": "Owner confirmed both checks passed: Cancel camera stopped scanning/live preview, and explicit Scan again restarted the camera and successfully decoded the real retail package barcode.",
+        "disposition": "PASS",
+        "notes": "Case-specific owner response: Both checks passed. Guided retry used physical UPC-A 794504487565. The exact decoded number was requested but not separately restated in this response; no new digit-by-digit assertion is added beyond the successful retry report and earlier -04 exact-digit evidence. Cancel/retry functional behavior only is credited here. Actual OS camera-indicator/resource release after cancel, decode, and navigation remains for -08. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; guided retail package 794504487565; exact retry display not separately restated"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/13",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-08",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-08",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:25:27Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Camera indicator/resource stops after cancel, success, and navigation.",
+        "observedResult": "Owner reported the actual iPhone camera-use indicator worked correctly in all three guided scenarios: camera cancellation, successful retail decode, and in-app navigation away while scanning. Indicator ceased active camera use after each action.",
+        "disposition": "PASS",
+        "notes": "Actual OS camera-use indicator was personally observed for this case; no resource-release inference from source code. Owner response: The indicator is working well in the three scenarios. Live-view state and indicator-clear timing were not separately restated. This is bounded manual resource-release evidence across all three actions, not a packet-level or API-state measurement. Guided navigation stayed within Safari to Food Search. Timestamp is the checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; guided successful-decode scenario used retail package 794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/14",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera08",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-09",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-09",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:30:41Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Manual barcode entry remains usable after cancel or denial.",
+        "observedResult": "Owner reported manual barcode entry worked after the guided cancellation scenario, and lookup displayed the expected message beginning No readable local mapping was found.",
+        "disposition": "PASS",
+        "notes": "Actual manual fallback usability personally reported for -09. Guided entry used retail code 794504487565 after scanner cancellation with a valid diary date. Owner reported manual entry and correct local not-found result; no matching-food success claimed. Earlier -02 also observed fallback availability after denial, but this case credits the separate actual manual-entry lookup after cancellation. Timestamp is checkpoint time of owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; guided manual entry 794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/15",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-10",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-SAFARI-CAMERA-10",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:35:58Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Safari",
+        "browserVersion": "Safari bundled with iOS 27.0; separate browser build not reported",
+        "viewport": "Physical iPhone Safari viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "No frame/image upload apparent from UI or optional network observation.",
+        "observedResult": "PASS: Owner reported no image/frame saving by the app and confirmed that no image/frame upload was apparent in the UI during the iPhone Safari scanner tests.",
+        "disposition": "PASS",
+        "notes": "Bounded owner UI observation only. No upload progress or request to send a camera image was apparent. No client network capture, packet-level evidence, or proof of internal storage/upload absence was collected or inferred. Timestamp is the checkpoint time of the owner report. No screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/16",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-01",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-01",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Scanner offered after explicit action; permission not requested earlier.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. No camera permission prompt or live view before explicit Scan barcode; the scanner appeared after the action.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/18",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-02",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-02",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Permission prompt and denial are understandable; manual fallback survives.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. Permission denial gave a clear explanation, kept the camera off, and preserved manual entry.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact native permission-control wording, denial message, and permission-setting steps were not separately restated.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/19",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-03",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-03",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Rear/environment camera selected where browser and device honor request.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. After permission restoration and explicit retry, covering the rear lenses blackened the preview, confirming rear-camera use.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Rear-lens occlusion and recovery are confirmed by the owner batch PASS response to the ordered Chrome checklist, independently of Safari.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/20",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-04",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-04",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Real supported retail barcode decoded with every leading digit preserved.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. The physical UPC-A package 794504487565 decoded as expected canonical GTIN-14 00794504487565, preserving every printed digit.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. The physical package has no printed leading zero; observed canonical 00 padding does not establish physical leading-zero preservation.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; printed 794504487565; expected canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/21",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-05",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-05",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Decoded code/date/meal navigate correctly and authenticated lookup is correct or honestly not found.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. Decoded code and selected date/meal were preserved; authenticated Barcode Lookup navigation produced a correct local result or honest not-found state.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact selected date/meal values, lookup outcome (found versus honest not-found), and message were not separately restated. No matching-food success or mutation is claimed.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/22",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera05",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-06",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-06",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Unsupported QR/other code does not navigate as food GTIN.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. The supplied actual QR was not accepted or navigated as a food GTIN.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. No explicit unsupported-code message or decoded-then-rejected event is claimed. QR payload 7290108351675; temporary image SHA-256 763cc24162304f463a00096a0db990a830f10e0c65e1c173ed15e0611522b3ff.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "Actual QR displayed on Mac; numeric payload 7290108351675; unsupported symbol format"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/23",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-07",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-07",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Cancel stops scan; retry can acquire camera and decode.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. Cancel stopped scanning; explicit retry reacquired the camera and decoded the physical retail barcode.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact retry code was not separately restated; no additional digit claim is made.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; printed 794504487565; expected canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/24",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-08",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-08",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Camera indicator/resource stops after cancel, success, and navigation.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. The actual camera-use indicator cleared after cancel, successful decode, and navigation away.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Detailed live-view state and release timing were not separately restated. Evidence is the owner response to the checklist requiring the actual camera indicator, not a source-code inference.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/25",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera08",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-09",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-09",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Manual barcode entry remains usable after cancel or denial.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. Manual barcode entry remained usable after cancellation or denial.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. No exact manual lookup result/message is claimed from the batch report.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/26",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-10",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-IOS-CHROME-CAMERA-10",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:43:18Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "iPhone 17",
+        "deviceClass": "iPhone",
+        "osVersion": "iOS 27.0",
+        "browser": "Chrome",
+        "browserVersion": "154.0.8037.55",
+        "viewport": "Physical iPhone Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "No frame/image upload apparent from UI or optional network observation.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised iPhone Chrome camera checklist checks passed. No image/frame saving or upload was apparent in the UI.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Bounded manual UI observation only. No client network capture, packet-level evidence, or proof of internal storage/upload absence was collected or inferred.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/27",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-01",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-01",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Scanner offered after explicit action; permission not requested earlier.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. No camera permission prompt or live view before explicit Scan barcode; the scanner appeared after the action.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/29",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-02",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-02",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Permission prompt and denial are understandable; manual fallback survives.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Permission denial gave a clear explanation, kept the camera off, and preserved manual entry.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact native permission-control wording, denial message, and permission-setting steps were not separately restated. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/30",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-03",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-03",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Rear/environment camera selected where browser and device honor request.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. After permission restoration and explicit retry, covering the rear lenses blackened the preview, confirming rear-camera use.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Rear-lens occlusion and recovery are confirmed by the owner batch PASS response to the ordered Chrome checklist, independently of Safari. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/31",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-04",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-04",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Real supported retail barcode decoded with every leading digit preserved.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The physical UPC-A package 794504487565 decoded as expected canonical GTIN-14 00794504487565, preserving every printed digit.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. The physical package has no printed leading zero; observed canonical 00 padding does not establish physical leading-zero preservation. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; printed 794504487565; expected canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/32",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-05",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-05",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Decoded code/date/meal navigate correctly and authenticated lookup is correct or honestly not found.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Decoded code and selected date/meal were preserved; authenticated Barcode Lookup navigation produced a correct local result or honest not-found state.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact selected date/meal values, lookup outcome (found versus honest not-found), and message were not separately restated. No matching-food success or mutation is claimed. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/33",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera05",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-06",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-06",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Unsupported QR/other code does not navigate as food GTIN.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The supplied actual QR was not accepted or navigated as a food GTIN.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. No explicit unsupported-code message or decoded-then-rejected event is claimed. QR payload 7290108351675; temporary image SHA-256 763cc24162304f463a00096a0db990a830f10e0c65e1c173ed15e0611522b3ff. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "Actual QR displayed on Mac; numeric payload 7290108351675; unsupported symbol format"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/34",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-07",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-07",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Cancel stops scan; retry can acquire camera and decode.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Cancel stopped scanning; explicit retry reacquired the camera and decoded the physical retail barcode.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Exact retry code was not separately restated; no additional digit claim is made. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": "UPC-A; printed 794504487565; expected canonical GTIN-14 00794504487565"
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/35",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-08",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-08",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Camera indicator/resource stops after cancel, success, and navigation.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. The actual camera-use indicator cleared after cancel, successful decode, and navigation away.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Detailed live-view state and release timing were not separately restated. Evidence is the owner response to the checklist requiring the actual camera indicator, not a source-code inference. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/36",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/camera08",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-09",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-09",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "Manual barcode entry remains usable after cancel or denial.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. Manual barcode entry remained usable after cancellation or denial.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. No exact manual lookup result/message is claimed from the batch report. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/37",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-10",
+      "originalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "originalObservation": {
+        "testCaseId": "J3-ANDROID-CHROME-CAMERA-10",
+        "candidateSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "candidateTree": "02e86af4db29d0f509c35308727f876ed607dba1",
+        "observedAt": "2026-09-26T15:51:08Z",
+        "productOwner": "Maor Pichhadze",
+        "device": "Samsung Galaxy S21 Plus",
+        "deviceClass": "Android phone",
+        "osVersion": "Android 15",
+        "browser": "Chrome",
+        "browserVersion": "153.0.8010.52",
+        "viewport": "Physical Galaxy S21 Plus Chrome viewport; exact CSS dimensions not measured",
+        "orientation": null,
+        "caseKind": "camera",
+        "expectedObservation": "No frame/image upload apparent from UI or optional network observation.",
+        "observedResult": "PASS: Owner confirmed all ten independently exercised Android Chrome camera checklist checks passed. No image/frame saving or upload was apparent in the UI.",
+        "disposition": "PASS",
+        "notes": "Owner-authorized per-browser camera batch report; no Safari PASS is reused. Timestamp is checkpoint time of owner report. Orientation not separately reported; no screenshot collected. Bounded manual UI observation only. No client network capture, packet-level evidence, or proof of internal storage/upload absence was collected or inferred. Android Chrome version 153.0.8010.52 was supplied by the owner at 2026-09-26T15:56:12Z.",
+        "screenshotOrPhotoReference": null,
+        "physicalBarcodeIdentityType": null
+      },
+      "originalEvidenceReference": {
+        "sourceCommitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "sourcePullRequest": 142,
+        "formalRecord": "deployment/phase-11j3-owner-device-validation-template.json#/observations/38",
+        "checkpoint": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "ownerReport": "docs/phase-11j3-non-windows-owner-device-validation-results.md"
+      },
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "carryForwardDecision": "ACCEPTED_NO_IMPACT",
+      "decisionReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/independentApproval",
+      "reasonReference": "docs/phase-11j3-today-navigation-active-state-correction.md#camera-path-impact-assessment",
+      "specialImpactReference": null,
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "physicallyReexecutedOnNewCandidate": false
+    }
+  ],
+  "evidenceLimits": [
+    "Original timestamps are owner-report checkpoint times, not independently measured device-event times.",
+    "Original per-case limitations, browser-version qualifications, null photos and owner statements remain verbatim in originalObservation.",
+    "UPC-A package 794504487565 and canonical padding 00794504487565 were observed; a printed leading-zero package was not exercised.",
+    "The bounded no-image/frame-upload observations are UI scope, without packet-level proof.",
+    "No result is inferred between browsers; Chrome batch report limitations remain explicit.",
+    "Carry-forward is a reviewed governance exception, not new physical execution or J3 completion."
+  ],
+  "historicalEvidencePreservation": [
+    {
+      "path": "deployment/phase-11j3-owner-device-validation-template.json",
+      "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2",
+      "gitBlobShaAtStartingMain": "9a98740a9bca5c43ea99a6e15068779be3e79377"
+    },
+    {
+      "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+      "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7",
+      "gitBlobShaAtStartingMain": "7fc66b555ceeba6e46f27bdbb7e8e1a853e210bf"
+    },
+    {
+      "path": "docs/phase-11j3-non-windows-owner-device-validation-results.md",
+      "sha256": "fb02011e071b7a119aaf38adda7aee61a20008015297ec69c307989ce17af246",
+      "gitBlobShaAtStartingMain": "eab53640273987a8f2f60a83456629f1ef68b65b"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+      "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f",
+      "gitBlobShaAtStartingMain": "13c67c2e3b7ae43e7d5f43b85fa2294daf51c082"
+    },
+    {
+      "path": "docs/phase-11j3-owner-device-validation-results.md",
+      "sha256": "96eba50e3e62f77ffc7e6cd73128fa3c34dc1c256f966501f5d2a10dbfa19eaa",
+      "gitBlobShaAtStartingMain": "bdbc266c6bd698963376bc3f81d4902175551e0b"
+    }
+  ],
+  "governance": {
+    "releaseProfile": "PERSONAL_USE_FREE_TIER",
+    "currentContractVersion": "1.8-personal-use-owner-client-matrix-amended",
+    "activeDecisions": [
+      "DEC-035",
+      "DEC-036"
+    ],
+    "phase11J2": "INDEPENDENTLY_ACCEPTED_HISTORICAL_EXECUTION_NO_NEW_FULL_REPEAT",
+    "phase11J3Complete": false,
+    "phase11J4ThroughJ6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "productionReleaseAuthorized": false
+  },
+  "ownerDeviceExecutionPerformed": false,
+  "providerOrSystemMutationPerformed": false
+}
