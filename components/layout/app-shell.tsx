@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppNavigation } from "@/components/layout/app-navigation";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
 import type { Locale } from "@/lib/i18n/routing";
@@ -63,60 +63,20 @@ export function AppShell({
             aria-label={protectedLabel}
             className="flex flex-wrap items-center gap-3"
           >
-            <Link
-              className="min-h-10 bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
-              href={`/${locale}/today`}
-            >
-              {navToday}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/foods`}
-            >
-              {navFoodSearch}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/foods/barcode`}
-            >
-              {navBarcodeLookup}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/foods/reuse`}
-            >
-              {navReusableFoods}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/foods/custom`}
-            >
-              {navMyFoods}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/saved-meals`}
-            >
-              {navSavedMeals}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/recipes`}
-            >
-              {navRecipes}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/setup`}
-            >
-              {navProfileTargets}
-            </Link>
-            <Link
-              className="min-h-10 border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-              href={`/${locale}/account`}
-            >
-              {navAccount}
-            </Link>
+            <AppNavigation
+              labels={{
+                today: navToday,
+                foodSearch: navFoodSearch,
+                barcodeLookup: navBarcodeLookup,
+                reusableFoods: navReusableFoods,
+                myFoods: navMyFoods,
+                savedMeals: navSavedMeals,
+                recipes: navRecipes,
+                profileTargets: navProfileTargets,
+                account: navAccount,
+              }}
+              locale={locale}
+            />
             <SignOutButton label={signOutLabel} locale={locale} />
           </nav>
         </header>
