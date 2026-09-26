@@ -1,0 +1,1014 @@
+{
+  "schemaVersion": "1",
+  "taskId": "PHASE-11J1-J3-NAVIGATION-CORRECTION-CANDIDATE-REBIND-001",
+  "status": "FORWARD_EXECUTION_MANIFEST_PREPARED_PENDING_INDEPENDENT_REVIEW",
+  "runtimeTestCandidate": {
+    "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+  },
+  "readinessAfterForwardPacketReview": "READY_FOR_NAVIGATION_FIX_OWNER_UI_RERUN_AND_PENDING_DESKTOP_CASES",
+  "readinessMeaning": "Evidence and case planning readiness only. Live new-candidate deployment/topology must be validated in the separately authorized owner session.",
+  "counts": {
+    "totalFormalCases": 39,
+    "CARRY_FORWARD_ACCEPTED": 30,
+    "RERUN_REQUIRED": 5,
+    "NOT_EXECUTED": 4,
+    "newCandidatePhysicalExecutions": 0
+  },
+  "j3Complete": false,
+  "physicalExecutionPerformedInThisTask": false,
+  "historicalTemplateReference": "deployment/phase-11j3-owner-device-validation-template.json",
+  "historicalTemplateMutated": false,
+  "cameraCarryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+  "j1CurrentCandidateReference": "deployment/phase-11j1-navigation-fix-candidate-refresh-evidence.json",
+  "records": [
+    {
+      "testCaseId": "J3-MAC-SAFARI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "macOS",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "RERUN_REQUIRED",
+      "historicalDisposition": "FAIL",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/0",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "macOS",
+        "osVersion": null,
+        "browser": "Safari",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Historical full-cell FAIL must be rerun; no new physical result yet."
+    },
+    {
+      "testCaseId": "J3-MAC-CHROME-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "macOS",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "RERUN_REQUIRED",
+      "historicalDisposition": "FAIL",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/1",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "macOS",
+        "osVersion": null,
+        "browser": "Chrome",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Historical full-cell FAIL must be rerun; no new physical result yet."
+    },
+    {
+      "testCaseId": "J3-MAC-FIREFOX-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "macOS",
+      "requiredBrowser": "Firefox",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "NOT_EXECUTED",
+      "historicalDisposition": null,
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/2",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "macOS",
+        "osVersion": null,
+        "browser": "Firefox",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Mac Firefox remains pending availability and actual execution."
+    },
+    {
+      "testCaseId": "J3-WIN-CHROME-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Windows",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "NOT_EXECUTED",
+      "historicalDisposition": null,
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/3",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "Windows",
+        "osVersion": null,
+        "browser": "Chrome",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Temporary Product Owner Windows PC required; Windows deferred."
+    },
+    {
+      "testCaseId": "J3-WIN-EDGE-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Windows",
+      "requiredBrowser": "Edge",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "NOT_EXECUTED",
+      "historicalDisposition": null,
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/4",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "Windows",
+        "osVersion": null,
+        "browser": "Edge",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Temporary Product Owner Windows PC required; Windows deferred."
+    },
+    {
+      "testCaseId": "J3-WIN-FIREFOX-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Windows",
+      "requiredBrowser": "Firefox",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "NOT_EXECUTED",
+      "historicalDisposition": null,
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/5",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "Windows",
+        "osVersion": null,
+        "browser": "Firefox",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Temporary Product Owner Windows PC required; Windows deferred."
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "RERUN_REQUIRED",
+      "historicalDisposition": "FAIL",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/6",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "iPhone",
+        "osVersion": null,
+        "browser": "Safari",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Historical full-cell FAIL must be rerun; no new physical result yet."
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/7",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/0",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/8",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/1",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/9",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/2",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/10",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/3",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/11",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/4",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/12",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/5",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/13",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/6",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/14",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/7",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/15",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/8",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-SAFARI-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Safari",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/16",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/9",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "RERUN_REQUIRED",
+      "historicalDisposition": "FAIL",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/17",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "iPhone",
+        "osVersion": null,
+        "browser": "Chrome",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Historical full-cell FAIL must be rerun; no new physical result yet."
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/18",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/10",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/19",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/11",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/20",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/12",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/21",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/13",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/22",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/14",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/23",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/15",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/24",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/16",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/25",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/17",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/26",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/18",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-IOS-CHROME-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "iPhone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/27",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/19",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-UI-01",
+      "caseKind": "ui",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "RERUN_REQUIRED",
+      "historicalDisposition": "FAIL",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/28",
+      "executionRequirement": "Entire formal UI cell must be personally/manual exercised on the new candidate; automated tests cannot convert it to PASS.",
+      "expectedObservation": "Actual authenticated app: load/sign-in, EN/HE LTR/RTL, layout, navigation, representative forms, focus/touch, 200% reflow where practical, status message.",
+      "newCandidatePhysicalObservation": {
+        "candidateSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "candidateTree": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f",
+        "observedAt": null,
+        "productOwner": "Maor Pichhadze",
+        "device": null,
+        "deviceClass": "Android phone",
+        "osVersion": null,
+        "browser": "Chrome",
+        "browserVersion": null,
+        "viewport": null,
+        "orientation": null,
+        "observedResult": null,
+        "disposition": null,
+        "notes": null,
+        "screenshotOrPhotoReference": null
+      },
+      "deferral": "Historical full-cell FAIL must be rerun; no new physical result yet."
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-01",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/29",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/20",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-02",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/30",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/21",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-03",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/31",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/22",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-04",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/32",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/23",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-05",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/33",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/24",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-06",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/34",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/25",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-07",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/35",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/26",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-08",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/36",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/27",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-09",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/37",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/28",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    },
+    {
+      "testCaseId": "J3-ANDROID-CHROME-CAMERA-10",
+      "caseKind": "camera",
+      "requiredDeviceClass": "Android phone",
+      "requiredBrowser": "Chrome",
+      "newRuntimeCandidate": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "classification": "CARRY_FORWARD_ACCEPTED",
+      "historicalDisposition": "PASS",
+      "historicalPhysicalObservationCandidate": {
+        "commitSha": "bcfe72a0417b9d6c5c8730a469e999bf97ce2f8c",
+        "treeSha": "02e86af4db29d0f509c35308727f876ed607dba1"
+      },
+      "historicalEvidenceReference": "deployment/phase-11j3-owner-device-validation-template.json#/observations/38",
+      "carryForwardReference": "deployment/phase-11j3-camera-evidence-carry-forward.json#/records/29",
+      "physicalExecutionStatement": "NOT_PHYSICALLY_REEXECUTED_ON_NEW_CANDIDATE",
+      "newCandidatePhysicalObservation": null
+    }
+  ],
+  "nextOwnerSessionPrerequisites": [
+    "Independent acceptance of this J1/forward packet and successful exact-head attempt-1 PR CI",
+    "Separate owner-session authorization; no VM startup, Tailscale authentication, UI rerun or camera execution in this task",
+    "Install/verify accepted f50d7448 candidate source or exact tree/archive provenance in the private runtime; current guest source remains historical and is not changed here",
+    "Revalidate saved synthetic state, trusted private HTTPS, device-test contract, Secure cookies and authenticated Server Actions",
+    "Revalidate loopback-only J3 Supabase network/socket boundaries, private Serve upstream, no Funnel/public exposure and no direct device-to-Supabase access",
+    "Collect fresh actual device/OS/browser/viewport/orientation, owner-report timestamps and entire UI-cell results separately for each pending case",
+    "Preserve old reports and attribute fresh results solely to the new candidate in a separate execution packet; preserve state at shutdown"
+  ],
+  "requiredUiCellCoverage": [
+    "Authenticated load/sign-in and protected pages",
+    "English LTR and Hebrew RTL, language switching and layout",
+    "Current navigation on representative routes including Today, Food Search and Barcode Lookup",
+    "Search, diary, representative forms and manual barcode lookup with localized honest feedback",
+    "Desktop visible keyboard focus or mobile touch target behavior as appropriate",
+    "Approximately 200% zoom/reflow where practical and mobile orientation/reflow",
+    "Report the entire cell and any failure; do not substitute automation or prior browser results"
+  ],
+  "governance": {
+    "releaseProfile": "PERSONAL_USE_FREE_TIER",
+    "currentContractVersion": "1.8-personal-use-owner-client-matrix-amended",
+    "activeDecisions": [
+      "DEC-035",
+      "DEC-036"
+    ],
+    "phase11J2": "INDEPENDENTLY_ACCEPTED_HISTORICAL_EXECUTION_NO_NEW_FULL_REPEAT",
+    "phase11J3Complete": false,
+    "phase11J4ThroughJ6": "NOT_STARTED",
+    "phase11K": "EXCLUSIVE_FINDING_CLOSURE_GATE",
+    "findingsTotal": 18,
+    "findingsOpen": 18,
+    "findingsClosed": 0,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "productionReleaseAuthorized": false
+  },
+  "providerOrSystemMutationPerformed": false
+}
