@@ -608,6 +608,10 @@ camera support, external provider, Phase 10F, or Phase 10G approval is implied.
 
 ## 5. Approved supported-client and accessibility matrix
 
+For the active personal-use profile, the desktop client requirements below are
+superseded by [DEC-037 in Section 23](#23-dec-037-exclude-firefox-from-the-personal-use-client-matrix).
+The original full-profile matrix and automation boundaries remain historical.
+
 | Platform | Approved supported target | Required evidence | Explicit boundary |
 | --- | --- | --- | --- |
 | Windows desktop | Windows 11 receiving Microsoft support; Chrome, Edge, and Firefox current and previous major. | Engine automation plus deployed manual validation in each named browser/OS combination. | Chromium automation alone is neither Chrome nor Edge platform proof. Safari is not offered on Windows. |
@@ -1388,6 +1392,9 @@ exclusive finding-closure gate.
 
 ## 22. DEC-036 personal-use client and camera matrix
 
+The original DEC-036 decision below is preserved. Its desktop Firefox
+requirements are superseded by [DEC-037 in Section 23](#23-dec-037-exclude-firefox-from-the-personal-use-client-matrix).
+
 On 2026-09-19, Product Owner Maor Pichhadze supplied the attributable
 `PHASE-11J3-PREREQ-IOS-BARCODE-CAMERA-COMPATIBILITY-002` direction. For the
 active `PERSONAL_USE_FREE_TIER` profile, desktop support covers macOS Safari,
@@ -1431,8 +1438,8 @@ On 2026-09-27 (Asia/Jerusalem), Product Owner Maor Pichhadze directed:
 
 This later instruction supersedes the frozen-matrix restriction in
 `PHASE-11J3-REMAINING-DESKTOP-OWNER-UI-EXECUTION-001` for this repository-only
-amendment. The words "at all" are interpreted as excluding both desktop Firefox
-requirements. `DEC-037` supersedes only the Firefox part of the `DEC-036` and
+amendment. The owner then explicitly confirmed: "Remove both Mac Firefox and
+Windows Firefox". `DEC-037` supersedes only the Firefox part of the `DEC-036` and
 `DEC-014` desktop set for `PERSONAL_USE_FREE_TIER`. Active desktop support is
 macOS Safari/Chrome and Windows Chrome/Edge. iPhone Safari/Chrome and Android
 Chrome remain required, including all 30 accepted mobile camera cases.

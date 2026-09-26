@@ -10,9 +10,10 @@
     "timezone": "Asia/Jerusalem",
     "ownerStatementVerbatim": "I don't need FireFOx at all. remove it from the plan",
     "scope": "Both desktop Firefox requirements excluded for PERSONAL_USE_FREE_TIER",
-    "scopeAttribution": "Interprets 'at all' as both desktop Firefox rows; no separate per-platform confirmation is claimed.",
+    "scopeAttribution": "Both desktop Firefox exclusions were explicitly confirmed by the Product Owner in the amendment-scope reply.",
     "supersedes": "Only desktop Firefox requirements in DEC-036/DEC-014 and the earlier execution brief frozen-matrix restriction",
-    "independentAcceptance": "PENDING"
+    "independentAcceptance": "PENDING",
+    "ownerScopeConfirmationVerbatim": "Remove both Mac Firefox and Windows Firefox"
   },
   "repositoryBaseline": {
     "sha": "62c906ee3aa4f1b995df81f2bc65fabeafc9be3e",

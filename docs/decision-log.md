@@ -3774,7 +3774,7 @@ remain `OPEN`, Phase 11K alone may close them, and
 | Approver | Maor Pichhadze, Product Owner |
 | Date | 2026-09-27 (Asia/Jerusalem) |
 | Attributable owner direction | "I don't need FireFOx at all. remove it from the plan" — direct reply to the Mac Firefox installation/validation availability gate |
-| Scope interpretation | "at all" applies to both desktop Firefox rows; no separate per-platform confirmation is claimed |
+| Explicit scope confirmation | "Remove both Mac Firefox and Windows Firefox" — direct Product Owner reply to the amendment-scope question |
 | Companion availability statement | "Windows PC is unavailable now" |
 | Superseded requirement | Only the Firefox portion of DEC-036/DEC-014 under PERSONAL_USE_FREE_TIER; the earlier task's frozen-matrix instruction is overridden by this later owner direction |
 | Current contract candidate | `1.9-personal-use-firefox-excluded-amended` |
