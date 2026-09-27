@@ -343,11 +343,14 @@ accepted Windows evidence, independent J3 completion acceptance, and a bounded
 J6 delta/final reconciliation. Phase 11K requires that truthfully complete
 packet. The [J4 evidence](phase-11j4-provider-recovery-freshness.md) records
 passing recovery freshness, verified bootstrap Auth configuration and disabled
-automatic Git deployments by repository policy. J4 execution is complete
-pending independent review in Draft PR #147. J5/J6 and Phase 11K remain
-`NOT_STARTED`, all 18 findings
-remain `OPEN`, and Production remains unauthorized. Historical sequencing
-snapshots elsewhere in this file are not current J4 status.
+automatic Git deployments by repository policy. J4 is independently accepted
+and COMPLETE after PR #147. The [J5 dry-run packet](phase-11j5-release-rollback-dry-run.md)
+is `EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`: all 13 release steps and
+14 rollback branches were rehearsed as text, with no provider operation.
+J6 and Phase 11K remain `NOT_STARTED`; Phase 11J remains `INCOMPLETE`, both
+required Windows cases remain `NOT_EXECUTED`, `physicalPassRecorded=false`,
+all 18 findings remain `OPEN`, and `productionReleaseAuthorized=false`.
+Historical sequencing/status snapshots elsewhere remain historical.
 
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted
 all five before-11E prerequisite roles and approved the bounded engineering

@@ -1,0 +1,2454 @@
+{
+  "schemaVersion": "phase-11j5-release-rollback-dry-run-evidence/v1",
+  "taskId": "PHASE-11J5-RELEASE-ROLLBACK-DRY-RUN-AND-RECONCILIATION-001",
+  "status": "EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "releaseProfile": "PERSONAL_USE_FREE_TIER",
+  "productionReleaseAuthorized": false,
+  "inspection": {
+    "atUtc": "2026-09-27T06:32:38.459Z",
+    "operator": "Codex execution/evidence agent",
+    "scope": "Repository/GitHub baseline verification and text tabletop only; J4 provider/recovery evidence carried forward. No live provider/runtime reads, Production smoke, database session, deployment, backup or restore.",
+    "independentReview": "PENDING"
+  },
+  "classifications": [
+    "FRESH_REPOSITORY_VERIFIED",
+    "CARRIED_FORWARD_ACCEPTED",
+    "TABLETOP_REHEARSED",
+    "REQUIRES_RELEASE_TIME_REFRESH",
+    "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+    "POST_DEPLOY_RELEASE_VERIFICATION",
+    "DEFERRED_J3_REQUIRED",
+    "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+  ],
+  "repositoryBaseline": {
+    "classification": "FRESH_REPOSITORY_VERIFIED",
+    "repository": "Papi299/nutrition-tracker-app",
+    "sha": "7d9c309c9d1a38db79bc99776755c807563eb8b1",
+    "tree": "847304c8f0c0d1bada05465361810613562ab3a5",
+    "soleParent": "e0396fce9f42ead8793fab1419daefb65f65ea38",
+    "subject": "docs(phase11j4): record DEC-038 and verify provider/recovery preflight (#147)",
+    "pr147": "MERGED",
+    "pr147MergedAt": "2026-09-27T05:47:21Z",
+    "openPrCountBeforeTask": 0,
+    "materialRemoteMainDrift": false,
+    "migrationCount": 43,
+    "migrationHead": "20260830143000",
+    "ci": {
+      "workflow": "CI",
+      "id": 36298214733,
+      "number": 299,
+      "validateJob": 108560898869,
+      "event": "push",
+      "attempt": 1,
+      "head": "7d9c309c9d1a38db79bc99776755c807563eb8b1",
+      "conclusion": "success",
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11DPassed": 53,
+      "intentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "clientSecretBoundary": {
+        "result": "PASS",
+        "artifacts": 115
+      },
+      "artifact": {
+        "id": 10924424049,
+        "name": "phase-11d-evidence-36298214733-1",
+        "digest": "sha256:b22e722c81ae063c721cbfe7a1392053295b4339100451d074c89cada5896fda"
+      },
+      "sources": [
+        "GitHub commits/main",
+        "PR #147 metadata",
+        "open PR list",
+        "actions/runs/36298214733",
+        "run jobs/artifacts and decoded Validate log"
+      ]
+    },
+    "isolation": {
+      "branch": "codex/phase11j5-release-rollback-dry-run",
+      "cleanExactBaseVerifiedBeforeEditing": true,
+      "originalCheckoutUnrelatedWorkPreserved": true,
+      "originalCheckoutHead": "40a7554f3ecc007896fb1de1563a728565928e9e"
+    }
+  },
+  "candidateBinding": {
+    "rehearsalCommit": "7d9c309c9d1a38db79bc99776755c807563eb8b1",
+    "rehearsalTree": "847304c8f0c0d1bada05465361810613562ab3a5",
+    "futureReleaseCandidateAutomaticallySelected": false,
+    "futureReleaseRequiresFreshShaTreeRebinding": true,
+    "previousPhysicalRuntime": {
+      "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+      "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+    },
+    "physicalValidationOfJ5RepositoryCandidateClaimed": false
+  },
+  "sources": [
+    {
+      "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
+      "candidateSha256": "5829f4554e73b2ac20c0e4f68b7204693d62877b565a50c372c585c02b39c220",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "deployment/phase-11h-contract.json",
+      "candidateSha256": "5478e584426d5378f00f0b6f7a35248cfcedcf017fdd18360d39868e9908966f",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "deployment/release-evidence-template.json",
+      "candidateSha256": "6a165ea0a9cb8db6619e64b45aa169318ecd331f17c2a40c71b4c79991bcdcec",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "scripts/check-phase-11h-deployment-contract.mjs",
+      "candidateSha256": "8c6a784389b220dffe7014b5b39d2a95062f15abaa315a9a4e2f64bd4c981642",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "scripts/check-phase-11h-deployment-contract.test.mjs",
+      "candidateSha256": "1898ddfc63add1ce2d9822456d825a42c3ec415a1d47b24339eff55106e8b7c2",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11j0-personal-use-free-tier-profile.md",
+      "candidateSha256": "1b6f670ec551993dd965def09720481d8c41af4b4525ff08c5406db6c1090c5f",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11j4-provider-recovery-freshness.md",
+      "candidateSha256": "2b23aeef48b9aae7b30989b6049c9cbb3f9656dc2954533e4df11344cdcebf62",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "deployment/phase-11j4-provider-recovery-freshness-evidence.json",
+      "candidateSha256": "a541c6f5bb80bc1ee9940607f88b9ef13e9efc37bc672e546c8ae3df561cc070",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11j1-local-ci-release-rehearsal.md",
+      "candidateSha256": "685722e08d245f541a4a164d104aeca85a08cd6d1c7a5db238468f5f9b84a2b8",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11j2-local-auth-security-account-lifecycle.md",
+      "candidateSha256": "bc8e27fc49079cc67efd6f6c8eb13db22f7e1a1417fb1f88fb6d31add00405be",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11-qa-hardening-deployment-readiness-plan.md",
+      "candidateSha256": "a7ca1e97a2da15bbfdcb9268a6dc7466e88c305350da1b1c0bd46ab7a354f4a4",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/engineering-phase-plan.md",
+      "candidateSha256": "3787f39931eb5ce3fd0672ed08559ff726d366ec36fcb1147da652064c0f9bf5",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/decision-log.md",
+      "candidateSha256": "fd64e2ed57a1f20175577dba2a8b80989dc0db838dad179d10058fa780ec56a3",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11i-recovery-qualification.md",
+      "candidateSha256": "2dae96ff6114b6894ea453cb0a431a4ee8de461845cdc5eecb53b5d3709b7a57",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11i-recovery-qualification-evidence.json",
+      "candidateSha256": "4bdac653538b680bbc23d1b38d97927cf3c4a60b2460f7adfc38fa24ff341145",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/incident-response-runbook.md",
+      "candidateSha256": "ffed828b932b923c2c5b7744603eb91956144c74712587771b8f372fa6f82a2f",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "scripts/check-ingestion-types.mjs",
+      "candidateSha256": "60cb6cef4fc4a57ea66617bcbca0621fd5a2e04ef592fd2d59eb3ed260fa09d7",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "scripts/run-hosted-migration-role-tests.mjs",
+      "candidateSha256": "f0b546918dffc17343ab8144e6e506568c72444eb6b3166c87da1d37f038c129",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "vercel.json",
+      "candidateSha256": "b2ca3677c797f6006864cf604eee0ad15713d2d2b5f8b8b8b6f74a683095f428",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "candidateSha256": "76d86d2ba944c8066d7cfea219a3a85d9b6c6d26ad9c518c8e5fc4de50ce249a",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "candidateSha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+      "candidateSha256": "bec504a10d44392335e720e459051477f0b3300de4015f4ca29ab02d07fed793",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "app/api/health/route.ts",
+      "candidateSha256": "00b5ef999be0690670efc83329424493eda6313c757eeeeb8f077d2c8d0311f3",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    },
+    {
+      "path": "e2e/smoke.spec.ts",
+      "candidateSha256": "7a3c8df8f01bad2fb29304f4b571b71f1cbed38c88592fc521fc882c4a36ad1b",
+      "classification": "FRESH_REPOSITORY_VERIFIED"
+    }
+  ],
+  "authorizationSemantics": {
+    "candidateApproval": "Code may be considered; no provider action.",
+    "rehearsalAuthorization": "This bounded task permits text tabletop and repository Draft PR only.",
+    "historicalBootstrapAuthorization": "One protected first deployment only; source ad92dadc; no later release/action authority.",
+    "futureProductionReleaseAuthorization": "Fresh exact human act after complete Phase 11J, Phase 11K and independent review; names candidate/target/window/executor/independent reviewer/recovery/external evidence/rollback boundary.",
+    "neverInfersProductionAuthorityFrom": [
+      "merge",
+      "push",
+      "green CI",
+      "J4 completion",
+      "J5 completion",
+      "existing Production bootstrap",
+      "role assignment",
+      "Product Owner account ownership",
+      "prior authorization for another task"
+    ],
+    "currentProductionAuthorizationReference": null
+  },
+  "prerequisites": [
+    {
+      "order": 1,
+      "prerequisite": "Candidate SHA/tree/base",
+      "classification": "SATISFIED_FOR_J5_REHEARSAL",
+      "evidenceClassification": "FRESH_REPOSITORY_VERIFIED",
+      "source": "H10.3; H17",
+      "presentEvidence": "Exact accepted main and clean isolated worktree verified.",
+      "realReleaseRequirement": "Freeze and freshly verify the separately selected real candidate; J5 SHA is not automatic release selection."
+    },
+    {
+      "order": 2,
+      "prerequisite": "Exact-head successful CI",
+      "classification": "SATISFIED_FOR_J5_REHEARSAL",
+      "evidenceClassification": "FRESH_REPOSITORY_VERIFIED",
+      "source": "H10.3",
+      "presentEvidence": "CI #299, push attempt 1, Validate success on exact baseline; logs and artifact verified.",
+      "realReleaseRequirement": "Require successful Validate on the future SHA and explain every required status; no pending/cancelled/failing check."
+    },
+    {
+      "order": 3,
+      "prerequisite": "Accepted J1/J2 local/CI evidence",
+      "classification": "SATISFIED_FOR_J5_REHEARSAL",
+      "evidenceClassification": "CARRIED_FORWARD_ACCEPTED",
+      "source": "J0 section 6; H21",
+      "presentEvidence": "J1/J2 complete for accepted scopes; CI #299 refreshes current repository automation.",
+      "realReleaseRequirement": "Reconcile applicability to future candidate; refresh affected local tests after runtime/config/schema changes."
+    },
+    {
+      "order": 4,
+      "prerequisite": "Complete required J3 owner evidence",
+      "classification": "BLOCKED_BY_DEFERRED_J3",
+      "evidenceClassification": "DEFERRED_J3_REQUIRED",
+      "source": "DEC-037; DEC-038",
+      "presentEvidence": "39 historical / 37 active / 2 exclusions / 30 cameras / 5 UI accepted; 2 Windows NOT_EXECUTED.",
+      "realReleaseRequirement": "Accept Windows Chrome/Edge, independent J3 completion and candidate impact review; no J5 waiver."
+    },
+    {
+      "order": 5,
+      "prerequisite": "Accepted J4 provider/recovery packet",
+      "classification": "SATISFIED_FOR_J5_REHEARSAL",
+      "evidenceClassification": "CARRIED_FORWARD_ACCEPTED",
+      "source": "DEC-038; PR #147",
+      "presentEvidence": "J4 independently accepted and merged at exact main; Auth read-review limitation remains accepted.",
+      "realReleaseRequirement": "Fresh exact-target read-only provider/config/backup/recovery preflight under its own human approval."
+    },
+    {
+      "order": 6,
+      "prerequisite": "Accepted J5 and J6 reconciliation; complete Phase 11J",
+      "classification": "BLOCKED_BY_DEFERRED_J3",
+      "evidenceClassification": "DEFERRED_J3_REQUIRED",
+      "source": "J0 sections 6-7; DEC-038",
+      "presentEvidence": "This J5 awaits independent review; J6 NOT_STARTED; Phase 11J INCOMPLETE.",
+      "realReleaseRequirement": "Accept J5; separately authorize J6; only complete after accepted J3 and final/delta reconciliation."
+    },
+    {
+      "order": 7,
+      "prerequisite": "Phase 11K integrated acceptance and independent release review",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "J0 section 7; H21",
+      "presentEvidence": "Phase 11K NOT_STARTED; all 18 findings OPEN.",
+      "realReleaseRequirement": "Finish the documented acceptance sequence; obtain independent ChatGPT review before requesting release authority."
+    },
+    {
+      "order": 8,
+      "prerequisite": "Fresh exact Product Owner Production authorization",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "H10.1; H17",
+      "presentEvidence": "productionReleaseAuthorized=false.",
+      "realReleaseRequirement": "Name SHA, Production target, exact UTC window, executor, independent approver/reviewer, recovery qualification, external evidence and rollback/redeploy boundary."
+    },
+    {
+      "order": 9,
+      "prerequisite": "Exact UTC release/maintenance window",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "H11; H17",
+      "presentEvidence": "No real or recurring window approved; all window fields are null.",
+      "realReleaseRequirement": "Record start/end/expiry; retries cannot extend it; absent/expired window stops."
+    },
+    {
+      "order": 10,
+      "prerequisite": "One named technical executor and serialization",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "H2; H10.2; H11",
+      "presentEvidence": "Maor Pichhadze assigned by DEC-035; Codex records this tabletop only.",
+      "realReleaseRequirement": "Name the executor in fresh authority; acknowledge sole control and exclude parallel deployment/migration operators."
+    },
+    {
+      "order": 11,
+      "prerequisite": "Independent approver/reviewer",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "H2; H10.12; H17",
+      "presentEvidence": "Product Owner authority plus independent ChatGPT engineering review; no self-approval.",
+      "realReleaseRequirement": "Name the independent reviewer, acceptance reference and stop authority; role assignment alone is insufficient."
+    },
+    {
+      "order": 12,
+      "prerequisite": "Exact Vercel project/team/Production target",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H4; H10.4; H17",
+      "presentEvidence": "J4 carries prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd / team_s9dzc3uaGVF7b1NSTxQh3kNm / production.",
+      "realReleaseRequirement": "Read metadata fresh; require exact repository/source/project/target; abort any default Preview or different branch/config."
+    },
+    {
+      "order": 13,
+      "prerequisite": "Exact Production Supabase target",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H6; H9.1; H17",
+      "presentEvidence": "J4 carries hskfanrqwtqknzpquwhg / Nutrition Tracker App / eu-west-1 / ACTIVE_HEALTHY.",
+      "realReleaseRequirement": "Read identity under separate approval; never use protected academic project or Production in local/test/Preview."
+    },
+    {
+      "order": 14,
+      "prerequisite": "Current environment/configuration and origin binding",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H4; H7-8; H10.4",
+      "presentEvidence": "12 Production-only variable metadata entries at J4; exact values not proved. Historical deployment remains bootstrap.",
+      "realReleaseRequirement": "Bind approved configuration version, PRODUCTION_RELEASE class, exact origin/ref/project/repository; scoped changes require new build and reacquired authority."
+    },
+    {
+      "order": 15,
+      "prerequisite": "Protection, automatic Git policy and domain disposition",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H5; H16-17",
+      "presentEvidence": "J4 protected bootstrap; repository git.deploymentEnabled=false freshly verified.",
+      "realReleaseRequirement": "Verify current protection/no unauthorized bypass, domain scope and disabled Git policy; do not trigger a test deployment."
+    },
+    {
+      "order": 16,
+      "prerequisite": "Current backup and recovery qualification",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H10.5; H18; DEC-024/025/034",
+      "presentEvidence": "Accepted J4 backup 36285537035/artifact 10919907996; accepted isolated recovery within cadence at J4.",
+      "realReleaseRequirement": "Verify active workflow, latest successful verified nonexpired ciphertext artifact, RPO 24h, retention 30d, RTO 8h qualification, quarterly cadence and material scope changes; do not create qualification during release."
+    },
+    {
+      "order": 17,
+      "prerequisite": "Migration directory and target drift preflight",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H9.1-5; H10.6",
+      "presentEvidence": "43 files unchanged from qualified source; no suffix; live target ledger not read in J5.",
+      "realReleaseRequirement": "Record ordered version/name/content identities; obtain target applied ledger read-only under separate approval; reject any prohibited drift."
+    },
+    {
+      "order": 18,
+      "prerequisite": "Generated types and hosted-role compatibility",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H9.6",
+      "presentEvidence": "Existing scripts and successful baseline CI steps verified; no new local database run in J5.",
+      "realReleaseRequirement": "Run types:ingestion:check and test:migration-roles on isolated local candidate; then reset/replay all migrations because harness ends at history 32."
+    },
+    {
+      "order": 19,
+      "prerequisite": "Compatibility, write/lock plan and independent migration review",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H9.7-8; H10.7; H11",
+      "presentEvidence": "NO_SCHEMA_CHANGE_RELEASE_PATH relative to accepted qualified ledger.",
+      "realReleaseRequirement": "For future suffix review both app/schema directions, locks, writes, grants/RLS, lifecycle, snapshots and forward-fix; incompatible changes need separately accepted expand/backfill/switch/contract."
+    },
+    {
+      "order": 20,
+      "prerequisite": "Selected previous-app rollback target compatibility",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H10; H13",
+      "presentEvidence": "Bootstrap is not presently assumed safe as a rollback target.",
+      "realReleaseRequirement": "Select exact prior build/config/origin/protection; prove current-schema compatibility and safe fallback scope; if unproved, forbid redeploy and forward-fix."
+    },
+    {
+      "order": 21,
+      "prerequisite": "Auth Site URL and exact EN/HE callbacks",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H8; H13; H17",
+      "presentEvidence": "J4 Site URL https://nutrition-tracker-app-xi.vercel.app; empty bootstrap allow-list.",
+      "realReleaseRequirement": "Separately authorize required configuration; require /en/auth/confirm, /he/auth/confirm, /en/auth/recover/confirm, /he/auth/recover/confirm on approved origin; no wildcard."
+    },
+    {
+      "order": 22,
+      "prerequisite": "Secret-scope metadata and E5 app/Vault match",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H7; H17",
+      "presentEvidence": "J4 presence/scope only; no value or fingerprint proof.",
+      "realReleaseRequirement": "Environment owner attests distinct >=32-byte E3/E5 secrets, scope/version and E5 Vault match out of band; never print/hash secret values; rotate only under exact authority."
+    },
+    {
+      "order": 23,
+      "prerequisite": "Observability readiness and escalation route",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H10.12; H12-13; incident runbook",
+      "presentEvidence": "Repository privacy-minimal policies exist; no hosted delivery proven by J5.",
+      "realReleaseRequirement": "Confirm approved signal delivery/acknowledgement mechanism and incident ownership before traffic/normal operation; lack of alerts is not health."
+    },
+    {
+      "order": 24,
+      "prerequisite": "Smoke readiness and controlled safe-read authorization",
+      "classification": "MUST_BE_REFRESHED_AT_REAL_RELEASE",
+      "evidenceClassification": "REQUIRES_RELEASE_TIME_REFRESH",
+      "source": "H12; H17",
+      "presentEvidence": "Complete future checklist below; no Production smoke executed.",
+      "realReleaseRequirement": "Prepare exact-target noncached GET/HEAD checks; no write smoke; controlled account safe read requires separate approval and existing authorized account."
+    },
+    {
+      "order": 25,
+      "prerequisite": "Acknowledged abort channel and deadline",
+      "classification": "REQUIRES_FUTURE_PRODUCTION_AUTHORIZATION",
+      "evidenceClassification": "REQUIRES_SEPARATE_PRODUCTION_AUTHORIZATION",
+      "source": "H11; DEC-007",
+      "presentEvidence": "Abort channel is null in future record; no operator window started.",
+      "realReleaseRequirement": "Name and acknowledge channel before entry; stop for deadline, contention, unknown commit, wrong target/config, loss of control or reviewer stop."
+    },
+    {
+      "order": 26,
+      "prerequisite": "Future deployed/runtime facts",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "evidenceClassification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "source": "H12; H20-21; J0 section 5",
+      "presentEvidence": "Cannot establish actual release SHA/origin/headers/Auth/telemetry/liveness/performance before deployment.",
+      "realReleaseRequirement": "Perform bounded verification after exact authorized deployment and before normal use; never substitute bootstrap smoke."
+    }
+  ],
+  "releaseSequence": [
+    {
+      "step": 1,
+      "operation": "Authorize",
+      "source": "H10 ordinary release step 1",
+      "action": "Record bounded tabletop authority from this task. Future release needs its own exact Product Owner approval.",
+      "access": "READ_ONLY_GOVERNANCE",
+      "authorization": "This task authorizes text rehearsal only.",
+      "rehearsalEvidence": "J5 task; no Production authority.",
+      "expectedSuccess": "Fresh authority covers exact action/candidate/target/window/operator/reviewer/abort boundary.",
+      "stopCondition": "Missing, expired, ambiguous or bootstrap-only authority.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 2,
+      "operation": "Serialize",
+      "source": "H10 ordinary release step 2",
+      "action": "Obtain sole technical executor acknowledgement; block parallel release/migration operators.",
+      "access": "READ_ONLY_GOVERNANCE",
+      "authorization": "Future named executor and operator control.",
+      "rehearsalEvidence": "No provider operator session opened.",
+      "expectedSuccess": "One executor controls the reviewed window.",
+      "stopCondition": "Operator conflict or loss of sole control.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 3,
+      "operation": "Freeze candidate",
+      "source": "H10 ordinary release step 3",
+      "action": "git rev-parse HEAD; git rev-parse HEAD^{tree}; git rev-parse HEAD^; git status --porcelain; inspect exact-head GitHub Validate.",
+      "access": "READ_ONLY",
+      "authorization": "Repository/GitHub read.",
+      "rehearsalEvidence": "Exact accepted baseline and CI #299 verified.",
+      "expectedSuccess": "SHA/tree/base/clean tree and all required CI dispositions agree.",
+      "stopCondition": "Wrong candidate/tree/base, dirty migration directory, pending/failing/cancelled/unexplained CI.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 4,
+      "operation": "Bind configuration",
+      "source": "H10 ordinary release step 4",
+      "action": "Review H manifest, target registry, origin, Auth and secret-scope metadata; validate planned configuration. Any Save to provider configuration is separate mutation, never an implicit part of validation.",
+      "access": "READ_ONLY_WITH_SEPARATE_MUTATING_PREPARATION",
+      "authorization": "Fresh approved provider reads; separate exact hosted-config authority for any Save.",
+      "rehearsalEvidence": "J4 carried forward; bootstrap class and empty callback list do not satisfy release configuration.",
+      "expectedSuccess": "Frozen actual PRODUCTION_RELEASE config matches approved target; environment build validator succeeds.",
+      "stopCondition": "STOP before first configuration Save today; wrong/stale target/origin/class/secret scope; any change invalidates old release authority.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 5,
+      "operation": "Confirm recovery prerequisite",
+      "source": "H10 ordinary release step 5",
+      "action": "Reference accepted Phase 11I; read approved workflow/run/job/artifact metadata and assess cadence/material changes.",
+      "access": "READ_ONLY",
+      "authorization": "Exact-target metadata read approval; qualification approval is separate.",
+      "rehearsalEvidence": "J4 accepted backup/recovery carried forward; no new run.",
+      "expectedSuccess": "Current qualified recovery and timely verified backup match release source/scope.",
+      "stopCondition": "Stale/failed/missing backup, inactive workflow, changed/unqualified scope, missing recovery approval.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 6,
+      "operation": "Run drift preflight",
+      "source": "H10 ordinary release step 6",
+      "action": "Perform the eight H9 steps; future linked ledger read only after separately approved exact link/target.",
+      "access": "READ_ONLY_REMOTE_ACCESS_GATED",
+      "authorization": "Separate explicit human authorization for remote access/link and read-only inspection.",
+      "rehearsalEvidence": "Local ledger/source hashes verified; no fresh remote ledger or SQL.",
+      "expectedSuccess": "Exact accepted baseline plus only reviewed ordered suffix; types/role checks and independent review accepted.",
+      "stopCondition": "Remote-only/missing/reordered/edited applied history, unknown target or indeterminate state.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 7,
+      "operation": "Select compatibility order",
+      "source": "H10 ordinary release step 7",
+      "action": "NO_SCHEMA_CHANGE_RELEASE_PATH: skip apply, deploy app after all gates. Additive suffix: apply, verify, then deploy. Incompatible: redesign expand/backfill/switch/contract.",
+      "access": "READ_ONLY_DECISION",
+      "authorization": "Independent compatibility acceptance and future release authority.",
+      "rehearsalEvidence": "43 byte-identical qualified migrations; suffix empty.",
+      "expectedSuccess": "One documented ordering and write plan; no incompatible window.",
+      "stopCondition": "Destructive/mutually incompatible/unreviewed suffix, unsafe writes or locks.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 8,
+      "operation": "Apply once",
+      "source": "H10 ordinary release step 8",
+      "action": "No apply for current empty suffix. Conditional future additive path only: supabase db push --linked, with exact approved link and reviewed suffix.",
+      "access": "MUTATING_IF_SUFFIX_EXISTS",
+      "authorization": "Fresh exact Production migration authority; single database operator.",
+      "rehearsalEvidence": "NOT_EXECUTED; current path skips this step.",
+      "expectedSuccess": "Only reviewed suffix commits once to exact target.",
+      "stopCondition": "Unauthorized target/action; extra migrations/seed/roles; unknown commit; never blind retry.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 9,
+      "operation": "Verify ledger and invariants",
+      "source": "H10 ordinary release step 9",
+      "action": "Future authorized ledger re-read plus reviewed read-only roles/grants/RLS/lifecycle/snapshot/integrity checks; on empty suffix verify unchanged expected baseline.",
+      "access": "READ_ONLY_REMOTE_ACCESS_GATED",
+      "authorization": "Exact approved reads; no direct Production SQL as routine preflight.",
+      "rehearsalEvidence": "Only historical qualified invariant results carried forward.",
+      "expectedSuccess": "Ledger and migration-specific invariants authoritative and coherent.",
+      "stopCondition": "Unexplained change, grants/RLS/lifecycle/snapshot failure or indeterminate commit.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 10,
+      "operation": "Deploy exact candidate",
+      "source": "H10 ordinary release step 10",
+      "action": "Vercel Dashboard: select exact project/team > Deployments > Create Deployment > exact approved Git SHA; select main Production branch/config when prompted; verify Production target and frozen config before final Create Deployment.",
+      "access": "MUTATING",
+      "authorization": "Fresh exact Production release authorization; never this task or bootstrap authority.",
+      "rehearsalEvidence": "NOT_EXECUTED; no Preview or staging deployment created.",
+      "expectedSuccess": "Exact Git provenance/project/target/class and environment validator success, captured deployment ID/build.",
+      "stopCondition": "STOP before final Create Deployment today; reject branch-only tip, wrong target/config, failed build or unknown provenance.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 11,
+      "operation": "Smoke",
+      "source": "H10 ordinary release step 11",
+      "action": "Execute all H12 checks below, noncached, exact deployment/target; no mutation smoke.",
+      "access": "READ_ONLY_POST_DEPLOY",
+      "authorization": "Authorized deployment plus bounded smoke access; safe DB read needs separate explicit permission.",
+      "rehearsalEvidence": "NOT_EXECUTED; pre-deploy impossible for a real release.",
+      "expectedSuccess": "All expected responses/boundaries/metadata verified without writes.",
+      "stopCondition": "Any failed/unknown smoke or unsafe retry; preserve evidence and use H13.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 12,
+      "operation": "Observe and review",
+      "source": "H10 ordinary release step 12",
+      "action": "Verify approved health/version/Auth/database/privacy-minimal signals and independent evidence disposition.",
+      "access": "READ_ONLY_POST_DEPLOY",
+      "authorization": "Named independent reviewer and approved signal/read scope.",
+      "rehearsalEvidence": "NOT_EXECUTED; no signal-delivery or acknowledgement claimed.",
+      "expectedSuccess": "Delivery/acknowledgement/integrity evidence reviewed; normal use remains stopped until accepted.",
+      "stopCondition": "Missing signal delivery, integrity/error signal, reviewer stop or unexplained state.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "step": 13,
+      "operation": "Exit",
+      "source": "H10 ordinary release step 13",
+      "action": "Close exact maintenance window only after smoke, integrity, observability and evidence complete; resume approved writes only after required representative integrity checks under separate write scope.",
+      "access": "READ_ONLY_GOVERNANCE_WITH_CONDITIONAL_MUTATING_WRITE_RESUMPTION",
+      "authorization": "Valid release authority; separately approved write controls if needed.",
+      "rehearsalEvidence": "NOT_EXECUTED; no window opened or write control applied.",
+      "expectedSuccess": "Signed record complete, no indeterminate state, window valid.",
+      "stopCondition": "Deadline, stale evidence, incomplete smoke/integrity/observability, unknown mutation status.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    }
+  ],
+  "stopBoundary": {
+    "classification": "TABLETOP_REHEARSED",
+    "result": "DRY_RUN_STOP_BOUNDARY_REACHED_AS_DESIGNED",
+    "reachedBy": "Text walk-through only; no provider UI opened and no actual release step executed.",
+    "currentGate": "H10.1 fails actual Production entry; H10.4 reveals prerequisite hosted configuration changes.",
+    "firstPossibleMutation": "Save any release-required provider configuration, beginning with Vercel Production DEPLOYMENT_CLASS change from historical bootstrap to PRODUCTION_RELEASE or Supabase exact Auth callback preparation; whichever is first.",
+    "todayDisposition": "STOP before any provider configuration Save, link/read requiring new remote authority, migration apply, traffic action or final Create Deployment.",
+    "preparedConfigBranch": "If separately authorized preparation already established/froze final release config, empty suffix skips H10.8; first release mutation is H10.10 Create Deployment. For a future additive suffix it is H10.8 apply.",
+    "configPreparationRule": "Obtain separate exact preparation authority before any hosted Save; no deployment or users implicit. On config change old release authority expires. Capture final metadata; rebind config and reacquire fresh release authorization; restart ordinary sequence at H10.1. No edit occurs in J5.",
+    "unauthorizedMutationCrossed": false
+  },
+  "migrationRehearsal": {
+    "classification": "FRESH_REPOSITORY_VERIFIED",
+    "qualifiedSourceCommit": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+    "qualifiedSourceTree": "dcfbd33b330e1796869040686f2efb8167893993",
+    "qualifiedLedgerEvidence": "docs/phase-11i-recovery-qualification.md section 2; accepted conversion and J4 packet",
+    "localMigrationCount": 43,
+    "localMigrationHead": "20260830143000",
+    "orderedLocalLedger": [
+      {
+        "version": "20260429163444",
+        "file": "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+        "sha256": "de6d618d1b4c1df64506b41e526ba0453dbba32df48ee928497909c1834993fb"
+      },
+      {
+        "version": "20260626185634",
+        "file": "supabase/migrations/20260626185634_grant_authenticated_profile_target_privileges.sql",
+        "sha256": "9f0cc6378c45ed356cc6bcfbda75ee687e0acf373eaf11f594e92710b7a049d6"
+      },
+      {
+        "version": "20260630193832",
+        "file": "supabase/migrations/20260630193832_create_diary_entries.sql",
+        "sha256": "4e754c7e1d0f89cb5b3bf8a0495eb3805a4b406031129c30870866d51a3586b4"
+      },
+      {
+        "version": "20260630201904",
+        "file": "supabase/migrations/20260630201904_harden_public_table_privileges.sql",
+        "sha256": "7208e811df4387aae97be5a9b54e01b8a0ca7b7196af76a182a73fb74728aac7"
+      },
+      {
+        "version": "20260704142707",
+        "file": "supabase/migrations/20260704142707_create_nutrition_domain_schema_foundation.sql",
+        "sha256": "931839a941c0ec5621c36547107219c97ef9ee15e4d3b6c1eb8b2f84658e736e"
+      },
+      {
+        "version": "20260705061118",
+        "file": "supabase/migrations/20260705061118_add_diary_food_linking_rules.sql",
+        "sha256": "1db5efe05a6d03a2183bb5a1dc132df66c93084a34492abdae36e046a6f78f74"
+      },
+      {
+        "version": "20260711071000",
+        "file": "supabase/migrations/20260711071000_persist_setup_atomically.sql",
+        "sha256": "b8b1571bc47ab020ac503b26c6199ac01c447f88c6e83c3c06c3aacc2daa55bd"
+      },
+      {
+        "version": "20260714090000",
+        "file": "supabase/migrations/20260714090000_create_food_alias_search_foundation.sql",
+        "sha256": "553d5be3ee1f3bf99ca6847466f2e5ebd1a61d0778e17473ccaa2a7c6af2abc6"
+      },
+      {
+        "version": "20260714100000",
+        "file": "supabase/migrations/20260714100000_search_readable_foods.sql",
+        "sha256": "894a73e8aa4330575e4b07d541b82c9a414b37493451075a971fd5db78c47e37"
+      },
+      {
+        "version": "20260714110000",
+        "file": "supabase/migrations/20260714110000_get_readable_food_diary_prefill.sql",
+        "sha256": "bc41813c745a455cfbdaf14d4c6c75bfc115031762e98d728dcbd214f848652e"
+      },
+      {
+        "version": "20260714120000",
+        "file": "supabase/migrations/20260714120000_custom_food_persistence_foundation.sql",
+        "sha256": "4cc4a8ef3053326446aaffd1503173aba012dba877988cca0f4b2e5c0f540932"
+      },
+      {
+        "version": "20260714130000",
+        "file": "supabase/migrations/20260714130000_persist_custom_food_nutrient_basis.sql",
+        "sha256": "48f472fc7869d4dd02c77769c17c2eca68db9e07985de1df134d02439217b6d8"
+      },
+      {
+        "version": "20260714140000",
+        "file": "supabase/migrations/20260714140000_enforce_custom_food_nutrient_basis.sql",
+        "sha256": "875b6155862c200fb4a3d1ca0a3034db06e615cd9f39bbb6cbc4392fc9f8b1f6"
+      },
+      {
+        "version": "20260714150000",
+        "file": "supabase/migrations/20260714150000_get_owned_custom_food_editor.sql",
+        "sha256": "aaa2ab9d16a53459e09c5827305238f0e17db18817a629f54cce46d9bb8731aa"
+      },
+      {
+        "version": "20260716100000",
+        "file": "supabase/migrations/20260716100000_add_food_favorites_and_reusable_foods.sql",
+        "sha256": "3d1b8ec9e07e29a0ec1930fba2d5987ef65a2958ff4fdf71a55136edceae7967"
+      },
+      {
+        "version": "20260716110000",
+        "file": "supabase/migrations/20260716110000_create_saved_meal_persistence_foundation.sql",
+        "sha256": "e4697c789052c6477521bcab1bf7f8dcc5a0d4ee08bcf2d0662393d10f3666f0"
+      },
+      {
+        "version": "20260716120000",
+        "file": "supabase/migrations/20260716120000_get_owned_saved_meal_editor.sql",
+        "sha256": "bfe58522f807201cea490f0973012a15c52433b15c0f57ca496e0d61d7e958a9"
+      },
+      {
+        "version": "20260716130000",
+        "file": "supabase/migrations/20260716130000_log_saved_meal_to_diary.sql",
+        "sha256": "dfac6dd449ffef77d51768d03e693f3fdc40fc19dd8bc584916e93aa637e40f9"
+      },
+      {
+        "version": "20260717100000",
+        "file": "supabase/migrations/20260717100000_create_recipe_persistence_foundation.sql",
+        "sha256": "63422b57835708a48b58caf57698e07b4f4af7eb3b5e8ae73514584c1fa479c6"
+      },
+      {
+        "version": "20260717110000",
+        "file": "supabase/migrations/20260717110000_get_owned_recipe_editor.sql",
+        "sha256": "3f2d2ba6ddab7213bbb298c4613a51c02d0992094af1e219598fec1aab6cffdd"
+      },
+      {
+        "version": "20260717120000",
+        "file": "supabase/migrations/20260717120000_recipe_use_contract_foundation.sql",
+        "sha256": "ad1c34a31e83ce7507f65db2d351fbe9097e6dd3965c5eeafd3688905c62a71a"
+      },
+      {
+        "version": "20260717130000",
+        "file": "supabase/migrations/20260717130000_log_recipe_to_diary.sql",
+        "sha256": "265ac26c764405c549bc4c9d5a9bc75fb4d911ca86f1c16cae81be7554f1ab11"
+      },
+      {
+        "version": "20260717140000",
+        "file": "supabase/migrations/20260717140000_create_barcode_identity_local_lookup.sql",
+        "sha256": "f79a25444cd015aeacfd6d0ded802643770e9951ba2112866ddd6d94a87e9758"
+      },
+      {
+        "version": "20260717150000",
+        "file": "supabase/migrations/20260717150000_create_custom_food_barcode_handoff.sql",
+        "sha256": "a5fcdb367755563c9b7f4e875211a6837e4df90344d244f50b50d593b9f33554"
+      },
+      {
+        "version": "20260718100000",
+        "file": "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+        "sha256": "42e12af612d970cf71b9656581a60f9bc6562958b959236f9a1b332345ab75a2"
+      },
+      {
+        "version": "20260718120000",
+        "file": "supabase/migrations/20260718120000_add_foundation_parser_contracts.sql",
+        "sha256": "fafab05f56b3b9d95c7dcc2aa2ab0e21f34c9b5b524b9d00fedfc036e99ed569"
+      },
+      {
+        "version": "20260718140000",
+        "file": "supabase/migrations/20260718140000_create_foundation_promotion_boundary.sql",
+        "sha256": "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9"
+      },
+      {
+        "version": "20260718150000",
+        "file": "supabase/migrations/20260718150000_allow_phase_10e_terminal_run_classification.sql",
+        "sha256": "8f994738d401a018ac21f2d1229cab43eccaa6cf19e5a0dfb4cfec3a3f01fecd"
+      },
+      {
+        "version": "20260719080000",
+        "file": "supabase/migrations/20260719080000_create_foundation_lifecycle_foundation.sql",
+        "sha256": "53a5f697c8453d5f386e58eb2ec60b99463a641bbacf41088f27decf006f7bb2"
+      },
+      {
+        "version": "20260719120000",
+        "file": "supabase/migrations/20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+        "sha256": "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec"
+      },
+      {
+        "version": "20260719160000",
+        "file": "supabase/migrations/20260719160000_execute_foundation_lifecycle_updates.sql",
+        "sha256": "1aca06911972763b613dc93f44e5ae6ee9a5472db4e93cdaa0a00c8da79ff173"
+      },
+      {
+        "version": "20260721100000",
+        "file": "supabase/migrations/20260721100000_restore_strict_terminal_run_immutability.sql",
+        "sha256": "22eb5ec118035a19ae0b28a8345391dc64e95a4bf2e39c3bad80d4417cddf7ed"
+      },
+      {
+        "version": "20260721110000",
+        "file": "supabase/migrations/20260721110000_remove_remote_rls_auto_enable.sql",
+        "sha256": "1c35133335fde1b85b7705fafa4da55a9b7fe85859e4b591d15e8e1c8cb9a676"
+      },
+      {
+        "version": "20260801141841",
+        "file": "supabase/migrations/20260801141841_phase_11c2a_diary_mutation_correctness.sql",
+        "sha256": "96c8d645ba0f9596c1f00d8f51c9e56749c5165145298826fd438aa0d1dae9c5"
+      },
+      {
+        "version": "20260801190220",
+        "file": "supabase/migrations/20260801190220_reject_unreadable_linked_diary_creates.sql",
+        "sha256": "0edd4381368694bf872e1d86ea5a18160dd858b000d5f6503223c8ef709cfa84"
+      },
+      {
+        "version": "20260808093826",
+        "file": "supabase/migrations/20260808093826_cj019_custom_food_edit_concurrency.sql",
+        "sha256": "1513fe25ab01d20176ac88730ac8476556f46de481785146706b9e418f8a116c"
+      },
+      {
+        "version": "20260810175638",
+        "file": "supabase/migrations/20260810175638_cj022_saved_meal_edit_concurrency.sql",
+        "sha256": "e3b795c06c85637a535e23f58598b4c2a9bd7e4a8515d232b6a95d1a086e3fd9"
+      },
+      {
+        "version": "20260811142805",
+        "file": "supabase/migrations/20260811142805_cj025_recipe_edit_concurrency.sql",
+        "sha256": "603ac96c204010b2b97469ba808e77ceeeae873470eb2add9bdf0e60f7dd469d"
+      },
+      {
+        "version": "20260812194829",
+        "file": "supabase/migrations/20260812194829_cj018_custom_food_creation_idempotency.sql",
+        "sha256": "7302c7b6af543eb2ef92814a1a342de69bc6a13e74f22346de6e12540b7e1b66"
+      },
+      {
+        "version": "20260827070838",
+        "file": "supabase/migrations/20260827070838_create_invited_account_activation.sql",
+        "sha256": "3dccc6fef3527ed2400358c6ceae730bc13c535323343559d95cf3131f467770"
+      },
+      {
+        "version": "20260827110552",
+        "file": "supabase/migrations/20260827110552_enforce_account_activation_authorization.sql",
+        "sha256": "2930cb32fa010660c9d386eb301ca157a12690dfdc232c114ad171832ead0665"
+      },
+      {
+        "version": "20260829030137",
+        "file": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+        "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312"
+      },
+      {
+        "version": "20260830143000",
+        "file": "supabase/migrations/20260830143000_cache_search_account_access_policy.sql",
+        "sha256": "d87abf0653b05858e23c7b6c1b6a713073d418ab6ae2a2efb68563b83453e33b"
+      }
+    ],
+    "qualifiedMigrationBytesIdentical": true,
+    "pendingSuffix": [],
+    "path": "NO_SCHEMA_CHANGE_RELEASE_PATH",
+    "liveTargetLedgerFreshlyRead": false,
+    "currentLiveTargetEqualityClaimed": false,
+    "currentCompatibility": "No new schema SQL relative to accepted qualified ledger; this static fact does not prove current hosted equality or bootstrap app/config suitability.",
+    "preflightSteps": [
+      {
+        "step": 1,
+        "procedure": "Record exact candidate SHA/tree/base, application environment, Supabase ref, read-only authorization, sole operator and UTC start.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 2,
+        "procedure": "Require git status --porcelain empty, exact git rev-parse HEAD / HEAD^{tree}; compare git ls-tree -r <authorized-SHA> -- supabase/migrations with tracked working files; no untracked SQL.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 3,
+        "procedure": "Sort tracked migration basenames by version; record version/name and SHA-256 of source bytes, latest identifier; compare each applied source with qualified commit content.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 4,
+        "procedure": "Under separately approved exact-project link/read scope, use supabase migration list --linked; record target and ordered local/remote versions. An approved provider read-only history export with application identities/statements is also required when content/order is not proved by CLI display; do not execute Production SQL.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 5,
+        "procedure": "Compare qualified prefix version/name/content and authoritative application order plus expected suffix. CLI version listing alone cannot prove unchanged applied SQL/order; missing authoritative history/content evidence is INDETERMINATE_STATE and STOP.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 6,
+        "procedure": "On isolated loopback local stack at candidate, run npm run test:migration-roles; reset/replay all 43 migrations afterwards, then npm run types:ingestion:check. CI #299 supplies accepted results today; J5 starts no stack.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 7,
+        "procedure": "For every future pending migration independently document old-app/new-schema AND new-app/old-schema compatibility, lock bounds and write impact, least grants/RLS, activation/closure, effective targets/diary snapshots and forward-fix. Empty suffix here has no new review item.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      },
+      {
+        "step": 8,
+        "procedure": "Obtain independent drift/compatibility acceptance before mutation. Continue only exact baseline + expected ordered suffix.",
+        "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+      }
+    ],
+    "driftCases": [
+      {
+        "state": "EXACT_BASELINE",
+        "observedCondition": "All qualified version/name/order/content identities match; no pending suffix.",
+        "decision": "CONTINUE_TO_COMPATIBILITY_GATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "EXPECTED_PENDING_SUFFIX",
+        "observedCondition": "Qualified prefix unchanged; only explicitly reviewed increasing versions follow it.",
+        "decision": "CONTINUE_TO_COMPATIBILITY_GATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "REMOTE_ONLY_ENTRY",
+        "observedCondition": "Target has an identity absent from candidate.",
+        "decision": "STOP + ESCALATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "MISSING_HISTORICAL_ENTRY",
+        "observedCondition": "A qualified historical entry is absent (not merely an unapplied new suffix).",
+        "decision": "STOP + ESCALATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "REORDERED_HISTORY",
+        "observedCondition": "Observed order/application evidence contradicts accepted order.",
+        "decision": "STOP + ESCALATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "EDITED_APPLIED_MIGRATION",
+        "observedCondition": "Applied version matches but name/content differs from qualified provenance.",
+        "decision": "STOP + ESCALATE",
+        "classification": "TABLETOP_REHEARSED"
+      },
+      {
+        "state": "INDETERMINATE_STATE",
+        "observedCondition": "Identity/content/commit/target evidence is absent, stale or cannot be proved.",
+        "decision": "STOP + ESCALATE",
+        "classification": "TABLETOP_REHEARSED"
+      }
+    ],
+    "prohibitedPreflightActions": [
+      "migration repair",
+      "db pull",
+      "direct Production SQL",
+      "remote reset"
+    ],
+    "conditionalAdditiveOrder": [
+      "review suffix and write/lock plan",
+      "single authorized apply",
+      "authoritative ledger and invariant verification",
+      "deploy exact compatible app",
+      "H12 smoke and observe/review"
+    ],
+    "incompatibleDisposition": "STOP; separately accepted expand/backfill/switch/contract releases required; no present pending incompatible migration.",
+    "downMigrationOrDatabaseRollbackAssumed": false
+  },
+  "commandValidation": {
+    "repositoryScriptsExist": true,
+    "scriptCommands": {
+      "deployment:validate": "node scripts/check-phase-11h-deployment-contract.mjs",
+      "test:deployment-contract": "node --test scripts/check-phase-11h-deployment-contract.test.mjs && npm run deployment:validate",
+      "test:recovery-contract": "node --test scripts/phase-11i-recovery-contract.test.mjs",
+      "security:workflow": "node --test scripts/check-workflow-security.test.mjs && node scripts/check-workflow-security.mjs",
+      "types:ingestion:check": "node scripts/check-ingestion-types.mjs",
+      "test:migration-roles": "node scripts/run-hosted-migration-role-tests.mjs",
+      "test:e2e:smoke": "playwright test e2e/smoke.spec.ts"
+    },
+    "productionMutationCommandsExecuted": false,
+    "providerDiscovery": "Official CLI reference establishes migration list --linked and db push --linked. Installed global/node_modules Supabase shim failed at --version on sandbox-denied local telemetry-file write, before help/read access; no target session, login, link or db command was attempted. No mutating command with --dry-run invoked. Future executor must verify pinned CLI help/version again.",
+    "references": [
+      "https://supabase.com/docs/reference/cli/supabase-migration-list",
+      "https://supabase.com/docs/reference/cli/supabase-db-push",
+      "https://vercel.com/docs/git#creating-a-deployment-from-a-git-reference",
+      "https://vercel.com/docs/instant-rollback"
+    ],
+    "dashboardReleaseAction": "Exact project/team > Deployments > Create Deployment > authorized SHA > main Production branch/config (if prompted) > verify target/config > final Create Deployment. If provider UI cannot prove Production target/exact Git source, STOP; no guessed CLI substitute."
+  },
+  "futureActions": [
+    {
+      "action": "Vercel Production variable/config Save for release class/version",
+      "access": "MUTATING",
+      "authorization": "Separate exact hosted-config preparation authority; then rebind and reacquire release authority.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Supabase Auth URL/redirect configuration Save",
+      "access": "MUTATING",
+      "authorization": "Separate exact hosted Auth configuration authority; no invitations/delivery implied.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Remote Supabase exact-project link and migration ledger read",
+      "access": "REMOTE_ACCESS_READ_ONLY_GATED",
+      "authorization": "Explicit separate human approval, target and window; link not performed by J5.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Conditional supabase db push --linked for reviewed additive suffix",
+      "access": "MUTATING",
+      "authorization": "Exact Production migration approval; empty suffix skips apply.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Vercel exact Git-sourced Production Create Deployment",
+      "access": "MUTATING",
+      "authorization": "Fresh exact Production release approval; no Preview/staging rehearsal.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Selected compatible app redeploy/instant rollback",
+      "access": "MUTATING",
+      "authorization": "Explicit selected-target rollback/redeploy scope in still-valid release authority or reacquired approval; Hobby previous-deployment availability verified fresh.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Forward-fix deployment/migration",
+      "access": "MUTATING",
+      "authorization": "Separately reviewed exact fix candidate/config/migration/write plan and new action authority.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Apply/resume restricted writes or representative integrity write",
+      "access": "MUTATING",
+      "authorization": "Separate exact write-control/test scope; never inferred from read-only smoke.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "action": "Production restore/recovery execution",
+      "access": "MUTATING",
+      "authorization": "Separate incident/recovery authorization; not ordinary release rollback or J5.",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    }
+  ],
+  "smokeRehearsal": [
+    {
+      "checkId": "J5-SMOKE-01",
+      "source": "H12",
+      "check": "Public /en",
+      "expectedResult": "GET on exact authorized origin; HTTP success, en/LTR, exact security headers.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-02",
+      "source": "H12",
+      "check": "Public /he",
+      "expectedResult": "GET on exact authorized origin; HTTP success, he/RTL, exact security headers.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-03",
+      "source": "H12",
+      "check": "GET /api/health",
+      "expectedResult": "HTTP 200; JSON body {\"status\":\"live\"}; Content-Type application/json; charset=utf-8; Cache-Control no-store, max-age=0; liveness only, never readiness.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-04",
+      "source": "H12",
+      "check": "HEAD /api/health",
+      "expectedResult": "HTTP 200, empty body, Content-Type application/json; charset=utf-8 and Cache-Control no-store, max-age=0; liveness only, never dependency health.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-05",
+      "source": "H12",
+      "check": "Signed-out protected route EN/HE",
+      "expectedResult": "/en/today and /he/today denied or safe localized sign-in redirect without disclosure.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-06",
+      "source": "H12",
+      "check": "Ordinary sign-up route",
+      "expectedResult": "/en/auth/sign-up and /he/auth/sign-up remain invitation-only non-mutating surfaces.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-07",
+      "source": "H12",
+      "check": "Environment identity/provenance",
+      "expectedResult": "Metadata/build agree on APP_ENVIRONMENT, Vercel target/project/repo/exact SHA, Supabase registry/ref and approved origin; runtime/build validator passed.",
+      "writePolicy": "METADATA_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-08",
+      "source": "H12",
+      "check": "Database readiness",
+      "expectedResult": "One specifically approved ordinary RLS-protected safe read through existing authorized disposable controlled account; creating/inviting account is separate mutation.",
+      "writePolicy": "READ_ONLY_SEPARATE_AUTHORIZATION",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-09",
+      "source": "H12",
+      "check": "Auth boundary",
+      "expectedResult": "Signed-out sign-in/recovery surfaces load; no hostile/wrong-environment redirect; EN/HE exact callbacks independently verified under their approved hosted test scope.",
+      "writePolicy": "READ_ONLY",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    },
+    {
+      "checkId": "J5-SMOKE-10",
+      "source": "H12",
+      "check": "Observability",
+      "expectedResult": "Liveness and deployment/version signals accepted/delivered, acknowledgement and escalation captured without user data.",
+      "writePolicy": "NO_USER_DATA",
+      "timing": "IMMEDIATELY_POST_DEPLOY; PRE_DEPLOY_IMPOSSIBLE_FOR_EXACT_RELEASE",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false,
+      "stopCondition": "Failed, missing or indeterminate required result: STOP, preserve evidence, follow H13."
+    }
+  ],
+  "rollbackCases": [
+    {
+      "caseId": "J5-RB-01",
+      "source": "H13",
+      "condition": "Build failure",
+      "simulatedObservedState": "Simulated attributable build rejected; no deployable artifact produced.",
+      "requiredDecision": "`STOP`; correct candidate/config; `RETRY` only as a new attributable build after cause is known",
+      "permittedNextAction": "Diagnose cause; prepare corrected candidate/config; build a new attributable artifact only after authority is valid.",
+      "forbiddenAssumption": "A failed build can be promoted",
+      "authorizationReacquisition": "Required for candidate/config change or expiry; even unchanged bounded retry needs covered action and known cause.",
+      "incidentRecoveryEscalation": "No automatic incident for unexposed build failure; deployment/version failure signal follows approved policy.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-02",
+      "source": "H13",
+      "condition": "Preflight failure",
+      "simulatedObservedState": "Simulated required approval/config/recovery evidence missing before any mutation.",
+      "requiredDecision": "`STOP + ESCALATE`; correct evidence or candidate and reacquire authorization",
+      "permittedNextAction": "Correct evidence/candidate out of band; independently review and reacquire exact authority before re-entry.",
+      "forbiddenAssumption": "A warning can be waived silently",
+      "authorizationReacquisition": "Required after corrected evidence/candidate and before resumption.",
+      "incidentRecoveryEscalation": "Escalate missing mandatory evidence; no restore path implied.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-03",
+      "source": "H13",
+      "condition": "Migration drift",
+      "simulatedObservedState": "Simulated target has a remote-only version or edited qualified history.",
+      "requiredDecision": "`STOP + ESCALATE`; reconcile through a separately reviewed forward history plan",
+      "permittedNextAction": "Preserve ledger/provenance; separately review forward history reconciliation; no repair/pull/reset shortcut.",
+      "forbiddenAssumption": "`migration repair` is routine preflight",
+      "authorizationReacquisition": "Required for separately reviewed reconciliation and subsequent release re-entry.",
+      "incidentRecoveryEscalation": "Escalate drift; incident path if integrity/availability impact.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-04",
+      "source": "H13",
+      "condition": "Migration failure before commit with authoritative unchanged state",
+      "simulatedObservedState": "Simulated failure with authoritative ledger/schema and commit evidence proving unchanged state.",
+      "requiredDecision": "`STOP`; verify ledger/schema; bounded `RETRY` only after cause and authorization",
+      "permittedNextAction": "Re-read ledger/schema and establish unchanged commit state; bounded apply retry only after cause known and authorization explicitly covers it.",
+      "forbiddenAssumption": "Tool exit alone proves no change",
+      "authorizationReacquisition": "Retry must be explicitly covered by current or reacquired authority; unchanged tool exit alone is insufficient.",
+      "incidentRecoveryEscalation": "Escalate if unchanged state cannot be proved; then use irreversible/indeterminate branch.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-05",
+      "source": "H13",
+      "condition": "Migration failure after irreversible or indeterminate change",
+      "simulatedObservedState": "Simulated irreversible committed migration or inability to determine commit state.",
+      "requiredDecision": "`STOP + FORWARD-FIX + ESCALATE`; enter incident path on integrity/availability impact",
+      "permittedNextAction": "Preserve ledger/transaction/integrity evidence; prepare separately reviewed forward-fix; restrict affected writes only as authorized; never infer database reversal.",
+      "forbiddenAssumption": "Database rollback or automatic retry is safe",
+      "authorizationReacquisition": "Required for forward-fix/containment; unexplained state has expired ordinary release authority.",
+      "incidentRecoveryEscalation": "Escalate; incident path on integrity/availability impact; suspected corruption routes recovery path.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-06",
+      "source": "H13",
+      "condition": "Application deploy failure before traffic",
+      "simulatedObservedState": "Simulated new app fails before any traffic moves; current app retained.",
+      "requiredDecision": "`STOP`; retain current app; correct and `RETRY` within valid authorization",
+      "permittedNextAction": "Retain current app; diagnose new build/deploy; retry only if named actions/config/candidate and unexpired window remain covered.",
+      "forbiddenAssumption": "Database changes were reverted",
+      "authorizationReacquisition": "Only within still-valid exact authority; reacquire for any changed binding/window or uncovered retry.",
+      "incidentRecoveryEscalation": "Deployment/version failure alerts immediately; no restore claim.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-07",
+      "source": "H13",
+      "condition": "Application deploy failure after traffic",
+      "simulatedObservedState": "Simulated bad app has received traffic; database/current config still reflect release changes.",
+      "requiredDecision": "`STOP`; `REDEPLOY PREVIOUS APP` only if current schema/config are compatible; otherwise `FORWARD-FIX`",
+      "permittedNextAction": "Select exact compatible prior build and verify schema/config/origin/protection; authorized app redeploy only if proven, otherwise forward-fix.",
+      "forbiddenAssumption": "Old app always works with new schema",
+      "authorizationReacquisition": "Only if fresh release authority explicitly covers selected prior target/build/boundary and valid window; otherwise reacquire.",
+      "incidentRecoveryEscalation": "Deployment/version incident; escalate material user/integrity/availability impact.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-08",
+      "source": "H13",
+      "condition": "Smoke failure",
+      "simulatedObservedState": "Simulated required localized/read-only smoke fails or produces indeterminate result.",
+      "requiredDecision": "`STOP`; preserve evidence; redeploy previous compatible app or forward-fix; escalate material impact",
+      "permittedNextAction": "Preserve results; stop normal use; redeploy exact compatible app within authority or independently review forward-fix; no repeated write smoke.",
+      "forbiddenAssumption": "Repeated smoke mutations are safe",
+      "authorizationReacquisition": "Only within still-valid expressly covered rollback boundary; changed/unexplained state or new fix requires fresh authority.",
+      "incidentRecoveryEscalation": "Deployment/version failure alerts immediately; escalate material impact and integrity uncertainty.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-09",
+      "source": "H13",
+      "condition": "Auth URL mismatch",
+      "simulatedObservedState": "Simulated Site URL/callback differs from exact approved environment origin.",
+      "requiredDecision": "`STOP + ESCALATE`; no invite/recovery operation; correct under separate hosted authorization, rebuild if origin changes",
+      "permittedNextAction": "No invitation/recovery action; separately authorize exact callback/config correction; changed origin/config requires rebind, new build and new authority.",
+      "forbiddenAssumption": "Host headers or wildcard expansion are trusted",
+      "authorizationReacquisition": "Separate hosted-config authority required; release authority reacquired after configuration/origin changes.",
+      "incidentRecoveryEscalation": "Escalate to Auth/config owner; incident if exposed or security impact.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-10",
+      "source": "H13",
+      "condition": "Environment-target mismatch",
+      "simulatedObservedState": "Simulated actual Supabase/Vercel identity differs despite a Production label.",
+      "requiredDecision": "`STOP`; do not deploy/migrate; correct binding and rebuild; report as deployment/version incident if exposed",
+      "permittedNextAction": "Do not deploy or migrate; correct actual binding; rebuild and reauthorize; if exposed route deployment/version incident.",
+      "forbiddenAssumption": "Labels override the actual project URL/ref",
+      "authorizationReacquisition": "Required after binding correction; any target/config change expires authority.",
+      "incidentRecoveryEscalation": "Deployment/version incident if exposed; identity contradiction blocks all actions.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-11",
+      "source": "H13",
+      "condition": "Secret/config mismatch",
+      "simulatedObservedState": "Simulated missing/wrong secret scope/version or E5 app/Vault match not established.",
+      "requiredDecision": "`STOP`; reconcile metadata out of band; rotate only under authorization; rebuild",
+      "permittedNextAction": "Owner reconciles presence/scope/version out of band; separate approval for rotation; new config requires build and authority refresh; no values/fingerprints.",
+      "forbiddenAssumption": "Values may be printed or fingerprinted for comparison",
+      "authorizationReacquisition": "Required for configuration change/rotation; secret values never enter authorization evidence.",
+      "incidentRecoveryEscalation": "Escalate to environment/secrets owner; security incident if compromise suspected.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-12",
+      "source": "H13",
+      "condition": "Observability failure",
+      "simulatedObservedState": "Simulated required version/health delivery or acknowledgement absent.",
+      "requiredDecision": "`STOP` before normal operation; correct delivery or use the approved incident escalation path",
+      "permittedNextAction": "Stop normal operation; correct approved signal delivery; if unavailable use approved incident escalation; do not infer health from silence.",
+      "forbiddenAssumption": "Absence of alerts proves health",
+      "authorizationReacquisition": "Required for uncovered provider/config correction or expired/aborted window; incident authority is separate.",
+      "incidentRecoveryEscalation": "Approved incident escalation path when delivery fails: Maor Pichhadze, Jimmy Peachy at 15m without acknowledgement, Product Authority at 30m sustained blocker.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-13",
+      "source": "H13",
+      "condition": "Previous app incompatible with current schema",
+      "simulatedObservedState": "Simulated old app cannot operate with committed current schema.",
+      "requiredDecision": "`FORWARD-FIX`; keep affected writes restricted as authorized",
+      "permittedNextAction": "FORWARD-FIX only; maintain specifically authorized affected-write restriction and integrity verification; do not redeploy incompatible old app.",
+      "forbiddenAssumption": "App redeploy is rollback",
+      "authorizationReacquisition": "Required for new forward-fix candidate/config/write plan.",
+      "incidentRecoveryEscalation": "Escalate integrity/availability impact; recovery path only for suspected data loss/corruption.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    },
+    {
+      "caseId": "J5-RB-14",
+      "source": "H13",
+      "condition": "Suspected data loss/corruption or restore need",
+      "simulatedObservedState": "Simulated integrity evidence suggests data loss/corruption or restore requirement.",
+      "requiredDecision": "`RECOVERY QUALIFICATION / INCIDENT PATH + ESCALATE`",
+      "permittedNextAction": "Preserve safe incident evidence; escalate to Incident Primary/Recovery Approver; separately authorize Phase 11I-qualified recovery actions, never restore under release rollback.",
+      "forbiddenAssumption": "Restore is a routine deployment rollback",
+      "authorizationReacquisition": "Separate incident/recovery/restore authority required; release approval is insufficient.",
+      "incidentRecoveryEscalation": "RECOVERY QUALIFICATION / INCIDENT PATH + ESCALATE; Production restore is not authorized here.",
+      "classification": "TABLETOP_REHEARSED",
+      "futureActionExecution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION",
+      "executed": false
+    }
+  ],
+  "previousApplicationAssessment": {
+    "classification": "ROLLBACK_TARGET_REQUIRES_FRESH_RELEASE-TIME_COMPATIBILITY_VERIFICATION",
+    "deploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+    "sourceCommit": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+    "deploymentClass": "PRODUCTION_BOOTSTRAP_ONLY",
+    "providerFactsClassification": "CARRIED_FORWARD_ACCEPTED",
+    "schemaAssessment": "43 migration source files byte-identical to qualified/bootstrap source; necessary static compatibility indication, not current remote schema/data/config proof. No pending suffix today.",
+    "applicationConfigAssessment": "14 runtime/build/dependency files changed since bootstrap (334 insertions, 70 deletions); scanner/navigation/environment/header/cookie policy changed. No executed current-release rollback compatibility test. E3/E5 versions and current Vault match not observable here.",
+    "authOriginAssessment": "Bootstrap provider-owned origin and empty callback allow-list, protected access, closed signup and no real users; future release callbacks/config/possibly origin differ and must be checked separately.",
+    "fallbackAssessment": "Could only be considered as explicitly approved protected infrastructure fallback after proving schema/config/origin/protection compatibility and stopping normal use; it cannot supply ordinary personal-use release or security acceptance. No present safety attestation.",
+    "providerRollbackEligibilityIsContractualSafety": false,
+    "mayCurrentlyAssumeSafeRollback": false,
+    "futureRequirement": "Explicitly select and independently approve a compatible rollback build/config and emergency service scope. If bootstrap cannot qualify, select another permitted candidate before authorizing redeploy; if none exists, forward-fix. Do not create a fallback deployment for J5.",
+    "hobbyConstraint": "Official Vercel docs limit Hobby instant rollback to previous Production deployment; verify availability at release time. Instant rollback reuses original build/config and does not apply updated variables; rebuild required when configuration changes.",
+    "providerRollbackPerformed": false
+  },
+  "forwardFixRecoveryBoundary": {
+    "source": "H10/H13; H18; Phase 11I qualification; incident runbook",
+    "appRedeploy": "Only exact selected prior build proven compatible with current schema/config/origin under explicit valid action/window. App redeploy changes traffic/app, not the database.",
+    "forwardFix": "Irreversible committed migration plus incompatible old app requires FORWARD-FIX. Indeterminate change stops automatic retries; preserve evidence, establish state and escalate.",
+    "incident": "Integrity/availability/security impact routes approved incident response; privacy-safe evidence and separate containment authority.",
+    "recovery": "Suspected data loss/corruption/restore need: RECOVERY QUALIFICATION / INCIDENT PATH + ESCALATE. Qualification tooling accepts isolated loopback restore only; no Production restore procedure or authority inferred.",
+    "restoreIsOrdinaryRollback": false
+  },
+  "futureWindow": {
+    "status": "PLACEHOLDER_NOT_AUTHORIZED",
+    "startUtc": null,
+    "endUtc": null,
+    "candidateCommit": null,
+    "candidateTree": null,
+    "baseCommit": null,
+    "vercelProjectId": null,
+    "vercelTarget": null,
+    "supabaseProjectRef": null,
+    "configurationCandidateIdentifier": null,
+    "technicalExecutor": null,
+    "independentApproverReviewer": null,
+    "authorizationReference": null,
+    "recoveryQualificationReference": null,
+    "rollbackRedeployBoundary": null,
+    "abortChannel": null,
+    "expiresOn": [
+      "end of exact UTC window",
+      "candidate change",
+      "target change",
+      "config change",
+      "operator change",
+      "window change",
+      "abort",
+      "unexplained state",
+      "stale required check or evidence"
+    ],
+    "retryRedeployExtendsWindow": false
+  },
+  "writeSafety": {
+    "classification": "TABLETOP_REHEARSED",
+    "noMigration": "Current empty suffix means no migration-induced write restriction; actual release still requires accepted write behavior and verification before normal use. No Production writes are executed in J5.",
+    "additive": "Writes continue only when independently reviewed lock/write plan proves existing operations remain compatible and nonblocking. Additive naming alone is not evidence.",
+    "restrictedWritesRequiredFields": [
+      "affectedOperations",
+      "enforcementMechanism",
+      "maximumDuration",
+      "communication",
+      "postMigrationIntegrityQuery"
+    ],
+    "restrictedWritesPlan": {
+      "affectedOperations": null,
+      "enforcementMechanism": null,
+      "maximumDuration": null,
+      "communication": null,
+      "postMigrationIntegrityQuery": null
+    },
+    "genericMaintenancePageSufficient": false,
+    "resumeRule": "Only after ledger/schema/app/Auth/representative integrity/observability checks; writes themselves need approved scope and known commit state. Unknown mutations are never replayed.",
+    "restrictionApplied": false
+  },
+  "futureReleaseEvidence": {
+    "canonicalTemplateStatus": "TEMPLATE_NOT_EXECUTED",
+    "canonicalProductionReleaseAuthorized": false,
+    "canonicalTemplateUnchanged": true,
+    "classification": "TABLETOP_REHEARSED",
+    "rule": "This is a population rehearsal, not executed release evidence. Canonical template remains unmodified. Every mapped future field is null here. Capture condition-specific not-executed/skipped outcomes honestly and evidence hashes over redacted source files only.",
+    "fieldMap": [
+      {
+        "field": "schemaVersion",
+        "populationRule": "Use canonical Phase 11H schemaVersion 4 at that future gate; verify it remains current.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "status",
+        "populationRule": "Leave canonical template TEMPLATE_NOT_EXECUTED. Create separate actual executed packet only after actions; never fabricate success.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "releaseProfile",
+        "populationRule": "Record PERSONAL_USE_FREE_TIER unless a separately accepted later decision supersedes it.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "profile.hostedPreviewDisposition",
+        "populationRule": "Record active DEC-035 topology dispositions: local/CI required, Production preflight required read-only, Preview optional/unprovisioned, staging not required; bounded post-deploy verification required.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "profile.hostedStagingDisposition",
+        "populationRule": "Record active DEC-035 topology dispositions: local/CI required, Production preflight required read-only, Preview optional/unprovisioned, staging not required; bounded post-deploy verification required.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "profile.localCiRehearsal",
+        "populationRule": "Record active DEC-035 topology dispositions: local/CI required, Production preflight required read-only, Preview optional/unprovisioned, staging not required; bounded post-deploy verification required.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "profile.productionProviderPreflight",
+        "populationRule": "Record active DEC-035 topology dispositions: local/CI required, Production preflight required read-only, Preview optional/unprovisioned, staging not required; bounded post-deploy verification required.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "profile.postDeployVerification",
+        "populationRule": "Record active DEC-035 topology dispositions: local/CI required, Production preflight required read-only, Preview optional/unprovisioned, staging not required; bounded post-deploy verification required.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "deploymentClass",
+        "populationRule": "Actual authorized release uses PRODUCTION_RELEASE; historical bootstrap remains PRODUCTION_BOOTSTRAP_ONLY.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "productionReleaseAuthorized",
+        "populationRule": "Remain false today; future actual packet may record true only from its fresh exact Product Owner Production authorization.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "candidate.repository",
+        "populationRule": "Capture exact authorized repository SHA/tree/base and attributable build provenance; never copy the J5 candidate automatically.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "candidate.commit",
+        "populationRule": "Capture exact authorized repository SHA/tree/base and attributable build provenance; never copy the J5 candidate automatically.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "candidate.tree",
+        "populationRule": "Capture exact authorized repository SHA/tree/base and attributable build provenance; never copy the J5 candidate automatically.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "candidate.baseCommit",
+        "populationRule": "Capture exact authorized repository SHA/tree/base and attributable build provenance; never copy the J5 candidate automatically.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "candidate.buildProvenance",
+        "populationRule": "Capture exact authorized repository SHA/tree/base and attributable build provenance; never copy the J5 candidate automatically.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.provider",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.deploymentIdentifier",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.target",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.projectIdentity",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.expectedProjectIdentity",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.applicationOrigin",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.providerOriginAssertion",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "deployment.revisionVerified",
+        "populationRule": "Capture actual provider deployment ID, Production target, exact project and expected project, approved origin/provider assertion and observed revision verification.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "environment.applicationEnvironment",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.vercelEnvironment",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.vercelTargetEnvironment",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.supabaseEnvironment",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.supabaseProjectReference",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.configurationCandidateIdentifier",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.previewRegistryDisposition",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.stagingRegistryDisposition",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.productionRegistryDisposition",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.productionProjectComparison",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.authSiteUrlVerified",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.authRedirectAllowListVerified",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "environment.secretMetadataScopesVerified",
+        "populationRule": "Capture explicit application/provider/Supabase identity, configuration version and registry dispositions; Auth/secret attestations reference nonsecret scoped evidence only.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "database.localMigrationBaseline",
+        "populationRule": "Record local ledger with identities/content provenance, target applied ledger, drift/compatibility disposition and actual apply outcome or explicit no-schema-change skipped apply.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "database.targetAppliedLedger",
+        "populationRule": "Record local ledger with identities/content provenance, target applied ledger, drift/compatibility disposition and actual apply outcome or explicit no-schema-change skipped apply.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "database.driftResult",
+        "populationRule": "Record local ledger with identities/content provenance, target applied ledger, drift/compatibility disposition and actual apply outcome or explicit no-schema-change skipped apply.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "database.compatibilityDisposition",
+        "populationRule": "Record local ledger with identities/content provenance, target applied ledger, drift/compatibility disposition and actual apply outcome or explicit no-schema-change skipped apply.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "database.migrationExecutionResult",
+        "populationRule": "Record local ledger with identities/content provenance, target applied ledger, drift/compatibility disposition and actual apply outcome or explicit no-schema-change skipped apply.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.runId",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.runNumber",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.attempt",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.headCommit",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.validateResult",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "ci.durationSeconds",
+        "populationRule": "Capture exact authorized-head Validate run ID/number/attempt/head/result/duration; no pending or unexplained required check.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.candidateApprovalReference",
+        "populationRule": "Record distinct candidate, action and fresh Production approval references with exact target/window/expiry; bootstrap reference remains historical and cannot authorize release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.deploymentOrRehearsalAuthorizationReference",
+        "populationRule": "Record distinct candidate, action and fresh Production approval references with exact target/window/expiry; bootstrap reference remains historical and cannot authorize release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.productionAuthorizationReference",
+        "populationRule": "Fresh Product Owner reference naming candidate, Production target, UTC window, executor, independent approver, recovery and rollback/redeploy boundary.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.bootstrapAuthorizationReference",
+        "populationRule": "Historical bootstrap approval reference only; must differ from new Production approval.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.productionAuthorized",
+        "populationRule": "Must agree with productionReleaseAuthorized; false in J5/template, true only with separate valid future authority.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.authorizedTarget",
+        "populationRule": "Record distinct candidate, action and fresh Production approval references with exact target/window/expiry; bootstrap reference remains historical and cannot authorize release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.authorizedWindow",
+        "populationRule": "Record distinct candidate, action and fresh Production approval references with exact target/window/expiry; bootstrap reference remains historical and cannot authorize release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "authorization.expiresAt",
+        "populationRule": "Record distinct candidate, action and fresh Production approval references with exact target/window/expiry; bootstrap reference remains historical and cannot authorize release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "execution.operator",
+        "populationRule": "Capture named operator/distinct independent reviewer, exact window, approved write restriction or explicit none, and every abort/stop event with time/state/decision/result.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "execution.independentReviewer",
+        "populationRule": "Capture named operator/distinct independent reviewer, exact window, approved write restriction or explicit none, and every abort/stop event with time/state/decision/result.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "execution.maintenanceWindow",
+        "populationRule": "Capture named operator/distinct independent reviewer, exact window, approved write restriction or explicit none, and every abort/stop event with time/state/decision/result.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "execution.writeRestriction",
+        "populationRule": "Capture named operator/distinct independent reviewer, exact window, approved write restriction or explicit none, and every abort/stop event with time/state/decision/result.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "execution.abortOrStopEvents",
+        "populationRule": "Capture named operator/distinct independent reviewer, exact window, approved write restriction or explicit none, and every abort/stop event with time/state/decision/result.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "smoke.startedAt",
+        "populationRule": "Capture actual start/end times and all H12 check results, expected/observed response, evidence references and classification; no mutation retry.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "smoke.completedAt",
+        "populationRule": "Capture actual start/end times and all H12 check results, expected/observed response, evidence references and classification; no mutation retry.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "smoke.checks",
+        "populationRule": "Capture actual start/end times and all H12 check results, expected/observed response, evidence references and classification; no mutation retry.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "smoke.result",
+        "populationRule": "Capture actual start/end times and all H12 check results, expected/observed response, evidence references and classification; no mutation retry.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "observability.livenessVerified",
+        "populationRule": "Capture actual hosted liveness/signal delivery/acknowledgement and evidence result; booleans only true after observation.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "observability.signalDeliveryVerified",
+        "populationRule": "Capture actual hosted liveness/signal delivery/acknowledgement and evidence result; booleans only true after observation.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "observability.acknowledgementVerified",
+        "populationRule": "Capture actual hosted liveness/signal delivery/acknowledgement and evidence result; booleans only true after observation.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "observability.result",
+        "populationRule": "Capture actual hosted liveness/signal delivery/acknowledgement and evidence result; booleans only true after observation.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "recovery.action",
+        "populationRule": "Record selected previous build compatibility and actual redeploy result or not executed; forward-fix/incident references as applicable; current Phase 11I reference mandatory.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "recovery.previousApplicationDeployment",
+        "populationRule": "Record selected previous build compatibility and actual redeploy result or not executed; forward-fix/incident references as applicable; current Phase 11I reference mandatory.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "recovery.redeployResult",
+        "populationRule": "Record selected previous build compatibility and actual redeploy result or not executed; forward-fix/incident references as applicable; current Phase 11I reference mandatory.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "recovery.forwardFixReference",
+        "populationRule": "Record selected previous build compatibility and actual redeploy result or not executed; forward-fix/incident references as applicable; current Phase 11I reference mandatory.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "recovery.incidentOrRecoveryQualificationReference",
+        "populationRule": "Reference current accepted Phase 11I plus refreshed freshness/scope; record incident reference separately if recovery is invoked.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.oneTimeExceptionVerified",
+        "populationRule": "Historical first-bootstrap verification only; do not assert a new bootstrap exception for later release.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.deploymentProtectionDisposition",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.vercelAuthenticationVerified",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.protectionBypassConfigured",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.shareableLinksCreated",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.protectionExceptionsConfigured",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.automaticGitDeploymentsEnabled",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.customProductionDomainAttached",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.realUsersPresent",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.invitationsExecuted",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.betaEnrollmentExecuted",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.externalLaunchCommunicationExecuted",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.ordinaryProductionAccessEnabled",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.findingClosureCreditClaimed",
+        "populationRule": "No closure credit from bootstrap/J5. Any later closure only cites independent Phase 11K authority.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.phase11JAcceptanceCreditClaimed",
+        "populationRule": "No bootstrap acceptance credit; truthful historical false is retained.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.phase11KLaunchCreditClaimed",
+        "populationRule": "No bootstrap launch credit; truthful historical false is retained.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "bootstrap.bootstrapSmokeResult",
+        "populationRule": "Record truthful historical bootstrap/exposure/protection/Git/domain disposition separately; no new bootstrap execution or release equivalence/acceptance credit inferred.",
+        "captureStage": "REQUIRES_RELEASE_TIME_REFRESH",
+        "futureValue": null
+      },
+      {
+        "field": "timestamps.preflightStartedAt",
+        "populationRule": "Use actual UTC preflight/deployment/verification/window-close times; absent events remain null, never invented.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "timestamps.deploymentStartedAt",
+        "populationRule": "Use actual UTC preflight/deployment/verification/window-close times; absent events remain null, never invented.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "timestamps.verificationCompletedAt",
+        "populationRule": "Use actual UTC preflight/deployment/verification/window-close times; absent events remain null, never invented.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "timestamps.windowClosedAt",
+        "populationRule": "Use actual UTC preflight/deployment/verification/window-close times; absent events remain null, never invented.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "review.operatorAttestation",
+        "populationRule": "Record actual operator attestation, independent review disposition, all open gaps and hash of finalized redacted evidence; exclude self-reference and secret fingerprints.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "review.independentReviewDisposition",
+        "populationRule": "Record actual operator attestation, independent review disposition, all open gaps and hash of finalized redacted evidence; exclude self-reference and secret fingerprints.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "review.openGaps",
+        "populationRule": "Record actual operator attestation, independent review disposition, all open gaps and hash of finalized redacted evidence; exclude self-reference and secret fingerprints.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      },
+      {
+        "field": "review.evidenceDigest",
+        "populationRule": "Hash finalized redacted packet outside its digest field (or external manifest); never hash secret values or raw provider payloads.",
+        "captureStage": "POST_DEPLOY_RELEASE_VERIFICATION",
+        "futureValue": null
+      }
+    ],
+    "branchRecordRequiredFields": [
+      "target",
+      "candidate",
+      "utcTime",
+      "operator",
+      "observedState",
+      "decision",
+      "authorizationStatus",
+      "result"
+    ],
+    "supportingRecords": [
+      "ordered source/target migration ledger and compatibility/lock/write plan",
+      "Auth/origin and secret-scope metadata attestations",
+      "current backup/recovery qualification and freshness",
+      "Section 12 expected/observed smoke evidence",
+      "post-deploy headers/Auth/telemetry/performance evidence",
+      "selected prior-build compatibility",
+      "explicit authorization/window/abort record",
+      "independent operator/reviewer attestations"
+    ]
+  },
+  "postDeployVerification": [
+    {
+      "check": "Exact deployed SHA/tree/build provenance",
+      "requirement": "Actual Vercel deployment/project/target and Git metadata equal fresh authorization; link build logs to tree; no branch label substitute.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Deployed security headers and CSP",
+      "requirement": "Noncached actual EN/HE/Auth/protected/health responses match accepted header/CSP policy without violations.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Provider/runtime origin and configuration",
+      "requirement": "Actual provider hostname, approved APP_ORIGIN and registry match; correct cookie/security behavior at hosted origin.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Hosted Auth callbacks and boundaries",
+      "requirement": "Actual exact EN/HE invite/recovery callback positive/negative behavior under separately approved account/test scope; URL metadata alone insufficient.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Owner bootstrap/recovery email and provider delivery",
+      "requirement": "Where applicable, separately authorized controlled owner lifecycle and delivery, SMTP/rate-limit/session behavior; no external invitations under personal profile.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Production liveness and safe readiness",
+      "requirement": "Exact GET/HEAD health liveness; separately approved RLS safe read proves its own readiness scope only.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Deployment/version observability",
+      "requirement": "Hosted version, liveness, Auth/database/critical-operation signals, delivery, acknowledgement and escalation evidence; not absence of alerts.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Hosted telemetry identity/privacy",
+      "requirement": "Exact deployment/environment/release identity with approved privacy-minimal fields and 30d retention; no personal nutrition data.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Complete release smoke",
+      "requirement": "Every H12 required row accepted before normal use; bootstrap smoke does not establish release smoke.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    },
+    {
+      "check": "Hosted cold start and Core Web Vitals/performance",
+      "requirement": "Active-profile exact hosted cold starts and CWV-001: cold/warm mobile/desktop separately, >=30 valid synthetic samples per applicable page/profile, p75 LCP <=2.5s, INP <=200ms, CLS <=0.1; route/config/SHA/raw run references. Representative controlled account/page setup needs separate exact authorization; no Production seeding/load/mutation is base smoke. Later privacy-minimal RUM uses rolling 28d p75 only after >=100 valid views per page/profile. No bootstrap performance PASS or commercial capacity/SLA claim.",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "executed": false,
+      "execution": "NOT_EXECUTED_NO_PRODUCTION_MUTATION"
+    }
+  ],
+  "reconciliation": {
+    "j1": {
+      "status": "COMPLETE",
+      "classification": "CARRIED_FORWARD_ACCEPTED",
+      "reference": "docs/phase-11j1-local-ci-release-rehearsal.md"
+    },
+    "j2": {
+      "status": "COMPLETE",
+      "classification": "CARRIED_FORWARD_ACCEPTED",
+      "reference": "docs/phase-11j2-local-auth-security-account-lifecycle.md"
+    },
+    "j3": {
+      "status": "INCOMPLETE",
+      "classification": "DEFERRED_J3_REQUIRED",
+      "contract": "1.9-personal-use-firefox-excluded-amended",
+      "counts": {
+        "historicalFormalCases": 39,
+        "activeRequiredCases": 37,
+        "excludedByOwnerDecision": 2,
+        "cameraCarryForwardAccepted": 30,
+        "previouslyAcceptedUiPass": 5,
+        "uiNotExecuted": 2,
+        "newFormalUiExecutions": 0,
+        "physicalCameraExecutionsInThisTask": 0
+      },
+      "deferredCases": [
+        {
+          "testCaseId": "J3-WIN-CHROME-01",
+          "required": true,
+          "evidenceDisposition": "NOT_EXECUTED"
+        },
+        {
+          "testCaseId": "J3-WIN-EDGE-01",
+          "required": true,
+          "evidenceDisposition": "NOT_EXECUTED"
+        }
+      ],
+      "excludedHistoricalCases": [
+        {
+          "testCaseId": "J3-MAC-FIREFOX-01",
+          "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+          "decision": "DEC-037",
+          "historicalExecutionDisposition": "NOT_EXECUTED",
+          "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/2",
+          "physicalPassCredit": false
+        },
+        {
+          "testCaseId": "J3-WIN-FIREFOX-01",
+          "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+          "decision": "DEC-037",
+          "historicalExecutionDisposition": "NOT_EXECUTED",
+          "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/5",
+          "physicalPassCredit": false
+        }
+      ],
+      "physicalPassRecorded": false,
+      "previousPhysicalRuntime": {
+        "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+        "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+      },
+      "diagnosticLimitations": {
+        "mobileZoom": "Mobile pinch zoom/reflow was exercised. Exact 200% mobile zoom was not measured.",
+        "priorRefreshTokenNotFoundEvents": 8,
+        "priorCauseAndBrowserAttribution": "UNKNOWN_UNRESOLVED",
+        "priorOwnerVisibleAuthDefectEstablished": false,
+        "newRuntimeLogInspection": "NOT_RUN_NO_RUNTIME_SESSION",
+        "newSessionRefreshTokenEventCount": null,
+        "priorEventsResolved": false
+      },
+      "preservedFiles": [
+        {
+          "path": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+          "sha256": "d8e05db2f3c955d61ccd7a7cc64dc2cc6dcee16cee273b4e6a90a18a60204285"
+        },
+        {
+          "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+          "sha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8"
+        },
+        {
+          "path": "deployment/phase-11j3-local-supabase-reset-network-isolation-correction-evidence.json",
+          "sha256": "36feb529cfeafec09fef7b0b3b2cae352c57561b9da5c9e8ad7a420771c01cd9"
+        },
+        {
+          "path": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+          "sha256": "edf325c368c96b2eb0a4086a39ec4f6789cc2ce18bd0f4549a7f6ab60aaa0da9"
+        },
+        {
+          "path": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json",
+          "sha256": "d36c3c4555ce0b8841612a0854fbc7ad1c538d23460799b741b870351c6d15f1"
+        },
+        {
+          "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+          "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7"
+        },
+        {
+          "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+          "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f"
+        },
+        {
+          "path": "deployment/phase-11j3-owner-device-validation-template.json",
+          "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2"
+        },
+        {
+          "path": "deployment/phase-11j3-private-device-test-remaining-topology-preflight-evidence.json",
+          "sha256": "bc266b6e2d060879056f6e653c4b95a906c5c76ad12f008ecca2d319fdcadb6d"
+        },
+        {
+          "path": "deployment/phase-11j3-private-device-test-topology-evidence.json",
+          "sha256": "a3096d9b79ded12eb9a61b28d028e4d0a5922ba1ad168f8cba8ac9be9349e7bc"
+        },
+        {
+          "path": "docs/phase-11j3-camera-evidence-carry-forward.md",
+          "sha256": "6a3f0759dd25fc431a4c79cddd476c4676b3e26f6e0bf30f698da95cd6532f9e"
+        },
+        {
+          "path": "docs/phase-11j3-local-supabase-reset-network-isolation-correction.md",
+          "sha256": "f8b24fcb9c129735b9983a5e1aaf0c4771ca053cc72990ce71636754f188c13a"
+        },
+        {
+          "path": "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+          "sha256": "3f6fef5f47e02e2710694cb702b110d607bf793314cfdc4a4193a5918a1a5ec7"
+        },
+        {
+          "path": "docs/phase-11j3-non-windows-owner-device-validation-results.md",
+          "sha256": "fb02011e071b7a119aaf38adda7aee61a20008015297ec69c307989ce17af246"
+        },
+        {
+          "path": "docs/phase-11j3-owner-device-validation-plan.md",
+          "sha256": "2363e952ab986c0cabde20998f3854f270c79c1f9bb688be3563981ccb383560"
+        },
+        {
+          "path": "docs/phase-11j3-owner-device-validation-results.md",
+          "sha256": "96eba50e3e62f77ffc7e6cd73128fa3c34dc1c256f966501f5d2a10dbfa19eaa"
+        },
+        {
+          "path": "docs/phase-11j3-private-device-test-remaining-topology-preflight.md",
+          "sha256": "2d72373bca2cb8a2098acc8c5e159bccfd697d4b39e60d11c791adb109bbbcdf"
+        },
+        {
+          "path": "docs/phase-11j3-private-device-test-topology-provisioning.md",
+          "sha256": "644677a22f85046c970dbf7e0e78a2c25ecc471a6dd04f139ebfea281281226d"
+        },
+        {
+          "path": "docs/phase-11j3-private-device-test-topology.md",
+          "sha256": "7a16cc337b20c43a9e0c3107c3a46a21962dac782b572227d42b3b7344ba8693"
+        },
+        {
+          "path": "docs/phase-11j3-today-navigation-active-state-correction.md",
+          "sha256": "6399cd561f355160d84a28b4f8bcf1401ee64de3f2c2e56270eb574d55018a0e"
+        }
+      ]
+    },
+    "j4": {
+      "status": "COMPLETE",
+      "classification": "CARRIED_FORWARD_ACCEPTED",
+      "acceptedBy": "User-supplied independent baseline and merged PR #147 acceptance message; historical authorship PENDING preserved.",
+      "references": [
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "deployment/phase-11j4-provider-recovery-freshness-evidence.json"
+      ],
+      "acceptedReviewLimitation": "Independent reviewer could not reissue Auth Management API GET through connector; exact target and whitelist/no raw-secret retention accepted without contradictory evidence.",
+      "providerInspectionUtc": "2026-09-27T05:22:39.971Z",
+      "freshProviderObservationInJ5": false,
+      "backupRunId": 36285537035,
+      "backupArtifactId": 10919907996,
+      "freshBackupMetadataInJ5": false,
+      "recoveryDueUtc": "2026-12-16T03:18:20.238Z",
+      "liveDatabaseEqualityClaimed": false
+    },
+    "j5": "EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+    "j6": "NOT_STARTED",
+    "futureJ6": "Separate authorized interim incomplete reconciliation allowed under DEC-038; eventual Windows acceptance plus independent J3 completion needs bounded J6 delta/final reconciliation before 11K."
+  },
+  "governance": {
+    "j1": "COMPLETE",
+    "j2": "COMPLETE",
+    "j3": "INCOMPLETE",
+    "j4": "COMPLETE",
+    "j5": "EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+    "j6": "NOT_STARTED",
+    "phase11J": "INCOMPLETE",
+    "phase11K": "NOT_STARTED",
+    "phase11": "INCOMPLETE",
+    "physicalPassRecorded": false,
+    "productionReleaseAuthorized": false,
+    "openFindingCount": 18,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "decisionLogChanged": false,
+    "newDecisionCreated": false
+  },
+  "safety": {
+    "productionMutated": false,
+    "providerMutations": 0,
+    "productionSqlStatements": 0,
+    "remoteLinks": 0,
+    "remoteMigrations": 0,
+    "deployments": 0,
+    "promotions": 0,
+    "redeploysRollbacks": 0,
+    "authMutations": 0,
+    "environmentMutations": 0,
+    "domainDnsMutations": 0,
+    "protectionGitChanges": 0,
+    "usersInvitationsCreatedOrDeleted": 0,
+    "productionApplicationWrites": 0,
+    "productionSmokeExecutions": 0,
+    "backupsTriggered": 0,
+    "restoresTriggered": 0,
+    "secretRotations": 0,
+    "j3VmStarts": 0,
+    "physicalTests": 0,
+    "credentialsOrSecretValuesRecorded": false,
+    "applicationRuntimeChanges": false,
+    "scope": "This task action record, not an audit of unrelated actors or scheduled jobs.",
+    "supabaseVercelReadsInJ5": 0
+  },
+  "blockers": [],
+  "validation": {
+    "status": "FOCUSED_CHECKS_PASSED",
+    "checks": [
+      {
+        "command": "npm run test:deployment-contract",
+        "passed": 92,
+        "failed": 0,
+        "skipped": 0,
+        "repositoryValidator": "PASSED"
+      },
+      {
+        "command": "npm run test:recovery-contract",
+        "passed": 41,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "command": "npm run security:workflow",
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "repositoryValidator": "PASSED"
+      },
+      {
+        "command": "node --test scripts/check-production-advisories.test.mjs",
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "command": "npm run test:journey-evidence",
+        "passed": 52,
+        "failed": 0,
+        "skipped": 0,
+        "repositoryValidator": "PASSED"
+      },
+      {
+        "command": "One-off local evidence consistency assertions (Python; off-Git task harness)",
+        "result": "PASSED",
+        "scope": "Exact 14 H13 branches; 13 ordered steps; 26 classified prerequisites; 7 drift states; 43 migration identities; 98 exact template fields; all future actions not executed; zero Production authority/mutation; J3/J4/Contract/decision hashes and accounting unchanged; local reference links; secret/PII shape scanner."
+      },
+      {
+        "command": "git diff --check",
+        "result": "PASSED"
+      }
+    ],
+    "focusedTestTotal": 194,
+    "limitations": [
+      "Secret/PII exclusion combines targeted shape scanning and manual content review; no secret values were sourced.",
+      "No local database, physical client, provider runtime, Production smoke, backup or restore was re-executed. Exact-head GitHub Actions is the final authoritative CI gate.",
+      "Installed Supabase CLI shim failed before help; documented future commands checked against official CLI reference and must be rediscovered on future pinned executor."
+    ],
+    "deliveryHeadTreeAndCi": "Reported externally after commit to avoid self-referential evidence; Draft only, no merge, independent ChatGPT review pending."
+  }
+}

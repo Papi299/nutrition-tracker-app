@@ -236,9 +236,16 @@ later: accepted Windows evidence -> independent J3 completion acceptance
 
 The [current J4 packet](phase-11j4-provider-recovery-freshness.md) records
 passing recovery freshness, verified bootstrap Auth configuration and disabled
-automatic Git deployments by repository policy. J4 execution is complete
-pending independent review in Draft PR #147; J5/J6 and Phase 11K remain
-`NOT_STARTED`. No J3 evidence is waived, no finding closes, and Production remains separately authorized only.
+automatic Git deployments by repository policy. J4 is COMPLETE after independent
+acceptance of PR #147; its historical packet remains unchanged. The
+[J5 dry run](phase-11j5-release-rollback-dry-run.md) is
+`EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`. It rehearses H10/H13 and
+stops before any provider configuration Save, migration apply or deployment;
+all future deployed facts remain `POST_DEPLOY_RELEASE_VERIFICATION`.
+J6 and Phase 11K remain `NOT_STARTED`, Phase 11J remains `INCOMPLETE`, Windows
+Chrome/Edge remain required/`NOT_EXECUTED`, `physicalPassRecorded=false`, all
+18 findings remain `OPEN`, and `productionReleaseAuthorized=false`. No J3
+evidence is waived; no new decision or Production authority is created.
 
 There is no paid infrastructure or staging-creation slice.
 
