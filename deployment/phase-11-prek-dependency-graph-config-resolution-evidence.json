@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-DEPENDENCY-GRAPH-CONFIG-READ-RESOLUTION-001",
+  "authorshipStatus": "EXECUTOR_AUTHORED_PENDING_INDEPENDENT_REVIEW",
+  "resolutionState": "DEPENDENCY_GRAPH_CONFIGURATION_VERIFIED_DISABLED",
+  "remediationReadiness": "GITHUB_GOVERNANCE_REMEDIATION_READY_FOR_OWNER_AUTHORIZATION",
+  "finalMarker": "PHASE_11_PREK_DEPENDENCY_GRAPH_CONFIG_VERIFIED_DISABLED_PENDING_INDEPENDENT_REVIEW",
+  "recordedAtUtc": "2026-09-27T13:14:08.514725+00:00",
+  "observationBoundary": "Fresh configuration investigation is limited to G15. Other controls are inherited from the independently accepted PR150 packet, not freshly re-audited or corrected. Configuration collection used owner CLI GET requests and existing owner-authenticated browser page/menu navigation only. Repository branch/commit/push/Draft PR are separately authorized evidence-delivery writes.",
+  "baselineVerification": {
+    "observedAtUtc": "2026-09-27T13:03:04.196520+00:00",
+    "repository": "Papi299/nutrition-tracker-app",
+    "baseline": {
+      "sha": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "tree": "1b911834b24bac911cdd7036eaee8b74a7dc8771",
+      "soleParent": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "subject": "docs(phase11-prek): refresh read-only GitHub governance evidence (#150)",
+      "pr150Merged": true,
+      "initialOpenPullRequests": []
+    },
+    "exactMainCi": {
+      "name": "CI",
+      "id": 36319584700,
+      "run_number": 306,
+      "run_attempt": 1,
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36319584700"
+    },
+    "validateJobId": 108620706652,
+    "rawLogAssertions": {
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11DPassed": 53,
+      "phase11DIntentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "productionBuild": "PASS",
+      "clientSecretBoundary": "PASS",
+      "browserStaticArtifactsInspected": 115
+    },
+    "artifact": {
+      "id": 10932038072,
+      "name": "phase-11d-evidence-36319584700-1",
+      "digest": "sha256:85b72235f4d05220ca7fc6824fc282d4c6e447abb616f699280929bc7f5db111",
+      "expired": false
+    }
+  },
+  "acceptedPriorCheckpoint": {
+    "pr": "https://github.com/Papi299/nutrition-tracker-app/pull/150",
+    "currentAcceptedStatus": "READ_ONLY_REFRESH_ACCEPTED_WITH_CONFIGURATION_READ_GAP",
+    "historicalPacketAuthorshipStatus": "READ_ONLY_REFRESH_COMPLETE_PENDING_INDEPENDENT_REVIEW_WITH_CONFIGURATION_READ_GAP",
+    "historicalRemediationReadiness": "GITHUB_GOVERNANCE_REMEDIATION_BLOCKED_BY_MISSING_READ_ACCESS",
+    "evidenceJson": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+    "evidenceReport": "docs/phase-11-prek-github-governance-refresh.md",
+    "historicalPacketUnchanged": true,
+    "supersessionScope": "Only G15 current observational disposition and the configuration-read readiness consequence. Historical observations, classifications and authored statuses remain unchanged."
+  },
+  "authentication": {
+    "ownerAdminAuthenticatedChannelAvailable": true,
+    "ownerLogin": "Papi299",
+    "repository": "Papi299/nutrition-tracker-app",
+    "ghAuthStatus": {
+      "observedAtUtc": "2026-09-27T13:03:33.828769+00:00",
+      "command": "gh auth status",
+      "exitCode": 0,
+      "hostname": "github.com",
+      "accountLogin": "Papi299",
+      "authenticated": true,
+      "credentialSource": "keyring",
+      "invalidCredentialReported": false,
+      "tokenValuesPrintedOrPersisted": false
+    },
+    "ownerApiIdentity": {
+      "observedAtUtc": "2026-09-27T13:03:34.253752+00:00",
+      "mechanism": "GitHub CLI REST GET",
+      "user": {
+        "login": "Papi299",
+        "type": "User",
+        "id": 191498044
+      },
+      "repository": {
+        "fullName": "Papi299/nutrition-tracker-app",
+        "ownerLogin": "Papi299",
+        "visibility": "public",
+        "private": false,
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        },
+        "securityAndAnalysisPresent": true,
+        "securityAndAnalysisNonSecretFields": {
+          "secret_scanning": {
+            "status": "disabled"
+          },
+          "secret_scanning_push_protection": {
+            "status": "disabled"
+          },
+          "dependabot_security_updates": {
+            "status": "disabled"
+          },
+          "secret_scanning_non_provider_patterns": {
+            "status": "disabled"
+          },
+          "secret_scanning_validity_checks": {
+            "status": "disabled"
+          }
+        }
+      },
+      "tokenValuesPrintedOrPersisted": false
+    },
+    "browserAccountLogin": "Papi299",
+    "browserAuthenticationAlreadyPresent": true,
+    "githubAppOrIntegrationUsedForConfigurationEvidence": false,
+    "anonymousPublicPageUsedToResolveG15": false,
+    "newAuthenticationPerformed": false,
+    "credentialOrScopeChanges": 0,
+    "secretsPrintedOrPersisted": false
+  },
+  "apiInvestigation": {
+    "officialConfigurationGetFound": false,
+    "availabilityStatement": "The reviewed current official dependency-graph REST catalog and repository GET documentation do not document a definitive dependency-graph configuration GET. Owner/admin repository GET exposes no such field. This is a bounded documentation finding, not a claim that no internal GitHub API exists.",
+    "graphqlReferenceReview": "The documented objects#repository reference URL redirected to the GraphQL reference overview and supplied no usable configuration field. No undocumented GraphQL field or query was attempted.",
+    "requestedApiVersion": "2026-03-10",
+    "observations": [
+      {
+        "observedAtUtc": "2026-09-27T13:04:38.843763+00:00",
+        "method": "GET",
+        "url": "https://api.github.com/user",
+        "httpStatus": 200,
+        "requestedApiVersion": "2026-03-10",
+        "responseHeaders": {
+          "content-type": "application/json; charset=utf-8",
+          "x-accepted-oauth-scopes": "",
+          "x-github-api-version-selected": "2026-03-10",
+          "x-github-request-id": "DABC:354850:C6F3C0:1144751:6AB91466"
+        },
+        "nonSecretFields": {
+          "login": "Papi299",
+          "type": "User"
+        },
+        "authentication": "existing gh owner/user session; Papi299; repository permissions.admin=true",
+        "configurationEndpoint": false,
+        "provesDependencyGraphConfiguration": false
+      },
+      {
+        "observedAtUtc": "2026-09-27T13:04:39.244628+00:00",
+        "method": "GET",
+        "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app",
+        "httpStatus": 200,
+        "requestedApiVersion": "2026-03-10",
+        "responseHeaders": {
+          "content-type": "application/json; charset=utf-8",
+          "x-accepted-oauth-scopes": "repo",
+          "x-github-api-version-selected": "2026-03-10",
+          "x-github-request-id": "DABD:1042A6:CA36AE:1178112:6AB91466"
+        },
+        "nonSecretFields": {
+          "full_name": "Papi299/nutrition-tracker-app",
+          "ownerLogin": "Papi299",
+          "visibility": "public",
+          "permissions": {
+            "admin": true,
+            "maintain": true,
+            "push": true,
+            "triage": true,
+            "pull": true
+          },
+          "dependency_graph_top_level_present": false,
+          "security_and_analysis_keys": [
+            "secret_scanning",
+            "secret_scanning_push_protection",
+            "dependabot_security_updates",
+            "secret_scanning_non_provider_patterns",
+            "secret_scanning_validity_checks"
+          ],
+          "dependency_graph_security_field_present": false
+        },
+        "authentication": "existing gh owner/user session; Papi299; repository permissions.admin=true",
+        "configurationEndpoint": false,
+        "provesDependencyGraphConfiguration": false
+      },
+      {
+        "observedAtUtc": "2026-09-27T13:04:39.570780+00:00",
+        "method": "GET",
+        "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/dependency-graph/sbom",
+        "httpStatus": 404,
+        "requestedApiVersion": "2026-03-10",
+        "responseHeaders": {
+          "content-type": "application/json; charset=utf-8",
+          "x-accepted-oauth-scopes": "repo",
+          "x-github-api-version-selected": "2026-03-10",
+          "x-github-request-id": "DABE:7B0D:C300BA:110433D:6AB91467"
+        },
+        "nonSecretFields": {
+          "message": "Not Found",
+          "documentation_url": "https://docs.github.com/rest",
+          "status": "404"
+        },
+        "authentication": "existing gh owner/user session; Papi299; repository permissions.admin=true",
+        "configurationEndpoint": false,
+        "provesDependencyGraphConfiguration": false
+      }
+    ],
+    "sbomIsConfigurationEndpoint": false,
+    "sbomProvesConfiguration": false,
+    "sbomInterpretation": "Owner-authenticated SBOM export again returned generic HTTP404 Not Found. The documented resource-not-found meaning does not uniquely distinguish disabled configuration, obscured permission denial, unavailable graph data or another resource condition. Actual owner Settings evidence supplies the configuration result.",
+    "newAsyncSbomGenerationRequested": false,
+    "undocumentedEndpointQueried": false
+  },
+  "authenticatedSettingsObservation": {
+    "evidenceType": "Direct native-browser accessibility observation, corroborated by a screenshot displayed in the execution conversation",
+    "observationWindowUtc": {
+      "notBefore": "2026-09-27T13:04:39.570780Z",
+      "notAfter": "2026-09-27T13:08:16Z",
+      "precision": "Bounded by the preceding API read and following UTC clock read; the native UI tool did not emit an exact UTC capture timestamp."
+    },
+    "browser": "Existing Google Chrome session; no new sign-in or credential handling",
+    "browserAccountLogin": "Papi299",
+    "accountAttribution": "The GitHub user-navigation menu showed heading Papi299 and a Profile link to https://github.com/Papi299. It was opened only for observation and then closed.",
+    "adminCapabilityEvidence": "Existing gh GET /user returns Papi299; GET /repos/Papi299/nutrition-tracker-app returns owner.login=Papi299 and permissions.admin=true. The same browser user accessed the exact repository Settings and Advanced Security page.",
+    "url": "https://github.com/Papi299/nutrition-tracker-app/settings/security_analysis",
+    "navigationPath": [
+      "Repository Settings",
+      "Security and quality",
+      "Advanced Security"
+    ],
+    "pageTitle": "Settings · Advanced Security · Papi299/nutrition-tracker-app",
+    "repositoryHeading": "Settings: Papi299/nutrition-tracker-app",
+    "featureRowPresent": true,
+    "featureHeading": "Dependency graph",
+    "rowDescription": "Understand your dependencies.",
+    "actionAccessibleName": "Enable dependency graph",
+    "actionVisibleText": "Enable",
+    "actionObservedOnly": true,
+    "featureControlActivated": false,
+    "configurationState": "DISABLED",
+    "interpretation": "An Enable action in the exact dependency-graph row on the attributable owner/admin Settings surface establishes disabled configuration. The SBOM response is not the basis of this conclusion.",
+    "planOrAvailabilityMessageInDependencyGraphRow": null,
+    "planInterpretation": "No plan-denial or unavailable-feature message was observed in this row. No paid-plan blocker is inferred; billing was not inspected.",
+    "repositoryVisibility": "public, verified by owner-authenticated REST GET",
+    "visibilitySpecificWordingInDependencyGraphRow": null,
+    "screenshotRetention": "Conversation corroboration only; no browser chrome, unrelated page content, cookies or raw browser state persisted in the repository. The packet retains only attributable non-secret textual facts."
+  },
+  "documentationReconciliation": {
+    "retrievedOnUtc": "2026-09-27",
+    "sources": [
+      {
+        "id": "rest-dependency-graph-catalog",
+        "url": "https://docs.github.com/en/rest/dependency-graph",
+        "finding": "The current REST catalog lists dependency review, submission and SBOM operations. It documents no dependency-graph configuration GET. No undocumented endpoint was queried."
+      },
+      {
+        "id": "rest-get-repository",
+        "url": "https://docs.github.com/en/rest/repos/repos#get-a-repository",
+        "finding": "The repository read documents admin visibility for security_and_analysis. The current owner/admin response includes that block but no dependency_graph configuration field; absence of a field does not establish feature state."
+      },
+      {
+        "id": "dependency-graph-concept",
+        "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-graph",
+        "finding": "Public repositories are described as on by default. Repository administrators are described as able to enable or disable the graph."
+      },
+      {
+        "id": "enable-dependency-graph",
+        "url": "https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/enable-dependency-graph",
+        "finding": "The repository procedure uses Settings > Security and quality > Advanced Security and an Enable action beside Dependency Graph. It also describes a Disable action and enable/disable management regardless of repository visibility."
+      },
+      {
+        "id": "manage-security-analysis",
+        "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository",
+        "finding": "This page describes dependency graph as permanently enabled for public repositories. That conflicts with the enabling procedure and with this authenticated public-repository configuration observation."
+      },
+      {
+        "id": "supply-chain-security",
+        "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/supply-chain-security",
+        "finding": "The feature-availability section describes dependency graph as not enabled by default and as available for all repositories with administrator enable/disable control. Its default-state wording differs from the dependency-graph concept page."
+      },
+      {
+        "id": "sbom-api",
+        "url": "https://docs.github.com/en/rest/dependency-graph/sboms",
+        "finding": "The legacy GET exports SPDX dependency data, not a configuration flag. Documented status meanings are 200 OK, 403 Forbidden and 404 Resource not found, without a unique disabled-state interpretation. The page announces legacy export closing after 2026-11-13 and an asynchronous generation/fetch flow; generation was not requested."
+      }
+    ],
+    "contradictionsPreserved": true,
+    "repositorySpecificConclusion": "The current owner/admin Settings row takes precedence for this repository-specific configuration question. It shows an Enable action, so disabled is verified despite generic public-repository default/permanent-enable statements. This does not settle why those documentation statements differ, whether they describe a rollout, or how SBOM population will behave after a future authorized change."
+  },
+  "g15Addendum": {
+    "id": "G15",
+    "requirement": "Dependency graph",
+    "priorDisposition": "NOT_FRESHLY_OBSERVABLE",
+    "currentDisposition": "VERIFIED_MISMATCH",
+    "configurationState": "DISABLED",
+    "resolutionState": "DEPENDENCY_GRAPH_CONFIGURATION_VERIFIED_DISABLED",
+    "policyBasis": "DEC-029 no reachable unaccepted critical/high advisory; accepted Phase 11F section14 concretely requires enabling dependency graph, Dependabot alerts and security updates. Disabled graph therefore does not meet the existing operational requirement.",
+    "policySource": "docs/phase-11f-security-and-dependency-hardening.md#14-required-owner-setting-changes",
+    "configurationEvidence": "authenticatedSettingsObservation",
+    "overriddenControlIds": [
+      "G15"
+    ],
+    "otherControlRowsReclassified": 0,
+    "acceptedPriorMatrixCounts": {
+      "VERIFIED_MISMATCH": 20,
+      "VERIFIED_COMPLIANT": 5,
+      "NOT_FRESHLY_OBSERVABLE": 1,
+      "NOT_APPLICABLE": 2
+    },
+    "derivedCurrentMatrixCounts": {
+      "VERIFIED_MISMATCH": 21,
+      "VERIFIED_COMPLIANT": 5,
+      "NOT_FRESHLY_OBSERVABLE": 0,
+      "NOT_APPLICABLE": 2
+    },
+    "accountingBasis": "28 controls retained; G15 alone moves from the sole unobservable row to mismatch. No full matrix is duplicated and no other row receives new freshness or remediation credit.",
+    "controlPassedOrRemediated": false
+  },
+  "readinessAssessment": {
+    "priorReadBlockers": [
+      "G15 dependency-graph configuration"
+    ],
+    "resolvedReadBlockers": [
+      "G15 dependency-graph configuration"
+    ],
+    "remainingConfigurationReadBlockers": [],
+    "assessmentBasis": "The accepted PR150 unobservableControls register has exactly one configuration-read blocker. Direct owner/admin configuration observation resolves it; all other setting targets remain bounded by that accepted packet. Human role assignments and corrective validation remain separate prerequisites.",
+    "result": "GITHUB_GOVERNANCE_REMEDIATION_READY_FOR_OWNER_AUTHORIZATION",
+    "meaning": "An exact settings-mutation plan may now be presented to the Product Owner. This executor-authored assessment is pending independent review and supplies no setting-mutation authorization.",
+    "settingsMutationAuthorized": false,
+    "independentReviewPending": true,
+    "priorPlanReference": "deployment/phase-11-prek-github-governance-refresh-evidence.json#orderedProposedRemediation",
+    "g15ProposedRemediationOnly": {
+      "current": "Dependency graph disabled; owner/admin UI offers Enable",
+      "target": "Dependency graph enabled before the prior R4 Dependabot sequence",
+      "surface": "Settings > Security and quality > Advanced Security > Dependency graph",
+      "futureOwnerAuthorizedAction": "Activate the observed Enable control only in a separately explicitly authorized settings-remediation task. No mutation endpoint is inferred or proposed.",
+      "futureReadBack": "Re-observe the attributable exact-repository Settings row and require enabled state / Disable action. Separately verify graph population and SBOM/dependency visibility, retaining any precise error; an unavailable SBOM must not be relabeled a configuration PASS.",
+      "futureReversal": "Any later reversal requires separate owner authorization and a fresh observed Disable control. Retain the prior disabled-state evidence; no disable action or rollback is executed here.",
+      "executed": false
+    },
+    "preMutationFreshnessRequirement": "A later authorized settings task must refresh its exact repository baseline and target settings before executing the reviewed plan; inherited observations are not perpetual mutation permission."
+  },
+  "governance": {
+    "j1": "COMPLETE",
+    "j2": "COMPLETE",
+    "j3": "INCOMPLETE",
+    "j4": "COMPLETE",
+    "j5": "COMPLETE",
+    "j6Interim": "INTERIM_RECONCILIATION_ACCEPTED",
+    "j6FinalDelta": "NOT_STARTED",
+    "phase11J": "INCOMPLETE",
+    "phase11K": "NOT_STARTED",
+    "phase11KEligibility": "NOT_ELIGIBLE",
+    "physicalPassRecorded": false,
+    "productionReleaseAuthorized": false,
+    "findings": [
+      {
+        "id": "P11A-001",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-002",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-003",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-004",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-005",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-006",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-007",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-008",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-009",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-010",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-011",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-012",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-013",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-014",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-015",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-016",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-017",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-018",
+        "status": "OPEN"
+      }
+    ],
+    "beforeKRoles": [
+      {
+        "role": "Independent acceptance reviewer",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      },
+      {
+        "role": "Candidate release approver",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      },
+      {
+        "role": "P1 exception authority",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      }
+    ],
+    "githubSettingsEvidence": "DEFERRED_REQUIRED",
+    "whyInterimDiffersFromAuthorship": "Historical J6 JSON/Markdown pending statuses are preserved; supplied accepted baseline plus merged PR149/main acceptance message and fresh exact-main CI304 establish current interim acceptance. No historical file is rewritten."
+  },
+  "governanceInterpretation": "GITHUB_SETTINGS_EVIDENCE remains DEFERRED_REQUIRED because corrective settings evidence and its acceptance are still outstanding. Configuration observability readiness is separate from correction, role assignment, finding closure, physical evidence and Production authority.",
+  "sourceIndex": [
+    {
+      "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "78556c1ca9138d3094f856e34e537c80e97dc70e",
+      "sha256": "599520384e4a7ad5f94bd78ea88965de5b21e000c2f9447652d5250c3941d046",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "docs/phase-11-prek-github-governance-refresh.md",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "0df703b8be1c3f4837f02ecb88f4e851f56590a9",
+      "sha256": "8b54b1e50514b1baa2ec937a5eebdb59d85123c9d6e756e153e827a1f6ddcba5",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "9ed0468802cc2b4a3bcba010dfc1650560bdda34",
+      "sha256": "bec504a10d44392335e720e459051477f0b3300de4015f4ca29ab02d07fed793",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "docs/phase-11f-security-and-dependency-hardening.md",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "6270f93f77c1288a6ef5b16560eaeb2c53661972",
+      "sha256": "d49d647d62ddb47f90433a46642e037fe65e9bfd84c52a358536a42632f032ee",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "52af0b65acd3e0e43089657d5ab79a72a68528c2",
+      "sha256": "b2de5f890c9d0aa974c9d1aca7766f8021cdc1c8bd014ddef6993651ee968801",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "2c06f75da7c0af1ccb0dfc66bf614c8fbdeb4297",
+      "sha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "8d7ca63884a60133cb0d01680e0504accd937a15",
+      "sha256": "76d86d2ba944c8066d7cfea219a3a85d9b6c6d26ad9c518c8e5fc4de50ce249a",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "62260ace69961a713ea4317942db873453c15dee",
+      "sha256": "c72a846fb0791d26b160809e6314eb2779198d3d106c1dc43fa657198f39e1da",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "3c3349465564247cd30ab3466dbf0db5fc733f97",
+      "sha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8",
+      "unchangedByThisAddendum": true
+    },
+    {
+      "path": "e2e/phase-11d-ui.spec.ts",
+      "ref": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+      "gitBlob": "c03b4fcde7ed25b7fd5d0b829c289cda421e2bf7",
+      "sha256": "54010629b55a43601646edb340dc0b5f9c9ce0c0218d92e347abecbe5999e781",
+      "unchangedByThisAddendum": true
+    }
+  ],
+  "minimalCurrentStatePointer": {
+    "path": "README.md",
+    "purpose": "Point the current Phase11F/governance status to this addendum and its pending-review readiness assessment. No other current-state or historical governance record is edited."
+  },
+  "safety": {
+    "counterScope": "This configuration-read/evidence task only; branch/commit/push/Draft PR are authorized repository-delivery writes. Existing exact-main CI and naturally triggered Draft PR CI are separately identified isolated automated evidence.",
+    "githubSettingMutations": 0,
+    "configurationApiNonGetRequests": 0,
+    "featureControlsActivated": 0,
+    "settingsSaved": 0,
+    "providerReadsOutsideGitHub": 0,
+    "providerMutations": 0,
+    "remoteSupabaseOperations": 0,
+    "vercelOrProductionOperations": 0,
+    "applicationRuntimeFilesChanged": 0,
+    "runtimeSessionsStartedLocally": 0,
+    "physicalTests": 0,
+    "windowsJ3Testing": 0,
+    "rolesAssigned": 0,
+    "findingsClosed": 0,
+    "j6FinalDeltaExecuted": false,
+    "phase11KStarted": false,
+    "releasesTagsCreated": 0,
+    "branchesDeleted": 0,
+    "credentialScopeChanges": 0,
+    "ciRerunsRequested": 0,
+    "secretsTokensPersisted": false,
+    "physicalPassRecorded": false,
+    "productionReleaseAuthorized": false
+  },
+  "validationRequirements": [
+    "JSON parse and exactly one G15 resolution",
+    "Fresh expected main SHA/tree/parent/subject, merged PR150 and zero initial open PRs",
+    "Exact-main CI306 identity, raw-log assertions and artifact metadata",
+    "Exact owner/admin identity and browser account provenance without credentials",
+    "No contradictory current enabled/disabled claim or SBOM-as-configuration inference",
+    "Only G15 current disposition superseded; derived counts sum to28",
+    "Frozen source hashes including both PR150 files unchanged",
+    "Three before-K roles, J3/J6/J/K/18OPEN findings and Production limits preserved",
+    "Secret/token scan and local-link checks",
+    "Focused existing offline workflow and critical-journey validators",
+    "git diff --check and exact three-file scope",
+    "Naturally triggered exact-head CI after Draft PR creation"
+  ],
+  "delivery": {
+    "branch": "codex/phase11-prek-dependency-graph-config-resolution",
+    "baseSha": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+    "changedFiles": [
+      "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+      "docs/phase-11-prek-dependency-graph-config-resolution.md",
+      "README.md"
+    ],
+    "draftPullRequestRequired": true,
+    "mergeAuthorized": false,
+    "settingsRemediationAuthorized": false,
+    "commitTreeAndExactHeadCi": "Returned externally after commit/CI to avoid self-referential evidence identities."
+  }
+}
