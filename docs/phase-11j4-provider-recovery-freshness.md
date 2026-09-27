@@ -2,13 +2,15 @@
 
 Task: `PHASE-11J4-DEC038-DEFERRED-J3-PARALLEL-READONLY-PREFLIGHT-001`
 
-Disposition: `PHASE_11J4_BLOCKED_BY_MISSING_PROVIDER_READ_ACCESS`
+Correction task: `PHASE-11J4-PR147-PROVIDER-READ-GAP-RESOLUTION-001`
 
-Inspection: `2026-09-27T00:10:51.280Z` UTC / `2026-09-27T03:10:51.280+03:00`
-(`Asia/Jerusalem`). J4 is not complete. The execution packet and DEC-038
-recording await independent ChatGPT review. Required hosted Auth configuration
-and effective Git deployment-control evidence are missing. No provider action
-was performed to repair or bypass a gap.
+Disposition: `PHASE_11J4_READONLY_PROVIDER_RECOVERY_FRESHNESS_COMPLETE_PENDING_INDEPENDENT_REVIEW`
+
+Inspection: `2026-09-27T05:22:39.971Z` UTC / `2026-09-27T08:22:39.971+03:00`
+(`Asia/Jerusalem`). J4 execution is complete pending independent ChatGPT
+review. Hosted bootstrap Auth configuration and the repository Git deployment
+policy are freshly verified; no J4 acceptance blocker remains. No provider
+mutation was performed.
 
 The [machine-readable evidence](../deployment/phase-11j4-provider-recovery-freshness-evidence.json)
 contains timestamps, sources, hashes, calculations, classifications, blockers,
@@ -22,8 +24,12 @@ Fresh remote `main` was `e0396fce9f42ead8793fab1419daefb65f65ea38`, tree
 `62c906ee3aa4f1b995df81f2bc65fabeafc9be3e`, subject
 `docs(phase11j3): remove Firefox from owner validation plan (#146)`.
 [PR #146](https://github.com/Papi299/nutrition-tracker-app/pull/146) was merged;
-zero open PRs existed before this task. No relevant remote baseline drift was
-observed. The older original checkout's unrelated uncommitted work was
+zero open PRs existed before the original task. During correction, PR #147
+remained open, Draft and unmerged at head
+`dd7eca555775d29d9c99b14a8077ea206e94a5d9`, tree
+`a01af931e03408a5e745615db6c2e3a7c12b6513`. Main had not drifted; no new
+review threads/comments or unrelated changed files were present. The older
+original checkout's unrelated uncommitted work was
 preserved; execution used an isolated worktree and focused branch.
 
 [Exact-main CI #296](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36279781137)
@@ -63,15 +69,44 @@ complete Phase 11J packet. This task starts neither J5 nor J6.
 | Production project identity | `FRESH_READ_ONLY_VERIFIED` | Connector `get_project`: `hskfanrqwtqknzpquwhg`, `Nutrition Tracker App`, `eu-west-1`, `ACTIVE_HEALTHY`, PostgreSQL `17.6.1.111` |
 | Visible hosted topology | `FRESH_READ_ONLY_VERIFIED` | Complete returned `list_projects` inventory contains one Nutrition Tracker project and the distinct protected academic project; no second Nutrition Tracker hosted test/staging project observed |
 | Application environment binding | `CARRIED_FORWARD_ACCEPTED` | Repository registry/DEC-035 binds the matched project to Production; project API does not independently assert `APP_ENVIRONMENT` |
-| Hosted Auth controls | `NOT_FRESHLY_OBSERVABLE` | Connector has no Auth configuration read; dashboard Auth settings redirect to sign-in. Signup/confirmation, OAuth/anonymous providers, redirects and recovery configuration were not freshly verified |
+| Hosted bootstrap Auth controls | `FRESH_READ_ONLY_VERIFIED` | Single authenticated official Management API GET returned HTTP 200; required nonsecret configuration matches accepted bootstrap contract |
 | Repository migration expectation | `FRESH_READ_ONLY_VERIFIED` | 43 tracked SQL migrations, head `20260830143000`, byte-unchanged from qualified source |
 | Current hosted database/ledger/RLS/grants/users/Storage/Vault | `NOT_FRESHLY_OBSERVABLE` | No Production SQL, database connection, CLI link or database-backed metadata query; historical counts are not current observations |
 
 The protected `lioxtgiputfniqbktcsz` / `academic-papers-index` appeared only in
 the inventory. There were zero project-specific operations against it. Visible
 inventory is not a claim about hidden resources or current database contents.
-`J4-SB-AUTH-READ-01` blocks J4 completion and requires a bounded authenticated
-read of configuration, without mutation.
+The existing Supabase CLI 2.111.0 authenticated project-list read succeeded.
+Its native credential-store mechanism was then used only in process memory for
+one `GET /v1/projects/hskfanrqwtqknzpquwhg/config/auth`, returning HTTP 200
+in the bounded attempt started at `2026-09-27T05:17:56.459Z`. No automatic
+retry or redirect was followed.
+The accepted contract and strict whitelist were fixed before the response.
+No credential, raw response, secret, HMAC or redacted-secret field was printed
+or persisted. The previous Supabase Auth read blocker is removed.
+
+The [official read endpoint](https://supabase.com/docs/reference/api/v1-get-auth-service-config)
+provides configuration, not a hosted behavior test. Required results:
+
+| Accepted bootstrap requirement | Nonsecret observation / reconciliation |
+| --- | --- |
+| Canonical provider-owned Site URL | `https://nutrition-tracker-app-xi.vercel.app`, matching the verified Vercel domain |
+| Bootstrap-only redirect scope | `uri_allow_list=""`; no wildcard or foreign-environment entry. No invitation or recovery delivery is authorized; the four exact EN/HE release callbacks require separate release review |
+| Closed public and anonymous signup | `disable_signup=true`, `external_anonymous_users_enabled=false` |
+| Email/password; deferred OAuth | `external_email_enabled=true`; every returned allowlisted OAuth enablement flag is false; phone provider false |
+| DEC-033 hosted password policy | `password_min_length=12`; separate lowercase, uppercase, digits and symbols groups, the [strongest documented option](https://supabase.com/docs/guides/auth/password-security) |
+| DEC-033 Free-plan limitation | `password_hibp_enabled=false`, carried-forward accepted unavailable for protected zero-user pre-launch bootstrap; revisit before first real-user invitation |
+
+Confirmation/recovery observations are explicit: `mailer_autoconfirm=true`,
+`mailer_allow_unverified_email_sign_ins=false`, and hosted current-password and
+reauthentication flags are false. The accepted bootstrap contract prescribes
+no different values for these flags. Closed ordinary signup remains enforced;
+invitation-purpose callbacks and the app-owned E3 recent-password proof remain
+separate application requirements. No numeric OTP/session setting is invented
+as a J4 requirement. Hosted invitation/recovery delivery, positive/negative
+callback behavior, SMTP and session behavior remain
+`POST_DEPLOY_RELEASE_VERIFICATION`; this configuration read grants no release
+or invitation authority.
 
 ## Vercel read-only observations
 
@@ -90,15 +125,18 @@ persisted, and no decrypted-value request was made.
 | High-level settings | `FRESH_READ_ONLY_VERIFIED` | Next.js, Node `24.x`, GitHub `Papi299/nutrition-tracker-app`, Production branch `main`, no deploy hooks, root default, directory listing disabled, SSO protection `all` |
 | Environment presence | `FRESH_READ_ONLY_VERIFIED` | 12 variables target Production only; 10 encrypted bindings/configuration/publishable-key entries and 2 sensitive server-secret entries. Names/types/targets only |
 | Exact environment values | `NOT_FRESHLY_OBSERVABLE` | Metadata presence does not prove exact values or deployed runtime correctness |
-| Effective automatic Git deployment control | `NOT_FRESHLY_OBSERVABLE` | Project default `gitProviderOptions.createDeployments=enabled`; current and bootstrap-source repository `git.deploymentEnabled=false`; resolved provider control is absent from deployment GET |
+| Automatic Git deployment policy | `FRESH_READ_ONLY_VERIFIED` | Fresh project default `gitProviderOptions.createDeployments=enabled`; exact repository `git.deploymentEnabled=false` disables Git-triggered deployments for any branch |
 
 Vercel documents that repository `git.deploymentEnabled=false` disables all
 automatic branch deployments ([official Git configuration](https://vercel.com/docs/project-configuration/git-configuration)).
-The project default and repository override are separate controls. Their
-different values alone do not establish drift. The repository guard and absence
-of later deployments support the expected behavior, but this task does not
-label effective provider processing PASS. `J4-VERCEL-GIT-READ-01` remains a
-blocking reconciliation gap. No deployment-triggering test is authorized.
+Fresh project metadata retains `createDeployments=enabled`, the project
+capability/default. Fresh exact repository configuration sets
+`git.deploymentEnabled=false`, the repository policy. Official semantics and
+the refreshed complete deployment inventory containing only the historical
+bootstrap resolve the previous ambiguity: **automatic Git-triggered deployment
+is disabled by current repository configuration**. The Git deployment blocker
+is removed. GitHub integration remains present; manual deployments are not
+claimed impossible. No deployment-triggering test or Git setting edit occurred.
 
 ## Backup freshness
 
@@ -111,26 +149,26 @@ Workflow `360360478` (`Phase 11I Production Backup`),
 configuration remains daily `02:17 Asia/Jerusalem`, `contents: read`, exact
 Production ref `hskfanrqwtqknzpquwhg`, and `retention-days: 30`.
 
-[Latest relevant run #11](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36208816213)
-is `36208816213`, attempt 1, event `schedule`, successful on source SHA
-`e906f226aa021c7a2ccd39b36ca1e704cbc72985`. It started
-`2026-09-26T01:33:15Z`; job `108310932713` finished
-`2026-09-26T01:36:14Z`. The backup step ran
-`2026-09-26T01:33:38Z`–`2026-09-26T01:36:08Z`. Ciphertext-only verification,
-plaintext cleanup, upload and upload-metadata checks all succeeded. Backup code,
-workflow and recipient certificate are unchanged between that source and this
-baseline. These facts do not independently prove current database equality.
+[Latest relevant run #12](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36285537035)
+is `36285537035`, attempt 1, event `schedule`, successful on baseline SHA
+`e0396fce9f42ead8793fab1419daefb65f65ea38`. It started
+`2026-09-27T01:26:32Z`; job `108525487832` finished
+`2026-09-27T01:28:44Z`. The backup step ran
+`2026-09-27T01:26:55Z`–`2026-09-27T01:28:39Z`. Ciphertext-only verification,
+plaintext cleanup, upload and upload-metadata checks all succeeded. Backup
+workflow/code and recipient certificate are unchanged. These facts do not
+independently prove current database equality.
 
-Artifact `10895066091`, `phase-11i-production-backup-36208816213`, is nonexpired,
-11,893,376 bytes, created `2026-09-26T01:36:11Z`, expires
-`2026-10-26T01:36:09Z`, digest
-`sha256:bb40a8a83aa73fe50f6b2e6d907ce5c560e2dfdc0916c9e8507102beff94dea5`.
-Its expiry is 30 days with a two-second provider creation/expiry skew. This
+Artifact `10919907996`, `phase-11i-production-backup-36285537035`, is nonexpired,
+11,893,376 bytes, created `2026-09-27T01:28:42Z`, expires
+`2026-10-27T01:28:41Z`, digest
+`sha256:6e50764dc9adbf7b0f6e68bcff089ac3f5c6b37a28d50bb1ac064af3105c299a`.
+Its expiry is 30 days with a one-second provider creation/expiry skew. This
 verifies retention configuration/expiry, not a pre-existing 30-day archive
 history or permanently healthy scheduling.
 
-At `2026-09-27T00:10:51.280Z`, conservative backup age from the backup-step
-start was **22.620356 hours**, within RPO 24h.
+At `2026-09-27T05:22:39.971Z`, conservative backup age from the backup-step
+start was **3.929159 hours** (14,144,971 ms), within RPO 24h.
 The inner snapshot timestamp was not downloaded; measuring from step start is
 earlier than completion/upload. Artifact age and arithmetic are in JSON.
 Retention and point-in-time RPO disposition: **PASS**. No backup was triggered.
@@ -160,7 +198,9 @@ unchanged from accepted qualification. Later PRs #126/#127 added accepted
 automation and runner isolation; no material invalidation of accepted restore
 evidence was identified in repository or observed provider metadata.
 
-Quarterly cadence is fresh. For reproducibility this packet conservatively
+Quarterly cadence is fresh at `2026-09-27T05:22:39.971Z`; accepted restore age
+is 871,459,733 ms (10.086340 days).
+For reproducibility this packet conservatively
 uses the earlier of 90 days or three calendar months from the final accepted
 restore, yielding due time **`2026-12-16T03:18:20.238Z`**.
 This convention does not amend DEC-025. Both calculations pass now. Cadence
@@ -174,10 +214,11 @@ claim is made.
 
 No identity contradiction was observed among Production metadata, backup
 workflow identity, qualified restore source and bootstrap source. Required
-current Auth configuration and effective Git processing remain unverified;
-J4 therefore stays **blocked**, not PASS. Independent review and bounded safe
-configuration reads are required before J4 acceptance or J5 entry. Database
-ledger/data and exact environment values remain explicitly unobservable in this
+bootstrap Auth configuration and repository automatic Git policy now pass;
+backup RPO/retention and quarterly recovery cadence pass. J4 execution is
+**complete pending independent review**, with zero acceptance blockers.
+Independent acceptance and a separate bounded task are required before J5
+entry. Database ledger/data and exact environment values remain explicitly unobservable in this
 scope. Candidate hosted Auth delivery/redirect behavior, CSP/headers,
 telemetry/version, cold starts and live smoke remain
 `POST_DEPLOY_RELEASE_VERIFICATION`, requiring separate exact release authority.
@@ -192,10 +233,12 @@ Task action counters are not an audit of unrelated actors or scheduled jobs.
 
 ## Focused validation and delivery
 
-Validate JSON structure/internal consistency, exact identities, DEC-038/J3
-accounting, preserved J3 and contract hashes, all OPEN findings, policy and
-cadence arithmetic, redaction, and `git diff --check`. Existing deployment,
-recovery and workflow contracts remain the focused repository gates. The
+Focused validation passed: JSON structure/internal consistency, exact
+identities, Vercel control-layer semantics, Auth nonsecret whitelist/redaction,
+DEC-038/J3 accounting, 20 preserved J3 files, unchanged Contract 1.9/DEC-037,
+all OPEN findings, refreshed policy/cadence arithmetic and `git diff --check`.
+Existing deployment and workflow validators passed; 137 deployment, recovery
+and workflow contract tests passed with zero failures or skips. The
 delivery is an evidence/governance-only Draft PR with exact-head CI; no merge
 or application/runtime commit is authorized. The PR delivery head/tree and CI
 are reported externally after commit to avoid a self-referential evidence hash.

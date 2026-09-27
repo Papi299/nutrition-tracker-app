@@ -1036,7 +1036,7 @@ the private `device-test` repository prerequisite. Subsequent topology
 preflight and PR #142 owner execution are historical evidence for the old
 physical candidate, as recorded below.
 The current DEC-038/J4 addendum below supersedes the historical
-J4–J6 scheduling state. J4 now has a blocked read-only execution packet;
+J4–J6 scheduling state. J4 execution is complete pending independent review;
 J5/J6 remain `NOT_STARTED`, and Phase 11J remains `INCOMPLETE`.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
 the exclusive finding-closure gate, and
@@ -1147,9 +1147,11 @@ J4–J6 status snapshots above remain historical.
 The [J4 provider/recovery packet](phase-11j4-provider-recovery-freshness.md)
 records matching fresh provider identities, bootstrap-only Production, current
 backup within RPO 24h/retention 30 days, and accepted restore within quarterly
-cadence. Current hosted Auth configuration and effective provider Git deployment
-control lack sufficient read access/evidence. J4 is blocked and awaits
-independent review; it does not authorize J5. J5/J6 and Phase 11K remain
+cadence. A single authenticated Management API GET verifies bootstrap Auth
+configuration. Fresh project metadata and official repository semantics confirm
+automatic Git-triggered deployments are disabled by `git.deploymentEnabled=false`.
+Both provider-read gaps are resolved in Draft PR #147. J4 execution is complete
+pending independent review; it does not authorize J5. J5/J6 and Phase 11K remain
 `NOT_STARTED`; Phase 11J remains `INCOMPLETE`; all 18 findings remain `OPEN`;
 `productionReleaseAuthorized=false`. No provider mutation, deployment,
 backup/restore execution or physical testing occurred.

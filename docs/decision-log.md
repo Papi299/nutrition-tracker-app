@@ -3832,8 +3832,10 @@ PASS or NOT_REQUIRED. No J3 requirement, physical evidence, camera decision,
 finding state, localization, or application behavior changes.
 
 The [J4 read-only packet](phase-11j4-provider-recovery-freshness.md) records
-fresh provider identity and backup metadata, accepted recovery carry-forward,
-and unresolved provider configuration reads. J4 is blocked pending those reads
-and independent review. J3 and Phase 11J remain `INCOMPLETE`,
+fresh provider identity and bootstrap Auth configuration, repository-disabled
+automatic Git deployments, refreshed passing backup metadata and accepted
+recovery carry-forward. Both former provider-read gaps are resolved in Draft
+PR #147; J4 execution is complete pending independent review. J3 and Phase
+11J remain `INCOMPLETE`,
 `physicalPassRecorded=false`, J5/J6 and Phase 11K remain `NOT_STARTED`, all 18
 findings remain `OPEN`, and `productionReleaseAuthorized=false`.

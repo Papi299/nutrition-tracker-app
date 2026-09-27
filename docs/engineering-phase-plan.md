@@ -342,8 +342,10 @@ J6 may make an interim reconciliation, but Phase 11J cannot complete until
 accepted Windows evidence, independent J3 completion acceptance, and a bounded
 J6 delta/final reconciliation. Phase 11K requires that truthfully complete
 packet. The [J4 evidence](phase-11j4-provider-recovery-freshness.md) records
-passing recovery freshness and blocked provider configuration reads pending
-independent review. J5/J6 and Phase 11K remain `NOT_STARTED`, all 18 findings
+passing recovery freshness, verified bootstrap Auth configuration and disabled
+automatic Git deployments by repository policy. J4 execution is complete
+pending independent review in Draft PR #147. J5/J6 and Phase 11K remain
+`NOT_STARTED`, all 18 findings
 remain `OPEN`, and Production remains unauthorized. Historical sequencing
 snapshots elsewhere in this file are not current J4 status.
 

@@ -235,9 +235,10 @@ later: accepted Windows evidence -> independent J3 completion acceptance
 ```
 
 The [current J4 packet](phase-11j4-provider-recovery-freshness.md) records
-passing recovery freshness and blocked provider configuration reads. J4 is not
-complete; J5/J6 and Phase 11K remain `NOT_STARTED`. No J3 evidence is waived,
-no finding closes, and Production remains separately authorized only.
+passing recovery freshness, verified bootstrap Auth configuration and disabled
+automatic Git deployments by repository policy. J4 execution is complete
+pending independent review in Draft PR #147; J5/J6 and Phase 11K remain
+`NOT_STARTED`. No J3 evidence is waived, no finding closes, and Production remains separately authorized only.
 
 There is no paid infrastructure or staging-creation slice.
 
