@@ -192,7 +192,7 @@ fix/redeploy/rollback procedure. No staging purchase is required.
 ## 6. Phase 11J execution sequence
 
 Phase 11J is `INCOMPLETE`; J1 and J2 are complete for their accepted scopes.
-`DEC-038` on 2026-09-27 changes execution order while leaving Contract
+The historical `DEC-038` record below changed execution order while leaving Contract
 `1.9-personal-use-firefox-excluded-amended` and all J3 acceptance requirements
 unchanged. The exact Product Owner direction is:
 
@@ -242,25 +242,36 @@ acceptance of PR #147; its historical packet remains unchanged. The
 acceptance of PR #148 and exact-main CI #301. It rehearses H10/H13 and
 stops before any provider configuration Save, migration apply or deployment;
 all future deployed facts remain `POST_DEPLOY_RELEASE_VERIFICATION`.
-The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
-is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
-J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
-two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
-and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
-is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
-All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
-evidence, independent J3 completion, current-candidate impact review, bounded J6
-final/delta reconciliation and independent final-J6 acceptance are required before
-Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
-packet grants no waiver, finding closure or Production authority. Historical J1–J5
-packet/review-status snapshots remain unchanged.
+The [DEC-039 forward amendment](phase-11-prek-dec039-windows-deferral.md)
+supersedes only the accepted historical J6 packet's Windows-caused 11K-entry
+ineligibility. Current contract is `2.0-personal-use-windows-deferred-amended`.
+J1/J2/J4/J5 remain COMPLETE; J3 is INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE.
+Both Windows cases remain NOT_EXECUTED with no PASS credit and classification
+DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT. They block neither repository
+development nor 11K entry; physicalPassRecorded=false. Phase 11K remains
+NOT_STARTED and NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING: independent acceptance
+reviewer, candidate release approver and P1 exception authority each remain
+UNASSIGNED_BLOCKING_BEFORE_11K. All 18 findings remain OPEN and
+productionReleaseAuthorized=false. A separately scoped, independently accepted
+forward J6 reconciliation must bind DEC-039, new governance evidence and the
+then-current candidate before 11K without claiming Windows completion. This
+task performs no final J6 or 11K. The [GitHub remediation](phase-11-prek-github-governance-remediation.md)
+records R1–R11 read-back, pending independent acceptance; five new open HIGH
+CodeQL alerts stop a governance-complete claim and need bounded engineering
+triage. Historical J6 JSON and
+Markdown and all earlier candidate/evidence limitations remain unchanged.
+Windows stays in the intended support scope; accepted physical evidence is due
+before a verified Windows release claim. Any future release without that
+evidence must exclude Windows from its verified supported-client claim.
+
 
 There is no paid infrastructure or staging-creation slice.
 
 ## 7. Future release flow
 
 ```text
-Phase 11J complete
+Accepted forward J6 reconciliation under DEC-039, with Windows deferred
+    + accepted before-K role assignments
     -> Phase 11K integrated acceptance
     -> independent ChatGPT review
     -> explicit Product Owner Production authorization

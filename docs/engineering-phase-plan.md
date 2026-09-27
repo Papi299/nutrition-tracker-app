@@ -331,7 +331,8 @@ documented for a future expanded profile. The active profile, roles, evidence
 classification, and revised 11J1–11J6 sequence are canonical in
 [`phase-11j0-personal-use-free-tier-profile.md`](phase-11j0-personal-use-free-tier-profile.md).
 
-On 2026-09-27, `DEC-038` records the Product Owner direction "I want to put
+Historical DEC-038 scheduling record (its Windows 11K dependency is superseded
+by DEC-039 below): on 2026-09-27, `DEC-038` records the Product Owner direction "I want to put
 aside the Windows PC matter, and proceed with J4-J6 too" as an execution-order
 amendment only. J1/J2 are complete; J3 remains `INCOMPLETE`, Windows
 Chrome/Edge remain required and `NOT_EXECUTED`, and
@@ -347,18 +348,28 @@ automatic Git deployments by repository policy. J4 is independently accepted
 and COMPLETE after PR #147. The [J5 dry-run packet](phase-11j5-release-rollback-dry-run.md)
 is COMPLETE for its accepted tabletop scope after PR #148 and exact-main CI #301;
 all 13 release steps and 14 rollback branches were rehearsed without provider action.
-The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
-is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
-J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
-two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
-and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
-is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
-All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
-evidence, independent J3 completion, current-candidate impact review, bounded J6
-final/delta reconciliation and independent final-J6 acceptance are required before
-Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
-packet grants no waiver, finding closure or Production authority. Historical J1–J5
-packet/review-status snapshots remain unchanged.
+The [DEC-039 forward amendment](phase-11-prek-dec039-windows-deferral.md)
+supersedes only the accepted historical J6 packet's Windows-caused 11K-entry
+ineligibility. Current contract is `2.0-personal-use-windows-deferred-amended`.
+J1/J2/J4/J5 remain COMPLETE; J3 is INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE.
+Both Windows cases remain NOT_EXECUTED with no PASS credit and classification
+DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT. They block neither repository
+development nor 11K entry; physicalPassRecorded=false. Phase 11K remains
+NOT_STARTED and NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING: independent acceptance
+reviewer, candidate release approver and P1 exception authority each remain
+UNASSIGNED_BLOCKING_BEFORE_11K. All 18 findings remain OPEN and
+productionReleaseAuthorized=false. A separately scoped, independently accepted
+forward J6 reconciliation must bind DEC-039, new governance evidence and the
+then-current candidate before 11K without claiming Windows completion. This
+task performs no final J6 or 11K. The [GitHub remediation](phase-11-prek-github-governance-remediation.md)
+records R1–R11 read-back, pending independent acceptance; five new open HIGH
+CodeQL alerts stop a governance-complete claim and need bounded engineering
+triage. Historical J6 JSON and
+Markdown and all earlier candidate/evidence limitations remain unchanged.
+Windows stays in the intended support scope; accepted physical evidence is due
+before a verified Windows release claim. Any future release without that
+evidence must exclude Windows from its verified supported-client claim.
+
 Historical sequencing/status snapshots elsewhere remain historical.
 
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted
@@ -487,7 +498,7 @@ Phase 11B is complete for its bounded documentation, product-decision,
 acceptance-contract, and handoff scope. Its
 [accepted launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is now amended by
-owner-approved version `1.9-personal-use-firefox-excluded-amended`.
+owner-approved version `2.0-personal-use-windows-deferred-amended`.
 Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
@@ -495,7 +506,8 @@ Historical amended versions `1.1-phase-11b-cj019-amended`,
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
 `1.6-phase-11e-nojs-classifications-amended` and
 `1.7-personal-use-free-tier-profile-amended` and
-`1.8-personal-use-owner-client-matrix-amended` remain preserved. DEC-037 excludes
+`1.8-personal-use-owner-client-matrix-amended` and
+`1.9-personal-use-firefox-excluded-amended` remain preserved. DEC-037 excludes
 both desktop Firefox requirements from the personal-use J3 plan, with exact-head
 independent amendment review pending; physical Windows Chrome/Edge remain
 unexecuted and J3 remains incomplete.

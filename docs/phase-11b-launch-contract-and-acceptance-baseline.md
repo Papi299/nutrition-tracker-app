@@ -10,9 +10,9 @@
 | Authoritative baseline | `2e99823545ec98d19082e0acdd23819298c971ee` (`Audit and plan Phase 11 launch readiness`) |
 | Phase 11A sources | [Readiness audit](phase-11-qa-hardening-deployment-readiness-audit.md) and [implementation plan](phase-11-qa-hardening-deployment-readiness-plan.md) |
 | Supporting sources | [Phase 10 acceptance](phase-10-acceptance-report.md), [Phase 9 acceptance](phase-9-acceptance-report.md), and [Phase 9D camera matrix](phase-9d-camera-support-matrix.md) |
-| Version | `1.9-personal-use-firefox-excluded-amended` |
+| Version | `2.0-personal-use-windows-deferred-amended` |
 | Original accepted version | `1.0-phase-11b-accepted` — accepted on 2026-07-31 and preserved as the historical Phase 11B baseline |
-| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment; `1.7-personal-use-free-tier-profile-amended` — accepted DEC-035 personal-use profile and preserved as the historical seventh amendment; `1.8-personal-use-owner-client-matrix-amended` — accepted DEC-036 client/camera matrix, preserved as the historical eighth amendment |
+| Historical amended versions | `1.1-phase-11b-cj019-amended` — accepted CJ-019 Option B on 2026-08-09 and preserved as the historical first amendment; `1.2-phase-11b-cj019-cj030-amended` — accepted the later CJ-030 Option A interpretation and preserved as the historical second amendment; `1.3-phase-11b-cj024-cj027-nojs-amended` — accepted the CJ-024/CJ-027 no-JavaScript amendment on 2026-08-11 and preserved as the historical third amendment; `1.4-phase-11b-remaining-implemented-nojs-amended` — accepted the remaining implemented-journey no-JavaScript classifications on 2026-08-12 and preserved as the historical fourth amendment; `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` — accepted the UI-dependent manual-acceptance timing amendment on 2026-08-26 and preserved as the historical fifth amendment; `1.6-phase-11e-nojs-classifications-amended` — accepted Phase 11E no-JavaScript classifications and preserved as the historical sixth amendment; `1.7-personal-use-free-tier-profile-amended` — accepted DEC-035 personal-use profile and preserved as the historical seventh amendment; `1.8-personal-use-owner-client-matrix-amended` — accepted DEC-036 client/camera matrix, preserved as the historical eighth amendment; `1.9-personal-use-firefox-excluded-amended` — DEC-037 Firefox exclusion, preserved as the historical ninth amendment |
 | Preparation date | 2026-07-31 |
 | Status | `PHASE_11B_COMPLETE` |
 | Product owner | Maor Pichhadze |
@@ -41,6 +41,7 @@
 | Phase 11J0 personal-use profile | `PRODUCT_OWNER_APPROVED` — `DEC-035` activates `PERSONAL_USE_FREE_TIER`; isolated local/CI is the required full-stack rehearsal environment, hosted Preview is optional and Production-Supabase-forbidden, hosted staging and paid plans are not required, and the attributable role dispositions in Section 21 apply |
 | Phase 11J3 client and camera amendment | `PRODUCT_OWNER_APPROVED` — `DEC-036` defines the personal-use desktop/mobile support target and required physical iPhone/Android camera scanning; Section 22 is a forward amendment, not physical-device acceptance |
 | Phase 11J3 Firefox exclusion | `PRODUCT_OWNER_APPROVED` — `DEC-037` removes macOS and Windows Firefox from the active personal-use support and physical UI matrix; Section 23 records the owner direction and pending independent amendment review |
+| Phase 11 pre-K Windows deferral | `PRODUCT_OWNER_APPROVED` — DEC-039 changes only the Windows Phase 11K-entry dependency; Section 24 records Contract 2.0, deferred release requirements and unresolved role prerequisites; independent exact-head review pending. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -48,21 +49,18 @@ approval does not approve a launch, authorize implementation, authorize an
 external operation, close a finding, authorize deployment, or classify the
 application as launch-ready.
 
-Version `1.9-personal-use-firefox-excluded-amended` is the current
-owner-approved normative amendment. It preserves the complete original
-`1.0-phase-11b-accepted` baseline and historical amended identities `1.1`
-through `1.8`. Version 1.6 remains authoritative for the six Product
-Owner-approved Phase 11E no-JavaScript classification cells in Section 7.2 and
-their matching classification, rationale, owner-slice, and validation-method
-rows in Section 7.3. Version 1.7 adds only the `DEC-035` active release-profile,
-role, and evidence-governance changes in this document. Version 1.8 adds only
-the `DEC-036` owner-supported client/camera matrix and implementation security
-boundary in Section 22. Version 1.9 adds only the `DEC-037` desktop Firefox
-exclusion in Section 23; independent review of this amendment is pending. The
-historical Phase 11C evidence remains bound to accepted contract version 1.4
-and is not migrated, reinterpreted, or credited against current later-slice
-truth. Contract acceptance does not itself authorize or claim runtime
-implementation, evidence collection, finding closure, deployment, or launch.
+Version `2.0-personal-use-windows-deferred-amended` is the current Product Owner-approved
+normative amendment under DEC-039, recorded in Section 24. It preserves the
+original baseline and historical amendments 1.1–1.9. Version 1.6 remains
+authoritative for the six Phase 11E no-JavaScript cells in Sections 7.2–7.3;
+1.7 added DEC-035's personal-use profile, 1.8 DEC-036's client/camera scope,
+and 1.9 DEC-037's desktop Firefox exclusion. Version 2.0 changes only the
+Windows dependency for Phase 11K entry and its current deferred release
+classification. Historical Phase 11C evidence remains bound to version 1.4,
+and every accepted packet retains its authored contract and candidate.
+Independent review of this exact recording is pending. Contract acceptance
+does not itself establish implementation, physical PASS, finding closure,
+deployment, verified Windows support or release readiness.
 
 ## 2. Evidence and authority model
 
@@ -1444,7 +1442,7 @@ Windows Firefox". `DEC-037` supersedes only the Firefox part of the `DEC-036` an
 macOS Safari/Chrome and Windows Chrome/Edge. iPhone Safari/Chrome and Android
 Chrome remain required, including all 30 accepted mobile camera cases.
 
-The current [owner validation plan](phase-11j3-owner-device-validation-plan.md)
+The historical Contract 1.9 [owner validation plan](phase-11j3-owner-device-validation-plan.md)
 and [machine-readable plan](../deployment/phase-11j3-current-owner-ui-validation-plan.json)
 reconcile **37 active required cases**: 30 accepted camera carry-forwards, five
 accepted current-candidate UI PASSs from PR #145, and Windows Chrome/Edge still
@@ -1475,3 +1473,36 @@ Product Owner approval is recorded; independent acceptance is not claimed.
 J3 remains INCOMPLETE, `physicalPassRecorded=false`, J4–J6 and integrated
 acceptance remain NOT_STARTED, all 18 findings remain OPEN, Phase 11K alone
 may close them, and `productionReleaseAuthorized=false`.
+
+## 24. DEC-039 Windows deferral and Phase 11K-entry amendment
+
+Approved by Maor Pichhadze — Product Owner on 2026-09-27 — Asia/Jerusalem.
+Current contract: `2.0-personal-use-windows-deferred-amended`.
+Independent exact-head recording review remains pending.
+
+Attributable Product Owner direction:
+
+> And I want to put aside the Windows matter for now. I decide to proceed with the full development.
+
+DEC-039 supersedes **only DEC-038's Phase 11K eligibility dependency** on completed physical Windows evidence and the resulting J3 completion requirement. DEC-036/037/038 and historical Contract 1.9 remain immutable history. DEC-038 previously permitted J4–J6 while still requiring accepted Windows/J3 completion before 11K. Development may now continue and 11K may evaluate open findings while carrying Windows as an explicit deferred release limitation.
+
+| Case | Execution | Current classification | PASS credit | Blocks development / 11K |
+| --- | --- | --- | --- | --- |
+| J3-WIN-CHROME-01 | NOT_EXECUTED | DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT | None | No / No |
+| J3-WIN-EDGE-01 | NOT_EXECUTED | DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT | None | No / No |
+
+Windows remains in the long-term intended support scope; it is neither permanently excluded nor accepted. Actual accepted physical Windows Chrome/Edge evidence is required before claiming verified Windows support in a release. A release without it must exclude Windows from that release's verified supported-client claim. A future Production request must explicitly state exclusion for that release or validation first; no such future choice is made here.
+
+J3 remains **INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE** and `physicalPassRecorded=false`. Accounting: 39 historical IDs = 37 active-support cases + two excluded Firefox IDs; 37 = 30 accepted camera carry-forwards + five accepted UI cases + two deferred/unexecuted Windows cases. No new physical PASS is recorded. All prior evidence limitations, including unmeasured exact 200% mobile zoom and eight unresolved refresh-token events, remain. Localization, LTR/RTL, accessibility, no-JavaScript, CJ-001–035 and automated browser evidence do not change.
+
+The accepted [J6 interim packet](phase-11j6-interim-evidence-reconciliation.md) and its JSON are unchanged. Its Windows-caused 11K-ineligibility conclusion is superseded only for that gate. Historical J3 is not complete and J6 final is not performed. A separately scoped forward reconciliation must bind independently accepted DEC-039, new GitHub-governance evidence and the then-current candidate before 11K, carrying Windows as deferred without fabricated completion. Revalidation is bounded to actual impact; no wholesale J1–J5 repetition is inferred.
+
+Current role-gate eligibility is **NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING**; Phase 11K remains NOT_STARTED. Five new open HIGH CodeQL alerts separately stop a governance-remediation-complete claim and require bounded engineering triage; this decision neither accepts those findings nor invents an additional role assignment. These roles each remain UNASSIGNED_BLOCKING_BEFORE_11K, with no named assignee or acceptance:
+
+- Independent acceptance reviewer
+- Candidate release approver
+- P1 exception authority
+
+The “full development” direction assigns nobody. The evidence recording and future forward reconciliation still require independent review. Open findings are evaluated in 11K rather than newly imposed as entry blockers. All 18 findings remain OPEN, including P11A-005 and P11A-016; only 11K may close genuinely evidenced findings. The settings remediation is recorded in the [governance packet](phase-11-prek-github-governance-remediation.md), pending independent acceptance.
+
+`productionReleaseAuthorized=false`. No overall release-readiness or verified Windows claim follows from the relaxed development gate. Production requires its separate explicit Product Owner act and applicable release gates. No provider/runtime/data/physical testing, J3 VM startup, role assignment, final J6, 11K, finding closure or merge is authorized or performed here. This task ends at a Draft PR for independent ChatGPT review.

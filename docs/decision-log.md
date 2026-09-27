@@ -3839,3 +3839,41 @@ PR #147; J4 execution is complete pending independent review. J3 and Phase
 11J remain `INCOMPLETE`,
 `physicalPassRecorded=false`, J5/J6 and Phase 11K remain `NOT_STARTED`, all 18
 findings remain `OPEN`, and `productionReleaseAuthorized=false`.
+
+## 2026-09-27: DEC-039 Windows development-gate deferral and bounded DEC-029 execution
+
+### DEC-039 — Defer Windows physical validation without blocking continued Phase 11 development
+
+| Field | Decision record |
+| --- | --- |
+| Approver | Maor Pichhadze — Product Owner |
+| Date | 2026-09-27 — Asia/Jerusalem |
+| Attributable owner direction | "And I want to put aside the Windows matter for now. I decide to proceed with the full development." |
+| Current contract | `2.0-personal-use-windows-deferred-amended` |
+| Supersession | Only DEC-038's Windows/J3 completion dependency for Phase 11K entry; all earlier history preserved |
+| Independent review | Pending exact-head review of this recording; no self-approval |
+
+Both Windows IDs remain NOT_EXECUTED, receive no PASS credit and are now
+DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT. They block neither continued
+development nor 11K entry; verified Windows release support still requires
+accepted physical evidence. J3 remains INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE,
+physicalPassRecorded=false. The accepted J6 interim packet remains unchanged;
+a bounded future forward reconciliation must bind this amendment and accepted
+new governance evidence before 11K without fabricating Windows completion.
+Current eligibility is NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING: independent
+acceptance reviewer, candidate release approver and P1 exception authority each
+remain UNASSIGNED_BLOCKING_BEFORE_11K. All 18 findings remain OPEN and
+productionReleaseAuthorized=false. No future release-specific Windows exclusion
+or validation-first choice is made here. See the
+[DEC-039 forward amendment](phase-11-prek-dec039-windows-deferral.md).
+
+The separate, bounded GitHub-settings authorization was:
+
+> I explicitly authorize the GitHub repository-setting changes required for the bounded DEC-029 governance remediation for `Papi299/nutrition-tracker-app`.
+
+The [remediation packet](phase-11-prek-github-governance-remediation.md) records
+R1–R11 applied and read back, with 25 compliant / one role mismatch / two
+not-applicable rows. Five new open HIGH CodeQL alerts stop a governance-complete
+claim and require a separate bounded engineering task. Settings execution remains pending independent acceptance;
+P11A-016 stays OPEN. This task ends at a Draft PR and performs no final J6, 11K,
+merge, other-provider operation or Production release.
