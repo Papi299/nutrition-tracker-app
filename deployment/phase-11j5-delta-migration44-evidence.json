@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11J5-DELTA-MIGRATION44-001",
+  "recordedAtUtc": "2026-09-27T22:15:18.976079Z",
+  "baselineJ5": "deployment/phase-11j5-release-rollback-dry-run-evidence.json",
+  "applicationCandidate": {
+    "sha": "9fb6d023fba0bd997503c70d4910faf9d2365968",
+    "tree": "2a8d5b90a7286b239a7cce831a967077099da8e7"
+  },
+  "classification": "BOUNDED_TABLETOP_AND_LOCAL_DELTA",
+  "migration": {
+    "prefixCount": 43,
+    "prefixContentOrderUnchanged": true,
+    "newCount": 44,
+    "head": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "forwardOnly": true,
+    "onlyPrivateVerifierReplaced": true,
+    "functionSignatureUnchanged": true,
+    "publicRpcUnchanged": true,
+    "newGrantOrRlsMutation": false,
+    "hostedAppliedByThisWorkflow": false
+  },
+  "releaseSequenceDelta": [
+    "obtain separately authorized fresh hosted ledger/version/name/content/order evidence; stop on indeterminate drift",
+    "review migration 44 as sole ordered suffix after 43 unchanged files",
+    "qualify old-app/new-schema and new-app/old-schema compatibility against actual release candidate and config",
+    "apply once only under future separate authority; confirm ledger and invariant before exact compatible app deploy",
+    "on failure or uncertain state stop and use forward-fix/incident path; never assume down-migration"
+  ],
+  "compatibility": {
+    "oldAppNewSchema": "Same private verifier signature and public RPC; accepted local functional/security coverage indicates capability format is preserved, subject to future exact hosted state review.",
+    "newAppOldSchema": "App TypeScript runtime is unchanged since pre-44, but old schema lacks CRYPTO-001 blinding. Do not authorize release of corrected candidate before migration 44 is proven applied.",
+    "previousBootstrapRollback": "Not qualified as safe: after forward-only migration old app may be functionally compatible but hosted config/origin and rollback target need fresh release-time independent review.",
+    "databaseRollback": "No down-migration; app redeploy never reverses schema; use bounded forward-fix or recovery incident path."
+  },
+  "localValidation": {
+    "status": "PASS",
+    "environment": "isolated plain Lima nutrition-j3 VM; local Supabase only",
+    "network": "nutrition-j3-loopback",
+    "loopbackOnlyBindings": true,
+    "containerCount": 12,
+    "migrationPrefixCount": 43,
+    "migrationFinalCount": 44,
+    "migration44ReplayedAndSeeded": true,
+    "migrationRoleCompatibility": "PASS",
+    "privateVerifierBefore": {
+      "definitionMd5": "4a28db3f047dcd2a840a85dd624f14f3",
+      "volatility": "STABLE",
+      "securityDefiner": false,
+      "anonDirectExecute": false,
+      "authenticatedDirectExecute": false
+    },
+    "privateVerifierAfter": {
+      "definitionMd5": "efac30c4c8ca58d0759a3f8dfb40359d",
+      "volatility": "VOLATILE",
+      "securityDefiner": false,
+      "anonDirectExecute": false,
+      "authenticatedDirectExecute": false
+    },
+    "ingestionTypes": "PASS",
+    "focusedAuthE2EPassed": 17,
+    "focusedAuthE2EFailed": 0,
+    "productionBuild": "PASS",
+    "browserSecretBoundary": "PASS",
+    "browserArtifactsInspected": 142,
+    "preliminarySetupFailure": "Initial E2E command found no local production build; no test execution/pass credit. Built isolated candidate, then full 17/17 accepted rerun passed.",
+    "hostedSupabaseOperations": 0,
+    "productionMigrationsApplied": 0
+  },
+  "productionReleaseAuthorized": false,
+  "providerMutation": false
+}

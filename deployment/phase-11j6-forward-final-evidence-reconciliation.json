@@ -1,0 +1,809 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-ROLE-ASSIGNMENTS-AND-J6-FINAL-RECONCILIATION-001",
+  "recordedAtUtc": "2026-09-27T22:15:18.976079Z",
+  "status": "FINAL_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+  "supersedesProspectively": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+  "historicalJ6Unmodified": true,
+  "contract": "2.0-personal-use-windows-deferred-amended",
+  "decision": "DEC-039",
+  "candidate": {
+    "applicationRuntimeSha": "9fb6d023fba0bd997503c70d4910faf9d2365968",
+    "applicationRuntimeTree": "2a8d5b90a7286b239a7cce831a967077099da8e7",
+    "recordingPrHead": "SEPARATE_EVIDENCE_ONLY_COMMIT_REPORTED_EXTERNALLY",
+    "implementationFilesChangedInRecordingPr": false
+  },
+  "baseline": {
+    "mainSha": "9fb6d023fba0bd997503c70d4910faf9d2365968",
+    "mainTree": "2a8d5b90a7286b239a7cce831a967077099da8e7",
+    "parent": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+    "initialOpenPrs": 0,
+    "ciRun": 36351326631,
+    "ciNumber": 316,
+    "ciValidateJob": 108710444402,
+    "ciConclusion": "success",
+    "ciArtifactId": 10942398600,
+    "ciArtifactDigest": "sha256:840a0392c9436d24a81cc638f4d79522b73427c2b8b16c4dd74a250253ed69be",
+    "codeqlRun": 36351326117,
+    "codeqlJobIds": [
+      108710445742,
+      108710445927
+    ],
+    "codeqlFullAnalysisResults": {
+      "actions": 0,
+      "javascriptTypescript": 5
+    },
+    "alerts": [
+      {
+        "number": 1,
+        "state": "dismissed",
+        "reason": "false positive",
+        "sourceSha": "9fb6d023fba0bd997503c70d4910faf9d2365968"
+      },
+      {
+        "number": 2,
+        "state": "dismissed",
+        "reason": "false positive",
+        "sourceSha": "9fb6d023fba0bd997503c70d4910faf9d2365968"
+      },
+      {
+        "number": 3,
+        "state": "dismissed",
+        "reason": "false positive",
+        "sourceSha": "9fb6d023fba0bd997503c70d4910faf9d2365968"
+      },
+      {
+        "number": 4,
+        "state": "dismissed",
+        "reason": "false positive",
+        "sourceSha": "9fb6d023fba0bd997503c70d4910faf9d2365968"
+      },
+      {
+        "number": 5,
+        "state": "dismissed",
+        "reason": "false positive",
+        "sourceSha": "9fb6d023fba0bd997503c70d4910faf9d2365968"
+      }
+    ]
+  },
+  "roles": {
+    "source": "deployment/phase-11-prek-before-11k-role-assignments-evidence.json",
+    "independentReviewer": "ChatGPT",
+    "candidateApprover": "Maor Pichhadze",
+    "p1Authority": "Maor Pichhadze",
+    "allAssignedAndApproved": true,
+    "candidateApprovalGranted": false,
+    "p1ExceptionGranted": false
+  },
+  "matrix": {
+    "previousCounts": {
+      "VERIFIED_COMPLIANT": 25,
+      "VERIFIED_MISMATCH": 1,
+      "NOT_APPLICABLE": 2
+    },
+    "currentCounts": {
+      "VERIFIED_COMPLIANT": 26,
+      "NOT_APPLICABLE": 2
+    },
+    "rows": [
+      {
+        "id": "G01",
+        "requirement": "PR-based integration to main",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G02",
+        "requirement": "Authoritative Validate required before merge",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G03",
+        "requirement": "Conversation resolution",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G04",
+        "requirement": "Linear history",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G05",
+        "requirement": "Force-push protection",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G06",
+        "requirement": "Deletion protection",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G07",
+        "requirement": "Squash-only integration policy",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G08",
+        "requirement": "Disable merge commits",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G09",
+        "requirement": "Disable rebase merges",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G10",
+        "requirement": "Branch cleanup after merge",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G11",
+        "requirement": "Actions source restriction",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G12",
+        "requirement": "Repository immutable/full-SHA Actions enforcement",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G13",
+        "requirement": "Default workflow token",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G14",
+        "requirement": "Actions PR-approval permission",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G15",
+        "requirement": "Dependency graph",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G16",
+        "requirement": "Dependabot alerts / vulnerability-alert enablement",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G17",
+        "requirement": "Dependabot security updates",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G18",
+        "requirement": "Automated security fixes",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G19",
+        "requirement": "Repository secret scanning enablement",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G20",
+        "requirement": "Repository push protection",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G21",
+        "requirement": "Code scanning / default setup",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G22",
+        "requirement": "Exception/bypass governance including administrators",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G23",
+        "requirement": "P1 exception authority",
+        "previousStatus": "VERIFIED_MISMATCH",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "2026-09-28 attributable role statements and DEC-029"
+      },
+      {
+        "id": "G24",
+        "requirement": "Independent exact-head review process",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "Accepted Phase 11F §14 and merged PR149 provenance; process compliance for accepted baseline, not technical enforcement or self-approval of this packet."
+      },
+      {
+        "id": "G25",
+        "requirement": "Repository workflow immutable pins",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "DEC-029, with accepted Phase 11F operational implementation"
+      },
+      {
+        "id": "G26",
+        "requirement": "Authoritative CI exists and passes",
+        "previousStatus": "VERIFIED_COMPLIANT",
+        "currentStatus": "VERIFIED_COMPLIANT",
+        "basis": "fresh owner-authenticated GitHub read-back and unchanged accepted policy"
+      },
+      {
+        "id": "G27",
+        "requirement": "Require auto-merge or update-branch feature",
+        "previousStatus": "NOT_APPLICABLE",
+        "currentStatus": "NOT_APPLICABLE",
+        "basis": "DEC-029, with accepted Phase 11F operational implementation"
+      },
+      {
+        "id": "G28",
+        "requirement": "Optional paid/expanded scanning controls",
+        "previousStatus": "NOT_APPLICABLE",
+        "currentStatus": "NOT_APPLICABLE",
+        "basis": "DEC-029, with accepted Phase 11F operational implementation"
+      }
+    ],
+    "soleTransition": "G23 VERIFIED_MISMATCH -> VERIFIED_COMPLIANT after attributable P1-authority assignment and acceptance"
+  },
+  "changeImpact": {
+    "interimJ6Candidate": "91b55a05704e79233839606c66b9a25633761b5b",
+    "physicalUiRuntime": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+    "interimJ6ToCandidate": [
+      {
+        "path": "README.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-codeql-false-positive-disposition-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-crypto001-correction-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-dec039-windows-deferral-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-github-governance-remediation-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/decision-log.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/engineering-phase-plan.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-codeql-high-alert-triage.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-crypto001-correction.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-dec039-windows-deferral.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-dependency-graph-config-resolution.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-github-governance-refresh.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-github-governance-remediation.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-qa-hardening-deployment-readiness-plan.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j0-personal-use-free-tier-profile.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "e2e/account-closure.spec.ts",
+        "category": "test-only"
+      },
+      {
+        "path": "e2e/helpers/local-auth.ts",
+        "category": "test-only"
+      },
+      {
+        "path": "scripts/check-phase-11c-journey-evidence.mjs",
+        "category": "validator/tooling-only"
+      },
+      {
+        "path": "scripts/check-phase-11c-journey-evidence.test.mjs",
+        "category": "validator/tooling-only"
+      },
+      {
+        "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+        "category": "database/schema (server-side verifier behavior)"
+      }
+    ],
+    "physicalRuntimeToCandidate": [
+      {
+        "path": "README.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-codeql-false-positive-disposition-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-crypto001-correction-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-dec039-windows-deferral-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11-prek-github-governance-remediation-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j1-navigation-fix-candidate-refresh-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j4-provider-recovery-freshness-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j5-release-rollback-dry-run-evidence.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/decision-log.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/engineering-phase-plan.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-codeql-high-alert-triage.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-crypto001-correction.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-dec039-windows-deferral.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-dependency-graph-config-resolution.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-github-governance-refresh.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-prek-github-governance-remediation.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11-qa-hardening-deployment-readiness-plan.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j0-personal-use-free-tier-profile.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j1-navigation-fix-candidate-refresh.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j3-camera-evidence-carry-forward.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j3-owner-device-validation-plan.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j4-provider-recovery-freshness.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j5-release-rollback-dry-run.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+        "category": "evidence/governance-only"
+      },
+      {
+        "path": "e2e/account-closure.spec.ts",
+        "category": "test-only"
+      },
+      {
+        "path": "e2e/helpers/local-auth.ts",
+        "category": "test-only"
+      },
+      {
+        "path": "scripts/check-phase-11c-journey-evidence.mjs",
+        "category": "validator/tooling-only"
+      },
+      {
+        "path": "scripts/check-phase-11c-journey-evidence.test.mjs",
+        "category": "validator/tooling-only"
+      },
+      {
+        "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+        "category": "database/schema (server-side verifier behavior)"
+      }
+    ],
+    "applicationClientRuntimeChanges": [],
+    "applicationServerTsRuntimeChanges": [],
+    "databaseSchemaChanges": [
+      "20260927170418_harden_account_closure_mac_comparison.sql"
+    ],
+    "externalConfigurationOnlyChanges": [
+      "GitHub ruleset/merge policy",
+      "dependency graph and Dependabot controls",
+      "secret scanning and push protection",
+      "CodeQL default setup and five accepted alert dispositions"
+    ],
+    "recordingCommitImpact": "evidence/governance only; separate from application candidate"
+  },
+  "j1": {
+    "disposition": "ACCEPTED_WITH_TARGETED_DATABASE_DELTA",
+    "reason": "No app TS runtime change; exact-main CI and 44-file migration replay/seed and security coverage bind current candidate; local migration 44/J5 delta supplies focused rehearsal. No full J1 rerun required.",
+    "targetedDelta": {
+      "status": "PASS",
+      "environment": "isolated plain Lima nutrition-j3 VM; local Supabase only",
+      "network": "nutrition-j3-loopback",
+      "loopbackOnlyBindings": true,
+      "containerCount": 12,
+      "migrationPrefixCount": 43,
+      "migrationFinalCount": 44,
+      "migration44ReplayedAndSeeded": true,
+      "migrationRoleCompatibility": "PASS",
+      "privateVerifierBefore": {
+        "definitionMd5": "4a28db3f047dcd2a840a85dd624f14f3",
+        "volatility": "STABLE",
+        "securityDefiner": false,
+        "anonDirectExecute": false,
+        "authenticatedDirectExecute": false
+      },
+      "privateVerifierAfter": {
+        "definitionMd5": "efac30c4c8ca58d0759a3f8dfb40359d",
+        "volatility": "VOLATILE",
+        "securityDefiner": false,
+        "anonDirectExecute": false,
+        "authenticatedDirectExecute": false
+      },
+      "ingestionTypes": "PASS",
+      "focusedAuthE2EPassed": 17,
+      "focusedAuthE2EFailed": 0,
+      "productionBuild": "PASS",
+      "browserSecretBoundary": "PASS",
+      "browserArtifactsInspected": 142,
+      "preliminarySetupFailure": "Initial E2E command found no local production build; no test execution/pass credit. Built isolated candidate, then full 17/17 accepted rerun passed.",
+      "hostedSupabaseOperations": 0,
+      "productionMigrationsApplied": 0
+    }
+  },
+  "j2": {
+    "disposition": "ACCEPTED_WITH_CRYPTO001_TARGETED_DELTA",
+    "sources": [
+      "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+      "deployment/phase-11-prek-crypto001-correction-evidence.json",
+      "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+      "deployment/phase-11-prek-codeql-false-positive-disposition-evidence.json"
+    ],
+    "codeqlDismissalAloneIsSecurityProof": false,
+    "hostedMigration44Claim": false
+  },
+  "j3": {
+    "status": "INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE",
+    "physicalPassRecorded": false,
+    "acceptedUiCases": 5,
+    "acceptedCameraCases": 30,
+    "windows": [
+      {
+        "id": "J3-WIN-CHROME-01",
+        "execution": "NOT_EXECUTED",
+        "passCredit": false,
+        "classification": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT"
+      },
+      {
+        "id": "J3-WIN-EDGE-01",
+        "execution": "NOT_EXECUTED",
+        "passCredit": false,
+        "classification": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT"
+      }
+    ],
+    "physicalImpact": "No client-visible or camera runtime files changed after physically exercised runtime; previously accepted five UI and 30 camera cases retain narrow applicability, not new physical PASS.",
+    "limitations": [
+      "exact 200% mobile zoom not measured",
+      "eight historical invalid refresh-token events unresolved",
+      "original camera and browser observation boundaries retained"
+    ]
+  },
+  "j4": {
+    "disposition": "ACCEPTED_METADATA_WITH_FRESH_READ_ONLY_REFRESH",
+    "refreshAtUtc": "2026-09-27T22:15:18.976079Z",
+    "supabaseProjectRef": "hskfanrqwtqknzpquwhg",
+    "projectHealthy": true,
+    "authBootstrapConfigUnchanged": true,
+    "vercelProjectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "vercelBootstrapDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+    "laterDeploymentObserved": false,
+    "latestBackupRun": 36285537035,
+    "latestBackupArtifact": 10919907996,
+    "latestBackupArtifactDigest": "sha256:6e50764dc9adbf7b0f6e68bcff089ac3f5c6b37a28d50bb1ac064af3105c299a",
+    "conservativeBackupAgeHoursAtReconciliation": 20.807,
+    "rpoHours": 24,
+    "backupWithinRpoAtReconciliation": true,
+    "recoveryQuarterlyDueUtc": "2026-12-16T03:18:20.238Z",
+    "hostedLedgerAndValuesNotVerified": true,
+    "releaseTimeRefreshRequired": true
+  },
+  "j5": {
+    "disposition": "COMPLETE_WITH_BOUNDED_MIGRATION44_DELTA",
+    "source": "deployment/phase-11j5-delta-migration44-evidence.json",
+    "migrationCount": 44,
+    "migrationHead": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "hostedMigration44AppliedByThisWorkflow": false,
+    "safeRollbackQualified": false
+  },
+  "governance": {
+    "disposition": "GITHUB_GOVERNANCE_SECURITY_REMEDIATION_COMPLETE_AND_INDEPENDENTLY_ACCEPTED",
+    "rulesetId": 24075217,
+    "requiredCheck": "Validate",
+    "repoSquashOnly": true,
+    "dependencyGraphPackageCount": 513,
+    "dependabotOpenAlerts": 0,
+    "secretScanningOpenAlerts": 0,
+    "codeqlOpenReviewedFamily": 0,
+    "productionAdvisories": "0/0/0/0 accepted exact-main CI; fresh local gate in validation",
+    "crypto001RepositoryCorrectionAccepted": true
+  },
+  "prerequisites": {
+    "entry": [
+      {
+        "id": "roles",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "candidate-and-ci",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "J1-J2-targeted-impact",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "J3-Windows-DEC039-deferral",
+        "status": "SATISFIED_AS_DEFERRED_NO_PASS"
+      },
+      {
+        "id": "J4-provider-backup-freshness",
+        "status": "SATISFIED_AT_RECONCILIATION_RECHECK_AT_REVIEW"
+      },
+      {
+        "id": "J5-migration44-delta",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "github-security",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "independent-final-J6-exact-head-acceptance",
+        "status": "PENDING"
+      }
+    ],
+    "openFindingsFor11KEvaluation": [
+      "legal/privacy/retention/health/policy review",
+      "native Hebrew and final lifecycle copy",
+      "accessibility and client evidence limitations",
+      "safe rollback and hosted-only facts",
+      "all 18 OPEN findings"
+    ],
+    "releaseTime": [
+      "fresh provider/database ledger and values",
+      "current backup and recovery",
+      "exact candidate approval and separate Production authorization",
+      "release-specific Windows support exclusion or accepted physical validation",
+      "qualified safe rollback target"
+    ],
+    "deferredWindows": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT"
+  },
+  "findings": {
+    "count": 18,
+    "ids": [
+      "P11A-001",
+      "P11A-002",
+      "P11A-003",
+      "P11A-004",
+      "P11A-005",
+      "P11A-006",
+      "P11A-007",
+      "P11A-008",
+      "P11A-009",
+      "P11A-010",
+      "P11A-011",
+      "P11A-012",
+      "P11A-013",
+      "P11A-014",
+      "P11A-015",
+      "P11A-016",
+      "P11A-017",
+      "P11A-018"
+    ],
+    "status": "OPEN",
+    "p11a016": "OPEN",
+    "closedByThisTask": 0
+  },
+  "phase11K": {
+    "classification": "PHASE_11K_ELIGIBLE_PENDING_INDEPENDENT_FINAL_J6_ACCEPTANCE",
+    "phase11KStarted": false,
+    "independentReviewerAcceptedThisExactHead": false,
+    "openFindingClosureAuthority": "Phase 11K only"
+  },
+  "productionReleaseAuthorized": false,
+  "hostedMigration44AppliedByThisWorkflow": false,
+  "validation": {
+    "status": "PASS",
+    "environment": "isolated plain Lima nutrition-j3 VM; local Supabase only",
+    "network": "nutrition-j3-loopback",
+    "loopbackOnlyBindings": true,
+    "containerCount": 12,
+    "migrationPrefixCount": 43,
+    "migrationFinalCount": 44,
+    "migration44ReplayedAndSeeded": true,
+    "migrationRoleCompatibility": "PASS",
+    "privateVerifierBefore": {
+      "definitionMd5": "4a28db3f047dcd2a840a85dd624f14f3",
+      "volatility": "STABLE",
+      "securityDefiner": false,
+      "anonDirectExecute": false,
+      "authenticatedDirectExecute": false
+    },
+    "privateVerifierAfter": {
+      "definitionMd5": "efac30c4c8ca58d0759a3f8dfb40359d",
+      "volatility": "VOLATILE",
+      "securityDefiner": false,
+      "anonDirectExecute": false,
+      "authenticatedDirectExecute": false
+    },
+    "ingestionTypes": "PASS",
+    "focusedAuthE2EPassed": 17,
+    "focusedAuthE2EFailed": 0,
+    "productionBuild": "PASS",
+    "browserSecretBoundary": "PASS",
+    "browserArtifactsInspected": 142,
+    "preliminarySetupFailure": "Initial E2E command found no local production build; no test execution/pass credit. Built isolated candidate, then full 17/17 accepted rerun passed.",
+    "hostedSupabaseOperations": 0,
+    "productionMigrationsApplied": 0
+  }
+}

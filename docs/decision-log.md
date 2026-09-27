@@ -3877,3 +3877,15 @@ not-applicable rows. Five new open HIGH CodeQL alerts stop a governance-complete
 claim and require a separate bounded engineering task. Settings execution remains pending independent acceptance;
 P11A-016 stays OPEN. This task ends at a Draft PR and performs no final J6, 11K,
 merge, other-provider operation or Production release.
+
+## 2026-09-28 — before-Phase-11K role assignments
+
+Attributable date: 2026-09-28 — Asia/Jerusalem. Approver: Maor Pichhadze — Product Owner.
+
+> I, Maor Pichhadze, as Product Owner, assign ChatGPT as the Independent acceptance reviewer for Phase 11K and assign myself, Maor Pichhadze, as the Candidate release approver and P1 exception authority. I explicitly accept my two assigned roles and authorize ChatGPT to serve as the independent, non-executing acceptance reviewer. These assignments do not authorize Production deployment, do not close any finding, and do not change the DEC-039 Windows deferral.
+
+Separately attributable acceptance date: 2026-09-28 — Asia/Jerusalem. Reviewer: ChatGPT.
+
+> I explicitly accept the assignment as Independent acceptance reviewer for Phase 11K, limited to independent, non-executing review. Codex remains the execution agent. This acceptance does not authorize Production deployment, approve a release candidate, grant a P1 exception, close findings, or change the Windows deferral.
+
+Independent acceptance reviewer: ChatGPT; Candidate release approver and P1 exception authority: Maor Pichhadze. Each role is `ASSIGNED_AND_APPROVED`. Codex is the `EXECUTION_AGENT`; ChatGPT is the `INDEPENDENT_NON_EXECUTING_REVIEWER`. This satisfies the reviewer/executor separation in DEC-007, the human P1 authority in DEC-029, the accepted candidate-approver role in DEC-030, and Section 2.2. Role assignment does not approve candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`, grant a P1 exception, waive any P0, close a finding, authorize Production, or change DEC-039 Windows deferral. The [role evidence](phase-11-prek-before-11k-role-assignments.md) and [forward/final J6](phase-11j6-forward-final-evidence-reconciliation.md) await independent exact-head review.

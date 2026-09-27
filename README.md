@@ -416,20 +416,16 @@ is complete for the current MVP scope.
   pending.
   See the
   [Phase 11F application and supply-chain security record](docs/phase-11f-security-and-dependency-hardening.md).
-  The [pre-K GitHub remediation](docs/phase-11-prek-github-governance-remediation.md)
-  records authorized R1–R11 settings applied and read back: 25 compliant / one
-  unassigned-role mismatch / two not-applicable controls, pending independent
-  acceptance. Five new open HIGH CodeQL alerts stop a governance-complete claim
-  and require separate bounded engineering triage. P11A-016 remains OPEN. The [DEC-039 forward amendment](docs/phase-11-prek-dec039-windows-deferral.md)
-  establishes current Contract `2.0-personal-use-windows-deferred-amended`.
-  Windows Chrome/Edge remain NOT_EXECUTED with no PASS credit and are
-  DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT; they block neither
-  development nor 11K entry. J3 remains INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE,
-  physicalPassRecorded=false. Phase 11K is NOT_STARTED and
-  NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING for the independent acceptance reviewer,
-  candidate release approver and P1 exception authority. A bounded forward J6
-  reconciliation remains due. All 18 findings stay OPEN and Production is
-  unauthorized. Historical governance and J6 packets remain unchanged.
+  The [2026-09-28 role record](docs/phase-11-prek-before-11k-role-assignments.md)
+  assigns and accepts ChatGPT as independent non-executing reviewer, and Maor
+  Pichhadze as candidate approver and P1 exception authority. Fresh governance
+  is 26 compliant / zero mismatches / two not applicable; reviewed CodeQL
+  alerts remain dismissed false positives. The [forward/final J6 overlay](docs/phase-11j6-forward-final-evidence-reconciliation.md)
+  reconciles exact candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`
+  and migration 44, pending independent exact-head review. Windows Chrome/Edge
+  remain deferred and unexecuted without PASS credit; J3 remains incomplete.
+  All 18 findings remain OPEN. Phase 11K has not started and Production is
+  unauthorized. Historical J6 and governance packets remain unchanged.
   On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
   acceptance by Maor Pichhadze as Observability owner, Performance and
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
