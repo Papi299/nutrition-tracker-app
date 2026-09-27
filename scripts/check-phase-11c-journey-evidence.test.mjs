@@ -69,7 +69,7 @@ function mutateSection7_3Row(source, id, transform) {
   );
 }
 
-test("accepts the exact Contract 1.9 Firefox exclusion amendment with immutable historical evidence", async () => {
+test("accepts the exact Contract 2.0 Windows deferral amendment with immutable historical evidence", async () => {
   const result = await validate(evidenceFixture());
   assert.equal(baselineEvidence.acceptedContract.version, HISTORICAL_PHASE_11C_CONTRACT_VERSION);
   assert.equal(result.normative.version, CURRENT_CONTRACT_VERSION);
@@ -140,10 +140,10 @@ test("rejects historical non-no-JavaScript normative-field tampering", async () 
   await assert.rejects(validate(evidence), /canonical normative projection digest/);
 });
 
-test("rejects current contract version 1.5", async () => {
+test("rejects superseded current contract version 1.9", async () => {
   const changed = contract.replace(
     `| Version | \`${CURRENT_CONTRACT_VERSION}\` |`,
-    "| Version | `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended` |",
+    "| Version | `1.9-personal-use-firefox-excluded-amended` |",
   );
   await assert.rejects(validate(evidenceFixture(), changed), /current contract version must be/);
 });

@@ -171,7 +171,7 @@ acyclic without moving or renaming a slice.
 documentation, product-decision, acceptance-contract, and handoff scope. The
 [launch contract and acceptance baseline](phase-11b-launch-contract-and-acceptance-baseline.md)
 preserves original version `1.0-phase-11b-accepted` and is amended as candidate
-version `1.9-personal-use-firefox-excluded-amended`, while historical amended
+version `2.0-personal-use-windows-deferred-amended`, while historical amended
 versions `1.1-phase-11b-cj019-amended`,
 `1.2-phase-11b-cj019-cj030-amended`,
 `1.3-phase-11b-cj024-cj027-nojs-amended`,
@@ -179,7 +179,8 @@ versions `1.1-phase-11b-cj019-amended`,
 `1.5-phase-11b-ui-dependent-manual-acceptance-timing-amended`, and
 `1.6-phase-11e-nojs-classifications-amended` and
 `1.7-personal-use-free-tier-profile-amended` and
-`1.8-personal-use-owner-client-matrix-amended` remain preserved: Maor Pichhadze
+`1.8-personal-use-owner-client-matrix-amended` and
+`1.9-personal-use-firefox-excluded-amended` remain preserved: Maor Pichhadze
 approved all
 30 recommendations
 against owner-reviewed source head
@@ -285,7 +286,7 @@ CJ-006/CJ-013/CJ-021 as `REQUIRED_FALLBACK_ONLY`, and CJ-015 as
 `NOT_APPLICABLE`. That classification amendment produced preserved historical
 contract `1.4-phase-11b-remaining-implemented-nojs-amended`; historical Phase
 11C no-JavaScript totals remain `11 / 4 / 13 / 7`. Current contract candidate
-`1.9-personal-use-firefox-excluded-amended` preserves the exact six Phase 11E
+`2.0-personal-use-windows-deferred-amended` preserves the exact six Phase 11E
 rows established by version 1.6 and has current totals `16 / 5 / 13 / 1`;
 35 / 223 / 718 remains the accurate
 historical snapshot of the Phase 11C classification amendment. Accepted PRs
@@ -1182,18 +1183,28 @@ independent J3 completion require bounded J6 delta/final reconciliation.
 ### 16.7.7 Current J6 interim reconciliation and independent-review handoff
 
 J5 is COMPLETE after independently accepted PR #148 and exact-main CI #301.
-The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
-is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
-J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
-two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
-and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
-is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
-All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
-evidence, independent J3 completion, current-candidate impact review, bounded J6
-final/delta reconciliation and independent final-J6 acceptance are required before
-Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
-packet grants no waiver, finding closure or Production authority. Historical J1–J5
-packet/review-status snapshots remain unchanged.
+The [DEC-039 forward amendment](phase-11-prek-dec039-windows-deferral.md)
+supersedes only the accepted historical J6 packet's Windows-caused 11K-entry
+ineligibility. Current contract is `2.0-personal-use-windows-deferred-amended`.
+J1/J2/J4/J5 remain COMPLETE; J3 is INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE.
+Both Windows cases remain NOT_EXECUTED with no PASS credit and classification
+DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT. They block neither repository
+development nor 11K entry; physicalPassRecorded=false. Phase 11K remains
+NOT_STARTED and NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING: independent acceptance
+reviewer, candidate release approver and P1 exception authority each remain
+UNASSIGNED_BLOCKING_BEFORE_11K. All 18 findings remain OPEN and
+productionReleaseAuthorized=false. A separately scoped, independently accepted
+forward J6 reconciliation must bind DEC-039, new governance evidence and the
+then-current candidate before 11K without claiming Windows completion. This
+task performs no final J6 or 11K. The [GitHub remediation](phase-11-prek-github-governance-remediation.md)
+records R1–R11 read-back, pending independent acceptance; five new open HIGH
+CodeQL alerts stop a governance-complete claim and need bounded engineering
+triage. Historical J6 JSON and
+Markdown and all earlier candidate/evidence limitations remain unchanged.
+Windows stays in the intended support scope; accepted physical evidence is due
+before a verified Windows release claim. Any future release without that
+evidence must exclude Windows from its verified supported-client claim.
+
 
 The [machine-readable index](../deployment/phase-11j6-interim-evidence-reconciliation.json)
 binds main 91b55a05704e79233839606c66b9a25633761b5b / tree

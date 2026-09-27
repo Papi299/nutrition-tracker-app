@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-GITHUB-GOVERNANCE-REMEDIATION-DEC039-001",
+  "decisionId": "DEC-039",
+  "title": "Defer Windows physical validation without blocking continued Phase 11 development",
+  "approval": "PRODUCT_OWNER_APPROVED",
+  "independentReview": "PENDING_EXACT_HEAD_REVIEW",
+  "approver": "Maor Pichhadze — Product Owner",
+  "date": "2026-09-27 — Asia/Jerusalem",
+  "attributableOwnerDirection": "And I want to put aside the Windows matter for now. I decide to proceed with the full development.",
+  "currentContractVersion": "2.0-personal-use-windows-deferred-amended",
+  "historicalContractVersion": "1.9-personal-use-firefox-excluded-amended",
+  "supersedes": {
+    "decision": "DEC-038",
+    "only": "Phase 11K eligibility dependency on completed physical Windows Chrome/Edge evidence and consequent J3 completion",
+    "priorRule": "DEC-038 allowed J4–J6 scheduling but required accepted Windows evidence, independent J3 completion and final/delta J6 before 11K.",
+    "preserved": "DEC-036/037/038 history, intended Windows support scope, every actual observation, before-K roles and Production boundary."
+  },
+  "windowsCases": [
+    {
+      "id": "J3-WIN-CHROME-01",
+      "executionStatus": "NOT_EXECUTED",
+      "passCredit": false,
+      "classification": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+      "blocksRepositoryDevelopment": false,
+      "blocksPhase11KEntry": false,
+      "requiredBeforeVerifiedWindowsReleaseClaim": true
+    },
+    {
+      "id": "J3-WIN-EDGE-01",
+      "executionStatus": "NOT_EXECUTED",
+      "passCredit": false,
+      "classification": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+      "blocksRepositoryDevelopment": false,
+      "blocksPhase11KEntry": false,
+      "requiredBeforeVerifiedWindowsReleaseClaim": true
+    }
+  ],
+  "caseAccounting": {
+    "historicalIds": 39,
+    "activeSupportCases": 37,
+    "firefoxExcludedNoPassCredit": 2,
+    "acceptedCameraCarryForwards": 30,
+    "acceptedCurrentCandidateUiPasses": 5,
+    "windowsDeferredNotExecuted": 2,
+    "phase11KBlockingWindowsCases": 0,
+    "windowsPassCredit": 0
+  },
+  "governance": {
+    "j1": "COMPLETE",
+    "j2": "COMPLETE",
+    "j3": "INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE",
+    "j4": "COMPLETE",
+    "j5": "COMPLETE",
+    "j6Historical": "INTERIM_RECONCILIATION_ACCEPTED under its original Contract 1.9 / DEC-038; immutable authored status preserved",
+    "j6FinalComplete": false,
+    "phase11J": "INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE",
+    "phase11K": "NOT_STARTED",
+    "phase11": "INCOMPLETE",
+    "physicalPassRecorded": false,
+    "productionReleaseAuthorized": false
+  },
+  "phase11KEligibility": {
+    "result": "NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING",
+    "noLongerBlocking": [
+      "J3-WIN-CHROME-01",
+      "J3-WIN-EDGE-01"
+    ],
+    "blockingRoles": [
+      {
+        "role": "Independent acceptance reviewer",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      },
+      {
+        "role": "Candidate release approver",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      },
+      {
+        "role": "P1 exception authority",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      }
+    ],
+    "boundedReconciliation": "A separately scoped forward J6 reconciliation binding independently accepted DEC-039, governance evidence and then-current candidate remains required before 11K; no Windows completion required or fabricated. This task performs no final J6.",
+    "reviewBoundary": "This execution packet remains pending independent exact-head acceptance; owner decision authority is distinct from executor evidence acceptance.",
+    "findingsRule": "Open findings are evaluated in 11K and are not newly invented entry blockers. Close only independently evidenced findings; retain P11A-005 and Windows-related gaps open where needed."
+  },
+  "releaseBoundary": {
+    "verifiedWindowsSupport": false,
+    "permanentWindowsExclusion": false,
+    "longTermWindowsScopeUnchanged": true,
+    "requiredBeforeWindowsClaim": "Accepted actual physical Chrome/Edge validation",
+    "ifReleasedWithoutWindowsEvidence": "Exclude Windows from that release’s verified supported-client claim. A future Production request must explicitly choose exclusion for that release or validation first; this task makes neither release-specific choice.",
+    "productionReleaseAuthorized": false
+  },
+  "j6ForwardAmendment": {
+    "historicalPacketJson": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+    "historicalPacketMarkdown": "docs/phase-11j6-interim-evidence-reconciliation.md",
+    "historicalPacketsUnchanged": true,
+    "supersession": "Only Windows-caused Phase 11K-entry ineligibility; no claim of historical J3 or J6 final completion.",
+    "futureReconciliationRequired": true,
+    "executedByThisTask": false
+  },
+  "roles": [
+    {
+      "role": "Independent acceptance reviewer",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    },
+    {
+      "role": "Candidate release approver",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    },
+    {
+      "role": "P1 exception authority",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "P11A-001",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-002",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-003",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-004",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-005",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-006",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-007",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-008",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-009",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-010",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-011",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-012",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-013",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-014",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-015",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-016",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-017",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-018",
+      "status": "OPEN"
+    }
+  ],
+  "affectedFindings": [
+    "P11A-002",
+    "P11A-004",
+    "P11A-005",
+    "P11A-016",
+    "P11A-018"
+  ],
+  "journeyBoundary": "CJ-001–035 behavior, no-JavaScript, EN/HE, LTR/RTL, accessibility and automated Chromium/Firefox/WebKit evidence unchanged. Physical candidate remains f50d7448a080dbc0a5968c00fd6747ced36d822b / f3ac6117f70af8d7a6261c803576d6ecf72ec80f.",
+  "historicalLimitations": "Mobile exact 200% zoom remains unmeasured; prior eight refresh-token events remain unresolved; all accepted J6 qualifications retain their original evidence scope.",
+  "safety": {
+    "nonGitHubProviderAccessOrMutation": false,
+    "supabaseAccessOrMutation": false,
+    "vercelAccessOrMutation": false,
+    "productionReleaseAuthorized": false,
+    "productionDeployment": false,
+    "dnsBillingCollaboratorSecretsVariablesOrUnrelatedSettingsMutation": false,
+    "applicationRuntimeOrDataMutation": false,
+    "physicalDeviceTestsOrJ3VmStart": false,
+    "credentialOrAuthorizationHeadersPersisted": false,
+    "secretTestCredentialGenerated": false,
+    "alertsDismissedOrExceptionsCreated": false,
+    "phase11KStarted": false,
+    "finalJ6Executed": false,
+    "findingsClosed": false,
+    "draftPrMerged": false
+  },
+  "sourceIndex": [
+    {
+      "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+      "baselineGitBlob": "9ed0468802cc2b4a3bcba010dfc1650560bdda34",
+      "baselineSha256": "bec504a10d44392335e720e459051477f0b3300de4015f4ca29ab02d07fed793",
+      "historicalPacketUnchanged": false
+    },
+    {
+      "path": "docs/phase-11f-security-and-dependency-hardening.md",
+      "baselineGitBlob": "6270f93f77c1288a6ef5b16560eaeb2c53661972",
+      "baselineSha256": "d49d647d62ddb47f90433a46642e037fe65e9bfd84c52a358536a42632f032ee",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+      "baselineGitBlob": "78556c1ca9138d3094f856e34e537c80e97dc70e",
+      "baselineSha256": "599520384e4a7ad5f94bd78ea88965de5b21e000c2f9447652d5250c3941d046",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11-prek-github-governance-refresh.md",
+      "baselineGitBlob": "0df703b8be1c3f4837f02ecb88f4e851f56590a9",
+      "baselineSha256": "8b54b1e50514b1baa2ec937a5eebdb59d85123c9d6e756e153e827a1f6ddcba5",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+      "baselineGitBlob": "d8ed7b6f806eb5876878f41d063393e233b42b25",
+      "baselineSha256": "8150260fba00cd6a10911216381bfdc7a07a16d3ae7b41fb0425031400cef1db",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11-prek-dependency-graph-config-resolution.md",
+      "baselineGitBlob": "9ca3c75a584d074ea2739a3aeaf5feb963248e3a",
+      "baselineSha256": "ddf0af98c197a1bf81ef0f9548dbae5d5f495a9073b298d541eb6558be2ace12",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "baselineGitBlob": "8d7ca63884a60133cb0d01680e0504accd937a15",
+      "baselineSha256": "76d86d2ba944c8066d7cfea219a3a85d9b6c6d26ad9c518c8e5fc4de50ce249a",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "baselineGitBlob": "65dac462c70861de76e66e7490e1709797544414",
+      "baselineSha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "baselineGitBlob": "62260ace69961a713ea4317942db873453c15dee",
+      "baselineSha256": "c72a846fb0791d26b160809e6314eb2779198d3d106c1dc43fa657198f39e1da",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "baselineGitBlob": "2c06f75da7c0af1ccb0dfc66bf614c8fbdeb4297",
+      "baselineSha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+      "baselineGitBlob": "52af0b65acd3e0e43089657d5ab79a72a68528c2",
+      "baselineSha256": "b2de5f890c9d0aa974c9d1aca7766f8021cdc1c8bd014ddef6993651ee968801",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+      "baselineGitBlob": "3c3349465564247cd30ab3466dbf0db5fc733f97",
+      "baselineSha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8",
+      "historicalPacketUnchanged": true
+    }
+  ],
+  "newSecurityEvidence": {
+    "result": "STOPPED_NEW_HIGH_CODEQL_ALERTS",
+    "governanceRemediationComplete": false,
+    "codeqlHighOpen": 5,
+    "criticalOpen": 0,
+    "dependabotOpen": 0,
+    "secretScanningOpen": 0,
+    "scope": "Settings read-back succeeded; no further settings/application mutation after discovery. Continue only requested DEC-039/evidence recording and Draft delivery. Separate bounded engineering triage is required; no alert dismissal, exception or reachability adjudication."
+  }
+}

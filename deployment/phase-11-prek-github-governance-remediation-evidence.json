@@ -1,0 +1,3526 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-GITHUB-GOVERNANCE-REMEDIATION-DEC039-001",
+  "authorshipStatus": "EXECUTOR_AUTHORED_PENDING_INDEPENDENT_REVIEW",
+  "settingsState": "SETTINGS_READBACK_VERIFIED_STOPPED_NEW_HIGH_CODEQL_ALERTS_PENDING_INDEPENDENT_REVIEW",
+  "recordedAtUtc": "2026-09-27T14:28:26.714220+00:00",
+  "baseline": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+    "tree": "b9b20be60f28a9bc7fb3828b89dca01c36f36718",
+    "soleParent": "603b14a965ab70004965c1f7349b489bb7bf7e43",
+    "subject": "docs(phase11-prek): verify disabled dependency graph configuration (#151)",
+    "pr151Merged": true,
+    "initialOpenPullRequests": []
+  },
+  "exactMainCi": {
+    "workflow": "CI",
+    "runNumber": 308,
+    "runId": 36323328703,
+    "validateJobId": 108631249844,
+    "event": "push",
+    "branch": "main",
+    "attempt": 1,
+    "sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+    "conclusion": "success",
+    "rawLogSha256": "5b841391ff7be128df3010ff114ab25eb55b8a559bbb9c1d43725f637dcdce50",
+    "results": {
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11DPassed": 53,
+      "phase11DIntentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "productionBuild": "PASS",
+      "clientSecretBoundary": "PASS",
+      "browserStaticArtifacts": 115,
+      "localDatabaseGates": "PASS",
+      "migrationReplaySeed": "PASS",
+      "ingestionTypes": "PASS",
+      "evidenceUpload": "PASS",
+      "teardown": "PASS"
+    },
+    "artifact": {
+      "id": 10932854026,
+      "name": "phase-11d-evidence-36323328703-1",
+      "digest": "sha256:a80e40c44f4a0bc5c302daaae2c6d2b69b3e684bed2dfda31c308bbe22ad104a",
+      "expired": false,
+      "bytesDownloaded": false
+    }
+  },
+  "authorization": {
+    "approver": "Maor Pichhadze — Product Owner",
+    "date": "2026-09-27 — Asia/Jerusalem",
+    "exactDirection": "I explicitly authorize the GitHub repository-setting changes required for the bounded DEC-029 governance remediation for `Papi299/nutrition-tracker-app`.",
+    "bounds": "Only R1–R11 described in the supplied task; no other provider or runtime authority."
+  },
+  "identity": {
+    "login": "Papi299",
+    "id": 191498044,
+    "repositoryAdmin": true,
+    "browserAttribution": "Existing owner-authenticated Chrome session in exact repository Settings; no new sign-in or credential handling. Owner/admin CLI independently verifies Papi299/admin=true."
+  },
+  "preMutationSnapshot": {
+    "identity": {
+      "method": "GET",
+      "endpoint": "user",
+      "observedAtUtc": "2026-09-27T14:16:05.760142+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "login": "Papi299",
+        "id": 191498044,
+        "type": "User"
+      },
+      "error": ""
+    },
+    "repository": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app",
+      "observedAtUtc": "2026-09-27T14:16:05.761130+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "id": 1223506255,
+        "full_name": "Papi299/nutrition-tracker-app",
+        "owner": {
+          "login": "Papi299",
+          "id": 191498044,
+          "type": "User"
+        },
+        "private": false,
+        "visibility": "public",
+        "default_branch": "main",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        },
+        "allow_squash_merge": true,
+        "allow_merge_commit": true,
+        "allow_rebase_merge": true,
+        "allow_auto_merge": false,
+        "allow_update_branch": false,
+        "delete_branch_on_merge": false,
+        "security_and_analysis": {
+          "secret_scanning": {
+            "status": "disabled"
+          },
+          "secret_scanning_push_protection": {
+            "status": "disabled"
+          },
+          "dependabot_security_updates": {
+            "status": "disabled"
+          },
+          "secret_scanning_non_provider_patterns": {
+            "status": "disabled"
+          },
+          "secret_scanning_validity_checks": {
+            "status": "disabled"
+          }
+        }
+      },
+      "error": ""
+    },
+    "main": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/branches/main",
+      "observedAtUtc": "2026-09-27T14:16:05.761251+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "name": "main",
+        "sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+        "protected": false,
+        "protection": {
+          "enabled": false,
+          "required_status_checks": {
+            "enforcement_level": "off",
+            "contexts": [],
+            "checks": []
+          }
+        }
+      },
+      "error": ""
+    },
+    "classicProtection": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/branches/main/protection",
+      "observedAtUtc": "2026-09-27T14:16:05.764652+00:00",
+      "httpStatus": "HTTP/2.0 404 Not Found",
+      "exitCode": 1,
+      "requestBody": null,
+      "response": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      },
+      "error": "gh: Branch not protected (HTTP 404)"
+    },
+    "rulesets": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets?includes_parents=true",
+      "observedAtUtc": "2026-09-27T14:16:06.233662+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [],
+      "error": ""
+    },
+    "effectiveRules": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/rules/branches/main",
+      "observedAtUtc": "2026-09-27T14:16:06.235291+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [],
+      "error": ""
+    },
+    "actions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+      "observedAtUtc": "2026-09-27T14:16:06.242465+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "enabled": true,
+        "allowed_actions": "all",
+        "sha_pinning_required": false
+      },
+      "error": ""
+    },
+    "selectedActions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions",
+      "observedAtUtc": "2026-09-27T14:16:06.245295+00:00",
+      "httpStatus": "HTTP/2.0 409 Conflict",
+      "exitCode": 1,
+      "requestBody": null,
+      "response": {
+        "message": "Conflict",
+        "errors": "All actions and workflows are allowed on this repository",
+        "documentation_url": "https://docs.github.com/rest/actions/permissions#get-allowed-actions-and-reusable-workflows-for-a-repository",
+        "status": "409"
+      },
+      "error": "gh: All actions and workflows are allowed on this repository (Conflict)"
+    },
+    "workflowPermissions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/workflow",
+      "observedAtUtc": "2026-09-27T14:16:06.565431+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "error": ""
+    },
+    "dependabotEnablement": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+      "observedAtUtc": "2026-09-27T14:16:06.629315+00:00",
+      "httpStatus": "HTTP/2.0 404 Not Found",
+      "exitCode": 1,
+      "requestBody": null,
+      "response": {
+        "message": "Vulnerability alerts are disabled.",
+        "documentation_url": "https://docs.github.com/rest/repos/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository",
+        "status": "404"
+      },
+      "error": "gh: Vulnerability alerts are disabled. (HTTP 404)"
+    },
+    "securityUpdates": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+      "observedAtUtc": "2026-09-27T14:16:06.630684+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "enabled": false,
+        "paused": false
+      },
+      "error": ""
+    },
+    "codeql": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+      "observedAtUtc": "2026-09-27T14:16:06.632197+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "state": "not-configured",
+        "languages": [
+          "actions",
+          "javascript-typescript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "updated_at": null,
+        "schedule": null,
+        "runner_type": "standard",
+        "runner_label": null
+      },
+      "error": ""
+    },
+    "validateCheck": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/check-runs/108631249844",
+      "observedAtUtc": "2026-09-27T14:16:06.928579+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "id": 108631249844,
+        "name": "Validate",
+        "head_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36323328703/job/108631249844",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      "error": ""
+    }
+  },
+  "preMutationDependencyGraph": {
+    "state": "DISABLED",
+    "control": "Enable dependency graph"
+  },
+  "preMutationMatrixCounts": {
+    "VERIFIED_MISMATCH": 21,
+    "VERIFIED_COMPLIANT": 5,
+    "NOT_FRESHLY_OBSERVABLE": 0,
+    "NOT_APPLICABLE": 2
+  },
+  "mutations": [
+    {
+      "family": "R1",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/commits/main",
+          "observedAtUtc": "2026-09-27T14:17:34.359316+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+            "tree": "b9b20be60f28a9bc7fb3828b89dca01c36f36718",
+            "parents": [
+              "603b14a965ab70004965c1f7349b489bb7bf7e43"
+            ],
+            "subject": "docs(phase11-prek): verify disabled dependency graph configuration (#151)"
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets?includes_parents=true",
+          "observedAtUtc": "2026-09-27T14:17:34.955044+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": [],
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/check-runs/108631249844",
+          "observedAtUtc": "2026-09-27T14:17:35.280210+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 108631249844,
+            "name": "Validate",
+            "head_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36323328703/job/108631249844",
+            "app": {
+              "id": 15368,
+              "slug": "github-actions",
+              "name": "GitHub Actions"
+            }
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets/24075217",
+          "observedAtUtc": "2026-09-27T14:18:36.232156+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 24075217,
+            "name": "main-dec029",
+            "target": "branch",
+            "source_type": "Repository",
+            "source": "Papi299/nutrition-tracker-app",
+            "enforcement": "active",
+            "conditions": {
+              "ref_name": {
+                "exclude": [],
+                "include": [
+                  "refs/heads/main"
+                ]
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "required_reviewers": [],
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": true,
+                  "allowed_merge_methods": [
+                    "merge",
+                    "squash",
+                    "rebase"
+                  ]
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "strict_required_status_checks_policy": false,
+                  "do_not_enforce_on_create": false,
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ],
+            "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+            "created_at": "2026-09-27T17:17:35.991+03:00",
+            "updated_at": "2026-09-27T17:17:36.098+03:00",
+            "bypass_actors": [],
+            "current_user_can_bypass": "never",
+            "_links": {
+              "self": {
+                "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+              },
+              "html": {
+                "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "POST",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets",
+          "observedAtUtc": "2026-09-27T14:17:35.685359+00:00",
+          "httpStatus": "HTTP/2.0 201 Created",
+          "exitCode": 0,
+          "requestBody": {
+            "name": "main-dec029",
+            "target": "branch",
+            "enforcement": "active",
+            "bypass_actors": [],
+            "conditions": {
+              "ref_name": {
+                "include": [
+                  "refs/heads/main"
+                ],
+                "exclude": []
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ],
+                  "strict_required_status_checks_policy": false
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ]
+          },
+          "response": {
+            "id": 24075217,
+            "name": "main-dec029",
+            "target": "branch",
+            "source_type": "Repository",
+            "source": "Papi299/nutrition-tracker-app",
+            "enforcement": "active",
+            "conditions": {
+              "ref_name": {
+                "exclude": [],
+                "include": [
+                  "refs/heads/main"
+                ]
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "required_reviewers": [],
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": true,
+                  "allowed_merge_methods": [
+                    "merge",
+                    "squash",
+                    "rebase"
+                  ]
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "strict_required_status_checks_policy": false,
+                  "do_not_enforce_on_create": false,
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ],
+            "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+            "created_at": "2026-09-27T17:17:35.991+03:00",
+            "updated_at": "2026-09-27T17:17:36.098+03:00",
+            "bypass_actors": [],
+            "current_user_can_bypass": "never",
+            "_links": {
+              "self": {
+                "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+              },
+              "html": {
+                "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+              }
+            }
+          },
+          "error": ""
+        },
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets/24075217",
+          "observedAtUtc": "2026-09-27T14:18:36.770042+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": {
+            "name": "main-dec029",
+            "target": "branch",
+            "enforcement": "active",
+            "bypass_actors": [],
+            "conditions": {
+              "ref_name": {
+                "include": [
+                  "refs/heads/main"
+                ],
+                "exclude": []
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": false
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ],
+                  "strict_required_status_checks_policy": false
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ]
+          },
+          "response": {
+            "id": 24075217,
+            "name": "main-dec029",
+            "target": "branch",
+            "source_type": "Repository",
+            "source": "Papi299/nutrition-tracker-app",
+            "enforcement": "active",
+            "conditions": {
+              "ref_name": {
+                "exclude": [],
+                "include": [
+                  "refs/heads/main"
+                ]
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "required_reviewers": [],
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": false,
+                  "allowed_merge_methods": [
+                    "merge",
+                    "squash",
+                    "rebase"
+                  ]
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "strict_required_status_checks_policy": false,
+                  "do_not_enforce_on_create": false,
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ],
+            "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+            "created_at": "2026-09-27T17:17:35.991+03:00",
+            "updated_at": "2026-09-27T17:18:37.067+03:00",
+            "bypass_actors": [],
+            "current_user_can_bypass": "never",
+            "_links": {
+              "self": {
+                "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+              },
+              "html": {
+                "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets/24075217",
+          "observedAtUtc": "2026-09-27T14:17:36.302220+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 24075217,
+            "name": "main-dec029",
+            "target": "branch",
+            "source_type": "Repository",
+            "source": "Papi299/nutrition-tracker-app",
+            "enforcement": "active",
+            "conditions": {
+              "ref_name": {
+                "exclude": [],
+                "include": [
+                  "refs/heads/main"
+                ]
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "required_reviewers": [],
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": true,
+                  "allowed_merge_methods": [
+                    "merge",
+                    "squash",
+                    "rebase"
+                  ]
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "strict_required_status_checks_policy": false,
+                  "do_not_enforce_on_create": false,
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ],
+            "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+            "created_at": "2026-09-27T17:17:35.991+03:00",
+            "updated_at": "2026-09-27T17:17:36.098+03:00",
+            "bypass_actors": [],
+            "current_user_can_bypass": "never",
+            "_links": {
+              "self": {
+                "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+              },
+              "html": {
+                "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+              }
+            }
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets/24075217",
+          "observedAtUtc": "2026-09-27T14:18:37.270020+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 24075217,
+            "name": "main-dec029",
+            "target": "branch",
+            "source_type": "Repository",
+            "source": "Papi299/nutrition-tracker-app",
+            "enforcement": "active",
+            "conditions": {
+              "ref_name": {
+                "exclude": [],
+                "include": [
+                  "refs/heads/main"
+                ]
+              }
+            },
+            "rules": [
+              {
+                "type": "pull_request",
+                "parameters": {
+                  "required_approving_review_count": 0,
+                  "dismiss_stale_reviews_on_push": false,
+                  "required_reviewers": [],
+                  "require_code_owner_review": false,
+                  "require_last_push_approval": false,
+                  "required_review_thread_resolution": true,
+                  "require_extra_approval_for_unattributed_changes": false,
+                  "allowed_merge_methods": [
+                    "merge",
+                    "squash",
+                    "rebase"
+                  ]
+                }
+              },
+              {
+                "type": "required_status_checks",
+                "parameters": {
+                  "strict_required_status_checks_policy": false,
+                  "do_not_enforce_on_create": false,
+                  "required_status_checks": [
+                    {
+                      "context": "Validate",
+                      "integration_id": 15368
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "required_linear_history"
+              },
+              {
+                "type": "non_fast_forward"
+              },
+              {
+                "type": "deletion"
+              }
+            ],
+            "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+            "created_at": "2026-09-27T17:17:35.991+03:00",
+            "updated_at": "2026-09-27T17:18:37.067+03:00",
+            "bypass_actors": [],
+            "current_user_can_bypass": "never",
+            "_links": {
+              "self": {
+                "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+              },
+              "html": {
+                "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+              }
+            }
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/rules/branches/main",
+          "observedAtUtc": "2026-09-27T14:18:37.771477+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": [
+            {
+              "type": "pull_request",
+              "parameters": {
+                "required_approving_review_count": 0,
+                "dismiss_stale_reviews_on_push": false,
+                "required_reviewers": [],
+                "require_code_owner_review": false,
+                "require_last_push_approval": false,
+                "required_review_thread_resolution": true,
+                "require_extra_approval_for_unattributed_changes": false,
+                "allowed_merge_methods": [
+                  "merge",
+                  "squash",
+                  "rebase"
+                ]
+              },
+              "ruleset_source_type": "Repository",
+              "ruleset_source": "Papi299/nutrition-tracker-app",
+              "ruleset_id": 24075217
+            },
+            {
+              "type": "required_status_checks",
+              "parameters": {
+                "strict_required_status_checks_policy": false,
+                "do_not_enforce_on_create": false,
+                "required_status_checks": [
+                  {
+                    "context": "Validate",
+                    "integration_id": 15368
+                  }
+                ]
+              },
+              "ruleset_source_type": "Repository",
+              "ruleset_source": "Papi299/nutrition-tracker-app",
+              "ruleset_id": 24075217
+            },
+            {
+              "type": "required_linear_history",
+              "ruleset_source_type": "Repository",
+              "ruleset_source": "Papi299/nutrition-tracker-app",
+              "ruleset_id": 24075217
+            },
+            {
+              "type": "non_fast_forward",
+              "ruleset_source_type": "Repository",
+              "ruleset_source": "Papi299/nutrition-tracker-app",
+              "ruleset_id": 24075217
+            },
+            {
+              "type": "deletion",
+              "ruleset_source_type": "Repository",
+              "ruleset_source": "Papi299/nutrition-tracker-app",
+              "ruleset_id": 24075217
+            }
+          ],
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "verificationNote": "Initial local equality assertion failed on provider-added optional fields; creation and immediate GET succeeded. No provider mutation failed and no rollback was needed.",
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R2",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:41.490693+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": true,
+            "allow_rebase_merge": true,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": false,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PATCH",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:41.893055+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": {
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false
+          },
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": false,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:42.391847+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": false,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R3",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:46.209007+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": false,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PATCH",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:46.636404+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": {
+            "delete_branch_on_merge": true
+          },
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:18:47.106608+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "disabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R4",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:04.747812+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": true,
+            "allowed_actions": "all",
+            "sha_pinning_required": false
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:05.372234+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": {
+            "enabled": true,
+            "allowed_actions": "selected",
+            "sha_pinning_required": false
+          },
+          "response": "",
+          "error": ""
+        },
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions",
+          "observedAtUtc": "2026-09-27T14:19:05.874399+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": {
+            "github_owned_allowed": false,
+            "verified_allowed": false,
+            "patterns_allowed": [
+              "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+              "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+            ]
+          },
+          "response": "",
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:06.284339+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": true,
+            "allowed_actions": "selected",
+            "selected_actions_url": "https://api.github.com/repositories/1223506255/actions/permissions/selected-actions",
+            "sha_pinning_required": false
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions",
+          "observedAtUtc": "2026-09-27T14:19:06.781447+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "github_owned_allowed": false,
+            "patterns_allowed": [
+              "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+              "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+            ],
+            "verified_allowed": false
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R5",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:10.178328+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": true,
+            "allowed_actions": "selected",
+            "selected_actions_url": "https://api.github.com/repositories/1223506255/actions/permissions/selected-actions",
+            "sha_pinning_required": false
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:10.590864+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": {
+            "enabled": true,
+            "allowed_actions": "selected",
+            "sha_pinning_required": true
+          },
+          "response": "",
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+          "observedAtUtc": "2026-09-27T14:19:10.989650+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": true,
+            "allowed_actions": "selected",
+            "selected_actions_url": "https://api.github.com/repositories/1223506255/actions/permissions/selected-actions",
+            "sha_pinning_required": true
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R6",
+      "classification": "APPLIED_AND_VERIFIED",
+      "mechanism": "Owner-authenticated Chrome Settings > Advanced Security > Dependency graph; cua_repl click on Enable dependency graph exactly once",
+      "repository": "Papi299/nutrition-tracker-app",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/settings/security_analysis",
+      "observedAtUtc": "2026-09-27T14:20:05.686631+00:00",
+      "timestampPrecision": "Timestamp records packet transcription; original tool observations occurred during this foreground session",
+      "before": {
+        "state": "DISABLED",
+        "control": "Enable dependency graph"
+      },
+      "mutations": [
+        {
+          "action": "click Enable dependency graph",
+          "clickCount": 1,
+          "disableClicked": false
+        }
+      ],
+      "after": {
+        "state": "ENABLED",
+        "control": "Disable dependency graph",
+        "message": "Repository settings saved.",
+        "automaticDependencySubmission": "Disabled",
+        "sbom": {
+          "httpStatus": 200,
+          "name": "com.github.Papi299/nutrition-tracker-app",
+          "packages": 513
+        }
+      },
+      "error": null,
+      "reversal": null
+    },
+    {
+      "family": "R7",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+          "observedAtUtc": "2026-09-27T14:20:03.020781+00:00",
+          "httpStatus": "HTTP/2.0 404 Not Found",
+          "exitCode": 1,
+          "requestBody": null,
+          "response": {
+            "message": "Vulnerability alerts are disabled.",
+            "documentation_url": "https://docs.github.com/rest/repos/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository",
+            "status": "404"
+          },
+          "error": "gh: Vulnerability alerts are disabled. (HTTP 404)"
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+          "observedAtUtc": "2026-09-27T14:20:03.584417+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": "",
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+          "observedAtUtc": "2026-09-27T14:20:04.579175+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": "",
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/dependabot/alerts?state=open&per_page=100",
+          "observedAtUtc": "2026-09-27T14:20:05.081907+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": [],
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R8",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+          "observedAtUtc": "2026-09-27T14:20:20.007834+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": false,
+            "paused": false
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PUT",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+          "observedAtUtc": "2026-09-27T14:20:20.537468+00:00",
+          "httpStatus": "HTTP/2.0 204 No Content",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": "",
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+          "observedAtUtc": "2026-09-27T14:20:21.060845+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "enabled": true,
+            "paused": false
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:21.442584+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R9",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:24.884721+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "disabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PATCH",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:25.301408+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": {
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              }
+            }
+          },
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:26.559091+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R10",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:30.156020+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "disabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PATCH",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:30.609399+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": {
+            "security_and_analysis": {
+              "secret_scanning_push_protection": {
+                "status": "enabled"
+              }
+            }
+          },
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "enabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app",
+          "observedAtUtc": "2026-09-27T14:20:31.120889+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "id": 1223506255,
+            "full_name": "Papi299/nutrition-tracker-app",
+            "owner": {
+              "login": "Papi299",
+              "id": 191498044,
+              "type": "User"
+            },
+            "private": false,
+            "visibility": "public",
+            "default_branch": "main",
+            "permissions": {
+              "admin": true,
+              "maintain": true,
+              "push": true,
+              "triage": true,
+              "pull": true
+            },
+            "allow_squash_merge": true,
+            "allow_merge_commit": false,
+            "allow_rebase_merge": false,
+            "allow_auto_merge": false,
+            "allow_update_branch": false,
+            "delete_branch_on_merge": true,
+            "security_and_analysis": {
+              "secret_scanning": {
+                "status": "enabled"
+              },
+              "secret_scanning_push_protection": {
+                "status": "enabled"
+              },
+              "dependabot_security_updates": {
+                "status": "enabled"
+              },
+              "secret_scanning_non_provider_patterns": {
+                "status": "disabled"
+              },
+              "secret_scanning_validity_checks": {
+                "status": "disabled"
+              }
+            }
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED"
+    },
+    {
+      "family": "R11",
+      "before": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+          "observedAtUtc": "2026-09-27T14:20:34.971965+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "state": "not-configured",
+            "languages": [
+              "actions",
+              "javascript-typescript"
+            ],
+            "query_suite": "default",
+            "threat_model": "remote",
+            "updated_at": null,
+            "schedule": null,
+            "runner_type": "standard",
+            "runner_label": null
+          },
+          "error": ""
+        }
+      ],
+      "mutations": [
+        {
+          "method": "PATCH",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+          "observedAtUtc": "2026-09-27T14:20:35.387832+00:00",
+          "httpStatus": "HTTP/2.0 202 Accepted",
+          "exitCode": 0,
+          "requestBody": {
+            "state": "configured",
+            "languages": [
+              "actions",
+              "javascript-typescript"
+            ],
+            "query_suite": "default"
+          },
+          "response": {
+            "run_id": 36325563847,
+            "run_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/runs/36325563847"
+          },
+          "error": ""
+        }
+      ],
+      "after": [
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+          "observedAtUtc": "2026-09-27T14:20:37.303747+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "state": "configured",
+            "languages": [],
+            "query_suite": "default",
+            "threat_model": "remote",
+            "updated_at": null,
+            "schedule": null,
+            "runner_type": "standard",
+            "runner_label": ""
+          },
+          "error": ""
+        },
+        {
+          "method": "GET",
+          "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+          "observedAtUtc": "2026-09-27T14:26:47.161502+00:00",
+          "httpStatus": "HTTP/2.0 200 OK",
+          "exitCode": 0,
+          "requestBody": null,
+          "response": {
+            "state": "configured",
+            "languages": [
+              "actions",
+              "javascript-typescript"
+            ],
+            "query_suite": "default",
+            "threat_model": "remote",
+            "updated_at": "2026-09-27T14:22:46Z",
+            "schedule": "weekly",
+            "runner_type": "standard",
+            "runner_label": ""
+          },
+          "error": ""
+        }
+      ],
+      "reversal": null,
+      "classification": "APPLIED_AND_VERIFIED",
+      "verificationNote": "Immediate state was configured with languages empty during provider validation; completed successful setup then reported both requested languages and weekly schedule. No queued state is treated as completed analysis."
+    }
+  ],
+  "postMutationSnapshot": {
+    "identity": {
+      "method": "GET",
+      "endpoint": "user",
+      "observedAtUtc": "2026-09-27T14:21:13.165093+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "login": "Papi299",
+        "id": 191498044,
+        "type": "User"
+      },
+      "error": ""
+    },
+    "repository": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app",
+      "observedAtUtc": "2026-09-27T14:21:13.165434+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "id": 1223506255,
+        "full_name": "Papi299/nutrition-tracker-app",
+        "owner": {
+          "login": "Papi299",
+          "id": 191498044,
+          "type": "User"
+        },
+        "private": false,
+        "visibility": "public",
+        "default_branch": "main",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        },
+        "allow_squash_merge": true,
+        "allow_merge_commit": false,
+        "allow_rebase_merge": false,
+        "allow_auto_merge": false,
+        "allow_update_branch": false,
+        "delete_branch_on_merge": true,
+        "security_and_analysis": {
+          "secret_scanning": {
+            "status": "enabled"
+          },
+          "secret_scanning_push_protection": {
+            "status": "enabled"
+          },
+          "dependabot_security_updates": {
+            "status": "enabled"
+          },
+          "secret_scanning_non_provider_patterns": {
+            "status": "disabled"
+          },
+          "secret_scanning_validity_checks": {
+            "status": "disabled"
+          }
+        }
+      },
+      "error": ""
+    },
+    "main": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/branches/main",
+      "observedAtUtc": "2026-09-27T14:21:13.165550+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "name": "main",
+        "sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+        "protected": true,
+        "protection": {
+          "enabled": false,
+          "required_status_checks": {
+            "enforcement_level": "off",
+            "contexts": [],
+            "checks": []
+          }
+        }
+      },
+      "error": ""
+    },
+    "classicProtection": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/branches/main/protection",
+      "observedAtUtc": "2026-09-27T14:21:13.165710+00:00",
+      "httpStatus": "HTTP/2.0 404 Not Found",
+      "exitCode": 1,
+      "requestBody": null,
+      "response": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      },
+      "error": "gh: Branch not protected (HTTP 404)"
+    },
+    "rulesets": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/rulesets?includes_parents=true",
+      "observedAtUtc": "2026-09-27T14:21:13.765366+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [
+        {
+          "id": 24075217,
+          "name": "main-dec029",
+          "target": "branch",
+          "source_type": "Repository",
+          "source": "Papi299/nutrition-tracker-app",
+          "enforcement": "active",
+          "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+          "_links": {
+            "self": {
+              "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+            },
+            "html": {
+              "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+            }
+          },
+          "created_at": "2026-09-27T17:17:35.991+03:00",
+          "updated_at": "2026-09-27T17:18:37.067+03:00"
+        }
+      ],
+      "error": ""
+    },
+    "effectiveRules": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/rules/branches/main",
+      "observedAtUtc": "2026-09-27T14:21:13.826438+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": false,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "Papi299/nutrition-tracker-app",
+          "ruleset_id": 24075217
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": false,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "Validate",
+                "integration_id": 15368
+              }
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "Papi299/nutrition-tracker-app",
+          "ruleset_id": 24075217
+        },
+        {
+          "type": "required_linear_history",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "Papi299/nutrition-tracker-app",
+          "ruleset_id": 24075217
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "Papi299/nutrition-tracker-app",
+          "ruleset_id": 24075217
+        },
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "Papi299/nutrition-tracker-app",
+          "ruleset_id": 24075217
+        }
+      ],
+      "error": ""
+    },
+    "actions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions",
+      "observedAtUtc": "2026-09-27T14:21:13.826752+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "enabled": true,
+        "allowed_actions": "selected",
+        "selected_actions_url": "https://api.github.com/repositories/1223506255/actions/permissions/selected-actions",
+        "sha_pinning_required": true
+      },
+      "error": ""
+    },
+    "selectedActions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions",
+      "observedAtUtc": "2026-09-27T14:26:50.347168+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "github_owned_allowed": true,
+        "patterns_allowed": [
+          "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020",
+          "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+        ],
+        "verified_allowed": false
+      },
+      "error": ""
+    },
+    "workflowPermissions": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/permissions/workflow",
+      "observedAtUtc": "2026-09-27T14:21:14.125741+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "error": ""
+    },
+    "dependabotEnablement": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+      "observedAtUtc": "2026-09-27T14:21:14.226675+00:00",
+      "httpStatus": "HTTP/2.0 204 No Content",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": "",
+      "error": ""
+    },
+    "securityUpdates": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+      "observedAtUtc": "2026-09-27T14:21:14.228481+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "enabled": true,
+        "paused": false
+      },
+      "error": ""
+    },
+    "codeql": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+      "observedAtUtc": "2026-09-27T14:26:47.161502+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "state": "configured",
+        "languages": [
+          "actions",
+          "javascript-typescript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "updated_at": "2026-09-27T14:22:46Z",
+        "schedule": "weekly",
+        "runner_type": "standard",
+        "runner_label": ""
+      },
+      "error": ""
+    },
+    "validateCheck": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/check-runs/108631249844",
+      "observedAtUtc": "2026-09-27T14:21:14.455298+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "id": 108631249844,
+        "name": "Validate",
+        "head_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36323328703/job/108631249844",
+        "app": {
+          "id": 15368,
+          "slug": "github-actions",
+          "name": "GitHub Actions"
+        }
+      },
+      "error": ""
+    }
+  },
+  "ruleset": {
+    "id": 24075217,
+    "name": "main-dec029",
+    "target": "branch",
+    "source_type": "Repository",
+    "source": "Papi299/nutrition-tracker-app",
+    "enforcement": "active",
+    "conditions": {
+      "ref_name": {
+        "exclude": [],
+        "include": [
+          "refs/heads/main"
+        ]
+      }
+    },
+    "rules": [
+      {
+        "type": "pull_request",
+        "parameters": {
+          "required_approving_review_count": 0,
+          "dismiss_stale_reviews_on_push": false,
+          "required_reviewers": [],
+          "require_code_owner_review": false,
+          "require_last_push_approval": false,
+          "required_review_thread_resolution": true,
+          "require_extra_approval_for_unattributed_changes": false,
+          "allowed_merge_methods": [
+            "merge",
+            "squash",
+            "rebase"
+          ]
+        }
+      },
+      {
+        "type": "required_status_checks",
+        "parameters": {
+          "strict_required_status_checks_policy": false,
+          "do_not_enforce_on_create": false,
+          "required_status_checks": [
+            {
+              "context": "Validate",
+              "integration_id": 15368
+            }
+          ]
+        }
+      },
+      {
+        "type": "required_linear_history"
+      },
+      {
+        "type": "non_fast_forward"
+      },
+      {
+        "type": "deletion"
+      }
+    ],
+    "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+    "created_at": "2026-09-27T17:17:35.991+03:00",
+    "updated_at": "2026-09-27T17:18:37.067+03:00",
+    "bypass_actors": [],
+    "current_user_can_bypass": "never",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+      },
+      "html": {
+        "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+      }
+    }
+  },
+  "requiredCheck": {
+    "context": "Validate",
+    "integrationId": 15368,
+    "sourceCheckId": 108631249844,
+    "requiredCodeQL": false
+  },
+  "matrix": [
+    {
+      "id": "G01",
+      "requirement": "PR-based integration to main",
+      "controllingDec029Wording": "Authoritative CI and independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Active main-only pull_request rule; zero approvals; no bypass.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G02",
+      "requirement": "Authoritative Validate required before merge",
+      "controllingDec029Wording": "Authoritative CI",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Validate is the sole required check, integration_id=15368; observed from accepted CI #308.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G03",
+      "requirement": "Conversation resolution",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "required_review_thread_resolution=true.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G04",
+      "requirement": "Linear history",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "required_linear_history active.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G05",
+      "requirement": "Force-push protection",
+      "controllingDec029Wording": "Authoritative CI and independent review; squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "non_fast_forward active.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G06",
+      "requirement": "Deletion protection",
+      "controllingDec029Wording": "Authoritative CI and independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "deletion active.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G07",
+      "requirement": "Squash-only integration policy",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_squash_merge=true; allow_merge_commit=false; allow_rebase_merge=false.",
+      "evidence": [
+        "R2"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R2",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G08",
+      "requirement": "Disable merge commits",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_merge_commit=false.",
+      "evidence": [
+        "R2"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R2",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G09",
+      "requirement": "Disable rebase merges",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_rebase_merge=false.",
+      "evidence": [
+        "R2"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R2",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G10",
+      "requirement": "Branch cleanup after merge",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "Accepted Phase 11F §14 and focused branch delivery; DEC-029 does not literally specify the cleanup boolean.",
+      "freshObservedValue": "delete_branch_on_merge=true.",
+      "evidence": [
+        "R3"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R3",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G11",
+      "requirement": "Actions source restriction",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allowed_actions=selected; final github_owned_allowed=true; verified_allowed=false; only three explicitly selected reviewed GitHub-owned full-SHA patterns; arbitrary third-party Actions prohibited. Provider-owned class observed after CodeQL setup; no claim that the three-pattern-only restriction remained exclusive.",
+      "evidence": [
+        "R4"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R4",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G12",
+      "requirement": "Repository immutable/full-SHA Actions enforcement",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "sha_pinning_required=true.",
+      "evidence": [
+        "R5"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R5",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G13",
+      "requirement": "Default workflow token",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "default_workflow_permissions=read; committed workflow contents: read.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G14",
+      "requirement": "Actions PR-approval permission",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "can_approve_pull_request_reviews=false.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G15",
+      "requirement": "Dependency graph",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Owner Settings row shows Disable dependency graph after one Enable click; SBOM export HTTP200, 513 packages.",
+      "evidence": [
+        "R6"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R6",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G16",
+      "requirement": "Dependabot alerts / vulnerability-alert enablement",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "GET vulnerability-alerts HTTP204; open alert inventory read separately.",
+      "evidence": [
+        "R7"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R7",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G17",
+      "requirement": "Dependabot security updates",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.dependabot_security_updates.status=enabled.",
+      "evidence": [
+        "R8"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R8",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G18",
+      "requirement": "Automated security fixes",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "automated-security-fixes enabled=true, paused=false.",
+      "evidence": [
+        "R8"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R8",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G19",
+      "requirement": "Repository secret scanning enablement",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.secret_scanning.status=enabled.",
+      "evidence": [
+        "R9"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R9",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G20",
+      "requirement": "Repository push protection",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.secret_scanning_push_protection.status=enabled.",
+      "evidence": [
+        "R10"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R10",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G21",
+      "requirement": "Code scanning / default setup",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "CodeQL default setup configured for provider-detected Actions and JavaScript/TypeScript; initial completed run recorded in codeqlValidation.",
+      "evidence": [
+        "R11"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R11",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G22",
+      "requirement": "Exception/bypass governance including administrators",
+      "controllingDec029Wording": "Authoritative CI and independent review; approved human P1 authority",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "bypass_actors=[]; current_user_can_bypass=never; no admin exemption.",
+      "evidence": [
+        "R1"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": "R1",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G23",
+      "requirement": "P1 exception authority",
+      "controllingDec029Wording": "approved human P1 authority",
+      "policyBasis": "Direct DEC-029 role deadline; unresolved before-K prerequisite, not a due-now settings error.",
+      "freshObservedValue": "P1 exception authority remains UNASSIGNED_BLOCKING_BEFORE_11K; no assignment inferred.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "roles"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G24",
+      "requirement": "Independent exact-head review process",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "Accepted Phase 11F §14 and merged PR149 provenance; process compliance for accepted baseline, not technical enforcement or self-approval of this packet.",
+      "freshObservedValue": "Independent ChatGPT exact-head review remains mandatory process policy; accepted PR151/main is starting evidence. This new execution packet awaits independent review.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G25",
+      "requirement": "Repository workflow immutable pins",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Both repository workflows retain their original reviewed three full-SHA pins; offline validator required and no workflow file changed.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G26",
+      "requirement": "Authoritative CI exists and passes",
+      "controllingDec029Wording": "Authoritative CI",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "CI #308 push exact baseline succeeded. New Draft PR CI operability evidence is returned externally for the final source head.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G27",
+      "requirement": "Require auto-merge or update-branch feature",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_auto_merge=false; allow_update_branch=false; neither has an enablement requirement.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "NOT_APPLICABLE",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G28",
+      "requirement": "Optional paid/expanded scanning controls",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Optional non-provider patterns, validity checks and expanded paid/AI/enterprise controls remain outside accepted remediation scope.",
+      "evidence": [
+        "postMutationSnapshot",
+        "sourceIndex",
+        "policy"
+      ],
+      "status": "NOT_APPLICABLE",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    }
+  ],
+  "matrixCounts": {
+    "VERIFIED_COMPLIANT": 25,
+    "VERIFIED_MISMATCH": 1,
+    "NOT_APPLICABLE": 2
+  },
+  "policy": {
+    "contractVersion": "2.0-personal-use-windows-deferred-amended",
+    "dec029ExactApprovedWording": "Authoritative CI and independent review; squash merge; no reachable unaccepted critical/high advisory; approved human P1 authority; any future admin automation requires separately approved credentials/threat model/design/implementation/evidence.",
+    "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md DEC-029 row; role §2.2; exceptions §11",
+    "operationalDerivation": "DEC-029 is high-level. Conversation/linear-history/protection, cleanup, Actions and scanning settings are the accepted Phase 11F §§12–14 implementation, not new literal requirements invented in Contract1.9.",
+    "phase11fHistoricalEvidenceUnchanged": true,
+    "singleAccountIndependentReview": "Zero GitHub approvals with required separately attributable independent ChatGPT exact-head review; never demand multiple GitHub accounts or treat zero as waiver.",
+    "personalUseProfile": "DEC-035 PERSONAL_USE_FREE_TIER; DEC-037/038 do not waive DEC-029.",
+    "settingsVsProcess": "Active main rules now enforce PR/Validate; independent ChatGPT exact-head review remains process evidence and is pending for this packet.",
+    "p11a016Severity": "P2; not eligible for Contract §11 P1 exception.",
+    "futureTrustedInvitationAutomation": "Unselected and separately approved credentials/threat model/design/implementation/evidence required; none authorized here."
+  },
+  "planAssessment": {
+    "repositoryPublic": true,
+    "planOrPermissionDenialsObserved": false,
+    "billingInspected": false,
+    "paidUpgradeRequired": false,
+    "actionsLimitation": "R4 immediately verified three explicit immutable selections with github_owned_allowed=false. Later fresh read after CodeQL setup observed github_owned_allowed=true. Preserve and report the authorized GitHub-owned-only fallback; patterns remain the three reviewed pins, no arbitrary third-party patterns or verified marketplace class. Owner/local actions remain allowed by GitHub selected-policy semantics. No speculative reconfiguration of the provider-managed CodeQL workflow."
+  },
+  "codeqlValidation": {
+    "setup": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+      "observedAtUtc": "2026-09-27T14:26:47.161502+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "state": "configured",
+        "languages": [
+          "actions",
+          "javascript-typescript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "updated_at": "2026-09-27T14:22:46Z",
+        "schedule": "weekly",
+        "runner_type": "standard",
+        "runner_label": ""
+      },
+      "error": ""
+    },
+    "run": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/runs/36325563847",
+      "observedAtUtc": "2026-09-27T14:26:47.697759+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "id": 36325563847,
+        "name": "CodeQL Setup",
+        "event": "dynamic",
+        "head_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+        "head_branch": "main",
+        "run_number": 1,
+        "run_attempt": 1,
+        "path": "dynamic/github-code-scanning/codeql",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36325563847",
+        "created_at": "2026-09-27T14:20:36Z",
+        "updated_at": "2026-09-27T14:22:46Z"
+      },
+      "error": ""
+    },
+    "jobs": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/actions/runs/36325563847/jobs",
+      "observedAtUtc": "2026-09-27T14:26:48.102975+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": {
+        "total_count": 3,
+        "jobs": [
+          {
+            "id": 108637555045,
+            "name": "Analyze (actions)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-09-27T14:20:41Z",
+            "completed_at": "2026-09-27T14:21:26Z",
+            "check_run_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/check-runs/108637555045",
+            "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36325563847/job/108637555045",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1,
+                "started_at": "2026-09-27T14:20:42Z",
+                "completed_at": "2026-09-27T14:20:43Z"
+              },
+              {
+                "name": "Checkout repository",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2,
+                "started_at": "2026-09-27T14:20:43Z",
+                "completed_at": "2026-09-27T14:20:45Z"
+              },
+              {
+                "name": "Setup proxy for registries",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3,
+                "started_at": "2026-09-27T14:20:45Z",
+                "completed_at": "2026-09-27T14:20:46Z"
+              },
+              {
+                "name": "Initialize CodeQL",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4,
+                "started_at": "2026-09-27T14:20:46Z",
+                "completed_at": "2026-09-27T14:20:59Z"
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5,
+                "started_at": "2026-09-27T14:20:59Z",
+                "completed_at": "2026-09-27T14:21:22Z"
+              },
+              {
+                "name": "Record Successful outcome",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 6,
+                "started_at": "2026-09-27T14:21:22Z",
+                "completed_at": "2026-09-27T14:21:22Z"
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 9,
+                "started_at": "2026-09-27T14:21:22Z",
+                "completed_at": "2026-09-27T14:21:23Z"
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 10,
+                "started_at": "2026-09-27T14:21:23Z",
+                "completed_at": "2026-09-27T14:21:23Z"
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 11,
+                "started_at": "2026-09-27T14:21:23Z",
+                "completed_at": "2026-09-27T14:21:24Z"
+              },
+              {
+                "name": "Post Checkout repository",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 12,
+                "started_at": "2026-09-27T14:21:24Z",
+                "completed_at": "2026-09-27T14:21:24Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 13,
+                "started_at": "2026-09-27T14:21:24Z",
+                "completed_at": "2026-09-27T14:21:24Z"
+              }
+            ]
+          },
+          {
+            "id": 108637555072,
+            "name": "Analyze (javascript-typescript)",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-09-27T14:20:41Z",
+            "completed_at": "2026-09-27T14:22:45Z",
+            "check_run_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/check-runs/108637555072",
+            "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36325563847/job/108637555072",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1,
+                "started_at": "2026-09-27T14:20:41Z",
+                "completed_at": "2026-09-27T14:20:42Z"
+              },
+              {
+                "name": "Checkout repository",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2,
+                "started_at": "2026-09-27T14:20:42Z",
+                "completed_at": "2026-09-27T14:20:44Z"
+              },
+              {
+                "name": "Setup proxy for registries",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3,
+                "started_at": "2026-09-27T14:20:44Z",
+                "completed_at": "2026-09-27T14:20:44Z"
+              },
+              {
+                "name": "Initialize CodeQL",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4,
+                "started_at": "2026-09-27T14:20:44Z",
+                "completed_at": "2026-09-27T14:21:01Z"
+              },
+              {
+                "name": "Perform CodeQL Analysis",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5,
+                "started_at": "2026-09-27T14:21:01Z",
+                "completed_at": "2026-09-27T14:22:42Z"
+              },
+              {
+                "name": "Record Successful outcome",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 6,
+                "started_at": "2026-09-27T14:22:42Z",
+                "completed_at": "2026-09-27T14:22:42Z"
+              },
+              {
+                "name": "Post Perform CodeQL Analysis",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 9,
+                "started_at": "2026-09-27T14:22:42Z",
+                "completed_at": "2026-09-27T14:22:42Z"
+              },
+              {
+                "name": "Post Initialize CodeQL",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 10,
+                "started_at": "2026-09-27T14:22:42Z",
+                "completed_at": "2026-09-27T14:22:43Z"
+              },
+              {
+                "name": "Post Setup proxy for registries",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 11,
+                "started_at": "2026-09-27T14:22:43Z",
+                "completed_at": "2026-09-27T14:22:43Z"
+              },
+              {
+                "name": "Post Checkout repository",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 12,
+                "started_at": "2026-09-27T14:22:43Z",
+                "completed_at": "2026-09-27T14:22:44Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 13,
+                "started_at": "2026-09-27T14:22:44Z",
+                "completed_at": "2026-09-27T14:22:44Z"
+              }
+            ]
+          },
+          {
+            "id": 108637910312,
+            "name": "Adjust Configuration",
+            "status": "completed",
+            "conclusion": "skipped",
+            "started_at": "2026-09-27T14:22:45Z",
+            "completed_at": "2026-09-27T14:22:45Z",
+            "check_run_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/check-runs/108637910312",
+            "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36325563847/job/108637910312",
+            "steps": []
+          }
+        ]
+      },
+      "error": ""
+    },
+    "analyses": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/analyses?per_page=100",
+      "observedAtUtc": "2026-09-27T14:26:48.609969+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [
+        {
+          "ref": "refs/heads/main",
+          "commit_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "error": "",
+          "created_at": "2026-09-27T14:22:13Z",
+          "results_count": 5,
+          "rules_count": 87,
+          "id": 1847253551,
+          "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/analyses/1847253551",
+          "sarif_id": "d4c826f6-ba7e-11f1-9650-18abd4829510",
+          "tool": {
+            "name": "CodeQL",
+            "guid": null,
+            "version": "2.27.1"
+          },
+          "deletable": true,
+          "warning": ""
+        },
+        {
+          "ref": "refs/heads/main",
+          "commit_sha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:actions\",\"language\":\"actions\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:actions",
+          "error": "",
+          "created_at": "2026-09-27T14:21:15Z",
+          "results_count": 0,
+          "rules_count": 17,
+          "id": 1847251719,
+          "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/analyses/1847251719",
+          "sarif_id": "b24aa662-ba7e-11f1-9579-e4dcf5e4fb06",
+          "tool": {
+            "name": "CodeQL",
+            "guid": null,
+            "version": "2.27.1"
+          },
+          "deletable": true,
+          "warning": ""
+        }
+      ],
+      "error": ""
+    }
+  },
+  "securityAlerts": {
+    "alerts": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/code-scanning/alerts?state=open&per_page=100",
+      "observedAtUtc": "2026-09-27T14:26:49.005374+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [
+        {
+          "number": 5,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+          "state": "open",
+          "ruleId": "js/insufficient-password-hash",
+          "description": "Use of password hash with insufficient computational effort",
+          "securitySeverity": "high",
+          "toolSeverity": "warning",
+          "commitSha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "location": {
+            "path": "tests/recent-password-auth-proof.spec.ts",
+            "start_line": 24,
+            "end_line": 24,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": [
+            "test"
+          ],
+          "dismissedAt": null,
+          "reachability": "NOT_TRIAGED; no exception or false-positive determination authorized"
+        },
+        {
+          "number": 4,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+          "state": "open",
+          "ruleId": "js/insufficient-password-hash",
+          "description": "Use of password hash with insufficient computational effort",
+          "securitySeverity": "high",
+          "toolSeverity": "warning",
+          "commitSha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 183,
+            "end_line": 183,
+            "start_column": 13,
+            "end_column": 43
+          },
+          "classifications": [],
+          "dismissedAt": null,
+          "reachability": "NOT_TRIAGED; no exception or false-positive determination authorized"
+        },
+        {
+          "number": 3,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+          "state": "open",
+          "ruleId": "js/insufficient-password-hash",
+          "description": "Use of password hash with insufficient computational effort",
+          "securitySeverity": "high",
+          "toolSeverity": "warning",
+          "commitSha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 135,
+            "end_line": 135,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": [],
+          "dismissedAt": null,
+          "reachability": "NOT_TRIAGED; no exception or false-positive determination authorized"
+        },
+        {
+          "number": 2,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+          "state": "open",
+          "ruleId": "js/insufficient-password-hash",
+          "description": "Use of password hash with insufficient computational effort",
+          "securitySeverity": "high",
+          "toolSeverity": "warning",
+          "commitSha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "location": {
+            "path": "lib/account-closure/capability.ts",
+            "start_line": 119,
+            "end_line": 119,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": [],
+          "dismissedAt": null,
+          "reachability": "NOT_TRIAGED; no exception or false-positive determination authorized"
+        },
+        {
+          "number": 1,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+          "state": "open",
+          "ruleId": "js/insufficient-password-hash",
+          "description": "Use of password hash with insufficient computational effort",
+          "securitySeverity": "high",
+          "toolSeverity": "warning",
+          "commitSha": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+          "location": {
+            "path": "e2e/account-closure.spec.ts",
+            "start_line": 113,
+            "end_line": 113,
+            "start_column": 13,
+            "end_column": 26
+          },
+          "classifications": [
+            "test"
+          ],
+          "dismissedAt": null,
+          "reachability": "NOT_TRIAGED; no exception or false-positive determination authorized"
+        }
+      ],
+      "error": ""
+    },
+    "dependabot": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/dependabot/alerts?state=open&per_page=100",
+      "observedAtUtc": "2026-09-27T14:26:49.427309+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [],
+      "error": ""
+    },
+    "secrets": {
+      "method": "GET",
+      "endpoint": "repos/Papi299/nutrition-tracker-app/secret-scanning/alerts?state=open&per_page=100",
+      "observedAtUtc": "2026-09-27T14:26:49.852025+00:00",
+      "httpStatus": "HTTP/2.0 200 OK",
+      "exitCode": 0,
+      "requestBody": null,
+      "response": [],
+      "error": ""
+    }
+  },
+  "roles": [
+    {
+      "role": "Independent acceptance reviewer",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    },
+    {
+      "role": "Candidate release approver",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    },
+    {
+      "role": "P1 exception authority",
+      "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "assignee": null,
+      "acceptance": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "P11A-001",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-002",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-003",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-004",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-005",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-006",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-007",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-008",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-009",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-010",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-011",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-012",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-013",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-014",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-015",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-016",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-017",
+      "status": "OPEN"
+    },
+    {
+      "id": "P11A-018",
+      "status": "OPEN"
+    }
+  ],
+  "p11a016": {
+    "status": "OPEN",
+    "externalEvidenceState": "SETTINGS_REMEDIATION_VERIFIED_PENDING_INDEPENDENT_ACCEPTANCE_AND_11K",
+    "fullyIndependentlyAccepted": false,
+    "authority": "Only Phase 11K may close a finding; G23 remains unresolved."
+  },
+  "sourceIndex": [
+    {
+      "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+      "baselineGitBlob": "9ed0468802cc2b4a3bcba010dfc1650560bdda34",
+      "baselineSha256": "bec504a10d44392335e720e459051477f0b3300de4015f4ca29ab02d07fed793",
+      "historicalPacketUnchanged": false
+    },
+    {
+      "path": "docs/phase-11f-security-and-dependency-hardening.md",
+      "baselineGitBlob": "6270f93f77c1288a6ef5b16560eaeb2c53661972",
+      "baselineSha256": "d49d647d62ddb47f90433a46642e037fe65e9bfd84c52a358536a42632f032ee",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+      "baselineGitBlob": "78556c1ca9138d3094f856e34e537c80e97dc70e",
+      "baselineSha256": "599520384e4a7ad5f94bd78ea88965de5b21e000c2f9447652d5250c3941d046",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11-prek-github-governance-refresh.md",
+      "baselineGitBlob": "0df703b8be1c3f4837f02ecb88f4e851f56590a9",
+      "baselineSha256": "8b54b1e50514b1baa2ec937a5eebdb59d85123c9d6e756e153e827a1f6ddcba5",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+      "baselineGitBlob": "d8ed7b6f806eb5876878f41d063393e233b42b25",
+      "baselineSha256": "8150260fba00cd6a10911216381bfdc7a07a16d3ae7b41fb0425031400cef1db",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11-prek-dependency-graph-config-resolution.md",
+      "baselineGitBlob": "9ca3c75a584d074ea2739a3aeaf5feb963248e3a",
+      "baselineSha256": "ddf0af98c197a1bf81ef0f9548dbae5d5f495a9073b298d541eb6558be2ace12",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "baselineGitBlob": "8d7ca63884a60133cb0d01680e0504accd937a15",
+      "baselineSha256": "76d86d2ba944c8066d7cfea219a3a85d9b6c6d26ad9c518c8e5fc4de50ce249a",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "baselineGitBlob": "65dac462c70861de76e66e7490e1709797544414",
+      "baselineSha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "baselineGitBlob": "62260ace69961a713ea4317942db873453c15dee",
+      "baselineSha256": "c72a846fb0791d26b160809e6314eb2779198d3d106c1dc43fa657198f39e1da",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "baselineGitBlob": "2c06f75da7c0af1ccb0dfc66bf614c8fbdeb4297",
+      "baselineSha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+      "baselineGitBlob": "52af0b65acd3e0e43089657d5ab79a72a68528c2",
+      "baselineSha256": "b2de5f890c9d0aa974c9d1aca7766f8021cdc1c8bd014ddef6993651ee968801",
+      "historicalPacketUnchanged": true
+    },
+    {
+      "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+      "baselineGitBlob": "3c3349465564247cd30ab3466dbf0db5fc733f97",
+      "baselineSha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8",
+      "historicalPacketUnchanged": true
+    }
+  ],
+  "safety": {
+    "nonGitHubProviderAccessOrMutation": false,
+    "supabaseAccessOrMutation": false,
+    "vercelAccessOrMutation": false,
+    "productionReleaseAuthorized": false,
+    "productionDeployment": false,
+    "dnsBillingCollaboratorSecretsVariablesOrUnrelatedSettingsMutation": false,
+    "applicationRuntimeOrDataMutation": false,
+    "physicalDeviceTestsOrJ3VmStart": false,
+    "credentialOrAuthorizationHeadersPersisted": false,
+    "secretTestCredentialGenerated": false,
+    "alertsDismissedOrExceptionsCreated": false,
+    "phase11KStarted": false,
+    "finalJ6Executed": false,
+    "findingsClosed": false,
+    "draftPrMerged": false
+  },
+  "delivery": {
+    "branch": "codex/phase11-prek-governance-remediation-dec039",
+    "target": "Draft PR only; no merge",
+    "exactSourceHeadTreeAndCi": "Returned externally after final commit to avoid self-referential evidence."
+  },
+  "securityStop": {
+    "result": "STOPPED_NEW_HIGH_CODEQL_ALERTS",
+    "governanceRemediationComplete": false,
+    "codeqlHighOpen": 5,
+    "criticalOpen": 0,
+    "dependabotOpen": 0,
+    "secretScanningOpen": 0,
+    "scope": "Settings read-back succeeded; no further settings/application mutation after discovery. Continue only requested DEC-039/evidence recording and Draft delivery. Separate bounded engineering triage is required; no alert dismissal, exception or reachability adjudication."
+  },
+  "repositoryCorrections": {
+    "files": [
+      "scripts/check-phase-11c-journey-evidence.mjs",
+      "scripts/check-phase-11c-journey-evidence.test.mjs"
+    ],
+    "reason": "Required current-contract version compatibility after authorized DEC-039 Contract 2.0 amendment; no workflow/runtime change and no historical fingerprint/evidence changes."
+  }
+}
