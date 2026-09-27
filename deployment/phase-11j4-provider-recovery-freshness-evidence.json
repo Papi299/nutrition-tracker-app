@@ -1,0 +1,837 @@
+{
+  "schemaVersion": "phase-11j4-provider-recovery-freshness-evidence/v1",
+  "taskId": "PHASE-11J4-DEC038-DEFERRED-J3-PARALLEL-READONLY-PREFLIGHT-001",
+  "inspection": {
+    "atUtc": "2026-09-27T00:10:51.280Z",
+    "atLocal": "2026-09-27T03:10:51.280+03:00",
+    "timezone": "Asia/Jerusalem",
+    "scope": "Production/provider metadata GETs and existing GitHub workflow metadata only; no new backup or restore"
+  },
+  "classifications": [
+    "FRESH_READ_ONLY_VERIFIED",
+    "CARRIED_FORWARD_ACCEPTED",
+    "NOT_FRESHLY_OBSERVABLE",
+    "STALE_OR_FAILED",
+    "POST_DEPLOY_RELEASE_VERIFICATION"
+  ],
+  "repositoryBaseline": {
+    "classification": "FRESH_READ_ONLY_VERIFIED",
+    "sha": "e0396fce9f42ead8793fab1419daefb65f65ea38",
+    "tree": "bbeb5c38801a5d471587df62c44749cd2a364a7b",
+    "soleParent": "62c906ee3aa4f1b995df81f2bc65fabeafc9be3e",
+    "subject": "docs(phase11j3): remove Firefox from owner validation plan (#146)",
+    "pr146Merged": true,
+    "mergedAt": "2026-09-26T23:32:41Z",
+    "openPrCountAtInspection": 0,
+    "relevantDrift": false,
+    "ci": {
+      "id": 36279781137,
+      "number": 296,
+      "attempt": 1,
+      "event": "push",
+      "head": "e0396fce9f42ead8793fab1419daefb65f65ea38",
+      "result": "success",
+      "validateJob": 108509285724,
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11DPassed": 53,
+      "phase11DIntentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "clientSecretBoundary": {
+        "result": "PASS",
+        "artifactCount": 115
+      },
+      "artifact": {
+        "id": 10918866517,
+        "name": "phase-11d-evidence-36279781137-1",
+        "digest": "sha256:887cd5cd885f43f6156db18bcd45657c91ad0294e05be108a14d08dca538081c"
+      },
+      "sources": [
+        "GitHub branches/main and commit API",
+        "PR #146 metadata",
+        "actions/runs/36279781137",
+        "actions/jobs/108509285724 steps and log",
+        "actions/artifacts/10918866517"
+      ]
+    },
+    "isolation": {
+      "branch": "codex/phase11j4-readonly-preflight",
+      "originalCheckoutPreserved": true,
+      "originalCheckoutHead": "40a7554f3ecc007896fb1de1563a728565928e9e",
+      "originalCheckoutHasUnrelatedChanges": true
+    }
+  },
+  "decision": {
+    "id": "DEC-038",
+    "title": "Permit J4-J6 execution while J3 Windows evidence is deferred",
+    "productOwner": "Maor Pichhadze",
+    "approvedOn": "2026-09-27",
+    "timezone": "Asia/Jerusalem",
+    "ownerDirectionVerbatim": "I want to put aside the Windows PC matter, and proceed with J4-J6 too",
+    "authority": "Direct Product Owner instruction supplied in the task brief",
+    "kind": "EXECUTION_ORDER_AMENDMENT",
+    "independentReview": "PENDING",
+    "contractVersionUnchanged": "1.9-personal-use-firefox-excluded-amended",
+    "dec037Changed": false,
+    "j3RequirementsWaived": false,
+    "j4AndJ5IndependentOfDeferredJ3": true,
+    "j5RequiresAcceptedJ4AndSeparateBoundedTask": true,
+    "j6InterimReconciliationPermittedWithExplicitJ3Gap": true,
+    "j6CannotCompletePhase11JWithoutRequiredJ3Evidence": true,
+    "laterIndependentJ3AcceptanceAndBoundedJ6FinalReconciliationRequired": true,
+    "phase11KRequiresTruthfullyCompletePhase11J": true,
+    "productionRequiresSeparateAuthorization": true
+  },
+  "j3": {
+    "classification": "CARRIED_FORWARD_ACCEPTED",
+    "status": "INCOMPLETE",
+    "physicalPassRecorded": false,
+    "planReference": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+    "counts": {
+      "historicalFormalCases": 39,
+      "activeRequiredCases": 37,
+      "excludedByOwnerDecision": 2,
+      "cameraCarryForwardAccepted": 30,
+      "previouslyAcceptedUiPass": 5,
+      "uiNotExecuted": 2,
+      "newFormalUiExecutions": 0,
+      "physicalCameraExecutionsInThisTask": 0
+    },
+    "deferredCases": [
+      {
+        "testCaseId": "J3-WIN-CHROME-01",
+        "required": true,
+        "evidenceDisposition": "NOT_EXECUTED"
+      },
+      {
+        "testCaseId": "J3-WIN-EDGE-01",
+        "required": true,
+        "evidenceDisposition": "NOT_EXECUTED"
+      }
+    ],
+    "excludedHistoricalCases": [
+      {
+        "testCaseId": "J3-MAC-FIREFOX-01",
+        "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+        "decision": "DEC-037",
+        "historicalExecutionDisposition": "NOT_EXECUTED",
+        "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/2",
+        "physicalPassCredit": false
+      },
+      {
+        "testCaseId": "J3-WIN-FIREFOX-01",
+        "requirementDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+        "decision": "DEC-037",
+        "historicalExecutionDisposition": "NOT_EXECUTED",
+        "historicalReference": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json#/records/5",
+        "physicalPassCredit": false
+      }
+    ],
+    "physicalRuntimeCandidate": {
+      "commitSha": "f50d7448a080dbc0a5968c00fd6747ced36d822b",
+      "treeSha": "f3ac6117f70af8d7a6261c803576d6ecf72ec80f"
+    },
+    "diagnosticLimitations": {
+      "mobileZoom": "Mobile pinch zoom/reflow was exercised. Exact 200% mobile zoom was not measured.",
+      "priorRefreshTokenNotFoundEvents": 8,
+      "priorCauseAndBrowserAttribution": "UNKNOWN_UNRESOLVED",
+      "priorOwnerVisibleAuthDefectEstablished": false,
+      "newRuntimeLogInspection": "NOT_RUN_NO_RUNTIME_SESSION",
+      "newSessionRefreshTokenEventCount": null,
+      "priorEventsResolved": false
+    },
+    "preservedFiles": [
+      {
+        "path": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+        "sha256": "d8e05db2f3c955d61ccd7a7cc64dc2cc6dcee16cee273b4e6a90a18a60204285"
+      },
+      {
+        "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+        "sha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8"
+      },
+      {
+        "path": "deployment/phase-11j3-local-supabase-reset-network-isolation-correction-evidence.json",
+        "sha256": "36feb529cfeafec09fef7b0b3b2cae352c57561b9da5c9e8ad7a420771c01cd9"
+      },
+      {
+        "path": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+        "sha256": "edf325c368c96b2eb0a4086a39ec4f6789cc2ce18bd0f4549a7f6ab60aaa0da9"
+      },
+      {
+        "path": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json",
+        "sha256": "d36c3c4555ce0b8841612a0854fbc7ad1c538d23460799b741b870351c6d15f1"
+      },
+      {
+        "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+        "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7"
+      },
+      {
+        "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+        "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f"
+      },
+      {
+        "path": "deployment/phase-11j3-owner-device-validation-template.json",
+        "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2"
+      },
+      {
+        "path": "deployment/phase-11j3-private-device-test-remaining-topology-preflight-evidence.json",
+        "sha256": "bc266b6e2d060879056f6e653c4b95a906c5c76ad12f008ecca2d319fdcadb6d"
+      },
+      {
+        "path": "deployment/phase-11j3-private-device-test-topology-evidence.json",
+        "sha256": "a3096d9b79ded12eb9a61b28d028e4d0a5922ba1ad168f8cba8ac9be9349e7bc"
+      },
+      {
+        "path": "docs/phase-11j3-camera-evidence-carry-forward.md",
+        "sha256": "6a3f0759dd25fc431a4c79cddd476c4676b3e26f6e0bf30f698da95cd6532f9e"
+      },
+      {
+        "path": "docs/phase-11j3-local-supabase-reset-network-isolation-correction.md",
+        "sha256": "f8b24fcb9c129735b9983a5e1aaf0c4771ca053cc72990ce71636754f188c13a"
+      },
+      {
+        "path": "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+        "sha256": "3f6fef5f47e02e2710694cb702b110d607bf793314cfdc4a4193a5918a1a5ec7"
+      },
+      {
+        "path": "docs/phase-11j3-non-windows-owner-device-validation-results.md",
+        "sha256": "fb02011e071b7a119aaf38adda7aee61a20008015297ec69c307989ce17af246"
+      },
+      {
+        "path": "docs/phase-11j3-owner-device-validation-plan.md",
+        "sha256": "2363e952ab986c0cabde20998f3854f270c79c1f9bb688be3563981ccb383560"
+      },
+      {
+        "path": "docs/phase-11j3-owner-device-validation-results.md",
+        "sha256": "96eba50e3e62f77ffc7e6cd73128fa3c34dc1c256f966501f5d2a10dbfa19eaa"
+      },
+      {
+        "path": "docs/phase-11j3-private-device-test-remaining-topology-preflight.md",
+        "sha256": "2d72373bca2cb8a2098acc8c5e159bccfd697d4b39e60d11c791adb109bbbcdf"
+      },
+      {
+        "path": "docs/phase-11j3-private-device-test-topology-provisioning.md",
+        "sha256": "644677a22f85046c970dbf7e0e78a2c25ecc471a6dd04f139ebfea281281226d"
+      },
+      {
+        "path": "docs/phase-11j3-private-device-test-topology.md",
+        "sha256": "7a16cc337b20c43a9e0c3107c3a46a21962dac782b572227d42b3b7344ba8693"
+      },
+      {
+        "path": "docs/phase-11j3-today-navigation-active-state-correction.md",
+        "sha256": "6399cd561f355160d84a28b4f8bcf1401ee64de3f2c2e56270eb574d55018a0e"
+      }
+    ]
+  },
+  "supabase": {
+    "expected": {
+      "projectRef": "hskfanrqwtqknzpquwhg",
+      "name": "Nutrition Tracker App",
+      "region": "eu-west-1",
+      "environment": "Production"
+    },
+    "projectMetadata": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Supabase connector get_project(id=hskfanrqwtqknzpquwhg)",
+      "observed": {
+        "observedAtUtc": "2026-09-27T00:03:30.218Z",
+        "id": "hskfanrqwtqknzpquwhg",
+        "ref": "hskfanrqwtqknzpquwhg",
+        "organization_id": "nejejqymvrswipedaeei",
+        "organization_slug": "nejejqymvrswipedaeei",
+        "name": "Nutrition Tracker App",
+        "region": "eu-west-1",
+        "status": "ACTIVE_HEALTHY",
+        "database": {
+          "host": "db.hskfanrqwtqknzpquwhg.supabase.co",
+          "version": "17.6.1.111",
+          "postgres_engine": "17",
+          "release_channel": "ga"
+        },
+        "created_at": "2026-04-29T06:33:36.920683Z"
+      }
+    },
+    "inventory": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Supabase connector list_projects; complete returned inventory",
+      "observedAtUtc": "2026-09-27T00:03:30.216Z",
+      "projects": [
+        {
+          "ref": "lioxtgiputfniqbktcsz",
+          "name": "academic-papers-index"
+        },
+        {
+          "ref": "hskfanrqwtqknzpquwhg",
+          "name": "Nutrition Tracker App"
+        }
+      ],
+      "nutritionTrackerProjectCount": 1,
+      "secondHostedNutritionTestOrStagingProjectObserved": false,
+      "scopeLimit": "Visible project inventory and repository topology only; no database or organization-wide hidden-resource claim"
+    },
+    "environmentIdentity": {
+      "classification": "CARRIED_FORWARD_ACCEPTED",
+      "providerProjectMatchesProductionBinding": true,
+      "source": "deployment/phase-11h-contract.json and DEC-035",
+      "providerDoesNotIndependentlyLabelAppEnvironment": true
+    },
+    "protectedProject": {
+      "projectRef": "lioxtgiputfniqbktcsz",
+      "name": "academic-papers-index",
+      "distinctFromProduction": true,
+      "incidentalInventoryOnly": true,
+      "projectSpecificOperations": 0
+    },
+    "authConfiguration": {
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "source": "Installed connector capabilities and dashboard redirect to sign-in",
+      "gapReference": "J4-SB-AUTH-READ-01",
+      "dashboardUrl": "https://supabase.com/dashboard/project/hskfanrqwtqknzpquwhg/auth/providers"
+    },
+    "repositoryMigrationExpectation": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "count": 43,
+      "head": "20260830143000",
+      "unchangedSinceQualifiedSource": true,
+      "source": "Tracked SQL file census and git diff from qualified source; not hosted ledger"
+    },
+    "hostedMigrationAndDatabaseState": {
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "freshlyQueried": false,
+      "gapReference": "J4-SB-DB-BOUNDARY-01"
+    }
+  },
+  "vercel": {
+    "expected": {
+      "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "teamId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+      "bootstrapDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg"
+    },
+    "projectMetadata": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Vercel CLI 59.10.0 explicit GET /v9/projects/prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd scoped to expected team; value fields discarded in process",
+      "observed": {
+        "observedAtUtc": "2026-09-27T00:07:23.028180+00:00",
+        "id": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+        "name": "nutrition-tracker-app",
+        "accountId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+        "framework": "nextjs",
+        "nodeVersion": "24.x",
+        "gitProviderOptions": {
+          "createDeployments": "enabled"
+        },
+        "gitLink": {
+          "type": "github",
+          "repo": "nutrition-tracker-app",
+          "org": "Papi299",
+          "productionBranch": "main",
+          "deployHooks": []
+        },
+        "ssoProtection": {
+          "deploymentType": "all"
+        },
+        "rootDirectory": null,
+        "directoryListing": false,
+        "productionTarget": {
+          "id": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+          "teamId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+          "readyState": "READY",
+          "readySubstate": "PROMOTED",
+          "target": "production",
+          "url": "nutrition-tracker-a5gy11pcn-peachys-projects-4596e52a.vercel.app",
+          "alias": [
+            "nutrition-tracker-app-xi.vercel.app",
+            "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app",
+            "nutrition-tracker-app-git-ad92-fc4157-peachys-projects-4596e52a.vercel.app"
+          ]
+        },
+        "envMetadata": [
+          {
+            "key": "APP_ENVIRONMENT",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "DEPLOYMENT_CLASS",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "SUPABASE_ENVIRONMENT",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "SUPABASE_PROJECT_REF",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "PRODUCTION_SUPABASE_PROJECT_REF",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "NEXT_PUBLIC_SUPABASE_URL",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "APP_ORIGIN",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "PRODUCTION_APP_ORIGIN",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "EXPECTED_VERCEL_PROJECT_ID",
+            "type": "encrypted",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "AUTH_REAUTH_PROOF_SECRET",
+            "type": "sensitive",
+            "target": [
+              "production"
+            ]
+          },
+          {
+            "key": "ACCOUNT_CLOSURE_CAPABILITY_SECRET",
+            "type": "sensitive",
+            "target": [
+              "production"
+            ]
+          }
+        ]
+      },
+      "connectorProjectReadLimitation": "get_project rejected its documented projectId argument with missing idOrName; explicit GET fallback succeeded"
+    },
+    "deploymentList": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Vercel connector list_deployments scoped to expected project/team",
+      "observedAtUtc": "2026-09-27T00:03:30.218Z",
+      "pagination": {
+        "count": 1,
+        "next": 1789571468668,
+        "prev": 1789571468668
+      },
+      "deployments": [
+        {
+          "id": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+          "state": "READY",
+          "target": "production",
+          "url": "nutrition-tracker-a5gy11pcn-peachys-projects-4596e52a.vercel.app",
+          "sourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f"
+        }
+      ],
+      "paginationQualification": "Only one deployment returned. Follow-up before the sole timestamp returned no older deployments; no later deployment or final RC observed."
+    },
+    "bootstrap": {
+      "providerMetadataClassification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Vercel connector get_deployment and explicit GET /v13/deployments/dpl_cydL1xMN2TMPFaU3WAQai91BHxQg scoped to expected team",
+      "observed": {
+        "observedAtUtc": "2026-09-27T00:03:30.219Z",
+        "id": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+        "name": "nutrition-tracker-app",
+        "url": "nutrition-tracker-a5gy11pcn-peachys-projects-4596e52a.vercel.app",
+        "readyState": "READY",
+        "target": "production",
+        "createdAt": 1789571468668,
+        "ready": 1789571535517,
+        "alias": [
+          "nutrition-tracker-app-xi.vercel.app",
+          "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app",
+          "nutrition-tracker-app-git-ad92-fc4157-peachys-projects-4596e52a.vercel.app"
+        ],
+        "regions": [
+          "iad1"
+        ],
+        "meta": {
+          "githubCommitRef": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+          "githubCommitSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+          "githubCommitMessage": "fix(phase-11h): remove remote RLS drift (#124)",
+          "githubRepo": "nutrition-tracker-app",
+          "githubOrg": "Papi299"
+        },
+        "project": {
+          "id": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+          "name": "nutrition-tracker-app",
+          "framework": "nextjs"
+        }
+      },
+      "ownerId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+      "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "readySubstate": "PROMOTED",
+      "governanceClassification": "CARRIED_FORWARD_ACCEPTED",
+      "deploymentClass": "PRODUCTION_BOOTSTRAP_ONLY",
+      "finalReleaseCandidate": false,
+      "sourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+      "providerPromotedSubstateIsNotRepositoryReleaseApproval": true
+    },
+    "domainMapping": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "source": "Vercel explicit GET /v9/projects/<expected-project>/domains scoped to expected team",
+      "pagination": {
+        "count": 1,
+        "next": null,
+        "prev": 1789570727258
+      },
+      "domains": [
+        {
+          "name": "nutrition-tracker-app-xi.vercel.app",
+          "verified": true,
+          "gitBranch": null,
+          "redirect": null,
+          "customEnvironmentId": null
+        }
+      ]
+    },
+    "automaticGitDeployment": {
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "repositoryConfigurationClassification": "FRESH_READ_ONLY_VERIFIED",
+      "repositoryDeploymentEnabled": false,
+      "bootstrapSourceDeploymentEnabled": false,
+      "providerProjectDefaultCreateDeployments": "enabled",
+      "effectiveDisablementFreshlyProven": false,
+      "discrepancyEstablished": false,
+      "source": "Current and bootstrap-source vercel.json; project GET; deployment GET; deployment list",
+      "officialSemantics": "https://vercel.com/docs/project-configuration/git-configuration",
+      "gapReference": "J4-VERCEL-GIT-READ-01"
+    },
+    "environmentMetadata": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "variableCount": 12,
+      "presenceOnly": true,
+      "exactValuesVerified": false,
+      "decryptedValuesRequested": false,
+      "valuesPrintedOrPersisted": false,
+      "gapReference": "J4-ENV-VALUES-BOUNDARY-01"
+    }
+  },
+  "backup": {
+    "classification": "FRESH_READ_ONLY_VERIFIED",
+    "policySource": [
+      "DEC-024",
+      "DEC-025",
+      "DEC-034",
+      "docs/phase-11i-github-artifact-backup-automation.md",
+      "scripts/phase-11i-recovery-contract.mjs"
+    ],
+    "requirements": {
+      "rpoHours": 24,
+      "rpoLimitMs": 86400000,
+      "retentionDays": 30,
+      "rtoHours": 8
+    },
+    "workflow": {
+      "id": 360360478,
+      "name": "Phase 11I Production Backup",
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "state": "active",
+      "created_at": "2026-09-17T12:03:15.000+03:00",
+      "updated_at": "2026-09-17T12:03:15.000+03:00",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/blob/main/.github/workflows/phase-11i-production-backup.yml"
+    },
+    "configuredSchedule": {
+      "cron": "17 2 * * *",
+      "timezone": "Asia/Jerusalem",
+      "contentsPermission": "read",
+      "retentionDays": 30,
+      "productionProjectRef": "hskfanrqwtqknzpquwhg"
+    },
+    "run": {
+      "id": 36208816213,
+      "run_number": 11,
+      "run_attempt": 1,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "e906f226aa021c7a2ccd39b36ca1e704cbc72985",
+      "head_branch": "main",
+      "created_at": "2026-09-26T01:33:15Z",
+      "run_started_at": "2026-09-26T01:33:15Z",
+      "updated_at": "2026-09-26T01:36:15Z",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36208816213"
+    },
+    "latestRelevantRunIsSuccessful": true,
+    "allReturnedRunCount": 11,
+    "runSourceBackupCodeUnchangedAtBaseline": true,
+    "job": {
+      "id": 108310932713,
+      "name": "Encrypted Production backup",
+      "conclusion": "success",
+      "startedAt": "2026-09-26T01:33:19Z",
+      "completedAt": "2026-09-26T01:36:14Z",
+      "backupStepStartedAt": "2026-09-26T01:33:38Z",
+      "backupStepCompletedAt": "2026-09-26T01:36:08Z",
+      "ciphertextOnlyVerifier": "success",
+      "plaintextCleanup": "success",
+      "upload": "success",
+      "uploadMetadataVerification": "success",
+      "ciphertextClaimBoundary": "Freshly observed successful verifier step and unchanged accepted workflow, not independent artifact-byte inspection or decryption"
+    },
+    "artifact": {
+      "id": 10895066091,
+      "name": "phase-11i-production-backup-36208816213",
+      "size_in_bytes": 11893376,
+      "digest": "sha256:bb40a8a83aa73fe50f6b2e6d907ce5c560e2dfdc0916c9e8507102beff94dea5",
+      "expired": false,
+      "created_at": "2026-09-26T01:36:11Z",
+      "updated_at": "2026-09-26T01:36:11Z",
+      "expires_at": "2026-10-26T01:36:09Z",
+      "workflow_run": {
+        "id": 36208816213,
+        "repository_id": 1223506255,
+        "head_repository_id": 1223506255,
+        "head_branch": "main",
+        "head_sha": "e906f226aa021c7a2ccd39b36ca1e704cbc72985"
+      }
+    },
+    "freshness": {
+      "measuredAtUtc": "2026-09-27T00:10:51.280Z",
+      "conservativeSourceTimestamp": "2026-09-26T01:33:38Z",
+      "measurement": "Inspection minus backup-step start, earlier than backup completion/upload; conservative because inner snapshot timestamp is not downloaded",
+      "ageMs": 81433280,
+      "ageHours": 22.620356,
+      "artifactAgeMs": 81280280,
+      "backupCompletionAgeMs": 81283280,
+      "withinRpo": true,
+      "result": "PASS"
+    },
+    "retention": {
+      "configuredDays": 30,
+      "metadataIntervalMs": 2591998000,
+      "metadataIntervalDays": 29.99997685,
+      "expiryVsCreationToleranceSeconds": 5,
+      "result": "PASS",
+      "meaning": "30-day expiry observed; two-second provider create/expiry skew accepted. This is not 30 days of existing history or permanent schedule-health proof."
+    },
+    "artifactDownloaded": false,
+    "artifactDecrypted": false,
+    "newBackupTriggered": false,
+    "sources": [
+      "GitHub GET workflow metadata",
+      "GitHub GET workflow runs (12 per page; 11 total)",
+      "GitHub GET run 36208816213 jobs",
+      "GitHub GET run 36208816213 artifacts"
+    ]
+  },
+  "recovery": {
+    "classification": "CARRIED_FORWARD_ACCEPTED",
+    "qualificationReference": "docs/phase-11i-recovery-qualification-evidence.json",
+    "qualificationEvidenceSha256": "4bdac653538b680bbc23d1b38d97927cf3c4a60b2460f7adfc38fa24ff341145",
+    "taskId": "PHASE-11I-RECOVERY-QUALIFICATION-001",
+    "sourceCommit": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+    "sourceTree": "dcfbd33b330e1796869040686f2efb8167893993",
+    "sourceSupabaseProjectRef": "hskfanrqwtqknzpquwhg",
+    "backupId": "phase11i-hskfanrqwtqknzpquwhg-20260916T225531Z-ad92dadc",
+    "backupArchiveSha256": "a8c6ca0afd372589203975c5034366e5417be41cd9253879d499d65302902122",
+    "backupManifestSha256": "8a33884ddb3a0f5015975dd9d814efed3d84ad569de973b0de500f5f3f67111d",
+    "target": {
+      "identity": "PHASE_11I_RECOVERY_ISOLATED",
+      "projectId": "phase-11i-recovery-isolated",
+      "localOnly": true,
+      "productionSecretsReused": false,
+      "productionTrafficConnected": false
+    },
+    "originalSmokeCompletedAt": "2026-09-16T23:12:51.000Z",
+    "latestAcceptedRestoreAt": "2026-09-17T03:18:20.238Z",
+    "roles": {
+      "restoreExecutor": "Maor Pichhadze",
+      "recoveryApprover": "Jimmy Peachy",
+      "approverDecision": "APPROVE",
+      "decisionDate": "2026-09-17",
+      "provenance": "PRODUCT_OWNER_SUPPLIED_ATTRIBUTABLE_RECOVERY_APPROVER_APPROVAL",
+      "distinctPeople": true,
+      "identityFreshlyAuthenticated": false
+    },
+    "acceptedMeasurements": {
+      "rpoMs": 930973,
+      "rtoMs": 930973,
+      "rpoResult": "PASS",
+      "rtoResult": "PASS"
+    },
+    "cadence": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "policy": "quarterly isolated restore",
+      "calculation": "Use earlier of 90 days and three calendar months after final accepted restore; conservative operational interpretation, not a policy amendment",
+      "qualifiedAtUtc": "2026-09-17T03:18:20.238Z",
+      "measuredAtUtc": "2026-09-27T00:10:51.280Z",
+      "ageMs": 852751042,
+      "ninetyDayDueUtc": "2026-12-16T03:18:20.238Z",
+      "threeCalendarMonthDueUtc": "2026-12-17T03:18:20.238Z",
+      "conservativeDueUtc": "2026-12-16T03:18:20.238Z",
+      "fresh": true,
+      "result": "PASS"
+    },
+    "internalValidity": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "redactedPacketParsed": true,
+      "sourceRestoreSafeCountsEqual": true,
+      "schemaCanonicalHashesEqual": true,
+      "rpoRtoArithmeticVerified": true,
+      "requiredChecksAccepted": "PASS",
+      "migrationFilesUnchanged": true,
+      "restoreScriptUnchangedSinceQualificationMerge": true,
+      "scope": "Internal repository consistency only; does not re-execute restore or prove current database equality"
+    },
+    "changeReview": {
+      "classification": "FRESH_READ_ONLY_VERIFIED",
+      "qualificationMerge": "8259a33752209226c2e3886aba5d4a6a5ce5f570",
+      "subsequentRecoveryChanges": [
+        "PR #126 introduced accepted GitHub backup transport/verification",
+        "PR #127 isolated runner temporary state; backup invocation gained SUPABASE_NO_KEYRING support"
+      ],
+      "materialInvalidationIdentified": false,
+      "observedProviderVersionNow": "17.6.1.111",
+      "historicalProviderMajorMinor": "17.6",
+      "providerScopeLimit": "No fresh schema/data/Auth/Storage/Vault equivalence claim. Unobserved out-of-band changes remain unresolved."
+    },
+    "newRestorePerformed": false,
+    "recoveryEnvironmentProvisioned": false
+  },
+  "reconciliation": {
+    "classification": "FRESH_READ_ONLY_VERIFIED",
+    "identityContradictionObserved": false,
+    "sameExpectedProductionRefAcrossRepositoryBackupAndRecovery": true,
+    "bootstrapSourceMatchesQualifiedSource": true,
+    "databaseLevelEqualityClaimed": false,
+    "currentContractVersion": "1.9-personal-use-firefox-excluded-amended",
+    "scope": "Observed identity metadata and accepted evidence references only; current hosted configuration not fully observable"
+  },
+  "gaps": [
+    {
+      "id": "J4-SB-AUTH-READ-01",
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "blocking": true,
+      "fact": "Current hosted Auth signup, email confirmation, OAuth/anonymous-provider state, redirect allowlist and recovery settings",
+      "reason": "Installed connector exposes project metadata but no Auth configuration read. Dashboard navigation redirected to sign-in; no authenticated dashboard session was available. No credentials requested or read.",
+      "requiredFollowUp": "Separately bounded read-only Auth configuration verification using an authenticated metadata surface; no configuration mutation."
+    },
+    {
+      "id": "J4-VERCEL-GIT-READ-01",
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "blocking": true,
+      "fact": "Effective automatic Git deployment disablement in current provider processing",
+      "reason": "Project GET reports gitProviderOptions.createDeployments=enabled. Current and bootstrap-source vercel.json set git.deploymentEnabled=false. Deployment GET does not expose that resolved Git control. One bootstrap deployment exists; absence of later deployments supports but does not prove effective processing. Project default and repository override are different controls, so no contradiction is established.",
+      "requiredFollowUp": "Independent reconciliation of the effective Git control through safe provider metadata; do not test by triggering a deployment."
+    },
+    {
+      "id": "J4-SB-DB-BOUNDARY-01",
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "blocking": false,
+      "fact": "Current Production migration ledger, schema/data/RLS/grants, Auth users, Storage objects and Vault state",
+      "reason": "Outside provider-metadata scope. No SQL, database connection, linked CLI or database-backed migration/table/advisor operation was used. Historical equality and successful backup gates are not a fresh database-level proof."
+    },
+    {
+      "id": "J4-ENV-VALUES-BOUNDARY-01",
+      "classification": "NOT_FRESHLY_OBSERVABLE",
+      "blocking": false,
+      "fact": "Exact environment values and current deployment runtime configuration",
+      "reason": "Only variable names/types/targets were retained. No decrypted-value request, value output or value fingerprint. Presence is not value correctness."
+    },
+    {
+      "id": "J4-HOSTED-RELEASE-01",
+      "classification": "POST_DEPLOY_RELEASE_VERIFICATION",
+      "blocking": false,
+      "fact": "Exact candidate hosted Auth delivery, redirects, deployed headers/CSP, telemetry/version, cold starts and live smoke",
+      "reason": "Requires a separately authorized final Production deployment; historical bootstrap cannot supply candidate evidence."
+    }
+  ],
+  "blockerIds": [
+    "J4-SB-AUTH-READ-01",
+    "J4-VERCEL-GIT-READ-01"
+  ],
+  "j4Disposition": "PHASE_11J4_BLOCKED_BY_MISSING_PROVIDER_READ_ACCESS",
+  "j4Complete": false,
+  "independentReview": "PENDING",
+  "governance": {
+    "j1": "COMPLETE",
+    "j2": "COMPLETE",
+    "j3": "INCOMPLETE",
+    "physicalPassRecorded": false,
+    "j4": "BLOCKED_READ_ONLY_EXECUTION_PACKET_PENDING_INDEPENDENT_REVIEW",
+    "j5": "NOT_STARTED",
+    "j6": "NOT_STARTED",
+    "phase11J": "INCOMPLETE",
+    "phase11K": "NOT_STARTED",
+    "phase11": "INCOMPLETE",
+    "openFindingCount": 18,
+    "findingStates": {
+      "P11A-001": "OPEN",
+      "P11A-002": "OPEN",
+      "P11A-003": "OPEN",
+      "P11A-004": "OPEN",
+      "P11A-005": "OPEN",
+      "P11A-006": "OPEN",
+      "P11A-007": "OPEN",
+      "P11A-008": "OPEN",
+      "P11A-009": "OPEN",
+      "P11A-010": "OPEN",
+      "P11A-011": "OPEN",
+      "P11A-012": "OPEN",
+      "P11A-013": "OPEN",
+      "P11A-014": "OPEN",
+      "P11A-015": "OPEN",
+      "P11A-016": "OPEN",
+      "P11A-017": "OPEN",
+      "P11A-018": "OPEN"
+    },
+    "productionReleaseAuthorized": false
+  },
+  "safety": {
+    "productionMutated": false,
+    "providerMutations": 0,
+    "supabaseMutations": 0,
+    "vercelMutations": 0,
+    "productionSqlStatements": 0,
+    "remoteMigrationsApplied": 0,
+    "remoteLinksCreated": 0,
+    "deploymentsCreated": 0,
+    "deploymentsPromoted": 0,
+    "backupsTriggered": 0,
+    "restoresExecuted": 0,
+    "providerResourcesCreatedOrDeleted": 0,
+    "protectedAcademicProjectSpecificOperations": 0,
+    "j3VmStarts": 0,
+    "physicalClientExecutions": 0,
+    "cameraExecutions": 0,
+    "environmentValuesPrintedOrPersisted": 0,
+    "credentialsRecorded": false,
+    "applicationRuntimeFilesChanged": false,
+    "mutationCounterScope": "Actions performed by this task; no database-level audit claim about unrelated actors or scheduled jobs"
+  }
+}

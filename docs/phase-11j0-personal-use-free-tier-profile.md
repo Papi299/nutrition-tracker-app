@@ -191,7 +191,14 @@ fix/redeploy/rollback procedure. No staging purchase is required.
 
 ## 6. Phase 11J execution sequence
 
-Phase 11J remains `NOT_STARTED`. Its future bounded sequence is:
+Phase 11J is `INCOMPLETE`; J1 and J2 are complete for their accepted scopes.
+`DEC-038` on 2026-09-27 changes execution order while leaving Contract
+`1.9-personal-use-firefox-excluded-amended` and all J3 acceptance requirements
+unchanged. The exact Product Owner direction is:
+
+> I want to put aside the Windows PC matter, and proceed with J4-J6 too
+
+Its bounded sequence is:
 
 1. **11J1 — Exact candidate freeze and local/CI release rehearsal.** Bind
    SHA/tree, run complete CI, reset/replay migrations, execute the full local
@@ -210,6 +217,27 @@ Phase 11J remains `NOT_STARTED`. Its future bounded sequence is:
    verification without deploying.
 6. **11J6 — Independent review handoff to Phase 11K.** Reconcile evidence,
    retain gaps and non-applicable dispositions honestly, and stop for review.
+
+J3 remains `INCOMPLETE` with required `J3-WIN-CHROME-01` and
+`J3-WIN-EDGE-01` deferred and `NOT_EXECUTED`, and
+`physicalPassRecorded=false`. J4 and J5 may execute independently of that
+Windows dependency. J5 requires independently accepted J4 evidence before its
+own bounded execution. J6 may perform an interim reconciliation that explicitly
+retains the gap, but cannot declare Phase 11J complete.
+
+```text
+J1 complete -> J2 complete -> J3 partially complete / Windows deferred
+    -> J4 read-only execution -> independent J4 acceptance
+    -> J5 dry run -> J6 interim/incomplete reconciliation
+    -> STOP: Phase 11J incomplete while required J3 evidence is absent
+later: accepted Windows evidence -> independent J3 completion acceptance
+    -> bounded J6 delta/final reconciliation -> Phase 11K eligibility
+```
+
+The [current J4 packet](phase-11j4-provider-recovery-freshness.md) records
+passing recovery freshness and blocked provider configuration reads. J4 is not
+complete; J5/J6 and Phase 11K remain `NOT_STARTED`. No J3 evidence is waived,
+no finding closes, and Production remains separately authorized only.
 
 There is no paid infrastructure or staging-creation slice.
 
