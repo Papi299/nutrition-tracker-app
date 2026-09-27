@@ -1,0 +1,1050 @@
+{
+  "schemaVersion": 1,
+  "task": "PHASE-11-PREK-CODEQL-HIGH-ALERT-TRIAGE-001",
+  "repository": "Papi299/nutrition-tracker-app",
+  "recordedAt": "2026-09-27T15:54:17.170646+00:00",
+  "reviewStatus": "EXECUTOR_EVIDENCE_PENDING_INDEPENDENT_SECURITY_REVIEW",
+  "result": "OTHER_CRYPTOGRAPHIC_CORRECTION_REQUIRED",
+  "terminalMarker": "PHASE_11_PREK_CODEQL_HIGH_ALERT_TRIAGE_TRUE_POSITIVE_CORRECTION_REQUIRED",
+  "baseline": {
+    "mainSha": "fefe11098e19fcca59447afc6744243d55678ef0",
+    "tree": "e4e6c24b9d6bb4fa861a75a85949794762eb372d",
+    "soleParent": "51bd64a97c6627e58ec7724c9e8bebc918103e24",
+    "subject": "docs(phase11-prek): record governance remediation and DEC-039 (#152)",
+    "pr152Merged": true,
+    "openPullRequestsAtStart": 0,
+    "ruleset": {
+      "id": 24075217,
+      "name": "main-dec029",
+      "enforcement": "active"
+    },
+    "authenticatedOwner": "Papi299",
+    "repositoryPermission": "admin",
+    "materialRemoteBaselineDrift": false,
+    "originalCheckout": "Unrelated work on test/phase-11c2b-core-loop-acceptance preserved; investigation performed on isolated exact-main worktree.",
+    "ci": {
+      "id": 36328454565,
+      "name": "CI",
+      "run_number": 310,
+      "run_attempt": 1,
+      "event": "push",
+      "head_branch": "main",
+      "head_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36328454565"
+    },
+    "ciJobs": [
+      {
+        "id": 108645653838,
+        "name": "Validate",
+        "head_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36328454565/job/108645653838"
+      }
+    ],
+    "ciArtifact": [
+      {
+        "id": 10935645154,
+        "name": "phase-11d-evidence-36328454565-1",
+        "digest": "sha256:db7b869adec2398779f5de21a875091ebba1e568b8f0832aaf7fe64b244c96a0",
+        "expired": false
+      }
+    ],
+    "rawLogVerified": {
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11DPassed": 53,
+      "phase11DIntentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "productionModeBuild": "PASS_LOCAL_CI_NOT_PRODUCTION_DEPLOYMENT",
+      "clientSecretBoundaryArtifacts": 115,
+      "localDatabaseGates": "PASS",
+      "migrationRoleCompatibility": "PASS",
+      "migrationReplaySeed": "PASS",
+      "ingestionTypes": "PASS",
+      "evidenceUpload": "PASS",
+      "teardown": "PASS"
+    },
+    "codeql": {
+      "id": 36328454360,
+      "name": "Push on main",
+      "run_number": 3,
+      "run_attempt": 1,
+      "event": "dynamic",
+      "head_branch": "main",
+      "head_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36328454360"
+    },
+    "codeqlJobs": [
+      {
+        "id": 108645655569,
+        "name": "Analyze (actions)",
+        "head_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36328454360/job/108645655569"
+      },
+      {
+        "id": 108645655814,
+        "name": "Analyze (javascript-typescript)",
+        "head_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36328454360/job/108645655814"
+      }
+    ],
+    "analyses": [
+      {
+        "ref": "refs/heads/main",
+        "commit_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "error": "",
+        "created_at": "2026-09-27T15:10:00Z",
+        "results_count": 5,
+        "rules_count": 87,
+        "id": 1847352516,
+        "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/analyses/1847352516",
+        "sarif_id": "8204862e-ba85-11f1-9c44-37fc25ce2dda",
+        "tool": {
+          "name": "CodeQL",
+          "guid": null,
+          "version": "2.27.1"
+        },
+        "deletable": true,
+        "warning": ""
+      },
+      {
+        "ref": "refs/heads/main",
+        "commit_sha": "fefe11098e19fcca59447afc6744243d55678ef0",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:actions\",\"language\":\"actions\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:actions",
+        "error": "",
+        "created_at": "2026-09-27T15:09:10Z",
+        "results_count": 0,
+        "rules_count": 17,
+        "id": 1847350997,
+        "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/analyses/1847350997",
+        "sarif_id": "63ce2dd6-ba85-11f1-96e8-e5d163933861",
+        "tool": {
+          "name": "CodeQL",
+          "guid": null,
+          "version": "2.27.1"
+        },
+        "deletable": true,
+        "warning": ""
+      }
+    ],
+    "codeqlSuccessDoesNotResolveAlerts": true
+  },
+  "officialQuery": {
+    "id": "js/insufficient-password-hash",
+    "securitySeverityScore": 8.1,
+    "githubSecuritySeverity": "high",
+    "diagnosticSeverity": "warning",
+    "kind": "path-problem",
+    "precision": "high",
+    "cwe": "CWE-916",
+    "documentationUrl": "https://codeql.github.com/codeql-query-help/javascript/js-insufficient-password-hash/",
+    "intendedVulnerability": "Efficient hashing of actual password data permits offline recovery when stored password hashes are stolen.",
+    "recommendation": "Use a password hashing scheme such as bcrypt, scrypt, PBKDF2 or Argon2 for actual passwords.",
+    "sourceAssumption": "Current public model CleartextPasswordSource selects SensitiveNode classified as password; this is heuristic/model data, not proof of runtime password semantics.",
+    "sinkAssumption": "Current public model selects inputs to CryptographicOperation whose algorithm is weak or not a PasswordHashingAlgorithm. HMAC inputs can therefore be sinks even for legitimate message authentication.",
+    "flow": "Global taint tracking, not a runtime proof of password persistence.",
+    "sourceReviewRevision": "88df73a6be343ae6b63a2431d7d1c12bef1ce3f3",
+    "sourceVersionLimitation": "Current official source reviewed; installed pack version observed from raw logs, but compiled pack model content not independently reconstructed.",
+    "sourceUrls": [
+      "https://github.com/github/codeql/blob/88df73a6be343ae6b63a2431d7d1c12bef1ce3f3/javascript/ql/src/Security/CWE-916/InsufficientPasswordHash.ql",
+      "https://github.com/github/codeql/blob/88df73a6be343ae6b63a2431d7d1c12bef1ce3f3/javascript/ql/lib/semmle/javascript/security/dataflow/InsufficientPasswordHashCustomizations.qll"
+    ],
+    "observedCliVersion": "2.27.1",
+    "observedJavaScriptQueriesPackVersion": "2.4.6",
+    "sarifReviewed": true,
+    "semanticDistinction": "Fast cryptographic HMAC over token metadata is message authentication; its speed is not a password-storage defect."
+  },
+  "alertInventory": [
+    {
+      "number": 1,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+      "state": "open",
+      "location": {
+        "path": "e2e/account-closure.spec.ts",
+        "start_line": 113,
+        "end_line": 113,
+        "start_column": 13,
+        "end_column": 26
+      },
+      "hmacCallLine": 112,
+      "testOnly": true,
+      "githubClassifications": [
+        "test"
+      ],
+      "query": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "diagnosticSeverity": "warning",
+      "tool": {
+        "name": "CodeQL",
+        "guid": null,
+        "version": "2.27.1"
+      },
+      "reportedMessage": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+      "actualPrimitive": "HMAC-SHA-256",
+      "keyProvenance": "Local runner-generated randomBytes(48).toString(base64url) synthetic E5 secret; explicit wrong-key variants only in adversarial tests.",
+      "messageProvenance": "signRawCapability receives test-authored canonical or deliberately malformed closure JSON, including user/session IDs extracted from a local provider session, then signs v1.base64url(payload).",
+      "userPasswordReachable": false,
+      "passwordDerivedValueReachable": false,
+      "passwordPersistence": false,
+      "outputIsPasswordVerifier": false,
+      "securityPurpose": "Test helper signs valid and invalid capability messages for PostgreSQL denial/verification tests.",
+      "whoGeneratesOrVerifies": "Only the isolated test process signs with its synthetic key; production verification semantics are deliberately exercised.",
+      "lifetimeSeconds": 60,
+      "binding": [
+        "user",
+        "session",
+        "request",
+        "intent",
+        "policy",
+        "time"
+      ],
+      "attackerModel": "Attacker controls token bytes and may possess a valid current application session; cannot mint a MAC without the independent key. Cross-user/session/time/request substitution must fail. A stolen proof plus its matching live session can be reused within its lifetime; this is not a one-time proof. CRYPTO-001 separately records the reachable SQL comparison concern.",
+      "primaryClassification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION_TEST_ONLY",
+      "classificationScope": "The flagged operation and CWE-916 allegation only; not a declaration that all downstream cryptographic controls are secure.",
+      "rationale": "Provider return object is tainted as password data; SARIF actually follows user/session IDs from signInWithPassword results into test JSON, not the password argument.",
+      "sourceEvidence": [
+        {
+          "path": "e2e/account-closure.spec.ts",
+          "startLine": 109,
+          "endLine": 120,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "e2e/account-closure.spec.ts",
+          "startLine": 492,
+          "endLine": 608,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "scripts/run-local-date-e2e.mjs",
+          "startLine": 77,
+          "endLine": 118,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        }
+      ],
+      "proposedGitHubDisposition": {
+        "currentAction": "KEEP_OPEN",
+        "futureReason": "false positive",
+        "futureComment": "Test-only helper intentionally reproduces HMAC-SHA-256 over a versioned account-closure message with a synthetic local E5 secret, including malformed and wrong-binding adversarial cases. The signInWithPassword result contributes identity/session claims, not the password. No production credential or password verifier is present; CWE-916 does not apply.",
+        "executionAuthorized": false,
+        "prerequisites": [
+          "Independent security review",
+          "CRYPTO-001 correction or an explicit independently reviewed determination",
+          "Separate human authorization for alert dismissal"
+        ]
+      },
+      "relatedOtherFindingIds": [
+        "CRYPTO-001"
+      ]
+    },
+    {
+      "number": 2,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+      "state": "open",
+      "location": {
+        "path": "lib/account-closure/capability.ts",
+        "start_line": 119,
+        "end_line": 119,
+        "start_column": 13,
+        "end_column": 31
+      },
+      "hmacCallLine": 118,
+      "testOnly": false,
+      "githubClassifications": [],
+      "query": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "diagnosticSeverity": "warning",
+      "tool": {
+        "name": "CodeQL",
+        "guid": null,
+        "version": "2.27.1"
+      },
+      "reportedMessage": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+      "actualPrimitive": "HMAC-SHA-256",
+      "keyProvenance": "Dedicated server environment ACCOUNT_CLOSURE_CAPABILITY_SECRET, UTF-8 bytes, minimum 32 bytes. Matching DB Vault key is separate from the E3 secret.",
+      "messageProvenance": "Server-owned v, sub, sid, intent, rid, policy, iat, exp, serialized canonically; message is v1.base64url(payload). Closure request UUID is generated by randomUUID; expiry comes from minimum(now+60, verified E3 expiry).",
+      "userPasswordReachable": false,
+      "passwordDerivedValueReachable": false,
+      "passwordPersistence": false,
+      "outputIsPasswordVerifier": false,
+      "securityPurpose": "Authenticate a closure capability sent server-to-database, not to the browser.",
+      "whoGeneratesOrVerifies": "Server signs; private database verifier behind authenticated RPC verifies. TypeScript verifier exists but is not called by the production closure route.",
+      "lifetimeSeconds": 60,
+      "binding": [
+        "user",
+        "session",
+        "request",
+        "intent",
+        "policy",
+        "time"
+      ],
+      "attackerModel": "Attacker controls token bytes and may possess a valid current application session; cannot mint a MAC without the independent key. Cross-user/session/time/request substitution must fail. A stolen proof plus its matching live session can be reused within its lifetime; this is not a one-time proof. CRYPTO-001 separately records the reachable SQL comparison concern.",
+      "primaryClassification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "classificationScope": "The flagged operation and CWE-916 allegation only; not a declaration that all downstream cryptographic controls are secure.",
+      "rationale": "SARIF follows local provider session/access-token claims sub/sid through a test caller into capability JSON; the production caller instead supplies authenticated server identity and verified E3 expiry.",
+      "sourceEvidence": [
+        {
+          "path": "lib/account-closure/capability.ts",
+          "startLine": 47,
+          "endLine": 122,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "app/[locale]/(app)/account/closure/submit/route.ts",
+          "startLine": 123,
+          "endLine": 229,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+          "startLine": 376,
+          "endLine": 525,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        }
+      ],
+      "proposedGitHubDisposition": {
+        "currentAction": "KEEP_OPEN",
+        "futureReason": "false positive",
+        "futureComment": "HMAC-SHA-256 authenticates a server-generated account-closure capability using an independent >=32-byte server E5 secret. Signed fields bind user, current session, closure request, intent, policy and <=60-second expiry capped by E3 expiry. Supabase verifies the user password; no password reaches this HMAC and no password verifier is stored. CWE-916 does not apply. Separate SQL MAC-comparison finding CRYPTO-001 must be reviewed/corrected; this comment is not a clean-security claim.",
+        "executionAuthorized": false,
+        "prerequisites": [
+          "Independent security review",
+          "CRYPTO-001 correction or an explicit independently reviewed determination",
+          "Separate human authorization for alert dismissal"
+        ]
+      },
+      "relatedOtherFindingIds": [
+        "CRYPTO-001"
+      ]
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+      "state": "open",
+      "location": {
+        "path": "lib/auth/recent-password-auth-proof.ts",
+        "start_line": 135,
+        "end_line": 135,
+        "start_column": 13,
+        "end_column": 31
+      },
+      "hmacCallLine": 134,
+      "testOnly": false,
+      "githubClassifications": [],
+      "query": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "diagnosticSeverity": "warning",
+      "tool": {
+        "name": "CodeQL",
+        "guid": null,
+        "version": "2.27.1"
+      },
+      "reportedMessage": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.",
+      "actualPrimitive": "HMAC-SHA-256",
+      "keyProvenance": "Server-only AUTH_REAUTH_PROOF_SECRET from readProofSecret; minimum 32 UTF-8 bytes, no password derivation.",
+      "messageProvenance": "Canonical v, sub, sid, iat, exp; exp=now+600; message is v1.base64url(payload).",
+      "userPasswordReachable": false,
+      "passwordDerivedValueReachable": false,
+      "passwordPersistence": false,
+      "outputIsPasswordVerifier": false,
+      "securityPurpose": "Issue a recent-authentication integrity/authenticity proof after provider password verification and temporary-session cleanup.",
+      "whoGeneratesOrVerifies": "Server runtime issues and verifies; browser holds an HttpOnly proof and cannot mint one without the secret.",
+      "lifetimeSeconds": 600,
+      "binding": [
+        "user",
+        "session",
+        "version",
+        "time"
+      ],
+      "attackerModel": "Attacker controls token bytes and may possess a valid current application session; cannot mint a MAC without the independent key. Cross-user/session/time/request substitution must fail. A stolen proof plus its matching live session can be reused within its lifetime; this is not a one-time proof. CRYPTO-001 separately records the reachable SQL comparison concern.",
+      "primaryClassification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "classificationScope": "The flagged operation and CWE-916 allegation only; not a declaration that all downstream cryptographic controls are secure.",
+      "rationale": "SARIF sources are recentPasswordAuthLifetimeSeconds (numeric 600) and recentPasswordAuthVersion (literal v1), not user passwords.",
+      "sourceEvidence": [
+        {
+          "path": "lib/auth/recent-password-auth-proof.ts",
+          "startLine": 108,
+          "endLine": 139,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "lib/auth/recent-password-auth.ts",
+          "startLine": 257,
+          "endLine": 324,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        }
+      ],
+      "proposedGitHubDisposition": {
+        "currentAction": "KEEP_OPEN",
+        "futureReason": "false positive",
+        "futureComment": "HMAC-SHA-256 signs v1 plus canonical identity/session/issue/expiry metadata for a 600-second recent-auth proof using an independent >=32-byte server secret. Supabase verifies the password and the temporary session is disposed before issuance. The password never reaches the HMAC, key, message or cookie. The password-named version/lifetime constants are token metadata; CWE-916 does not apply.",
+        "executionAuthorized": false,
+        "prerequisites": [
+          "Independent security review",
+          "CRYPTO-001 correction or an explicit independently reviewed determination",
+          "Separate human authorization for alert dismissal"
+        ]
+      },
+      "relatedOtherFindingIds": []
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+      "state": "open",
+      "location": {
+        "path": "lib/auth/recent-password-auth-proof.ts",
+        "start_line": 183,
+        "end_line": 183,
+        "start_column": 13,
+        "end_column": 43
+      },
+      "hmacCallLine": 182,
+      "testOnly": false,
+      "githubClassifications": [],
+      "query": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "diagnosticSeverity": "warning",
+      "tool": {
+        "name": "CodeQL",
+        "guid": null,
+        "version": "2.27.1"
+      },
+      "reportedMessage": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from a call to issueRecentPasswordAuthProof is hashed insecurely.",
+      "actualPrimitive": "HMAC-SHA-256",
+      "keyProvenance": "Same independent E3 server secret, validated by secretBytes before HMAC recomputation.",
+      "messageProvenance": "Version and encoded payload from a bounded proof string, strictly base64url-decoded; signed fields are identity/session/time. Untrusted token input is authenticated before payload interpretation.",
+      "userPasswordReachable": false,
+      "passwordDerivedValueReachable": false,
+      "passwordPersistence": false,
+      "outputIsPasswordVerifier": false,
+      "securityPurpose": "Recompute the proof MAC and compare equal-length digests using timingSafeEqual before accepting bound, unexpired evidence.",
+      "whoGeneratesOrVerifies": "Server runtime issues and verifies; browser holds an HttpOnly proof and cannot mint one without the secret.",
+      "lifetimeSeconds": 600,
+      "binding": [
+        "user",
+        "session",
+        "version",
+        "time"
+      ],
+      "attackerModel": "Attacker controls token bytes and may possess a valid current application session; cannot mint a MAC without the independent key. Cross-user/session/time/request substitution must fail. A stolen proof plus its matching live session can be reused within its lifetime; this is not a one-time proof. CRYPTO-001 separately records the reachable SQL comparison concern.",
+      "primaryClassification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "classificationScope": "The flagged operation and CWE-916 allegation only; not a declaration that all downstream cryptographic controls are secure.",
+      "rationale": "SARIF follows password-named version/lifetime constants and the issued token return value through tests into verification; none is plaintext/password-derived verifier data.",
+      "sourceEvidence": [
+        {
+          "path": "lib/auth/recent-password-auth-proof.ts",
+          "startLine": 141,
+          "endLine": 258,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "lib/auth/recent-password-auth.ts",
+          "startLine": 140,
+          "endLine": 194,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        }
+      ],
+      "proposedGitHubDisposition": {
+        "currentAction": "KEEP_OPEN",
+        "futureReason": "false positive",
+        "futureComment": "HMAC-SHA-256 recomputes the MAC of a bounded versioned recent-auth token using an independent >=32-byte server secret. Equal-length signatures are compared with timingSafeEqual, followed by canonical payload, user/session, expiry and future-skew checks. The message contains metadata, not a password or password verifier; CWE-916 does not apply.",
+        "executionAuthorized": false,
+        "prerequisites": [
+          "Independent security review",
+          "CRYPTO-001 correction or an explicit independently reviewed determination",
+          "Separate human authorization for alert dismissal"
+        ]
+      },
+      "relatedOtherFindingIds": []
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+      "state": "open",
+      "location": {
+        "path": "tests/recent-password-auth-proof.spec.ts",
+        "start_line": 24,
+        "end_line": 24,
+        "start_column": 13,
+        "end_column": 31
+      },
+      "hmacCallLine": 23,
+      "testOnly": true,
+      "githubClassifications": [
+        "test"
+      ],
+      "query": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "diagnosticSeverity": "warning",
+      "tool": {
+        "name": "CodeQL",
+        "guid": null,
+        "version": "2.27.1"
+      },
+      "reportedMessage": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.",
+      "actualPrimitive": "HMAC-SHA-256",
+      "keyProvenance": "Explicit unit-test-only synthetic literal; intentionally not random and never a production fallback. No production credential is present.",
+      "messageProvenance": "proofFor signs test-supplied JSON, including deliberately malformed, duplicate, extra-field, invalid-lifetime and future-time payloads, using v1.base64url(payload).",
+      "userPasswordReachable": false,
+      "passwordDerivedValueReachable": false,
+      "passwordPersistence": false,
+      "outputIsPasswordVerifier": false,
+      "securityPurpose": "Reproduce the production HMAC format to exercise parser and verifier rejection independently of the issuer.",
+      "whoGeneratesOrVerifies": "Only the isolated test process signs with its synthetic key; production verification semantics are deliberately exercised.",
+      "lifetimeSeconds": 600,
+      "binding": [
+        "user",
+        "session",
+        "version",
+        "time"
+      ],
+      "attackerModel": "Attacker controls token bytes and may possess a valid current application session; cannot mint a MAC without the independent key. Cross-user/session/time/request substitution must fail. A stolen proof plus its matching live session can be reused within its lifetime; this is not a one-time proof. CRYPTO-001 separately records the reachable SQL comparison concern.",
+      "primaryClassification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION_TEST_ONLY",
+      "classificationScope": "The flagged operation and CWE-916 allegation only; not a declaration that all downstream cryptographic controls are secure.",
+      "rationale": "SARIF treats the imported numeric recentPasswordAuthLifetimeSeconds constant as password data; the signed message is token metadata.",
+      "sourceEvidence": [
+        {
+          "path": "tests/recent-password-auth-proof.spec.ts",
+          "startLine": 13,
+          "endLine": 38,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        },
+        {
+          "path": "tests/recent-password-auth-proof.spec.ts",
+          "startLine": 151,
+          "endLine": 201,
+          "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+        }
+      ],
+      "proposedGitHubDisposition": {
+        "currentAction": "KEEP_OPEN",
+        "futureReason": "false positive",
+        "futureComment": "Test-only proofFor intentionally signs malformed/adversarial recent-auth payloads in the production HMAC-SHA-256 token format with an explicit synthetic test-only key. recentPasswordAuthLifetimeSeconds is a numeric TTL, not a password. No production credential, password hashing or stored password verifier is present; CWE-916 does not apply.",
+        "executionAuthorized": false,
+        "prerequisites": [
+          "Independent security review",
+          "CRYPTO-001 correction or an explicit independently reviewed determination",
+          "Separate human authorization for alert dismissal"
+        ]
+      },
+      "relatedOtherFindingIds": []
+    }
+  ],
+  "passwordFlow": {
+    "source": {
+      "path": "app/[locale]/auth/reauthenticate/actions.ts",
+      "startLine": 25,
+      "endLine": 33,
+      "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+    },
+    "verification": {
+      "path": "lib/auth/recent-password-auth.ts",
+      "startLine": 216,
+      "endLine": 329,
+      "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+    },
+    "sequence": [
+      "User password from form",
+      "Supabase auth.signInWithPassword(email,password)",
+      "Provider password verification",
+      "Returned user/session/claims identity checked",
+      "Temporary local provider session signOut with bounded retry and fail-closed cleanup",
+      "Primary user/session rechecked",
+      "Separate metadata-only proof issued using readProofSecret",
+      "Only proof stored in HttpOnly cookie"
+    ],
+    "passwordPassedToIssueProof": false,
+    "passwordPassedToHmac": false,
+    "passwordInCookie": false,
+    "passwordPersistedByApplication": false,
+    "passwordTransformedIntoKey": false,
+    "providerStorageScope": "Provider internals not audited or accessed; no hosted/provider tests performed."
+  },
+  "cryptoDesign": {
+    "recentAuthProof": {
+      "keyName": "AUTH_REAUTH_PROOF_SECRET",
+      "minimumKeyBytes": 32,
+      "message": "v1.base64url(JSON.stringify({v,sub,sid,iat,exp}))",
+      "primitive": "HMAC-SHA-256",
+      "lifetimeSeconds": 600,
+      "maximumBytes": 1024,
+      "futureSkewSeconds": 30,
+      "comparison": "equal-length timingSafeEqual",
+      "canonicalEncoding": "strict round-trip base64url; exact object key count/order, primitive types, UUIDs, safe integer timestamps and canonical JSON equality",
+      "binding": [
+        "version",
+        "user",
+        "currentSession",
+        "issuedAt",
+        "expiresAt"
+      ],
+      "cookie": {
+        "httpOnly": true,
+        "sameSite": "strict",
+        "path": "/",
+        "secureInProduction": true,
+        "domainAbsent": true,
+        "maxAgeSeconds": 600
+      },
+      "replay": "Reusable within the same session/time boundary; not nonce-consumed; sign-out/session cleanup clears cookie.",
+      "conclusion": "HMAC-SHA-256 appropriate for message authentication; no separate defect found in this bounded E3 review."
+    },
+    "accountClosureCapability": {
+      "keyName": "ACCOUNT_CLOSURE_CAPABILITY_SECRET",
+      "vaultName": "account_closure_capability_v1",
+      "minimumKeyBytes": 32,
+      "message": "v1.base64url(JSON.stringify({v,sub,sid,intent,rid,policy,iat,exp}))",
+      "primitive": "HMAC-SHA-256",
+      "maximumLifetimeSeconds": 60,
+      "minimumRemainingLifetimeAtIssueSeconds": 5,
+      "expiryCappedByRecentAuthProof": true,
+      "maximumBytes": 2048,
+      "futureSkewSeconds": 30,
+      "serverGeneratedRequestId": "node:crypto.randomUUID",
+      "intent": "account-closure",
+      "policy": "p11e-e5-account-closure-v1",
+      "productionVerifier": "private.verify_account_closure_capability, reached via authenticated close_current_account",
+      "typeScriptComparison": "timingSafeEqual; helper not used in production closure path",
+      "databaseComparison": "bytea equality/memcmp; CRYPTO-001",
+      "canonicalEncoding": "Node and SQL reject noncanonical base64url/JSON, wrong fields, duplicate/unexpected keys, invalid identity/time values",
+      "liveSessionGuard": "auth.sessions exact user/session existence required before verifier",
+      "replay": "Request-bound immutable unique per-user closure record; repeated/concurrent valid calls are idempotent already_closed.",
+      "browserDisclosure": "Capability is sent only from server to RPC, not returned in response/browser HTML; route uses no-store and fixed redirects.",
+      "conclusion": "Issuance is message authentication, not password hashing. Actual database MAC comparison requires separately reviewed correction."
+    }
+  },
+  "secretProvenance": {
+    "actualHostedValuesRead": false,
+    "providerSecretAccess": false,
+    "productionValuesCommitted": false,
+    "proof": [
+      {
+        "path": ".env.example",
+        "startLine": 67,
+        "endLine": 77,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      {
+        "path": "lib/auth/recent-password-auth.ts",
+        "startLine": 69,
+        "endLine": 77,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      {
+        "path": "app/[locale]/(app)/account/closure/submit/route.ts",
+        "startLine": 200,
+        "endLine": 217,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      {
+        "path": "lib/deployment/environment.mjs",
+        "startLine": 168,
+        "endLine": 188,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      {
+        "path": "scripts/check-client-secret-boundary.mjs",
+        "startLine": 5,
+        "endLine": 49,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      {
+        "path": "docs/phase-11e-integration-external-readiness-handoff.md",
+        "startLine": 230,
+        "endLine": 259,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      }
+    ],
+    "provisioningContract": "At least 32 random bytes, environment-unique server-only secrets; E3/E5 distinct; E5 Vault value matches application E5. No production fallback.",
+    "provisioningActuallyVerified": false,
+    "reason": "Static repository provenance only. Minimum byte length does not establish production entropy, and no remote secret/config was inspected.",
+    "localTestBounds": "E5 runner uses randomBytes(48); E3 runner/unit literals explicitly local/test-only. No real secret values copied into this packet.",
+    "browserBoundary": "No NEXT_PUBLIC secret assignment or client-module secret read in production source; accepted exact-main build canary scan passed across 115 browser/static artifacts.",
+    "logging": "No console/log path printing either secret in reviewed production key readers/issuers/route; generic error messages omit values. Standard provider/operator logs were not accessed."
+  },
+  "requiredSecurityQuestions": [
+    {
+      "number": 1,
+      "question": "Is any user password stored by application code?",
+      "answer": "No persistent application storage observed in reviewed authentication flows; in-memory form/provider transmission is necessary. Supabase Auth owns credential storage; auth.users.encrypted_password is provider-owned, not an application HMAC output."
+    },
+    {
+      "number": 2,
+      "question": "Is any user password hashed by application code?",
+      "answer": "No. Sign-in/activation/recovery pass passwords to Supabase auth APIs. The reviewed app constructs HMAC tokens only."
+    },
+    {
+      "number": 3,
+      "question": "Does any password reach these createHmac calls?",
+      "answer": "No; individually traced keys/messages and SARIF paths contain secrets unrelated to passwords or identity/time metadata."
+    },
+    {
+      "number": 4,
+      "question": "Is either HMAC secret derived from a password?",
+      "answer": "No repository derivation path. Docs require independent random application secrets; actual hosted provisioning/entropy was not inspected."
+    },
+    {
+      "number": 5,
+      "question": "Are the HMAC outputs password verifiers?",
+      "answer": "No."
+    },
+    {
+      "number": 6,
+      "question": "Are they instead authenticity/integrity proofs?",
+      "answer": "Yes: recent-auth proof and account-closure capability signatures."
+    },
+    {
+      "number": 7,
+      "question": "Are both production secrets required to be at least 32 bytes?",
+      "answer": "Yes: both secretBytes helpers and deployment environment contract enforce UTF-8 byte length; SQL enforces E5 Vault octet_length >=32. Length alone does not prove entropy."
+    },
+    {
+      "number": 8,
+      "question": "Are HMAC comparisons constant time where verification occurs?",
+      "answer": "TypeScript uses timingSafeEqual after a length check. NO blanket claim: the actual closure database verifier uses bytea equality backed by memcmp, with no constant-time contract (CRYPTO-001)."
+    },
+    {
+      "number": 9,
+      "question": "Are proof/capability lifetimes bounded?",
+      "answer": "Yes: 600 seconds E3, <=60 seconds E5 capped by verified E3 expiry at issuance; 30-second future-skew allowance; exact expiry rejected."
+    },
+    {
+      "number": 10,
+      "question": "Are the values bound to the current user/session?",
+      "answer": "Yes: verified claims supply user/session; route cross-checks E3 identity; SQL derives auth.uid()/JWT session and checks live auth.sessions ownership."
+    },
+    {
+      "number": 11,
+      "question": "Is there a replay boundary?",
+      "answer": "Yes, not single-use: E3 remains reusable for the same session for 600 seconds and is cleared on session cleanup. E5 binds request/user/session and <=60 seconds; immutable unique closure row makes repeated/concurrent closes converge to already_closed. Revoked exact sessions fail SQL before capability verification."
+    },
+    {
+      "number": 12,
+      "question": "Would replacing HMAC with a slow password KDF weaken, complicate, or otherwise mis-model the intended construction?",
+      "answer": "It mis-models message authentication, adds unnecessary cost and DB/Node compatibility complexity, and can introduce availability risk. Keep HMAC-SHA-256; do not claim every properly designed KDF composition is automatically insecure."
+    },
+    {
+      "number": 13,
+      "question": "Does any separate real cryptographic defect exist even if CWE-916 does not apply?",
+      "answer": "Yes: CRYPTO-001, a confirmed use of a comparison without a constant-time security contract at the actual database MAC verification boundary. Remote timing signal, MAC forgery, and bypass are unproven; no critical exploit is claimed."
+    }
+  ],
+  "otherCryptographicFindings": [
+    {
+      "id": "CRYPTO-001",
+      "status": "CORRECTION_REQUIRED_PENDING_INDEPENDENT_SECURITY_REVIEW",
+      "kind": "MAC verification comparison without constant-time security contract",
+      "cwe916Applies": false,
+      "location": {
+        "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+        "startLine": 517,
+        "endLine": 521,
+        "baselineSha": "fefe11098e19fcca59447afc6744243d55678ef0"
+      },
+      "relatedAlert": 2,
+      "exactProblem": "Actual database verifier returns v_signature = extensions.hmac(...). PostgreSQL byteaeq uses a length fast path and memcmp for equal-length byte arrays; this is not a vetted constant-time MAC verification primitive.",
+      "sourceUrl": "https://github.com/postgres/postgres/blob/45fc3ce22482ec50c0e1b5817782970bf03dbc0b/src/backend/utils/adt/varlena.c#L3839",
+      "postgresSourceRevision": "45fc3ce22482ec50c0e1b5817782970bf03dbc0b",
+      "reachability": [
+        "Authenticated current activated user",
+        "Live exact Auth session checked by close_current_account",
+        "Attacker chooses p_capability and p_closure_request_id",
+        "Public canonical identity/request/time fields can pass pre-MAC validation",
+        "Database MAC comparison reached before account closure insertion"
+      ],
+      "affectedSurfaces": [
+        "Authenticated close_current_account RPC",
+        "Server account closure submit path using that RPC"
+      ],
+      "attackerModel": "Authenticated caller with a live activated account can submit adaptive signatures for a chosen canonical message. Any useful signature-dependent timing signal could undermine the E3-to-closure authorization boundary for that same account; current user/session checks prevent selecting another account.",
+      "exploitability": "Comparator construction and authenticated reachability confirmed statically. Platform-specific timing distinguishability, remote MAC forgery, and account-closure bypass NOT DEMONSTRATED. The <=60-second token window, network/DB noise, implementation details and query budget constrain practical attacks. No immediately exploitable critical defect claimed.",
+      "severity": "NOT_ASSIGNED_BY_THIS_BOUNDED_TRIAGE",
+      "minimalSafeCorrection": "A separate reviewed migration should replace ordinary equality at the private DB verifier with a vetted constant-time fixed-32-byte MAC comparison available on the supported database, failing closed on malformed lengths and preserving HMAC, grants, RLS, canonical parsing, live-session and expiry/request guards. A PL/pgSQL loop is not automatically a constant-time guarantee; do not silently invent one.",
+      "correctionValidation": "Retain full Node/SQL interoperability and denial/idempotency/session-revocation tests; add meaningful coverage for tag length and compare-path invariants and review the primitive/platform implementation. Passing functional tests alone cannot prove timing resistance.",
+      "runtimeCorrectionInThisPR": false,
+      "riskAccepted": false
+    }
+  ],
+  "coverageReview": {
+    "recentAuthProof": {
+      "file": "tests/recent-password-auth-proof.spec.ts",
+      "tests": 11,
+      "covered": [
+        "canonical fields and no password/token credential properties",
+        "valid and just-before-expiry proof",
+        "at/after expiry",
+        "user mismatch",
+        "session mismatch",
+        "payload/signature tampering",
+        "truncation/encoding/version/oversize",
+        "signed malformed/noncanonical/duplicate/unexpected payload",
+        "malformed identity/time/version",
+        "invalid lifetime/future time",
+        "short key fail-closed",
+        "cookie security options"
+      ]
+    },
+    "accountClosureCapability": {
+      "unitFile": "tests/account-closure-capability.spec.ts",
+      "unitTests": 3,
+      "covered": [
+        "valid canonical capability",
+        "E3 expiry cap",
+        "minimum lifetime/short key/invalid request UUID",
+        "tampering/wrong secret",
+        "user/session/request mismatch",
+        "expiry/future time",
+        "malformed/version/encoding/oversize"
+      ],
+      "e2eFile": "e2e/account-closure.spec.ts",
+      "databaseCoverageAt": "492-775",
+      "databaseCovered": [
+        "Node-to-SQL valid MAC",
+        "direct RPC denial",
+        "cross-user/session mismatch",
+        "signed wrong intent/policy/request",
+        "expiry/future/fractional time",
+        "extra/missing/duplicate fields",
+        "wrong key",
+        "no privileged table insert",
+        "concurrency/replay idempotency",
+        "RLS after closure",
+        "exact live-session revocation"
+      ],
+      "gap": "Existing rejection tests do not establish constant-time database comparison. Node unit capability tests do not independently sign wrong intent/policy; real SQL adversarial E2E does."
+    },
+    "testsAdded": 0,
+    "reason": "No runtime correction is included; meaningful comparison invariants belong with the separately reviewed correction, not a count-only evidence test."
+  },
+  "validation": {
+    "focusedUnit": {
+      "command": "npx playwright test --config=playwright.unit.config.ts tests/recent-password-auth-proof.spec.ts tests/account-closure-capability.spec.ts",
+      "passed": 14,
+      "failed": 0
+    },
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "localE2E": {
+      "status": "PASS",
+      "passed": 13,
+      "failed": 0,
+      "command": "PLAYWRIGHT_PORT=3311 CI=1 node scripts/run-local-date-e2e.mjs e2e/account-closure.spec.ts e2e/auth-reauthentication.spec.ts",
+      "projectId": "phase11-codeql-triage-isolated",
+      "databaseMajorVersion": 17,
+      "localApiPort": 55321,
+      "localDbPort": 55322,
+      "localBrowserPort": 3311,
+      "baselineRuntimeUnchanged": true,
+      "environmentSetup": "Disposable git archive of exact accepted main; separate local project ID and ports; no shared-stack mutation.",
+      "build": "PASS --webpack with explicit local environment after initial missing-APP_ENVIRONMENT guard rejection",
+      "faultOutput": "Expected RLS denial and induced stream failure appeared while all tests passed.",
+      "teardown": "PASS: unique disposable project stopped with --no-backup; existing project preserved"
+    },
+    "jsonParse": "PASS",
+    "evidenceConsistency": "PASS",
+    "secretPatternScan": "PASS",
+    "localLinkScan": "PASS",
+    "gitDiffCheck": "PASS",
+    "localClientSecretBoundary": {
+      "status": "PASS",
+      "artifactCount": 142
+    }
+  },
+  "governance": {
+    "governanceRemediationComplete": false,
+    "settingsMatrix": {
+      "compliant": 25,
+      "mismatch": 1,
+      "notApplicable": 2
+    },
+    "mismatch": "P1 exception authority",
+    "P11A-016": "OPEN",
+    "all18Findings": "OPEN",
+    "roles": {
+      "Independent acceptance reviewer": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "Candidate release approver": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "P1 exception authority": "UNASSIGNED_BLOCKING_BEFORE_11K"
+    },
+    "contract": "2.0-personal-use-windows-deferred-amended",
+    "windows": {
+      "chrome": "NOT_EXECUTED",
+      "edge": "NOT_EXECUTED",
+      "status": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+      "passCredit": false
+    },
+    "productionReleaseAuthorized": false,
+    "forwardJ6Started": false,
+    "phase11KStarted": false,
+    "historicalEvidenceChanged": false,
+    "livingStatus": "OTHER_CRYPTOGRAPHIC_CORRECTION_REQUIRED_PENDING_INDEPENDENT_SECURITY_REVIEW",
+    "fiveCwe916Allegations": "5/5 proposed query misclassification; alerts still OPEN; separate correction boundary prevents a clean all-clear."
+  },
+  "safety": {
+    "alertStateMutations": 0,
+    "dismissals": 0,
+    "riskAcceptance": 0,
+    "suppressions": 0,
+    "codeqlConfigurationChanges": 0,
+    "githubSettingsMutations": 0,
+    "applicationRuntimeCodeMutations": 0,
+    "remoteSupabaseMutations": 0,
+    "vercelMutations": 0,
+    "providerSecretReads": 0,
+    "deployments": 0,
+    "productionOperations": 0,
+    "windowsValidation": 0,
+    "roleAssignments": 0,
+    "findingClosures": 0,
+    "localFixturesOnly": "Disposable local baseline copy, unique Supabase project/ports, synthetic users/keys; separate local stack and build do not change tracked runtime files."
+  },
+  "authenticatedReadAudit": [
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/branches/main",
+      "retrievedAt": "2026-09-27T15:48:43Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/commits/fefe11098e19fcca59447afc6744243d55678ef0",
+      "retrievedAt": "2026-09-27T15:48:43Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/pulls/152",
+      "retrievedAt": "2026-09-27T15:48:44Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/pulls?state=open&per_page=100",
+      "retrievedAt": "2026-09-27T15:48:45Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/rulesets/24075217",
+      "retrievedAt": "2026-09-27T15:48:45Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/collaborators/Papi299/permission",
+      "retrievedAt": "2026-09-27T15:48:45Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/actions/runs/36328454565",
+      "retrievedAt": "2026-09-27T15:48:46Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/actions/runs/36328454565/jobs",
+      "retrievedAt": "2026-09-27T15:48:46Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/actions/runs/36328454565/artifacts",
+      "retrievedAt": "2026-09-27T15:48:47Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/actions/runs/36328454360",
+      "retrievedAt": "2026-09-27T15:48:47Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/actions/runs/36328454360/jobs",
+      "retrievedAt": "2026-09-27T15:48:48Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/1",
+      "retrievedAt": "2026-09-27T15:48:48Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/2",
+      "retrievedAt": "2026-09-27T15:48:49Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/3",
+      "retrievedAt": "2026-09-27T15:48:49Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/4",
+      "retrievedAt": "2026-09-27T15:48:50Z",
+      "success": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/5",
+      "retrievedAt": "2026-09-27T15:48:50Z",
+      "success": true
+    }
+  ],
+  "sourceFingerprints": {
+    "lib/auth/recent-password-auth-proof.ts": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204",
+    "lib/account-closure/capability.ts": "bde0a0725c8970b906fcc8ece7973f858603b77bfd17e8f736119735983781c4",
+    "lib/auth/recent-password-auth.ts": "4c752062d8f470ce5107449b6b0313a7f1fb2df921e8e91257602c5f57b393b0",
+    "app/[locale]/(app)/account/closure/submit/route.ts": "2351aaf7dc8cadedd0c1cca144651f5e6d2325a3d5b9f6a80c648039f855aabd",
+    "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312",
+    "tests/recent-password-auth-proof.spec.ts": "c7f4449cbb6e2dc7414e493206659a5000f2680e26aca8c687816c6212bc7d63",
+    "tests/account-closure-capability.spec.ts": "ec7978f67d94bad23fffa7336914ad20de7208050666d6d5100a697b76f68f03",
+    "e2e/account-closure.spec.ts": "5c5013c07912265c94046b754b6494acff87e5f8fb66aaa656d6546018c09f2f",
+    "e2e/auth-reauthentication.spec.ts": "bf43c30d6f6979b298aa9909278b34cb4a454fcbe8eb8e42a5c595a6f5ce8db0",
+    ".env.example": "2a4720b08d11de08f131089d9d52a7f99ade5d775df3e41413d8267233fdf880",
+    "lib/deployment/environment.mjs": "dc5e07a6ca5701a47aa134661a025265ca519d7662b0f14706b1568c4b1540ae",
+    "scripts/check-client-secret-boundary.mjs": "cbaebc485dd5aca5ed243ca03706cd31ee74f8ce5c34291c0d6e753103de1cd1",
+    "scripts/run-local-date-e2e.mjs": "ecde6d70189784da74d3f15c2517430cb20e26930c3ab4c7a732136802db0d06"
+  },
+  "rawEvidenceFingerprints": {
+    "baseline-validate.log": "ab913269a4702dc1403a752c0105c0263f4470f934783a19514424ef78c7cc77",
+    "codeql-baseline.log": "41deb41a56ee242e121af3ff7e5f35bc251ff86363298dd9b84b89e86726a528",
+    "baseline.sarif.json": "6f66407b5a9b3c6406844af0baf39d7415d9c67cb4e6de8bdfb2bfca1250d128",
+    "query.ql": "9abf421ccb9e27a12ac89f41fc811b88b03977614c90278993f0800f01825ca2",
+    "query-customizations.qll": "8e4858ab2b7cb60e22ae42cae771e67337a0715c8cb92082480429a8a6078859",
+    "postgres-varlena.c": "6e2aa20f5ce65a22c9aafdff199bdc936f8f67d0354ca33aa0f2929b880fc3fc"
+  },
+  "delivery": {
+    "branch": "codex/phase11-prek-codeql-high-alert-triage",
+    "draftOnly": true,
+    "mergeAuthorized": false,
+    "changedFiles": [
+      "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+      "docs/phase-11-prek-codeql-high-alert-triage.md"
+    ],
+    "sourceIdentityAndExactHeadChecks": "Record externally in the Draft PR and completion report after this evidence commit; a commit cannot include its own hash without changing that hash. No second evidence-only commit solely to self-reference CI."
+  }
+}
