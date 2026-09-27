@@ -1,0 +1,890 @@
+{
+  "schemaVersion": 1,
+  "task": "PHASE-11-PREK-CRYPTO001-DATABASE-MAC-COMPARISON-CORRECTION-001",
+  "repository": "Papi299/nutrition-tracker-app",
+  "recordedAt": "2026-09-27T17:26:26.484002+00:00",
+  "result": "CRYPTO001_RAW_MAC_COMPARISON_BLINDED",
+  "reviewStatus": "CRYPTO001_CORRECTED_PENDING_INDEPENDENT_REVIEW",
+  "baseline": {
+    "sha": "1db97489b31727fbd73015b903bac68644b84c23",
+    "tree": "41acb9f981e8ae78d8e88be88a6484f4dbc910d7",
+    "parents": [
+      "fefe11098e19fcca59447afc6744243d55678ef0"
+    ],
+    "subject": "docs(phase11-prek): triage CodeQL HMAC alerts and record comparison defect (#153)",
+    "pr153Merged": true,
+    "initialOpenPrCount": 0,
+    "ruleset": {
+      "id": 24075217,
+      "name": "main-dec029",
+      "enforcement": "active"
+    },
+    "ci": {
+      "runNumber": 312,
+      "runId": 36333146453,
+      "jobId": 108658827363,
+      "event": "push",
+      "branch": "main",
+      "attempt": 1,
+      "sha": "1db97489b31727fbd73015b903bac68644b84c23",
+      "conclusion": "success",
+      "rawLogReverified": true,
+      "unitPassed": 351,
+      "e2ePassed": 366,
+      "phase11dPassed": 53,
+      "intentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "clientArtifacts": 115,
+      "artifact": {
+        "id": 10936406964,
+        "name": "phase-11d-evidence-36333146453-1",
+        "digest": "sha256:f47b3ce42800d49352f60453fac1351f7b849d819f28b1b281cf358d8a3554dc"
+      }
+    },
+    "codeql": {
+      "runId": 36333146203,
+      "attempt": 1,
+      "sha": "1db97489b31727fbd73015b903bac68644b84c23",
+      "jobs": [
+        108658829051,
+        108658829265
+      ],
+      "conclusion": "success",
+      "actionsFindings": 0,
+      "javascriptTypescriptFindings": 5
+    }
+  },
+  "acceptedFinding": {
+    "id": "CRYPTO-001",
+    "source": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+    "function": "private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint)",
+    "before": "return v_signature = extensions.hmac(convert_to(v_authenticated_value, 'UTF8'), convert_to(v_secret, 'UTF8'), 'sha256');",
+    "defect": "Raw attacker-supplied MAC compared with database-computed expected MAC by ordinary bytea equality, which lacks a constant-time security contract.",
+    "practicalRemoteExploitDemonstrated": false,
+    "macForgeryDemonstrated": false,
+    "crossAccountBypassDemonstrated": false,
+    "highCriticalSeverityAssigned": false
+  },
+  "stack": {
+    "supabaseCli": "2.116.0",
+    "lockfileAndPackagePinVerified": true,
+    "configuredPostgresMajor": 17,
+    "postgres": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+    "pgcrypto": "1.3",
+    "actualHmac": "extensions.hmac(bytea, bytea, text)",
+    "actualRandomBytes": "extensions.gen_random_bytes(integer)",
+    "randomInvocationLength": 32,
+    "randomValuePersisted": false,
+    "commandsDiscovered": [
+      "npx supabase --version",
+      "npx supabase migration --help",
+      "npx supabase migration new --help",
+      "npx supabase start --help",
+      "npx supabase db reset --help",
+      "npx supabase migration list --help",
+      "npx supabase db advisors --help",
+      "npx supabase db lint --help"
+    ],
+    "documentation": [
+      {
+        "url": "https://supabase.com/changelog.md",
+        "purpose": "Fresh current changelog index; relevant database breaking changes followed."
+      },
+      {
+        "url": "https://supabase.com/changelog/postgres-15-19-17-11-breaking-changes",
+        "purpose": "2026-09-25 PG15.19/17.11 upgrade notice: pgcrypto legacy-cipher PGP remediation; this verifier uses HMAC-SHA-256 and random bytes, not those PGP ciphers. No stack/provider upgrade performed; installed local PG17.6 recorded, hosted version uninspected."
+      },
+      {
+        "url": "https://supabase.com/changelog/extension-version-pinning-ignored",
+        "purpose": "2026-07-22 extension explicit VERSION pinning deprecated/ignored; discover installed pgcrypto rather than assuming an extension version."
+      },
+      {
+        "url": "https://www.postgresql.org/docs/17/pgcrypto.html",
+        "purpose": "hmac(data,key,type) bytea signature; gen_random_bytes yields cryptographically strong random bytes; NULL handling and broader pgcrypto side-channel limitations."
+      },
+      {
+        "url": "https://www.postgresql.org/docs/17/sql-createfunction.html",
+        "purpose": "CREATE OR REPLACE retains owner and permissions; VOLATILE reflects fresh random generation."
+      },
+      {
+        "url": "https://paragonie.com/blog/2015/11/preventing-timing-attacks-on-string-comparison-with-double-hmac-strategy",
+        "purpose": "Recognized randomized double-HMAC comparison rationale; fresh comparison key avoids deterministic blinded prefixes across repeated queries."
+      },
+      {
+        "url": "https://supabase.com/docs/reference/cli/supabase-db-advisors",
+        "purpose": "Current local CLI migration/reset/advisors reference; command syntax independently discovered with pinned CLI --help."
+      }
+    ]
+  },
+  "migration": {
+    "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+    "version": "20260927170418",
+    "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "generatedBy": "npx supabase migration new harden_account_closure_mac_comparison",
+    "historicalCount": 43,
+    "repositoryCount": 44,
+    "previousHead": "20260830143000_cache_search_account_access_policy.sql",
+    "changedObjects": [
+      "private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint)"
+    ],
+    "historicalSourceSha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312",
+    "all43HistoricalFilesUnchangedAgainstBaseline": true,
+    "createOrReplace": true,
+    "dropRecreate": false,
+    "dataOrVaultSecretUpdates": false,
+    "grantsChanged": false,
+    "rpcDefinitionAndAclUnchanged": true,
+    "sameTransactionPropertyProof": {
+      "oidSame": true,
+      "ownerSame": true,
+      "invokerPreserved": true,
+      "configSame": true,
+      "aclSame": true,
+      "volatile": true
+    },
+    "volatilityChange": {
+      "before": "STABLE",
+      "after": "VOLATILE",
+      "reason": "Fresh random comparison key generated per verifier call that reaches MAC verification."
+    }
+  },
+  "construction": {
+    "claim": "RAW_MAC_TIMING_ORACLE_BLINDED_BY_FRESH_RANDOM_DOUBLE_HMAC",
+    "signatureLengthCheck": "octet_length(v_signature) <> 32 -> false before MAC/blinding",
+    "expectedMac": "extensions.hmac(convert_to(v_authenticated_value, UTF8), convert_to(v_secret, UTF8), sha256)",
+    "comparisonKey": "extensions.gen_random_bytes(32) inside verifier call",
+    "candidateBlinded": "extensions.hmac(v_signature, v_compare_key, 'sha256')",
+    "expectedBlinded": "extensions.hmac(v_expected_signature, v_compare_key, 'sha256')",
+    "finalEquality": "v_candidate_blinded = v_expected_blinded",
+    "sameRandomKeyForBothSides": true,
+    "rawCandidateExpectedEqualityEliminatedInActiveVerifier": true,
+    "signatureKeyExpectedAndBlindedLengthGuards": 32,
+    "keyPersistedLoggedOrReturned": false,
+    "failClosed": "Decode/payload/identity/session/request/time/Vault guards preserved; exceptions return false; NULL or malformed crypto outputs explicitly return false; no fixed-key or raw-MAC fallback.",
+    "rejectedAlternatives": [
+      "Raw MAC equality",
+      "Static comparison key",
+      "Homemade PL/pgSQL constant-time loop",
+      "Slow password KDF for token MAC",
+      "TypeScript-only verification",
+      "Custom native extension or unsupported server access",
+      "Removing Vault/DB gate or changing secret material"
+    ],
+    "limitation": "Ordinary PostgreSQL equality remains variable-time. Functional tests and local durations do not establish timing-side-channel absence. Blinding addresses the raw-MAC comparison oracle under HMAC/CSPRNG assumptions; no formal whole-path constant-time claim."
+  },
+  "preservedSecurity": {
+    "checks": [
+      "security invoker",
+      "empty search_path",
+      "exact function signature",
+      "private schema and no direct EXECUTE grants to PUBLIC/anon/authenticated/service_role",
+      "2048-byte maximum",
+      "strict three-segment v1/base64url round-trip",
+      "exact eight-key canonical JSON",
+      "user/session/request UUIDs",
+      "account-closure intent",
+      "p11e-e5-account-closure-v1 policy",
+      "integer timestamps",
+      "60-second max life",
+      "30-second future skew",
+      "exact expiry rejection",
+      "exactly one Vault secret of >=32UTF8bytes",
+      "HMAC-SHA-256",
+      "auth.uid-derived owner",
+      "JWT session and matching live auth.sessions row",
+      "activated current account",
+      "immutable/idempotent closure",
+      "RLS/least privilege/localization/null-zero/snapshots"
+    ],
+    "applicationRuntimeFilesChanged": false,
+    "publicRpcChanged": false
+  },
+  "validation": {
+    "focusedUnits": {
+      "passed": 14,
+      "files": [
+        "tests/account-closure-capability.spec.ts",
+        "tests/recent-password-auth-proof.spec.ts"
+      ]
+    },
+    "allLocalUnitsPassed": 351,
+    "focusedE2e": {
+      "passed": 17,
+      "accountClosurePassed": 11,
+      "reauthenticationPassed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 38985.545,
+      "productionNodeSqlInteroperability": "PASS via exact authenticated live-session public RPC",
+      "negativeCases": [
+        {
+          "case": "wrong HMAC key",
+          "proof": "Existing authenticated RPC denial",
+          "status": "PASS"
+        },
+        {
+          "case": "one-byte MAC corruption at first/middle/last positions",
+          "proof": "New XOR mutations at byte indices 0/15/31; all authenticated RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "31-byte signature",
+          "proof": "New authenticated RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "33-byte signature",
+          "proof": "New authenticated RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "empty signature",
+          "proof": "New authenticated RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "malformed/noncanonical base64url",
+          "proof": "Existing malformed segments plus new padded signature denied",
+          "status": "PASS"
+        },
+        {
+          "case": "malformed JSON payload",
+          "proof": "New correctly signed invalid JSON denied",
+          "status": "PASS"
+        },
+        {
+          "case": "noncanonical payload",
+          "proof": "New correctly signed pretty JSON plus existing duplicate-field payload denied",
+          "status": "PASS"
+        },
+        {
+          "case": "wrong user",
+          "proof": "Existing correctly signed wrong subject and cross-user RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "wrong session",
+          "proof": "Existing signed wrong session and different live-session RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "wrong request ID",
+          "proof": "Existing signed wrong request UUID denied",
+          "status": "PASS"
+        },
+        {
+          "case": "wrong intent",
+          "proof": "Existing signed account-export intent denied",
+          "status": "PASS"
+        },
+        {
+          "case": "wrong policy",
+          "proof": "Existing signed wrong policy denied",
+          "status": "PASS"
+        },
+        {
+          "case": "expired capability",
+          "proof": "Existing signed expired timestamps denied",
+          "status": "PASS"
+        },
+        {
+          "case": "future capability",
+          "proof": "Existing signed issue time beyond30-second skew denied",
+          "status": "PASS"
+        },
+        {
+          "case": "missing Vault secret",
+          "proof": "New rollback-only local secret deletion: verifier returns false",
+          "status": "PASS"
+        },
+        {
+          "case": "duplicate Vault secret condition",
+          "proof": "New rollback-only duplicate read-view row as local Vault owner: verifier returns false; unique-name constraint unchanged",
+          "status": "PASS"
+        },
+        {
+          "case": "short Vault secret",
+          "proof": "New rollback-only Vault update: verifier returns false",
+          "status": "PASS"
+        },
+        {
+          "case": "revoked session",
+          "proof": "Existing global Auth revoke followed by stale form POST and direct RPC denied",
+          "status": "PASS"
+        },
+        {
+          "case": "cross-user attempt",
+          "proof": "Existing authenticated second-user denial, RLS and ownership invariants preserved",
+          "status": "PASS"
+        },
+        {
+          "case": "repeat/concurrent idempotent closure",
+          "proof": "Existing valid Node-generated tags return closed/already_closed with one immutable closure row",
+          "status": "PASS"
+        },
+        {
+          "case": "random generator failure",
+          "proof": "New rollback-only exception, NULL and31-byte random-key faults return false",
+          "status": "PASS"
+        },
+        {
+          "case": "HMAC execution failure",
+          "proof": "New exception/NULL/31-byte faults individually at expected MAC/candidate blinding/expected blinding return false",
+          "status": "PASS"
+        }
+      ]
+    },
+    "randomPerInvocation": "Rollback-only counted generator called twice for two verifier invocations. Operational real pgcrypto32-byte invocation and documented CSPRNG contract; no statistical or inequality test.",
+    "faultInjection": "Local supabase_admin only for extension/Vault-owner transaction faults; all ROLLBACK. Actual functions checked back to language C, temporary Vault view absent, active verifier/RPC unchanged after tests. Test helper default remains postgres.",
+    "migrationReplay": {
+      "command": "npx supabase --network-id phase11-crypto001-loopback db reset --local",
+      "status": "PASS",
+      "appliedCount": 44,
+      "seed": "PASS",
+      "versions": [
+        "20260429163444",
+        "20260626185634",
+        "20260630193832",
+        "20260630201904",
+        "20260704142707",
+        "20260705061118",
+        "20260711071000",
+        "20260714090000",
+        "20260714100000",
+        "20260714110000",
+        "20260714120000",
+        "20260714130000",
+        "20260714140000",
+        "20260714150000",
+        "20260716100000",
+        "20260716110000",
+        "20260716120000",
+        "20260716130000",
+        "20260717100000",
+        "20260717110000",
+        "20260717120000",
+        "20260717130000",
+        "20260717140000",
+        "20260717150000",
+        "20260718100000",
+        "20260718120000",
+        "20260718140000",
+        "20260718150000",
+        "20260719080000",
+        "20260719120000",
+        "20260719160000",
+        "20260721100000",
+        "20260721110000",
+        "20260801141841",
+        "20260801190220",
+        "20260808093826",
+        "20260810175638",
+        "20260811142805",
+        "20260812194829",
+        "20260827070838",
+        "20260827110552",
+        "20260829030137",
+        "20260830143000",
+        "20260927170418"
+      ],
+      "ledgerEqualsRepository": true
+    },
+    "migrationRoleCompatibility": "PASS accepted local hosted-role simulation, historical32-version slice then clean44 replay; nested npx forced --network-id through disposable wrapper",
+    "databaseLint": "PASS no public/private schema errors",
+    "advisor": {
+      "command": "npx supabase db advisors --local --type all --level info --fail-on none -o json",
+      "existingCount": 118,
+      "existingLevels": {
+        "INFO": 110,
+        "WARN": 8
+      },
+      "existingWarningFamilies": {
+        "auth_rls_initplan": 1,
+        "multiple_permissive_policies": 7
+      },
+      "newSecurityOrPerformanceCount": 0,
+      "beforeAfterEqual": true
+    },
+    "productionBuild": "PASS webpack with actual isolated API/publishable key and synthetic server-secret canaries",
+    "clientSecretArtifactsInspected": 142,
+    "checks": [
+      {
+        "name": "lint",
+        "status": "PASS"
+      },
+      {
+        "name": "typecheck",
+        "status": "PASS"
+      },
+      {
+        "name": "workflow supply-chain/security",
+        "status": "PASS"
+      },
+      {
+        "name": "deployment contract",
+        "status": "PASS"
+      },
+      {
+        "name": "recovery contract",
+        "status": "PASS"
+      },
+      {
+        "name": "journey evidence",
+        "status": "PASS"
+      },
+      {
+        "name": "production dependency advisory gate",
+        "status": "PASS"
+      },
+      {
+        "name": "security policy regressions",
+        "status": "PASS"
+      },
+      {
+        "name": "performance harness",
+        "status": "PASS"
+      },
+      {
+        "name": "historical performance-evidence verifier",
+        "status": "PASS"
+      },
+      {
+        "name": "ingestion types",
+        "status": "PASS"
+      },
+      {
+        "name": "public/private database lint",
+        "status": "PASS"
+      },
+      {
+        "name": "client-secret source/build boundary",
+        "status": "PASS"
+      },
+      {
+        "name": "git diff --check",
+        "status": "PASS"
+      },
+      {
+        "name": "JSON consistency and links",
+        "status": "PASS"
+      },
+      {
+        "name": "secret-pattern scan",
+        "status": "PASS"
+      }
+    ],
+    "performance": "17 focused E2E tests completed in about39sec; valid DB/RPC and closure UI remained functional, no timeout. Existing performance-contract verifiers pass; historical G2 nonpassing source retains its nonpassing classification. No microbenchmark or timing-security pass criterion."
+  },
+  "isolation": {
+    "finalStatus": "PASS_LOOPBACK_ONLY_RESET_AND_TEST_EXECUTION",
+    "topology": "Dedicated nutrition-j3 Lima plain VM, no app/DB host forwards; separate disposable project/network/config outside repository",
+    "projectId": "phase11-crypto001-isolated",
+    "network": "phase11-crypto001-loopback",
+    "defaultBind": "127.0.0.1",
+    "ipv6Enabled": false,
+    "publishedPorts": [
+      56321,
+      56322,
+      56323,
+      56324
+    ],
+    "effectiveBindings": [
+      {
+        "name": "/supabase_db_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "5432/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "56322"
+            }
+          ]
+        }
+      },
+      {
+        "name": "/supabase_studio_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "3000/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "56323"
+            }
+          ]
+        }
+      },
+      {
+        "name": "/supabase_pg_meta_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "8080/tcp": null
+        }
+      },
+      {
+        "name": "/supabase_edge_runtime_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {}
+      },
+      {
+        "name": "/supabase_storage_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "5000/tcp": null
+        }
+      },
+      {
+        "name": "/supabase_rest_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "3000/tcp": null
+        }
+      },
+      {
+        "name": "/supabase_realtime_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "4000/tcp": null
+        }
+      },
+      {
+        "name": "/supabase_inbucket_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "1025/tcp": null,
+          "1110/tcp": null,
+          "8025/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "56324"
+            }
+          ]
+        }
+      },
+      {
+        "name": "/supabase_auth_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "9999/tcp": null
+        }
+      },
+      {
+        "name": "/supabase_kong_phase11-crypto001-isolated",
+        "running": true,
+        "networks": [
+          "phase11-crypto001-loopback"
+        ],
+        "ports": {
+          "8000/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "56321"
+            }
+          ],
+          "8001/tcp": null,
+          "8088/tcp": null,
+          "8443/tcp": null,
+          "8444/tcp": null
+        }
+      }
+    ],
+    "guardSamples": 1666,
+    "guardHandlesContainerRemovalRaces": true,
+    "independentReachability": {
+      "guestNonloopbackAddress": "192.168.5.15",
+      "ports": [
+        {
+          "port": 56321,
+          "loopbackConnects": true,
+          "guestNonloopbackConnects": false
+        },
+        {
+          "port": 56322,
+          "loopbackConnects": true,
+          "guestNonloopbackConnects": false
+        },
+        {
+          "port": 56323,
+          "loopbackConnects": true,
+          "guestNonloopbackConnects": false
+        },
+        {
+          "port": 56324,
+          "loopbackConnects": true,
+          "guestNonloopbackConnects": false
+        }
+      ],
+      "passed": true
+    },
+    "macTestListeners": 0,
+    "preliminaryFailures": [
+      "Mac Docker engine ignored loopback-default binding: guard stopped disposable stack; switched to accepted plain Lima topology.",
+      "Initial nested role-runner reset omitted network; guard had exited on a container-removal race. Unsafe disposable guest DB was manually stopped. Wrapper now forces network for nested calls; corrected guard and role replay passed.",
+      "Optional local analytics Free Plan initialization failed; excluded logflare/vector without ignoring health checks.",
+      "Missing browser libraries, local fixture ownership and built-in public API port were corrected before final accepted17/17 run."
+    ],
+    "finalTeardown": {
+      "remainingContainers": 0,
+      "remainingTestPortListeners": 0,
+      "passed": true
+    },
+    "dedicatedVmReturnedToStopped": true,
+    "unrelatedProjectsNotConnectedOrMutated": true
+  },
+  "codeql": {
+    "knownAlertNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "rule": "js/insufficient-password-hash",
+    "classification": "5_OF_5_FALSE_POSITIVE_INDEPENDENTLY_ACCEPTED_ALERTS_STILL_OPEN",
+    "state": "OPEN",
+    "dismissed": false,
+    "suppressed": false,
+    "issuanceSitesUnchanged": true,
+    "sqlIssueProofIndependentOfCodeql": true,
+    "exactHeadRunAndFinalInventory": "Recorded in Draft PR body and final delivery report after commit, preventing self-referential source identity."
+  },
+  "governance": {
+    "governanceRemediationComplete": false,
+    "settingsMatrix": {
+      "compliant": 25,
+      "mismatch": 1,
+      "notApplicable": 2
+    },
+    "mismatch": "P1 exception authority",
+    "P11A-016": "OPEN",
+    "all18Findings": "OPEN",
+    "roles": {
+      "Independent acceptance reviewer": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "Candidate release approver": "UNASSIGNED_BLOCKING_BEFORE_11K",
+      "P1 exception authority": "UNASSIGNED_BLOCKING_BEFORE_11K"
+    },
+    "contract": "2.0-personal-use-windows-deferred-amended",
+    "windows": {
+      "chrome": "NOT_EXECUTED",
+      "edge": "NOT_EXECUTED",
+      "status": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+      "passCredit": false
+    },
+    "productionReleaseAuthorized": false,
+    "forwardJ6Started": false,
+    "phase11KStarted": false,
+    "historicalEvidenceChanged": false,
+    "livingStatus": "CRYPTO001_CORRECTED_PENDING_INDEPENDENT_REVIEW",
+    "fiveCwe916Allegations": "5_OF_5_FALSE_POSITIVE_INDEPENDENTLY_ACCEPTED_ALERTS_STILL_OPEN",
+    "governanceRemediationStatus": "INCOMPLETE_PENDING_INDEPENDENT_CORRECTION_ACCEPTANCE_AND_SEPARATE_ALERT_DISMISSAL",
+    "forwardJ6": "NOT_STARTED",
+    "phase11K": "NOT_STARTED",
+    "dec039Changed": false
+  },
+  "recoveryBoundary": {
+    "productionContractRetains": "43 / 20260830143000",
+    "reason": "Hosted Supabase unchanged; existing Production recovery contract and historical43-migration evidence remain applicable to that deployed ledger.",
+    "beforeAnyFutureHosted44Migration": "Explicit authorization, independent correction acceptance and separate deployment/recovery-contract reconciliation required. No restore or hosted backup run here."
+  },
+  "safety": {
+    "hostedSupabaseAccess": false,
+    "hostedMutation": false,
+    "productionVaultOrProviderSecretsRead": false,
+    "comparisonKeyValuesRetained": false,
+    "localSyntheticSecretsDisclosedInPacket": false,
+    "githubSettingsMutation": false,
+    "vercelMutation": false,
+    "productionDeploy": false,
+    "alertDismissalOrSuppression": false,
+    "findingsClosed": false,
+    "rolesAssigned": false,
+    "windowsTested": false,
+    "forwardJ6Started": false,
+    "phase11KStarted": false,
+    "subagentsUsed": false
+  },
+  "sourceFingerprints": [
+    {
+      "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+      "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3"
+    },
+    {
+      "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+      "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312"
+    },
+    {
+      "path": "e2e/account-closure.spec.ts",
+      "sha256": "5788aaf57cf52c41c08a3be448b9c7461e942e2a52fbf61c2fb9337be8c71bce"
+    },
+    {
+      "path": "e2e/helpers/local-auth.ts",
+      "sha256": "6fecd400b7dc13336d97b8c1ea1a43c9f22562548ba808cbaed5990fa4552c13"
+    },
+    {
+      "path": "lib/account-closure/capability.ts",
+      "sha256": "bde0a0725c8970b906fcc8ece7973f858603b77bfd17e8f736119735983781c4"
+    },
+    {
+      "path": "lib/auth/recent-password-auth-proof.ts",
+      "sha256": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768"
+    },
+    {
+      "path": "package.json",
+      "sha256": "5a30313c1350af45410445e3aa660bfa1fd99b5116449668a7de26b4663186b8"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "3ddafeedd3d48c3493b51bb03328caf5a71c498a83381a6c64014a1d2d89f3b0"
+    },
+    {
+      "path": "scripts/phase-11i-recovery-contract.mjs",
+      "sha256": "a4bc1e1b415bd8e64dc355ea9557d69f414b1a218925d5c45542e154fb6e9fd5"
+    }
+  ],
+  "localEvidenceFingerprints": [
+    {
+      "name": "advisories.log",
+      "sha256": "bec72ce06252c61276eac2f281a3bfdbc8c3389ed260279eb5cf88ee9cae75af"
+    },
+    {
+      "name": "advisors-after.json",
+      "sha256": "a85f41ea797c5878a756d5dfe7e94dbb2fa488431fe05f51345f59e1215aa6d7"
+    },
+    {
+      "name": "advisors-before.json",
+      "sha256": "a85f41ea797c5878a756d5dfe7e94dbb2fa488431fe05f51345f59e1215aa6d7"
+    },
+    {
+      "name": "baseline-validate.log",
+      "sha256": "11ce018d47d9438917c32a083203bd71850c6c06311c416491e8faff843a417b"
+    },
+    {
+      "name": "build-isolated-final.log",
+      "sha256": "54882d61b53654a960997147d622b05f9c0d6dbee1cc8639ddeeab36677b318f"
+    },
+    {
+      "name": "catalog-after.json",
+      "sha256": "c6f563129ddd96fd7621adc0c2716a7dc1ca660bb304463462852b31a484494a"
+    },
+    {
+      "name": "catalog-before.json",
+      "sha256": "cd30dc6dc3bd833a1d8a2b73f71e26ee4c36f61d4c58485e844a70e26f7c57ec"
+    },
+    {
+      "name": "deployment-contract.log",
+      "sha256": "e436719a4245fcc225e89b781a9431a9eb50f968c0532004e75138a5077a4ce4"
+    },
+    {
+      "name": "e2e-summary.json",
+      "sha256": "3d81f7f797c33c7043af38693b075056493a5b5bd944e1a5f1d66dabb232f018"
+    },
+    {
+      "name": "focused-e2e-verified.log",
+      "sha256": "246e5d3fc3ca0dd11d10ab100b6963c7bd1dacffd857b14b19954c662b6af944"
+    },
+    {
+      "name": "focused-unit.log",
+      "sha256": "f751363f2641e45fed2c7d512be0cf5a514d19388f906ef79e50e000be69e7cd"
+    },
+    {
+      "name": "ingestion-types-final.log",
+      "sha256": "b1acf2187571ef5bcb3f067a69b8e165d19e5ec9b20d5d13efc882e6ed595117"
+    },
+    {
+      "name": "isolation-live-final.json",
+      "sha256": "5be8c7e0db5286a56f59dabd31df6a0a7daf6e494796abf70f7595515344a908"
+    },
+    {
+      "name": "journey.log",
+      "sha256": "4f0f4f70604eddc7c60e337763cc344bc508d0ac29b157aba5ac6a0da47dc427"
+    },
+    {
+      "name": "lint-final.log",
+      "sha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800"
+    },
+    {
+      "name": "loopback-probe.json",
+      "sha256": "69d869e6e07b3a7cb0f2a75f162ba85c2a1d9017998238111152beb06708d8f7"
+    },
+    {
+      "name": "migration-roles-corrected.log",
+      "sha256": "d024096e8aab521dc88b2d064f49d6f6de34b05047e4f7d9fb936184554ddb0b"
+    },
+    {
+      "name": "property-preservation.json",
+      "sha256": "1f0f631222acb6cebeac9d388ac70d6a9edf4f999928db0e0b3a16a275303373"
+    },
+    {
+      "name": "recovery-contract.log",
+      "sha256": "48b00317db8ef4b4f03e399a6b9d5a0c5c047702aac751e0c562bd19d7833f46"
+    },
+    {
+      "name": "reset44.log",
+      "sha256": "3c36129eefa84f608661a2f3b3c93b279031fff830cb2ee73b47745853b989c3"
+    },
+    {
+      "name": "teardown-summary.json",
+      "sha256": "76ca27f5681ce02c29de50de1a851af0dabc0ac32869ffe60dcaf308355cc26a"
+    },
+    {
+      "name": "typecheck-final.log",
+      "sha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095"
+    },
+    {
+      "name": "unit-all.log",
+      "sha256": "6899a41060f067864da256a15fb489e6ab9fed6712d759d1219f66f947fffbe0"
+    },
+    {
+      "name": "workflow.log",
+      "sha256": "303f5bf0bfd025815a2a85e19a7892be50d92d8f63338fc36704d5cf6402237d"
+    }
+  ],
+  "delivery": {
+    "branch": "codex/phase11-prek-crypto001-correction",
+    "draftOnly": true,
+    "mergeAuthorized": false,
+    "sourceShaTreeExactHeadCiCodeqlArtifact": "Recorded externally in Draft PR/completion report after final commit.",
+    "changedFileScope": [
+      "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+      "e2e/account-closure.spec.ts",
+      "e2e/helpers/local-auth.ts",
+      "deployment/phase-11-prek-crypto001-correction-evidence.json",
+      "docs/phase-11-prek-crypto001-correction.md"
+    ]
+  }
+}
