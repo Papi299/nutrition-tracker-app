@@ -416,6 +416,13 @@ is complete for the current MVP scope.
   pending.
   See the
   [Phase 11F application and supply-chain security record](docs/phase-11f-security-and-dependency-hardening.md).
+  The [pre-K dependency-graph configuration addendum](docs/phase-11-prek-dependency-graph-config-resolution.md)
+  records owner-authenticated disabled configuration and G15
+  `VERIFIED_MISMATCH`. Its executor-authored readiness assessment is
+  `GITHUB_GOVERNANCE_REMEDIATION_READY_FOR_OWNER_AUTHORIZATION`, pending
+  independent review and separate Product Owner authorization for settings
+  mutations. Three before-K roles remain unresolved; Phase 11K remains
+  `NOT_ELIGIBLE`, all 18 findings remain `OPEN`, and Production is unauthorized.
   On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
   acceptance by Maor Pichhadze as Observability owner, Performance and
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
