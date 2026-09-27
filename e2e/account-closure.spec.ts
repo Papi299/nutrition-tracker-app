@@ -529,11 +529,22 @@ test.describe.serial("Phase 11E5 account closure", () => {
 
     const valid = capabilityForSession(sessionA.access_token);
     const [version, encodedPayload, signature] = valid.capability.split(".");
+    const rawSignature = Buffer.from(signature, "base64url");
+    const corruptTags = [0, 15, 31].map((index) => {
+      const corrupt = Buffer.from(rawSignature);
+      corrupt[index] ^= 1;
+      return `${version}.${encodedPayload}.${corrupt.toString("base64url")}`;
+    });
     const forged = `${version}.${encodedPayload}.${signature[0] === "A" ? "B" : "A"}${signature.slice(1)}`;
 
     for (const capability of [
       "",
       forged,
+      ...corruptTags,
+      `${version}.${encodedPayload}.${rawSignature.subarray(0, 31).toString("base64url")}`,
+      `${version}.${encodedPayload}.${Buffer.concat([rawSignature, Buffer.from([0])]).toString("base64url")}`,
+      `${version}.${encodedPayload}.`,
+      `${version}.${encodedPayload}.${signature}=`,
       "v1.not-base64.not-base64",
       `v1.${"a".repeat(2100)}.signature`,
     ]) {
@@ -595,6 +606,17 @@ test.describe.serial("Phase 11E5 account closure", () => {
       p_closure_request_id: valid.requestId,
     });
     expect(wrongSecret.error).not.toBeNull();
+    for (const payload of [
+      "{malformed-json",
+      JSON.stringify(basePayload, null, 2),
+    ]) {
+      const denied = await clientA.rpc("close_current_account", {
+        p_capability: signRawCapability(payload, capabilitySecret as string),
+        p_closure_request_id: valid.requestId,
+      });
+      expect(denied.error).not.toBeNull();
+    }
+
     const duplicateField = await clientA.rpc("close_current_account", {
       p_capability: signRawCapability(
         JSON.stringify(basePayload).replace(
@@ -1318,5 +1340,136 @@ test.describe.serial("Phase 11E5 account closure", () => {
       ),
     ).toBe(false);
     await context.close();
+  });
+});
+
+// Faults are injected only inside a rolled-back local transaction. No grant or
+// provider configuration changes; the ordinary closure tests use real pgcrypto.
+test.describe.serial("CRYPTO-001 database comparison failure handling", () => {
+  function fixture() {
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    const userId = crypto.randomUUID();
+    const sessionId = crypto.randomUUID();
+    const requestId = crypto.randomUUID();
+    const capability = issueAccountClosureCapability({
+      e3ExpiresAt: nowSeconds + 600,
+      nowSeconds,
+      requestId,
+      secret: capabilitySecret as string,
+      sessionId,
+      userId,
+    });
+    return {
+      call: `private.verify_account_closure_capability(
+        '${capability}', '${userId}'::uuid, '${sessionId}'::uuid,
+        '${requestId}'::uuid, ${nowSeconds}::bigint
+      )`,
+    };
+  }
+
+  function expectFailClosed(
+    setup: string,
+    databaseRole: "postgres" | "supabase_admin" = "supabase_admin",
+  ) {
+    const { call } = fixture();
+    const result = queryLocalAuthFixture(`
+      begin;
+      ${setup}
+      select ${call} is false;
+      rollback;
+    `, databaseRole);
+    expect(result.split("\n").filter((line) => line === "t" || line === "f")).toEqual(["t"]);
+  }
+
+  test("rejects missing, short, and duplicate local Vault secret conditions", () => {
+    expectFailClosed(`
+      delete from vault.secrets where name = 'account_closure_capability_v1';
+    `);
+    expectFailClosed(`
+      do $$
+      begin
+        perform vault.update_secret(
+          (select id from vault.secrets where name = 'account_closure_capability_v1'),
+          'short-local-test-key'
+        );
+      end;
+      $$;
+    `);
+    // Vault enforces unique names. Duplicate the read-view row transactionally
+    // to exercise the verifier's count guard without weakening that constraint.
+    expectFailClosed(`
+      alter view vault.decrypted_secrets rename to crypto001_original_secrets;
+      create view vault.decrypted_secrets as
+        select * from vault.crypto001_original_secrets
+        union all
+        select * from vault.crypto001_original_secrets
+        where name = 'account_closure_capability_v1';
+    `, "supabase_admin");
+  });
+
+  test("rejects random-generator exceptions, NULL, and malformed key length", () => {
+    for (const body of [
+      "raise exception 'Synthetic local RNG failure';",
+      "return null;",
+      "return decode(repeat('00', 31), 'hex');",
+    ]) {
+      expectFailClosed(`
+        create or replace function extensions.gen_random_bytes(integer)
+        returns bytea language plpgsql volatile security invoker
+        set search_path = '' as $$ begin ${body} end; $$;
+      `);
+    }
+  });
+
+  test("rejects failures in the expected MAC and either blinding HMAC", () => {
+    for (const failureCall of [1, 2, 3]) {
+      for (const body of [
+        "raise exception 'Synthetic local HMAC failure';",
+        "return null;",
+        "return decode(repeat('00', 31), 'hex');",
+      ]) {
+        expectFailClosed(`
+          create temporary sequence crypto001_hmac_calls;
+          create or replace function extensions.hmac(bytea, bytea, text)
+          returns bytea language plpgsql volatile security invoker
+          set search_path = '' as $$
+          begin
+            if nextval('pg_temp.crypto001_hmac_calls') = ${failureCall} then
+              ${body}
+            end if;
+            return decode(repeat('00', 32), 'hex');
+          end; $$;
+        `);
+      }
+    }
+  });
+
+  test("invokes the random generator for each verification call without granting direct access", () => {
+    const { call } = fixture();
+    const result = queryLocalAuthFixture(`
+      begin;
+      create temporary sequence crypto001_rng_calls;
+      create or replace function extensions.gen_random_bytes(integer)
+      returns bytea language plpgsql volatile security invoker
+      set search_path = '' as $$
+      begin
+        perform nextval('pg_temp.crypto001_rng_calls');
+        return decode(repeat('00', 32), 'hex');
+      end; $$;
+      select ${call};
+      select ${call};
+      select last_value from pg_temp.crypto001_rng_calls;
+      rollback;
+    `, "supabase_admin");
+    expect(result.split("\n").filter((line) => line === "t" || line === "f" || line === "2")).toEqual(["t", "t", "2"]);
+    expect(queryLocalAuthFixture(`
+      select bool_and(not has_function_privilege(
+        role_name, 'private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint)', 'EXECUTE'
+      )) from unnest(array['anon', 'authenticated', 'service_role']) as role_name;
+    `)).toBe("t");
+    expect(queryLocalAuthFixture(`
+      select not prosecdef and provolatile = 'v' and proconfig = array['search_path=""']
+      from pg_proc where oid = 'private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint)'::regprocedure;
+    `)).toBe("t");
   });
 });

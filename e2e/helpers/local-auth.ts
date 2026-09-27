@@ -128,7 +128,10 @@ async function provisionInvitedIdentityWithPassword(credentials: {
   return userId;
 }
 
-export function queryLocalAuthFixture(statement: string) {
+export function queryLocalAuthFixture(
+  statement: string,
+  databaseRole: "postgres" | "supabase_admin" = "postgres",
+) {
   const { databaseContainer } = requireLocalFixtureConfiguration();
 
   return execFileSync(
@@ -138,7 +141,7 @@ export function queryLocalAuthFixture(statement: string) {
       databaseContainer,
       "psql",
       "-U",
-      "postgres",
+      databaseRole,
       "-d",
       "postgres",
       "-v",
