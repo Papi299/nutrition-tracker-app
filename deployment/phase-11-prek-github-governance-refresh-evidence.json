@@ -1,0 +1,1988 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-GITHUB-GOVERNANCE-READONLY-REFRESH-001",
+  "status": "READ_ONLY_REFRESH_COMPLETE_PENDING_INDEPENDENT_REVIEW_WITH_CONFIGURATION_READ_GAP",
+  "remediationReadiness": "GITHUB_GOVERNANCE_REMEDIATION_BLOCKED_BY_MISSING_READ_ACCESS",
+  "finalMarker": "PHASE_11_PREK_GITHUB_GOVERNANCE_REFRESH_BLOCKED_BY_READ_ACCESS",
+  "recordedAtUtc": "2026-09-27T11:29:00.039787+00:00",
+  "observationBoundary": "Point-in-time reads on 2026-09-27; this packet is new executor-authored evidence pending independent ChatGPT review. Not a correction, accepted setting change, final J6 or Phase 11K entry.",
+  "baseline": {
+    "name": "main",
+    "sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+    "tree": "0ea7b3ec0f0c005c77f15513335fa7937a8e5d18",
+    "parents": [
+      "91b55a05704e79233839606c66b9a25633761b5b"
+    ],
+    "subject": "docs(phase11j6): reconcile interim evidence and retain Windows gap (#149)",
+    "acceptedGovernanceExcerpt": "After successful exact-main post-merge CI, the interim reconciliation is INTERIM_RECONCILIATION_ACCEPTED. Authorship-time pending-review statuses remain historical snapshots.",
+    "protected": false,
+    "protection": {
+      "enabled": false,
+      "required_status_checks": {
+        "enforcement_level": "off",
+        "contexts": [],
+        "checks": []
+      }
+    },
+    "acceptedReviewExcerpt": "Accept the DEC-038 interim Phase 11J6 reconciliation under the Product Owner-supplied independent ChatGPT verdict APPROVE WITH NON-BLOCKING NOTE. Approved final source head: 2b66c8a38e6d97f937738285280d775e5d807b76; tree: 0ea7b3ec0f0c005c77f15513335fa7937a8e5d18; base: 91b55a05704e79233839606c66b9a25633761b5b. The accepted two-commit branch contains the bounded implementation and a correction removing two Markdown trailing-space hard breaks; CI #302 remains failed historical evidence. Fresh exact-head CI #303, source ancestry, five-file aggregate scope, no-drift and comments/review-thread gates passed. No source edit, new commit or branch-history rewrite was made."
+  },
+  "preDeliveryOpenPullRequests": {
+    "count": 0,
+    "evidence": "open_prs",
+    "afterDelivery": "Only the new authorized Draft PR is expected; re-query before final handoff."
+  },
+  "exactMainCi": {
+    "run": {
+      "id": 36313120463,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "workflow_id": 311132800,
+      "run_number": 304,
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "head_branch": "main",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36313120463",
+      "created_at": "2026-09-27T10:37:18Z",
+      "updated_at": "2026-09-27T10:50:57Z"
+    },
+    "jobId": 108602722011,
+    "authoritativeCheck": "Validate",
+    "githubAppId": 15368,
+    "results": {
+      "unitPassed": 351,
+      "playwrightPassed": 366,
+      "phase11dPassed": 53,
+      "phase11dIntentionalSkipped": 3,
+      "skipRationale": "Axe is deterministic shared-DOM automation; engine behavior is covered separately. e2e/phase-11d-ui.spec.ts:944-948 at baseline; only engine-chromium runs this case.",
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "productionBuild": "PASS",
+      "clientSecretBoundary": {
+        "result": "PASS",
+        "artifactsInspected": 115
+      }
+    },
+    "artifact": {
+      "id": 10929279441,
+      "node_id": "MDg6QXJ0aWZhY3QxMDkyOTI3OTQ0MQ==",
+      "name": "phase-11d-evidence-36313120463-1",
+      "size_in_bytes": 1610794,
+      "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/artifacts/10929279441",
+      "archive_download_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/artifacts/10929279441/zip",
+      "expired": false,
+      "digest": "sha256:5b573abf887fc77b374dd377f20467cc01e235d09b277a484953c64335283491",
+      "created_at": "2026-09-27T10:50:36Z",
+      "updated_at": "2026-09-27T10:50:36Z",
+      "expires_at": "2026-10-11T10:50:35Z",
+      "workflow_run": {
+        "id": 36313120463,
+        "repository_id": 1223506255,
+        "head_repository_id": 1223506255,
+        "head_branch": "main",
+        "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8"
+      }
+    },
+    "artifactBytesDownloaded": false,
+    "ciRerunRequested": false,
+    "evidence": [
+      "ci304",
+      "job304",
+      "checks304",
+      "logs304",
+      "artifacts304"
+    ]
+  },
+  "policy": {
+    "contractVersion": "1.9-personal-use-firefox-excluded-amended",
+    "dec029ExactApprovedWording": "Authoritative CI and independent review; squash merge; no reachable unaccepted critical/high advisory; approved human P1 authority; any future admin automation requires separately approved credentials/threat model/design/implementation/evidence.",
+    "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md DEC-029 row; role §2.2; exceptions §11",
+    "operationalDerivation": "DEC-029 is high-level. Conversation/linear-history/protection, cleanup, Actions and scanning settings are the accepted Phase 11F §§12–14 implementation, not new literal requirements invented in Contract1.9.",
+    "phase11fHistoricalEvidenceUnchanged": true,
+    "singleAccountIndependentReview": "Zero GitHub approvals with required separately attributable independent ChatGPT exact-head review; never demand multiple GitHub accounts or treat zero as waiver.",
+    "personalUseProfile": "DEC-035 PERSONAL_USE_FREE_TIER; DEC-037/038 do not waive DEC-029.",
+    "settingsVsProcess": "Existing/passing CI, expected green-CI process, and technical merge prevention are separate claims. Only the first two currently hold.",
+    "p11a016Severity": "P2; not eligible for Contract §11 P1 exception.",
+    "futureTrustedInvitationAutomation": "Unselected and separately approved credentials/threat model/design/implementation/evidence required; none authorized here."
+  },
+  "governance": {
+    "j1": "COMPLETE",
+    "j2": "COMPLETE",
+    "j3": "INCOMPLETE",
+    "j4": "COMPLETE",
+    "j5": "COMPLETE",
+    "j6Interim": "INTERIM_RECONCILIATION_ACCEPTED",
+    "j6FinalDelta": "NOT_STARTED",
+    "phase11J": "INCOMPLETE",
+    "phase11K": "NOT_STARTED",
+    "phase11KEligibility": "NOT_ELIGIBLE",
+    "physicalPassRecorded": false,
+    "productionReleaseAuthorized": false,
+    "findings": [
+      {
+        "id": "P11A-001",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-002",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-003",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-004",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-005",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-006",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-007",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-008",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-009",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-010",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-011",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-012",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-013",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-014",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-015",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-016",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-017",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-018",
+        "status": "OPEN"
+      }
+    ],
+    "beforeKRoles": [
+      {
+        "role": "Independent acceptance reviewer",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      },
+      {
+        "role": "Candidate release approver",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      },
+      {
+        "role": "P1 exception authority",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "assignedByThisTask": false
+      }
+    ],
+    "githubSettingsEvidence": "DEFERRED_REQUIRED",
+    "whyInterimDiffersFromAuthorship": "Historical J6 JSON/Markdown pending statuses are preserved; supplied accepted baseline plus merged PR149/main acceptance message and fresh exact-main CI304 establish current interim acceptance. No historical file is rewritten."
+  },
+  "repositoryMergeSettings": {
+    "id": 1223506255,
+    "full_name": "Papi299/nutrition-tracker-app",
+    "default_branch": "main",
+    "visibility": "public",
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    },
+    "allow_squash_merge": true,
+    "allow_merge_commit": true,
+    "allow_rebase_merge": true,
+    "allow_auto_merge": false,
+    "delete_branch_on_merge": false,
+    "allow_update_branch": false,
+    "security_and_analysis": {
+      "secret_scanning": {
+        "status": "disabled"
+      },
+      "secret_scanning_push_protection": {
+        "status": "disabled"
+      },
+      "dependabot_security_updates": {
+        "status": "disabled"
+      },
+      "secret_scanning_non_provider_patterns": {
+        "status": "disabled"
+      },
+      "secret_scanning_validity_checks": {
+        "status": "disabled"
+      }
+    }
+  },
+  "matrix": [
+    {
+      "id": "G01",
+      "requirement": "PR-based integration to main",
+      "controllingDec029Wording": "Authoritative CI and independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No enforced PR rule; protected=false; classic protection absent; rulesets/effective rules empty.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G02",
+      "requirement": "Authoritative Validate required before merge",
+      "controllingDec029Wording": "Authoritative CI",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "CI exists/passes and process requires it; GitHub has no required Validate check.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G03",
+      "requirement": "Conversation resolution",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No enforced conversation-resolution rule.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G04",
+      "requirement": "Linear history",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No enforced linear-history rule.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G05",
+      "requirement": "Force-push protection",
+      "controllingDec029Wording": "Authoritative CI and independent review; squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No force-push protection on main.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G06",
+      "requirement": "Deletion protection",
+      "controllingDec029Wording": "Authoritative CI and independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No deletion protection on main.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G07",
+      "requirement": "Squash-only integration policy",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_squash_merge=true, merge_commit=true, rebase_merge=true; squash is available but not exclusive.",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R2",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G08",
+      "requirement": "Disable merge commits",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_merge_commit=true",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R2",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G09",
+      "requirement": "Disable rebase merges",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_rebase_merge=true",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R2",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G10",
+      "requirement": "Branch cleanup after merge",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "Accepted Phase 11F §14 and focused branch delivery; DEC-029 does not literally specify the cleanup boolean.",
+      "freshObservedValue": "delete_branch_on_merge=false",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R2",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G11",
+      "requirement": "Actions source restriction",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "enabled=true, allowed_actions=all; selected-actions HTTP409 explicitly because all are allowed.",
+      "evidence": [
+        "actions_permissions",
+        "selected_actions"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R3",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G12",
+      "requirement": "Repository immutable/full-SHA Actions enforcement",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "sha_pinning_required=false; committed workflows already use reviewed full SHAs.",
+      "evidence": [
+        "actions_permissions",
+        ".github/workflows/ci.yml",
+        "scripts/check-workflow-security.mjs"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R3",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G13",
+      "requirement": "Default workflow token",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "default_workflow_permissions=read; committed workflow contents: read.",
+      "evidence": [
+        "workflow_permissions",
+        ".github/workflows/ci.yml"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G14",
+      "requirement": "Actions PR-approval permission",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "can_approve_pull_request_reviews=false",
+      "evidence": [
+        "workflow_permissions"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G15",
+      "requirement": "Dependency graph",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "SBOM HTTP404 Not Found; public dependency page explicitly says disabled, conflicting with current docs saying permanently enabled for public repos. Authenticated settings unavailable. Actual configuration and enable/restore surface unresolved.",
+      "evidence": [
+        "dependency_graph",
+        "dependency_graph_ui",
+        "settings_ui"
+      ],
+      "status": "NOT_FRESHLY_OBSERVABLE",
+      "remediation": "R0",
+      "githubSettingMutationRequired": false,
+      "planLimitation": "No demonstrated paid-plan limitation; public graph is documented as included. Configuration discrepancy requires owner read, not a paid upgrade."
+    },
+    {
+      "id": "G16",
+      "requirement": "Dependabot alerts / vulnerability-alert enablement",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "GET vulnerability-alerts HTTP404 explicitly Vulnerability alerts are disabled; alert list HTTP403 explicitly disabled.",
+      "evidence": [
+        "vulnerability_alerts",
+        "dependabot_alerts"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R4",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G17",
+      "requirement": "Dependabot security updates",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.dependabot_security_updates.status=disabled",
+      "evidence": [
+        "repository",
+        "automated_security_fixes"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R4",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G18",
+      "requirement": "Automated security fixes",
+      "controllingDec029Wording": "no reachable unaccepted critical/high advisory",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "enabled=false, paused=false",
+      "evidence": [
+        "automated_security_fixes"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R4",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G19",
+      "requirement": "Repository secret scanning enablement",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.secret_scanning.status=disabled; no claim about automatic partner scanning.",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R5",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G20",
+      "requirement": "Repository push protection",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "security_and_analysis.secret_scanning_push_protection.status=disabled; per-user protection is distinct and unobserved.",
+      "evidence": [
+        "repository"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R5",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G21",
+      "requirement": "Code scanning / default setup",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "default setup state=not-configured; languages=[actions,javascript,javascript-typescript,typescript], updated_at/schedule=null; analyses and alerts return no analysis found. No current CodeQL signal.",
+      "evidence": [
+        "code_scanning_default_setup",
+        "code_scanning_analyses",
+        "code_scanning_alerts",
+        ".github/workflows/ci.yml"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R6",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G22",
+      "requirement": "Exception/bypass governance including administrators",
+      "controllingDec029Wording": "Authoritative CI and independent review; approved human P1 authority",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "No effective protections; therefore no bypass list exists to constrain any write/admin actor. Rule enforcement is absent; this is not an empty enforced bypass list.",
+      "evidence": [
+        "main",
+        "protection",
+        "rulesets",
+        "effective_rules"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R1",
+      "githubSettingMutationRequired": true,
+      "planLimitation": null
+    },
+    {
+      "id": "G23",
+      "requirement": "P1 exception authority",
+      "controllingDec029Wording": "approved human P1 authority",
+      "policyBasis": "Direct DEC-029 role deadline; unresolved before-K prerequisite, not a due-now settings error.",
+      "freshObservedValue": "UNASSIGNED_BLOCKING_BEFORE_11K; no assignment or exception accepted by this task.",
+      "evidence": [
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "deployment/phase-11j6-interim-evidence-reconciliation.json"
+      ],
+      "status": "VERIFIED_MISMATCH",
+      "remediation": "R7",
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G24",
+      "requirement": "Independent exact-head review process",
+      "controllingDec029Wording": "independent review",
+      "policyBasis": "Accepted Phase 11F §14 and merged PR149 provenance; process compliance for accepted baseline, not technical enforcement or self-approval of this packet.",
+      "freshObservedValue": "Merged PR149/main commit records owner-supplied ChatGPT APPROVE WITH NON-BLOCKING NOTE at final source head 2b66c8a38e6d97f937738285280d775e5d807b76. This refresh remains pending independent review. Zero GitHub approval requirement is the accepted single-account implementation.",
+      "evidence": [
+        "pr149",
+        "main",
+        "docs/phase-11f-security-and-dependency-hardening.md"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G25",
+      "requirement": "Repository workflow immutable pins",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "Both accepted workflows retain three allowlisted full 40-character SHA pins, contents: read, reviewed Node 22/timeouts and gates; offline validator succeeds.",
+      "evidence": [
+        "scripts/check-workflow-security.mjs",
+        ".github/workflows/ci.yml"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G26",
+      "requirement": "Authoritative CI exists and passes",
+      "controllingDec029Wording": "Authoritative CI",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "CI workflow311132800 path=.github/workflows/ci.yml active; job validate/name Validate; run304/36313120463 attempt1 push exact accepted main success; check source GitHub Actions App15368.",
+      "evidence": [
+        "workflow",
+        "ci304",
+        "job304",
+        "checks304",
+        "logs304"
+      ],
+      "status": "VERIFIED_COMPLIANT",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G27",
+      "requirement": "Require auto-merge or update-branch feature",
+      "controllingDec029Wording": "squash merge",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "allow_auto_merge=false; allow_update_branch=false. DEC-029 establishes no enablement requirement; preserve values.",
+      "evidence": [
+        "repository"
+      ],
+      "status": "NOT_APPLICABLE",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    },
+    {
+      "id": "G28",
+      "requirement": "Optional paid/expanded scanning controls",
+      "controllingDec029Wording": "security/governance policy approved",
+      "policyBasis": "DEC-029, with accepted Phase 11F operational implementation",
+      "freshObservedValue": "non-provider patterns and validity checks disabled; no mandatory generic/AI pattern, enterprise delegated bypass, paid scanner or commercial framework in accepted scope.",
+      "evidence": [
+        "repository"
+      ],
+      "status": "NOT_APPLICABLE",
+      "remediation": null,
+      "githubSettingMutationRequired": false,
+      "planLimitation": null
+    }
+  ],
+  "matrixCounts": {
+    "VERIFIED_MISMATCH": 20,
+    "VERIFIED_COMPLIANT": 5,
+    "NOT_FRESHLY_OBSERVABLE": 1,
+    "NOT_APPLICABLE": 2
+  },
+  "planAssessment": {
+    "repositoryOwnerType": "User",
+    "visibility": "public",
+    "actualAccountBillingPlan": "NOT_OBSERVED; no billing/account inspection needed",
+    "documentedCapabilityFloor": "GitHub Free public-repository controls; no paid plan mandated",
+    "confirmedPlanLimitations": [],
+    "limitation": "Dependency-graph UI/documentation discrepancy remains a configuration read gap, not a proved plan denial. Optional paid security expansion is NOT_APPLICABLE.",
+    "documentationObservedOn": "2026-09-27",
+    "sources": {
+      "rules": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets",
+      "rulesRest": "https://docs.github.com/en/rest/repos/rules",
+      "actions": "https://docs.github.com/en/rest/actions/permissions",
+      "securitySettings": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository",
+      "publicSecurity": "https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security",
+      "defaultSetup": "https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/configure-code-scanning/configure-code-scanning"
+    }
+  },
+  "unobservableControls": [
+    {
+      "id": "dependency-graph-configuration",
+      "classification": "NOT_FRESHLY_OBSERVABLE_WITH_CURRENT_GITHUB_CREDENTIAL",
+      "matrixClassification": "NOT_FRESHLY_OBSERVABLE",
+      "evidence": [
+        "dependency_graph",
+        "dependency_graph_ui",
+        "settings_ui"
+      ],
+      "exactEndpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/dependency-graph/sbom",
+      "httpStatus": 404,
+      "exactApiMessage": "Not Found",
+      "reason": "API returns ambiguous 404 and no graph configuration field. Public UI says disabled; general documentation says permanently enabled; settings browser is signed out. Configuration/capability cannot be settled with these reads.",
+      "resolution": "R0 owner-authenticated read; do not refresh token scopes, enable controls, or infer disabled solely from API404."
+    }
+  ],
+  "endpointErrorInterpretations": [
+    {
+      "evidence": "protection",
+      "interpretation": "Explicit Branch not protected plus protected=false and successful empty rulesets/effective-rules establish absence; not inferred from generic404 alone."
+    },
+    {
+      "evidence": "selected_actions",
+      "interpretation": "Explicit409 because allowed_actions=all; selected restrictions are inactive, not a read-access blocker. Dormant selected values remain unknown and unnecessary for the exact target."
+    },
+    {
+      "evidence": [
+        "vulnerability_alerts",
+        "dependabot_alerts"
+      ],
+      "interpretation": "Explicit disabled messages and enabled=false fixes establish disabled features. gh suggests admin:repo_hook refresh on403; suggestion was not executed, no scope was changed, and no clean-alert count is claimed."
+    },
+    {
+      "evidence": [
+        "code_scanning_analyses",
+        "code_scanning_alerts"
+      ],
+      "interpretation": "Explicit no analysis found plus successful not-configured default setup and baseline workflow inventory establish no CodeQL analysis signal; not a proof of a clean vulnerability inventory. No generic404-to-disabled inference."
+    },
+    {
+      "evidence": "dependency_graph",
+      "interpretation": "Generic404 alone is neither disabled nor unavailable-on-plan. R0 remains required."
+    }
+  ],
+  "orderedProposedRemediation": [
+    {
+      "id": "R0",
+      "order": 0,
+      "title": "Resolve dependency-graph configuration read before an omnibus mutation task",
+      "current": "Public UI says disabled; SBOM 404; authenticated settings not observable with the current browser session.",
+      "target": "Fresh, attributable enabled-state/configuration observation and exact supported restore/enable surface, or an explicit provider availability explanation.",
+      "surface": "Owner-authenticated Settings → Security and quality → Advanced Security → Dependency graph; Insights → Dependency graph; REST dependency-graph/sbom.",
+      "why": "Accepted Phase 11F §14 requires dependency graph; current documentation and repository UI conflict. No stronger DEC-029 policy or assumed paid upgrade.",
+      "workflowEffect": "Observation first; no runtime/dependency changes, no credentials stored, no graph/alert setting inferred from 404.",
+      "availability": "Public graph is documented permanently enabled. That documentation does not establish this repository’s effective state. Account billing plan was not inspected and no actual plan denial was observed.",
+      "proposedSteps": [
+        "Obtain an owner-authenticated read-only configuration observation without changing credential scopes or settings in this task.",
+        "If the owner surface shows disabled with an Enable control, record its exact availability and separately propose enabling it before R4. If it is shown permanently enabled, resolve graph population/SBOM failure through the owner/provider rather than inventing a mutation endpoint. Stop on an eligibility error and record it; do not pay or silently substitute npm audit as equivalent."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app/dependency-graph/sbom succeeds with SPDX dependency data matching the current manifest, or an exact explained no-data/permission reason is retained.",
+        "Read authenticated graph configuration and the public dependency view; reconcile both with provider documentation."
+      ],
+      "rollback": "No observation reversal needed. A graph-setting rollback cannot be specified until its actual control is read; if permanently enabled, there is no disable operation to propose.",
+      "githubSettingMutationRequired": false,
+      "executed": false,
+      "authorization": "Read-access resolution only now; graph mutation authorization/steps remain gated."
+    },
+    {
+      "id": "R1",
+      "order": 1,
+      "title": "Enforce the accepted PR/Validate workflow on main",
+      "current": "Classic protection: 404 Branch not protected; branch protected=false; repository and effective rules=[]",
+      "target": {
+        "name": "main-dec029",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "include": [
+              "refs/heads/main"
+            ],
+            "exclude": []
+          }
+        },
+        "rules": [
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "require_code_owner_review": false,
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": true
+            }
+          },
+          {
+            "type": "required_status_checks",
+            "parameters": {
+              "required_status_checks": [
+                {
+                  "context": "Validate",
+                  "integration_id": 15368
+                }
+              ],
+              "strict_required_status_checks_policy": false
+            }
+          },
+          {
+            "type": "required_linear_history"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "deletion"
+          }
+        ]
+      },
+      "surface": "Settings → Rules → Rulesets → New branch ruleset",
+      "why": "DEC-029 authoritative CI, independent review and squash merge, implemented proportionally by accepted Phase 11F §14.",
+      "workflowEffect": "Direct main pushes, force pushes, deletion and merges without Validate or resolved threads become blocked, including for administrators with no bypass entry. Zero GitHub approval count preserves the accepted independent ChatGPT exact-head review process; it does not waive review. Feature branch pushes remain available. Requiring an up-to-date branch, multiple reviewers, code owners, merge queue, signed commits or extra required checks is not introduced.",
+      "availability": "Public branch rulesets are available on GitHub Free. Current list/effective-rule reads succeed; no plan error observed. Use active, never evaluate.",
+      "proposedSteps": [
+        "Refresh main, open PRs, rulesets and protection; preserve the returned configuration as reversal evidence. Stop on drift.",
+        "Create exactly the branch ruleset payload recorded in target. In the UI select main, Active, no bypass actors, pull request with zero approvals and resolved conversations, linear history, block force pushes and deletion, and required Validate from GitHub Actions (App ID 15368).",
+        "Keep independent ChatGPT approval tied to the final PR SHA/tree as process evidence. Do not designate a human or pre-authorize an emergency bypass."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app/rulesets?includes_parents=true&per_page=100: new ID, target=branch, enforcement=active.",
+        "GET /repos/Papi299/nutrition-tracker-app/rulesets/{returned_id}: exact main condition, bypass_actors=[], exact five rule types and parameters.",
+        "GET /repos/Papi299/nutrition-tracker-app/rules/branches/main: active pull_request, required_status_checks Validate/App15368, required_linear_history, non_fast_forward, deletion.",
+        "GET /repos/Papi299/nutrition-tracker-app/branches/main and protection: corroborate effective enforcement; classic protection may remain absent because one effective ruleset suffices.",
+        "Read the merge gate of a future authorized PR while Validate is pending, then after success; do not attempt a forbidden merge, direct push, force push or deletion as a test."
+      ],
+      "rollback": "A separately authorized reversal edits this new ruleset to disabled, or removes only its new ID, restoring the prior absence of rules. This weakens governance and requires fresh risk/owner review; no reversal is executed.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R2",
+      "order": 2,
+      "title": "Use squash only and clean up merged feature branches",
+      "current": {
+        "allow_squash_merge": true,
+        "allow_merge_commit": true,
+        "allow_rebase_merge": true,
+        "delete_branch_on_merge": false
+      },
+      "target": {
+        "allow_squash_merge": true,
+        "allow_merge_commit": false,
+        "allow_rebase_merge": false,
+        "delete_branch_on_merge": true
+      },
+      "surface": "Settings → General → Pull Requests",
+      "why": "DEC-029 squash merge; accepted Phase 11F §14 branch-cleanup target.",
+      "workflowEffect": "Existing Codex squash delivery continues. Merge/rebase buttons disappear; eligible merged head branches are deleted automatically. Protected main remains protected. Existing stale branches are outside this action; no retroactive deletion.",
+      "availability": "Public personal repository settings; no paid feature required.",
+      "proposedSteps": [
+        "Set only the four target fields; preserve allow_auto_merge=false and allow_update_branch=false. API equivalent for a later task: PATCH repository with precisely target (not executed)."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app: exact four target booleans; default_branch=main, visibility=public, auto-merge/update-branch remain false."
+      ],
+      "rollback": "Separately authorized reversal restores merge_commit=true, rebase_merge=true, delete_branch_on_merge=false, squash=true. Deleted feature refs are not automatically restored: recreate a needed ref at its saved final head only with authorization; commits and PR history remain.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R3",
+      "order": 3,
+      "title": "Restrict Actions sources and enforce immutable pins",
+      "current": {
+        "enabled": true,
+        "allowed_actions": "all",
+        "sha_pinning_required": false
+      },
+      "target": {
+        "permissions": {
+          "enabled": true,
+          "allowed_actions": "selected",
+          "sha_pinning_required": true
+        },
+        "selectedActions": {
+          "github_owned_allowed": true,
+          "verified_allowed": false,
+          "patterns_allowed": []
+        }
+      },
+      "surface": "Settings → Actions → General → Actions permissions",
+      "why": "DEC-029 security/governance policy, concretized by accepted Phase 11F §§12/14 and check-workflow-security.mjs.",
+      "workflowEffect": "The existing two workflows use only the three SHA-pinned actions/ actions and remain compatible. A new third-party action requires an explicitly reviewed selected entry and full SHA; no blanket verified-creator permission is added. Shell steps are unchanged.",
+      "availability": "Repository API exposes sha_pinning_required=false and permits policy reads; public settings documented. No current plan limitation observed.",
+      "proposedSteps": [
+        "Select GitHub-owned and selected non-GitHub actions; require full-length commit SHA. Later API equivalent: PUT actions/permissions with target.permissions, then PUT actions/permissions/selected-actions with target.selectedActions.",
+        "No external action is used today, so patterns_allowed=[] is the exact current minimum. Keep default workflow token read and can_approve_pull_request_reviews=false."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app/actions/permissions: enabled=true, allowed_actions=selected, sha_pinning_required=true.",
+        "GET /repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions: github_owned_allowed=true, verified_allowed=false, patterns_allowed=[].",
+        "GET /repos/Papi299/nutrition-tracker-app/actions/permissions/workflow: read/false; rerun offline workflow validator; inspect a naturally occurring exact-head CI and the next normally scheduled backup, without dispatching a provider backup."
+      ],
+      "rollback": "Separately authorized reversal restores allowed_actions=all and sha_pinning_required=false. Selected-actions GET is then expected to return 409; dormant prior selected configuration cannot be recovered from this read and must not be claimed known.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R4",
+      "order": 4,
+      "title": "Enable Dependabot advisory visibility and security fixes",
+      "current": {
+        "vulnerabilityAlerts": "disabled",
+        "automatedSecurityFixes": {
+          "enabled": false,
+          "paused": false
+        },
+        "dependabot_security_updates": "disabled"
+      },
+      "target": {
+        "vulnerabilityAlerts": "enabled",
+        "automatedSecurityFixes": {
+          "enabled": true,
+          "paused": false
+        },
+        "dependabot_security_updates": "enabled"
+      },
+      "surface": "Settings → Security and quality → Advanced Security → Dependabot alerts / Dependabot security updates",
+      "why": "DEC-029 no reachable unaccepted critical/high advisory; accepted Phase 11F §14 recurring dependency-security settings. npm CI auditing already exists but does not substitute these settings.",
+      "workflowEffect": "Alerts and patch PRs may appear. They use the ordinary review/Validate/squash process with no auto-merge or dismissal authorization; merely enabling updates never accepts a vulnerable dependency.",
+      "availability": "Dependency graph prerequisite must be resolved first under R0. Dependabot is available on public repositories without a paid plan; no plan error observed.",
+      "proposedSteps": [
+        "After R0 resolves the graph state, enable alerts, then security updates. Later API equivalents: PUT vulnerability-alerts, then PUT automated-security-fixes; no version-update schedule or dependabot.yml is added."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app/vulnerability-alerts: HTTP 204, replacing the explicit disabled 404.",
+        "GET /repos/Papi299/nutrition-tracker-app/automated-security-fixes: enabled=true, paused=false.",
+        "GET /repos/Papi299/nutrition-tracker-app: security_and_analysis.dependabot_security_updates.status=enabled.",
+        "GET /repos/Papi299/nutrition-tracker-app/dependabot/alerts?state=open&per_page=100: accessible list (follow pagination); triage without dismissing or persisting credential/private payloads."
+      ],
+      "rollback": "Separately authorized reversal disables security updates, then alerts, restoring disabled/false/paused=false. Previously created PRs and alert histories are not automatically removed; do not close/dismiss them as rollback.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R5",
+      "order": 5,
+      "title": "Enable repository secret scanning alerts and push protection",
+      "current": {
+        "secret_scanning": "disabled",
+        "secret_scanning_push_protection": "disabled"
+      },
+      "target": {
+        "secret_scanning": "enabled",
+        "secret_scanning_push_protection": "enabled"
+      },
+      "surface": "Settings → Security and quality → Advanced Security → Secret Protection → Secret scanning / Push protection",
+      "why": "DEC-029 security/governance policy and accepted Phase 11F §14 scanning controls.",
+      "workflowEffect": "Repository user alerts and repository-level push blocking become enabled. Public partner scanning or per-user push protection may already exist; neither is credited as repository enablement. Existing benign source pushes continue. Any genuine bypass needs explicit reviewed authority; no standing bypass role is added.",
+      "availability": "Core scanning and push protection are available free for public repositories. Validity checks, generic/non-provider patterns and delegated bypass are outside DEC-029 minimum; no paid features requested.",
+      "proposedSteps": [
+        "Enable repository secret scanning, then repository push protection. Later API equivalent: PATCH repository security_and_analysis with only these two status=enabled fields. Do not create a test secret, push a credential-like fixture, enable optional paid features or change bypass grants."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app: both security_and_analysis statuses=enabled.",
+        "Read authenticated Advanced Security settings to corroborate repository enablement and record bypass policy without changing it. No real or synthetic secret push test is required."
+      ],
+      "rollback": "Separately authorized reversal disables repository push protection then scanning, restoring their two disabled values. This weakens safeguards and does not erase exposed-secret history; no alert dismissal or credential operation is implied.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R6",
+      "order": 6,
+      "title": "Enable proportional CodeQL default setup",
+      "current": {
+        "state": "not-configured",
+        "languages": [
+          "actions",
+          "javascript",
+          "javascript-typescript",
+          "typescript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "updated_at": null,
+        "schedule": null,
+        "runner_type": "standard",
+        "runner_label": null
+      },
+      "target": {
+        "state": "configured",
+        "languageFamilies": [
+          "GitHub Actions",
+          "JavaScript/TypeScript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "runner_type": "standard"
+      },
+      "surface": "Settings → Security and quality → Advanced Security → Code scanning → CodeQL analysis → Set up → Default",
+      "why": "DEC-029 security/governance policy, accepted Phase 11F §14 first-party default-scanning target.",
+      "workflowEffect": "GitHub-managed default setup adds scan runs without a committed workflow. Validate remains the sole required check; do not require CodeQL until separately reviewed stable runtime/reliability exists. No application, backup, schema or runtime file is changed.",
+      "availability": "Public repository CodeQL/default setup is free with Actions enabled. Returned languages contain actions, javascript, javascript-typescript, typescript; these are recorded verbatim, not four distinct product requirements. Select supported Actions and JS/TS choices in the owner UI; no non-supported PL/pgSQL scanner or paid tier.",
+      "proposedSteps": [
+        "Enable Default with default queries, remote threat model, standard GitHub-hosted runner and the supported Actions and JS/TS language selections. Prefer owner UI normalization of returned language aliases; do not blindly submit all four aliases as independent API languages.",
+        "Preserve repository workflow files, Validate rule and least-privilege token settings; do not add an advanced CodeQL workflow or required CodeQL check."
+      ],
+      "readBack": [
+        "GET /repos/Papi299/nutrition-tracker-app/code-scanning/default-setup: state=configured, supported selected language families, default queries and remote threat model.",
+        "GET /repos/Papi299/nutrition-tracker-app/code-scanning/analyses?per_page=100: current completed CodeQL analysis, exact then-current main ref/SHA and language coverage; record failed initialization as failure, never success.",
+        "GET /repos/Papi299/nutrition-tracker-app/code-scanning/alerts?state=open&per_page=100: available list; no dismissals; inspect setup run success and verify existing Validate remains green."
+      ],
+      "rollback": "Separately authorized reversal disables default setup (later PATCH code-scanning/default-setup state=not-configured, or corresponding UI control). Existing analyses/alerts are historical and must not be deleted or relabeled.",
+      "githubSettingMutationRequired": true,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    },
+    {
+      "id": "R7",
+      "order": 7,
+      "title": "Preserve and later resolve human exception authority",
+      "current": "P1 exception authority = UNASSIGNED_BLOCKING_BEFORE_11K",
+      "target": "ASSIGNED_AND_APPROVED before actual Phase 11K entry, with attributable policy approval, assignee acceptance, scope, authority and date",
+      "surface": "Contract 1.9 §2.2 role register and §11 exception record; no GitHub setting",
+      "why": "DEC-029 approved human P1 authority. P11A-016 is P2, managed normally; a P1 exception does not waive its settings gap.",
+      "workflowEffect": "This read-only task continues without assigning anyone. Before 11K the Product Owner must separately supply the role decision and independent review evidence. No account creation, collaborator addition or GitHub bypass solves the role.",
+      "availability": "No plan restriction; role assignment is a human governance action. Independent acceptance reviewer and Candidate release approver remain separate unresolved roles.",
+      "proposedSteps": [
+        "In a separately approved governance task, obtain attributable owner role-policy approval and acceptance from the person selected by the owner. This packet selects nobody.",
+        "Any later P1 exception must meet every Contract §11 field (owner, risk/rationale/constraint, compensating control, residual risk, cohort, detection, expiry/review/remediation/revocation, Product Owner approval, independent review and Phase 11K disposition). P0 is ineligible."
+      ],
+      "readBack": [
+        "Read the then-current Contract role register and attributable approved assignment/acceptance evidence; require ASSIGNED_AND_APPROVED. GitHub configuration read-back cannot satisfy this.",
+        "Confirm the other two before-K roles separately; no J3, final-J6, finding-closure or Production authority is inferred."
+      ],
+      "rollback": "A revoked or unaccepted assignment is recorded through normal independently reviewed change control; keep before-K blocked. Never erase historical role evidence.",
+      "githubSettingMutationRequired": false,
+      "executed": false,
+      "authorization": "Separate exact owner authorization required; this packet authorizes no remediation."
+    }
+  ],
+  "readAccessPolicy": "No token refresh, permission escalation at GitHub, collaborator/app changes or secret access to obtain missing reads. Shell network permission allowed GET requests without changing GitHub credentials.",
+  "sourceIndex": [
+    {
+      "path": "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "9ed0468802cc2b4a3bcba010dfc1650560bdda34",
+      "sha256": "bec504a10d44392335e720e459051477f0b3300de4015f4ca29ab02d07fed793"
+    },
+    {
+      "path": "docs/phase-11f-security-and-dependency-hardening.md",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "6270f93f77c1288a6ef5b16560eaeb2c53661972",
+      "sha256": "d49d647d62ddb47f90433a46642e037fe65e9bfd84c52a358536a42632f032ee"
+    },
+    {
+      "path": "docs/phase-11j6-interim-evidence-reconciliation.md",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "52af0b65acd3e0e43089657d5ab79a72a68528c2",
+      "sha256": "b2de5f890c9d0aa974c9d1aca7766f8021cdc1c8bd014ddef6993651ee968801"
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "2c06f75da7c0af1ccb0dfc66bf614c8fbdeb4297",
+      "sha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "8d7ca63884a60133cb0d01680e0504accd937a15",
+      "sha256": "76d86d2ba944c8066d7cfea219a3a85d9b6c6d26ad9c518c8e5fc4de50ce249a"
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "62260ace69961a713ea4317942db873453c15dee",
+      "sha256": "c72a846fb0791d26b160809e6314eb2779198d3d106c1dc43fa657198f39e1da"
+    },
+    {
+      "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "3c3349465564247cd30ab3466dbf0db5fc733f97",
+      "sha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8"
+    },
+    {
+      "path": "e2e/phase-11d-ui.spec.ts",
+      "ref": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+      "gitBlob": "c03b4fcde7ed25b7fd5d0b829c289cda421e2bf7",
+      "sha256": "54010629b55a43601646edb340dc0b5f9c9ce0c0218d92e347abecbe5999e781"
+    }
+  ],
+  "observations": [
+    {
+      "id": "effective_rules",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rules/branches/main",
+      "startedAt": "2026-09-27T11:16:46.443779+00:00",
+      "completedAt": "2026-09-27T11:16:46.942626+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": [],
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "workflow",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/workflows/ci.yml",
+      "startedAt": "2026-09-27T11:16:47.634247+00:00",
+      "completedAt": "2026-09-27T11:16:47.937094+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "id": 311132800,
+        "node_id": "W_kwDOSO05T84Si4KA",
+        "name": "CI",
+        "path": ".github/workflows/ci.yml",
+        "state": "active",
+        "created_at": "2026-07-11T09:48:21.000+03:00",
+        "updated_at": "2026-07-11T10:05:43.000+03:00",
+        "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/workflows/311132800",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/blob/main/.github/workflows/ci.yml",
+        "badge_url": "https://github.com/Papi299/nutrition-tracker-app/workflows/CI/badge.svg"
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "actions_permissions",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/permissions",
+      "startedAt": "2026-09-27T11:16:46.446000+00:00",
+      "completedAt": "2026-09-27T11:16:46.942978+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "enabled": true,
+        "allowed_actions": "all",
+        "sha_pinning_required": false
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "dependabot_alerts",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/dependabot/alerts?state=open&per_page=100",
+      "startedAt": "2026-09-27T11:16:47.277948+00:00",
+      "completedAt": "2026-09-27T11:16:47.609811+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 403,
+      "response": {
+        "message": "Dependabot alerts are disabled for this repository.",
+        "documentation_url": "https://docs.github.com/rest/dependabot/alerts#list-dependabot-alerts-for-a-repository",
+        "status": "403"
+      },
+      "error": "gh: Dependabot alerts are disabled for this repository. (HTTP 403)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook",
+      "paginationLink": null
+    },
+    {
+      "id": "code_scanning_analyses",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/analyses?per_page=100",
+      "startedAt": "2026-09-27T11:16:47.263592+00:00",
+      "completedAt": "2026-09-27T11:16:47.633980+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 404,
+      "response": {
+        "message": "no analysis found",
+        "documentation_url": "https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository",
+        "status": "404"
+      },
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook",
+      "paginationLink": null
+    },
+    {
+      "id": "workflow_permissions",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/permissions/workflow",
+      "startedAt": "2026-09-27T11:16:46.943383+00:00",
+      "completedAt": "2026-09-27T11:16:47.282085+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "rulesets",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets?includes_parents=true&per_page=100",
+      "startedAt": "2026-09-27T11:16:46.442382+00:00",
+      "completedAt": "2026-09-27T11:16:46.940501+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": [],
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "selected_actions",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/permissions/selected-actions",
+      "startedAt": "2026-09-27T11:16:46.941002+00:00",
+      "completedAt": "2026-09-27T11:16:47.369391+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 409,
+      "response": {
+        "message": "Conflict",
+        "errors": "All actions and workflows are allowed on this repository",
+        "documentation_url": "https://docs.github.com/rest/actions/permissions#get-allowed-actions-and-reusable-workflows-for-a-repository",
+        "status": "409"
+      },
+      "error": "gh: All actions and workflows are allowed on this repository (Conflict)",
+      "paginationLink": null
+    },
+    {
+      "id": "pr149",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/149",
+      "startedAt": "2026-09-27T11:16:47.338023+00:00",
+      "completedAt": "2026-09-27T11:16:47.857001+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "number": 149,
+        "state": "closed",
+        "draft": false,
+        "merged": true,
+        "merged_at": "2026-09-27T10:37:16Z",
+        "merge_commit_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/pull/149"
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "main",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/branches/main",
+      "startedAt": "2026-09-27T11:16:46.437968+00:00",
+      "completedAt": "2026-09-27T11:16:46.980271+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "name": "main",
+        "sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+        "tree": "0ea7b3ec0f0c005c77f15513335fa7937a8e5d18",
+        "parents": [
+          "91b55a05704e79233839606c66b9a25633761b5b"
+        ],
+        "subject": "docs(phase11j6): reconcile interim evidence and retain Windows gap (#149)",
+        "acceptedGovernanceExcerpt": "After successful exact-main post-merge CI, the interim reconciliation is INTERIM_RECONCILIATION_ACCEPTED. Authorship-time pending-review statuses remain historical snapshots.",
+        "protected": false,
+        "protection": {
+          "enabled": false,
+          "required_status_checks": {
+            "enforcement_level": "off",
+            "contexts": [],
+            "checks": []
+          }
+        },
+        "acceptedReviewExcerpt": "Accept the DEC-038 interim Phase 11J6 reconciliation under the Product Owner-supplied independent ChatGPT verdict APPROVE WITH NON-BLOCKING NOTE. Approved final source head: 2b66c8a38e6d97f937738285280d775e5d807b76; tree: 0ea7b3ec0f0c005c77f15513335fa7937a8e5d18; base: 91b55a05704e79233839606c66b9a25633761b5b. The accepted two-commit branch contains the bounded implementation and a correction removing two Markdown trailing-space hard breaks; CI #302 remains failed historical evidence. Fresh exact-head CI #303, source ancestry, five-file aggregate scope, no-drift and comments/review-thread gates passed. No source edit, new commit or branch-history rewrite was made."
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "code_scanning_default_setup",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/default-setup",
+      "startedAt": "2026-09-27T11:16:46.985788+00:00",
+      "completedAt": "2026-09-27T11:16:47.337464+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "state": "not-configured",
+        "languages": [
+          "actions",
+          "javascript",
+          "javascript-typescript",
+          "typescript"
+        ],
+        "query_suite": "default",
+        "threat_model": "remote",
+        "updated_at": null,
+        "schedule": null,
+        "runner_type": "standard",
+        "runner_label": null
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "protection",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/branches/main/protection",
+      "startedAt": "2026-09-27T11:16:46.442232+00:00",
+      "completedAt": "2026-09-27T11:16:46.950579+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 404,
+      "response": {
+        "message": "Branch not protected",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "404"
+      },
+      "error": "gh: Branch not protected (HTTP 404)",
+      "paginationLink": null
+    },
+    {
+      "id": "repository",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app",
+      "startedAt": "2026-09-27T11:16:46.435813+00:00",
+      "completedAt": "2026-09-27T11:16:46.985235+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "id": 1223506255,
+        "full_name": "Papi299/nutrition-tracker-app",
+        "default_branch": "main",
+        "visibility": "public",
+        "permissions": {
+          "admin": true,
+          "maintain": true,
+          "push": true,
+          "triage": true,
+          "pull": true
+        },
+        "allow_squash_merge": true,
+        "allow_merge_commit": true,
+        "allow_rebase_merge": true,
+        "allow_auto_merge": false,
+        "delete_branch_on_merge": false,
+        "allow_update_branch": false,
+        "security_and_analysis": {
+          "secret_scanning": {
+            "status": "disabled"
+          },
+          "secret_scanning_push_protection": {
+            "status": "disabled"
+          },
+          "dependabot_security_updates": {
+            "status": "disabled"
+          },
+          "secret_scanning_non_provider_patterns": {
+            "status": "disabled"
+          },
+          "secret_scanning_validity_checks": {
+            "status": "disabled"
+          }
+        }
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "job304",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/jobs/108602722011",
+      "startedAt": "2026-09-27T11:16:47.610287+00:00",
+      "completedAt": "2026-09-27T11:16:47.982437+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "id": 108602722011,
+        "run_id": 36313120463,
+        "run_attempt": 1,
+        "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+        "name": "Validate",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36313120463/job/108602722011",
+        "started_at": "2026-09-27T10:37:21Z",
+        "completed_at": "2026-09-27T10:50:57Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-09-27T10:37:22Z",
+            "completed_at": "2026-09-27T10:37:22Z"
+          },
+          {
+            "name": "Check out repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-09-27T10:37:22Z",
+            "completed_at": "2026-09-27T10:37:24Z"
+          },
+          {
+            "name": "Require main for manual dispatch",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 3,
+            "started_at": "2026-09-27T10:37:24Z",
+            "completed_at": "2026-09-27T10:37:24Z"
+          },
+          {
+            "name": "Set up Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-09-27T10:37:24Z",
+            "completed_at": "2026-09-27T10:37:26Z"
+          },
+          {
+            "name": "Install dependencies from lockfile",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-09-27T10:37:26Z",
+            "completed_at": "2026-09-27T10:37:36Z"
+          },
+          {
+            "name": "Verify workflow supply-chain policy",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-09-27T10:37:36Z",
+            "completed_at": "2026-09-27T10:37:37Z"
+          },
+          {
+            "name": "Enforce production dependency advisory policy",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-09-27T10:37:37Z",
+            "completed_at": "2026-09-27T10:37:38Z"
+          },
+          {
+            "name": "Check repository hygiene",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-09-27T10:37:38Z",
+            "completed_at": "2026-09-27T10:37:38Z"
+          },
+          {
+            "name": "Lint",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-09-27T10:37:38Z",
+            "completed_at": "2026-09-27T10:37:52Z"
+          },
+          {
+            "name": "Type check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-09-27T10:37:52Z",
+            "completed_at": "2026-09-27T10:38:03Z"
+          },
+          {
+            "name": "Verify Phase 11H deployment and environment contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-09-27T10:38:03Z",
+            "completed_at": "2026-09-27T10:38:03Z"
+          },
+          {
+            "name": "Verify Phase 11I recovery safety contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-09-27T10:38:03Z",
+            "completed_at": "2026-09-27T10:38:03Z"
+          },
+          {
+            "name": "Verify security policy regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-09-27T10:38:03Z",
+            "completed_at": "2026-09-27T10:38:05Z"
+          },
+          {
+            "name": "Verify Phase 11 critical-journey evidence map",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-09-27T10:38:05Z",
+            "completed_at": "2026-09-27T10:38:06Z"
+          },
+          {
+            "name": "Verify Phase 11G2 performance harness and evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-09-27T10:38:06Z",
+            "completed_at": "2026-09-27T10:38:11Z"
+          },
+          {
+            "name": "Run pure unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-09-27T10:38:11Z",
+            "completed_at": "2026-09-27T10:38:17Z"
+          },
+          {
+            "name": "Build production application and verify client secret boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-09-27T10:38:17Z",
+            "completed_at": "2026-09-27T10:38:38Z"
+          },
+          {
+            "name": "Install Playwright Phase 11D engines",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-09-27T10:38:38Z",
+            "completed_at": "2026-09-27T10:39:23Z"
+          },
+          {
+            "name": "Start local Supabase",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-09-27T10:39:23Z",
+            "completed_at": "2026-09-27T10:41:15Z"
+          },
+          {
+            "name": "Verify hosted migration-role compatibility",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-09-27T10:41:15Z",
+            "completed_at": "2026-09-27T10:41:52Z"
+          },
+          {
+            "name": "Replay migrations and seed locally",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-09-27T10:41:52Z",
+            "completed_at": "2026-09-27T10:42:23Z"
+          },
+          {
+            "name": "Verify internal ingestion types",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-09-27T10:42:23Z",
+            "completed_at": "2026-09-27T10:42:26Z"
+          },
+          {
+            "name": "Run local-only Playwright suite",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-09-27T10:42:26Z",
+            "completed_at": "2026-09-27T10:48:36Z"
+          },
+          {
+            "name": "Run Phase 11D engine, viewport, and accessibility suite",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-09-27T10:48:36Z",
+            "completed_at": "2026-09-27T10:50:35Z"
+          },
+          {
+            "name": "Verify Phase 11D evidence files",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-09-27T10:50:35Z",
+            "completed_at": "2026-09-27T10:50:35Z"
+          },
+          {
+            "name": "Upload Phase 11D evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26,
+            "started_at": "2026-09-27T10:50:35Z",
+            "completed_at": "2026-09-27T10:50:36Z"
+          },
+          {
+            "name": "Upload Playwright failure artifacts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 27,
+            "started_at": "2026-09-27T10:50:36Z",
+            "completed_at": "2026-09-27T10:50:36Z"
+          },
+          {
+            "name": "Stop local Supabase",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28,
+            "started_at": "2026-09-27T10:50:36Z",
+            "completed_at": "2026-09-27T10:50:55Z"
+          },
+          {
+            "name": "Post Set up Node.js",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 55,
+            "started_at": "2026-09-27T10:50:55Z",
+            "completed_at": "2026-09-27T10:50:55Z"
+          },
+          {
+            "name": "Post Check out repository",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 56,
+            "started_at": "2026-09-27T10:50:55Z",
+            "completed_at": "2026-09-27T10:50:55Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57,
+            "started_at": "2026-09-27T10:50:55Z",
+            "completed_at": "2026-09-27T10:50:55Z"
+          }
+        ]
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "dependency_graph",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/dependency-graph/sbom",
+      "startedAt": "2026-09-27T11:16:46.980830+00:00",
+      "completedAt": "2026-09-27T11:16:47.277411+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 404,
+      "response": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest",
+        "status": "404"
+      },
+      "error": "gh: Not Found (HTTP 404)",
+      "paginationLink": null
+    },
+    {
+      "id": "checks304",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/commits/ba1918317cdb0d573b571340dfef7ec579c1f2e8/check-runs?per_page=100",
+      "startedAt": "2026-09-27T11:16:47.634391+00:00",
+      "completedAt": "2026-09-27T11:16:48.079787+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "total_count": 1,
+        "check_runs": [
+          {
+            "id": 108602722011,
+            "name": "Validate",
+            "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+            "status": "completed",
+            "conclusion": "success",
+            "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36313120463/job/108602722011",
+            "app": {
+              "id": 15368,
+              "slug": "github-actions",
+              "name": "GitHub Actions"
+            }
+          }
+        ]
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "logs304",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/jobs/108602722011/logs",
+      "tool": "gh api --method GET (redirect-following log read)",
+      "startedAt": "2026-09-27T11:18:36.987159+00:00",
+      "completedAt": "2026-09-27T11:18:38.678654+00:00",
+      "exitCode": 0,
+      "rawLogSha256": "cb09426c885d727662c71e4790a2fcf77058278e961f97b64f6199f0401c84bf",
+      "rawLogsPersisted": false,
+      "excerpt": [
+        "2026-09-27T10:37:38.6679901Z Production dependency advisory gate PASSED: critical=0, high=0, moderate=0, low=0.",
+        "2026-09-27T10:38:17.5891460Z   351 passed (5.5s)",
+        "2026-09-27T10:38:26.2753810Z ✓ Compiled successfully in 7.2s",
+        "2026-09-27T10:48:34.9377538Z   366 passed (6.1m)",
+        "2026-09-27T10:50:35.3768413Z   3 skipped",
+        "2026-09-27T10:50:35.3768845Z   53 passed (1.9m)",
+        "2026-09-27T10:38:38.1080974Z Client secret boundary PASSED: inspected 115 browser/static build artifacts; server-only canaries were absent."
+      ]
+    },
+    {
+      "id": "vulnerability_alerts",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/vulnerability-alerts",
+      "startedAt": "2026-09-27T11:16:46.943481+00:00",
+      "completedAt": "2026-09-27T11:16:47.263083+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 404,
+      "response": {
+        "message": "Vulnerability alerts are disabled.",
+        "documentation_url": "https://docs.github.com/rest/repos/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository",
+        "status": "404"
+      },
+      "error": "gh: Vulnerability alerts are disabled. (HTTP 404)",
+      "paginationLink": null
+    },
+    {
+      "id": "ci304",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/runs/36313120463",
+      "startedAt": "2026-09-27T11:16:47.369896+00:00",
+      "completedAt": "2026-09-27T11:16:47.720525+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "id": 36313120463,
+        "name": "CI",
+        "path": ".github/workflows/ci.yml",
+        "workflow_id": 311132800,
+        "run_number": 304,
+        "run_attempt": 1,
+        "event": "push",
+        "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+        "head_branch": "main",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36313120463",
+        "created_at": "2026-09-27T10:37:18Z",
+        "updated_at": "2026-09-27T10:50:57Z"
+      },
+      "error": null,
+      "paginationLink": null,
+      "retention": "Selected configuration/result fields; response is not a full raw export."
+    },
+    {
+      "id": "artifacts304",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/runs/36313120463/artifacts?per_page=100",
+      "startedAt": "2026-09-27T11:16:47.618890+00:00",
+      "completedAt": "2026-09-27T11:16:47.968810+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "total_count": 1,
+        "artifacts": [
+          {
+            "id": 10929279441,
+            "node_id": "MDg6QXJ0aWZhY3QxMDkyOTI3OTQ0MQ==",
+            "name": "phase-11d-evidence-36313120463-1",
+            "size_in_bytes": 1610794,
+            "url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/artifacts/10929279441",
+            "archive_download_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/actions/artifacts/10929279441/zip",
+            "expired": false,
+            "digest": "sha256:5b573abf887fc77b374dd377f20467cc01e235d09b277a484953c64335283491",
+            "created_at": "2026-09-27T10:50:36Z",
+            "updated_at": "2026-09-27T10:50:36Z",
+            "expires_at": "2026-10-11T10:50:35Z",
+            "workflow_run": {
+              "id": 36313120463,
+              "repository_id": 1223506255,
+              "head_repository_id": 1223506255,
+              "head_branch": "main",
+              "head_sha": "ba1918317cdb0d573b571340dfef7ec579c1f2e8"
+            }
+          }
+        ]
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "open_prs",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls?state=open&per_page=100",
+      "startedAt": "2026-09-27T11:16:47.282624+00:00",
+      "completedAt": "2026-09-27T11:16:47.633711+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": [],
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "automated_security_fixes",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/automated-security-fixes",
+      "startedAt": "2026-09-27T11:16:46.951056+00:00",
+      "completedAt": "2026-09-27T11:16:47.277645+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 0,
+      "httpStatus": 200,
+      "response": {
+        "enabled": false,
+        "paused": false
+      },
+      "error": null,
+      "paginationLink": null
+    },
+    {
+      "id": "code_scanning_alerts",
+      "method": "GET",
+      "endpoint": "https://api.github.com/repos/Papi299/nutrition-tracker-app/code-scanning/alerts?state=open&per_page=100",
+      "startedAt": "2026-09-27T11:16:47.278162+00:00",
+      "completedAt": "2026-09-27T11:16:47.618406+00:00",
+      "tool": "gh api --method GET --include",
+      "apiVersion": "2022-11-28",
+      "exitCode": 1,
+      "httpStatus": 404,
+      "response": {
+        "message": "no analysis found",
+        "documentation_url": "https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-alerts-for-a-repository",
+        "status": "404"
+      },
+      "error": "gh: no analysis found (HTTP 404)\ngh: This API operation needs the \"admin:repo_hook\" scope. To request it, run:  gh auth refresh -h github.com -s admin:repo_hook",
+      "paginationLink": null
+    },
+    {
+      "id": "dependency_graph_ui",
+      "method": "GET navigation / read-only DOM observation",
+      "endpoint": "https://github.com/Papi299/nutrition-tracker-app/network/dependencies",
+      "tool": "cua_repl: tab.goto; tab.playwright.domSnapshot",
+      "timestampPrecision": "Browser observation occurred between the timestamped API captures; a per-page exact clock timestamp was not recorded.",
+      "response": {
+        "heading": "Dependency graph is disabled",
+        "text": "The owner of this repository has not enabled the dependency graph. Once enabled, you can track this repository’s dependencies.",
+        "signedIn": false
+      },
+      "limit": "Public UI observation; authenticated configuration, graph population and SBOM unavailable. Conflicts with GitHub documentation saying graph is permanently enabled for public repositories.",
+      "observedDateUtc": "2026-09-27",
+      "observationWindowUtc": {
+        "after": "2026-09-27T11:16:46.985235+00:00",
+        "before": "2026-09-27T11:18:36.987159+00:00"
+      }
+    },
+    {
+      "id": "settings_ui",
+      "method": "GET navigation / read-only AX observation",
+      "endpoint": "https://github.com/Papi299/nutrition-tracker-app/settings/security_analysis",
+      "tool": "cua_repl: createBrowserTab; initial AX state",
+      "timestampPrecision": "Browser observation occurred between the timestamped API captures; a per-page exact clock timestamp was not recorded.",
+      "response": {
+        "title": "Page not found · GitHub · GitHub",
+        "signedIn": false,
+        "signInLinkPresent": true
+      },
+      "limit": "Signed-out 404 is not evidence that the owner lacks settings access; no login, permission changes or settings controls were used.",
+      "observedDateUtc": "2026-09-27",
+      "observationWindowUtc": {
+        "after": "2026-09-27T11:16:46.985235+00:00",
+        "before": "2026-09-27T11:18:36.987159+00:00"
+      }
+    }
+  ],
+  "safety": {
+    "counterScope": "This task only. GitHub evidence commit/push/Draft PR are explicitly authorized delivery writes; all configuration collection is GET/UI observation. Existing baseline CI and naturally triggered Draft PR CI are separately identified automated evidence, not physical execution or provider mutation by this task.",
+    "githubSettingMutations": 0,
+    "providerMutations": 0,
+    "providerReadsOutsideGitHub": 0,
+    "remoteSupabaseOperations": 0,
+    "runtimeSessionsStartedLocally": 0,
+    "physicalTests": 0,
+    "windowsJ3Testing": 0,
+    "j6FinalDeltaExecuted": false,
+    "phase11KStarted": false,
+    "rolesAssigned": 0,
+    "findingsClosed": 0,
+    "releasesTagsCreated": 0,
+    "branchesDeleted": 0,
+    "secretsTokensPersisted": false,
+    "alertDismissals": 0,
+    "ciRerunsRequested": 0,
+    "applicationRuntimeFilesChanged": 0,
+    "productionReleaseAuthorized": false
+  },
+  "validation": {
+    "jsonParse": "PASS",
+    "baselineShaTreeParentSubject": "PASS",
+    "preDeliveryOpenPrCount": 0,
+    "matrixRows": 28,
+    "allRowsClassified": true,
+    "everyMismatchHasProposedAction": true,
+    "workflowSecurityTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "workflowSecurityValidator": "PASS",
+    "deploymentRecoveryGovernanceTests": {
+      "passed": 133,
+      "failed": 0,
+      "skipped": 0
+    },
+    "deploymentContractValidator": "PASS",
+    "criticalJourneyValidator": "PASS: 35 journeys /249 refs /854 claims; historical Contract1.4 and six-row later allowlist retained",
+    "packetConsistency": "PASS; assertions rerun before commit",
+    "gitDiffCheck": "PASS; rerun before commit",
+    "secretAndScopeReview": "Selected configuration fields and aggregate logs only; no tokens/secret values, signed download URLs or raw secret-alert payloads persisted. Historical/contract/runtime files unchanged.",
+    "executionNote": "One attempted J3 validator filename did not exist and performed no work; existing relevant validators above succeeded. No J3 testing was run.",
+    "exactHeadCi": "Reported in Draft PR handoff after commit, outside self-referential evidence files."
+  },
+  "delivery": {
+    "branch": "codex/phase11-prek-github-governance-refresh",
+    "base": "ba1918317cdb0d573b571340dfef7ec579c1f2e8",
+    "files": [
+      "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+      "docs/phase-11-prek-github-governance-refresh.md"
+    ],
+    "requiredDisposition": "Draft PR only; no merge, no head-branch deletion; exact-head CI; return for independent ChatGPT review.",
+    "commitTreePrCi": "Reported externally after commit to avoid self-reference."
+  }
+}
