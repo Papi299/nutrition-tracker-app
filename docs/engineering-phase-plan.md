@@ -345,11 +345,20 @@ packet. The [J4 evidence](phase-11j4-provider-recovery-freshness.md) records
 passing recovery freshness, verified bootstrap Auth configuration and disabled
 automatic Git deployments by repository policy. J4 is independently accepted
 and COMPLETE after PR #147. The [J5 dry-run packet](phase-11j5-release-rollback-dry-run.md)
-is `EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`: all 13 release steps and
-14 rollback branches were rehearsed as text, with no provider operation.
-J6 and Phase 11K remain `NOT_STARTED`; Phase 11J remains `INCOMPLETE`, both
-required Windows cases remain `NOT_EXECUTED`, `physicalPassRecorded=false`,
-all 18 findings remain `OPEN`, and `productionReleaseAuthorized=false`.
+is COMPLETE for its accepted tabletop scope after PR #148 and exact-main CI #301;
+all 13 release steps and 14 rollback branches were rehearsed without provider action.
+The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
+is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
+J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
+two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
+and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
+is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
+All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
+evidence, independent J3 completion, current-candidate impact review, bounded J6
+final/delta reconciliation and independent final-J6 acceptance are required before
+Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
+packet grants no waiver, finding closure or Production authority. Historical J1–J5
+packet/review-status snapshots remain unchanged.
 Historical sequencing/status snapshots elsewhere remain historical.
 
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted

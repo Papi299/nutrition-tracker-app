@@ -166,7 +166,7 @@ active personal-use profile: the current set is macOS Safari/Chrome, Windows
 Chrome/Edge, iPhone Safari/Chrome, and Android Chrome. The
 [current J3 plan](phase-11j3-owner-device-validation-plan.md) reconciles 37 active
 cases and separately retains the two excluded historical Firefox IDs without
-PASS credit. Independent amendment review remains pending; Windows Chrome/Edge
+PASS credit. Independent amendment acceptance is recorded by PR #146; Windows Chrome/Edge
 remain unexecuted and J3 remains incomplete.
 
 Broad commercial certification matrices such as NVDA/Firefox, multiple Android
@@ -238,14 +238,22 @@ The [current J4 packet](phase-11j4-provider-recovery-freshness.md) records
 passing recovery freshness, verified bootstrap Auth configuration and disabled
 automatic Git deployments by repository policy. J4 is COMPLETE after independent
 acceptance of PR #147; its historical packet remains unchanged. The
-[J5 dry run](phase-11j5-release-rollback-dry-run.md) is
-`EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`. It rehearses H10/H13 and
+[J5 dry run](phase-11j5-release-rollback-dry-run.md) is COMPLETE after independent
+acceptance of PR #148 and exact-main CI #301. It rehearses H10/H13 and
 stops before any provider configuration Save, migration apply or deployment;
 all future deployed facts remain `POST_DEPLOY_RELEASE_VERIFICATION`.
-J6 and Phase 11K remain `NOT_STARTED`, Phase 11J remains `INCOMPLETE`, Windows
-Chrome/Edge remain required/`NOT_EXECUTED`, `physicalPassRecorded=false`, all
-18 findings remain `OPEN`, and `productionReleaseAuthorized=false`. No J3
-evidence is waived; no new decision or Production authority is created.
+The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
+is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
+J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
+two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
+and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
+is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
+All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
+evidence, independent J3 completion, current-candidate impact review, bounded J6
+final/delta reconciliation and independent final-J6 acceptance are required before
+Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
+packet grants no waiver, finding closure or Production authority. Historical J1–J5
+packet/review-status snapshots remain unchanged.
 
 There is no paid infrastructure or staging-creation slice.
 

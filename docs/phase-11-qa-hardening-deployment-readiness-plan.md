@@ -1037,8 +1037,8 @@ preflight and PR #142 owner execution are historical evidence for the old
 physical candidate, as recorded below.
 The current DEC-038/J4 and J5 addenda below supersede the historical
 J4–J6 scheduling state. J4 is COMPLETE after independent acceptance of PR #147;
-J5 is `EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`, J6 remains
-`NOT_STARTED`, and Phase 11J remains `INCOMPLETE`.
+J5 is COMPLETE after independently accepted PR #148 and exact-main CI #301.
+J6 interim state is recorded in Section 16.7.7; Phase 11J remains INCOMPLETE.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
 the exclusive finding-closure gate, and
 `productionReleaseAuthorized=false`.
@@ -1178,6 +1178,30 @@ DEC-038 and Contract 1.9/DEC-037 are unchanged. Phase 11J remains INCOMPLETE,
 all 18 findings OPEN, and productionReleaseAuthorized=false. Independent J5
 review and a separate J6 task remain; eventual accepted Windows evidence and
 independent J3 completion require bounded J6 delta/final reconciliation.
+
+### 16.7.7 Current J6 interim reconciliation and independent-review handoff
+
+J5 is COMPLETE after independently accepted PR #148 and exact-main CI #301.
+The [J6 interim reconciliation](phase-11j6-interim-evidence-reconciliation.md)
+is `INTERIM_RECONCILIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW` under DEC-038, with independent ChatGPT review pending.
+J1/J2/J4/J5 remain COMPLETE; J3 remains INCOMPLETE with 39 historical / 37 active /
+two excluded Firefox / 30 accepted camera / five accepted UI / two Windows required
+and NOT_EXECUTED, physicalPassRecorded=false. Phase 11J remains INCOMPLETE; Phase 11K
+is NOT_STARTED and NOT_ELIGIBLE (J3_REQUIRED_WINDOWS_EVIDENCE_INCOMPLETE).
+All 18 findings remain OPEN and productionReleaseAuthorized=false. Accepted Windows
+evidence, independent J3 completion, current-candidate impact review, bounded J6
+final/delta reconciliation and independent final-J6 acceptance are required before
+Phase 11K evidence eligibility; before-K role prerequisites remain. This interim
+packet grants no waiver, finding closure or Production authority. Historical J1–J5
+packet/review-status snapshots remain unchanged.
+
+The [machine-readable index](../deployment/phase-11j6-interim-evidence-reconciliation.json)
+binds main 91b55a05704e79233839606c66b9a25633761b5b / tree
+62edbc67905bd5cce209ff529cd185004e0be576 to CI #301. Fresh physical-runtime-to-main
+comparison identifies evidence/governance and contract-validator changes only,
+with no app/runtime change. Main itself was not physically exercised. Source
+limits, qualified policy/GitHub-settings gaps, post-deploy verification and release-time
+refresh registers remain explicit; accepted evidence is not silently upgraded.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
