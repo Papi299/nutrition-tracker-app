@@ -1035,9 +1035,10 @@ merged the iPhone-camera implementation prerequisite for J3. PR #135 merged
 the private `device-test` repository prerequisite. Subsequent topology
 preflight and PR #142 owner execution are historical evidence for the old
 physical candidate, as recorded below.
-The current DEC-038/J4 addendum below supersedes the historical
-J4–J6 scheduling state. J4 execution is complete pending independent review;
-J5/J6 remain `NOT_STARTED`, and Phase 11J remains `INCOMPLETE`.
+The current DEC-038/J4 and J5 addenda below supersede the historical
+J4–J6 scheduling state. J4 is COMPLETE after independent acceptance of PR #147;
+J5 is `EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`, J6 remains
+`NOT_STARTED`, and Phase 11J remains `INCOMPLETE`.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
 the exclusive finding-closure gate, and
 `productionReleaseAuthorized=false`.
@@ -1155,6 +1156,28 @@ pending independent review; it does not authorize J5. J5/J6 and Phase 11K remain
 `NOT_STARTED`; Phase 11J remains `INCOMPLETE`; all 18 findings remain `OPEN`;
 `productionReleaseAuthorized=false`. No provider mutation, deployment,
 backup/restore execution or physical testing occurred.
+
+### 16.7.6 Current J5 release/rollback dry run
+
+PR #147's independent acceptance makes J4 COMPLETE; its original packet and
+the authorship-time notes above remain unchanged. The [J5 tabletop record](phase-11j5-release-rollback-dry-run.md)
+and separate JSON packet bind to accepted `main`
+`7d9c309c9d1a38db79bc99776755c807563eb8b1`, tree
+`847304c8f0c0d1bada05465361810613562ab3a5`. J5 is
+`EXECUTION_COMPLETE_PENDING_INDEPENDENT_REVIEW`: H10's 13 ordinary release
+steps, all 14 H13 branches, prerequisites, smoke/post-deploy checks and future
+evidence fields were rehearsed without provider reads or mutation. The 43
+migrations through `20260830143000` are byte-identical to the qualified
+Production baseline; the path is `NO_SCHEMA_CHANGE_RELEASE_PATH`, not a fresh
+live-ledger assertion. The stop precedes any release configuration Save,
+migration application or deployment. Bootstrap is not presumed safe rollback.
+
+J1/J2/J4 are COMPLETE; J3 remains INCOMPLETE, Windows Chrome/Edge required and
+NOT_EXECUTED, physicalPassRecorded=false; J6 and Phase 11K NOT_STARTED.
+DEC-038 and Contract 1.9/DEC-037 are unchanged. Phase 11J remains INCOMPLETE,
+all 18 findings OPEN, and productionReleaseAuthorized=false. Independent J5
+review and a separate J6 task remain; eventual accepted Windows evidence and
+independent J3 completion require bounded J6 delta/final reconciliation.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
