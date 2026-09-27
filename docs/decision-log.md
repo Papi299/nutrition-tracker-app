@@ -3797,3 +3797,45 @@ behavior changes. No physical cell, software installation, VM/service startup,
 provider operation, or Production action occurs. J3 remains INCOMPLETE,
 physicalPassRecorded=false, J4–J6 and integrated acceptance remain NOT_STARTED,
 and productionReleaseAuthorized=false. Phase 11K alone may close findings.
+
+## 2026-09-27: DEC-038 defer Windows evidence while permitting J4-J6 execution
+
+### DEC-038 — Permit J4-J6 execution while J3 Windows evidence is deferred
+
+| Field | Decision record |
+| --- | --- |
+| Approver | Maor Pichhadze, Product Owner |
+| Date | 2026-09-27 (Asia/Jerusalem) |
+| Attributable owner direction | "I want to put aside the Windows PC matter, and proceed with J4-J6 too" |
+| Source | Direct Product Owner instruction in `PHASE-11J4-DEC038-DEFERRED-J3-PARALLEL-READONLY-PREFLIGHT-001` |
+| Amendment | Execution order only; no supported-client or acceptance requirement change |
+| Acceptance contract | `1.9-personal-use-firefox-excluded-amended` remains current; no version bump |
+| Independent review | PENDING for this DEC-038 recording and J4 packet; Codex does not self-approve |
+
+J1 and J2 are complete. J3 remains partially complete and `INCOMPLETE` while
+physical Windows Chrome/Edge evidence is deferred. J4 and J5 may execute
+independently of that Windows dependency. J5 still requires independently
+accepted J4 evidence and its own bounded task; this J4 task starts neither J5
+nor J6. J6 may subsequently perform interim/incomplete reconciliation while
+carrying the J3 gap explicitly. It must stop short of Phase 11J completion.
+
+Later accepted Windows evidence requires independent J3 completion acceptance
+and a bounded J6 delta/final reconciliation before Phase 11K eligibility. Phase
+11K cannot begin from a falsely complete Phase 11J packet. Production release
+remains separately and exactly authorized only.
+
+DEC-037 is unchanged. Historical IDs remain 39, active required cases 37,
+excluded Firefox IDs two, accepted camera carry-forwards 30, accepted UI PASSs
+five, and outstanding required UI cases two. `J3-WIN-CHROME-01` and
+`J3-WIN-EDGE-01` remain required and `NOT_EXECUTED`; no missing cell becomes
+PASS or NOT_REQUIRED. No J3 requirement, physical evidence, camera decision,
+finding state, localization, or application behavior changes.
+
+The [J4 read-only packet](phase-11j4-provider-recovery-freshness.md) records
+fresh provider identity and bootstrap Auth configuration, repository-disabled
+automatic Git deployments, refreshed passing backup metadata and accepted
+recovery carry-forward. Both former provider-read gaps are resolved in Draft
+PR #147; J4 execution is complete pending independent review. J3 and Phase
+11J remain `INCOMPLETE`,
+`physicalPassRecorded=false`, J5/J6 and Phase 11K remain `NOT_STARTED`, all 18
+findings remain `OPEN`, and `productionReleaseAuthorized=false`.

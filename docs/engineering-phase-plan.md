@@ -331,6 +331,24 @@ documented for a future expanded profile. The active profile, roles, evidence
 classification, and revised 11J1–11J6 sequence are canonical in
 [`phase-11j0-personal-use-free-tier-profile.md`](phase-11j0-personal-use-free-tier-profile.md).
 
+On 2026-09-27, `DEC-038` records the Product Owner direction "I want to put
+aside the Windows PC matter, and proceed with J4-J6 too" as an execution-order
+amendment only. J1/J2 are complete; J3 remains `INCOMPLETE`, Windows
+Chrome/Edge remain required and `NOT_EXECUTED`, and
+`physicalPassRecorded=false`. Contract 1.9, its 37 active cases, DEC-037,
+excluded Firefox treatment, and all historical J3 evidence remain unchanged.
+J4/J5 may execute independently of deferred J3; J5 still requires accepted J4.
+J6 may make an interim reconciliation, but Phase 11J cannot complete until
+accepted Windows evidence, independent J3 completion acceptance, and a bounded
+J6 delta/final reconciliation. Phase 11K requires that truthfully complete
+packet. The [J4 evidence](phase-11j4-provider-recovery-freshness.md) records
+passing recovery freshness, verified bootstrap Auth configuration and disabled
+automatic Git deployments by repository policy. J4 execution is complete
+pending independent review in Draft PR #147. J5/J6 and Phase 11K remain
+`NOT_STARTED`, all 18 findings
+remain `OPEN`, and Production remains unauthorized. Historical sequencing
+snapshots elsewhere in this file are not current J4 status.
+
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted
 all five before-11E prerequisite roles and approved the bounded engineering
 decisions `P11E-E001`–`P11E-E012`. The

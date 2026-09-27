@@ -1035,7 +1035,9 @@ merged the iPhone-camera implementation prerequisite for J3. PR #135 merged
 the private `device-test` repository prerequisite. Subsequent topology
 preflight and PR #142 owner execution are historical evidence for the old
 physical candidate, as recorded below.
-Phase 11J4 through 11J6 remain `NOT_STARTED`; Phase 11J remains incomplete.
+The current DEC-038/J4 addendum below supersedes the historical
+J4–J6 scheduling state. J4 execution is complete pending independent review;
+J5/J6 remain `NOT_STARTED`, and Phase 11J remains `INCOMPLETE`.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, Phase 11K remains
 the exclusive finding-closure gate, and
 `productionReleaseAuthorized=false`.
@@ -1121,6 +1123,38 @@ tree f3ac6117f70af8d7a6261c803576d6ecf72ec80f. Mobile exact 200% zoom remains
 unmeasured, and the prior eight refresh-token events remain unresolved. J3 is
 INCOMPLETE, physicalPassRecorded=false, J4–J6 and integrated acceptance remain
 NOT_STARTED, all 18 findings remain OPEN, and productionReleaseAuthorized=false.
+
+### 16.7.5 Current DEC-038 execution order and J4 read-only packet
+
+On 2026-09-27, Product Owner Maor Pichhadze directed:
+
+> I want to put aside the Windows PC matter, and proceed with J4-J6 too
+
+`DEC-038` amends execution order only. Contract
+`1.9-personal-use-firefox-excluded-amended`, DEC-037, 37 active cases, both
+excluded historical Firefox IDs, all J3 physical evidence and camera decisions
+remain unchanged. J1/J2 are complete; J3 remains partially complete and
+`INCOMPLETE`, with Windows Chrome/Edge required and `NOT_EXECUTED` and
+`physicalPassRecorded=false`.
+
+J4 and J5 may execute independently of deferred Windows evidence. J5 still
+requires accepted J4 and its own bounded task. J6 may then reconcile an interim
+packet with the J3 gap explicit, but may not complete Phase 11J. Eventual
+accepted Windows evidence requires independent J3 completion acceptance and a
+bounded J6 delta/final reconciliation before Phase 11K eligibility. The older
+J4–J6 status snapshots above remain historical.
+
+The [J4 provider/recovery packet](phase-11j4-provider-recovery-freshness.md)
+records matching fresh provider identities, bootstrap-only Production, current
+backup within RPO 24h/retention 30 days, and accepted restore within quarterly
+cadence. A single authenticated Management API GET verifies bootstrap Auth
+configuration. Fresh project metadata and official repository semantics confirm
+automatic Git-triggered deployments are disabled by `git.deploymentEnabled=false`.
+Both provider-read gaps are resolved in Draft PR #147. J4 execution is complete
+pending independent review; it does not authorize J5. J5/J6 and Phase 11K remain
+`NOT_STARTED`; Phase 11J remains `INCOMPLETE`; all 18 findings remain `OPEN`;
+`productionReleaseAuthorized=false`. No provider mutation, deployment,
+backup/restore execution or physical testing occurred.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
