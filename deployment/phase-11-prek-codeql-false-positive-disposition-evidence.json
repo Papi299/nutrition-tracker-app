@@ -1,0 +1,1412 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-CODEQL-FALSE-POSITIVE-DISPOSITION-001",
+  "repository": "Papi299/nutrition-tracker-app",
+  "recordedAtUtc": "2026-09-27T20:49:26.963996+00:00",
+  "reviewStatus": "PENDING_INDEPENDENT_REVIEW",
+  "result": "FIVE_AUTHORIZED_CWE916_ALERTS_DISMISSED_AS_FALSE_POSITIVE",
+  "authorization": {
+    "verbatim": "I explicitly authorize dismissal of CodeQL alerts #1–#5 in `Papi299/nutrition-tracker-app` as false positives, using the independently accepted per-alert rationale from the Phase 11 Pre-K CodeQL triage.",
+    "authorizedIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "reason": "false positive",
+    "revisedTaskSha256": "ca09d95549ca5503db4ff15bfeb626ff3675033ebb68dba552cc8e60412ac5c5"
+  },
+  "baseline": {
+    "mainSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+    "tree": "2b0e2852a511afadee932316064dac1f125ae787",
+    "soleParent": "1db97489b31727fbd73015b903bac68644b84c23",
+    "subject": "fix(security): blind database account closure MAC comparison (#154)",
+    "pr154Merged": true,
+    "initialOpenPrCount": 0,
+    "verifiedAt": "2026-09-27T20:44:03.172664+00:00",
+    "ruleset": {
+      "id": 24075217,
+      "name": "main-dec029",
+      "enforcement": "active",
+      "unchangedReadBack": true
+    },
+    "authenticatedOwner": "Papi299",
+    "repositoryAdminCapability": true,
+    "authStatusNonSecretFacts": [
+      "✓ Logged in to github.com account Papi299 (keyring)",
+      "- Active account: true",
+      "- Git operations protocol: https",
+      "- Token scopes: 'gist', 'read:org', 'repo', 'workflow'"
+    ]
+  },
+  "exactMainCi": {
+    "runNumber": 314,
+    "runId": 36339123870,
+    "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36339123870",
+    "validateJob": 108675614303,
+    "headSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+    "event": "push",
+    "branch": "main",
+    "attempt": 1,
+    "conclusion": "success",
+    "acceptedRawResults": {
+      "unitPassed": 351,
+      "playwrightPassed": 370,
+      "phase11dPassed": 53,
+      "phase11dIntentionalSkips": 3,
+      "advisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "build": "PASS",
+      "clientSecretBoundary": "PASS",
+      "browserArtifactsInspected": 115,
+      "exactMigrationReplayAndSeedCount": 44,
+      "resultProvenance": "Exact-main raw logs and artifact independently verified in the completed PR154 merge task; metadata freshly re-read before this disposition."
+    },
+    "artifact": {
+      "id": 10938890619,
+      "name": "phase-11d-evidence-36339123870-1",
+      "digest": "sha256:e77d7850dde6f78fe6a2e3b9f09e4c283aef97e9767efe5ee0cc0bb0c7e2541b",
+      "expired": false
+    }
+  },
+  "exactMainCodeql": {
+    "runId": 36339123302,
+    "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36339123302",
+    "headSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+    "attempt": 1,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 108675614912,
+        "name": "Analyze (actions)",
+        "conclusion": "success"
+      },
+      {
+        "id": 108675615017,
+        "name": "Analyze (javascript-typescript)",
+        "conclusion": "success"
+      }
+    ],
+    "fullAnalyses": [
+      {
+        "id": 1847719430,
+        "category": "/language:javascript-typescript",
+        "ref": "refs/heads/main",
+        "commitSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "resultsCount": 5
+      },
+      {
+        "id": 1847718119,
+        "category": "/language:actions",
+        "ref": "refs/heads/main",
+        "commitSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "resultsCount": 0
+      }
+    ]
+  },
+  "crypto001": {
+    "repositoryStatus": "CRYPTO001_CORRECTION_ACCEPTED_ON_REPOSITORY_MAIN",
+    "comparisonStatus": "CRYPTO001_RAW_MAC_COMPARISON_BLINDED",
+    "securityClaim": "RAW_MAC_TIMING_ORACLE_BLINDED_BY_FRESH_RANDOM_DOUBLE_HMAC",
+    "formalConstantTimeClaim": false,
+    "migrationCount": 44,
+    "migrationHead": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "migrationSha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "hostedMigration44Applied": false,
+    "productionDeploymentClaim": false
+  },
+  "priorAttempt": {
+    "status": "PRIOR_ATTEMPT_FAILED_ZERO_ALERT_STATE_MUTATIONS",
+    "alert1PatchAttempted": true,
+    "cliExitCode": 1,
+    "successfulStateMutations": 0,
+    "allFiveOpenAfterFollowUp": true,
+    "alerts2Through5Attempted": false,
+    "retryWithAlteredTextPerformed": false,
+    "repositorySettingsProviderFindingRolePhaseChanges": 0,
+    "originalFailureResponseRetained": false,
+    "constraintDiagnosis": {
+      "sourceUrl": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
+      "commentMaxLength": 280,
+      "oldCommentLengths": {
+        "1": 353,
+        "2": 558,
+        "3": 393,
+        "4": 345,
+        "5": 342
+      },
+      "allOldCommentsExceededLimit": true,
+      "originalApiErrorCauseNotIndependentlyRetained": true
+    },
+    "originalLedgerSha256": "06956f08d547a665c1ad4f0f9d4c2aa45d6d493d0c2ed23a55ccbcee1f5615f2",
+    "attemptStartedAt": "2026-09-27T20:33:53.560314+00:00",
+    "followUpAt": "2026-09-27T20:34:49.660454+00:00"
+  },
+  "commentApproval": {
+    "source": "Explicit independently approved shortened comments in corrected Product Owner task sections 8–12. This supersedes the longer historical futureComment text only for this authorized disposition.",
+    "authoritativeHistoricalRationale": "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+    "commentMaxLength": 280,
+    "approvedCharacterCounts": {
+      "1": 241,
+      "2": 254,
+      "3": 253,
+      "4": 259,
+      "5": 255
+    },
+    "alert2Boundary": "CRYPTO-001 was corrected on repository main; no hosted correction or Production deployment is claimed."
+  },
+  "preMutationInventory": [
+    {
+      "number": 1,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+      "createdAt": "2026-09-27T14:22:13Z",
+      "updatedAt": "2026-09-27T14:22:13Z",
+      "state": "open",
+      "rule": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "tool": "CodeQL",
+      "dismissedAt": null,
+      "dismissedBy": null,
+      "dismissedReason": null,
+      "dismissedComment": null,
+      "mostRecentInstance": {
+        "ref": "refs/heads/main",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "state": "open",
+        "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "message": {
+          "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+          "markdown": "Password from [a call to signInWithPassword](e2e/account-closure.spec.ts#L508C32-L510C6) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely."
+        },
+        "location": {
+          "path": "e2e/account-closure.spec.ts",
+          "start_line": 113,
+          "end_line": 113,
+          "start_column": 13,
+          "end_column": 26
+        },
+        "classifications": [
+          "test"
+        ]
+      }
+    },
+    {
+      "number": 2,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+      "createdAt": "2026-09-27T14:22:13Z",
+      "updatedAt": "2026-09-27T14:22:13Z",
+      "state": "open",
+      "rule": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "tool": "CodeQL",
+      "dismissedAt": null,
+      "dismissedBy": null,
+      "dismissedReason": null,
+      "dismissedComment": null,
+      "mostRecentInstance": {
+        "ref": "refs/heads/main",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "state": "open",
+        "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "message": {
+          "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+          "markdown": "Password from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L220C26-L220C69) is hashed insecurely."
+        },
+        "location": {
+          "path": "lib/account-closure/capability.ts",
+          "start_line": 119,
+          "end_line": 119,
+          "start_column": 13,
+          "end_column": 31
+        },
+        "classifications": []
+      }
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+      "createdAt": "2026-09-27T14:22:13Z",
+      "updatedAt": "2026-09-27T14:22:13Z",
+      "state": "open",
+      "rule": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "tool": "CodeQL",
+      "dismissedAt": null,
+      "dismissedBy": null,
+      "dismissedReason": null,
+      "dismissedComment": null,
+      "mostRecentInstance": {
+        "ref": "refs/heads/main",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "state": "open",
+        "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "message": {
+          "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.",
+          "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely."
+        },
+        "location": {
+          "path": "lib/auth/recent-password-auth-proof.ts",
+          "start_line": 135,
+          "end_line": 135,
+          "start_column": 13,
+          "end_column": 31
+        },
+        "classifications": []
+      }
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+      "createdAt": "2026-09-27T14:22:13Z",
+      "updatedAt": "2026-09-27T14:22:13Z",
+      "state": "open",
+      "rule": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "tool": "CodeQL",
+      "dismissedAt": null,
+      "dismissedBy": null,
+      "dismissedReason": null,
+      "dismissedComment": null,
+      "mostRecentInstance": {
+        "ref": "refs/heads/main",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "state": "open",
+        "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "message": {
+          "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from a call to issueRecentPasswordAuthProof is hashed insecurely.",
+          "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely.\nPassword from [a call to issueRecentPasswordAuthProof](tests/recent-password-auth-proof.spec.ts#L41C10-L46C5) is hashed insecurely."
+        },
+        "location": {
+          "path": "lib/auth/recent-password-auth-proof.ts",
+          "start_line": 183,
+          "end_line": 183,
+          "start_column": 13,
+          "end_column": 43
+        },
+        "classifications": []
+      }
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+      "createdAt": "2026-09-27T14:22:13Z",
+      "updatedAt": "2026-09-27T14:22:13Z",
+      "state": "open",
+      "rule": "js/insufficient-password-hash",
+      "securitySeverity": "high",
+      "tool": "CodeQL",
+      "dismissedAt": null,
+      "dismissedBy": null,
+      "dismissedReason": null,
+      "dismissedComment": null,
+      "mostRecentInstance": {
+        "ref": "refs/heads/main",
+        "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+        "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+        "category": "/language:javascript-typescript",
+        "state": "open",
+        "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+        "message": {
+          "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.",
+          "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely."
+        },
+        "location": {
+          "path": "tests/recent-password-auth-proof.spec.ts",
+          "start_line": 24,
+          "end_line": 24,
+          "start_column": 13,
+          "end_column": 31
+        },
+        "classifications": [
+          "test"
+        ]
+      }
+    }
+  ],
+  "sequentialMutations": [
+    {
+      "alertNumber": 1,
+      "method": "PATCH",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/1",
+      "requestBody": {
+        "state": "dismissed",
+        "dismissed_reason": "false positive",
+        "dismissed_comment": "Test-only HMAC-SHA-256 signer uses a synthetic E5 key for account-closure test tokens. signInWithPassword contributes identity/session data, not the password. No production credential or password verifier is involved; CWE-916 does not apply."
+      },
+      "commentCharacterCount": 241,
+      "requestStartedAt": "2026-09-27T20:44:58.964789+00:00",
+      "preState": "open",
+      "patchAttempted": true,
+      "patchSucceeded": true,
+      "readBackVerified": true,
+      "httpStatus": 200,
+      "cliExitCode": 0,
+      "patchResponseAt": "2026-09-27T20:44:59.897396+00:00",
+      "readBackAt": "2026-09-27T20:45:00.384739+00:00",
+      "dismissedAt": "2026-09-27T20:44:59Z",
+      "actor": "Papi299",
+      "postState": "dismissed",
+      "classification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION_TEST_ONLY",
+      "path": "e2e/account-closure.spec.ts",
+      "preMutation": {
+        "number": 1,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T14:22:13Z",
+        "state": "open",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": null,
+        "dismissedBy": null,
+        "dismissedReason": null,
+        "dismissedComment": null,
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "open",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+            "markdown": "Password from [a call to signInWithPassword](e2e/account-closure.spec.ts#L508C32-L510C6) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely."
+          },
+          "location": {
+            "path": "e2e/account-closure.spec.ts",
+            "start_line": 113,
+            "end_line": 113,
+            "start_column": 13,
+            "end_column": 26
+          },
+          "classifications": [
+            "test"
+          ]
+        }
+      },
+      "immediateGet": {
+        "method": "GET",
+        "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/1",
+        "verifiedAt": "2026-09-27T20:45:00.384739+00:00",
+        "exactReasonCommentIdentityMatch": true,
+        "response": {
+          "number": 1,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+          "createdAt": "2026-09-27T14:22:13Z",
+          "updatedAt": "2026-09-27T20:44:59Z",
+          "state": "dismissed",
+          "rule": "js/insufficient-password-hash",
+          "securitySeverity": "high",
+          "tool": "CodeQL",
+          "dismissedAt": "2026-09-27T20:44:59Z",
+          "dismissedBy": "Papi299",
+          "dismissedReason": "false positive",
+          "dismissedComment": "Test-only HMAC-SHA-256 signer uses a synthetic E5 key for account-closure test tokens. signInWithPassword contributes identity/session data, not the password. No production credential or password verifier is involved; CWE-916 does not apply.",
+          "mostRecentInstance": {
+            "ref": "refs/heads/main",
+            "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+            "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+            "category": "/language:javascript-typescript",
+            "state": "dismissed",
+            "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+            "message": {
+              "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+              "markdown": "Password from [a call to signInWithPassword](e2e/account-closure.spec.ts#L508C32-L510C6) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely."
+            },
+            "location": {
+              "path": "e2e/account-closure.spec.ts",
+              "start_line": 113,
+              "end_line": 113,
+              "start_column": 13,
+              "end_column": 26
+            },
+            "classifications": [
+              "test"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "alertNumber": 2,
+      "method": "PATCH",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/2",
+      "requestBody": {
+        "state": "dismissed",
+        "dismissed_reason": "false positive",
+        "dismissed_comment": "HMAC-SHA-256 authenticates a short-lived account-closure capability with an independent >=32-byte E5 secret. Supabase verifies the password; no password reaches this HMAC or becomes a verifier. CRYPTO-001 was separately corrected; CWE-916 does not apply."
+      },
+      "commentCharacterCount": 254,
+      "requestStartedAt": "2026-09-27T20:45:00.385972+00:00",
+      "preState": "open",
+      "patchAttempted": true,
+      "patchSucceeded": true,
+      "readBackVerified": true,
+      "httpStatus": 200,
+      "cliExitCode": 0,
+      "patchResponseAt": "2026-09-27T20:45:01.608331+00:00",
+      "readBackAt": "2026-09-27T20:45:02.013738+00:00",
+      "dismissedAt": "2026-09-27T20:45:00Z",
+      "actor": "Papi299",
+      "postState": "dismissed",
+      "classification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "path": "lib/account-closure/capability.ts",
+      "preMutation": {
+        "number": 2,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T14:22:13Z",
+        "state": "open",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": null,
+        "dismissedBy": null,
+        "dismissedReason": null,
+        "dismissedComment": null,
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "open",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+            "markdown": "Password from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L220C26-L220C69) is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/account-closure/capability.ts",
+            "start_line": 119,
+            "end_line": 119,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": []
+        }
+      },
+      "immediateGet": {
+        "method": "GET",
+        "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/2",
+        "verifiedAt": "2026-09-27T20:45:02.013738+00:00",
+        "exactReasonCommentIdentityMatch": true,
+        "response": {
+          "number": 2,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+          "createdAt": "2026-09-27T14:22:13Z",
+          "updatedAt": "2026-09-27T20:45:00Z",
+          "state": "dismissed",
+          "rule": "js/insufficient-password-hash",
+          "securitySeverity": "high",
+          "tool": "CodeQL",
+          "dismissedAt": "2026-09-27T20:45:00Z",
+          "dismissedBy": "Papi299",
+          "dismissedReason": "false positive",
+          "dismissedComment": "HMAC-SHA-256 authenticates a short-lived account-closure capability with an independent >=32-byte E5 secret. Supabase verifies the password; no password reaches this HMAC or becomes a verifier. CRYPTO-001 was separately corrected; CWE-916 does not apply.",
+          "mostRecentInstance": {
+            "ref": "refs/heads/main",
+            "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+            "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+            "category": "/language:javascript-typescript",
+            "state": "dismissed",
+            "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+            "message": {
+              "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely.",
+              "markdown": "Password from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L183C26-L183C69) is hashed insecurely.\nPassword from [a call to signInWithPassword](e2e/helpers/local-auth.ts#L220C26-L220C69) is hashed insecurely."
+            },
+            "location": {
+              "path": "lib/account-closure/capability.ts",
+              "start_line": 119,
+              "end_line": 119,
+              "start_column": 13,
+              "end_column": 31
+            },
+            "classifications": []
+          }
+        }
+      }
+    },
+    {
+      "alertNumber": 3,
+      "method": "PATCH",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/3",
+      "requestBody": {
+        "state": "dismissed",
+        "dismissed_reason": "false positive",
+        "dismissed_comment": "HMAC-SHA-256 signs a 600-second recent-auth token with an independent >=32-byte server secret. Supabase verifies the password first; it never reaches the HMAC, key, message, or cookie. The flagged version/TTL values are metadata; CWE-916 does not apply."
+      },
+      "commentCharacterCount": 253,
+      "requestStartedAt": "2026-09-27T20:45:02.015824+00:00",
+      "preState": "open",
+      "patchAttempted": true,
+      "patchSucceeded": true,
+      "readBackVerified": true,
+      "httpStatus": 200,
+      "cliExitCode": 0,
+      "patchResponseAt": "2026-09-27T20:45:02.908359+00:00",
+      "readBackAt": "2026-09-27T20:45:03.298893+00:00",
+      "dismissedAt": "2026-09-27T20:45:02Z",
+      "actor": "Papi299",
+      "postState": "dismissed",
+      "classification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "path": "lib/auth/recent-password-auth-proof.ts",
+      "preMutation": {
+        "number": 3,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T14:22:13Z",
+        "state": "open",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": null,
+        "dismissedBy": null,
+        "dismissedReason": null,
+        "dismissedComment": null,
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "open",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.",
+            "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 135,
+            "end_line": 135,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": []
+        }
+      },
+      "immediateGet": {
+        "method": "GET",
+        "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/3",
+        "verifiedAt": "2026-09-27T20:45:03.298893+00:00",
+        "exactReasonCommentIdentityMatch": true,
+        "response": {
+          "number": 3,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+          "createdAt": "2026-09-27T14:22:13Z",
+          "updatedAt": "2026-09-27T20:45:02Z",
+          "state": "dismissed",
+          "rule": "js/insufficient-password-hash",
+          "securitySeverity": "high",
+          "tool": "CodeQL",
+          "dismissedAt": "2026-09-27T20:45:02Z",
+          "dismissedBy": "Papi299",
+          "dismissedReason": "false positive",
+          "dismissedComment": "HMAC-SHA-256 signs a 600-second recent-auth token with an independent >=32-byte server secret. Supabase verifies the password first; it never reaches the HMAC, key, message, or cookie. The flagged version/TTL values are metadata; CWE-916 does not apply.",
+          "mostRecentInstance": {
+            "ref": "refs/heads/main",
+            "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+            "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+            "category": "/language:javascript-typescript",
+            "state": "dismissed",
+            "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+            "message": {
+              "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.",
+              "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely."
+            },
+            "location": {
+              "path": "lib/auth/recent-password-auth-proof.ts",
+              "start_line": 135,
+              "end_line": 135,
+              "start_column": 13,
+              "end_column": 31
+            },
+            "classifications": []
+          }
+        }
+      }
+    },
+    {
+      "alertNumber": 4,
+      "method": "PATCH",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/4",
+      "requestBody": {
+        "state": "dismissed",
+        "dismissed_reason": "false positive",
+        "dismissed_comment": "HMAC-SHA-256 verifies a recent-auth token with an independent >=32-byte secret. Equal-length signatures use timingSafeEqual, then user/session, expiry, skew, and canonical-payload checks. The token is metadata, not a password verifier; CWE-916 does not apply."
+      },
+      "commentCharacterCount": 259,
+      "requestStartedAt": "2026-09-27T20:45:03.301229+00:00",
+      "preState": "open",
+      "patchAttempted": true,
+      "patchSucceeded": true,
+      "readBackVerified": true,
+      "httpStatus": 200,
+      "cliExitCode": 0,
+      "patchResponseAt": "2026-09-27T20:45:04.680992+00:00",
+      "readBackAt": "2026-09-27T20:45:05.110056+00:00",
+      "dismissedAt": "2026-09-27T20:45:03Z",
+      "actor": "Papi299",
+      "postState": "dismissed",
+      "classification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION",
+      "path": "lib/auth/recent-password-auth-proof.ts",
+      "preMutation": {
+        "number": 4,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T14:22:13Z",
+        "state": "open",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": null,
+        "dismissedBy": null,
+        "dismissedReason": null,
+        "dismissedComment": null,
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "open",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from a call to issueRecentPasswordAuthProof is hashed insecurely.",
+            "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely.\nPassword from [a call to issueRecentPasswordAuthProof](tests/recent-password-auth-proof.spec.ts#L41C10-L46C5) is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 183,
+            "end_line": 183,
+            "start_column": 13,
+            "end_column": 43
+          },
+          "classifications": []
+        }
+      },
+      "immediateGet": {
+        "method": "GET",
+        "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/4",
+        "verifiedAt": "2026-09-27T20:45:05.110056+00:00",
+        "exactReasonCommentIdentityMatch": true,
+        "response": {
+          "number": 4,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+          "createdAt": "2026-09-27T14:22:13Z",
+          "updatedAt": "2026-09-27T20:45:03Z",
+          "state": "dismissed",
+          "rule": "js/insufficient-password-hash",
+          "securitySeverity": "high",
+          "tool": "CodeQL",
+          "dismissedAt": "2026-09-27T20:45:03Z",
+          "dismissedBy": "Papi299",
+          "dismissedReason": "false positive",
+          "dismissedComment": "HMAC-SHA-256 verifies a recent-auth token with an independent >=32-byte secret. Equal-length signatures use timingSafeEqual, then user/session, expiry, skew, and canonical-payload checks. The token is metadata, not a password verifier; CWE-916 does not apply.",
+          "mostRecentInstance": {
+            "ref": "refs/heads/main",
+            "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+            "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+            "category": "/language:javascript-typescript",
+            "state": "dismissed",
+            "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+            "message": {
+              "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from a call to issueRecentPasswordAuthProof is hashed insecurely.",
+              "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](lib/auth/recent-password-auth-proof.ts#L128C23-L128C56) is hashed insecurely.\nPassword from [an access to recentPasswordAuthVersion](lib/auth/recent-password-auth-proof.ts#L133C33-L133C58) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely.\nPassword from [a call to issueRecentPasswordAuthProof](tests/recent-password-auth-proof.spec.ts#L41C10-L46C5) is hashed insecurely."
+            },
+            "location": {
+              "path": "lib/auth/recent-password-auth-proof.ts",
+              "start_line": 183,
+              "end_line": 183,
+              "start_column": 13,
+              "end_column": 43
+            },
+            "classifications": []
+          }
+        }
+      }
+    },
+    {
+      "alertNumber": 5,
+      "method": "PATCH",
+      "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/5",
+      "requestBody": {
+        "state": "dismissed",
+        "dismissed_reason": "false positive",
+        "dismissed_comment": "Test-only proofFor signs adversarial recent-auth payloads with a synthetic key in the HMAC-SHA-256 token format. recentPasswordAuthLifetimeSeconds is a TTL, not a password. No production credential or password verifier is involved; CWE-916 does not apply."
+      },
+      "commentCharacterCount": 255,
+      "requestStartedAt": "2026-09-27T20:45:05.111407+00:00",
+      "preState": "open",
+      "patchAttempted": true,
+      "patchSucceeded": true,
+      "readBackVerified": true,
+      "httpStatus": 200,
+      "cliExitCode": 0,
+      "patchResponseAt": "2026-09-27T20:45:06.086128+00:00",
+      "readBackAt": "2026-09-27T20:45:06.583699+00:00",
+      "dismissedAt": "2026-09-27T20:45:05Z",
+      "actor": "Papi299",
+      "postState": "dismissed",
+      "classification": "FALSE_POSITIVE_QUERY_MISCLASSIFICATION_TEST_ONLY",
+      "path": "tests/recent-password-auth-proof.spec.ts",
+      "preMutation": {
+        "number": 5,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T14:22:13Z",
+        "state": "open",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": null,
+        "dismissedBy": null,
+        "dismissedReason": null,
+        "dismissedComment": null,
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "open",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.",
+            "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely."
+          },
+          "location": {
+            "path": "tests/recent-password-auth-proof.spec.ts",
+            "start_line": 24,
+            "end_line": 24,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": [
+            "test"
+          ]
+        }
+      },
+      "immediateGet": {
+        "method": "GET",
+        "endpoint": "/repos/Papi299/nutrition-tracker-app/code-scanning/alerts/5",
+        "verifiedAt": "2026-09-27T20:45:06.583699+00:00",
+        "exactReasonCommentIdentityMatch": true,
+        "response": {
+          "number": 5,
+          "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+          "createdAt": "2026-09-27T14:22:13Z",
+          "updatedAt": "2026-09-27T20:45:05Z",
+          "state": "dismissed",
+          "rule": "js/insufficient-password-hash",
+          "securitySeverity": "high",
+          "tool": "CodeQL",
+          "dismissedAt": "2026-09-27T20:45:05Z",
+          "dismissedBy": "Papi299",
+          "dismissedReason": "false positive",
+          "dismissedComment": "Test-only proofFor signs adversarial recent-auth payloads with a synthetic key in the HMAC-SHA-256 token format. recentPasswordAuthLifetimeSeconds is a TTL, not a password. No production credential or password verifier is involved; CWE-916 does not apply.",
+          "mostRecentInstance": {
+            "ref": "refs/heads/main",
+            "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+            "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+            "category": "/language:javascript-typescript",
+            "state": "dismissed",
+            "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+            "message": {
+              "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.",
+              "markdown": "Password from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L8C3-L8C36) is hashed insecurely.\nPassword from [an access to recentPasswordAuthLifetimeSeconds](tests/recent-password-auth-proof.spec.ts#L35C21-L35C54) is hashed insecurely."
+            },
+            "location": {
+              "path": "tests/recent-password-auth-proof.spec.ts",
+              "start_line": 24,
+              "end_line": 24,
+              "start_column": 13,
+              "end_column": 31
+            },
+            "classifications": [
+              "test"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "mutationAccounting": {
+    "authorizedAlertIds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "successfulAuthorizedAlertStateMutations": 5,
+    "retryPatchAttempts": 5,
+    "priorFailedPatchAttempts": 1,
+    "priorSuccessfulStateMutations": 0,
+    "unrelatedAlertStateMutations": 0,
+    "reopenedAlerts": 0,
+    "dependabotAlertMutations": 0,
+    "secretScanningAlertMutations": 0,
+    "alertSeverityMutations": 0,
+    "codeqlConfigurationMutations": 0,
+    "unrelatedGithubSettingMutations": 0,
+    "rulesetMutations": 0,
+    "providerMutations": 0
+  },
+  "finalInventory": {
+    "verifiedAt": "2026-09-27T20:46:02.078141+00:00",
+    "allAlerts": [
+      {
+        "number": 1,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/1",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T20:44:59Z",
+        "state": "dismissed",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": "2026-09-27T20:44:59Z",
+        "dismissedBy": "Papi299",
+        "dismissedReason": "false positive",
+        "dismissedComment": "Test-only HMAC-SHA-256 signer uses a synthetic E5 key for account-closure test tokens. signInWithPassword contributes identity/session data, not the password. No production credential or password verifier is involved; CWE-916 does not apply.",
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "dismissed",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely."
+          },
+          "location": {
+            "path": "e2e/account-closure.spec.ts",
+            "start_line": 113,
+            "end_line": 113,
+            "start_column": 13,
+            "end_column": 26
+          },
+          "classifications": [
+            "test"
+          ]
+        }
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/2",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T20:45:00Z",
+        "state": "dismissed",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": "2026-09-27T20:45:00Z",
+        "dismissedBy": "Papi299",
+        "dismissedReason": "false positive",
+        "dismissedComment": "HMAC-SHA-256 authenticates a short-lived account-closure capability with an independent >=32-byte E5 secret. Supabase verifies the password; no password reaches this HMAC or becomes a verifier. CRYPTO-001 was separately corrected; CWE-916 does not apply.",
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "dismissed",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from a call to signInWithPassword is hashed insecurely.\nPassword from a call to signInWithPassword is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/account-closure/capability.ts",
+            "start_line": 119,
+            "end_line": 119,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": []
+        }
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/3",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T20:45:02Z",
+        "state": "dismissed",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": "2026-09-27T20:45:02Z",
+        "dismissedBy": "Papi299",
+        "dismissedReason": "false positive",
+        "dismissedComment": "HMAC-SHA-256 signs a 600-second recent-auth token with an independent >=32-byte server secret. Supabase verifies the password first; it never reaches the HMAC, key, message, or cookie. The flagged version/TTL values are metadata; CWE-916 does not apply.",
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "dismissed",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 135,
+            "end_line": 135,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": []
+        }
+      },
+      {
+        "number": 4,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/4",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T20:45:03Z",
+        "state": "dismissed",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": "2026-09-27T20:45:03Z",
+        "dismissedBy": "Papi299",
+        "dismissedReason": "false positive",
+        "dismissedComment": "HMAC-SHA-256 verifies a recent-auth token with an independent >=32-byte secret. Equal-length signatures use timingSafeEqual, then user/session, expiry, skew, and canonical-payload checks. The token is metadata, not a password verifier; CWE-916 does not apply.",
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "dismissed",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthVersion is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from a call to issueRecentPasswordAuthProof is hashed insecurely."
+          },
+          "location": {
+            "path": "lib/auth/recent-password-auth-proof.ts",
+            "start_line": 183,
+            "end_line": 183,
+            "start_column": 13,
+            "end_column": 43
+          },
+          "classifications": []
+        }
+      },
+      {
+        "number": 5,
+        "url": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/5",
+        "createdAt": "2026-09-27T14:22:13Z",
+        "updatedAt": "2026-09-27T20:45:05Z",
+        "state": "dismissed",
+        "rule": "js/insufficient-password-hash",
+        "securitySeverity": "high",
+        "tool": "CodeQL",
+        "dismissedAt": "2026-09-27T20:45:05Z",
+        "dismissedBy": "Papi299",
+        "dismissedReason": "false positive",
+        "dismissedComment": "Test-only proofFor signs adversarial recent-auth payloads with a synthetic key in the HMAC-SHA-256 token format. recentPasswordAuthLifetimeSeconds is a TTL, not a password. No production credential or password verifier is involved; CWE-916 does not apply.",
+        "mostRecentInstance": {
+          "ref": "refs/heads/main",
+          "analysis_key": "dynamic/github-code-scanning/codeql:analyze",
+          "environment": "{\"build-mode\":\"none\",\"category\":\"/language:javascript-typescript\",\"language\":\"javascript-typescript\",\"runner\":\"[\\\"ubuntu-latest\\\"]\"}",
+          "category": "/language:javascript-typescript",
+          "state": "dismissed",
+          "commit_sha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+          "message": {
+            "text": "Password from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely.\nPassword from an access to recentPasswordAuthLifetimeSeconds is hashed insecurely."
+          },
+          "location": {
+            "path": "tests/recent-password-auth-proof.spec.ts",
+            "start_line": 24,
+            "end_line": 24,
+            "start_column": 13,
+            "end_column": 31
+          },
+          "classifications": [
+            "test"
+          ]
+        }
+      }
+    ],
+    "openAlerts": [],
+    "openCodeqlAlertCount": 0,
+    "openInsufficientPasswordHashCount": 0,
+    "unexpectedHighCriticalAlerts": 0,
+    "conclusion": "The five independently reviewed CWE-916 alerts are dismissed as false positives. No broader claim about all repository security findings is made."
+  },
+  "queryDetectionBoundary": {
+    "hmacCodeChanged": false,
+    "sourceSuppressionAdded": false,
+    "queryChanged": false,
+    "baselineFullJavascriptAnalysisResults": 5,
+    "underlyingInstancesRemainDetectableInFullAnalysisHistory": true,
+    "dispositionDoesNotMeanQueryStoppedDetectingCode": true
+  },
+  "governance": {
+    "livingStatus": "GITHUB_GOVERNANCE_SECURITY_REMEDIATION_COMPLETE_PENDING_INDEPENDENT_REVIEW",
+    "implementationComplete": true,
+    "independentAcceptance": false,
+    "settingsMatrix": {
+      "compliant": 25,
+      "mismatch": 1,
+      "notApplicable": 2
+    },
+    "remainingMismatch": "P1 exception authority",
+    "matrixProvenance": "Accepted 28-row matrix preserved; no new full settings audit or count change claimed.",
+    "P11A-016": "OPEN",
+    "all18Findings": "OPEN",
+    "findings": [
+      {
+        "id": "P11A-001",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-002",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-003",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-004",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-005",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-006",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-007",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-008",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-009",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-010",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-011",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-012",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-013",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-014",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-015",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-016",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-017",
+        "status": "OPEN"
+      },
+      {
+        "id": "P11A-018",
+        "status": "OPEN"
+      }
+    ],
+    "onlyPhase11KMayCloseFindings": true,
+    "roles": [
+      {
+        "role": "Independent acceptance reviewer",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      },
+      {
+        "role": "Candidate release approver",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      },
+      {
+        "role": "P1 exception authority",
+        "status": "UNASSIGNED_BLOCKING_BEFORE_11K",
+        "assignee": null,
+        "acceptance": null
+      }
+    ],
+    "currentEligibility": "NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING",
+    "contract": "2.0-personal-use-windows-deferred-amended",
+    "DEC039Changed": false,
+    "windows": {
+      "chrome": "NOT_EXECUTED",
+      "edge": "NOT_EXECUTED",
+      "status": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+      "passCredit": false
+    },
+    "forwardJ6": "NOT_STARTED",
+    "phase11K": "NOT_STARTED",
+    "productionReleaseAuthorized": false
+  },
+  "safety": {
+    "sourceRuntimeMigrationChanges": 0,
+    "hostedSupabaseOperations": 0,
+    "productionVaultSecretReads": 0,
+    "hostedSchemaMutations": 0,
+    "vercelMutations": 0,
+    "productionDeployments": 0,
+    "roleAssignments": 0,
+    "windowsTestsExecuted": 0,
+    "findingClosures": 0,
+    "historicalEvidenceChanged": false,
+    "unrelatedAcademicPapersProjectAccesses": 0
+  },
+  "immutableHistoricalSources": [
+    {
+      "path": "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+      "sha256": "0c94eb8ca1accf35cd14b3991ac6eebde1b9ca3244a1e9863628bcbcbdb543a8"
+    },
+    {
+      "path": "deployment/phase-11-prek-crypto001-correction-evidence.json",
+      "sha256": "d2750e2842e6f08d75ad3dbcb2ba1a084dc410ede7c4c5d29827a8f8b38066c1"
+    },
+    {
+      "path": "deployment/phase-11-prek-github-governance-remediation-evidence.json",
+      "sha256": "7a37daee7a1b20adb594a729f7b9cb17985e3e680cea385314511f53e439b2ee"
+    },
+    {
+      "path": "deployment/phase-11-prek-dec039-windows-deferral-evidence.json",
+      "sha256": "1fad23a4876345a50140de80d17b5c2543085775059da3128a77091c971b9339"
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "sha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631"
+    },
+    {
+      "path": "docs/decision-log.md",
+      "sha256": "4d039ab7ce7d2af26015f2ba5803457a94c5c4d35e9dd3ee71ab49f9c5467ed7"
+    }
+  ],
+  "rawEvidenceFingerprints": [
+    {
+      "name": "alert-1-patch.json",
+      "sha256": "7f7a593ee388a6d1806fdfe1b4fc1d3d9f97d2d44fdc0365a63ed28e96b854b2"
+    },
+    {
+      "name": "alert-1-pre.json",
+      "sha256": "a9ef7d6b51491e68825642068231c58b6a8e1a2abe5debd13b1e93f80c500561"
+    },
+    {
+      "name": "alert-1-readback.json",
+      "sha256": "79e9848649272bdc95fd5d07609993d5081501a63ecd274d06d50c7e47729485"
+    },
+    {
+      "name": "alert-1-request.json",
+      "sha256": "3b1444154db54e413ab1fa4e54e6cf35f8316932e7e98301860773ee083b57a5"
+    },
+    {
+      "name": "alert-2-patch.json",
+      "sha256": "fb44e56d279314f322deef9999190259a0f0648963b3f967b7ef3d39263fd5b4"
+    },
+    {
+      "name": "alert-2-pre.json",
+      "sha256": "9fcebce107d6ab006e727491b0e54d29e251bae898a5d37d18c9d06e62228867"
+    },
+    {
+      "name": "alert-2-readback.json",
+      "sha256": "21894198bf212da375787842212dc01fb166d07cf62c9d270162b63aac8edeaf"
+    },
+    {
+      "name": "alert-2-request.json",
+      "sha256": "13035c163fab92764ed64ae19da080795b2bfba4212955cb388cb082d6bbeee6"
+    },
+    {
+      "name": "alert-3-patch.json",
+      "sha256": "fee8228747c5eff3856f00a262766b0318a5753b861feb3bf695d2ab83a2421a"
+    },
+    {
+      "name": "alert-3-pre.json",
+      "sha256": "b4a9f24a9090ca211b5b753c8ceb47bb3b35be6bb62839469fc3b526949d6038"
+    },
+    {
+      "name": "alert-3-readback.json",
+      "sha256": "12f6d9617871dd3fcd0e22a03342a7b1ee8c2005785fea46d94b7e6ff141f912"
+    },
+    {
+      "name": "alert-3-request.json",
+      "sha256": "887cd22c169a755e186dd42298afd0074bffc222c277118010608643bbb816ad"
+    },
+    {
+      "name": "alert-4-patch.json",
+      "sha256": "d353e93f884a114e8698580cbb3706570209f6b7b05d6f92873b75d540b9f445"
+    },
+    {
+      "name": "alert-4-pre.json",
+      "sha256": "5ec6a57f6304b5ca852cdbb8ef619a5e8b0810ca04059a08f0ceb5fcfc81f690"
+    },
+    {
+      "name": "alert-4-readback.json",
+      "sha256": "20ee94f2914d654430193a888d9410b9e88789c29b41b5ea7af3cd398886f2dd"
+    },
+    {
+      "name": "alert-4-request.json",
+      "sha256": "108fe9921deb791424c209e0f38d85d7fd3cee36361e682a0989f6e281a6cf1c"
+    },
+    {
+      "name": "alert-5-patch.json",
+      "sha256": "15dcf8181d58ea5b8649c278e19ab16d4388b1addd8d4fd15f671394073b2080"
+    },
+    {
+      "name": "alert-5-pre.json",
+      "sha256": "931662e3d4162e762953ec733b0d3b5bbdd8f881c397055c4065f1343e0fe604"
+    },
+    {
+      "name": "alert-5-readback.json",
+      "sha256": "01a2fa8cd7e8a0ddc8938d03e9c9794ce1017d33cf1feb68c80183c9196db4da"
+    },
+    {
+      "name": "alert-5-request.json",
+      "sha256": "5b3d0469e314671ec2505b25b4c75072af0f7509d5ca43727cf5988aae0cd2c1"
+    },
+    {
+      "name": "alerts-all.json",
+      "sha256": "d78aae14bc6eb43ee1206d1ae9b489ec37268fe775f25b736b2fd134d4692e36"
+    },
+    {
+      "name": "alerts-open.json",
+      "sha256": "d78aae14bc6eb43ee1206d1ae9b489ec37268fe775f25b736b2fd134d4692e36"
+    },
+    {
+      "name": "analyses.json",
+      "sha256": "ccf0a96f8b684245cade3d61b007ee36a3dbe721bd43539c22f6a43ed91f195b"
+    },
+    {
+      "name": "artifact.json",
+      "sha256": "1031e3886043101e580132099b3bc80f41d1f276a0edc85f8df4768d079c9cc6"
+    },
+    {
+      "name": "auth-status-nonsecret.json",
+      "sha256": "4acfb9bf8484b7a702e14a01e44b31d2d8acab9777b0de290156dd1b7105bc81"
+    },
+    {
+      "name": "authorization.json",
+      "sha256": "fafea77661e6b9e86101907a94b864d7eb27d008b3c67df8884b10aaa799f96e"
+    },
+    {
+      "name": "baseline-verified.json",
+      "sha256": "fc7040e6d18758d224cd64ec9ae33de5420afe42a3ebb817f16f938488e67a45"
+    },
+    {
+      "name": "ci-jobs.json",
+      "sha256": "2f0d28741db9b10ea739ec94951030c64a866f9cf5390f879a371a43a7449f85"
+    },
+    {
+      "name": "ci.json",
+      "sha256": "37c0ee1f80b417abb6dde1c003a0ed2797ae08c6ab977a4faeeb67dad80876d0"
+    },
+    {
+      "name": "codeql-jobs.json",
+      "sha256": "178e40ec3b19955c3f64654fb107ee9f2ca6a21ec9048f15d3849a8c31315d8e"
+    },
+    {
+      "name": "codeql.json",
+      "sha256": "352ffe4d9526902e09638c22972e94d708f94c903b19652e1365d2147aa9ecdc"
+    },
+    {
+      "name": "commit.json",
+      "sha256": "46446fb0fabc95717ab148c4ac83a22299f38a38cc3bfbaf8f4754ddc9dd65f5"
+    },
+    {
+      "name": "final-alerts-all.json",
+      "sha256": "78c8d0de4e74be5abde4de1df24fd07d324e49a5ae995d90071bbbd032f40e6c"
+    },
+    {
+      "name": "final-alerts-dismissed.json",
+      "sha256": "78c8d0de4e74be5abde4de1df24fd07d324e49a5ae995d90071bbbd032f40e6c"
+    },
+    {
+      "name": "final-alerts-open.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "final-inventory-verified.json",
+      "sha256": "62781e696dd65b025891e2bd7e78abfee4726da5ea80cd96485b8801ed6592ff"
+    },
+    {
+      "name": "main.json",
+      "sha256": "cf160ef4eabc569f4a3dd422398c79e119a344923b387779820316e3084b77b8"
+    },
+    {
+      "name": "mutation-ledger.json",
+      "sha256": "5564b20a857606faafb7249f7c72dedb515cacaf39303b9f7a5c8051af19e4f3"
+    },
+    {
+      "name": "open-prs.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "pr154.json",
+      "sha256": "38ce8ebd5e9411873e4531d44bf754846e4bc42f2ff87a1ec39ca2231aa95186"
+    },
+    {
+      "name": "repo.json",
+      "sha256": "875d6f4961200c76d8868939a0bf444e85676d7590bf095facbdb04ac8715d81"
+    },
+    {
+      "name": "ruleset-after.json",
+      "sha256": "00dbd2ebabf3782f4cf3899d1366ddf0f563a8fbe63c7a5785e1d977a3ff4fcc"
+    },
+    {
+      "name": "ruleset.json",
+      "sha256": "00dbd2ebabf3782f4cf3899d1366ddf0f563a8fbe63c7a5785e1d977a3ff4fcc"
+    },
+    {
+      "name": "user.json",
+      "sha256": "00e20aeb690aa17bf891105a3f276aaff4073287836e9f11c3f7b7c4bdabcfc8"
+    }
+  ],
+  "repositoryDelivery": {
+    "branch": "codex/phase11-prek-codeql-false-positive-disposition",
+    "baseSha": "9a62d2441f63fd3f289a99ae01c1c365ba62f52e",
+    "allowedFiles": [
+      "deployment/phase-11-prek-codeql-false-positive-disposition-evidence.json",
+      "docs/phase-11-prek-codeql-false-positive-disposition.md"
+    ],
+    "draftRequired": true,
+    "mergeAuthorized": false,
+    "authoritativeCiAtPacketCreation": "NOT_YET_RUN",
+    "postCommitCiEvidenceLocation": "Draft PR body and completion report; this packet records external mutation facts without a self-referential commit/CI identity."
+  },
+  "validation": {
+    "jsonParse": "PASS",
+    "exactAuthorizedIds": "PASS",
+    "approvedCommentExactnessAndLengths": "PASS",
+    "sequentialImmediateReadBack": "PASS",
+    "fiveSuccessfulStateMutations": "PASS",
+    "unrelatedMutationsZero": "PASS",
+    "preservedGovernanceBoundary": "PASS"
+  }
+}
