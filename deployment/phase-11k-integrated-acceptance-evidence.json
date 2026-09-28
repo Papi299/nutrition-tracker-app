@@ -90,7 +90,8 @@
     "restoreDueUtc": "2026-12-16T03:18:20.238Z",
     "freshAtRecordedAt": true,
     "rpoFreshnessExpiryUtc": "2026-09-29T01:39:06Z",
-    "futureReleaseRecheckRequired": true
+    "futureReleaseRecheckRequired": true,
+    "postMigrationBackupContractFollowUp": "43-migration hardcoded backup/restore contract must be updated and validated before the next scheduled backup; existing artifact was within 24h RPO at migration time."
   },
   "security": {
     "supabaseAdvisorWarnings": [
@@ -103,18 +104,21 @@
         "status": "WARN_INTENTIONAL_PRIVILEGED_DESIGN_REQUIRES_MONITORING"
       }
     ],
-    "assessment": "Source checks include authenticated EXECUTE, server-derived auth.uid(), session/auth validation, empty search_path, restricted table privileges and transactional need; warning is not resolved solely by intent. No new material defect identified by this source audit; hosted behavior and current advisor refresh remain unverified."
+    "assessment": "Source checks include authenticated EXECUTE, server-derived auth.uid(), session/auth validation, empty search_path, restricted table privileges and transactional need; warning is not resolved solely by intent. No new material defect identified by this source audit; hosted behavior and current advisor refresh remain unverified.",
+    "postMigrationAdvisorRefresh": "Two prior SECURITY DEFINER WARNs and one prior RLS INFO unchanged; no new migration-caused WARN/ERROR."
   },
   "deployment": {
     "repositoryMigrationCount": 44,
-    "acceptedHostedMigrationCount": 43,
+    "acceptedHostedMigrationCount": 44,
     "migration44": "20260927170418_harden_account_closure_mac_comparison.sql",
-    "migration44HostedApplied": false,
+    "migration44HostedApplied": true,
     "vercelBootstrapDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
     "vercelBootstrapSourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
     "vercelClassification": "PRODUCTION_BOOTSTRAP_ONLY",
     "exactCandidateDeployed": false,
-    "rollbackRedeployQualified": false
+    "rollbackRedeployQualified": false,
+    "migration44ApplicationEvidence": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+    "migration44ApplicationVerifiedAtUtc": "2026-09-28T18:04:44Z"
   },
   "client": {
     "windowsChrome": "NOT_EXECUTED",
@@ -223,7 +227,7 @@
         "P11A-010"
       ],
       "implementationStatus": "SATISFIED",
-      "externalEvidenceStatus": "MISSING",
+      "externalEvidenceStatus": "PARTIAL",
       "launchEffect": "BLOCKED"
     },
     {
@@ -526,7 +530,7 @@
       "priority": "P1",
       "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
       "repositoryLocalImplementationStage": "SATISFIED: Phase 11H/J5 runbook and 44 local migrations replayed/seeded; migration-role compatibility; migration 44 is sole ordered suffix to prior 43.",
-      "externalManualProviderStage": "PARTIAL: fresh read-only Production project identity, exact 43-version ledger prefix, scoped pre-44 closure schema/pgcrypto/Vault metadata, and migration-44-only CLI dry run verified. Migration 44 is not applied; actual release sequence remains pending.",
+      "externalManualProviderStage": "PARTIAL: authorized Production migration 44 applied as the sole pending migration; hosted ledger exactly matches all 44 repository versions/names; post-44 verifier, RPC, closure table, scoped catalog and advisors independently verified. Exact deployed candidate and release-time checks remain pending.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -535,17 +539,21 @@
         "docs/phase-11j5-release-rollback-dry-run.md",
         "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402305",
         "docs/phase-11k-p11a010-hosted-ledger-schema-preflight.md",
-        "deployment/phase-11k-p11a010-hosted-ledger-schema-preflight-evidence.json"
+        "deployment/phase-11k-p11a010-hosted-ledger-schema-preflight-evidence.json",
+        "docs/phase-11k-p11a010-migration44-application-verification.md",
+        "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487772",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487341"
       ],
-      "freshnessRequirements": "Recheck hosted ledger/schema/compatibility immediately before any separately authorized migration; accepted recovery artifact and exact release candidate must be current.",
+      "freshnessRequirements": "Before P11A-017, refresh exact target/44-ledger/advisors, accepted recovery artifact within 24h, current Storage scope and exact candidate/deployment compatibility. Update the 43-migration backup contract before the next scheduled backup.",
       "currentDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
-      "remainingUncertainty": "Hosted historical migration-file content parity beyond version/name order is unproved; full schema parity is unclaimed; secret value/length and app/Vault match were not observed. Migration 44 application, post-44 verification, and exact release deployment remain pending.",
+      "remainingUncertainty": "Historical migration-file bytes beyond version/name order and full-database schema parity are unclaimed; app/Vault secret match and real hosted closure behavior were not tested. Exact candidate deployment, smoke and rollback remain pending. Existing backup is fresh, but recurring backup contract is still pinned to 43 migrations.",
       "launchEffect": "P1 blocker; no exception granted.",
-      "nextAction": "Independently review this preflight. Later pin exact release SHA, reconfirm hosted 43-prefix/schema and recovery freshness, separately authorize migration 44, verify post-44 state, then separately authorize P11A-017 exact app deployment.",
+      "nextAction": "Update and validate recurring recovery contract before its next scheduled run; then separately authorize P11A-017 exact-candidate deployment, smoke and rollback boundary with fresh recovery and hosted checks.",
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "This read-only preflight authority was used. Migration 44 application and later deployment each require separate exact Product Owner authorization."
+      "authorizationDetail": "Product Owner's conditional migration-44 authority was used after all gates passed. Any recovery contract change, Vercel deployment or Production release requires its own bounded task/authorization."
     },
     {
       "id": "P11A-011",
@@ -796,5 +804,12 @@
     "P11A-015",
     "P11A-017",
     "P11A-018"
-  ]
+  ],
+  "p11a010Migration44Update": {
+    "recordedAtUtc": "2026-09-28T18:04:44Z",
+    "classification": "HOSTED_EXACT_44_MIG44_APPLIED",
+    "evidence": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+    "findingDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
+    "productionReleaseAuthorized": false
+  }
 }

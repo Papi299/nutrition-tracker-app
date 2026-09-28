@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE_11K_P11A010_APPLY_MIGRATION44_AND_VERIFY",
+  "recordedAtUtc": "2026-09-28T18:04:44Z",
+  "outcome": "P11A010_MIGRATION44_APPLIED_POSTMIGRATION_VERIFIED_READY_FOR_P11A017",
+  "scope": "Single authorized Production migration and bounded read-only verification; no deployment or release authorization",
+  "repository": {
+    "reviewedMainSha": "50e4af71944ff4ccb72a1f6a094b4b64db7bb843",
+    "reviewedMainTree": "293851dc30da2cbdc0350dab619c8f75b1413084",
+    "openPrCountBeforeMutation": 0,
+    "migrationCount": 44,
+    "migration44": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "migration44Sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "migration44OnlySuffixAfter": "20260830143000_cache_search_account_access_policy.sql",
+    "migration44UnchangedSinceReviewedPreflight": true,
+    "exactMainCi": {
+      "runId": 36460487772,
+      "headSha": "50e4af71944ff4ccb72a1f6a094b4b64db7bb843",
+      "validate": "SUCCESS"
+    },
+    "exactMainCodeql": {
+      "runId": 36460487341,
+      "headSha": "50e4af71944ff4ccb72a1f6a094b4b64db7bb843",
+      "actions": "SUCCESS",
+      "javascriptTypescript": "SUCCESS"
+    }
+  },
+  "productionTarget": {
+    "projectRef": "hskfanrqwtqknzpquwhg",
+    "projectName": "Nutrition Tracker App",
+    "region": "eu-west-1",
+    "status": "ACTIVE_HEALTHY",
+    "providerPostgresVersion": "17.6.1.111",
+    "sqlPostgresVersion": "17.6",
+    "linkedProjectRef": "hskfanrqwtqknzpquwhg"
+  },
+  "preMigration": {
+    "ledger": {
+      "classification": "HOSTED_EXACT_43_PREFIX_MIG44_PENDING",
+      "count": 43,
+      "exactOrderedRepositoryPrefix": true,
+      "final": "20260830143000_cache_search_account_access_policy",
+      "migration44Absent": true,
+      "hostedOnly": 0,
+      "missingEarlier": 0,
+      "duplicates": 0
+    },
+    "verifier": {
+      "signature": "private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint) returns boolean",
+      "language": "plpgsql",
+      "volatility": "STABLE",
+      "securityMode": "INVOKER",
+      "owner": "postgres",
+      "searchPath": "",
+      "acl": "{postgres=X/postgres}",
+      "anonExecute": false,
+      "authenticatedExecute": false,
+      "serviceRoleExecute": false,
+      "definitionMd5": "96a9bcb25c87213be3f25b229e4dfb4d",
+      "sourceExactlyMatchesMigration43": true
+    },
+    "closureRpc": {
+      "signature": "public.close_current_account(uuid,text)",
+      "volatility": "VOLATILE",
+      "securityMode": "DEFINER",
+      "owner": "postgres",
+      "searchPath": "",
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "definitionMd5": "d02a928171043f7e461095aab3b0817e",
+      "sourceExactlyMatchesMigration43": true
+    },
+    "pgcrypto": {
+      "schema": "extensions",
+      "hmacByteaAvailable": true,
+      "genRandomBytesAvailable": true,
+      "publicLiteralHmacTest": true,
+      "randomBytes32Test": true
+    },
+    "vault": {
+      "identifier": "account_closure_capability_v1",
+      "matchingRecordCount": 1,
+      "valueOrFingerprintRead": false
+    },
+    "storage": {
+      "buckets": 0,
+      "objects": 0
+    },
+    "recovery": {
+      "classification": "EXISTING_ACCEPTED_ARTIFACT_WITHIN_24H_RPO",
+      "workflowState": "active",
+      "runId": 36366784613,
+      "jobConclusion": "SUCCESS",
+      "artifactId": 10946804468,
+      "artifactName": "phase-11i-production-backup-36366784613",
+      "artifactDigest": "sha256:70e5fb0322acc5806aaa4dc199f6f6fa4ef8ca4c67693d9633a01c90b8be43f3",
+      "artifactBytes": 11893376,
+      "artifactCreatedAtUtc": "2026-09-28T01:41:46Z",
+      "artifactExpiresAtUtc": "2026-10-28T01:41:45Z",
+      "conservativeBackupStartUtc": "2026-09-28T01:39:06Z",
+      "ageAtMigrationStartHours": 16.3775,
+      "rpoHours": 24,
+      "qualifiedRestoreDueUtc": "2026-12-16T03:18:20.238Z",
+      "storageScopeExpansion": false,
+      "artifactDownloaded": false,
+      "artifactDecrypted": false,
+      "newBackupTriggered": false
+    },
+    "advisors": {
+      "warn": [
+        "authenticated_security_definer_function_executable:public.close_current_account",
+        "authenticated_security_definer_function_executable:public.complete_invited_account_activation"
+      ],
+      "info": [
+        "rls_enabled_no_policy:ingestion.nutrient_source_mappings"
+      ],
+      "newError": 0
+    }
+  },
+  "finalDryRun": {
+    "cliVersion": "2.111.0",
+    "command": "supabase db push --linked --dry-run",
+    "dryRun": true,
+    "proposedMigrations": [
+      "20260927170418_harden_account_closure_mac_comparison.sql"
+    ],
+    "seeds": [],
+    "roles": [],
+    "historyRepair": false
+  },
+  "execution": {
+    "command": "supabase db push --linked",
+    "startedAtUtc": "2026-09-28T18:01:45Z",
+    "completedAtUtc": "2026-09-28T18:02:07Z",
+    "exitCode": 0,
+    "result": "SUCCESS",
+    "appliedMigrations": [
+      "20260927170418_harden_account_closure_mac_comparison.sql"
+    ],
+    "seeds": [],
+    "roles": [],
+    "otherOperationsApplied": 0
+  },
+  "postMigration": {
+    "ledger": {
+      "classification": "HOSTED_EXACT_44_MIG44_APPLIED",
+      "count": 44,
+      "exactOrderedRepositoryMatch": true,
+      "orderedMigrations": [
+        "20260429163444_create_profiles_and_nutrition_targets",
+        "20260626185634_grant_authenticated_profile_target_privileges",
+        "20260630193832_create_diary_entries",
+        "20260630201904_harden_public_table_privileges",
+        "20260704142707_create_nutrition_domain_schema_foundation",
+        "20260705061118_add_diary_food_linking_rules",
+        "20260711071000_persist_setup_atomically",
+        "20260714090000_create_food_alias_search_foundation",
+        "20260714100000_search_readable_foods",
+        "20260714110000_get_readable_food_diary_prefill",
+        "20260714120000_custom_food_persistence_foundation",
+        "20260714130000_persist_custom_food_nutrient_basis",
+        "20260714140000_enforce_custom_food_nutrient_basis",
+        "20260714150000_get_owned_custom_food_editor",
+        "20260716100000_add_food_favorites_and_reusable_foods",
+        "20260716110000_create_saved_meal_persistence_foundation",
+        "20260716120000_get_owned_saved_meal_editor",
+        "20260716130000_log_saved_meal_to_diary",
+        "20260717100000_create_recipe_persistence_foundation",
+        "20260717110000_get_owned_recipe_editor",
+        "20260717120000_recipe_use_contract_foundation",
+        "20260717130000_log_recipe_to_diary",
+        "20260717140000_create_barcode_identity_local_lookup",
+        "20260717150000_create_custom_food_barcode_handoff",
+        "20260718100000_create_ingestion_governance_foundation",
+        "20260718120000_add_foundation_parser_contracts",
+        "20260718140000_create_foundation_promotion_boundary",
+        "20260718150000_allow_phase_10e_terminal_run_classification",
+        "20260719080000_create_foundation_lifecycle_foundation",
+        "20260719120000_harden_foundation_lifecycle_diff_validation",
+        "20260719160000_execute_foundation_lifecycle_updates",
+        "20260721100000_restore_strict_terminal_run_immutability",
+        "20260721110000_remove_remote_rls_auto_enable",
+        "20260801141841_phase_11c2a_diary_mutation_correctness",
+        "20260801190220_reject_unreadable_linked_diary_creates",
+        "20260808093826_cj019_custom_food_edit_concurrency",
+        "20260810175638_cj022_saved_meal_edit_concurrency",
+        "20260811142805_cj025_recipe_edit_concurrency",
+        "20260812194829_cj018_custom_food_creation_idempotency",
+        "20260827070838_create_invited_account_activation",
+        "20260827110552_enforce_account_activation_authorization",
+        "20260829030137_implement_account_closure_lifecycle",
+        "20260830143000_cache_search_account_access_policy",
+        "20260927170418_harden_account_closure_mac_comparison"
+      ],
+      "final": "20260927170418_harden_account_closure_mac_comparison",
+      "hostedOnly": 0,
+      "missingVersions": 0
+    },
+    "verifier": {
+      "signature": "private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint) returns boolean",
+      "language": "plpgsql",
+      "volatility": "VOLATILE",
+      "securityMode": "INVOKER",
+      "owner": "postgres",
+      "searchPath": "",
+      "acl": "{postgres=X/postgres}",
+      "anonExecute": false,
+      "authenticatedExecute": false,
+      "serviceRoleExecute": false,
+      "definitionMd5": "0c5da6999318c82d468518b9b9f32855",
+      "sourceExactlyMatchesMigration44": true,
+      "candidateMacLength32": true,
+      "expectedHmac": true,
+      "freshRandomKey32": true,
+      "doubleHmacBlinding": true,
+      "nullLengthFailClosed": true,
+      "exceptionFailClosed": true,
+      "blindedTagEquality": true,
+      "rawMacEqualityAbsent": true,
+      "formalConstantTimeClaim": false
+    },
+    "unchanged": {
+      "closureRpcSourceAndMetadataExact": true,
+      "closureRpcDefinitionMd5": "d02a928171043f7e461095aab3b0817e",
+      "accountClosuresTableMetadataExact": true,
+      "accountClosuresRlsEnabled": true,
+      "ownRowSelectPolicy": true,
+      "userIdUnique": true,
+      "closureRequestIdUnique": true,
+      "policyVersionCheck": true,
+      "userFkAuthUsersRestrict": true,
+      "scopedCatalogExactExcludingVerifier": true,
+      "catalogSnapshot": {
+        "function_count": 114,
+        "functions_digest_excluding_verifier": "72e3411031a1ec9f90b9d6492de894e9",
+        "relation_count": 249,
+        "relations_digest": "726af66d9e49d67cef0aeb187053df34",
+        "attribute_count": 748,
+        "attributes_digest": "6ae7da695b6116396f340e38c01f877b",
+        "constraint_count": 667,
+        "constraints_digest": "eaf33e40b4e721424f205b3cca0213e8",
+        "policy_count": 212,
+        "policies_digest": "b604fd36c0513d145f20ace551d2003c"
+      },
+      "scope": "public/private/ingestion function, relation, attribute, constraint and policy metadata; no full-database parity claim",
+      "pgcryptoAndVaultMetadataUnchanged": true,
+      "storageBuckets": 0,
+      "storageObjects": 0
+    },
+    "advisors": {
+      "sameAsPreMigration": true,
+      "warn": [
+        "authenticated_security_definer_function_executable:public.close_current_account",
+        "authenticated_security_definer_function_executable:public.complete_invited_account_activation"
+      ],
+      "info": [
+        "rls_enabled_no_policy:ingestion.nutrient_source_mappings"
+      ],
+      "newMigrationCausedWarnOrError": 0,
+      "automaticRemediation": false
+    },
+    "functional": {
+      "syntheticCanonicalInvalidMacRejected": true,
+      "syntheticCapabilityBytes": 369,
+      "productionAccountOrUserMutation": false,
+      "realAccountClosureTest": "DEFERRED_SEPARATE_BOUNDED_AUTHORITY",
+      "exactMainValidateAndCodeqlPassed": true
+    }
+  },
+  "disposition": {
+    "finding": "P11A-010",
+    "state": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
+    "completed": "Forward-only migration 44, exact hosted ledger, post-44 verifier and scoped security/schema invariants",
+    "remaining": "Exact candidate deployment, deployed behavior, release-time freshness and P11A-017 smoke/rollback boundary need separate authority",
+    "p1Exception": false,
+    "productionReleaseAuthorized": false,
+    "vercelDeploymentPerformed": false,
+    "backupAutomationFollowUp": "Phase 11I backup and restore contract currently pins 43 migrations/head 20260830143000; update and validate it before the next scheduled backup to preserve future RPO. No contract edit was authorized in this task."
+  },
+  "mutationAudit": {
+    "authorizedMigrationsApplied": 1,
+    "unauthorizedMigrationsApplied": 0,
+    "directDdl": 0,
+    "dml": 0,
+    "authMutations": 0,
+    "vaultMutations": 0,
+    "storageMutations": 0,
+    "providerConfigMutations": 0,
+    "vercelActions": 0,
+    "historyRepairs": 0,
+    "backupsTriggered": 0,
+    "restoresExecuted": 0,
+    "scope": "Actions performed in this task, not a global provider audit"
+  },
+  "sources": {
+    "preflight": "docs/phase-11k-p11a010-hosted-ledger-schema-preflight.md",
+    "recoveryQualification": "docs/phase-11i-recovery-qualification.md",
+    "supabaseDbPushDocs": "https://supabase.com/docs/reference/cli/supabase-db-push",
+    "supabaseMigrationListDocs": "https://supabase.com/docs/reference/cli/supabase-migration-list",
+    "securityAdvisorWarnDocs": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "securityAdvisorInfoDocs": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+  }
+}
