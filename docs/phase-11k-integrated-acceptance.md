@@ -6,6 +6,8 @@
 
 P11A-009 owner-direction update (2026-09-28 UTC): the Product Owner selected PO-01–PO-12 directions in a later documentation task. This updates only P11A-009's current description; the recorded acceptance baseline below remains historical. P11A-009 stays P0/open.
 
+P11A-010 read-only hosted preflight (2026-09-28 UTC): the [scoped packet](phase-11k-p11a010-hosted-ledger-schema-preflight.md) verifies the exact hosted 43-version prefix, pre-44 closure schema, and migration-44-only dry run. Migration 44 is still pending; P11A-010 stays P1/open. The original acceptance rows below remain historical.
+
 ## Baseline and candidate identities
 
 - Main `2224bdda00ebb23a734cef9bda5f500866560eaf`, tree `b02fcf1a66924b8260c05e6f95195fe289bbd631`, sole parent `9fb6d023fba0bd997503c70d4910faf9d2365968`; PR #156 merged, zero initial open PRs. Active `main-dec029` ruleset 24075217; squash-only merge policy.
