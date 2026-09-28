@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE_11K_P11A010_HOSTED_LEDGER_SCHEMA_PREFLIGHT_MIG44_SEQUENCE",
+  "recordedAtUtc": "2026-09-28T17:13:16Z",
+  "primaryOutcome": "P11A010_HOSTED_PREFLIGHT_VERIFIED_MIGRATION44_READY_FOR_SEPARATE_AUTHORIZATION",
+  "evidenceClassDefinitions": {
+    "FRESH_HOSTED_READ_ONLY_VERIFIED": "Direct read of the specified Production Supabase project in this task",
+    "REPOSITORY_VERIFIED": "Freshly inspected main checkout or GitHub repository state",
+    "CARRIED_FORWARD_ACCEPTED": "Previously accepted evidence, not a new hosted observation",
+    "NOT_FRESHLY_OBSERVED": "Not checked or not provable with this bounded preflight",
+    "BLOCKED": "Would require separately authorized mutation or release work"
+  },
+  "repository": {
+    "evidenceClass": "REPOSITORY_VERIFIED",
+    "repo": "Papi299/nutrition-tracker-app",
+    "mainSha": "e76c14389186fe31fcb75ad42cea3b5f62a54bb4",
+    "mainTree": "932e174025b4f91006673d17a2f1667a7654a64a",
+    "mainParent": "dcec6543e8301b34aa248ac751c7a8efe631d67d",
+    "mergedPr": 159,
+    "openPrCountAtPreflight": 0,
+    "migrationCount": 44,
+    "strictlyIncreasingUniqueVersions": true,
+    "migration44File": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "migration44Sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "orderedRepositoryMigrations": [
+      "20260429163444_create_profiles_and_nutrition_targets",
+      "20260626185634_grant_authenticated_profile_target_privileges",
+      "20260630193832_create_diary_entries",
+      "20260630201904_harden_public_table_privileges",
+      "20260704142707_create_nutrition_domain_schema_foundation",
+      "20260705061118_add_diary_food_linking_rules",
+      "20260711071000_persist_setup_atomically",
+      "20260714090000_create_food_alias_search_foundation",
+      "20260714100000_search_readable_foods",
+      "20260714110000_get_readable_food_diary_prefill",
+      "20260714120000_custom_food_persistence_foundation",
+      "20260714130000_persist_custom_food_nutrient_basis",
+      "20260714140000_enforce_custom_food_nutrient_basis",
+      "20260714150000_get_owned_custom_food_editor",
+      "20260716100000_add_food_favorites_and_reusable_foods",
+      "20260716110000_create_saved_meal_persistence_foundation",
+      "20260716120000_get_owned_saved_meal_editor",
+      "20260716130000_log_saved_meal_to_diary",
+      "20260717100000_create_recipe_persistence_foundation",
+      "20260717110000_get_owned_recipe_editor",
+      "20260717120000_recipe_use_contract_foundation",
+      "20260717130000_log_recipe_to_diary",
+      "20260717140000_create_barcode_identity_local_lookup",
+      "20260717150000_create_custom_food_barcode_handoff",
+      "20260718100000_create_ingestion_governance_foundation",
+      "20260718120000_add_foundation_parser_contracts",
+      "20260718140000_create_foundation_promotion_boundary",
+      "20260718150000_allow_phase_10e_terminal_run_classification",
+      "20260719080000_create_foundation_lifecycle_foundation",
+      "20260719120000_harden_foundation_lifecycle_diff_validation",
+      "20260719160000_execute_foundation_lifecycle_updates",
+      "20260721100000_restore_strict_terminal_run_immutability",
+      "20260721110000_remove_remote_rls_auto_enable",
+      "20260801141841_phase_11c2a_diary_mutation_correctness",
+      "20260801190220_reject_unreadable_linked_diary_creates",
+      "20260808093826_cj019_custom_food_edit_concurrency",
+      "20260810175638_cj022_saved_meal_edit_concurrency",
+      "20260811142805_cj025_recipe_edit_concurrency",
+      "20260812194829_cj018_custom_food_creation_idempotency",
+      "20260827070838_create_invited_account_activation",
+      "20260827110552_enforce_account_activation_authorization",
+      "20260829030137_implement_account_closure_lifecycle",
+      "20260830143000_cache_search_account_access_policy",
+      "20260927170418_harden_account_closure_mac_comparison"
+    ]
+  },
+  "hostedProject": {
+    "evidenceClass": "FRESH_HOSTED_READ_ONLY_VERIFIED",
+    "queriedProjectRefs": [
+      "hskfanrqwtqknzpquwhg"
+    ],
+    "ref": "hskfanrqwtqknzpquwhg",
+    "name": "Nutrition Tracker App",
+    "region": "eu-west-1",
+    "status": "ACTIVE_HEALTHY",
+    "providerPostgresVersion": "17.6.1.111",
+    "sqlServerVersion": "17.6",
+    "sqlServerVersionNum": "170006",
+    "postgresUpgradeTriggered": false
+  },
+  "hostedLedger": {
+    "evidenceClass": "FRESH_HOSTED_READ_ONLY_VERIFIED",
+    "classification": "HOSTED_EXACT_43_PREFIX_MIG44_PENDING",
+    "remoteMigrationCount": 43,
+    "remoteFinalVersion": "20260830143000",
+    "remoteFinalName": "cache_search_account_access_policy",
+    "migration44Present": false,
+    "orderedRemoteMigrations": [
+      "20260429163444_create_profiles_and_nutrition_targets",
+      "20260626185634_grant_authenticated_profile_target_privileges",
+      "20260630193832_create_diary_entries",
+      "20260630201904_harden_public_table_privileges",
+      "20260704142707_create_nutrition_domain_schema_foundation",
+      "20260705061118_add_diary_food_linking_rules",
+      "20260711071000_persist_setup_atomically",
+      "20260714090000_create_food_alias_search_foundation",
+      "20260714100000_search_readable_foods",
+      "20260714110000_get_readable_food_diary_prefill",
+      "20260714120000_custom_food_persistence_foundation",
+      "20260714130000_persist_custom_food_nutrient_basis",
+      "20260714140000_enforce_custom_food_nutrient_basis",
+      "20260714150000_get_owned_custom_food_editor",
+      "20260716100000_add_food_favorites_and_reusable_foods",
+      "20260716110000_create_saved_meal_persistence_foundation",
+      "20260716120000_get_owned_saved_meal_editor",
+      "20260716130000_log_saved_meal_to_diary",
+      "20260717100000_create_recipe_persistence_foundation",
+      "20260717110000_get_owned_recipe_editor",
+      "20260717120000_recipe_use_contract_foundation",
+      "20260717130000_log_recipe_to_diary",
+      "20260717140000_create_barcode_identity_local_lookup",
+      "20260717150000_create_custom_food_barcode_handoff",
+      "20260718100000_create_ingestion_governance_foundation",
+      "20260718120000_add_foundation_parser_contracts",
+      "20260718140000_create_foundation_promotion_boundary",
+      "20260718150000_allow_phase_10e_terminal_run_classification",
+      "20260719080000_create_foundation_lifecycle_foundation",
+      "20260719120000_harden_foundation_lifecycle_diff_validation",
+      "20260719160000_execute_foundation_lifecycle_updates",
+      "20260721100000_restore_strict_terminal_run_immutability",
+      "20260721110000_remove_remote_rls_auto_enable",
+      "20260801141841_phase_11c2a_diary_mutation_correctness",
+      "20260801190220_reject_unreadable_linked_diary_creates",
+      "20260808093826_cj019_custom_food_edit_concurrency",
+      "20260810175638_cj022_saved_meal_edit_concurrency",
+      "20260811142805_cj025_recipe_edit_concurrency",
+      "20260812194829_cj018_custom_food_creation_idempotency",
+      "20260827070838_create_invited_account_activation",
+      "20260827110552_enforce_account_activation_authorization",
+      "20260829030137_implement_account_closure_lifecycle",
+      "20260830143000_cache_search_account_access_policy"
+    ],
+    "exactOrderedRepositoryPrefix": true,
+    "missingEarlierRepositoryVersions": [],
+    "hostedOnlyVersions": [],
+    "duplicateVersions": [],
+    "pendingRepositoryMigrations": [
+      "20260927170418_harden_account_closure_mac_comparison"
+    ],
+    "comparisonScope": "Version and name list only; matching versions do not prove historical migration-file content equality.",
+    "postDryRunLedgerCount": 43
+  },
+  "inspectedSchema": {
+    "evidenceClass": "FRESH_HOSTED_READ_ONLY_VERIFIED",
+    "scope": "Migration-44 dependencies and closure boundary only; no full-database schema parity claim.",
+    "pgcrypto": {
+      "installed": true,
+      "schema": "extensions",
+      "version": "1.3",
+      "hmacByteaSignature": "extensions.hmac(bytea,bytea,text) returns bytea",
+      "genRandomBytesSignature": "extensions.gen_random_bytes(integer) returns bytea",
+      "hmacSha256CallableWithPublicTestLiterals": true,
+      "randomBytes32Callable": true
+    },
+    "verifier": {
+      "signature": "private.verify_account_closure_capability(text,uuid,uuid,uuid,bigint) returns boolean",
+      "exists": true,
+      "language": "plpgsql",
+      "volatility": "STABLE",
+      "securityMode": "INVOKER",
+      "owner": "postgres",
+      "searchPath": "",
+      "executeGrants": "postgres only; anon/authenticated/service_role ineffective",
+      "definitionMd5": "96a9bcb25c87213be3f25b229e4dfb4d",
+      "bodyExactlyMatchesMigration43Source": true,
+      "rawMacEqualityPresent": true,
+      "post44BlindingAbsent": true
+    },
+    "closureRpc": {
+      "signature": "public.close_current_account(uuid,text) returns table(outcome text,closed_at timestamptz)",
+      "exists": true,
+      "language": "plpgsql",
+      "volatility": "VOLATILE",
+      "securityMode": "DEFINER",
+      "owner": "postgres",
+      "searchPath": "",
+      "executeGrants": "authenticated only",
+      "bodyExactlyMatchesMigration43Source": true,
+      "checksAuthUidJwtSessionAndAuthSessions": true,
+      "callsPrivateVerifier": true,
+      "untouchedByMigration44": true
+    },
+    "accountClosures": {
+      "exists": true,
+      "owner": "postgres",
+      "rlsEnabled": true,
+      "authenticatedSelectOnly": true,
+      "selectPolicy": "auth.uid() = user_id",
+      "userIdUnique": true,
+      "closureRequestIdUnique": true,
+      "userIdForeignKey": "auth.users(id) ON DELETE RESTRICT",
+      "policyVersionCheck": "p11e-e5-account-closure-v1"
+    },
+    "supportingObjects": {
+      "base64urlDecodeExists": true,
+      "authUidExists": true,
+      "authJwtExists": true,
+      "authUsersExists": true,
+      "authSessionsExists": true,
+      "accountActivationsExists": true,
+      "isCurrentAccountActivatedExists": true
+    },
+    "vaultSecret": {
+      "metadataOnly": true,
+      "name": "account_closure_capability_v1",
+      "matchingRecordCount": 1,
+      "secretValueRead": false,
+      "secretLengthRead": false,
+      "appVaultSecretMatch": "NOT_FRESHLY_OBSERVED"
+    }
+  },
+  "driftAssessment": {
+    "migrationLedger": "NONE_IN_VERSION_AND_NAME_ORDER",
+    "inspectedSchema": "NONE_AGAINST_EXPECTED_PRE_44_OBJECTS",
+    "fullSchemaParity": "NOT_FRESHLY_OBSERVED",
+    "historicalMigrationFileContentParity": "NOT_FRESHLY_OBSERVED",
+    "platformVersion": "PostgreSQL 17.6.1.111 observed, matching J4 historical version; announced 17.11 upgrade not observed or triggered."
+  },
+  "dryRun": {
+    "evidenceClass": "FRESH_HOSTED_READ_ONLY_VERIFIED",
+    "cliVersion": "2.111.0",
+    "command": "supabase db push --linked --dry-run",
+    "targetProjectRef": "hskfanrqwtqknzpquwhg",
+    "proposedMigrations": [
+      "20260927170418_harden_account_closure_mac_comparison.sql"
+    ],
+    "proposedSeeds": [],
+    "proposedRoles": [],
+    "migrationsApplied": 0
+  },
+  "securityAdvisors": {
+    "evidenceClass": "FRESH_HOSTED_READ_ONLY_VERIFIED",
+    "observedAtUtc": "2026-09-28T17:10:01.281Z",
+    "warnings": [
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "function": "public.close_current_account(uuid,text)",
+        "knownAcceptedWarning": true,
+        "remediationUrl": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "function": "public.complete_invited_account_activation(boolean,boolean)",
+        "knownAcceptedWarning": true,
+        "remediationUrl": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+      }
+    ],
+    "info": [
+      {
+        "name": "rls_enabled_no_policy",
+        "object": "ingestion.nutrient_source_mappings",
+        "priorHostedComparison": "NOT_FRESHLY_OBSERVED",
+        "remediationUrl": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+      }
+    ],
+    "automaticRemediation": false
+  },
+  "compatibility": [
+    {
+      "database": "Hosted 43",
+      "app": "old/bootstrap app",
+      "classification": "TEMPORARILY_TOLERATED_HISTORICAL_STATE",
+      "allowedForCorrectedRelease": false,
+      "reason": "Existing bootstrap remains historical; no migration-44 correction or rollback qualification."
+    },
+    {
+      "database": "Hosted 43",
+      "app": "exact current candidate",
+      "classification": "FORBIDDEN_FOR_CORRECTED_RELEASE",
+      "allowedForCorrectedRelease": false,
+      "reason": "RPC shape may function but the hosted verifier still uses raw MAC equality."
+    },
+    {
+      "database": "Hosted 44",
+      "app": "old/bootstrap app",
+      "classification": "UNVERIFIED_RESTRICTED_FALLBACK",
+      "allowedForCorrectedRelease": false,
+      "reason": "Migration 44 preserves the verifier/RPC interface, but bootstrap build, config, origin, and Auth compatibility are not qualified."
+    },
+    {
+      "database": "Hosted 44",
+      "app": "exact current candidate",
+      "classification": "SCHEMA_COMPATIBLE_RELEASE_GATES_PENDING",
+      "allowedForCorrectedRelease": false,
+      "reason": "Expected post-44 database/app pairing; requires separately authorized migration, exact deployment, and release checks."
+    }
+  ],
+  "sequence": {
+    "migration44MustPrecedeExactCandidateDeployment": true,
+    "steps": [
+      "Pin an exact repository/release SHA and tree; reconfirm remote main and no relevant changes.",
+      "Freshly reconfirm the hosted ledger is the exact 43-version prefix and inspect the same pre-44 schema/prerequisites.",
+      "Confirm an accepted recovery artifact within the required freshness boundary and the exact rollback/forward-fix authority.",
+      "Recheck pgcrypto, Vault metadata, Auth/session binding, closure RPC/table constraints and current security advisors.",
+      "Obtain separate exact authorization for migration 44, target, window, executor and independent reviewer.",
+      "Apply migration 44 only under that later authorization; stop on any unexpected proposed migration.",
+      "Verify hosted ledger becomes the exact 44-version repository sequence.",
+      "Re-read the active verifier body, volatility, signature, owner, ACL, security mode and search path.",
+      "Verify the closure RPC, table, grants and other inspected objects did not unintentionally change.",
+      "Review current database/security advisors and run approved account-closure/authentication compatibility checks.",
+      "Only then proceed under separate P11A-017 authorization to the exact application candidate deployment.",
+      "Run exact-deployment smoke and release gates before normal use; never treat this preflight as candidate or Production approval."
+    ],
+    "databaseRollbackDefault": false,
+    "rollbackBoundary": "Migration 44 remains after app redeploy. Previous app requires exact build/config/origin/current-schema qualification; otherwise stop and forward-fix under separate authority."
+  },
+  "finding": {
+    "id": "P11A-010",
+    "disposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
+    "findingClosed": false,
+    "remaining": "Migration 44 is not applied; recovery freshness, actual post-44 verification, exact-candidate deployment and release-time refresh remain pending.",
+    "candidateApprovalGranted": false,
+    "productionReleaseAuthorized": false,
+    "p1ExceptionsGranted": 0
+  },
+  "mutationAudit": {
+    "sqlWrites": 0,
+    "ddlOperations": 0,
+    "migrationsApplied": 0,
+    "migrationHistoryRepairs": 0,
+    "authMutations": 0,
+    "vaultMutations": 0,
+    "storageMutations": 0,
+    "providerConfigurationMutations": 0,
+    "productionDeploymentActions": 0
+  },
+  "references": {
+    "supabaseMigrationList": "https://supabase.com/docs/reference/cli/supabase-migration-list",
+    "supabaseDbPush": "https://supabase.com/docs/reference/cli/supabase-db-push",
+    "postgresCreateFunction": "https://www.postgresql.org/docs/17/sql-createfunction.html",
+    "supabasePostgresRelease": "https://supabase.com/changelog/postgres-15-19-17-11-breaking-changes"
+  }
+}
