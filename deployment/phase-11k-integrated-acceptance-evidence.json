@@ -1,0 +1,795 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11K-INTEGRATED-ACCEPTANCE-001",
+  "recordedAtUtc": "2026-09-28T06:23:28Z",
+  "contract": "2.0-personal-use-windows-deferred-amended",
+  "phase11KStarted": true,
+  "outcome": "PHASE_11K_INTEGRATED_ACCEPTANCE_INCOMPLETE_OPEN_BLOCKERS",
+  "launchAuthorizationRequestEligible": false,
+  "productionReleaseAuthorized": false,
+  "candidateApprovalGranted": false,
+  "p1ExceptionsGranted": 0,
+  "baseline": {
+    "mainSha": "2224bdda00ebb23a734cef9bda5f500866560eaf",
+    "mainTree": "b02fcf1a66924b8260c05e6f95195fe289bbd631",
+    "soleParent": "9fb6d023fba0bd997503c70d4910faf9d2365968",
+    "subject": "docs(phase11): record before-K roles and final J6 reconciliation (#156)",
+    "mergedPr": 156,
+    "initialOpenPrs": 0,
+    "rulesetId": 24075217,
+    "rulesetName": "main-dec029",
+    "mergePolicy": "squash-only",
+    "validate": {
+      "runNumber": 318,
+      "runId": 36383402305,
+      "jobId": 108803644388,
+      "event": "push",
+      "branch": "main",
+      "attempt": 1,
+      "conclusion": "success",
+      "unitPassed": 351,
+      "playwrightPassed": 370,
+      "phase11DPassed": 53,
+      "phase11DIntentionalSkips": 3,
+      "productionAdvisories": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0
+      },
+      "migrationCount": 44,
+      "migrationReplaySeed": "PASS",
+      "migrationRoleCompatibility": "PASS",
+      "build": "PASS",
+      "clientSecretBoundary": "PASS",
+      "browserStaticArtifactsScanned": 115,
+      "evidenceUpload": "PASS",
+      "teardown": "PASS",
+      "artifact": {
+        "id": 10953119378,
+        "name": "phase-11d-evidence-36383402305-1",
+        "digest": "sha256:f363c4f5b40936e1da776131c9d58493b369ab4c972f15db6db1a7aaa38db105"
+      }
+    },
+    "codeql": {
+      "runId": 36383402109,
+      "attempt": 1,
+      "sourceSha": "2224bdda00ebb23a734cef9bda5f500866560eaf",
+      "actionsJobId": 108803646690,
+      "javascriptTypescriptJobId": 108803647061,
+      "bothSucceeded": true,
+      "actionsFullAnalysisQueryResults": 0,
+      "javascriptTypescriptFullAnalysisQueryInstances": 5,
+      "relatedAlertsDismissedFalsePositive": 5,
+      "openAlerts": 0
+    }
+  },
+  "candidateIdentity": {
+    "currentRepositoryAcceptanceHead": "2224bdda00ebb23a734cef9bda5f500866560eaf",
+    "lastRuntimeAffectingApplicationSha": "9fb6d023fba0bd997503c70d4910faf9d2365968",
+    "lastRuntimeAffectingTree": "2a8d5b90a7286b239a7cce831a967077099da8e7",
+    "futureExactReleaseCandidateSha": "NOT_SELECTED",
+    "rule": "The future deployed source must be a separately approved exact repository commit SHA/tree, including this acceptance overlay if released from later main; neither current head nor last runtime-affecting SHA is approved by role assignment."
+  },
+  "roles": {
+    "independentReviewer": "ChatGPT — ASSIGNED_AND_APPROVED — INDEPENDENT_NON_EXECUTING_REVIEWER",
+    "executor": "Codex",
+    "candidateApprover": "Maor Pichhadze — ASSIGNED_AND_APPROVED",
+    "p1ExceptionAuthority": "Maor Pichhadze — ASSIGNED_AND_APPROVED"
+  },
+  "recovery": {
+    "backupRunId": 36366784613,
+    "backupJobId": 108754677831,
+    "conservativeStartUtc": "2026-09-28T01:39:06Z",
+    "backupArtifactId": 10946804468,
+    "backupArtifactDigest": "sha256:70e5fb0322acc5806aaa4dc199f6f6fa4ef8ca4c67693d9633a01c90b8be43f3",
+    "rpoHours": 24,
+    "rtoHours": 8,
+    "retentionDays": 30,
+    "restoreQualified": true,
+    "restoreDueUtc": "2026-12-16T03:18:20.238Z",
+    "freshAtRecordedAt": true,
+    "rpoFreshnessExpiryUtc": "2026-09-29T01:39:06Z",
+    "futureReleaseRecheckRequired": true
+  },
+  "security": {
+    "supabaseAdvisorWarnings": [
+      {
+        "function": "public.close_current_account(uuid,text)",
+        "status": "WARN_INTENTIONAL_PRIVILEGED_DESIGN_REQUIRES_MONITORING"
+      },
+      {
+        "function": "public.complete_invited_account_activation(boolean,boolean)",
+        "status": "WARN_INTENTIONAL_PRIVILEGED_DESIGN_REQUIRES_MONITORING"
+      }
+    ],
+    "assessment": "Source checks include authenticated EXECUTE, server-derived auth.uid(), session/auth validation, empty search_path, restricted table privileges and transactional need; warning is not resolved solely by intent. No new material defect identified by this source audit; hosted behavior and current advisor refresh remain unverified."
+  },
+  "deployment": {
+    "repositoryMigrationCount": 44,
+    "acceptedHostedMigrationCount": 43,
+    "migration44": "20260927170418_harden_account_closure_mac_comparison.sql",
+    "migration44HostedApplied": false,
+    "vercelBootstrapDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+    "vercelBootstrapSourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
+    "vercelClassification": "PRODUCTION_BOOTSTRAP_ONLY",
+    "exactCandidateDeployed": false,
+    "rollbackRedeployQualified": false
+  },
+  "client": {
+    "windowsChrome": "NOT_EXECUTED",
+    "windowsEdge": "NOT_EXECUTED",
+    "windowsClassification": "DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT",
+    "windowsPassCredit": false,
+    "phase11J3": "INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE",
+    "verifiedWindowsSupport": false,
+    "nonWindowsOwnerUiAccepted": 5,
+    "physicalCameraAccepted": 30,
+    "mobileExact200PercentZoomMeasured": false,
+    "refreshTokenDiagnosticEvents": 8
+  },
+  "phase10Boundaries": {
+    "phase10E5": "CONDITIONAL_UNSTARTED",
+    "phase10F": "CONDITIONAL_UNSTARTED",
+    "phase10G": "CONDITIONAL_UNSTARTED",
+    "initialPromotionAndLifecycleBootstrapAreGeneralUpdates": false
+  },
+  "domains": [
+    {
+      "number": 1,
+      "name": "Product scope and launch definition",
+      "findingIds": [
+        "P11A-001"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "SATISFIED_FOR_GOVERNANCE",
+      "launchEffect": "NO_INDEPENDENT_BLOCKER"
+    },
+    {
+      "number": 2,
+      "name": "Critical journeys and functional QA",
+      "findingIds": [
+        "P11A-002"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "PARTIAL",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 3,
+      "name": "Localization, Hebrew, RTL, bidi",
+      "findingIds": [
+        "P11A-003"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "PARTIAL",
+      "launchEffect": "NO_INDEPENDENT_BLOCKER"
+    },
+    {
+      "number": 4,
+      "name": "Accessibility",
+      "findingIds": [
+        "P11A-004"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "PARTIAL",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 5,
+      "name": "Responsive, browsers, devices, visuals",
+      "findingIds": [
+        "P11A-005"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "PARTIAL",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 6,
+      "name": "Authentication, sessions, recovery",
+      "findingIds": [
+        "P11A-006"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "PARTIAL",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 7,
+      "name": "Application security",
+      "findingIds": [
+        "P11A-007",
+        "P11A-008"
+      ],
+      "implementationStatus": "SATISFIED; SATISFIED",
+      "externalEvidenceStatus": "SATISFIED_FOR_DEPENDENCIES; MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 8,
+      "name": "Privacy, governance, health-adjacent risk",
+      "findingIds": [
+        "P11A-009"
+      ],
+      "implementationStatus": "PARTIAL",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 9,
+      "name": "Database integrity and migrations",
+      "findingIds": [
+        "P11A-010"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 10,
+      "name": "Backup, restore, DR, continuity",
+      "findingIds": [
+        "P11A-011"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "SATISFIED_AT_AUDIT_TIME",
+      "launchEffect": "NO_INDEPENDENT_BLOCKER"
+    },
+    {
+      "number": 11,
+      "name": "Performance and scalability",
+      "findingIds": [
+        "P11A-012"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 12,
+      "name": "Reliability and resilience",
+      "findingIds": [
+        "P11A-013"
+      ],
+      "implementationStatus": "SATISFIED",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 13,
+      "name": "Observability and incident response",
+      "findingIds": [
+        "P11A-014"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 14,
+      "name": "CI, tests, repository governance",
+      "findingIds": [
+        "P11A-015",
+        "P11A-016"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE; SATISFIED",
+      "externalEvidenceStatus": "PARTIAL; SATISFIED",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 15,
+      "name": "Deployment architecture and environment",
+      "findingIds": [
+        "P11A-017"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    },
+    {
+      "number": 16,
+      "name": "Documentation, operations, support",
+      "findingIds": [
+        "P11A-018"
+      ],
+      "implementationStatus": "SATISFIED_WITH_SCOPE",
+      "externalEvidenceStatus": "MISSING",
+      "launchEffect": "BLOCKED"
+    }
+  ],
+  "findings": [
+    {
+      "id": "P11A-001",
+      "originalTitle": "Public launch model and release authority are undefined",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Versioned contract answers audience, geography, support, scope, browser/device and release-authority questions; acceptable P1 handling; owner sign-off and independent review.",
+      "repositoryLocalImplementationStage": "SATISFIED: Contract 2.0, DEC-001–039 and personal-use profile define one owner in Israel, no public or external invitation, free-tier support, manual nutrition scope, provider-disabled behavior, Windows deferral and separate release authority.",
+      "externalManualProviderStage": "SATISFIED_FOR_GOVERNANCE: attributable owner decisions and accepted ChatGPT reviewer / Maor candidate and P1 authority assignments. No candidate or Production act follows.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md",
+        "docs/phase-11-prek-before-11k-role-assignments.md",
+        "deployment/phase-11-prek-before-11k-role-assignments-evidence.json"
+      ],
+      "freshnessRequirements": "Reapprove only if contract, owner, audience or support scope changes.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "Qualified policy/legal implementation remains under P11A-009; role assignment is not candidate approval.",
+      "launchEffect": "No finding-level blocker; all other launch gates remain.",
+      "nextAction": "Preserve Contract 2.0; obtain separate exact-SHA candidate and Production decisions only after acceptance.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
+      "authorizationDetail": "Finding closed; future release gates remain separate."
+    },
+    {
+      "id": "P11A-002",
+      "originalTitle": "Critical journey coverage is broad but not a launch matrix",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Every critical journey has positive, failure, integrity, tenant, locale, viewport and browser evidence or N/A; matrix-to-test trace and signed manual exploratory evidence.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11C matrix and 370 exact-main Playwright passes; J1/J2/J3 bind core, auth and physical evidence.",
+      "externalManualProviderStage": "PARTIAL: 27 controlling 11C journeys have accepted Codex exploratory sessions; eight later-slice manual journeys and hosted invitation/recovery/deployed paths are not accepted as complete.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11c-critical-journey-evidence.json",
+        "docs/phase-11c-browser-exploratory-evidence.md",
+        "docs/phase-11j1-local-ci-release-rehearsal.md",
+        "docs/phase-11j2-local-auth-security-account-lifecycle.md",
+        "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md"
+      ],
+      "freshnessRequirements": "Final manual evidence must bind stabilized supported client and exact candidate; CI must match acceptance head.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Later-slice journey manual/provider cells lack attributable completed sessions.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Collect and sign bounded remaining journey/manual matrix after exact-candidate hosted behavior; reconcile every N/A and failure.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES_FOR_HOSTED_STAGE",
+      "authorizationDetail": "Signed manual sessions use assigned reviewer; deployed/provider journey requires separate Product Owner release authority."
+    },
+    {
+      "id": "P11A-003",
+      "originalTitle": "Locale foundations are strong, but switching and formatting are incomplete",
+      "priority": "P2",
+      "originalEvidenceRequirement": "Approved locale switch and bilingual supported-matrix visual checklist, key/route tests, screenshots and native-speaker sign-off.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11D context-preserving switch, explicit preference, date/number formatting, RTL/bidi and 53-pass engine suite.",
+      "externalManualProviderStage": "PARTIAL: HE-01/02/03 native copy accepted; five owner UI cells include EN/HE; final exact-copy policy/notices and complete affected-surface RTL/truncation evidence are not qualified.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md"
+      ],
+      "freshnessRequirements": "Native review must be renewed for changed text; affected layout must be checked against exact supported release candidate.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Native copy sign-off covers reviewed product strings, not unresolved final legal/privacy copy or every final affected surface.",
+      "launchEffect": "P2 open; does not independently block Phase 11, but no broader bilingual support claim.",
+      "nextAction": "Run focused native EN/HE final-copy and affected-surface RTL/mixed-content review; retain prior HE-01/02/03 credit.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_NATIVE_REVIEW",
+      "authorizationDetail": "Assigned native reviewer can review final copy; policy decisions remain under P11A-009."
+    },
+    {
+      "id": "P11A-004",
+      "originalTitle": "No WCAG 2.2 AA acceptance program exists",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Zero unwaived serious axe issues and approved full manual keyboard, focus, 200%/400% zoom/reflow, screen-reader, contrast and touch-target checklist.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: 11D axe, focus, skip-link, motion and engine regressions; current exact-main 53 passes and three documented shared-DOM skips.",
+      "externalManualProviderStage": "PARTIAL: owner UI reports cover limited keyboard/zoom; exact mobile 200% not measured; complete focus/contrast/reflow/reduced-motion and VoiceOver/Safari evidence not accepted. NVDA/Firefox is outside active personal-use client profile, not a PASS.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md"
+      ],
+      "freshnessRequirements": "Full manual evidence must bind stabilized client/version and approved personal-use AT scope.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "WCAG engineering target is not fully evidenced by automated tests or partial owner reports.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Run attributable final keyboard/focus, measured zoom/reflow and touch targets, contrast, motion and VoiceOver/Safari checklist on supported clients; document any scope-specific N/A.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_MANUAL_REVIEW",
+      "authorizationDetail": "Assigned accessibility owner can perform bounded manual review; deployed access needs its own release authority."
+    },
+    {
+      "id": "P11A-005",
+      "originalTitle": "Browser, layout, and physical-device evidence is incomplete",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Approved engine matrix plus named physical supported-browser/device, camera permission, safe-area and final visual evidence.",
+      "repositoryLocalImplementationStage": "SATISFIED: 11D Chromium/Firefox/WebKit and mobile automation, deterministic camera tests, manual fallback.",
+      "externalManualProviderStage": "PARTIAL: five owner UI cases and 30 phone camera cases accepted. Windows Chrome/Edge NOT_EXECUTED, passCredit=false; J3 incomplete. Firefox excluded by DEC-037. No final supported-client release claim has been approved.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11j3-navigation-fix-owner-ui-execution-results.md",
+        "docs/phase-11j3-camera-evidence-carry-forward.md",
+        "docs/phase-11-prek-dec039-windows-deferral.md"
+      ],
+      "freshnessRequirements": "Physical results bind prior unchanged UI runtime; rebind after material changes and record exact release support claim.",
+      "currentDisposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING",
+      "remainingUncertainty": "DEC-039 permits 11K with Windows deferred; it does not make Windows verified. Remaining physical detail limits include unmeasured mobile zoom (also P11A-004).",
+      "launchEffect": "P1 blocker until exact release scope excludes Windows or Windows Chrome/Edge pass, and supported-scope evidence is accepted; no exception granted.",
+      "nextAction": "Product Owner selects a Windows-excluded verified release claim or schedules two physical Windows cases; reconcile remaining physical checklist detail and J3 status.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES_FOR_SUPPORT_SCOPE_DECISION",
+      "authorizationDetail": "Product Owner must explicitly exclude Windows from the verified claim or accept new Windows evidence."
+    },
+    {
+      "id": "P11A-006",
+      "originalTitle": "Public users have no complete account-recovery path",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Local recovery/callback/session implementation plus hosted Auth/SMTP/redirect/rate-limit and deployed behavior, including invitation procedure/register/reconciliation.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: 11E and J2 local invitation, recovery, reauth, export, closure, deny/replay and 44-migration checks.",
+      "externalManualProviderStage": "PARTIAL: J4 read-only Auth shows closed signup, canonical bootstrap Site URL and empty redirect allow-list. Hosted SMTP, invitation/recovery delivery, callback, allow-list, cookies/session, rate-limits, register and procedure are unproved.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11e-integration-external-readiness-handoff.md",
+        "docs/phase-11j2-local-auth-security-account-lifecycle.md",
+        "docs/phase-11j4-provider-recovery-freshness.md"
+      ],
+      "freshnessRequirements": "Hosted settings and operational register state require separately authorized exact-target read and deployed test; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider reads.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Two SECURITY DEFINER advisor WARNs remain intentional privileged RPC exposure requiring active grant/session review; no new material source defect identified in this audit. Hosted execution remains unverified.",
+      "launchEffect": "P0 launch blocker; no waiver.",
+      "nextAction": "Separately authorize hosted Auth/configuration read and controlled invitation/recovery/session/redirect/SMTP/register walkthrough against exact deployment; review advisor WARNs in that packet.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "New hosted/provider reads and exact deployed Auth walkthrough require separate authorization."
+    },
+    {
+      "id": "P11A-007",
+      "originalTitle": "Critical/high dependency advisories are untriaged and ungated",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Current advisory identity/reachability, no unaccepted reachable critical/high production advisory, owned disposition and recurring CI gate.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11F gate and exact-main Validate report production critical/high/moderate/low 0/0/0/0; CRYPTO-001 correction tested with migration 44.",
+      "externalManualProviderStage": "SATISFIED_FOR_DEPENDENCIES: CodeQL Actions zero and JS/TS five query instances; five related alerts independently dismissed false positive; zero open CodeQL alerts. SECURITY DEFINER WARNs are separately tracked, not called resolved.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11f-security-and-dependency-hardening.md",
+        "docs/phase-11-prek-crypto001-correction.md",
+        "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402305",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402109"
+      ],
+      "freshnessRequirements": "Re-run advisory and CodeQL review on exact future release SHA; a newly reachable advisory reopens disposition.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "No current unaccepted production advisory. The two intentional privileged RPC warnings merit release-time review, not invented advisory resolution.",
+      "launchEffect": "No current dependency-security blocker; security regression remains a release gate.",
+      "nextAction": "Retain recurring production advisory gate and review new alerts/warnings before candidate approval.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
+      "authorizationDetail": "Finding closed; future release gates remain separate."
+    },
+    {
+      "id": "P11A-008",
+      "originalTitle": "Production browser security policy is not defined",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Implemented CSP/header policy, local compatibility and actual deployed public/auth/app response headers and violation behavior.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11F CSP, framing, MIME, referrer and camera permissions policy with local/CI tests; same-origin camera WASM exception bounded.",
+      "externalManualProviderStage": "MISSING: only Vercel bootstrap from ad92dadc exists; it does not prove exact candidate deployed headers, Auth/camera compatibility or CSP violations.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11f-security-and-dependency-hardening.md",
+        "docs/phase-11j4-provider-recovery-freshness.md"
+      ],
+      "freshnessRequirements": "Requires exact deployed candidate and target; no provider read can replace missing deployment.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Header behavior of a future exact-candidate deployment is unknown.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Under separate release authority, capture exact-candidate deployed headers on public/auth/app routes and CSP/Auth/camera-fallback behavior.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Exact-candidate deployment and header/CSP observation require separate release authorization."
+    },
+    {
+      "id": "P11A-009",
+      "originalTitle": "Privacy, account lifecycle, and health-adjacent policy are undefined",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Approved privacy notice, retention, closure versus deletion, export, pseudonymization, backup erasure, support/admin access, USDA attribution, health disclaimer, processor terms and qualified review.",
+      "repositoryLocalImplementationStage": "PARTIAL: 11E implements export and logical closure; Contract 2.0 supplies owner-use boundaries and restricted-register design.",
+      "externalManualProviderStage": "MISSING: signed qualified legal/privacy and processor review, exact EN/HE notices/disclaimer/attribution, record-class retention/deletion/pseudonymization and backup/post-restore treatment. Register access/retention is not operationally proven.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11e-integration-external-readiness-handoff.md",
+        "docs/phase-11e-auth-account-lifecycle-governance.md",
+        "docs/phase-11j6-forward-final-evidence-reconciliation.md"
+      ],
+      "freshnessRequirements": "Qualified decisions must bind final exact copy, geography and processor inventory; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider/register reads.",
+      "currentDisposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING",
+      "remainingUncertainty": "Logical closure does not prove erasure; SECURITY DEFINER WARNs preserve privileged access questions but source guards are documented.",
+      "launchEffect": "P0 launch blocker; no waiver.",
+      "nextAction": "Obtain attributable qualified legal/privacy, data-governance and Product Owner decisions, final bilingual policy copy and operational register/backup retention treatment in separate bounded task.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Qualified policy/legal and Product Owner dispositions are required."
+    },
+    {
+      "id": "P11A-010",
+      "originalTitle": "Database contracts are strong; launch drift and sequencing are not verified",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11H/J5 runbook and 44 local migrations replayed/seeded; migration-role compatibility; migration 44 is sole ordered suffix to prior 43.",
+      "externalManualProviderStage": "MISSING: hosted ledger remains accepted at 43; no fresh authorized database-level version/name/content/order read, no migration 44 apply or actual release sequence rehearsal.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11j5-delta-migration44.md",
+        "docs/phase-11j5-release-rollback-dry-run.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402305"
+      ],
+      "freshnessRequirements": "Release-time hosted ledger/compatibility must be fresh under separate authority; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED.",
+      "currentDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
+      "remainingUncertainty": "43 hosted versus 44 repository is expected pending state, not proof of drift-free deployment. New app/old schema lacks CRYPTO-001 correction.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Authorize bounded read-only hosted ledger/content/order preflight, verify 43-file prefix and migration 44 suffix, then rehearse approved forward-only sequence before release.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Fresh hosted ledger read and later migration/deploy sequence each need separate exact authorization."
+    },
+    {
+      "id": "P11A-011",
+      "originalTitle": "Current recovery evidence cannot support launch authorization",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Approved 24h RPO/8h RTO, 30-day encrypted retention/access ownership; current backup and quarterly isolated full-scope restore/security/application qualification.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11I isolated restore qualified 43-migration source, full application/Auth/ACL/RLS checks and smoke; accepted quarterly cadence to 2026-12-16.",
+      "externalManualProviderStage": "SATISFIED_AT_AUDIT_TIME: existing backup #13 completed successfully on 2026-09-28, artifact 10946804468 remains unexpired and digest matches; conservative run start 01:39:06Z is under 24h at audit. No new backup/restore triggered.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11i-recovery-qualification.md",
+        "docs/phase-11i-github-artifact-backup-automation.md",
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36366784613"
+      ],
+      "freshnessRequirements": "RPO proof expires 2026-09-29T01:39:06Z at latest on conservative start; verify again before release. Quarterly restore due 2026-12-16T03:18:20.238Z; nonzero Storage or changed backup scope invalidates qualification.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "Backup #13 was not itself restored; accepted policy is fresh recurring backup plus quarterly qualified isolated restore, and current hosted data/Storage not freshly inspected.",
+      "launchEffect": "No P0 recovery blocker at audit time; freshness/scope is a separate mandatory release gate.",
+      "nextAction": "At release, inspect an already existing fresh accepted backup and current scope under authorization; refresh restore qualification when cadence or scope requires.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
+      "authorizationDetail": "Finding closed; future release gates remain separate."
+    },
+    {
+      "id": "P11A-012",
+      "originalTitle": "General application performance and capacity are unproven",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Approved budgets, local launch-shaped fixture/plans and exact-candidate deployed browser/runtime/cold-start/Core Web Vitals evidence.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11G2 local synthetic metrics, fixtures and normative evidence validator.",
+      "externalManualProviderStage": "MISSING: attributable exact-candidate deployed Preview/staging browser, server timing, cold-start, CWV and query-specific external evidence.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11g2-performance-capacity-qualification.md",
+        "docs/phase-11j5-release-rollback-dry-run.md"
+      ],
+      "freshnessRequirements": "External metrics must name operation, fixture, sample, threshold, target and exact candidate; no local-to-hosted substitution.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Free-tier hosted behavior and real browser timing remain unknown.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Collect bounded exact-candidate deployed performance/CWV and query-plan packet against approved budgets under separate deployment authority.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Deployed runtime/CWV collection requires separate exact deployment authority."
+    },
+    {
+      "id": "P11A-013",
+      "originalTitle": "Outage and global failure behavior is not engineered",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Localized global/network/error implementation with local injected tests and attributable deployed dependency-outage/recovery rehearsal.",
+      "repositoryLocalImplementationStage": "SATISFIED: Phase 11G1 failure boundaries, retry behavior and local injected resilience tests.",
+      "externalManualProviderStage": "MISSING: actual deployed dependency-outage and recovery rehearsal; DEC-035 did not amend this two-stage closure criterion.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md"
+      ],
+      "freshnessRequirements": "Rehearsal must bind exact supported environment and candidate.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Actual hosted recovery/user guidance is not observed.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Perform controlled non-production or authorized exact-deployment outage/recovery rehearsal and record UI, integrity and operator timing.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Hosted outage rehearsal requires separate bounded release/provider authority."
+    },
+    {
+      "id": "P11A-014",
+      "originalTitle": "No minimum production observability or incident response exists",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Privacy-safe telemetry, signal policy/owners/runbook plus actual provider signal, uptime, alert delivery, deployment notification and incident drill.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11G1 instrumentation and incident runbook; owners assigned and synthetic signal/tabletop checks.",
+      "externalManualProviderStage": "MISSING: hosted provider signal delivery, observed alert receipt/ack, uptime/deploy notification and actual incident/discrepancy drill.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md",
+        "docs/phase-11j5-release-rollback-dry-run.md"
+      ],
+      "freshnessRequirements": "Provider observations require exact authorized target; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider reads.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Documentation and owner assignment do not establish detection or response.",
+      "launchEffect": "P0 launch blocker; no waiver.",
+      "nextAction": "Under separate authority, execute signal-to-alert delivery and incident/outage drill with named owner, escalation and redacted evidence.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Provider signal/alert drill requires separate exact authority."
+    },
+    {
+      "id": "P11A-015",
+      "originalTitle": "CI is authoritative but not yet a launch-quality strategy",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Every approved launch gate maps to authoritative required CI or signed external checklist; no unexplained skip/failure.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: exact-main #318 Validate success; 351 unit, 370 Playwright, Phase 11D 53 pass/3 intentional shared-DOM skips, zero production advisories, build, secret boundary and 44 migration replay.",
+      "externalManualProviderStage": "PARTIAL: external checklist rows for accessibility, hosted Auth, headers, performance, outage, alerts, deployment/rollback and operator walkthrough lack signed completion.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        ".github/workflows/ci.yml",
+        "docs/phase-11c-critical-journey-evidence.json",
+        "docs/phase-11j5-release-rollback-dry-run.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402305"
+      ],
+      "freshnessRequirements": "Require exact PR head and future approved release SHA CI; signed external checklists must match candidate/target.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Three 11D skips are intentional and explained; missing external gates are not CI failures.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Map every remaining approved gate to a completed exact-head CI result or signed candidate-bound external checklist; inspect PR CI and artifacts.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_MAPPING",
+      "authorizationDetail": "CI/checklist mapping itself needs no new owner act; each missing external gate has its own authority."
+    },
+    {
+      "id": "P11A-016",
+      "originalTitle": "Repository governance and supply-chain settings are not evidenced",
+      "priority": "P2",
+      "originalEvidenceRequirement": "Read-only evidence that approved ruleset/review/check/scanning/merge policy matches documentation.",
+      "repositoryLocalImplementationStage": "SATISFIED: 26 compliant, zero mismatches, two N/A governance rows; ruleset 24075217/main-dec029 requires Validate; squash-only, graph, Dependabot, secret scanning/push protection and CodeQL configured.",
+      "externalManualProviderStage": "SATISFIED: attributable accepted GitHub read-backs and reviewed five CodeQL false-positive alert dispositions; exact-main CodeQL both jobs succeeded with five JS/TS query instances, zero open alerts.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11-prek-github-governance-remediation.md",
+        "deployment/phase-11j6-forward-final-evidence-reconciliation.json",
+        "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402109"
+      ],
+      "freshnessRequirements": "Recheck settings and alert state if policy or repository state changes before release.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "CodeQL query instances persist; dismissed alert state is not zero query results.",
+      "launchEffect": "No current governance blocker.",
+      "nextAction": "Maintain ruleset and independent exact-head review; review any new CodeQL alerts.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
+      "authorizationDetail": "Finding closed; future release gates remain separate."
+    },
+    {
+      "id": "P11A-017",
+      "originalTitle": "Deployment and environment architecture is entirely unstarted",
+      "priority": "P0",
+      "originalEvidenceRequirement": "Reviewed architecture/runbook plus exact Vercel/Supabase/domain/config deployment smoke and rollback/redeploy rehearsal.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11H isolation, protected bootstrap, explicit authorization, forward-only sequence and rollback/abort runbook; J5 tabletop only.",
+      "externalManualProviderStage": "MISSING: only deployment dpl_cydL1xMN2TMPFaU3WAQai91BHxQg at ad92dadc, classified PRODUCTION_BOOTSTRAP_ONLY. No exact-candidate deploy, smoke, header/telemetry or rollback/redeploy proof.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "docs/phase-11j5-release-rollback-dry-run.md"
+      ],
+      "freshnessRequirements": "Exact candidate/config/target identity and current provider state must be freshly verified under separate authority; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new reads.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "Bootstrap source is neither release candidate nor safe rollback target; migration 44 forward-only boundary unresolved.",
+      "launchEffect": "P0 launch blocker; no waiver.",
+      "nextAction": "Separately authorize exact-candidate environment/deployment smoke and rollback/redeploy rehearsal, including migration 44 sequencing and safe target review.",
+      "exceptionPathExists": false,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "YES",
+      "authorizationDetail": "Deployment, provider reads, smoke and rollback/redeploy rehearsal need separate exact authority."
+    },
+    {
+      "id": "P11A-018",
+      "originalTitle": "Contributor, operator, support, and launch documentation is incomplete",
+      "priority": "P1",
+      "originalEvidenceRequirement": "Current owner-specific documentation plus new contributor/designated operator dry run using docs only, conflict drill and reconciliation.",
+      "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: README, Phase 11H release/runbook, 11I recovery, incident and support/owner docs; J5 tabletop exercised text sequence.",
+      "externalManualProviderStage": "MISSING: attributable new-operator walkthrough, invitation issue/reissue/revoke/reconcile conflict drill and safe release/rollback execution using repository docs.",
+      "exactEvidenceSources": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "README.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11i-recovery-qualification.md",
+        "docs/incident-response-runbook.md",
+        "docs/phase-11j5-release-rollback-dry-run.md"
+      ],
+      "freshnessRequirements": "Walkthrough must use current exact candidate, operator, target and policy.",
+      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "remainingUncertainty": "J5 author tabletop is not independent operator qualification.",
+      "launchEffect": "P1 blocker; no exception granted.",
+      "nextAction": "Have designated operator and observer execute bounded documentation-only walkthrough and conflict/reconciliation drill; sign discrepancies and corrections.",
+      "exceptionPathExists": true,
+      "exceptionCurrentlyGranted": false,
+      "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_TABLETOP",
+      "authorizationDetail": "Documentation-only operator walkthrough can use assigned owners; provider actions require separate authority."
+    }
+  ],
+  "counts": {
+    "P0": {
+      "closed": 3,
+      "open": 4,
+      "excepted": 0
+    },
+    "P1": {
+      "closed": 0,
+      "open": 9,
+      "excepted": 0
+    },
+    "P2": {
+      "closed": 1,
+      "open": 1,
+      "excepted": 0
+    }
+  },
+  "closedFindingIds": [
+    "P11A-001",
+    "P11A-007",
+    "P11A-011",
+    "P11A-016"
+  ],
+  "openFindingIds": [
+    "P11A-002",
+    "P11A-003",
+    "P11A-004",
+    "P11A-005",
+    "P11A-006",
+    "P11A-008",
+    "P11A-009",
+    "P11A-010",
+    "P11A-012",
+    "P11A-013",
+    "P11A-014",
+    "P11A-015",
+    "P11A-017",
+    "P11A-018"
+  ],
+  "openBlockingFindingIds": [
+    "P11A-002",
+    "P11A-004",
+    "P11A-005",
+    "P11A-006",
+    "P11A-008",
+    "P11A-009",
+    "P11A-010",
+    "P11A-012",
+    "P11A-013",
+    "P11A-014",
+    "P11A-015",
+    "P11A-017",
+    "P11A-018"
+  ]
+}
