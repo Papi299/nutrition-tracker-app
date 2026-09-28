@@ -1,6 +1,6 @@
 {
   "packetId": "PHASE-11K-P11A009-POLICY-DATA-GOVERNANCE-PACKET-001",
-  "status": "P11A009_POLICY_PACKET_COMPLETE_PENDING_OWNER_AND_QUALIFIED_REVIEW",
+  "status": "P11A009_OWNER_DIRECTIONS_RECORDED_OPEN_GATES_PENDING",
   "finding": {
     "id": "P11A-009",
     "priority": "P0",
@@ -14,7 +14,11 @@
   "classificationLegend": {
     "UNRESOLVED": "No technical or approved policy conclusion established",
     "PRODUCT_OWNER_DECISION_REQUIRED": "Product Owner has not selected a value",
-    "QUALIFIED_REVIEW_REQUIRED": "Question reserved for qualified reviewer"
+    "QUALIFIED_REVIEW_REQUIRED": "Question reserved for qualified reviewer",
+    "SELECTED_PRODUCT_OWNER_DIRECTION": "Attributable Product Owner direction recorded; not legal approval or implementation",
+    "PRODUCT_OWNER_EXACT_VALUE_PENDING": "Direction selected but a required operational value is not supplied",
+    "TECHNICAL_IMPLEMENTATION_REQUIRED_AFTER_DECISION": "Later bounded implementation and proof required",
+    "HOSTED_PROVIDER_VERIFICATION_REQUIRED": "Repository evidence does not establish current hosted behavior"
   },
   "dataFlowMatrix": [
     {
@@ -87,7 +91,7 @@
         "UNRESOLVED"
       ],
       "current_retention_rule": "Active private-beta period plus 90 days in design; enforcement unproved",
-      "unresolved_retention_decision": "Qualified review of schedule, store, deletion and disclosure required",
+      "unresolved_retention_decision": "Inactive for personal use; historical active-beta-plus-90-day design is not operative. Reopen policy before external users.",
       "restoration_implication": "External register must reconcile separately after restore.",
       "closure_deletion_implication": "No automatic register mutation on closure.",
       "repository_evidence": [
@@ -495,7 +499,7 @@
         "Supabase"
       ],
       "current_retention_rule": "Recurring artifact 30 days; original qualified copy disposition UNRESOLVED",
-      "unresolved_retention_decision": "Approve qualified-copy and closure interaction",
+      "unresolved_retention_decision": "Recurring 30-day expiry selected; original qualified off-Git copy finite exact disposal value pending; post-restore privacy reconciliation not implemented.",
       "restoration_implication": "Can resurrect later closed/deleted state absent reconciliation.",
       "closure_deletion_implication": "No per-user erasure mechanism in existing archive.",
       "repository_evidence": [
@@ -634,15 +638,68 @@
       "Storage object bytes",
       "Vault values"
     ],
-    "postRestoreReconciliation": "REQUIRED_NOT_AUTOMATED"
+    "postRestoreReconciliation": "REQUIRED_NOT_AUTOMATED",
+    "originalQualifiedArchiveRetention": "PRODUCT_OWNER_EXACT_VALUE_PENDING",
+    "selectedFutureTreatment": "Retire superseded qualified off-Git source after newer accepted recovery copy; preserve 30-day recurring artifact expiry; no per-user archive rewrite",
+    "plannedPostRestoreReconciliation": "MINIMAL_RESTRICTED_RECORD_MANUAL_INDEPENDENT_CHECK_FAIL_CLOSED_NOT_IMPLEMENTED"
   },
   "findingClosure": false,
   "candidateApproved": false,
   "productionAuthorized": false,
   "providerRefreshNeeded": [
-    "Current hosted register/access proof",
-    "Hosted log retention/access and provider terms",
+    "Hosted Auth/session, relevant provider access grants and deletion behavior before implementation credit",
+    "Hosted log retention/access, geography and provider terms before final disclosure",
     "Live Storage-object scope at any future release/restore"
   ],
-  "providerRefreshStatus": "PROVIDER_REFRESH_REQUIRED"
+  "providerRefreshStatus": "PROVIDER_REFRESH_REQUIRED",
+  "ownerDecisionRecording": {
+    "owner": "Maor Pichhadze",
+    "taskId": "PHASE_11K_P11A009_RECORD_PO_DECISIONS_AND_PLAN_LIFECYCLE",
+    "recordedDateUtc": "2026-09-28",
+    "status": "SELECTED_PRODUCT_OWNER_DIRECTION",
+    "profile": "SINGLE_USER_PERSONAL_USE",
+    "decisionIds": [
+      "PO-01",
+      "PO-02",
+      "PO-03",
+      "PO-04",
+      "PO-05",
+      "PO-06",
+      "PO-07",
+      "PO-08",
+      "PO-09",
+      "PO-10",
+      "PO-11",
+      "PO-12"
+    ],
+    "directions": {
+      "PO-01": "One operator, Maor Pichhadze, and one dedicated contact channel; exact address pending",
+      "PO-02": "Active Auth/email/activation retention; eventual live physical removal after closure and safe deletion",
+      "PO-03": "Active-use product retention; coordinated removal of identifiable user-owned live data after closure; shared USDA/source data excluded by mere reference",
+      "PO-04": "Lifecycle/receipt identifiers retained only while technically needed, then safely minimized or removed without losing denial/reconciliation",
+      "PO-05": "Physical deletion is the future primary model; current closure remains logical only",
+      "PO-06": "Recurring encrypted artifacts retain 30-day expiry; no per-user rewrite; original off-Git copy retired after supersession under finite exact rule pending",
+      "PO-07": "Minimal restricted lifecycle record, manual reconciliation, independent check, fail-closed Production cutover",
+      "PO-08": "External invitations and operational invitation register inactive for personal use",
+      "PO-09": "No routine nutrition-data inspection or general admin view; exceptional minimum-necessary provider access only",
+      "PO-10": "Retain Supabase, Vercel, GitHub and USDA technical architecture subject to hosted/qualified review",
+      "PO-11": "Concise accurate final EN/HE copy after actual implementation and qualified/native review; no current deletion claim",
+      "PO-12": "Existing self-service plus the one PO-01 manual contact route; no ticketing subsystem"
+    },
+    "exactValuesPending": [
+      "dedicated contact address/channel and any required entity/postal details",
+      "effective date and backup operator",
+      "post-closure live deletion trigger/interval",
+      "terminal linkage duration and exceptions/holds",
+      "original qualified off-Git archive finite retention/disposal value",
+      "support request response timing and identity verification",
+      "final provider disclosure and exact EN/HE notice"
+    ],
+    "qualifiedReview": "QUALIFIED_REVIEW_REQUIRED",
+    "deletionImplemented": false,
+    "hostedVerification": "HOSTED_PROVIDER_VERIFICATION_REQUIRED",
+    "finalNoticeApproved": false,
+    "findingClosed": false,
+    "plan": "docs/phase-11k-p11a009-account-deletion-lifecycle-implementation-plan.md"
+  }
 }
