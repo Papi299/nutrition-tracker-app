@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE-11-PREK-ROLE-ASSIGNMENTS-AND-J6-FINAL-RECONCILIATION-001",
+  "recordedAtUtc": "2026-09-27T22:15:18.976079Z",
+  "attributableDate": "2026-09-28 — Asia/Jerusalem",
+  "productOwner": {
+    "name": "Maor Pichhadze",
+    "capacity": "Product Owner",
+    "statementVerbatim": "I, Maor Pichhadze, as Product Owner, assign ChatGPT as the Independent acceptance reviewer for Phase 11K and assign myself, Maor Pichhadze, as the Candidate release approver and P1 exception authority. I explicitly accept my two assigned roles and authorize ChatGPT to serve as the independent, non-executing acceptance reviewer. These assignments do not authorize Production deployment, do not close any finding, and do not change the DEC-039 Windows deferral."
+  },
+  "independentReviewer": {
+    "name": "ChatGPT",
+    "acceptanceDate": "2026-09-28 — Asia/Jerusalem",
+    "roleBoundary": "INDEPENDENT_NON_EXECUTING_REVIEWER",
+    "acceptanceVerbatim": "I explicitly accept the assignment as Independent acceptance reviewer for Phase 11K, limited to independent, non-executing review. Codex remains the execution agent. This acceptance does not authorize Production deployment, approve a release candidate, grant a P1 exception, close findings, or change the Windows deferral."
+  },
+  "executor": "Codex",
+  "roles": [
+    {
+      "role": "Independent acceptance reviewer",
+      "assignee": "ChatGPT",
+      "status": "ASSIGNED_AND_APPROVED",
+      "acceptance": "Explicitly accepted by ChatGPT in separately attributable statement",
+      "authorityScope": [
+        "independent Phase 11K acceptance review",
+        "independent exact-head final J6 review"
+      ],
+      "nonAuthorities": [
+        "execution",
+        "self-approval of Codex execution",
+        "candidate approval",
+        "P1 exception",
+        "Production deployment",
+        "finding closure"
+      ],
+      "roleBoundary": "INDEPENDENT_NON_EXECUTING_REVIEWER"
+    },
+    {
+      "role": "Candidate release approver",
+      "assignee": "Maor Pichhadze",
+      "status": "ASSIGNED_AND_APPROVED",
+      "acceptance": "Explicitly accepted by Maor Pichhadze in Product Owner statement",
+      "authorityScope": [
+        "later attributable approval of a specific exact-SHA candidate"
+      ],
+      "nonAuthorities": [
+        "approval of current 9fb6d023 candidate by this assignment",
+        "Production release approval",
+        "deployment authorization",
+        "finding closure"
+      ]
+    },
+    {
+      "role": "P1 exception authority",
+      "assignee": "Maor Pichhadze",
+      "status": "ASSIGNED_AND_APPROVED",
+      "acceptance": "Explicitly accepted by Maor Pichhadze in Product Owner statement",
+      "authorityScope": [
+        "later DEC-029-compliant P1 exception decision with scope, owner, expiry, compensating controls, Product Owner approval and Phase 11K review"
+      ],
+      "nonAuthorities": [
+        "granting any present P1 exception",
+        "P0 waiver",
+        "Production authorization",
+        "finding closure"
+      ]
+    }
+  ],
+  "separation": {
+    "policySources": [
+      "DEC-007",
+      "DEC-029",
+      "DEC-030",
+      "docs/phase-11b-launch-contract-and-acceptance-baseline.md#22-role-policy-and-assignment-status"
+    ],
+    "reviewerDistinctFromExecutor": true,
+    "productOwnerMayAlsoBeCandidateApproverAndP1Authority": true,
+    "contradictoryPolicyFound": false,
+    "result": "PASS"
+  },
+  "boundaries": {
+    "candidateShaApprovedByThisRecord": false,
+    "p1ExceptionGranted": false,
+    "p0WaiverPermitted": false,
+    "productionReleaseAuthorized": false,
+    "findingsClosed": 0,
+    "windowsStateChanged": false,
+    "phase11KStarted": false
+  }
+}

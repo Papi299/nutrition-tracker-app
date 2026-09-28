@@ -1180,39 +1180,11 @@ all 18 findings OPEN, and productionReleaseAuthorized=false. Independent J5
 review and a separate J6 task remain; eventual accepted Windows evidence and
 independent J3 completion require bounded J6 delta/final reconciliation.
 
-### 16.7.7 Current J6 interim reconciliation and independent-review handoff
+### 16.7.7 Historical J6 interim and current forward/final review handoff
 
-J5 is COMPLETE after independently accepted PR #148 and exact-main CI #301.
-The [DEC-039 forward amendment](phase-11-prek-dec039-windows-deferral.md)
-supersedes only the accepted historical J6 packet's Windows-caused 11K-entry
-ineligibility. Current contract is `2.0-personal-use-windows-deferred-amended`.
-J1/J2/J4/J5 remain COMPLETE; J3 is INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE.
-Both Windows cases remain NOT_EXECUTED with no PASS credit and classification
-DEFERRED_PRE_RELEASE_REQUIRED_FOR_WINDOWS_SUPPORT. They block neither repository
-development nor 11K entry; physicalPassRecorded=false. Phase 11K remains
-NOT_STARTED and NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING: independent acceptance
-reviewer, candidate release approver and P1 exception authority each remain
-UNASSIGNED_BLOCKING_BEFORE_11K. All 18 findings remain OPEN and
-productionReleaseAuthorized=false. A separately scoped, independently accepted
-forward J6 reconciliation must bind DEC-039, new governance evidence and the
-then-current candidate before 11K without claiming Windows completion. This
-task performs no final J6 or 11K. The [GitHub remediation](phase-11-prek-github-governance-remediation.md)
-records R1–R11 read-back, pending independent acceptance; five new open HIGH
-CodeQL alerts stop a governance-complete claim and need bounded engineering
-triage. Historical J6 JSON and
-Markdown and all earlier candidate/evidence limitations remain unchanged.
-Windows stays in the intended support scope; accepted physical evidence is due
-before a verified Windows release claim. Any future release without that
-evidence must exclude Windows from its verified supported-client claim.
+The [interim J6](phase-11j6-interim-evidence-reconciliation.md) remains immutable history for Contract 1.9. Under DEC-039, its Windows-caused entry ineligibility is superseded prospectively. The 2026-09-28 [role record](phase-11-prek-before-11k-role-assignments.md) makes all three before-11K roles `ASSIGNED_AND_APPROVED`. Fresh governance is 26 compliant / zero mismatches / two not applicable, while all 18 findings remain OPEN.
 
-
-The [machine-readable index](../deployment/phase-11j6-interim-evidence-reconciliation.json)
-binds main 91b55a05704e79233839606c66b9a25633761b5b / tree
-62edbc67905bd5cce209ff529cd185004e0be576 to CI #301. Fresh physical-runtime-to-main
-comparison identifies evidence/governance and contract-validator changes only,
-with no app/runtime change. Main itself was not physically exercised. Source
-limits, qualified policy/GitHub-settings gaps, post-deploy verification and release-time
-refresh registers remain explicit; accepted evidence is not silently upgraded.
+The [forward/final J6 overlay](phase-11j6-forward-final-evidence-reconciliation.md) binds exact application candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`, exact-main CI/CodeQL, J1/J2 deltas, point-in-time J4 freshness and the [migration-44 J5 delta](phase-11j5-delta-migration44.md). It awaits independent exact-head ChatGPT review before Phase 11K starts. J3 remains INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE; both Windows Chrome/Edge cases remain NOT_EXECUTED and have no PASS credit. Qualified policy, native copy, accessibility/client limitations, hosted-only facts and safe rollback remain explicit finding/release assessments. `productionReleaseAuthorized=false`.
 
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 

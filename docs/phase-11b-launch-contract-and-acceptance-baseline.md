@@ -41,7 +41,8 @@
 | Phase 11J0 personal-use profile | `PRODUCT_OWNER_APPROVED` — `DEC-035` activates `PERSONAL_USE_FREE_TIER`; isolated local/CI is the required full-stack rehearsal environment, hosted Preview is optional and Production-Supabase-forbidden, hosted staging and paid plans are not required, and the attributable role dispositions in Section 21 apply |
 | Phase 11J3 client and camera amendment | `PRODUCT_OWNER_APPROVED` — `DEC-036` defines the personal-use desktop/mobile support target and required physical iPhone/Android camera scanning; Section 22 is a forward amendment, not physical-device acceptance |
 | Phase 11J3 Firefox exclusion | `PRODUCT_OWNER_APPROVED` — `DEC-037` removes macOS and Windows Firefox from the active personal-use support and physical UI matrix; Section 23 records the owner direction and pending independent amendment review |
-| Phase 11 pre-K Windows deferral | `PRODUCT_OWNER_APPROVED` — DEC-039 changes only the Windows Phase 11K-entry dependency; Section 24 records Contract 2.0, deferred release requirements and unresolved role prerequisites; independent exact-head review pending. |
+| Phase 11 pre-K Windows deferral | `PRODUCT_OWNER_APPROVED` — DEC-039 changes only the Windows Phase 11K-entry dependency; Section 24 preserves the authored Contract 2.0 amendment and deferred release requirements. |
+| Before-11K role assignments and forward J6 | 2026-09-28 attributable role assignments satisfy all three Section 2.2 before-11K roles; the forward/final J6 recording awaits independent exact-head review. |
 | Change control | Any approved answer must identify the decision ID, answer, approver, date, and attributable evidence. A later change requires the same fields, a new document version, affected-finding and journey review, and independent review. |
 
 This document records the product-owner-approved acceptance contract. Decision
@@ -58,7 +59,7 @@ and 1.9 DEC-037's desktop Firefox exclusion. Version 2.0 changes only the
 Windows dependency for Phase 11K entry and its current deferred release
 classification. Historical Phase 11C evidence remains bound to version 1.4,
 and every accepted packet retains its authored contract and candidate.
-Independent review of this exact recording is pending. Contract acceptance
+Historical DEC-039 recording status is preserved in Section 24; the accepted current decision is reconciled in the forward J6 overlay. Contract acceptance
 does not itself establish implementation, physical PASS, finding closure,
 deployment, verified Windows support or release readiness.
 
@@ -171,9 +172,9 @@ Phase 11G technical policy and credits no implementation.
 | External-evidence owner | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | Attributable `DEC-035` Product Owner direction and self-acceptance | Before 11J — satisfied 2026-09-17 |
 | Authorized invitation operator | `NOT_APPLICABLE_PERSONAL_USE_PROFILE` | None | External invitations are not in active product scope; historical governance retained | Reactivates before external invitations/users |
 | Invitation reconciliation reviewer | `NOT_APPLICABLE_PERSONAL_USE_PROFILE` | None | External invitations are not in active product scope; historical governance retained | Reactivates before external invitations/users |
-| Independent acceptance reviewer | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
-| Candidate release approver | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
-| P1 exception authority | `UNASSIGNED_BLOCKING_BEFORE_11K` | None | `NOT_VERIFIED` | Before 11K |
+| Independent acceptance reviewer | `ASSIGNED_AND_APPROVED` | ChatGPT | [Attributable 2026-09-28 owner assignment and separate explicit reviewer acceptance](phase-11-prek-before-11k-role-assignments.md) | Before 11K — satisfied 2026-09-28 |
+| Candidate release approver | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-28 owner assignment and self-acceptance](phase-11-prek-before-11k-role-assignments.md); role only, no exact candidate approved | Before 11K — satisfied 2026-09-28 |
+| P1 exception authority | `ASSIGNED_AND_APPROVED` | Maor Pichhadze | [Attributable 2026-09-28 owner assignment and self-acceptance](phase-11-prek-before-11k-role-assignments.md); no exception granted | Before 11K — satisfied 2026-09-28 |
 
 ### 2.3 Approved enforceable enrollment contract
 
@@ -1506,3 +1507,9 @@ Current role-gate eligibility is **NOT_ELIGIBLE_ROLE_ASSIGNMENTS_PENDING**; Phas
 The “full development” direction assigns nobody. The evidence recording and future forward reconciliation still require independent review. Open findings are evaluated in 11K rather than newly imposed as entry blockers. All 18 findings remain OPEN, including P11A-005 and P11A-016; only 11K may close genuinely evidenced findings. The settings remediation is recorded in the [governance packet](phase-11-prek-github-governance-remediation.md), pending independent acceptance.
 
 `productionReleaseAuthorized=false`. No overall release-readiness or verified Windows claim follows from the relaxed development gate. Production requires its separate explicit Product Owner act and applicable release gates. No provider/runtime/data/physical testing, J3 VM startup, role assignment, final J6, 11K, finding closure or merge is authorized or performed here. This task ends at a Draft PR for independent ChatGPT review.
+
+## 25. Current before-11K roles and forward J6 recording (2026-09-28)
+
+The [attributable assignments](phase-11-prek-before-11k-role-assignments.md) supersede the role-status snapshot authored in Section 24. ChatGPT accepted the independent, non-executing reviewer role; Maor Pichhadze accepted the candidate release approver and P1 exception authority roles. All three are `ASSIGNED_AND_APPROVED`. Codex remains execution agent. DEC-007 permits Product Owner/approver overlap and requires the reviewer to be distinct from the executor; DEC-029 and DEC-030 retain separate exception and Production boundaries.
+
+The [forward/final J6 overlay](phase-11j6-forward-final-evidence-reconciliation.md) binds application candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`, fresh GitHub/security/provider evidence and migration 44's [bounded J5 delta](phase-11j5-delta-migration44.md). It leaves historical J6 and DEC-039 intact. Current matrix: 26 compliant / zero mismatches / two not applicable. Both Windows cases remain deferred and unexecuted; J3 is incomplete, with no physical PASS credit. All 18 findings remain OPEN. Phase 11K has not started and entry awaits independent exact-head acceptance of final J6. Role acceptance approves no specific release candidate or P1 exception; `productionReleaseAuthorized=false`.

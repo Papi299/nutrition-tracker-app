@@ -1,0 +1,9 @@
+# Phase 11J5 delta: migration 44
+
+The accepted [J5 dry run](phase-11j5-release-rollback-dry-run.md) covered 43 migrations. This bounded delta binds current application candidate `9fb6d023fba0bd997503c70d4910faf9d2365968` and the 44th repository migration, `20260927170418_harden_account_closure_mac_comparison.sql` (SHA-256 `3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3`). The 43-file prefix is byte-identical and ordered; migration 44 only replaces the private account-closure capability verifier. It changes server-side verification, without client/UI code, a public RPC signature, RLS, or grants. The correction is forward-only.
+
+The release sequence must first obtain separately authorized fresh hosted ledger identity/content/order evidence. If the accepted 43-file prefix differs or the remote state is indeterminate, stop. Otherwise independently review migration 44 as the sole suffix, compatibility and lock/write impact, apply it only in a separately authorized release procedure, verify resulting state, then deploy the exact compatible app. No hosted migration or Production action occurs in this task.
+
+Old app/new schema retains the verifier interface and capability format, with bounded local proof. New app/old schema may function because TypeScript runtime did not change, but it lacks CRYPTO-001 blinding and cannot qualify the corrected release. The historical bootstrap is not a qualified safe rollback target without fresh schema/config/origin review. App redeploy does not reverse migration 44; uncertainty or incompatibility requires stop, forward-fix, or incident/recovery escalation.
+
+Local delta validation: `PASS`. See [machine-readable J5 delta](../deployment/phase-11j5-delta-migration44-evidence.json) for exact local results. The existing J5 tabletop cases remain accepted in their original scope; unrelated cases were not rerun. `productionReleaseAuthorized=false`.
