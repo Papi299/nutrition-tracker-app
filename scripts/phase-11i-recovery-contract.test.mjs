@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 import {
   assertBackupId,
@@ -37,6 +37,10 @@ const githubBackupRunbook = readFileSync(
   "docs/phase-11i-github-artifact-backup-automation.md",
   "utf8",
 );
+const repositoryMigrationVersions = readdirSync("supabase/migrations")
+  .filter((name) => /^\d{14}_.+\.sql$/.test(name))
+  .sort()
+  .map((name) => name.slice(0, 14));
 
 function assertWorkflowRejected(workflow = githubBackupWorkflow, runbook = githubBackupRunbook) {
   assert.throws(() => assertGitHubBackupWorkflowContract({ workflow, runbook }));
@@ -144,6 +148,47 @@ test("source migration mismatch is rejected", () => {
   assert.doesNotThrow(() => assertMigrationHistory(versions));
   assert.throws(() => assertMigrationHistory(versions.slice(1)));
   assert.throws(() => assertMigrationHistory([...versions.slice(0, -1), "99999999999999"]));
+});
+
+test("approved Production migration boundary is fixed at migration 44", () => {
+  assert.equal(EXPECTED_MIGRATION_COUNT, 44);
+  assert.equal(EXPECTED_MIGRATION_HEAD, "20260927170418");
+  assert.equal(repositoryMigrationVersions.length, 44);
+  assert.equal(repositoryMigrationVersions.at(-1), "20260927170418");
+});
+
+test("current ordered repository ledger passes and historical 43-prefix fails", () => {
+  assert.doesNotThrow(() => assertMigrationHistory(repositoryMigrationVersions));
+  assert.equal(repositoryMigrationVersions.at(-2), "20260830143000");
+  assert.throws(
+    () => assertMigrationHistory(repositoryMigrationVersions.slice(0, -1)),
+    /Source migration count mismatch/,
+  );
+});
+
+test("current contract rejects an extra migration and wrong head", () => {
+  assert.throws(
+    () => assertMigrationHistory([...repositoryMigrationVersions, "99999999999999"]),
+    /Source migration count mismatch/,
+  );
+  assert.throws(
+    () =>
+      assertMigrationHistory([
+        ...repositoryMigrationVersions.slice(0, -1),
+        "99999999999999",
+      ]),
+    /Source migration head mismatch/,
+  );
+});
+
+test("current contract rejects duplicate and unordered ledgers", () => {
+  const duplicate = [...repositoryMigrationVersions];
+  duplicate[10] = duplicate[9];
+  assert.throws(() => assertMigrationHistory(duplicate), /duplicates/);
+
+  const unordered = [...repositoryMigrationVersions];
+  [unordered[10], unordered[11]] = [unordered[11], unordered[10]];
+  assert.throws(() => assertMigrationHistory(unordered), /not ordered/);
 });
 
 test("restore target must be isolated and local", () => {
