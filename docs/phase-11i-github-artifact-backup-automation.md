@@ -162,7 +162,11 @@ commits, grant repository-write permission, or claim the schedule is permanently
 self-sustaining. Phase 11J and Phase 11K must recheck workflow-enabled state and
 backup freshness rather than infer health from the activation run.
 
-## 6. Activation and first-run procedure
+## 6. Activation and first-run procedure (historical)
+
+The steps and 43-migration read below record the original activation in
+September 2026. They are retained as evidence of that run, not as the source
+requirement for future backups.
 
 Activation requires all of the following:
 
@@ -185,6 +189,31 @@ All activation items passed for workflow run `35236459394`. The active state is
 `PHASE_11I_EXTERNAL_VALIDATION_COMPLETE`. Future Phase 11J/11K checks must
 verify current workflow-enabled state and backup freshness; they do not repeat
 or replace the accepted restore qualification.
+
+### Current source contract after migration 44 (2026-09-28)
+
+Production migration 44 was applied and the hosted ledger was independently
+read back as the exact 44-entry repository sequence ending at
+`20260927170418_harden_account_closure_mac_comparison`. The repository-owned
+backup and restore contract in this reconciliation now requires exactly 44
+ordered, unique versions with head `20260927170418`. Future Production backups
+must record 44 in the redacted source snapshot and that head in both the source
+snapshot and encrypted backup manifest. The zero-user, zero user-owned row,
+zero Storage, project-identity, recipient, redaction, and encryption gates
+remain in force. The daily `02:17 Asia/Jerusalem` workflow and 30-day artifact
+retention are unchanged.
+
+The original 43-migration artifact and isolated restore qualification remain
+historical evidence. The current restore script intentionally rejects that
+ledger under its exact 44-source contract. Its 43-migration recovery code is
+preserved at commit `8259a33752209226c2e3886aba5d4a6a5ce5f570` for an
+authorized historical isolated recovery procedure; that path was not rerun by
+this reconciliation. A fresh 44-migration artifact and its restore
+qualification have not yet been proved. After independent review and merge,
+under separate authorization, manually dispatch the workflow from exact
+`main` and verify the encrypted artifact, 44-migration manifest, and 24-hour
+RPO before relying on the new
+recovery point. Do not dispatch the Production workflow from this Draft PR.
 
 ## 7. Failure and governance boundaries
 
