@@ -1,0 +1,648 @@
+{
+  "packetId": "PHASE-11K-P11A009-POLICY-DATA-GOVERNANCE-PACKET-001",
+  "status": "P11A009_POLICY_PACKET_COMPLETE_PENDING_OWNER_AND_QUALIFIED_REVIEW",
+  "finding": {
+    "id": "P11A-009",
+    "priority": "P0",
+    "disposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING"
+  },
+  "baseline": {
+    "mainSha": "34d9e7859fe001f54ce2810a4cb3eb1cfadbda5d",
+    "mainTree": "ab1116a1fe540e8ae4b7491d42ac47a84fe89bd4",
+    "initialOpenPullRequests": 0
+  },
+  "classificationLegend": {
+    "UNRESOLVED": "No technical or approved policy conclusion established",
+    "PRODUCT_OWNER_DECISION_REQUIRED": "Product Owner has not selected a value",
+    "QUALIFIED_REVIEW_REQUIRED": "Question reserved for qualified reviewer"
+  },
+  "dataFlowMatrix": [
+    {
+      "data_class": "Auth identity, user ID and email",
+      "source": "Supabase Auth invitation and sign-in",
+      "purpose": "Account identity and authentication",
+      "storage_location": "auth.users; auth.identities",
+      "access_boundary": "Provider-owned; app reads current user",
+      "account_export": "id/email/created_at",
+      "logical_closure": "Application access denied by closure record",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Auth identity remains; removal procedure deferred.",
+      "repository_evidence": [
+        "docs/phase-11i-recovery-qualification.md",
+        "lib/account-export/schema.ts",
+        "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql"
+      ]
+    },
+    {
+      "data_class": "Volatile Auth sessions and recovery/invitation flow state",
+      "source": "Supabase Auth",
+      "purpose": "Session and account flows",
+      "storage_location": "Auth provider volatile tables and browser session cookies",
+      "access_boundary": "Authenticated identity/provider",
+      "account_export": "NO",
+      "logical_closure": "Best-effort global sign-out and local cleanup; cross-session revocation unproved",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase",
+        "Vercel"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Excluded from recovery archive; users must reauthenticate.",
+      "closure_deletion_implication": "Closed-account DB predicate still denies app access.",
+      "repository_evidence": [
+        "docs/phase-11i-recovery-qualification.md",
+        "lib/auth/session-cleanup.ts",
+        "lib/supabase/server.ts"
+      ]
+    },
+    {
+      "data_class": "Invitation-control register",
+      "source": "Authorized future operator",
+      "purpose": "Eligibility, issuance, limits, reconciliation and corrections",
+      "storage_location": "External restricted store not selected or populated",
+      "access_boundary": "Restricted operator/reviewer design; operational access proof absent",
+      "account_export": "NO",
+      "logical_closure": "Append ACCOUNT_CLOSED is specified but not executed",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "UNRESOLVED",
+      "database_backup": "NO",
+      "operational_evidence": "Redacted evidence only by design; execution absent",
+      "support_admin_access": "Accepted named roles in design; operational proof absent",
+      "providers": [
+        "UNRESOLVED"
+      ],
+      "current_retention_rule": "Active private-beta period plus 90 days in design; enforcement unproved",
+      "unresolved_retention_decision": "Qualified review of schedule, store, deletion and disclosure required",
+      "restoration_implication": "External register must reconcile separately after restore.",
+      "closure_deletion_implication": "No automatic register mutation on closure.",
+      "repository_evidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11e-integration-external-readiness-handoff.md"
+      ]
+    },
+    {
+      "data_class": "Account activation and eligibility attestation",
+      "source": "User activation after invitation",
+      "purpose": "Application access eligibility",
+      "storage_location": "public.account_activations",
+      "access_boundary": "Authenticated own row; server-derived identity",
+      "account_export": "YES",
+      "logical_closure": "Retained",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Immutable activation remains after closure.",
+      "repository_evidence": [
+        "supabase/migrations/20260827070838_create_invited_account_activation.sql",
+        "lib/account-export/schema.ts"
+      ]
+    },
+    {
+      "data_class": "Account closure receipt and request ID",
+      "source": "Server-generated closure transaction",
+      "purpose": "Idempotent immutable closure and policy version",
+      "storage_location": "public.account_closures",
+      "access_boundary": "Own-row select; atomic server/DB write",
+      "account_export": "NO",
+      "logical_closure": "Is the closure gate",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "A pre-closure backup can omit later closure; reapply verified lifecycle state before access.",
+      "closure_deletion_implication": "No Auth or product-row deletion.",
+      "repository_evidence": [
+        "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+        "app/[locale]/(app)/account/closure/submit/route.ts"
+      ]
+    },
+    {
+      "data_class": "Closure capability",
+      "source": "Server-issued E3-bound capability",
+      "purpose": "Authorize atomic closure",
+      "storage_location": "Transient server request plus database-local Vault secret",
+      "access_boundary": "Server and protected DB function",
+      "account_export": "NO",
+      "logical_closure": "Expires; no durable export",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "NO",
+      "support_admin_access": "Server-only; no ordinary admin UI",
+      "providers": [
+        "Supabase",
+        "Vercel"
+      ],
+      "current_retention_rule": "Short-lived capability; exact retention UNRESOLVED",
+      "unresolved_retention_decision": "Secret lifecycle/reprovisioning after restore",
+      "restoration_implication": "Vault value excluded from backup; reprovision under incident plan.",
+      "closure_deletion_implication": "Capability is not account data erasure.",
+      "repository_evidence": [
+        "lib/account-closure/capability.ts",
+        "docs/phase-11i-recovery-qualification.md"
+      ]
+    },
+    {
+      "data_class": "Profile and preferences",
+      "source": "User setup",
+      "purpose": "Display name, language and unit preference",
+      "storage_location": "public.profiles",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+        "lib/account-export/schema.ts"
+      ]
+    },
+    {
+      "data_class": "Effective-dated nutrition targets",
+      "source": "User setup and edits",
+      "purpose": "Track goals and history",
+      "storage_location": "public.nutrition_targets",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+        "lib/account-export/schema.ts"
+      ]
+    },
+    {
+      "data_class": "Diary entries, portions, nutrients and snapshots",
+      "source": "User entries and linked food/meal/recipe use",
+      "purpose": "Nutrition journal",
+      "storage_location": "public.diary_entries",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "supabase/migrations/20260630193832_create_diary_entries.sql",
+        "lib/account-export/schema.ts"
+      ]
+    },
+    {
+      "data_class": "Owned custom foods, aliases, barcodes and nutrient values",
+      "source": "User creation",
+      "purpose": "Reusable food catalog",
+      "storage_location": "public.foods; food_aliases; food_barcodes; food_nutrients",
+      "access_boundary": "Authenticated owner / owned aggregate",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "supabase/migrations/20260714120000_custom_food_persistence_foundation.sql",
+        "lib/account-export/collector.ts"
+      ]
+    },
+    {
+      "data_class": "Food favorites",
+      "source": "User action",
+      "purpose": "Food reuse",
+      "storage_location": "public.food_favorites",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "lib/account-export/collector.ts",
+        "supabase/migrations/20260716100000_add_food_favorites_and_reusable_foods.sql"
+      ]
+    },
+    {
+      "data_class": "Saved meals, items and diary-use runs",
+      "source": "User authoring and use",
+      "purpose": "Reusable meals and immutable use evidence",
+      "storage_location": "public.saved_meals; saved_meal_items; saved_meal_diary_runs",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "lib/account-export/collector.ts",
+        "supabase/migrations/20260716130000_log_saved_meal_to_diary.sql"
+      ]
+    },
+    {
+      "data_class": "Recipes, ingredients and diary-use runs",
+      "source": "User authoring and use",
+      "purpose": "Recipe nutrition and use evidence",
+      "storage_location": "public.recipes; recipe_ingredients; recipe_diary_runs",
+      "access_boundary": "Authenticated owner via RLS",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Application access blocked after closure; rows retained.",
+      "repository_evidence": [
+        "lib/account-export/collector.ts",
+        "supabase/migrations/20260717130000_log_recipe_to_diary.sql"
+      ]
+    },
+    {
+      "data_class": "User mutation receipts",
+      "source": "Server/database request completion",
+      "purpose": "Idempotency and historical integrity",
+      "storage_location": "public.custom_food_creation_requests; manual_diary_entry_requests",
+      "access_boundary": "Authenticated owner; server/DB transaction",
+      "account_export": "YES",
+      "logical_closure": "Application access blocked after closure; rows retained.",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "Supabase privileged project/operator access possible; authorization and audit proof UNRESOLVED.",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "No Product Owner post-closure duration approved.",
+      "restoration_implication": "Restore can reintroduce pre-recovery-point values; reconcile before traffic cutover.",
+      "closure_deletion_implication": "Receipt deletion/pseudonymization deferred.",
+      "repository_evidence": [
+        "lib/account-export/schema.ts",
+        "docs/phase-11e-auth-account-lifecycle-governance.md"
+      ]
+    },
+    {
+      "data_class": "Shared food catalog and USDA provenance",
+      "source": "Reviewed source imports",
+      "purpose": "Search/reference nutrition and attribution",
+      "storage_location": "public.food_sources; foods; food_nutrients; ingestion.food_portions; ingestion schema",
+      "access_boundary": "Shared/reference or ingestion operator-owned",
+      "account_export": "Referenced subset only",
+      "logical_closure": "Not tied to account closure",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "Approved source/release evidence may be retained",
+      "support_admin_access": "Ingestion operator/project admin; exact operational grant review required",
+      "providers": [
+        "USDA FoodData Central",
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "Source retention and correction/takedown decision required",
+      "restoration_implication": "Restore source projection and provenance consistently.",
+      "closure_deletion_implication": "Shared source rows are not deleted with one account.",
+      "repository_evidence": [
+        "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+        "lib/account-export/schema.ts",
+        "docs/phase-11i-recovery-qualification.md"
+      ]
+    },
+    {
+      "data_class": "Search and barcode lookup inputs",
+      "source": "User query / camera-derived code",
+      "purpose": "Find foods",
+      "storage_location": "Request/browser processing; no dedicated search-history table identified",
+      "access_boundary": "Authenticated runtime",
+      "account_export": "NO",
+      "logical_closure": "No account-linked history identified",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "UNRESOLVED",
+      "support_admin_access": "No direct support UI identified",
+      "providers": [
+        "Vercel",
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "Provider log behavior and retention require refresh",
+      "restoration_implication": "No search-history restore path established.",
+      "closure_deletion_implication": "No stored history deletion claim.",
+      "repository_evidence": [
+        "lib/food-search/search.ts",
+        "app/[locale]/(app)/foods/barcode/page.tsx"
+      ]
+    },
+    {
+      "data_class": "Operational telemetry and security correlation",
+      "source": "Server allowlisted events",
+      "purpose": "Reliability and incident detection",
+      "storage_location": "Console sink / hosting logs; no telemetry DB",
+      "access_boundary": "System-owned; validated fields exclude user/food IDs and free text",
+      "account_export": "NO",
+      "logical_closure": "Not account-linked by design",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "YES",
+      "support_admin_access": "Operator access via hosting/log permissions; exact grants UNRESOLVED",
+      "providers": [
+        "Vercel"
+      ],
+      "current_retention_rule": "30-day operational retention policy; hosted enforcement UNRESOLVED",
+      "unresolved_retention_decision": "Verify hosted log retention and access",
+      "restoration_implication": "No database row to restore; provider logs outside archive.",
+      "closure_deletion_implication": "Outside account export/closure.",
+      "repository_evidence": [
+        "lib/observability/events.ts",
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md"
+      ]
+    },
+    {
+      "data_class": "Support/operator and security evidence",
+      "source": "Authorized support/incident procedures",
+      "purpose": "Audit and response",
+      "storage_location": "Restricted external evidence and GitHub redacted docs/artifacts",
+      "access_boundary": "System-owned; no general app support read interface",
+      "account_export": "NO",
+      "logical_closure": "Separate review required",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "UNRESOLVED",
+      "database_backup": "UNRESOLVED",
+      "operational_evidence": "YES",
+      "support_admin_access": "Accepted roles/policy; actual access proof UNRESOLVED",
+      "providers": [
+        "GitHub",
+        "Vercel",
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "Evidence access and retention schedule required",
+      "restoration_implication": "Preserve/reconcile incident evidence under restricted control.",
+      "closure_deletion_implication": "Not removed by app closure.",
+      "repository_evidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/incident-response-runbook.md"
+      ]
+    },
+    {
+      "data_class": "Encrypted logical backup archive",
+      "source": "Phase 11I recovery workflow",
+      "purpose": "Recover durable Auth, public and ingestion state",
+      "storage_location": "GitHub Actions artifact; original qualified copy in restricted off-Git store",
+      "access_boundary": "Restricted recovery operator; ciphertext may be downloadable",
+      "account_export": "NO",
+      "logical_closure": "Contains recovery-point state including accounts then active",
+      "physical_deletion": "Artifact expiry; no per-user edit",
+      "pseudonymization": "NO",
+      "database_backup": "YES",
+      "operational_evidence": "Redacted manifest only",
+      "support_admin_access": "Recovery key held separately",
+      "providers": [
+        "GitHub",
+        "Supabase"
+      ],
+      "current_retention_rule": "Recurring artifact 30 days; original qualified copy disposition UNRESOLVED",
+      "unresolved_retention_decision": "Approve qualified-copy and closure interaction",
+      "restoration_implication": "Can resurrect later closed/deleted state absent reconciliation.",
+      "closure_deletion_implication": "No per-user erasure mechanism in existing archive.",
+      "repository_evidence": [
+        "docs/phase-11i-github-artifact-backup-automation.md",
+        "docs/phase-11i-recovery-qualification.md"
+      ]
+    },
+    {
+      "data_class": "Redacted backup manifest",
+      "source": "Backup workflow",
+      "purpose": "Integrity and scope verification",
+      "storage_location": "GitHub Actions artifact",
+      "access_boundary": "System-owned",
+      "account_export": "NO",
+      "logical_closure": "Not account-specific by design",
+      "physical_deletion": "Artifact expiry",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "YES",
+      "support_admin_access": "Recovery operator",
+      "providers": [
+        "GitHub"
+      ],
+      "current_retention_rule": "30-day recurring artifact expiry",
+      "unresolved_retention_decision": "Manifest/qualified-copy retention review",
+      "restoration_implication": "Use to identify recovery point and scope.",
+      "closure_deletion_implication": "No direct account closure mutation.",
+      "repository_evidence": [
+        "docs/phase-11i-github-artifact-backup-automation.md"
+      ]
+    },
+    {
+      "data_class": "Recovery qualification evidence",
+      "source": "Isolated restore rehearsal",
+      "purpose": "Audit RPO/RTO/integrity",
+      "storage_location": "Repository redacted docs/evidence; restricted source archive outside Git",
+      "access_boundary": "System-owned",
+      "account_export": "NO",
+      "logical_closure": "No user-level payload in public evidence by design",
+      "physical_deletion": "UNRESOLVED",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "YES",
+      "support_admin_access": "Recovery roles",
+      "providers": [
+        "GitHub"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "Evidence retention review",
+      "restoration_implication": "Record reconciliation results for any future restore.",
+      "closure_deletion_implication": "Separate from application closure.",
+      "repository_evidence": [
+        "docs/phase-11i-recovery-qualification.md",
+        "docs/phase-11i-recovery-qualification-evidence.json"
+      ]
+    },
+    {
+      "data_class": "Storage objects and Vault values",
+      "source": "Provider storage/secrets if provisioned",
+      "purpose": "Potential object data and closure secret",
+      "storage_location": "Supabase Storage / Vault",
+      "access_boundary": "Provider/project admin",
+      "account_export": "NO",
+      "logical_closure": "No Storage action on closure",
+      "physical_deletion": "NO",
+      "pseudonymization": "NO",
+      "database_backup": "NO",
+      "operational_evidence": "Only zero-object gate and redacted identifier",
+      "support_admin_access": "Privileged provider access",
+      "providers": [
+        "Supabase"
+      ],
+      "current_retention_rule": "UNRESOLVED",
+      "unresolved_retention_decision": "Scope expansion if Storage nonzero; secret rotation policy",
+      "restoration_implication": "Storage bytes excluded; Vault values must be reprovisioned.",
+      "closure_deletion_implication": "Accepted production evidence had zero objects, not a perpetual guarantee.",
+      "repository_evidence": [
+        "docs/phase-11i-recovery-qualification.md",
+        "docs/phase-11e-auth-account-lifecycle-governance.md"
+      ]
+    }
+  ],
+  "providerMatrix": [
+    {
+      "provider": "Supabase",
+      "role": "Hosted Auth, Postgres, potential Storage/Vault",
+      "data": "Auth identity/session; user-owned nutrition; source/ingestion; Vault secret identifier",
+      "environment": "Production project and isolated local/non-production",
+      "evidence": [
+        "lib/supabase/server.ts",
+        "docs/phase-11i-recovery-qualification.md"
+      ],
+      "contractualPrivacyQuestion": "QUALIFIED_REVIEW_REQUIRED"
+    },
+    {
+      "provider": "Vercel",
+      "role": "Application hosting and server logs",
+      "data": "Necessary requests/session cookies and validated operational events; exact hosted log scope UNRESOLVED",
+      "environment": "Configured Preview/staging/Production architecture; only bootstrap deployment evidenced",
+      "evidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "lib/observability/events.ts"
+      ],
+      "contractualPrivacyQuestion": "QUALIFIED_REVIEW_REQUIRED"
+    },
+    {
+      "provider": "GitHub",
+      "role": "Source, CI and encrypted backup artifacts",
+      "data": "Repository redacted evidence, ciphertext archive and redacted manifest",
+      "environment": "Development/operations and recurring Production backup transport",
+      "evidence": [
+        ".github/workflows/phase-11i-production-backup.yml",
+        "docs/phase-11i-github-artifact-backup-automation.md"
+      ],
+      "contractualPrivacyQuestion": "QUALIFIED_REVIEW_REQUIRED"
+    },
+    {
+      "provider": "USDA FoodData Central",
+      "role": "Food source/distributor; no live user-data transmission shown",
+      "data": "Imported food, portion, nutrient and provenance metadata",
+      "environment": "Controlled ingestion/reference catalog",
+      "evidence": [
+        "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+        "ingestion/usda/foundation/parser.ts"
+      ],
+      "contractualPrivacyQuestion": "QUALIFIED_REVIEW_REQUIRED"
+    }
+  ],
+  "backupContract": {
+    "rpoHours": 24,
+    "rtoHours": 8,
+    "recurringArtifactRetentionDays": 30,
+    "encryptedArtifact": "CMS AuthEnvelopedData AES-256-GCM; restricted private key outside GitHub",
+    "excluded": [
+      "volatile Auth sessions/tokens/flow state",
+      "Storage object bytes",
+      "Vault values"
+    ],
+    "postRestoreReconciliation": "REQUIRED_NOT_AUTOMATED"
+  },
+  "findingClosure": false,
+  "candidateApproved": false,
+  "productionAuthorized": false,
+  "providerRefreshNeeded": [
+    "Current hosted register/access proof",
+    "Hosted log retention/access and provider terms",
+    "Live Storage-object scope at any future release/restore"
+  ],
+  "providerRefreshStatus": "PROVIDER_REFRESH_REQUIRED"
+}
