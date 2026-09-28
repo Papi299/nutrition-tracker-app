@@ -1,8 +1,8 @@
 # Phase 11K P11A-009 policy and data-governance packet
 
-**Status:** `P11A009_POLICY_PACKET_COMPLETE_PENDING_OWNER_AND_QUALIFIED_REVIEW`
+**Status:** P11A009_OWNER_DIRECTIONS_RECORDED_OPEN_GATES_PENDING
 
-**Finding:** `P11A-009`, P0, `OPEN_OWNER_OR_POLICY_DECISION_PENDING`
+**Finding:** P11A-009, P0, OPEN_OWNER_OR_POLICY_DECISION_PENDING. The existing disposition remains because exact Product Owner values are pending; it does not mean PO-01–PO-12 have no selected direction. No narrower established disposition token exists in the current integrated-acceptance vocabulary.
 
 **Scope:** repository facts and drafts only. This packet is neither legal advice nor qualified approval. It does not close a finding, approve a candidate, authorize Production, access a provider, or change runtime behavior.
 
@@ -10,7 +10,15 @@
 
 The verified `main` commit is `34d9e7859fe001f54ce2810a4cb3eb1cfadbda5d`, tree `ab1116a1fe540e8ae4b7491d42ac47a84fe89bd4`, subject `docs(phase11k): record integrated acceptance dispositions (#157)`. PR #157 was merged and the initial open-PR count was zero. [Integrated acceptance](phase-11k-integrated-acceptance.md) records Phase 11K started, Phase 11 incomplete, four closed and fourteen open findings. P11A-003 stays separately open; these drafts do not constitute its native EN/HE or affected-surface review.
 
-The [machine-readable evidence and complete data-flow matrix](../deployment/phase-11k-p11a009-policy-data-governance-evidence.json) are part of this packet. `UNRESOLVED` means neither implementation nor accepted evidence proves the field. Existing engineering decisions are distinguished below from policy choices awaiting the Product Owner and qualified review. The repository proves schema and code behavior; it does not prove current hosted contents, access grants, retention enforcement, or provider terms without a separately authorized refresh. **`PROVIDER_REFRESH_REQUIRED`:** current hosted register/access proof, hosted logs/retention, provider terms and live Storage-object scope cannot be established from accepted repository evidence. No provider was queried for this packet.
+The [machine-readable evidence and complete data-flow matrix](../deployment/phase-11k-p11a009-policy-data-governance-evidence.json) are part of this packet. `UNRESOLVED` means neither implementation nor accepted evidence proves the field. Existing engineering decisions are distinguished below from policy choices awaiting the Product Owner and qualified review. The repository proves schema and code behavior; it does not prove current hosted contents, access grants, retention enforcement, or provider terms without a separately authorized refresh. **`PROVIDER_REFRESH_REQUIRED`:** hosted Auth/session and access grants, hosted logs/retention and geography, provider terms and live Storage-object scope cannot be established from accepted repository evidence. No provider was queried for this packet.
+
+## Attributable Product Owner direction recorded 2026-09-28 UTC
+
+Maor Pichhadze selected the directions for PO-01 through PO-12 in task PHASE_11K_P11A009_RECORD_PO_DECISIONS_AND_PLAN_LIFECYCLE. The [canonical decision record](phase-11k-p11a009-product-owner-decisions.md) holds every selection and exact gap; the [deletion/lifecycle implementation plan](phase-11k-p11a009-account-deletion-lifecycle-implementation-plan.md) is plan-only. The personal-use profile uses one operator and one future dedicated contact route, active-use data retention followed by controlled physical live deletion after logical closure, the existing 30-day recurring encrypted backup expiry, minimal restricted manual restore reconciliation, inactive external invitations/register, no routine support inspection or admin console, the existing provider architecture, and existing self-service plus a manual exception route. Final EN/HE copy must describe current logical closure until deletion is implemented and independently accepted.
+
+SELECTED_PRODUCT_OWNER_DIRECTION is not qualified review, an exact retention interval, a configured contact route, hosted verification, a migration, a deletion implementation or a release decision. PRODUCT_OWNER_EXACT_VALUE_PENDING includes the actual contact route, effective date, post-closure deletion timing, terminal-linkage/hold rules, and finite original off-Git archive disposal value. Qualified legal/privacy/provider review, final copy, native bilingual/RTL review, implementation, operator proof and hosted verification remain pending. P11A-009 remains P0/open with no waiver. The older baseline above records packet preparation history, not the current main head.
+
+The Phase 11K overlay still uses OPEN_OWNER_OR_POLICY_DECISION_PENDING because exact owner values remain pending; its vocabulary lacks a separate intermediate token for selected direction with open exact values and implementation gates. External invitation/register operation is now explicitly inactive for personal use. Older P11A-006/P11A-018 invitation walkthrough wording is a separate cross-finding scope reconciliation for independent acceptance, not operational permission from this packet.
 
 ## Technical facts and current decisions
 
@@ -42,7 +50,7 @@ The [machine-readable evidence and complete data-flow matrix](../deployment/phas
 
 ### Support, providers and source attribution
 
-The accepted [restricted register design](phase-11h-deployment-architecture-release-runbook.md#15-restricted-invitation-register-contract) defines environment, canonical-email index/controlled contact reference, eligibility/cohort evidence, status, Auth ID, operation/result, operator/reviewer, timestamps, attempt count, provider class, application lifecycle, candidate/configuration, reconciliation, approval/evidence, and append-only correction link. Access is designed for named Auth/lifecycle, invitation, operator, reviewer and approved auditor roles. Raw email belongs only in encrypted or separately restricted contact storage; tokens and secrets are prohibited. Retention is designed as active private-beta period plus 90 days, subject to shorter reviewed schedule/hold. **No store is selected or populated; operational access, retention, correction and `ACCOUNT_CLOSED` execution remain unproved.** DEC-035 makes external invitation/register operation inactive in the current personal-use profile, without resolving policy governance.
+The accepted [restricted register design](phase-11h-deployment-architecture-release-runbook.md#15-restricted-invitation-register-contract) defines environment, canonical-email index/controlled contact reference, eligibility/cohort evidence, status, Auth ID, operation/result, operator/reviewer, timestamps, attempt count, provider class, application lifecycle, candidate/configuration, reconciliation, approval/evidence, and append-only correction link. Access is designed for named Auth/lifecycle, invitation, operator, reviewer and approved auditor roles. Raw email belongs only in encrypted or separately restricted contact storage; tokens and secrets are prohibited. Retention is designed as active private-beta period plus 90 days, subject to shorter reviewed schedule/hold. **No store is selected or populated; operational access, retention, correction and `ACCOUNT_CLOSED` execution remain unproved.** DEC-035 and recorded PO-08 keep external invitation/register operation inactive for personal use. The active-beta-plus-90-day design remains historical future scope, not an operative retention rule; any external-user expansion must reopen policy.
 
 The factual provider matrix is also in the JSON. Controller/processor classification, contracts, transfer geography, provider retention and access terms are `QUALIFIED_REVIEW_REQUIRED`; no classification is adopted here.
 
@@ -61,7 +69,7 @@ Status: `DRAFT_PENDING_QUALIFIED_REVIEW`. Exact release citation, location on ev
 
 ## Retention decisions and enforcement
 
-No final Product Owner duration exists for Auth identity, product records, activation, closure/immutable receipts, source records, support evidence or qualified backup copy. The only accepted numbers here are the recurring artifact 30 days, operational telemetry policy 30 days, and restricted-register **design** of active beta plus 90 days. None silently sets a legal retention rule for every copy. The [Product Owner decision table](phase-11k-p11a009-product-owner-decisions.md) records active, post-closure, operational and backup interaction per class, present enforcement, gaps, and review order. All unset values are `PRODUCT_OWNER_DECISION_REQUIRED`.
+The Product Owner selected active-use retention followed by coordinated physical deletion of identifiable live user-owned data after logical closure, but no deletion interval or exceptional hold has been approved or implemented. The recurring encrypted artifact expiry remains 30 days; the original qualified off-Git archive has a selected finite-disposal direction but no exact value. Operational telemetry has a repository 30-day policy, not hosted enforcement proof. The historical invitation-register active-beta-plus-90-day design is inactive for personal use. The [decision record](phase-11k-p11a009-product-owner-decisions.md) distinguishes selected direction from PRODUCT_OWNER_EXACT_VALUE_PENDING and QUALIFIED_REVIEW_REQUIRED. Current data-flow rows below describe present enforcement, not the future target.
 
 ## Drafts and required review
 
@@ -70,7 +78,7 @@ No final Product Owner duration exists for Auth identity, product records, activ
 - [Product Owner decisions](phase-11k-p11a009-product-owner-decisions.md)
 - [Qualified legal/privacy review questions](phase-11k-p11a009-qualified-review-checklist.md)
 
-The drafts are not published product policy. Contact identity/channel, final retention/deletion schedule, provider terms, source citation and exact bilingual copy await attributable decisions. After those decisions, P11A-003 still requires a separate native EN/HE and affected-surface RTL/mixed-content review. P11A-009 remains open P0; launch authorization remains ineligible, candidate approval false and Production authorization false.
+The drafts are not published product policy and must continue to describe current logical closure without claiming physical deletion. Maor Pichhadze is the selected personal-use operator, but the dedicated contact address, effective date, exact deletion timing, finite off-Git archive retention, qualified provider terms/source citation, and final bilingual text remain pending. P11A-003 separately requires native EN/HE and affected-surface RTL/mixed-content review after exact copy is approved. P11A-009 remains open P0; launch authorization remains ineligible, candidate approval false and Production authorization false.
 
 ## Human-readable data-flow matrix
 
@@ -137,7 +145,7 @@ The following is generated from the JSON evidence. Each actual class includes so
 | Support/admin access | Accepted named roles in design; operational proof absent |
 | Providers | UNRESOLVED |
 | Current retention | Active private-beta period plus 90 days in design; enforcement unproved |
-| Unresolved decision | Qualified review of schedule, store, deletion and disclosure required |
+| Unresolved decision | Inactive for personal use; historical active-beta-plus-90-day design is not operative. Reopen policy before external users. |
 | Restore | External register must reconcile separately after restore. |
 | Closure/deletion | No automatic register mutation on closure. |
 | Evidence | `docs/phase-11h-deployment-architecture-release-runbook.md`, `docs/phase-11e-integration-external-readiness-handoff.md` |
@@ -489,7 +497,7 @@ The following is generated from the JSON evidence. Each actual class includes so
 | Support/admin access | Recovery key held separately |
 | Providers | GitHub, Supabase |
 | Current retention | Recurring artifact 30 days; original qualified copy disposition UNRESOLVED |
-| Unresolved decision | Approve qualified-copy and closure interaction |
+| Unresolved decision | Recurring 30-day expiry selected; original qualified off-Git copy finite exact disposal value pending; post-restore privacy reconciliation not implemented. |
 | Restore | Can resurrect later closed/deleted state absent reconciliation. |
 | Closure/deletion | No per-user erasure mechanism in existing archive. |
 | Evidence | `docs/phase-11i-github-artifact-backup-automation.md`, `docs/phase-11i-recovery-qualification.md` |

@@ -498,24 +498,27 @@
       "originalTitle": "Privacy, account lifecycle, and health-adjacent policy are undefined",
       "priority": "P0",
       "originalEvidenceRequirement": "Approved privacy notice, retention, closure versus deletion, export, pseudonymization, backup erasure, support/admin access, USDA attribution, health disclaimer, processor terms and qualified review.",
-      "repositoryLocalImplementationStage": "PARTIAL: 11E implements export and logical closure; Contract 2.0 supplies owner-use boundaries and restricted-register design.",
-      "externalManualProviderStage": "MISSING: signed qualified legal/privacy and processor review, exact EN/HE notices/disclaimer/attribution, record-class retention/deletion/pseudonymization and backup/post-restore treatment. Register access/retention is not operationally proven.",
+      "repositoryLocalImplementationStage": "PARTIAL: 11E implements export and logical closure; PO-01–PO-12 personal-use directions are now attributable documentation, with a plan-only deletion lifecycle. No physical deletion or post-restore reconciliation implementation exists.",
+      "externalManualProviderStage": "MISSING: qualified legal/privacy/provider review, exact owner values, final EN/HE notices/disclaimer/attribution, physical deletion implementation and validation, hosted/provider verification and operational lifecycle/recovery proof. External invitation register remains intentionally inactive for personal use.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
         "docs/phase-11e-integration-external-readiness-handoff.md",
         "docs/phase-11e-auth-account-lifecycle-governance.md",
-        "docs/phase-11j6-forward-final-evidence-reconciliation.md"
+        "docs/phase-11j6-forward-final-evidence-reconciliation.md",
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "docs/phase-11k-p11a009-account-deletion-lifecycle-implementation-plan.md",
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json"
       ],
-      "freshnessRequirements": "Qualified decisions must bind final exact copy, geography and processor inventory; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider/register reads.",
+      "freshnessRequirements": "Qualified decisions must bind final exact copy, geography and provider inventory; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new hosted reads. Invitation/register operation is inactive for personal use and would require a separate scope decision.",
       "currentDisposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING",
-      "remainingUncertainty": "Logical closure does not prove erasure; SECURITY DEFINER WARNs preserve privileged access questions but source guards are documented.",
+      "remainingUncertainty": "Owner direction is selected, but exact contact/timing/off-Git retention/exception values, qualified review, deletion/terminal-guard proof, hosted facts and final copy remain pending. Current logical closure is not erasure.",
       "launchEffect": "P0 launch blocker; no waiver.",
-      "nextAction": "Obtain attributable qualified legal/privacy, data-governance and Product Owner decisions, final bilingual policy copy and operational register/backup retention treatment in separate bounded task.",
+      "nextAction": "Complete exact owner values and qualified review; separately implement and validate the approved deletion/reconciliation design; verify hosted providers and final EN/HE copy. Keep P0 open without waiver.",
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Qualified policy/legal and Product Owner dispositions are required."
+      "authorizationDetail": "Exact Product Owner values and qualified review remain; any implementation, provider action or release requires separate bounded authority."
     },
     {
       "id": "P11A-010",
