@@ -1186,6 +1186,10 @@ The [interim J6](phase-11j6-interim-evidence-reconciliation.md) remains immutabl
 
 The [forward/final J6 overlay](phase-11j6-forward-final-evidence-reconciliation.md) binds exact application candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`, exact-main CI/CodeQL, J1/J2 deltas, point-in-time J4 freshness and the [migration-44 J5 delta](phase-11j5-delta-migration44.md). It awaits independent exact-head ChatGPT review before Phase 11K starts. J3 remains INCOMPLETE_WITH_DEFERRED_WINDOWS_EVIDENCE; both Windows Chrome/Edge cases remain NOT_EXECUTED and have no PASS credit. Qualified policy, native copy, accessibility/client limitations, hosted-only facts and safe rollback remain explicit finding/release assessments. `productionReleaseAuthorized=false`.
 
+### 16.7.8 Phase 11K execution status (2026-09-28)
+
+The [integrated acceptance overlay](phase-11k-integrated-acceptance.md) and [launch checklist](phase-11k-launch-checklist.md) now record `phase11KStarted=true` under Contract 2.0. Four findings close on accepted evidence; 14 remain open, including four P0 and nine P1 with no granted exceptions. The exact-main #318 and CodeQL baseline is verified, but missing external, manual and policy evidence prevents launch-authorization eligibility. Phase 11 remains incomplete, candidate approval is false and `productionReleaseAuthorized=false`. Historical Phase 11A and J6 records remain unchanged.
+
 ## 17. Phase 11K — Integrated acceptance and launch-authorization gate
 
 ### Objective

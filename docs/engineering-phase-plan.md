@@ -353,6 +353,8 @@ Windows stays in the intended support scope; accepted physical evidence is due
 before a verified Windows release claim. Any future release without that
 evidence must exclude Windows from its verified supported-client claim.
 
+The [Phase 11K integrated audit](phase-11k-integrated-acceptance.md) has now started under Contract 2.0. Four findings (`P11A-001`, `007`, `011`, `016`) close on accepted evidence; 14 remain open, including four P0 and nine P1 without exceptions. The [launch checklist](phase-11k-launch-checklist.md) preserves the external and policy follow-ups. Phase 11 is incomplete and `productionReleaseAuthorized=false`. This forward status does not rewrite the historical J6 snapshot above.
+
 Historical sequencing/status snapshots elsewhere remain historical.
 
 On 2026-08-26, Product Owner Maor Pichhadze assigned himself to and accepted

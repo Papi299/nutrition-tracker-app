@@ -424,8 +424,13 @@ is complete for the current MVP scope.
   reconciles exact candidate `9fb6d023fba0bd997503c70d4910faf9d2365968`
   and migration 44, pending independent exact-head review. Windows Chrome/Edge
   remain deferred and unexecuted without PASS credit; J3 remains incomplete.
-  All 18 findings remain OPEN. Phase 11K has not started and Production is
-  unauthorized. Historical J6 and governance packets remain unchanged.
+  At that J6 recording, all 18 findings were OPEN and Phase 11K had not
+  started. The [Phase 11K integrated acceptance](docs/phase-11k-integrated-acceptance.md)
+  has now begun: four findings close on accepted evidence, 14 remain open,
+  including four P0 and nine P1 blockers. The [launch checklist](docs/phase-11k-launch-checklist.md)
+  records bounded follow-ups. Phase 11 is incomplete; candidate approval and
+  Production authorization remain false. Historical J6 and governance packets
+  remain unchanged.
   On 2026-08-29, Product Owner Maor Pichhadze assigned and recorded explicit
   acceptance by Maor Pichhadze as Observability owner, Performance and
   reliability owner, and Incident primary, and by Jimmy Peachy as Incident
