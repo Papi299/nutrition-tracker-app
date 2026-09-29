@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE_11K_P11A017_FINAL_RETRY_SHARE_LINK_REMEDIATION_AND_DEPLOYMENT",
+  "recordedAtUtc": "2026-09-29T08:06:19Z",
+  "result": "P11A017_EXACT_CANDIDATE_DEPLOYED_SMOKE_VERIFIED_READY_FOR_INDEPENDENT_REVIEW",
+  "reviewState": "PENDING_INDEPENDENT_CHATGPT_REVIEW",
+  "publicLaunchAuthorized": false,
+  "baseline": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "remoteMainSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "candidateTree": "fc1689dd3cbf5af19e1a8bd43bcda4710d274f14",
+    "initialOpenPrCount": 0,
+    "validateRunId": 36531451773,
+    "validate": "SUCCESS",
+    "codeqlRunId": 36531450843,
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "migrationCount": 44,
+    "migration44Sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+    "initialDeploymentCount": 1,
+    "historicalDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg"
+  },
+  "shareLinkRemediation": {
+    "before": 1,
+    "safeOwnershipEvidence": {
+      "teamId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+      "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "projectName": "nutrition-tracker-app",
+      "deploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+      "deploymentHostname": "nutrition-tracker-a5gy11pcn-peachys-projects-4596e52a.vercel.app",
+      "vercelAccessType": "Shareable link",
+      "creatorDisplayName": "maor29994ps5-9621"
+    },
+    "revoked": 1,
+    "after": 0,
+    "linkValueReadOrRecorded": false,
+    "newShareLinksCreated": 0
+  },
+  "protection": {
+    "ssoDeploymentType": "all",
+    "automationBypassCredentials": 0,
+    "customBypassRulesCreated": 0,
+    "unauthenticatedHistoricalRequest": "302 redirect to Vercel Authentication",
+    "unauthenticatedFinalProductionRequest": "302 redirect to Vercel Authentication",
+    "memberChromeBootstrap": "/en rendered, GET and HEAD /api/health HTTP 200 after revocation",
+    "finalExternalAccess": "No external access"
+  },
+  "configuration": {
+    "vercelProductionEnvironmentVariableCountBeforeAndAfter": [
+      12,
+      12
+    ],
+    "changedKeys": [
+      "DEPLOYMENT_CLASS"
+    ],
+    "deploymentClassBefore": "PRODUCTION_BOOTSTRAP_ONLY",
+    "deploymentClassAfter": "PRODUCTION_RELEASE",
+    "unrelatedEnvironmentEntriesByteEqualInVercelApiComparison": true,
+    "otherSafeBindings": {
+      "APP_ENVIRONMENT": "production",
+      "SUPABASE_ENVIRONMENT": "production",
+      "SUPABASE_PROJECT_REF": "hskfanrqwtqknzpquwhg",
+      "PRODUCTION_SUPABASE_PROJECT_REF": "hskfanrqwtqknzpquwhg",
+      "NEXT_PUBLIC_SUPABASE_URL": "https://hskfanrqwtqknzpquwhg.supabase.co",
+      "APP_ORIGIN": "https://nutrition-tracker-app-xi.vercel.app",
+      "PRODUCTION_APP_ORIGIN": "https://nutrition-tracker-app-xi.vercel.app",
+      "EXPECTED_VERCEL_PROJECT_ID": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd"
+    },
+    "secretValuesReadOrPrinted": false,
+    "sensitiveSecretMetadataPresentCount": 2
+  },
+  "supabaseAuth": {
+    "projectRef": "hskfanrqwtqknzpquwhg",
+    "siteUrl": "https://nutrition-tracker-app-xi.vercel.app",
+    "siteUrlChanged": false,
+    "redirectUrlsBefore": 0,
+    "redirectUrlsAfter": [
+      "https://nutrition-tracker-app-xi.vercel.app/en/auth/confirm",
+      "https://nutrition-tracker-app-xi.vercel.app/he/auth/confirm",
+      "https://nutrition-tracker-app-xi.vercel.app/en/auth/recover/confirm",
+      "https://nutrition-tracker-app-xi.vercel.app/he/auth/recover/confirm"
+    ],
+    "wildcards": 0,
+    "otherAuthSettingsChangedByTask": false,
+    "uiSaveOperations": 1
+  },
+  "deployment": {
+    "id": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "generatedUrl": "https://nutrition-tracker-hhsdenai6-peachys-projects-4596e52a.vercel.app",
+    "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "target": "production",
+    "source": "git",
+    "gitProvider": "GitHub",
+    "gitOrg": "Papi299",
+    "gitRepo": "nutrition-tracker-app",
+    "sha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "state": "READY",
+    "readyAtUtc": "2026-09-29T07:51:02.834Z",
+    "aliases": [
+      "nutrition-tracker-app-xi.vercel.app",
+      "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app",
+      "nutrition-tracker-app-git-main-peachys-projects-4596e52a.vercel.app"
+    ],
+    "deploymentCountAfter": 2,
+    "build": "COMPLETED"
+  },
+  "smoke": {
+    "method": "native Chrome member session; safe same-origin fetch and UI navigation; IAB DOM language/direction cross-check",
+    "rows": [
+      {
+        "path": "/en",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Native Chrome rendered English shell; IAB DOM lang=en, dir=ltr."
+      },
+      {
+        "path": "/he",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Native Chrome rendered Hebrew shell; IAB DOM lang=he, dir=rtl."
+      },
+      {
+        "path": "GET /api/health",
+        "result": "PASS",
+        "status": 200,
+        "body": "{\"status\":\"live\"}",
+        "cacheControl": "no-store, max-age=0",
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "HEAD /api/health",
+        "result": "PASS",
+        "status": 200,
+        "body": "",
+        "cacheControl": "no-store, max-age=0",
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "/en/today",
+        "result": "PASS",
+        "detail": "Signed-out request redirected to /en/auth/sign-in; localized sign-in form rendered; no private content observed."
+      },
+      {
+        "path": "/he/today",
+        "result": "PASS",
+        "detail": "Signed-out request redirected to /he/auth/sign-in; localized sign-in form rendered; no private content observed."
+      },
+      {
+        "path": "/en/auth/sign-up",
+        "result": "PASS",
+        "detail": "Invitation-only information; no self-service registration form."
+      },
+      {
+        "path": "/he/auth/sign-up",
+        "result": "PASS",
+        "detail": "Hebrew invitation-only information; no self-service registration form."
+      },
+      {
+        "path": "/en/auth/sign-in",
+        "result": "PASS",
+        "status": 200,
+        "detail": "English email/password form and recovery link rendered; no submission."
+      },
+      {
+        "path": "/he/auth/sign-in",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Hebrew email/password form and recovery link rendered; no submission."
+      },
+      {
+        "path": "/en/auth/recover",
+        "result": "PASS",
+        "detail": "English recovery-request form rendered; no email submitted."
+      },
+      {
+        "path": "/he/auth/recover",
+        "result": "PASS",
+        "detail": "Hebrew recovery-request form rendered; no email submitted."
+      },
+      {
+        "path": "/en/auth/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /en/auth/confirmation-error."
+      },
+      {
+        "path": "/he/auth/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /he/auth/confirmation-error."
+      },
+      {
+        "path": "/en/auth/recover/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /en/auth/recover/error."
+      },
+      {
+        "path": "/he/auth/recover/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /he/auth/recover/error."
+      },
+      {
+        "path": "/en/auth/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to English invitation error; no OTP verification."
+      },
+      {
+        "path": "/he/auth/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to Hebrew invitation error; no OTP verification."
+      },
+      {
+        "path": "/en/auth/recover/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to English recovery error; no real token."
+      },
+      {
+        "path": "/he/auth/recover/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to Hebrew recovery error; no real token."
+      }
+    ],
+    "formsSubmitted": 0,
+    "realTokensUsed": 0
+  },
+  "responseHeaders": {
+    "observedCommonValues": {
+      "contentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' https://hskfanrqwtqknzpquwhg.supabase.co wss://hskfanrqwtqknzpquwhg.supabase.co; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'none'; manifest-src 'self'; upgrade-insecure-requests;",
+      "strictTransportSecurity": "max-age=63072000; includeSubDomains; preload",
+      "xContentTypeOptions": "nosniff",
+      "xFrameOptions": "DENY",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), serial=(), fullscreen=()"
+    },
+    "rows": [
+      {
+        "path": "/en",
+        "status": 200,
+        "cacheControl": "public, max-age=0, must-revalidate",
+        "contentType": "text/html; charset=utf-8",
+        "commonHeadersMatch": true
+      },
+      {
+        "path": "/he",
+        "status": 200,
+        "cacheControl": "public, max-age=0, must-revalidate",
+        "contentType": "text/html; charset=utf-8",
+        "commonHeadersMatch": true
+      },
+      {
+        "path": "/en/auth/sign-in",
+        "status": 200,
+        "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "contentType": "text/html; charset=utf-8",
+        "commonHeadersMatch": true
+      },
+      {
+        "path": "/he/auth/sign-in",
+        "status": 200,
+        "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "contentType": "text/html; charset=utf-8",
+        "commonHeadersMatch": true
+      },
+      {
+        "path": "/en/today",
+        "redirectsTo": "/en/auth/sign-in",
+        "finalStatus": 200,
+        "finalCacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "finalContentType": "text/html; charset=utf-8",
+        "finalCommonHeadersMatch": true,
+        "initialRedirectHeaders": "UNOBSERVED_BROWSER_OPAQUEREDIRECT"
+      },
+      {
+        "path": "/he/today",
+        "redirectsTo": "/he/auth/sign-in",
+        "finalStatus": 200,
+        "finalCacheControl": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "finalContentType": "text/html; charset=utf-8",
+        "finalCommonHeadersMatch": true,
+        "initialRedirectHeaders": "UNOBSERVED_BROWSER_OPAQUEREDIRECT"
+      },
+      {
+        "path": "/api/health",
+        "status": 200,
+        "cacheControl": "no-store, max-age=0",
+        "contentType": "application/json; charset=utf-8",
+        "commonHeadersMatch": true
+      }
+    ],
+    "cameraWasmContract": "camera=(self); script-src permits wasm-unsafe-eval and same-origin scripts; frame-ancestors none",
+    "initialProtectedRedirectHeaderLimitation": "Fetch with redirect=manual returned opaqueredirect; final sign-in response headers were observed separately."
+  },
+  "logs": {
+    "buildEventCount": 105,
+    "buildCloneGitHubCommit": "7f3aea5",
+    "compiledSuccessfully": true,
+    "deploymentCompleted": true,
+    "buildWarnings": [
+      "npm install-scripts allowScripts warning for @parcel/watcher@2.5.6, @swc/core@1.15.32, unrs-resolver@1.11.1"
+    ],
+    "buildErrors": 0,
+    "runtimeErrorView": "No runtime errors found in selected time range",
+    "runtimeLogErrorFilterCount": 0,
+    "runtimeLogFatalFilterCount": 0,
+    "unexplained5xxObserved": 0,
+    "p11a014SignalAlertAcceptance": "SEPARATE_PENDING"
+  },
+  "rollback": {
+    "historicalDeploymentClassification": "INDETERMINATE_DO_NOT_ROLLBACK",
+    "releaseBoundary": "FORWARD_FIX_ONLY",
+    "rollbacks": 0,
+    "restores": 0,
+    "qualifiedEmergencyRedeployTarget": false
+  },
+  "finalState": {
+    "vercelDeploymentCount": 2,
+    "activeProductionDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "ssoDeploymentType": "all",
+    "activeShareLinks": 0,
+    "automationBypassCredentials": 0,
+    "customDomains": [
+      "nutrition-tracker-app-xi.vercel.app"
+    ],
+    "automaticGitDeploymentsDisabledByCandidateVercelJson": true,
+    "supabaseProjectStatus": "ACTIVE_HEALTHY",
+    "hostedMigrationCount": 44,
+    "hostedMigrationHead": "20260927170418_harden_account_closure_mac_comparison",
+    "storageBuckets": 0,
+    "storageObjects": 0,
+    "backupRunId": 36513218364,
+    "backupArtifactId": 11009933286,
+    "backupCompletedAtUtc": "2026-09-29T02:37:50.660Z",
+    "backupRpoExpiresAtUtc": "2026-09-30T02:37:50.660Z",
+    "backupFreshAtFinalCheck": true,
+    "fresh44RestoreQualification": "PENDING"
+  },
+  "mutationAudit": {
+    "existingShareLinksRevoked": 1,
+    "newShareLinksCreated": 0,
+    "automationBypassCredentialsCreated": 0,
+    "protectionWeakening": 0,
+    "vercelEnvironmentValuesChanged": 1,
+    "supabaseAuthUrlConfigurationUpdates": 1,
+    "productionDeployments": 1,
+    "rollbacks": 0,
+    "databaseMigrations": 0,
+    "ddl": 0,
+    "dml": 0,
+    "authUsersCreated": 0,
+    "emailsSent": 0,
+    "vaultMutations": 0,
+    "storageMutations": 0,
+    "manuallyTriggeredBackups": 0,
+    "restores": 0,
+    "customDomains": 0
+  },
+  "findingImpact": {
+    "P11A-017": "OPERATIONAL_DEPLOY_AND_SMOKE_COMPLETE; INDEPENDENT_REVIEW_AND_ORIGINAL_ROLLBACK_REDEPLOY_REHEARSAL_PENDING",
+    "P11A-010": "EXACT_DEPLOYMENT_AND_RELEASE_TIME_44_LEDGER_OBSERVED; FULL_HOSTED_BEHAVIOR_AND_44_RESTORE_PENDING",
+    "P11A-006": "URLS_AND_STATIC_SURFACES_OBSERVED; REAL_INVITE_RECOVERY_SESSION_DELIVERY_PENDING",
+    "P11A-008": "DEPLOYED_HEADERS_OBSERVED; CAMERA_RUNTIME_COMPATIBILITY_PENDING",
+    "P11A-014": "UNCHANGED_PENDING"
+  },
+  "openGaps": [
+    "Independent review of this execution evidence",
+    "Historical deployment is not a qualified rollback/redeploy target; no rollback rehearsal was performed",
+    "Fresh 44-migration isolated restore and 8h RTO requalification remain pending",
+    "Real hosted Auth delivery/session flows, camera runtime and P11A-014 alert delivery remain separately pending"
+  ]
+}
