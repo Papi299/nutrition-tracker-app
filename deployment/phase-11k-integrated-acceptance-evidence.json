@@ -69,7 +69,9 @@
     "lastRuntimeAffectingApplicationSha": "9fb6d023fba0bd997503c70d4910faf9d2365968",
     "lastRuntimeAffectingTree": "2a8d5b90a7286b239a7cce831a967077099da8e7",
     "futureExactReleaseCandidateSha": "NOT_SELECTED",
-    "rule": "The future deployed source must be a separately approved exact repository commit SHA/tree, including this acceptance overlay if released from later main; neither current head nor last runtime-affecting SHA is approved by role assignment."
+    "rule": "The future deployed source must be a separately approved exact repository commit SHA/tree, including this acceptance overlay if released from later main; neither current head nor last runtime-affecting SHA is approved by role assignment.",
+    "executedP11A017CandidateSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "executedP11A017CandidateTree": "fc1689dd3cbf5af19e1a8bd43bcda4710d274f14"
   },
   "roles": {
     "independentReviewer": "ChatGPT — ASSIGNED_AND_APPROVED — INDEPENDENT_NON_EXECUTING_REVIEWER",
@@ -125,11 +127,13 @@
     "migration44HostedApplied": true,
     "vercelBootstrapDeploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
     "vercelBootstrapSourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
-    "vercelClassification": "PRODUCTION_BOOTSTRAP_ONLY",
-    "exactCandidateDeployed": false,
+    "vercelClassification": "PRODUCTION_RELEASE",
+    "exactCandidateDeployed": true,
     "rollbackRedeployQualified": false,
     "migration44ApplicationEvidence": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
-    "migration44ApplicationVerifiedAtUtc": "2026-09-28T18:04:44Z"
+    "migration44ApplicationVerifiedAtUtc": "2026-09-28T18:04:44Z",
+    "p11a017ExecutionEvidence": "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+    "exactCandidateDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN"
   },
   "client": {
     "windowsChrome": "NOT_EXECUTED",
@@ -441,19 +445,21 @@
       "priority": "P0",
       "originalEvidenceRequirement": "Local recovery/callback/session implementation plus hosted Auth/SMTP/redirect/rate-limit and deployed behavior, including invitation procedure/register/reconciliation.",
       "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: 11E and J2 local invitation, recovery, reauth, export, closure, deny/replay and 44-migration checks.",
-      "externalManualProviderStage": "PARTIAL: J4 read-only Auth shows closed signup, canonical bootstrap Site URL and empty redirect allow-list. Hosted SMTP, invitation/recovery delivery, callback, allow-list, cookies/session, rate-limits, register and procedure are unproved.",
+      "externalManualProviderStage": "PARTIAL: exact Production Auth Site URL and four EN/HE invitation/recovery callback URLs are configured. Deployed sign-in, invitation-only signup, recovery-request and missing/invalid callback error surfaces rendered safely without account creation or email. Real hosted SMTP, invitation/recovery delivery, valid callback, cookies/session, rate-limits, register and procedure remain unproved.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
         "docs/phase-11e-integration-external-readiness-handoff.md",
         "docs/phase-11j2-local-auth-security-account-lifecycle.md",
-        "docs/phase-11j4-provider-recovery-freshness.md"
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json"
       ],
       "freshnessRequirements": "Hosted settings and operational register state require separately authorized exact-target read and deployed test; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider reads.",
       "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
-      "remainingUncertainty": "Two SECURITY DEFINER advisor WARNs remain intentional privileged RPC exposure requiring active grant/session review; no new material source defect identified in this audit. Hosted execution remains unverified.",
+      "remainingUncertainty": "Two SECURITY DEFINER advisor WARNs remain intentional privileged RPC exposure requiring active grant/session review. Real hosted Auth delivery, valid callback, session, rate-limit and register behavior remain unverified.",
       "launchEffect": "P0 launch blocker; no waiver.",
-      "nextAction": "Separately authorize hosted Auth/configuration read and controlled invitation/recovery/session/redirect/SMTP/register walkthrough against exact deployment; review advisor WARNs in that packet.",
+      "nextAction": "Under separate authority, run controlled real invitation/recovery/session/SMTP/rate-limit and procedure evidence against the exact candidate; review advisor WARNs. PO-08 keeps external invitations/register inactive until separately reconciled.",
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
@@ -491,18 +497,20 @@
       "priority": "P1",
       "originalEvidenceRequirement": "Implemented CSP/header policy, local compatibility and actual deployed public/auth/app response headers and violation behavior.",
       "repositoryLocalImplementationStage": "SATISFIED: Phase 11F CSP, framing, MIME, referrer and camera permissions policy with local/CI tests; same-origin camera WASM exception bounded.",
-      "externalManualProviderStage": "MISSING: only Vercel bootstrap from ad92dadc exists; it does not prove exact candidate deployed headers, Auth/camera compatibility or CSP violations.",
+      "externalManualProviderStage": "PARTIAL: exact-candidate EN/HE public, sign-in and health responses exposed the accepted CSP, HSTS, MIME, framing, referrer and camera permissions policy; signed-out Today routes redirected to protected sign-in. Initial Today redirect headers were browser-opaque; camera/WASM runtime was not executed.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
         "docs/phase-11f-security-and-dependency-hardening.md",
-        "docs/phase-11j4-provider-recovery-freshness.md"
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json"
       ],
       "freshnessRequirements": "Requires exact deployed candidate and target; no provider read can replace missing deployment.",
       "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
-      "remainingUncertainty": "Header behavior of a future exact-candidate deployment is unknown.",
+      "remainingUncertainty": "Camera/WASM execution and CSP violation behavior on real supported clients remain unverified; initial protected redirect headers were browser-opaque.",
       "launchEffect": "P1 blocker; no exception granted.",
-      "nextAction": "Under separate release authority, capture exact-candidate deployed headers on public/auth/app routes and CSP/Auth/camera-fallback behavior.",
+      "nextAction": "Complete bounded supported-client camera/WASM and CSP compatibility checks under appropriate authority, retaining the exact deployed header observations.",
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
@@ -541,7 +549,7 @@
       "priority": "P1",
       "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
       "repositoryLocalImplementationStage": "SATISFIED: Phase 11H/J5 runbook and 44 local migrations replayed/seeded; migration-role compatibility; migration 44 is sole ordered suffix to prior 43.",
-      "externalManualProviderStage": "PARTIAL: authorized Production migration 44 applied as the sole pending migration; hosted ledger exactly matches all 44 repository versions/names; post-44 verifier, RPC, closure table, scoped catalog and advisors independently verified. Scheduled exact-main backup #14 produced an encrypted 44-contract artifact and was fresh at 2026-09-29T05:56:14Z. Exact deployed candidate and release-time checks remain pending.",
+      "externalManualProviderStage": "PARTIAL: authorized Production migration 44 applied as the sole pending migration; hosted ledger exactly matches all 44 repository versions/names; post-44 verifier, RPC, closure table, scoped catalog and advisors independently verified. Scheduled exact-main backup #14 produced an encrypted 44-contract artifact and was fresh at 2026-09-29T05:56:14Z. Exact Git-sourced candidate was deployed and bounded release-time shell/health/redirect checks passed on the refreshed 44-ledger; full hosted behavior and 44-migration restore remain pending.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -557,13 +565,15 @@
         "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487341",
         "docs/phase-11i-migration44-fresh-backup-verification.md",
         "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
-        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36513218364"
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36513218364",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json"
       ],
       "freshnessRequirements": "The verified backup's 24h freshness expires 2026-09-30T02:37:50.660Z; recheck freshness and exact target/44-ledger/advisors, Storage scope and candidate/deployment compatibility at release time.",
       "currentDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
-      "remainingUncertainty": "Historical migration-file bytes beyond version/name order and full-database schema parity are unclaimed; app/Vault secret match and real hosted closure behavior were not tested. Exact candidate deployment, smoke and rollback remain pending. A fresh 44-contract backup is verified, but 44-migration isolated restore and 8h RTO have not been requalified.",
+      "remainingUncertainty": "Historical migration-file bytes beyond version/name order and full-database schema parity are unclaimed; app/Vault secret match and real hosted closure behavior were not tested. Exact candidate deployment and bounded smoke are complete; full hosted behavior and rollback qualification remain pending. A fresh 44-contract backup is verified, but 44-migration isolated restore and 8h RTO have not been requalified.",
       "launchEffect": "P1 blocker; no exception granted.",
-      "nextAction": "Independently review and merge this backup evidence, then separately authorize P11A-017 exact-candidate deployment, smoke and rollback/redeploy. Recheck backup freshness and hosted state at release time; separately qualify a 44-migration restore if current governance requires it.",
+      "nextAction": "Independently review the deployed P11A-017 and backup evidence, qualify full hosted behavior and the 44-migration isolated restore/8-hour RTO if required, and refresh backup/provider/ledger state for any later release decision.",
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
@@ -720,23 +730,26 @@
       "priority": "P0",
       "originalEvidenceRequirement": "Reviewed architecture/runbook plus exact Vercel/Supabase/domain/config deployment smoke and rollback/redeploy rehearsal.",
       "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11H isolation, protected bootstrap, explicit authorization, forward-only sequence and rollback/abort runbook; J5 tabletop only.",
-      "externalManualProviderStage": "MISSING: only deployment dpl_cydL1xMN2TMPFaU3WAQai91BHxQg at ad92dadc, classified PRODUCTION_BOOTSTRAP_ONLY. No exact-candidate deploy, smoke, header/telemetry or rollback/redeploy proof.",
+      "externalManualProviderStage": "PARTIAL: exact Git-sourced Production candidate deployed READY on the verified 44-ledger; protected EN/HE, health, signed-out routes, invitation-only signup, Auth error surfaces, security headers and zero runtime errors were observed. One historical share link was revoked; final SSO all, zero share links and zero bypass credentials. Historical deployment remains INDETERMINATE_DO_NOT_ROLLBACK and no rollback/redeploy rehearsal occurred.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
         "docs/phase-11h-deployment-architecture-release-runbook.md",
         "docs/phase-11j4-provider-recovery-freshness.md",
-        "docs/phase-11j5-release-rollback-dry-run.md"
+        "docs/phase-11j5-release-rollback-dry-run.md",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+        "deployment/phase-11k-p11a017-release-evidence.json"
       ],
-      "freshnessRequirements": "Exact candidate/config/target identity and current provider state must be freshly verified under separate authority; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new reads.",
+      "freshnessRequirements": "Refresh exact candidate/protection/provider/44-ledger/backup state at independent review or release decision.",
       "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
-      "remainingUncertainty": "Bootstrap source is neither release candidate nor safe rollback target; migration 44 forward-only boundary unresolved.",
+      "remainingUncertainty": "Independent review is pending. Historical deployment is not a qualified rollback target; no rollback/redeploy rehearsal was performed. P11A-014 alert drill and other launch gates remain separate.",
       "launchEffect": "P0 launch blocker; no waiver.",
-      "nextAction": "Separately authorize exact-candidate environment/deployment smoke and rollback/redeploy rehearsal, including migration 44 sequencing and safe target review.",
+      "nextAction": "Obtain independent review of the bounded execution, then separately qualify rollback/redeploy or accept the documented FORWARD_FIX_ONLY boundary under release governance; do not infer public launch approval.",
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
-      "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Deployment, provider reads, smoke and rollback/redeploy rehearsal need separate exact authority."
+      "productOwnerAuthorizationRequiredForNextAction": "SEPARATE_AUTHORITY_IF_REDEPLOY_OR_LAUNCH",
+      "authorizationDetail": "The exact P11A-017 deployment authority was used. No rollback, redeploy, external launch or PR merge was authorized."
     },
     {
       "id": "P11A-018",
@@ -825,5 +838,15 @@
     "evidence": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
     "findingDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
     "productionReleaseAuthorized": false
+  },
+  "p11a017Execution": {
+    "recordedAtUtc": "2026-09-29T08:06:19Z",
+    "result": "P11A017_EXACT_CANDIDATE_DEPLOYED_SMOKE_VERIFIED_READY_FOR_INDEPENDENT_REVIEW",
+    "evidence": "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+    "releaseEvidence": "deployment/phase-11k-p11a017-release-evidence.json",
+    "candidateSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "deploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "findingDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+    "publicLaunchAuthorized": false
   }
 }

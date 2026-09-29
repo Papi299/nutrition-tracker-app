@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "4",
+  "status": "EXECUTED_PENDING_INDEPENDENT_REVIEW",
+  "releaseProfile": "PERSONAL_USE_FREE_TIER",
+  "profile": {
+    "hostedPreviewDisposition": "OPTIONAL_NOT_PROVISIONED",
+    "hostedStagingDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+    "localCiRehearsal": "REQUIRED",
+    "productionProviderPreflight": "REQUIRED_READ_ONLY",
+    "postDeployVerification": "REQUIRED_AFTER_SEPARATE_RELEASE_AUTHORIZATION"
+  },
+  "deploymentClass": "PRODUCTION_RELEASE",
+  "productionReleaseAuthorized": true,
+  "candidate": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "commit": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "tree": "fc1689dd3cbf5af19e1a8bd43bcda4710d274f14",
+    "baseCommit": null,
+    "buildProvenance": "GitHub Git-source deployment dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN"
+  },
+  "deployment": {
+    "provider": "Vercel",
+    "deploymentIdentifier": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "target": "production",
+    "projectIdentity": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "expectedProjectIdentity": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "applicationOrigin": "https://nutrition-tracker-app-xi.vercel.app",
+    "providerOriginAssertion": "https://nutrition-tracker-app-xi.vercel.app",
+    "revisionVerified": true
+  },
+  "environment": {
+    "applicationEnvironment": "production",
+    "vercelEnvironment": "production",
+    "vercelTargetEnvironment": "production",
+    "supabaseEnvironment": "production",
+    "supabaseProjectReference": "hskfanrqwtqknzpquwhg",
+    "configurationCandidateIdentifier": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "previewRegistryDisposition": null,
+    "stagingRegistryDisposition": null,
+    "productionRegistryDisposition": "EXACT_PROJECT_MATCH",
+    "productionProjectComparison": null,
+    "authSiteUrlVerified": true,
+    "authRedirectAllowListVerified": true,
+    "secretMetadataScopesVerified": true
+  },
+  "database": {
+    "localMigrationBaseline": 44,
+    "targetAppliedLedger": 44,
+    "driftResult": "EXACT_VERSION_NAME_LEDGER",
+    "compatibilityDisposition": "HOSTED_MIGRATION44_VERIFIED",
+    "migrationExecutionResult": "ALREADY_APPLIED_BEFORE_DEPLOYMENT"
+  },
+  "ci": {
+    "runId": 36531451773,
+    "runNumber": null,
+    "attempt": null,
+    "headCommit": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "validateResult": "SUCCESS",
+    "durationSeconds": null
+  },
+  "authorization": {
+    "candidateApprovalReference": "PHASE_11K_P11A017_FINAL_RETRY_SHARE_LINK_REMEDIATION_AND_DEPLOYMENT",
+    "deploymentOrRehearsalAuthorizationReference": "PHASE_11K_P11A017_FINAL_RETRY_SHARE_LINK_REMEDIATION_AND_DEPLOYMENT",
+    "productionAuthorizationReference": "PHASE_11K_P11A017_FINAL_RETRY_SHARE_LINK_REMEDIATION_AND_DEPLOYMENT",
+    "bootstrapAuthorizationReference": null,
+    "productionAuthorized": true,
+    "authorizedTarget": "production",
+    "authorizedWindow": "2026-09-29T07:45:00Z/2026-09-29T18:00:00Z",
+    "expiresAt": "2026-09-29T18:00:00Z",
+    "productionAuthorizationScope": "EXACTLY_ONE_GIT_SOURCE_PRODUCTION_DEPLOYMENT_AND_BOUNDED_SMOKE"
+  },
+  "execution": {
+    "operator": "Codex",
+    "independentReviewer": "ChatGPT",
+    "maintenanceWindow": "2026-09-29T07:45:00Z/2026-09-29T18:00:00Z",
+    "writeRestriction": "One share-link revoke, one Production classification update, one Supabase Auth URL save, one Git-source Production deployment; no database mutation",
+    "abortOrStopEvents": [
+      "Two earlier P11A-017 attempts stopped before deployment; current task remediated one verified historical share link."
+    ]
+  },
+  "smoke": {
+    "startedAt": null,
+    "completedAt": null,
+    "checks": [
+      {
+        "path": "/en",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Native Chrome rendered English shell; IAB DOM lang=en, dir=ltr."
+      },
+      {
+        "path": "/he",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Native Chrome rendered Hebrew shell; IAB DOM lang=he, dir=rtl."
+      },
+      {
+        "path": "GET /api/health",
+        "result": "PASS",
+        "status": 200,
+        "body": "{\"status\":\"live\"}",
+        "cacheControl": "no-store, max-age=0",
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "HEAD /api/health",
+        "result": "PASS",
+        "status": 200,
+        "body": "",
+        "cacheControl": "no-store, max-age=0",
+        "contentType": "application/json; charset=utf-8"
+      },
+      {
+        "path": "/en/today",
+        "result": "PASS",
+        "detail": "Signed-out request redirected to /en/auth/sign-in; localized sign-in form rendered; no private content observed."
+      },
+      {
+        "path": "/he/today",
+        "result": "PASS",
+        "detail": "Signed-out request redirected to /he/auth/sign-in; localized sign-in form rendered; no private content observed."
+      },
+      {
+        "path": "/en/auth/sign-up",
+        "result": "PASS",
+        "detail": "Invitation-only information; no self-service registration form."
+      },
+      {
+        "path": "/he/auth/sign-up",
+        "result": "PASS",
+        "detail": "Hebrew invitation-only information; no self-service registration form."
+      },
+      {
+        "path": "/en/auth/sign-in",
+        "result": "PASS",
+        "status": 200,
+        "detail": "English email/password form and recovery link rendered; no submission."
+      },
+      {
+        "path": "/he/auth/sign-in",
+        "result": "PASS",
+        "status": 200,
+        "detail": "Hebrew email/password form and recovery link rendered; no submission."
+      },
+      {
+        "path": "/en/auth/recover",
+        "result": "PASS",
+        "detail": "English recovery-request form rendered; no email submitted."
+      },
+      {
+        "path": "/he/auth/recover",
+        "result": "PASS",
+        "detail": "Hebrew recovery-request form rendered; no email submitted."
+      },
+      {
+        "path": "/en/auth/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /en/auth/confirmation-error."
+      },
+      {
+        "path": "/he/auth/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /he/auth/confirmation-error."
+      },
+      {
+        "path": "/en/auth/recover/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /en/auth/recover/error."
+      },
+      {
+        "path": "/he/auth/recover/confirm",
+        "result": "PASS",
+        "detail": "Missing parameters redirected to /he/auth/recover/error."
+      },
+      {
+        "path": "/en/auth/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to English invitation error; no OTP verification."
+      },
+      {
+        "path": "/he/auth/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to Hebrew invitation error; no OTP verification."
+      },
+      {
+        "path": "/en/auth/recover/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to English recovery error; no real token."
+      },
+      {
+        "path": "/he/auth/recover/confirm?token_hash=invalid&type=invalid",
+        "result": "PASS",
+        "detail": "Invalid purpose redirected to Hebrew recovery error; no real token."
+      }
+    ],
+    "result": "PASS_WITH_BOUNDED_REDIRECT_HEADER_VISIBILITY"
+  },
+  "observability": {
+    "livenessVerified": true,
+    "signalDeliveryVerified": false,
+    "acknowledgementVerified": false,
+    "result": "RUNTIME_ERRORS_ZERO; P11A014_SEPARATE_PENDING"
+  },
+  "recovery": {
+    "action": "NO_ROLLBACK_FOR_FORWARD_FIX_ONLY",
+    "previousApplicationDeployment": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+    "redeployResult": "NOT_EXECUTED_UNQUALIFIED_TARGET",
+    "forwardFixReference": "FORWARD_FIX_ONLY",
+    "incidentOrRecoveryQualificationReference": "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json"
+  },
+  "bootstrap": {
+    "oneTimeExceptionVerified": false,
+    "deploymentProtectionDisposition": "SSO_ALL_ZERO_EXTERNAL_ACCESS",
+    "vercelAuthenticationVerified": true,
+    "protectionBypassConfigured": false,
+    "shareableLinksCreated": 0,
+    "protectionExceptionsConfigured": 0,
+    "automaticGitDeploymentsEnabled": false,
+    "customProductionDomainAttached": false,
+    "realUsersPresent": "NOT_ASSESSED",
+    "invitationsExecuted": false,
+    "betaEnrollmentExecuted": false,
+    "externalLaunchCommunicationExecuted": false,
+    "ordinaryProductionAccessEnabled": false,
+    "findingClosureCreditClaimed": false,
+    "phase11JAcceptanceCreditClaimed": false,
+    "phase11KLaunchCreditClaimed": false,
+    "bootstrapSmokeResult": "HISTORICAL_MEMBER_SMOKE_PASS_AFTER_SHARE_LINK_REVOCATION"
+  },
+  "timestamps": {
+    "preflightStartedAt": "2026-09-29T07:43:39Z",
+    "deploymentStartedAt": "2026-09-29T07:50:20.732Z",
+    "verificationCompletedAt": "2026-09-29T08:03:00Z",
+    "windowClosedAt": null
+  },
+  "review": {
+    "operatorAttestation": "Codex recorded the bounded execution in phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+    "independentReviewDisposition": "PENDING",
+    "openGaps": [
+      "Independent review of this execution evidence",
+      "Historical deployment is not a qualified rollback/redeploy target; no rollback rehearsal was performed",
+      "Fresh 44-migration isolated restore and 8h RTO requalification remain pending",
+      "Real hosted Auth delivery/session flows, camera runtime and P11A-014 alert delivery remain separately pending"
+    ],
+    "evidenceDigest": "sha256:2e17d69b13e4dd3d5c46c01b813750df60976e9647064fe031dc92362859224a"
+  },
+  "publicLaunchAuthorized": false
+}
