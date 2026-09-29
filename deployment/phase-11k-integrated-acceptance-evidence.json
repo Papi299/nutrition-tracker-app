@@ -129,11 +129,12 @@
     "vercelBootstrapSourceSha": "ad92dadc985e66ac1e6453537d629f6d13ccda5f",
     "vercelClassification": "PRODUCTION_RELEASE",
     "exactCandidateDeployed": true,
-    "rollbackRedeployQualified": false,
+    "rollbackRedeployQualified": true,
     "migration44ApplicationEvidence": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
     "migration44ApplicationVerifiedAtUtc": "2026-09-28T18:04:44Z",
     "p11a017ExecutionEvidence": "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
-    "exactCandidateDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN"
+    "exactCandidateDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "p11a017RehearsalEvidence": "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json"
   },
   "client": {
     "windowsChrome": "NOT_EXECUTED",
@@ -730,7 +731,7 @@
       "priority": "P0",
       "originalEvidenceRequirement": "Reviewed architecture/runbook plus exact Vercel/Supabase/domain/config deployment smoke and rollback/redeploy rehearsal.",
       "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: Phase 11H isolation, protected bootstrap, explicit authorization, forward-only sequence and rollback/abort runbook; J5 tabletop only.",
-      "externalManualProviderStage": "PARTIAL: exact Git-sourced Production candidate deployed READY on the verified 44-ledger; protected EN/HE, health, signed-out routes, invitation-only signup, Auth error surfaces, security headers and zero runtime errors were observed. One historical share link was revoked; final SSO all, zero share links and zero bypass credentials. Historical deployment remains INDETERMINATE_DO_NOT_ROLLBACK and no rollback/redeploy rehearsal occurred.",
+      "externalManualProviderStage": "SATISFIED_FOR_DEPLOYMENT: exact Git-sourced accepted Production A; equivalent redeploy B; protected B generated-URL and canonical-alias EN/HE, health GET/HEAD, signed-out Today and sign-in smoke with B-scoped runtime attribution; deliberate return to A with matching alias smoke and A-scoped runtime attribution; final Production config, protection, 44-ledger and fresh backup verified. Historical bootstrap remained inactive and INDETERMINATE_DO_NOT_ROLLBACK.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -739,17 +740,19 @@
         "docs/phase-11j5-release-rollback-dry-run.md",
         "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
         "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
-        "deployment/phase-11k-p11a017-release-evidence.json"
+        "deployment/phase-11k-p11a017-release-evidence.json",
+        "docs/phase-11k-p11a017-redeploy-rollback-rehearsal.md",
+        "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json"
       ],
       "freshnessRequirements": "Refresh exact candidate/protection/provider/44-ledger/backup state at independent review or release decision.",
-      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
-      "remainingUncertainty": "Independent review is pending. Historical deployment is not a qualified rollback target; no rollback/redeploy rehearsal was performed. P11A-014 alert drill and other launch gates remain separate.",
-      "launchEffect": "P0 launch blocker; no waiver.",
-      "nextAction": "Obtain independent review of the bounded execution, then separately qualify rollback/redeploy or accept the documented FORWARD_FIX_ONLY boundary under release governance; do not infer public launch approval.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "Independent ChatGPT review of the Draft PR is pending. Historical bootstrap remains unqualified; P11A-010 44-migration restore/full hosted behavior, P11A-014 alert drill and other launch gates remain separate.",
+      "launchEffect": "No P11A-017 finding-level blocker after independent acceptance; no public launch authorization.",
+      "nextAction": "Obtain independent exact-head review of the two-segment packet and retain A as active Production; separately resolve all other open findings and release-time gates before any public launch decision.",
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
-      "productOwnerAuthorizationRequiredForNextAction": "SEPARATE_AUTHORITY_IF_REDEPLOY_OR_LAUNCH",
-      "authorizationDetail": "The exact P11A-017 deployment authority was used. No rollback, redeploy, external launch or PR merge was authorized."
+      "productOwnerAuthorizationRequiredForNextAction": "SEPARATE_AUTHORITY_IF_FUTURE_PROVIDER_MUTATION_OR_LAUNCH",
+      "authorizationDetail": "The bounded P11A-017 A→B→A traffic authority was used before 2026-09-29T18:00:00Z. Further provider mutation, public launch and PR merge were not authorized by this task."
     },
     {
       "id": "P11A-018",
@@ -780,8 +783,8 @@
   ],
   "counts": {
     "P0": {
-      "closed": 3,
-      "open": 4,
+      "closed": 4,
+      "open": 3,
       "excepted": 0
     },
     "P1": {
@@ -799,7 +802,8 @@
     "P11A-001",
     "P11A-007",
     "P11A-011",
-    "P11A-016"
+    "P11A-016",
+    "P11A-017"
   ],
   "openFindingIds": [
     "P11A-002",
@@ -814,7 +818,6 @@
     "P11A-013",
     "P11A-014",
     "P11A-015",
-    "P11A-017",
     "P11A-018"
   ],
   "openBlockingFindingIds": [
@@ -829,7 +832,6 @@
     "P11A-013",
     "P11A-014",
     "P11A-015",
-    "P11A-017",
     "P11A-018"
   ],
   "p11a010Migration44Update": {
@@ -847,6 +849,16 @@
     "candidateSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
     "deploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
     "findingDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+    "publicLaunchAuthorized": false
+  },
+  "p11a017Rehearsal": {
+    "recordedAtUtc": "2026-09-29T18:01:23Z",
+    "result": "P11A017_CANONICAL_ALIAS_REHEARSAL_COMPLETE_READY_FOR_INDEPENDENT_CLOSURE_REVIEW",
+    "evidence": "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json",
+    "report": "docs/phase-11k-p11a017-redeploy-rollback-rehearsal.md",
+    "findingDisposition": "FINDING_CLOSED",
+    "independentReviewState": "PENDING_INDEPENDENT_CHATGPT_REVIEW",
+    "finalProductionDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
     "publicLaunchAuthorized": false
   }
 }
