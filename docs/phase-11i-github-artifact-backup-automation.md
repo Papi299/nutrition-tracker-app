@@ -208,12 +208,22 @@ historical evidence. The current restore script intentionally rejects that
 ledger under its exact 44-source contract. Its 43-migration recovery code is
 preserved at commit `8259a33752209226c2e3886aba5d4a6a5ce5f570` for an
 authorized historical isolated recovery procedure; that path was not rerun by
-this reconciliation. A fresh 44-migration artifact and its restore
-qualification have not yet been proved. After independent review and merge,
-under separate authorization, manually dispatch the workflow from exact
-`main` and verify the encrypted artifact, 44-migration manifest, and 24-hour
-RPO before relying on the new
-recovery point. Do not dispatch the Production workflow from this Draft PR.
+this reconciliation. At the time of this 2026-09-28 reconciliation, a fresh
+44-migration artifact and its restore qualification had not yet been proved.
+
+### First current-contract backup (2026-09-29)
+
+The [scheduled exact-main run #14](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36513218364)
+completed successfully after the 44-migration correction merged. Its single
+encrypted artifact and redacted manifest passed the [ciphertext-only
+verification](phase-11i-migration44-fresh-backup-verification.md). No manual
+dispatch was needed. The backup was within the 24-hour RPO at verification;
+its completion-based freshness expires `2026-09-30T02:37:50.660Z` and must be
+rechecked at release time. The external manifest records the migration head,
+while the count of 44 is established by the exact-main source contract, fresh
+hosted ledger and successful backup script. The encrypted source snapshot was
+not decrypted. A 44-migration isolated restore and 8-hour RTO qualification
+remain pending under separate authority.
 
 ## 7. Failure and governance boundaries
 

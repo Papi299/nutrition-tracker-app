@@ -95,7 +95,13 @@
     "reconciledSourceMigrationCount": 44,
     "reconciledSourceMigrationHead": "20260927170418",
     "historicalRestoreQualificationMigrationCount": 43,
-    "fresh44MigrationBackupVerified": false,
+    "fresh44MigrationBackupVerified": true,
+    "fresh44BackupEvidence": "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+    "fresh44BackupRunId": 36513218364,
+    "fresh44BackupArtifactId": 11009933286,
+    "fresh44BackupCompletedAtUtc": "2026-09-29T02:37:50.660Z",
+    "fresh44RpoFreshAtVerification": true,
+    "fresh44RpoFreshnessExpiresUtc": "2026-09-30T02:37:50.660Z",
     "fresh44MigrationRestoreQualified": false
   },
   "security": {
@@ -535,7 +541,7 @@
       "priority": "P1",
       "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
       "repositoryLocalImplementationStage": "SATISFIED: Phase 11H/J5 runbook and 44 local migrations replayed/seeded; migration-role compatibility; migration 44 is sole ordered suffix to prior 43.",
-      "externalManualProviderStage": "PARTIAL: authorized Production migration 44 applied as the sole pending migration; hosted ledger exactly matches all 44 repository versions/names; post-44 verifier, RPC, closure table, scoped catalog and advisors independently verified. Exact deployed candidate and release-time checks remain pending.",
+      "externalManualProviderStage": "PARTIAL: authorized Production migration 44 applied as the sole pending migration; hosted ledger exactly matches all 44 repository versions/names; post-44 verifier, RPC, closure table, scoped catalog and advisors independently verified. Scheduled exact-main backup #14 produced an encrypted 44-contract artifact and was fresh at 2026-09-29T05:56:14Z. Exact deployed candidate and release-time checks remain pending.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -548,17 +554,20 @@
         "docs/phase-11k-p11a010-migration44-application-verification.md",
         "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
         "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487772",
-        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487341"
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36460487341",
+        "docs/phase-11i-migration44-fresh-backup-verification.md",
+        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36513218364"
       ],
-      "freshnessRequirements": "Before P11A-017, independently review and merge the 44-migration recovery correction, verify a fresh exact-main 44-migration encrypted artifact within 24h RPO, and refresh exact target/44-ledger/advisors, current Storage scope and exact candidate/deployment compatibility.",
+      "freshnessRequirements": "The verified backup's 24h freshness expires 2026-09-30T02:37:50.660Z; recheck freshness and exact target/44-ledger/advisors, Storage scope and candidate/deployment compatibility at release time.",
       "currentDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
-      "remainingUncertainty": "Historical migration-file bytes beyond version/name order and full-database schema parity are unclaimed; app/Vault secret match and real hosted closure behavior were not tested. Exact candidate deployment, smoke and rollback remain pending. The branch contract is reconciled to 44, but a fresh exact-main 44-migration artifact and restore qualification have not been proved.",
+      "remainingUncertainty": "Historical migration-file bytes beyond version/name order and full-database schema parity are unclaimed; app/Vault secret match and real hosted closure behavior were not tested. Exact candidate deployment, smoke and rollback remain pending. A fresh 44-contract backup is verified, but 44-migration isolated restore and 8h RTO have not been requalified.",
       "launchEffect": "P1 blocker; no exception granted.",
-      "nextAction": "Independently review and merge the 44-migration recovery correction, then separately authorize and verify a fresh exact-main encrypted backup before P11A-017 deployment authority and release-time hosted checks.",
+      "nextAction": "Independently review and merge this backup evidence, then separately authorize P11A-017 exact-candidate deployment, smoke and rollback/redeploy. Recheck backup freshness and hosted state at release time; separately qualify a 44-migration restore if current governance requires it.",
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Product Owner's conditional migration-44 authority was used after all gates passed. This separate task authorizes the recovery contract correction and read-only hosted verification, but not backup workflow dispatch, Vercel deployment or Production release."
+      "authorizationDetail": "Product Owner's migration-44 and fresh-backup authorities have been used. This task adopted the suitable scheduled backup without manual dispatch; Vercel deployment, restore and Production release require separate authority."
     },
     {
       "id": "P11A-011",
