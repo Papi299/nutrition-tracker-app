@@ -7,8 +7,11 @@ import { join, resolve } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { captureBackup } from "./phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "./phase-11i-restore-pipeline.mjs";
-import { validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
+import { validateCompletedOwnerActivation, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
 import { assertRedactedEvidence, RECOVERY_TARGET, sha256 } from "./phase-11i-recovery-contract.mjs";
+
+import { assertPublicVerificationSummary } from "./phase-11i-public-verification.mjs";
+import { verifyGitHubArtifact } from "./verify-phase-11i-github-artifact.mjs";
 
 const SYNTHETIC_IDENTITY = "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE";
 const sourceProject = "phase-11i-synthetic-populated-fixture";
@@ -127,6 +130,11 @@ try {
   rejected("orphanIndirectChild", `set local session_replication_role=replica; update public.saved_meal_items set saved_meal_id='${foreign}'`);
   rejected("foreignCustomFood", `set local session_replication_role=replica; update public.foods set owner_user_id='${foreign}' where id='${food}'`);
   rejected("missingReferenceCode", "set local session_replication_role=replica; delete from public.nutrients where code='protein_g'");
+  for (const [label, mutation] of [
+    ["missingCompletedActivation", "delete from public.account_activations"],
+    ["wrongActivationVersion", "update public.account_activations set eligibility_statement_version='obsolete'"],
+    ["foreignActivationOwner", `set local session_replication_role=replica; update public.account_activations set user_id='${foreign}'`],
+  ]) rejected(label, mutation, validateCompletedOwnerActivation);
   const cert = join(root, "recipient.crt");
   const key = join(root, "recipient.key");
   run("openssl", ["req", "-x509", "-newkey", "rsa:3072", "-nodes", "-keyout", key, "-out", cert, "-days", "1", "-subj", "/CN=P11A010 Synthetic Fixture"]);
@@ -160,7 +168,52 @@ try {
   process.stdout.write("Capturing populated synthetic owner with temporary CMS recipient.\n");
   const capture = await captureBackup(options);
   assert.deepEqual(readdirSync(backupRoot).sort(), [capture.archivePath.split("/").at(-1), capture.manifestPath.split("/").at(-1)].sort());
-  commandsPassed += 2;
+  const manifestBytes = readFileSync(capture.manifestPath);
+  const manifest = JSON.parse(manifestBytes.toString("utf8"));
+  assertPublicVerificationSummary(manifest.publicVerificationSummary);
+  assert.deepEqual(manifest.publicVerificationSummary, {
+    schemaVersion: "phase-11i-public-verification-summary/v1",
+    migration: { count: 44, head: "20260927170418" }, storage: { buckets: 0, objects: 0 },
+    ownerState: { profile: "PERSONAL_USE_ONE_NON_DELETED_OWNER", authUserCount: 1,
+      accountActivationCount: 1, ownershipValidation: "PASS" }, sourceCaptureConsistency: "PASS",
+  });
+  const verifierOptions = { backupRootInput: backupRoot, runnerTempInput: root,
+    workspaceInput: repositoryRoot, githubSha: manifest.sourceCommit,
+    assertSourceIdentity: assertSyntheticSource, assertArtifactIdentity: assertSyntheticArtifact,
+    assertRecipient: options.assertRecipient };
+  const verifiedArtifact = verifyGitHubArtifact(verifierOptions);
+  assert.equal(verifiedArtifact.encryptedArchiveSha256, manifest.encryptedArchiveSha256);
+  assert.equal(verifiedArtifact.manifestSha256, sha256(manifestBytes));
+  // Run the real artifact-pair verifier against malformed synthetic outer manifests.
+  for (const [label, change] of [
+    ["missingPublicSummary", (m) => { delete m.publicVerificationSummary; }],
+    ["wrongPublicMigrationCount", (m) => { m.publicVerificationSummary.migration.count = 43; }],
+    ["wrongPublicMigrationHead", (m) => { m.publicVerificationSummary.migration.head = "wrong"; }],
+    ["publicStorageNonzero", (m) => { m.publicVerificationSummary.storage.objects = 1; }],
+    ["wrongPublicOwnerProfile", (m) => { m.publicVerificationSummary.ownerState.profile = "BOOTSTRAP"; }],
+    ["wrongPublicOwnerCount", (m) => { m.publicVerificationSummary.ownerState.authUserCount = 2; }],
+    ["wrongPublicActivationCount", (m) => { m.publicVerificationSummary.ownerState.accountActivationCount = 0; }],
+    ["failedPublicOwnership", (m) => { m.publicVerificationSummary.ownerState.ownershipValidation = "FAIL"; }],
+    ["failedPublicConsistency", (m) => { m.publicVerificationSummary.sourceCaptureConsistency = "FAIL"; }],
+    ["unexpectedPublicSummaryKey", (m) => { m.publicVerificationSummary.extra = "unexpected"; }],
+    ["outerDetailedTableCounts", (m) => { m.tableCounts = {}; }],
+    ["publicOwnerUuid", (m) => { m.publicVerificationSummary.ownerState.ownerUuid = "opaque-synthetic"; }],
+    ["publicDiaryNutritionMetadata", (m) => { m.publicVerificationSummary.ownerState.nutritionTargets = {}; }],
+  ]) {
+    const changed = structuredClone(manifest); change(changed);
+    writeFileSync(capture.manifestPath, JSON.stringify(changed), { mode: 0o600 });
+    try { assert.throws(() => verifyGitHubArtifact(verifierOptions)); negativeResults[label] = "PASS"; }
+    finally { writeFileSync(capture.manifestPath, manifestBytes, { mode: 0o600 }); }
+  }
+  // Environment switches cannot make the executable accept a synthetic source.
+  const cliVerification = spawnSync(process.execPath, [join(repositoryRoot, "scripts/verify-phase-11i-github-artifact.mjs")], {
+    encoding: "utf8", env: { ...process.env, PHASE11I_BACKUP_ROOT: backupRoot,
+      RUNNER_TEMP: root, GITHUB_WORKSPACE: repositoryRoot, GITHUB_SHA: manifest.sourceCommit,
+      ALLOW_NON_PRODUCTION_SOURCE: "1", SKIP_PROJECT_CHECK: "1" },
+  });
+  assert.notEqual(cliVerification.status, 0);
+  negativeResults.productionArtifactCliRejectsSyntheticIdentity = "PASS";
+  commandsPassed += 6;
   process.stdout.write("Starting fresh isolated target and replaying encrypted recovery.\n");
   startedProjects.push(targetProject);
   targetCli(["start", "--exclude", excludes]);
@@ -171,6 +224,21 @@ try {
     targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
     assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
     runSupabase: targetCli });
+  // Restore the same valid v1 artifact after removing only the additive outer field.
+  // This exercises historical compatibility without altering the encrypted archive.
+  const historicalManifest = structuredClone(manifest);
+  delete historicalManifest.publicVerificationSummary;
+  writeFileSync(capture.manifestPath, JSON.stringify(historicalManifest), { mode: 0o600 });
+  let historicalRestored;
+  try {
+    historicalRestored = restoreBackup({ archiveInput: capture.archivePath, manifestInput: capture.manifestPath,
+      recipientInput: cert, privateKeyInput: key, reportInput: join(root, "historical-restore-report.json"),
+      targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
+      assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
+      runSupabase: targetCli });
+    assert.deepEqual(historicalRestored.restoreSafeCounts, restored.restoreSafeCounts);
+    commandsPassed++;
+  } finally { writeFileSync(capture.manifestPath, manifestBytes, { mode: 0o600 }); }
   process.chdir(repositoryRoot);
   const targetDb = dbAt(targetProject);
   // Compare full selected rows including timestamps, snapshots, references, and opaque IDs in memory.
@@ -200,7 +268,6 @@ try {
   assert.equal(restored.authComparison.restore.sessions, 0);
   assert.equal(restored.authComparison.restore.refreshTokens, 0);
   commandsPassed += 2;
-  const manifest = JSON.parse(readFileSync(capture.manifestPath, "utf8"));
   const report = { schemaVersion: "p11a010-populated-synthetic-qualification/v1", sourceIdentity: SYNTHETIC_IDENTITY,
     startedAt, completedAt: new Date().toISOString(), result: "PASS", sourceSafeCounts: capture.sourceSafeCounts.tableCounts,
     restoreSafeCounts: restored.restoreSafeCounts, authComparison: restored.authComparison,
@@ -208,10 +275,14 @@ try {
     roleComparison: restored.roleComparison, schemaComparison: restored.schemaComparison,
     semanticRecovery, negativeResults, behavioralAssertionsPassed: commandsPassed,
     negativeCasesPassed: Object.keys(negativeResults).length,
+    publicVerificationSummary: manifest.publicVerificationSummary,
+    publicManifestContainsDetailedCounts: false, githubArtifactVerification: "PASS",
+    historicalManifestWithoutSummaryRestored: true,
     dumpTools: manifest.dumpTools,
     testedToolingSha256: Object.fromEntries([
       "phase-11i-recovery-contract.mjs", "phase-11i-backup-pipeline.mjs", "phase-11i-restore-pipeline.mjs",
       "phase-11i-owner-validation.mjs", "qualify-phase-11i-populated-recovery.mjs",
+      "phase-11i-public-verification.mjs", "verify-phase-11i-github-artifact.mjs",
       "run-phase-11i-backup.mjs", "run-phase-11i-restore.mjs",
     ].map((name) => [name, sha256(readFileSync(join(repositoryRoot, "scripts", name)))])),
     storage: restored.storage, rlsComparison: restored.rlsComparison, grantComparison: restored.grantComparison,

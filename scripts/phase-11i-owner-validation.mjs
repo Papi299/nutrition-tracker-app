@@ -81,6 +81,24 @@ export function validateOwnerDatabase(rows) {
   } };
 }
 
+// New captures require completed activation; historical restore policy stays unchanged.
+export function validateCompletedOwnerActivation(rows) {
+  const counts = rows(`
+    select count(*), count(*) filter (where
+      user_id = (select id from auth.users where deleted_at is null)
+      and eligibility_statement_version = 'p11e-e001-private-beta-eligibility-v1'
+      and activation_completed_at is not null
+      and eligibility_accepted_at is not null
+      and activation_completed_at = eligibility_accepted_at)
+    from public.account_activations;
+  `);
+  if (counts.length !== 1 || counts[0].length !== 2 ||
+      Number(counts[0][0]) !== 1 || Number(counts[0][1]) !== 1) {
+    fail("New personal-use backup requires one completed activation for the sole owner.");
+  }
+  return 1;
+}
+
 export function assertDatabaseSecurity({ rlsDisabledTables, unexpectedMutationGrants, securityDefinerMissingSearchPath }) {
   if (rlsDisabledTables.length || unexpectedMutationGrants.length || securityDefinerMissingSearchPath.length) {
     fail("RLS, grant, or SECURITY DEFINER search_path validation failed.");
