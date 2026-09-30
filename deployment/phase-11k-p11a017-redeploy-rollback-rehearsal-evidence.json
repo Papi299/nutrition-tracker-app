@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE_11K_P11A017_FINAL_ALIAS_SMOKE_CLOSURE",
+  "recordedAtUtc": "2026-09-29T18:01:23Z",
+  "result": "P11A017_CANONICAL_ALIAS_REHEARSAL_COMPLETE_READY_FOR_INDEPENDENT_CLOSURE_REVIEW",
+  "reviewState": "PENDING_INDEPENDENT_CHATGPT_REVIEW",
+  "publicLaunchAuthorized": false,
+  "baseline": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "mainSha": "cbb672acb804dafb8a65a79ffef3648059faf734",
+    "mainTree": "6c58fd0a95dc13f046fbebba5bddb7aaf4c94e6f",
+    "acceptedApplicationSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "acceptedApplicationTree": "fc1689dd3cbf5af19e1a8bd43bcda4710d274f14",
+    "initialOpenPrCount": 0,
+    "validateRunId": 36560410473,
+    "validate": "SUCCESS",
+    "codeqlRunId": 36560409905,
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "teamId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+    "productionAlias": "https://nutrition-tracker-app-xi.vercel.app",
+    "deploymentIds": {
+      "A": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "B": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+      "historicalBootstrap": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg"
+    }
+  },
+  "equivalence": {
+    "AandBReady": true,
+    "AandBTarget": "production",
+    "AandBProjectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "AandBGitHubRepository": "Papi299/nutrition-tracker-app",
+    "AandBSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "ASource": "git",
+    "BSource": "redeploy",
+    "BOrigin": "redeploy of A",
+    "productionDeploymentClass": "PRODUCTION_RELEASE",
+    "productionSupabaseProjectRef": "hskfanrqwtqknzpquwhg",
+    "productionAppOrigin": "https://nutrition-tracker-app-xi.vercel.app",
+    "requiredProductionConfigReadBack": true,
+    "sensitiveSecretMetadataPresentCount": 2,
+    "secretValuesRead": false,
+    "gitDeploymentEnabled": false
+  },
+  "segment1": {
+    "description": "Exact A redeploy, direct B smoke, and safe A restoration in the earlier P11A-017 retry.",
+    "newDeploymentCount": 1,
+    "newDeploymentId": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+    "BbecameCurrentProduction": true,
+    "BGeneratedUrlSmoke": "PASS: EN/LTR, HE/RTL, health GET/HEAD, signed-out Today and localized sign-in.",
+    "BCanonicalAliasSmoke": "INTERRUPTED: native Chrome control exposed an unrelated private window and automatic approval review rejected further control.",
+    "rollbackTargetProof": "Immediately previous Production deployment explicitly identified as A.",
+    "rollbacksToA": 1,
+    "ApostRollbackAliasSmoke": "PASS",
+    "shareLinksCreated": 0,
+    "protectedFetchConnectorCalls": 0,
+    "evidenceDraftPrCreated": false
+  },
+  "segment2": {
+    "description": "No new deployment; two explicitly targeted Hobby Instant Rollback traffic switches.",
+    "authorizationWindowEndUtc": "2026-09-29T18:00:00Z",
+    "nativeChromePreflight": "PASS: dedicated Nutrition Tracker window loaded A through /en and /api/health before traffic change.",
+    "initialExternalAccess": "No external access",
+    "firstSwitch": {
+      "from": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "to": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+      "targetProof": "Vercel Instant Rollback dialog showed current A and immediately previous B, both accepted SHA.",
+      "actionCount": 1,
+      "providerAliasAfter": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu"
+    },
+    "chromeInterruptionAfterFirstSwitch": "An unrelated Chrome window became active. No interaction with that content or protected-fetch fallback occurred. The user restored the dedicated window before B smoke.",
+    "BCanonicalAliasSmoke": {
+      "method": "Native Chrome Vercel member session; same-origin Console fetch for status and health headers.",
+      "observedUtcWindow": "2026-09-29T17:54:42Z/2026-09-29T17:55:54Z",
+      "providerAliasDuringSmoke": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+      "rows": [
+        {
+          "path": "/en",
+          "status": 200,
+          "detail": "Native Chrome rendered English shell; document lang=en and dir=ltr."
+        },
+        {
+          "path": "/he",
+          "status": 200,
+          "detail": "Native Chrome rendered Hebrew shell; document lang=he and dir=rtl."
+        },
+        {
+          "path": "GET /api/health",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "cacheControl": "no-store, max-age=0",
+          "body": "{\"status\":\"live\"}"
+        },
+        {
+          "path": "HEAD /api/health",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "cacheControl": "no-store, max-age=0",
+          "body": ""
+        },
+        {
+          "path": "/en/today",
+          "status": 307,
+          "detail": "Signed-out request redirected to /en/auth/sign-in; no private content."
+        },
+        {
+          "path": "/he/today",
+          "status": 307,
+          "detail": "Signed-out request redirected to /he/auth/sign-in; no private content."
+        },
+        {
+          "path": "/en/auth/sign-in",
+          "status": 200,
+          "detail": "Localized email/password form rendered; no submission."
+        },
+        {
+          "path": "/he/auth/sign-in",
+          "status": 200,
+          "detail": "Localized email/password form rendered; no submission."
+        }
+      ],
+      "providerAttribution": {
+        "method": "Vercel deployment-scoped Production runtime logs",
+        "deploymentId": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+        "observedRoutes": [
+          "/en",
+          "/he",
+          "/api/health",
+          "/en/today",
+          "/he/today",
+          "/en/auth/sign-in",
+          "/he/auth/sign-in"
+        ],
+        "healthGetAndHeadLoggedAtUtc": "2026-09-29T17:55:26Z",
+        "todayStatuses": [
+          307,
+          307
+        ],
+        "runtimeErrorClusters": 0
+      }
+    },
+    "restoration": {
+      "from": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+      "to": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "targetProof": "Vercel Instant Rollback dialog showed current B and immediately previous A, both accepted SHA.",
+      "actionCount": 1,
+      "providerAliasAfter": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "completedBeforeAuthorizationDeadline": true
+    },
+    "chromeInterruptionAfterRestoration": "An unrelated Chrome window became active; the user restored the dedicated window before A post-restoration smoke.",
+    "ApostRestorationAliasSmoke": {
+      "method": "Native Chrome Vercel member session; same-origin Console fetch for status and health headers.",
+      "observedUtcWindow": "2026-09-29T17:59:00Z/2026-09-29T18:00:10Z",
+      "providerAliasDuringSmoke": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "rows": [
+        {
+          "path": "/en",
+          "status": 200,
+          "detail": "Native Chrome rendered English shell; document lang=en and dir=ltr."
+        },
+        {
+          "path": "/he",
+          "status": 200,
+          "detail": "Native Chrome rendered Hebrew shell; document lang=he and dir=rtl."
+        },
+        {
+          "path": "GET /api/health",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "cacheControl": "no-store, max-age=0",
+          "body": "{\"status\":\"live\"}"
+        },
+        {
+          "path": "HEAD /api/health",
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "cacheControl": "no-store, max-age=0",
+          "body": ""
+        },
+        {
+          "path": "/en/today",
+          "status": 307,
+          "detail": "Signed-out request redirected to /en/auth/sign-in; no private content."
+        },
+        {
+          "path": "/he/today",
+          "status": 307,
+          "detail": "Signed-out request redirected to /he/auth/sign-in; no private content."
+        },
+        {
+          "path": "/en/auth/sign-in",
+          "status": 200,
+          "detail": "Localized email/password form rendered; no submission."
+        },
+        {
+          "path": "/he/auth/sign-in",
+          "status": 200,
+          "detail": "Localized email/password form rendered; no submission."
+        }
+      ],
+      "providerAttribution": {
+        "method": "Vercel Production runtime logs grouped by requestPath, scoped to Deployment A and 17:59:00Z–18:00:10Z",
+        "deploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+        "requestPathCounts": {
+          "/en": 7,
+          "/he": 8,
+          "/api/health": 2,
+          "/en/today": 1,
+          "/he/today": 1,
+          "/en/auth/sign-in": 3,
+          "/he/auth/sign-in": 3
+        },
+        "observedStatusCounts": {
+          "200": 31,
+          "307": 2
+        },
+        "runtimeErrorClusters": 0
+      }
+    }
+  },
+  "finalState": {
+    "providerAliasDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "deploymentCount": 3,
+    "A": "READY_CURRENT",
+    "B": "READY_INACTIVE",
+    "historicalBootstrap": "READY_INACTIVE_DO_NOT_ROLLBACK",
+    "vercelAuthentication": "All Deployments",
+    "externalAccess": "No external access",
+    "activeShareLinks": 0,
+    "automationBypassCredentials": 0,
+    "protectionExceptions": 0,
+    "supabaseProjectId": "hskfanrqwtqknzpquwhg",
+    "supabaseStatus": "ACTIVE_HEALTHY",
+    "hostedMigrationCount": 44,
+    "hostedMigrationHead": "20260927170418_harden_account_closure_mac_comparison",
+    "storageBuckets": 0,
+    "storageObjects": 0,
+    "backupRunId": 36513218364,
+    "backupArtifactId": 11009933286,
+    "backupCompletedAtUtc": "2026-09-29T02:37:50.660Z",
+    "acceptedRpoExpiresAtUtc": "2026-09-30T02:37:50.660Z",
+    "backupWithinRpoAtFinalRead": true
+  },
+  "mutationAudit": {
+    "segment1NewProductionDeployments": 1,
+    "segment1Rollbacks": 1,
+    "segment2NewDeployments": 0,
+    "segment2TrafficSwitches": 2,
+    "segment2ShareLinkCleanupRevocations": 0,
+    "segment2ShareLinksCreated": 0,
+    "segment2ProtectedFetchConnectorCalls": 0,
+    "segment2AutomationBypassCredentialsCreated": 0,
+    "segment2EnvironmentChanges": 0,
+    "segment2SupabaseAuthChanges": 0,
+    "segment2DatabaseMigrations": 0,
+    "segment2DdlDml": 0,
+    "segment2UsersCreated": 0,
+    "segment2EmailsSent": 0,
+    "segment2StorageOrVaultMutations": 0,
+    "segment2BackupsOrRestores": 0,
+    "historicalBootstrapActivations": 0,
+    "paidPlanChanges": 0
+  },
+  "findingImpact": {
+    "p11a017": "FINDING_CLOSED",
+    "closureBasis": "Exact accepted deployment, protected canonical-alias B smoke with B log attribution, and deliberate restoration to known-good A with post-restoration smoke and log attribution.",
+    "independentReviewPending": true,
+    "otherFindingsUnchanged": true,
+    "publicLaunchAuthorized": false,
+    "remainingSeparateGates": [
+      "P11A-010 full hosted behavior and 44-migration restore/RTO requalification",
+      "P11A-014 delivered alerts and drill",
+      "Other open Phase 11K findings"
+    ]
+  }
+}
