@@ -87,16 +87,18 @@
     "lint": "PASS",
     "typecheck": "PASS",
     "dependencyPolicy": {
-      "status": "FAIL",
-      "package": "next",
-      "version": "16.3.3",
-      "advisory": "GHSA-vcvr-r3jv-pc5j",
-      "severity": "critical",
-      "publishedAtUtc": "2026-09-30T14:48:30Z",
-      "firstPatchedVersion": "16.3.6"
+      "status": "PASS",
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
     },
     "diffCheck": "PASS",
-    "syntheticQualificationCommand": "npm run recovery:qualify-populated-local -- /absolute/restricted/redacted-report.json"
+    "syntheticQualificationCommand": "npm run recovery:qualify-populated-local -- /absolute/restricted/redacted-report.json",
+    "productionBuildClientSecretBoundary": {
+      "status": "PASS",
+      "browserStaticArtifactsInspected": 115
+    }
   },
   "syntheticQualification": {
     "schemaVersion": "p11a010-populated-synthetic-qualification/v1",
@@ -386,5 +388,19 @@
   "remainingWork": "Independent exact-head review and separately human-authorized merge; then separately authorize and verify a real Production owner-state backup. No Production operation is authorized here. Formal 8-hour RTO and repeated drills remain improvements.",
   "delivery": "DRAFT_PR_ONLY_EXACT_HEAD_CI_RECORDED_IN_PR_AND_COMPLETION_REPORT",
   "successMarker": "PENDING_REQUIRED_EXACT_HEAD_CI",
-  "deliveryBlocker": "New critical Next.js advisory published after the starting baseline CI; runtime dependency correction is outside the narrowly authorized recovery tooling implementation."
+  "authorizedDependencyCorrection": {
+    "recordedAtUtc": "2026-09-30T16:44:56.221263+00:00",
+    "authorization": "Human explicitly selected: Apply the dependency patch and finish exact-head CI",
+    "advisory": "GHSA-vcvr-r3jv-pc5j",
+    "publishedAtUtc": "2026-09-30T14:48:30Z",
+    "previousVersion": "16.3.3",
+    "nextVersion": "16.3.6",
+    "eslintConfigNextVersion": "16.3.6",
+    "changedFiles": [
+      "package.json",
+      "package-lock.json"
+    ],
+    "scope": "Runtime dependency patch only; merge/deployment/Production operations remain unauthorized",
+    "recoveryQualificationToolingHashesUnchanged": true
+  }
 }

@@ -38,6 +38,8 @@ Production stays bound to `hskfanrqwtqknzpquwhg`, environment `Production`, appr
 
 The migration guard remains exactly **44**, head **20260927170418**. Storage nonzero still raises `PHASE_11I_STORAGE_BACKUP_SCOPE_EXPANSION_REQUIRED`. Public-table RLS and anonymous/PUBLIC mutation checks remain; public/ingestion definer functions require the empty search path used by the accepted migrations. Role/grant/schema backup, redacted Auth configuration, symlink/path checks, member allowlist, hashes and local isolated restore identity are preserved. Command failures do not emit raw database diagnostics or Auth row values. The scheduled workflow is unchanged and still invokes `npm run recovery:backup`; it was not dispatched.
 
+The starting baseline CI passed, but critical [GHSA-vcvr-r3jv-pc5j](https://github.com/advisories/GHSA-vcvr-r3jv-pc5j) entered the advisory database during implementation and initially blocked Validate on unchanged Next.js 16.3.3. The Product Owner explicitly authorized the prepared runtime dependency correction in this task. Next.js and matching `eslint-config-next` are now pinned to 16.3.6, with only their corresponding lockfile entries updated. No application feature code changed, no gate was bypassed, and no deployment is authorized. The synthetic recovery tooling hashes remain unchanged by this dependency patch.
+
 ## Synthetic capture and isolated recovery
 
 Local Supabase replayed all 44 migrations in each fresh stack. Privileged setup was confined to the harness; the application was never started with service-role credentials. Activation, profile/target, custom food/receipt, diary/receipt and saved meal used accepted SQL RPC helpers under the authenticated owner role. Local invitation metadata, synthetic shared catalog volume and the temporary Vault capability used privileged fixture SQL; no schema alteration was committed or left behind.
@@ -60,7 +62,8 @@ Qualification: `2026-09-30T16:27:16.362Z` → `2026-09-30T16:30:59.410Z`. Test d
 | `npm run security:workflow` | 4 passed; validator PASS |
 | `npm run test:security` | 5 advisory-policy + 7 browser-policy tests passed |
 | `npm run test:date` | 351 passed; 0 failed |
-| `npm run lint`, `npm run typecheck`, `git diff --check` | PASS |
+| `npm run security:build-boundary` after authorized dependency correction | Production build PASS; 115 browser/static artifacts inspected, server-only canaries absent |
+| `npm run lint`, `npm run typecheck`, `npm run security:dependencies`, `git diff --check` | PASS |
 | `npm run recovery:qualify-populated-local -- /absolute/restricted/redacted-report.json` | PASS: 24 positive assertions and 11 live database rejection cases; 0 failed |
 
 Live rejection cases: additional Auth user, foreign identity, foreign application owner, orphan meal child, foreign custom food, missing reference code, migration mismatch, nonzero Storage, disabled RLS, anonymous mutation grant and unsafe definer path. Unit regressions cover volatile restore rejection, durable Auth/count loss, Production identity/environment/transport/recipient, plaintext durable output, unsafe archive members and role drift. Existing contract tests retain malformed identities/hash checks, local target protection and unrelated retention/workflow safeguards.
@@ -73,4 +76,4 @@ All eleven requested audit values are **0**: Production Supabase reads/writes, b
 
 P11A-010-A1 stays `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING` with `personalUseBlocker=true`. Independent ChatGPT review and a separately authorized merge precede the next separately authorized real Production owner-state backup. Only that later proof can close the blocker. Formal RTO/cadence work remains Bucket B. This task ends at an unmerged Draft PR; exact final head/tree and authoritative CI links are recorded in its body and the completion report.
 
-Exact-head readiness marker withheld: required dependency gate reports critical [GHSA-vcvr-r3jv-pc5j](https://github.com/advisories/GHSA-vcvr-r3jv-pc5j), published after starting-main CI. Next.js 16.3.3 is affected; first patched version is 16.3.6. A runtime dependency correction requires scope authorization.
+Readiness is claimed only in the final completion report after all three required checks succeed on the final PR head. This document was recorded before those checks completed.
