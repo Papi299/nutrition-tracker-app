@@ -1,5 +1,23 @@
 # Phase 11K launch checklist
 
+## Active personal owner-use checklist — DEC-040
+
+This is the [current owner-readiness baseline](phase-11k-personal-use-owner-readiness-baseline.md), a scope amendment for one private owner. `publicLaunchAuthorized=false`. The accepted deployment/evidence is the application baseline; no new candidate or redeployment is required by this documentation change.
+
+| Gate | Current state | Smallest required follow-up |
+| --- | --- | --- |
+| P11A-010-A1 | `OPEN_PERSONAL_USE_BLOCKER` | Correct empty-bootstrap backup guards and prove safe populated capture/recovery; separately authorize/adopt an owner-state recurring backup. |
+| Exact-head delivery | Independent ChatGPT review pending | Validate + CodeQL Actions + CodeQL JavaScript/TypeScript on the exact PR head; no self-approval. This task ends at Draft PR, with no merge. |
+
+`REQUIRED_BEFORE_OWNER_USE=1`; `POST_OWNER_USE_IMPROVEMENT=19`; `NOT_REQUIRED_PERSONAL_USE_PROFILE=20` (remaining subrequirements). See the [authoritative matrix](../deployment/phase-11k-personal-use-owner-readiness-baseline.json) for all twelve historical open findings; only P11A-010 is now an owner-use blocker. P11A-014 is not required, without PASS credit. Six historical closed findings remain closed. Windows stays deferred/unverified and is excluded from current verified owner support.
+
+**Conclusion:** `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`. B work is incremental; C work is removed from the active profile. Any later provider action needs separate authority. No public/commercial launch follows from personal-use acceptance.
+
+## Preserved historical launch checklist
+
+The following earlier updates and final-release checklist retain historical meaning. They are superseded as active personal-use prerequisites only where DEC-040 classifies them differently; their unexecuted tests are not now passed.
+
+
 **Current gate:** `PHASE_11K_INTEGRATED_ACCEPTANCE_INCOMPLETE_OPEN_BLOCKERS`; launch authorization request is ineligible. `productionReleaseAuthorized=false`. This is a future evidence checklist, not permission to perform any action.
 
 P11A-017 operational update (2026-09-29 UTC): one exact Git-sourced Production deployment is READY, protected smoke passed, and final SSO/share-link/bypass checks are clean. The [execution packet](phase-11k-p11a017-exact-candidate-deployment-verification.md) awaits independent review. This does not authorize public launch or close the unqualified rollback/redeploy and 44-migration restore boundaries.

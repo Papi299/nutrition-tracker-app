@@ -341,7 +341,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
-      "authorizationDetail": "Finding closed; future release gates remain separate."
+      "authorizationDetail": "Finding closed; future release gates remain separate.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-002",
@@ -367,7 +371,14 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES_FOR_HOSTED_STAGE",
-      "authorizationDetail": "Signed manual sessions use assigned reviewer; deployed/provider journey requires separate Product Owner release authority."
+      "authorizationDetail": "Signed manual sessions use assigned reviewer; deployed/provider journey requires separate Product Owner release authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-002-B1",
+        "P11A-002-C1"
+      ]
     },
     {
       "id": "P11A-003",
@@ -390,7 +401,14 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_NATIVE_REVIEW",
-      "authorizationDetail": "Assigned native reviewer can review final copy; policy decisions remain under P11A-009."
+      "authorizationDetail": "Assigned native reviewer can review final copy; policy decisions remain under P11A-009.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-003-B1",
+        "P11A-003-C1"
+      ]
     },
     {
       "id": "P11A-004",
@@ -414,7 +432,15 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_MANUAL_REVIEW",
-      "authorizationDetail": "Assigned accessibility owner can perform bounded manual review; deployed access needs its own release authority."
+      "authorizationDetail": "Assigned accessibility owner can perform bounded manual review; deployed access needs its own release authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-004-B1",
+        "P11A-004-B2",
+        "P11A-004-C1"
+      ]
     },
     {
       "id": "P11A-005",
@@ -438,7 +464,14 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES_FOR_SUPPORT_SCOPE_DECISION",
-      "authorizationDetail": "Product Owner must explicitly exclude Windows from the verified claim or accept new Windows evidence."
+      "authorizationDetail": "Product Owner must explicitly exclude Windows from the verified claim or accept new Windows evidence.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-005-B1",
+        "P11A-005-B2"
+      ]
     },
     {
       "id": "P11A-006",
@@ -466,7 +499,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_PROVIDER_ACTION_FOR_REVIEW",
-      "authorizationDetail": "Bounded owner Production actions were completed within the task authorization window; any later provider mutation needs separate authority."
+      "authorizationDetail": "Bounded owner Production actions were completed within the task authorization window; any later provider mutation needs separate authority.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-007",
@@ -492,7 +529,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
-      "authorizationDetail": "Finding closed; future release gates remain separate."
+      "authorizationDetail": "Finding closed; future release gates remain separate.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-008",
@@ -517,7 +558,15 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Exact-candidate deployment and header/CSP observation require separate release authorization."
+      "authorizationDetail": "Exact-candidate deployment and header/CSP observation require separate release authorization.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-008-B1",
+        "P11A-008-B2",
+        "P11A-008-C1"
+      ]
     },
     {
       "id": "P11A-009",
@@ -544,7 +593,20 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Exact Product Owner values and qualified review remain; any implementation, provider action or release requires separate bounded authority."
+      "authorizationDetail": "Exact Product Owner values and qualified review remain; any implementation, provider action or release requires separate bounded authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-009-B1",
+        "P11A-009-B2",
+        "P11A-009-B3",
+        "P11A-009-B4",
+        "P11A-009-C1",
+        "P11A-009-C2",
+        "P11A-009-C3",
+        "P11A-009-C4"
+      ]
     },
     {
       "id": "P11A-010",
@@ -580,7 +642,17 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Product Owner's migration-44 and fresh-backup authorities have been used. This task adopted the suitable scheduled backup without manual dispatch; Vercel deployment, restore and Production release require separate authority."
+      "authorizationDetail": "Product Owner's migration-44 and fresh-backup authorities have been used. This task adopted the suitable scheduled backup without manual dispatch; Vercel deployment, restore and Production release require separate authority.",
+      "personalUsePriority": "OWNER_USE_BLOCKER",
+      "personalUseDisposition": "OPEN_PERSONAL_USE_BLOCKER",
+      "personalUseBlocker": true,
+      "personalUseRequirementIds": [
+        "P11A-010-A1",
+        "P11A-010-B1",
+        "P11A-010-B2",
+        "P11A-010-B3",
+        "P11A-010-C1"
+      ]
     },
     {
       "id": "P11A-011",
@@ -605,7 +677,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
-      "authorizationDetail": "Finding closed; future release gates remain separate."
+      "authorizationDetail": "Finding closed; future release gates remain separate.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-012",
@@ -628,7 +704,14 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Deployed runtime/CWV collection requires separate exact deployment authority."
+      "authorizationDetail": "Deployed runtime/CWV collection requires separate exact deployment authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-012-B1",
+        "P11A-012-C1"
+      ]
     },
     {
       "id": "P11A-013",
@@ -651,7 +734,14 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Hosted outage rehearsal requires separate bounded release/provider authority."
+      "authorizationDetail": "Hosted outage rehearsal requires separate bounded release/provider authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-013-B1",
+        "P11A-013-C1"
+      ]
     },
     {
       "id": "P11A-014",
@@ -675,7 +765,17 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "Provider signal/alert drill requires separate exact authority."
+      "authorizationDetail": "Provider signal/alert drill requires separate exact authority.",
+      "personalUsePriority": "NOT_REQUIRED",
+      "personalUseDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-014-C1",
+        "P11A-014-C2",
+        "P11A-014-C3",
+        "P11A-014-C4",
+        "P11A-014-C5"
+      ]
     },
     {
       "id": "P11A-015",
@@ -700,7 +800,14 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_MAPPING",
-      "authorizationDetail": "CI/checklist mapping itself needs no new owner act; each missing external gate has its own authority."
+      "authorizationDetail": "CI/checklist mapping itself needs no new owner act; each missing external gate has its own authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-015-B1",
+        "P11A-015-C1"
+      ]
     },
     {
       "id": "P11A-016",
@@ -725,7 +832,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NOT_APPLICABLE_CLOSED",
-      "authorizationDetail": "Finding closed; future release gates remain separate."
+      "authorizationDetail": "Finding closed; future release gates remain separate.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-017",
@@ -754,7 +865,11 @@
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "SEPARATE_AUTHORITY_IF_FUTURE_PROVIDER_MUTATION_OR_LAUNCH",
-      "authorizationDetail": "The bounded P11A-017 A→B→A traffic authority was used before 2026-09-29T18:00:00Z. Further provider mutation, public launch and PR merge were not authorized by this task."
+      "authorizationDetail": "The bounded P11A-017 A→B→A traffic authority was used before 2026-09-29T18:00:00Z. Further provider mutation, public launch and PR merge were not authorized by this task.",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": []
     },
     {
       "id": "P11A-018",
@@ -780,7 +895,16 @@
       "exceptionPathExists": true,
       "exceptionCurrentlyGranted": false,
       "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_AUTHORIZATION_FOR_TABLETOP",
-      "authorizationDetail": "Documentation-only operator walkthrough can use assigned owners; provider actions require separate authority."
+      "authorizationDetail": "Documentation-only operator walkthrough can use assigned owners; provider actions require separate authority.",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "personalUseRequirementIds": [
+        "P11A-018-B1",
+        "P11A-018-C1",
+        "P11A-018-C2",
+        "P11A-018-C3"
+      ]
     }
   ],
   "counts": {
@@ -871,5 +995,56 @@
     "mailLimitation": "Supabase built-in sender is best-effort/no-SLA and not accepted for future external users.",
     "additionalAdvisorWarning": "Leaked-password protection disabled; explained Free-tier Pro-only feature, no task mutation.",
     "publicLaunchAuthorized": false
-  }
+  },
+  "personalUseBaseline": {
+    "decisionId": "DEC-040",
+    "profile": "PERSONAL_USE_FREE_TIER",
+    "recordedAtUtc": "2026-09-30T10:21:02Z",
+    "amendmentType": "SCOPE_AMENDMENT_NOT_WAIVER",
+    "readiness": "OWNER_USE_NOT_READY",
+    "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS",
+    "counts": {
+      "requiredBeforeOwnerUseCount": 1,
+      "postOwnerUseImprovementCount": 19,
+      "notRequiredPersonalUseCount": 20
+    },
+    "minimumBlockerIds": [
+      "P11A-010-A1"
+    ],
+    "publicLaunchAuthorized": false,
+    "commercialLaunchAuthorized": false,
+    "independentReviewState": "PENDING_EXACT_HEAD_REVIEW",
+    "newCandidateCreated": false,
+    "redeploymentRequiredForGovernanceChange": false,
+    "matrix": "deployment/phase-11k-personal-use-owner-readiness-baseline.json",
+    "report": "docs/phase-11k-personal-use-owner-readiness-baseline.md",
+    "historicalFieldsInterpretation": "All pre-existing ledger fields and counts remain historical; personalUse* fields exclusively control current owner-use prerequisites.",
+    "personalUseBlockingFindingIds": [
+      "P11A-010"
+    ],
+    "personalUseClosedFindingIds": [
+      "P11A-001",
+      "P11A-006",
+      "P11A-007",
+      "P11A-011",
+      "P11A-016",
+      "P11A-017"
+    ],
+    "postOwnerUseFindingIds": [
+      "P11A-002",
+      "P11A-003",
+      "P11A-004",
+      "P11A-005",
+      "P11A-008",
+      "P11A-009",
+      "P11A-012",
+      "P11A-013",
+      "P11A-015",
+      "P11A-018"
+    ],
+    "notRequiredPersonalUseFindingIds": [
+      "P11A-014"
+    ]
+  },
+  "publicLaunchAuthorized": false
 }

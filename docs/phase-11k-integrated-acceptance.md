@@ -1,5 +1,10 @@
 # Phase 11K integrated acceptance
 
+**Current personal-use scope (2026-09-30):** [DEC-040 owner-readiness baseline](phase-11k-personal-use-owner-readiness-baseline.md) supersedes commercial prerequisites for `PERSONAL_USE_FREE_TIER`. `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`: only P11A-010-A1 (populated-owner backup/recovery) blocks owner use; 19 remaining subrequirements are improvements and 20 are not required with no PASS credit. Public/commercial launch remains unauthorized. The following content retains historical states unless explicitly updated; use the dated personal-use overlay for active owner-use dispositions.
+
+## Preserved historical integrated-acceptance record
+
+
 **Recorded:** 2026-09-28T06:23:28Z. **Outcome:** `PHASE_11K_INTEGRATED_ACCEPTANCE_INCOMPLETE_OPEN_BLOCKERS`. `phase11KStarted=true`; `productionReleaseAuthorized=false`; candidate approval and P1 exceptions are false. This is Codex execution evidence for independent ChatGPT review, not that review itself.
 
 [Machine-readable disposition overlay](../deployment/phase-11k-integrated-acceptance-evidence.json) binds the complete source, freshness, uncertainty and exception fields for all 18 findings. The [original Phase 11A audit](phase-11-qa-hardening-deployment-readiness-audit.md) remains historical and unedited.
