@@ -1,0 +1,1419 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PHASE_11K_PERSONAL_USE_RELEASE_BASELINE_SIMPLIFICATION",
+  "recordedAtUtc": "2026-09-30T10:21:02Z",
+  "decisionId": "DEC-040",
+  "decisionTitle": "Personal-use owner-readiness acceptance baseline",
+  "amendmentType": "SCOPE_AMENDMENT_NOT_WAIVER",
+  "profile": "PERSONAL_USE_FREE_TIER",
+  "productOwner": "Maor Pichhadze",
+  "ownerDecisionDate": "2026-09-30",
+  "ownerDecisionTimezone": "Asia/Jerusalem",
+  "ownerDirectionProvenance": "Attributable Product Owner task brief supplied to Codex on 2026-09-30; scope approved, recording awaits independent exact-head review.",
+  "executor": "Codex",
+  "independentReviewer": "ChatGPT",
+  "independentReviewState": "PENDING_EXACT_HEAD_REVIEW",
+  "publicLaunchAuthorized": false,
+  "commercialLaunchAuthorized": false,
+  "productionReleaseAuthorized": false,
+  "personalOwnerUseAuthorized": false,
+  "newCandidateCreated": false,
+  "redeploymentRequiredForGovernanceChange": false,
+  "readiness": "OWNER_USE_NOT_READY",
+  "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS",
+  "successMarker": "PERSONAL_USE_BASELINE_REVIEW_FOUND_REAL_OWNER_USE_BLOCKERS",
+  "scope": "One owner, private, non-commercial personal nutrition tracking; no external invitations or public launch.",
+  "freshRepositoryBaseline": {
+    "mainSha": "e57ce9677e055c52c46917b093beec3a1eb38322",
+    "mainTree": "1380e64ed00b57f93e8138d2e0dd61c95f1e948d",
+    "mergedPr": 166,
+    "openPrCount": 0,
+    "isolatedWorktreeCleanBeforeEdits": true,
+    "branch": "codex/phase-11k-personal-use-baseline",
+    "worktree": "/Users/maor/.codex/worktrees/phase-11k-personal-use-baseline/github-plugin-github-openai-curated-you",
+    "validate": "SUCCESS",
+    "validateRunId": 36673822448,
+    "validateJobId": 109754351229,
+    "codeqlRunId": 36673822518,
+    "codeqlActions": "SUCCESS",
+    "codeqlActionsJobId": 109754355700,
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "codeqlJavascriptTypescriptJobId": 109754355500
+  },
+  "acceptedDeployment": {
+    "sha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0",
+    "tree": "fc1689dd3cbf5af19e1a8bd43bcda4710d274f14",
+    "deploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "evidence": "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json",
+    "liveStateRefreshedInThisTask": false
+  },
+  "bucketDefinitions": {
+    "REQUIRED_BEFORE_OWNER_USE": "Unresolved material security, data integrity/recovery, core functionality or serious actual-owner usability risk.",
+    "POST_OWNER_USE_IMPROVEMENT": "Useful work that may follow safe owner use; operation-specific conditions still apply before future closure/restore/support expansion.",
+    "NOT_REQUIRED_PERSONAL_USE_PROFILE": "Removed active personal-use prerequisite; never PASS credit."
+  },
+  "countingRule": "Count remaining matrix subrequirements, once each. Already satisfied safeguards and six historical closed findings are assessed separately and excluded from remaining counts. Exact-head review/merge is a delivery condition, not an application defect.",
+  "counts": {
+    "requiredBeforeOwnerUseCount": 1,
+    "postOwnerUseImprovementCount": 19,
+    "notRequiredPersonalUseCount": 20
+  },
+  "requirements": [
+    {
+      "id": "P11A-002-B1",
+      "finding": "P11A-002",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional signed manual coverage for later-slice journeys, export and closure",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11c-critical-journey-evidence.json#/journeys",
+        "docs/phase-11c-browser-exploratory-evidence.md",
+        "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations"
+      ],
+      "remainingWork": "Add focused owner-path exploratory records when those surfaces change; no core journey failure is reported in accepted evidence.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Changed core workflow or reproducible owner failure",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-002-C1",
+      "finding": "P11A-002",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Exhaustive signed commercial launch cross-product for all journey axes",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11c-critical-journey-evidence.json#/journeys",
+        "docs/phase-11c-browser-exploratory-evidence.md"
+      ],
+      "remainingWork": "None under this profile; no unexecuted matrix cell is marked passed.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External users, public distribution or commercial launch",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-003-B1",
+      "finding": "P11A-003",
+      "originalPriority": "P2",
+      "remainingSubrequirement": "Native review and affected-surface EN/HE formatting, RTL and truncation polish",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations"
+      ],
+      "remainingWork": "Review newly written notices and materially changed layouts in EN/HE; retain HE-01/02/03 and existing owner UI evidence.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Material owner-facing language or RTL defect",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-003-C1",
+      "finding": "P11A-003",
+      "originalPriority": "P2",
+      "remainingSubrequirement": "Exhaustive locale certification for public launch",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md"
+      ],
+      "remainingWork": "None under this profile.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Public distribution or expanded locale/support claim",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-004-B1",
+      "finding": "P11A-004",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Broader manual focus, contrast, reduced-motion, touch and measured mobile zoom/reflow coverage",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations"
+      ],
+      "remainingWork": "Measure mobile 200%/400% behavior and inspect additional focus/contrast/touch states as owner quality improvements; exact mobile zoom is currently unmeasured.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "An owner need or defect makes a control unusable",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-004-B2",
+      "finding": "P11A-004",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional VoiceOver/Safari coverage",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md"
+      ],
+      "remainingWork": "Record focused assistive-technology checks if useful to the owner; complete VoiceOver acceptance is not currently evidenced.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner relies on an assistive technology",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-004-C1",
+      "finding": "P11A-004",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Formal comprehensive WCAG 2.2 AA certification and broad assistive-technology program",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md"
+      ],
+      "remainingWork": "None under this profile; no WCAG certification claim. NVDA/Firefox remains outside the active profile.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External distribution or a specific accessibility obligation/owner need",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-005-B1",
+      "finding": "P11A-005",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Future physical Windows Chrome/Edge and additional client support",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11-prek-dec039-windows-deferral.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "deployment/phase-11j3-camera-evidence-carry-forward.json"
+      ],
+      "remainingWork": "Validate the two deferred Windows cases before claiming verified Windows support. Current verified owner clients exclude Windows; Firefox remains excluded by DEC-037.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner starts using Windows or support scope expands",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-005-B2",
+      "finding": "P11A-005",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Attribution of eight historical refresh-token diagnostic events",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/limitations",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ],
+      "remainingWork": "Investigate recurrence on an actual owner session; historical events had no browser attribution or reported owner-visible failure.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Recurring owner sign-in/session failure",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-008-B1",
+      "finding": "P11A-008",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional exact-Production camera/WASM and CSP violation capture",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json#/responseHeaders",
+        "deployment/phase-11j3-camera-evidence-carry-forward.json",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "docs/phase-11f-security-and-dependency-hardening.md"
+      ],
+      "remainingWork": "Optionally capture camera/WASM and violation behavior on deployed A. Existing 30 camera observations and unchanged app/header/WASM source support basic compatibility; this is not a claim of a new Production camera test.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Camera failure or CSP/header/WASM change",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-008-B2",
+      "finding": "P11A-008",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Direct visibility of initial protected redirect headers",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json#/responseHeaders"
+      ],
+      "remainingWork": "Inspect initial Today redirect headers in a future bounded check if useful; prior browser observations were opaque, final sign-in/public/health policy was observed.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Redirect/header policy changes or leakage is observed",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-008-C1",
+      "finding": "P11A-008",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Exhaustive browser security compatibility certification",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json#/responseHeaders",
+        "docs/phase-11d-accessibility-locale-browser-validation.md"
+      ],
+      "remainingWork": "None under this profile; real browser security controls stay required.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Expanded supported browsers or public distribution",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-B1",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Concise truthful owner privacy, non-medical tracking, closure and source notices",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "docs/phase-11e5-account-closure-validation.md"
+      ],
+      "remainingWork": "Publish concise EN/HE wording that reflects manual self-tracking, current logical closure and rendered USDA source labels; do not promise physical deletion. No diagnosis or automatic prescription is introduced.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Medical recommendations, changed processing or misleading owner-facing behavior",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-B2",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Owner-requested physical deletion and exact contact/retention/hold values",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "docs/phase-11e5-account-closure-validation.md"
+      ],
+      "remainingWork": "Before offering physical deletion, select exact values and implement a bounded owner-data procedure with terminal access denial. Current logical closure and pre-closure export are evidenced; physical erasure remains unimplemented.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner requests erasure or physical deletion is offered",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-B3",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Manual post-recovery lifecycle reconciliation procedure",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "docs/phase-11i-recovery-qualification-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ],
+      "remainingWork": "Before any future recovery cutover, reconcile post-backup closures/deletions and Auth state from an authoritative restricted record. No closures exist in accepted owner-state evidence; no cutover is authorized here.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "A restore/cutover, closure or deletion occurs",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-B4",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Finite retirement of the original restricted off-Git recovery archive",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "docs/phase-11i-recovery-qualification-evidence.json"
+      ],
+      "remainingWork": "Choose an exact disposal date once a newer populated recovery copy is accepted; preserve encryption and restricted key custody. Existing recurring artifacts expire after 30 days.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Archive custody/access changes or it is superseded",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-C1",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Commercial legal/privacy and processor-contract qualification program",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md"
+      ],
+      "remainingWork": "None as an owner-use acceptance prerequisite; this does not assert a legal exemption or qualified approval.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External users/distribution, commercial scope or an independently applicable obligation",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-C2",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Formal physical deletion SLA and complex public erasure operations",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md"
+      ],
+      "remainingWork": "None under this profile; current closure is still not erasure.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "A deletion/support promise or external users",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-C3",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Public privacy program, external-user support policy and support/admin operating team",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md"
+      ],
+      "remainingWork": "None under this profile; no routine support inspection or admin console is added.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External support users or additional operators",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-009-C4",
+      "finding": "P11A-009",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "External invitation-register issue/reissue/revoke and reconciliation governance",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11k-p11a009-product-owner-decisions.md",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ],
+      "remainingWork": "None under this profile; invitations/register stay inactive for external users with no PASS credit.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External invitations or another user",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-010-A1",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Working populated-owner backup and credible recovery of personal nutrition data",
+      "personalUseBucket": "REQUIRED_BEFORE_OWNER_USE",
+      "currentEvidence": [
+        "scripts/run-phase-11i-backup.mjs#L267-L303",
+        ".github/workflows/phase-11i-production-backup.yml#L68-L78",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+        "docs/phase-11i-migration44-recovery-contract-reconciliation.md",
+        "docs/phase-11i-recovery-qualification-evidence.json"
+      ],
+      "remainingWork": "One bounded corrective task: replace bootstrap zero-user/zero-owned-row and fixed mixed catalog-count assumptions with safe populated-owner validation; preserve exact project, encryption, redaction, Storage and migration guards; prove encrypted capture and isolated restore of synthetic populated Auth, activation, diary snapshots/targets and custom-food data. Separately authorize/adopt a successful scheduled backup after the real owner exists; no 8-hour timing certification or repeated drills are needed to close this blocker.",
+      "ownerUseBlocker": true,
+      "reopenCondition": "Any backup failure, incompatible data/schema scope or failed recovery proof",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-010-B1",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Exact 8-hour RTO and repeated quarterly restore timing qualification",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11i-recovery-qualification-evidence.json",
+        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+        "docs/phase-11i-migration44-recovery-contract-reconciliation.md"
+      ],
+      "remainingWork": "After a credible populated recovery path exists, refine timing/cadence and collect additional migration-44 timing evidence. The historical 43 restore is not a 44/populated qualification.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner recovery expectations change or recovery fails",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-010-B2",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional hosted closure/Vault matching and exhaustive hosted lifecycle behavior",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+        "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "docs/phase-11e5-account-closure-validation.md"
+      ],
+      "remainingWork": "Qualify actual hosted closure before the owner chooses irreversible closure; export before closure. Existing local denial/security tests and hosted schema/grants stand; actual hosted closure/Vault match is untested.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner elects closure or lifecycle/security implementation changes",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-010-B3",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Full historical migration-byte and database-wide schema parity audit",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+        "docs/phase-11h-deployment-architecture-release-runbook.md"
+      ],
+      "remainingWork": "Audit additional parity on a future migration/restore change where relevant; accepted evidence proves exact version/name ledger and scoped migration-44 invariants, not all historical bytes.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Next migration or concrete schema/ownership drift",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-010-C1",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Launch-era sequencing ceremony and permanent paid hosted staging qualification",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md"
+      ],
+      "remainingWork": "None under this profile; local/CI remains authoritative non-Production infrastructure.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Expanded public/commercial topology",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-012-B1",
+      "finding": "P11A-012",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Focused owner-workload latency, query plans and cold-start improvements",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11g2-performance-capacity-qualification.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ],
+      "remainingWork": "Measure slow owner operations when observed and optimize those paths; local synthetic metrics are not hosted CWV proof and no hosted timing is claimed.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Performance materially blocks an actual owner workflow",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-012-C1",
+      "finding": "P11A-012",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Public-scale capacity, RUM traffic/sample targets and commercial CWV qualification",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11g2-performance-capacity-qualification.md"
+      ],
+      "remainingWork": "None under this profile; no public traffic or capacity claim.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Multiple/public users or a performance SLA",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-013-B1",
+      "finding": "P11A-013",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional controlled failure/recovery observations",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+        "docs/phase-11c-critical-journey-evidence.json#/journeys"
+      ],
+      "remainingWork": "Add targeted safe failure checks when a dependency path changes; existing localized boundaries, no automatic mutation replay and receipt/transaction tests remain credited.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Duplicate/partial writes, lost state or unsafe retry is observed",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-013-C1",
+      "finding": "P11A-013",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Hosted destructive outage and timed operational incident drills",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None as an owner-use prerequisite; no outage drill was run.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Public/SLA support or a concrete uncovered owner integrity risk",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-014-C1",
+      "finding": "P11A-014",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Persistent third-party uptime monitor and five-minute external synthetic polling",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None; no new monitoring service is required or authorized.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Public users or an explicit future uptime/support promise",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-014-C2",
+      "finding": "P11A-014",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Operational alert delivery/acknowledgement for application, latency, Auth, database and deployment signals",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None under this profile; no delivered-alert PASS credit.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Additional operators, external users or an explicit alerting requirement",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-014-C3",
+      "finding": "P11A-014",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "15-minute Jimmy Peachy and 30-minute Product Authority escalation drills",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None under this profile; historical role records remain unchanged.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "An explicit future escalation/support contract",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-014-C4",
+      "finding": "P11A-014",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Commercial incident notification pipeline, public-user communications and status readiness",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None under this profile; optional troubleshooting guidance remains available.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External users or a support/incident promise",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-014-C5",
+      "finding": "P11A-014",
+      "originalPriority": "P0",
+      "remainingSubrequirement": "Paid Vercel Alerts/Observability Plus, paid observability and external monitoring SaaS",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/incident-response-runbook.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md"
+      ],
+      "remainingWork": "None; Product Owner explicitly rejected another monitoring provider in this task.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Separately approved product/profile change",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-015-B1",
+      "finding": "P11A-015",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Additional useful core regression coverage and evidence tracing",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822448",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822518",
+        "docs/phase-11c-critical-journey-evidence.json#/journeys"
+      ],
+      "remainingWork": "Improve focused traces/tests as owner workflows change; Validate, both CodeQL analyses and core security regression remain authoritative.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Core security/regression check fails or code changes",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-015-C1",
+      "finding": "P11A-015",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Signed commercial launch-quality external matrix and exhaustive release paperwork",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11c-critical-journey-evidence.json#/journeys",
+        "docs/phase-11h-deployment-architecture-release-runbook.md"
+      ],
+      "remainingWork": "None under this profile; exact-head independent review of this amendment remains a delivery gate.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Public/commercial distribution or expanded release contract",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-018-B1",
+      "finding": "P11A-018",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Concise owner operating and recovery notes",
+      "personalUseBucket": "POST_OWNER_USE_IMPROVEMENT",
+      "currentEvidence": [
+        "README.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11i-recovery-qualification.md"
+      ],
+      "remainingWork": "After A1 is corrected, document populated backup/recovery steps and add a short owner troubleshooting guide as useful; existing run/runbook guidance remains available.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Owner cannot operate or recover using the notes",
+      "evidenceStatus": "UNRESOLVED",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-018-C1",
+      "finding": "P11A-018",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "New contributor/designated support-team operator walkthrough and sign-off",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md"
+      ],
+      "remainingWork": "None under this profile; one owner operates the application.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Additional contributors/operators require onboarding",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-018-C2",
+      "finding": "P11A-018",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Invitation support conflict/issue/reissue/revoke/reconcile drills",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "docs/phase-11k-p11a009-product-owner-decisions.md"
+      ],
+      "remainingWork": "None under this profile; no external invitation operations.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "External invitations or another user",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    },
+    {
+      "id": "P11A-018-C3",
+      "finding": "P11A-018",
+      "originalPriority": "P1",
+      "remainingSubrequirement": "Commercial launch documentation and public-user support operations",
+      "personalUseBucket": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "currentEvidence": [
+        "README.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/incident-response-runbook.md"
+      ],
+      "remainingWork": "None under this profile; public/commercial launch remains unauthorized.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Public users, commercial use or a support promise",
+      "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
+      "passCredit": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "P11A-001",
+      "originalTitle": "Public launch model and release authority are undefined",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Versioned contract answers audience, geography, support, scope, browser/device and release-authority questions; acceptable P1 handling; owner sign-off and independent review.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11j0-personal-use-free-tier-profile.md",
+        "docs/phase-11-prek-before-11k-role-assignments.md",
+        "deployment/phase-11-prek-before-11k-role-assignments-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-002",
+      "originalTitle": "Critical journey coverage is broad but not a launch matrix",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Every critical journey has positive, failure, integrity, tenant, locale, viewport and browser evidence or N/A; matrix-to-test trace and signed manual exploratory evidence.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-002-B1",
+        "P11A-002-C1"
+      ],
+      "rationale": "Core diary/setup/search/custom-food/reuse/manual-barcode paths have automated and accepted exploratory evidence; owner device observations and later Auth qualification fill core gaps. Full hosted setup/data-entry execution is not claimed.",
+      "acceptedEvidence": [
+        "docs/phase-11c-critical-journey-evidence.json#/journeys",
+        "docs/phase-11c-browser-exploratory-evidence.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-003",
+      "originalTitle": "Locale foundations are strong, but switching and formatting are incomplete",
+      "originalPriority": "P2",
+      "originalEvidenceRequirement": "Approved locale switch and bilingual supported-matrix visual checklist, key/route tests, screenshots and native-speaker sign-off.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-003-B1",
+        "P11A-003-C1"
+      ],
+      "rationale": "Locale switching, dates/numbers, HE-01/02/03 and five owner EN/HE UI cells are evidenced; no material owner language failure is reported.",
+      "acceptedEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations"
+      ]
+    },
+    {
+      "id": "P11A-004",
+      "originalTitle": "No WCAG 2.2 AA acceptance program exists",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Zero unwaived serious axe issues and approved full manual keyboard, focus, 200%/400% zoom/reflow, screen-reader, contrast and touch-target checklist.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-004-B1",
+        "P11A-004-B2",
+        "P11A-004-C1"
+      ],
+      "rationale": "Risk-selected axe, focus and reflow automation plus desktop keyboard/zoom and mobile touch observations support basic owner usability, without full certification.",
+      "acceptedEvidence": [
+        "docs/phase-11d-accessibility-locale-browser-validation.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations"
+      ]
+    },
+    {
+      "id": "P11A-005",
+      "originalTitle": "Browser, layout, and physical-device evidence is incomplete",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Approved engine matrix plus named physical supported-browser/device, camera permission, safe-area and final visual evidence.",
+      "historicalDisposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-005-B1",
+        "P11A-005-B2"
+      ],
+      "rationale": "Accepted physical owner clients are macOS Safari/Chrome, iPhone Safari/Chrome and Android Chrome; 30 camera observations retain only their accepted carry-forward scope.",
+      "acceptedEvidence": [
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "deployment/phase-11j3-camera-evidence-carry-forward.json",
+        "docs/phase-11-prek-dec039-windows-deferral.md"
+      ]
+    },
+    {
+      "id": "P11A-006",
+      "originalTitle": "Public users have no complete account-recovery path",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Local recovery/callback/session implementation plus hosted Auth/SMTP/redirect/rate-limit and deployed behavior, including invitation procedure/register/reconciliation.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11e-integration-external-readiness-handoff.md",
+        "docs/phase-11j2-local-auth-security-account-lifecycle.md",
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+        "docs/phase-11k-p11a006-production-owner-auth-qualification.md",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-007",
+      "originalTitle": "Critical/high dependency advisories are untriaged and ungated",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Current advisory identity/reachability, no unaccepted reachable critical/high production advisory, owned disposition and recurring CI gate.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11f-security-and-dependency-hardening.md",
+        "docs/phase-11-prek-crypto001-correction.md",
+        "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402305",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402109"
+      ]
+    },
+    {
+      "id": "P11A-008",
+      "originalTitle": "Production browser security policy is not defined",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Implemented CSP/header policy, local compatibility and actual deployed public/auth/app response headers and violation behavior.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-008-B1",
+        "P11A-008-B2",
+        "P11A-008-C1"
+      ],
+      "rationale": "Deployed public/sign-in/health security headers and same-source physical camera evidence protect the owner. No app/component/lib/messages/config/proxy/package/lockfile differences exist from physical UI runtime f50d7448a080dbc0a5968c00fd6747ced36d822b to deployed 7f3aea526ea3751f39b37fd02c90153d3a93e2a0; migration 44 is the sole runtime database delta. This is source impact analysis, not Production camera execution.",
+      "acceptedEvidence": [
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json#/responseHeaders",
+        "deployment/phase-11j3-camera-evidence-carry-forward.json",
+        "docs/phase-11f-security-and-dependency-hardening.md"
+      ]
+    },
+    {
+      "id": "P11A-009",
+      "originalTitle": "Privacy, account lifecycle, and health-adjacent policy are undefined",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Approved privacy notice, retention, closure versus deletion, export, pseudonymization, backup erasure, support/admin access, USDA attribution, health disclaimer, processor terms and qualified review.",
+      "historicalDisposition": "OPEN_OWNER_OR_POLICY_DECISION_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-009-B1",
+        "P11A-009-B2",
+        "P11A-009-B3",
+        "P11A-009-B4",
+        "P11A-009-C1",
+        "P11A-009-C2",
+        "P11A-009-C3",
+        "P11A-009-C4"
+      ],
+      "rationale": "Authenticated-only RLS/server-derived ownership, bounded export, recent-password authority, logical closure denial and privacy-safe telemetry are evidenced. No erasure claim is made. Secure data protection remains required; public/legal process qualification does not protect the single active owner in the same way.",
+      "acceptedEvidence": [
+        "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+        "docs/phase-11e5-account-closure-validation.md",
+        "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "docs/phase-11g1-reliability-observability-foundation.md"
+      ]
+    },
+    {
+      "id": "P11A-010",
+      "originalTitle": "Database contracts are strong; launch drift and sequencing are not verified",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
+      "historicalDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
+      "personalUsePriority": "OWNER_USE_BLOCKER",
+      "personalUseDisposition": "OPEN_PERSONAL_USE_BLOCKER",
+      "personalUseBlocker": true,
+      "requirementIds": [
+        "P11A-010-A1",
+        "P11A-010-B1",
+        "P11A-010-B2",
+        "P11A-010-B3",
+        "P11A-010-C1"
+      ],
+      "rationale": "Migration 44 and exact hosted ledger are evidenced. However the current backup script rejects the accepted owner population; prior empty-state backups and restore cannot protect newly entered personal data. Assign the new operational incompatibility here, without reopening historical P11A-011.",
+      "acceptedEvidence": [
+        "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+        "docs/phase-11i-recovery-qualification-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-011",
+      "originalTitle": "Current recovery evidence cannot support launch authorization",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Approved 24h RPO/8h RTO, 30-day encrypted retention/access ownership; current backup and quarterly isolated full-scope restore/security/application qualification.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11i-recovery-qualification.md",
+        "docs/phase-11i-github-artifact-backup-automation.md",
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36366784613"
+      ]
+    },
+    {
+      "id": "P11A-012",
+      "originalTitle": "General application performance and capacity are unproven",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Approved budgets, local launch-shaped fixture/plans and exact-candidate deployed browser/runtime/cold-start/Core Web Vitals evidence.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-012-B1",
+        "P11A-012-C1"
+      ],
+      "rationale": "Local synthetic performance and successful owner use show no reported unusable workflow; exact hosted performance budgets are unqualified.",
+      "acceptedEvidence": [
+        "docs/phase-11g2-performance-capacity-qualification.md",
+        "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json#/freshOwnerUiObservations",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-013",
+      "originalTitle": "Outage and global failure behavior is not engineered",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Localized global/network/error implementation with local injected tests and attributable deployed dependency-outage/recovery rehearsal.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-013-B1",
+        "P11A-013-C1"
+      ],
+      "rationale": "Localized failure guidance, safe reload and transaction/receipt integrity are locally tested; no hosted outage drill is claimed.",
+      "acceptedEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/phase-11c-critical-journey-evidence.json#/journeys",
+        "deployment/phase-11j2-local-auth-lifecycle-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-014",
+      "originalTitle": "No minimum production observability or incident response exists",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Privacy-safe telemetry, signal policy/owners/runbook plus actual provider signal, uptime, alert delivery, deployment notification and incident drill.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "NOT_REQUIRED",
+      "personalUseDisposition": "NOT_REQUIRED_PERSONAL_USE_PROFILE",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-014-C1",
+        "P11A-014-C2",
+        "P11A-014-C3",
+        "P11A-014-C4",
+        "P11A-014-C5"
+      ],
+      "rationale": "Existing /api/health, privacy-safe events, Vercel runtime logs and Supabase logs remain useful. The task brief reports the Hobby capability investigation and explicitly rejects added infrastructure; no repository packet or new provider read is invented for that investigation.",
+      "acceptedEvidence": [
+        "docs/phase-11g1-reliability-observability-foundation.md",
+        "docs/incident-response-runbook.md",
+        "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-015",
+      "originalTitle": "CI is authoritative but not yet a launch-quality strategy",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Every approved launch gate maps to authoritative required CI or signed external checklist; no unexplained skip/failure.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-015-B1",
+        "P11A-015-C1"
+      ],
+      "rationale": "Fresh exact-main Validate and both CodeQL jobs passed. Keep green CI/security regression and no unexplained failures; external commercial checklist gaps are not CI failures.",
+      "acceptedEvidence": [
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822448",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822518",
+        "docs/phase-11c-critical-journey-evidence.json#/journeys"
+      ]
+    },
+    {
+      "id": "P11A-016",
+      "originalTitle": "Repository governance and supply-chain settings are not evidenced",
+      "originalPriority": "P2",
+      "originalEvidenceRequirement": "Read-only evidence that approved ruleset/review/check/scanning/merge policy matches documentation.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11-prek-github-governance-remediation.md",
+        "deployment/phase-11j6-forward-final-evidence-reconciliation.json",
+        "docs/phase-11-prek-codeql-false-positive-disposition.md",
+        "https://github.com/Papi299/nutrition-tracker-app/actions/runs/36383402109"
+      ]
+    },
+    {
+      "id": "P11A-017",
+      "originalTitle": "Deployment and environment architecture is entirely unstarted",
+      "originalPriority": "P0",
+      "originalEvidenceRequirement": "Reviewed architecture/runbook plus exact Vercel/Supabase/domain/config deployment smoke and rollback/redeploy rehearsal.",
+      "historicalDisposition": "FINDING_CLOSED",
+      "personalUsePriority": "SATISFIED",
+      "personalUseDisposition": "FINDING_CLOSED",
+      "personalUseBlocker": false,
+      "requirementIds": [],
+      "rationale": "Historical accepted closure is retained without reopening or broadening its evidence.",
+      "acceptedEvidence": [
+        "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
+        "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11j4-provider-recovery-freshness.md",
+        "docs/phase-11j5-release-rollback-dry-run.md",
+        "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+        "deployment/phase-11k-p11a017-release-evidence.json",
+        "docs/phase-11k-p11a017-redeploy-rollback-rehearsal.md",
+        "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json"
+      ]
+    },
+    {
+      "id": "P11A-018",
+      "originalTitle": "Contributor, operator, support, and launch documentation is incomplete",
+      "originalPriority": "P1",
+      "originalEvidenceRequirement": "Current owner-specific documentation plus new contributor/designated operator dry run using docs only, conflict drill and reconciliation.",
+      "historicalDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
+      "requirementIds": [
+        "P11A-018-B1",
+        "P11A-018-C1",
+        "P11A-018-C2",
+        "P11A-018-C3"
+      ],
+      "rationale": "Run/build and recovery/operator notes exist and prior deployment rollback is evidenced; there is no support team or external invitation operation to qualify.",
+      "acceptedEvidence": [
+        "README.md",
+        "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "docs/phase-11i-recovery-qualification-evidence.json",
+        "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json"
+      ]
+    }
+  ],
+  "closedFindingIds": [
+    "P11A-001",
+    "P11A-006",
+    "P11A-007",
+    "P11A-011",
+    "P11A-016",
+    "P11A-017"
+  ],
+  "minimumBlockerIds": [
+    "P11A-010-A1"
+  ],
+  "minimumBlockers": [
+    {
+      "requirementId": "P11A-010-A1",
+      "risk": "New personal nutrition data would have no functioning recurring backup and no demonstrated populated recovery point.",
+      "existingGap": "Backup code rejects every nonzero USER_OWNED_TABLES count (including account_activations), requires zero Auth users/identities/sessions/refresh tokens, and pins total food/catalog counts to the bootstrap fixture. PR #166 records one owner and one completed activation. Therefore the next unchanged backup reaches a deterministic rejection before archive creation; no live failure was queried or executed.",
+      "smallestTask": "One bounded corrective task: replace bootstrap zero-user/zero-owned-row and fixed mixed catalog-count assumptions with safe populated-owner validation; preserve exact project, encryption, redaction, Storage and migration guards; prove encrypted capture and isolated restore of synthetic populated Auth, activation, diary snapshots/targets and custom-food data. Separately authorize/adopt a successful scheduled backup after the real owner exists; no 8-hour timing certification or repeated drills are needed to close this blocker.",
+      "whyBeforeOwnerUse": "Every successful existing artifact predates owner creation and contains no owner nutrition rows. Starting sustained diary use while capture deterministically rejects populated state creates a realistic data-loss risk on Supabase Free.",
+      "evidence": [
+        "scripts/run-phase-11i-backup.mjs#L267-L303",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/finalState",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/baseline",
+        "docs/phase-11i-migration44-recovery-contract-reconciliation.md"
+      ]
+    }
+  ],
+  "reopenConditions": [
+    "Another person begins using the app",
+    "External invitations are enabled",
+    "Public access is enabled",
+    "The application becomes commercial",
+    "The application is distributed to users",
+    "An SLA/support promise is made",
+    "Material health-related recommendations beyond personal tracking are introduced"
+  ],
+  "windows": {
+    "status": "DEFERRED_NOT_EXECUTED",
+    "passCredit": false,
+    "blocksOwnerUse": false,
+    "verifiedOwnerSupport": false,
+    "requiresValidationBeforeSupportClaim": true
+  },
+  "deliveryConditions": [
+    "Independent ChatGPT exact-head review",
+    "Successful exact-head Validate, CodeQL Actions and CodeQL JavaScript/TypeScript",
+    "Human-authorized merge in a separate step; this task ends at Draft PR"
+  ],
+  "preservedSafeguards": [
+    "Authenticated-only mutations, RLS and server-derived ownership",
+    "Least-privilege grants and secret boundaries",
+    "English/Hebrew, LTR/RTL, blank-as-null and explicit-zero semantics",
+    "Effective-dated targets, diary snapshots, transactions and replay protection",
+    "Existing CSP/security headers and protected owner-only deployment",
+    "/api/health, privacy-safe events, Vercel runtime logs and Supabase logs",
+    "Existing encrypted backup and isolated restore mechanisms, subject to populated-state blocker correction"
+  ],
+  "postUseBacklog": [
+    "Owner EN/HE UI polish and measured mobile zoom/touch/reflow",
+    "Focused actual-device camera/CSP and recurring session diagnostics",
+    "Concise truthful account/health/source wording and owner-requested deletion controls",
+    "Useful recovery notes, archive retirement and optional timing refinement",
+    "Targeted performance and regression improvements"
+  ],
+  "mutationAudit": {
+    "applicationCodeChanges": 0,
+    "migrationChanges": 0,
+    "workflowBehaviorChanges": 0,
+    "providerMutations": 0,
+    "productionMutations": 0,
+    "databaseMutations": 0,
+    "authMutations": 0,
+    "monitoringServicesAdded": 0,
+    "paidServicesAdded": 0
+  },
+  "historicalEvidenceFamilyCoverage": [
+    {
+      "id": "EV-001",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-002-B1",
+        "P11A-002-C1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-002",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-002-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-003",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-002-B1",
+        "P11A-015-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-004",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-003-B1",
+        "P11A-009-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-005",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-004-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-006",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-004-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-007",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-004-B2",
+        "P11A-004-C1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-008",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-005-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-009",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-005-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-010",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-008-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-011",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-009-C4"
+      ],
+      "acceptedOrDeliveryInterpretation": "Owner Auth accepted in PR #166; external SMTP/invitations reopen before additional users."
+    },
+    {
+      "id": "EV-012",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Historical P11A-007 closure plus fresh CI security gate retained."
+    },
+    {
+      "id": "EV-013",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Historical P11A-016 governance closure plus fresh exact-main CodeQL retained."
+    },
+    {
+      "id": "EV-014",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-010-B3",
+        "P11A-010-C1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-015",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-008-B1",
+        "P11A-008-B2"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-016",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-012-B1",
+        "P11A-012-C1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-017",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-014-C1",
+        "P11A-014-C2",
+        "P11A-014-C3",
+        "P11A-014-C4",
+        "P11A-014-C5"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-018",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-013-B1",
+        "P11A-013-C1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-019",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Historical P11A-017 protected deployed A and rollback closure retained."
+    },
+    {
+      "id": "EV-020",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-010-A1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-021",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-010-A1",
+        "P11A-010-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-022",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-018-B1",
+        "P11A-018-C1",
+        "P11A-018-C2",
+        "P11A-014-C3"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-023",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-009-C1",
+        "P11A-009-C2",
+        "P11A-009-C3",
+        "P11A-009-C4"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-024",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [
+        "P11A-009-B1"
+      ],
+      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+    },
+    {
+      "id": "EV-025",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Owner scope amendment recorded by DEC-040; historical scope approvals unchanged."
+    },
+    {
+      "id": "EV-026",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Independent exact-head review remains pending as a delivery condition."
+    },
+    {
+      "id": "EV-027",
+      "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "Accepted deployed A used; governance creates no deployment candidate or new Production authorization."
+    }
+  ],
+  "explicitlyRemovedRequirements": [
+    "External uptime-monitoring SaaS and five-minute synthetic polling",
+    "Delivered operational alert, deployment notification and acknowledgement infrastructure",
+    "15-minute Jimmy Peachy and 30-minute Product Authority escalation drills",
+    "Commercial incident communications, status readiness and public-user support operations",
+    "Paid Vercel Alerts/Observability Plus or other paid observability",
+    "External invitation-register operations and public/multi-user SMTP qualification (already outside owner-only P11A-006 scope)",
+    "Permanent paid hosted staging, consistent with DEC-035",
+    "Commercial legal/privacy/processor qualification, public privacy programs and formal deletion SLAs",
+    "Public-scale load/capacity and traffic-dependent RUM sample targets",
+    "Exhaustive signed launch matrices, commercial locale/browser/accessibility certification and release bureaucracy",
+    "Contributor/support-team onboarding and invitation conflict drills"
+  ]
+}

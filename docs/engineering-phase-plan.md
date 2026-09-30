@@ -1,5 +1,8 @@
 # Engineering Phase Plan
 
+**Current personal-use scope (2026-09-30):** [DEC-040 owner-readiness baseline](phase-11k-personal-use-owner-readiness-baseline.md) supersedes commercial prerequisites for `PERSONAL_USE_FREE_TIER`. `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`: only P11A-010-A1 (populated-owner backup/recovery) blocks owner use; 19 remaining subrequirements are improvements and 20 are not required with no PASS credit. Public/commercial launch remains unauthorized. The following content retains historical states unless explicitly updated; use the dated personal-use overlay for active owner-use dispositions.
+
+
 This document is the canonical roadmap for the app's engineering phases.
 Future Codex tasks should read this document before starting new product work.
 
