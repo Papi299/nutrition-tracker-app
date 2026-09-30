@@ -116,7 +116,7 @@ test("stable stage and exit status appear", () => {
 test("unknown stage input cannot leak SQL, owner details or secrets", () => {
   assert.match(failure("ERROR: server closed the connection unexpectedly", { stage: sql }), /QUERY_STAGE_UNAVAILABLE/);
 });
-for (const stderr of ["", " \n\t "]) {
+for (const stderr of [undefined, null, "", " \n\t "]) {
   test(`missing stderr (${JSON.stringify(stderr)}) uses safe fallback`, () => {
     assert.equal(failure(stderr), "psql failed at POST_DUMP_TABLE_COUNTS (exit 2); no stderr was returned.");
   });

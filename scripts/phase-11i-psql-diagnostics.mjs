@@ -34,6 +34,7 @@ const SAFE_MESSAGE_PATTERNS = [
 ];
 
 export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
+  if (stderr == null) return "";
   if (typeof stderr !== "string") return null;
   if (!stderr.trim()) return "";
   let text = stderr;
@@ -74,6 +75,7 @@ export function readPsqlRows({
   spawn = spawnSync, sanitize = sanitizePsqlDiagnostic, guard = assertRedactedEvidence,
 }) {
   let result;
+  let launchFailed = false;
   try {
     result = spawn(psqlBinary,
       ["-X", "-v", "ON_ERROR_STOP=1", "-q", "-A", "-t", "-F", "\t"], {
@@ -81,6 +83,7 @@ export function readPsqlRows({
         input: `set role postgres; ${sql}`, env: environment,
       });
   } catch {
+    launchFailed = true;
     result = { status: null, stderr: null };
   }
   if (result.status !== 0) {
@@ -89,6 +92,7 @@ export function readPsqlRows({
     const context = `psql failed at ${safeStage} (exit ${exit})`;
     let diagnostic;
     try {
+      if (launchFailed) throw new Error("Process launch failed.");
       diagnostic = sanitize(result.stderr, [environment?.PGPASSWORD, environment?.SUPABASE_ACCESS_TOKEN]);
       if (typeof diagnostic !== "string") throw new Error("Unsupported diagnostic.");
       // Guard before truncation, so a secret beyond the bound cannot evade it.
