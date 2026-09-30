@@ -6,7 +6,7 @@ This is the [current owner-readiness baseline](phase-11k-personal-use-owner-read
 
 | Gate | Current state | Smallest required follow-up |
 | --- | --- | --- |
-| P11A-010-A1 | `OPEN_PERSONAL_USE_BLOCKER` | Correct empty-bootstrap backup guards and prove safe populated capture/recovery; separately authorize/adopt an owner-state recurring backup. |
+| P11A-010-A1 | `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING`; blocker remains true | Review [implementation](phase-11k-p11a010-populated-owner-backup-implementation.md), separately authorize merge, then separately authorize/verify a real owner-state Production backup. |
 | Exact-head delivery | Independent ChatGPT review pending | Validate + CodeQL Actions + CodeQL JavaScript/TypeScript on the exact PR head; no self-approval. This task ends at Draft PR, with no merge. |
 
 `REQUIRED_BEFORE_OWNER_USE=1`; `POST_OWNER_USE_IMPROVEMENT=19`; `NOT_REQUIRED_PERSONAL_USE_PROFILE=20` (remaining subrequirements). See the [authoritative matrix](../deployment/phase-11k-personal-use-owner-readiness-baseline.json) for all twelve historical open findings; only P11A-010 is now an owner-use blocker. P11A-014 is not required, without PASS credit. Six historical closed findings remain closed. Windows stays deferred/unverified and is excluded from current verified owner support.
