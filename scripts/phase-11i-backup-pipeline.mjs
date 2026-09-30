@@ -25,7 +25,9 @@ import {
   TASK_ID,
 } from "./phase-11i-recovery-contract.mjs";
 
-import { AUTH_DURABLE_TABLES, assertDatabaseSecurity, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
+import { AUTH_DURABLE_TABLES, assertDatabaseSecurity, validateCompletedOwnerActivation, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
+import { assertNewBackupPublicVerification, buildPublicVerificationSummary } from "./phase-11i-public-verification.mjs";
+
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
     encoding: "utf8",
@@ -163,7 +165,9 @@ export async function captureBackup({
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
     );
     const tableCounts = exactTableCounts(applicationTables);
-    const { authCounts, ownershipIntegrity } = validateOwnerDatabase(rows);
+    const ownerValidation = validateOwnerDatabase(rows);
+    const { authCounts, ownershipIntegrity } = ownerValidation;
+    const accountActivationCount = validateCompletedOwnerActivation(rows);
 
     const [storageBuckets, storageObjects] = rows(`
       select (select count(*) from storage.buckets),
@@ -268,6 +272,13 @@ export async function captureBackup({
     for (const durable of ["users", "identities", "mfaFactors", "webauthnCredentials"]) {
       if (afterAuth[durable] !== authCounts[durable]) fail("Durable Auth changed during backup capture.");
     }
+    if (validateCompletedOwnerActivation(rows) !== accountActivationCount) {
+      fail("Owner activation changed during backup capture.");
+    }
+    const publicVerificationSummary = buildPublicVerificationSummary({
+      migrations, storage: { buckets: storageBuckets, objects: storageObjects },
+      ownerValidation, accountActivationCount, sourceCaptureConsistency: "PASS",
+    });
     const sourceSnapshot = {
       sourceProjectRef: sourceIdentity.projectRef,
       sourceEnvironment: sourceIdentity.sourceEnvironment,
@@ -413,6 +424,7 @@ export async function captureBackup({
     const finalManifest = {
       ...contentManifest,
       schemaVersion: "phase-11i-backup-manifest/v1",
+      publicVerificationSummary,
       backupCompletedAt,
       dumpTools: {
         supabaseCli: runSupabase(["--version"]).trim(),
@@ -428,6 +440,7 @@ export async function captureBackup({
       postEncryptionDecryptVerification: privateKey ? "PASS" : "PENDING_RESTORE",
       credentialScanStatus: "REDACTED_MANIFEST_PASS",
     };
+    assertNewBackupPublicVerification(finalManifest);
     assertRedactedEvidence(finalManifest);
     const manifestBytes = Buffer.from(`${JSON.stringify(finalManifest, null, 2)}\n`);
     writeFileSync(manifestPath, manifestBytes, { mode: 0o600 });
