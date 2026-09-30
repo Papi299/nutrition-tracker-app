@@ -446,7 +446,7 @@
       "priority": "P0",
       "originalEvidenceRequirement": "Local recovery/callback/session implementation plus hosted Auth/SMTP/redirect/rate-limit and deployed behavior, including invitation procedure/register/reconciliation.",
       "repositoryLocalImplementationStage": "SATISFIED_WITH_SCOPE: 11E and J2 local invitation, recovery, reauth, export, closure, deny/replay and 44-migration checks.",
-      "externalManualProviderStage": "PARTIAL: exact Production Auth Site URL and four EN/HE invitation/recovery callback URLs are configured. Deployed sign-in, invitation-only signup, recovery-request and missing/invalid callback error surfaces rendered safely without account creation or email. Real hosted SMTP, invitation/recovery delivery, valid callback, cookies/session, rate-limits, register and procedure remain unproved.",
+      "externalManualProviderStage": "SATISFIED_OWNER_ONLY_PENDING_INDEPENDENT_REVIEW: one real Production owner invite, activation, session, password sign-in, recovery, credential transition, used-link replays and recent-password reauthentication passed on accepted A; built-in mail is best-effort for the sole owner only. External invitation/register operation is scope-inapplicable, not passed.",
       "exactEvidenceSources": [
         "docs/phase-11-qa-hardening-deployment-readiness-audit.md",
         "docs/phase-11b-launch-contract-and-acceptance-baseline.md",
@@ -454,17 +454,19 @@
         "docs/phase-11j2-local-auth-security-account-lifecycle.md",
         "docs/phase-11j4-provider-recovery-freshness.md",
         "docs/phase-11k-p11a017-exact-candidate-deployment-verification.md",
-        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json"
+        "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+        "docs/phase-11k-p11a006-production-owner-auth-qualification.md",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json"
       ],
-      "freshnessRequirements": "Hosted settings and operational register state require separately authorized exact-target read and deployed test; EXTERNAL_REFRESH_AUTHORIZATION_REQUIRED for new provider reads.",
-      "currentDisposition": "OPEN_EXTERNAL_EVIDENCE_PENDING",
-      "remainingUncertainty": "Two SECURITY DEFINER advisor WARNs remain intentional privileged RPC exposure requiring active grant/session review. Real hosted Auth delivery, valid callback, session, rate-limit and register behavior remain unverified.",
-      "launchEffect": "P0 launch blocker; no waiver.",
-      "nextAction": "Under separate authority, run controlled real invitation/recovery/session/SMTP/rate-limit and procedure evidence against the exact candidate; review advisor WARNs. PO-08 keeps external invitations/register inactive until separately reconciled.",
+      "freshnessRequirements": "Recheck hosted Auth, alias/protection, advisor, backup and owner scope before any later release decision; external users require SMTP and invitation/register requalification.",
+      "currentDisposition": "FINDING_CLOSED",
+      "remainingUncertainty": "Independent review pending. Built-in mail has no delivery SLA; Free-tier leaked-password protection is unavailable. Browser cookie flags were not read live; exact deployed source contract and functional session/replay behavior are recorded in the owner packet.",
+      "launchEffect": "No P11A-006 finding-level blocker after independent review; other P0/P1 launch gates remain.",
+      "nextAction": "Independent ChatGPT review of the bounded owner-only packet. Reopen SMTP and invitation/register qualification if external users are introduced.",
       "exceptionPathExists": false,
       "exceptionCurrentlyGranted": false,
-      "productOwnerAuthorizationRequiredForNextAction": "YES",
-      "authorizationDetail": "New hosted/provider reads and exact deployed Auth walkthrough require separate authorization."
+      "productOwnerAuthorizationRequiredForNextAction": "NO_NEW_PROVIDER_ACTION_FOR_REVIEW",
+      "authorizationDetail": "Bounded owner Production actions were completed within the task authorization window; any later provider mutation needs separate authority."
     },
     {
       "id": "P11A-007",
@@ -783,8 +785,8 @@
   ],
   "counts": {
     "P0": {
-      "closed": 4,
-      "open": 3,
+      "closed": 5,
+      "open": 2,
       "excepted": 0
     },
     "P1": {
@@ -800,6 +802,7 @@
   },
   "closedFindingIds": [
     "P11A-001",
+    "P11A-006",
     "P11A-007",
     "P11A-011",
     "P11A-016",
@@ -810,7 +813,6 @@
     "P11A-003",
     "P11A-004",
     "P11A-005",
-    "P11A-006",
     "P11A-008",
     "P11A-009",
     "P11A-010",
@@ -824,7 +826,6 @@
     "P11A-002",
     "P11A-004",
     "P11A-005",
-    "P11A-006",
     "P11A-008",
     "P11A-009",
     "P11A-010",
@@ -859,6 +860,16 @@
     "findingDisposition": "FINDING_CLOSED",
     "independentReviewState": "PENDING_INDEPENDENT_CHATGPT_REVIEW",
     "finalProductionDeploymentId": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+    "publicLaunchAuthorized": false
+  },
+  "p11a006OwnerAuthUpdate": {
+    "recordedAtUtc": "2026-09-30T04:49:19Z",
+    "scope": "PERSONAL_USE_FREE_TIER_OWNER_ONLY",
+    "proposedDisposition": "FINDING_CLOSED_PENDING_INDEPENDENT_REVIEW",
+    "evidence": "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+    "externalInvitationRegister": "SCOPE_INAPPLICABLE_NO_PASS_CREDIT",
+    "mailLimitation": "Supabase built-in sender is best-effort/no-SLA and not accepted for future external users.",
+    "additionalAdvisorWarning": "Leaked-password protection disabled; explained Free-tier Pro-only feature, no task mutation.",
     "publicLaunchAuthorized": false
   }
 }
