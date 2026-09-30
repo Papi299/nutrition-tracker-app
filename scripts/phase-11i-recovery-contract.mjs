@@ -78,6 +78,21 @@ export function assertProductionSource({ projectRef, sourceEnvironment }) {
   }
 }
 
+export function assertApprovedProductionTransport(environment) {
+  if (environment.PGHOST !== "aws-0-eu-west-1.pooler.supabase.com" ||
+      environment.PGPORT !== "5432" ||
+      environment.PGUSER !== `cli_login_postgres.${PRODUCTION_PROJECT_REF}` ||
+      environment.PGDATABASE !== "postgres") {
+    fail("Linked transport does not match the approved Production project.");
+  }
+}
+
+export function assertProductionProjectMetadata(project) {
+  if (project.id !== PRODUCTION_PROJECT_REF || project.region !== "eu-west-1" || project.status !== "ACTIVE_HEALTHY") {
+    fail("Production project identity, region, or health mismatch.");
+  }
+}
+
 export function assertEncryptionRecipient(recipientPath) {
   if (!recipientPath || !isAbsolute(recipientPath)) {
     fail("A trusted absolute encryption-recipient certificate path is required.");

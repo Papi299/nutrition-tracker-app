@@ -1,5 +1,7 @@
 # Phase 11K integrated acceptance
 
+**P11A-010-A1 implementation update (2026-09-30):** `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING`. [Local qualification](phase-11k-p11a010-populated-owner-backup-implementation.md) proves populated encrypted capture and isolated recovery; the real Production owner-state backup is still pending separate authorization after reviewed merge. `personalUseBlocker=true`; `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`. Counts remain 1 required / 19 improvements / 20 not required.
+
 **Current personal-use scope (2026-09-30):** [DEC-040 owner-readiness baseline](phase-11k-personal-use-owner-readiness-baseline.md) supersedes commercial prerequisites for `PERSONAL_USE_FREE_TIER`. `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`: only P11A-010-A1 (populated-owner backup/recovery) blocks owner use; 19 remaining subrequirements are improvements and 20 are not required with no PASS credit. Public/commercial launch remains unauthorized. The following content retains historical states unless explicitly updated; use the dated personal-use overlay for active owner-use dispositions.
 
 ## Preserved historical integrated-acceptance record
