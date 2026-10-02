@@ -171,7 +171,7 @@ for (const failedStage of PSQL_QUERY_STAGES) {
         assertSourceIdentity: () => {}, assertArtifactIdentity: () => {}, assertRecipient: () => {},
         backupRootInput: root, recipientInput: join(process.cwd(), "ops/recovery/phase-11i-recipient.pem"),
         operator: "Local synthetic diagnostic test", project: { id: "SYNTHETIC_DIAGNOSTIC_FIXTURE", status: "ACTIVE_HEALTHY" },
-        authConfig: {}, rows, psqlBinary: "synthetic-psql",
+        authConfig: {}, rows, psqlBinary: "synthetic-psql", refreshSourceTransport: () => {},
         runSupabase: (args) => { dumps++; writeFileSync(args[args.indexOf("--file") + 1], "-- synthetic dump\n"); },
       }), (error) => {
         assert.match(error.message, new RegExp(`^psql failed at ${failedStage} \\(exit 2\\)`));

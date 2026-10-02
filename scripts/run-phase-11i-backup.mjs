@@ -1,8 +1,8 @@
 import { spawnSync } from "node:child_process";
 import { captureBackup } from "./phase-11i-backup-pipeline.mjs";
-import { readPsqlRows } from "./phase-11i-psql-diagnostics.mjs";
+import { createLinkedSourceTransport } from "./phase-11i-cli-transport.mjs";
 import {
-  assertApprovedProductionTransport, assertProductionProjectMetadata,
+  assertProductionProjectMetadata,
   assertBackupId, assertEncryptionRecipient, assertProductionSource,
   assertRecipientCertificateFingerprint, fail, PRODUCTION_PROJECT_REF,
 } from "./phase-11i-recovery-contract.mjs";
@@ -28,23 +28,6 @@ function runSupabase(args) {
   return run("npx", ["supabase", ...args]);
 }
 
-function parseLinkedEnvironment() {
-  const output = runSupabase(["db", "dump", "--linked", "--dry-run"]);
-  const environment = {};
-  for (const name of ["PGHOST", "PGPORT", "PGUSER", "PGPASSWORD", "PGDATABASE"]) {
-    const match = output.match(new RegExp(`^export ${name}="([^"]+)"$`, "m"));
-    if (!match) fail(`Linked transport omitted ${name}.`);
-    environment[name] = match[1];
-  }
-  assertApprovedProductionTransport(environment);
-  return {
-    ...process.env,
-    ...environment,
-    PGCONNECT_TIMEOUT: "20",
-    PGSSLMODE: "require",
-  };
-}
-
 function findPsql() {
   for (const candidate of ["/opt/homebrew/opt/libpq/bin/psql", "psql"]) {
     const probe = spawnSync(candidate, ["--version"], { encoding: "utf8" });
@@ -53,11 +36,8 @@ function findPsql() {
   fail("psql is required for safe metadata inspection.");
 }
 
-const linkedEnvironment = parseLinkedEnvironment();
 const psqlBinary = findPsql();
-function rows(sql, stage) {
-  return readPsqlRows({ psqlBinary, sql, environment: linkedEnvironment, stage });
-}
+const { rows, refreshSourceTransport } = createLinkedSourceTransport({ runSupabase, psqlBinary });
 function accessToken() {
   if (process.env.SUPABASE_ACCESS_TOKEN) return process.env.SUPABASE_ACCESS_TOKEN;
   if (process.platform === "darwin") {
@@ -92,7 +72,7 @@ const result = await captureBackup({
   privateKey: process.env.PHASE11I_RECOVERY_PRIVATE_KEY,
   project,
   authConfig: await managementJson(`/v1/projects/${PRODUCTION_PROJECT_REF}/config/auth`),
-  rows, psqlBinary,
+  rows, psqlBinary, refreshSourceTransport,
   runSupabase: (args) => runSupabase(args[0] === "db" && args[1] === "dump"
     ? [...args, "--linked"] : args),
 });

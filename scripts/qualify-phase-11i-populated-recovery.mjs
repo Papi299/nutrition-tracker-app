@@ -142,14 +142,42 @@ try {
   const fingerprint = run("openssl", ["x509", "-in", cert, "-noout", "-fingerprint", "-sha256"]).trim().split("=").at(-1).replaceAll(":", "").toLowerCase();
   const backupRoot = join(root, "encrypted");
   mkdirSync(backupRoot, { mode: 0o700 });
+  let transportGeneration = 1;
+  let transportRows = sourceRows;
+  let dumpCalls = 0;
+  let transportRefreshes = 0;
+  const transportEvents = [];
+  const recordTransportEvent = (event) => {
+    if (transportEvents.at(-1) !== event) transportEvents.push(event);
+  };
   const options = {
     sourceIdentity: { projectRef: SYNTHETIC_IDENTITY, sourceEnvironment: "LocalSynthetic" },
     assertSourceIdentity: assertSyntheticSource, assertArtifactIdentity: assertSyntheticArtifact,
     assertRecipient: (actual) => assert.equal(actual, fingerprint),
     backupRootInput: backupRoot, recipientInput: cert, operator: "CodexSyntheticFixture",
     privateKey: key, project: { id: SYNTHETIC_IDENTITY, region: "LOCAL_DOCKER", status: "ACTIVE_HEALTHY", database: { version: "LOCAL_SUPABASE" } },
-    authConfig: {}, rows: sourceRows, psqlBinary: "psql",
-    runSupabase: (args) => sourceCli(args[0] === "db" && args[1] === "dump" ? [...args, "--local"] : args),
+    authConfig: {}, psqlBinary: "psql",
+    rows: (sql, stage) => {
+      assert.equal(transportGeneration, stage.startsWith("POST_DUMP_") ? 2 : 1);
+      recordTransportEvent(stage);
+      return transportRows(sql);
+    },
+    refreshSourceTransport: () => {
+      assert.equal(dumpCalls, 4);
+      assert.equal(transportRefreshes, 0);
+      transportRefreshes++;
+      transportRows = rowsAt(sourceDb);
+      transportGeneration = 2;
+      recordTransportEvent("REFRESH_LOCAL_TRANSPORT");
+    },
+    runSupabase: (args) => {
+      if (args[0] === "db" && args[1] === "dump") {
+        dumpCalls++;
+        recordTransportEvent("DUMP_" + dumpCalls);
+        return sourceCli([...args, "--local"]);
+      }
+      return sourceCli(args);
+    },
   };
   for (const [label, mutation] of [
     ["migrationMismatch", "delete from supabase_migrations.schema_migrations where version='20260927170418'"],
@@ -166,7 +194,19 @@ try {
     negativeResults[label] = "PASS";
   }
   process.stdout.write("Capturing populated synthetic owner with temporary CMS recipient.\n");
+  recordTransportEvent("INITIAL_LOCAL_TRANSPORT");
   const capture = await captureBackup(options);
+  assert.equal(dumpCalls, 4);
+  assert.equal(transportRefreshes, 1);
+  assert.deepEqual(transportEvents, [
+    "INITIAL_LOCAL_TRANSPORT", "MIGRATION_LEDGER", "APPLICATION_TABLE_INVENTORY",
+    "PRE_DUMP_TABLE_COUNTS", "OWNER_VALIDATION", "OWNER_ACTIVATION", "STORAGE_SCOPE",
+    "VAULT_INVENTORY", "RLS_VALIDATION", "GRANT_VALIDATION", "SECURITY_DEFINER_VALIDATION",
+    "AUTH_TABLE_INVENTORY", "DUMP_1", "DUMP_2", "DUMP_3", "DUMP_4",
+    "REFRESH_LOCAL_TRANSPORT", "POST_DUMP_TABLE_COUNTS",
+    "POST_DUMP_OWNER_VALIDATION", "POST_DUMP_OWNER_ACTIVATION",
+  ]);
+  commandsPassed += 3;
   assert.deepEqual(readdirSync(backupRoot).sort(), [capture.archivePath.split("/").at(-1), capture.manifestPath.split("/").at(-1)].sort());
   const manifestBytes = readFileSync(capture.manifestPath);
   const manifest = JSON.parse(manifestBytes.toString("utf8"));
@@ -275,6 +315,8 @@ try {
     roleComparison: restored.roleComparison, schemaComparison: restored.schemaComparison,
     semanticRecovery, negativeResults, behavioralAssertionsPassed: commandsPassed,
     negativeCasesPassed: Object.keys(negativeResults).length,
+    transportLifecycle: { initialAcquisitions: 1, postDumpRefreshes: transportRefreshes,
+      dumpCalls, eventOrder: transportEvents, allPostDumpReadsUsedRefreshedTransport: true },
     publicVerificationSummary: manifest.publicVerificationSummary,
     publicManifestContainsDetailedCounts: false, githubArtifactVerification: "PASS",
     historicalManifestWithoutSummaryRestored: true,
@@ -283,7 +325,7 @@ try {
       "phase-11i-recovery-contract.mjs", "phase-11i-backup-pipeline.mjs", "phase-11i-restore-pipeline.mjs",
       "phase-11i-owner-validation.mjs", "qualify-phase-11i-populated-recovery.mjs",
       "phase-11i-public-verification.mjs", "verify-phase-11i-github-artifact.mjs",
-      "run-phase-11i-backup.mjs", "run-phase-11i-restore.mjs",
+      "run-phase-11i-backup.mjs", "run-phase-11i-restore.mjs", "phase-11i-cli-transport.mjs",
     ].map((name) => [name, sha256(readFileSync(join(repositoryRoot, "scripts", name)))])),
     storage: restored.storage, rlsComparison: restored.rlsComparison, grantComparison: restored.grantComparison,
     securityDefinerSearchPaths: restored.securityDefinerSearchPaths,
