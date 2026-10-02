@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { captureBackup } from "./phase-11i-backup-pipeline.mjs";
+import { readPsqlRows } from "./phase-11i-psql-diagnostics.mjs";
 import {
   assertApprovedProductionTransport, assertProductionProjectMetadata,
   assertBackupId, assertEncryptionRecipient, assertProductionSource,
@@ -54,11 +55,8 @@ function findPsql() {
 
 const linkedEnvironment = parseLinkedEnvironment();
 const psqlBinary = findPsql();
-function rows(sql) {
-  const output = run(psqlBinary,
-    ["-X", "-v", "ON_ERROR_STOP=1", "-q", "-A", "-t", "-F", "\t"],
-    { input: `set role postgres; ${sql}`, env: linkedEnvironment }).trim();
-  return output ? output.split(/\r?\n/).map((line) => line.split("\t")) : [];
+function rows(sql, stage) {
+  return readPsqlRows({ psqlBinary, sql, environment: linkedEnvironment, stage });
 }
 function accessToken() {
   if (process.env.SUPABASE_ACCESS_TOKEN) return process.env.SUPABASE_ACCESS_TOKEN;

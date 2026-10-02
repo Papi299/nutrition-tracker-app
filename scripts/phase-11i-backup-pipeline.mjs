@@ -54,7 +54,7 @@ export async function captureBackup({
     return value;
   }
 
-  function exactTableCounts(tableRows) {
+  function exactTableCounts(tableRows, stage) {
     const sql = tableRows
       .map(([schema, table]) => {
         safeIdentifier(schema);
@@ -63,7 +63,7 @@ export async function captureBackup({
       })
       .join(" union all ");
     return Object.fromEntries(
-      rows(`${sql} order by 1;`).map(([table, count]) => [table, Number(count)]),
+      rows(`${sql} order by 1;`, stage).map(([table, count]) => [table, Number(count)]),
     );
   }
 
@@ -158,24 +158,26 @@ export async function captureBackup({
 
     const migrations = rows(
       "select version from supabase_migrations.schema_migrations order by version;",
+      "MIGRATION_LEDGER",
     ).map(([version]) => version);
     assertMigrationHistory(migrations);
 
     const applicationTables = rows(
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
+      "APPLICATION_TABLE_INVENTORY",
     );
-    const tableCounts = exactTableCounts(applicationTables);
-    const ownerValidation = validateOwnerDatabase(rows);
+    const tableCounts = exactTableCounts(applicationTables, "PRE_DUMP_TABLE_COUNTS");
+    const ownerValidation = validateOwnerDatabase((sql) => rows(sql, "OWNER_VALIDATION"));
     const { authCounts, ownershipIntegrity } = ownerValidation;
-    const accountActivationCount = validateCompletedOwnerActivation(rows);
+    const accountActivationCount = validateCompletedOwnerActivation((sql) => rows(sql, "OWNER_ACTIVATION"));
 
     const [storageBuckets, storageObjects] = rows(`
       select (select count(*) from storage.buckets),
              (select count(*) from storage.objects);
-    `).at(0).map(Number);
+    `, "STORAGE_SCOPE").at(0).map(Number);
     assertStorageScope({ buckets: storageBuckets, objects: storageObjects });
 
-    const vaultRows = rows("select name from vault.secrets order by name;");
+    const vaultRows = rows("select name from vault.secrets order by name;", "VAULT_INVENTORY");
     const vaultSecretNames = vaultRows.map(([name]) => name);
     if (
       vaultSecretNames.length !== 1 ||
@@ -189,7 +191,7 @@ export async function captureBackup({
       from pg_class c join pg_namespace n on n.oid=c.relnamespace
       where n.nspname='public' and c.relkind in ('r','p') and not c.relrowsecurity
       order by 1;
-    `).map(([name]) => name);
+    `, "RLS_VALIDATION").map(([name]) => name);
 
 
     const unexpectedMutationGrants = rows(`
@@ -199,7 +201,7 @@ export async function captureBackup({
         and grantee in ('PUBLIC','anon')
         and privilege_type in ('INSERT','UPDATE','DELETE','TRUNCATE','TRIGGER','REFERENCES')
       order by 1,2,3;
-    `);
+    `, "GRANT_VALIDATION");
 
 
     const securityDefinerMissingSearchPath = rows(`
@@ -211,11 +213,12 @@ export async function captureBackup({
           where entry in ('search_path=""', 'search_path=')
         )
       order by 1;
-    `).map(([name]) => name);
+    `, "SECURITY_DEFINER_VALIDATION").map(([name]) => name);
     assertDatabaseSecurity({ rlsDisabledTables, unexpectedMutationGrants, securityDefinerMissingSearchPath });
 
     const authTables = rows(
       "select table_name from information_schema.tables where table_schema='auth' and table_type='BASE TABLE' order by table_name;",
+      "AUTH_TABLE_INVENTORY",
     ).map(([name]) => name);
     for (const required of AUTH_DURABLE_TABLES) {
       if (!authTables.includes(required)) fail(`Required Auth durable table missing: ${required}.`);
@@ -266,13 +269,13 @@ export async function captureBackup({
     ]);
 
     // Fail rather than publish a count-inconsistent capture if writes occurred during the dumps.
-    const afterCounts = exactTableCounts(applicationTables);
+    const afterCounts = exactTableCounts(applicationTables, "POST_DUMP_TABLE_COUNTS");
     if (JSON.stringify(afterCounts) !== JSON.stringify(tableCounts)) fail("Source changed during backup capture.");
-    const afterAuth = validateOwnerDatabase(rows).authCounts;
+    const afterAuth = validateOwnerDatabase((sql) => rows(sql, "POST_DUMP_OWNER_VALIDATION")).authCounts;
     for (const durable of ["users", "identities", "mfaFactors", "webauthnCredentials"]) {
       if (afterAuth[durable] !== authCounts[durable]) fail("Durable Auth changed during backup capture.");
     }
-    if (validateCompletedOwnerActivation(rows) !== accountActivationCount) {
+    if (validateCompletedOwnerActivation((sql) => rows(sql, "POST_DUMP_OWNER_ACTIVATION")) !== accountActivationCount) {
       fail("Owner activation changed during backup capture.");
     }
     const publicVerificationSummary = buildPublicVerificationSummary({
