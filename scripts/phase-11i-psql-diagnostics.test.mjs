@@ -184,4 +184,3 @@ for (const failedStage of PSQL_QUERY_STAGES) {
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 }
-
