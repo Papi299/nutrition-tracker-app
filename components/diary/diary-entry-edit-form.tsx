@@ -2,6 +2,14 @@
 
 import { useActionState } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
+import { Button } from "@/components/ui/button";
+import {
+  FieldError as UIFieldError,
+  FieldLabel,
+  Input,
+  Select,
+  Textarea,
+} from "@/components/ui/form-controls";
 import type {
   DiaryEntryActionState,
   DiaryEntryActionStatus,
@@ -54,9 +62,9 @@ function FieldError({
   }
 
   return (
-    <span className="text-sm font-normal text-red-700">
+    <UIFieldError>
       {messages[code] ?? messages.invalid_input}
-    </span>
+    </UIFieldError>
   );
 }
 
@@ -86,11 +94,10 @@ function TextInput({
   values: DiaryEntryActionState["values"];
 }) {
   return (
-    <label className="grid gap-2 text-sm font-medium text-slate-900">
+    <FieldLabel className="grid gap-2">
       <span>{label}</span>
-      <input
+      <Input
         aria-invalid={Boolean(error)}
-        className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
         defaultValue={resolveValue(values, name, entry[name])}
         disabled={disabled}
         inputMode={inputMode}
@@ -101,7 +108,7 @@ function TextInput({
         type={type}
       />
       <FieldError code={error} messages={messages} />
-    </label>
+    </FieldLabel>
   );
 }
 
@@ -138,7 +145,7 @@ export function DiaryEntryEditForm({
   return (
     <form
       action={formAction}
-      className="mt-4 grid gap-4 border-t border-slate-200 pt-4 text-start"
+      className="mt-4 grid gap-4 border-t border-border pt-4 text-start"
       noValidate
     >
       <input name="id" type="hidden" value={entry.id} />
@@ -147,7 +154,7 @@ export function DiaryEntryEditForm({
         type="hidden"
         value={values?.expected_version ?? String(entry.version)}
       />
-      <h4 className="text-base font-semibold text-slate-950">
+      <h4 className="ui-card-title">
         {labels.title}
       </h4>
 
@@ -164,11 +171,10 @@ export function DiaryEntryEditForm({
           values={values}
         />
 
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+        <FieldLabel className="grid gap-2">
           <span>{labels.meal_type}</span>
-          <select
+          <Select
             aria-invalid={Boolean(state.fieldErrors?.meal_type)}
-            className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
             defaultValue={
               values?.meal_type ?? entry.meal_type ?? mealTypeOptions[0]?.value
             }
@@ -181,12 +187,12 @@ export function DiaryEntryEditForm({
                 {option.label}
               </option>
             ))}
-          </select>
+          </Select>
           <FieldError
             code={state.fieldErrors?.meal_type}
             messages={fieldErrorMessages}
           />
-        </label>
+        </FieldLabel>
 
         <TextInput
           entry={entry}
@@ -270,16 +276,16 @@ export function DiaryEntryEditForm({
         />
       </div>
 
-      <label className="grid gap-2 text-sm font-medium text-slate-900">
+      <FieldLabel className="grid gap-2">
         <span>{labels.notes}</span>
-        <textarea
+        <Textarea
           aria-invalid={Boolean(state.fieldErrors?.notes)}
-          className="min-h-24 border border-slate-300 bg-white px-3 py-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+          className="min-h-24 py-3"
           defaultValue={resolveValue(values, "notes", entry.notes)}
           name="notes"
         />
         <FieldError code={state.fieldErrors?.notes} messages={fieldErrorMessages} />
-      </label>
+      </FieldLabel>
 
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-center">
         <div>
@@ -288,21 +294,21 @@ export function DiaryEntryEditForm({
           </AuthStatusNote>
         </div>
 
-        <button
-          className="min-h-11 border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+        <Button
           disabled={isPending}
           onClick={onCancel}
           type="button"
+          variant="outline"
         >
           {labels.cancel}
-        </button>
-        <button
-          className="min-h-11 bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+        </Button>
+        <Button
           disabled={isPending}
+          pending={isPending}
           type="submit"
         >
           {isPending ? pendingLabel : labels.save}
-        </button>
+        </Button>
       </div>
     </form>
   );

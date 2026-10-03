@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { buttonStyles } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 import { locales, type Locale } from "@/lib/i18n/routing";
@@ -52,12 +53,11 @@ export function LanguageSwitcher({
         return (
           <Link
             aria-current={isCurrent ? "page" : undefined}
-            className={[
-              "min-h-10 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
-              isCurrent
-                ? "border-teal-700 bg-teal-700 text-white"
-                : "border-slate-300 bg-white text-slate-800 hover:border-teal-700",
-            ].join(" ")}
+            className={buttonStyles({
+              variant: "ghost",
+              size: "sm",
+              className: isCurrent ? "ui-current" : undefined,
+            })}
             dir={locale === "he" ? "rtl" : "ltr"}
             href={`${localizedPath(pathname, locale)}${search}`}
             hrefLang={locale}

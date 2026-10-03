@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Input, FieldLabel } from "@/components/ui/form-controls";
+
 export function CalendarDateForm({
   action,
   additionalDescriptionId,
@@ -24,18 +27,17 @@ export function CalendarDateForm({
 
   return (
     <form action={action} className="mt-5 grid max-w-sm gap-3" method="get">
-      <p className="text-sm leading-6 text-slate-700" id={descriptionId}>
+      <p className="text-sm leading-6 text-muted-foreground" id={descriptionId}>
         {description}
       </p>
-      <label
-        className="grid gap-2 text-sm font-medium text-slate-900"
+      <FieldLabel
+        className="grid gap-2"
         htmlFor={inputId}
       >
         {label}
-      </label>
-      <input
+      </FieldLabel>
+      <Input
         aria-describedby={describedBy}
-        className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
         id={inputId}
         name={queryName}
         required
@@ -44,12 +46,11 @@ export function CalendarDateForm({
       {Object.entries(canonicalQueryValues ?? {}).map(([name, value]) => (
         <input key={name} name={name} type="hidden" value={value} />
       ))}
-      <button
-        className="min-h-11 bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+      <Button
         type="submit"
       >
         {submitLabel}
-      </button>
+      </Button>
     </form>
   );
 }

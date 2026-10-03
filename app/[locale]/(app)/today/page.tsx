@@ -1,5 +1,8 @@
 import { randomUUID } from "node:crypto";
 import Link from "next/link";
+import { surfaceStyles } from "@/components/ui/card";
+import { buttonStyles } from "@/components/ui/button";
+import { feedbackStyles } from "@/components/ui/feedback";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -272,20 +275,20 @@ function LocalizedTodayPage({
         />
       )}
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
+        <p className="ui-eyebrow">
           {t("label")}
         </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+        <h1 className="mt-4 ui-page-title">
           {t("title")}
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
+        <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
           {t("description")}
         </p>
       </div>
 
       {customFoodCreated && (
         <div
-          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          className={feedbackStyles("success", "max-w-3xl")}
           data-testid="custom-food-created-success"
           role="status"
         >
@@ -296,7 +299,7 @@ function LocalizedTodayPage({
 
       {savedMealLogged && (
         <div
-          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          className={feedbackStyles("success", "max-w-3xl")}
           data-testid="saved-meal-logged-success"
           role="status"
         >
@@ -307,7 +310,7 @@ function LocalizedTodayPage({
 
       {recipeLogged && (
         <div
-          className="max-w-3xl border border-teal-300 bg-teal-50 px-5 py-4 text-sm text-teal-950"
+          className={feedbackStyles("success", "max-w-3xl")}
           data-testid="recipe-logged-success"
           role="status"
         >
@@ -316,11 +319,11 @@ function LocalizedTodayPage({
         </div>
       )}
 
-      <div className="max-w-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <h2 className="text-lg font-semibold text-slate-950">
+      <div className={surfaceStyles({ className: "max-w-2xl" })}>
+        <h2 className="ui-card-title">
           {t("placeholderTitle")}
         </h2>
-        <p className="mt-3 text-sm leading-6 text-slate-700">
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
           {t("placeholderBody")}
         </p>
       </div>
@@ -338,15 +341,15 @@ function LocalizedTodayPage({
       )}
 
       {profileState.status === "missing" && (
-        <div className="max-w-2xl border border-teal-200 bg-teal-50 p-5 shadow-sm sm:p-6">
-          <h2 className="text-lg font-semibold text-slate-950">
+        <div className={surfaceStyles({ className: "max-w-2xl bg-info-surface border-info/30" })}>
+          <h2 className="ui-card-title">
             {t("setupCalloutTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-6 text-slate-700">
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
             {t("setupCalloutBody")}
           </p>
           <Link
-            className="mt-5 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+            className={buttonStyles({ className: "mt-5" })}
             href={`/${locale}/setup`}
           >
             {t("setupCalloutLink")}
@@ -367,15 +370,15 @@ function LocalizedTodayPage({
       )}
 
       {profileState.status === "ready" && targetState.status === "missing" && (
-        <div className="max-w-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6">
-          <h2 className="text-lg font-semibold text-slate-950">
+        <div className={surfaceStyles({ className: "max-w-2xl bg-warning-surface border-warning/30" })}>
+          <h2 className="ui-card-title">
             {t("targetEmptyTitle")}
           </h2>
-          <p className="mt-3 text-sm leading-6 text-slate-700">
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
             {t("targetEmptyBody")}
           </p>
           <Link
-            className="mt-5 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+            className={buttonStyles({ className: "mt-5" })}
             href={`/${locale}/setup`}
           >
             {t("targetEmptyLink")}
@@ -385,15 +388,15 @@ function LocalizedTodayPage({
 
       {targetState.status === "ready" && (
         <div
-          className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+          className={surfaceStyles({ className: "max-w-3xl" })}
           data-testid="target-summary"
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-950">
+              <h2 className="ui-card-title">
                 {t("targetSummary.title")}
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-700">
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {t("targetSummary.body", {
                   date: formatLocalizedDate(locale, selectedDate, {
                     dateStyle: "long",
@@ -402,7 +405,7 @@ function LocalizedTodayPage({
               </p>
             </div>
             <Link
-              className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+              className={buttonStyles({ variant: "outline" })}
               href={`/${locale}/setup`}
             >
               {t("targetSummary.editLink")}
@@ -412,13 +415,13 @@ function LocalizedTodayPage({
           <dl className="mt-6 grid gap-3 sm:grid-cols-2">
             {targetItems.map((item) => (
               <div
-                className="border border-slate-200 bg-stone-50 p-4"
+                className={surfaceStyles({ variant: "subtle", className: "p-4" })}
                 key={item.label}
               >
-                <dt className="text-sm font-medium text-slate-600">
+                <dt className="text-sm font-medium text-muted-foreground">
                   {item.label}
                 </dt>
-                <dd className="mt-2 text-2xl font-semibold text-slate-950">
+                <dd className="mt-2 ui-metric">
                   {item.value}
                 </dd>
               </div>
@@ -428,32 +431,32 @@ function LocalizedTodayPage({
       )}
 
       <div className="grid max-w-4xl gap-6">
-        <div className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className={surfaceStyles()}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-950">
+              <h2 className="ui-card-title">
                 {diaryT("list.title")}
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-700">
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {diaryT("list.description")}
               </p>
             </div>
             <form action={`/${locale}/today`} className="grid gap-2 text-sm">
               <label
-                className="font-medium text-slate-900"
+                className="font-medium text-foreground"
                 htmlFor="diary-date"
               >
                 {diaryT("fields.entryDate")}
               </label>
               <input
-                className="min-h-10 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                className="ui-control"
                 defaultValue={selectedDate}
                 id="diary-date"
                 name="date"
                 type="date"
               />
               <button
-                className="min-h-10 border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                className={buttonStyles({ variant: "outline" })}
                 type="submit"
               >
                 {diaryT("date.submit")}
@@ -463,7 +466,7 @@ function LocalizedTodayPage({
 
           <div className="mt-6">
             {diaryState.status !== "ready" ? (
-              <div className="border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-800">
+              <div className={feedbackStyles("danger")}>
                 {diaryT(`errors.${retrievalErrorKey(diaryState)}`)}
               </div>
             ) : (
@@ -520,13 +523,13 @@ function LocalizedTodayPage({
                 {diaryState.data.length > 0 && (
                   <section
                     aria-labelledby="save-diary-meal-title"
-                    className="border border-teal-200 bg-teal-50 p-4"
+                    className={surfaceStyles({ variant: "subtle", className: "p-4" })}
                     data-testid="save-diary-meal-links"
                   >
-                    <h3 className="font-semibold text-slate-950" id="save-diary-meal-title">
+                    <h3 className="font-semibold text-foreground" id="save-diary-meal-title">
                       {diaryT("savedMeals.title")}
                     </h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
                       {diaryT("savedMeals.body")}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-3">
@@ -536,7 +539,7 @@ function LocalizedTodayPage({
                         )
                         .map((mealType) => (
                           <Link
-                            className="inline-flex min-h-10 items-center border border-teal-700 bg-white px-3 text-sm font-semibold text-teal-800"
+                            className={buttonStyles({ variant: "outline", size: "sm" })}
                             href={`/${locale}/saved-meals/new?date=${selectedDate}&mealType=${mealType}`}
                             key={mealType}
                           >
@@ -634,31 +637,31 @@ function LocalizedTodayPage({
           </div>
         </div>
 
-        <div className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className={surfaceStyles()}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-950">
+              <h2 className="ui-card-title">
                 {diaryT("form.title")}
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-700">
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {diaryT("form.description")}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                className={buttonStyles({ variant: "outline" })}
                 href={`/${locale}/foods?date=${selectedDate}`}
               >
                 {diaryT("selection.findFood")}
               </Link>
               <Link
-                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                className={buttonStyles({ variant: "outline" })}
                 href={`/${locale}/foods/reuse?date=${selectedDate}`}
               >
                 {diaryT("selection.reuseFood")}
               </Link>
               <Link
-                className="inline-flex min-h-10 items-center justify-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+                className={buttonStyles({ variant: "outline" })}
                 href={`/${locale}/recipes`}
               >
                 {diaryT("selection.recipes")}
@@ -710,13 +713,13 @@ function LocalizedTodayPage({
           {foodSelectionState.status === "ready" && (
             <section
               aria-labelledby="selected-food-title"
-              className="mt-6 border border-teal-200 bg-teal-50 p-4"
+              className={surfaceStyles({ variant: "subtle", className: "mt-6 p-4" })}
               data-testid="selected-food-summary"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <h3
-                    className="text-base font-semibold text-slate-950"
+                    className="text-base font-semibold text-foreground"
                     dir="auto"
                     id="selected-food-title"
                   >
@@ -725,7 +728,7 @@ function LocalizedTodayPage({
                     })}
                   </h3>
                   {foodSelectionState.data.brand_name && (
-                    <p className="mt-1 text-sm text-slate-700" dir="auto">
+                    <p className="mt-1 text-sm text-muted-foreground" dir="auto">
                       {diaryT("selection.brand", {
                         brand: foodSelectionState.data.brand_name,
                       })}
@@ -733,7 +736,7 @@ function LocalizedTodayPage({
                   )}
                 </div>
                 <Link
-                  className="text-sm font-semibold text-teal-800 underline underline-offset-4"
+                  className="ui-text-link text-sm"
                   href={`/${locale}/today?${removeSelectionParameters.toString()}`}
                 >
                   {diaryT("selection.remove")}
@@ -762,7 +765,7 @@ function LocalizedTodayPage({
                   }
                 />
               </dl>
-              <p className="mt-4 text-sm leading-6 text-slate-700">
+              <p className="mt-4 text-sm leading-6 text-muted-foreground">
                 {diaryT("selection.editableSnapshot")}
               </p>
             </section>
@@ -888,14 +891,14 @@ function FoodSelectionMessage({
   return (
     <section
       aria-labelledby={`${testId}-title`}
-      className="mt-6 border border-amber-200 bg-amber-50 p-4"
+      className={surfaceStyles({ className: "mt-6 p-4 bg-warning-surface border-warning/30" })}
       data-testid={testId}
     >
-      <h3 className="font-semibold text-slate-950" id={`${testId}-title`}>
+      <h3 className="font-semibold text-foreground" id={`${testId}-title`}>
         {title}
       </h3>
       <p
-        className="mt-2 text-sm leading-6 text-slate-700"
+        className="mt-2 text-sm leading-6 text-muted-foreground"
         role={alert ? "alert" : undefined}
       >
         {body}
@@ -907,8 +910,8 @@ function FoodSelectionMessage({
 function Metadata({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="font-semibold text-slate-700">{label}</dt>
-      <dd className="mt-1 text-slate-950" dir="auto">
+      <dt className="font-semibold text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-foreground" dir="auto">
         {value}
       </dd>
     </div>

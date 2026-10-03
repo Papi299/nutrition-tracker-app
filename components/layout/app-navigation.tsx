@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { buttonStyles } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import {
@@ -24,12 +25,11 @@ export function AppNavigation({
     return (
       <Link
         aria-current={isActive ? "page" : undefined}
-        className={[
-          "min-h-10 px-4 py-2 text-sm font-semibold transition-colors",
-          isActive
-            ? "bg-teal-700 text-white hover:bg-teal-800"
-            : "border border-slate-300 bg-white text-slate-800 hover:border-teal-700 hover:text-teal-800",
-        ].join(" ")}
+        className={buttonStyles({
+          variant: "ghost",
+          size: "sm",
+          className: isActive ? "ui-current" : undefined,
+        })}
         href={`/${locale}${item.path}`}
         key={item.id}
       >

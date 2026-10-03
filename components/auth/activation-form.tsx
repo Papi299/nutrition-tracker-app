@@ -7,6 +7,8 @@ import {
   type ActivationActionState,
 } from "@/app/[locale]/auth/activate/action-state";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
+import { Button } from "@/components/ui/button";
+import { FieldLabel, Input } from "@/components/ui/form-controls";
 
 export function ActivationForm({
   action,
@@ -48,57 +50,58 @@ export function ActivationForm({
 
   return (
     <form action={formAction} className="grid gap-5" noValidate>
-      <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
+      <FieldLabel className="grid gap-2 text-start">
         <span>{passwordLabel}</span>
-        <input
+        <Input
           aria-describedby="activation-form-status"
           aria-invalid={passwordInvalid}
           autoComplete="new-password"
-          className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+          className="min-h-12"
           name="password"
           type="password"
         />
-      </label>
+      </FieldLabel>
 
-      <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
+      <FieldLabel className="grid gap-2 text-start">
         <span>{passwordConfirmationLabel}</span>
-        <input
+        <Input
           aria-describedby="activation-form-status"
           aria-invalid={passwordInvalid}
           autoComplete="new-password"
-          className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+          className="min-h-12"
           name="passwordConfirmation"
           type="password"
         />
-      </label>
+      </FieldLabel>
 
-      <label className="flex min-h-12 items-start gap-3 text-start text-sm leading-6 text-slate-900">
+      <label className="flex min-h-12 items-start gap-3 text-start text-sm leading-6 text-foreground">
         <input
           aria-describedby="activation-form-status"
-          className="mt-1 size-5 shrink-0 accent-teal-700"
+          className="mt-1 size-5 shrink-0 accent-primary"
           name="age18Attested"
           type="checkbox"
         />
         <span>{ageLabel}</span>
       </label>
 
-      <label className="flex min-h-12 items-start gap-3 text-start text-sm leading-6 text-slate-900">
+      <label className="flex min-h-12 items-start gap-3 text-start text-sm leading-6 text-foreground">
         <input
           aria-describedby="activation-form-status"
-          className="mt-1 size-5 shrink-0 accent-teal-700"
+          className="mt-1 size-5 shrink-0 accent-primary"
           name="israelAttested"
           type="checkbox"
         />
         <span>{israelLabel}</span>
       </label>
 
-      <button
-        className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+      <Button
         disabled={isPending}
+        pending={isPending}
+        size="lg"
         type="submit"
       >
         {isPending ? pendingLabel : submitLabel}
-      </button>
+      </Button>
 
       <div id="activation-form-status" tabIndex={-1}>
         <AuthStatusNote tone={state.status === "error" ? "error" : "info"}>

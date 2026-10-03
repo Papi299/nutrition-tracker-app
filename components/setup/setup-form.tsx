@@ -2,6 +2,13 @@
 
 import { useActionState } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
+import { Button } from "@/components/ui/button";
+import {
+  FieldError as FieldErrorMessage,
+  FieldLabel,
+  Input,
+  Select,
+} from "@/components/ui/form-controls";
 import type {
   SetupActionState,
   SetupActionStatus,
@@ -39,9 +46,9 @@ function FieldError({
   }
 
   return (
-    <span className="text-sm font-normal text-red-700">
+    <FieldErrorMessage>
       {messages[code] ?? messages.invalid_input}
-    </span>
+    </FieldErrorMessage>
   );
 }
 
@@ -91,18 +98,18 @@ export function SetupForm({
       <input name="effectiveDate" type="hidden" value={values.effectiveDate} />
       <section className="grid gap-5">
         <div>
-          <h2 className="text-lg font-semibold text-slate-950">
+          <h2 className="ui-section-title">
             {labels.display_name}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-700">
+          <p className="ui-body-secondary mt-2">
             {sectionCopy.profileHelp}
           </p>
         </div>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+        <FieldLabel className="grid gap-2">
           <span>{labels.display_name}</span>
-          <input
-            className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+          <Input
+            className="min-h-12"
             defaultValue={values.display_name}
             name="display_name"
             type="text"
@@ -111,12 +118,12 @@ export function SetupForm({
             code={state.fieldErrors?.display_name}
             messages={fieldErrorMessages}
           />
-        </label>
+        </FieldLabel>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+        <FieldLabel className="grid gap-2">
           <span>{labels.preferred_language}</span>
-          <select
-            className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+          <Select
+            className="min-h-12"
             defaultValue={values.preferred_language}
             name="preferred_language"
           >
@@ -125,23 +132,23 @@ export function SetupForm({
                 {option.label}
               </option>
             ))}
-          </select>
+          </Select>
           <FieldError
             code={state.fieldErrors?.preferred_language}
             messages={fieldErrorMessages}
           />
-        </label>
+        </FieldLabel>
       </section>
 
-      <section className="grid gap-5 border-t border-slate-200 pt-6">
+      <section className="grid gap-5 border-t border-border pt-6">
         <div>
-          <h2 className="text-lg font-semibold text-slate-950">
+          <h2 className="ui-section-title">
             {sectionCopy.targetTitle}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-700">
+          <p className="ui-body-secondary mt-2">
             {sectionCopy.targetDescription}
           </p>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="ui-body-secondary mt-2">
             {blankHelper}
           </p>
         </div>
@@ -149,13 +156,10 @@ export function SetupForm({
         <div className="grid gap-4 sm:grid-cols-2">
           {(["calories", "protein_g", "carbohydrates_g", "fat_g"] as const).map(
             (field) => (
-              <label
-                className="grid gap-2 text-sm font-medium text-slate-900"
-                key={field}
-              >
+              <FieldLabel className="grid gap-2" key={field}>
                 <span>{labels[field]}</span>
-                <input
-                  className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+                <Input
+                  className="min-h-12 tabular-nums"
                   defaultValue={values[field]}
                   inputMode="decimal"
                   min="0"
@@ -166,19 +170,20 @@ export function SetupForm({
                   code={state.fieldErrors?.[field]}
                   messages={fieldErrorMessages}
                 />
-              </label>
+              </FieldLabel>
             ),
           )}
         </div>
       </section>
 
-      <button
-        className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+      <Button
         disabled={isPending}
+        pending={isPending}
+        size="lg"
         type="submit"
       >
         {isPending ? pendingLabel : submitLabel}
-      </button>
+      </Button>
 
       <AuthStatusNote tone={statusTone}>{statusMessage}</AuthStatusNote>
     </form>

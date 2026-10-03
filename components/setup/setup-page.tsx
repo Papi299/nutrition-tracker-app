@@ -10,6 +10,8 @@ import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bo
 import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { SetupForm } from "@/components/setup/setup-form";
+import { buttonStyles } from "@/components/ui/button";
+import { Card, surfaceStyles } from "@/components/ui/card";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   parseCalendarDateQueryValue,
@@ -154,15 +156,20 @@ function LocalizedSetupSessionRequired({ locale }: { locale: Locale }) {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl items-center px-5 py-12 text-start sm:px-8">
-      <section className="w-full border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-3xl font-semibold text-slate-950">
+      <section
+        className={surfaceStyles({
+          variant: "raised",
+          className: "w-full p-6 sm:p-8",
+        })}
+      >
+        <h1 className="ui-page-title text-3xl">
           {authT("signIn.title")}
         </h1>
-        <p className="mt-4 text-base leading-7 text-slate-700">
+        <p className="mt-4 text-base leading-7 text-muted-foreground">
           {setupT("errors.unauthenticated")}
         </p>
         <a
-          className="mt-6 inline-flex min-h-12 items-center bg-teal-700 px-4 text-base font-semibold text-white"
+          className={buttonStyles({ size: "lg", className: "mt-6" })}
           href={signInPath(locale)}
         >
           {authT("signIn.submit")}
@@ -283,18 +290,18 @@ function LocalizedSetupPage({
   return (
     <section className="flex flex-1 flex-col justify-center gap-8 py-8 text-start">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
+        <p className="ui-eyebrow">
           {t("label")}
         </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+        <h1 className="ui-page-title mt-4">
           {title}
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
+        <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
           {subtitle}
         </p>
       </div>
 
-      <div className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <Card variant="raised" className="max-w-3xl p-5 sm:p-6">
         <SetupForm
           action={action}
           blankHelper={t("targets.blankHelper")}
@@ -339,7 +346,7 @@ function LocalizedSetupPage({
           }}
           submitLabel={submitLabel}
         />
-      </div>
+      </Card>
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import { surfaceStyles } from "@/components/ui/card";
 import { CalendarDateForm } from "@/components/calendar-date/calendar-date-form";
 
 export function CalendarDateError({
@@ -24,16 +25,16 @@ export function CalendarDateError({
   return (
     <section
       aria-labelledby={`${inputId}-error-title`}
-      className="max-w-2xl border border-red-200 bg-red-50 p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ className: "max-w-2xl border-danger/30 bg-danger-surface" })}
     >
       <h1
-        className="text-2xl font-semibold text-slate-950"
+        className="ui-section-title"
         id={`${inputId}-error-title`}
       >
         {title}
       </h1>
       <p
-        className="mt-3 text-sm leading-6 text-red-800"
+        className="mt-3 text-sm leading-6 text-danger-foreground"
         id={errorId}
         role="alert"
       >
