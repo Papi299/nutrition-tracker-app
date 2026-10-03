@@ -69,7 +69,7 @@ export function DiaryEntryList({
 }) {
   if (entries.length === 0) {
     return (
-      <div className="border border-dashed border-slate-300 bg-stone-50 p-5 text-sm leading-6 text-slate-700">
+      <div className="rounded-lg bg-surface-subtle p-5 text-sm leading-6 text-muted-foreground">
         {emptyMessage}
       </div>
     );

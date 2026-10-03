@@ -1,3 +1,4 @@
+import { surfaceStyles } from "@/components/ui/card";
 import type { DiaryEntry } from "@/lib/diary-entries";
 import { formatLocalizedNumber } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/routing";
@@ -79,12 +80,12 @@ export function DiaryDailyTotals({
   ];
 
   return (
-    <section className="border border-slate-200 bg-stone-50 p-4 text-start">
+    <section className={surfaceStyles({ variant: "subtle", className: "p-4 text-start" })}>
       <div>
-        <h3 className="text-base font-semibold text-slate-950">
+        <h3 className="ui-card-title">
           {labels.title}
         </h3>
-        <p className="mt-2 text-sm leading-6 text-slate-700">
+        <p className="mt-2 ui-body-secondary">
           {labels.description}
         </p>
       </div>
@@ -99,11 +100,11 @@ export function DiaryDailyTotals({
             : `${formatGramValue(item.value, locale)} ${labels.unitGrams}`;
 
           return (
-            <div className="border border-slate-200 bg-white p-3" key={item.key}>
-              <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+            <div className={surfaceStyles({ className: "p-3" })} key={item.key}>
+              <dt className="ui-caption font-semibold">
                 {item.label}
               </dt>
-              <dd className="mt-2 text-2xl font-semibold text-slate-950" dir="auto">
+              <dd className="mt-2 ui-metric" dir="auto">
                 {value}
               </dd>
             </div>

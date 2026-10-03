@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { surfaceStyles } from "@/components/ui/card";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
 import { DiaryEntryEditForm } from "@/components/diary/diary-entry-edit-form";
@@ -118,29 +121,29 @@ export function DiaryEntryListItem({
   ];
 
   return (
-    <li className="border border-slate-200 bg-stone-50 p-4 text-start" data-diary-entry-id={entry.id}>
+    <li className={surfaceStyles({ variant: "subtle", className: "p-4 text-start" })} data-diary-entry-id={entry.id}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-700">
+          <p className="ui-eyebrow">
             {labels.meal}: {mealTypeLabels[entry.meal_type]}
           </p>
-          <p
-            className="mt-2 inline-flex border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700"
+          <Badge
+            className="mt-2"
             data-testid={`diary-source-${entry.source}`}
           >
             {labels.source}: {labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes]}
-          </p>
-          <h3 className="mt-2 text-lg font-semibold text-slate-950" dir="auto">
+          </Badge>
+          <h3 className="mt-2 ui-card-title" dir="auto">
             {entry.food_name}
           </h3>
           {entry.brand_name && (
-            <p className="mt-1 text-sm text-slate-600" dir="auto">
+            <p className="mt-1 text-sm text-muted-foreground" dir="auto">
               {labels.brand}: {entry.brand_name}
             </p>
           )}
         </div>
 
-        <div className="grid gap-3 text-sm leading-6 text-slate-700 sm:justify-items-end sm:text-end">
+        <div className="grid gap-3 text-sm leading-6 tabular-nums text-muted-foreground sm:justify-items-end sm:text-end">
           <div>
             <p>
               {labels.serving}: <bdi>{serving ?? notSetLabel}</bdi>
@@ -158,13 +161,14 @@ export function DiaryEntryListItem({
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:justify-end">
-            <button
-              className="min-h-10 border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
+            <Button
+              size="sm"
+              variant="outline"
               onClick={() => setIsEditing((current) => !current)}
               type="button"
             >
               {labels.edit}
-            </button>
+            </Button>
             <DiaryEntryDeleteButton
               action={deleteAction}
               entryId={entry.id}

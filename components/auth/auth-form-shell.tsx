@@ -7,6 +7,8 @@ import type {
 } from "@/app/[locale]/auth/action-state";
 import { initialAuthActionState } from "@/app/[locale]/auth/action-state";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
+import { Button } from "@/components/ui/button";
+import { FieldLabel, Input } from "@/components/ui/form-controls";
 
 export function AuthFormShell({
   action,
@@ -61,39 +63,40 @@ export function AuthFormShell({
 
   return (
     <form action={formAction} className="grid gap-5" noValidate ref={formRef}>
-      <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
+      <FieldLabel className="grid gap-2 text-start">
         <span>{emailLabel}</span>
-        <input
+        <Input
           aria-describedby="auth-form-status"
           aria-invalid={emailInvalid}
           autoComplete="email"
-          className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+          className="min-h-12"
           name="email"
           placeholder={emailPlaceholder}
           type="email"
         />
-      </label>
+      </FieldLabel>
 
-      <label className="grid gap-2 text-start text-sm font-medium text-slate-900">
+      <FieldLabel className="grid gap-2 text-start">
         <span>{passwordLabel}</span>
-        <input
+        <Input
           aria-describedby="auth-form-status"
           aria-invalid={passwordInvalid}
           autoComplete={autoComplete}
-          className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+          className="min-h-12"
           name="password"
           placeholder={passwordPlaceholder}
           type="password"
         />
-      </label>
+      </FieldLabel>
 
-      <button
-        className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+      <Button
         disabled={isPending}
+        pending={isPending}
+        size="lg"
         type="submit"
       >
         {isPending ? pendingLabel : submitLabel}
-      </button>
+      </Button>
 
       <div id="auth-form-status" tabIndex={-1}>
         <AuthStatusNote tone={statusTone}>{statusMessage}</AuthStatusNote>

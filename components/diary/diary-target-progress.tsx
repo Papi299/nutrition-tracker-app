@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
 import type { DiaryEntry } from "@/lib/diary-entries";
 import { formatLocalizedNumber } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/routing";
@@ -130,17 +132,17 @@ export function DiaryTargetProgress({
   if (target === null) {
     return (
       <section
-        className="border border-amber-200 bg-amber-50 p-4 text-start"
+        className={surfaceStyles({ className: "border-warning/30 bg-warning-surface p-4 text-start" })}
         data-testid="target-progress"
       >
-        <h3 className="text-base font-semibold text-slate-950">
+        <h3 className="ui-card-title">
           {labels.emptyTitle}
         </h3>
-        <p className="mt-2 text-sm leading-6 text-slate-700">
+        <p className="mt-2 ui-body-secondary">
           {labels.emptyBody}
         </p>
         <Link
-          className="mt-4 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+          className={buttonStyles({ className: "mt-4" })}
           href={setupHref}
         >
           {labels.emptyLink}
@@ -182,14 +184,14 @@ export function DiaryTargetProgress({
 
   return (
     <section
-      className="border border-slate-200 bg-stone-50 p-4 text-start"
+      className={surfaceStyles({ variant: "subtle", className: "p-4 text-start" })}
       data-testid="target-progress"
     >
       <div>
-        <h3 className="text-base font-semibold text-slate-950">
+        <h3 className="ui-card-title">
           {labels.title}
         </h3>
-        <p className="mt-2 text-sm leading-6 text-slate-700">
+        <p className="mt-2 ui-body-secondary">
           {labels.body}
         </p>
       </div>
@@ -204,14 +206,14 @@ export function DiaryTargetProgress({
 
           return (
             <article
-              className="border border-slate-200 bg-white p-4"
+              className={surfaceStyles({ className: "p-4" })}
               key={metric.key}
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
-                <h4 className="text-sm font-semibold text-slate-950">
+                <h4 className="text-sm font-semibold text-foreground">
                   {metric.label}
                 </h4>
-                <span className="text-sm font-medium text-teal-700">
+                <span className="text-sm font-medium text-primary">
                   {percent === null
                     ? labels.notSet
                     : labels.percentComplete.replace(
@@ -225,30 +227,30 @@ export function DiaryTargetProgress({
 
               <div
                 aria-hidden="true"
-                className="mt-4 h-2 overflow-hidden bg-slate-200"
+                className="mt-4 h-2 overflow-hidden rounded-sm bg-muted"
               >
                 <div
-                  className="h-full bg-teal-700"
+                  className="h-full bg-primary"
                   style={{ width: progressBarWidth(percent) }}
                 />
               </div>
 
               <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
                 <div>
-                  <dt className="text-slate-600">{labels.consumed}</dt>
-                  <dd className="mt-1 font-semibold text-slate-950">
+                  <dt className="text-muted-foreground">{labels.consumed}</dt>
+                  <dd className="mt-1 font-semibold tabular-nums text-foreground">
                     {formatValue(metric.consumed, metric.unit, locale)}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-slate-600">{labels.target}</dt>
-                  <dd className="mt-1 font-semibold text-slate-950">
+                  <dt className="text-muted-foreground">{labels.target}</dt>
+                  <dd className="mt-1 font-semibold tabular-nums text-foreground">
                     {targetDisplay}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-slate-600">{labels.remaining}</dt>
-                  <dd className="mt-1 font-semibold text-slate-950">
+                  <dt className="text-muted-foreground">{labels.remaining}</dt>
+                  <dd className="mt-1 font-semibold tabular-nums text-foreground">
                     {remainingText({
                       consumed: metric.consumed,
                       labels,

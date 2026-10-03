@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
+import { buttonStyles } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n/routing";
 
 export function InvitationOnlyCard({
@@ -26,7 +28,7 @@ export function InvitationOnlyCard({
   title: string;
 }) {
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-8 text-slate-950 sm:px-10 sm:py-12">
+    <main className="min-h-screen bg-background px-6 py-8 text-foreground sm:px-10 sm:py-12">
       <a className="skip-link" href="#main-content">
         {skipContent}
       </a>
@@ -41,32 +43,36 @@ export function InvitationOnlyCard({
           label={languageLabel}
         />
         <Link
-          className="w-fit text-start text-sm font-medium text-teal-700 hover:text-teal-900"
+          className={buttonStyles({
+            variant: "ghost",
+            size: "sm",
+            className: "w-fit text-start",
+          })}
           href={`/${locale}`}
         >
           {homeLabel}
         </Link>
 
-        <div className="border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <h1 className="text-start text-3xl font-semibold text-slate-950">
+        <Card variant="raised" className="p-6 sm:p-8">
+          <h1 className="ui-page-title text-start text-3xl">
             {title}
           </h1>
-          <p className="mt-4 text-start text-base leading-7 text-slate-700">
+          <p className="mt-4 text-start text-base leading-7 text-muted-foreground">
             {description}
           </p>
-          <p className="mt-4 text-start text-base leading-7 text-slate-700">
+          <p className="mt-4 text-start text-base leading-7 text-muted-foreground">
             {invitationInstruction}
           </p>
-          <p className="mt-6 text-start text-sm text-slate-700">
+          <p className="mt-6 text-start text-sm leading-6 text-muted-foreground">
             {activatedText}{" "}
             <Link
-              className="font-medium text-teal-700 hover:text-teal-900"
+              className="ui-text-link"
               href={`/${locale}/auth/sign-in`}
             >
               {activatedLinkLabel}
             </Link>
           </p>
-        </div>
+        </Card>
       </section>
     </main>
   );

@@ -6,6 +6,8 @@ import type {
 import { AuthFormShell } from "@/components/auth/auth-form-shell";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { LanguageSwitcher } from "@/components/language-switcher/language-switcher";
+import { buttonStyles } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n/routing";
 
 export function AuthCard({
@@ -63,7 +65,7 @@ export function AuthCard({
   title: string;
 }) {
   return (
-    <main className="min-h-screen bg-stone-50 px-6 py-8 text-slate-950 sm:px-10 sm:py-12">
+    <main className="min-h-screen bg-background px-6 py-8 text-foreground sm:px-10 sm:py-12">
       <a className="skip-link" href="#main-content">
         {skipContent}
       </a>
@@ -78,16 +80,20 @@ export function AuthCard({
           label={languageLabel}
         />
         <Link
-          className="w-fit text-start text-sm font-medium text-teal-700 hover:text-teal-900"
+          className={buttonStyles({
+            variant: "ghost",
+            size: "sm",
+            className: "w-fit text-start",
+          })}
           href={homeHref}
         >
           {homeLabel}
         </Link>
 
-        <div className="border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <Card variant="raised" className="p-6 sm:p-8">
           <div className="text-start">
-            <h1 className="text-3xl font-semibold text-slate-950">{title}</h1>
-            <p className="mt-3 text-base leading-7 text-slate-700">
+            <h1 className="ui-page-title text-3xl">{title}</h1>
+            <p className="mt-3 text-base leading-7 text-muted-foreground">
               {description}
             </p>
           </div>
@@ -114,23 +120,23 @@ export function AuthCard({
 
           <p className="mt-5 text-start text-sm">
             <Link
-              className="font-medium text-teal-700 hover:text-teal-900"
+              className="ui-text-link"
               href={recoveryHref}
             >
               {recoveryLabel}
             </Link>
           </p>
 
-          <p className="mt-6 text-start text-sm text-slate-700">
+          <p className="mt-6 text-start text-sm leading-6 text-muted-foreground">
             {alternateText}{" "}
             <Link
-              className="font-medium text-teal-700 hover:text-teal-900"
+              className="ui-text-link"
               href={alternateHref}
             >
               {alternateLabel}
             </Link>
           </p>
-        </div>
+        </Card>
       </section>
     </main>
   );
