@@ -1,10 +1,10 @@
 # Phase 11K personal-use owner-readiness baseline
 
-**P11A-010-A1 implementation update (2026-09-30):** `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING`. [Local qualification](phase-11k-p11a010-populated-owner-backup-implementation.md) proves populated encrypted capture and isolated recovery; the real Production owner-state backup is still pending separate authorization after reviewed merge. `personalUseBlocker=true`; `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`. Counts remain 1 required / 19 improvements / 20 not required.
+**Production owner-backup qualification (2026-10-03):** `P11A-010-A1 = SATISFIED_PERSONAL_USE_OWNER_BACKUP`; `personalUseBlocker=false`. The [real Production backup verification](phase-11k-p11a010-production-owner-backup-verification.md) qualifies run `37101249047` / artifact `11266886080` without decryption and adopts it as `CURRENT_PERSONAL_USE_RECOVERY_POINT`. Proposed conclusion: `PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW`. Counts are **0 required / 19 improvements / 20 not required**; `publicLaunchAuthorized=false`. Independent exact-head review and separately authorized merge remain delivery conditions.
 
 **Decision:** DEC-040 — Personal-use owner-readiness acceptance baseline. **Approver:** Maor Pichhadze, 2026-09-30 (Asia/Jerusalem). **Profile:** `PERSONAL_USE_FREE_TIER`. **Type:** `SCOPE_AMENDMENT_NOT_WAIVER`.
 
-**Conclusion:** `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`. The baseline is simplified and ready for independent engineering review; one actual data-loss risk remains. Codex is executor; ChatGPT is independent reviewer. No self-approval or merge is authorized.
+**Proposed conclusion:** `PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW`. No minimum owner-use blocker remains in this evidence branch. Codex is executor; ChatGPT is independent reviewer. No self-approval or merge is authorized.
 
 The [machine-readable matrix](../deployment/phase-11k-personal-use-owner-readiness-baseline.json) is the authoritative source for the table and counts below. This amendment evaluates a protected, private, non-commercial application used only by its owner. It supersedes the commercial prerequisites in Contract 2.0/DEC-004–006, DEC-015–016, DEC-018–023, DEC-024–028 and DEC-030 only to the extent classified here; security, data protection and future provider-action authority remain intact. DEC-035's free-tier topology, DEC-037's Firefox exclusion and DEC-039's Windows deferral remain. Current verified owner support excludes Windows; future Windows support requires physical validation.
 
@@ -12,11 +12,11 @@ This decision does not assert that removed requirements passed.
 It supersedes them only as active prerequisites for the current personal-use profile.
 Historical evidence remains unchanged.
 
-## Fresh repository baseline and accepted deployment
+## DEC-040 repository baseline and accepted deployment (historical)
 
 GitHub main: `e57ce9677e055c52c46917b093beec3a1eb38322`; tree: `1380e64ed00b57f93e8138d2e0dd61c95f1e948d`. PR #166 is merged; zero open PRs were observed. [Validate](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822448) and [CodeQL Actions / JavaScript-TypeScript](https://github.com/Papi299/nutrition-tracker-app/actions/runs/36673822518) succeeded on that exact main. The isolated worktree was clean before edits, on `codex/phase-11k-personal-use-baseline`; its full path is in JSON.
 
-Accepted protected deployment A remains the application baseline: source `7f3aea526ea3751f39b37fd02c90153d3a93e2a0`, tree `fc1689dd3cbf5af19e1a8bd43bcda4710d274f14`, deployment `dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN`. See the [accepted rehearsal](phase-11k-p11a017-redeploy-rollback-rehearsal.md) and [owner Auth evidence](phase-11k-p11a006-production-owner-auth-qualification.md). No candidate or redeployment is required by a governance-only change. Provider state was not refreshed in this task.
+Accepted protected deployment A remains the application baseline: source `7f3aea526ea3751f39b37fd02c90153d3a93e2a0`, tree `fc1689dd3cbf5af19e1a8bd43bcda4710d274f14`, deployment `dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN`. See the [accepted rehearsal](phase-11k-p11a017-redeploy-rollback-rehearsal.md) and [owner Auth evidence](phase-11k-p11a006-production-owner-auth-qualification.md). No candidate or redeployment is required by a governance-only change. Provider state was not refreshed by the historical DEC-040 governance task; the separately authorized Production backup is qualified in the current update above.
 
 ## Three buckets and counting
 
@@ -27,22 +27,18 @@ Accepted protected deployment A remains the application baseline: source `7f3aea
 Count each **remaining subrequirement** once. Already satisfied safeguards and six historical closed findings are assessed separately; no certification cell receives invented credit. Independent review/merge and exact-head CI are delivery gates, not additional application defects.
 
 ```text
-REQUIRED_BEFORE_OWNER_USE = 1
+REQUIRED_BEFORE_OWNER_USE = 0
 POST_OWNER_USE_IMPROVEMENT = 19
 NOT_REQUIRED_PERSONAL_USE_PROFILE = 20
 ```
 
-## Minimum blocker: P11A-010-A1
+## Satisfied minimum requirement: P11A-010-A1
 
-**Current implementation:** `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING`; local encrypted capture/recovery passed. The following gap and smallest-task paragraphs preserve the DEC-040 pre-implementation diagnosis. The only remaining operational proof is a separately authorized real Production owner-state backup after reviewed merge.
+`SATISFIED_PERSONAL_USE_OWNER_BACKUP`; `personalUseBlocker=false`. The [verification packet](phase-11k-p11a010-production-owner-backup-verification.md) records the real Production owner-state capture on merged source `bfda5cb39bb5706bed020f41bd6ffd173504a30d`, successful post-dump transport refresh and consistency checks, and accepted ciphertext-only artifact verification. The qualified artifact is the current personal-use recovery point. Its public summary exposes only approved migration, Storage, owner/activation and consistency scalars.
 
-**Risk:** newly entered personal nutrition data would have no working recurring backup or demonstrated populated recovery point.
+The [implementation packet](phase-11k-p11a010-populated-owner-backup-implementation.md) retains synthetic populated encrypted capture and isolated recovery evidence. This task did not decrypt or restore Production data. Exact 8-hour RTO and repeated drills remain `P11A-010-B1` improvements. Independent evidence review and separately authorized merge are still required before this proposed readiness is accepted.
 
-**Exact gap:** [historical backup source at DEC-040](https://github.com/Papi299/nutrition-tracker-app/blob/2d4dd5f1f38f97f7be50d8c21fdd5826f72bad41/scripts/run-phase-11i-backup.mjs#L267-L303) rejects all 16 named owner tables unless empty, including `account_activations`; also rejects nonzero Auth users/identities/sessions/refresh tokens, and requires total foods/nutrients/source counts from the bootstrap fixture. The [scheduled workflow](../.github/workflows/phase-11i-production-backup.yml#L68-L78) invokes this code. [PR #166 evidence](../deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/finalState) records one active owner and one completed activation. Therefore the unchanged capture will fail before creating its encrypted archive. This is a static source conclusion bound to accepted state, not an observed new scheduled failure.
-
-**Smallest task:** replace only empty-bootstrap assumptions with safe populated-owner checks, preserve project/encryption/redaction/Storage/migration safeguards, prove encrypted capture and isolated recovery of synthetic populated Auth/activation, diary/target snapshots and custom foods, and separately authorize/adopt one successful recurring backup after real owner creation. A bounded working-data recovery proof belongs to this corrective task; formal eight-hour timing and repeated drills do not.
-
-**Why before personal use:** scheduled artifacts #14/#15 predate owner creation and contain no owner nutrition history. The accepted 43-migration empty-state restore is credible mechanism evidence, but cannot repair a backup that rejects actual data. The migration-44 contract update corrected ledger acceptance only. This new incompatibility belongs to P11A-010; historical P11A-011 remains closed. No backup, restore, provider query or implementation was performed here.
+The previous bootstrap-guard diagnosis and pending-backup state are preserved in the machine-readable `resolvedMinimumBlockers` historical record. Reopen this requirement for a backup failure, incompatible data/schema scope or failed recovery proof. Older backups remain intact.
 
 ## Authoritative remaining requirement matrix
 
@@ -68,7 +64,6 @@ NOT_REQUIRED_PERSONAL_USE_PROFILE = 20
 | P11A-009 | P0 | `P11A-009-C2` — Formal physical deletion SLA and complex public erasure operations | `NOT_REQUIRED_PERSONAL_USE_PROFILE` | [deployment/phase-11k-p11a009-policy-data-governance-evidence.json](../deployment/phase-11k-p11a009-policy-data-governance-evidence.json); [docs/phase-11k-p11a009-product-owner-decisions.md](phase-11k-p11a009-product-owner-decisions.md) | None under this profile; current closure is still not erasure. | No | A deletion/support promise or external users |
 | P11A-009 | P0 | `P11A-009-C3` — Public privacy program, external-user support policy and support/admin operating team | `NOT_REQUIRED_PERSONAL_USE_PROFILE` | [deployment/phase-11k-p11a009-policy-data-governance-evidence.json](../deployment/phase-11k-p11a009-policy-data-governance-evidence.json); [docs/phase-11k-p11a009-product-owner-decisions.md](phase-11k-p11a009-product-owner-decisions.md) | None under this profile; no routine support inspection or admin console is added. | No | External support users or additional operators |
 | P11A-009 | P0 | `P11A-009-C4` — External invitation-register issue/reissue/revoke and reconciliation governance | `NOT_REQUIRED_PERSONAL_USE_PROFILE` | [docs/phase-11k-p11a009-product-owner-decisions.md](phase-11k-p11a009-product-owner-decisions.md); [deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json](../deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json) | None under this profile; invitations/register stay inactive for external users with no PASS credit. | No | External invitations or another user |
-| P11A-010 | P1 | `P11A-010-A1` — Working populated-owner backup and credible recovery of personal nutrition data | `REQUIRED_BEFORE_OWNER_USE` | [Implementation evidence](../deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json) | Local implementation and synthetic recovery complete; separately reviewed merge and authorized real owner-state Production backup pending. | Yes | Any backup failure, incompatible data/schema scope or failed recovery proof |
 | P11A-010 | P1 | `P11A-010-B1` — Exact 8-hour RTO and repeated quarterly restore timing qualification | `POST_OWNER_USE_IMPROVEMENT` | [docs/phase-11i-recovery-qualification-evidence.json](phase-11i-recovery-qualification-evidence.json); [deployment/phase-11i-migration44-fresh-backup-verification-evidence.json](../deployment/phase-11i-migration44-fresh-backup-verification-evidence.json); [docs/phase-11i-migration44-recovery-contract-reconciliation.md](phase-11i-migration44-recovery-contract-reconciliation.md) | After a credible populated recovery path exists, refine timing/cadence and collect additional migration-44 timing evidence. The historical 43 restore is not a 44/populated qualification. | No | Owner recovery expectations change or recovery fails |
 | P11A-010 | P1 | `P11A-010-B2` — Additional hosted closure/Vault matching and exhaustive hosted lifecycle behavior | `POST_OWNER_USE_IMPROVEMENT` | [deployment/phase-11k-p11a010-migration44-application-verification-evidence.json](../deployment/phase-11k-p11a010-migration44-application-verification-evidence.json); [deployment/phase-11j2-local-auth-lifecycle-evidence.json](../deployment/phase-11j2-local-auth-lifecycle-evidence.json); [deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json](../deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json); [docs/phase-11e5-account-closure-validation.md](phase-11e5-account-closure-validation.md) | Qualify actual hosted closure before the owner chooses irreversible closure; export before closure. Existing local denial/security tests and hosted schema/grants stand; actual hosted closure/Vault match is untested. | No | Owner elects closure or lifecycle/security implementation changes |
 | P11A-010 | P1 | `P11A-010-B3` — Full historical migration-byte and database-wide schema parity audit | `POST_OWNER_USE_IMPROVEMENT` | [deployment/phase-11k-p11a010-migration44-application-verification-evidence.json](../deployment/phase-11k-p11a010-migration44-application-verification-evidence.json); [docs/phase-11h-deployment-architecture-release-runbook.md](phase-11h-deployment-architecture-release-runbook.md) | Audit additional parity on a future migration/restore change where relevant; accepted evidence proves exact version/name ledger and scoped migration-44 invariants, not all historical bytes. | No | Next migration or concrete schema/ownership drift |
@@ -122,15 +117,15 @@ P11A-009's real owner security/data requirements retain accepted RLS/ownership, 
 
 ## Owner-use conclusion and short backlog
 
-`OWNER_USE_NOT_READY` / `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS` because P11A-010-A1 is unresolved. Correct that one item before sustained personal data entry. Bucket B improvements may proceed incrementally after safe owner use; C work is not required. This is not public launch or commercial Production readiness; `publicLaunchAuthorized=false`. No blanket zero-P0/P1 or exception program applies to owner use.
+`PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW`: P11A-010-A1 is satisfied for the private single-owner profile in this evidence branch. No minimum application blocker remains; independent review and separately authorized merge are pending. Bucket B improvements remain incremental and C work is not required. `publicLaunchAuthorized=false`; no public/commercial launch or enterprise DR qualification is claimed.
 
-After that correction, prioritize owner UI/UX and EN/HE polish, measured mobile zoom/touch, actual-device camera/session quality, truthful concise lifecycle copy, useful recovery/retirement notes, then focused performance/regression improvements. Do not recreate a commercial release program.
+After independent acceptance, prioritize owner UI/UX and EN/HE polish, measured mobile zoom/touch, actual-device camera/session quality, truthful concise lifecycle copy, useful recovery/retirement notes, then focused performance/regression improvements. Do not recreate a commercial release program.
 
 ## Scope reopen conditions
 
 Re-baseline before another person uses the app; external invitations; public access; commercial use; distribution to users; any SLA/support promise; or material health-related recommendations beyond personal tracking. Removed requirements remain historical and may reactivate in the expanded scope. A material actual-owner security, data integrity, core workflow or usability defect reopens the relevant safeguard immediately.
 
-## Historical integrity, validation and mutation boundary
+## Historical integrity and DEC-040 mutation boundary
 
 All prior standalone evidence packets and migration/workflow/application bytes are unchanged. The integrated ledger retains all original fields, counts and snapshots and adds a separately dated active overlay; historical open findings, absent monitoring/register evidence, Windows deferral and release-authority statements retain their original meaning. Canonical policy/start-here notices point to this superseding decision without rewriting prior observations. The JSON also maps all 27 historical EV families to scoped accepted evidence, remaining rows or delivery conditions.
 
@@ -148,6 +143,6 @@ monitoringServicesAdded = 0
 paidServicesAdded = 0
 ```
 
-Delivery ends at a Draft PR for independent ChatGPT exact-head review. No merge, provider/runtime mutation, new candidate, paid service or public/commercial launch is authorized.
+The counts immediately above describe the historical DEC-040 governance task. The current backup task performed exactly one separately authorized read-only Production backup; its complete mutation audit is in the verification packet. Delivery ends at a Draft evidence PR for independent ChatGPT exact-head review; no further provider action, merge, new candidate, paid service or public/commercial launch is authorized.
 
-`PERSONAL_USE_BASELINE_REVIEW_FOUND_REAL_OWNER_USE_BLOCKERS`
+`PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW`

@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "p11a010-production-owner-backup-verification/v1",
+  "taskId": "PHASE_11K_P11A010_FINAL_PRODUCTION_BACKUP_AFTER_TRANSPORT_REFRESH",
+  "recordedAtUtc": "2026-10-03T05:59:23Z",
+  "profile": "PERSONAL_USE_FREE_TIER",
+  "executor": "Codex",
+  "productOwner": "Maor Pichhadze",
+  "independentReviewer": "ChatGPT",
+  "independentReviewState": "PENDING_EXACT_HEAD_REVIEW",
+  "baseline": {
+    "main": "bfda5cb39bb5706bed020f41bd6ffd173504a30d",
+    "tree": "2a10c695ddb20308640cce255cc6677fba0cca4a",
+    "parent": "e810deb9b25ed3c9c108f25f0186c955abd93ef6",
+    "validate": {
+      "run": 37099350269,
+      "job": 111135648576,
+      "result": "SUCCESS"
+    },
+    "codeql": {
+      "run": 37099350102,
+      "actionsJob": 111135650425,
+      "javascriptTypescriptJob": 111135650601,
+      "result": "SUCCESS"
+    },
+    "pr172Merged": true,
+    "workflowBlob": "65dac462c70861de76e66e7490e1709797544414",
+    "workflowUnchanged": true
+  },
+  "workflow": {
+    "conclusion": "success",
+    "created_at": "2026-10-03T05:52:51Z",
+    "event": "workflow_dispatch",
+    "head_branch": "main",
+    "head_sha": "bfda5cb39bb5706bed020f41bd6ffd173504a30d",
+    "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/37101249047",
+    "id": 37101249047,
+    "name": "Phase 11I Production Backup",
+    "run_attempt": 1,
+    "run_number": 21,
+    "run_started_at": "2026-10-03T05:52:51Z",
+    "status": "completed",
+    "updated_at": "2026-10-03T05:59:23Z",
+    "jobId": 111141049616,
+    "jobStartedAt": "2026-10-03T05:52:55Z",
+    "jobCompletedAt": "2026-10-03T05:59:23Z",
+    "steps": [
+      {
+        "name": "Require the default branch",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:52:56Z",
+        "completedAt": "2026-10-03T05:52:56Z"
+      },
+      {
+        "name": "Check out repository",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:52:56Z",
+        "completedAt": "2026-10-03T05:52:58Z"
+      },
+      {
+        "name": "Set up Node.js",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:52:58Z",
+        "completedAt": "2026-10-03T05:53:03Z"
+      },
+      {
+        "name": "Install dependencies from lockfile",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:53:03Z",
+        "completedAt": "2026-10-03T05:53:20Z"
+      },
+      {
+        "name": "Create restricted ephemeral destination",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:53:20Z",
+        "completedAt": "2026-10-03T05:53:20Z"
+      },
+      {
+        "name": "Bind the exact Production project",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:53:20Z",
+        "completedAt": "2026-10-03T05:53:25Z"
+      },
+      {
+        "name": "Create encrypted Production backup",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:53:25Z",
+        "completedAt": "2026-10-03T05:59:18Z"
+      },
+      {
+        "name": "Remove plaintext runtime state before verification",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:59:18Z",
+        "completedAt": "2026-10-03T05:59:18Z"
+      },
+      {
+        "name": "Verify ciphertext-only artifact pair",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:59:18Z",
+        "completedAt": "2026-10-03T05:59:20Z"
+      },
+      {
+        "name": "Upload encrypted backup artifact",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:59:20Z",
+        "completedAt": "2026-10-03T05:59:21Z"
+      },
+      {
+        "name": "Verify upload metadata outputs",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:59:21Z",
+        "completedAt": "2026-10-03T05:59:21Z"
+      },
+      {
+        "name": "Remove ephemeral backup state",
+        "result": "SUCCESS",
+        "startedAt": "2026-10-03T05:59:21Z",
+        "completedAt": "2026-10-03T05:59:21Z"
+      }
+    ]
+  },
+  "transportOutcome": {
+    "fourDumpsCompleted": true,
+    "postDumpRefreshCompleted": true,
+    "POST_DUMP_TABLE_COUNTS": "PASS",
+    "POST_DUMP_OWNER_VALIDATION": "PASS",
+    "POST_DUMP_OWNER_ACTIVATION": "PASS",
+    "evidenceBasis": "Exact-source control flow, successful capture step, and validated public sourceCaptureConsistency/ownership/activation summary"
+  },
+  "artifact": {
+    "id": 11266886080,
+    "name": "phase-11i-production-backup-37101249047",
+    "sizeInBytes": 11893836,
+    "createdAt": "2026-10-03T05:59:21Z",
+    "expiresAt": "2026-11-02T05:59:20Z",
+    "expired": false,
+    "retentionDays": 30,
+    "githubDigest": "sha256:0285a43ea0d9e1af0d3a0a11d6c4329d1851fb0b18554465965ca4aad5e4be9b",
+    "sourceRunId": 37101249047,
+    "sourceSha": "bfda5cb39bb5706bed020f41bd6ffd173504a30d"
+  },
+  "inventory": {
+    "encryptedArchive": 1,
+    "redactedManifest": 1,
+    "plaintextFiles": 0,
+    "unexpectedFiles": 0
+  },
+  "integrity": {
+    "zipBytes": 11893836,
+    "zipSha256": "0285a43ea0d9e1af0d3a0a11d6c4329d1851fb0b18554465965ca4aad5e4be9b",
+    "githubDigestMatchesDownloadedZip": true,
+    "encryptedArchiveBytes": 11889238,
+    "encryptedArchiveSha256": "8783056eb0bc9836389ac2097aa5878cdf9369c75a636934d3758c6ab17011ae",
+    "manifestSha256": "d88374b4a3dd9e34fbc59278eb5197d9c75f3e29c385c129708e15c3cf7e3d38",
+    "manifestArchiveHashMatch": true,
+    "manifestArchiveSizeMatch": true,
+    "acceptedArtifactVerifier": "PASS",
+    "cms": {
+      "contentType": "AuthEnvelopedData",
+      "contentEncryption": "AES-256-GCM",
+      "keyTransport": "RSA-3072",
+      "recipientIssuerAndSerialMatch": true,
+      "recipientPinnedCertificateMatch": true,
+      "decryptionPerformed": false,
+      "privateKeyAccessed": false
+    },
+    "recipientCertificateSha256": "f7d2a4a53e2c381fbae728a20c2b0fc02e9e9fb526852b71ebf98b668e7261c0"
+  },
+  "manifestIdentity": {
+    "schemaVersion": "phase-11i-backup-manifest/v1",
+    "sourceProjectRef": "hskfanrqwtqknzpquwhg",
+    "sourceEnvironment": "Production",
+    "sourceRepository": "Papi299/nutrition-tracker-app",
+    "sourceCommit": "bfda5cb39bb5706bed020f41bd6ffd173504a30d",
+    "sourceTree": "2a10c695ddb20308640cce255cc6677fba0cca4a",
+    "sourceParent": "e810deb9b25ed3c9c108f25f0186c955abd93ef6",
+    "migrationHead": "20260927170418",
+    "plaintextTemporaryRemoved": true,
+    "credentialScanStatus": "REDACTED_MANIFEST_PASS"
+  },
+  "publicVerificationSummary": {
+    "schemaVersion": "phase-11i-public-verification-summary/v1",
+    "migration": {
+      "count": 44,
+      "head": "20260927170418"
+    },
+    "storage": {
+      "buckets": 0,
+      "objects": 0
+    },
+    "ownerState": {
+      "profile": "PERSONAL_USE_ONE_NON_DELETED_OWNER",
+      "authUserCount": 1,
+      "accountActivationCount": 1,
+      "ownershipValidation": "PASS"
+    },
+    "sourceCaptureConsistency": "PASS"
+  },
+  "privacy": {
+    "result": "PASS",
+    "outerManifestAllowListPassed": true,
+    "publicSummaryExactKeysPassed": true,
+    "forbiddenOwnerDataAbsent": true,
+    "credentialsAndPrivateKeyMaterialAbsent": true,
+    "detailedCountsAndSourceSnapshotAbsent": true,
+    "archiveDecrypted": false,
+    "productionPrivateKeyAccessed": false,
+    "productionContentsCommitted": false
+  },
+  "currentPersonalUseRecoveryPoint": {
+    "classification": "CURRENT_PERSONAL_USE_RECOVERY_POINT",
+    "runId": 37101249047,
+    "artifactId": 11266886080,
+    "backupId": "phase11i-hskfanrqwtqknzpquwhg-20261003T055329Z-bfda5cb3",
+    "sourceSha": "bfda5cb39bb5706bed020f41bd6ffd173504a30d",
+    "completionUtc": "2026-10-03T05:59:17.788Z",
+    "expirationUtc": "2026-11-02T05:59:20Z",
+    "encryptedArchiveSha256": "8783056eb0bc9836389ac2097aa5878cdf9369c75a636934d3758c6ab17011ae",
+    "manifestSha256": "d88374b4a3dd9e34fbc59278eb5197d9c75f3e29c385c129708e15c3cf7e3d38",
+    "migrationHead": "20260927170418"
+  },
+  "requirementId": "P11A-010-A1",
+  "disposition": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+  "personalUseBlocker": false,
+  "counts": {
+    "requiredBeforeOwnerUseCount": 0,
+    "postOwnerUseImprovementCount": 19,
+    "notRequiredPersonalUseCount": 20
+  },
+  "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW",
+  "publicLaunchAuthorized": false,
+  "commercialLaunchAuthorized": false,
+  "personalOwnerUseAuthorized": false,
+  "mutationAudit": {
+    "manualProductionBackupDispatches": 1,
+    "productionBackupRunsAttempted": 1,
+    "qualifyingProductionBackupRunsUsed": 1,
+    "productionBackupArtifactsQualified": 1,
+    "productionSupabaseWrites": 0,
+    "productionRestores": 0,
+    "productionAuthMutations": 0,
+    "productionSchemaChanges": 0,
+    "migrationChanges": 0,
+    "storageWrites": 0,
+    "databasePasswordChanges": 0,
+    "githubSecretChanges": 0,
+    "vercelMutations": 0,
+    "deployments": 0
+  },
+  "boundaries": {
+    "productionRestorePerformed": false,
+    "formalEightHourRtoQualified": false,
+    "repeatedRestoreDrillsPerformed": false,
+    "postOwnerUseRecoveryImprovementClosed": false,
+    "olderArtifactsDeleted": 0,
+    "workflowReruns": 0,
+    "secondBackupDispatches": 0,
+    "queryRetries": 0,
+    "transportRefreshRetries": 0,
+    "directAdHocProductionSqlOperations": 0
+  },
+  "priorMechanismEvidence": "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
+  "priorTransportCorrection": "docs/phase-11k-p11a010-cli-transport-refresh.md",
+  "delivery": "DRAFT_PR_ONLY; exact final head/tree and authoritative CI/CodeQL are recorded in the PR body and completion report; independent review and separately authorized merge remain required.",
+  "operationLimits": {
+    "maximumNewManualBackupDispatches": 1,
+    "maximumWorkflowReruns": 0,
+    "maximumSecondBackupDispatches": 0,
+    "readOnlyProductionAccessByApprovedWorkflow": true,
+    "artifactDownloadAuthorized": true,
+    "archiveDecryptionAuthorized": false,
+    "productionPrivateKeyUseAuthorized": false,
+    "evidencePrMergeAuthorized": false
+  }
+}

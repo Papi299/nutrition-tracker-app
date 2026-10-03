@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "taskId": "PHASE_11K_PERSONAL_USE_RELEASE_BASELINE_SIMPLIFICATION",
-  "recordedAtUtc": "2026-09-30T10:21:02Z",
+  "recordedAtUtc": "2026-10-03T05:59:23Z",
   "decisionId": "DEC-040",
   "decisionTitle": "Personal-use owner-readiness acceptance baseline",
   "amendmentType": "SCOPE_AMENDMENT_NOT_WAIVER",
@@ -19,9 +19,9 @@
   "personalOwnerUseAuthorized": false,
   "newCandidateCreated": false,
   "redeploymentRequiredForGovernanceChange": false,
-  "readiness": "OWNER_USE_NOT_READY",
-  "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS",
-  "successMarker": "PERSONAL_USE_BASELINE_REVIEW_FOUND_REAL_OWNER_USE_BLOCKERS",
+  "readiness": "PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW",
+  "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW",
+  "successMarker": "PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW",
   "scope": "One owner, private, non-commercial personal nutrition tracking; no external invitations or public launch.",
   "freshRepositoryBaseline": {
     "mainSha": "e57ce9677e055c52c46917b093beec3a1eb38322",
@@ -54,7 +54,7 @@
   },
   "countingRule": "Count remaining matrix subrequirements, once each. Already satisfied safeguards and six historical closed findings are assessed separately and excluded from remaining counts. Exact-head review/merge is a delivery condition, not an application defect.",
   "counts": {
-    "requiredBeforeOwnerUseCount": 1,
+    "requiredBeforeOwnerUseCount": 0,
     "postOwnerUseImprovementCount": 19,
     "notRequiredPersonalUseCount": 20
   },
@@ -384,34 +384,6 @@
       "reopenCondition": "External invitations or another user",
       "evidenceStatus": "NOT_REQUIRED_NO_PASS_CREDIT",
       "passCredit": false
-    },
-    {
-      "id": "P11A-010-A1",
-      "finding": "P11A-010",
-      "originalPriority": "P1",
-      "remainingSubrequirement": "Working populated-owner backup and credible recovery of personal nutrition data",
-      "personalUseBucket": "REQUIRED_BEFORE_OWNER_USE",
-      "currentEvidence": [
-        ".github/workflows/phase-11i-production-backup.yml#L68-L78",
-        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
-        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
-        "docs/phase-11i-migration44-recovery-contract-reconciliation.md",
-        "docs/phase-11i-recovery-qualification-evidence.json",
-        "scripts/phase-11i-owner-validation.mjs",
-        "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
-        "docs/phase-11k-p11a010-populated-owner-backup-implementation.md"
-      ],
-      "remainingWork": "Independent exact-head review and separately human-authorized merge; then separately authorize and verify a real Production owner-state backup. No Production operation is authorized here. Formal 8-hour RTO and repeated drills remain improvements.",
-      "ownerUseBlocker": true,
-      "reopenCondition": "Any backup failure, incompatible data/schema scope or failed recovery proof",
-      "evidenceStatus": "IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING",
-      "passCredit": false,
-      "implementationStatus": "IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING",
-      "historicalBootstrapGuardSource": {
-        "commit": "2d4dd5f1f38f97f7be50d8c21fdd5826f72bad41",
-        "path": "scripts/run-phase-11i-backup.mjs",
-        "lines": "267\u2013303"
-      }
     },
     {
       "id": "P11A-010-B1",
@@ -922,25 +894,28 @@
       "originalPriority": "P1",
       "originalEvidenceRequirement": "Forward-only runbook/local replay plus attributable non-production hosted ledger drift/order preflight and rehearsal immediately before release.",
       "historicalDisposition": "OPEN_RELEASE_TIME_VERIFICATION_PENDING",
-      "personalUsePriority": "OWNER_USE_BLOCKER",
-      "personalUseDisposition": "OPEN_PERSONAL_USE_BLOCKER",
-      "personalUseBlocker": true,
+      "personalUsePriority": "IMPROVEMENT",
+      "personalUseDisposition": "POST_OWNER_USE_IMPROVEMENT",
+      "personalUseBlocker": false,
       "requirementIds": [
-        "P11A-010-A1",
         "P11A-010-B1",
         "P11A-010-B2",
         "P11A-010-B3",
         "P11A-010-C1"
       ],
-      "rationale": "The bootstrap incompatibility is corrected in this implementation branch and populated synthetic encrypted recovery passed. A separately authorized real Production owner-state backup remains required after reviewed merge; historical empty-state backups do not provide that proof. P11A-011 remains historically closed.",
+      "rationale": "A real Production owner-state backup on merged transport-refresh source passed all four dumps, the single refresh and post-dump checks; its encrypted artifact and privacy-safe public summary were qualified without decryption. P11A-010-A1 is satisfied for personal use, pending independent evidence review. Timing/cadence and other B work remain improvements; P11A-011 remains historically closed.",
       "acceptedEvidence": [
         "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
         "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
         "docs/phase-11i-recovery-qualification-evidence.json",
         "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
-        "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json"
+        "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
+        "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json"
       ],
-      "personalUseImplementationStatus": "IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING"
+      "personalUseImplementationStatus": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+      "satisfiedRequirementIds": [
+        "P11A-010-A1"
+      ]
     },
     {
       "id": "P11A-011",
@@ -1122,36 +1097,8 @@
     "P11A-016",
     "P11A-017"
   ],
-  "minimumBlockerIds": [
-    "P11A-010-A1"
-  ],
-  "minimumBlockers": [
-    {
-      "requirementId": "P11A-010-A1",
-      "risk": "New personal nutrition data would have no functioning recurring backup and no demonstrated populated recovery point.",
-      "existingGap": "Backup code rejects every nonzero USER_OWNED_TABLES count (including account_activations), requires zero Auth users/identities/sessions/refresh tokens, and pins total food/catalog counts to the bootstrap fixture. PR #166 records one owner and one completed activation. Therefore the next unchanged backup reaches a deterministic rejection before archive creation; no live failure was queried or executed.",
-      "smallestTask": "One bounded corrective task: replace bootstrap zero-user/zero-owned-row and fixed mixed catalog-count assumptions with safe populated-owner validation; preserve exact project, encryption, redaction, Storage and migration guards; prove encrypted capture and isolated restore of synthetic populated Auth, activation, diary snapshots/targets and custom-food data. Separately authorize/adopt a successful scheduled backup after the real owner exists; no 8-hour timing certification or repeated drills are needed to close this blocker.",
-      "whyBeforeOwnerUse": "Every successful existing artifact predates owner creation and contains no owner nutrition rows. Starting sustained diary use while capture deterministically rejects populated state creates a realistic data-loss risk on Supabase Free.",
-      "evidence": [
-        "scripts/run-phase-11i-backup.mjs#L267-L303",
-        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/finalState",
-        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/baseline",
-        "docs/phase-11i-migration44-recovery-contract-reconciliation.md"
-      ],
-      "implementationUpdate": {
-        "recordedAtUtc": "2026-09-30T16:30:59.410Z",
-        "requirementId": "P11A-010-A1",
-        "implementationStatus": "IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING",
-        "personalUseBlocker": true,
-        "evidence": "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
-        "report": "docs/phase-11k-p11a010-populated-owner-backup-implementation.md",
-        "productionBackupCaptured": false,
-        "productionOperationAuthorized": false,
-        "independentReviewState": "PENDING_EXACT_HEAD_REVIEW"
-      },
-      "remainingGap": "No real Production owner-state backup was captured or adopted in this local-only task."
-    }
-  ],
+  "minimumBlockerIds": [],
+  "minimumBlockers": [],
   "reopenConditions": [
     "Another person begins using the app",
     "External invitations are enabled",
@@ -1362,19 +1309,22 @@
     {
       "id": "EV-020",
       "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
-      "remainingRequirementIds": [
+      "remainingRequirementIds": [],
+      "acceptedOrDeliveryInterpretation": "P11A-010-A1 is satisfied by the qualified Production owner backup, pending independent evidence review; any remaining referenced B requirements retain their prior scope.",
+      "satisfiedRequirementIds": [
         "P11A-010-A1"
-      ],
-      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+      ]
     },
     {
       "id": "EV-021",
       "source": "docs/phase-11b-launch-contract-and-acceptance-baseline.md#9-evidence-register",
       "remainingRequirementIds": [
-        "P11A-010-A1",
         "P11A-010-B1"
       ],
-      "acceptedOrDeliveryInterpretation": "Retain scoped accepted evidence; remaining requirements decomposed in referenced rows."
+      "acceptedOrDeliveryInterpretation": "P11A-010-A1 is satisfied by the qualified Production owner backup, pending independent evidence review; any remaining referenced B requirements retain their prior scope.",
+      "satisfiedRequirementIds": [
+        "P11A-010-A1"
+      ]
     },
     {
       "id": "EV-022",
@@ -1447,6 +1397,101 @@
     "report": "docs/phase-11k-p11a010-populated-owner-backup-implementation.md",
     "productionBackupCaptured": false,
     "productionOperationAuthorized": false,
-    "independentReviewState": "PENDING_EXACT_HEAD_REVIEW"
+    "independentReviewState": "PENDING_EXACT_HEAD_REVIEW",
+    "historical": true,
+    "supersededBy": "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json"
+  },
+  "satisfiedRequirements": [
+    {
+      "id": "P11A-010-A1",
+      "finding": "P11A-010",
+      "originalPriority": "P1",
+      "currentEvidence": [
+        ".github/workflows/phase-11i-production-backup.yml#L68-L78",
+        "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+        "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+        "docs/phase-11i-migration44-recovery-contract-reconciliation.md",
+        "docs/phase-11i-recovery-qualification-evidence.json",
+        "scripts/phase-11i-owner-validation.mjs",
+        "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
+        "docs/phase-11k-p11a010-populated-owner-backup-implementation.md",
+        "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json",
+        "docs/phase-11k-p11a010-production-owner-backup-verification.md"
+      ],
+      "remainingWork": "Independent exact-head review and separately authorized evidence PR merge are delivery conditions. Formal 8-hour RTO and repeated drills remain post-owner-use improvements.",
+      "ownerUseBlocker": false,
+      "reopenCondition": "Any backup failure, incompatible data/schema scope or failed recovery proof",
+      "evidenceStatus": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+      "passCredit": true,
+      "implementationStatus": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+      "historicalBootstrapGuardSource": {
+        "commit": "2d4dd5f1f38f97f7be50d8c21fdd5826f72bad41",
+        "path": "scripts/run-phase-11i-backup.mjs",
+        "lines": "267\u2013303"
+      },
+      "subrequirement": "Working populated-owner backup and credible recovery of personal nutrition data",
+      "previousPersonalUseBucket": "REQUIRED_BEFORE_OWNER_USE",
+      "personalUseBlocker": false,
+      "disposition": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+      "passCreditScope": "Private single-owner populated backup qualification; no real Production restore or formal RTO certification.",
+      "resolvedAtUtc": "2026-10-03T05:59:23Z"
+    }
+  ],
+  "resolvedMinimumBlockers": [
+    {
+      "historicalBlocker": {
+        "requirementId": "P11A-010-A1",
+        "risk": "New personal nutrition data would have no functioning recurring backup and no demonstrated populated recovery point.",
+        "existingGap": "Backup code rejects every nonzero USER_OWNED_TABLES count (including account_activations), requires zero Auth users/identities/sessions/refresh tokens, and pins total food/catalog counts to the bootstrap fixture. PR #166 records one owner and one completed activation. Therefore the next unchanged backup reaches a deterministic rejection before archive creation; no live failure was queried or executed.",
+        "smallestTask": "One bounded corrective task: replace bootstrap zero-user/zero-owned-row and fixed mixed catalog-count assumptions with safe populated-owner validation; preserve exact project, encryption, redaction, Storage and migration guards; prove encrypted capture and isolated restore of synthetic populated Auth, activation, diary snapshots/targets and custom-food data. Separately authorize/adopt a successful scheduled backup after the real owner exists; no 8-hour timing certification or repeated drills are needed to close this blocker.",
+        "whyBeforeOwnerUse": "Every successful existing artifact predates owner creation and contains no owner nutrition rows. Starting sustained diary use while capture deterministically rejects populated state creates a realistic data-loss risk on Supabase Free.",
+        "evidence": [
+          "scripts/run-phase-11i-backup.mjs#L267-L303",
+          "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/finalState",
+          "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json#/baseline",
+          "docs/phase-11i-migration44-recovery-contract-reconciliation.md"
+        ],
+        "implementationUpdate": {
+          "recordedAtUtc": "2026-09-30T16:30:59.410Z",
+          "requirementId": "P11A-010-A1",
+          "implementationStatus": "IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING",
+          "personalUseBlocker": true,
+          "evidence": "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
+          "report": "docs/phase-11k-p11a010-populated-owner-backup-implementation.md",
+          "productionBackupCaptured": false,
+          "productionOperationAuthorized": false,
+          "independentReviewState": "PENDING_EXACT_HEAD_REVIEW"
+        },
+        "remainingGap": "No real Production owner-state backup was captured or adopted in this local-only task."
+      },
+      "resolvedAtUtc": "2026-10-03T05:59:23Z",
+      "disposition": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+      "verificationEvidence": "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json"
+    }
+  ],
+  "p11a010ProductionBackupVerificationUpdate": {
+    "recordedAtUtc": "2026-10-03T05:59:23Z",
+    "requirementId": "P11A-010-A1",
+    "disposition": "SATISFIED_PERSONAL_USE_OWNER_BACKUP",
+    "personalUseBlocker": false,
+    "evidence": "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json",
+    "report": "docs/phase-11k-p11a010-production-owner-backup-verification.md",
+    "productionBackupCaptured": true,
+    "artifactQualifiedWithoutDecryption": true,
+    "independentReviewState": "PENDING_EXACT_HEAD_REVIEW",
+    "personalOwnerUseConclusion": "PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW",
+    "currentPersonalUseRecoveryPoint": {
+      "classification": "CURRENT_PERSONAL_USE_RECOVERY_POINT",
+      "runId": 37101249047,
+      "artifactId": 11266886080,
+      "backupId": "phase11i-hskfanrqwtqknzpquwhg-20261003T055329Z-bfda5cb3",
+      "sourceSha": "bfda5cb39bb5706bed020f41bd6ffd173504a30d",
+      "completionUtc": "2026-10-03T05:59:17.788Z",
+      "expirationUtc": "2026-11-02T05:59:20Z",
+      "encryptedArchiveSha256": "8783056eb0bc9836389ac2097aa5878cdf9369c75a636934d3758c6ab17011ae",
+      "manifestSha256": "d88374b4a3dd9e34fbc59278eb5197d9c75f3e29c385c129708e15c3cf7e3d38",
+      "migrationHead": "20260927170418"
+    },
+    "publicLaunchAuthorized": false
   }
 }
