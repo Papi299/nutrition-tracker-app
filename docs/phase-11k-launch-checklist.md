@@ -6,12 +6,12 @@ This is the [current owner-readiness baseline](phase-11k-personal-use-owner-read
 
 | Gate | Current state | Smallest required follow-up |
 | --- | --- | --- |
-| P11A-010-A1 | `IMPLEMENTATION_COMPLETE_PRODUCTION_OWNER_BACKUP_PENDING`; blocker remains true | Review [implementation](phase-11k-p11a010-populated-owner-backup-implementation.md), separately authorize merge, then separately authorize/verify a real owner-state Production backup. |
+| P11A-010-A1 | `SATISFIED_PERSONAL_USE_OWNER_BACKUP`; `personalUseBlocker=false` | Independently review the [Production verification](phase-11k-p11a010-production-owner-backup-verification.md) and separately authorize evidence PR merge. No further backup or restore is required by this task. |
 | Exact-head delivery | Independent ChatGPT review pending | Validate + CodeQL Actions + CodeQL JavaScript/TypeScript on the exact PR head; no self-approval. This task ends at Draft PR, with no merge. |
 
-`REQUIRED_BEFORE_OWNER_USE=1`; `POST_OWNER_USE_IMPROVEMENT=19`; `NOT_REQUIRED_PERSONAL_USE_PROFILE=20` (remaining subrequirements). See the [authoritative matrix](../deployment/phase-11k-personal-use-owner-readiness-baseline.json) for all twelve historical open findings; only P11A-010 is now an owner-use blocker. P11A-014 is not required, without PASS credit. Six historical closed findings remain closed. Windows stays deferred/unverified and is excluded from current verified owner support.
+`REQUIRED_BEFORE_OWNER_USE=0`; `POST_OWNER_USE_IMPROVEMENT=19`; `NOT_REQUIRED_PERSONAL_USE_PROFILE=20` (39 remaining subrequirements). The [authoritative matrix](../deployment/phase-11k-personal-use-owner-readiness-baseline.json) separately records satisfied P11A-010-A1; P11A-010 now retains only improvement/excluded work. P11A-014 remains not required without PASS credit. Six historical closed findings remain closed. Windows stays deferred/unverified and excluded from current verified owner support.
 
-**Conclusion:** `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`. B work is incremental; C work is removed from the active profile. Any later provider action needs separate authority. No public/commercial launch follows from personal-use acceptance.
+**Proposed conclusion:** `PERSONAL_OWNER_USE_READY_PENDING_INDEPENDENT_REVIEW`. No minimum owner-use blocker remains in this evidence branch. Exact-head independent review and separately authorized merge are pending. B work remains incremental; C work remains excluded. `publicLaunchAuthorized=false`, and every later provider action still needs separate authority.
 
 ## Preserved historical launch checklist
 
