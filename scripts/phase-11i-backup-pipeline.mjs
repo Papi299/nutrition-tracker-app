@@ -44,10 +44,11 @@ function run(command, args, options = {}) {
 export async function captureBackup({
   sourceIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient,
   backupRootInput, recipientInput, operator, privateKey, project, authConfig,
-  rows, psqlBinary, runSupabase,
+  rows, psqlBinary, runSupabase, refreshSourceTransport,
 }) {
   assertSourceIdentity(sourceIdentity);
   assertEncryptionRecipient(recipientInput);
+  if (typeof refreshSourceTransport !== "function") fail("Source transport refresh callback is required.");
   if (!backupRootInput || !operator) fail("Backup root and operator are required.");
   function safeIdentifier(value) {
     if (!/^[a-z_][a-z0-9_]*$/.test(value)) fail("Unexpected database identifier.");
@@ -267,6 +268,9 @@ export async function captureBackup({
       "--file",
       artifactPaths.auth,
     ]);
+
+    // Linked CLI dumps may expire or replace the temporary login credential.
+    await refreshSourceTransport();
 
     // Fail rather than publish a count-inconsistent capture if writes occurred during the dumps.
     const afterCounts = exactTableCounts(applicationTables, "POST_DUMP_TABLE_COUNTS");
