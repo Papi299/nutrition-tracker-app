@@ -1610,6 +1610,18 @@
     }
   },
   "AppShell": {
+    "navigation": {
+      "primaryLabel": "Primary navigation",
+      "mobilePrimaryLabel": "Mobile primary navigation",
+      "secondaryLabel": "Secondary navigation",
+      "logFood": "Log food",
+      "library": "Library",
+      "settings": "Settings",
+      "more": "More",
+      "search": "Search",
+      "scan": "Scan",
+      "currentSection": "Current section"
+    },
     "appName": "Nutrition Tracker",
     "protectedLabel": "Signed-in manual nutrition tracker",
     "signOut": "Sign out",

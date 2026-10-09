@@ -261,7 +261,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
     await expect(page.getByLabel("Per serving", { exact: true })).toBeChecked();
     await expect(page.getByTestId("custom-food-serving-fields")).toBeVisible();
     await expect(page.locator("[data-nutrient-code]")).toHaveCount(35);
-    await expect(page.locator("details")).toHaveCount(3);
+    await expect(page.getByRole("main").locator("details")).toHaveCount(3);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true);

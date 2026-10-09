@@ -1,0 +1,362 @@
+{
+  "phase": "before",
+  "source": "Exact git archive of 2b38129173b4e2352bddacf7bf2c7df52d23437a",
+  "fixture": {
+    "description": "Same synthetic invited/activated local account with English preference and targets effective 2026-08-21; no production access.",
+    "date": "2026-08-21",
+    "calories": 2000,
+    "protein_g": 120,
+    "carbohydrates_g": 220,
+    "fat_g": 70,
+    "diaryEntries": 0
+  },
+  "engine": "Chromium (Playwright pinned runtime)",
+  "origin": "http://127.0.0.1:3200",
+  "results": [
+    {
+      "name": "desktop1440-today-en",
+      "locale": "en",
+      "route": "/today?date=2026-08-21",
+      "width": 1440,
+      "height": 900,
+      "file": "before-desktop1440-today-en.png",
+      "sha256": "337b82127e9aa9f560a2376c3fefd23c3c679b8638ab9ee6ffb81f505acd6d35",
+      "urlPath": "/en/today?date=2026-08-21",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Signed-in manual nutrition tracker",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "desktop1440-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 1440,
+      "height": 900,
+      "file": "before-desktop1440-today-he.png",
+      "sha256": "400223b96d10e1703138bb1c40a47868cf6adfaf56e5433c4ff13f91b4e441ea",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מעקב תזונתי ידני בחשבון מחובר",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "desktop1440-recipes-en",
+      "locale": "en",
+      "route": "/recipes",
+      "width": 1440,
+      "height": 900,
+      "file": "before-desktop1440-recipes-en.png",
+      "sha256": "23290d45c11a830daa25ab8950401326955d63ea28b5dba004460fa279597b2d",
+      "urlPath": "/en/recipes",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Signed-in manual nutrition tracker",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe status",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe pages",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "mobile390-today-en",
+      "locale": "en",
+      "route": "/today?date=2026-08-21",
+      "width": 390,
+      "height": 844,
+      "file": "before-mobile390-today-en.png",
+      "sha256": "2d6ed45faa4e812db5ba97a7bbced52ee3dc0b6ca180e513948dd33024b89010",
+      "urlPath": "/en/today?date=2026-08-21",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Signed-in manual nutrition tracker",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "mobile390-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 390,
+      "height": 844,
+      "file": "before-mobile390-today-he.png",
+      "sha256": "e5b95793cac7b5955a5389c1ea0fd5901979dd66c82654bfb22bc63d07461ede",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מעקב תזונתי ידני בחשבון מחובר",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "mobile390-more-en",
+      "locale": "en",
+      "route": "/recipes",
+      "width": 390,
+      "height": 844,
+      "more": true,
+      "file": "before-mobile390-more-en.png",
+      "sha256": "77946e4c7eaeb35c8f3c6eacb2b361844b6e9093d070bcc2000566f71a83dccd",
+      "urlPath": "/en/recipes",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Signed-in manual nutrition tracker",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe status",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe pages",
+          "visible": true
+        }
+      ],
+      "moreEquivalent": "Existing fully visible wrapping navigation; baseline has no More surface."
+    },
+    {
+      "name": "mobile390-more-he",
+      "locale": "he",
+      "route": "/recipes",
+      "width": 390,
+      "height": 844,
+      "more": true,
+      "file": "before-mobile390-more-he.png",
+      "sha256": "5ab63bce83fcc9c7df89572178dd7e0cef0baaed61ab266ab3f28885edc56bd7",
+      "urlPath": "/he/recipes",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מעקב תזונתי ידני בחשבון מחובר",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מצב מתכונים",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "עמודי מתכונים",
+          "visible": true
+        }
+      ],
+      "moreEquivalent": "Existing fully visible wrapping navigation; baseline has no More surface."
+    },
+    {
+      "name": "mobile320-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 320,
+      "height": 720,
+      "file": "before-mobile320-today-he.png",
+      "sha256": "a494880f11c82ac3146336b9e36d421d660102c9a43c5d8e4ab2909628208f75",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מעקב תזונתי ידני בחשבון מחובר",
+          "visible": true
+        }
+      ]
+    }
+  ]
+}

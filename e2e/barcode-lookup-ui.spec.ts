@@ -575,7 +575,7 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
       "href",
       "/en/foods/barcode?date=2026-07-17",
     );
-    await expect(page.getByRole("link", { name: "Barcode lookup" })).toHaveAttribute(
+    await expect(page.getByTestId("mobile-bottom-navigation").getByRole("link", { name: "Scan", exact: true })).toHaveAttribute(
       "href",
       "/en/foods/barcode",
     );

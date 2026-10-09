@@ -1,0 +1,653 @@
+{
+  "fixture": "Same synthetic local account used by before/after captures.",
+  "results": [
+    {
+      "engine": "webkit",
+      "locale": "en",
+      "javaScriptEnabled": true,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "ltr",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8125,
+          "bottom": 632,
+          "width": 296,
+          "height": 447.1875
+        },
+        "controls": [
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "locale": "en",
+      "javaScriptEnabled": false,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "ltr",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8125,
+          "bottom": 632,
+          "width": 296,
+          "height": 447.1875
+        },
+        "controls": [
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "locale": "he",
+      "javaScriptEnabled": true,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "rtl",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8125,
+          "bottom": 632,
+          "width": 296,
+          "height": 447.1875
+        },
+        "controls": [
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "webkit",
+      "locale": "he",
+      "javaScriptEnabled": false,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "rtl",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8125,
+          "bottom": 632,
+          "width": 296,
+          "height": 447.1875
+        },
+        "controls": [
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "firefox",
+      "locale": "en",
+      "javaScriptEnabled": true,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "ltr",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8000030517578,
+          "bottom": 632.0000152587891,
+          "width": 296,
+          "height": 447.20001220703125
+        },
+        "controls": [
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "firefox",
+      "locale": "en",
+      "javaScriptEnabled": false,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "ltr",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8000030517578,
+          "bottom": 632.0000152587891,
+          "width": 296,
+          "height": 447.20001220703125
+        },
+        "controls": [
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "firefox",
+      "locale": "he",
+      "javaScriptEnabled": true,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "rtl",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8000030517578,
+          "bottom": 632.0000152587891,
+          "width": 296,
+          "height": 447.20001220703125
+        },
+        "controls": [
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "firefox",
+      "locale": "he",
+      "javaScriptEnabled": false,
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "checks": "Native More keyboard toggle; active More summary without aria-current; selected Recipes aria-current; five secondary destinations; language/sign-out controls; 44px targets; panel bounds; zero overflow.",
+      "geometry": {
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "dir": "rtl",
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 639,
+          "bottom": 720,
+          "width": 320,
+          "height": 81
+        },
+        "panel": {
+          "left": 12,
+          "right": 308,
+          "top": 184.8000030517578,
+          "bottom": 632.0000152587891,
+          "width": 296,
+          "height": 447.20001220703125
+        },
+        "controls": [
+          {
+            "left": 256,
+            "right": 320,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 192,
+            "right": 256,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 128,
+            "right": 192,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 64,
+            "right": 128,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          },
+          {
+            "left": 0,
+            "right": 64,
+            "top": 640,
+            "bottom": 720,
+            "width": 64,
+            "height": 80
+          }
+        ]
+      }
+    },
+    {
+      "engine": "chromium",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "insets": {
+        "top": 47,
+        "bottom": 34,
+        "left": 28,
+        "right": 0
+      },
+      "note": "Synthetic CSS environment substitution using actual compiled rules; supplements native engine tests, not physical-device validation.",
+      "geometry": {
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "dir": "ltr",
+        "navPaddingLeft": "28px",
+        "navPaddingRight": "0px",
+        "navPaddingBottom": "34px",
+        "headerPaddingTop": "59px",
+        "contentPaddingLeft": "44px",
+        "contentPaddingRight": "44px",
+        "contentPaddingBottom": "146px",
+        "panelLeft": 40,
+        "panelRight": 350,
+        "panelTop": 274.8125,
+        "panelBottom": 722,
+        "navTop": 729
+      }
+    },
+    {
+      "engine": "chromium",
+      "locale": "he",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "insets": {
+        "top": 47,
+        "bottom": 34,
+        "left": 28,
+        "right": 0
+      },
+      "note": "Synthetic CSS environment substitution using actual compiled rules; supplements native engine tests, not physical-device validation.",
+      "geometry": {
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "dir": "rtl",
+        "navPaddingLeft": "28px",
+        "navPaddingRight": "0px",
+        "navPaddingBottom": "34px",
+        "headerPaddingTop": "59px",
+        "contentPaddingLeft": "44px",
+        "contentPaddingRight": "44px",
+        "contentPaddingBottom": "146px",
+        "panelLeft": 40,
+        "panelRight": 350,
+        "panelTop": 274.8125,
+        "panelBottom": 722,
+        "navTop": 729
+      }
+    }
+  ]
+}
