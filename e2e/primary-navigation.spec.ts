@@ -20,16 +20,26 @@ async function expectActive(nav: Locator, locale: string, route: string) {
   const active = nav.locator(`a[href="/${locale}${route}"]`);
   await expect(nav.locator('a[aria-current="page"]')).toHaveCount(1);
   await expect(active).toHaveAttribute("aria-current", "page");
-  await expect(active).toHaveClass(/(?:^| )bg-teal-700(?: |$)/);
-  await expect(active).toHaveClass(/(?:^| )text-white(?: |$)/);
-  await expect(nav.locator("a.bg-teal-700")).toHaveCount(1);
+  await expect(active).toHaveClass(/(?:^| )ui-current(?: |$)/);
+  await expect(nav.locator("a.ui-current")).toHaveCount(1);
 
   for (const otherRoute of primaryRoutes.filter((value) => value !== route)) {
     const inactive = nav.locator(`a[href="/${locale}${otherRoute}"]`);
     await expect(inactive).not.toHaveAttribute("aria-current");
-    await expect(inactive).toHaveClass(/(?:^| )bg-white(?: |$)/);
-    await expect(inactive).toHaveClass(/(?:^| )text-slate-800(?: |$)/);
-    await expect(inactive).toHaveClass(/(?:^| )border-slate-300(?: |$)/);
+    await expect(inactive).not.toHaveClass(/(?:^| )ui-current(?: |$)/);
+    // Wait for the subtle color transition when client navigation updates the current item.
+    await expect.poll(async () => {
+      const [activeAppearance, inactiveAppearance] = await Promise.all(
+        [active, inactive].map((link) => link.evaluate((element) => ({
+          background: getComputedStyle(element).backgroundColor,
+          color: getComputedStyle(element).color,
+        }))),
+      );
+      return {
+        backgroundDifferent: inactiveAppearance.background !== activeAppearance.background,
+        colorDifferent: inactiveAppearance.color !== activeAppearance.color,
+      };
+    }).toEqual({ backgroundDifferent: true, colorDifferent: true });
   }
 }
 

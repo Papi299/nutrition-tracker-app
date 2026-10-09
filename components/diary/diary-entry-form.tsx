@@ -10,6 +10,15 @@ import {
   type ReactNode,
 } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
+import { Button } from "@/components/ui/button";
+import {
+  FieldDescription,
+  FieldError as UIFieldError,
+  FieldLabel as UIFieldLabel,
+  Input,
+  Select,
+  Textarea,
+} from "@/components/ui/form-controls";
 import type {
   DiaryEntryActionState,
   DiaryEntryActionStatus,
@@ -145,7 +154,7 @@ function FieldRequirement({
   label: string;
 }) {
   return (
-    <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+    <span className="ui-caption font-semibold uppercase tracking-[0.12em]">
       {label}
     </span>
   );
@@ -163,9 +172,9 @@ function FieldError({
   }
 
   return (
-    <span className="text-sm font-normal text-red-700">
+    <UIFieldError>
       {messages[code] ?? messages.invalid_input}
-    </span>
+    </UIFieldError>
   );
 }
 
@@ -177,8 +186,8 @@ function FormSection({
   title: string;
 }) {
   return (
-    <fieldset className="grid gap-4 border-t border-slate-200 pt-5 first:border-t-0 first:pt-0">
-      <legend className="mb-1 text-base font-semibold text-slate-950">
+    <fieldset className="grid gap-4 border-t border-border pt-5 first:border-t-0 first:pt-0">
+      <legend className="ui-card-title mb-1">
         {title}
       </legend>
       {children}
@@ -235,16 +244,16 @@ function TextInput({
   value?: string;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-medium text-slate-900">
+    <UIFieldLabel className="grid gap-2">
       <FieldLabel
         label={label}
         optionalLabel={optionalLabel}
         required={required}
         requiredLabel={requiredLabel}
       />
-      <input
+      <Input
         aria-invalid={Boolean(error)}
-        className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+        className="min-h-12"
         defaultValue={value}
         inputMode={inputMode}
         min={type === "number" ? "0" : undefined}
@@ -255,12 +264,12 @@ function TextInput({
         type={type}
       />
       {helpText && (
-        <span className="text-sm font-normal leading-6 text-slate-600">
+        <FieldDescription className="font-normal">
           {helpText}
-        </span>
+        </FieldDescription>
       )}
       <FieldError code={error} messages={messages} />
-    </label>
+    </UIFieldLabel>
   );
 }
 
@@ -513,16 +522,16 @@ export function DiaryEntryForm({
             value={values.entry_date}
           />
 
-          <label className="grid gap-2 text-sm font-medium text-slate-900">
+          <UIFieldLabel className="grid gap-2">
             <FieldLabel
               label={labels.meal_type}
               optionalLabel={optionalLabel}
               required
               requiredLabel={requiredLabel}
             />
-            <select
+            <Select
               aria-invalid={Boolean(fieldErrors?.meal_type)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+              className="min-h-12"
               defaultValue={values.meal_type ?? mealTypeOptions[0]?.value}
               name="meal_type"
               required
@@ -532,17 +541,17 @@ export function DiaryEntryForm({
                   {option.label}
                 </option>
               ))}
-            </select>
+            </Select>
             {fieldHelpText.meal_type && (
-              <span className="text-sm font-normal leading-6 text-slate-600">
+              <FieldDescription className="font-normal">
                 {fieldHelpText.meal_type}
-              </span>
+              </FieldDescription>
             )}
             <FieldError
               code={fieldErrors?.meal_type}
               messages={fieldErrorMessages}
             />
-          </label>
+          </UIFieldLabel>
         </div>
       </FormSection>
 
@@ -658,29 +667,29 @@ export function DiaryEntryForm({
       </FormSection>
 
       <FormSection title={sectionLabels.notes}>
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+        <UIFieldLabel className="grid gap-2">
           <FieldLabel
             label={labels.notes}
             optionalLabel={optionalLabel}
             required={false}
             requiredLabel={requiredLabel}
           />
-          <textarea
+          <Textarea
             aria-invalid={Boolean(fieldErrors?.notes)}
-            className="min-h-24 border border-slate-300 bg-white px-3 py-3 text-base text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-teal-700"
+            className="min-h-24 py-3"
             defaultValue={values.notes}
             name="notes"
           />
           {fieldHelpText.notes && (
-            <span className="text-sm font-normal leading-6 text-slate-600">
+            <FieldDescription className="font-normal">
               {fieldHelpText.notes}
-            </span>
+            </FieldDescription>
           )}
           <FieldError
             code={fieldErrors?.notes}
             messages={fieldErrorMessages}
           />
-        </label>
+        </UIFieldLabel>
       </FormSection>
 
       <FormSection title={sectionLabels.submit}>
@@ -693,24 +702,26 @@ export function DiaryEntryForm({
 
           <div className="flex flex-wrap gap-3 sm:justify-end">
             {displayStatus === "conflict" && (
-              <button
-                className="min-h-12 border border-teal-700 bg-white px-4 text-base font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+              <Button
                 disabled={isPending}
                 name="submission_intent"
                 onClick={startNewDraft}
+                size="lg"
                 type="submit"
                 value="start_new"
+                variant="outline"
               >
                 {newDraftLabel}
-              </button>
+              </Button>
             )}
-            <button
-              className="min-h-12 bg-teal-700 px-4 text-base font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+            <Button
               disabled={isPending}
+              pending={isPending}
+              size="lg"
               type="submit"
             >
               {isPending ? pendingLabel : submitLabel}
-            </button>
+            </Button>
           </div>
         </div>
       </FormSection>

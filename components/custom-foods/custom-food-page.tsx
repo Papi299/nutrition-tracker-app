@@ -1,5 +1,7 @@
 import { useTranslations } from "next-intl";
 import { RetrievalError } from "@/components/data/retrieval-error";
+import { buttonStyles } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n/routing";
 
 export function CustomFoodEditorPageHeader({
@@ -14,19 +16,19 @@ export function CustomFoodEditorPageHeader({
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
       <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
+        <p className="ui-eyebrow text-primary">
           {t("label")}
         </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+        <h1 className="ui-page-title mt-4">
           {t(mode === "create" ? "titleCreate" : "titleEdit")}
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
+        <p className="ui-body-secondary mt-5 max-w-2xl sm:text-lg">
           {t(mode === "create" ? "descriptionCreate" : "descriptionEdit")}
         </p>
       </header>
-      <div className="max-w-4xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <Card className="max-w-4xl p-5 sm:p-6" variant="raised">
         {children}
-      </div>
+      </Card>
     </section>
   );
 }
@@ -50,7 +52,7 @@ export function CustomFoodRetrievalError({
           testId="custom-food-retrieval-error"
           title={t("failureTitle")}
         />
-        <a className="mt-4 inline-flex text-sm font-semibold text-teal-800 underline" href={`/${locale}/foods`}>
+        <a className={buttonStyles({ className: "mt-4", variant: "ghost" })} href={`/${locale}/foods`}>
           {t("back")}
         </a>
       </div>

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { surfaceStyles } from "@/components/ui/card";
 import { CalendarDateForm } from "@/components/calendar-date/calendar-date-form";
 import { formatBrowserLocalCalendarDate } from "@/lib/calendar-date";
 
@@ -48,17 +49,17 @@ export function BrowserDateBootstrap({
   return (
     <section
       aria-labelledby={`${inputId}-title`}
-      className="max-w-2xl border border-teal-200 bg-teal-50 p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ className: "max-w-2xl border-info/30 bg-info-surface" })}
     >
       <h1
-        className="text-2xl font-semibold text-slate-950"
+        className="ui-section-title"
         id={`${inputId}-title`}
       >
         {title}
       </h1>
       <p
         aria-live="polite"
-        className="mt-3 text-sm leading-6 text-slate-700"
+        className="mt-3 text-sm leading-6 text-info-foreground"
         role="status"
       >
         {status}

@@ -41,15 +41,15 @@ export function AppShell({
   skipContent: string;
 }) {
   return (
-    <main className="min-h-screen bg-stone-50 text-slate-950">
+    <main className="min-h-screen bg-background text-foreground">
       <a className="skip-link" href="#main-content">
         {skipContent}
       </a>
-      <section className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-8 px-6 py-8 sm:px-10 sm:py-10">
-        <header className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-start">
-            <p className="text-lg font-semibold text-slate-950">{appName}</p>
-            <p className="mt-1 text-sm text-slate-600">{protectedLabel}</p>
+      <section className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-8 px-4 py-5 sm:px-8 sm:py-8">
+        <header className="flex flex-col gap-5 rounded-xl border border-border bg-surface p-5 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="min-w-0 shrink-0 text-start">
+            <p className="ui-card-title">{appName}</p>
+            <p className="mt-1 ui-body-secondary">{protectedLabel}</p>
             <div className="mt-3">
               <LanguageSwitcher
                 currentLabel={currentLanguageLabel}
@@ -61,7 +61,7 @@ export function AppShell({
 
           <nav
             aria-label={protectedLabel}
-            className="flex flex-wrap items-center gap-3"
+            className="flex min-w-0 flex-wrap items-center gap-2"
           >
             <AppNavigation
               labels={{

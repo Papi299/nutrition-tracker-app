@@ -1,3 +1,6 @@
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+
 export function RetrievalError({
   body,
   retryHref,
@@ -16,17 +19,17 @@ export function RetrievalError({
   return (
     <section
       aria-labelledby={titleId}
-      className="border border-red-200 bg-red-50 p-5 text-start shadow-sm sm:p-6"
+      className={surfaceStyles({ className: "border-danger/30 bg-danger-surface text-start" })}
       data-testid={testId}
     >
-      <h2 className="text-lg font-semibold text-slate-950" id={titleId}>
+      <h2 className="ui-card-title" id={titleId}>
         {title}
       </h2>
-      <p className="mt-3 text-sm leading-6 text-red-800" role="alert">
+      <p className="mt-3 text-sm leading-6 text-danger-foreground" role="alert">
         {body}
       </p>
       <a
-        className="mt-4 inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+        className={buttonStyles({ className: "mt-4" })}
         href={retryHref}
       >
         {retryLabel}

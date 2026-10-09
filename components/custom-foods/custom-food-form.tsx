@@ -9,6 +9,15 @@ import {
   type FormEvent,
 } from "react";
 import { useTranslations } from "next-intl";
+import { Button, buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
+import {
+  FieldError as UIFieldError,
+  FieldLabel,
+  Input,
+  Select,
+} from "@/components/ui/form-controls";
 import type {
   CustomFoodActionState,
   CustomFoodFormValues,
@@ -276,9 +285,9 @@ function FieldError({ code, field }: { code?: string; field: string }) {
   };
 
   return (
-    <span className="text-sm font-normal text-red-700" id={fieldErrorId(field)}>
+    <UIFieldError id={fieldErrorId(field)}>
       {messages[code] ?? t("validation")}
-    </span>
+    </UIFieldError>
   );
 }
 
@@ -303,14 +312,13 @@ function NutrientInput({
   const field = `nutrient_${definition.code}`;
 
   return (
-    <label className="grid gap-2 text-sm font-medium text-slate-900">
+    <FieldLabel className="grid gap-2">
       <span>
-        {name} <span className="font-normal text-slate-600">({unit})</span>
+        {name} <span className="font-normal text-muted-foreground">({unit})</span>
       </span>
-      <input
+      <Input
         aria-describedby={error ? fieldErrorId(field) : undefined}
         aria-invalid={Boolean(error)}
-        className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
         data-nutrient-code={definition.code}
         defaultValue={value}
         inputMode="decimal"
@@ -321,7 +329,7 @@ function NutrientInput({
         type="number"
       />
       <FieldError code={error} field={field} />
-    </label>
+    </FieldLabel>
   );
 }
 
@@ -378,17 +386,17 @@ function AliasEditor({
 
         return (
           <fieldset
-            className="grid gap-4 border border-slate-200 p-4 sm:grid-cols-2 sm:items-end xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]"
+            className={surfaceStyles({ className: "grid gap-4 p-4 sm:grid-cols-2 sm:items-end xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]", variant: "subtle" })}
             data-testid="custom-food-alias-row"
             key={index}
           >
             <legend className="sr-only">{t("aliases.row", { number: index + 1 })}</legend>
-            <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-900">
+            <FieldLabel className="grid min-w-0 gap-2">
               <span>{t("aliases.textLabel")}</span>
-              <input
+              <Input
                 aria-describedby={fieldErrors[textField] ? fieldErrorId(textField) : undefined}
                 aria-invalid={Boolean(fieldErrors[textField])}
-                className="min-h-11 min-w-0 w-full border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                className="min-w-0 w-full"
                 dir="auto"
                 maxLength={200}
                 name={textField}
@@ -397,13 +405,13 @@ function AliasEditor({
                 value={alias.alias_text}
               />
               <FieldError code={fieldErrors[textField]} field={textField} />
-            </label>
-            <label className="grid min-w-0 gap-2 text-sm font-medium text-slate-900">
+            </FieldLabel>
+            <FieldLabel className="grid min-w-0 gap-2">
               <span>{t("aliases.languageLabel")}</span>
-              <select
+              <Select
                 aria-describedby={fieldErrors[languageField] ? fieldErrorId(languageField) : undefined}
                 aria-invalid={Boolean(fieldErrors[languageField])}
-                className="h-11 min-w-0 w-full border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+                className="h-11 min-w-0 w-full"
                 name={languageField}
                 onChange={(event) =>
                   updateAlias(index, {
@@ -415,21 +423,22 @@ function AliasEditor({
                 <option value="en">{t("languages.en")}</option>
                 <option value="he">{t("languages.he")}</option>
                 <option value="und">{t("languages.und")}</option>
-              </select>
+              </Select>
               <FieldError code={fieldErrors[languageField]} field={languageField} />
-            </label>
-            <button
-              className="min-h-11 border border-red-300 bg-white px-4 text-sm font-semibold text-red-800 hover:border-red-600 sm:col-span-2 xl:col-span-1"
+            </FieldLabel>
+            <Button
+              className="sm:col-span-2 xl:col-span-1"
               onClick={() => setAliases((current) => current.filter((_, aliasIndex) => aliasIndex !== index))}
               type="button"
+              variant="destructive"
             >
               {t("aliases.remove")}
-            </button>
+            </Button>
           </fieldset>
         );
       })}
-      <button
-        className="min-h-11 w-fit border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-500"
+      <Button
+        className="w-fit"
         disabled={aliases.length >= 20}
         onClick={() =>
           setAliases((current) => [
@@ -438,11 +447,12 @@ function AliasEditor({
           ])
         }
         type="button"
+        variant="outline"
       >
         {t("aliases.add")}
-      </button>
+      </Button>
       <FieldError code={fieldErrors.aliases} field="aliases" />
-      <p className="text-sm leading-6 text-slate-600">
+      <p className="ui-body-secondary">
         {t("aliases.count", { count: aliases.length })}
       </p>
     </div>
@@ -710,28 +720,28 @@ export function CustomFoodForm({
       {barcodeContext && (
         <section
           aria-labelledby="custom-food-barcode-context-title"
-          className="grid gap-4 border border-teal-200 bg-teal-50 p-5"
+          className={feedbackStyles("info", "grid gap-4 p-5")}
           data-testid="custom-food-barcode-context"
         >
           <div>
             <h2
-              className="text-xl font-semibold text-slate-950"
+              className="ui-section-title"
               id="custom-food-barcode-context-title"
             >
               {t("barcode.title")}
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="ui-body-secondary mt-2">
               {t("barcode.description")}
             </p>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="ui-body-secondary mt-2">
               {t("barcode.privacy")}
             </p>
           </div>
           <dl className="grid gap-3 text-sm sm:grid-cols-2">
             <div>
-              <dt className="font-medium text-slate-600">{t("barcode.gtin")}</dt>
+              <dt className="font-medium text-muted-foreground">{t("barcode.gtin")}</dt>
               <dd
-                className="mt-1 font-mono text-slate-950"
+                className="mt-1 font-mono text-foreground"
                 data-testid="custom-food-canonical-gtin"
                 dir="ltr"
               >
@@ -739,21 +749,21 @@ export function CustomFoodForm({
               </dd>
             </div>
             <div>
-              <dt className="font-medium text-slate-600">{t("barcode.date")}</dt>
-              <dd className="mt-1 text-slate-950">{barcodeContext.date}</dd>
+              <dt className="font-medium text-muted-foreground">{t("barcode.date")}</dt>
+              <dd className="mt-1 text-foreground">{barcodeContext.date}</dd>
             </div>
             {barcodeContext.mealType && (
               <div>
-                <dt className="font-medium text-slate-600">
+                <dt className="font-medium text-muted-foreground">
                   {t("barcode.meal")}
                 </dt>
-                <dd className="mt-1 text-slate-950">
+                <dd className="mt-1 text-foreground">
                   {t(`barcode.mealTypes.${barcodeContext.mealType}`)}
                 </dd>
               </div>
             )}
           </dl>
-          <label className="flex min-h-11 items-start gap-3 border border-teal-300 bg-white p-4 text-sm leading-6 text-slate-900">
+          <label className={surfaceStyles({ className: "flex min-h-11 items-start gap-3 p-4 text-sm leading-6 text-foreground" })}>
             <input
               defaultChecked={
                 creationDraftEnabled
@@ -781,7 +791,7 @@ export function CustomFoodForm({
 
       {saved && (
         <div
-          className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900"
+          className={feedbackStyles("success")}
           data-testid="custom-food-success"
           role="status"
         >
@@ -791,7 +801,7 @@ export function CustomFoodForm({
 
       {archived && (
         <div
-          className="border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          className={feedbackStyles("warning")}
           data-testid="custom-food-archived-notice"
           role="status"
         >
@@ -801,12 +811,12 @@ export function CustomFoodForm({
 
       {mode === "edit" && displayStatus === "conflict" && (
         <section
-          className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          className={feedbackStyles("warning", "grid gap-3")}
           data-testid="custom-food-edit-conflict"
         >
           <p role="alert">{t("status.conflict")}</p>
           <a
-            className="w-fit font-semibold text-teal-800 underline"
+            className={buttonStyles({ className: "w-fit", variant: "ghost" })}
             href={`/${locale}/foods/custom/${values.food_id}/edit`}
           >
             {t("status.reloadCurrent")}
@@ -817,31 +827,32 @@ export function CustomFoodForm({
       {mode === "create" &&
         displayStatus === "creation_idempotency_conflict" && (
           <section
-            className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+            className={feedbackStyles("warning", "grid gap-3")}
             data-testid="custom-food-creation-conflict"
           >
             <p role="alert">{t("status.creationConflict")}</p>
-            <button
-              className="min-h-11 w-fit border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800"
+            <Button
+              className="w-fit"
               onClick={startNewCreationIntent}
               type="button"
+              variant="outline"
             >
               {t("status.startNewCreation")}
-            </button>
+            </Button>
           </section>
         )}
 
       {barcodeContext && displayStatus === "owned_existing" && conflictFoodId && (
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-owned-conflict">
           <Link
-            className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+            className={buttonStyles({ variant: "primary" })}
             href={`/${locale}/foods/custom/${conflictFoodId}/edit`}
           >
             {t("barcode.actions.editOwned")}
           </Link>
           {reviewQuery && (
             <Link
-              className="min-h-11 border border-teal-700 bg-white px-4 py-3 text-sm font-semibold text-teal-800"
+              className={buttonStyles({ variant: "outline" })}
               href={`/${locale}/today?${reviewQuery.toString()}`}
             >
               {t("barcode.actions.review")}
@@ -853,7 +864,7 @@ export function CustomFoodForm({
       {barcodeContext && displayStatus === "owned_archived" && conflictFoodId && (
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-archived-conflict">
           <Link
-            className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+            className={buttonStyles({ variant: "primary" })}
             href={`/${locale}/foods/custom/${conflictFoodId}/edit`}
           >
             {t("barcode.actions.openArchived")}
@@ -865,14 +876,14 @@ export function CustomFoodForm({
         <div className="flex flex-wrap gap-3" data-testid="barcode-save-public-conflict">
           {reviewQuery && (
             <Link
-              className="min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
+              className={buttonStyles({ variant: "primary" })}
               href={`/${locale}/today?${reviewQuery.toString()}`}
             >
               {t("barcode.actions.review")}
             </Link>
           )}
           <Link
-            className="min-h-11 border border-teal-700 bg-white px-4 py-3 text-sm font-semibold text-teal-800"
+            className={buttonStyles({ variant: "outline" })}
             href={`/${locale}/foods/barcode?${new URLSearchParams({
               code: barcodeContext.canonicalGtin,
               date: barcodeContext.date,
@@ -888,18 +899,18 @@ export function CustomFoodForm({
 
       <section className="grid gap-5" aria-labelledby="custom-food-identity-title">
         <div>
-          <h2 className="text-xl font-semibold text-slate-950" id="custom-food-identity-title">
+          <h2 className="ui-section-title" id="custom-food-identity-title">
             {t("identity.title")}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">{t("identity.help")}</p>
+          <p className="ui-body-secondary mt-2">{t("identity.help")}</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <label className="grid gap-2 text-sm font-medium text-slate-900 sm:col-span-2">
+          <FieldLabel className="grid gap-2 sm:col-span-2">
             <span>{t("identity.name")}</span>
-            <input
+            <Input
               aria-describedby={fieldErrors.name ? fieldErrorId("name") : undefined}
               aria-invalid={Boolean(fieldErrors.name)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+              className="min-h-12"
               defaultValue={values.name}
               dir="auto"
               maxLength={200}
@@ -909,13 +920,13 @@ export function CustomFoodForm({
               type="text"
             />
             <FieldError code={fieldErrors.name} field="name" />
-          </label>
-          <label className="grid gap-2 text-sm font-medium text-slate-900">
+          </FieldLabel>
+          <FieldLabel className="grid gap-2">
             <span>{t("identity.brand")}</span>
-            <input
+            <Input
               aria-describedby={fieldErrors.brand_name ? fieldErrorId("brand_name") : undefined}
               aria-invalid={Boolean(fieldErrors.brand_name)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+              className="min-h-12"
               defaultValue={values.brand_name}
               dir="auto"
               maxLength={120}
@@ -924,13 +935,13 @@ export function CustomFoodForm({
               type="text"
             />
             <FieldError code={fieldErrors.brand_name} field="brand_name" />
-          </label>
-          <label className="grid gap-2 text-sm font-medium text-slate-900">
+          </FieldLabel>
+          <FieldLabel className="grid gap-2">
             <span>{t("identity.language")}</span>
-            <select
+            <Select
               aria-describedby={fieldErrors.food_locale ? fieldErrorId("food_locale") : undefined}
               aria-invalid={Boolean(fieldErrors.food_locale)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+              className="min-h-12"
               defaultValue={values.food_locale}
               key={values.food_locale}
               name="food_locale"
@@ -938,18 +949,18 @@ export function CustomFoodForm({
               <option value="en">{t("languages.en")}</option>
               <option value="he">{t("languages.he")}</option>
               <option value="und">{t("languages.und")}</option>
-            </select>
+            </Select>
             <FieldError code={fieldErrors.food_locale} field="food_locale" />
-          </label>
+          </FieldLabel>
         </div>
       </section>
 
-      <fieldset className="grid gap-5 border-t border-slate-200 pt-6">
-        <legend className="text-xl font-semibold text-slate-950">{t("basis.title")}</legend>
-        <p className="text-sm leading-6 text-slate-600">{t("basis.help")}</p>
+      <fieldset className="grid gap-5 border-t border-border pt-6">
+        <legend className="ui-section-title">{t("basis.title")}</legend>
+        <p className="ui-body-secondary">{t("basis.help")}</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {(["per_serving", "per_100g", "per_100ml"] as const).map((value) => (
-            <label className="flex min-h-12 items-center gap-3 border border-slate-300 bg-white px-4 text-sm font-medium" key={value}>
+            <label className={surfaceStyles({ className: "flex min-h-12 items-center gap-3 px-4 text-sm font-medium" })} key={value}>
               <input
                 checked={basis === value}
                 name="nutrient_basis"
@@ -962,17 +973,17 @@ export function CustomFoodForm({
           ))}
         </div>
         <FieldError code={fieldErrors.nutrient_basis} field="nutrient_basis" />
-        <p className="border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950">
+        <p className={feedbackStyles("warning")}>
           {t("basis.warning")}
         </p>
         {basis === "per_serving" ? (
           <div className="grid gap-4 sm:grid-cols-2" data-testid="custom-food-serving-fields">
-            <label className="grid gap-2 text-sm font-medium text-slate-900">
+            <FieldLabel className="grid gap-2">
               <span>{t("basis.servingQuantity")}</span>
-              <input
+              <Input
                 aria-describedby={fieldErrors.serving_quantity ? fieldErrorId("serving_quantity") : undefined}
                 aria-invalid={Boolean(fieldErrors.serving_quantity)}
-                className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+                className="min-h-12"
                 defaultValue={values.serving_quantity}
                 inputMode="decimal"
                 min="0"
@@ -983,13 +994,13 @@ export function CustomFoodForm({
                 type="number"
               />
               <FieldError code={fieldErrors.serving_quantity} field="serving_quantity" />
-            </label>
-            <label className="grid gap-2 text-sm font-medium text-slate-900">
+            </FieldLabel>
+            <FieldLabel className="grid gap-2">
               <span>{t("basis.servingUnit")}</span>
-              <input
+              <Input
                 aria-describedby={fieldErrors.serving_unit ? fieldErrorId("serving_unit") : undefined}
                 aria-invalid={Boolean(fieldErrors.serving_unit)}
-                className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+                className="min-h-12"
                 defaultValue={values.serving_unit}
                 dir="auto"
                 maxLength={40}
@@ -999,19 +1010,19 @@ export function CustomFoodForm({
                 type="text"
               />
               <FieldError code={fieldErrors.serving_unit} field="serving_unit" />
-            </label>
+            </FieldLabel>
           </div>
         ) : (
-          <div className="border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950" data-testid="custom-food-fixed-basis">
+          <div className={feedbackStyles("info", "p-4")} data-testid="custom-food-fixed-basis">
             {basis === "per_100g" ? t("basis.fixed100g") : t("basis.fixed100ml")}
           </div>
         )}
       </fieldset>
 
-      <section className="grid gap-5 border-t border-slate-200 pt-6" aria-labelledby="custom-food-nutrients-title">
+      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-nutrients-title">
         <div>
-          <h2 className="text-xl font-semibold text-slate-950" id="custom-food-nutrients-title">{t("nutrients.title")}</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600" id="custom-food-nutrients-help">{t("nutrients.help")}</p>
+          <h2 className="ui-section-title" id="custom-food-nutrients-title">{t("nutrients.title")}</h2>
+          <p className="ui-body-secondary mt-2" id="custom-food-nutrients-help">{t("nutrients.help")}</p>
         </div>
         <NutrientGrid definitions={core} fieldErrors={fieldErrors} locale={locale} values={values.nutrients} />
         {[
@@ -1019,8 +1030,8 @@ export function CustomFoodForm({
           ["minerals", minerals],
           ["vitamins", vitamins],
         ].map(([group, definitions]) => (
-          <details className="border border-slate-200 bg-white p-4" key={group as string}>
-            <summary className="cursor-pointer text-base font-semibold text-slate-950">
+          <details className={surfaceStyles({ className: "p-4" })} key={group as string}>
+            <summary className="ui-card-title cursor-pointer">
               {t(`nutrients.groups.${group as string}`)}
             </summary>
             <div className="mt-5">
@@ -1036,44 +1047,45 @@ export function CustomFoodForm({
         <FieldError code={fieldErrors.nutrients} field="nutrients" />
       </section>
 
-      <section className="grid gap-5 border-t border-slate-200 pt-6" aria-labelledby="custom-food-aliases-title">
+      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-aliases-title">
         <div>
-          <h2 className="text-xl font-semibold text-slate-950" id="custom-food-aliases-title">{t("aliases.title")}</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">{t("aliases.help")}</p>
+          <h2 className="ui-section-title" id="custom-food-aliases-title">{t("aliases.title")}</h2>
+          <p className="ui-body-secondary mt-2">{t("aliases.help")}</p>
         </div>
         <AliasEditor fieldErrors={fieldErrors} initialAliases={values.aliases} />
       </section>
 
-      <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="grid gap-4 border-t border-border pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
         {displayStatus !== "conflict" &&
           displayStatus !== "creation_idempotency_conflict" && (
           <div
             className={
               displayStatus === "idle"
-                ? "text-sm text-slate-600"
-                : "text-sm text-red-800"
+                ? "ui-body-secondary"
+                : "text-sm text-danger-foreground"
             }
             role={displayStatus === "idle" ? "status" : "alert"}
           >
             {statusMessage}
           </div>
         )}
-        <button
-          className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white hover:bg-teal-800 disabled:cursor-wait disabled:bg-slate-300 disabled:text-slate-600"
+        <Button
           disabled={isPending}
+          pending={isPending}
+          size="lg"
           type="submit"
         >
           {isPending
             ? t(mode === "create" ? "submit.createPending" : "submit.updatePending")
             : t(mode === "create" ? "submit.create" : "submit.update")}
-        </button>
+        </Button>
       </div>
       <div className="flex flex-wrap gap-4">
-        <Link className="w-fit text-sm font-semibold text-teal-800 underline" href={`/${locale}/foods`}>
+        <Link className={buttonStyles({ className: "w-fit", variant: "ghost" })} href={`/${locale}/foods`}>
           {t("backToFoods")}
         </Link>
         <Link
-          className="w-fit text-sm font-semibold text-teal-800 underline"
+          className={buttonStyles({ className: "w-fit", variant: "ghost" })}
           href={`/${locale}/foods/custom?status=${archived ? "archived" : "active"}&page=1`}
         >
           {t("backToManagement")}
