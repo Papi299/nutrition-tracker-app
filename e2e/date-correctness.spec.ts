@@ -198,7 +198,12 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     await page.goto("/en/today?date=2026-01-15");
     await expect(page.getByText("January meal", { exact: true })).toBeVisible();
     await expect(page.getByText("February meal", { exact: true })).not.toBeVisible();
-    await expect(page.getByTestId("target-progress")).toContainText("100 over");
+    const calorieSummary = page.getByTestId("calorie-summary");
+    await expect(calorieSummary).toContainText("2,100");
+    await expect(calorieSummary).toContainText("2,000");
+    await expect(calorieSummary).toContainText("105%");
+    await expect(calorieSummary).toContainText("Over target by 100 kcal");
+    await expect(page.getByTestId("target-progress")).toContainText("Over target by 100 kcal");
 
     await page.goto("/en/today?date=2026-02-15");
     await expect(page.getByText("February meal", { exact: true })).toBeVisible();
@@ -210,6 +215,12 @@ test.describe.serial("calendar-date and effective-target correctness", () => {
     await expect(page.getByTestId("target-summary")).toContainText("Not set");
     await expect(page.getByTestId("target-progress")).toContainText("0");
     await expect(page.getByTestId("target-progress")).toContainText("Not set");
+    await expect(page.getByTestId("calorie-summary")).not.toContainText("%");
+    for (const metric of ["protein_g", "carbohydrates_g", "fat_g"] as const) {
+      const metricSummary = page.locator(`[data-nutrition-metric="${metric}"]`);
+      await expect(metricSummary).toContainText("Not set");
+      await expect(metricSummary).not.toContainText("%");
+    }
     await context.close();
   });
 

@@ -250,10 +250,18 @@ test.describe.serial("retrieval states and authenticated core loop", () => {
       );
       await expect(
         page.getByRole("heading", {
-          name: "אין יעד שהוגדר ידנית ובתוקף לתאריך הזה",
+          name: "אין יעד שנקבע ידנית ובתוקף לתאריך הזה",
         }),
       ).toHaveCount(0);
       await expect(page.getByTestId("target-progress")).toHaveCount(0);
+      await expect(page.getByTestId("target-summary")).toHaveCount(0);
+      const metrics = page.locator("[data-nutrition-metric]");
+      await expect(metrics).toHaveCount(4);
+      for (const metric of await metrics.all()) {
+        await expect(metric.locator(".nutrition-target")).toHaveText("לא זמין");
+        await expect(metric.locator("dl > div").filter({ hasText: "נצרך" }).locator("dd")).toHaveText(/^0 (קק״ל|גרם)$/);
+        await expect(metric).not.toContainText(/\d+%/);
+      }
       await expect(page.locator('input[name="food_name"]')).toBeVisible();
     } finally {
       setAuthenticatedSelect("nutrition_targets", true);

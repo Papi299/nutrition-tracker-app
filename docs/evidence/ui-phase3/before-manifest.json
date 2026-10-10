@@ -1,0 +1,234 @@
+{
+  "baseline": "c3fc47c4ac032d87cf10ef279156795aff5cdbab",
+  "browser": "Chromium",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixtureTotals": {
+    "calories": "1,420",
+    "protein_g": "85.5",
+    "carbohydrates_g": "198.25",
+    "fat_g": "31.25"
+  },
+  "captures": [
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-1440-en-populated.png",
+          "fullPage": false,
+          "sha256": "0c2cd3926c0b1a6aeef980f975e039ffdb019d056fa81c0865e885af9a0148f9"
+        },
+        {
+          "name": "before-1440-en-populated-full.png",
+          "fullPage": true,
+          "sha256": "742bfb92ad20e9e1ae3538dd2186ee42d7c01f03569c7b139476e7d58b38e2da"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "before-1440-he-populated.png",
+          "fullPage": false,
+          "sha256": "f0709bce5ca6dec65250f2fcbbc3707aedf676f92c0d0758e7659350e1ed86f3"
+        },
+        {
+          "name": "before-1440-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "e9f5808693f407cfff7decc2c028064c5011082b0a914f8e0e12de267fc8576e"
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 1280,
+      "documentWidth": 1280,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-1280-en-empty.png",
+          "fullPage": false,
+          "sha256": "61c1c2c1662bb6aa6e0bb18cc8e21252b4bfc27eb2e1332a5f6c9266b25ff51f"
+        },
+        {
+          "name": "before-1280-en-empty-full.png",
+          "fullPage": true,
+          "sha256": "f7c6480e0f6d27fcd5192f9b33749aa332b7881bf2d41dfeefed362097f422e4"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-390-en-populated.png",
+          "fullPage": false,
+          "sha256": "140e730fad4663aaac1875a8aac1e27f2e4b20870419c48f85b64ee2c237b4ad"
+        },
+        {
+          "name": "before-390-en-populated-full.png",
+          "fullPage": true,
+          "sha256": "aa8ef32f8153453deceb98b3ecf02363ea232d896b9115448acb4699dfa66781"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "before-390-he-populated.png",
+          "fullPage": false,
+          "sha256": "8d8d81e051d2f62534b3ce0b3d145babd045055c962b1a683406360f27fd4096"
+        },
+        {
+          "name": "before-390-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "942cc479e7ec49ed942e49b7452dabe95b56b2d02729c643a8693d795691ba16"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-390-en-empty.png",
+          "fullPage": false,
+          "sha256": "907796909e7ff37194c06fc437799a298b0096bf7f5c39ed5e63e1cdb28885a9"
+        },
+        {
+          "name": "before-390-en-empty-full.png",
+          "fullPage": true,
+          "sha256": "6bd1d212336d871d22d285425c962482d90498953baa12c5c887ac5084c066fb"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "before-320-he-populated.png",
+          "fullPage": false,
+          "sha256": "e90fb9d6d8689df27ba70eb31dcc7d06378079dd5393ff50c24d0f8dd2ca3367"
+        },
+        {
+          "name": "before-320-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "83724cdea9ec5e00fa3f5c6dfd1d903bf54bd8f1a733ef578c7c990fa916fc2d"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "missing",
+      "route": "/en/today?date=2025-12-31",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-390-en-missing.png",
+          "fullPage": false,
+          "sha256": "56e472744b2f01261cb60ee442b42d1699e7399aec5b4e4e9b8491b149ccbcc4"
+        },
+        {
+          "name": "before-390-en-missing-full.png",
+          "fullPage": true,
+          "sha256": "db8c122d18b0cdf6823d4232909ccc9486694970ba2de1f19471d64de73f1fe0"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "exceeded",
+      "route": "/en/today?date=2026-11-01",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "before-1440-en-exceeded.png",
+          "fullPage": false,
+          "sha256": "9e3a46d425e5d12cfa9bd3502d640320715acecb50640f2c2b27fcacd48be420"
+        },
+        {
+          "name": "before-1440-en-exceeded-full.png",
+          "fullPage": true,
+          "sha256": "530ce958cbea90872e9fe4cea680172a635a0d2f7e47949df34afda6236ae185"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "exceeded",
+      "route": "/he/today?date=2026-11-01",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "before-390-he-exceeded.png",
+          "fullPage": false,
+          "sha256": "020c1c9e9151a0b2347edc122649767c6c84798efb4443429c2caa6622c96c5d"
+        },
+        {
+          "name": "before-390-he-exceeded-full.png",
+          "fullPage": true,
+          "sha256": "6dbe50da83b2cc9fe1f2e5296427994ec642622a5a0313e35d3469ba33ca1055"
+        }
+      ]
+    }
+  ]
+}

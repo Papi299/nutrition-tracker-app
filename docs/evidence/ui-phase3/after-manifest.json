@@ -1,0 +1,314 @@
+{
+  "baseline": "c3fc47c4ac032d87cf10ef279156795aff5cdbab",
+  "browser": "Chromium",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixtureTotals": {
+    "calories": "1,420",
+    "protein_g": "85.5",
+    "carbohydrates_g": "198.25",
+    "fat_g": "31.25"
+  },
+  "captures": [
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-1440-en-populated.png",
+          "fullPage": false,
+          "sha256": "250f67d34f38dfdf6fea7d838ce01cc6cd3e13fd7f7a2afc9a24504ae5d710a5"
+        },
+        {
+          "name": "after-1440-en-populated-full.png",
+          "fullPage": true,
+          "sha256": "928619e204dc0df24469d9a1c0911725c3ae3f44a71d4129187bb6c01629231f"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "after-1440-he-populated.png",
+          "fullPage": false,
+          "sha256": "cc980f42d76326dd96a5aa86d8cca24c9064714a65497c8083791f4ded471379"
+        },
+        {
+          "name": "after-1440-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "fad168e541172fbdaa16040c7f23207748d721c9bda623561402fcba4e6ebe1b"
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 1280,
+      "documentWidth": 1280,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-1280-en-empty.png",
+          "fullPage": false,
+          "sha256": "85c6e09b10688ce137a88a4d4fdb8dcb465bb65867638dac42b623edcbe73926"
+        },
+        {
+          "name": "after-1280-en-empty-full.png",
+          "fullPage": true,
+          "sha256": "2ab637db2f3777a44a117fe9e2c0055e8fdabc9f735cafec8b8795f5e2bf408a"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-390-en-populated.png",
+          "fullPage": false,
+          "sha256": "c9b0ff32d5b9e12536fb39fec57ae06ce9599ff31039302f4f48488cba467a17"
+        },
+        {
+          "name": "after-390-en-populated-full.png",
+          "fullPage": true,
+          "sha256": "586b1c1c3a33b15baf9bb072fe2a2641138455eb3b4a1eabec99c4f51923d4f8"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "after-390-he-populated.png",
+          "fullPage": false,
+          "sha256": "dc1a13b3f929f93a19605990372d65012c46567061ca1b0d16b98401a82ce69a"
+        },
+        {
+          "name": "after-390-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "dfa6658f15431929597eaf2792f2d29e10eb20155e20e7e92a281d03048726e5"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-390-en-empty.png",
+          "fullPage": false,
+          "sha256": "f1202d17ecf9267dffb53bf32f453c81e9c97b71cd8762abe827a189b9f65509"
+        },
+        {
+          "name": "after-390-en-empty-full.png",
+          "fullPage": true,
+          "sha256": "93bd4b81ba66bb10a4b0a7eec27aee5e5587137d528e9d2d422abf67f82e2829"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "after-320-he-populated.png",
+          "fullPage": false,
+          "sha256": "cf47a379831e9b516939d58abfaf57eec5650a5017e4a7afe062bb94138932da"
+        },
+        {
+          "name": "after-320-he-populated-full.png",
+          "fullPage": true,
+          "sha256": "d8770866f0ddd3a9af2cf4f18f1da3c4c4f487431dcb99631502414ae747135c"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "missing",
+      "route": "/en/today?date=2025-12-31",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-390-en-missing.png",
+          "fullPage": false,
+          "sha256": "af6574520f82a8126b31ffb2e1f56c02db98f454415868db2852e650bf07f84c"
+        },
+        {
+          "name": "after-390-en-missing-full.png",
+          "fullPage": true,
+          "sha256": "b72c909204d52e2479f152d3d195386085cc2b73d37aaead81255ded95cc5294"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "exceeded",
+      "route": "/en/today?date=2026-11-01",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-1440-en-exceeded.png",
+          "fullPage": false,
+          "sha256": "b42329f719651c4b773fc35f88b4cc101ec27054b8c804009f4efe52f2a84cf3"
+        },
+        {
+          "name": "after-1440-en-exceeded-full.png",
+          "fullPage": true,
+          "sha256": "68c26dd2d2e990109e77101c9a30fcb78f55072e5133d136a6241d5e72662644"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "exceeded",
+      "route": "/he/today?date=2026-11-01",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "after-390-he-exceeded.png",
+          "fullPage": false,
+          "sha256": "77dc91f2c73e7ba64c7bc88534ff0e36152bc97a82769599fa085bc752972a8d"
+        },
+        {
+          "name": "after-390-he-exceeded-full.png",
+          "fullPage": true,
+          "sha256": "b061eea132ade76ee7316df78f9023f85950475b8fa5ee98045b7b3180408e81"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "forcedColors": "active",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "files": [
+        {
+          "name": "after-390-en-populated-forced-colors.png",
+          "fullPage": false,
+          "sha256": "d3b5d3408fa285536d9d02d84242216a9ba1d4f1d2b56f4f7b84101effddfc9d"
+        },
+        {
+          "name": "after-390-en-populated-forced-colors-full.png",
+          "fullPage": true,
+          "sha256": "36d43656dce89874c0e2822794ced39d905679abb2fcd85d04d440365f5b423b"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "forcedColors": "active",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "files": [
+        {
+          "name": "after-390-he-populated-forced-colors.png",
+          "fullPage": false,
+          "sha256": "9c6a1754ca317f8ed04edbc21d9f76e84aeb6c9d50077fdf5d526161cc545954"
+        },
+        {
+          "name": "after-390-he-populated-forced-colors-full.png",
+          "fullPage": true,
+          "sha256": "e9e1ba1a76816761998d3a34804958f9e61d428aeb7b0cde6153f8c01b0065ba"
+        }
+      ]
+    }
+  ],
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "221591aa27c4acb24b848e904860cebc812d43684468811485da5bc8b4429c68"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "74f9f0b2cef3f44b161bc9cddd25966aeceb41e2c749858ed3c665bd8bc62c21"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02616b93b4ca00c14a15979bf92ecc96a70510f49aae2ab5359e19c0a9da1fec"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "c80f074aef72b410a5e23fae0a0e826a67f12aee65a10873c1c3263a68ae7389"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "e3242362815610fc82ef5220572ba72a8174b284a481c3de6afd23cf50851481"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "7feb2c4d8ef42b55d00ffca946b1699547c00e41e5e47c894f9a72a94f4d4329"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "3c55dbc734d9ce4a2658aa9b06d0db5d3517cb1b869daf29ba831ae819181968"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "5933e690280adb9abb65d6cc01344e82ccea674b4dfdf85838f809c77d8c4cf6"
+    }
+  ]
+}
