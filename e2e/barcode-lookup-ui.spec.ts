@@ -571,10 +571,14 @@ test.describe.serial("manual barcode lookup and found-food review", () => {
     );
 
     await page.goto("/en/foods?date=2026-07-17");
-    await expect(page.getByRole("link", { name: "Look up barcode" })).toHaveAttribute(
+    const discoveryScan = page.getByTestId("food-discovery-navigation")
+      .getByRole("link", { name: "Scan", exact: true });
+    await expect(discoveryScan).toHaveAttribute(
       "href",
       "/en/foods/barcode?date=2026-07-17",
     );
+    await discoveryScan.click();
+    await expect(page).toHaveURL("/en/foods/barcode?date=2026-07-17");
     await expect(page.getByTestId("mobile-bottom-navigation").getByRole("link", { name: "Scan", exact: true })).toHaveAttribute(
       "href",
       "/en/foods/barcode",

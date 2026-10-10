@@ -61,7 +61,7 @@ Today adds an explicit review callout with a native anchor to the existing form,
 | `app/[locale]/(app)/recipes/page.tsx` | Same bounded listing date presentation; existing use/serving/confirmation contracts retained. |
 | `messages/en.json`, `messages/he.json` | Matched localized discovery/review copy. |
 
-`e2e/ui-food-discovery.spec.ts` adds meaningful Phase 4 journeys, responsive/accessibility/context/draft coverage and opt-in screenshot evidence. `e2e/custom-food-editor.spec.ts` opens the new native disclosure before its unchanged owned/public Edit eligibility assertions. Documentation and PNG manifests record the audit, evidence and validation; no historical artifacts were deleted.
+`e2e/ui-food-discovery.spec.ts` adds meaningful Phase 4 journeys, responsive/accessibility/context/draft coverage and opt-in screenshot evidence. `e2e/custom-food-editor.spec.ts` opens the new native disclosure before its unchanged owned/public Edit eligibility assertions. `e2e/barcode-lookup-ui.spec.ts` follows the shared Scan destination and retains the exact historical-date URL assertion, adding a native click/URL check. Documentation and PNG manifests record the audit, evidence and validation; no historical artifacts were deleted.
 
 ## Behavioral contracts and scope integrity
 
