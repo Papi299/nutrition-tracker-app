@@ -97,6 +97,7 @@ export function DiaryEntryList({
           (total, entry) => total + (entry.calories ?? 0),
           0,
         );
+        const hasKnownCalories = mealEntries.some((entry) => entry.calories !== null);
         const canSaveMeal = mealEntries.some((entry) => entry.meal_type === mealType);
         const headingId = `diary-meal-${mealType}`;
 
@@ -115,10 +116,11 @@ export function DiaryEntryList({
                 {mealEntries.length > 0 ? (
                   <p className="ui-caption tabular-nums">
                     <bdi>
-                      {formatLocalizedNumber(locale, Math.round(calories), {
-                        maximumFractionDigits: 0,
-                      })}{" "}
-                      {unitCaloriesLabel}
+                      {hasKnownCalories
+                        ? `${formatLocalizedNumber(locale, Math.round(calories), {
+                            maximumFractionDigits: 0,
+                          })} ${unitCaloriesLabel}`
+                        : notSetLabel}
                     </bdi>
                   </p>
                 ) : (

@@ -4,7 +4,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { expect, test, type Browser, type BrowserContext } from "@playwright/test";
+import { expect, test, type Browser, type BrowserContext, type Page } from "@playwright/test";
 import { formatLocalizedDate } from "@/lib/i18n/format";
 import type { Database, Json } from "@/lib/supabase/database.types";
 
@@ -13,12 +13,50 @@ const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "UiPhase3SyntheticPassword123!";
 const captureConfigPath = "/private/tmp/ui-phase3-capture-config.json";
-const captureConfig: { capture?: "before" | "after"; fixturePath?: string; evidenceDir?: string } = existsSync(captureConfigPath) ? JSON.parse(readFileSync(captureConfigPath, "utf8")) : {};
+const captureConfig: { capture?: "before" | "after" | "polish"; fixturePath?: string; evidenceDir?: string } = existsSync(captureConfigPath) ? JSON.parse(readFileSync(captureConfigPath, "utf8")) : {};
 const capture = captureConfig.capture;
 const captureFixturePath = captureConfig.fixturePath ?? "/private/tmp/ui-phase3-capture-fixture.json";
-const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02" } as const;
+const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15" } as const;
 const mealTypes = ["breakfast", "lunch", "dinner", "snack", "other"] as const;
 const expectedTotals = { calories: "1,420", protein_g: "85.5", carbohydrates_g: "198.25", fat_g: "31.25" };
+
+const localeCopy = {
+  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry" },
+  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה" },
+} as const;
+const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
+
+async function assertInitialMobileShortcut(page: Page, locale: "en" | "he", width: number, height: number) {
+  const shortcut = page.getByTestId("today-mobile-add-food");
+  // Measure before any focus, click, fill or scroll operation can bring the action into view.
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(shortcut).toBeVisible();
+  await expect(shortcut).toBeInViewport({ ratio: 1 });
+  await expect(shortcut).toHaveAccessibleName(localeCopy[locale].addFood);
+  await expect(shortcut).toHaveAttribute("href", "#manual-entry");
+  await expect(shortcut).toHaveClass(/ui-button-primary/);
+  await expect(shortcut.locator("svg")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator("html")).toHaveAttribute("dir", locale === "he" ? "rtl" : "ltr");
+  const bounds = await shortcut.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    const parent = element.parentElement!.getBoundingClientRect();
+    return { tag: element.tagName, x: rect.x, y: rect.y, width: rect.width, height: rect.height, right: rect.right, bottom: rect.bottom, parentLeft: parent.left, parentRight: parent.right };
+  });
+  const header = await page.locator(".mobile-app-header").boundingBox();
+  const navigation = await page.getByTestId("mobile-bottom-navigation").boundingBox();
+  expect(bounds.tag).toBe("A");
+  expect(bounds.width).toBeGreaterThanOrEqual(44);
+  expect(bounds.height).toBeGreaterThanOrEqual(44);
+  expect(bounds.x).toBeGreaterThanOrEqual(0);
+  expect(bounds.right).toBeLessThanOrEqual(width);
+  expect(bounds.y).toBeGreaterThanOrEqual((header?.y ?? 0) + (header?.height ?? 0));
+  expect(bounds.bottom).toBeLessThanOrEqual(navigation?.y ?? height);
+  expect(bounds.bottom).toBeLessThanOrEqual(height);
+  expect(Math.abs(locale === "he" ? bounds.right - bounds.parentRight : bounds.x - bounds.parentLeft)).toBeLessThanOrEqual(1);
+  const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(documentWidth).toBeLessThanOrEqual(width);
+  return { ...bounds, navigationTop: navigation?.y, headerBottom: (header?.y ?? 0) + (header?.height ?? 0), initialScrollY: 0 };
+}
 
 test.skip(!localOnly || !localSupabaseUrl || !localSupabasePublishableKey, "Today dashboard requires the safe local fixture runner.");
 
@@ -79,6 +117,14 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       { user_id: userId, entry_date: dates.partial, meal_type: "snack", source: "manual", food_name: "Partial synthetic snapshot", calories: 100, protein_g: null, carbohydrates_g: 0, fat_g: 1.25 },
     ]);
     expect(edgeEntries.error).toBeNull();
+    const subtotalEntries = await client.from("diary_entries").insert([
+      { user_id: userId, entry_date: dates.unknownMany, meal_type: "other", source: "manual", food_name: "Tea · תה", calories: null },
+      { user_id: userId, entry_date: dates.unknownMany, meal_type: "other", source: "manual", food_name: "Coffee · קפה", calories: null },
+      { user_id: userId, entry_date: dates.subtotalZero, meal_type: "other", source: "manual", food_name: "Water · מים", calories: 0 },
+      { user_id: userId, entry_date: dates.subtotalMixed, meal_type: "other", source: "manual", food_name: "Water · מים", calories: 0 },
+      { user_id: userId, entry_date: dates.subtotalMixed, meal_type: "other", source: "manual", food_name: "Tea · תה", calories: null },
+    ]);
+    expect(subtotalEntries.error).toBeNull();
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -112,7 +158,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     test.setTimeout(120_000);
     const output = captureConfig.evidenceDir ?? join(process.cwd(), "docs/evidence/ui-phase3");
     mkdirSync(output, { recursive: true });
-    const captures: { width: number; height: number; locale: "en" | "he"; fixture: keyof typeof dates; forcedColors?: "active" }[] = [
+    let captures: { width: number; height: number; locale: "en" | "he"; fixture: keyof typeof dates; forcedColors?: "active" }[] = [
       { width: 1440, height: 900, locale: "en", fixture: "populated" }, { width: 1440, height: 900, locale: "he", fixture: "populated" },
       { width: 1280, height: 900, locale: "en", fixture: "empty" }, { width: 390, height: 844, locale: "en", fixture: "populated" },
       { width: 390, height: 844, locale: "he", fixture: "populated" }, { width: 390, height: 844, locale: "en", fixture: "empty" },
@@ -120,6 +166,12 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       { width: 1440, height: 900, locale: "en", fixture: "exceeded" }, { width: 390, height: 844, locale: "he", fixture: "exceeded" },
     ];
     if (capture === "after") captures.push({ width: 390, height: 844, locale: "en", fixture: "populated", forcedColors: "active" }, { width: 390, height: 844, locale: "he", fixture: "populated", forcedColors: "active" });
+    if (capture === "polish") captures = [
+      { width: 320, height: 720, locale: "en", fixture: "populated" },
+      { width: 320, height: 720, locale: "he", fixture: "populated" },
+      { width: 390, height: 844, locale: "en", fixture: "populated" },
+      { width: 390, height: 844, locale: "he", fixture: "populated" },
+    ];
     const manifest = [];
     for (const item of captures) {
       const { context, page } = await openPage(browser, { viewport: { width: item.width, height: item.height }, deviceScaleFactor: 1 });
@@ -130,17 +182,28 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       await page.evaluate(() => document.fonts.ready);
       const geometry = await page.evaluate(() => ({ viewportWidth: document.documentElement.clientWidth, documentWidth: document.documentElement.scrollWidth, direction: document.documentElement.dir }));
       expect(geometry.documentWidth).toBeLessThanOrEqual(geometry.viewportWidth);
+      const shortcutBounds = capture === "polish" ? await assertInitialMobileShortcut(page, item.locale, item.width, item.height) : undefined;
       const files = [];
       for (const fullPage of [false, true]) {
         await page.evaluate(() => window.scrollTo(0, 0));
         const name = `${capture}-${item.width}-${item.locale}-${item.fixture}${item.forcedColors ? "-forced-colors" : ""}${fullPage ? "-full" : ""}.png`;
         const image = await page.screenshot({ path: join(output, name), fullPage, animations: "disabled" });
-        files.push({ name, fullPage, sha256: createHash("sha256").update(image).digest("hex") });
+        files.push({ name, fullPage, scope: fullPage ? "full-page" : "initial-viewport", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
       }
-      manifest.push({ ...item, route, ...geometry, files });
+      let otherSubtotal: string | undefined;
+      if (capture === "polish") {
+        const section = page.locator('[data-meal-type="other"]');
+        const subtotal = section.getByRole("heading", { level: 3 }).locator("..").locator("p");
+        await expect(subtotal).toHaveText(localeCopy[item.locale].notSet);
+        otherSubtotal = await subtotal.innerText();
+        const name = `${capture}-${item.width}-${item.locale}-other-unknown.png`;
+        const image = await section.screenshot({ path: join(output, name), animations: "disabled" });
+        files.push({ name, fullPage: false, scope: "other-meal", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
+      }
+      manifest.push({ ...item, route, ...geometry, shortcutBounds, otherSubtotal, files });
       await context.close();
     }
-    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ baseline: "c3fc47c4ac032d87cf10ef279156795aff5cdbab", browser: "Chromium", deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, captures: manifest }, null, 2) + "\n");
+    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ baseline: "c3fc47c4ac032d87cf10ef279156795aff5cdbab", originalReviewedHead: "b8534e9abb8ab73db1d80a42352dea171f22a060", evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: capture === "polish" ? "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset" : "Original shared synthetic account", captures: manifest, renderedSourceFiles: capture === "before" ? undefined : renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
   });
 
   test("shows accurate snapshot totals, all ordered meal groups and source identity", async ({ browser }) => {
@@ -328,6 +391,128 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     });
   }
 
+  for (const locale of ["en", "he"] as const) {
+    test(`${locale} mobile header shortcut is initially visible, native and preserves the mounted draft`, async ({ browser }) => {
+      test.setTimeout(60_000);
+      const { context, page } = await openPage(browser);
+      for (const { width, height } of [{ width: 320, height: 720 }, { width: 390, height: 844 }]) {
+        await page.setViewportSize({ width, height });
+        await page.goto(`/${locale}/today?date=${dates.populated}`);
+        await assertInitialMobileShortcut(page, locale, width, height);
+        const shortcut = page.getByTestId("today-mobile-add-food");
+        const form = page.getByTestId("manual-diary-entry-form");
+        await expect(form).toHaveCount(1);
+        await form.locator('input[name="food_name"]').fill(`Unsaved ${locale} ${width}px draft`);
+        await form.locator('input[name="calories"]').fill("0");
+        const key = await form.locator('input[name="idempotency_key"]').inputValue();
+        await form.evaluate(node => Object.defineProperty(window, "__uiPhase3PolishForm", { configurable: true, value: node }));
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await shortcut.focus();
+        await page.keyboard.press("Shift+Tab");
+        await page.keyboard.press("Tab");
+        await expect(shortcut).toBeFocused();
+        await expect(shortcut).toHaveCSS("outline-style", "solid");
+        await expect(shortcut).toHaveCSS("outline-width", "3px");
+        await page.keyboard.press("Enter");
+        await expect(page).toHaveURL(new RegExp(`date=${dates.populated}#manual-entry$`));
+        await expect(page.locator("#manual-entry")).toBeFocused();
+        expect(await form.evaluate(node => node === Reflect.get(window, "__uiPhase3PolishForm"))).toBe(true);
+        await expect(form).toHaveCount(1);
+        await expect(form.locator('input[name="food_name"]')).toHaveValue(`Unsaved ${locale} ${width}px draft`);
+        await expect(form.locator('input[name="calories"]')).toHaveValue("0");
+        await expect(form.locator('input[name="idempotency_key"]')).toHaveValue(key);
+        await expect(form.locator('input[name="entry_date"]')).toHaveValue(dates.populated);
+        await expect(form.getByRole("button", { name: localeCopy[locale].addEntry, exact: true })).toBeEnabled();
+        await form.locator('input[name="food_name"]').fill(`Still editable ${locale} ${width}px draft`);
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await shortcut.click();
+        await expect(page.locator("#manual-entry")).toBeFocused();
+        expect(await form.evaluate(node => node === Reflect.get(window, "__uiPhase3PolishForm"))).toBe(true);
+        await expect(form.locator('input[name="food_name"]')).toHaveValue(`Still editable ${locale} ${width}px draft`);
+        await expect(form.locator('input[name="idempotency_key"]')).toHaveValue(key);
+      }
+      await page.goto(`/${locale}/today?date=${dates.populated}`);
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
+      const shortcut = page.getByTestId("today-mobile-add-food");
+      await shortcut.focus();
+      await page.keyboard.press("Shift+Tab");
+      await page.keyboard.press("Tab");
+      await expect(shortcut).toBeFocused();
+      await expect(shortcut).toHaveCSS("outline-width", "3px");
+      await page.emulateMedia({ forcedColors: "none", reducedMotion: "reduce" });
+      for (const width of [1024, 1280, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await expect(shortcut).toBeHidden();
+        const original = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
+        await expect(original).toHaveAccessibleName(localeCopy[locale].addFood);
+        await expect(original).toBeVisible();
+        await expect(original).toHaveAttribute("href", "#manual-entry");
+        await expect(page.getByTestId("target-progress")).toContainText("1,420");
+      }
+      await context.close();
+    });
+
+    test(`${locale} mobile header shortcut reaches the existing form without JavaScript`, async ({ browser }) => {
+      for (const { width, height } of [{ width: 320, height: 720 }, { width: 390, height: 844 }]) {
+        const { context, page } = await openPage(browser, { javaScriptEnabled: false, viewport: { width, height } });
+        await page.goto(`/${locale}/today?date=${dates.populated}`);
+        await assertInitialMobileShortcut(page, locale, width, height);
+        const shortcut = page.getByTestId("today-mobile-add-food");
+        await shortcut.focus();
+        await page.keyboard.press("Enter");
+        await expect(page.locator("#manual-entry")).toBeFocused();
+        const form = page.getByTestId("manual-diary-entry-form");
+        await expect(form).toHaveCount(1);
+        await expect(form.locator('input[name="entry_date"]')).toHaveValue(dates.populated);
+        await form.locator('input[name="food_name"]').fill("Native synthetic draft");
+        await form.locator('input[name="calories"]').fill("0");
+        const key = await form.locator('input[name="idempotency_key"]').inputValue();
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await shortcut.click();
+        await expect(page.locator("#manual-entry")).toBeFocused();
+        await expect(form.locator('input[name="food_name"]')).toHaveValue("Native synthetic draft");
+        await expect(form.locator('input[name="calories"]')).toHaveValue("0");
+        await expect(form.locator('input[name="idempotency_key"]')).toHaveValue(key);
+        await expect(form.getByRole("button", { name: localeCopy[locale].addEntry, exact: true })).toBeEnabled();
+        await expect(page.getByTestId("target-progress")).toContainText("1,420");
+        await context.close();
+      }
+    });
+
+    test(`${locale} rendered meal subtotals distinguish all six null, zero, mixed, positive and empty cases`, async ({ browser }) => {
+      const { context, page } = await openPage(browser);
+      const copy = localeCopy[locale];
+      const cases = [
+        { label: "one null", date: dates.populated, meal: "other", count: 1, subtotal: copy.notSet, populated: true },
+        { label: "many null", date: dates.unknownMany, meal: "other", count: 2, subtotal: copy.notSet, populated: false },
+        { label: "explicit zero", date: dates.subtotalZero, meal: "other", count: 1, subtotal: `0 ${copy.calories}`, populated: false },
+        { label: "zero and null", date: dates.subtotalMixed, meal: "other", count: 2, subtotal: `0 ${copy.calories}`, populated: false },
+        { label: "positive sum", date: dates.populated, meal: "breakfast", count: 2, subtotal: `395 ${copy.calories}`, populated: true },
+        { label: "empty", date: dates.empty, meal: "other", count: 0, subtotal: copy.emptyMeal, populated: false },
+      ];
+      for (const item of cases) {
+        await page.goto(`/${locale}/today?date=${item.date}`);
+        const section = page.locator(`[data-meal-type="${item.meal}"]`);
+        const subtotal = section.getByRole("heading", { level: 3 }).locator("..").locator("p");
+        await expect(subtotal, item.label).toHaveText(item.subtotal);
+        await expect(section.locator('[data-diary-entry-id]')).toHaveCount(item.count);
+        const entries = await client.from("diary_entries").select("id,calories").eq("entry_date", item.date).eq("meal_type", item.meal);
+        expect(entries.error).toBeNull();
+        for (const entry of entries.data ?? []) {
+          const rowCalories = section.locator(`[data-diary-entry-id="${entry.id}"] > div`).first().locator("p bdi");
+          await expect(rowCalories).toHaveText(entry.calories === null ? copy.notSet : `${entry.calories} ${copy.calories}`);
+        }
+        for (const [metric, value] of Object.entries(expectedTotals)) {
+          const unit = metric === "calories" ? copy.calories : copy.grams;
+          await expect(page.locator(`[data-nutrition-metric="${metric}"] dl > div`).first().locator("dd")).toHaveText(`${item.populated ? value : "0"} ${unit}`);
+        }
+        if (item.count === 0) await expect(subtotal).not.toHaveText(copy.notSet);
+      }
+      await context.close();
+    });
+  }
+
   test("preserves manual drafts and idempotency through Add Food, native disclosure and edit interactions", async ({ browser }) => {
     const { context, page } = await openPage(browser, { viewport: { width: 390, height: 844 } });
     await page.goto(`/en/today?date=${dates.populated}`);
@@ -335,7 +520,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await form.locator('input[name="food_name"]').fill("Unsaved synthetic draft");
     await form.locator('input[name="calories"]').fill("0");
     const key = await form.locator('input[name="idempotency_key"]').inputValue();
-    const add = page.getByRole("link", { name: "Add food", exact: true }).first();
+    const add = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
     await expect(add).toHaveAttribute("href", /#manual-entry$/);
     await add.focus();
     await page.keyboard.press("Enter");
@@ -364,7 +549,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await page.locator('form:has(input[name="date"])').getByRole("button").click();
     await expect(page).toHaveURL(new RegExp(`date=${dates.empty}$`));
     await expect(page.getByTestId("target-progress")).toContainText("0%");
-    const add = page.locator('a[href$="#manual-entry"]').first();
+    const add = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
     await add.click();
     await expect(page.locator('input[name="entry_date"]')).toHaveValue(dates.empty);
     await expect(page.locator('input[name="food_name"]')).toBeVisible();

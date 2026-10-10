@@ -260,13 +260,22 @@ function LocalizedTodayPage({
             <time dateTime={selectedDate}>{formatLocalizedDate(locale, selectedDate, { dateStyle: "full" })}</time>
           </p>
         </div>
-        <form action={`/${locale}/today`} className="today-date-form text-sm">
-          <div className="min-w-0">
-            <label className="ui-label block mb-1" htmlFor="diary-date">{diaryT("fields.entryDate")}</label>
-            <input className="ui-control" defaultValue={selectedDate} id="diary-date" name="date" type="date" />
-          </div>
-          <button className={buttonStyles({ variant: "outline" })} type="submit">{diaryT("date.submit")}</button>
-        </form>
+        <div className="flex min-w-0 flex-col gap-3">
+          <form action={`/${locale}/today`} className="today-date-form text-sm">
+            <div className="min-w-0">
+              <label className="ui-label block mb-1" htmlFor="diary-date">{diaryT("fields.entryDate")}</label>
+              <input className="ui-control" defaultValue={selectedDate} id="diary-date" name="date" type="date" />
+            </div>
+            <button className={buttonStyles({ variant: "outline" })} type="submit">{diaryT("date.submit")}</button>
+          </form>
+          <a
+            className={buttonStyles({ className: "self-start lg:hidden" })}
+            data-testid="today-mobile-add-food"
+            href="#manual-entry"
+          >
+            <Plus aria-hidden="true" size={18} />{dashboardT("addFood")}
+          </a>
+        </div>
       </header>
 
       {customFoodCreated && (

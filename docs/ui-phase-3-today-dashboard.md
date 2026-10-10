@@ -2,6 +2,8 @@
 
 Task: `UI_PHASE_3_TODAY_DASHBOARD_NUTRITION_VISUALIZATION_001`.
 
+Sections A–N record the original reviewed Phase 3 head `b8534e9abb8ab73db1d80a42352dea171f22a060`. The bounded final polish is documented separately below; historical validation counts and screenshots are not claimed as new-head evidence.
+
 ## A. Baseline
 
 - Verified GitHub `main`: `c3fc47c4ac032d87cf10ef279156795aff5cdbab`.
@@ -138,3 +140,88 @@ Base is the verified `main` SHA above; branch is `feat/ui-phase3-today-dashboard
 ## N. Remaining follow-up
 
 UI Phase 4 owns unified food discovery/logging UX, meal-aware flow integration and broader form refinement. This phase supplies entry points into the existing workflows. Independent review remains required before any merge or deployment.
+
+## Final independent-review polish
+
+Task: `UI_PHASE_3_PR178_BOUNDED_FINAL_POLISH_001`.
+
+### Accepted baseline and bounded patch
+
+Fresh GitHub verification confirmed main `c3fc47c4ac032d87cf10ef279156795aff5cdbab`, main tree `657d46350d2fbab336b0f69af6e1b1fb334c2c6c`, and the sole open Draft PR #178 at reviewed head `b8534e9abb8ab73db1d80a42352dea171f22a060`, tree `bbc42018012a433ca91b79d6db5ef738ce15bc80`. The PR was mergeable and unmerged, with Validate, both CodeQL analyses and the aggregate check successful. The existing isolated worktree was clean; the original commit remains in history and the primary checkout remains untouched.
+
+Only two product files change. Today adds a labeled native `href="#manual-entry"` shortcut immediately below the original date form and before the calorie summary. It reuses existing localized copy, Plus icon and Phase 1 button styling. `lg:hidden` suppresses the shortcut at 1024px and above while the original Food diary action remains available. No handler, route, overlay or duplicated form is added.
+
+At both mobile widths, the measured English shortcut is 121.23×44px and the Hebrew shortcut is 129.61×44px. Its y=253–297px bounds sit below the app header ending at 56px and above bottom navigation beginning at 639px (320×720) or 763px (390×844). RTL/LTR logical alignment, native keyboard/click focus, no-JavaScript navigation, the same mounted form object, entered draft values, selected date and idempotency key are verified.
+
+`DiaryEntryList` retains its reducer, null-as-zero contribution, integer rounding and localized formatting. An explicit `entry.calories !== null` check controls only the populated meal-heading display:
+
+| Contents | Heading |
+| --- | --- |
+| One null | Existing localized Not set |
+| Multiple null | Existing localized Not set |
+| Explicit zero | 0 kcal |
+| Zero plus null | 0 kcal, established known-value subtotal |
+| Positive snapshots 180 + 215 | 395 kcal |
+| Empty meal | Existing compact empty message |
+
+Individual unknown food values still show Not set. Daily calories and all three daily macro aggregates are separately asserted and remain unchanged. No data-completeness model or progress-mathematics changes are introduced.
+
+### Changed file inventory
+
+| File | Purpose |
+| --- | --- |
+| `app/[locale]/(app)/today/page.tsx` | Mobile header shortcut around the unchanged native date form |
+| `components/diary/diary-entry-list.tsx` | All-null populated meal subtotal label |
+| `e2e/ui-today-dashboard.spec.ts` | Six locale-specific regressions and versioned capture mode; original diary action assertions retained |
+| `docs/evidence/ui-phase3/README.md` | Historical evidence distinction and post-polish index/provenance/results |
+| `docs/ui-phase-3-today-dashboard.md` | This bounded change and validation record |
+| `docs/evidence/ui-phase3/polish/polish-manifest.json` | Four capture cases, geometry, image dimensions/hashes and eight current source hashes |
+
+The twelve added PNGs are all under `docs/evidence/ui-phase3/polish/`:
+
+| Initial viewport | Full page | Unknown Other section |
+| --- | --- | --- |
+| `polish-320-en-populated.png` | `polish-320-en-populated-full.png` | `polish-320-en-other-unknown.png` |
+| `polish-320-he-populated.png` | `polish-320-he-populated-full.png` | `polish-320-he-other-unknown.png` |
+| `polish-390-en-populated.png` | `polish-390-en-populated-full.png` | `polish-390-en-other-unknown.png` |
+| `polish-390-he-populated.png` | `polish-390-he-populated-full.png` | `polish-390-he-other-unknown.png` |
+
+### Evidence integrity and rendered review
+
+The original 44 PNGs and both manifests remain byte-identical. The twelve versioned post-polish images recreate the documented synthetic snapshots in a new activated local account because the prior regression reset removed the original capture account. The account change is explicit in the new manifest; values, targets, selected date and source types match the documented fixture. Credentials and session state are excluded.
+
+All 56 image hashes and the new pixel dimensions pass verification. The eight historical after-source hashes were checked against `git show b8534e9:<path>`; eight new source hashes match the final product contents. Actual 320/390 EN/HE initial views and unknown-meal images passed both primary and independent visual review. The existing full-page fixed-navigation representation limitation still applies; this is browser emulation, not physical-device validation.
+
+### Validation
+
+| Command | Final result |
+| --- | --- |
+| `npm ci` | PASS; 405 installed; lockfile unchanged |
+| `npm run lint` | PASS |
+| `npm run typecheck` | PASS |
+| `npm test` | 357 passed; no failures/skips |
+| `npm run build` | PASS with verified loopback-only configuration |
+| `npm run test:e2e -- e2e/ui-today-dashboard.spec.ts --reporter=line` | 14 passed; 1 intentional capture-only skip; 18.3s |
+| `npm run test:e2e -- e2e/ui-today-dashboard.spec.ts --grep 'captures reproducible visual evidence' --reporter=line` | 1 passed; 7.1s; private polish capture mode |
+| `npm run security:dependencies` | PASS; production critical/high/moderate/low all zero |
+| `npm run security:build-boundary` | PASS; 115 browser/static artifacts, no secret canaries |
+| `npm run security:workflow` | 4 passed and policy PASS |
+| `npm run test:security` | 5 Node + 7 Playwright passed |
+| `npm run test:deployment-contract` | 92 passed and contract PASS |
+| `npm run test:recovery-contract` | 200 passed |
+| `npm run test:journey-evidence` | 52 passed and 35-journey map PASS |
+| `npm run test:performance-harness` | 19 passed |
+| `npm run test:performance-evidence` | 50 passed and historical diagnostic contract PASS |
+| `npm run test:migration-roles` | PASS; five existing migrations/four rollback injections, unchanged public fingerprint |
+| `npx supabase db reset --local` | PASS; existing migrations and seed replayed |
+| `npm run types:ingestion:check` | PASS |
+| `npm run test:e2e -- --reporter=line` | 396 passed; 1 intentional capture-only skip; 5.5m |
+| `npm run test:phase11d -- --reporter=line` | 53 passed; 3 existing shared-DOM axe skips; 1.1m |
+
+All final local commands pass with zero failures. No existing assertion was weakened or skipped to accommodate the polish.
+
+All six required widths (320, 390, 768, 1024, 1280, 1440) pass in English and Hebrew with zero overflow, including the existing large-value/long-content fixture. Keyboard focus, RTL, native no-JavaScript forms, forced colors, reduced motion and draft/idempotency behavior pass. Original assertions remain intact; the original diary Add food action is explicitly scoped so the added mobile shortcut cannot silently replace its coverage.
+
+The local fixture was privately preserved before migration rehearsals/reset. All database testing uses the existing loopback-only safety guards. Historical performance-evidence validation does not claim a new passing runtime qualification.
+
+Nutrition calculations, diary mutations, backend queries, migrations, Auth/RLS, dependencies, navigation architecture, new logging workflows, production operations, Vercel operations and deployments each remain zero. PR #178 is updated in place, stays Draft and unmerged, and requires final independent merge review. UI Phase 4 remains deferred. Exact final commit/tree and fresh GitHub run/job results are recorded in the PR and completion report.
