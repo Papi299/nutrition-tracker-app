@@ -1,0 +1,255 @@
+{
+  "baseline": "c3fc47c4ac032d87cf10ef279156795aff5cdbab",
+  "originalReviewedHead": "b8534e9abb8ab73db1d80a42352dea171f22a060",
+  "evidenceVersion": "bounded-final-polish",
+  "browser": "Chromium",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixtureTotals": {
+    "calories": "1,420",
+    "protein_g": "85.5",
+    "carbohydrates_g": "198.25",
+    "fat_g": "31.25"
+  },
+  "fixtureAccount": "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset",
+  "captures": [
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "ltr",
+      "shortcutBounds": {
+        "tag": "A",
+        "x": 16,
+        "y": 253,
+        "width": 121.234375,
+        "height": 44,
+        "right": 137.234375,
+        "bottom": 297,
+        "parentLeft": 16,
+        "parentRight": 304,
+        "navigationTop": 639,
+        "headerBottom": 56,
+        "initialScrollY": 0
+      },
+      "otherSubtotal": "Not set",
+      "files": [
+        {
+          "name": "polish-320-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 320,
+          "height": 720,
+          "sha256": "d2a2f6f85ef231699bcf44a0c974b9f886d3b757408fad15064e79394d9c0cb6"
+        },
+        {
+          "name": "polish-320-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 320,
+          "height": 6205,
+          "sha256": "e801320a32a1ae24f778790097a84bb0d23eec0dd2c9d36556c7b8a1d23277b7"
+        },
+        {
+          "name": "polish-320-en-other-unknown.png",
+          "fullPage": false,
+          "scope": "other-meal",
+          "width": 246,
+          "height": 337,
+          "sha256": "a79501d0c33213299e3922db948d83e3454002af27c7dd174b2d066491af96e6"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "rtl",
+      "shortcutBounds": {
+        "tag": "A",
+        "x": 174.390625,
+        "y": 253,
+        "width": 129.609375,
+        "height": 44,
+        "right": 304,
+        "bottom": 297,
+        "parentLeft": 16,
+        "parentRight": 304,
+        "navigationTop": 639,
+        "headerBottom": 56,
+        "initialScrollY": 0
+      },
+      "otherSubtotal": "לא הוגדר",
+      "files": [
+        {
+          "name": "polish-320-he-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 320,
+          "height": 720,
+          "sha256": "7a9be9135959f2c6bcdcf1430da51cab519c4556ba2dc7bee2f7d9d740dd4b16"
+        },
+        {
+          "name": "polish-320-he-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 320,
+          "height": 6131,
+          "sha256": "7a211d05538633eebd4b8e4322651e400a7558eba8b89413c0cc14ed4d0ecbda"
+        },
+        {
+          "name": "polish-320-he-other-unknown.png",
+          "fullPage": false,
+          "scope": "other-meal",
+          "width": 246,
+          "height": 279,
+          "sha256": "c4389a863aff6a1dcb6ca020706aa2fb0a781fe55800501b1a2054366cba2f4a"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "shortcutBounds": {
+        "tag": "A",
+        "x": 16,
+        "y": 253,
+        "width": 121.234375,
+        "height": 44,
+        "right": 137.234375,
+        "bottom": 297,
+        "parentLeft": 16,
+        "parentRight": 374,
+        "navigationTop": 763,
+        "headerBottom": 56,
+        "initialScrollY": 0
+      },
+      "otherSubtotal": "Not set",
+      "files": [
+        {
+          "name": "polish-390-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "233709ae6099c24407ecbe13f697da1a0bded2729582cebb85844990ef52a030"
+        },
+        {
+          "name": "polish-390-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 5600,
+          "sha256": "0c52f487d2bb8b6e847ddec707d436462f5ac632a1c169fbdf05d16da96d5ceb"
+        },
+        {
+          "name": "polish-390-en-other-unknown.png",
+          "fullPage": false,
+          "scope": "other-meal",
+          "width": 316,
+          "height": 255,
+          "sha256": "efd22d09ffec8e40975dbf2b5ce9cc97cf410c281fe4939995131e2203141e38"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "shortcutBounds": {
+        "tag": "A",
+        "x": 244.390625,
+        "y": 253,
+        "width": 129.609375,
+        "height": 44,
+        "right": 374,
+        "bottom": 297,
+        "parentLeft": 16,
+        "parentRight": 374,
+        "navigationTop": 763,
+        "headerBottom": 56,
+        "initialScrollY": 0
+      },
+      "otherSubtotal": "לא הוגדר",
+      "files": [
+        {
+          "name": "polish-390-he-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "44598381eca54068e580c6c79a162d9d31021ae4ffdf7dfcdbbce0a8d147689c"
+        },
+        {
+          "name": "polish-390-he-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 5663,
+          "sha256": "cd69d1138f24ac328a35c3e5394aa89ff98ab0f0cfd69df2449106d7db3165b9"
+        },
+        {
+          "name": "polish-390-he-other-unknown.png",
+          "fullPage": false,
+          "scope": "other-meal",
+          "width": 316,
+          "height": 255,
+          "sha256": "313e4c6cfebb3616ec8375dcdfcdc4ff110fb9e2a3abdceb023d0fc1a87c5652"
+        }
+      ]
+    }
+  ],
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "34d867036966d53beb2e927fed3a6c1a235e6f9220fd7cbc1f7f2e70f390a3de"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "74f9f0b2cef3f44b161bc9cddd25966aeceb41e2c749858ed3c665bd8bc62c21"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02616b93b4ca00c14a15979bf92ecc96a70510f49aae2ab5359e19c0a9da1fec"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "88954f1023562248c4533c4c1505193ffb24bbc003151d86d76db6f7fc58a454"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "e3242362815610fc82ef5220572ba72a8174b284a481c3de6afd23cf50851481"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "7feb2c4d8ef42b55d00ffca946b1699547c00e41e5e47c894f9a72a94f4d4329"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "3c55dbc734d9ce4a2658aa9b06d0db5d3517cb1b869daf29ba831ae819181968"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "5933e690280adb9abb65d6cc01344e82ccea674b4dfdf85838f809c77d8c4cf6"
+    }
+  ]
+}

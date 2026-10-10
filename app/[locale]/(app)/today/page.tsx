@@ -16,10 +16,10 @@ import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bo
 import { CustomFoodCreationDraftRetirement } from "@/components/custom-foods/custom-food-form";
 import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { RetrievalError } from "@/components/data/retrieval-error";
-import { DiaryDailyTotals } from "@/components/diary/diary-daily-totals";
+import { Plus, Search, ScanBarcode, BookOpen } from "lucide-react";
+import { NutritionDailySummary } from "@/components/diary/nutrition-daily-summary";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
-import { DiaryTargetProgress } from "@/components/diary/diary-target-progress";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   parseCalendarDateQueryValue,
@@ -43,7 +43,7 @@ import {
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { isUuid } from "@/lib/food-selection/query";
-import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
+import { formatLocalizedDate } from "@/lib/i18n/format";
 import { routing, type Locale } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
@@ -223,6 +223,7 @@ function LocalizedTodayPage({
 }) {
   const t = useTranslations("AppShell.today");
   const diaryT = useTranslations("Diary");
+  const dashboardT = useTranslations("Diary.dashboard");
   const createAction = createDiaryEntryAction.bind(null, locale);
   const deleteAction = deleteDiaryEntryAction.bind(null, locale);
   const updateAction = updateDiaryEntryAction.bind(null, locale);
@@ -244,47 +245,38 @@ function LocalizedTodayPage({
   if (selectionContext.status === "valid" && selectionContext.meal_type) {
     removeSelectionParameters.set("mealType", selectionContext.meal_type);
   }
-  const targetItems = [
-    {
-      label: t("targetSummary.calories"),
-      value: formatTargetValue(target?.calories ?? null, t("targetSummary.notSet"), locale),
-    },
-    {
-      label: t("targetSummary.protein"),
-      value: formatTargetValue(target?.protein_g ?? null, t("targetSummary.notSet"), locale),
-    },
-    {
-      label: t("targetSummary.carbohydrates"),
-      value: formatTargetValue(
-        target?.carbohydrates_g ?? null,
-        t("targetSummary.notSet"),
-        locale,
-      ),
-    },
-    {
-      label: t("targetSummary.fat"),
-      value: formatTargetValue(target?.fat_g ?? null, t("targetSummary.notSet"), locale),
-    },
-  ];
 
   return (
-    <section className="flex flex-1 flex-col justify-center gap-8 py-8 text-start">
+    <section className="today-dashboard flex flex-1 flex-col gap-6 py-2 text-start">
       {creationRequest && (
         <CustomFoodCreationDraftRetirement
           creationRequest={creationRequest}
         />
       )}
-      <div className="max-w-3xl">
-        <p className="ui-eyebrow">
-          {t("label")}
-        </p>
-        <h1 className="mt-4 ui-page-title">
-          {t("title")}
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-          {t("description")}
-        </p>
-      </div>
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="ui-page-title">{dashboardT("title")}</h1>
+          <p className="mt-2 text-base text-muted-foreground">
+            <time dateTime={selectedDate}>{formatLocalizedDate(locale, selectedDate, { dateStyle: "full" })}</time>
+          </p>
+        </div>
+        <div className="flex min-w-0 flex-col gap-3">
+          <form action={`/${locale}/today`} className="today-date-form text-sm">
+            <div className="min-w-0">
+              <label className="ui-label block mb-1" htmlFor="diary-date">{diaryT("fields.entryDate")}</label>
+              <input className="ui-control" defaultValue={selectedDate} id="diary-date" name="date" type="date" />
+            </div>
+            <button className={buttonStyles({ variant: "outline" })} type="submit">{diaryT("date.submit")}</button>
+          </form>
+          <a
+            className={buttonStyles({ className: "self-start lg:hidden" })}
+            data-testid="today-mobile-add-food"
+            href="#manual-entry"
+          >
+            <Plus aria-hidden="true" size={18} />{dashboardT("addFood")}
+          </a>
+        </div>
+      </header>
 
       {customFoodCreated && (
         <div
@@ -318,15 +310,6 @@ function LocalizedTodayPage({
           <p className="mt-1 leading-6">{diaryT("recipeLogged.body")}</p>
         </div>
       )}
-
-      <div className={surfaceStyles({ className: "max-w-2xl" })}>
-        <h2 className="ui-card-title">
-          {t("placeholderTitle")}
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          {t("placeholderBody")}
-        </p>
-      </div>
 
       {isRetrievalFailure(profileState) && (
         <div className="max-w-3xl">
@@ -369,189 +352,36 @@ function LocalizedTodayPage({
         </div>
       )}
 
-      {profileState.status === "ready" && targetState.status === "missing" && (
-        <div className={surfaceStyles({ className: "max-w-2xl bg-warning-surface border-warning/30" })}>
-          <h2 className="ui-card-title">
-            {t("targetEmptyTitle")}
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {t("targetEmptyBody")}
-          </p>
-          <Link
-            className={buttonStyles({ className: "mt-5" })}
-            href={`/${locale}/setup`}
-          >
-            {t("targetEmptyLink")}
-          </Link>
-        </div>
+      {diaryState.status === "ready" && (
+        <NutritionDailySummary
+          entries={diaryState.data}
+          locale={locale}
+          selectedDate={selectedDate}
+          target={target}
+          targetUnavailable={isRetrievalFailure(targetState)}
+        />
       )}
 
-      {targetState.status === "ready" && (
-        <div
-          className={surfaceStyles({ className: "max-w-3xl" })}
-          data-testid="target-summary"
-        >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="ui-card-title">
-                {t("targetSummary.title")}
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {t("targetSummary.body", {
-                  date: formatLocalizedDate(locale, selectedDate, {
-                    dateStyle: "long",
-                  }),
-                })}
-              </p>
-            </div>
-            <Link
-              className={buttonStyles({ variant: "outline" })}
-              href={`/${locale}/setup`}
-            >
-              {t("targetSummary.editLink")}
-            </Link>
-          </div>
-
-          <dl className="mt-6 grid gap-3 sm:grid-cols-2">
-            {targetItems.map((item) => (
-              <div
-                className={surfaceStyles({ variant: "subtle", className: "p-4" })}
-                key={item.label}
-              >
-                <dt className="text-sm font-medium text-muted-foreground">
-                  {item.label}
-                </dt>
-                <dd className="mt-2 ui-metric">
-                  {item.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      )}
-
-      <div className="grid max-w-4xl gap-6">
-        <div className={surfaceStyles()}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="ui-card-title">
-                {diaryT("list.title")}
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {diaryT("list.description")}
-              </p>
-            </div>
-            <form action={`/${locale}/today`} className="grid gap-2 text-sm">
-              <label
-                className="font-medium text-foreground"
-                htmlFor="diary-date"
-              >
-                {diaryT("fields.entryDate")}
-              </label>
-              <input
-                className="ui-control"
-                defaultValue={selectedDate}
-                id="diary-date"
-                name="date"
-                type="date"
-              />
-              <button
-                className={buttonStyles({ variant: "outline" })}
-                type="submit"
-              >
-                {diaryT("date.submit")}
-              </button>
-            </form>
+      <div className="grid min-w-0 grid-cols-1 gap-6">
+        <div className={surfaceStyles({ className: "min-w-0" })}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="ui-section-title">{dashboardT("diaryTitle")}</h2>
+            <a className={buttonStyles()} href="#manual-entry"><Plus aria-hidden="true" size={18} />{dashboardT("addFood")}</a>
           </div>
 
           <div className="mt-6">
             {diaryState.status !== "ready" ? (
-              <div className={feedbackStyles("danger")}>
+              <div className={feedbackStyles("danger")} role="alert" data-testid="diary-retrieval-error">
                 {diaryT(`errors.${retrievalErrorKey(diaryState)}`)}
+                <Link className={buttonStyles({ variant: "outline", className: "mt-3" })} href={`/${locale}/today?date=${selectedDate}`}>{dashboardT("retryDiary")}</Link>
               </div>
             ) : (
               <div className="grid gap-5">
-                <DiaryDailyTotals
-                  entries={diaryState.data}
-                  locale={locale}
-                  labels={{
-                    calories: diaryT("totals.calories"),
-                    carbohydrates: diaryT("totals.carbohydrates"),
-                    description: diaryT("totals.description"),
-                    fat: diaryT("totals.fat"),
-                    protein: diaryT("totals.protein"),
-                    title: diaryT("totals.title"),
-                    unitGrams: diaryT("totals.unitGrams"),
-                  }}
-                />
-                {!isRetrievalFailure(targetState) && (
-                  <DiaryTargetProgress
-                    entries={diaryState.data}
-                    locale={locale}
-                    labels={{
-                      body: diaryT("targetProgress.body", {
-                        date: formatLocalizedDate(locale, selectedDate, {
-                          dateStyle: "long",
-                        }),
-                      }),
-                      consumed: diaryT("targetProgress.consumed"),
-                      emptyBody: diaryT("targetProgress.emptyBody"),
-                      emptyLink: diaryT("targetProgress.emptyLink"),
-                      emptyTitle: diaryT("targetProgress.emptyTitle"),
-                      metrics: {
-                        calories: diaryT("targetProgress.metrics.calories"),
-                        carbohydrates_g: diaryT(
-                          "targetProgress.metrics.carbohydrates",
-                        ),
-                        fat_g: diaryT("targetProgress.metrics.fat"),
-                        protein_g: diaryT("targetProgress.metrics.protein"),
-                      },
-                      notSet: diaryT("targetProgress.notSet"),
-                      overTarget: diaryT("targetProgress.overTarget"),
-                      percentComplete: diaryT(
-                        "targetProgress.percentComplete",
-                      ),
-                      remaining: diaryT("targetProgress.remaining"),
-                      target: diaryT("targetProgress.target"),
-                      title: diaryT("targetProgress.title"),
-                      unitGrams: diaryT("targetProgress.unitGrams"),
-                    }}
-                    setupHref={`/${locale}/setup`}
-                    target={target}
-                  />
-                )}
-                {diaryState.data.length > 0 && (
-                  <section
-                    aria-labelledby="save-diary-meal-title"
-                    className={surfaceStyles({ variant: "subtle", className: "p-4" })}
-                    data-testid="save-diary-meal-links"
-                  >
-                    <h3 className="font-semibold text-foreground" id="save-diary-meal-title">
-                      {diaryT("savedMeals.title")}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      {diaryT("savedMeals.body")}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-3">
-                      {(["breakfast", "lunch", "dinner", "snack", "other"] as const)
-                        .filter((mealType) =>
-                          diaryState.data.some((entry) => entry.meal_type === mealType),
-                        )
-                        .map((mealType) => (
-                          <Link
-                            className={buttonStyles({ variant: "outline", size: "sm" })}
-                            href={`/${locale}/saved-meals/new?date=${selectedDate}&mealType=${mealType}`}
-                            key={mealType}
-                          >
-                            {diaryT("savedMeals.save", {
-                              meal: diaryT(`mealTypes.${mealType}`),
-                            })}
-                          </Link>
-                        ))}
-                    </div>
-                  </section>
-                )}
                 <DiaryEntryList
+                  selectedDate={selectedDate}
+                  emptyMealLabel={dashboardT("emptyMeal")}
+                  unitCaloriesLabel={dashboardT("unitCalories")}
+                  saveLabels={Object.fromEntries(["breakfast", "lunch", "dinner", "snack", "other"].map((meal) => [meal, diaryT("savedMeals.save", { meal: diaryT(`mealTypes.${meal}`) })]))}
                   deleteAction={deleteAction}
                   emptyMessage={diaryT("list.empty")}
                   entries={diaryState.data}
@@ -637,10 +467,10 @@ function LocalizedTodayPage({
           </div>
         </div>
 
-        <div className={surfaceStyles()}>
+        <section className={surfaceStyles()} id="manual-entry" aria-labelledby="manual-entry-title" tabIndex={-1}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h2 className="ui-card-title">
+              <h2 className="ui-card-title" id="manual-entry-title">
                 {diaryT("form.title")}
               </h2>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -652,7 +482,7 @@ function LocalizedTodayPage({
                 className={buttonStyles({ variant: "outline" })}
                 href={`/${locale}/foods?date=${selectedDate}`}
               >
-                {diaryT("selection.findFood")}
+                <Search aria-hidden="true" size={16} />{diaryT("selection.findFood")}
               </Link>
               <Link
                 className={buttonStyles({ variant: "outline" })}
@@ -660,11 +490,13 @@ function LocalizedTodayPage({
               >
                 {diaryT("selection.reuseFood")}
               </Link>
+              <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/foods/barcode?date=${selectedDate}`}><ScanBarcode aria-hidden="true" size={16} />{dashboardT("scan")}</Link>
+              <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/saved-meals`}>{dashboardT("savedMeals")}</Link>
               <Link
                 className={buttonStyles({ variant: "outline" })}
                 href={`/${locale}/recipes`}
               >
-                {diaryT("selection.recipes")}
+                <BookOpen aria-hidden="true" size={16} />{diaryT("selection.recipes")}
               </Link>
             </div>
           </div>
@@ -871,7 +703,7 @@ function LocalizedTodayPage({
               submitLabel={diaryT("form.submit")}
             />
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );
@@ -936,16 +768,6 @@ function diaryValuesFromPrefill(
 
 function inputValue(value: null | number | string) {
   return value === null ? "" : String(value);
-}
-
-function formatTargetValue(
-  value: null | number | string,
-  notSetLabel: string,
-  locale: Locale,
-) {
-  return value === null
-    ? notSetLabel
-    : formatLocalizedNumber(locale, value, { maximumFractionDigits: 2 });
 }
 
 function retrievalErrorKey<T>(

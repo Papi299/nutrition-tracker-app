@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { surfaceStyles } from "@/components/ui/card";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
@@ -12,7 +11,6 @@ import type { Locale } from "@/lib/i18n/routing";
 import type { Tables } from "@/lib/supabase/database.types";
 
 type DiaryEntry = Tables<"diary_entries">;
-type MealTypeLabels = Record<DiaryEntry["meal_type"], string>;
 type DiaryEntryAction = (
   state: DiaryEntryActionState,
   formData: FormData,
@@ -61,9 +59,9 @@ export function DiaryEntryListItem({
   fieldErrorMessages,
   labels,
   locale,
-  mealTypeLabels,
   mealTypeOptions,
   notSetLabel,
+  unitCaloriesLabel,
   updateAction,
 }: {
   deleteAction: DiaryEntryAction;
@@ -106,79 +104,91 @@ export function DiaryEntryListItem({
     };
   };
   locale: Locale;
-  mealTypeLabels: MealTypeLabels;
   mealTypeOptions: { label: string; value: DiaryEntry["meal_type"] }[];
   notSetLabel: string;
+  unitCaloriesLabel: string;
   updateAction: DiaryEntryAction;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const serving = formatServing(entry, locale, labels.recipeServingUnits);
-  const calories = formatValue(entry.calories, locale);
+  const calories = formatValue(entry.calories, locale, unitCaloriesLabel);
   const macros = [
-    formatValue(entry.protein_g, locale, labels.unitGrams),
-    formatValue(entry.carbohydrates_g, locale, labels.unitGrams),
-    formatValue(entry.fat_g, locale, labels.unitGrams),
+    { label: labels.fields.protein_g, value: formatValue(entry.protein_g, locale) },
+    { label: labels.fields.carbohydrates_g, value: formatValue(entry.carbohydrates_g, locale) },
+    { label: labels.fields.fat_g, value: formatValue(entry.fat_g, locale) },
   ];
+  const source = labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes] ?? entry.source;
 
   return (
-    <li className={surfaceStyles({ variant: "subtle", className: "p-4 text-start" })} data-diary-entry-id={entry.id}>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="ui-eyebrow">
-            {labels.meal}: {mealTypeLabels[entry.meal_type]}
-          </p>
-          <Badge
-            className="mt-2"
-            data-testid={`diary-source-${entry.source}`}
-          >
-            {labels.source}: {labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes]}
-          </Badge>
-          <h3 className="mt-2 ui-card-title" dir="auto">
+    <li
+      className={surfaceStyles({ className: "min-w-0 p-4 text-start wrap-anywhere" })}
+      data-diary-entry-id={entry.id}
+      data-entry-meal-type={entry.meal_type}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <h4 className="ui-card-title break-words" dir="auto">
             {entry.food_name}
-          </h3>
-          {entry.brand_name && (
-            <p className="mt-1 text-sm text-muted-foreground" dir="auto">
-              {labels.brand}: {entry.brand_name}
-            </p>
-          )}
+          </h4>
         </div>
+        <p className="min-w-0 max-w-1/2 break-words text-end text-lg font-semibold leading-7 tabular-nums text-foreground">
+          <span className="sr-only">{labels.calories}: </span>
+          <bdi>{calories ?? notSetLabel}</bdi>
+        </p>
+      </div>
 
-        <div className="grid gap-3 text-sm leading-6 tabular-nums text-muted-foreground sm:justify-items-end sm:text-end">
-          <div>
-            <p>
-              {labels.serving}: <bdi>{serving ?? notSetLabel}</bdi>
-            </p>
-            <p>
-              {labels.calories}: <bdi>{calories ?? notSetLabel}</bdi>
-            </p>
-            <p>
-              {labels.macros}:{" "}
-              <bdi>
-                {macros.some((value) => value !== null)
-                  ? macros.map((value) => value ?? notSetLabel).join(" / ")
-                  : notSetLabel}
-              </bdi>
-            </p>
+      <p className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-sm leading-6 text-muted-foreground">
+        <span className="min-w-0 max-w-full break-words">
+          <span className="sr-only">{labels.serving}: </span>
+          <bdi>{serving ?? notSetLabel}</bdi>
+        </span>
+        {entry.brand_name && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span className="min-w-0 max-w-full wrap-anywhere" dir="auto">
+              <span className="sr-only">{labels.brand}: </span>
+              {entry.brand_name}
+            </span>
+          </>
+        )}
+      </p>
+
+      <dl
+        aria-label={labels.macros}
+        className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs leading-5 text-muted-foreground"
+      >
+        {macros.map((macro) => (
+          <div className="flex min-w-0 flex-wrap gap-x-1" key={macro.label}>
+            <dt>{macro.label}: </dt>
+            <dd className="break-words font-medium tabular-nums text-foreground">
+              <bdi>{macro.value ?? notSetLabel}</bdi>
+            </dd>
           </div>
-          <div className="flex flex-wrap gap-2 sm:justify-end">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setIsEditing((current) => !current)}
-              type="button"
-            >
-              {labels.edit}
-            </Button>
-            <DiaryEntryDeleteButton
-              action={deleteAction}
-              entryId={entry.id}
-              labels={{
-                error: labels.deleteError,
-                pending: labels.deletePending,
-                submit: labels.delete,
-              }}
-            />
-          </div>
+        ))}
+      </dl>
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <p className="ui-caption" data-testid={`diary-source-${entry.source}`}>
+          {labels.source}: <bdi>{source}</bdi>
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => setIsEditing((current) => !current)}
+            type="button"
+          >
+            {labels.edit}
+          </Button>
+          <DiaryEntryDeleteButton
+            action={deleteAction}
+            entryId={entry.id}
+            labels={{
+              error: labels.deleteError,
+              pending: labels.deletePending,
+              submit: labels.delete,
+            }}
+          />
         </div>
       </div>
 
