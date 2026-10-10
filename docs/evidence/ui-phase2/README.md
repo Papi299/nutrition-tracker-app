@@ -45,3 +45,10 @@ Additional implementation captures: [768×900 Hebrew](after-tablet768-today-he.p
 Landmark visibility metadata explicitly excludes panel descendants of closed native `details`; their retained layout geometry alone does not imply visibility.
 
 [Production advisory comparison](production-advisory-comparison.json) records identical before/after findings and verifies that Lucide is the only new package entry; existing package versions are unchanged. The dependency gate remains blocked by baseline findings.
+
+
+## Post-security refresh context — 2026-10-10
+
+The preceding dependency-gate failure and advisory comparison belong to original reviewed head `fb38c40dc680fb8647621686f4400147c868cb4d`. They are preserved historical measurements. Security PR #177 subsequently merged as `bb4ee3fec0b431966d9e1fdca19383fc5f5859f5`; the refreshed graph retains Next 16.3.8, sharp 0.35.5, source-map-js 1.2.2 and Lucide 1.54.0, with a fresh production audit/gate of **0/0/0/0**.
+
+[Post-security reconciliation](post-security-reconciliation.json) distinguishes the new dependency and local validation results. All reviewed UI/test blobs, 19 PNGs, original screenshot hashes/geometry, both manifests, supplemental review results and the original advisory JSON are unchanged. The original screenshots remain representative; fresh navigation and Phase 11D tests validate the combined runtime without overwriting historical captures. The [implementation report](../../ui-phase-2-responsive-navigation.md#post-security-remediation-reconciliation--2026-10-10) and current [PR #176](https://github.com/Papi299/nutrition-tracker-app/pull/176) report the refresh and its exact-head delivery checks. The PR remains Draft and unmerged.

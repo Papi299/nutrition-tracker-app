@@ -1,0 +1,298 @@
+{
+  "taskId": "UI_PHASE_2_PR176_POST_SECURITY_REFRESH_001",
+  "checkedDate": "2026-10-10",
+  "recordType": "post-security-remediation-reconciliation",
+  "originalReviewedHead": "fb38c40dc680fb8647621686f4400147c868cb4d",
+  "originalReviewedTree": "4d83a6caeaa4a20e9110726e028f27b925187de2",
+  "securityPR": 177,
+  "securityMergeSHA": "bb4ee3fec0b431966d9e1fdca19383fc5f5859f5",
+  "securityMainTree": "d03e83b9fb15e87fecbabad0d26a2d41a366e36f",
+  "mainGate": {
+    "status": "POST_SECURITY_MAIN_VERIFIED",
+    "ciRun": 37992200378,
+    "attempt": 2,
+    "validateJob": 114126354580,
+    "validate": "SUCCESS",
+    "codeqlActions": "SUCCESS",
+    "codeqlJavaScriptTypeScript": "SUCCESS"
+  },
+  "strategy": "non-history-rewriting merge into the existing PR #176 branch",
+  "reconciliationCommand": "npm install --package-lock-only --ignore-scripts --save-exact lucide-react@1.54.0",
+  "installedVersions": {
+    "next": "16.3.8",
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2",
+    "lucide-react": "1.54.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "newPackageEntriesComparedWithPatchedMain": [
+    "node_modules/lucide-react"
+  ],
+  "existingPackageVersionChangesComparedWithPatchedMain": [],
+  "metadataChangedPathsComparedWithPatchedMain": [
+    "",
+    "node_modules/@types/react",
+    "node_modules/csstype"
+  ],
+  "reconciledLockSHA256": "5a49aaae3b51e10d457f5dd5c7bf567e35d17b642dcb5d9ec43c863aaf5a2bdd",
+  "freshAuditBeforeRefresh": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 3,
+    "critical": 0,
+    "total": 3
+  },
+  "freshAuditAfterRefresh": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "dependencyGate": "PASS",
+  "auditCommand": "npm audit --omit=dev --json",
+  "historicalAdvisoryComparison": "production-advisory-comparison.json",
+  "historicalAdvisoryComparisonUnchanged": true,
+  "UIAndTestSourceChanged": false,
+  "historicalPNGCount": 19,
+  "historicalScreenshotsAndManifestsUnchanged": true,
+  "screenshotsRemainRepresentativeBecauseReviewedUISourceBlobsAreUnchanged": true,
+  "freshBrowserResults": {
+    "e2e": {
+      "startTime": "2026-10-10T04:46:05.223Z",
+      "duration": 304134.492,
+      "expected": 382,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "phase11d": {
+      "startTime": "2026-10-10T04:51:27.885Z",
+      "duration": 65686.619,
+      "expected": 53,
+      "skipped": 3,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "axeSeverityTotals": {
+      "critical": 0,
+      "minor": 0,
+      "moderate": 0,
+      "serious": 0,
+      "unknown": 0
+    },
+    "existingPhase11DSkipReason": "Axe shared-DOM check runs once in engine-chromium; skipped in the other three projects."
+  },
+  "responsiveMatrix": [
+    {
+      "locale": "en",
+      "width": 320,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "en",
+      "width": 1024,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    },
+    {
+      "locale": "en",
+      "width": 1280,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 320,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 390,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 768,
+      "layout": "mobile/tablet bottom navigation",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 1024,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 1280,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    },
+    {
+      "locale": "he",
+      "width": 1440,
+      "layout": "desktop sidebar",
+      "status": "PASS"
+    }
+  ],
+  "localValidation": [
+    {
+      "command": "npm run lint",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {
+        "passed": 351
+      }
+    },
+    {
+      "command": "npm run security:workflow",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test:security",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {
+        "passed": 7
+      }
+    },
+    {
+      "command": "npm run test:deployment-contract",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 92,
+        "pass": 92,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test:recovery-contract",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 200,
+        "pass": 200,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test:journey-evidence",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 52,
+        "pass": 52,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test:performance-harness",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {
+        "passed": 19
+      }
+    },
+    {
+      "command": "npm run test:performance-evidence",
+      "status": "PASS",
+      "nodeCounts": {
+        "tests": 50,
+        "pass": 50,
+        "fail": 0,
+        "skipped": 0
+      },
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run security:build-boundary",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run build",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {}
+    },
+    {
+      "command": "npm run test:e2e -- --reporter=line,json",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {
+        "passed": 382
+      }
+    },
+    {
+      "command": "npm run test:phase11d -- --reporter=line,html,json --output=/Users/maor/.codex/visualizations/2026/10/09/01a120c9-5ca5-7d41-b985-b1d7a2557850/pr176-post-security-refresh/test-results-phase11d",
+      "status": "PASS",
+      "nodeCounts": {},
+      "playwrightCounts": {
+        "passed": 53,
+        "skipped": 3
+      }
+    }
+  ],
+  "exactHeadGitHubResultsLocation": "The existing PR #176 description and its current-head checks; final SHA/tree and run/job links are also in the refresh completion report.",
+  "draft": true,
+  "merged": false,
+  "routesChanged": 0,
+  "databaseSourceChanges": 0,
+  "productionOperations": 0,
+  "vercelOperations": 0,
+  "deployments": 0
+}
