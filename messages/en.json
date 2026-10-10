@@ -429,6 +429,24 @@
       "unauthenticated": "Sign in again before using the diary.",
       "unsupportedMealType": "Choose a supported meal type.",
       "validation": "Check the highlighted fields and try again."
+    },
+    "dashboard": {
+      "title": "Daily overview",
+      "calories": "Calories",
+      "unitCalories": "kcal",
+      "consumed": "Consumed",
+      "target": "Daily target",
+      "remaining": "{value} remaining",
+      "overTarget": "Over target by {value}",
+      "percent": "{percent}% of target",
+      "unavailable": "Unavailable",
+      "missingTarget": "No manual target is effective for this date. Manage current targets to set your own values; these are not calculated recommendations.",
+      "diaryTitle": "Food diary",
+      "addFood": "Add food",
+      "emptyMeal": "Nothing logged yet",
+      "retryDiary": "Retry diary loading",
+      "scan": "Scan barcode",
+      "savedMeals": "Saved meals"
     }
   },
   "CustomFoodEditor": {
@@ -1670,7 +1688,7 @@
       },
       "targetSummary": {
         "title": "Manual daily targets",
-        "body": "These values are effective on {date}. They are not calculated recommendations.",
+        "body": "Your manual targets are effective on {date}. They are not calculated recommendations.",
         "editLink": "Manage current targets",
         "calories": "Calories",
         "protein": "Protein (g)",

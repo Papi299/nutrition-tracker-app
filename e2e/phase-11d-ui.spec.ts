@@ -358,16 +358,8 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
       await page.goto("/he/today?date=2026-08-21");
       await expect(page.locator("html")).toHaveAttribute("lang", "he");
       await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+      await expect(page.getByRole("heading", { name: "סקירה יומית", exact: true })).toBeVisible();
       for (const expectedText of [
-        "מעקב יומי",
-        "מעקב תזונתי ליום הנבחר",
-        "כאן ניתן לצפות ביעד התזונתי התקף לתאריך שנבחר, להוסיף, לערוך או למחוק רשומות ביומן, ולראות את הסיכום היומי ואת ההתקדמות ביחס ליעד.",
-        "נתוני המעקב בחשבון",
-        "הגדרות הפרופיל, היעדים התזונתיים ומועדי תחילתם, הרשומות ביומן, הסיכומים וההתקדמות נשמרים בחשבון.",
-        "יעדים תזונתיים יומיים",
-        "הרשומות ביומן לתאריך שנבחר. אפשר להזין רשומה באופן ידני או לבחור מזון מהמאגר כדי למלא את פרטיה.",
-        "סך הערכים התזונתיים שנצרכו לפי הרשומות ביומן לתאריך זה.",
-        `השוואה בין הערכים שנצרכו ביום זה לבין היעד התקף ב־${formatLocalizedDate("he", "2026-08-21", { dateStyle: "long" })}.`,
         "ניתן להזין מזון באופן ידני או לבחור מזון מהמאגר כדי למלא מראש את פרטי הרשומה ביומן.",
         "התאריך שנבחר ישמש לרשומה זו.",
         "יש לבחור את סוג הארוחה שאליה שייכת הרשומה.",
@@ -376,13 +368,35 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
         'קלוריות (קק"ל)',
         "אפשר להשאיר את השדה ריק אם אין צורך לציין כמות; ניתן להזין 0.",
         "ניתן להוסיף רשומה ידנית לאחר מילוי שדות החובה.",
-        "0% מהיעד הושלם",
       ]) {
         await expect(page.locator("body")).toContainText(expectedText);
       }
-      await expect(page.getByTestId("target-summary")).toContainText(
-        formatLocalizedNumber("he", 1234, { maximumFractionDigits: 2 }),
+      const targetSummary = page.getByTestId("target-summary");
+      await expect(targetSummary).toContainText(
+        `היעדים שנקבעו ידנית תקפים ב־${formatLocalizedDate("he", "2026-08-21", { dateStyle: "long" })} ואינם המלצות שחושבו באופן אוטומטי.`,
       );
+      for (const [metric, label, target, unit] of [
+        ["calories", "קלוריות", 1234, "קק״ל"],
+        ["protein_g", "חלבון", 56.5, "גרם"],
+        ["carbohydrates_g", "פחמימות", 200, "גרם"],
+        ["fat_g", "שומן", 60, "גרם"],
+      ] as const) {
+        const metricSummary = targetSummary.locator(`[data-nutrition-metric="${metric}"]`);
+        await expect(metricSummary.getByRole("heading", { name: label, exact: true })).toBeVisible();
+        await expect(metricSummary.getByText("נצרך", { exact: true })).toBeVisible();
+        await expect(metricSummary.getByText(`0 ${unit}`, { exact: true })).toBeVisible();
+        await expect(metricSummary.getByText("יעד יומי", { exact: true })).toBeVisible();
+        await expect(metricSummary.getByText(
+          `${formatLocalizedNumber("he", target, { maximumFractionDigits: 2 })} ${unit}`,
+          { exact: true },
+        )).toBeVisible();
+        await expect(metricSummary.getByText("0% מהיעד", { exact: true })).toBeVisible();
+      }
+      const manualForm = page.getByTestId("manual-diary-entry-form");
+      await expect(manualForm).toBeVisible();
+      for (const field of ["food_name", "calories", "protein_g", "carbohydrates_g", "fat_g"] as const) {
+        await expect(manualForm.locator(`input[name="${field}"]`)).toBeVisible();
+      }
       await expect(page.locator('input[name="date"]')).toHaveValue("2026-08-21");
       await expect(page.locator('input[name="entry_date"]')).toHaveValue("2026-08-21");
       await expect(page.locator("body")).not.toContainText(rejectedSnapshotLiteral);
