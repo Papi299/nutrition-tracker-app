@@ -9,6 +9,9 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Camera, RotateCcw, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
 import {
   createScannerBackendDetector,
   resolveScannerCapability,
@@ -402,26 +405,31 @@ export function BarcodeCameraScanner({
   return (
     <section
       aria-labelledby="barcode-camera-title"
-      className="grid max-w-3xl gap-4 border border-teal-200 bg-teal-50 p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ variant: "subtle", className: "grid min-w-0 gap-3" })}
       data-testid="barcode-camera-scanner"
     >
-      <div>
-        <h2
-          className="text-xl font-semibold text-slate-950 outline-none focus-visible:ring-2 focus-visible:ring-teal-700"
-          id="barcode-camera-title"
-          ref={headingRef}
-          tabIndex={-1}
-        >
-          {t("title")}
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-slate-700">
-          {t("privacy")}
-        </p>
+      <div className="flex min-w-0 items-start gap-3">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
+          <Camera aria-hidden="true" className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <h2
+            className="ui-card-title rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+            id="barcode-camera-title"
+            ref={headingRef}
+            tabIndex={-1}
+          >
+            {t("title")}
+          </h2>
+          <p className="ui-body-secondary mt-1">
+            {t("privacy")}
+          </p>
+        </div>
       </div>
 
       <div
         aria-live={alertStates.has(state) ? undefined : "polite"}
-        className="text-sm leading-6 text-slate-800"
+        className={`ui-feedback ${alertStates.has(state) ? "ui-feedback-danger" : "ui-feedback-info"}`}
         data-scanner-state={state}
         role={alertStates.has(state) ? "alert" : "status"}
       >
@@ -431,7 +439,7 @@ export function BarcodeCameraScanner({
       <video
         aria-label={t("videoLabel")}
         autoPlay
-        className="aspect-video w-full bg-slate-950 object-cover"
+        className="aspect-video w-full rounded-xl bg-foreground object-cover"
         data-testid="barcode-camera-preview"
         hidden={!showVideo}
         muted
@@ -441,33 +449,31 @@ export function BarcodeCameraScanner({
 
       <div className="flex flex-wrap gap-3">
         {showStart && (
-          <button className={primaryButtonClass} onClick={startScan} type="button">
+          <Button onClick={startScan} type="button">
+            <Camera aria-hidden="true" className="size-4 shrink-0" />
             {t("actions.scan")}
-          </button>
+          </Button>
         )}
         {showRetry && (
-          <button className={primaryButtonClass} onClick={startScan} type="button">
+          <Button onClick={startScan} type="button">
+            <RotateCcw aria-hidden="true" className="size-4 shrink-0" />
             {t("actions.rescan")}
-          </button>
+          </Button>
         )}
         {showCancel && (
-          <button className={secondaryButtonClass} onClick={cancelScan} type="button">
+          <Button onClick={cancelScan} type="button" variant="outline">
+            <X aria-hidden="true" className="size-4 shrink-0" />
             {t("actions.cancel")}
-          </button>
+          </Button>
         )}
         {alertStates.has(state) && (
-          <button className={secondaryButtonClass} onClick={cancelScan} type="button">
+          <Button onClick={cancelScan} type="button" variant="outline">
             {t("actions.dismiss")}
-          </button>
+          </Button>
         )}
       </div>
 
-      <p className="text-sm leading-6 text-slate-700">{t("manualFallback")}</p>
+      <p className="ui-body-secondary">{t("manualFallback")}</p>
     </section>
   );
 }
-
-const primaryButtonClass =
-  "min-h-12 bg-teal-700 px-5 text-sm font-semibold text-white outline-none hover:bg-teal-800 focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2";
-const secondaryButtonClass =
-  "min-h-12 border border-teal-700 bg-white px-5 text-sm font-semibold text-teal-800 outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2";

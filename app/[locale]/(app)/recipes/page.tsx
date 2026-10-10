@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { parseCalendarDateQueryValue } from "@/lib/calendar-date";
+import { discoveryDateHref, FoodDiscoveryDateError } from "@/components/foods/food-discovery-date-context";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -30,21 +32,27 @@ export default async function RecipeManagementPage({
   const locale = resolveAuthLocale(localeInput);
   setRequestLocale(locale);
 
+  const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+  if (dateQuery.status === "invalid" || dateQuery.status === "repeated") {
+    return <FoodDiscoveryDateError dateQuery={dateQuery} routePath={`/${locale}/recipes`} />;
+  }
+  const selectedDate = dateQuery.status === "valid" ? dateQuery.date : undefined;
+
   const query = parseRecipeManagementQuery(resolvedSearchParams);
-  if (query.type === "invalid") return <InvalidQuery locale={locale} />;
+  if (query.type === "invalid") return <InvalidQuery locale={locale} selectedDate={selectedDate} />;
 
   const result = await listOwnedRecipes(query.status, query.page);
   if (!result.ok) {
     if (result.code === "unauthenticated") redirect(signInPath(locale));
-    return <ManagementError locale={locale} />;
+    return <ManagementError locale={locale} selectedDate={selectedDate} />;
   }
 
   const savedValue = resolvedSearchParams.saved;
   const saved = savedValue === "archived" || savedValue === "restored" ? savedValue : null;
-  return <LocalizedManagement locale={locale} page={result.data} saved={saved} />;
+  return <LocalizedManagement locale={locale} page={result.data} saved={saved} selectedDate={selectedDate} />;
 }
 
-function Header({ locale }: { locale: Locale }) {
+function Header({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("RecipeManagement");
   return (
     <header className="max-w-3xl">
@@ -53,8 +61,8 @@ function Header({ locale }: { locale: Locale }) {
       <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">{t("description")}</p>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/recipes/new`}>{t("create")}</Link>
-        <Link className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800" href={`/${locale}/today`}>{t("today")}</Link>
-        <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800" href={`/${locale}/saved-meals`}>{t("savedMeals")}</Link>
+        <Link className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800" href={discoveryDateHref(`/${locale}/today`, selectedDate)}>{t("today")}</Link>
+        <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800" href={discoveryDateHref(`/${locale}/saved-meals`, selectedDate)}>{t("savedMeals")}</Link>
       </div>
     </header>
   );
@@ -64,33 +72,35 @@ function LocalizedManagement({
   locale,
   page,
   saved,
+  selectedDate,
 }: {
   locale: Locale;
   page: ManagedRecipePage;
   saved: "archived" | "restored" | null;
+  selectedDate?: string;
 }) {
   const t = useTranslations("RecipeManagement");
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <Header locale={locale} />
+      <Header locale={locale} selectedDate={selectedDate} />
       {saved && <div className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900" data-testid="recipe-management-success" role="status">{t(`success.${saved}`)}</div>}
       <nav aria-label={t("filters.label")} className="flex flex-wrap gap-3">
         {(["active", "archived"] as const).map((status) => (
-          <Link aria-current={page.status === status ? "page" : undefined} className={page.status === status ? "min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white" : "min-h-11 border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800"} href={`/${locale}/recipes?status=${status}&page=1`} key={status}>{t(`filters.${status}`)}</Link>
+          <Link aria-current={page.status === status ? "page" : undefined} className={page.status === status ? "min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white" : "min-h-11 border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800"} href={discoveryDateHref(`/${locale}/recipes?status=${status}&page=1`, selectedDate)} key={status}>{t(`filters.${status}`)}</Link>
         ))}
       </nav>
       <p className="text-sm text-slate-600">{t("count", { count: page.total_count })}</p>
       {page.recipes.length === 0 ? <EmptyState locale={locale} status={page.status} /> : (
         <ul className="grid gap-5" data-testid="recipe-management-list">
-          {page.recipes.map((recipe) => <RecipeCard key={recipe.recipe_id} locale={locale} recipe={recipe} />)}
+          {page.recipes.map((recipe) => <RecipeCard key={recipe.recipe_id} locale={locale} recipe={recipe} selectedDate={selectedDate} />)}
         </ul>
       )}
-      <Pagination locale={locale} page={page} />
+      <Pagination locale={locale} page={page} selectedDate={selectedDate} />
     </section>
   );
 }
 
-function RecipeCard({ locale, recipe }: { locale: Locale; recipe: ManagedRecipe }) {
+function RecipeCard({ locale, recipe, selectedDate }: { locale: Locale; recipe: ManagedRecipe; selectedDate?: string }) {
   const t = useTranslations("RecipeManagement");
   const action = setRecipeArchiveAction.bind(null, locale, recipe.recipe_id, !recipe.is_archived);
   const updated = formatLocalizedDate(locale, recipe.updated_at);
@@ -108,7 +118,7 @@ function RecipeCard({ locale, recipe }: { locale: Locale; recipe: ManagedRecipe 
       </div>
       <div className="grid gap-3 sm:min-w-40">
         <Link className="inline-flex min-h-11 items-center justify-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/recipes/${recipe.recipe_id}/edit`}>{t("card.edit")}</Link>
-        {!recipe.is_archived && <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 bg-white px-4 text-center text-sm font-semibold text-teal-800" href={`/${locale}/recipes/${recipe.recipe_id}/use`}>{t("card.preview")}</Link>}
+        {!recipe.is_archived && <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 bg-white px-4 text-center text-sm font-semibold text-teal-800" href={discoveryDateHref(`/${locale}/recipes/${recipe.recipe_id}/use`, selectedDate)}>{t("card.preview")}</Link>}
         <RecipeArchiveControl action={action} archived={recipe.is_archived} recipeName={recipe.name} />
       </div>
     </li>
@@ -130,23 +140,23 @@ function EmptyState({ locale, status }: { locale: Locale; status: RecipeManageme
   );
 }
 
-function Pagination({ locale, page }: { locale: Locale; page: ManagedRecipePage }) {
+function Pagination({ locale, page, selectedDate }: { locale: Locale; page: ManagedRecipePage; selectedDate?: string }) {
   const t = useTranslations("RecipeManagement.pagination");
   return (
     <nav aria-label={t("label")} className="flex flex-wrap items-center gap-4">
-      {page.has_previous ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={`/${locale}/recipes?status=${page.status}&page=${page.page - 1}`} rel="prev">{t("previous")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("previous")}</span>}
+      {page.has_previous ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={discoveryDateHref(`/${locale}/recipes?status=${page.status}&page=${page.page - 1}`, selectedDate)} rel="prev">{t("previous")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("previous")}</span>}
       <span className="text-sm text-slate-700">{t("current", { page: page.page })}</span>
-      {page.has_next ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={`/${locale}/recipes?status=${page.status}&page=${page.page + 1}`} rel="next">{t("next")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("next")}</span>}
+      {page.has_next ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={discoveryDateHref(`/${locale}/recipes?status=${page.status}&page=${page.page + 1}`, selectedDate)} rel="next">{t("next")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("next")}</span>}
     </nav>
   );
 }
 
-function InvalidQuery({ locale }: { locale: Locale }) {
+function InvalidQuery({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("RecipeManagement.invalid");
-  return <section className="flex flex-1 flex-col gap-8 py-8 text-start"><Header locale={locale} /><section className="border border-amber-300 bg-amber-50 p-5" data-testid="recipe-management-invalid-query"><h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2><p className="mt-3 text-sm leading-6 text-amber-950" role="alert">{t("body")}</p><Link className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/recipes?status=active&page=1`}>{t("recover")}</Link></section></section>;
+  return <section className="flex flex-1 flex-col gap-8 py-8 text-start"><Header locale={locale} selectedDate={selectedDate} /><section className="border border-amber-300 bg-amber-50 p-5" data-testid="recipe-management-invalid-query"><h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2><p className="mt-3 text-sm leading-6 text-amber-950" role="alert">{t("body")}</p><Link className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={discoveryDateHref(`/${locale}/recipes?status=active&page=1`, selectedDate)}>{t("recover")}</Link></section></section>;
 }
 
-function ManagementError({ locale }: { locale: Locale }) {
+function ManagementError({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("RecipeManagement.retrieval");
-  return <section className="flex flex-1 flex-col gap-8 py-8 text-start"><Header locale={locale} /><RetrievalError body={t("body")} retryHref={`/${locale}/recipes?status=active&page=1`} retryLabel={t("retry")} testId="recipe-management-retrieval-error" title={t("title")} /></section>;
+  return <section className="flex flex-1 flex-col gap-8 py-8 text-start"><Header locale={locale} selectedDate={selectedDate} /><RetrievalError body={t("body")} retryHref={discoveryDateHref(`/${locale}/recipes?status=active&page=1`, selectedDate)} retryLabel={t("retry")} testId="recipe-management-retrieval-error" title={t("title")} /></section>;
 }

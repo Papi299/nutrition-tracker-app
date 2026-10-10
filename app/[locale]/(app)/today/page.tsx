@@ -16,7 +16,7 @@ import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bo
 import { CustomFoodCreationDraftRetirement } from "@/components/custom-foods/custom-food-form";
 import { CalendarDateError } from "@/components/calendar-date/calendar-date-error";
 import { RetrievalError } from "@/components/data/retrieval-error";
-import { Plus, Search, ScanBarcode, BookOpen } from "lucide-react";
+import { Plus, Search, ScanBarcode, BookOpen, ClipboardCheck } from "lucide-react";
 import { NutritionDailySummary } from "@/components/diary/nutrition-daily-summary";
 import { DiaryEntryForm } from "@/components/diary/diary-entry-form";
 import { DiaryEntryList } from "@/components/diary/diary-entry-list";
@@ -43,7 +43,7 @@ import {
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { isUuid } from "@/lib/food-selection/query";
-import { formatLocalizedDate } from "@/lib/i18n/format";
+import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 import { routing, type Locale } from "@/lib/i18n/routing";
 import {
   getEffectiveTargetForDate,
@@ -278,6 +278,17 @@ function LocalizedTodayPage({
         </div>
       </header>
 
+      {foodSelectionState.status === "ready" && (
+        <section className={surfaceStyles({ variant: "subtle", className: "flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between" })} data-testid="selected-food-review-callout" aria-labelledby="selected-food-review-title">
+          <div className="min-w-0">
+            <h2 className="ui-card-title flex items-center gap-2" id="selected-food-review-title"><ClipboardCheck aria-hidden="true" size={20} />{diaryT("selection.reviewTitle")}</h2>
+            <p className="mt-2 font-semibold wrap-anywhere"><bdi>{foodSelectionState.data.name}</bdi></p>
+            <p className="mt-1 text-sm text-muted-foreground">{diaryT("selection.reviewIntro")}</p>
+          </div>
+          <a className={buttonStyles({ className: "shrink-0 self-start" })} href="#manual-entry">{diaryT("selection.continueReview")}</a>
+        </section>
+      )}
+
       {customFoodCreated && (
         <div
           className={feedbackStyles("success", "max-w-3xl")}
@@ -491,10 +502,10 @@ function LocalizedTodayPage({
                 {diaryT("selection.reuseFood")}
               </Link>
               <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/foods/barcode?date=${selectedDate}`}><ScanBarcode aria-hidden="true" size={16} />{dashboardT("scan")}</Link>
-              <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/saved-meals`}>{dashboardT("savedMeals")}</Link>
+              <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/saved-meals?date=${selectedDate}`}>{dashboardT("savedMeals")}</Link>
               <Link
                 className={buttonStyles({ variant: "outline" })}
-                href={`/${locale}/recipes`}
+                href={`/${locale}/recipes?date=${selectedDate}`}
               >
                 <BookOpen aria-hidden="true" size={16} />{diaryT("selection.recipes")}
               </Link>
@@ -551,7 +562,7 @@ function LocalizedTodayPage({
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <h3
-                    className="text-base font-semibold text-foreground"
+                    className="text-lg font-semibold text-foreground wrap-anywhere"
                     dir="auto"
                     id="selected-food-title"
                   >
@@ -559,8 +570,12 @@ function LocalizedTodayPage({
                       name: foodSelectionState.data.name,
                     })}
                   </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {diaryT("list.serving")}: <bdi>{foodSelectionState.data.serving_quantity === null ? diaryT("list.notSet") : formatLocalizedNumber(locale, foodSelectionState.data.serving_quantity)}{foodSelectionState.data.serving_unit ? ` ${foodSelectionState.data.serving_unit}` : ""}</bdi>
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">{diaryT("fields.entryDate")}: <time dateTime={selectedDate}><bdi>{formatLocalizedDate(locale, selectedDate)}</bdi></time></p>
                   {foodSelectionState.data.brand_name && (
-                    <p className="mt-1 text-sm text-muted-foreground" dir="auto">
+                    <p className="mt-1 text-sm text-muted-foreground wrap-anywhere" dir="auto">
                       {diaryT("selection.brand", {
                         brand: foodSelectionState.data.brand_name,
                       })}
@@ -574,7 +589,9 @@ function LocalizedTodayPage({
                   {diaryT("selection.remove")}
                 </Link>
               </div>
-              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+              <details className="mt-3">
+                <summary className="min-h-11 cursor-pointer content-center text-sm font-semibold text-muted-foreground">{diaryT("selection.details")}</summary>
+                <dl className="mt-2 grid gap-3 text-sm sm:grid-cols-3">
                 <Metadata
                   label={diaryT("selection.visibilityLabel")}
                   value={
@@ -596,8 +613,9 @@ function LocalizedTodayPage({
                     diaryT("selection.sourceUnknown")
                   }
                 />
-              </dl>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                </dl>
+              </details>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {diaryT("selection.editableSnapshot")}
               </p>
             </section>

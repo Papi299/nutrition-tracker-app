@@ -1,4 +1,15 @@
 import Form from "next/form";
+import { ScanLine } from "lucide-react";
+import { FoodResultMetadata } from "@/components/foods/food-result-metadata";
+import { Button } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import {
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Input,
+  Select,
+} from "@/components/ui/form-controls";
 import { BARCODE_RAW_INPUT_MAX_LENGTH } from "@/lib/barcodes";
 import type { DiaryEntryMealType } from "@/lib/diary-entries";
 
@@ -49,6 +60,9 @@ export function BarcodeLookupForm({
   };
   formId?: string;
   labels: {
+    title: string;
+    description: string;
+    details: string;
     code: string;
     codeHelp: string;
     date: string;
@@ -71,64 +85,71 @@ export function BarcodeLookupForm({
   return (
     <Form
       action={action}
-      className="grid max-w-3xl gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      aria-labelledby="barcode-manual-title"
+      className={surfaceStyles({ className: "grid min-w-0 gap-4" })}
       id={formId}
     >
-      <label className="grid gap-2 text-sm font-semibold text-slate-900">
+      <h2 className="ui-card-title" id="barcode-manual-title">{labels.title}</h2>
+      <FieldLabel className="grid min-w-0 gap-2">
         {labels.code}
-        <input
-          aria-describedby={[codeHelpId, codeErrorId].filter(Boolean).join(" ")}
-          aria-invalid={error?.field === "code"}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect="off"
-          className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700 focus:ring-2 focus:ring-teal-100"
-          defaultValue={code}
-          inputMode="numeric"
-          maxLength={BARCODE_RAW_INPUT_MAX_LENGTH}
-          name="code"
-          required
-          spellCheck={false}
-          type="text"
-        />
-        <span className="text-sm font-normal leading-6 text-slate-600" id={codeHelpId}>
-          <BarcodeCodeHelp text={labels.codeHelp} />
+        <span className="relative block min-w-0" dir="ltr">
+          <ScanLine aria-hidden="true" className="pointer-events-none absolute start-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            aria-describedby={[codeHelpId, codeErrorId].filter(Boolean).join(" ")}
+            aria-invalid={error?.field === "code"}
+            autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect="off"
+            className="min-h-12 ps-10 font-mono tabular-nums"
+            dir="ltr"
+            defaultValue={code}
+            inputMode="numeric"
+            maxLength={BARCODE_RAW_INPUT_MAX_LENGTH}
+            name="code"
+            required
+            spellCheck={false}
+            type="text"
+          />
         </span>
+        <FieldDescription className="font-normal" id={codeHelpId}>
+          <BarcodeCodeHelp text={labels.codeHelp} />
+        </FieldDescription>
         {error?.field === "code" && (
-          <span className="text-sm font-normal leading-6 text-red-800" id={codeErrorId} role="alert">
+          <FieldError id={codeErrorId} role="alert">
             {error.message}
-          </span>
+          </FieldError>
         )}
-      </label>
+      </FieldLabel>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-semibold text-slate-900">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
+        <FieldLabel className="grid min-w-0 content-start gap-2">
           {labels.date}
-          <input
+          <Input
             aria-describedby={[dateHelpId, dateErrorId].filter(Boolean).join(" ")}
             aria-invalid={error?.field === "date"}
-            className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+            className="min-h-12"
+            dir="ltr"
             defaultValue={date ?? ""}
             name="date"
             required
             type="date"
           />
-          <span className="text-sm font-normal leading-6 text-slate-600" id={dateHelpId}>
+          <FieldDescription className="font-normal" id={dateHelpId}>
             {labels.dateHelp}
-          </span>
+          </FieldDescription>
           {error?.field === "date" && (
-            <span className="text-sm font-normal leading-6 text-red-800" id={dateErrorId} role="alert">
+            <FieldError id={dateErrorId} role="alert">
               {error.message}
-            </span>
+            </FieldError>
           )}
-        </label>
+        </FieldLabel>
 
-        <label className="grid gap-2 text-sm font-semibold text-slate-900">
+        <FieldLabel className="grid min-w-0 content-start gap-2">
           {labels.mealType}
-          <select
+          <Select
             aria-describedby={[mealHelpId, mealErrorId].filter(Boolean).join(" ")}
             aria-invalid={error?.field === "mealType"}
-            className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none transition-colors focus:border-teal-700"
+            className="min-h-12"
             defaultValue={mealType ?? ""}
             name="mealType"
           >
@@ -138,24 +159,25 @@ export function BarcodeLookupForm({
                 {option.label}
               </option>
             ))}
-          </select>
-          <span className="text-sm font-normal leading-6 text-slate-600" id={mealHelpId}>
+          </Select>
+          <FieldDescription className="font-normal" id={mealHelpId}>
             {labels.mealTypeHelp}
-          </span>
+          </FieldDescription>
           {error?.field === "mealType" && (
-            <span className="text-sm font-normal leading-6 text-red-800" id={mealErrorId} role="alert">
+            <FieldError id={mealErrorId} role="alert">
               {error.message}
-            </span>
+            </FieldError>
           )}
-        </label>
+        </FieldLabel>
       </div>
 
-      <button
-        className="min-h-12 w-fit bg-teal-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
-        type="submit"
-      >
+      <Button className="min-h-12 w-full sm:w-fit" type="submit">
+        <ScanLine aria-hidden="true" className="size-4 shrink-0" />
         {labels.submit}
-      </button>
+      </Button>
+      <FoodResultMetadata summary={labels.details}>
+        <p className="ui-body-secondary">{labels.description}</p>
+      </FoodResultMetadata>
     </Form>
   );
 }

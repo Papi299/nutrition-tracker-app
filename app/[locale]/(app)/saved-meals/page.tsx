@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { parseCalendarDateQueryValue } from "@/lib/calendar-date";
+import { discoveryDateHref, FoodDiscoveryDateError } from "@/components/foods/food-discovery-date-context";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -31,25 +33,31 @@ export default async function SavedMealManagementPage({
 
   setRequestLocale(locale);
 
+  const dateQuery = parseCalendarDateQueryValue(resolvedSearchParams.date);
+  if (dateQuery.status === "invalid" || dateQuery.status === "repeated") {
+    return <FoodDiscoveryDateError dateQuery={dateQuery} routePath={`/${locale}/saved-meals`} />;
+  }
+  const selectedDate = dateQuery.status === "valid" ? dateQuery.date : undefined;
+
   const query = parseSavedMealManagementQuery(resolvedSearchParams);
 
-  if (query.type === "invalid") return <InvalidQuery locale={locale} />;
+  if (query.type === "invalid") return <InvalidQuery locale={locale} selectedDate={selectedDate} />;
 
   const result = await listOwnedSavedMeals(query.status, query.page);
 
   if (!result.ok) {
     if (result.code === "unauthenticated") redirect(signInPath(locale));
-    return <ManagementError locale={locale} />;
+    return <ManagementError locale={locale} selectedDate={selectedDate} />;
   }
 
   const savedValue = resolvedSearchParams.saved;
   const saved =
     savedValue === "archived" || savedValue === "restored" ? savedValue : null;
 
-  return <LocalizedManagement locale={locale} page={result.data} saved={saved} />;
+  return <LocalizedManagement locale={locale} page={result.data} saved={saved} selectedDate={selectedDate} />;
 }
 
-function Header({ locale }: { locale: Locale }) {
+function Header({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("SavedMealManagement");
 
   return (
@@ -61,10 +69,10 @@ function Header({ locale }: { locale: Locale }) {
         <Link className="inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/saved-meals/new`}>
           {t("create")}
         </Link>
-        <Link className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800" href={`/${locale}/today`}>
+        <Link className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800" href={discoveryDateHref(`/${locale}/today`, selectedDate)}>
           {t("today")}
         </Link>
-        <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800" href={`/${locale}/recipes`}>
+        <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800" href={discoveryDateHref(`/${locale}/recipes`, selectedDate)}>
           {t("recipes")}
         </Link>
       </div>
@@ -76,16 +84,18 @@ function LocalizedManagement({
   locale,
   page,
   saved,
+  selectedDate,
 }: {
   locale: Locale;
   page: ManagedSavedMealPage;
   saved: "archived" | "restored" | null;
+  selectedDate?: string;
 }) {
   const t = useTranslations("SavedMealManagement");
 
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <Header locale={locale} />
+      <Header locale={locale} selectedDate={selectedDate} />
       {saved && (
         <div className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900" data-testid="saved-meal-management-success" role="status">
           {t(`success.${saved}`)}
@@ -96,7 +106,7 @@ function LocalizedManagement({
           <Link
             aria-current={page.status === status ? "page" : undefined}
             className={page.status === status ? "min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white" : "min-h-11 border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800"}
-            href={`/${locale}/saved-meals?status=${status}&page=1`}
+            href={discoveryDateHref(`/${locale}/saved-meals?status=${status}&page=1`, selectedDate)}
             key={status}
           >
             {t(`filters.${status}`)}
@@ -109,16 +119,16 @@ function LocalizedManagement({
       ) : (
         <ul className="grid gap-5" data-testid="saved-meal-management-list">
           {page.meals.map((meal) => (
-            <MealCard key={meal.saved_meal_id} locale={locale} meal={meal} />
+            <MealCard key={meal.saved_meal_id} locale={locale} meal={meal} selectedDate={selectedDate} />
           ))}
         </ul>
       )}
-      <Pagination locale={locale} page={page} />
+      <Pagination locale={locale} page={page} selectedDate={selectedDate} />
     </section>
   );
 }
 
-function MealCard({ locale, meal }: { locale: Locale; meal: ManagedSavedMeal }) {
+function MealCard({ locale, meal, selectedDate }: { locale: Locale; meal: ManagedSavedMeal; selectedDate?: string }) {
   const t = useTranslations("SavedMealManagement");
   const action = setSavedMealArchiveAction.bind(
     null,
@@ -141,7 +151,7 @@ function MealCard({ locale, meal }: { locale: Locale; meal: ManagedSavedMeal }) 
       </div>
       <div className="grid gap-3 sm:min-w-40">
         {!meal.is_archived && (
-          <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 px-4 text-sm font-semibold text-teal-800" href={`/${locale}/saved-meals/${meal.saved_meal_id}/use`}>
+          <Link className="inline-flex min-h-11 items-center justify-center border border-teal-700 px-4 text-sm font-semibold text-teal-800" href={discoveryDateHref(`/${locale}/saved-meals/${meal.saved_meal_id}/use`, selectedDate)}>
             {t("card.useInDiary")}
           </Link>
         )}
@@ -174,40 +184,40 @@ function EmptyState({ locale, status }: { locale: Locale; status: SavedMealManag
   );
 }
 
-function Pagination({ locale, page }: { locale: Locale; page: ManagedSavedMealPage }) {
+function Pagination({ locale, page, selectedDate }: { locale: Locale; page: ManagedSavedMealPage; selectedDate?: string }) {
   const t = useTranslations("SavedMealManagement.pagination");
 
   return (
     <nav aria-label={t("label")} className="flex flex-wrap items-center gap-4">
-      {page.has_previous ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={`/${locale}/saved-meals?status=${page.status}&page=${page.page - 1}`} rel="prev">{t("previous")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("previous")}</span>}
+      {page.has_previous ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={discoveryDateHref(`/${locale}/saved-meals?status=${page.status}&page=${page.page - 1}`, selectedDate)} rel="prev">{t("previous")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("previous")}</span>}
       <span className="text-sm text-slate-700">{t("current", { page: page.page })}</span>
-      {page.has_next ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={`/${locale}/saved-meals?status=${page.status}&page=${page.page + 1}`} rel="next">{t("next")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("next")}</span>}
+      {page.has_next ? <Link className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold" href={discoveryDateHref(`/${locale}/saved-meals?status=${page.status}&page=${page.page + 1}`, selectedDate)} rel="next">{t("next")}</Link> : <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">{t("next")}</span>}
     </nav>
   );
 }
 
-function InvalidQuery({ locale }: { locale: Locale }) {
+function InvalidQuery({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("SavedMealManagement.invalid");
 
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <Header locale={locale} />
+      <Header locale={locale} selectedDate={selectedDate} />
       <section className="border border-amber-300 bg-amber-50 p-5" data-testid="saved-meal-management-invalid-query">
         <h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2>
         <p className="mt-3 text-sm leading-6 text-amber-950" role="alert">{t("body")}</p>
-        <Link className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={`/${locale}/saved-meals?status=active&page=1`}>{t("recover")}</Link>
+        <Link className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white" href={discoveryDateHref(`/${locale}/saved-meals?status=active&page=1`, selectedDate)}>{t("recover")}</Link>
       </section>
     </section>
   );
 }
 
-function ManagementError({ locale }: { locale: Locale }) {
+function ManagementError({ locale, selectedDate }: { locale: Locale; selectedDate?: string }) {
   const t = useTranslations("SavedMealManagement.retrieval");
 
   return (
     <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <Header locale={locale} />
-      <RetrievalError body={t("body")} retryHref={`/${locale}/saved-meals?status=active&page=1`} retryLabel={t("retry")} testId="saved-meal-management-retrieval-error" title={t("title")} />
+      <Header locale={locale} selectedDate={selectedDate} />
+      <RetrievalError body={t("body")} retryHref={discoveryDateHref(`/${locale}/saved-meals?status=active&page=1`, selectedDate)} retryLabel={t("retry")} testId="saved-meal-management-retrieval-error" title={t("title")} />
     </section>
   );
 }

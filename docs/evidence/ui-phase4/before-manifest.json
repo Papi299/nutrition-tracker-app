@@ -1,0 +1,424 @@
+{
+  "baseline": "88b332c042ee9c461ffeaa20494e2a69c77ff6a3",
+  "evidenceVersion": "before",
+  "browser": "Chromium",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixture": "Same activated synthetic local account and rows for before/after; separate empty account. Owned mixed-language yogurt, readable public oats with barcode, missing-serving apple, long unbroken crispbread brand, matched aliases, favorites/recent overlap, fixed historical date 2026-01-15. No production or personal data.",
+  "selectedFoodNutrition": {
+    "calories": 180,
+    "protein_g": 20,
+    "carbohydrates_g": 12,
+    "fat_g": 4,
+    "serving_quantity": 200,
+    "serving_unit": "g"
+  },
+  "captures": [
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "search-initial",
+      "route": "/en/foods?date=2026-01-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-search-initial.png",
+          "sha256": "83b5f2a47e9e675354a1a01f349952032366bb982a53440ac713ef3166821c45",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "search-populated",
+      "fullPage": true,
+      "route": "/en/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 390,
+      "documentWidth": 834,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-search-populated.png",
+          "sha256": "239fe800796e8275cce48edb76cdf4fa85175752e5a9743bda54ee0f2c8ea90b",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        },
+        {
+          "name": "before-390-en-search-populated-full.png",
+          "sha256": "ba073ffd4b7f32fbc107f7cfa7028cf3d2b23c74b479654d2021eb6b0d6acd82",
+          "width": 834,
+          "height": 3432,
+          "fullPage": true
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "screen": "search-populated",
+      "route": "/en/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-1440-en-search-populated.png",
+          "sha256": "43b96c087e2fb7a05a85d029de75edbd17b561084df99f0799ebd0b200d294a7",
+          "width": 1440,
+          "height": 900,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "reuse-populated",
+      "route": "/en/foods/reuse?date=2026-01-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-reuse-populated.png",
+          "sha256": "6d636ce5dec181225c2d729e8be71882a3a37eede729860cf03bc9312df544a9",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "barcode-initial",
+      "route": "/en/foods/barcode?date=2026-01-15&mealType=lunch",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-barcode-initial.png",
+          "sha256": "b7d4e39a9e6075defb6bbbcf6b404daea9cae61aee9899cff25e340e10ac08cf",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "today-handoff",
+      "fullPage": true,
+      "route": "/en/today?date=2026-01-15&mealType=breakfast&foodId=f2fa1feb-8736-41f7-8a4c-2b96e1947a8b",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 2630,
+      "files": [
+        {
+          "name": "before-390-en-today-handoff.png",
+          "sha256": "d99f9f4916fe0ca0d51017c9b01e3d8abca3b922e4003861640c8bdb9d2e2096",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        },
+        {
+          "name": "before-390-en-today-handoff-full.png",
+          "sha256": "2136c5beb45b608c61c75b4ca5796edd6d2534099e921c9acfbfad256aa1ddf9",
+          "width": 390,
+          "height": 5147,
+          "fullPage": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "screen": "search-initial",
+      "route": "/he/foods?date=2026-01-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-he-search-initial.png",
+          "sha256": "888bdfe1ddac22916ab6073d09a3ae4b6eae5fe8ad6f4fb756272029c1c13b86",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "screen": "search-populated",
+      "fullPage": true,
+      "route": "/he/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 390,
+      "documentWidth": 834,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-he-search-populated.png",
+          "sha256": "93ecc15c6c6bc824776e1e205a76de790a41e44331ba7a4e2772069c840c1432",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        },
+        {
+          "name": "before-390-he-search-populated-full.png",
+          "sha256": "940fd7ce1fbb164e2cfbb5dd8554097317b59d5a3adf408fbbd87e1891549fc4",
+          "width": 834,
+          "height": 3469,
+          "fullPage": true
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "he",
+      "screen": "search-populated",
+      "route": "/he/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-1440-he-search-populated.png",
+          "sha256": "6cc49a9155f005dc937c28ea269926dc8d1132fa102a70c4670268348be9bea2",
+          "width": 1440,
+          "height": 900,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "screen": "reuse-populated",
+      "route": "/he/foods/reuse?date=2026-01-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-he-reuse-populated.png",
+          "sha256": "6e870cb8e1be6ee25bb4ba96a2d2902a07b1aebf96853b2fd5c2edb58e893215",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "screen": "barcode-initial",
+      "route": "/he/foods/barcode?date=2026-01-15&mealType=lunch",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-he-barcode-initial.png",
+          "sha256": "9f2ed0991c981835cd17be4ff9259fc90f1f1629537d6919a572486bfca88ea5",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "screen": "today-handoff",
+      "fullPage": true,
+      "route": "/he/today?date=2026-01-15&mealType=breakfast&foodId=f2fa1feb-8736-41f7-8a4c-2b96e1947a8b",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "scrollY": 2630,
+      "files": [
+        {
+          "name": "before-390-he-today-handoff.png",
+          "sha256": "58b209b6dd2a1c035a0e106a88311889d27b280ce72cb6b7a0517c0519942adf",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        },
+        {
+          "name": "before-390-he-today-handoff-full.png",
+          "sha256": "4dc3319183616f315be96d9937b17d9905059d53b1e5f274fd96825b3042639c",
+          "width": 390,
+          "height": 5171,
+          "fullPage": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "reuse-empty",
+      "route": "/en/foods/reuse?date=2026-01-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-reuse-empty.png",
+          "sha256": "50b8e1db040bdfd3afdbb81a96f0812cd826cf5c5d370fd3372aabafdb6b79f7",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "screen": "barcode-found",
+      "route": "/en/foods/barcode?date=2026-01-15&mealType=lunch&code=80916639589150",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-390-en-barcode-found.png",
+          "sha256": "e9f32cfe3e09bcb1d2f3b0c9c592a80f0b529e9bd9efd9bae4f40b7c40764784",
+          "width": 390,
+          "height": 844,
+          "fullPage": false
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "screen": "search-populated",
+      "fullPage": true,
+      "route": "/he/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 320,
+      "documentWidth": 834,
+      "direction": "rtl",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-320-he-search-populated.png",
+          "sha256": "493a4af6d0b96abd5a6dde498a5c937c6e1cb3f321d03db5ab4b770e66b1710f",
+          "width": 320,
+          "height": 720,
+          "fullPage": false
+        },
+        {
+          "name": "before-320-he-search-populated-full.png",
+          "sha256": "7700ad461a02977debbf6c458166388329830989e884e3a34a0871fa65340dcd",
+          "width": 834,
+          "height": 3497,
+          "fullPage": true
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "locale": "en",
+      "screen": "search-populated",
+      "route": "/en/foods?date=2026-01-15&q=Discovery",
+      "viewportWidth": 1024,
+      "documentWidth": 1187,
+      "direction": "ltr",
+      "scrollY": 0,
+      "files": [
+        {
+          "name": "before-1024-en-search-populated.png",
+          "sha256": "0a0825e7abac6a52171653649c1918465f656b5346be5d2d6c20c0a19627e53e",
+          "width": 1024,
+          "height": 900,
+          "fullPage": false
+        }
+      ]
+    }
+  ],
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/foods/page.tsx",
+      "sha256": "a0469ba1738fdbc65edf6da979c748e11ec66608a13952e14342652d818fe498"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/reuse/page.tsx",
+      "sha256": "584fe34fc46e7f2f134c7e37f955ce83f8d17f664ff3438d89c0ad316d86cb89"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/barcode/page.tsx",
+      "sha256": "658fa8d00d5efd41a40d5d13fc79349f3904cd0cebd54e09336d905e60a4b030"
+    },
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "34d867036966d53beb2e927fed3a6c1a235e6f9220fd7cbc1f7f2e70f390a3de"
+    },
+    {
+      "path": "components/foods/food-favorite-control.tsx",
+      "sha256": "3e781a519e3fab1ac480f880a9cf316e4329529a2e02e171c9dff3d40505e363"
+    },
+    {
+      "path": "components/barcodes/barcode-lookup-form.tsx",
+      "sha256": "eb61f4a550509f129b632a2e59e16fbe7bff427e855ac49da23c26b4748eeea2"
+    },
+    {
+      "path": "components/barcodes/barcode-camera-scanner.tsx",
+      "sha256": "be6fdb4a6e528e136158cb9894f81493c5fd714590274f81e39ebbbb69f22f1e"
+    },
+    {
+      "path": "components/diary/diary-entry-form.tsx",
+      "sha256": "9fa36b0f6cfe094827188c87c67ad81725c0addad529c1436460f979fd88121e"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "74f9f0b2cef3f44b161bc9cddd25966aeceb41e2c749858ed3c665bd8bc62c21"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "7feb2c4d8ef42b55d00ffca946b1699547c00e41e5e47c894f9a72a94f4d4329"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "3c55dbc734d9ce4a2658aa9b06d0db5d3517cb1b869daf29ba831ae819181968"
+    }
+  ]
+}
