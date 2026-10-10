@@ -1,3 +1,4 @@
+import type { Viewport } from "next";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { AppShell } from "@/components/layout/app-shell";
@@ -8,6 +9,7 @@ import {
 import type { Locale } from "@/lib/i18n/routing";
 
 export const dynamic = "force-dynamic";
+export const viewport: Viewport = { viewportFit: "cover" };
 
 type ProtectedLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -44,6 +46,18 @@ function LocalizedProtectedLayout({
       currentLanguageLabel={t("language.current")}
       languageLabel={t("language.label")}
       locale={locale}
+      navigationCopy={{
+        primaryLabel: t("navigation.primaryLabel"),
+        mobilePrimaryLabel: t("navigation.mobilePrimaryLabel"),
+        secondaryLabel: t("navigation.secondaryLabel"),
+        logFood: t("navigation.logFood"),
+        library: t("navigation.library"),
+        settings: t("navigation.settings"),
+        more: t("navigation.more"),
+        search: t("navigation.search"),
+        scan: t("navigation.scan"),
+        currentSection: t("navigation.currentSection"),
+      }}
       navAccount={t("nav.account")}
       navBarcodeLookup={t("nav.barcodeLookup")}
       navFoodSearch={t("nav.foodSearch")}

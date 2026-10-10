@@ -1,0 +1,746 @@
+{
+  "phase": "after",
+  "source": "Managed isolated implementation worktree",
+  "fixture": {
+    "description": "Same synthetic invited/activated local account with English preference and targets effective 2026-08-21; no production access.",
+    "date": "2026-08-21",
+    "calories": 2000,
+    "protein_g": 120,
+    "carbohydrates_g": 220,
+    "fat_g": 70,
+    "diaryEntries": 0
+  },
+  "engine": "Chromium (Playwright pinned runtime)",
+  "origin": "http://127.0.0.1:3201",
+  "results": [
+    {
+      "name": "desktop1440-today-en",
+      "locale": "en",
+      "route": "/today?date=2026-08-21",
+      "width": 1440,
+      "height": 900,
+      "file": "after-desktop1440-today-en.png",
+      "sha256": "98a5ab396e8151cc598003caaabc369bf63a0fdc93535176f88ac8c251e28f80",
+      "urlPath": "/en/today?date=2026-08-21",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Primary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Mobile primary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Secondary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "desktop1440-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 1440,
+      "height": 900,
+      "file": "after-desktop1440-today-he.png",
+      "sha256": "80b8f236999a38a2fb38acde0730cb2935ed6f8ba396fe31e131768a782649da",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "desktop1440-recipes-en",
+      "locale": "en",
+      "route": "/recipes",
+      "width": 1440,
+      "height": 900,
+      "file": "after-desktop1440-recipes-en.png",
+      "sha256": "2ba042510df5eeb6d51114f3bd1cbbe84ee2c5e5b8084989e380a3a0fab3e634",
+      "urlPath": "/en/recipes",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Primary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe status",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe pages",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Mobile primary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Secondary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "mobile390-today-en",
+      "locale": "en",
+      "route": "/today?date=2026-08-21",
+      "width": 390,
+      "height": 844,
+      "file": "after-mobile390-today-en.png",
+      "sha256": "3189642ad57ff6cc4292cc59af195929eb47f9dfd342791e9192b0e62da16abd",
+      "urlPath": "/en/today?date=2026-08-21",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Primary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Mobile primary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Secondary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "mobile390-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 390,
+      "height": 844,
+      "file": "after-mobile390-today-he.png",
+      "sha256": "464b6aecc02a3b309927408ef539f69900087f5f54ba243b67b54ecf6df08b43",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "mobile390-more-en",
+      "locale": "en",
+      "route": "/recipes",
+      "width": 390,
+      "height": 844,
+      "more": true,
+      "file": "after-mobile390-more-en.png",
+      "sha256": "376271b0a040d43108cdbac2bb010054c656e6ac162f46b854b303bcc5d5e999",
+      "urlPath": "/en/recipes",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Primary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe status",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Recipe pages",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Mobile primary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Secondary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "mobile390-more-he",
+      "locale": "he",
+      "route": "/recipes",
+      "width": 390,
+      "height": 844,
+      "more": true,
+      "file": "after-mobile390-more-he.png",
+      "sha256": "38a8628cea4718e31d7c798b642d2e1233abe46ec669e32ad8a503f1d0cbecbb",
+      "urlPath": "/he/recipes",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "מצב מתכונים",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "עמודי מתכונים",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "mobile320-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 320,
+      "height": 720,
+      "file": "after-mobile320-today-he.png",
+      "sha256": "c1dc8cdd8569cb1eb9d7e354806831bb4c49b466200bfe3b512302cd50be73d4",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "tablet768-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 768,
+      "height": 900,
+      "file": "after-tablet768-today-he.png",
+      "sha256": "8139eac19e1019c7d43e75d17ae959a7a25a819ca429aac00533166e7e93ee76",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "desktop1024-today-en",
+      "locale": "en",
+      "route": "/today?date=2026-08-21",
+      "width": 1024,
+      "height": 900,
+      "file": "after-desktop1024-today-en.png",
+      "sha256": "2cd3ef13511d0620942dcf73522fef7b1f4fe4b899cb4836bb711c173406ab26",
+      "urlPath": "/en/today?date=2026-08-21",
+      "lang": "en",
+      "dir": "ltr",
+      "clientWidth": 1024,
+      "scrollWidth": 1024,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Primary navigation",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Mobile primary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Secondary navigation",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "Choose language",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "desktop1280-today-he",
+      "locale": "he",
+      "route": "/today?date=2026-08-21",
+      "width": 1280,
+      "height": 900,
+      "file": "after-desktop1280-today-he.png",
+      "sha256": "2e8e2ad8f10fe9f2f3a3092bb07af2768247a82821d3ef55c5fa25400654c027",
+      "urlPath": "/he/today?date=2026-08-21",
+      "lang": "he",
+      "dir": "rtl",
+      "clientWidth": 1280,
+      "scrollWidth": 1280,
+      "scrollY": 0,
+      "landmarks": [
+        {
+          "tag": "ASIDE",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי",
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": true
+        },
+        {
+          "tag": "HEADER",
+          "ariaLabel": null,
+          "visible": false
+        },
+        {
+          "tag": "MAIN",
+          "ariaLabel": null,
+          "visible": true
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט ראשי בנייד",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "ניווט משני",
+          "visible": false
+        },
+        {
+          "tag": "NAV",
+          "ariaLabel": "בחירת שפה",
+          "visible": false
+        }
+      ]
+    }
+  ]
+}

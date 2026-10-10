@@ -1610,6 +1610,18 @@
     }
   },
   "AppShell": {
+    "navigation": {
+      "primaryLabel": "ניווט ראשי",
+      "mobilePrimaryLabel": "ניווט ראשי בנייד",
+      "secondaryLabel": "ניווט משני",
+      "logFood": "הוספת מזון",
+      "library": "ספרייה",
+      "settings": "הגדרות",
+      "more": "עוד",
+      "search": "חיפוש",
+      "scan": "סריקה",
+      "currentSection": "המדור הנוכחי"
+    },
     "appName": "מעקב תזונה",
     "protectedLabel": "מעקב תזונתי ידני בחשבון מחובר",
     "signOut": "יציאה",

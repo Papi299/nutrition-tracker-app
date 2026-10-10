@@ -208,6 +208,13 @@ async function authenticatedContext(
   return browser.newContext({ ...options, storageState });
 }
 
+async function visibleLanguageLink(page: Page, locale: "en" | "he") {
+  if (await page.getByTestId("mobile-bottom-navigation").isVisible()) {
+    await page.getByTestId("mobile-more-navigation").locator("summary").click();
+  }
+  return page.locator(`a[hreflang="${locale}"]:visible`);
+}
+
 async function expectNoHorizontalOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
@@ -586,7 +593,7 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     const page = await context.newPage();
 
     await page.goto("/en/foods/barcode?date=2026-08-21&mealType=lunch");
-    const hebrewLink = page.locator('a[hreflang="he"]');
+    const hebrewLink = await visibleLanguageLink(page, "he");
     await expect(hebrewLink).toHaveAttribute(
       "href",
       "/he/foods/barcode?date=2026-08-21&mealType=lunch",
@@ -931,7 +938,7 @@ test.describe("Phase 11D risk-selected UI acceptance", () => {
     const page = await context.newPage();
     await page.goto("/en/today?date=2026-08-21");
 
-    const languageLink = page.locator('a[hreflang="he"]');
+    const languageLink = await visibleLanguageLink(page, "he");
     await expect(languageLink).toBeVisible();
     const transitionDuration = await languageLink.evaluate((element) =>
       getComputedStyle(element).transitionDuration,
