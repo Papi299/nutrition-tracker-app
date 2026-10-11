@@ -11,7 +11,10 @@ import {
   test,
   type Browser,
   type BrowserContext,
+  type Locator,
   type Page,
+  type Request,
+  type TestInfo,
 } from "@playwright/test";
 import type { Database, Json } from "@/lib/supabase/database.types";
 
@@ -633,5 +636,506 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     await expect(page).toHaveURL(/\/en\/recipes\?status=active&saved=restored$/);
     await expect(page.locator(`[data-recipe-id="${sourceRecipeId}"]`)).toBeVisible();
     await context.close();
+  });
+
+  test.describe("F04 ingredient picker keyboard intent", () => {
+    const mixedFoodName = `F04 טופו mixed ${runId}`;
+    let mixedFoodId: string;
+
+    type ActionObservation = {
+      actionId: string;
+      intent: "search" | "selection" | "save" | "unknown";
+      value?: string;
+    };
+    type OwnedDatabaseSnapshot = {
+      recipes: Database["public"]["Tables"]["recipes"]["Row"][];
+      ingredients: Database["public"]["Tables"]["recipe_ingredients"]["Row"][];
+      diary_entries: Database["public"]["Tables"]["diary_entries"]["Row"][];
+    };
+
+    function identifyAction(request: Request): ActionObservation | null {
+      const actionId = request.headers()["next-action"];
+      if (request.method() !== "POST" || !actionId) return null;
+      const body = request.postData() ?? "";
+      if (/name="[^"]*(?:recipe_id|ingredient_count)"/.test(body)) {
+        return { actionId, intent: "save" };
+      }
+      try {
+        const argumentsValue: unknown = JSON.parse(body);
+        if (
+          Array.isArray(argumentsValue) && argumentsValue.length === 1 &&
+          typeof argumentsValue[0] === "string"
+        ) {
+          const value = argumentsValue[0];
+          return {
+            actionId,
+            intent: /^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(value)
+              ? "selection" : "search",
+            value,
+          };
+        }
+      } catch {
+        // Recipe saves encode FormData; picker actions encode one string.
+      }
+      return { actionId, intent: "unknown" };
+    }
+
+    function observeActions(page: Page) {
+      const actions: ActionObservation[] = [];
+      page.on("request", (request) => {
+        const action = identifyAction(request);
+        if (action) actions.push(action);
+      });
+      return actions;
+    }
+
+    function ownedDatabaseSnapshot(): OwnedDatabaseSnapshot {
+      return JSON.parse(queryLocalDatabase(`
+        select jsonb_build_object(
+          'recipes', coalesce((select jsonb_agg(to_jsonb(r) order by r.id)
+            from public.recipes r where r.user_id = '${userAId}'), '[]'::jsonb),
+          'ingredients', coalesce((select jsonb_agg(to_jsonb(i) order by i.id)
+            from public.recipe_ingredients i join public.recipes r on r.id = i.recipe_id
+            where r.user_id = '${userAId}'), '[]'::jsonb),
+          'diary_entries', coalesce((select jsonb_agg(to_jsonb(d) order by d.id)
+            from public.diary_entries d where d.user_id = '${userAId}'), '[]'::jsonb)
+        );
+      `));
+    }
+
+    async function editorSnapshot(page: Page) {
+      return page.locator('form:has(input[name="recipe_id"])').evaluate((form) => {
+        const entries = [...new FormData(form as HTMLFormElement).entries()]
+          .filter(([name]) => !name.startsWith("$ACTION"));
+        return Object.fromEntries(entries);
+      });
+    }
+
+    async function attachStateEvidence(
+      testInfo: TestInfo,
+      page: Page,
+      actions: ActionObservation[],
+      before: ReturnType<typeof ownedDatabaseSnapshot>,
+    ) {
+      await testInfo.attach("F04-server-actions-and-database-state", {
+        body: JSON.stringify({
+          actions, before, after: ownedDatabaseSnapshot(), url: page.url(),
+        }, null, 2),
+        contentType: "application/json",
+      });
+    }
+
+    async function searchAndWait(
+      page: Page,
+      picker: Locator,
+      query: string,
+      activation: "input-enter" | "click" | "button-enter" | "button-space" = "input-enter",
+    ) {
+      const input = picker.locator('input[type="search"]');
+      const button = picker.locator('button[type="button"]').first();
+      await input.fill(query);
+      const responsePromise = page.waitForResponse((response) => {
+        const action = identifyAction(response.request());
+        return action?.intent === "search" && action.value === query;
+      });
+      if (activation === "input-enter") await input.press("Enter");
+      else if (activation === "click") await button.click();
+      else {
+        await button.focus();
+        await button.press(activation === "button-enter" ? "Enter" : "Space");
+      }
+      await responsePromise;
+      await expect(input).toBeEnabled();
+    }
+
+    function expectOnlySearches(actions: ActionObservation[]) {
+      expect(actions.length).toBeGreaterThan(0);
+      expect(actions.every((action) => action.intent === "search")).toBe(true);
+      expect(new Set(actions.map((action) => action.actionId)).size).toBe(1);
+    }
+
+    test.beforeAll(async () => {
+      mixedFoodId = await createCustomFood(userAClient, mixedFoodName);
+    });
+
+    test("F04 R1 Enter searches an invalid Create without submitting validation or writing", async ({ browser }, testInfo) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      try {
+        const picker = page.getByTestId("recipe-food-picker").first();
+        await picker.locator('input[type="search"]').fill(mixedFoodName);
+        await picker.locator('input[type="search"]').press("Enter");
+        await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible({ timeout: 5_000 });
+        await expect(page.locator("#recipe-name-error")).toHaveCount(0);
+        await expect(page.getByLabel("Recipe name")).toHaveAttribute("aria-invalid", "false");
+        await expect(page).toHaveURL("/en/recipes/new");
+        expectOnlySearches(actions);
+        expect(actions[0].value).toBe(mixedFoodName);
+        expect(ownedDatabaseSnapshot()).toEqual(before);
+      } finally {
+        await attachStateEvidence(testInfo, page, actions, before);
+        await context.close();
+      }
+    });
+
+    test("F04 R2 Enter preserves a valid unsaved Create and all persisted aggregates", async ({ browser }, testInfo) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      await page.getByLabel("Recipe name").fill("F04 valid unsaved recipe");
+      await page.getByLabel("Ingredient name").fill("F04 unsaved manual ingredient");
+      await page.getByLabel("Calories").fill("0");
+      const valuesBefore = await editorSnapshot(page);
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      try {
+        const picker = page.getByTestId("recipe-food-picker").first();
+        await picker.locator('input[type="search"]').fill(mixedFoodName);
+        await picker.locator('input[type="search"]').press("Enter");
+        await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible({ timeout: 5_000 });
+        await expect(page).toHaveURL("/en/recipes/new");
+        expect(await editorSnapshot(page)).toEqual(valuesBefore);
+        expectOnlySearches(actions);
+        expect(ownedDatabaseSnapshot()).toEqual(before);
+      } finally {
+        await attachStateEvidence(testInfo, page, actions, before);
+        await context.close();
+      }
+    });
+
+    test("F04 R3 Enter preserves an unsaved owned Edit, row keys, revision, and ingredients", async ({ browser }, testInfo) => {
+      const recipeId = await persistFixture(userAClient, "F04 existing recipe");
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto(`/en/recipes/${recipeId}/edit`);
+      await page.getByLabel("Recipe name").fill("F04 unsaved edit");
+      await page.getByLabel("Ingredient name").fill("F04 unsaved ingredient edit");
+      const valuesBefore = await editorSnapshot(page);
+      const rowKeysBefore = await page.getByTestId("recipe-ingredient").evaluateAll(
+        (cards) => cards.map((card) => card.getAttribute("data-row-key")),
+      );
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      try {
+        const picker = page.getByTestId("recipe-food-picker").first();
+        await picker.locator('input[type="search"]').fill(mixedFoodName);
+        await picker.locator('input[type="search"]').press("Enter");
+        await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible({ timeout: 5_000 });
+        await expect(page).toHaveURL(`/en/recipes/${recipeId}/edit`);
+        expect(await editorSnapshot(page)).toEqual(valuesBefore);
+        expect(await page.getByTestId("recipe-ingredient").evaluateAll(
+          (cards) => cards.map((card) => card.getAttribute("data-row-key")),
+        )).toEqual(rowKeysBefore);
+        expectOnlySearches(actions);
+        expect(ownedDatabaseSnapshot()).toEqual(before);
+      } finally {
+        await attachStateEvidence(testInfo, page, actions, before);
+        await context.close();
+      }
+    });
+
+    test("F04 R4 Enter and Search button share results, too-short, empty, and actual validation-error behavior", async ({ browser }) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      const picker = page.getByTestId("recipe-food-picker").first();
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      const absentQuery = `zzunmatched${randomUUID().replaceAll("-", "")}`;
+      for (const query of [mixedFoodName, "x", absentQuery]) {
+        await searchAndWait(page, picker, query, "click");
+        const buttonResults = await picker.locator("li").allTextContents();
+        const buttonStatus = await picker.locator("p").allTextContents();
+        await searchAndWait(page, picker, query);
+        expect(await picker.locator("li").allTextContents()).toEqual(buttonResults);
+        expect(await picker.locator("p").allTextContents()).toEqual(buttonStatus);
+        if (query === mixedFoodName) await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible();
+        else if (query === "x") await expect(picker.getByRole("alert")).toContainText("at least 2");
+        else await expect(picker).toContainText("No readable active foods found.");
+      }
+      const overlongQuery = "x".repeat(101);
+      for (const activation of ["click", "input-enter"] as const) {
+        // Bypass the DOM length limit to exercise the real server validation path.
+        await picker.locator('input[type="search"]').evaluate((input, value) => {
+          Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(input, value);
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+        }, overlongQuery);
+        const responsePromise = page.waitForResponse((response) => {
+          const action = identifyAction(response.request());
+          return action?.intent === "search" && action.value === overlongQuery;
+        });
+        if (activation === "click") await picker.locator("button").first().click();
+        else await picker.locator('input[type="search"]').press("Enter");
+        await responsePromise;
+        await expect(picker.getByRole("alert")).toHaveText("Food search is unavailable right now.");
+        await expect(picker.locator("li")).toHaveCount(0);
+      }
+      expectOnlySearches(actions);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+      await context.close();
+    });
+
+    test("F04 R5 R6 keyboard selection preserves snapshots until explicit Create and Edit", async ({ browser }, testInfo) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      const picker = page.getByTestId("recipe-food-picker").first();
+      await searchAndWait(page, picker, mixedFoodName);
+      await picker.getByRole("button", { name: "Use snapshot" }).click();
+      const card = page.getByTestId("recipe-ingredient").first();
+      await expect(card.getByLabel("Ingredient name")).toHaveValue(mixedFoodName);
+      await expect(card.getByLabel("Calories")).toHaveValue("0");
+      await expect(card.getByLabel("Protein (g)")).toHaveValue("3.5");
+      await expect(card.getByLabel("Carbohydrates (g)")).toHaveValue("");
+      await expect(card.getByLabel("Fat (g)")).toHaveValue("");
+      await expect(card.getByLabel("Quantity")).toHaveValue("2");
+      await card.getByLabel("Quantity").fill("4");
+      await expect(card.getByLabel("Protein (g)")).toHaveValue("3.5");
+      await expect(card.getByLabel("Calories")).toHaveValue("0");
+      expect(actions.map((action) => action.intent)).toEqual(["search", "selection"]);
+      expect(actions[1].value).toBe(mixedFoodId);
+      expect(actions[1].actionId).not.toBe(actions[0].actionId);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+
+      await page.getByLabel("Recipe name").fill("F04 explicit created recipe");
+      await page.getByRole("button", { name: "Create recipe", exact: true }).click();
+      await expect(page).toHaveURL(/\/en\/recipes\/[0-9a-f-]+\/edit\?saved=created$/);
+      const recipeId = recipeIdFromUrl(page);
+      expect(actions.at(-1)?.intent).toBe("save");
+      const created = await userAClient.from("recipe_ingredients")
+        .select("food_id,ingredient_name,quantity,calories,protein_g,carbohydrates_g,fat_g")
+        .eq("recipe_id", recipeId).single();
+      expect(created.error).toBeNull();
+      expect(created.data).toEqual({
+        food_id: mixedFoodId, ingredient_name: mixedFoodName, quantity: 4,
+        calories: 0, protein_g: 3.5, carbohydrates_g: null, fat_g: null,
+      });
+      const createdBefore = ownedDatabaseSnapshot();
+      const revisionBefore = Number(queryLocalDatabase(`select recipe_edit_revision from public.recipes where id = '${recipeId}';`));
+      await page.getByLabel("Recipe name").fill("F04 explicit updated recipe");
+      await searchAndWait(page, page.getByTestId("recipe-food-picker").first(), mixedFoodName);
+      expect(ownedDatabaseSnapshot()).toEqual(createdBefore);
+      await page.getByRole("button", { name: "Save changes", exact: true }).click();
+      await expect(page).toHaveURL(`/en/recipes/${recipeId}/edit?saved=updated`);
+      expect(actions.at(-1)?.intent).toBe("save");
+      expect(queryLocalDatabase(`select name || '|' || recipe_edit_revision from public.recipes where id = '${recipeId}';`))
+        .toBe(`F04 explicit updated recipe|${revisionBefore + 1}`);
+      expect(ownedDatabaseSnapshot().diary_entries).toEqual(before.diary_entries);
+      await attachStateEvidence(testInfo, page, actions, before);
+      await context.close();
+    });
+
+    test("F04 R7 second-row, Tab, native button Enter and Space, and ordinary-field submit remain functional", async ({ browser }) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      await page.getByRole("button", { name: "Add blank ingredient" }).click();
+      const cards = page.getByTestId("recipe-ingredient");
+      const firstPicker = cards.first().getByTestId("recipe-food-picker");
+      const secondPicker = cards.nth(1).getByTestId("recipe-food-picker");
+      const before = ownedDatabaseSnapshot();
+      const actions = observeActions(page);
+      await searchAndWait(page, secondPicker, mixedFoodName);
+      await expect(secondPicker.getByText(mixedFoodName, { exact: true })).toBeVisible();
+      await expect(firstPicker.locator("li")).toHaveCount(0);
+      await secondPicker.locator('input[type="search"]').focus();
+      await page.keyboard.press("Tab");
+      await expect(secondPicker.locator("button").first()).toBeFocused();
+      expect(await secondPicker.locator("button").first().evaluate(
+        (button) => getComputedStyle(button).outlineStyle,
+      )).not.toBe("none");
+      await searchAndWait(page, secondPicker, mixedFoodName, "button-enter");
+      await searchAndWait(page, secondPicker, mixedFoodName, "button-space");
+      expectOnlySearches(actions);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+      await page.getByLabel("Recipe name").fill("F04 ordinary field native save");
+      await cards.nth(0).getByLabel("Ingredient name").fill("F04 first manual row");
+      await cards.nth(1).getByLabel("Ingredient name").fill("F04 second manual row");
+      await page.getByLabel("Recipe name").press("Enter");
+      await expect(page).toHaveURL(/\/en\/recipes\/[0-9a-f-]+\/edit\?saved=created$/);
+      expect(actions.at(-1)?.intent).toBe("save");
+      expect(ownedDatabaseSnapshot().recipes.length).toBe(before.recipes.length + 1);
+      expect(ownedDatabaseSnapshot().ingredients.length).toBe(before.ingredients.length + 2);
+      expect(ownedDatabaseSnapshot().diary_entries).toEqual(before.diary_entries);
+      await context.close();
+    });
+
+    test("F04 R7 rapid Enter keeps one pending search and never submits the Recipe", async ({ browser }) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      const picker = page.getByTestId("recipe-food-picker").first();
+      const input = picker.locator('input[type="search"]');
+      const before = ownedDatabaseSnapshot();
+      const actions = observeActions(page);
+      let releaseSearch: () => void = () => {};
+      const searchGate = new Promise<void>((resolve) => { releaseSearch = resolve; });
+      let searchRequests = 0;
+      await page.route("**/recipes/new", async (route) => {
+        const action = identifyAction(route.request());
+        if (action?.intent === "search" && action.value === mixedFoodName) {
+          searchRequests += 1;
+          await searchGate;
+        }
+        await route.continue();
+      });
+      try {
+        await input.fill(mixedFoodName);
+        const prevented = await input.evaluate((element) => {
+          // Dispatch in one browser task to cover repeats before pending renders.
+          return Array.from({ length: 3 }, () => {
+            const event = new KeyboardEvent("keydown", {
+              bubbles: true, cancelable: true, code: "Enter", key: "Enter",
+            });
+            element.dispatchEvent(event);
+            return event.defaultPrevented;
+          });
+        });
+        expect(prevented).toEqual([true, true, true]);
+        await expect.poll(() => searchRequests).toBe(1);
+        await expect(input).toBeDisabled();
+        await expect(picker.locator("button").first()).toBeDisabled();
+        await page.keyboard.press("Enter");
+        await page.keyboard.press("Enter");
+        expect(searchRequests).toBe(1);
+        releaseSearch();
+        await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible();
+        await expect(input).toBeEnabled();
+        expectOnlySearches(actions);
+        expect(actions).toHaveLength(1);
+        expect(ownedDatabaseSnapshot()).toEqual(before);
+      } finally {
+        releaseSearch();
+        await page.unroute("**/recipes/new");
+        await context.close();
+      }
+    });
+
+    test("F04 R7 simulated composition Enter and composition-ending keyCode 229 stay local before normal search", async ({ browser }, testInfo) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      await page.goto("/en/recipes/new");
+      const picker = page.getByTestId("recipe-food-picker").first();
+      const input = picker.locator('input[type="search"]');
+      const before = ownedDatabaseSnapshot();
+      const actions = observeActions(page);
+      await input.fill("F04 partial composition draft");
+      await input.dispatchEvent("compositionstart", { data: "טופו" });
+      await input.press("Enter");
+      const compositionEvents = await input.evaluate((element, committedQuery) => {
+        const input = element as HTMLInputElement;
+        const form = input.form as HTMLFormElement;
+        const submitter = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        function submitIsBlocked() {
+          let blocked = false;
+          form.addEventListener("submit", (event) => { blocked = event.defaultPrevented; }, { once: true });
+          form.requestSubmit(submitter);
+          return blocked;
+        }
+        element.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "טופו" }));
+        const composingEnter = new KeyboardEvent("keydown", {
+          bubbles: true, cancelable: true, code: "Enter", isComposing: true, key: "Enter",
+        });
+        element.dispatchEvent(composingEnter);
+        const composingSubmitBlocked = submitIsBlocked();
+        // Model committed text using real input events; no physical OS IME is claimed.
+        const beforeInput = new InputEvent("beforeinput", {
+          bubbles: true, cancelable: true, data: "טופו", inputType: "insertCompositionText",
+        });
+        element.dispatchEvent(beforeInput);
+        Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(input, committedQuery);
+        element.dispatchEvent(new InputEvent("input", {
+          bubbles: true, data: "טופו", inputType: "insertCompositionText",
+        }));
+        element.dispatchEvent(new CompositionEvent("compositionstart", { bubbles: true, data: "טופו" }));
+        element.dispatchEvent(new CompositionEvent("compositionend", { bubbles: true, data: "טופו" }));
+        const endingEnter = new KeyboardEvent("keydown", {
+          bubbles: true, cancelable: true, code: "Enter", key: "Enter", keyCode: 229,
+        });
+        element.dispatchEvent(endingEnter);
+        return {
+          composingEnter: composingEnter.defaultPrevented,
+          endingEnter: endingEnter.defaultPrevented,
+          beforeInput: beforeInput.defaultPrevented,
+          composingSubmitBlocked,
+          endingSubmitBlocked: submitIsBlocked(),
+        };
+      }, mixedFoodName);
+      await page.evaluate(() => new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }));
+      expect(actions).toEqual([]);
+      expect(compositionEvents).toEqual({
+        composingEnter: false, endingEnter: false, beforeInput: false,
+        composingSubmitBlocked: true, endingSubmitBlocked: true,
+      });
+      await expect(input).toHaveValue(mixedFoodName);
+      await expect(page.locator("#recipe-name-error")).toHaveCount(0);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+      const responsePromise = page.waitForResponse((response) => {
+        const action = identifyAction(response.request());
+        return action?.intent === "search" && action.value === mixedFoodName;
+      });
+      await input.press("Enter");
+      await responsePromise;
+      await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible();
+      expectOnlySearches(actions);
+      expect(actions[0].value).toBe(mixedFoodName);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+      await page.getByLabel("Recipe name").fill("F04 explicit save after composition");
+      await page.getByLabel("Ingredient name").fill("F04 composed draft ingredient");
+      await input.focus();
+      await input.dispatchEvent("keydown", {
+        bubbles: true, cancelable: true, isComposing: true, key: "Enter",
+      });
+      const saveButton = page.getByRole("button", { name: "Create recipe", exact: true });
+      // Model browsers where pointer activation does not focus the button.
+      const focusOnPointer = saveButton.evaluate((button) => new Promise<boolean>((resolve) => {
+        button.addEventListener("mousedown", (event) => {
+          event.preventDefault();
+          resolve(button.ownerDocument.activeElement?.matches('input[type="search"]') ?? false);
+        }, { once: true });
+      }));
+      await expect(input).toBeFocused();
+      await saveButton.click();
+      expect(await focusOnPointer).toBe(true);
+      await expect(page).toHaveURL(/\/en\/recipes\/[0-9a-f-]+\/edit\?saved=created$/);
+      expect(actions.at(-1)?.intent).toBe("save");
+      expect(ownedDatabaseSnapshot().recipes.length).toBe(before.recipes.length + 1);
+      expect(ownedDatabaseSnapshot().ingredients.length).toBe(before.ingredients.length + 1);
+      expect(ownedDatabaseSnapshot().diary_entries).toEqual(before.diary_entries);
+      await testInfo.attach("F04-IME-coverage-limitation", {
+        body: "Composition events, native Enter during simulated composition, native isComposing, compositionend-before-keydown keyCode 229, uncanceled keydown/beforeinput, committed text, narrowly blocked submit events, and explicit pointer saving with input focus retained were exercised in Chromium. This does not qualify physical Japanese, Chinese, Korean, or browser-specific OS IME behavior.",
+        contentType: "text/plain",
+      });
+      await context.close();
+    });
+
+    test("F04 R8 English LTR and Hebrew RTL Enter search preserve Hebrew and mixed-direction queries", async ({ browser }) => {
+      const context = await newAuthenticatedContext(browser);
+      const page = await context.newPage();
+      const actions = observeActions(page);
+      const before = ownedDatabaseSnapshot();
+      for (const locale of ["en", "he"] as const) {
+        await page.goto(`/${locale}/recipes/new`);
+        await expect(page.locator("html")).toHaveAttribute("dir", locale === "he" ? "rtl" : "ltr");
+        const picker = page.getByTestId("recipe-food-picker").first();
+        for (const query of ["טופו", mixedFoodName]) {
+          await searchAndWait(page, picker, query);
+          await expect(picker.getByText(mixedFoodName, { exact: true })).toBeVisible();
+          await expect(picker.locator('input[type="search"]')).toHaveValue(query);
+        }
+        await expect(page.locator("#recipe-name-error")).toHaveCount(0);
+        await expect(page).toHaveURL(`/${locale}/recipes/new`);
+      }
+      expectOnlySearches(actions);
+      expect(ownedDatabaseSnapshot()).toEqual(before);
+      await context.close();
+    });
   });
 });
