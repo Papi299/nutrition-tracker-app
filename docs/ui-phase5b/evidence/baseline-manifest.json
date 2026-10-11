@@ -1,0 +1,2850 @@
+{
+  "task": "UI_PHASE_5B_LIBRARY_MANAGEMENT_UX_001",
+  "mode": "baseline",
+  "sourceIdentity": {
+    "head": "5ae18263dc2af90834840ea63548c541292f0ab8",
+    "tree": "9e3a193aefe7f60e76fd925e8ab8ae212055622d",
+    "buildId": "oqAbrOrMVYCwahl8otLf-",
+    "presentationDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceFileSha256": {
+      "app/[locale]/(app)/foods/custom/page.tsx": "b1121639259178cd9339299cc837bbabd62bb776c1877f1d0dc46f609a3d60f0",
+      "app/[locale]/(app)/saved-meals/page.tsx": "fa44b66f3741acbae521c07a0c70d018ac6871fbce9473dfd98abb9056cf2bde",
+      "app/[locale]/(app)/recipes/page.tsx": "10dabc3427346a98d0080665b994b8d900bb5c425ed3bea2ecfdaab3d9ab9330",
+      "components/custom-foods/custom-food-archive-control.tsx": "feb49bde51532df6b977aa91d14cf210aaefa839195f0c0dba15a8440e5d8abe",
+      "components/saved-meals/saved-meal-archive-control.tsx": "6de56080ddba9a4e7b0c696a0912c8383b4a604543a91383867cfcf9d3945903",
+      "components/recipes/recipe-archive-control.tsx": "327f261ce18c1c0e9718eb3a15bb2a8835a75fb05a36b43b70fb5f5c44be9aad"
+    }
+  },
+  "browser": {
+    "name": "Chromium",
+    "version": "149.0.7827.55"
+  },
+  "fixture": {
+    "version": "phase5b-valid-library-v1",
+    "names": [
+      "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+      "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45"
+    ],
+    "nameLengths": [
+      159,
+      188,
+      199
+    ],
+    "nameSha256": [
+      "0962f4a24d45078c322fcadeda32de55ef2d5183d74fba0833ffa5f746e7e8a5",
+      "23323d10089a6af2d55334edb6b2847ec2f1ba279f70a3c028f9f4a14ea5dd4d",
+      "655fbb2335446e89cac01c2be37edd623f33c190a9479ece0a17ec694e213925"
+    ],
+    "brand": "BrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrandBrand אבג-123",
+    "servingUnit": "portionportionportionportionאבג123/45",
+    "brandLength": 113,
+    "servingUnitLength": 37,
+    "syntheticUser": true,
+    "transport": "authenticated RPCs against task-isolated local Supabase",
+    "ids": {
+      "food": {
+        "active": [
+          "9fcedf95-eedd-4b22-861b-0526f5204e4c",
+          "16bd6cee-7161-4ad1-b48a-b742810987c3",
+          "cc005c4f-6832-460e-95b2-801797255165"
+        ],
+        "archived": [
+          "855c6810-d8d7-475e-9ceb-1e17888e11b1",
+          "dc1b9eb9-94d8-47c1-a0b5-5bd2696fb9bd",
+          "3de0bd8e-b37e-43f1-b380-4cea8aa7b03e"
+        ]
+      },
+      "meal": {
+        "active": [
+          "47873177-0c3e-4faa-ae30-a05dd3c966e8",
+          "ed43e05d-910b-4941-a2e4-f9a180a449b7",
+          "ae573fc9-85fe-4114-a5b1-98c8fab5d61d"
+        ],
+        "archived": [
+          "ad90ad3d-89f1-4260-9c66-67ebe133339b",
+          "b39c74e8-e4a1-40d6-97a9-5086e4889e61",
+          "72a97f39-ecf9-46cc-b9b3-2dcbe0e20287"
+        ]
+      },
+      "recipe": {
+        "active": [
+          "57e4d38f-541f-4217-8aa7-eeb7d622703f",
+          "ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4",
+          "ade25bf8-24b9-4885-bd39-4f42ed5303a6"
+        ],
+        "archived": [
+          "f4ebc460-b2f5-43ad-ad57-d2a3c2bdef97",
+          "01f2ddd2-2d96-4c5d-a609-249431645fdd",
+          "923667ac-8cad-49d1-996f-1a74106f7a9d"
+        ]
+      }
+    }
+  },
+  "measurements": [
+    {
+      "mode": "baseline",
+      "kind": "meal",
+      "state": "archived-long-name",
+      "route": "/en/saved-meals?status=archived&page=1",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "dir": "ltr",
+      "lang": "en",
+      "document": {
+        "clientWidth": 768,
+        "scrollWidth": 3919
+      },
+      "body": {
+        "clientWidth": 768,
+        "scrollWidth": 3919
+      },
+      "cards": [
+        {
+          "id": "72a97f39-ecf9-46cc-b9b3-2dcbe0e20287",
+          "x": 32,
+          "y": 490,
+          "width": 3887.140625,
+          "height": 222,
+          "right": 3919.140625,
+          "bottom": 712,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 515,
+            "width": 3657.140625,
+            "height": 56,
+            "right": 3714.140625,
+            "bottom": 571
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 515,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 559,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/72a97f39-ecf9-46cc-b9b3-2dcbe0e20287/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 3734.140625,
+              "y": 571,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 615,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            }
+          ]
+        },
+        {
+          "id": "b39c74e8-e4a1-40d6-97a9-5086e4889e61",
+          "x": 32,
+          "y": 732,
+          "width": 3887.140625,
+          "height": 194,
+          "right": 3919.140625,
+          "bottom": 926,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 757,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3714.140625,
+            "bottom": 785
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 757,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 801,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/b39c74e8-e4a1-40d6-97a9-5086e4889e61/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 3734.140625,
+              "y": 813,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 857,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            }
+          ]
+        },
+        {
+          "id": "ad90ad3d-89f1-4260-9c66-67ebe133339b",
+          "x": 32,
+          "y": 946,
+          "width": 3887.140625,
+          "height": 194,
+          "right": 3919.140625,
+          "bottom": 1140,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 971,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3714.140625,
+            "bottom": 999
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 971,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 1015,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/ad90ad3d-89f1-4260-9c66-67ebe133339b/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 3734.140625,
+              "y": 1027,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 1071,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        }
+      ],
+      "pageActions": [
+        {
+          "x": 32,
+          "y": 284,
+          "width": 156.421875,
+          "height": 44,
+          "right": 188.421875,
+          "bottom": 328,
+          "text": "Create saved meal",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/new",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 200.421875,
+          "y": 284,
+          "width": 128.609375,
+          "height": 44,
+          "right": 329.03125,
+          "bottom": 328,
+          "text": "Back to Today",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/today",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 341.03125,
+          "y": 284,
+          "width": 87.34375,
+          "height": 44,
+          "right": 428.375,
+          "bottom": 328,
+          "text": "Recipes",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 32,
+          "y": 360,
+          "width": 76.1875,
+          "height": 46,
+          "right": 108.1875,
+          "bottom": 406,
+          "text": "Active",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals?status=active&page=1",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 120.1875,
+          "y": 360,
+          "width": 91.90625,
+          "height": 46,
+          "right": 212.09375,
+          "bottom": 406,
+          "text": "Archived",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals?status=archived&page=1",
+          "current": "page",
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 3734.140625,
+          "y": 515,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 559,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/72a97f39-ecf9-46cc-b9b3-2dcbe0e20287/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 571,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 615,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 757,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 801,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/b39c74e8-e4a1-40d6-97a9-5086e4889e61/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 813,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 857,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 971,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 1015,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/ad90ad3d-89f1-4260-9c66-67ebe133339b/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 1027,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 1071,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        }
+      ],
+      "confirmations": []
+    },
+    {
+      "mode": "baseline",
+      "kind": "recipe",
+      "state": "archived-long-name",
+      "route": "/en/recipes?status=archived&page=1",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "dir": "ltr",
+      "lang": "en",
+      "document": {
+        "clientWidth": 768,
+        "scrollWidth": 3919
+      },
+      "body": {
+        "clientWidth": 768,
+        "scrollWidth": 3919
+      },
+      "cards": [
+        {
+          "id": "923667ac-8cad-49d1-996f-1a74106f7a9d",
+          "x": 32,
+          "y": 490,
+          "width": 3887.140625,
+          "height": 278,
+          "right": 3919.140625,
+          "bottom": 768,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 515,
+            "width": 3657.140625,
+            "height": 56,
+            "right": 3714.140625,
+            "bottom": 571
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 515,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 559,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/923667ac-8cad-49d1-996f-1a74106f7a9d/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 3734.140625,
+              "y": 571,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 615,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            }
+          ]
+        },
+        {
+          "id": "01f2ddd2-2d96-4c5d-a609-249431645fdd",
+          "x": 32,
+          "y": 788,
+          "width": 3887.140625,
+          "height": 250,
+          "right": 3919.140625,
+          "bottom": 1038,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 813,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3714.140625,
+            "bottom": 841
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 813,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 857,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/01f2ddd2-2d96-4c5d-a609-249431645fdd/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 3734.140625,
+              "y": 869,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 913,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            }
+          ]
+        },
+        {
+          "id": "f4ebc460-b2f5-43ad-ad57-d2a3c2bdef97",
+          "x": 32,
+          "y": 1058,
+          "width": 3887.140625,
+          "height": 250,
+          "right": 3919.140625,
+          "bottom": 1308,
+          "scrollWidth": 3885,
+          "clientWidth": 3885,
+          "heading": "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 57,
+            "y": 1083,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3714.140625,
+            "bottom": 1111
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Archived",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 3734.140625,
+              "y": 1083,
+              "width": 160,
+              "height": 44,
+              "right": 3894.140625,
+              "bottom": 1127,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/f4ebc460-b2f5-43ad-ad57-d2a3c2bdef97/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 3734.140625,
+              "y": 1139,
+              "width": 86.15625,
+              "height": 44,
+              "right": 3820.296875,
+              "bottom": 1183,
+              "text": "Restore",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        }
+      ],
+      "pageActions": [
+        {
+          "x": 32,
+          "y": 284,
+          "width": 122.796875,
+          "height": 44,
+          "right": 154.796875,
+          "bottom": 328,
+          "text": "Create recipe",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/new",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 166.796875,
+          "y": 284,
+          "width": 128.609375,
+          "height": 44,
+          "right": 295.40625,
+          "bottom": 328,
+          "text": "Back to Today",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/today",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 307.40625,
+          "y": 284,
+          "width": 118.796875,
+          "height": 44,
+          "right": 426.203125,
+          "bottom": 328,
+          "text": "Saved meals",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 32,
+          "y": 360,
+          "width": 76.1875,
+          "height": 46,
+          "right": 108.1875,
+          "bottom": 406,
+          "text": "Active",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes?status=active&page=1",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 120.1875,
+          "y": 360,
+          "width": 91.90625,
+          "height": 46,
+          "right": 212.09375,
+          "bottom": 406,
+          "text": "Archived",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes?status=archived&page=1",
+          "current": "page",
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 3734.140625,
+          "y": 515,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 559,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/923667ac-8cad-49d1-996f-1a74106f7a9d/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 571,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 615,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 813,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 857,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/01f2ddd2-2d96-4c5d-a609-249431645fdd/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 869,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 913,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 3734.140625,
+          "y": 1083,
+          "width": 160,
+          "height": 44,
+          "right": 3894.140625,
+          "bottom": 1127,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/f4ebc460-b2f5-43ad-ad57-d2a3c2bdef97/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 3734.140625,
+          "y": 1139,
+          "width": 86.15625,
+          "height": 44,
+          "right": 3820.296875,
+          "bottom": 1183,
+          "text": "Restore",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        }
+      ],
+      "confirmations": []
+    },
+    {
+      "mode": "baseline",
+      "kind": "food",
+      "state": "open-confirmation",
+      "route": "/en/foods/custom?status=active&page=1",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "dir": "ltr",
+      "lang": "en",
+      "document": {
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "body": {
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "cards": [
+        {
+          "id": "cc005c4f-6832-460e-95b2-801797255165",
+          "x": 16,
+          "y": -383,
+          "width": 358,
+          "height": 1028,
+          "right": 374,
+          "bottom": 645,
+          "scrollWidth": 356,
+          "clientWidth": 356,
+          "heading": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 37,
+            "y": -362,
+            "width": 316,
+            "height": 364,
+            "right": 353,
+            "bottom": 2
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Food language",
+            "Nutrient basis",
+            "Serving reference",
+            "Status",
+            "Last updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "Per serving",
+            "123.45 portionportionportionportionאבג123/45",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 37,
+              "y": 374,
+              "width": 316,
+              "height": 44,
+              "right": 353,
+              "bottom": 418,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/foods/custom/cc005c4f-6832-460e-95b2-801797255165/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 54,
+              "y": 563,
+              "width": 139.125,
+              "height": 44,
+              "right": 193.125,
+              "bottom": 607,
+              "text": "Confirm archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 205.125,
+              "y": 563,
+              "width": 80.328125,
+              "height": 44,
+              "right": 285.453125,
+              "bottom": 607,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        },
+        {
+          "id": "16bd6cee-7161-4ad1-b48a-b742810987c3",
+          "x": 16,
+          "y": 665,
+          "width": 358,
+          "height": 850,
+          "right": 374,
+          "bottom": 1515,
+          "scrollWidth": 356,
+          "clientWidth": 356,
+          "heading": "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 37,
+            "y": 686,
+            "width": 316,
+            "height": 336,
+            "right": 353,
+            "bottom": 1022
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Food language",
+            "Nutrient basis",
+            "Serving reference",
+            "Status",
+            "Last updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "Per serving",
+            "123.45 portionportionportionportionאבג123/45",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 37,
+              "y": 1394,
+              "width": 316,
+              "height": 44,
+              "right": 353,
+              "bottom": 1438,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/foods/custom/16bd6cee-7161-4ad1-b48a-b742810987c3/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 37,
+              "y": 1450,
+              "width": 316,
+              "height": 44,
+              "right": 353,
+              "bottom": 1494,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        },
+        {
+          "id": "9fcedf95-eedd-4b22-861b-0526f5204e4c",
+          "x": 16,
+          "y": 1535,
+          "width": 358,
+          "height": 654,
+          "right": 374,
+          "bottom": 2189,
+          "scrollWidth": 356,
+          "clientWidth": 356,
+          "heading": "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 37,
+            "y": 1556,
+            "width": 316,
+            "height": 140,
+            "right": 353,
+            "bottom": 1696
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Food language",
+            "Nutrient basis",
+            "Serving reference",
+            "Status",
+            "Last updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "Per serving",
+            "123.45 portionportionportionportionאבג123/45",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 37,
+              "y": 2068,
+              "width": 316,
+              "height": 44,
+              "right": 353,
+              "bottom": 2112,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/foods/custom/9fcedf95-eedd-4b22-861b-0526f5204e4c/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 37,
+              "y": 2124,
+              "width": 316,
+              "height": 44,
+              "right": 353,
+              "bottom": 2168,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        }
+      ],
+      "pageActions": [
+        {
+          "x": 16,
+          "y": -589,
+          "width": 165.140625,
+          "height": 44,
+          "right": 181.140625,
+          "bottom": -545,
+          "text": "Create custom food",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom/new",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 193.140625,
+          "y": -589,
+          "width": 153.4375,
+          "height": 44,
+          "right": 346.578125,
+          "bottom": -545,
+          "text": "Open food search",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 16,
+          "y": -513,
+          "width": 74.1875,
+          "height": 46,
+          "right": 90.1875,
+          "bottom": -467,
+          "text": "Active",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom?status=active&page=1",
+          "current": "page",
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 102.1875,
+          "y": -513,
+          "width": 93.90625,
+          "height": 46,
+          "right": 196.09375,
+          "bottom": -467,
+          "text": "Archived",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom?status=archived&page=1",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 37,
+          "y": 374,
+          "width": 316,
+          "height": 44,
+          "right": 353,
+          "bottom": 418,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom/cc005c4f-6832-460e-95b2-801797255165/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 54,
+          "y": 563,
+          "width": 139.125,
+          "height": 44,
+          "right": 193.125,
+          "bottom": 607,
+          "text": "Confirm archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 205.125,
+          "y": 563,
+          "width": 80.328125,
+          "height": 44,
+          "right": 285.453125,
+          "bottom": 607,
+          "text": "Cancel",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 37,
+          "y": 1394,
+          "width": 316,
+          "height": 44,
+          "right": 353,
+          "bottom": 1438,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom/16bd6cee-7161-4ad1-b48a-b742810987c3/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 37,
+          "y": 1450,
+          "width": 316,
+          "height": 44,
+          "right": 353,
+          "bottom": 1494,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 37,
+          "y": 2068,
+          "width": 316,
+          "height": 44,
+          "right": 353,
+          "bottom": 2112,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/foods/custom/9fcedf95-eedd-4b22-861b-0526f5204e4c/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 37,
+          "y": 2124,
+          "width": 316,
+          "height": 44,
+          "right": 353,
+          "bottom": 2168,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        }
+      ],
+      "confirmations": [
+        {
+          "x": 37,
+          "y": 430,
+          "width": 316,
+          "height": 194,
+          "right": 353,
+          "bottom": 624,
+          "scrollWidth": 314,
+          "clientWidth": 314,
+          "label": "Archive WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "actions": [
+            {
+              "x": 54,
+              "y": 563,
+              "width": 139.125,
+              "height": 44,
+              "right": 193.125,
+              "bottom": 607,
+              "text": "Confirm archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 205.125,
+              "y": 563,
+              "width": 80.328125,
+              "height": 44,
+              "right": 285.453125,
+              "bottom": 607,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "kind": "meal",
+      "state": "open-confirmation",
+      "route": "/en/saved-meals?status=active&page=1",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "dir": "ltr",
+      "lang": "en",
+      "document": {
+        "clientWidth": 390,
+        "scrollWidth": 3715
+      },
+      "body": {
+        "clientWidth": 390,
+        "scrollWidth": 3715
+      },
+      "cards": [
+        {
+          "id": "ae573fc9-85fe-4114-a5b1-98c8fab5d61d",
+          "x": -21,
+          "y": -7.5,
+          "width": 3699.140625,
+          "height": 604,
+          "right": 3678.140625,
+          "bottom": 596.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": 13.5,
+            "width": 3657.140625,
+            "height": 56,
+            "right": 3657.140625,
+            "bottom": 69.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 317.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 361.5,
+              "text": "Use in diary",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/ae573fc9-85fe-4114-a5b1-98c8fab5d61d/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 0,
+              "y": 373.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 417.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/ae573fc9-85fe-4114-a5b1-98c8fab5d61d/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 17,
+              "y": 514.5,
+              "width": 119.125,
+              "height": 44,
+              "right": 136.125,
+              "bottom": 558.5,
+              "text": "Archive meal",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 148.125,
+              "y": 514.5,
+              "width": 80.328125,
+              "height": 44,
+              "right": 228.453125,
+              "bottom": 558.5,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        },
+        {
+          "id": "ed43e05d-910b-4941-a2e4-f9a180a449b7",
+          "x": -21,
+          "y": 616.5,
+          "width": 3699.140625,
+          "height": 474,
+          "right": 3678.140625,
+          "bottom": 1090.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": 637.5,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3657.140625,
+            "bottom": 665.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 913.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 957.5,
+              "text": "Use in diary",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/ed43e05d-910b-4941-a2e4-f9a180a449b7/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 0,
+              "y": 969.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1013.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/ed43e05d-910b-4941-a2e4-f9a180a449b7/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 0,
+              "y": 1025.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1069.5,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        },
+        {
+          "id": "47873177-0c3e-4faa-ae30-a05dd3c966e8",
+          "x": -21,
+          "y": 1110.5,
+          "width": 3699.140625,
+          "height": 474,
+          "right": 3678.140625,
+          "bottom": 1584.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": 1131.5,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3657.140625,
+            "bottom": 1159.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Items",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "1 item",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 1407.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1451.5,
+              "text": "Use in diary",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/47873177-0c3e-4faa-ae30-a05dd3c966e8/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 0,
+              "y": 1463.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1507.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/saved-meals/47873177-0c3e-4faa-ae30-a05dd3c966e8/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 0,
+              "y": 1519.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1563.5,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        }
+      ],
+      "pageActions": [
+        {
+          "x": -21,
+          "y": -269.5,
+          "width": 156.421875,
+          "height": 44,
+          "right": 135.421875,
+          "bottom": -225.5,
+          "text": "Create saved meal",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/new",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 147.421875,
+          "y": -269.5,
+          "width": 128.609375,
+          "height": 44,
+          "right": 276.03125,
+          "bottom": -225.5,
+          "text": "Back to Today",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/today",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": -21,
+          "y": -213.5,
+          "width": 87.34375,
+          "height": 44,
+          "right": 66.34375,
+          "bottom": -169.5,
+          "text": "Recipes",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": -21,
+          "y": -137.5,
+          "width": 74.1875,
+          "height": 46,
+          "right": 53.1875,
+          "bottom": -91.5,
+          "text": "Active",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals?status=active&page=1",
+          "current": "page",
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 65.1875,
+          "y": -137.5,
+          "width": 93.90625,
+          "height": 46,
+          "right": 159.09375,
+          "bottom": -91.5,
+          "text": "Archived",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals?status=archived&page=1",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 317.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 361.5,
+          "text": "Use in diary",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/ae573fc9-85fe-4114-a5b1-98c8fab5d61d/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 0,
+          "y": 373.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 417.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/ae573fc9-85fe-4114-a5b1-98c8fab5d61d/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 17,
+          "y": 514.5,
+          "width": 119.125,
+          "height": 44,
+          "right": 136.125,
+          "bottom": 558.5,
+          "text": "Archive meal",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 148.125,
+          "y": 514.5,
+          "width": 80.328125,
+          "height": 44,
+          "right": 228.453125,
+          "bottom": 558.5,
+          "text": "Cancel",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 0,
+          "y": 913.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 957.5,
+          "text": "Use in diary",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/ed43e05d-910b-4941-a2e4-f9a180a449b7/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 0,
+          "y": 969.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1013.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/ed43e05d-910b-4941-a2e4-f9a180a449b7/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 0,
+          "y": 1025.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1069.5,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1407.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1451.5,
+          "text": "Use in diary",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/47873177-0c3e-4faa-ae30-a05dd3c966e8/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1463.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1507.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals/47873177-0c3e-4faa-ae30-a05dd3c966e8/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1519.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1563.5,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        }
+      ],
+      "confirmations": [
+        {
+          "x": 0,
+          "y": 429.5,
+          "width": 3657.140625,
+          "height": 146,
+          "right": 3657.140625,
+          "bottom": 575.5,
+          "scrollWidth": 3655,
+          "clientWidth": 3655,
+          "label": "Confirm archiving WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "actions": [
+            {
+              "x": 17,
+              "y": 514.5,
+              "width": 119.125,
+              "height": 44,
+              "right": 136.125,
+              "bottom": 558.5,
+              "text": "Archive meal",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 148.125,
+              "y": 514.5,
+              "width": 80.328125,
+              "height": 44,
+              "right": 228.453125,
+              "bottom": 558.5,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "kind": "recipe",
+      "state": "open-confirmation",
+      "route": "/en/recipes?status=active&page=1",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "dir": "ltr",
+      "lang": "en",
+      "document": {
+        "clientWidth": 390,
+        "scrollWidth": 3715
+      },
+      "body": {
+        "clientWidth": 390,
+        "scrollWidth": 3715
+      },
+      "cards": [
+        {
+          "id": "ade25bf8-24b9-4885-bd39-4f42ed5303a6",
+          "x": -21,
+          "y": -63.5,
+          "width": 3699.140625,
+          "height": 660,
+          "right": 3678.140625,
+          "bottom": 596.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": -42.5,
+            "width": 3657.140625,
+            "height": 56,
+            "right": 3657.140625,
+            "bottom": 13.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 317.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 361.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/ade25bf8-24b9-4885-bd39-4f42ed5303a6/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 0,
+              "y": 373.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 417.5,
+              "text": "Nutrition & diary preview",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/ade25bf8-24b9-4885-bd39-4f42ed5303a6/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 17,
+              "y": 514.5,
+              "width": 128.796875,
+              "height": 44,
+              "right": 145.796875,
+              "bottom": 558.5,
+              "text": "Archive recipe",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 157.796875,
+              "y": 514.5,
+              "width": 80.328125,
+              "height": 44,
+              "right": 238.125,
+              "bottom": 558.5,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        },
+        {
+          "id": "ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4",
+          "x": -21,
+          "y": 616.5,
+          "width": 3699.140625,
+          "height": 530,
+          "right": 3678.140625,
+          "bottom": 1146.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "ארוחה 123-A/45 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW Hebrew/עברית",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": 637.5,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3657.140625,
+            "bottom": 665.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 969.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1013.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": false
+            },
+            {
+              "x": 0,
+              "y": 1025.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1069.5,
+              "text": "Nutrition & diary preview",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 0,
+              "y": 1081.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1125.5,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        },
+        {
+          "id": "57e4d38f-541f-4217-8aa7-eeb7d622703f",
+          "x": -21,
+          "y": 1166.5,
+          "width": 3699.140625,
+          "height": 530,
+          "right": 3678.140625,
+          "bottom": 1696.5,
+          "scrollWidth": 3697,
+          "clientWidth": 3697,
+          "heading": "ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה) ספריית מזון בדיקת תצוגה אבג 123 / (מנה)",
+          "headingDir": "auto",
+          "headingRect": {
+            "x": 0,
+            "y": 1187.5,
+            "width": 3657.140625,
+            "height": 28,
+            "right": 3657.140625,
+            "bottom": 1215.5
+          },
+          "headingStyle": {
+            "overflow": "visible",
+            "textOverflow": "clip"
+          },
+          "metadataLabels": [
+            "Language",
+            "Yield servings",
+            "Ingredients",
+            "Status",
+            "Updated"
+          ],
+          "metadataValues": [
+            "Hebrew",
+            "123.45",
+            "1 ingredient",
+            "Active",
+            "Oct 11, 2026"
+          ],
+          "actions": [
+            {
+              "x": 0,
+              "y": 1519.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1563.5,
+              "text": "Edit",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/57e4d38f-541f-4217-8aa7-eeb7d622703f/edit",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 0,
+              "y": 1575.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1619.5,
+              "text": "Nutrition & diary preview",
+              "tag": "A",
+              "disabled": false,
+              "href": "/en/recipes/57e4d38f-541f-4217-8aa7-eeb7d622703f/use",
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            },
+            {
+              "x": 0,
+              "y": 1631.5,
+              "width": 3657.140625,
+              "height": 44,
+              "right": 3657.140625,
+              "bottom": 1675.5,
+              "text": "Archive",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": false,
+              "reachableAtCapture": null
+            }
+          ]
+        }
+      ],
+      "pageActions": [
+        {
+          "x": -21,
+          "y": -325.5,
+          "width": 122.796875,
+          "height": 44,
+          "right": 101.796875,
+          "bottom": -281.5,
+          "text": "Create recipe",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/new",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 113.796875,
+          "y": -325.5,
+          "width": 128.609375,
+          "height": 44,
+          "right": 242.40625,
+          "bottom": -281.5,
+          "text": "Back to Today",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/today",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": -21,
+          "y": -269.5,
+          "width": 118.796875,
+          "height": 44,
+          "right": 97.796875,
+          "bottom": -225.5,
+          "text": "Saved meals",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/saved-meals",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": -21,
+          "y": -193.5,
+          "width": 74.1875,
+          "height": 46,
+          "right": 53.1875,
+          "bottom": -147.5,
+          "text": "Active",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes?status=active&page=1",
+          "current": "page",
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 65.1875,
+          "y": -193.5,
+          "width": 93.90625,
+          "height": 46,
+          "right": 159.09375,
+          "bottom": -147.5,
+          "text": "Archived",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes?status=archived&page=1",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 317.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 361.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/ade25bf8-24b9-4885-bd39-4f42ed5303a6/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 0,
+          "y": 373.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 417.5,
+          "text": "Nutrition & diary preview",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/ade25bf8-24b9-4885-bd39-4f42ed5303a6/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 17,
+          "y": 514.5,
+          "width": 128.796875,
+          "height": 44,
+          "right": 145.796875,
+          "bottom": 558.5,
+          "text": "Archive recipe",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 157.796875,
+          "y": 514.5,
+          "width": 80.328125,
+          "height": 44,
+          "right": 238.125,
+          "bottom": 558.5,
+          "text": "Cancel",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": true
+        },
+        {
+          "x": 0,
+          "y": 969.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1013.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": true,
+          "reachableAtCapture": false
+        },
+        {
+          "x": 0,
+          "y": 1025.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1069.5,
+          "text": "Nutrition & diary preview",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/ebdb6000-7d96-4a1c-aaa7-87dfdc449cb4/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1081.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1125.5,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1519.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1563.5,
+          "text": "Edit",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/57e4d38f-541f-4217-8aa7-eeb7d622703f/edit",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1575.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1619.5,
+          "text": "Nutrition & diary preview",
+          "tag": "A",
+          "disabled": false,
+          "href": "/en/recipes/57e4d38f-541f-4217-8aa7-eeb7d622703f/use",
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        },
+        {
+          "x": 0,
+          "y": 1631.5,
+          "width": 3657.140625,
+          "height": 44,
+          "right": 3657.140625,
+          "bottom": 1675.5,
+          "text": "Archive",
+          "tag": "BUTTON",
+          "disabled": false,
+          "href": null,
+          "current": null,
+          "rel": null,
+          "visible": true,
+          "inVerticalViewport": false,
+          "reachableAtCapture": null
+        }
+      ],
+      "confirmations": [
+        {
+          "x": 0,
+          "y": 429.5,
+          "width": 3657.140625,
+          "height": 146,
+          "right": 3657.140625,
+          "bottom": 575.5,
+          "scrollWidth": 3655,
+          "clientWidth": 3655,
+          "label": "Confirm archiving WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW 123-A/45",
+          "actions": [
+            {
+              "x": 17,
+              "y": 514.5,
+              "width": 128.796875,
+              "height": 44,
+              "right": 145.796875,
+              "bottom": 558.5,
+              "text": "Archive recipe",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            },
+            {
+              "x": 157.796875,
+              "y": 514.5,
+              "width": 80.328125,
+              "height": 44,
+              "right": 238.125,
+              "bottom": 558.5,
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "disabled": false,
+              "href": null,
+              "current": null,
+              "rel": null,
+              "visible": true,
+              "inVerticalViewport": true,
+              "reachableAtCapture": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "filename": "baseline-meal-archived-en-768.png",
+      "sha256": "9672ce392f9399b921efea3edac49aab5d2f2427936e08004eaf8174acab4db8",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=archived&page=1"
+    },
+    {
+      "filename": "baseline-recipe-archived-en-768.png",
+      "sha256": "f8a8c1f5f144f9e9d908693e7dc6e9eef647f8fb9452592773021310cbc6b156",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=archived&page=1"
+    },
+    {
+      "filename": "baseline-meal-confirmation-en-390.png",
+      "sha256": "d6f8497a079318e128ad68cb8f054c12db1d73addfbb4936759dd5eb55afdd4c",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1"
+    }
+  ],
+  "accessibility": [
+    {
+      "kind": "meal",
+      "state": "archived-long-name",
+      "route": "/en/saved-meals?status=archived&page=1",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "recipe",
+      "state": "archived-long-name",
+      "route": "/en/recipes?status=archived&page=1",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "food",
+      "state": "open-confirmation",
+      "route": "/en/foods/custom?status=active&page=1",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "meal",
+      "state": "open-confirmation",
+      "route": "/en/saved-meals?status=active&page=1",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "recipe",
+      "state": "open-confirmation",
+      "route": "/en/recipes?status=active&page=1",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".bg-slate-100.text-slate-500.py-3:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #62748e, background color: #f1f5f9, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "reachability": [],
+  "contracts": []
+}

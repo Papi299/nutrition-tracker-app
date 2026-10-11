@@ -1,0 +1,706 @@
+{
+  "schemaVersion": "ui-phase5b-library-evidence/v1",
+  "task": "UI_PHASE_5B_LIBRARY_MANAGEMENT_UX_001",
+  "approvedBaseline": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "branch": "main",
+    "sha": "5ae18263dc2af90834840ea63548c541292f0ab8",
+    "tree": "9e3a193aefe7f60e76fd925e8ab8ae212055622d",
+    "livePreflightNoDrift": "Verified by root against live GitHub before branching and again after local validation/cleanup; final repeat check before Draft PR remains required."
+  },
+  "historicalAudit": {
+    "packetAvailable": false,
+    "searched": [
+      "primary repository",
+      "Codex attachment directory"
+    ],
+    "reportedArchivedDocumentWidthsAt768": {
+      "savedMeals": 2468,
+      "recipes": 2331
+    },
+    "reproductionDifference": "Current synthetic fixtures and Chromium measured 3919px for both pages. Historical screenshot/fixture/browser identity was unavailable; no equality to historical widths is claimed."
+  },
+  "captures": [
+    {
+      "mode": "baseline",
+      "manifest": "baseline-manifest.json",
+      "manifestSha256": "2f8c13bf57791328524b5d97ff37b63fb5937982f581bb474b132087851ca2aa",
+      "sourceIdentity": {
+        "head": "5ae18263dc2af90834840ea63548c541292f0ab8",
+        "tree": "9e3a193aefe7f60e76fd925e8ab8ae212055622d",
+        "buildId": "oqAbrOrMVYCwahl8otLf-",
+        "presentationDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "app/[locale]/(app)/foods/custom/page.tsx": "b1121639259178cd9339299cc837bbabd62bb776c1877f1d0dc46f609a3d60f0",
+          "app/[locale]/(app)/saved-meals/page.tsx": "fa44b66f3741acbae521c07a0c70d018ac6871fbce9473dfd98abb9056cf2bde",
+          "app/[locale]/(app)/recipes/page.tsx": "10dabc3427346a98d0080665b994b8d900bb5c425ed3bea2ecfdaab3d9ab9330",
+          "components/custom-foods/custom-food-archive-control.tsx": "feb49bde51532df6b977aa91d14cf210aaefa839195f0c0dba15a8440e5d8abe",
+          "components/saved-meals/saved-meal-archive-control.tsx": "6de56080ddba9a4e7b0c696a0912c8383b4a604543a91383867cfcf9d3945903",
+          "components/recipes/recipe-archive-control.tsx": "327f261ce18c1c0e9718eb3a15bb2a8835a75fb05a36b43b70fb5f5c44be9aad"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "provenance": "Exact approved committed baseline; presentation diff empty."
+    },
+    {
+      "mode": "after",
+      "manifest": "after-manifest.json",
+      "manifestSha256": "6b4e8e43624c6dcadbb71573105e05cd12e723bbc5f06b13ca5bd765f2c01c60",
+      "sourceIdentity": {
+        "head": "e42ba32f1284eb5bfea96f03e81be03ceb6f09dc",
+        "tree": "09c9ada38ca063b6349f89b650c62b25be5e42fb",
+        "buildId": "ET7qs1SO6V1MjkO4fouvd",
+        "presentationDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "app/[locale]/(app)/foods/custom/page.tsx": "c60bce50f3ebc8bf7a7fa7e70a62518081a8a4a474363c448e6ce527564267cc",
+          "app/[locale]/(app)/saved-meals/page.tsx": "e2b5caf577eb66c070bc15aa12f23e15e10dadf0a3e864ea4200ae7d534cd48d",
+          "app/[locale]/(app)/recipes/page.tsx": "1695a0123811ac5d77e88658e803d267d0dbcdb14172f88606097acd2c115044",
+          "components/custom-foods/custom-food-archive-control.tsx": "926ce732059e597154889d12bb81941b935f5b23ea9f78549c2557951a47ebae",
+          "components/saved-meals/saved-meal-archive-control.tsx": "e337a1df463f9499264a6101b6ac4bc01585973935081ec09b3862487f6e3d0a",
+          "components/recipes/recipe-archive-control.tsx": "97fe7b5ec26a4f47b685453d82a45994fb415a645630a1fb31c0400afa04a8a0"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "provenance": "Exact committed implementation; presentation diff empty; source hashes verified against current files."
+    }
+  ],
+  "fixtures": {
+    "version": "phase5b-valid-library-v1",
+    "nameLengths": [
+      159,
+      188,
+      199
+    ],
+    "nameSha256": [
+      "0962f4a24d45078c322fcadeda32de55ef2d5183d74fba0833ffa5f746e7e8a5",
+      "23323d10089a6af2d55334edb6b2847ec2f1ba279f70a3c028f9f4a14ea5dd4d",
+      "655fbb2335446e89cac01c2be37edd623f33c190a9479ece0a17ec694e213925"
+    ],
+    "brandLength": 113,
+    "brandSha256": "11667f6a15d8e8a05d7bc1737f7b0ae72b83574df998260bbc93e8e2a2abb1a5",
+    "servingUnitLength": 37,
+    "servingUnitSha256": "9aa930dbc758556528104cd00ac655a25de223a473aae5caba7993f3ddcef2d4",
+    "localSyntheticIdentity": true,
+    "authenticatedRpcPersistence": true,
+    "noRealOwnerRecords": true
+  },
+  "pairedOverflowMeasurements": [
+    {
+      "kind": "meal",
+      "route": "/en/saved-meals?status=archived&page=1",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "measurements": [
+        {
+          "mode": "baseline",
+          "screenshot": "baseline-meal-archived-en-768.png",
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 3919
+          },
+          "cardWidth": 3887.140625,
+          "actions": [
+            {
+              "label": "Edit",
+              "x": 3734.140625,
+              "width": 160,
+              "height": 44
+            },
+            {
+              "label": "Restore",
+              "x": 3734.140625,
+              "width": 86.15625,
+              "height": 44
+            }
+          ]
+        },
+        {
+          "mode": "after",
+          "screenshot": "after-meal-archived-en-768.png",
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          },
+          "cardWidth": 704,
+          "actions": [
+            {
+              "label": "Edit",
+              "x": 519,
+              "width": 192,
+              "height": 44
+            },
+            {
+              "label": "Restore",
+              "x": 519,
+              "width": 192,
+              "height": 44
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "recipe",
+      "route": "/en/recipes?status=archived&page=1",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "measurements": [
+        {
+          "mode": "baseline",
+          "screenshot": "baseline-recipe-archived-en-768.png",
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 3919
+          },
+          "cardWidth": 3887.140625,
+          "actions": [
+            {
+              "label": "Edit",
+              "x": 3734.140625,
+              "width": 160,
+              "height": 44
+            },
+            {
+              "label": "Restore",
+              "x": 3734.140625,
+              "width": 86.15625,
+              "height": 44
+            }
+          ]
+        },
+        {
+          "mode": "after",
+          "screenshot": "after-recipe-archived-en-768.png",
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          },
+          "cardWidth": 704,
+          "actions": [
+            {
+              "label": "Edit",
+              "x": 519,
+              "width": 192,
+              "height": 44
+            },
+            {
+              "label": "Restore",
+              "x": 519,
+              "width": 192,
+              "height": 44
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "locales": [
+      "en",
+      "he"
+    ],
+    "states": [
+      "active",
+      "archived"
+    ],
+    "libraries": [
+      "My Foods",
+      "Saved Meals",
+      "Recipes"
+    ],
+    "responsiveMatrixCombinations": 48,
+    "geometryRecords": 91,
+    "documentAndBodyOverflowRecords": 0,
+    "axeChecks": 24,
+    "axeViolations": 0,
+    "reachabilityRecords": 51,
+    "individualHitTests": 363,
+    "failedHitTests": 0,
+    "screenshots": 21,
+    "baselineScreenshots": 3,
+    "afterScreenshots": 18,
+    "baselineAccessibilityWarnings": [
+      {
+        "kind": "meal",
+        "state": "archived-long-name",
+        "ruleIds": [
+          "color-contrast"
+        ]
+      },
+      {
+        "kind": "recipe",
+        "state": "archived-long-name",
+        "ruleIds": [
+          "color-contrast"
+        ]
+      },
+      {
+        "kind": "food",
+        "state": "open-confirmation",
+        "ruleIds": [
+          "color-contrast"
+        ]
+      },
+      {
+        "kind": "meal",
+        "state": "open-confirmation",
+        "ruleIds": [
+          "color-contrast"
+        ]
+      },
+      {
+        "kind": "recipe",
+        "state": "open-confirmation",
+        "ruleIds": [
+          "color-contrast"
+        ]
+      }
+    ]
+  },
+  "screenshots": [
+    {
+      "mode": "baseline",
+      "filename": "baseline-meal-archived-en-768.png",
+      "sha256": "9672ce392f9399b921efea3edac49aab5d2f2427936e08004eaf8174acab4db8",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=archived&page=1",
+      "pngDimensions": {
+        "width": 768,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "baseline",
+      "filename": "baseline-recipe-archived-en-768.png",
+      "sha256": "f8a8c1f5f144f9e9d908693e7dc6e9eef647f8fb9452592773021310cbc6b156",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=archived&page=1",
+      "pngDimensions": {
+        "width": 768,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "baseline",
+      "filename": "baseline-meal-confirmation-en-390.png",
+      "sha256": "d6f8497a079318e128ad68cb8f054c12db1d73addfbb4936759dd5eb55afdd4c",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-food-empty-en-390.png",
+      "sha256": "1cb51a40141195cc6be374cc71904c906c4de24af13da51aab11971202a56b71",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/foods/custom?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-empty-en-390.png",
+      "sha256": "3356053319064a97f7f3fe30588dc359aab21fb9a10a776ae5e7d77e12b1287f",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-recipe-empty-en-390.png",
+      "sha256": "620be1ef8507249720804d56ac5c1d12b74c958f3478203106a7d58b5c6355f5",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-food-active-en-390.png",
+      "sha256": "e0a455056ca23e343c1fe1860f463719d3db63fa174980ec69f6fde10f1fce89",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/foods/custom?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-food-active-en-1440.png",
+      "sha256": "3168efafe10aeccc27e5f810e7a41cad79b42d7feb83ee0c89e41fc59c37eb79",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "/en/foods/custom?status=active&page=1",
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-active-en-390.png",
+      "sha256": "8938b18f6382fe1471226777ea66f69a90410913a40519f214a0e9e2f7deeb86",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-archived-en-768.png",
+      "sha256": "fb488aa39c0ce653f500a4ec4624c731d0e5231f42da6b4c4249f82aa0be83a6",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=archived&page=1",
+      "pngDimensions": {
+        "width": 768,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-active-en-1440.png",
+      "sha256": "9774f23cd4c3c8cbaf6101282263142c0b3ffa97fa51438efb7a160354f53093",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-active-he-320.png",
+      "sha256": "74c2c8b1c24f31e0e973e29284eafbf1139a9a8957b98762461e3e1e36d7ad4a",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "route": "/he/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 320,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-recipe-archived-en-768.png",
+      "sha256": "2ca4056bdd12eb3e84fcee9a4ee4f596ffbf354b9fd5f0f9a64bf0feb5e0c490",
+      "viewport": {
+        "width": 768,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=archived&page=1",
+      "pngDimensions": {
+        "width": 768,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-recipe-active-en-1440.png",
+      "sha256": "41935e982a5c4aaf39b50b04726afc8a49a57303df322b8f8203d1aadd77a7a4",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=active&page=1",
+      "pngDimensions": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-recipe-active-he-390.png",
+      "sha256": "19857bb7eb611d094c26b1faa499669e2fb6352391e32af98f63d57ee01c6bec",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/he/recipes?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-confirmation-en-390.png",
+      "sha256": "ff4a1187aa9450cb9be238064d8ecd5c463fa7d2b641729376d44159802c8bdc",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-invalid-en-390.png",
+      "sha256": "ce83d521d49627db605a83230ecf847d0be200910b4a12868cbac477c46e4ac4",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?page=0",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-retrieval-en-390.png",
+      "sha256": "d67a010ef7dae57b28885d4b467a09fe4ca0424e1bda01e8acb4d70af5f9b6ec",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=1",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-food-page2-en-390.png",
+      "sha256": "86b40836a3d1af4f832da6ddcb9520c60c576b486c2efd9486a62cb063ebf904",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/foods/custom?status=active&page=2",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-meal-page2-en-390.png",
+      "sha256": "55a2cc74fa399b7ce4449e0773e17292f4ca853f42aa0f540a396499b6a1d6b3",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals?status=active&page=2&date=2024-02-29",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    },
+    {
+      "mode": "after",
+      "filename": "after-recipe-page2-en-390.png",
+      "sha256": "d9680f817368ddae812f289cfd3512916da32c95a354547ac0d0436ebe065e63",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/recipes?status=active&page=2&date=2024-02-29",
+      "pngDimensions": {
+        "width": 390,
+        "height": 1000
+      }
+    }
+  ],
+  "localIsolation": {
+    "projectId": "ui5b-20261011",
+    "network": "nutrition-ui5b-loopback",
+    "docker": "29.8.2",
+    "node": "26.5.1",
+    "supabaseCLI": "2.116.0",
+    "playwright": "1.61.1",
+    "publishedPorts": {
+      "api": 55321,
+      "database": 55322,
+      "studio": 55323,
+      "mailpit": 55324,
+      "analytics": 55327
+    },
+    "effectiveHostBinding": "127.0.0.1",
+    "ipv6Enabled": false,
+    "taskContainerCount": 12,
+    "migrationCount": 44,
+    "latestMigration": "20260927170418",
+    "seedApplied": true,
+    "temporaryConfigOriginalSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+    "temporaryConfigRestoration": "Restored byte-for-byte after all local testing; no tracked configuration diff.",
+    "setupCorrections": [
+      "Initial long project name was truncated by CLI and shortened before tests.",
+      "Docker Desktop ignored bridge default binding; initial synthetic stack stopped.",
+      "Temporary private Docker API proxy injected explicit 127.0.0.1 task-only port bindings, then closed."
+    ],
+    "temporaryProxyTerminated": true,
+    "historicalWorktreesAndStacksPreserved": true,
+    "remoteSupabaseProjectAccess": false,
+    "productionData": false,
+    "deploymentOperations": false,
+    "cleanup": {
+      "taskProject": "ui5b-20261011",
+      "taskContainersRemaining": 0,
+      "taskDedicatedNetworkRemoved": true,
+      "taskPortListeners": {
+        "3100": false,
+        "8183": false,
+        "55321": false,
+        "55322": false,
+        "55323": false,
+        "55324": false,
+        "55327": false
+      },
+      "temporaryConfigRestoredByteForByte": true,
+      "originalConfigSHA256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+      "taskEnvironmentFileRemoved": true,
+      "privateCredentialBearingStatusLogsRemoved": true,
+      "primaryCheckout": {
+        "head": "d4e55f3058db0b3a3c88bfb61eb8a9f76daeb46f",
+        "tree": "bddd69aa4f10d34dd10b08ec40af70ea10b6acc4",
+        "clean": true,
+        "unchangedSincePreflight": true
+      },
+      "worktreeBranchDependenciesBuildAndEvidenceRetained": true
+    }
+  },
+  "validationAndDelivery": {
+    "focusedCapturedAssertions": "PASS: 5 after-change scenarios, 1 explicit baseline-only skip, 40.6 seconds; capture against committed implementation.",
+    "independentSourceReview": "No actionable behavior-parity findings in six permitted presentation files.",
+    "focusedESLint": "PASS: all six permitted presentation files and the focused E2E suite.",
+    "typeScript": "PASS",
+    "gitDiffCheck": "PASS",
+    "relevantUnitTests": "PASS: 357 tests, 3.6 seconds.",
+    "changedProductionBuild": "PASS: default Turbopack production build.",
+    "existingManagementAndPersistenceRegressions": "PASS: 69 tests across six existing management/persistence specs, 50.9 seconds, exit 0.",
+    "exactHeadGitHubCI": "Pending Draft PR; report final IDs/results outside committed docs.",
+    "draftPR": "Pending; must remain Draft.",
+    "mergeAuthorized": false,
+    "deploymentAuthorized": false
+  },
+  "limitations": [
+    "Existing out-of-range pages produce a range retrieval-error with native active/page-1 retry; separate from genuinely empty Library.",
+    "Archive confirmation opening remains client-only and inert without JavaScript; native Restore POST is verified.",
+    "Desktop Chromium with emulated CSS widths; no physical-device or other-engine claim.",
+    "Historical Phase 5A packet unavailable."
+  ],
+  "deferredFindings": [
+    "F02",
+    "F03",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F13",
+    "F15",
+    "F16"
+  ],
+  "changedFileScope": {
+    "presentation": [
+      "app/[locale]/(app)/foods/custom/page.tsx",
+      "app/[locale]/(app)/saved-meals/page.tsx",
+      "app/[locale]/(app)/recipes/page.tsx",
+      "components/custom-foods/custom-food-archive-control.tsx",
+      "components/saved-meals/saved-meal-archive-control.tsx",
+      "components/recipes/recipe-archive-control.tsx"
+    ],
+    "regression": [
+      "e2e/ui-phase5b-library-management.spec.ts"
+    ],
+    "acceptance": [
+      "docs/ui-phase5b-library-management-ux.md"
+    ],
+    "evidence": [
+      "docs/ui-phase5b/evidence/manifest.json",
+      "docs/ui-phase5b/evidence/after-food-active-en-1440.png",
+      "docs/ui-phase5b/evidence/after-food-active-en-390.png",
+      "docs/ui-phase5b/evidence/after-food-empty-en-390.png",
+      "docs/ui-phase5b/evidence/after-food-page2-en-390.png",
+      "docs/ui-phase5b/evidence/after-manifest.json",
+      "docs/ui-phase5b/evidence/after-meal-active-en-1440.png",
+      "docs/ui-phase5b/evidence/after-meal-active-en-390.png",
+      "docs/ui-phase5b/evidence/after-meal-active-he-320.png",
+      "docs/ui-phase5b/evidence/after-meal-archived-en-768.png",
+      "docs/ui-phase5b/evidence/after-meal-confirmation-en-390.png",
+      "docs/ui-phase5b/evidence/after-meal-empty-en-390.png",
+      "docs/ui-phase5b/evidence/after-meal-invalid-en-390.png",
+      "docs/ui-phase5b/evidence/after-meal-page2-en-390.png",
+      "docs/ui-phase5b/evidence/after-meal-retrieval-en-390.png",
+      "docs/ui-phase5b/evidence/after-recipe-active-en-1440.png",
+      "docs/ui-phase5b/evidence/after-recipe-active-he-390.png",
+      "docs/ui-phase5b/evidence/after-recipe-archived-en-768.png",
+      "docs/ui-phase5b/evidence/after-recipe-empty-en-390.png",
+      "docs/ui-phase5b/evidence/after-recipe-page2-en-390.png",
+      "docs/ui-phase5b/evidence/baseline-manifest.json",
+      "docs/ui-phase5b/evidence/baseline-meal-archived-en-768.png",
+      "docs/ui-phase5b/evidence/baseline-meal-confirmation-en-390.png",
+      "docs/ui-phase5b/evidence/baseline-recipe-archived-en-768.png"
+    ]
+  }
+}
