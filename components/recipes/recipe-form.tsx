@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import {
   searchRecipeIngredientFoodsAction,
@@ -139,9 +139,11 @@ function NumberInput({
 
 function FoodPicker({
   disabled,
+  onCompositionEnter,
   onSelect,
 }: {
   disabled: boolean;
+  onCompositionEnter: (input: HTMLInputElement | null) => void;
   onSelect: (value: Awaited<ReturnType<typeof selectRecipeIngredientFoodAction>> extends infer R ? R : never) => void;
 }) {
   const t = useTranslations("RecipeEditor.picker");
@@ -149,25 +151,39 @@ function FoodPicker({
   const [results, setResults] = useState<RecipeFoodPickerResult[]>([]);
   const [status, setStatus] = useState<"idle" | "too_short" | "error" | "ready">("idle");
   const [pending, startTransition] = useTransition();
+  const composing = useRef(false);
+  const requestPending = useRef(false);
 
   function search() {
+    if (disabled || pending || requestPending.current) return;
+    requestPending.current = true;
     startTransition(async () => {
-      const result = await searchRecipeIngredientFoodsAction(query);
-      if (result.status === "ready") {
-        setResults(result.results);
-        setStatus("ready");
-      } else {
-        setResults([]);
-        setStatus(result.status === "too_short" ? "too_short" : "error");
+      try {
+        const result = await searchRecipeIngredientFoodsAction(query);
+        if (result.status === "ready") {
+          setResults(result.results);
+          setStatus("ready");
+        } else {
+          setResults([]);
+          setStatus(result.status === "too_short" ? "too_short" : "error");
+        }
+      } finally {
+        requestPending.current = false;
       }
     });
   }
 
   function select(foodId: string) {
+    if (disabled || pending || requestPending.current) return;
+    requestPending.current = true;
     startTransition(async () => {
-      const result = await selectRecipeIngredientFoodAction(foodId);
-      if (result.status !== "ready") setStatus("error");
-      onSelect(result);
+      try {
+        const result = await selectRecipeIngredientFoodAction(foodId);
+        if (result.status !== "ready") setStatus("error");
+        onSelect(result);
+      } finally {
+        requestPending.current = false;
+      }
     });
   }
 
@@ -183,6 +199,25 @@ function FoodPicker({
           disabled={disabled || pending}
           maxLength={100}
           onChange={(event) => setQuery(event.target.value)}
+          onBlur={() => {
+            composing.current = false;
+            onCompositionEnter(null);
+          }}
+          onCompositionStart={() => { composing.current = true; }}
+          onCompositionEnd={() => { composing.current = false; }}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter") return;
+            // Some IMEs end composition before the final keydown, leaving keyCode 229.
+            if (composing.current || event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229) {
+              // Keep native text acceptance; block only its possible form submission.
+              onCompositionEnter(event.currentTarget);
+              return;
+            }
+            onCompositionEnter(null);
+            event.preventDefault();
+            search();
+          }}
+          onKeyUp={() => onCompositionEnter(null)}
           type="search"
           value={query}
         />
@@ -219,6 +254,7 @@ function RecipeIngredientCard({
   ingredient,
   ingredientCount,
   move,
+  onCompositionEnter,
   remove,
   update,
 }: {
@@ -229,6 +265,7 @@ function RecipeIngredientCard({
   ingredient: RecipeFormIngredientValues;
   ingredientCount: number;
   move: (direction: -1 | 1) => void;
+  onCompositionEnter: (input: HTMLInputElement | null) => void;
   remove: () => void;
   update: (value: Partial<RecipeFormIngredientValues>) => void;
 }) {
@@ -260,6 +297,7 @@ function RecipeIngredientCard({
       <FieldError code={fieldErrors[field("row_key")]} field={field("row_key")} />
       <FoodPicker
         disabled={isPending}
+        onCompositionEnter={onCompositionEnter}
         onSelect={(result) => {
           if (result.status === "ready") {
             const { food_id, ...snapshot } = result.value;
@@ -316,6 +354,7 @@ export function RecipeForm({
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [ingredients, setIngredients] = useState(state.values.ingredients);
   const [yieldServings, setYieldServings] = useState(state.values.yield_servings);
+  const compositionEnterInput = useRef<HTMLInputElement | null>(null);
   const linkedRows = new Set(linkedRowKeys);
   const fieldErrors = state.fieldErrors ?? {};
   const statusMessage = {
@@ -342,7 +381,11 @@ export function RecipeForm({
   }
 
   return (
-    <form action={formAction} className="grid gap-8 text-start" noValidate>
+    <form action={formAction} className="grid gap-8 text-start" noValidate onSubmitCapture={(event) => {
+      if (compositionEnterInput.current && compositionEnterInput.current === event.currentTarget.ownerDocument.activeElement) {
+        event.preventDefault();
+      }
+    }}>
       <input name="recipe_id" type="hidden" value={state.values.recipe_id} />
       <input name="ingredient_count" type="hidden" value={ingredients.length} />
 
@@ -386,7 +429,7 @@ export function RecipeForm({
         <FieldError code={fieldErrors.ingredients} field="ingredients" />
         <div className="grid gap-5">
           {ingredients.map((ingredient, index) => (
-            <RecipeIngredientCard fieldErrors={fieldErrors} index={index} ingredient={ingredient} ingredientCount={ingredients.length} isLinked={(linkedRows.has(ingredient.row_key) || ingredient.selected_food_id !== "") && !ingredient.remove_food_link} isPending={isPending} key={ingredient.row_key} move={(direction) => moveIngredient(index, direction)} remove={() => setIngredients((current) => current.filter((_, itemIndex) => itemIndex !== index))} update={(update) => updateIngredient(index, update)} />
+            <RecipeIngredientCard fieldErrors={fieldErrors} index={index} ingredient={ingredient} ingredientCount={ingredients.length} isLinked={(linkedRows.has(ingredient.row_key) || ingredient.selected_food_id !== "") && !ingredient.remove_food_link} isPending={isPending} key={ingredient.row_key} move={(direction) => moveIngredient(index, direction)} onCompositionEnter={(input) => { compositionEnterInput.current = input; }} remove={() => setIngredients((current) => current.filter((_, itemIndex) => itemIndex !== index))} update={(update) => updateIngredient(index, update)} />
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-4">
