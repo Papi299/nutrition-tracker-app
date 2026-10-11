@@ -507,6 +507,32 @@ export function DiaryEntryForm({
       {values.food_id && (
         <input name="food_id" type="hidden" value={values.food_id} />
       )}
+      <FormSection title={sectionLabels.foodDetails}>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <TextInput
+            error={fieldErrors?.food_name}
+            helpText={fieldHelpText.food_name}
+            label={labels.food_name}
+            messages={fieldErrorMessages}
+            name="food_name"
+            optionalLabel={optionalLabel}
+            required
+            requiredLabel={requiredLabel}
+            value={values.food_name}
+          />
+          <TextInput
+            error={fieldErrors?.brand_name}
+            helpText={fieldHelpText.brand_name}
+            label={labels.brand_name}
+            messages={fieldErrorMessages}
+            name="brand_name"
+            optionalLabel={optionalLabel}
+            requiredLabel={requiredLabel}
+            value={values.brand_name}
+          />
+        </div>
+      </FormSection>
+
       <FormSection title={sectionLabels.mealDate}>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput
@@ -552,32 +578,6 @@ export function DiaryEntryForm({
               messages={fieldErrorMessages}
             />
           </UIFieldLabel>
-        </div>
-      </FormSection>
-
-      <FormSection title={sectionLabels.foodDetails}>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <TextInput
-            error={fieldErrors?.food_name}
-            helpText={fieldHelpText.food_name}
-            label={labels.food_name}
-            messages={fieldErrorMessages}
-            name="food_name"
-            optionalLabel={optionalLabel}
-            required
-            requiredLabel={requiredLabel}
-            value={values.food_name}
-          />
-          <TextInput
-            error={fieldErrors?.brand_name}
-            helpText={fieldHelpText.brand_name}
-            label={labels.brand_name}
-            messages={fieldErrorMessages}
-            name="brand_name"
-            optionalLabel={optionalLabel}
-            requiredLabel={requiredLabel}
-            value={values.brand_name}
-          />
         </div>
       </FormSection>
 

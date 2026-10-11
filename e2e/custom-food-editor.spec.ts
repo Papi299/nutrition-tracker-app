@@ -490,6 +490,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
 
     await page.goto("/en/foods?q=phase%207b%20updated%20food");
     const ownResult = page.locator(`[data-food-id="${mainFoodId}"]`);
+    await ownResult.locator("summary").click();
     await expect(ownResult.getByRole("link", { name: "Edit" })).toHaveAttribute(
       "href",
       `/en/foods/custom/${mainFoodId}/edit`,
@@ -498,6 +499,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
     await page.goto("/en/foods?q=phase%207b%20public%20catalog");
     const publicResult = page.locator(`[data-food-id="${publicFoodId}"]`);
     await expect(publicResult).toBeVisible();
+    await publicResult.locator("summary").click();
     await expect(publicResult.getByRole("link", { name: "Edit" })).toHaveCount(0);
     await context.close();
   });

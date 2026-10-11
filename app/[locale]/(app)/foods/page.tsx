@@ -1,10 +1,20 @@
 import Link from "next/link";
 import Form from "next/form";
+import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RetrievalError } from "@/components/data/retrieval-error";
 import { FoodFavoriteControl } from "@/components/foods/food-favorite-control";
+import { FoodDiscoveryHeader } from "@/components/foods/food-discovery-header";
+import { FoodDiscoveryNavigation } from "@/components/foods/food-discovery-navigation";
+import { FoodDiscoveryOptions } from "@/components/foods/food-discovery-options";
+import { FoodResultCard } from "@/components/foods/food-result-card";
+import { FoodMetadata, FoodResultMetadata } from "@/components/foods/food-result-metadata";
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { FieldLabel, Input } from "@/components/ui/form-controls";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   parseCalendarDateQueryValue,
@@ -59,60 +69,22 @@ function LocalizedFoodsPage({
   const t = useTranslations("FoodSearch");
   const selectedDate = dateQuery.status === "valid" ? dateQuery.date : null;
   const retryParameters = new URLSearchParams({ q: state.value });
-  const barcodeParameters = new URLSearchParams();
 
   if (selectedDate) {
     retryParameters.set("date", selectedDate);
-    barcodeParameters.set("date", selectedDate);
   }
 
   const retryHref = `/${locale}/foods?${retryParameters.toString()}`;
 
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
-          {t("label")}
-        </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-          {t("title")}
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
-          {t("description")}
-        </p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link
-            className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
-            href={`/${locale}/foods/custom/new`}
-          >
-            {t("createCustom")}
-          </Link>
-          <Link
-            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-            href={`/${locale}/foods/barcode${barcodeParameters.size > 0 ? `?${barcodeParameters.toString()}` : ""}`}
-          >
-            {t("barcodeLookup")}
-          </Link>
-          <Link
-            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-            href={`/${locale}/foods/custom`}
-          >
-            {t("manageCustom")}
-          </Link>
-          <Link
-            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-            href={`/${locale}/foods/reuse${selectedDate ? `?date=${selectedDate}` : ""}`}
-          >
-            {t("reuseFoods")}
-          </Link>
-          <Link
-            className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:border-teal-700 hover:text-teal-800"
-            href={`/${locale}/recipes`}
-          >
-            {t("recipes")}
-          </Link>
-        </div>
-      </header>
+    <section className="flex min-w-0 flex-1 flex-col gap-4 py-2 text-start">
+      <FoodDiscoveryHeader
+        description={t("description")}
+        eyebrow={t("label")}
+        locale={locale}
+        selectedDate={selectedDate}
+        title={t("title")}
+      />
 
       {(dateQuery.status === "invalid" || dateQuery.status === "repeated") && (
         <SearchState
@@ -129,35 +101,39 @@ function LocalizedFoodsPage({
 
       <Form
         action={`/${locale}/foods`}
-        className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+        className={surfaceStyles({ className: "min-w-0 p-4 sm:p-5" })}
         role="search"
       >
         {selectedDate && <input name="date" type="hidden" value={selectedDate} />}
-        <label className="block text-sm font-semibold text-slate-900" htmlFor="food-search-query">
+        <FieldLabel className="block" htmlFor="food-search-query">
           {t("form.label")}
-        </label>
-        <p className="mt-2 text-sm leading-6 text-slate-600" id="food-search-help">
+        </FieldLabel>
+        <div className="mt-2 flex min-w-0 flex-col gap-2 sm:flex-row">
+          <div className="relative min-w-0 flex-1">
+            <Search aria-hidden="true" className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+            <Input
+              aria-describedby="food-search-help"
+              autoComplete="off"
+              className="px-10"
+              defaultValue={state.value}
+              dir="auto"
+              enterKeyHint="search"
+              id="food-search-query"
+              inputMode="search"
+              maxLength={100}
+              name="q"
+              type="search"
+            />
+          </div>
+          <Button type="submit">{t("form.submit")}</Button>
+        </div>
+        <p className="ui-caption mt-2" id="food-search-help">
           {t("form.help")}
         </p>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <input
-            aria-describedby="food-search-help"
-            autoComplete="off"
-            className="min-h-11 flex-1 border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none transition-colors focus:border-teal-700 focus:ring-2 focus:ring-teal-100"
-            defaultValue={state.value}
-            id="food-search-query"
-            maxLength={100}
-            name="q"
-            type="search"
-          />
-          <button
-            className="min-h-11 bg-teal-700 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
-            type="submit"
-          >
-            {t("form.submit")}
-          </button>
-        </div>
       </Form>
+
+      <FoodDiscoveryNavigation current="search" locale={locale} selectedDate={selectedDate} />
+      <FoodDiscoveryOptions locale={locale} selectedDate={selectedDate} />
 
       {state.status === "initial" && (
         <SearchState
@@ -189,7 +165,7 @@ function LocalizedFoodsPage({
       )}
 
       {state.status === "database_error" && (
-        <div className="max-w-3xl">
+        <div className="min-w-0">
           <RetrievalError
             body={t("states.failure.body")}
             retryHref={retryHref}
@@ -233,13 +209,13 @@ function SearchState({
   return (
     <section
       aria-labelledby={`${testId}-title`}
-      className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ variant: "subtle" })}
       data-testid={testId}
     >
-      <h2 className="text-lg font-semibold text-slate-950" id={`${testId}-title`}>
+      <h2 className="ui-card-title" id={`${testId}-title`}>
         {title}
       </h2>
-      <p className="mt-3 text-sm leading-6 text-slate-700" role={alert ? "alert" : undefined}>
+      <p className="ui-body-secondary mt-2" role={alert ? "alert" : undefined}>
         {body}
       </p>
     </section>
@@ -296,11 +272,11 @@ function SearchResults({
   };
 
   return (
-    <section aria-labelledby="food-search-results-title" className="max-w-4xl">
-      <h2 className="text-2xl font-semibold text-slate-950" id="food-search-results-title">
+    <section aria-labelledby="food-search-results-title" className="min-w-0">
+      <h2 className="ui-section-title" id="food-search-results-title">
         {t("results.title", { count: results.length })}
       </h2>
-      <ol className="mt-5 grid gap-4" data-testid="food-search-results">
+      <ol className="mt-3 grid items-start gap-3 md:grid-cols-2" data-testid="food-search-results">
         {results.map((food) => {
           const sourceLabel = food.source_code
             ? (sourceCodeLabels[food.source_code] ?? food.source_name)
@@ -328,95 +304,69 @@ function SearchResults({
           );
 
           return (
-            <li
-              className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-              data-food-id={food.food_id}
+            <FoodResultCard
+              actions={
+                <>
+                  <Link
+                    className={buttonStyles()}
+                    href={`/${locale}/today?${diaryParameters.toString()}`}
+                  >
+                    {t("results.useInDiary")}
+                  </Link>
+                  <FoodFavoriteControl
+                    action={favoriteAction}
+                    foodName={food.name}
+                    isFavorite={food.is_favorite}
+                  />
+                </>
+              }
+              brand={food.brand_name ? t("results.brand", { brand: food.brand_name }) : null}
+              foodId={food.food_id}
               key={food.food_id}
+              name={food.name}
+              serving={serving}
+              servingLabel={t("results.serving")}
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <h3 className="text-xl font-semibold text-slate-950" dir="auto">
-                    {food.name}
-                  </h3>
-                  {food.brand_name && (
-                    <p className="mt-1 text-sm text-slate-700" dir="auto">
-                      {t("results.brand", { brand: food.brand_name })}
-                    </p>
+              <FoodResultMetadata>
+                <Badge>{food.is_owned ? t("visibility.own") : t("visibility.public")}</Badge>
+                <dl className="mt-3 grid gap-x-5 gap-y-3 sm:grid-cols-2">
+                  {food.matched_alias && (
+                    <FoodMetadata label={t("results.matchedAlias")} value={food.matched_alias} />
                   )}
-                </div>
-                <span className="w-fit bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-800">
-                  {food.is_owned ? t("visibility.own") : t("visibility.public")}
-                </span>
-              </div>
-
-              {food.matched_alias && (
-                <p className="mt-4 text-sm text-slate-700" dir="auto">
-                  <span className="font-semibold">{t("results.matchedAlias")}: </span>
-                  {food.matched_alias}
-                </p>
-              )}
-
-              <dl className="mt-4 grid gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
-                <Metadata label={t("results.foodType")} value={foodTypeLabels[food.food_type] ?? food.food_type} />
-                <Metadata label={t("results.language")} value={localeLabels[food.locale] ?? food.locale} />
-                {serving && <Metadata label={t("results.serving")} value={serving} />}
-                <Metadata label={t("results.quality")} value={qualityLabels[food.data_quality] ?? food.data_quality} />
-                {sourceLabel && <Metadata label={t("results.source")} value={sourceLabel} />}
-                {food.source_type && (
-                  <Metadata
-                    label={t("results.sourceType")}
-                    value={sourceTypeLabels[food.source_type] ?? food.source_type}
-                  />
-                )}
-                {food.source_trust_level && (
-                  <Metadata
-                    label={t("results.trust")}
-                    value={trustLabels[food.source_trust_level] ?? food.source_trust_level}
-                  />
-                )}
-              </dl>
-              <p className="mt-4 text-xs leading-5 text-slate-500">
-                {t("results.readOnly")}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <Link
-                  className="inline-flex min-h-10 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
-                  href={`/${locale}/today?${diaryParameters.toString()}`}
-                >
-                  {t("results.useInDiary")}
-                </Link>
+                  <FoodMetadata label={t("results.foodType")} value={foodTypeLabels[food.food_type] ?? food.food_type} />
+                  <FoodMetadata label={t("results.language")} value={localeLabels[food.locale] ?? food.locale} />
+                  <FoodMetadata label={t("results.quality")} value={qualityLabels[food.data_quality] ?? food.data_quality} />
+                  {sourceLabel && <FoodMetadata label={t("results.source")} value={sourceLabel} />}
+                  {food.source_type && (
+                    <FoodMetadata
+                      label={t("results.sourceType")}
+                      value={sourceTypeLabels[food.source_type] ?? food.source_type}
+                    />
+                  )}
+                  {food.source_trust_level && (
+                    <FoodMetadata
+                      label={t("results.trust")}
+                      value={trustLabels[food.source_trust_level] ?? food.source_trust_level}
+                    />
+                  )}
+                </dl>
+                <p className="ui-caption mt-3">{t("results.readOnly")}</p>
                 {food.is_owned && (
                   <Link
-                    className="inline-flex min-h-10 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+                    className={buttonStyles({ variant: "ghost", size: "sm", className: "mt-2" })}
                     href={`/${locale}/foods/custom/${food.food_id}/edit`}
                   >
                     {t("results.editCustom")}
                   </Link>
                 )}
-                <FoodFavoriteControl
-                  action={favoriteAction}
-                  foodName={food.name}
-                  isFavorite={food.is_favorite}
-                />
-              </div>
-            </li>
+              </FoodResultMetadata>
+            </FoodResultCard>
           );
         })}
       </ol>
-      <p className="mt-4 text-sm text-slate-600">
+      <p className="ui-caption mt-3">
         {t("results.limit")}
       </p>
     </section>
-  );
-}
-
-function Metadata({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="font-semibold text-slate-700">{label}</dt>
-      <dd className="mt-1 text-slate-950" dir="auto">
-        {value}
-      </dd>
-    </div>
   );
 }

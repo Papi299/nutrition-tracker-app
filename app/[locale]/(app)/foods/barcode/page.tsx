@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Link from "next/link";
+import { ClipboardCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -7,6 +8,13 @@ import { BarcodeLookupForm } from "@/components/barcodes/barcode-lookup-form";
 import { BarcodeCameraScanner } from "@/components/barcodes/barcode-camera-scanner";
 import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
 import { RetrievalError } from "@/components/data/retrieval-error";
+import { FoodDiscoveryHeader } from "@/components/foods/food-discovery-header";
+import { FoodDiscoveryNavigation } from "@/components/foods/food-discovery-navigation";
+import { FoodDiscoveryOptions } from "@/components/foods/food-discovery-options";
+import { FoodMetadata, FoodResultMetadata } from "@/components/foods/food-result-metadata";
+import { Badge } from "@/components/ui/badge";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import {
   barcodeLookupCapabilities,
@@ -135,19 +143,26 @@ function LocalizedBarcodeLookupPage({
     value: mealType,
   }));
 
+  const returnParameters = new URLSearchParams();
+  if (formValues.date) returnParameters.set("date", formValues.date);
+  if (formValues.mealType) returnParameters.set("mealType", formValues.mealType);
+  const returnHref = `/${locale}/today${returnParameters.size ? `?${returnParameters.toString()}` : ""}`;
+
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
-          {t("label")}
-        </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-          {t("title")}
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
-          {t("description")}
-        </p>
-      </header>
+    <section className="flex min-w-0 flex-1 flex-col gap-5 py-5 text-start sm:gap-6 sm:py-6">
+      <FoodDiscoveryHeader
+        description={t("ui.description")}
+        eyebrow={t("label")}
+        locale={locale}
+        returnHref={returnHref}
+        selectedDate={formValues.date}
+        title={t("title")}
+      />
+      <FoodDiscoveryNavigation current="barcode" locale={locale} mealType={formValues.mealType} selectedDate={formValues.date} />
+
+      {query.status === "valid" && query.canonical_gtin !== null && lookup && (
+        <BarcodeLookupResult locale={locale} lookup={lookup} query={query} />
+      )}
 
       <BarcodeLookupForm
         action={routePath}
@@ -156,6 +171,9 @@ function LocalizedBarcodeLookupPage({
         error={formError}
         formId={formId}
         labels={{
+          title: t("ui.manualTitle"),
+          description: t("description"),
+          details: t("ui.details"),
           code: t("form.code"),
           codeHelp: t("form.codeHelp"),
           date: t("form.date"),
@@ -190,9 +208,7 @@ function LocalizedBarcodeLookupPage({
         />
       )}
 
-      {query.status === "valid" && query.canonical_gtin !== null && lookup && (
-        <BarcodeLookupResult locale={locale} lookup={lookup} query={query} />
-      )}
+      <FoodDiscoveryOptions locale={locale} selectedDate={formValues.date} />
     </section>
   );
 }
@@ -238,7 +254,7 @@ function BarcodeLookupResult({
 
   if (lookup.status === "database_error") {
     return (
-      <div className="grid max-w-3xl gap-4">
+      <div className="grid min-w-0 gap-4">
         <RetrievalError
           body={t("states.failure.body")}
           retryHref={`/${locale}/foods/barcode?${canonicalQuery}`}
@@ -246,7 +262,7 @@ function BarcodeLookupResult({
           testId="barcode-database-error"
           title={t("states.failure.title")}
         />
-        <BackToFoodSearch locale={locale} />
+        <BackToFoodSearch locale={locale} selectedDate={query.date} />
       </div>
     );
   }
@@ -283,7 +299,7 @@ function BarcodeLookupResult({
         <Link className={secondaryLinkClass} href={`/${locale}/foods/custom/new`}>
           {t("states.notFound.createWithoutBarcode")}
         </Link>
-        <BackToFoodSearch locale={locale} />
+        <BackToFoodSearch locale={locale} selectedDate={query.date} />
       </BarcodeState>
     );
   }
@@ -295,7 +311,7 @@ function BarcodeLookupResult({
       testId={`barcode-${stateKey}`}
       title={t(`states.${stateKey}.title`)}
     >
-      <BackToFoodSearch locale={locale} />
+      <BackToFoodSearch locale={locale} selectedDate={query.date} />
     </BarcodeState>
   );
 }
@@ -335,45 +351,58 @@ function BarcodeFoundReview({
   return (
     <section
       aria-labelledby="barcode-found-title"
-      className="max-w-4xl border border-teal-200 bg-teal-50 p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ className: "min-w-0 border-primary/25" })}
       data-testid={`barcode-${status}`}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold text-slate-950" dir="auto" id="barcode-found-title">
-            {food.food_name}
+      <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h2 className="ui-section-title [overflow-wrap:anywhere]" dir="auto" id="barcode-found-title">
+            <bdi>{food.food_name}</bdi>
           </h2>
-          {food.brand_name && <p className="mt-1 text-sm text-slate-700" dir="auto">{food.brand_name}</p>}
+          {food.brand_name && (
+            <p className="ui-body-secondary mt-1 [overflow-wrap:anywhere]" dir="auto">
+              <bdi>{food.brand_name}</bdi>
+            </p>
+          )}
+          {serving && (
+            <p className="mt-2 text-sm text-muted-foreground">
+              <span className="font-medium">{t("metadata.serving")}: </span>
+              <bdi>{serving}</bdi>
+            </p>
+          )}
         </div>
-        <span className="w-fit bg-white px-3 py-1 text-xs font-semibold text-teal-900">
+        <Badge className="w-fit shrink-0" variant="primary">
           {status === "found_owned" ? t("ownership.owned") : t("ownership.public")}
-        </span>
+        </Badge>
       </div>
 
-      <p className="mt-4 text-sm text-slate-700">
-        <span className="font-semibold">{t("metadata.canonicalGtin")}: </span>
-        <code className="font-mono" dir="ltr" data-testid="canonical-gtin">{food.canonical_gtin}</code>
-      </p>
-
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
-        <Metadata label={t("metadata.foodType")} value={foodType} />
-        <Metadata label={t("metadata.language")} value={language} />
-        {serving && <Metadata label={t("metadata.serving")} value={serving} />}
-        <Metadata label={t("metadata.quality")} value={foodT(`quality.${qualityKey(food.food_data_quality)}`)} />
-        <Metadata label={t("metadata.foodSource")} value={food.food_source_name ?? t("metadata.unknown")} />
-        <Metadata label={t("metadata.sourceType")} value={food.food_source_type ? foodT(`sourceTypes.${sourceTypeKey(food.food_source_type)}`) : t("metadata.unknown")} />
-        <Metadata label={t("metadata.trust")} value={food.food_source_trust_level ? foodT(`trust.${trustKey(food.food_source_trust_level)}`) : t("metadata.unknown")} />
-        <Metadata label={t("metadata.mappingVerification")} value={t(`verification.${food.mapping_verification_status}`)} />
-        <Metadata label={t("metadata.mappingSource")} value={food.mapping_provenance_source_name} />
-        <Metadata label={t("metadata.mappingSourceType")} value={foodT(`sourceTypes.${sourceTypeKey(food.mapping_provenance_source_type)}`)} />
-        <Metadata label={t("metadata.mappingTrust")} value={foodT(`trust.${trustKey(food.mapping_provenance_source_trust_level)}`)} />
-      </dl>
-
-      <p className="mt-5 text-sm leading-6 text-slate-700">{t("review.explanation")}</p>
-      <div className="mt-5 flex flex-wrap gap-3">
-        <Link className={primaryLinkClass} href={diaryHref}>{t("review.diary")}</Link>
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        <Link className={primaryLinkClass} href={diaryHref}>
+          <ClipboardCheck aria-hidden="true" className="size-4 shrink-0" />
+          {t("review.diary")}
+        </Link>
         {editHref && <Link className={secondaryLinkClass} href={editHref}>{t("review.edit")}</Link>}
       </div>
+
+      <FoodResultMetadata className="mt-4" summary={t("ui.details")}>
+        <p className="ui-body-secondary">{t("review.explanation")}</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          <span className="font-medium">{t("metadata.canonicalGtin")}: </span>
+          <code className="font-mono text-foreground" dir="ltr" data-testid="canonical-gtin">{food.canonical_gtin}</code>
+        </p>
+        <dl className="mt-4 grid min-w-0 gap-3 text-sm sm:grid-cols-2">
+          <FoodMetadata label={t("metadata.foodType")} value={foodType} />
+          <FoodMetadata label={t("metadata.language")} value={language} />
+          <FoodMetadata label={t("metadata.quality")} value={foodT(`quality.${qualityKey(food.food_data_quality)}`)} />
+          <FoodMetadata label={t("metadata.foodSource")} value={food.food_source_name ?? t("metadata.unknown")} />
+          <FoodMetadata label={t("metadata.sourceType")} value={food.food_source_type ? foodT(`sourceTypes.${sourceTypeKey(food.food_source_type)}`) : t("metadata.unknown")} />
+          <FoodMetadata label={t("metadata.trust")} value={food.food_source_trust_level ? foodT(`trust.${trustKey(food.food_source_trust_level)}`) : t("metadata.unknown")} />
+          <FoodMetadata label={t("metadata.mappingVerification")} value={t(`verification.${food.mapping_verification_status}`)} />
+          <FoodMetadata label={t("metadata.mappingSource")} value={food.mapping_provenance_source_name} />
+          <FoodMetadata label={t("metadata.mappingSourceType")} value={foodT(`sourceTypes.${sourceTypeKey(food.mapping_provenance_source_type)}`)} />
+          <FoodMetadata label={t("metadata.mappingTrust")} value={foodT(`trust.${trustKey(food.mapping_provenance_source_trust_level)}`)} />
+        </dl>
+      </FoodResultMetadata>
     </section>
   );
 }
@@ -386,21 +415,17 @@ function BarcodeState({ alert = false, body, children, testId, title }: {
   title: string;
 }) {
   return (
-    <section aria-labelledby={`${testId}-title`} className="max-w-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" data-testid={testId}>
-      <h2 className="text-lg font-semibold text-slate-950" id={`${testId}-title`}>{title}</h2>
-      <p className="mt-3 text-sm leading-6 text-slate-700" role={alert ? "alert" : undefined}>{body}</p>
-      {children && <div className="mt-5 flex flex-wrap gap-3">{children}</div>}
+    <section aria-labelledby={`${testId}-title`} className={surfaceStyles({ className: `min-w-0 ${alert ? "border-danger/30 bg-danger-surface" : ""}` })} data-testid={testId}>
+      <h2 className="ui-card-title" id={`${testId}-title`}>{title}</h2>
+      <p className={`mt-2 text-sm leading-6 ${alert ? "text-danger-foreground" : "text-muted-foreground"}`} role={alert ? "alert" : undefined}>{body}</p>
+      {children && <div className="mt-4 flex flex-wrap gap-2">{children}</div>}
     </section>
   );
 }
 
-function Metadata({ label, value }: { label: string; value: string }) {
-  return <div className="border border-teal-100 bg-white p-3"><dt className="font-medium text-slate-600">{label}</dt><dd className="mt-1 text-slate-950" dir="auto">{value}</dd></div>;
-}
-
-function BackToFoodSearch({ locale }: { locale: Locale }) {
+function BackToFoodSearch({ locale, selectedDate }: { locale: Locale; selectedDate?: string | null }) {
   const t = useTranslations("BarcodeLookup");
-  return <Link className={secondaryLinkClass} href={`/${locale}/foods`}>{t("backToSearch")}</Link>;
+  return <Link className={secondaryLinkClass} href={`/${locale}/foods${selectedDate ? `?date=${selectedDate}` : ""}`}>{t("backToSearch")}</Link>;
 }
 
 function barcodeFormValues(query: Exclude<BarcodeRouteQueryResult, { status: "date_missing" }>) {
@@ -445,5 +470,5 @@ function trustKey(value: NonNullable<BarcodeLookupFood["food_source_trust_level"
   return ({ user_provided: "userProvided" } as Record<string, string>)[value] ?? value;
 }
 
-const primaryLinkClass = "inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800";
-const secondaryLinkClass = "inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50";
+const primaryLinkClass = buttonStyles();
+const secondaryLinkClass = buttonStyles({ variant: "outline" });

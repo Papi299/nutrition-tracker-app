@@ -377,7 +377,11 @@
         "per_100g": "Per 100 g",
         "per_100ml": "Per 100 ml",
         "none": "No nutrient basis available"
-      }
+      },
+      "reviewTitle": "Review selected food",
+      "reviewIntro": "Your food is selected. Review the editable values, then choose Add entry to log it.",
+      "continueReview": "Review & add entry",
+      "details": "Source details"
     },
     "fields": {
       "entryDate": "Date",
@@ -690,8 +694,8 @@
   },
   "FoodSearch": {
     "label": "Food catalog",
-    "title": "Search readable foods.",
-    "description": "Find public foods and your own custom foods by name, alias, or brand, then choose one to prefill a diary snapshot.",
+    "title": "Find food",
+    "description": "Search by food name, brand, or alias, then review it in your diary.",
     "createCustom": "Create custom food",
     "manageCustom": "My foods",
     "reuseFoods": "Favorites & recent",
@@ -792,8 +796,8 @@
   },
   "ReusableFoods": {
     "label": "Quick reuse",
-    "title": "Favorites and recent foods.",
-    "description": "Reuse readable foods from your favorites or from foods you previously logged. A food may appear in both lists.",
+    "title": "Favorites & recent",
+    "description": "Choose a favorite or something you have logged before.",
     "search": "Search all foods",
     "savedMeals": "Saved meals",
     "recipes": "Recipes",
@@ -1591,6 +1595,11 @@
         "body": "We could not retrieve the local barcode result right now. This is not a not-found result, and no database details were exposed.",
         "retry": "Try this barcode again"
       }
+    },
+    "ui": {
+      "description": "Scan a product or enter its barcode to review it for your diary.",
+      "manualTitle": "Enter a barcode",
+      "details": "Food & barcode details"
     }
   },
   "Account": {
@@ -1697,5 +1706,19 @@
         "notSet": "Not set"
       }
     }
+  },
+  "FoodDiscovery": {
+    "navigationLabel": "Food discovery",
+    "search": "Search",
+    "reuse": "Favorites & recent",
+    "barcode": "Scan",
+    "moreOptions": "More food options",
+    "createCustom": "Create custom food",
+    "manageCustom": "My foods",
+    "savedMeals": "Saved meals",
+    "recipes": "Recipes",
+    "backToDiary": "Back to diary",
+    "selectedDate": "Diary date",
+    "details": "Food details"
   }
 }
