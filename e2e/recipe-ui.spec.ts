@@ -1087,8 +1087,30 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       expectOnlySearches(actions);
       expect(actions[0].value).toBe(mixedFoodName);
       expect(ownedDatabaseSnapshot()).toEqual(before);
+      await page.getByLabel("Recipe name").fill("F04 explicit save after composition");
+      await page.getByLabel("Ingredient name").fill("F04 composed draft ingredient");
+      await input.focus();
+      await input.dispatchEvent("keydown", {
+        bubbles: true, cancelable: true, isComposing: true, key: "Enter",
+      });
+      const saveButton = page.getByRole("button", { name: "Create recipe", exact: true });
+      // Model browsers where pointer activation does not focus the button.
+      const focusOnPointer = saveButton.evaluate((button) => new Promise<boolean>((resolve) => {
+        button.addEventListener("mousedown", (event) => {
+          event.preventDefault();
+          resolve(button.ownerDocument.activeElement?.matches('input[type="search"]') ?? false);
+        }, { once: true });
+      }));
+      await expect(input).toBeFocused();
+      await saveButton.click();
+      expect(await focusOnPointer).toBe(true);
+      await expect(page).toHaveURL(/\/en\/recipes\/[0-9a-f-]+\/edit\?saved=created$/);
+      expect(actions.at(-1)?.intent).toBe("save");
+      expect(ownedDatabaseSnapshot().recipes.length).toBe(before.recipes.length + 1);
+      expect(ownedDatabaseSnapshot().ingredients.length).toBe(before.ingredients.length + 1);
+      expect(ownedDatabaseSnapshot().diary_entries).toEqual(before.diary_entries);
       await testInfo.attach("F04-IME-coverage-limitation", {
-        body: "Composition events, native Enter during simulated composition, native isComposing, compositionend-before-keydown keyCode 229, uncanceled keydown/beforeinput, committed text, and narrowly blocked submit events were exercised in Chromium. This does not qualify physical Japanese, Chinese, Korean, or browser-specific OS IME behavior.",
+        body: "Composition events, native Enter during simulated composition, native isComposing, compositionend-before-keydown keyCode 229, uncanceled keydown/beforeinput, committed text, narrowly blocked submit events, and explicit pointer saving with input focus retained were exercised in Chromium. This does not qualify physical Japanese, Chinese, Korean, or browser-specific OS IME behavior.",
         contentType: "text/plain",
       });
       await context.close();

@@ -440,7 +440,7 @@ export function RecipeForm({
 
       <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
         <div className={state.status === "idle" ? "text-sm text-slate-600" : "text-sm text-red-800"} role={state.status === "idle" ? "status" : "alert"}>{statusMessage}</div>
-        <button className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white disabled:bg-slate-300" disabled={isPending} type="submit">{isPending ? t(mode === "create" ? "submit.createPending" : "submit.updatePending") : t(mode === "create" ? "submit.create" : "submit.update")}</button>
+        <button className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white disabled:bg-slate-300" disabled={isPending} onPointerDown={() => { compositionEnterInput.current = null; }} type="submit">{isPending ? t(mode === "create" ? "submit.createPending" : "submit.updatePending") : t(mode === "create" ? "submit.create" : "submit.update")}</button>
       </div>
       <div className="flex flex-wrap gap-4"><Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/recipes`}>{t("backToManagement")}</Link><Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/today`}>{t("backToToday")}</Link></div>
     </form>
