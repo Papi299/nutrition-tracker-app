@@ -2,6 +2,9 @@
 
 import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
 import type { CustomFoodArchiveActionState } from "@/app/[locale]/(app)/foods/custom/management-actions";
 
 const initialState: CustomFoodArchiveActionState = { status: "idle" };
@@ -32,10 +35,11 @@ export function CustomFoodArchiveControl({
 
   if (archived) {
     return (
-      <div className="grid gap-3">
-        <form action={formAction}>
+      <div className="grid min-w-0 gap-3">
+        <form action={formAction} className="min-w-0">
           <button
-            className="min-h-11 border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50 disabled:cursor-wait disabled:border-slate-300 disabled:text-slate-500"
+            aria-busy={isPending}
+            className={buttonStyles({ variant: "outline", className: "w-full border-primary text-primary" })}
             disabled={isPending}
             type="submit"
           >
@@ -43,7 +47,7 @@ export function CustomFoodArchiveControl({
           </button>
         </form>
         {errorMessage && (
-          <p className="text-sm leading-6 text-red-800" role="alert">
+          <p className={feedbackStyles("danger", "[overflow-wrap:anywhere]")} role="alert">
             {errorMessage}
           </p>
         )}
@@ -52,10 +56,10 @@ export function CustomFoodArchiveControl({
   }
 
   return (
-    <div className="grid gap-3">
+    <div className="grid min-w-0 gap-3">
       {!confirmingArchive ? (
         <button
-          className="min-h-11 border border-red-300 bg-white px-4 text-sm font-semibold text-red-800 transition-colors hover:border-red-600"
+          className={buttonStyles({ variant: "outline", className: "w-full border-danger/30 text-danger-foreground hover:border-danger" })}
           onClick={() => setConfirmingArchive(true)}
           type="button"
         >
@@ -64,20 +68,21 @@ export function CustomFoodArchiveControl({
       ) : (
         <div
           aria-label={t("confirmationLabel", { name: foodName })}
-          className="grid gap-3 border border-amber-300 bg-amber-50 p-4"
+          className={surfaceStyles({ className: "grid min-w-0 gap-3 border-warning/40 bg-warning-surface p-3 text-warning-foreground [overflow-wrap:anywhere]" })}
           data-testid="custom-food-archive-confirmation"
           role="group"
         >
-          <p className="text-sm font-semibold text-amber-950">
+          <p className="text-sm font-semibold">
             {t("confirmationTitle")}
           </p>
-          <p className="text-sm leading-6 text-amber-950">
+          <p className="text-sm leading-6">
             {t("confirmationBody")}
           </p>
-          <div className="flex flex-wrap gap-3">
-            <form action={formAction}>
+          <div className="grid min-w-0 gap-2">
+            <form action={formAction} className="min-w-0">
               <button
-                className="min-h-11 bg-red-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-red-800 disabled:cursor-wait disabled:bg-slate-300"
+                aria-busy={isPending}
+                className={buttonStyles({ variant: "destructive", className: "w-full" })}
                 disabled={isPending}
                 type="submit"
               >
@@ -85,7 +90,7 @@ export function CustomFoodArchiveControl({
               </button>
             </form>
             <button
-              className="min-h-11 border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800"
+              className={buttonStyles({ variant: "outline", className: "w-full" })}
               disabled={isPending}
               onClick={() => setConfirmingArchive(false)}
               type="button"
@@ -96,7 +101,7 @@ export function CustomFoodArchiveControl({
         </div>
       )}
       {errorMessage && (
-        <p className="text-sm leading-6 text-red-800" role="alert">
+        <p className={feedbackStyles("danger", "[overflow-wrap:anywhere]")} role="alert">
           {errorMessage}
         </p>
       )}

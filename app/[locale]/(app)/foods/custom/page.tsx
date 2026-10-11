@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -58,25 +62,25 @@ function ManagementHeader({ locale }: { locale: Locale }) {
   const t = useTranslations("CustomFoodManagement");
 
   return (
-    <header className="max-w-3xl">
-      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
+    <header className="min-w-0 max-w-3xl">
+      <p className="ui-eyebrow">
         {t("label")}
       </p>
-      <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+      <h1 className="ui-page-title mt-1">
         {t("title")}
       </h1>
-      <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
+      <p className="ui-body-secondary mt-2 max-w-2xl">
         {t("description")}
       </p>
-      <div className="mt-5 flex flex-wrap gap-3">
+      <div className="mt-4 flex min-w-0 flex-wrap gap-2">
         <Link
-          className="inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+          className={buttonStyles()}
           href={`/${locale}/foods/custom/new`}
         >
           {t("create")}
         </Link>
         <Link
-          className="inline-flex min-h-11 items-center border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 transition-colors hover:bg-teal-50"
+          className={buttonStyles({ variant: "outline", className: "border-primary text-primary hover:bg-primary-surface" })}
           href={`/${locale}/foods`}
         >
           {t("foodSearch")}
@@ -98,12 +102,12 @@ function LocalizedManagementPage({
   const t = useTranslations("CustomFoodManagement");
 
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
+    <section className="flex min-w-0 flex-1 flex-col gap-6 py-4 text-start sm:py-6">
       <ManagementHeader locale={locale} />
 
       {saved && (
         <div
-          className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900"
+          className={feedbackStyles("success")}
           data-testid="custom-food-management-success"
           role="status"
         >
@@ -111,15 +115,14 @@ function LocalizedManagementPage({
         </div>
       )}
 
-      <nav aria-label={t("filters.label")} className="flex flex-wrap gap-3">
+      <nav aria-label={t("filters.label")} className="flex min-w-0 max-w-full flex-wrap gap-1 self-start rounded-xl border border-border bg-surface-subtle p-1">
         {(["active", "archived"] as const).map((status) => (
           <Link
             aria-current={page.status === status ? "page" : undefined}
-            className={
-              page.status === status
-                ? "min-h-11 bg-teal-700 px-4 py-3 text-sm font-semibold text-white"
-                : "min-h-11 border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800"
-            }
+            className={buttonStyles({
+              variant: "ghost",
+              className: page.status === status ? "ui-current" : "",
+            })}
             href={`/${locale}/foods/custom?status=${status}&page=1`}
             key={status}
           >
@@ -128,14 +131,14 @@ function LocalizedManagementPage({
         ))}
       </nav>
 
-      <p className="text-sm text-slate-600">
+      <p className="ui-body-secondary">
         {t("count", { count: page.total_count })}
       </p>
 
       {page.foods.length === 0 ? (
         <ManagementEmptyState locale={locale} status={page.status} />
       ) : (
-        <ul className="grid gap-5" data-testid="custom-food-management-list">
+        <ul className="grid min-w-0 grid-cols-1 gap-4" data-testid="custom-food-management-list">
           {page.foods.map((food) => (
             <ManagedFoodCard food={food} key={food.food_id} locale={locale} />
           ))}
@@ -165,19 +168,19 @@ function ManagedFoodCard({
 
   return (
     <li
-      className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-[1fr_auto] sm:items-start sm:p-6"
+      className={surfaceStyles({ className: "grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,12rem)] sm:items-start" })}
       data-food-id={food.food_id}
     >
       <div className="min-w-0">
-        <h2 className="break-words text-xl font-semibold text-slate-950" dir="auto">
-          {food.name}
+        <h2 className="ui-card-title [overflow-wrap:anywhere]" dir="auto">
+          <bdi>{food.name}</bdi>
         </h2>
         {food.brand_name && (
-          <p className="mt-2 break-words text-sm text-slate-700" dir="auto">
-            {food.brand_name}
+          <p className="ui-body-secondary mt-1 [overflow-wrap:anywhere]" dir="auto">
+            <bdi>{food.brand_name}</bdi>
           </p>
         )}
-        <dl className="mt-4 grid gap-x-5 gap-y-3 text-sm sm:grid-cols-2">
+        <dl className="mt-4 grid min-w-0 grid-cols-1 gap-x-5 gap-y-3 text-sm sm:grid-cols-2">
           <CardDetail label={t("card.language")} value={t(`languages.${food.locale}`)} />
           <CardDetail label={t("card.basis")} value={t(`basis.${food.nutrient_basis}`)} />
           <CardDetail
@@ -185,15 +188,16 @@ function ManagedFoodCard({
             value={`${food.serving_quantity} ${food.serving_unit}`}
           />
           <CardDetail
+            badge={food.is_archived ? "neutral" : "success"}
             label={t("card.status")}
             value={t(food.is_archived ? "filters.archived" : "filters.active")}
           />
           <CardDetail label={t("card.updated")} value={updatedDate} />
         </dl>
       </div>
-      <div className="grid gap-3 sm:min-w-40">
+      <div className="grid min-w-0 gap-2">
         <Link
-          className="inline-flex min-h-11 items-center justify-center bg-teal-700 px-4 text-sm font-semibold text-white transition-colors hover:bg-teal-800"
+          className={buttonStyles({ className: "w-full" })}
           href={`/${locale}/foods/custom/${food.food_id}/edit`}
         >
           {t("card.edit")}
@@ -208,12 +212,20 @@ function ManagedFoodCard({
   );
 }
 
-function CardDetail({ label, value }: { label: string; value: string }) {
+function CardDetail({
+  badge,
+  label,
+  value,
+}: {
+  badge?: "neutral" | "success";
+  label: string;
+  value: string;
+}) {
   return (
-    <div>
-      <dt className="font-medium text-slate-600">{label}</dt>
-      <dd className="mt-1 break-words text-slate-950" dir="auto">
-        {value}
+    <div className="min-w-0">
+      <dt className="ui-caption font-medium">{label}</dt>
+      <dd className="mt-1 text-sm text-foreground [overflow-wrap:anywhere]" dir="auto">
+        {badge ? <Badge variant={badge}><bdi>{value}</bdi></Badge> : <bdi>{value}</bdi>}
       </dd>
     </div>
   );
@@ -230,18 +242,18 @@ function ManagementEmptyState({
 
   return (
     <section
-      className="border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className={surfaceStyles({ className: "min-w-0" })}
       data-testid={`custom-food-management-empty-${status}`}
     >
-      <h2 className="text-xl font-semibold text-slate-950">
+      <h2 className="ui-section-title">
         {t(`${status}.title`)}
       </h2>
-      <p className="mt-3 text-sm leading-6 text-slate-700">
+      <p className="ui-body-secondary mt-2">
         {t(`${status}.body`)}
       </p>
       {status === "active" && (
         <Link
-          className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white"
+          className={buttonStyles({ className: "mt-4" })}
           href={`/${locale}/foods/custom/new`}
         >
           {t("active.create")}
@@ -261,31 +273,31 @@ function ManagementPagination({
   const t = useTranslations("CustomFoodManagement.pagination");
 
   return (
-    <nav aria-label={t("label")} className="flex flex-wrap items-center gap-4">
+    <nav aria-label={t("label")} className="flex min-w-0 flex-wrap items-center gap-3">
       {page.has_previous ? (
         <Link
-          className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800"
+          className={buttonStyles({ variant: "outline" })}
           href={`/${locale}/foods/custom?status=${page.status}&page=${page.page - 1}`}
           rel="prev"
         >
           {t("previous")}
         </Link>
       ) : (
-        <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">
+        <span aria-disabled="true" className={buttonStyles({ variant: "outline", className: "cursor-default border-border bg-surface-subtle text-muted-foreground" })}>
           {t("previous")}
         </span>
       )}
-      <span className="text-sm text-slate-700">{t("current", { page: page.page })}</span>
+      <span className="ui-body-secondary">{t("current", { page: page.page })}</span>
       {page.has_next ? (
         <Link
-          className="inline-flex min-h-11 items-center border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800"
+          className={buttonStyles({ variant: "outline" })}
           href={`/${locale}/foods/custom?status=${page.status}&page=${page.page + 1}`}
           rel="next"
         >
           {t("next")}
         </Link>
       ) : (
-        <span className="min-h-11 border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500">
+        <span aria-disabled="true" className={buttonStyles({ variant: "outline", className: "cursor-default border-border bg-surface-subtle text-muted-foreground" })}>
           {t("next")}
         </span>
       )}
@@ -297,18 +309,18 @@ function InvalidManagementQuery({ locale }: { locale: Locale }) {
   const t = useTranslations("CustomFoodManagement.invalid");
 
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
+    <section className="flex min-w-0 flex-1 flex-col gap-6 py-4 text-start sm:py-6">
       <ManagementHeader locale={locale} />
       <section
-        className="border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6"
+        className={surfaceStyles({ className: "min-w-0 border-warning/30 bg-warning-surface" })}
         data-testid="custom-food-management-invalid-query"
       >
-        <h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2>
-        <p className="mt-3 text-sm leading-6 text-amber-950" role="alert">
+        <h2 className="ui-section-title">{t("title")}</h2>
+        <p className="mt-2 text-sm leading-6 text-warning-foreground" role="alert">
           {t("body")}
         </p>
         <Link
-          className="mt-4 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white"
+          className={buttonStyles({ className: "mt-4" })}
           href={`/${locale}/foods/custom?status=active&page=1`}
         >
           {t("recover")}
@@ -322,7 +334,7 @@ function ManagementRetrievalError({ locale }: { locale: Locale }) {
   const t = useTranslations("CustomFoodManagement.retrieval");
 
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
+    <section className="flex min-w-0 flex-1 flex-col gap-6 py-4 text-start sm:py-6">
       <ManagementHeader locale={locale} />
       <RetrievalError
         body={t("body")}
