@@ -261,10 +261,12 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await expect(page.getByTestId("saved-meal-source-empty")).toBeVisible();
 
     await page.goto("/en/foods/reuse");
-    await expect(page.getByRole("link", { name: "Saved meals" }).last()).toHaveAttribute(
-      "href",
-      "/en/saved-meals",
-    );
+    const discoveryOptions = page.getByTestId("food-discovery-options");
+    await discoveryOptions.locator("summary").click();
+    const savedMealsLink = discoveryOptions.getByRole("link", { name: "Saved meals", exact: true });
+    await expect(savedMealsLink).toHaveAttribute("href", "/en/saved-meals");
+    await savedMealsLink.click();
+    await expect(page).toHaveURL(/\/en\/saved-meals$/);
 
     await page.goto(`/en/saved-meals/new?date=${date}`);
     await expect(page.getByTestId("saved-meal-source-invalid")).toBeVisible();
