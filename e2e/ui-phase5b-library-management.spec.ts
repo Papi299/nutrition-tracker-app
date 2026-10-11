@@ -8,10 +8,10 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const baseline = process.env.UI_PHASE5B_BASELINE === "1";
+const git = (...args: string[]) => execFileSync("git", args, { encoding: "utf8" }).trim();
 const approvedHead = "5ae18263dc2af90834840ea63548c541292f0ab8";
 const approvedTree = "9e3a193aefe7f60e76fd925e8ab8ae212055622d";
-const evidenceDirectory = process.env.UI_PHASE5B_EVIDENCE_DIR ?? "docs/ui-phase5b/evidence";
+const baseline = git("rev-parse", "HEAD") === approvedHead;
 const localUrl = process.env.LOCAL_SUPABASE_URL;
 const localKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
@@ -45,7 +45,6 @@ type Status = (typeof statuses)[number];
 type Locale = (typeof locales)[number];
 const kinds = Object.keys(definitions) as Kind[];
 const digest = (value: string | Buffer) => createHash("sha256").update(value).digest("hex");
-const git = (...args: string[]) => execFileSync("git", args, { encoding: "utf8" }).trim();
 
 test.skip(!localOnly || !localUrl || !localKey, "Phase 5B requires the repository's local-only runner.");
 
@@ -55,6 +54,7 @@ test.describe.serial("Phase 5B Library presentation and native contracts", () =>
   let userId: string;
   let browserVersion: string;
   let fixturesReady = false;
+  let evidenceDirectory: string;
   const fixtures: Record<Kind, Record<Status, string[]>> = {
     food: { active: [], archived: [] }, meal: { active: [], archived: [] }, recipe: { active: [], archived: [] },
   };
@@ -263,8 +263,9 @@ test.describe.serial("Phase 5B Library presentation and native contracts", () =>
     if (!baseline) expect(result.violations).toEqual([]);
   }
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser }, testInfo) => {
     test.setTimeout(120_000);
+    evidenceDirectory = join(testInfo.project.outputDir, "ui-phase5b-library-evidence");
     if (!localUrl || !["localhost", "127.0.0.1"].includes(new URL(localUrl).hostname)) throw new Error("Refusing nonlocal Library fixtures.");
     mkdirSync(evidenceDirectory, { recursive: true });
     sourceIdentity = { head: git("rev-parse", "HEAD"), tree: git("rev-parse", "HEAD^{tree}"), buildId: readFileSync(".next/BUILD_ID", "utf8").trim(),

@@ -46,6 +46,8 @@ Only the three management page files and their three archive controls change pro
 
 Final PR HEAD/tree, workflow IDs, and CI outcomes belong in the final execution report rather than this committed note. No passing claim is made for pending checks.
 
+The first Draft PR Validate run passed lint and TypeScript, then the environment-contract scanner rejected two undocumented capture-mode variables in the new test. The test now derives baseline mode from the exact approved Git identity and writes new captures under Playwright's configured output directory. This test-only correction preserves all assertions and the six presentation source hashes; retained before/after evidence remains unchanged. The next exact-head CI run remains the required gate.
+
 ## Local environment and residual work
 
 All browser fixtures use task-local `ui5b-20261011` and synthetic `example.test` identity through authenticated RPCs. Docker 29.8.2, Node 26.5.1, pinned Supabase CLI 2.116.0, and Playwright 1.61.1 were used. Twelve containers share `nutrition-ui5b-loopback`; effective API/database/Studio/Mailpit/Analytics bindings are `127.0.0.1` on 55321/55322/55323/55324/55327 with IPv6 disabled. Fresh replay and seed completed with 44 migrations through `20260927170418`.
