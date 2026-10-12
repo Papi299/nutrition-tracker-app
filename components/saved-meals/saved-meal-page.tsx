@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { RetrievalError } from "@/components/data/retrieval-error";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n/routing";
 
 export function SavedMealEditorPageHeader({
@@ -15,21 +17,19 @@ export function SavedMealEditorPageHeader({
   const t = useTranslations("SavedMealEditor");
 
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
-          {t("label")}
-        </p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+    <section className="grid min-w-0 w-full max-w-4xl gap-6 py-4 text-start sm:gap-8">
+      <header className="min-w-0 max-w-3xl">
+        <p className="ui-eyebrow">{t("label")}</p>
+        <h1 className="ui-page-title mt-3 [overflow-wrap:anywhere]">
           {t(mode === "create" ? "titleCreate" : "titleEdit")}
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
+        <p className="ui-body-secondary mt-4 max-w-2xl text-base">
           {mode === "create" && source === "diary"
             ? t("descriptionDiary")
             : t(mode === "create" ? "descriptionCreate" : "descriptionEdit")}
         </p>
       </header>
-      <div className="max-w-4xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+      <div className={surfaceStyles({ className: "min-w-0" })}>
         {children}
       </div>
     </section>
@@ -46,7 +46,7 @@ export function SavedMealRetrievalError({
   const t = useTranslations("SavedMealEditor.retrieval");
 
   return (
-    <section className="flex flex-1 flex-col justify-center py-8 text-start">
+    <section className="flex min-w-0 flex-1 flex-col justify-center py-4 text-start">
       <RetrievalError
         body={t("failureBody")}
         retryHref={retryHref}
@@ -55,7 +55,7 @@ export function SavedMealRetrievalError({
         title={t("failureTitle")}
       />
       <Link
-        className="mt-4 text-sm font-semibold text-teal-800 underline"
+        className={buttonStyles({ variant: "outline", className: "mt-4 self-start" })}
         href={`/${locale}/saved-meals`}
       >
         {t("back")}
