@@ -29,7 +29,12 @@ function verifyRendered(manifest) {
     assert(record.document.scrollWidth <= record.document.clientWidth && record.body.scrollWidth <= record.document.clientWidth, `${state}: page overflow.`);
     for (const element of [...record.pickers, ...record.results, ...record.cards, ...record.controls, ...record.text]) assert(element.x >= -0.5 && element.right <= record.document.clientWidth + 0.5, `${state}: offscreen element.`);
     for (const element of [...record.pickers, ...record.results, ...record.cards]) assert(element.scrollWidth <= element.clientWidth + 1, `${state}: internal overflow.`);
-    for (const control of record.controls.filter(control => control.tag === "BUTTON" && !control.disabled)) assert(control.width >= 44 && control.height >= 44, `${state}: undersized enabled control.`);
+    const buttons = record.controls.filter(control => control.tag === "BUTTON" && !control.disabled);
+    for (const control of buttons) assert(control.width >= 44 && control.height >= 44, `${state}: undersized enabled control.`);
+    for (let i = 0; i < buttons.length; i += 1) for (let j = i + 1; j < buttons.length; j += 1) {
+      const a = buttons[i], b = buttons[j];
+      assert(Math.max(0, Math.min(a.right, b.right) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.y, b.y)) === 0, `${state}: overlapping enabled controls.`);
+    }
     for (const element of record.text) assert(element.overflow !== "hidden" && element.textOverflow !== "ellipsis", `${state}: hidden meaningful text.`);
   }
   for (const check of manifest.accessibility) assert(check.violations.length === 0, `${check.state}: axe violations.`);
