@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   blankSavedMealItem,
@@ -10,6 +10,14 @@ import {
 } from "@/app/[locale]/(app)/saved-meals/action-state";
 import { savedMealRowKey } from "@/lib/saved-meals/row-identity";
 import type { Locale } from "@/lib/i18n/routing";
+import { Button, buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
+import { Input, Select, Textarea } from "@/components/ui/form-controls";
+
+function controlId(field: string) {
+  return `saved-meal-${field}`;
+}
 
 function errorId(field: string) {
   return `saved-meal-${field}-error`;
@@ -21,6 +29,23 @@ function helpId(field: string) {
 
 function describedBy(field: string, error?: string) {
   return error ? `${helpId(field)} ${errorId(field)}` : helpId(field);
+}
+
+const itemFieldLabels: Record<string, string> = {
+  food_name: "foodName",
+  brand_name: "brand",
+  serving_quantity: "servingQuantity",
+  serving_unit: "servingUnit",
+  calories: "calories",
+  protein_g: "protein",
+  carbohydrates_g: "carbohydrates",
+  fat_g: "fat",
+  notes: "notes",
+};
+
+function itemField(field: string) {
+  const match = /^item_(.+)_(\d+)$/.exec(field);
+  return match ? { name: match[1], index: Number(match[2]) } : null;
 }
 
 function FieldError({ code, field }: { code?: string; field: string }) {
@@ -47,7 +72,7 @@ function FieldError({ code, field }: { code?: string; field: string }) {
   };
 
   return (
-    <span className="text-sm font-normal text-red-700" id={errorId(field)}>
+    <span className="ui-field-error" id={errorId(field)}>
       {messages[code] ?? t("validation")}
     </span>
   );
@@ -73,12 +98,12 @@ function TextInput({
   value: string;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-medium text-slate-900">
+    <label className="ui-label grid min-w-0 gap-2">
       <span>{label}</span>
-      <input
+      <Input
         aria-describedby={describedBy(field, error)}
         aria-invalid={Boolean(error)}
-        className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+        id={controlId(field)}
         dir="auto"
         maxLength={maxLength}
         name={field}
@@ -87,7 +112,7 @@ function TextInput({
         type="text"
         value={value}
       />
-      <span className="text-sm font-normal leading-5 text-slate-600" id={helpId(field)}>
+      <span className="ui-body-secondary font-normal" id={helpId(field)}>
         {help}
       </span>
       <FieldError code={error} field={field} />
@@ -115,12 +140,12 @@ function NumberInput({
   value: string;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-medium text-slate-900">
+    <label className="ui-label grid min-w-0 gap-2">
       <span>{label}</span>
-      <input
+      <Input
         aria-describedby={describedBy(field, error)}
         aria-invalid={Boolean(error)}
-        className="min-h-11 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+        id={controlId(field)}
         inputMode={integer ? "numeric" : "decimal"}
         max={maximum}
         min="0"
@@ -130,7 +155,7 @@ function NumberInput({
         type="number"
         value={value}
       />
-      <span className="text-sm font-normal leading-5 text-slate-600" id={helpId(field)}>
+      <span className="ui-body-secondary font-normal" id={helpId(field)}>
         {help}
       </span>
       <FieldError code={error} field={field} />
@@ -161,14 +186,21 @@ function SavedMealItemCard({
 }) {
   const t = useTranslations("SavedMealEditor");
   const field = (name: string) => `item_${name}_${index}`;
+  const rowErrors = Object.entries(fieldErrors).filter(([name]) => {
+    const parsed = itemField(name);
+    return parsed?.index === index && !itemFieldLabels[parsed.name];
+  });
 
   return (
     <fieldset
-      className="grid min-w-0 grid-cols-1 [min-inline-size:0] gap-5 border border-slate-200 bg-stone-50 p-4 sm:p-5"
+      aria-describedby={rowErrors.map(([name]) => errorId(name)).join(" ") || undefined}
+      className={surfaceStyles({ variant: "subtle", className: "grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 [min-inline-size:0]" })}
+      id={`saved-meal-row-${index}`}
+      tabIndex={-1}
       data-row-key={item.row_key}
       data-testid="saved-meal-item"
     >
-      <legend className="px-2 text-base font-semibold text-slate-950">
+      <legend className="ui-card-title max-w-full px-2 [overflow-wrap:anywhere]">
         {t("items.itemNumber", { number: index + 1 })}
       </legend>
       <input name={field("row_key")} type="hidden" value={item.row_key} />
@@ -178,67 +210,73 @@ function SavedMealItemCard({
         value={item.remove_food_link ? "1" : "0"}
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
         <div>
           {isLinked ? (
-            <span className="inline-flex bg-teal-100 px-3 py-1 text-xs font-semibold text-teal-900">
+            <span className="ui-badge ui-badge-primary">
               {t("items.linked")}
             </span>
           ) : (
-            <span className="inline-flex bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">
+            <span className="ui-badge ui-badge-neutral">
               {t("items.unlinked")}
             </span>
           )}
           {item.remove_food_link && (
-            <p className="mt-2 text-sm text-amber-800" role="status">
+            <p className="ui-body-secondary mt-2" role="status">
               {t("items.linkRemoved")}
             </p>
           )}
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button
+        <div className="flex min-w-0 flex-wrap gap-2">
+          <Button
             aria-label={t("items.moveUpLabel", { number: index + 1 })}
-            className="min-h-10 border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 disabled:text-slate-400"
+            size="sm"
+            variant="outline"
             disabled={isPending || index === 0}
             onClick={() => move(-1)}
             type="button"
           >
             {t("items.moveUp")}
-          </button>
-          <button
+          </Button>
+          <Button
             aria-label={t("items.moveDownLabel", { number: index + 1 })}
-            className="min-h-10 border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 disabled:text-slate-400"
+            size="sm"
+            variant="outline"
             disabled={isPending || index === itemCount - 1}
             onClick={() => move(1)}
             type="button"
           >
             {t("items.moveDown")}
-          </button>
+          </Button>
           {isLinked && (
-            <button
-              className="min-h-10 border border-amber-400 bg-white px-3 text-sm font-semibold text-amber-900"
+            <Button
+              size="sm"
+              variant="outline"
               disabled={isPending}
               onClick={() => update({ remove_food_link: true })}
               type="button"
             >
               {t("items.removeLink")}
-            </button>
+            </Button>
           )}
-          <button
-            className="min-h-10 border border-red-300 bg-white px-3 text-sm font-semibold text-red-800 disabled:text-slate-400"
+          <Button
+            size="sm"
+            variant="destructive"
             disabled={isPending || itemCount === 1}
             onClick={remove}
             type="button"
           >
             {t("items.remove")}
-          </button>
+          </Button>
         </div>
       </div>
 
-      <FieldError code={fieldErrors[field("row_key")]} field={field("row_key")} />
+      {rowErrors.map(([name, code]) => (
+        <FieldError code={code} field={name} key={name} />
+      ))}
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-[repeat(2,minmax(0,1fr))]">
+        <div className="min-w-0 sm:col-span-2">
           <TextInput
             error={fieldErrors[field("food_name")]}
             field={field("food_name")}
@@ -315,15 +353,15 @@ function SavedMealItemCard({
           onChange={(fat_g) => update({ fat_g })}
           value={item.fat_g}
         />
-        <label className="grid gap-2 text-sm font-medium text-slate-900 sm:col-span-2">
+        <label className="ui-label grid min-w-0 gap-2 sm:col-span-2">
           <span>{t("fields.notes")}</span>
-          <textarea
+          <Textarea
             aria-describedby={describedBy(
               field("notes"),
               fieldErrors[field("notes")],
             )}
             aria-invalid={Boolean(fieldErrors[field("notes")])}
-            className="min-h-24 border border-slate-300 bg-white px-3 py-2 text-base text-slate-950 outline-none focus:border-teal-700"
+            id={controlId(field("notes"))}
             dir="auto"
             maxLength={1000}
             name={field("notes")}
@@ -331,7 +369,7 @@ function SavedMealItemCard({
             value={item.notes}
           />
           <span
-            className="text-sm font-normal leading-5 text-slate-600"
+            className="ui-body-secondary font-normal"
             id={helpId(field("notes"))}
           >
             {t("help.notes")}
@@ -366,8 +404,24 @@ export function SavedMealForm({
   const t = useTranslations("SavedMealEditor");
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [items, setItems] = useState(state.values.items);
+  const [submittedRowKeys, setSubmittedRowKeys] = useState(() =>
+    initialState.values.items.map((item) => item.row_key),
+  );
+  const summaryRef = useRef<HTMLDivElement>(null);
   const linkedRows = new Set(linkedRowKeys);
-  const fieldErrors = state.fieldErrors ?? {};
+  const fieldErrors: Record<string, string> = {};
+
+  // Returned fields use submission indexes; errors follow the same row after a move.
+  for (const [field, code] of Object.entries(isPending ? {} : state.fieldErrors ?? {})) {
+    const parsed = itemField(field);
+    if (!parsed) {
+      fieldErrors[field] = code;
+      continue;
+    }
+    // The submitted UI identity also locates a row whose hidden value was rejected.
+    const index = items.findIndex((item) => item.row_key === submittedRowKeys[parsed.index]);
+    if (index >= 0) fieldErrors[`item_${parsed.name}_${index}`] = code;
+  }
   const statusMessage = {
     conflict: t("status.conflict"),
     database_error: t("status.databaseError"),
@@ -376,6 +430,29 @@ export function SavedMealForm({
     unauthenticated: t("status.unauthenticated"),
     validation_error: t("status.validationError"),
   }[state.status];
+
+  useEffect(() => {
+    if (state.status !== "validation_error" || isPending) return;
+    summaryRef.current?.focus({ preventScroll: true });
+    summaryRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [state, isPending]);
+
+  const errorLinks = Object.keys(fieldErrors).map((field) => {
+    const parsed = itemField(field);
+    if (parsed) {
+      const labelKey = itemFieldLabels[parsed.name];
+      return {
+        field,
+        label: `${t("items.itemNumber", { number: parsed.index + 1 })}${labelKey ? `: ${t(`fields.${labelKey}`)}` : ""}`,
+        target: labelKey ? controlId(field) : `saved-meal-row-${parsed.index}`,
+      };
+    }
+    return {
+      field,
+      label: t(field === "name" ? "identity.name" : field === "meal_locale" ? "identity.language" : field === "items" ? "items.title" : "identity.title"),
+      target: field === "name" || field === "meal_locale" ? controlId(field) : field === "items" ? "saved-meal-items" : "saved-meal-form-status",
+    };
+  });
 
   function updateItem(index: number, update: Partial<SavedMealFormItemValues>) {
     setItems((current) =>
@@ -396,7 +473,12 @@ export function SavedMealForm({
   }
 
   return (
-    <form action={formAction} className="grid gap-8 text-start" noValidate>
+    <form
+      action={formAction}
+      className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 text-start [overflow-wrap:anywhere]"
+      noValidate
+      onSubmit={() => setSubmittedRowKeys(items.map((item) => item.row_key))}
+    >
       <input
         name="saved_meal_id"
         type="hidden"
@@ -404,9 +486,46 @@ export function SavedMealForm({
       />
       <input name="item_count" type="hidden" value={items.length} />
 
+      {state.status === "validation_error" && !isPending && (
+        <div
+          aria-labelledby="saved-meal-validation-title"
+          className={feedbackStyles("danger", "scroll-mt-4")}
+          data-testid="saved-meal-validation-summary"
+          ref={summaryRef}
+          role="alert"
+          tabIndex={-1}
+        >
+          <h2 className="font-semibold" id="saved-meal-validation-title">
+            {t("status.validationError")}
+          </h2>
+          <ul className="mt-2 grid gap-2">
+            {errorLinks.map(({ field, label, target }) => (
+              <li className="grid min-w-0 gap-1" key={field}>
+                <a
+                  className="ui-text-link inline-flex min-h-11 items-center"
+                  href={`#${target}`}
+                  onClick={(event) => {
+                    const control = document.getElementById(target);
+                    if (!control) return;
+                    event.preventDefault();
+                    control.focus({ preventScroll: true });
+                    control.scrollIntoView({
+                      block: control.matches("input, select, textarea") ? "center" : "start",
+                      behavior: "instant",
+                    });
+                  }}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {saved && (
         <div
-          className="border-s-4 border-teal-600 bg-teal-50 px-4 py-3 text-sm text-teal-900"
+          className={feedbackStyles("success")}
           data-testid="saved-meal-success"
           role="status"
         >
@@ -416,7 +535,7 @@ export function SavedMealForm({
 
       {archived && (
         <div
-          className="border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          className={feedbackStyles("warning")}
           data-testid="saved-meal-archived-notice"
           role="status"
         >
@@ -426,12 +545,12 @@ export function SavedMealForm({
 
       {mode === "edit" && state.status === "conflict" && (
         <section
-          className="grid gap-3 border-s-4 border-amber-500 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+          className={feedbackStyles("warning", "grid min-w-0 gap-3")}
           data-testid="saved-meal-edit-conflict"
         >
           <p role="alert">{t("status.conflict")}</p>
           <a
-            className="w-fit font-semibold text-teal-800 underline"
+            className={buttonStyles({ variant: "outline", className: "w-fit" })}
             href={`/${locale}/saved-meals/${state.values.saved_meal_id}/edit`}
           >
             {t("status.reloadCurrent")}
@@ -439,20 +558,20 @@ export function SavedMealForm({
         </section>
       )}
 
-      <section className="grid gap-5" aria-labelledby="saved-meal-identity-title">
+      <section className="grid min-w-0 gap-5" aria-labelledby="saved-meal-identity-title">
         <div>
-          <h2 className="text-xl font-semibold text-slate-950" id="saved-meal-identity-title">
+          <h2 className="ui-section-title" id="saved-meal-identity-title">
             {t("identity.title")}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">{t("identity.help")}</p>
+          <p className="ui-body-secondary mt-2">{t("identity.help")}</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="grid gap-2 text-sm font-medium text-slate-900 sm:col-span-2">
+        <div className="grid min-w-0 gap-4 sm:grid-cols-[repeat(2,minmax(0,1fr))]">
+          <label className="ui-label grid min-w-0 gap-2 sm:col-span-2">
             <span>{t("identity.name")}</span>
-            <input
+            <Input
               aria-describedby={describedBy("name", fieldErrors.name)}
               aria-invalid={Boolean(fieldErrors.name)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+              id={controlId("name")}
               defaultValue={state.values.name}
               dir="auto"
               key={state.values.name}
@@ -462,22 +581,22 @@ export function SavedMealForm({
               type="text"
             />
             <span
-              className="text-sm font-normal leading-5 text-slate-600"
+              className="ui-body-secondary font-normal"
               id={helpId("name")}
             >
               {t("help.name")}
             </span>
             <FieldError code={fieldErrors.name} field="name" />
           </label>
-          <label className="grid gap-2 text-sm font-medium text-slate-900">
+          <label className="ui-label grid min-w-0 gap-2">
             <span>{t("identity.language")}</span>
-            <select
+            <Select
               aria-describedby={describedBy(
                 "meal_locale",
                 fieldErrors.meal_locale,
               )}
               aria-invalid={Boolean(fieldErrors.meal_locale)}
-              className="min-h-12 border border-slate-300 bg-white px-3 text-base text-slate-950 outline-none focus:border-teal-700"
+              id={controlId("meal_locale")}
               defaultValue={state.values.meal_locale}
               key={state.values.meal_locale}
               name="meal_locale"
@@ -485,9 +604,9 @@ export function SavedMealForm({
               <option value="en">{t("languages.en")}</option>
               <option value="he">{t("languages.he")}</option>
               <option value="und">{t("languages.und")}</option>
-            </select>
+            </Select>
             <span
-              className="text-sm font-normal leading-5 text-slate-600"
+              className="ui-body-secondary font-normal"
               id={helpId("meal_locale")}
             >
               {t("help.language")}
@@ -497,15 +616,15 @@ export function SavedMealForm({
         </div>
       </section>
 
-      <section className="grid gap-5 border-t border-slate-200 pt-6" aria-labelledby="saved-meal-items-title">
+      <section className="grid min-w-0 gap-5 border-t border-border pt-6" aria-labelledby="saved-meal-items-title" aria-describedby={fieldErrors.items ? errorId("items") : undefined} id="saved-meal-items" tabIndex={-1}>
         <div>
-          <h2 className="text-xl font-semibold text-slate-950" id="saved-meal-items-title">
+          <h2 className="ui-section-title" id="saved-meal-items-title">
             {t("items.title")}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">{t("items.help")}</p>
+          <p className="ui-body-secondary mt-2">{t("items.help")}</p>
         </div>
         <FieldError code={fieldErrors.items} field="items" />
-        <div className="grid gap-5">
+        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5">
           {items.map((item, index) => (
             <SavedMealItemCard
               fieldErrors={fieldErrors}
@@ -523,9 +642,9 @@ export function SavedMealForm({
             />
           ))}
         </div>
-        <div className="flex flex-wrap items-center gap-4">
-          <button
-            className="min-h-11 border border-teal-700 bg-white px-4 text-sm font-semibold text-teal-800 disabled:border-slate-300 disabled:text-slate-400"
+        <div className="flex min-w-0 flex-wrap items-center gap-4">
+          <Button
+            variant="outline"
             disabled={isPending || items.length >= 50}
             onClick={() =>
               setItems((current) => [
@@ -536,36 +655,42 @@ export function SavedMealForm({
             type="button"
           >
             {t("items.add")}
-          </button>
-          <span className="text-sm text-slate-600">
+          </Button>
+          <span className="ui-body-secondary">
             {t("items.count", { count: items.length })}
           </span>
         </div>
       </section>
 
-      <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
+      <div className="grid min-w-0 gap-4 border-t border-border pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
         <div
-          className={state.status === "idle" ? "text-sm text-slate-600" : "text-sm text-red-800"}
-          role={state.status === "idle" ? "status" : "alert"}
+          className={state.status === "idle" || state.status === "validation_error" ? "ui-body-secondary" : feedbackStyles(state.status === "conflict" ? "warning" : "danger")}
+          id="saved-meal-form-status"
+          tabIndex={-1}
+          role={state.status === "idle" || state.status === "validation_error" ? "status" : "alert"}
         >
           {statusMessage}
+          {Object.entries(fieldErrors).filter(([field]) => !itemField(field) && !["name", "meal_locale", "items"].includes(field)).map(([field, code]) => (
+            <FieldError code={code} field={field} key={field} />
+          ))}
         </div>
-        <button
-          className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white disabled:cursor-wait disabled:bg-slate-300"
+        <Button
+          size="lg"
+          pending={isPending}
           disabled={isPending}
           type="submit"
         >
           {isPending
             ? t(mode === "create" ? "submit.createPending" : "submit.updatePending")
             : t(mode === "create" ? "submit.create" : "submit.update")}
-        </button>
+        </Button>
       </div>
 
-      <div className="flex flex-wrap gap-4">
-        <Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/saved-meals`}>
+      <div className="flex min-w-0 flex-wrap gap-4">
+        <Link className={buttonStyles({ variant: "ghost", className: "underline" })} href={`/${locale}/saved-meals`}>
           {t("backToManagement")}
         </Link>
-        <Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/today`}>
+        <Link className={buttonStyles({ variant: "ghost", className: "underline" })} href={`/${locale}/today`}>
           {t("backToToday")}
         </Link>
       </div>
