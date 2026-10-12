@@ -1,0 +1,1582 @@
+{
+  "task": "UI_PHASE_5C_SAVED_MEAL_FORMS_REVIEW_001",
+  "mode": "baseline",
+  "sourceIdentity": {
+    "head": "a8e75cdb9e3412807e18c10b9ce1a2c3e4fe35d1",
+    "tree": "f39aafa8f56f1651a45218058667f9c6f30d5bf5",
+    "buildId": "VjfEA2Mgn0zhY_FyOuH72",
+    "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceFileSha256": {
+      "components/saved-meals/saved-meal-form.tsx": "925eac32fa5733f1d033ef96b77f26deba83ee4a26b2b49fbe81b323342eb890",
+      "components/saved-meals/saved-meal-page.tsx": "3cb79ed41ea4e79805b2aee653f3b5ca94c7d2f8d1198da449308451a3ba883f",
+      "components/saved-meals/saved-meal-use-review.tsx": "973dc14e322364b599884adc6c9081a10906d4dff33a4e7d6886e2b272071b3a"
+    }
+  },
+  "browser": {
+    "name": "Chromium",
+    "version": "149.0.7827.55"
+  },
+  "fixture": {
+    "synthetic": true,
+    "transport": "authenticated RPCs on task-local Supabase",
+    "longName": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW אבג123/AB",
+    "nameLength": 200,
+    "items": [
+      {
+        "position": 1,
+        "food_id": null,
+        "food_name": "Synthetic 1 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 0,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 0,
+        "protein_g": null,
+        "carbohydrates_g": 22.12,
+        "fat_g": 0,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 2,
+        "food_id": "9dd7590d-bbae-4e44-a300-2840c9f02d9c",
+        "food_name": "Synthetic 2 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": null,
+        "serving_unit": null,
+        "calories": null,
+        "protein_g": 0,
+        "carbohydrates_g": null,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 3,
+        "food_id": null,
+        "food_name": "Synthetic 3 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 4,
+        "food_id": null,
+        "food_name": "Synthetic 4 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 5,
+        "food_id": null,
+        "food_name": "Synthetic 5 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 6,
+        "food_id": null,
+        "food_name": "Synthetic 6 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 7,
+        "food_id": null,
+        "food_name": "Synthetic 7 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 8,
+        "food_id": null,
+        "food_name": "Synthetic 8 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 9,
+        "food_id": null,
+        "food_name": "Synthetic 9 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 10,
+        "food_id": null,
+        "food_name": "Synthetic 10 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 11,
+        "food_id": null,
+        "food_name": "Synthetic 11 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      },
+      {
+        "position": 12,
+        "food_id": null,
+        "food_name": "Synthetic 12 אבג / 123 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "brand_name": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB אבג-123/A",
+        "serving_quantity": 1.125,
+        "serving_unit": "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUU אבג123/AB",
+        "calories": 321,
+        "protein_g": 0,
+        "carbohydrates_g": 22.12,
+        "fat_g": 3.5,
+        "notes": "הערה mixed 123/A אבג NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+      }
+    ],
+    "itemCount": 12,
+    "snapshotSha256": "9d552f0b17374ea0420535f6dddd2351238cbd569ebdd065ed4358cdd5486a8d",
+    "ids": {
+      "longMealId": "c6fc6824-9145-4c5b-abab-fb5924205323",
+      "oneMealId": "fccca422-86c5-4e67-8a53-f34b84d4cca4",
+      "archivedMealId": "3c38e170-b636-436c-bc89-0c11e2968b01"
+    }
+  },
+  "measurements": [
+    {
+      "mode": "baseline",
+      "state": "long-review-baseline",
+      "route": "/he/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "locale": "he",
+      "direction": "rtl",
+      "document": {
+        "scrollWidth": 10083,
+        "clientWidth": 320
+      },
+      "body": {
+        "scrollWidth": 10083,
+        "clientWidth": 320
+      },
+      "cards": [
+        {
+          "rowKey": null,
+          "position": "1",
+          "x": -9763.203125,
+          "y": 1760.5,
+          "right": 304,
+          "bottom": 2226.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "2",
+          "x": -9763.203125,
+          "y": 2242.5,
+          "right": 304,
+          "bottom": 2708.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "3",
+          "x": -9763.203125,
+          "y": 2724.5,
+          "right": 304,
+          "bottom": 3190.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "4",
+          "x": -9763.203125,
+          "y": 3206.5,
+          "right": 304,
+          "bottom": 3672.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "5",
+          "x": -9763.203125,
+          "y": 3688.5,
+          "right": 304,
+          "bottom": 4154.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "6",
+          "x": -9763.203125,
+          "y": 4170.5,
+          "right": 304,
+          "bottom": 4636.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "7",
+          "x": -9763.203125,
+          "y": 4652.5,
+          "right": 304,
+          "bottom": 5118.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "8",
+          "x": -9763.203125,
+          "y": 5134.5,
+          "right": 304,
+          "bottom": 5600.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "9",
+          "x": -9763.203125,
+          "y": 5616.5,
+          "right": 304,
+          "bottom": 6082.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "10",
+          "x": -9763.203125,
+          "y": 6098.5,
+          "right": 304,
+          "bottom": 6564.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "11",
+          "x": -9763.203125,
+          "y": 6580.5,
+          "right": 304,
+          "bottom": 7046.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "12",
+          "x": -9763.203125,
+          "y": 7062.5,
+          "right": 304,
+          "bottom": 7528.5,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        }
+      ],
+      "controlSummary": {
+        "count": 3,
+        "enabledButtonCount": 1,
+        "minimumEnabledButtonWidth": 246,
+        "minimumEnabledButtonHeight": 48,
+        "minimumEnabledInputBoundaryContrast": 1.4864932329018998
+      },
+      "controlFamilies": [
+        {
+          "tag": "INPUT",
+          "field": "entry_date",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 283,
+            "minimumY": 7657.5,
+            "maximumBottom": 7701.5,
+            "minimumWidth": 246,
+            "maximumWidth": 246,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "SELECT",
+          "field": "meal_type",
+          "label": "ארוחת בוקרארוחת צהרייםארוחת ערבנשנושאחר",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 283,
+            "minimumY": 7745.5,
+            "maximumBottom": 7789.5,
+            "minimumWidth": 246,
+            "maximumWidth": 246,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "אישור והוספת כל הפריטים",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 283,
+            "minimumY": 7809.5,
+            "maximumBottom": 7857.5,
+            "minimumWidth": 246,
+            "maximumWidth": 246,
+            "minimumHeight": 48,
+            "maximumHeight": 48
+          },
+          "colorIds": [
+            "color-2"
+          ]
+        }
+      ],
+      "linkActions": [
+        {
+          "x": 158.15625,
+          "y": 1720.5,
+          "right": 304,
+          "bottom": 1740.5,
+          "width": 145.84375,
+          "height": 20,
+          "href": "/he/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/edit?date=2024-02-29",
+          "text": "עריכת הארוחה השמורה"
+        }
+      ],
+      "textSummary": {
+        "bounds": {
+          "count": 73,
+          "minimumX": -9742.203125,
+          "maximumRight": 304,
+          "minimumY": 148,
+          "maximumBottom": 7443.5,
+          "minimumWidth": 288,
+          "maximumWidth": 10025.203125,
+          "minimumHeight": 20,
+          "maximumHeight": 862.5
+        },
+        "originalTextsSha256": "5d10b9ad949b120b3f824a74c65b948724881b0d158d72693568620207e66208",
+        "renderedOverflowValues": [
+          "visible"
+        ],
+        "renderedTextOverflowValues": [
+          "clip"
+        ]
+      },
+      "firstHeadingAndItemTextBounds": [
+        {
+          "x": 16,
+          "y": 148,
+          "right": 304,
+          "bottom": 1010.5,
+          "width": 288,
+          "height": 862.5,
+          "characters": 220,
+          "textSha256": "4d68a18d36dac3b53099457f01dab7ce964b65e9c4bc3c00ece8e03113fee0f8",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": -9742.203125,
+          "y": 1805.5,
+          "right": 283,
+          "bottom": 1833.5,
+          "width": 10025.203125,
+          "height": 28,
+          "characters": 200,
+          "textSha256": "67f75bb8d2a7cb8bdf33aed728bb2a920b9dbf9f6a924de11e8ebaf299ad1b53",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "state": "long-review-baseline",
+      "route": "/en/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "locale": "en",
+      "direction": "ltr",
+      "document": {
+        "scrollWidth": 10083,
+        "clientWidth": 390
+      },
+      "body": {
+        "scrollWidth": 10083,
+        "clientWidth": 390
+      },
+      "cards": [
+        {
+          "rowKey": null,
+          "position": "1",
+          "x": 16,
+          "y": 1501,
+          "right": 10083.203125,
+          "bottom": 1967,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "2",
+          "x": 16,
+          "y": 1983,
+          "right": 10083.203125,
+          "bottom": 2449,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "3",
+          "x": 16,
+          "y": 2465,
+          "right": 10083.203125,
+          "bottom": 2931,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "4",
+          "x": 16,
+          "y": 2947,
+          "right": 10083.203125,
+          "bottom": 3413,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "5",
+          "x": 16,
+          "y": 3429,
+          "right": 10083.203125,
+          "bottom": 3895,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "6",
+          "x": 16,
+          "y": 3911,
+          "right": 10083.203125,
+          "bottom": 4377,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "7",
+          "x": 16,
+          "y": 4393,
+          "right": 10083.203125,
+          "bottom": 4859,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "8",
+          "x": 16,
+          "y": 4875,
+          "right": 10083.203125,
+          "bottom": 5341,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "9",
+          "x": 16,
+          "y": 5357,
+          "right": 10083.203125,
+          "bottom": 5823,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "10",
+          "x": 16,
+          "y": 5839,
+          "right": 10083.203125,
+          "bottom": 6305,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "11",
+          "x": 16,
+          "y": 6321,
+          "right": 10083.203125,
+          "bottom": 6787,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        },
+        {
+          "rowKey": null,
+          "position": "12",
+          "x": 16,
+          "y": 6803,
+          "right": 10083.203125,
+          "bottom": 7269,
+          "width": 10067.203125,
+          "height": 466,
+          "scrollWidth": 10065,
+          "clientWidth": 10065
+        }
+      ],
+      "controlSummary": {
+        "count": 3,
+        "enabledButtonCount": 1,
+        "minimumEnabledButtonWidth": 316,
+        "minimumEnabledButtonHeight": 48,
+        "minimumEnabledInputBoundaryContrast": 1.4864932329018998
+      },
+      "controlFamilies": [
+        {
+          "tag": "INPUT",
+          "field": "entry_date",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": 7398,
+            "maximumBottom": 7442,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "SELECT",
+          "field": "meal_type",
+          "label": "BreakfastLunchDinnerSnackOther",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": 7486,
+            "maximumBottom": 7530,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Confirm and log all items",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": 7550,
+            "maximumBottom": 7598,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 48,
+            "maximumHeight": 48
+          },
+          "colorIds": [
+            "color-2"
+          ]
+        }
+      ],
+      "linkActions": [
+        {
+          "x": 16,
+          "y": 1461,
+          "right": 121.625,
+          "bottom": 1481,
+          "width": 105.625,
+          "height": 20,
+          "href": "/en/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/edit?date=2024-02-29",
+          "text": "Edit saved meal"
+        }
+      ],
+      "textSummary": {
+        "bounds": {
+          "count": 73,
+          "minimumX": 16,
+          "maximumRight": 10062.203125,
+          "minimumY": 148,
+          "maximumBottom": 7184,
+          "minimumWidth": 358,
+          "maximumWidth": 10025.203125,
+          "minimumHeight": 20,
+          "maximumHeight": 675
+        },
+        "originalTextsSha256": "e7615ed2b9195c8f5a8121d79f0d54f4eb546bb6a110aa1682bb22bf67292869",
+        "renderedOverflowValues": [
+          "visible"
+        ],
+        "renderedTextOverflowValues": [
+          "clip"
+        ]
+      },
+      "firstHeadingAndItemTextBounds": [
+        {
+          "x": 16,
+          "y": 148,
+          "right": 374,
+          "bottom": 823,
+          "width": 358,
+          "height": 675,
+          "characters": 218,
+          "textSha256": "a124d4c86b9b6b67d965000a00969766c24331038e443aa5933d6f7795bbfa37",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 1546,
+          "right": 10062.203125,
+          "bottom": 1574,
+          "width": 10025.203125,
+          "height": 28,
+          "characters": 200,
+          "textSha256": "67f75bb8d2a7cb8bdf33aed728bb2a920b9dbf9f6a924de11e8ebaf299ad1b53",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "state": "invalid-name-before-submit",
+      "locale": "en",
+      "field": "name",
+      "fieldId": "",
+      "fieldY": -17571.5,
+      "fieldHeight": 48,
+      "viewportHeight": 1000,
+      "scrollY": 18046,
+      "distanceAboveViewport": 17523.5,
+      "focused": "INPUT",
+      "invalid": "false",
+      "descriptions": [
+        {
+          "id": "saved-meal-name-help",
+          "text": "Use a recognizable private name up to 200 characters."
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "state": "invalid-name-after-rejection",
+      "locale": "en",
+      "field": "name",
+      "fieldId": "",
+      "fieldY": -17599.5,
+      "fieldHeight": 48,
+      "viewportHeight": 1000,
+      "scrollY": 18074,
+      "distanceAboveViewport": 17551.5,
+      "focused": "BODY",
+      "invalid": "true",
+      "descriptions": [
+        {
+          "id": "saved-meal-name-help",
+          "text": "Use a recognizable private name up to 200 characters."
+        },
+        {
+          "id": "saved-meal-name-error",
+          "text": "This field is required."
+        }
+      ]
+    },
+    {
+      "mode": "baseline",
+      "state": "legacy-editor-boundary-and-touch",
+      "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "locale": "en",
+      "direction": "ltr",
+      "document": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "body": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "cards": [
+        {
+          "rowKey": "diary:387dc106-1977-45ec-9dd9-c5d67fb69e29",
+          "position": null,
+          "x": 37,
+          "y": -17150.5,
+          "right": 353,
+          "bottom": -15691.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:49d1a2e0-b75f-42d7-9b9c-126653ae566a",
+          "position": null,
+          "x": 37,
+          "y": -15671.5,
+          "right": 353,
+          "bottom": -14212.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:cac2f8b3-6fca-4f8a-8926-8b42cf51f4be",
+          "position": null,
+          "x": 37,
+          "y": -14192.5,
+          "right": 353,
+          "bottom": -12733.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:3dda7a1f-59c4-40e0-a17a-678a99d6af90",
+          "position": null,
+          "x": 37,
+          "y": -12713.5,
+          "right": 353,
+          "bottom": -11254.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:20a91f85-dcde-41e8-a01c-cd3d88834d08",
+          "position": null,
+          "x": 37,
+          "y": -11234.5,
+          "right": 353,
+          "bottom": -9775.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:c89db9a7-2ea7-42df-85f6-1c304bdd1e9f",
+          "position": null,
+          "x": 37,
+          "y": -9755.5,
+          "right": 353,
+          "bottom": -8296.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:3594543d-1c76-46f7-b44f-9a4bfcee9cb9",
+          "position": null,
+          "x": 37,
+          "y": -8276.5,
+          "right": 353,
+          "bottom": -6817.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:0ca88b5b-cda1-4bcd-a3c4-be3078fd4977",
+          "position": null,
+          "x": 37,
+          "y": -6797.5,
+          "right": 353,
+          "bottom": -5338.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:eb5a38cc-7581-4a68-84fd-dbeff8f364bf",
+          "position": null,
+          "x": 37,
+          "y": -5318.5,
+          "right": 353,
+          "bottom": -3859.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:ca57ec25-6016-4b61-8be0-94d1a8655d1a",
+          "position": null,
+          "x": 37,
+          "y": -3839.5,
+          "right": 353,
+          "bottom": -2380.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:0f55b64e-d28c-4cd1-9ec4-cb36be5ca3f7",
+          "position": null,
+          "x": 37,
+          "y": -2360.5,
+          "right": 353,
+          "bottom": -901.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        },
+        {
+          "rowKey": "diary:d46886bd-9f6f-4517-974a-89e73e19b811",
+          "position": null,
+          "x": 37,
+          "y": -881.5,
+          "right": 353,
+          "bottom": 577.5,
+          "width": 316,
+          "height": 1459,
+          "scrollWidth": 314,
+          "clientWidth": 314
+        }
+      ],
+      "controlSummary": {
+        "count": 149,
+        "enabledButtonCount": 37,
+        "minimumEnabledButtonWidth": 82.859375,
+        "minimumEnabledButtonHeight": 40,
+        "minimumEnabledInputBoundaryContrast": 1.4864932329018998
+      },
+      "controlFamilies": [
+        {
+          "tag": "INPUT",
+          "field": "name",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": -17599.5,
+            "maximumBottom": -17551.5,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 48,
+            "maximumHeight": 48
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "SELECT",
+          "field": "meal_locale",
+          "label": "EnglishHebrewMixed or language-neutral",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": -17431.5,
+            "maximumBottom": -17383.5,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 48,
+            "maximumHeight": 48
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Move up",
+          "disabled": true,
+          "bounds": {
+            "count": 1,
+            "minimumX": 54,
+            "maximumRight": 136.859375,
+            "minimumY": -17072.5,
+            "maximumBottom": -17032.5,
+            "minimumWidth": 82.859375,
+            "maximumWidth": 82.859375,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Move down",
+          "disabled": false,
+          "bounds": {
+            "count": 11,
+            "minimumX": 144.859375,
+            "maximumRight": 247.25,
+            "minimumY": -17072.5,
+            "maximumBottom": -2242.5,
+            "minimumWidth": 102.390625,
+            "maximumWidth": 102.390625,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Remove item",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 316.234375,
+            "minimumY": -17024.5,
+            "maximumBottom": -715.5,
+            "minimumWidth": 112.9375,
+            "maximumWidth": 112.9375,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-3"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_food_name",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16936.5,
+            "maximumBottom": -623.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_brand_name",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16800.5,
+            "maximumBottom": -487.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_serving_quantity",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16648.5,
+            "maximumBottom": -335.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_serving_unit",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16512.5,
+            "maximumBottom": -199.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_calories",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16376.5,
+            "maximumBottom": -63.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_protein_g",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16240.5,
+            "maximumBottom": 72.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_carbohydrates_g",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -16104.5,
+            "maximumBottom": 208.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "INPUT",
+          "field": "item_fat_g",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -15968.5,
+            "maximumBottom": 344.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "TEXTAREA",
+          "field": "item_notes",
+          "disabled": false,
+          "bounds": {
+            "count": 12,
+            "minimumX": 54,
+            "maximumRight": 336,
+            "minimumY": -15832.5,
+            "maximumBottom": 532.5,
+            "minimumWidth": 282,
+            "maximumWidth": 282,
+            "minimumHeight": 96,
+            "maximumHeight": 96
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Move up",
+          "disabled": false,
+          "bounds": {
+            "count": 11,
+            "minimumX": 54,
+            "maximumRight": 136.859375,
+            "minimumY": -15593.5,
+            "maximumBottom": -763.5,
+            "minimumWidth": 82.859375,
+            "maximumWidth": 82.859375,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Remove food link",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 54,
+            "maximumRight": 195.296875,
+            "minimumY": -15545.5,
+            "maximumBottom": -15505.5,
+            "minimumWidth": 141.296875,
+            "maximumWidth": 141.296875,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-4"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Move down",
+          "disabled": true,
+          "bounds": {
+            "count": 1,
+            "minimumX": 144.859375,
+            "maximumRight": 247.25,
+            "minimumY": -803.5,
+            "maximumBottom": -763.5,
+            "minimumWidth": 102.390625,
+            "maximumWidth": 102.390625,
+            "minimumHeight": 40,
+            "maximumHeight": 40
+          },
+          "colorIds": [
+            "color-1"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Add item",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 131.328125,
+            "minimumY": 597.5,
+            "maximumBottom": 641.5,
+            "minimumWidth": 94.328125,
+            "maximumWidth": 94.328125,
+            "minimumHeight": 44,
+            "maximumHeight": 44
+          },
+          "colorIds": [
+            "color-5"
+          ]
+        },
+        {
+          "tag": "BUTTON",
+          "field": null,
+          "label": "Create saved meal",
+          "disabled": false,
+          "bounds": {
+            "count": 1,
+            "minimumX": 37,
+            "maximumRight": 353,
+            "minimumY": 734.5,
+            "maximumBottom": 782.5,
+            "minimumWidth": 316,
+            "maximumWidth": 316,
+            "minimumHeight": 48,
+            "maximumHeight": 48
+          },
+          "colorIds": [
+            "color-2"
+          ]
+        }
+      ],
+      "linkActions": [
+        {
+          "x": 37,
+          "y": 814.5,
+          "right": 174.4375,
+          "bottom": 834.5,
+          "width": 137.4375,
+          "height": 20,
+          "href": "/en/saved-meals",
+          "text": "Back to saved meals"
+        },
+        {
+          "x": 190.4375,
+          "y": 814.5,
+          "right": 285.046875,
+          "bottom": 834.5,
+          "width": 94.609375,
+          "height": 20,
+          "href": "/en/today",
+          "text": "Back to Today"
+        }
+      ],
+      "textSummary": {
+        "bounds": {
+          "count": 1,
+          "minimumX": 16,
+          "maximumRight": 374,
+          "minimumY": -17926,
+          "maximumBottom": -17888.5,
+          "minimumWidth": 358,
+          "maximumWidth": 358,
+          "minimumHeight": 37.5,
+          "maximumHeight": 37.5
+        },
+        "originalTextsSha256": "f8cd3185bb4d45bb40ef1b6a389bc3048b54b521a112b4bfe528d5dae149d09f",
+        "renderedOverflowValues": [
+          "visible"
+        ],
+        "renderedTextOverflowValues": [
+          "clip"
+        ]
+      },
+      "firstHeadingAndItemTextBounds": [
+        {
+          "x": 16,
+          "y": -17926,
+          "right": 374,
+          "bottom": -17888.5,
+          "width": 358,
+          "height": 37.5,
+          "characters": 20,
+          "textSha256": "505af3708e36b3ff6bc4c5758662db8ab9b2fcfdb9073bc2a22fe915851ff87f",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "filename": "baseline-review-he-320.png",
+      "sha256": "5aae89b0000d383da8d4acc948ceaa55c1f97aa5811e0b8d1e25e9d7da585d93",
+      "viewport": {
+        "width": 320,
+        "height": 1000
+      },
+      "route": "/he/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29"
+    },
+    {
+      "filename": "baseline-review-en-390.png",
+      "sha256": "2ccc18661fd856d1cdc9f7b7c0ab177245ddea075166807059e2ffa0844296ba",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29"
+    },
+    {
+      "filename": "baseline-long-create-before-rejection-en-390.png",
+      "sha256": "63d64a073bae9bab271f51f9f14fe000f1939fead80cd39de62cafa71da764d0",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast"
+    },
+    {
+      "filename": "baseline-long-create-rejected-en-390.png",
+      "sha256": "abd97fe8a4557b077d425e5571e7c3db1c5cacdc86b24733ed98720ce892c43b",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast"
+    }
+  ],
+  "accessibility": [
+    {
+      "mode": "baseline",
+      "state": "long-review-baseline",
+      "locale": "he",
+      "violations": []
+    },
+    {
+      "mode": "baseline",
+      "state": "long-review-baseline",
+      "locale": "en",
+      "violations": []
+    }
+  ],
+  "contracts": [
+    {
+      "mode": "baseline",
+      "state": "review-fidelity",
+      "id": "c6fc6824-9145-4c5b-abab-fb5924205323",
+      "locale": "he",
+      "orderedSnapshotSha256": "9d552f0b17374ea0420535f6dddd2351238cbd569ebdd065ed4358cdd5486a8d",
+      "rowCount": 12,
+      "compared": "all ordered names, brands, units, quantities, nutrients, notes and null/zero localized display"
+    },
+    {
+      "mode": "baseline",
+      "state": "review-fidelity",
+      "id": "c6fc6824-9145-4c5b-abab-fb5924205323",
+      "locale": "en",
+      "orderedSnapshotSha256": "9d552f0b17374ea0420535f6dddd2351238cbd569ebdd065ed4358cdd5486a8d",
+      "rowCount": 12,
+      "compared": "all ordered names, brands, units, quantities, nutrients, notes and null/zero localized display"
+    },
+    {
+      "state": "baseline-invalid-create",
+      "noSavedMealCreated": true,
+      "diaryUnchanged": true
+    }
+  ],
+  "evidenceRepresentation": {
+    "geometry": "Exact per-card bounds, per-control-family measured bounds/ranges/colors, touch sizes, representative text bounds and all error navigation; no geometry values are rounded.",
+    "completeOriginal": "baseline-measurements.json.gz",
+    "originalText": "Full rendered text and every original measurement remain in the lossless gzip document."
+  },
+  "renderedControlColorPalette": [
+    {
+      "id": "color-1",
+      "border": "lab(84.7652 -1.94535 -7.93337)",
+      "background": "rgb(255, 255, 255)",
+      "borderRgb": [
+        202,
+        213,
+        226
+      ],
+      "backgroundRgb": [
+        255,
+        255,
+        255
+      ],
+      "boundaryContrast": 1.4864932329018998
+    },
+    {
+      "id": "color-2",
+      "border": "rgb(255, 255, 255)",
+      "background": "lab(44.4134 -33.1436 -4.22149)",
+      "borderRgb": [
+        255,
+        255,
+        255
+      ],
+      "backgroundRgb": [
+        0,
+        120,
+        111
+      ],
+      "boundaryContrast": 5.3624399453379015
+    },
+    {
+      "id": "color-3",
+      "border": "lab(76.5514 36.422 15.5335)",
+      "background": "rgb(255, 255, 255)",
+      "borderRgb": [
+        255,
+        162,
+        162
+      ],
+      "backgroundRgb": [
+        255,
+        255,
+        255
+      ],
+      "boundaryContrast": 1.919235084048293
+    },
+    {
+      "id": "color-4",
+      "border": "lab(80.1641 16.6016 99.2089)",
+      "background": "rgb(255, 255, 255)",
+      "borderRgb": [
+        255,
+        185,
+        0
+      ],
+      "backgroundRgb": [
+        255,
+        255,
+        255
+      ],
+      "boundaryContrast": 1.7224996129245542
+    },
+    {
+      "id": "color-5",
+      "border": "lab(44.4134 -33.1436 -4.22149)",
+      "background": "rgb(255, 255, 255)",
+      "borderRgb": [
+        0,
+        120,
+        111
+      ],
+      "backgroundRgb": [
+        255,
+        255,
+        255
+      ],
+      "boundaryContrast": 5.3624399453379015
+    }
+  ]
+}

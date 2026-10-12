@@ -1,0 +1,353 @@
+{
+  "task": "UI_PHASE_5C_SAVED_MEAL_FORMS_REVIEW_001",
+  "description": "Synthetic local evidence. The compact manifests preserve exact geometry and source identity; lossless gzip files preserve the complete original JSON captures.",
+  "verification": "Run node verify-evidence.mjs --verify-packet . --repository /path/to/checkout from this directory.",
+  "verifier": {
+    "filename": "verify-evidence.mjs",
+    "sha256": "90469c852e5a67ffab0637e7090c7336654f765fc03f28368c74395f171b715a"
+  },
+  "supportingArtifacts": [
+    {
+      "filename": "environment-safety-pre-cleanup.json",
+      "sha256": "092580ecb26b7214b671729e25a5458cd1528a2765033fe13ee05876eea2f405",
+      "bytes": 5459
+    },
+    {
+      "filename": "cleanup-safe.json",
+      "sha256": "42d581c671a4c0ba7326b0eb7fe0816ee255ce6b4168d1651c87dbcf9c0361e5",
+      "bytes": 949
+    }
+  ],
+  "captures": [
+    {
+      "mode": "baseline",
+      "sourceIdentity": {
+        "head": "a8e75cdb9e3412807e18c10b9ce1a2c3e4fe35d1",
+        "tree": "f39aafa8f56f1651a45218058667f9c6f30d5bf5",
+        "buildId": "VjfEA2Mgn0zhY_FyOuH72",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/saved-meals/saved-meal-form.tsx": "925eac32fa5733f1d033ef96b77f26deba83ee4a26b2b49fbe81b323342eb890",
+          "components/saved-meals/saved-meal-page.tsx": "3cb79ed41ea4e79805b2aee653f3b5ca94c7d2f8d1198da449308451a3ba883f",
+          "components/saved-meals/saved-meal-use-review.tsx": "973dc14e322364b599884adc6c9081a10906d4dff33a4e7d6886e2b272071b3a"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "compact": {
+        "filename": "baseline-manifest.json",
+        "sha256": "d6cfa350c1ff63ca39e911e6f54617495a4702197703aa17e68616bd41ed27ad",
+        "bytes": 58254
+      },
+      "original": {
+        "filename": "baseline-measurements.json.gz",
+        "sha256": "41a74f32106bc61bc623dccc84ff3aa7f1b9f37ba56d267c8c1ed1e2b4229ca7",
+        "bytes": 9836,
+        "uncompressedSha256": "f231eba4bf212f2bc62a57fef1105f91808b6e275f66dba287bff1ac50145b8e",
+        "uncompressedBytes": 213645
+      },
+      "measurementRecords": 5,
+      "screenshots": [
+        {
+          "filename": "baseline-review-he-320.png",
+          "sha256": "5aae89b0000d383da8d4acc948ceaa55c1f97aa5811e0b8d1e25e9d7da585d93",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-review-en-390.png",
+          "sha256": "2ccc18661fd856d1cdc9f7b7c0ab177245ddea075166807059e2ffa0844296ba",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/c6fc6824-9145-4c5b-abab-fb5924205323/use?date=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-long-create-before-rejection-en-390.png",
+          "sha256": "63d64a073bae9bab271f51f9f14fe000f1939fead80cd39de62cafa71da764d0",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-long-create-rejected-en-390.png",
+          "sha256": "abd97fe8a4557b077d425e5571e7c3db1c5cacdc86b24733ed98720ce892c43b",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "axeScans": 2
+    },
+    {
+      "mode": "after",
+      "sourceIdentity": {
+        "head": "1b3be58e3b12a15b8f58d9a81e845b2a5be628f1",
+        "tree": "c8d4f8e3b153d913660f799fad3bfacc49b05056",
+        "buildId": "I5D3z9d2hUUXqRP331cFp",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/saved-meals/saved-meal-form.tsx": "a5501c3f52a3f483c539c9f918eb1d251936e9bbc143453a4097078c748635a0",
+          "components/saved-meals/saved-meal-page.tsx": "8a44305a0145c02b07676fdeea276cc1ce6d16d7a8118546b2011af601ed0af3",
+          "components/saved-meals/saved-meal-use-review.tsx": "f1a479977af6e265419c5325fe724ad011a7a768852c9c1000ebddc6d02e32f6"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "compact": {
+        "filename": "after-manifest.json",
+        "sha256": "0b36a2bbc3648b4d7150d37044dd18a8c4fd5634c5f0f7d3797430af3d15c95b",
+        "bytes": 998796
+      },
+      "original": {
+        "filename": "after-measurements.json.gz",
+        "sha256": "b651e856a9c537ac521bff9913e035cd867e2b88a5a6fc72cef5bebd773bc0c9",
+        "bytes": 215358,
+        "uncompressedSha256": "fb66722a5258d01bd731d481c44f5435a8df52e98aa1f292397cf79b523275fc",
+        "uncompressedBytes": 4943897
+      },
+      "measurementRecords": 101,
+      "screenshots": [
+        {
+          "filename": "after-blank-create-en-390.png",
+          "sha256": "7bd3ec5495e68c57f5a0935859ce77c7654e081b3ea4684349d0d7e720e2b9a9",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-existing-edit-en-390.png",
+          "sha256": "d909d98a99b02ffa1bc512ca6a7bb3491fb05f1ed711214f068ffa4efeecf61b",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/23c96182-12da-440c-b0c0-214d3b31a838/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-many-long-review-en-390.png",
+          "sha256": "81783f965b96ef9add075e77fde89e4fbab917190a1e81759ef4d1cd90a76ca5",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/23c96182-12da-440c-b0c0-214d3b31a838/use?date=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-many-long-review-en-1440.png",
+          "sha256": "b117dc82bd9f4e55fa0cc22c467826ada1f46f9b2830f1322fd9e2e29b9c54c6",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/23c96182-12da-440c-b0c0-214d3b31a838/use?date=2024-02-29",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-many-long-review-he-320.png",
+          "sha256": "8e2e051ef8b6fee4230d6e4504702406711dac404cdcf40e8ec1ac8ea2ac7ff4",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/23c96182-12da-440c-b0c0-214d3b31a838/use?date=2024-02-29",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-review-first-snapshot-he-320.png",
+          "sha256": "20e0c42c9138495cd4bd36052c6df65c2c9400dc421fac133bfcc63757021e72",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/23c96182-12da-440c-b0c0-214d3b31a838/use?date=2024-02-29",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-long-create-before-rejection-en-390.png",
+          "sha256": "4e12cfd83dc565b41c865668c88b5999f7e82de759a3ae3b7884f09cf496889d",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-create-error-navigation-en-390.png",
+          "sha256": "075d6bf72190003ce429297c82694761f5de76da1c1eae966c9293900e754a22",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/new?date=2024-02-29&mealType=breakfast",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-long-create-before-rejection-he-390.png",
+          "sha256": "1af634c02af6f4f8aabc78c81ca2ad26ccc66d3c139dae971a39d2e16b33ab21",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/new?date=2024-02-29&mealType=breakfast",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-linked-item-actions-en-320.png",
+          "sha256": "f424c181ae8c715679fa8127e3656ddb4f2e0d53cf074d84fc44def14f0b81e1",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/45023235-82d7-420c-910f-b591d17c8f0d/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-unlinked-item-actions-en-320.png",
+          "sha256": "c369c66c009a51a4ba1142eabb13666fb317124255715b6399257ba7f0745d8a",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/en/saved-meals/45023235-82d7-420c-910f-b591d17c8f0d/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-destination-validation-he-320.png",
+          "sha256": "1a7889ccae3e6df4f8d89c2149977e058d73ad4a4cb61818c7820579e2dfdd7b",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/21e713b8-0c94-4f94-9f7e-e9019659c6e0/use?date=2024-03-02",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-stale-review-reload-he-320.png",
+          "sha256": "15e92a60301e4ffe84bacf198ec890596a0685b20fe43a6e95b5d77c06547780",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/21e713b8-0c94-4f94-9f7e-e9019659c6e0/use?date=2024-03-02",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-confirmation-he-320.png",
+          "sha256": "23c9ac181e8acf8e1e264effe185c94d393bf711394f84272ff1db77afe05b93",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/saved-meals/21e713b8-0c94-4f94-9f7e-e9019659c6e0/use?date=2024-03-02",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        }
+      ],
+      "axeScans": 12
+    }
+  ],
+  "inventory": [
+    "after-blank-create-en-390.png",
+    "after-confirmation-he-320.png",
+    "after-create-error-navigation-en-390.png",
+    "after-destination-validation-he-320.png",
+    "after-existing-edit-en-390.png",
+    "after-linked-item-actions-en-320.png",
+    "after-long-create-before-rejection-en-390.png",
+    "after-long-create-before-rejection-he-390.png",
+    "after-manifest.json",
+    "after-many-long-review-en-1440.png",
+    "after-many-long-review-en-390.png",
+    "after-many-long-review-he-320.png",
+    "after-measurements.json.gz",
+    "after-review-first-snapshot-he-320.png",
+    "after-stale-review-reload-he-320.png",
+    "after-unlinked-item-actions-en-320.png",
+    "baseline-long-create-before-rejection-en-390.png",
+    "baseline-long-create-rejected-en-390.png",
+    "baseline-manifest.json",
+    "baseline-measurements.json.gz",
+    "baseline-review-en-390.png",
+    "baseline-review-he-320.png",
+    "cleanup-safe.json",
+    "environment-safety-pre-cleanup.json",
+    "manifest.json",
+    "verify-evidence.mjs"
+  ]
+}

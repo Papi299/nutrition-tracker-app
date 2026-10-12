@@ -1,0 +1,41 @@
+{
+  "completedAt": "2026-10-12T03:04:08.719Z",
+  "project": "ui5c-20261011",
+  "network": "nutrition-ui5c-loopback",
+  "taskContainersRemaining": 0,
+  "taskNetworkRemaining": false,
+  "historicalVolumesRetained": 14,
+  "newTaskVolumesRemaining": [],
+  "restoredConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "configRestoredByteExactly": true,
+  "listeners": [
+    {
+      "port": 56321,
+      "open": false
+    },
+    {
+      "port": 56322,
+      "open": false
+    },
+    {
+      "port": 56323,
+      "open": false
+    },
+    {
+      "port": 56324,
+      "open": false
+    },
+    {
+      "port": 56327,
+      "open": false
+    },
+    {
+      "port": 3100,
+      "open": false
+    }
+  ],
+  "localEnvironmentFileRemoved": true,
+  "privateCredentialBearingStartupLogRemoved": true,
+  "remoteSupabaseOperations": false
+}
