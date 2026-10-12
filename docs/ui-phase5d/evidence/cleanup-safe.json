@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-10-12T17:40:00.317Z",
+  "project": "ui5d-20261012",
+  "taskContainersRemaining": 0,
+  "taskVolumesRemaining": 0,
+  "taskNetworkRemaining": false,
+  "historicalVolumesRetained": 14,
+  "historicalVolumeNamesUnchanged": true,
+  "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "restoredConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "configRestoredByteExact": true,
+  "taskSyntheticPrivateSecretsRemoved": true,
+  "hostedSupabaseOperations": false,
+  "providerConfigurationChanged": false,
+  "cleanupScope": "Only task-created project ui5d-20261012 services/network/volumes/private secrets; no historical database contents accessed."
+}

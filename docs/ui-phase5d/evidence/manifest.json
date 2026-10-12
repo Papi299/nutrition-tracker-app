@@ -1,0 +1,437 @@
+{
+  "task": "UI_PHASE_5D_RECIPE_FORMS_REVIEW_001",
+  "description": "Synthetic isolated local evidence; exact baseline and committed changed source. Compact measurements and lossless originals are independently verified.",
+  "verification": "node docs/ui-phase5d/evidence/verify-evidence.mjs --verify-packet docs/ui-phase5d/evidence --repository .",
+  "verifier": {
+    "filename": "verify-evidence.mjs",
+    "sha256": "a1ec63412944f40a9b23690bea62ebab13557579a1e670ac8eb76e5a23187bb0"
+  },
+  "supportingArtifacts": [
+    {
+      "filename": "cleanup-safe.json",
+      "sha256": "a06230da8e84e59edb76346e9a65d8ed57b119e632863a3f78648713a7217336",
+      "bytes": 740
+    },
+    {
+      "filename": "environment-safety-pre-cleanup.json",
+      "sha256": "78ed2562e145266e5ac7a41ef25bcf7282d1a7b7dddb769c954f3a5b8c889822",
+      "bytes": 6591
+    }
+  ],
+  "captures": [
+    {
+      "mode": "baseline",
+      "sourceIdentity": {
+        "head": "b6a402ef2b970495fa82a0539531fc43da0e105c",
+        "tree": "68770f220c4be3b95354aecf8ad9f7fb08ee56fa",
+        "buildId": "RjYIKcki0Zh7SUxO4J0_0",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/recipes/recipe-form.tsx": "f1d281a0a5b97bb0c9d417bdb04cddabd290ff019ee8d7d461da27d3fe08e56d",
+          "components/recipes/recipe-page.tsx": "48140d6e5b705d9348604b0325126f4878f370d0cfb3bb166d34ff26f3db5916",
+          "components/recipes/recipe-nutrition-summary.tsx": "baaa4477abfdc6d830e90be9240fa54aba52e07c412cd9ef8c0807a61b9844d1",
+          "components/recipes/recipe-use-preview.tsx": "7193ad856e82ef5dbb5ac508c76a445759c100bc6f830b06f314280b35718081",
+          "components/recipes/recipe-use-confirmation.tsx": "9c804a37558c990c5475d485700986b9b14812e878acdab69711b12945ee683d",
+          "messages/en.json": "3f8b76e956092add72b28202a508083e43c021dea5549e49c486b2dfac56a970",
+          "messages/he.json": "e2b322011d79e935699cf25b498784dadb0999e9d2ea90339782a2bfc7a9e3fa"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "compact": {
+        "filename": "baseline-manifest.json",
+        "sha256": "1d9f41ed4b2d365a1423f5f6bbdd3cad6e3791155232f06661e6c41e338085f4",
+        "bytes": 93038
+      },
+      "original": {
+        "filename": "baseline-measurements.json.gz",
+        "sha256": "0d7556902d0782467782431d56267d71de3fcccdd28be8c6a462186d34a0d2e2",
+        "bytes": 8150,
+        "uncompressedSha256": "8abc2d4397cdb76d40a21221966272d6910e07d9e770f258081491da170ea9fc",
+        "uncompressedBytes": 96617
+      },
+      "measurementRecords": 5,
+      "screenshots": [
+        {
+          "filename": "baseline-picker-he-320.png",
+          "sha256": "5aae89b0000d383da8d4acc948ceaa55c1f97aa5811e0b8d1e25e9d7da585d93",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-picker-en-390.png",
+          "sha256": "95a66c805ba74e963805a920593ef66791587a22f76645d8103dd3abd6a5b34a",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-paired-error-en-390.png",
+          "sha256": "b1f8c505b3b7189f298d87265a9ff7da56d43a6c5259c65e1c7bf996e4bec2e8",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-saved-summary-he-390.png",
+          "sha256": "7323863d7a2a67142304d2bc1dbd8a8cfc0b189323be287ae23cca8d961bd03f",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/ef38c723-8374-4e47-be84-fd5071389eb3/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-nutrition-he-390.png",
+          "sha256": "a77d0c9c01ef2fed9ada1cb0b6ba286d66e3bb72f95f728401c80f80ff25110c",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/ef38c723-8374-4e47-be84-fd5071389eb3/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "baseline-ready-diary-he-390.png",
+          "sha256": "d9e2c1679952c206c9a51646ea8057ce8128210a371716b8d3a3cf63b611034e",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/ef38c723-8374-4e47-be84-fd5071389eb3/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "axeScans": 0,
+      "contractRecords": 1
+    },
+    {
+      "mode": "after",
+      "sourceIdentity": {
+        "head": "91d069342a01d50049507b76cde130063e5a5b2f",
+        "tree": "f0615ae88363431de49f9b98b66a3855da05c15c",
+        "buildId": "8pBYjgoOgezRFeHn_qJ5C",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/recipes/recipe-form.tsx": "fa88bf9bdad37dd009238500981f4d9da191b53dd1a8b314753e669cbe4bd90a",
+          "components/recipes/recipe-page.tsx": "1aea8c9bef7e9ff1f99703e2c834b1dd9ae341df40f90219623cfdd6a50b73c3",
+          "components/recipes/recipe-nutrition-summary.tsx": "b686be4f599834d50f4bf9ed719f313731e163e6daf81fe21b7383a5e83cbb46",
+          "components/recipes/recipe-use-preview.tsx": "aef1a1430779fbe5c8f63c200b7cb280410492577e1e76aa596c48daf678210f",
+          "components/recipes/recipe-use-confirmation.tsx": "31c92ce4b58f42a8649877316329a6020fbb243949d51b3c9f8137b14bb2a880",
+          "messages/en.json": "a1f129f3d1fbe2f7070ee6ccd485fda4e6748cc5df0c41807630ef7e236be0ba",
+          "messages/he.json": "3a3606e011a3081b88218e80cf8ee319950399303a854a78e2368b1a90d0f7ac"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "compact": {
+        "filename": "after-manifest.json",
+        "sha256": "0bad0924482fc7268318c14fc0c20df72e2d242cb1b02f229bd6905694836f97",
+        "bytes": 2777038
+      },
+      "original": {
+        "filename": "after-measurements.json.gz",
+        "sha256": "7b90ac3a1a57535cb88645020ec3daa32cba554fa7178f9b925cd7c66869a010",
+        "bytes": 191705,
+        "uncompressedSha256": "5e592834cca4885d3f6806a3d5ecbd4e4f2e378794c2da4d94cfbe5baedc99ed",
+        "uncompressedBytes": 3837731
+      },
+      "measurementRecords": 78,
+      "screenshots": [
+        {
+          "filename": "after-blank-create-en-390.png",
+          "sha256": "4937a363bedb6e98298216718ae808bae88fb2237b1b99e961ce1aaedf4390c6",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-long-edit-en-390.png",
+          "sha256": "153873defd3be4b34a40677d1e06b0ef9a5c4ac7986e816d75c0fcf51a2ab0b6",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/0b2399f3-5b53-4ec0-be60-e804ed59c470/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-picker-en-390.png",
+          "sha256": "d3d82266bc6e0957f08963a43f460adbbab903e21798ccc2b3ad3f351ef9dc03",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-archived-edit-he-320.png",
+          "sha256": "4add9e4e338bc5bf4b872eae3488b2524eaa9864089e4e9f2f6e172f7a5e24ee",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/e6ef1e28-b270-43a7-b2bc-5d31c4df323b/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-incomplete-preview-he-320.png",
+          "sha256": "eedd7042eda64f471901fbcf192d1cb8932e8c9b68cc5b553e012ed7d34d7005",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/4d450c18-6344-480b-a3f8-307dac010604/use?date=2024-02-29&mealType=snack&servings=0.5",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-picker-select-action-he-320.png",
+          "sha256": "2db4302fe0b65fe927281d545176cc7df4e1451cd235cfe7e18bb6a08d2804df",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-picker-he-320.png",
+          "sha256": "48058c84385003cb2939acc03a9f4c6dd390565df4f34a6897eb6853154a55ff",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-paired-error-en-390.png",
+          "sha256": "8bd5d57d5fb70a088809a21c283773d88cfb74f047fcf822d06090bdeaad4f57",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/0b2399f3-5b53-4ec0-be60-e804ed59c470/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-paired-error-he-390.png",
+          "sha256": "4677d66f38a4ad35387ee25c954c3b4c0df5a030133fe272fe98b85ab4e6fedf",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/0b2399f3-5b53-4ec0-be60-e804ed59c470/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-nutrition-en-390.png",
+          "sha256": "67e6265f207a7babc9d21a39a71c5f7e5a7e159a9e017d9d94c48cbc870d437a",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-confirmation-en-390.png",
+          "sha256": "ad1ca08bc2e0e771fd78ac8d017bf5cb6225e9ee987284b90e78143547e6994d",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-saved-summary-en-390.png",
+          "sha256": "febbb3b1efd004c3af2ffc3d54127c879a14084b536486bebbf4820eea400fef",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-nutrition-he-390.png",
+          "sha256": "fba228ca458ff7295c88a987da87f50518d9ddb43caba5b3dc965fe2d75cc426",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-confirmation-he-390.png",
+          "sha256": "bf2342bfab98b0148ab54553c02cd390d02f4f8f1c5cbd6308b70a8b432c6222",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/use?date=2024-02-29&mealType=lunch&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-saved-summary-he-390.png",
+          "sha256": "9b00493fbd9a364585a1edc08c1ddcb366ddad3673e6b57a6f5c1c9bd3fb9ac3",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/77071012-d6bb-4e89-a15b-01eb515a1a5f/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-long-create-error-navigation-en-390.png",
+          "sha256": "d284e76801b5398d06fed6422f4cca5606b4d15b26e1834174a7f5e7d76fdc4e",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-selected-unlinked-ingredient-en-320.png",
+          "sha256": "847059b37a83c9272cf66d3b175d294e13f7b295865cbe3d584f456b0ca24762",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/recipes/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "after-stale-confirmation-he-390.png",
+          "sha256": "1961dcf9a6f78ceae88d73b312ddf5413d6e0ef7fa3a7c07226306a153e5af16",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/recipes/0a2d8dfd-64b0-4ff5-86f2-b110ff569f72/use?date=2024-02-29&mealType=dinner&servings=1.125",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "axeScans": 18,
+      "contractRecords": 11
+    }
+  ]
+}

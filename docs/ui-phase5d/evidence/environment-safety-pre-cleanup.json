@@ -1,0 +1,288 @@
+{
+  "observedAt": "2026-10-12T17:31:33.580Z",
+  "project": "ui5d-20261012",
+  "network": "nutrition-ui5d-loopback",
+  "containers": [
+    {
+      "name": "supabase_studio_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "57323"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_pg_meta_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "8080/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_edge_runtime_ui5d-20261012",
+      "running": true,
+      "health": "not-defined",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_storage_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "5000/tcp": null
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "supabase_storage_ui5d-20261012"
+        }
+      ]
+    },
+    {
+      "name": "supabase_rest_ui5d-20261012",
+      "running": true,
+      "health": "not-defined",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "3000/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_realtime_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "4000/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_inbucket_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "57324"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_auth_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "9999/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_kong_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "57321"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_vector_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_analytics_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "4000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "57327"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_db_ui5d-20261012",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5d-loopback"
+      ],
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "57322"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "volume",
+          "name": "supabase_db_ui5d-20261012"
+        }
+      ]
+    }
+  ],
+  "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "overlayConfigSha256": "4d7f9130931e05229662fdce2d58942a2a9c864ef642752291c12afb7b67ee56",
+  "historicalVolumeCount": 14,
+  "historicalVolumesRetained": 14,
+  "historicalVolumes": [
+    "supabase_db_github-plugin-github-openai-curated-you",
+    "supabase_db_ui5-f04-enter-safety-20261011",
+    "supabase_db_ui-phase1-design-foundation",
+    "supabase_db_ui-phase4-food-discovery",
+    "supabase_db_ui-phase5a-audit-20261011",
+    "supabase_edge_runtime_",
+    "supabase_edge_runtime_dl",
+    "supabase_edge_runtime_github-plugin-github-openai-curated-you",
+    "supabase_edge_runtime_readback-scratch",
+    "supabase_edge_runtime_ui-phase1-design-foundation",
+    "supabase_edge_runtime_ui-phase4-food-discovery",
+    "supabase_storage_github-plugin-github-openai-curated-you",
+    "supabase_storage_ui-phase1-design-foundation",
+    "supabase_storage_ui-phase4-food-discovery"
+  ],
+  "taskVolumes": [
+    "supabase_db_ui5d-20261012",
+    "supabase_edge_runtime_ui5d-20261012",
+    "supabase_storage_ui5d-20261012"
+  ],
+  "lockedDependencySha256": "5a49aaae3b51e10d457f5dd5c7bf567e35d17b642dcb5d9ec43c863aaf5a2bdd",
+  "dependenciesIndependentCloneFromIdenticalLockPhase5C": true,
+  "remoteSupabaseOperations": false,
+  "cleanupPerformed": false,
+  "localMigrationVerification": "44|20260927170418",
+  "hostBindingMechanism": "Task-scoped temporary Docker API proxy set explicit 127.0.0.1 for authorized task-only container creation; proxy closed after start.",
+  "temporaryOverlayCommitted": false,
+  "runtime": {
+    "node": "v26.5.1",
+    "docker": "29.8.2",
+    "supabaseCli": "2.116.0",
+    "playwright": "1.61.1"
+  },
+  "localPublishedPortProbes": [
+    {
+      "port": 57321,
+      "loopback": true,
+      "nonloopback": false
+    },
+    {
+      "port": 57322,
+      "loopback": true,
+      "nonloopback": false
+    },
+    {
+      "port": 57323,
+      "loopback": true,
+      "nonloopback": false
+    },
+    {
+      "port": 57324,
+      "loopback": true,
+      "nonloopback": false
+    },
+    {
+      "port": 57327,
+      "loopback": true,
+      "nonloopback": false
+    }
+  ],
+  "nonloopbackProbeTarget": "Own local IPv4 interface"
+}
