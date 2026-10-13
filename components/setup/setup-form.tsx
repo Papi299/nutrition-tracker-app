@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
 import {
@@ -110,14 +110,16 @@ export function SetupForm({
   );
   const formRef = useRef<HTMLFormElement>(null);
   const lastResponse = useRef(state);
-  const [preferredLanguage, setPreferredLanguage] = useState(
-    state.values.preferred_language,
-  );
   const values: SetupFieldValues = state.values;
 
   useEffect(() => {
     if (isPending || state === lastResponse.current) return;
     lastResponse.current = state;
+    // Native action resets retain a select's original default; restore the response value.
+    const languageControl = formRef.current?.querySelector<HTMLSelectElement>(
+      '[name="preferred_language"]',
+    );
+    if (languageControl) languageControl.value = state.values.preferred_language;
     if (state.status !== "validation_error") return;
 
     const field = visibleFields.find((name) => state.fieldErrors?.[name]);
@@ -168,10 +170,9 @@ export function SetupForm({
             aria-describedby={state.fieldErrors?.preferred_language ? errorId("preferred_language") : undefined}
             aria-invalid={Boolean(state.fieldErrors?.preferred_language)}
             className="min-h-12"
+            defaultValue={values.preferred_language}
             id={controlId("preferred_language")}
             name="preferred_language"
-            onChange={(event) => setPreferredLanguage(event.target.value)}
-            value={preferredLanguage}
           >
             {languageOptions.map((option) => (
               <option key={option.value} value={option.value}>

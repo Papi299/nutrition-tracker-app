@@ -822,7 +822,7 @@ export function CustomFoodForm({
             {errorLinks.map(({ field, label, target }) => (
               <li className="min-w-0" key={field}>
                 <a
-                  className="ui-text-link inline-flex min-h-11 items-center"
+                  className="ui-text-link inline-flex min-h-11 min-w-11 items-center"
                   href={`#${target}`}
                   onClick={(event) => {
                     const control = document.getElementById(target);

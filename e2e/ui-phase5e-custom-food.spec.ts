@@ -149,10 +149,10 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
     await page.keyboard.press("Enter");
     await expect(expectedControl).toBeFocused();
     await expect(expectedControl).toBeVisible();
-    const hit = await expectedControl.evaluate(element => { const r = element.getBoundingClientRect(); const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return { hit: !!hit && (hit === element || element.contains(hit)), y: r.y, bottom: r.bottom, viewportHeight: innerHeight }; });
+    const hit = await expectedControl.evaluate(element => { const r = element.getBoundingClientRect(); const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); const nav = document.querySelector('[data-testid="mobile-bottom-navigation"]'); const navTop = nav?.checkVisibility() ? nav.getBoundingClientRect().top : innerHeight; return { hit: !!hit && (hit === element || element.contains(hit)), y: r.y, bottom: r.bottom, viewportHeight: innerHeight, navTop }; });
     expect(hit.hit).toBe(true);
     expect(hit.y).toBeGreaterThanOrEqual(0);
-    expect(hit.bottom).toBeLessThanOrEqual(hit.viewportHeight);
+    expect(hit.bottom).toBeLessThanOrEqual(Math.min(hit.viewportHeight, hit.navTop));
     return { ...(await description(expectedControl)), ...hit };
   }
 
@@ -235,13 +235,38 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
       await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1"));
       await page.getByRole("button", { name: messages[locale].CustomFoodEditor.aliases.add, exact: true }).click(); await expect(field(page, "alias_text_2")).toHaveAttribute("aria-invalid", "false");
       const resubmittedAliases = await rows(page).evaluateAll(elements => elements.map(row => ({ key: row.getAttribute("data-alias-key"), text: row.querySelector<HTMLInputElement>('input[name^="alias_text_"]')!.value, language: row.querySelector<HTMLSelectElement>("select")!.value })));
-      await submit(page).click(); await expect(summary(page)).toBeFocused();
+      let release!: () => void; let received!: () => void;
+      const held = new Promise<void>(resolve => { release = resolve; }); const requestReceived = new Promise<void>(resolve => { received = resolve; });
+      await page.route("**/foods/custom/new", async route => {
+        if (route.request().method() !== "POST" || !route.request().headers()["next-action"]) { await route.continue(); return; }
+        received(); await held; await route.continue();
+      });
+      try {
+        await submit(page).click(); await requestReceived;
+        await expect(submit(page)).toBeDisabled(); await expect(summary(page)).toHaveCount(0); await expect(page.locator('[id^="custom-food-"][id$="-error"]')).toHaveCount(0);
+        for (const name of ["name", "serving_quantity", "nutrient_sodium_mg", "alias_text_1"]) { await expect(field(page, name)).toHaveAttribute("aria-invalid", "false"); await expect(field(page, name)).not.toHaveAttribute("aria-describedby", /-error/); }
+        await expect(field(page, "creation_key")).toHaveValue(key); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_protein_g")).toHaveValue("0"); await expect(field(page, "nutrient_sodium_mg")).toHaveValue("-1");
+        expect(await rows(page).evaluateAll(elements => elements.map(row => ({ key: row.getAttribute("data-alias-key"), text: row.querySelector<HTMLInputElement>('input[name^="alias_text_"]')!.value, language: row.querySelector<HTMLSelectElement>("select")!.value })))).toEqual(resubmittedAliases);
+        contracts.push({ state: "repeated-create-request-pending", locale, genuinePostHeldBeforeContinue: true, oldSummaryAndAssociationsCleared: true, creationKeyAndAliasValuesPreserved: true, submitDisabled: true });
+      } finally { release(); }
+      await expect(summary(page)).toBeFocused(); await page.unroute("**/foods/custom/new");
       await expect(field(page, "creation_key")).toHaveValue(key); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_protein_g")).toHaveValue("0"); await expect(field(page, "nutrient_sodium_mg")).toHaveValue("-1");
       expect(await rows(page).evaluateAll(elements => elements.map(row => ({ key: row.getAttribute("data-alias-key"), text: row.querySelector<HTMLInputElement>('input[name^="alias_text_"]')!.value, language: row.querySelector<HTMLSelectElement>("select")!.value })))).toEqual(resubmittedAliases);
       await expect(field(page, "alias_text_1")).toHaveAttribute("aria-invalid", "true"); await expect(field(page, "alias_text_2")).toHaveAttribute("aria-invalid", "false");
       await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1"));
       contracts.push({ state: "repeated-create-rejection", locale, aliasKeysAndValuesPreserved: true, existingDraftRevisionRemount: true, creationKeyUnchanged: true });
       assertGeometry(await measure(page, "create-validation-navigation")); await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); await capture(page, `rejection-${locale}-390`); await axe(page, "rejected-create");
+      for (const width of widths) {
+        await page.setViewportSize({ width, height: 1000 });
+        if (width === 320 || width === 1440) {
+          await field(page, "nutrient_sodium_mg").evaluate(element => { element.closest("details")!.open = false; });
+          const destination = await keyboardDestination(page, summary(page).locator('a[href="#custom-food-nutrient_sodium_mg"]'), field(page, "nutrient_sodium_mg"));
+          contracts.push({ state: "create-rejected-responsive-destination", locale, width, destination, ancestorDisclosureOpened: true, bottomNavigationClear: true });
+        }
+        assertGeometry(await measure(page, "create-validation-navigation-matrix"));
+        if ((locale === "he" && width === 320) || (locale === "en" && width === 1440)) { await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); await capture(page, `rejection-${locale}-${width}`); }
+      }
+      await page.setViewportSize({ width: 390, height: 1000 });
       await page.reload(); await expect(field(page, "creation_key")).toHaveValue(key); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_sodium_mg")).toHaveValue("-1"); await expect(rows(page)).toHaveCount(3);
       contracts.push({ state: "create-validation", locale, identity, serving, nutrient, draftKeyPreserved: true, sessionRestored: true, aliasIdentityPreservedAfterRemoval: true, newAliasDoesNotInheritError: true }); await context.close();
     }
@@ -249,7 +274,7 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
   });
 
   test("R3 R5 Edit validation preserves aliases, revision, values and closed group navigation", async ({ browser }) => {
-    test.skip(baseline, "Changed-source acceptance."); const before = databaseSnapshot();
+    test.skip(baseline, "Changed-source acceptance."); test.setTimeout(120_000); const before = databaseSnapshot();
     for (const locale of locales) {
       const context = await contextFor(browser); const page = await context.newPage(); await page.goto(`/${locale}/foods/custom/${foodId}/edit`);
       await page.getByText(messages[locale].CustomFoodEditor.nutrients.groups.minerals, { exact: true }).click(); await field(page, "nutrient_sodium_mg").fill("-1"); await page.getByText(messages[locale].CustomFoodEditor.nutrients.groups.minerals, { exact: true }).click();
@@ -260,6 +285,16 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
       const aliasTarget = await summary(page).getByRole("link").last().getAttribute("href"); await rows(page).first().getByRole("button", { name: messages[locale].CustomFoodEditor.aliases.remove, exact: true }).click();
       await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1")); await expect(field(page, "alias_text_1")).toHaveAttribute("aria-invalid", "true");
       assertGeometry(await measure(page, "edit-validation-navigation")); await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); if (locale === "en") await capture(page, "edit-rejection-en-390"); await axe(page, "rejected-edit");
+      for (const width of widths) {
+        await page.setViewportSize({ width, height: 1000 });
+        if (width === 320 || width === 1440) {
+          await field(page, "nutrient_sodium_mg").evaluate(element => { element.closest("details")!.open = false; });
+          const responsiveDestination = await keyboardDestination(page, summary(page).locator('a[href="#custom-food-nutrient_sodium_mg"]'), field(page, "nutrient_sodium_mg"));
+          contracts.push({ state: "edit-rejected-responsive-destination", locale, width, destination: responsiveDestination, ancestorDisclosureOpened: true, bottomNavigationClear: true });
+        }
+        assertGeometry(await measure(page, "edit-validation-navigation-matrix"));
+        if ((locale === "he" && width === 320) || (locale === "en" && width === 1440)) { await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); await capture(page, `edit-rejection-${locale}-${width}`); }
+      }
       contracts.push({ state: "edit-validation", locale, destination, rejectionNoMutation: true, aliasErrorFollowsSurvivingRow: true }); await context.close();
     }
     expect(databaseSnapshot()).toBe(before);

@@ -30,8 +30,35 @@ function verifySource(raw) {
   if (raw.mode === "after") execFileSync("git", ["merge-base", "--is-ancestor", identity.head, "HEAD"], { cwd: repository });
 }
 
-function verifyRendered(raw) {
+function verifyRendered(raw, suite) {
   if (raw.mode !== "after") return;
+  const states = {
+    setup: ["blank", "populated", "invalid"],
+    "custom-food": ["blank-create", "populated-create-open-groups", "existing-long-edit", "archived-long-edit", "create-validation-navigation-matrix", "edit-validation-navigation-matrix"],
+    "account-secondary": ["account-overview", "export-gated", "export-ready", "closure-gated", "closure-ready", "sign-out-failure", "localized-recovery"],
+  };
+  const contractStates = {
+    setup: ["blank-matrix", "populated-matrix", "repeated-validation", "progressive-rejection"],
+    "custom-food": ["create-validation", "edit-validation", "repeated-create-rejection"],
+    "account-secondary": ["native-nojs-account", "export-ready", "closure-ready"],
+  };
+  const axeStates = {
+    setup: ["blank", "invalid"],
+    "custom-food": ["rejected-create", "rejected-edit", "archived-edit"],
+    "account-secondary": ["account-overview", "export-gated", "export-ready", "closure-gated", "closure-ready", "sign-out-failure", "localized-recovery"],
+  };
+  for (const locale of ["en", "he"]) {
+    for (const state of states[suite]) for (const width of [320, 390, 768, 1440]) {
+      assert(raw.measurements.some(record => record.state === state && record.locale === locale && record.viewport?.width === width && record.document), `${suite}: missing ${state}/${locale}/${width}.`);
+    }
+    for (const state of contractStates[suite]) assert(raw.contracts.some(record => record.state === state && record.locale === locale), `${suite}: missing ${state}/${locale} contract.`);
+    for (const state of axeStates[suite]) assert(raw.accessibility.some(record => record.state === state && record.locale === locale && record.violations), `${suite}: missing ${state}/${locale} axe scan.`);
+  }
+  if (suite === "account-secondary") {
+    assert(raw.contracts.some(record => record.state === "responsive-nonmutation" && record.closurePosts === 0 && record.snapshotUnchanged), "Account capture may have submitted closure or changed data.");
+    assert(raw.contracts.some(record => record.state === "safe-localized-recovery" && record.explicitRetryOnly && record.snapshotUnchanged), "Missing safe recovery assertion.");
+  }
+  if (suite === "setup") assert(raw.contracts.filter(record => ["repeated-validation", "progressive-rejection"].includes(record.state)).every(record => record.databaseUnchanged && record.fullValuesPreserved !== false), "Setup rejection changed data or lost values.");
   for (const record of raw.measurements.filter(record => record.document)) {
     const label = `${record.state}/${record.locale}/${record.viewport.width}`;
     assert(record.document.scrollWidth <= record.document.clientWidth && record.body.scrollWidth <= record.document.clientWidth, `${label}: document overflow.`);
@@ -70,12 +97,14 @@ if (process.argv[2] === "--package") {
   const captures = [];
   for (const suite of suites) for (const mode of ["baseline", "after"]) {
     const filename = `${suite}-${mode}-manifest.json`, bytes = readFileSync(join(directory, filename)), raw = JSON.parse(bytes);
-    assert(raw.mode === mode, "Wrong capture mode."); verifySource(raw); verifyRendered(raw);
+    assert(raw.mode === mode, "Wrong capture mode."); verifySource(raw); verifyRendered(raw, suite);
     const compressed = gzipSync(bytes, { level: 9 }), losslessFilename = `${suite}-${mode}-measurements.json.gz`;
     writeFileSync(join(directory, losslessFilename), compressed);
     captures.push({ suite, mode, sourceIdentity: raw.sourceIdentity, browser: raw.browser ?? { name: "Chromium", version: raw.browserVersion }, fixture: raw.fixture, filename: losslessFilename, sha256: digest(compressed), uncompressedSha256: digest(bytes), bytes: compressed.length, measurements: raw.measurements.length, geometryStates: raw.measurements.filter(record => record.document).length, axeScans: raw.accessibility.filter(record => record.violations).length, contracts: raw.contracts, screenshots: verifyImages(raw), limitations: raw.limitations ?? [], responsiveStates: raw.measurements.filter(record => record.document).map(({ state, locale, viewport, document }) => ({ state, locale, viewport, document })) });
   }
-  const supportingArtifacts = readdirSync(directory).filter(file => /^(environment|cleanup|execution|baseline-failed)/.test(file) && file.endsWith(".json")).map(filename => ({ filename, sha256: digest(readFileSync(join(directory, filename))) }));
+  const supportingArtifacts = readdirSync(directory).filter(file => /^(environment|cleanup|execution|baseline-failed)/.test(file) && /\.(json|gz)$/.test(file)).map(filename => ({ filename, sha256: digest(readFileSync(join(directory, filename))) }));
+  const failureIndex = JSON.parse(readFileSync(join(directory, "execution-failed-attempts.json")));
+  for (const artifact of failureIndex.artifacts) supportingArtifacts.push({ filename: artifact.filename, sha256: digest(readFileSync(join(directory, artifact.filename))) });
   writeFileSync(join(directory, "manifest.json"), encode({ task: "UI_PHASE_5E_PROFILE_CUSTOM_FOOD_SECONDARY_UX_001", approvedHead, approvedTree, verification: "node docs/ui-phase5e/evidence/verify-evidence.mjs --verify docs/ui-phase5e/evidence .", verifierSha256: digest(readFileSync(join(directory, "verify-evidence.mjs"))), captures, supportingArtifacts }));
 } else if (process.argv[2] === "--verify") {
   const packet = JSON.parse(readFileSync(join(directory, "manifest.json")));
@@ -84,7 +113,7 @@ if (process.argv[2] === "--package") {
   for (const capture of packet.captures) {
     const bytes = readFileSync(join(directory, capture.filename)), original = gunzipSync(bytes), raw = JSON.parse(original);
     assert(digest(bytes) === capture.sha256 && digest(original) === capture.uncompressedSha256, `${capture.filename}: integrity mismatch.`);
-    verifySource(raw); verifyRendered(raw); verifyImages(raw);
+    verifySource(raw); verifyRendered(raw, capture.suite); verifyImages(raw);
   }
   for (const artifact of packet.supportingArtifacts) assert(digest(readFileSync(join(directory, artifact.filename))) === artifact.sha256, `${artifact.filename}: integrity mismatch.`);
   console.log(JSON.stringify({ status: "PASS", captures: packet.captures.length, screenshots: packet.captures.reduce((sum, capture) => sum + capture.screenshots.length, 0), geometryStates: packet.captures.reduce((sum, capture) => sum + capture.geometryStates, 0), axeScans: packet.captures.reduce((sum, capture) => sum + capture.axeScans, 0) }));
