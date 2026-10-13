@@ -22,7 +22,7 @@ function LocalizedAccountPage({ locale }: { locale: Locale }) {
   const t = useTranslations("Account");
 
   return (
-    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-6 py-8 text-start [overflow-wrap:anywhere]">
+    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-6 py-8 text-start">
       <header className="min-w-0">
         <h1 className="ui-page-title">
           {t("title")}

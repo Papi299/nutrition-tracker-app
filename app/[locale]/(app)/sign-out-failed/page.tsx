@@ -28,7 +28,7 @@ function LocalizedSignOutFailure({
   const t = useTranslations("AppShell.signOutFailure");
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col justify-center py-8 text-start [overflow-wrap:anywhere]">
+    <section className="flex min-w-0 flex-1 flex-col justify-center py-8 text-start">
       <Card className="w-full min-w-0 max-w-xl border-danger/30">
         <h1 className="ui-page-title">{t("title")}</h1>
         <p className={feedbackStyles("danger", "mt-4")} role="alert">

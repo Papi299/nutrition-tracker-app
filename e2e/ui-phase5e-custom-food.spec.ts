@@ -234,6 +234,13 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
       await expect(rows(page).nth(1)).toHaveAttribute("data-alias-key", stableKey!); await expect(field(page, "alias_text_1")).toHaveAttribute("aria-invalid", "true");
       await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1"));
       await page.getByRole("button", { name: messages[locale].CustomFoodEditor.aliases.add, exact: true }).click(); await expect(field(page, "alias_text_2")).toHaveAttribute("aria-invalid", "false");
+      const resubmittedAliases = await rows(page).evaluateAll(elements => elements.map(row => ({ key: row.getAttribute("data-alias-key"), text: row.querySelector<HTMLInputElement>('input[name^="alias_text_"]')!.value, language: row.querySelector<HTMLSelectElement>("select")!.value })));
+      await submit(page).click(); await expect(summary(page)).toBeFocused();
+      await expect(field(page, "creation_key")).toHaveValue(key); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_protein_g")).toHaveValue("0"); await expect(field(page, "nutrient_sodium_mg")).toHaveValue("-1");
+      expect(await rows(page).evaluateAll(elements => elements.map(row => ({ key: row.getAttribute("data-alias-key"), text: row.querySelector<HTMLInputElement>('input[name^="alias_text_"]')!.value, language: row.querySelector<HTMLSelectElement>("select")!.value })))).toEqual(resubmittedAliases);
+      await expect(field(page, "alias_text_1")).toHaveAttribute("aria-invalid", "true"); await expect(field(page, "alias_text_2")).toHaveAttribute("aria-invalid", "false");
+      await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1"));
+      contracts.push({ state: "repeated-create-rejection", locale, aliasKeysAndValuesPreserved: true, existingDraftRevisionRemount: true, creationKeyUnchanged: true });
       assertGeometry(await measure(page, "create-validation-navigation")); await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); await capture(page, `rejection-${locale}-390`); await axe(page, "rejected-create");
       await page.reload(); await expect(field(page, "creation_key")).toHaveValue(key); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_sodium_mg")).toHaveValue("-1"); await expect(rows(page)).toHaveCount(3);
       contracts.push({ state: "create-validation", locale, identity, serving, nutrient, draftKeyPreserved: true, sessionRestored: true, aliasIdentityPreservedAfterRemoval: true, newAliasDoesNotInheritError: true }); await context.close();

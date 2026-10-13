@@ -41,7 +41,7 @@ function LocalizedAccountExportPage({
   const t = useTranslations("Account.export");
 
   return (
-    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-5 py-8 text-start [overflow-wrap:anywhere]">
+    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-5 py-8 text-start">
       <Link
         className={buttonStyles({ variant: "ghost", className: "w-fit underline" })}
         href={`/${locale}/account`}
