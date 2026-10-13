@@ -1,0 +1,210 @@
+{
+  "description": "Preserved baseline fixture/selector measurement failures and initial changed-source UI acceptance failures; later corrected runs supersede them.",
+  "initialChangedSource": "48ec72ec2af477bec6f8373c6adbf047d33ecc41",
+  "initialChangedResults": {
+    "passed": 90,
+    "failed": 2,
+    "skipped": 2,
+    "notRun": 4
+  },
+  "actualChangedFindings": [
+    "English Name error destination width 39.15625px (height44px)",
+    "Setup preferred-language he resets to en after rejection"
+  ],
+  "baselineTestCorrections": [
+    "closed-details visibility measurement uses native checkVisibility",
+    "Edit duplicates copy actual row text and language",
+    "scope signout alert to main to exclude Next route announcer"
+  ],
+  "artifacts": [
+    {
+      "filename": "failed-attempts/setup-after-populated-en-1440.png",
+      "sha256": "300d795e2ac1f9e697297dfd2369f8cb5fe34335ed411302071a1a44c3827e3a"
+    },
+    {
+      "filename": "failed-attempts/setup-after-invalid-en-390.png",
+      "sha256": "5a25dce8eab6b34e1ad20cd1251620c6927e9acda3687803a0576bbc49016c3a"
+    },
+    {
+      "filename": "failed-attempts/setup-after-blank-he-320.png",
+      "sha256": "a5ca0b32fb185649c870d032808dc7255a6518cf9d2f1071b31a52fec2c7a734"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1-invalid-en-390.png",
+      "sha256": "5f3b70e5c507e565e9fc516c215db2cbd310a213a00aa30985c3c34f51b40ad6"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1-manifest.json",
+      "sha256": "19baf9aacc6664c3f29164098967f36c0b62677d42125111a493352fe680a75c"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1.log.gz",
+      "sha256": "be3c7b156714f7bc468945813915a3f49933a95e3a7caa14610462ef05808d6c",
+      "uncompressedSha256": "1df97e8ce41215c3b47c47ea9397c68b313f8b1376fad0083213fdd0e921003e"
+    },
+    {
+      "filename": "failed-attempts/ui5e-baseline.log.gz",
+      "sha256": "be3c7b156714f7bc468945813915a3f49933a95e3a7caa14610462ef05808d6c"
+    },
+    {
+      "filename": "failed-attempts/ui5e-custom-baseline.log.gz",
+      "sha256": "1ce312c233f8c8bf1c951ff403632d871d98f20ff144f4ad0ebf4cb1fa8b4df9"
+    },
+    {
+      "filename": "failed-attempts/ui5e-account-baseline.log.gz",
+      "sha256": "a5d04f7affd9625848ae5ea7a85d884c10c36d93f615e4fd7b5ac44cf67ac09a"
+    },
+    {
+      "filename": "failed-attempts/ui5e-local-regressions.log.gz",
+      "sha256": "99188cef053cedab2a517dec5ac68adecbbbdbf9331cf16a77631286a81d0449"
+    },
+    {
+      "filename": "failed-attempts/ui5e-account-secondary-baseline-failed-manifest.json.gz",
+      "sha256": "eaaffe8c678aa4e40018f5818e36da60d95af0fb889b0e9cf348e02a155ad1e6"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup.json.gz",
+      "sha256": "5852dc01e91a9a02fff951749722f779bf9749e06a0190729d4dc018c3bca83b"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-populated-en-1440.png",
+      "sha256": "300d795e2ac1f9e697297dfd2369f8cb5fe34335ed411302071a1a44c3827e3a"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-invalid-en-390.png",
+      "sha256": "5a25dce8eab6b34e1ad20cd1251620c6927e9acda3687803a0576bbc49016c3a"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-blank-he-320.png",
+      "sha256": "a5ca0b32fb185649c870d032808dc7255a6518cf9d2f1071b31a52fec2c7a734"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-invalid-he-390.png",
+      "sha256": "328d76a84782fb499ae645a7367c529e2fc74a1c8b1f957bb507c3fd3813e55c"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food.json.gz",
+      "sha256": "ed406177c1bb1c738250d7d8e4d15f17ba6704ba2286a41e4c1f30e06f6339a1"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-en-390.png",
+      "sha256": "2fe276b94140aa7174aa97549ed6c52b0a6ffbc53611c8239058b8882c4b1017"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-en-1440.png",
+      "sha256": "85836acf67e3f4214c1140a60a6b6128c848b6944b41908427e81c9b8d48168e"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-he-390.png",
+      "sha256": "4e0a0dce9a78393f6ab04de8ec752e94f991695afda3bdfbdfb00cae1c1c6196"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-he-320.png",
+      "sha256": "96df4755432cb48c6a90822b2a342c87c4c5a791d3d5f82a443b93c25b98d728"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-en-390.png",
+      "sha256": "bc5d23953b3171634fd786ebc4d9dba1b7cb0bba2a289f81dc84ce8065297a2c"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-en-1440.png",
+      "sha256": "9e64d8ddfe7e7b9f78d2a16a4729499830942634a721a3fe8d7443dc7d666485"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-he-320.png",
+      "sha256": "ce5192e675e6bc094354ab0a52e42e0c504926cf7b5bfb6c788ee36956ca578e"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-en-320.png",
+      "sha256": "b630305b6917810766863714c60be45e8a5489c890edc0bb5c00171f88b5eb36"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-en-1440.png",
+      "sha256": "8609e9a88b5121bb023084710dc82814f495ebba1d8172c106fc557adb71f26d"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-he-320.png",
+      "sha256": "60b7512c3024ea3302c85def4760c69903dd1b1e32952ed2feb3ce77cb85c69b"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-he-1440.png",
+      "sha256": "d64a60f7886d59978bb31fb13135f1c46347dd8e1c1097ecd3c8d7d8d4d11aa1"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary.json.gz",
+      "sha256": "1b657838bb73182462a64bbdfcccd77586697ea136bbbb7aea0b86114a594af3"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-gated-en-390.png",
+      "sha256": "d938349ab5a322715ea612630a34b50f876f382ec3c2103fbd155edc9e105414"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-gated-en-390.png",
+      "sha256": "7697f946b6abbf060828188745f0657a67adc81f27b5985b4289177e16dce672"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-ready-en-390.png",
+      "sha256": "bbd41035c989bcef5db23ddffeea4e76d6cf6b9b645b983e84ddbd9b04ae7f70"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-signout-en-390.png",
+      "sha256": "a34230d96ccb4b474c8da5eba0b2da9fee015075a4e16362d894eb16e62febe2"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-overview-en-1440.png",
+      "sha256": "97c6ca4f44eef7c0562ab7b3c821c8d71608ad60c9c0b7a997ba12f2beaf3253"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-ready-en-1440.png",
+      "sha256": "db9554f87c8ab388c37009e9c62a6305c64a1925bdd94125f316a3a28578eaaa"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-ready-he-320.png",
+      "sha256": "82967fb2c34f082fbfa841a7449f935ab9bad82822db797670527635897dd010"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-overview-he-390.png",
+      "sha256": "2f2b0ee437fe4b5b1947962328c3b781d4f8cacfbc11d214ad0ed3c2d9b58c8a"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-gated-he-390.png",
+      "sha256": "9819322bfb6c1d4495af0d5a1ec5d5ab097dd93f1647f21012b60e7ceac5ced8"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-ready-he-390.png",
+      "sha256": "fd612bea9861bc3bc72218a30233de9d148d17613abbeb28a7673b216a1df9d5"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-gated-he-390.png",
+      "sha256": "374d2982a1cc2ad06fccfe06463f45fb1c216db26f650cd170f190d7ae3ff184"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-signout-he-390.png",
+      "sha256": "d669d029b4c2c41e46cd805c4e79c69dfbbb2fd0de833d0481f71ca4ccfdaf4f"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-recovery-en-390.png",
+      "sha256": "ecb32e8d0755de70a7de40fc8b828f6538e60ed3279384f2412c8b9a7339d33d"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-recovery-he-390.png",
+      "sha256": "9f913ed0a87c1ea10f8a7d30cf3b08568876d34089a9f8193f67555fb30a8a2e"
+    },
+    {
+      "filename": "failed-attempts/second-run.log.gz",
+      "sha256": "8a63e92c8bde546d7d4654f4e96735a9930deb6e927ec44f3f1eabbe0cfe3448"
+    }
+  ],
+  "secondRun": {
+    "source": "fdea56168f3f23cf70106c073ca98470d8220195",
+    "passed": 87,
+    "failed": 2,
+    "skipped": 2,
+    "notRun": 7,
+    "causes": [
+      "Prior disposable fixtures collided on fixed account-export nutrition target IDs",
+      "New progressive Setup test selector scoped to main, which the existing nojs route lacks"
+    ],
+    "uiChecks": "Corrected Setup matrix and Custom Food acceptance all passed."
+  }
+}

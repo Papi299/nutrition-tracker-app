@@ -1,0 +1,26 @@
+{
+  "project": "ui5e-20261013",
+  "taskContainers": 0,
+  "taskVolumes": 0,
+  "taskNetworkPresent": false,
+  "historicalVolumeNamesPreserved": [
+    "supabase_db_github-plugin-github-openai-curated-you",
+    "supabase_db_ui5-f04-enter-safety-20261011",
+    "supabase_db_ui-phase1-design-foundation",
+    "supabase_db_ui-phase4-food-discovery",
+    "supabase_db_ui-phase5a-audit-20261011",
+    "supabase_edge_runtime_",
+    "supabase_edge_runtime_dl",
+    "supabase_edge_runtime_github-plugin-github-openai-curated-you",
+    "supabase_edge_runtime_readback-scratch",
+    "supabase_edge_runtime_ui-phase1-design-foundation",
+    "supabase_edge_runtime_ui-phase4-food-discovery",
+    "supabase_storage_github-plugin-github-openai-curated-you",
+    "supabase_storage_ui-phase1-design-foundation",
+    "supabase_storage_ui-phase4-food-discovery"
+  ],
+  "configRestoredSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "primaryHead": "d4e55f3058db0b3a3c88bfb61eb8a9f76daeb46f",
+  "primaryClean": true,
+  "scope": "Only task-created synthetic stack/resources removed; no historical database contents accessed. Task branch/worktree retained."
+}

@@ -1,0 +1,4472 @@
+{
+  "task": "UI_PHASE_5E_PROFILE_CUSTOM_FOOD_SECONDARY_UX_001",
+  "approvedHead": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+  "approvedTree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+  "verification": "node docs/ui-phase5e/evidence/verify-evidence.mjs --verify docs/ui-phase5e/evidence .",
+  "verifierSha256": "c716d41b2f6abed67a7fe5cc9cfd1a08a4ba85e82a9ec4ca45cef5cebe49db6c",
+  "captures": [
+    {
+      "suite": "setup",
+      "mode": "baseline",
+      "sourceIdentity": {
+        "approvedHead": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+        "approvedTree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+        "head": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+        "tree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+        "buildId": "OdzhlcsnTj-rTF5pC_rbi",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/setup/setup-form.tsx": "7d1c2e7eedf17d788b273dcbe87cfb8b414b573e9150e6fee0abbd9685f289d0",
+          "components/setup/setup-page.tsx": "2fa4782ee6da7ff892292a410f0158a222720ba2eadba4b3aa93b548ebc8da59"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "blank": {
+          "email": "ui5e-setup-blank-a3d9bfcf-e6fb-4545-8c64-4a78870417b4@example.test",
+          "userId": "78ebdc00-fe56-4377-9479-dddc2ce47212"
+        },
+        "populated": {
+          "email": "ui5e-setup-populated-d98df885-eb6c-4769-a3cf-00f63f526bd3@example.test",
+          "userId": "0bce8219-cd14-4f0b-882c-bf28cd49998d"
+        },
+        "date": "2024-02-29"
+      },
+      "filename": "setup-baseline-measurements.json.gz",
+      "sha256": "c12fc44b1d16ed0e4aa3cde274f2273a3bf5fd91ee3d570231f060d28535cef4",
+      "uncompressedSha256": "d3d3f323dcdd93f8652c851fbebf1f0fe7faf77265cd6af043e9dfaca72427bc",
+      "bytes": 3448,
+      "measurements": 6,
+      "geometryStates": 2,
+      "axeScans": 2,
+      "contracts": [
+        {
+          "state": "baseline-rejection",
+          "locale": "en",
+          "databaseUnchanged": true,
+          "snapshotSha256": "87c351bbda3d0187e7312ea0b434bfc767edb0d8e0fab4f08eabd26d45bcad7a",
+          "textNumericAndDateValuesPreserved": true,
+          "preferredLanguagePreserved": true,
+          "preferredLanguageReset": null,
+          "effectiveDate": "2024-02-29"
+        },
+        {
+          "state": "baseline-rejection",
+          "locale": "he",
+          "databaseUnchanged": true,
+          "snapshotSha256": "87c351bbda3d0187e7312ea0b434bfc767edb0d8e0fab4f08eabd26d45bcad7a",
+          "textNumericAndDateValuesPreserved": true,
+          "preferredLanguagePreserved": false,
+          "preferredLanguageReset": {
+            "submitted": "he",
+            "rendered": "en"
+          },
+          "effectiveDate": "2024-02-29"
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "setup-baseline-invalid-en-390.png",
+          "sha256": "c680ffaf9905e0a91dca9467a845c83814f1db7263c2df0edad615ddef139e6d",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "setup-baseline-invalid-he-390.png",
+          "sha256": "54efdc41705d5be7cef3beaefb361cd98f1916dbed374bfc3e3be286d38e221c",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/he/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [
+        "Automated axe is not manual screen-reader qualification.",
+        "Unsupported preferred language is injected only to exercise the existing server rejection contract.",
+        "Broader date, atomic-write, idempotency and no-JavaScript recovery regressions remain in setup-persistence.spec.ts."
+      ],
+      "responsiveStates": [
+        {
+          "state": "invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        }
+      ]
+    },
+    {
+      "suite": "setup",
+      "mode": "after",
+      "sourceIdentity": {
+        "approvedHead": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+        "approvedTree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+        "head": "02b8e7eae9d2435630c15a52e180a8ac48985c62",
+        "tree": "11180a4a3daf5dac56d13a077938ec5b4352b741",
+        "buildId": "sUWiEkGUBFCmbrCHuPww-",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/setup/setup-form.tsx": "40f5b30802eb4207bfae6263f81e69ba0e17ba4b6a13e95518e50ff631d7eee5",
+          "components/setup/setup-page.tsx": "2fa4782ee6da7ff892292a410f0158a222720ba2eadba4b3aa93b548ebc8da59"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "blank": {
+          "email": "ui5e-setup-blank-9047de07-9b9a-45d7-96c2-8200b0d6a194@example.test",
+          "userId": "8e4df0ec-c3bb-430b-85f3-2e33eb656198"
+        },
+        "populated": {
+          "email": "ui5e-setup-populated-df73e2c7-8871-4d16-bd01-534c1d0ca41d@example.test",
+          "userId": "faaeb521-f9f3-4062-9172-2fca3380ed22"
+        },
+        "date": "2024-02-29"
+      },
+      "filename": "setup-after-measurements.json.gz",
+      "sha256": "3aa38941b06c036e820ca41cc6bbf860bd1e76610778ee88477e5145ee4161ed",
+      "uncompressedSha256": "ea3781ef26fd3bf35ae0de5005940c69f0ef277be2391656253244be28490a17",
+      "bytes": 12574,
+      "measurements": 32,
+      "geometryStates": 26,
+      "axeScans": 4,
+      "contracts": [
+        {
+          "state": "blank-matrix",
+          "locale": "en",
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "databaseUnchanged": true,
+          "snapshotSha256": "47538fac91b6d85430eaa8c055b41b35d5bb07e21d462bfc04de3b6b6041095a",
+          "effectiveDate": "2024-02-29"
+        },
+        {
+          "state": "populated-matrix",
+          "locale": "en",
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c",
+          "effectiveDate": "2024-02-29"
+        },
+        {
+          "state": "blank-matrix",
+          "locale": "he",
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "databaseUnchanged": true,
+          "snapshotSha256": "47538fac91b6d85430eaa8c055b41b35d5bb07e21d462bfc04de3b6b6041095a",
+          "effectiveDate": "2024-02-29"
+        },
+        {
+          "state": "populated-matrix",
+          "locale": "he",
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c",
+          "effectiveDate": "2024-02-29"
+        },
+        {
+          "state": "repeated-validation",
+          "locale": "en",
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c",
+          "retainedBlankAndZero": true
+        },
+        {
+          "state": "repeated-validation",
+          "locale": "he",
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c",
+          "retainedBlankAndZero": true
+        },
+        {
+          "state": "progressive-rejection",
+          "locale": "en",
+          "nativePermalink": true,
+          "effectiveDate": "2024-02-29",
+          "fullValuesPreserved": true,
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c"
+        },
+        {
+          "state": "progressive-rejection",
+          "locale": "he",
+          "nativePermalink": true,
+          "effectiveDate": "2024-02-29",
+          "fullValuesPreserved": true,
+          "databaseUnchanged": true,
+          "snapshotSha256": "ed0dca9e7548288be4a38880e67538981129fb31908d807d039daf4d5396655c"
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "setup-after-populated-en-1440.png",
+          "sha256": "300d795e2ac1f9e697297dfd2369f8cb5fe34335ed411302071a1a44c3827e3a",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "route": "/en/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "setup-after-invalid-en-390.png",
+          "sha256": "5a25dce8eab6b34e1ad20cd1251620c6927e9acda3687803a0576bbc49016c3a",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/en/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "setup-after-blank-he-320.png",
+          "sha256": "a5ca0b32fb185649c870d032808dc7255a6518cf9d2f1071b31a52fec2c7a734",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "route": "/he/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "setup-after-invalid-he-390.png",
+          "sha256": "ddc3d2b67bbd67b7d48abc6e257644ff2ccb172e2d1d5bc36f05e731245853fc",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "route": "/he/setup?effectiveDate=2024-02-29",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [
+        "Automated axe is not manual screen-reader qualification.",
+        "Unsupported preferred language is injected only to exercise the existing server rejection contract.",
+        "Broader date, atomic-write, idempotency and no-JavaScript recovery regressions remain in setup-persistence.spec.ts."
+      ],
+      "responsiveStates": [
+        {
+          "state": "blank",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "blank",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "populated",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "progressive-invalid",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "progressive-invalid",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        }
+      ]
+    },
+    {
+      "suite": "custom-food",
+      "mode": "baseline",
+      "sourceIdentity": {
+        "head": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+        "tree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+        "buildId": "OdzhlcsnTj-rTF5pC_rbi",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/custom-foods/custom-food-form.tsx": "cf00ac90e429df7a7a2e0567b680cba3ac996f9e9b1e5ced8a5b60e83088ced2",
+          "components/custom-foods/custom-food-page.tsx": "4bee1cd5654caf4044c46418dcb3c3261e1c167b99b335a4c35a323a05ac5b7b",
+          "messages/en.json": "a1f129f3d1fbe2f7070ee6ccd485fda4e6748cc5df0c41807630ef7e236be0ba",
+          "messages/he.json": "3a3606e011a3081b88218e80cf8ee319950399303a854a78e2368b1a90d0f7ac"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "synthetic": true,
+        "email": "ui5e-custom-f0c487a0-7659-4e3c-a559-b4649bfb9219@example.test",
+        "userId": "fd5c2a69-ab91-4bb0-887c-741eaef04db5",
+        "foodId": "7a152117-b6d3-412b-9a65-81257b8d563c",
+        "archivedId": "210e6169-8ac2-4fb0-878d-555b7f69e1f3",
+        "longName": "Custom \u05de\u05d6\u05d5\u05df / 123 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+        "longBrand": "Brand \u05de\u05d5\u05ea\u05d2 / 123 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "longUnit": "unit \u05d9\u05d7\u05d9\u05d3\u05d4 123 UUUUUUUUUUUUUUUUUUUUUU",
+        "longAlias": "Alias \u05db\u05d9\u05e0\u05d5\u05d9 / 123 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "filename": "custom-food-baseline-measurements.json.gz",
+      "sha256": "086720471634a3cf1b7061274df4966f85c9b624400d9e03054043b99c2d4157",
+      "uncompressedSha256": "6ec4bdf4c66a603354d4354ca58a70c3f68cbda1fa9698b8caa418d7f0a63973",
+      "bytes": 8482,
+      "measurements": 7,
+      "geometryStates": 5,
+      "axeScans": 1,
+      "contracts": [
+        {
+          "state": "baseline",
+          "rejectedCreateAndEditNoMutation": true,
+          "creationKeyUnchanged": true
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "custom-food-baseline-rejection-en-390.png",
+          "sha256": "65e1313412d6ed482b1c7b508340a07d266ce834c95612921b8f4533188ac404",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-baseline-rejection-he-320.png",
+          "sha256": "1abd4460a500e042bea37eff27bedbe9f7c7238dad7347ca2c62359b97fa17ee",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-baseline-edit-rejection-en-390.png",
+          "sha256": "3a75f9de126fb3fd33dea61c83ddb567031c2a02315d55a13a90a47e5ded2409",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/7a152117-b6d3-412b-9a65-81257b8d563c/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [],
+      "responsiveStates": [
+        {
+          "state": "blank-create-baseline",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "long-form-rejection-baseline",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "blank-create-baseline",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "long-form-rejection-baseline",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "edit-rejection-baseline",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        }
+      ]
+    },
+    {
+      "suite": "custom-food",
+      "mode": "after",
+      "sourceIdentity": {
+        "head": "02b8e7eae9d2435630c15a52e180a8ac48985c62",
+        "tree": "11180a4a3daf5dac56d13a077938ec5b4352b741",
+        "buildId": "sUWiEkGUBFCmbrCHuPww-",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "components/custom-foods/custom-food-form.tsx": "e2d0bc871f410364cb62e3bee371b67491facc6d9c4386828eb10851d246fb88",
+          "components/custom-foods/custom-food-page.tsx": "4bee1cd5654caf4044c46418dcb3c3261e1c167b99b335a4c35a323a05ac5b7b",
+          "messages/en.json": "a1f129f3d1fbe2f7070ee6ccd485fda4e6748cc5df0c41807630ef7e236be0ba",
+          "messages/he.json": "3a3606e011a3081b88218e80cf8ee319950399303a854a78e2368b1a90d0f7ac"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "synthetic": true,
+        "email": "ui5e-custom-4475ec14-e7ce-4370-bf4e-17e3ba3f16f7@example.test",
+        "userId": "84f42744-61fb-4205-8d0f-32290dc50a71",
+        "foodId": "e1b13905-1f4f-4e65-a798-a033b14a2cfa",
+        "archivedId": "4ef499ae-9d41-4bc2-aece-a356e046eb05",
+        "longName": "Custom \u05de\u05d6\u05d5\u05df / 123 NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+        "longBrand": "Brand \u05de\u05d5\u05ea\u05d2 / 123 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "longUnit": "unit \u05d9\u05d7\u05d9\u05d3\u05d4 123 UUUUUUUUUUUUUUUUUUUUUU",
+        "longAlias": "Alias \u05db\u05d9\u05e0\u05d5\u05d9 / 123 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "filename": "custom-food-after-measurements.json.gz",
+      "sha256": "f8bbed43b0b8ce02e12b05e7c06de86ce31869c5b1d420c86041908b3a62838d",
+      "uncompressedSha256": "9846bfa9ec192688c088bb182ef99bc7dca4b471a4e4c7f40977ce960e8908d5",
+      "bytes": 73190,
+      "measurements": 56,
+      "geometryStates": 54,
+      "axeScans": 8,
+      "contracts": [
+        {
+          "state": "repeated-create-request-pending",
+          "locale": "en",
+          "genuinePostHeldBeforeContinue": true,
+          "oldSummaryAndAssociationsCleared": true,
+          "creationKeyAndAliasValuesPreserved": true,
+          "submitDisabled": true
+        },
+        {
+          "state": "repeated-create-rejection",
+          "locale": "en",
+          "aliasKeysAndValuesPreserved": true,
+          "existingDraftRevisionRemount": true,
+          "creationKeyUnchanged": true
+        },
+        {
+          "state": "create-rejected-responsive-destination",
+          "locale": "en",
+          "width": 320,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 429.96875,
+            "bottom": 473.96875,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "create-rejected-responsive-destination",
+          "locale": "en",
+          "width": 1440,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 478.265625,
+            "bottom": 522.265625,
+            "viewportHeight": 1000,
+            "navTop": 1000
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "create-validation",
+          "locale": "en",
+          "identity": {
+            "name": "name",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-name-error",
+                "text": "This field is required."
+              }
+            ],
+            "hit": true,
+            "y": 427.65625,
+            "bottom": 475.65625,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "serving": {
+            "name": "serving_quantity",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-serving_quantity-error",
+                "text": "Enter a positive finite serving quantity."
+              }
+            ],
+            "hit": true,
+            "y": 428.125,
+            "bottom": 476.125,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "nutrient": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 429.78125,
+            "bottom": 473.78125,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "draftKeyPreserved": true,
+          "sessionRestored": true,
+          "aliasIdentityPreservedAfterRemoval": true,
+          "newAliasDoesNotInheritError": true
+        },
+        {
+          "state": "repeated-create-request-pending",
+          "locale": "he",
+          "genuinePostHeldBeforeContinue": true,
+          "oldSummaryAndAssociationsCleared": true,
+          "creationKeyAndAliasValuesPreserved": true,
+          "submitDisabled": true
+        },
+        {
+          "state": "repeated-create-rejection",
+          "locale": "he",
+          "aliasKeysAndValuesPreserved": true,
+          "existingDraftRevisionRemount": true,
+          "creationKeyUnchanged": true
+        },
+        {
+          "state": "create-rejected-responsive-destination",
+          "locale": "he",
+          "width": 320,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 429.59375,
+            "bottom": 473.59375,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "create-rejected-responsive-destination",
+          "locale": "he",
+          "width": 1440,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 478.265625,
+            "bottom": 522.265625,
+            "viewportHeight": 1000,
+            "navTop": 1000
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "create-validation",
+          "locale": "he",
+          "identity": {
+            "name": "name",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-name-error",
+                "text": "\u05d6\u05d4\u05d5 \u05e9\u05d3\u05d4 \u05d7\u05d5\u05d1\u05d4."
+              }
+            ],
+            "hit": true,
+            "y": 428.46875,
+            "bottom": 476.46875,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "serving": {
+            "name": "serving_quantity",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-serving_quantity-error",
+                "text": "\u05d9\u05e9 \u05dc\u05d4\u05d6\u05d9\u05df \u05db\u05de\u05d5\u05ea \u05de\u05e0\u05d4 \u05d7\u05d9\u05d5\u05d1\u05d9\u05ea \u05d5\u05e1\u05d5\u05e4\u05d9\u05ea."
+              }
+            ],
+            "hit": true,
+            "y": 427.9375,
+            "bottom": 475.9375,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "nutrient": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 430.21875,
+            "bottom": 474.21875,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "draftKeyPreserved": true,
+          "sessionRestored": true,
+          "aliasIdentityPreservedAfterRemoval": true,
+          "newAliasDoesNotInheritError": true
+        },
+        {
+          "state": "edit-rejected-responsive-destination",
+          "locale": "en",
+          "width": 320,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 430.0625,
+            "bottom": 474.0625,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "edit-rejected-responsive-destination",
+          "locale": "en",
+          "width": 1440,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 478.265625,
+            "bottom": 522.265625,
+            "viewportHeight": 1000,
+            "navTop": 1000
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "edit-validation",
+          "locale": "en",
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "Nutrient values cannot be negative."
+              }
+            ],
+            "hit": true,
+            "y": 429.875,
+            "bottom": 473.875,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "rejectionNoMutation": true,
+          "aliasErrorFollowsSurvivingRow": true
+        },
+        {
+          "state": "edit-rejected-responsive-destination",
+          "locale": "he",
+          "width": 320,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 429.59375,
+            "bottom": 473.59375,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "edit-rejected-responsive-destination",
+          "locale": "he",
+          "width": 1440,
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 478.265625,
+            "bottom": 522.265625,
+            "viewportHeight": 1000,
+            "navTop": 1000
+          },
+          "ancestorDisclosureOpened": true,
+          "bottomNavigationClear": true
+        },
+        {
+          "state": "edit-validation",
+          "locale": "he",
+          "destination": {
+            "name": "nutrient_sodium_mg",
+            "invalid": "true",
+            "focused": true,
+            "descriptions": [
+              {
+                "id": "custom-food-nutrient_sodium_mg-error",
+                "text": "\u05e2\u05e8\u05db\u05d9\u05dd \u05ea\u05d6\u05d5\u05e0\u05ea\u05d9\u05d9\u05dd \u05dc\u05d0 \u05d9\u05db\u05d5\u05dc\u05d9\u05dd \u05dc\u05d4\u05d9\u05d5\u05ea \u05e9\u05dc\u05d9\u05dc\u05d9\u05d9\u05dd."
+              }
+            ],
+            "hit": true,
+            "y": 430.21875,
+            "bottom": 474.21875,
+            "viewportHeight": 1000,
+            "navTop": 919
+          },
+          "rejectionNoMutation": true,
+          "aliasErrorFollowsSurvivingRow": true
+        },
+        {
+          "state": "responsive-matrix",
+          "locales": [
+            "en",
+            "he"
+          ],
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "renderAndDisclosureNoMutation": true,
+          "mixedTextDirAuto": true
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "custom-food-after-rejection-en-390.png",
+          "sha256": "263270f2df6f9a428ec6e3e12eaa288a8ac90dad9305cced69de321c68a07d16",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-rejection-en-1440.png",
+          "sha256": "85836acf67e3f4214c1140a60a6b6128c848b6944b41908427e81c9b8d48168e",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/new",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-rejection-he-390.png",
+          "sha256": "4e0a0dce9a78393f6ab04de8ec752e94f991695afda3bdfbdfb00cae1c1c6196",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/new",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-rejection-he-320.png",
+          "sha256": "0332ca6e3d908909749e69f19920033d448e2040ad429db3bbf594c522ad96f1",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/new",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-edit-rejection-en-390.png",
+          "sha256": "138a80d39cd3443e3249c4b117e6033431afbcf3012dac11dfdd9713a2be1938",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/e1b13905-1f4f-4e65-a798-a033b14a2cfa/edit",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-edit-rejection-en-1440.png",
+          "sha256": "9e64d8ddfe7e7b9f78d2a16a4729499830942634a721a3fe8d7443dc7d666485",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/e1b13905-1f4f-4e65-a798-a033b14a2cfa/edit",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-edit-rejection-he-320.png",
+          "sha256": "49952f3e263624521a84edb31da62117e7c1aac3f6b45598cc870704d03a3140",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/e1b13905-1f4f-4e65-a798-a033b14a2cfa/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-archived-en-320.png",
+          "sha256": "b630305b6917810766863714c60be45e8a5489c890edc0bb5c00171f88b5eb36",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/4ef499ae-9d41-4bc2-aece-a356e046eb05/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-archived-en-1440.png",
+          "sha256": "745484e2bc3a9791e4f0d640e9ab3db9438d5561015160757aa0dd091d25c010",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/foods/custom/4ef499ae-9d41-4bc2-aece-a356e046eb05/edit",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-archived-he-320.png",
+          "sha256": "60b7512c3024ea3302c85def4760c69903dd1b1e32952ed2feb3ce77cb85c69b",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/4ef499ae-9d41-4bc2-aece-a356e046eb05/edit",
+          "dimensions": {
+            "width": 320,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "custom-food-after-archived-he-1440.png",
+          "sha256": "b608e8512c892646848aab9d8b44ef9793100c3ce943efb0030181bd1997a323",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/foods/custom/4ef499ae-9d41-4bc2-aece-a356e046eb05/edit",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [],
+      "responsiveStates": [
+        {
+          "state": "create-validation-navigation",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "create-validation-navigation",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "create-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "edit-rejected-closed-group",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "edit-rejected-closed-group",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "edit-validation-navigation-matrix",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "blank-create",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "populated-create-open-groups",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "existing-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "archived-long-edit",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        }
+      ]
+    },
+    {
+      "suite": "account-secondary",
+      "mode": "baseline",
+      "sourceIdentity": {
+        "head": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+        "tree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+        "buildId": "OdzhlcsnTj-rTF5pC_rbi",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "app/[locale]/(app)/account/page.tsx": "0df2a0be5ad40d84c5043dd616afad0cb798d538931a683b8950bd2ce97374ad",
+          "app/[locale]/(app)/account/export/page.tsx": "d8720ddcb12ccfdf63ae40bfc693f99ad8d6700ad4a65908ad378c4e4821406c",
+          "app/[locale]/(app)/account/closure/page.tsx": "3e326390e397689624db3a0b2e6817aaf5442f026bd099d3127e2ff141c0cef7",
+          "app/[locale]/(app)/sign-out-failed/page.tsx": "73eac81a56dc56c44beb716831c45c823175f6f7f2f2fd32dace3ec92c8b07c8",
+          "components/reliability/recovery-panel.tsx": "358fa80c2732b331c87fcdfa0435d5d5f4c5c0f91866f5f28e4c77e972eac7a9",
+          "components/reliability/localized-error-boundary.tsx": "1751bf64c4bbb6119800b6eeede3cc63089ae6c1c9cdeeaf63cc04709590e2d9",
+          "app/global-error.tsx": "fd8aacaa6e9add4034719c6674728ca202c32d1d293f3b72ce8eb8d3310434b0"
+        },
+        "protectedFileSha256": {
+          "app/[locale]/(app)/account/export/download/route.ts": "2e4a1ddeabb2d6a5b36b44c44d65736ee716685434923a50af47c37b7994ab42",
+          "app/[locale]/(app)/account/closure/submit/route.ts": "2351aaf7dc8cadedd0c1cca144651f5e6d2325a3d5b9f6a80c648039f855aabd",
+          "lib/auth/recent-password-auth.ts": "4c752062d8f470ce5107449b6b0313a7f1fb2df921e8e91257602c5f57b393b0",
+          "lib/auth/recent-password-auth-proof.ts": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204",
+          "lib/auth/reauthentication-intent.ts": "00035f640573c4fa8231adf0dc056d66a8da39d0762941c04b1a0d982d72c0d3",
+          "components/auth/sign-out-button.tsx": "e6804b1e1453829f485ce40e497194f9cd39a21899f4275d798b61483548e1ec",
+          "app/[locale]/auth/actions.ts": "984258047317b98678f850d604273b6d269ac7654b9a940a8edc0d5b19619fa0"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "synthetic": true,
+        "email": "ui5e-account-d24e6813-0e9f-4e5a-bf19-7ccadf2c9548@example.test",
+        "userId": "f6e9b37e-61f8-467e-a307-f96d308e79ff",
+        "seed": "one diary row with explicit-zero/null on 2024-02-29"
+      },
+      "filename": "account-secondary-baseline-measurements.json.gz",
+      "sha256": "d3959042fa6766e3b53b0ca950de56ee884981a214025fe8b83e15d7ca392ed5",
+      "uncompressedSha256": "7f101941530bd792e7576e612e247cb52f1d222045a85074a282257103671cb5",
+      "bytes": 27694,
+      "measurements": 154,
+      "geometryStates": 56,
+      "axeScans": 14,
+      "contracts": [
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "responsive-nonmutation",
+          "beforeSha256": "1dc5bc20d5f8c115a1ad8655b374e054590d5e3ad98b62607e589fdbd0f9f3cf",
+          "afterSha256": "1dc5bc20d5f8c115a1ad8655b374e054590d5e3ad98b62607e589fdbd0f9f3cf",
+          "closurePosts": 0,
+          "snapshotUnchanged": true
+        },
+        {
+          "state": "safe-localized-recovery",
+          "locales": [
+            "en",
+            "he"
+          ],
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "explicitRetryOnly": true,
+          "snapshotUnchanged": true,
+          "referenceVisible": true
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "native-nojs-account",
+          "locale": "en",
+          "reauthenticationThroughOriginalFlow": true,
+          "closureCancellation": true,
+          "closureSubmitted": false,
+          "explicitNativeExport": true,
+          "exportedOwner": "f6e9b37e-61f8-467e-a307-f96d308e79ff",
+          "snapshotUnchanged": true
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "native-nojs-account",
+          "locale": "he",
+          "reauthenticationThroughOriginalFlow": true,
+          "closureCancellation": true,
+          "closureSubmitted": false,
+          "explicitNativeExport": true,
+          "exportedOwner": "f6e9b37e-61f8-467e-a307-f96d308e79ff",
+          "snapshotUnchanged": true
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "account-secondary-baseline-export-gated-en-390.png",
+          "sha256": "68ae677f8d8eb3dbea77ce61da8822757a840d17f6eee9fcfaac6437fd04aa0e",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-closure-gated-en-390.png",
+          "sha256": "6f4c164a0abcde4f60d6a1bc46f7547296cdb5fcb63c34b90d23d4a5a2dba102",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1132
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-closure-ready-en-390.png",
+          "sha256": "c02577d82abe1041c118f37ca43fd507944e8042ef9728c4065f1018d3c4aaca",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1118
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-signout-en-390.png",
+          "sha256": "e43842cd40e6568cbde1de2c58cca288e9752ed76d561637c9e710f62ee09711",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/sign-out-failed",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-overview-en-1440.png",
+          "sha256": "ca987051a5860fe874c7d51c07e68c7a5747c9184ae50c7991c006dc224df197",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-export-ready-en-1440.png",
+          "sha256": "027d88841b3e0a9122ee1c988c9aed065ef43d7239f4dd35ae8327dbf59e808f",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/export",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-closure-ready-he-320.png",
+          "sha256": "acc143eb8561da54e04532e66f9cdfa2a7cea06c69a9011a4ff384446dcfb59b",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/closure",
+          "dimensions": {
+            "width": 320,
+            "height": 1122
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-overview-he-390.png",
+          "sha256": "9a80cae9d5330c8e1774d8bc92f90e73b4388c2e07a0bd828c7effd42bb34a7d",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-export-gated-he-390.png",
+          "sha256": "c045d089520aeab24f3c87a85cd5fe25388db5ec4e049930df6298d623719755",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-export-ready-he-390.png",
+          "sha256": "91fd74842ae24f2839547ba1bc1fb8295962b71e65120b2996e8a7e2e3390a5c",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-closure-gated-he-390.png",
+          "sha256": "941e5a4cae92661e319e104b30535c8683dc4e84e53ec1070b9414d8f5599910",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1024
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-signout-he-390.png",
+          "sha256": "2c4c21f792dffe847d3f803393ec48ae6736e169400b28b66b92d729c94f6333",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/sign-out-failed",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-recovery-en-390.png",
+          "sha256": "7d694eae3681fc6b91f93ad647518cfab09304f34026cbef86806eef5fc301dd",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/local-reliability-fixture",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-baseline-recovery-he-390.png",
+          "sha256": "a5bf5dddd60338027fa8fed44bbcb2ae09a413a7f0d4205832174687994212b1",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/local-reliability-fixture",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [
+        "Automated Chromium evidence; no manual screen-reader, physical-device, or OS IME qualification.",
+        "Closure form is never submitted by this presentation suite.",
+        "Root catastrophic fallback remains unchanged; supported local recoverable-error fixture only."
+      ],
+      "responsiveStates": [
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        }
+      ]
+    },
+    {
+      "suite": "account-secondary",
+      "mode": "after",
+      "sourceIdentity": {
+        "head": "02b8e7eae9d2435630c15a52e180a8ac48985c62",
+        "tree": "11180a4a3daf5dac56d13a077938ec5b4352b741",
+        "buildId": "sUWiEkGUBFCmbrCHuPww-",
+        "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sourceFileSha256": {
+          "app/[locale]/(app)/account/page.tsx": "c612ae76362d080ef8954dc40b1341f8059422ef17052a88c78260fcafb5822f",
+          "app/[locale]/(app)/account/export/page.tsx": "40bbadb910ccc815c9261dbbd7e38406cb0a7178353de549cacb2cc656b520c4",
+          "app/[locale]/(app)/account/closure/page.tsx": "74d3fb2f851f01c29c7724b9a468239186f9460ca5153324c9b2cd614a706773",
+          "app/[locale]/(app)/sign-out-failed/page.tsx": "f2e70982698ff51ddd3f669cbc6d66065435246f7eb4e87bab1adaaf3df0ce37",
+          "components/reliability/recovery-panel.tsx": "358fa80c2732b331c87fcdfa0435d5d5f4c5c0f91866f5f28e4c77e972eac7a9",
+          "components/reliability/localized-error-boundary.tsx": "1751bf64c4bbb6119800b6eeede3cc63089ae6c1c9cdeeaf63cc04709590e2d9",
+          "app/global-error.tsx": "fd8aacaa6e9add4034719c6674728ca202c32d1d293f3b72ce8eb8d3310434b0"
+        },
+        "protectedFileSha256": {
+          "app/[locale]/(app)/account/export/download/route.ts": "2e4a1ddeabb2d6a5b36b44c44d65736ee716685434923a50af47c37b7994ab42",
+          "app/[locale]/(app)/account/closure/submit/route.ts": "2351aaf7dc8cadedd0c1cca144651f5e6d2325a3d5b9f6a80c648039f855aabd",
+          "lib/auth/recent-password-auth.ts": "4c752062d8f470ce5107449b6b0313a7f1fb2df921e8e91257602c5f57b393b0",
+          "lib/auth/recent-password-auth-proof.ts": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204",
+          "lib/auth/reauthentication-intent.ts": "00035f640573c4fa8231adf0dc056d66a8da39d0762941c04b1a0d982d72c0d3",
+          "components/auth/sign-out-button.tsx": "e6804b1e1453829f485ce40e497194f9cd39a21899f4275d798b61483548e1ec",
+          "app/[locale]/auth/actions.ts": "984258047317b98678f850d604273b6d269ac7654b9a940a8edc0d5b19619fa0"
+        }
+      },
+      "browser": {
+        "name": "Chromium",
+        "version": "149.0.7827.55"
+      },
+      "fixture": {
+        "synthetic": true,
+        "email": "ui5e-account-27d096b9-c4e9-4aad-b248-d6fd6bbbddf0@example.test",
+        "userId": "2f26342e-2288-439b-badc-d04ef801b72f",
+        "seed": "one diary row with explicit-zero/null on 2024-02-29"
+      },
+      "filename": "account-secondary-after-measurements.json.gz",
+      "sha256": "b7e963d7c3808d3ac4c623b058bec448f0e91102360fd2c308baf1e3658e322c",
+      "uncompressedSha256": "ce25d4de615842ff16c3b6ca51fc3935eeafd5a6dc22bc1cfbe1ebc0f8597b9c",
+      "bytes": 28565,
+      "measurements": 154,
+      "geometryStates": 56,
+      "axeScans": 14,
+      "contracts": [
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "responsive-nonmutation",
+          "beforeSha256": "ef5c9eb5e772899273498ef285ce0eb0685cf78666144330a194d5f198d19427",
+          "afterSha256": "ef5c9eb5e772899273498ef285ce0eb0685cf78666144330a194d5f198d19427",
+          "closurePosts": 0,
+          "snapshotUnchanged": true
+        },
+        {
+          "state": "safe-localized-recovery",
+          "locales": [
+            "en",
+            "he"
+          ],
+          "widths": [
+            320,
+            390,
+            768,
+            1440
+          ],
+          "explicitRetryOnly": true,
+          "snapshotUnchanged": true,
+          "referenceVisible": true
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "action": "/en/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "action": "/en/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "native-nojs-account",
+          "locale": "en",
+          "reauthenticationThroughOriginalFlow": true,
+          "closureCancellation": true,
+          "closureSubmitted": false,
+          "explicitNativeExport": true,
+          "exportedOwner": "2f26342e-2288-439b-badc-d04ef801b72f",
+          "snapshotUnchanged": true
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "action": "/he/account/closure/submit",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "action": "/he/account/export/download",
+          "method": "post",
+          "explicitSubmit": true,
+          "closureSubmitted": false
+        },
+        {
+          "state": "native-nojs-account",
+          "locale": "he",
+          "reauthenticationThroughOriginalFlow": true,
+          "closureCancellation": true,
+          "closureSubmitted": false,
+          "explicitNativeExport": true,
+          "exportedOwner": "2f26342e-2288-439b-badc-d04ef801b72f",
+          "snapshotUnchanged": true
+        }
+      ],
+      "screenshots": [
+        {
+          "filename": "account-secondary-after-export-gated-en-390.png",
+          "sha256": "d938349ab5a322715ea612630a34b50f876f382ec3c2103fbd155edc9e105414",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-closure-gated-en-390.png",
+          "sha256": "7697f946b6abbf060828188745f0657a67adc81f27b5985b4289177e16dce672",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1092
+          }
+        },
+        {
+          "filename": "account-secondary-after-closure-ready-en-390.png",
+          "sha256": "bbd41035c989bcef5db23ddffeea4e76d6cf6b9b645b983e84ddbd9b04ae7f70",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1148
+          }
+        },
+        {
+          "filename": "account-secondary-after-signout-en-390.png",
+          "sha256": "a34230d96ccb4b474c8da5eba0b2da9fee015075a4e16362d894eb16e62febe2",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/sign-out-failed",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-overview-en-1440.png",
+          "sha256": "97c6ca4f44eef7c0562ab7b3c821c8d71608ad60c9c0b7a997ba12f2beaf3253",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-export-ready-en-1440.png",
+          "sha256": "db9554f87c8ab388c37009e9c62a6305c64a1925bdd94125f316a3a28578eaaa",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/account/export",
+          "dimensions": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-closure-ready-he-320.png",
+          "sha256": "82967fb2c34f082fbfa841a7449f935ab9bad82822db797670527635897dd010",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/closure",
+          "dimensions": {
+            "width": 320,
+            "height": 1171
+          }
+        },
+        {
+          "filename": "account-secondary-after-overview-he-390.png",
+          "sha256": "2f2b0ee437fe4b5b1947962328c3b781d4f8cacfbc11d214ad0ed3c2d9b58c8a",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-export-gated-he-390.png",
+          "sha256": "9819322bfb6c1d4495af0d5a1ec5d5ab097dd93f1647f21012b60e7ceac5ced8",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-export-ready-he-390.png",
+          "sha256": "fd612bea9861bc3bc72218a30233de9d148d17613abbeb28a7673b216a1df9d5",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/export",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-closure-gated-he-390.png",
+          "sha256": "374d2982a1cc2ad06fccfe06463f45fb1c216db26f650cd170f190d7ae3ff184",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/account/closure",
+          "dimensions": {
+            "width": 390,
+            "height": 1045
+          }
+        },
+        {
+          "filename": "account-secondary-after-signout-he-390.png",
+          "sha256": "d669d029b4c2c41e46cd805c4e79c69dfbbb2fd0de833d0481f71ca4ccfdaf4f",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/sign-out-failed",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-recovery-en-390.png",
+          "sha256": "521f7592fc1b10c8f9122eea4737b6f2c44e95e5cc3a83922919fc6c7fd6341b",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "en",
+          "route": "/en/local-reliability-fixture",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        {
+          "filename": "account-secondary-after-recovery-he-390.png",
+          "sha256": "8b07fc5a01c82f971073bf722113464b65c1480820d1759aeb01f9a42952b736",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "locale": "he",
+          "route": "/he/local-reliability-fixture",
+          "dimensions": {
+            "width": 390,
+            "height": 1000
+          }
+        }
+      ],
+      "limitations": [
+        "Automated Chromium evidence; no manual screen-reader, physical-device, or OS IME qualification.",
+        "Closure form is never submitted by this presentation suite.",
+        "Root catastrophic fallback remains unchanged; supported local recoverable-error fixture only."
+      ],
+      "responsiveStates": [
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "account-overview",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "export-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-gated",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "closure-ready",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "sign-out-failure",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "en",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 320,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 320,
+            "scrollWidth": 320
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 768,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 768,
+            "scrollWidth": 768
+          }
+        },
+        {
+          "state": "localized-recovery",
+          "locale": "he",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "document": {
+            "clientWidth": 1440,
+            "scrollWidth": 1440
+          }
+        }
+      ]
+    }
+  ],
+  "supportingArtifacts": [
+    {
+      "filename": "cleanup-safe.json",
+      "sha256": "8f53c6c43d1d7775ad6f4b76d4678c73a6a1dcf445c0be9565f871d568abeee7"
+    },
+    {
+      "filename": "execution-local-validation.json",
+      "sha256": "c361e51977190b880cff241ecdfda3673c463be9d02f99cc0fec53298c5107d2"
+    },
+    {
+      "filename": "execution-initial-failed-custom-food.json.gz",
+      "sha256": "19e5d65f12fcc773f96259fbf9205efc901a6b12c87f1d27ca9274af55dcdadd"
+    },
+    {
+      "filename": "execution-initial-failed-setup.json.gz",
+      "sha256": "a793147ff067bbec80068345cd99ae39d27cb8cfe596fc0025396953e9f536d3"
+    },
+    {
+      "filename": "environment-safety.json",
+      "sha256": "0c2f016b0b267b49a79a3b02e696c987828e416d29c86cac2b3ae09f280dea55"
+    },
+    {
+      "filename": "execution-failed-attempts.json",
+      "sha256": "f86952d18639a9e1ef81f08706a1da52c197f32556926522d7e858e0a1d1fe7e"
+    },
+    {
+      "filename": "failed-attempts/setup-after-populated-en-1440.png",
+      "sha256": "300d795e2ac1f9e697297dfd2369f8cb5fe34335ed411302071a1a44c3827e3a"
+    },
+    {
+      "filename": "failed-attempts/setup-after-invalid-en-390.png",
+      "sha256": "5a25dce8eab6b34e1ad20cd1251620c6927e9acda3687803a0576bbc49016c3a"
+    },
+    {
+      "filename": "failed-attempts/setup-after-blank-he-320.png",
+      "sha256": "a5ca0b32fb185649c870d032808dc7255a6518cf9d2f1071b31a52fec2c7a734"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1-invalid-en-390.png",
+      "sha256": "5f3b70e5c507e565e9fc516c215db2cbd310a213a00aa30985c3c34f51b40ad6"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1-manifest.json",
+      "sha256": "19baf9aacc6664c3f29164098967f36c0b62677d42125111a493352fe680a75c"
+    },
+    {
+      "filename": "failed-attempts/setup-baseline-failed-attempt1.log.gz",
+      "sha256": "be3c7b156714f7bc468945813915a3f49933a95e3a7caa14610462ef05808d6c"
+    },
+    {
+      "filename": "failed-attempts/ui5e-baseline.log.gz",
+      "sha256": "be3c7b156714f7bc468945813915a3f49933a95e3a7caa14610462ef05808d6c"
+    },
+    {
+      "filename": "failed-attempts/ui5e-custom-baseline.log.gz",
+      "sha256": "1ce312c233f8c8bf1c951ff403632d871d98f20ff144f4ad0ebf4cb1fa8b4df9"
+    },
+    {
+      "filename": "failed-attempts/ui5e-account-baseline.log.gz",
+      "sha256": "a5d04f7affd9625848ae5ea7a85d884c10c36d93f615e4fd7b5ac44cf67ac09a"
+    },
+    {
+      "filename": "failed-attempts/ui5e-local-regressions.log.gz",
+      "sha256": "99188cef053cedab2a517dec5ac68adecbbbdbf9331cf16a77631286a81d0449"
+    },
+    {
+      "filename": "failed-attempts/ui5e-account-secondary-baseline-failed-manifest.json.gz",
+      "sha256": "eaaffe8c678aa4e40018f5818e36da60d95af0fb889b0e9cf348e02a155ad1e6"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup.json.gz",
+      "sha256": "5852dc01e91a9a02fff951749722f779bf9749e06a0190729d4dc018c3bca83b"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-populated-en-1440.png",
+      "sha256": "300d795e2ac1f9e697297dfd2369f8cb5fe34335ed411302071a1a44c3827e3a"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-invalid-en-390.png",
+      "sha256": "5a25dce8eab6b34e1ad20cd1251620c6927e9acda3687803a0576bbc49016c3a"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-blank-he-320.png",
+      "sha256": "a5ca0b32fb185649c870d032808dc7255a6518cf9d2f1071b31a52fec2c7a734"
+    },
+    {
+      "filename": "failed-attempts/second-run-setup-after-invalid-he-390.png",
+      "sha256": "328d76a84782fb499ae645a7367c529e2fc74a1c8b1f957bb507c3fd3813e55c"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food.json.gz",
+      "sha256": "ed406177c1bb1c738250d7d8e4d15f17ba6704ba2286a41e4c1f30e06f6339a1"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-en-390.png",
+      "sha256": "2fe276b94140aa7174aa97549ed6c52b0a6ffbc53611c8239058b8882c4b1017"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-en-1440.png",
+      "sha256": "85836acf67e3f4214c1140a60a6b6128c848b6944b41908427e81c9b8d48168e"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-he-390.png",
+      "sha256": "4e0a0dce9a78393f6ab04de8ec752e94f991695afda3bdfbdfb00cae1c1c6196"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-rejection-he-320.png",
+      "sha256": "96df4755432cb48c6a90822b2a342c87c4c5a791d3d5f82a443b93c25b98d728"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-en-390.png",
+      "sha256": "bc5d23953b3171634fd786ebc4d9dba1b7cb0bba2a289f81dc84ce8065297a2c"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-en-1440.png",
+      "sha256": "9e64d8ddfe7e7b9f78d2a16a4729499830942634a721a3fe8d7443dc7d666485"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-edit-rejection-he-320.png",
+      "sha256": "ce5192e675e6bc094354ab0a52e42e0c504926cf7b5bfb6c788ee36956ca578e"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-en-320.png",
+      "sha256": "b630305b6917810766863714c60be45e8a5489c890edc0bb5c00171f88b5eb36"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-en-1440.png",
+      "sha256": "8609e9a88b5121bb023084710dc82814f495ebba1d8172c106fc557adb71f26d"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-he-320.png",
+      "sha256": "60b7512c3024ea3302c85def4760c69903dd1b1e32952ed2feb3ce77cb85c69b"
+    },
+    {
+      "filename": "failed-attempts/second-run-custom-food-after-archived-he-1440.png",
+      "sha256": "d64a60f7886d59978bb31fb13135f1c46347dd8e1c1097ecd3c8d7d8d4d11aa1"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary.json.gz",
+      "sha256": "1b657838bb73182462a64bbdfcccd77586697ea136bbbb7aea0b86114a594af3"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-gated-en-390.png",
+      "sha256": "d938349ab5a322715ea612630a34b50f876f382ec3c2103fbd155edc9e105414"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-gated-en-390.png",
+      "sha256": "7697f946b6abbf060828188745f0657a67adc81f27b5985b4289177e16dce672"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-ready-en-390.png",
+      "sha256": "bbd41035c989bcef5db23ddffeea4e76d6cf6b9b645b983e84ddbd9b04ae7f70"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-signout-en-390.png",
+      "sha256": "a34230d96ccb4b474c8da5eba0b2da9fee015075a4e16362d894eb16e62febe2"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-overview-en-1440.png",
+      "sha256": "97c6ca4f44eef7c0562ab7b3c821c8d71608ad60c9c0b7a997ba12f2beaf3253"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-ready-en-1440.png",
+      "sha256": "db9554f87c8ab388c37009e9c62a6305c64a1925bdd94125f316a3a28578eaaa"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-ready-he-320.png",
+      "sha256": "82967fb2c34f082fbfa841a7449f935ab9bad82822db797670527635897dd010"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-overview-he-390.png",
+      "sha256": "2f2b0ee437fe4b5b1947962328c3b781d4f8cacfbc11d214ad0ed3c2d9b58c8a"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-gated-he-390.png",
+      "sha256": "9819322bfb6c1d4495af0d5a1ec5d5ab097dd93f1647f21012b60e7ceac5ced8"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-export-ready-he-390.png",
+      "sha256": "fd612bea9861bc3bc72218a30233de9d148d17613abbeb28a7673b216a1df9d5"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-closure-gated-he-390.png",
+      "sha256": "374d2982a1cc2ad06fccfe06463f45fb1c216db26f650cd170f190d7ae3ff184"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-signout-he-390.png",
+      "sha256": "d669d029b4c2c41e46cd805c4e79c69dfbbb2fd0de833d0481f71ca4ccfdaf4f"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-recovery-en-390.png",
+      "sha256": "ecb32e8d0755de70a7de40fc8b828f6538e60ed3279384f2412c8b9a7339d33d"
+    },
+    {
+      "filename": "failed-attempts/second-run-account-secondary-after-recovery-he-390.png",
+      "sha256": "9f913ed0a87c1ea10f8a7d30cf3b08568876d34089a9f8193f67555fb30a8a2e"
+    },
+    {
+      "filename": "failed-attempts/second-run.log.gz",
+      "sha256": "8a63e92c8bde546d7d4654f4e96735a9930deb6e927ec44f3f1eabbe0cfe3448"
+    },
+    {
+      "filename": "execution-changed-files.json",
+      "sha256": "8cdf10206e9cdd7dab137f9943628937bb98447bdded9a1d8819662e37c79aeb"
+    }
+  ]
+}
