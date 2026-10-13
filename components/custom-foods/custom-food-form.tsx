@@ -724,7 +724,7 @@ export function CustomFoodForm({
       aliases: { label: t("aliases.title"), target: "custom-food-aliases" },
       barcode_omission: { label: t("barcode.omit"), target: "custom-food-barcode-omission" },
     };
-    return { field, ...(fields[field] ?? { label: t("status.validationError"), target: "custom-food-form-status" }) };
+    return { field, ...(fields[field] ?? { label: t("identity.title"), target: "custom-food-form-status" }) };
   });
 
   function persistCurrentDraft(form: HTMLFormElement) {
@@ -1200,7 +1200,7 @@ export function CustomFoodForm({
           displayStatus !== "creation_idempotency_conflict" && (
           <div
             className={
-              displayStatus === "idle"
+              displayStatus === "idle" || displayStatus === "validation_error"
                 ? "ui-body-secondary"
                 : "text-sm text-danger-foreground"
             }
@@ -1208,7 +1208,7 @@ export function CustomFoodForm({
             tabIndex={-1}
             role={displayStatus === "idle" || displayStatus === "validation_error" ? "status" : "alert"}
           >
-            {statusMessage}
+            {displayStatus === "validation_error" ? t("status.idle") : statusMessage}
           </div>
         )}
         <Button
