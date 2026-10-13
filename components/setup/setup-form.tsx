@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +23,23 @@ type LanguageOption = {
 
 type FieldErrorMessages = Partial<Record<string, string>>;
 
+const visibleFields: SetupVisibleFieldName[] = [
+  "display_name",
+  "preferred_language",
+  "calories",
+  "protein_g",
+  "carbohydrates_g",
+  "fat_g",
+];
+
+function controlId(field: SetupVisibleFieldName) {
+  return `setup-${field}`;
+}
+
+function errorId(field: SetupVisibleFieldName) {
+  return `${controlId(field)}-error`;
+}
+
 function getStatusTone(status: SetupActionStatus) {
   return status === "idle" ? "info" : status === "success" ? "success" : "error";
 }
@@ -36,9 +53,11 @@ function getStatusMessage(
 
 function FieldError({
   code,
+  field,
   messages,
 }: {
   code?: string;
+  field: SetupVisibleFieldName;
   messages: FieldErrorMessages;
 }) {
   if (!code) {
@@ -46,7 +65,7 @@ function FieldError({
   }
 
   return (
-    <FieldErrorMessage>
+    <FieldErrorMessage id={errorId(field)}>
       {messages[code] ?? messages.invalid_input}
     </FieldErrorMessage>
   );
@@ -89,12 +108,31 @@ export function SetupForm({
     initialState,
     permalink,
   );
+  const formRef = useRef<HTMLFormElement>(null);
+  const lastResponse = useRef(state);
+  const [preferredLanguage, setPreferredLanguage] = useState(
+    state.values.preferred_language,
+  );
   const values: SetupFieldValues = state.values;
+
+  useEffect(() => {
+    if (isPending || state === lastResponse.current) return;
+    lastResponse.current = state;
+    if (state.status !== "validation_error") return;
+
+    const field = visibleFields.find((name) => state.fieldErrors?.[name]);
+    if (!field) return;
+    const control = formRef.current?.querySelector<
+      HTMLInputElement | HTMLSelectElement
+    >(`[name="${field}"]`);
+    control?.focus({ preventScroll: true });
+    control?.scrollIntoView({ block: "center", behavior: "instant" });
+  }, [state, isPending]);
   const statusTone = getStatusTone(state.status);
   const statusMessage = getStatusMessage(state.status, statusMessages);
 
   return (
-    <form action={formAction} className="grid gap-8 text-start" noValidate>
+    <form action={formAction} className="grid gap-8 text-start" noValidate ref={formRef}>
       <input name="effectiveDate" type="hidden" value={values.effectiveDate} />
       <section className="grid gap-5">
         <div>
@@ -109,13 +147,17 @@ export function SetupForm({
         <FieldLabel className="grid gap-2">
           <span>{labels.display_name}</span>
           <Input
+            aria-describedby={state.fieldErrors?.display_name ? errorId("display_name") : undefined}
+            aria-invalid={Boolean(state.fieldErrors?.display_name)}
             className="min-h-12"
             defaultValue={values.display_name}
+            id={controlId("display_name")}
             name="display_name"
             type="text"
           />
           <FieldError
             code={state.fieldErrors?.display_name}
+            field="display_name"
             messages={fieldErrorMessages}
           />
         </FieldLabel>
@@ -123,9 +165,13 @@ export function SetupForm({
         <FieldLabel className="grid gap-2">
           <span>{labels.preferred_language}</span>
           <Select
+            aria-describedby={state.fieldErrors?.preferred_language ? errorId("preferred_language") : undefined}
+            aria-invalid={Boolean(state.fieldErrors?.preferred_language)}
             className="min-h-12"
-            defaultValue={values.preferred_language}
+            id={controlId("preferred_language")}
             name="preferred_language"
+            onChange={(event) => setPreferredLanguage(event.target.value)}
+            value={preferredLanguage}
           >
             {languageOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -135,6 +181,7 @@ export function SetupForm({
           </Select>
           <FieldError
             code={state.fieldErrors?.preferred_language}
+            field="preferred_language"
             messages={fieldErrorMessages}
           />
         </FieldLabel>
@@ -159,8 +206,11 @@ export function SetupForm({
               <FieldLabel className="grid gap-2" key={field}>
                 <span>{labels[field]}</span>
                 <Input
+                  aria-describedby={state.fieldErrors?.[field] ? errorId(field) : undefined}
+                  aria-invalid={Boolean(state.fieldErrors?.[field])}
                   className="min-h-12 tabular-nums"
                   defaultValue={values[field]}
+                  id={controlId(field)}
                   inputMode="decimal"
                   min="0"
                   name={field}
@@ -168,6 +218,7 @@ export function SetupForm({
                 />
                 <FieldError
                   code={state.fieldErrors?.[field]}
+                  field={field}
                   messages={fieldErrorMessages}
                 />
               </FieldLabel>

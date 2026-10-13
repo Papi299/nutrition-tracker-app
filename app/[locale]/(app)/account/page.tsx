@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n/routing";
 
 export const dynamic = "force-dynamic";
@@ -20,31 +22,31 @@ function LocalizedAccountPage({ locale }: { locale: Locale }) {
   const t = useTranslations("Account");
 
   return (
-    <section className="mx-auto grid w-full max-w-3xl gap-6">
-      <div className="border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-start text-3xl font-semibold text-slate-950">
+    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-6 py-8 text-start [overflow-wrap:anywhere]">
+      <header className="min-w-0">
+        <h1 className="ui-page-title">
           {t("title")}
         </h1>
-        <p className="mt-4 text-start text-base leading-7 text-slate-700">
+        <p className="ui-body-secondary mt-4 max-w-2xl sm:text-base">
           {t("description")}
         </p>
-      </div>
+      </header>
 
       <section
         aria-labelledby="account-export-heading"
-        className="border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        className={surfaceStyles({ className: "min-w-0 sm:p-7" })}
       >
         <h2
-          className="text-start text-2xl font-semibold text-slate-950"
+          className="ui-section-title"
           id="account-export-heading"
         >
           {t("export.title")}
         </h2>
-        <p className="mt-3 text-start leading-7 text-slate-700">
+        <p className="ui-body-secondary mt-3">
           {t("export.summary")}
         </p>
         <Link
-          className="mt-6 inline-flex min-h-12 items-center bg-teal-700 px-5 py-3 text-base font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800"
+          className={buttonStyles({ className: "mt-5" })}
           href={`/${locale}/account/export`}
         >
           {t("export.open")}
@@ -53,19 +55,19 @@ function LocalizedAccountPage({ locale }: { locale: Locale }) {
 
       <section
         aria-labelledby="account-closure-heading"
-        className="border border-red-300 bg-white p-6 shadow-sm sm:p-8"
+        className={surfaceStyles({ className: "min-w-0 border-danger/40 sm:p-7" })}
       >
         <h2
-          className="text-start text-2xl font-semibold text-red-900"
+          className="ui-section-title text-danger-foreground"
           id="account-closure-heading"
         >
           {t("closure.title")}
         </h2>
-        <p className="mt-3 text-start leading-7 text-slate-700">
+        <p className="ui-body-secondary mt-3">
           {t("closure.summary")}
         </p>
         <Link
-          className="mt-6 inline-flex min-h-12 items-center border border-red-800 bg-white px-5 py-3 text-base font-semibold text-red-900 transition-colors hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800"
+          className={buttonStyles({ variant: "outline", className: "mt-5 border-danger text-danger-foreground hover:bg-danger-surface" })}
           href={`/${locale}/account/closure`}
         >
           {t("closure.open")}
