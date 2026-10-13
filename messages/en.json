@@ -1213,7 +1213,7 @@
     "descriptionEdit": "Atomically replace the recipe identity, yield, and complete ordered ingredient collection.",
     "identity": {
       "title": "Recipe identity",
-      "help": "Yield is the number of servings produced by the complete recipe. The saved nutrition summary below is calculated by the database.",
+      "help": "Yield is the number of servings produced by the complete recipe.",
       "name": "Recipe name",
       "language": "Language",
       "yield": "Yield servings"
@@ -1421,7 +1421,7 @@
     },
     "explanation": {
       "title": "What this preview means",
-      "previewOnly": "Changing the GET preview creates no diary entry or receipt. Only the explicit confirmation below performs a write.",
+      "previewOnly": "Changing the GET preview creates no diary entry or receipt. Only explicit confirmation performs a write.",
       "snapshots": "Nutrition comes from the recipe's last saved ingredient snapshots; ingredient quantity does not rescale it.",
       "linkedFoods": "Current linked-food names, archive state, and nutrients are not used to replace recipe snapshots.",
       "future": "Confirmation rederives and source-version-checks the recipe transactionally before writing one aggregate recipe snapshot and durable retry receipt."

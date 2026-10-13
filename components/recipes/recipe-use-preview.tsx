@@ -1,6 +1,11 @@
 import Link from "next/link";
 import Form from "next/form";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
+import { FieldLabel, Input, Select } from "@/components/ui/form-controls";
 import {
   RecipeUseConfirmation,
   type RecipeUseConfirmationAction,
@@ -46,9 +51,13 @@ function formatNutritionValue(
   unknown: string,
   grams: boolean,
 ) {
-  if (value === null) return unknown;
+  if (value === null) return <span dir="auto">{unknown}</span>;
   const formatted = formatLocalizedNumber(locale, value);
-  return grams ? `${formatted} g` : formatted;
+  return (
+    <bdi className="tabular-nums" dir="ltr">
+      {grams ? `${formatted} g` : formatted}
+    </bdi>
+  );
 }
 
 function NutritionValue({
@@ -86,19 +95,19 @@ function PerspectiveCard({
   return (
     <section
       aria-labelledby={`recipe-use-${field}-title`}
-      className="border border-slate-200 bg-white p-5 shadow-sm"
+      className={surfaceStyles({ className: "min-w-0" })}
       data-testid={`recipe-use-${field}`}
     >
-      <h3 className="text-lg font-semibold text-slate-950" id={`recipe-use-${field}-title`}>
+      <h3 className="ui-card-title [overflow-wrap:anywhere]" id={`recipe-use-${field}-title`}>
         {title}
       </h3>
-      <dl className="mt-4 grid gap-3">
+      <dl className="mt-4 grid min-w-0 gap-3">
         {nutrients.map(([translation, nutrient], index) => (
-          <div className="flex items-start justify-between gap-4 border-t border-slate-100 pt-3 first:border-0 first:pt-0" key={nutrient}>
-            <dt className="text-sm font-medium text-slate-700">
+          <div className="flex min-w-0 flex-wrap items-start justify-between gap-x-4 gap-y-1 border-t border-border pt-3 first:border-0 first:pt-0" key={nutrient}>
+            <dt className="ui-label min-w-0 [overflow-wrap:anywhere]">
               {t(`nutrients.${translation}`)}
             </dt>
-            <dd className="text-sm font-semibold text-slate-950" dir="auto">
+            <dd className="min-w-0 max-w-full text-sm font-semibold text-foreground [overflow-wrap:anywhere]">
               <NutritionValue
                 contract={contract.nutrients[nutrient]}
                 field={field}
@@ -127,33 +136,33 @@ export function RecipeUseContextForm({
   const t = useTranslations("RecipeUse.form");
   const diaryT = useTranslations("Diary");
   return (
-    <Form action={action} className="grid gap-5 border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-      <div>
-        <h2 className="text-xl font-semibold text-slate-950">{t("title")}</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">{t("help")}</p>
+    <Form action={action} aria-describedby="recipe-use-context-help" className={surfaceStyles({ className: "grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5" })}>
+      <div className="min-w-0">
+        <h2 className="ui-section-title" id="recipe-use-context-title">{t("title")}</h2>
+        <p className="ui-body-secondary mt-2" id="recipe-use-context-help">{t("help")}</p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-3">
+        <FieldLabel className="grid min-w-0 gap-2">
           <span>{t("date")}</span>
-          <input className="min-h-11 border border-slate-300 bg-white px-3 text-base" defaultValue={date} name="date" required type="date" />
-        </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+          <Input defaultValue={date} name="date" required type="date" />
+        </FieldLabel>
+        <FieldLabel className="grid min-w-0 gap-2">
           <span>{t("mealType")}</span>
-          <select className="min-h-11 border border-slate-300 bg-white px-3 text-base" defaultValue={mealType ?? ""} name="mealType" required>
+          <Select defaultValue={mealType ?? ""} name="mealType" required>
             <option disabled value="">{t("chooseMeal")}</option>
             {(["breakfast", "lunch", "dinner", "snack", "other"] as const).map((meal) => (
               <option key={meal} value={meal}>{diaryT(`mealTypes.${meal}`)}</option>
             ))}
-          </select>
-        </label>
-        <label className="grid gap-2 text-sm font-medium text-slate-900">
+          </Select>
+        </FieldLabel>
+        <FieldLabel className="grid min-w-0 gap-2">
           <span>{t("servings")}</span>
-          <input className="min-h-11 border border-slate-300 bg-white px-3 text-base" defaultValue={servings} inputMode="decimal" max="10000" min="0.001" name="servings" pattern="\d+(?:\.\d{1,3})?" required type="text" />
-        </label>
+          <Input defaultValue={servings} dir="ltr" inputMode="decimal" max="10000" min="0.001" name="servings" pattern="\d+(?:\.\d{1,3})?" required type="text" />
+        </FieldLabel>
       </div>
-      <button className="min-h-12 bg-teal-700 px-5 text-base font-semibold text-white" type="submit">
+      <Button size="lg" type="submit">
         {t("submit")}
-      </button>
+      </Button>
     </Form>
   );
 }
@@ -161,26 +170,26 @@ export function RecipeUseContextForm({
 function Completeness({ contract }: { contract: RecipeUseContract }) {
   const t = useTranslations("RecipeNutrition");
   return (
-    <section aria-labelledby="recipe-use-completeness" className="border border-slate-200 bg-stone-50 p-5">
-      <h2 className="text-xl font-semibold text-slate-950" id="recipe-use-completeness">
+    <section aria-labelledby="recipe-use-completeness" className={surfaceStyles({ variant: "subtle", className: "min-w-0" })}>
+      <h2 className="ui-section-title" id="recipe-use-completeness">
         {t("completenessTitle")}
       </h2>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{t("completenessHelp")}</p>
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+      <p className="ui-body-secondary mt-2">{t("completenessHelp")}</p>
+      <ul className="mt-4 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
         {nutrients.map(([translation, nutrient]) => {
           const value = contract.nutrients[nutrient];
           return (
-            <li className="border border-slate-200 bg-white p-4" key={nutrient}>
-              <p className="font-semibold text-slate-950">{t(`nutrients.${translation}`)}</p>
-              <p className={value.complete ? "mt-2 text-sm text-teal-800" : "mt-2 text-sm text-amber-900"}>
+            <li className={surfaceStyles({ className: "min-w-0 [overflow-wrap:anywhere]" })} key={nutrient}>
+              <p className="ui-card-title">{t(`nutrients.${translation}`)}</p>
+              <Badge className="mt-2 max-w-full" variant={value.complete ? "success" : "warning"}>
                 {value.complete
                   ? t("complete")
                   : t("knownCount", {
                       known: value.known_ingredient_count ?? 0,
                       total: contract.ingredient_count,
                     })}
-              </p>
-              {!value.complete && <p className="mt-2 text-sm leading-6 text-slate-600">{t("unknownExplanation")}</p>}
+              </Badge>
+              {!value.complete && <p className="ui-body-secondary mt-2">{t("unknownExplanation")}</p>}
             </li>
           );
         })}
@@ -209,28 +218,28 @@ function ReviewReady({
   const t = useTranslations("RecipeUse.review");
   const nutritionT = useTranslations("RecipeNutrition");
   return (
-    <section aria-labelledby="recipe-review-ready-title" className="border border-teal-300 bg-teal-50 p-5 sm:p-6" data-testid="recipe-review-ready">
-      <h2 className="text-xl font-semibold text-slate-950" id="recipe-review-ready-title">{t("title")}</h2>
-      <p className="mt-2 text-sm leading-6 text-teal-950">{t("body")}</p>
-      <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-        <div><dt className="font-medium text-slate-600">{t("recipe")}</dt><dd className="mt-1 text-slate-950" dir="auto">{contract.recipe_name}</dd></div>
-        <div><dt className="font-medium text-slate-600">{t("servings")}</dt><dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, model.requested_servings)}</dd></div>
-        <div><dt className="font-medium text-slate-600">{t("date")}</dt><dd className="mt-1 text-slate-950">{dateLabel}</dd></div>
-        <div><dt className="font-medium text-slate-600">{t("meal")}</dt><dd className="mt-1 text-slate-950">{mealLabel}</dd></div>
+    <section aria-labelledby="recipe-review-ready-title" className={surfaceStyles({ className: "min-w-0 border-primary bg-primary-surface" })} data-testid="recipe-review-ready">
+      <h2 className="ui-section-title" id="recipe-review-ready-title">{t("title")}</h2>
+      <p className="ui-body-secondary mt-2">{t("body")}</p>
+      <dl className="mt-4 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 text-sm sm:grid-cols-2">
+        <Detail label={t("recipe")} value={contract.recipe_name} />
+        <Detail label={t("servings")} value={formatLocalizedNumber(locale, model.requested_servings)}><bdi className="tabular-nums" dir="ltr">{formatLocalizedNumber(locale, model.requested_servings)}</bdi></Detail>
+        <Detail label={t("date")} value={dateLabel} />
+        <Detail label={t("meal")} value={mealLabel} />
       </dl>
-      <dl className="mt-5 grid gap-3 border-t border-teal-200 pt-4 text-sm sm:grid-cols-2" data-testid="recipe-review-diary-values">
+      <dl className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 border-t border-border-strong pt-4 text-sm sm:grid-cols-2" data-testid="recipe-review-diary-values">
         {nutrients.map(([translation, nutrient], index) => (
-          <div key={nutrient}>
-            <dt className="font-medium text-slate-600">{nutritionT(`nutrients.${translation}`)}</dt>
-            <dd className="mt-1 font-semibold text-slate-950" data-contract-value={model.diary[nutrient] === null ? "unknown" : String(model.diary[nutrient])}>
+          <div className="min-w-0" key={nutrient}>
+            <dt className="font-medium text-muted-foreground">{nutritionT(`nutrients.${translation}`)}</dt>
+            <dd className="mt-1 font-semibold text-foreground [overflow-wrap:anywhere]" data-contract-value={model.diary[nutrient] === null ? "unknown" : String(model.diary[nutrient])}>
               {formatNutritionValue(model.diary[nutrient], locale, nutritionT("unknown"), index > 0)}
             </dd>
           </div>
         ))}
       </dl>
-      <p className="mt-4 text-sm leading-6 text-teal-950">{t("unknowns")}</p>
-      <p className="mt-2 text-sm leading-6 text-teal-950">{t("future")}</p>
-      <time className="mt-3 block text-xs text-slate-600" dateTime={model.source_updated_at}>
+      <p className="ui-body-secondary mt-4">{t("unknowns")}</p>
+      <p className="ui-body-secondary mt-2">{t("future")}</p>
+      <time className="ui-caption mt-3 block" dateTime={model.source_updated_at}>
         {t("versionRetained")}
       </time>
       <RecipeUseConfirmation
@@ -284,14 +293,14 @@ export function RecipeUsePreview({
     source_updated_at: contract.source_updated_at,
   };
   return (
-    <section className="flex flex-1 flex-col gap-8 py-8 text-start">
-      <header className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">{t("label")}</p>
-        <h1 className="mt-4 break-words text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl" dir="auto">{contract.recipe_name}</h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">{t("description")}</p>
+    <section className="flex min-w-0 w-full max-w-5xl flex-1 flex-col gap-6 py-4 text-start sm:gap-8">
+      <header className="min-w-0 max-w-3xl">
+        <p className="ui-eyebrow">{t("label")}</p>
+        <h1 className="ui-page-title mt-3 [overflow-wrap:anywhere] [unicode-bidi:isolate]" dir="auto">{contract.recipe_name}</h1>
+        <p className="ui-body-secondary mt-4 max-w-2xl text-base">{t("description")}</p>
       </header>
 
-      <dl className="grid max-w-4xl gap-4 border border-slate-200 bg-white p-5 text-sm shadow-sm sm:grid-cols-2 lg:grid-cols-3" data-testid="recipe-use-identity">
+      <dl className={surfaceStyles({ className: "grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 text-sm sm:grid-cols-2 lg:grid-cols-3" })} data-testid="recipe-use-identity">
         <Detail label={t("identity.language")} value={t(`languages.${contract.recipe_locale}`)} />
         <Detail label={t("identity.yield")} value={formatLocalizedNumber(locale, contract.yield_servings)} />
         <Detail label={t("identity.ingredients")} value={formatLocalizedNumber(locale, contract.ingredient_count)} />
@@ -305,10 +314,10 @@ export function RecipeUsePreview({
 
       <RecipeUseContextForm action={routePath} date={date} mealType={mealType} servings={canonicalServings} />
 
-      <section aria-labelledby="recipe-use-nutrition-title" className="max-w-5xl">
-        <h2 className="text-2xl font-semibold text-slate-950" id="recipe-use-nutrition-title">{t("nutrition.title")}</h2>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t("nutrition.explanation")}</p>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
+      <section aria-labelledby="recipe-use-nutrition-title" className="min-w-0">
+        <h2 className="ui-section-title" id="recipe-use-nutrition-title">{t("nutrition.title")}</h2>
+        <p className="ui-body-secondary mt-2 max-w-3xl">{t("nutrition.explanation")}</p>
+        <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
           <PerspectiveCard contract={contract} field="whole_recipe_value" locale={locale} title={t("nutrition.whole")} />
           <PerspectiveCard contract={contract} field="per_serving_value" locale={locale} title={t("nutrition.perServing")} />
           <PerspectiveCard contract={contract} field="requested_value" locale={locale} title={t("nutrition.requested", { servings: formatLocalizedNumber(locale, contract.requested_servings) })} />
@@ -329,15 +338,15 @@ export function RecipeUsePreview({
           reloadHref={`${routePath}?date=${date}&mealType=${reviewModel.meal_type}&servings=${canonicalServings}`}
         />
       ) : (
-        <section className="border border-amber-300 bg-amber-50 p-5" data-testid="recipe-review-incomplete">
-          <h2 className="text-xl font-semibold text-slate-950">{t("review.incompleteTitle")}</h2>
-          <p className="mt-2 text-sm leading-6 text-amber-950">{t("review.incompleteBody")}</p>
+        <section className={feedbackStyles("warning", "min-w-0")} data-testid="recipe-review-incomplete">
+          <h2 className="ui-section-title">{t("review.incompleteTitle")}</h2>
+          <p className="mt-2">{t("review.incompleteBody")}</p>
         </section>
       )}
 
-      <section className="max-w-4xl border border-slate-200 bg-stone-50 p-5">
-        <h2 className="text-lg font-semibold text-slate-950">{t("explanation.title")}</h2>
-        <ul className="mt-3 list-disc space-y-2 ps-5 text-sm leading-6 text-slate-700">
+      <section className={surfaceStyles({ variant: "subtle", className: "min-w-0" })}>
+        <h2 className="ui-section-title">{t("explanation.title")}</h2>
+        <ul className="ui-body-secondary mt-3 list-disc space-y-2 ps-5">
           <li>{t("explanation.previewOnly")}</li>
           <li>{t("explanation.snapshots")}</li>
           <li>{t("explanation.linkedFoods")}</li>
@@ -346,8 +355,8 @@ export function RecipeUsePreview({
       </section>
 
       <div className="flex flex-wrap gap-4">
-        <Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/recipes/${contract.recipe_id}/edit`}>{t("links.edit")}</Link>
-        <Link className="text-sm font-semibold text-teal-800 underline" href={`/${locale}/recipes?status=active&page=1`}>{t("links.management")}</Link>
+        <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/recipes/${contract.recipe_id}/edit`}>{t("links.edit")}</Link>
+        <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/recipes?status=active&page=1`}>{t("links.management")}</Link>
       </div>
     </section>
   );
@@ -363,9 +372,9 @@ function Detail({
   value: string;
 }) {
   return (
-    <div>
-      <dt className="font-medium text-slate-600">{label}</dt>
-      <dd className="mt-1 break-words text-slate-950" dir="auto">{children ?? value}</dd>
+    <div className="min-w-0">
+      <dt className="font-medium text-muted-foreground">{label}</dt>
+      <dd className="mt-1 whitespace-pre-wrap text-foreground [overflow-wrap:anywhere] [unicode-bidi:isolate]" dir="auto">{children ?? value}</dd>
     </div>
   );
 }

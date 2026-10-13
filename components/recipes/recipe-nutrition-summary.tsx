@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Badge } from "@/components/ui/badge";
+import { buttonStyles } from "@/components/ui/button";
+import { surfaceStyles } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
 import type {
   RecipeUseContract,
   RecipeUseContractState,
@@ -21,11 +25,15 @@ function formatValue(
   unknown: string,
   unit: "calories" | "grams",
 ) {
-  if (value === null) return unknown;
+  if (value === null) return <span dir="auto">{unknown}</span>;
   const formatted = formatLocalizedNumber(locale, value, {
     maximumFractionDigits: 12,
   });
-  return unit === "grams" ? `${formatted} g` : formatted;
+  return (
+    <bdi className="tabular-nums" dir="ltr">
+      {unit === "grams" ? `${formatted} g` : formatted}
+    </bdi>
+  );
 }
 
 function SummaryNutrient({
@@ -44,23 +52,23 @@ function SummaryNutrient({
   const t = useTranslations("RecipeNutrition");
   const complete = contract.complete === true;
   return (
-    <div className="border border-slate-200 bg-stone-50 p-4">
-      <dt className="font-semibold text-slate-950">{label}</dt>
-      <dd className="mt-3 grid gap-2 text-sm text-slate-700">
+    <div className={surfaceStyles({ className: "min-w-0" })}>
+      <dt className="ui-card-title">{label}</dt>
+      <dd className="mt-3 grid min-w-0 gap-2 text-sm text-foreground [overflow-wrap:anywhere]">
         <span>
-          {t("summary.whole")}: {formatValue(contract.whole_recipe_value, locale, t("unknown"), grams ? "grams" : "calories")}
+          {t("summary.whole")}: <span data-contract-value={contract.whole_recipe_value === null ? "unknown" : String(contract.whole_recipe_value)}>{formatValue(contract.whole_recipe_value, locale, t("unknown"), grams ? "grams" : "calories")}</span>
         </span>
         <span>
-          {t("summary.perServing")}: {formatValue(contract.per_serving_value, locale, t("unknown"), grams ? "grams" : "calories")}
+          {t("summary.perServing")}: <span data-contract-value={contract.per_serving_value === null ? "unknown" : String(contract.per_serving_value)}>{formatValue(contract.per_serving_value, locale, t("unknown"), grams ? "grams" : "calories")}</span>
         </span>
-        <span className={complete ? "text-teal-800" : "text-amber-900"}>
+        <Badge className="mt-1 w-fit max-w-full [overflow-wrap:anywhere]" variant={complete ? "success" : "warning"}>
           {complete
             ? t("complete")
             : t("knownCount", {
                 known: contract.known_ingredient_count ?? 0,
                 total: ingredientCount,
               })}
-        </span>
+        </Badge>
       </dd>
     </div>
   );
@@ -76,17 +84,17 @@ function ReadySummary({
   const t = useTranslations("RecipeNutrition");
   return (
     <>
-      <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-        <div>
-          <dt className="text-sm font-medium text-slate-600">{t("identity.yield")}</dt>
-          <dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, contract.yield_servings)}</dd>
+      <dl className="mt-4 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
+        <div className="min-w-0">
+          <dt className="ui-label text-muted-foreground">{t("identity.yield")}</dt>
+          <dd className="mt-1 text-foreground"><bdi className="tabular-nums" dir="ltr">{formatLocalizedNumber(locale, contract.yield_servings)}</bdi></dd>
         </div>
-        <div>
-          <dt className="text-sm font-medium text-slate-600">{t("identity.ingredients")}</dt>
-          <dd className="mt-1 text-slate-950">{formatLocalizedNumber(locale, contract.ingredient_count)}</dd>
+        <div className="min-w-0">
+          <dt className="ui-label text-muted-foreground">{t("identity.ingredients")}</dt>
+          <dd className="mt-1 text-foreground"><bdi className="tabular-nums" dir="ltr">{formatLocalizedNumber(locale, contract.ingredient_count)}</bdi></dd>
         </div>
       </dl>
-      <dl className="mt-5 grid gap-3 sm:grid-cols-2" data-testid="recipe-editor-nutrition-values">
+      <dl className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2" data-testid="recipe-editor-nutrition-values">
         {nutrients.map(([translation, field, grams]) => (
           <SummaryNutrient
             contract={contract.nutrients[field]}
@@ -115,22 +123,22 @@ export function RecipeNutritionSummary({
   return (
     <section
       aria-labelledby="recipe-editor-nutrition-title"
-      className="mb-8 border border-teal-200 bg-teal-50 p-5"
+      className={surfaceStyles({ variant: "subtle", className: "mb-6 min-w-0" })}
       data-testid="recipe-editor-nutrition-summary"
     >
-      <h2 className="text-xl font-semibold text-slate-950" id="recipe-editor-nutrition-title">
+      <h2 className="ui-section-title" id="recipe-editor-nutrition-title">
         {t("title")}
       </h2>
-      <p className="mt-2 text-sm leading-6 text-slate-700">{t("savedOnly")}</p>
+      <p className="ui-body-secondary mt-2">{t("savedOnly")}</p>
       {state.status === "ready" ? (
         <ReadySummary contract={state.data} locale={locale} />
       ) : (
-        <p className="mt-4 text-sm leading-6 text-amber-950" role="status">
+        <p className={feedbackStyles("warning", "mt-4")} role="status">
           {t("unavailable")}
         </p>
       )}
       <Link
-        className="mt-5 inline-flex min-h-11 items-center bg-teal-700 px-4 text-sm font-semibold text-white"
+        className={buttonStyles({ variant: "outline", className: "mt-5" })}
         href={`/${locale}/recipes/${recipeId}/use`}
       >
         {t("openPreview")}
