@@ -129,7 +129,7 @@ The changed picker fixture additionally stresses 120-character mixed source meta
 | `npm run test:e2e -- e2e/recipe-ui.spec.ts e2e/recipe-persistence.spec.ts e2e/recipe-use-ui.spec.ts e2e/recipe-use-contract.spec.ts e2e/recipe-diary-logging.spec.ts --reporter=line --output=test-results-ui5d-recipe-regressions` | 40 passed initially; one naming failure blocked eight serial tests, resolved as described below. |
 | `npm run test:e2e -- e2e/recipe-use-ui.spec.ts --reporter=line --output=test-results-ui5d-preview-regressions` | Nine passed on corrected rebuild. All 49 unique existing tests pass, including every F04 regression; zero unresolved failures/skips. |
 | `npm run test:e2e -- e2e/ui-phase5d-recipe-forms-review.spec.ts --reporter=line --output=test-results-ui5d-final` | Seven passed in 34.4s, one intentional exact-baseline-only skip on changed source. |
-| `node_modules/.bin/eslint components/recipes/*.tsx e2e/ui-phase5d-recipe-forms-review.spec.ts docs/ui-phase5d/evidence/verify-evidence.mjs` | PASS. |
+| `node_modules/.bin/eslint components/recipes/*.tsx e2e/ui-phase5d-recipe-forms-review.spec.ts e2e/phase-11d-ui.spec.ts docs/ui-phase5d/evidence/verify-evidence.mjs` | PASS. |
 | `npm run typecheck -- --incremental false` | PASS. |
 | `npm run test:deployment-contract` | 92 passed; environment/deployment contract PASS. |
 | `npm run security:workflow` | Four passed; workflow policy PASS. |
@@ -149,7 +149,7 @@ Independent evidence review checked 52 actual numeric/glyph pairs. Actual glyph 
 
 ## J. Exact-HEAD GitHub delivery and CI
 
-The final execution report and attached Draft PR provide the delivery HEAD/tree, exact approved base SHA, mergeability, Validate/CodeQL run/job identities and final conclusions. Evidence source is the committed `91d069342a01d50049507b76cde130063e5a5b2f` / `f0615ae88363431de49f9b98b66a3855da05c15c`; later report/evidence-only commits preserve all production hashes. Complete diff/file inventory inspection excludes protected backend/infrastructure files. Required CI must be green before the readiness verdict. The PR and branch remain Draft and retained for independent review.
+The final execution report and attached Draft PR provide the delivery HEAD/tree, exact approved base SHA, mergeability, Validate/CodeQL run/job identities and final conclusions. Evidence source is the committed `91d069342a01d50049507b76cde130063e5a5b2f` / `f0615ae88363431de49f9b98b66a3855da05c15c`; later delivery commits preserve all production hashes. Complete diff/file inventory inspection excludes protected backend/infrastructure files. Required CI must be green before the readiness verdict. The PR and branch remain Draft and retained for independent review.
 
 ## K. Security and environment safety
 
