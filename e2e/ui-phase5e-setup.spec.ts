@@ -41,7 +41,7 @@ test.describe.serial("UI Phase 5E Profile and Targets", () => {
   const contracts: unknown[] = [];
   const accessibility: unknown[] = [];
 
-  const field = (page: Page, name: string) => page.locator(`main [name="${name}"]`);
+  const field = (page: Page, name: string) => page.locator('form:has(input[name="effectiveDate"])').locator(`[name="${name}"]`);
   const form = (page: Page) => page.locator('form:has(input[name="effectiveDate"])');
   const save = (page: Page) => form(page).locator('button[type="submit"]');
   const contextFor = (browser: Browser, account = populated, options: Parameters<Browser["newContext"]>[0] = {}) => browser.newContext({ storageState: account.storageState, viewport: { width: 390, height: 1000 }, ...options });
@@ -92,7 +92,7 @@ test.describe.serial("UI Phase 5E Profile and Targets", () => {
     const result = await page.evaluate(() => {
       const rect = (element: Element) => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y, right: r.right, bottom: r.bottom, width: r.width, height: r.height }; };
       const root = document.querySelector('form:has(input[name="effectiveDate"])')!;
-      return { locale: document.documentElement.lang, direction: document.documentElement.dir, viewport: { width: innerWidth, height: innerHeight }, document: { clientWidth: document.documentElement.clientWidth, scrollWidth: document.documentElement.scrollWidth }, body: { scrollWidth: document.body.scrollWidth }, controls: Array.from(root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>('input:not([type="hidden"]),select,button')).map(element => ({ ...rect(element), name: element.name, tag: element.tagName, disabled: element.disabled, direction: getComputedStyle(element).direction, outline: getComputedStyle(element).outline })), text: Array.from(document.querySelectorAll('main h1,main h2,main p,main label > span,[id$="-error"]')).map(element => ({ ...rect(element), text: element.textContent, overflow: getComputedStyle(element).overflow, textOverflow: getComputedStyle(element).textOverflow })) };
+      return { locale: document.documentElement.lang, direction: document.documentElement.dir, viewport: { width: innerWidth, height: innerHeight }, document: { clientWidth: document.documentElement.clientWidth, scrollWidth: document.documentElement.scrollWidth }, body: { scrollWidth: document.body.scrollWidth }, controls: Array.from(root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>('input:not([type="hidden"]),select,button')).map(element => ({ ...rect(element), name: element.name, tag: element.tagName, disabled: element.disabled, direction: getComputedStyle(element).direction, outline: getComputedStyle(element).outline })), text: Array.from((document.querySelector('main') ?? document.body).querySelectorAll('h1,h2,p,label > span,[id$="-error"]')).map(element => ({ ...rect(element), text: element.textContent, overflow: getComputedStyle(element).overflow, textOverflow: getComputedStyle(element).textOverflow })) };
     });
     measurements.push({ mode, state, route: new URL(page.url()).pathname + new URL(page.url()).search, ...result });
     return result;

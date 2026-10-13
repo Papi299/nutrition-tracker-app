@@ -39,7 +39,7 @@ function verifyRendered(raw, suite) {
   };
   const contractStates = {
     setup: ["blank-matrix", "populated-matrix", "repeated-validation", "progressive-rejection"],
-    "custom-food": ["create-validation", "edit-validation", "repeated-create-rejection"],
+    "custom-food": ["create-validation", "edit-validation", "repeated-create-rejection", "repeated-create-request-pending"],
     "account-secondary": ["native-nojs-account", "export-ready", "closure-ready"],
   };
   const axeStates = {
