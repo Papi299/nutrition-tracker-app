@@ -259,6 +259,19 @@ function fieldErrorId(field: string) {
   return `custom-food-${field}-error`;
 }
 
+function controlId(field: string) {
+  return `custom-food-${field}`;
+}
+
+function aliasControlId(key: string, field: "text" | "language") {
+  return `custom-food-alias-${key}-${field}`;
+}
+
+function aliasField(field: string) {
+  const match = /^(alias_text|alias_language)_(\d+)$/.exec(field);
+  return match ? { name: match[1], index: Number(match[2]) } : null;
+}
+
 function FieldError({ code, field }: { code?: string; field: string }) {
   const t = useTranslations("CustomFoodEditor.errors");
 
@@ -319,6 +332,7 @@ function NutrientInput({
       <Input
         aria-describedby={error ? fieldErrorId(field) : undefined}
         aria-invalid={Boolean(error)}
+        id={controlId(field)}
         data-nutrient-code={definition.code}
         defaultValue={value}
         inputMode="decimal"
@@ -362,12 +376,24 @@ function NutrientGrid({
 function AliasEditor({
   fieldErrors,
   initialAliases,
+  initialAliasKeys,
+  onAliasKeysChange,
 }: {
   fieldErrors: Record<string, string>;
   initialAliases: CustomFoodEditorAlias[];
+  initialAliasKeys: string[];
+  onAliasKeysChange: (keys: string[]) => void;
 }) {
   const t = useTranslations("CustomFoodEditor");
-  const [aliases, setAliases] = useState(initialAliases);
+  const [aliases, setAliases] = useState(() => initialAliases.map((alias, index) => ({
+    ...alias,
+    presentationKey: initialAliasKeys[index] ?? `initial-${index}`,
+  })));
+
+  useEffect(() => {
+    // UI identities stay outside FormData and the persisted creation draft.
+    onAliasKeysChange(aliases.map((alias) => alias.presentationKey));
+  }, [aliases, onAliasKeysChange]);
 
   function updateAlias(index: number, update: Partial<CustomFoodEditorAlias>) {
     setAliases((current) =>
@@ -387,8 +413,9 @@ function AliasEditor({
         return (
           <fieldset
             className={surfaceStyles({ className: "grid gap-4 p-4 sm:grid-cols-2 sm:items-end xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]", variant: "subtle" })}
+            data-alias-key={alias.presentationKey}
             data-testid="custom-food-alias-row"
-            key={index}
+            key={alias.presentationKey}
           >
             <legend className="sr-only">{t("aliases.row", { number: index + 1 })}</legend>
             <FieldLabel className="grid min-w-0 gap-2">
@@ -398,6 +425,7 @@ function AliasEditor({
                 aria-invalid={Boolean(fieldErrors[textField])}
                 className="min-w-0 w-full"
                 dir="auto"
+                id={aliasControlId(alias.presentationKey, "text")}
                 maxLength={200}
                 name={textField}
                 onChange={(event) => updateAlias(index, { alias_text: event.target.value })}
@@ -412,6 +440,7 @@ function AliasEditor({
                 aria-describedby={fieldErrors[languageField] ? fieldErrorId(languageField) : undefined}
                 aria-invalid={Boolean(fieldErrors[languageField])}
                 className="h-11 min-w-0 w-full"
+                id={aliasControlId(alias.presentationKey, "language")}
                 name={languageField}
                 onChange={(event) =>
                   updateAlias(index, {
@@ -443,7 +472,7 @@ function AliasEditor({
         onClick={() =>
           setAliases((current) => [
             ...current,
-            { alias_text: "", language_code: "und" },
+            { alias_text: "", language_code: "und", presentationKey: crypto.randomUUID() },
           ])
         }
         type="button"
@@ -516,6 +545,11 @@ export function CustomFoodForm({
   );
   const formRef = useRef<HTMLFormElement>(null);
   const handledStateRef = useRef<CustomFoodActionState | null>(null);
+  const summaryRef = useRef<HTMLDivElement>(null);
+  const [aliasKeys, setAliasKeys] = useState(() =>
+    initialValues.aliases.map((_, index) => `initial-${index}`),
+  );
+  const [submittedAliasKeys, setSubmittedAliasKeys] = useState(aliasKeys);
 
   useEffect(() => {
     if (!creationDraftEnabled || !storageKey || !initialCreationKey) return;
@@ -605,7 +639,19 @@ export function CustomFoodForm({
     !creationDraftEnabled ||
     state.values.creation_key === draft.idempotencyKey;
   const displayStatus = stateMatchesDraft ? state.status : "idle";
-  const fieldErrors = stateMatchesDraft ? (state.fieldErrors ?? {}) : {};
+  const fieldErrors: Record<string, string> = {};
+  for (const [field, code] of Object.entries(
+    stateMatchesDraft && !isPending ? state.fieldErrors ?? {} : {},
+  )) {
+    const parsed = aliasField(field);
+    if (!parsed) {
+      fieldErrors[field] = code;
+      continue;
+    }
+    const key = submittedAliasKeys[parsed.index];
+    const index = key === undefined ? -1 : aliasKeys.indexOf(key);
+    if (index >= 0) fieldErrors[`${parsed.name}_${index}`] = code;
+  }
   const values = creationDraftEnabled ? draft.values : state.values;
   const core = dictionary.filter((definition) => coreCodes.has(definition.code));
   const additional = dictionary.filter(
@@ -644,6 +690,43 @@ export function CustomFoodForm({
       })
     : null;
 
+  useEffect(() => {
+    if (displayStatus !== "validation_error" || isPending) return;
+    summaryRef.current?.focus({ preventScroll: true });
+    summaryRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [displayStatus, draft.revision, isPending, state]);
+
+  const errorLinks = Object.keys(fieldErrors).map((field) => {
+    const parsed = aliasField(field);
+    if (parsed) {
+      return {
+        field,
+        label: `${t("aliases.row", { number: parsed.index + 1 })}: ${t(parsed.name === "alias_text" ? "aliases.textLabel" : "aliases.languageLabel")}`,
+        target: aliasControlId(aliasKeys[parsed.index], parsed.name === "alias_text" ? "text" : "language"),
+      };
+    }
+    const nutrient = dictionary.find((definition) => field === `nutrient_${definition.code}`);
+    if (nutrient) {
+      return {
+        field,
+        label: locale === "he" ? nutrient.name_he || nutrient.name_en : nutrient.name_en,
+        target: controlId(field),
+      };
+    }
+    const fields: Record<string, { label: string; target: string }> = {
+      name: { label: t("identity.name"), target: controlId("name") },
+      brand_name: { label: t("identity.brand"), target: controlId("brand_name") },
+      food_locale: { label: t("identity.language"), target: controlId("food_locale") },
+      nutrient_basis: { label: t("basis.title"), target: "custom-food-basis" },
+      serving_quantity: { label: t("basis.servingQuantity"), target: basis === "per_serving" ? controlId("serving_quantity") : "custom-food-basis" },
+      serving_unit: { label: t("basis.servingUnit"), target: basis === "per_serving" ? controlId("serving_unit") : "custom-food-basis" },
+      nutrients: { label: t("nutrients.title"), target: "custom-food-nutrients" },
+      aliases: { label: t("aliases.title"), target: "custom-food-aliases" },
+      barcode_omission: { label: t("barcode.omit"), target: "custom-food-barcode-omission" },
+    };
+    return { field, ...(fields[field] ?? { label: t("identity.title"), target: "custom-food-form-status" }) };
+  });
+
   function persistCurrentDraft(form: HTMLFormElement) {
     if (!creationDraftEnabled || !storageKey) return;
 
@@ -665,6 +748,12 @@ export function CustomFoodForm({
       return;
     }
 
+    if (event.type === "submit") {
+      const keys = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("[data-alias-key]"))
+        .map((row) => row.dataset.aliasKey!);
+      setAliasKeys(keys);
+      setSubmittedAliasKeys(keys);
+    }
     persistCurrentDraft(event.currentTarget);
   }
 
@@ -715,6 +804,46 @@ export function CustomFoodForm({
           type="hidden"
           value={draft.idempotencyKey}
         />
+      )}
+
+      {displayStatus === "validation_error" && !isPending && (
+        <div
+          aria-labelledby="custom-food-validation-title"
+          className={feedbackStyles("danger", "scroll-mt-4")}
+          data-testid="custom-food-validation-summary"
+          ref={summaryRef}
+          role="alert"
+          tabIndex={-1}
+        >
+          <h2 className="font-semibold" id="custom-food-validation-title">
+            {t("status.validationError")}
+          </h2>
+          <ul className="mt-2 grid gap-2">
+            {errorLinks.map(({ field, label, target }) => (
+              <li className="min-w-0" key={field}>
+                <a
+                  className="ui-text-link inline-flex min-h-11 min-w-11 items-center"
+                  href={`#${target}`}
+                  onClick={(event) => {
+                    const control = document.getElementById(target);
+                    if (!control) return;
+                    event.preventDefault();
+                    // Native disclosures must reveal the destination before focus.
+                    let disclosure = control.closest("details");
+                    while (disclosure) {
+                      disclosure.open = true;
+                      disclosure = disclosure.parentElement?.closest("details") ?? null;
+                    }
+                    control.focus({ preventScroll: true });
+                    control.scrollIntoView({ block: "center", behavior: "instant" });
+                  }}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {barcodeContext && (
@@ -776,6 +905,7 @@ export function CustomFoodForm({
                   : (state.barcode_omitted ?? false),
               )}
               className="mt-1"
+              id="custom-food-barcode-omission"
               name="omit_barcode"
               type="checkbox"
               value="omit"
@@ -914,6 +1044,7 @@ export function CustomFoodForm({
               defaultValue={values.name}
               dir="auto"
               maxLength={200}
+              id={controlId("name")}
               name="name"
               key={values.name}
               required
@@ -930,6 +1061,7 @@ export function CustomFoodForm({
               defaultValue={values.brand_name}
               dir="auto"
               maxLength={120}
+              id={controlId("brand_name")}
               name="brand_name"
               key={values.brand_name}
               type="text"
@@ -944,6 +1076,7 @@ export function CustomFoodForm({
               className="min-h-12"
               defaultValue={values.food_locale}
               key={values.food_locale}
+              id={controlId("food_locale")}
               name="food_locale"
             >
               <option value="en">{t("languages.en")}</option>
@@ -955,7 +1088,7 @@ export function CustomFoodForm({
         </div>
       </section>
 
-      <fieldset className="grid gap-5 border-t border-border pt-6">
+      <fieldset className="grid gap-5 border-t border-border pt-6" id="custom-food-basis" tabIndex={-1}>
         <legend className="ui-section-title">{t("basis.title")}</legend>
         <p className="ui-body-secondary">{t("basis.help")}</p>
         <div className="grid gap-3 sm:grid-cols-3">
@@ -987,6 +1120,7 @@ export function CustomFoodForm({
                 defaultValue={values.serving_quantity}
                 inputMode="decimal"
                 min="0"
+                id={controlId("serving_quantity")}
                 name="serving_quantity"
                 key={values.serving_quantity}
                 required
@@ -1004,6 +1138,7 @@ export function CustomFoodForm({
                 defaultValue={values.serving_unit}
                 dir="auto"
                 maxLength={40}
+                id={controlId("serving_unit")}
                 name="serving_unit"
                 key={values.serving_unit}
                 required
@@ -1019,7 +1154,7 @@ export function CustomFoodForm({
         )}
       </fieldset>
 
-      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-nutrients-title">
+      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-nutrients-title" aria-describedby={fieldErrors.nutrients ? fieldErrorId("nutrients") : undefined} id="custom-food-nutrients" tabIndex={-1}>
         <div>
           <h2 className="ui-section-title" id="custom-food-nutrients-title">{t("nutrients.title")}</h2>
           <p className="ui-body-secondary mt-2" id="custom-food-nutrients-help">{t("nutrients.help")}</p>
@@ -1031,7 +1166,7 @@ export function CustomFoodForm({
           ["vitamins", vitamins],
         ].map(([group, definitions]) => (
           <details className={surfaceStyles({ className: "p-4" })} key={group as string}>
-            <summary className="ui-card-title cursor-pointer">
+            <summary className="ui-card-title min-h-11 cursor-pointer py-2">
               {t(`nutrients.groups.${group as string}`)}
             </summary>
             <div className="mt-5">
@@ -1047,12 +1182,17 @@ export function CustomFoodForm({
         <FieldError code={fieldErrors.nutrients} field="nutrients" />
       </section>
 
-      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-aliases-title">
+      <section className="grid gap-5 border-t border-border pt-6" aria-labelledby="custom-food-aliases-title" aria-describedby={fieldErrors.aliases ? fieldErrorId("aliases") : undefined} id="custom-food-aliases" tabIndex={-1}>
         <div>
           <h2 className="ui-section-title" id="custom-food-aliases-title">{t("aliases.title")}</h2>
           <p className="ui-body-secondary mt-2">{t("aliases.help")}</p>
         </div>
-        <AliasEditor fieldErrors={fieldErrors} initialAliases={values.aliases} />
+        <AliasEditor
+          fieldErrors={fieldErrors}
+          initialAliases={values.aliases}
+          initialAliasKeys={creationDraftEnabled && stateMatchesDraft && state.status !== "idle" ? submittedAliasKeys : aliasKeys}
+          onAliasKeysChange={setAliasKeys}
+        />
       </section>
 
       <div className="grid gap-4 border-t border-border pt-6 sm:grid-cols-[1fr_auto] sm:items-center">
@@ -1060,13 +1200,15 @@ export function CustomFoodForm({
           displayStatus !== "creation_idempotency_conflict" && (
           <div
             className={
-              displayStatus === "idle"
+              displayStatus === "idle" || displayStatus === "validation_error"
                 ? "ui-body-secondary"
                 : "text-sm text-danger-foreground"
             }
-            role={displayStatus === "idle" ? "status" : "alert"}
+            id="custom-food-form-status"
+            tabIndex={-1}
+            role={displayStatus === "idle" || displayStatus === "validation_error" ? "status" : "alert"}
           >
-            {statusMessage}
+            {displayStatus === "validation_error" ? t("status.idle") : statusMessage}
           </div>
         )}
         <Button

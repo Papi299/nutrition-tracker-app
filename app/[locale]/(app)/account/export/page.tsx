@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { Button, buttonStyles } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { feedbackStyles } from "@/components/ui/feedback";
 import { inspectRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import {
   accountExportReauthenticationIntent,
@@ -38,55 +41,45 @@ function LocalizedAccountExportPage({
   const t = useTranslations("Account.export");
 
   return (
-    <section className="mx-auto w-full max-w-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-      <p className="text-start text-sm font-semibold text-teal-800">
-        <Link
-          className="underline decoration-2 underline-offset-4"
-          href={`/${locale}/account`}
-        >
-          {t("back")}
-        </Link>
-      </p>
-      <h1 className="mt-5 text-start text-3xl font-semibold text-slate-950">
-        {t("title")}
-      </h1>
-      <p className="mt-4 text-start text-base leading-7 text-slate-700">
-        {t("description")}
-      </p>
-      <p className="mt-3 text-start text-base leading-7 text-slate-700">
-        {t("security")}
-      </p>
+    <section className="mx-auto grid w-full min-w-0 max-w-3xl gap-5 py-8 text-start">
+      <Link
+        className={buttonStyles({ variant: "ghost", className: "w-fit underline" })}
+        href={`/${locale}/account`}
+      >
+        {t("back")}
+      </Link>
+      <Card className="min-w-0 sm:p-7">
+        <h1 className="ui-page-title">{t("title")}</h1>
+        <p className="ui-body-secondary mt-4 sm:text-base">
+          {t("description")}
+        </p>
+        <p className="ui-body-secondary mt-3 sm:text-base">
+          {t("security")}
+        </p>
 
-      {canDownload ? (
-        <form
-          action={`/${locale}/account/export/download`}
-          className="mt-8"
-          method="post"
-        >
-          <button
-            className="min-h-12 bg-teal-700 px-5 py-3 text-base font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800"
-            type="submit"
+        {canDownload ? (
+          <form
+            action={`/${locale}/account/export/download`}
+            className="mt-8"
+            method="post"
           >
-            {t("download")}
-          </button>
-        </form>
-      ) : (
-        <div
-          className="mt-8 border-s-4 border-amber-500 bg-amber-50 p-5 text-start"
-          role="status"
-        >
-          <p className="leading-7 text-slate-800">{t("reauthRequired")}</p>
-          <Link
-            className="mt-4 inline-flex min-h-12 items-center border border-slate-900 bg-white px-5 py-3 text-base font-semibold text-slate-950 transition-colors hover:border-teal-700 hover:text-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-800"
-            href={reauthenticationPath(
-              locale,
-              accountExportReauthenticationIntent,
-            )}
-          >
-            {t("confirmPassword")}
-          </Link>
-        </div>
-      )}
+            <Button type="submit">{t("download")}</Button>
+          </form>
+        ) : (
+          <div className={feedbackStyles("warning", "mt-6")} role="status">
+            <p>{t("reauthRequired")}</p>
+            <Link
+              className={buttonStyles({ variant: "outline", className: "mt-4" })}
+              href={reauthenticationPath(
+                locale,
+                accountExportReauthenticationIntent,
+              )}
+            >
+              {t("confirmPassword")}
+            </Link>
+          </div>
+        )}
+      </Card>
     </section>
   );
 }

@@ -1,0 +1,222 @@
+{
+  "project": "ui5e-20261013",
+  "network": "nutrition-ui5e-loopback",
+  "containers": [
+    {
+      "name": "supabase_studio_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "58323"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_pg_meta_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "8080/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_edge_runtime_ui5e-20261013",
+      "running": true,
+      "health": null,
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {},
+      "mounts": []
+    },
+    {
+      "name": "supabase_storage_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "5000/tcp": null
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "supabase_storage_ui5e-20261013"
+        }
+      ]
+    },
+    {
+      "name": "supabase_rest_ui5e-20261013",
+      "running": true,
+      "health": null,
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "3000/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_realtime_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "4000/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_inbucket_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "58324"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_auth_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "9999/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_kong_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "58321"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        },
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_vector_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null
+        }
+      ]
+    },
+    {
+      "name": "supabase_analytics_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "4000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "58327"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "supabase_db_ui5e-20261013",
+      "running": true,
+      "health": "healthy",
+      "networks": [
+        "nutrition-ui5e-loopback"
+      ],
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "58322"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "supabase_db_ui5e-20261013"
+        }
+      ]
+    }
+  ],
+  "historicalVolumeNames": [
+    "supabase_db_github-plugin-github-openai-curated-you",
+    "supabase_db_ui5-f04-enter-safety-20261011",
+    "supabase_db_ui-phase1-design-foundation",
+    "supabase_db_ui-phase4-food-discovery",
+    "supabase_db_ui-phase5a-audit-20261011",
+    "supabase_edge_runtime_",
+    "supabase_edge_runtime_dl",
+    "supabase_edge_runtime_github-plugin-github-openai-curated-you",
+    "supabase_edge_runtime_readback-scratch",
+    "supabase_edge_runtime_ui-phase1-design-foundation",
+    "supabase_edge_runtime_ui-phase4-food-discovery",
+    "supabase_storage_github-plugin-github-openai-curated-you",
+    "supabase_storage_ui-phase1-design-foundation",
+    "supabase_storage_ui-phase4-food-discovery"
+  ],
+  "taskVolumeNames": [
+    "supabase_db_ui5e-20261013",
+    "supabase_edge_runtime_ui5e-20261013",
+    "supabase_storage_ui5e-20261013"
+  ],
+  "scope": "Task-only local synthetic environment; no historical database contents inspected."
+}

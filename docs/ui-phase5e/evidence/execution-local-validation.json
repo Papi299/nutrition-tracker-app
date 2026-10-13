@@ -1,0 +1,56 @@
+{
+  "sourceHead": "02b8e7eae9d2435630c15a52e180a8ac48985c62",
+  "sourceTree": "11180a4a3daf5dac56d13a077938ec5b4352b741",
+  "baseline": {
+    "passed": 5
+  },
+  "fullUnit": {
+    "passed": 357,
+    "failed": 0,
+    "skipped": 0
+  },
+  "cleanFocusedE2E": {
+    "passed": 96,
+    "failed": 0,
+    "skipped": 2,
+    "notRun": 0,
+    "byFileScheduled": {
+      "account-closure.spec.ts": 11,
+      "account-export.spec.ts": 8,
+      "barcode-handoff-persistence.spec.ts": 7,
+      "barcode-handoff-ui.spec.ts": 5,
+      "critical-auth-session.spec.ts": 11,
+      "custom-food-creation-idempotency.spec.ts": 9,
+      "custom-food-editor.spec.ts": 10,
+      "custom-food-persistence.spec.ts": 17,
+      "reliability-recovery.spec.ts": 2,
+      "setup-persistence.spec.ts": 7,
+      "ui-phase5e-account-secondary.spec.ts": 3,
+      "ui-phase5e-custom-food.spec.ts": 4,
+      "ui-phase5e-setup.spec.ts": 4
+    },
+    "skipReason": "Two exact-baseline-only reproductions intentionally skip on changed source."
+  },
+  "newPhase5E": {
+    "passed": 9,
+    "skipped": 2
+  },
+  "static": {
+    "eslint": "PASS",
+    "typescript": "PASS",
+    "diffCheck": "PASS",
+    "productionBuild": "PASS"
+  },
+  "workflowPolicy": {
+    "passed": 4,
+    "policy": "PASS"
+  },
+  "deploymentContract": {
+    "passed": 92,
+    "contract": "PASS"
+  },
+  "database": "Authenticated synthetic-local RLS/ownership, exact values, null/zero, idempotency, rollback, edit revision, archive, barcode, snapshot, Account-security and nonmutation assertions pass. Only isolated local stack accessed.",
+  "runner": "npm run test:e2e -- e2e/setup-persistence.spec.ts e2e/custom-food-editor.spec.ts e2e/custom-food-persistence.spec.ts e2e/custom-food-creation-idempotency.spec.ts e2e/barcode-handoff-ui.spec.ts e2e/barcode-handoff-persistence.spec.ts e2e/account-export.spec.ts e2e/account-closure.spec.ts e2e/reliability-recovery.spec.ts e2e/critical-auth-session.spec.ts e2e/ui-phase5e-setup.spec.ts e2e/ui-phase5e-custom-food.spec.ts e2e/ui-phase5e-account-secondary.spec.ts --reporter=line --output=/private/tmp/ui5e-clean-final-results",
+  "noProductionAccess": true,
+  "vercelGitDeploymentEnabled": false
+}

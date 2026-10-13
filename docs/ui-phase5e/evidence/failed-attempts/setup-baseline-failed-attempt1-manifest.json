@@ -1,0 +1,475 @@
+{
+  "mode": "baseline",
+  "sourceIdentity": {
+    "approvedHead": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+    "approvedTree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+    "head": "1ffd19dc90f8dc442160d3b2bbaea0c0a4ce07b7",
+    "tree": "65dfa021dc38ce2feb0d0a1dc73d63ac39d02739",
+    "buildId": "OdzhlcsnTj-rTF5pC_rbi",
+    "productionDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceFileSha256": {
+      "components/setup/setup-form.tsx": "7d1c2e7eedf17d788b273dcbe87cfb8b414b573e9150e6fee0abbd9685f289d0",
+      "components/setup/setup-page.tsx": "2fa4782ee6da7ff892292a410f0158a222720ba2eadba4b3aa93b548ebc8da59"
+    }
+  },
+  "browserVersion": "149.0.7827.55",
+  "fixture": {
+    "blank": {
+      "email": "ui5e-setup-blank-dfaedf87-b87c-4123-bf3b-17b67eb42ce8@example.test",
+      "userId": "b559fbf1-2ea1-401d-98e3-b808cb915297"
+    },
+    "populated": {
+      "email": "ui5e-setup-populated-ce54a4a4-f0d0-48f1-98e3-16a4f1dbbebd@example.test",
+      "userId": "281f02f6-7726-41fa-91d3-c14c8a10d5a7"
+    },
+    "date": "2024-02-29"
+  },
+  "measurements": [
+    {
+      "state": "rejected-server-validation",
+      "locale": "en",
+      "beforeResponse": {
+        "name": "display_name",
+        "id": "",
+        "invalid": null,
+        "focused": false,
+        "distanceAboveViewport": 59.8125,
+        "y": -107.8125,
+        "height": 48,
+        "viewportHeight": 1000,
+        "descriptions": []
+      },
+      "controls": [
+        {
+          "name": "display_name",
+          "id": "",
+          "invalid": null,
+          "focused": false,
+          "distanceAboveViewport": 88.8125,
+          "y": -136.8125,
+          "height": 48,
+          "viewportHeight": 1000,
+          "descriptions": []
+        },
+        {
+          "name": "calories",
+          "id": "",
+          "invalid": null,
+          "focused": false,
+          "distanceAboveViewport": 0,
+          "y": 325.75,
+          "height": 48,
+          "viewportHeight": 1000,
+          "descriptions": []
+        },
+        {
+          "name": "protein_g",
+          "id": "",
+          "invalid": null,
+          "focused": false,
+          "distanceAboveViewport": 0,
+          "y": 447.75,
+          "height": 48,
+          "viewportHeight": 1000,
+          "descriptions": []
+        },
+        {
+          "name": "carbohydrates_g",
+          "id": "",
+          "invalid": null,
+          "focused": false,
+          "distanceAboveViewport": 0,
+          "y": 569.75,
+          "height": 48,
+          "viewportHeight": 1000,
+          "descriptions": []
+        },
+        {
+          "name": "fat_g",
+          "id": "",
+          "invalid": null,
+          "focused": false,
+          "distanceAboveViewport": 0,
+          "y": 691.75,
+          "height": 48,
+          "viewportHeight": 1000,
+          "descriptions": []
+        }
+      ],
+      "fullValuesPreserved": true,
+      "effectiveDate": "2024-02-29"
+    },
+    {
+      "mode": "baseline",
+      "state": "invalid",
+      "route": "/en/setup?effectiveDate=2024-02-29",
+      "locale": "en",
+      "direction": "ltr",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "document": {
+        "clientWidth": 390,
+        "scrollWidth": 390
+      },
+      "body": {
+        "scrollWidth": 390
+      },
+      "controls": [
+        {
+          "x": 37,
+          "y": -136.8125,
+          "right": 353,
+          "bottom": -88.8125,
+          "width": 316,
+          "height": 48,
+          "name": "display_name",
+          "tag": "INPUT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": -10.8125,
+          "right": 353,
+          "bottom": 37.1875,
+          "width": 316,
+          "height": 48,
+          "name": "preferred_language",
+          "tag": "SELECT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": 325.75,
+          "right": 353,
+          "bottom": 373.75,
+          "width": 316,
+          "height": 48,
+          "name": "calories",
+          "tag": "INPUT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": 447.75,
+          "right": 353,
+          "bottom": 495.75,
+          "width": 316,
+          "height": 48,
+          "name": "protein_g",
+          "tag": "INPUT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": 569.75,
+          "right": 353,
+          "bottom": 617.75,
+          "width": 316,
+          "height": 48,
+          "name": "carbohydrates_g",
+          "tag": "INPUT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": 691.75,
+          "right": 353,
+          "bottom": 739.75,
+          "width": 316,
+          "height": 48,
+          "name": "fat_g",
+          "tag": "INPUT",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(32, 44, 42) none 3px"
+        },
+        {
+          "x": 37,
+          "y": 800.75,
+          "right": 353,
+          "bottom": 848.75,
+          "width": 316,
+          "height": 48,
+          "name": "",
+          "tag": "BUTTON",
+          "disabled": false,
+          "direction": "ltr",
+          "outline": "rgb(255, 255, 255) none 3px"
+        }
+      ],
+      "text": [
+        {
+          "x": 16,
+          "y": -467,
+          "right": 374,
+          "bottom": -449,
+          "width": 358,
+          "height": 18,
+          "text": "Profile & targets",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 16,
+          "y": -433,
+          "right": 374,
+          "bottom": -397,
+          "width": 358,
+          "height": 36,
+          "text": "Profile and targets",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 16,
+          "y": -377,
+          "right": 374,
+          "bottom": -321,
+          "width": 358,
+          "height": 56,
+          "text": "Review your profile details and update any manual targets you want to manage yourself.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": -268,
+          "right": 353,
+          "bottom": -240,
+          "width": 316,
+          "height": 28,
+          "text": "Display name",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": -232,
+          "right": 353,
+          "bottom": -185.8125,
+          "width": 316,
+          "height": 46.1875,
+          "text": "This name is only for the app interface. Unit system remains metric in the current MVP.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": -165.8125,
+          "right": 353,
+          "bottom": -144.8125,
+          "width": 316,
+          "height": 21,
+          "text": "Display name",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": -80.8125,
+          "right": 353,
+          "bottom": -59.8125,
+          "width": 316,
+          "height": 21,
+          "text": "Display name must be 80 characters or fewer.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": -39.8125,
+          "right": 353,
+          "bottom": -18.8125,
+          "width": 316,
+          "height": 21,
+          "text": "Preferred language",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 94.1875,
+          "right": 353,
+          "bottom": 122.1875,
+          "width": 316,
+          "height": 28,
+          "text": "Manual daily targets",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 130.1875,
+          "right": 353,
+          "bottom": 222.5625,
+          "width": 316,
+          "height": 92.375,
+          "text": "Enter targets you chose yourself. Changes saved here apply from 2024-02-29, the current calendar date on this device. This app does not calculate calorie or nutrition targets.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 230.5625,
+          "right": 353,
+          "bottom": 276.75,
+          "width": 316,
+          "height": 46.1875,
+          "text": "Blank means not set. Zero means an intentional value of 0.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 296.75,
+          "right": 353,
+          "bottom": 317.75,
+          "width": 316,
+          "height": 21,
+          "text": "Calories",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 381.75,
+          "right": 353,
+          "bottom": 402.75,
+          "width": 316,
+          "height": 21,
+          "text": "Targets cannot be negative.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 418.75,
+          "right": 353,
+          "bottom": 439.75,
+          "width": 316,
+          "height": 21,
+          "text": "Protein (g)",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 503.75,
+          "right": 353,
+          "bottom": 524.75,
+          "width": 316,
+          "height": 21,
+          "text": "Targets cannot be negative.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 540.75,
+          "right": 353,
+          "bottom": 561.75,
+          "width": 316,
+          "height": 21,
+          "text": "Carbohydrates (g)",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 625.75,
+          "right": 353,
+          "bottom": 646.75,
+          "width": 316,
+          "height": 21,
+          "text": "Targets cannot be negative.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 662.75,
+          "right": 353,
+          "bottom": 683.75,
+          "width": 316,
+          "height": 21,
+          "text": "Fat (g)",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        },
+        {
+          "x": 37,
+          "y": 747.75,
+          "right": 353,
+          "bottom": 768.75,
+          "width": 316,
+          "height": 21,
+          "text": "Targets cannot be negative.",
+          "overflow": "visible",
+          "textOverflow": "clip"
+        }
+      ]
+    },
+    {
+      "state": "unsupported-language-server-rejection",
+      "locale": "en",
+      "control": {
+        "name": "preferred_language",
+        "id": "",
+        "invalid": null,
+        "focused": false,
+        "distanceAboveViewport": 0,
+        "y": -10.8125,
+        "height": 48,
+        "viewportHeight": 1000,
+        "descriptions": []
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "filename": "setup-baseline-failed-attempt1-invalid-en-390.png",
+      "sha256": "5f3b70e5c507e565e9fc516c215db2cbd310a213a00aa30985c3c34f51b40ad6",
+      "viewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "route": "/en/setup?effectiveDate=2024-02-29"
+    }
+  ],
+  "contracts": [
+    {
+      "state": "baseline-rejection",
+      "locale": "en",
+      "databaseUnchanged": true,
+      "snapshotSha256": "cbfaebd9a83ca3a6250633a39c603a2667f3389468f7d390f50aee1c335ffd79",
+      "fullValuesPreserved": true,
+      "effectiveDate": "2024-02-29"
+    }
+  ],
+  "accessibility": [
+    {
+      "state": "invalid",
+      "locale": "en",
+      "violations": []
+    }
+  ],
+  "limitations": [
+    "Automated axe is not manual screen-reader qualification.",
+    "Unsupported preferred language is injected only to exercise the existing server rejection contract.",
+    "Broader date, atomic-write, idempotency and no-JavaScript recovery regressions remain in setup-persistence.spec.ts."
+  ],
+  "runStatus": "failed",
+  "failure": "Hebrew rejected submission reset preferred_language from he to en while other Setup field values remained unchanged."
+}
