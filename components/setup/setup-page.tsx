@@ -155,7 +155,7 @@ function LocalizedSetupSessionRequired({ locale }: { locale: Locale }) {
   const setupT = useTranslations("Setup");
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl items-center px-5 py-12 text-start sm:px-8">
+    <section className="mx-auto flex min-h-screen w-full max-w-3xl items-center px-5 py-12 text-start sm:px-8">
       <section
         className={surfaceStyles({
           variant: "raised",
@@ -175,7 +175,7 @@ function LocalizedSetupSessionRequired({ locale }: { locale: Locale }) {
           {authT("signIn.submit")}
         </a>
       </section>
-    </main>
+    </section>
   );
 }
 

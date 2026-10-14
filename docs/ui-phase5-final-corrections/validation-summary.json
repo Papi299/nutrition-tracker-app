@@ -1,0 +1,677 @@
+{
+  "localOnly": true,
+  "gates": {
+    "performance-evidence": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "performance-evidence",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:12.956Z",
+      "endedAt": "2026-10-14T15:32:28.057Z",
+      "command": [
+        "npm",
+        "run",
+        "test:performance-evidence"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/performance-evidence.log",
+      "logSha256": "4133e6c6f624697adf7633659c84d0e4ee805e4906d630aec1d148bd01111f5e",
+      "resultSha256": "960bbb66e8ee13794d523eccca6c43346d6811b6ce6563b62f732704fde7e5fb",
+      "resultArtifact": "validation-results/candidate-reboot-1/performance-evidence.json"
+    },
+    "workflow": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "workflow",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:17.045Z",
+      "endedAt": "2026-10-14T15:32:18.403Z",
+      "command": [
+        "npm",
+        "run",
+        "security:workflow"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/workflow.log",
+      "logSha256": "cc1560d3f6e87e97538db67689fbcfe528875bf41aed22664251dec34b831529",
+      "resultSha256": "a4fa43fd1ba599420c7d2073120e39fa5929c3a862f1f723ee4f7e6dd10a4a7e",
+      "resultArtifact": "validation-results/candidate-reboot-1/workflow.json"
+    },
+    "roles": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "roles",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:41:40.905Z",
+      "endedAt": "2026-10-14T15:42:15.537Z",
+      "command": [
+        "npm",
+        "run",
+        "test:migration-roles"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/roles.log",
+      "logSha256": "d024096e8aab521dc88b2d064f49d6f6de34b05047e4f7d9fb936184554ddb0b",
+      "resultSha256": "b7f64cbcd361812e3b17a4ff371f1b66617ee72ac5d0cbdfefaed21257ce6c03",
+      "resultArtifact": "validation-results/candidate-reboot-1/roles.json"
+    },
+    "phase11d": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "phase11d",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:55:02.711Z",
+      "endedAt": "2026-10-14T15:56:09.455Z",
+      "command": [
+        "npm",
+        "run",
+        "test:phase11d",
+        "--",
+        "--reporter=line,html,json",
+        "--output=/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/phase11d"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/phase11d.log",
+      "logSha256": "910e8338e7b2702ca6e51f1ff1b23b4d455d44d4177aaba358bd8fbe91f4dfd4",
+      "resultSha256": "6c8a7e5a2dec5d530b5c9e0e5de067213c095ce3b17b9632dc47e1e75c39c9aa",
+      "resultArtifact": "validation-results/candidate-reboot-1/phase11d.json",
+      "browserStats": {
+        "startTime": "2026-10-14T15:55:04.376Z",
+        "duration": 64984.019,
+        "expected": 53,
+        "skipped": 3,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "dependencies": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "dependencies",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:22.983Z",
+      "endedAt": "2026-10-14T15:32:23.866Z",
+      "command": [
+        "npm",
+        "run",
+        "security:dependencies"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/dependencies.log",
+      "logSha256": "bec72ce06252c61276eac2f281a3bfdbc8c3389ed260279eb5cf88ee9cae75af",
+      "resultSha256": "ad2ab12047f65f1987797466541f2150e5bc0a3b07616b9c6dd1edd82bbbea81",
+      "resultArtifact": "validation-results/candidate-reboot-1/dependencies.json"
+    },
+    "deployment": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "deployment",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:18.352Z",
+      "endedAt": "2026-10-14T15:32:19.005Z",
+      "command": [
+        "npm",
+        "run",
+        "test:deployment-contract"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/deployment.log",
+      "logSha256": "63818486377ab95576bfd89e6b22e657c9632af34bb156cbc9d0ff48817a8b70",
+      "resultSha256": "feafa4b561582ebf6c87c9a1c395e02efadda1648d4be477619755cf4d2df0ab",
+      "resultArtifact": "validation-results/candidate-reboot-1/deployment.json"
+    },
+    "types": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "types",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:43:59.223Z",
+      "endedAt": "2026-10-14T15:44:01.379Z",
+      "command": [
+        "npm",
+        "run",
+        "types:ingestion:check"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/types.log",
+      "logSha256": "b1acf2187571ef5bcb3f067a69b8e165d19e5ec9b20d5d13efc882e6ed595117",
+      "resultSha256": "d08abdc1843b692d754af745efc249382c74a6704808da43963c80d9a12a4ea9",
+      "resultArtifact": "validation-results/candidate-reboot-1/types.json"
+    },
+    "security": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "security",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:16.647Z",
+      "endedAt": "2026-10-14T15:32:17.721Z",
+      "command": [
+        "npm",
+        "run",
+        "test:security",
+        "--",
+        "--reporter=line",
+        "--output=/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/security"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/security.log",
+      "logSha256": "ed205b2d4cd630a208396a4b08fb99b0d27ec24a8bf2b3c9ed8a07379f9ccde5",
+      "resultSha256": "c3b3618deb3751e596cc354a3b6966fff201f03f5de9d801f1bcb33c86f3167f",
+      "resultArtifact": "validation-results/candidate-reboot-1/security.json"
+    },
+    "e2e": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "e2e",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:45:21.298Z",
+      "endedAt": "2026-10-14T15:54:44.139Z",
+      "command": [
+        "npm",
+        "run",
+        "test:e2e",
+        "--",
+        "--reporter=line,json",
+        "--output=/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/e2e"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/e2e.log",
+      "logSha256": "b212bfb943c03d434ff0412493cc5ffdafea89a9d95c08dc507bd2e77928589c",
+      "resultSha256": "cd471f711e07585918c5859770a81b951be772611fa6716505a8e96afb89a37c",
+      "resultArtifact": "validation-results/candidate-reboot-1/e2e.json",
+      "browserStats": {
+        "startTime": "2026-10-14T15:45:23.103Z",
+        "duration": 560961.837,
+        "expected": 453,
+        "skipped": 7,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "lint": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "lint",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:17.045Z",
+      "endedAt": "2026-10-14T15:32:26.212Z",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/lint.log",
+      "logSha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800",
+      "resultSha256": "309698d66c7742a0be50b9fcdf2bedf9268fef83f36601bcf4a9d6851634521c",
+      "resultArtifact": "validation-results/candidate-reboot-1/lint.json"
+    },
+    "journey": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "journey",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:17.555Z",
+      "endedAt": "2026-10-14T15:32:18.217Z",
+      "command": [
+        "npm",
+        "run",
+        "test:journey-evidence"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/journey.log",
+      "logSha256": "fe7df4fb594215bbb1421569792b8b6a1b2bb2995e4255d7d752e7463fc6f3c9",
+      "resultSha256": "c2fc66bc2b3c5d8c001f278466cd734c1912b0033f8c454a44c2a24bfaff34b7",
+      "resultArtifact": "validation-results/candidate-reboot-1/journey.json"
+    },
+    "performance-harness": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "performance-harness",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:13.414Z",
+      "endedAt": "2026-10-14T15:32:14.457Z",
+      "command": [
+        "npm",
+        "run",
+        "test:performance-harness",
+        "--",
+        "--reporter=line",
+        "--output=/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/performance-harness"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/performance-harness.log",
+      "logSha256": "f1fd42b991a8d5fe8606b0c9bce1b4a5c2db904da71cbcfd5154f9c8c160d60f",
+      "resultSha256": "78642502fbbd51cc3a8202bd4bfd1934193307a19972914fae0822799f5851fc",
+      "resultArtifact": "validation-results/candidate-reboot-1/performance-harness.json"
+    },
+    "typecheck": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "typecheck",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:55.798Z",
+      "endedAt": "2026-10-14T15:33:02.011Z",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/typecheck.log",
+      "logSha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095",
+      "resultSha256": "3c4794da4e58476784db147206c0845f7960b5d39e89994e00d8494987af31a1",
+      "resultArtifact": "validation-results/candidate-reboot-1/typecheck.json"
+    },
+    "unit": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "unit",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:17.045Z",
+      "endedAt": "2026-10-14T15:32:21.330Z",
+      "command": [
+        "npm",
+        "run",
+        "test:date",
+        "--",
+        "--reporter=line",
+        "--output=/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/unit"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/unit.log",
+      "logSha256": "16f051a82ce3d16adbdbc2d663d2e252b2e8cb044a18905c5887e8721aa0ba81",
+      "resultSha256": "bdb578f6b4b0f02b7048ddc08ea804f10916d7c692e1484b39c18b0657dc0be6",
+      "resultArtifact": "validation-results/candidate-reboot-1/unit.json"
+    },
+    "boundary": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "boundary",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:41:39.981Z",
+      "endedAt": "2026-10-14T15:41:51.303Z",
+      "command": [
+        "npm",
+        "run",
+        "security:build-boundary",
+        "--",
+        "--webpack"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/boundary.log",
+      "logSha256": "0da644ecfd8fe8fa401a9c39ff88357815d7834fa46e4cb72eaef1da0075e131",
+      "resultSha256": "4705ff7fbff376499c09bb135049642ab1564b5dd6db5f8afa45e7566d31ac40",
+      "resultArtifact": "validation-results/candidate-reboot-1/boundary.json"
+    },
+    "recovery": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "recovery",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:32:18.581Z",
+      "endedAt": "2026-10-14T15:32:20.614Z",
+      "command": [
+        "npm",
+        "run",
+        "test:recovery-contract"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/recovery.log",
+      "logSha256": "6ae82fb3fbdd9062d82e464ca7386db8cc3b7df0ebcf3996ac522fb8d2ddeff0",
+      "resultSha256": "62fe902ab8b22da9cbac21190587c151a7d7e99ebf769a168d483101b09530db",
+      "resultArtifact": "validation-results/candidate-reboot-1/recovery.json"
+    },
+    "reset": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "reset",
+      "attempt": "candidate-reboot-1",
+      "startedAt": "2026-10-14T15:42:34.498Z",
+      "endedAt": "2026-10-14T15:43:03.647Z",
+      "command": [
+        "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/bin/npx",
+        "supabase",
+        "db",
+        "reset",
+        "--local"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-reboot-1/reset.log",
+      "logSha256": "7f399187b69a399bb9766efb3806781c9e03feea80dac009073b3f319981e777",
+      "resultSha256": "be2f196d3bfc6c329f94db095a10ca49776d6da29d6dd4676577f6939a8db3d7",
+      "resultArtifact": "validation-results/candidate-reboot-1/reset.json"
+    },
+    "build": {
+      "task": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+      "gate": "build",
+      "attempt": "candidate-production-reboot-1",
+      "startedAt": "2026-10-14T15:44:25.060Z",
+      "endedAt": "2026-10-14T15:44:37.058Z",
+      "command": [
+        "npm",
+        "run",
+        "build",
+        "--",
+        "--webpack"
+      ],
+      "exitCode": 0,
+      "sourceIdentity": {
+        "head": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+        "tree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+        "workingDiffSha256": "dcc5b2c4ca70fe0c103fd739f0ea636908044026440fed2451611a30da23493d",
+        "changedFiles": [
+          "M app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+          " M app/[locale]/setup/nojs/page.tsx",
+          " M components/language-switcher/language-switcher.tsx",
+          " M components/setup/setup-page.tsx",
+          " M messages/en.json",
+          " M messages/he.json",
+          "?? e2e/ui-phase5-final-corrections.spec.ts",
+          "?? lib/i18n/locale-query.ts",
+          "?? tests/locale-query.spec.ts"
+        ]
+      },
+      "fixture": "ui-phase5-corrections-d11bc28-20261014",
+      "localOnly": true,
+      "log": "/Users/maor/Documents/Codex/TaskWorkspaces/ui-phase5-final-corrections-20261014/validation-results/candidate-production-reboot-1/build.log",
+      "logSha256": "8134a794444e613ee2ce8629418d1bd7ae1d2d3b7333cc20924f8b974250a500",
+      "buildId": "d6_KT43nV9TYb0nKJT3K0",
+      "resultSha256": "3feb23fd14b3626a9409a7d1699a4152a4bac8d8fd1df416fd82d6e093b73cd0",
+      "resultArtifact": "validation-results/candidate-production-reboot-1/build.json"
+    }
+  },
+  "focusedCases": 24,
+  "fullUnitPasses": 369,
+  "historicalPerformanceQualification": "explicit_historical_nonpassing; no new production performance acceptance",
+  "GitHubCI": "Bound by the separate final execution report after commit; not inferred from local passes"
+}

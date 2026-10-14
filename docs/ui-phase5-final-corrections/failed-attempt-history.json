@@ -1,0 +1,38 @@
+{
+  "recordedAtUtc": "2026-10-14T15:32:41.861500+00:00",
+  "provenance": "Specific task transcript outputs and recorded hashes. Original raw temporary images/logs/result JSON were lost on MacBook reboot; no replacement historical screenshots are generated. Fresh baseline and final candidate runs are separate durable evidence.",
+  "attempts": [
+    {
+      "attempt": "pre-reboot candidate 1",
+      "sourceSwitcherSha256": "5fd904e9387593fa3bd3d6a272921ccb717991723e58a88cb50c5d8f0ebc8d21",
+      "buildId": "6FOJZwp7DRVHBNUtRvGnu",
+      "passed": 3,
+      "failed": 3,
+      "notRun": 18,
+      "classification": "Application defect: native query-free Suspense fallback remained usable after locale navigation while correctly contextualized anchors stayed inside hidden streamed content. Confirmed actual reverse-navigation loss across all three engines.",
+      "resolution": "Remove local Suspense on existing dynamic placements; exact existing static home/account-closed paths render query-free view without query hook."
+    },
+    {
+      "attempt": "pre-reboot candidate 2",
+      "sourceSwitcherSha256": "cd08554732d2d75195010ad0436031604ccde55f8c5a261995ac4ec87b9d9df6",
+      "testSha256": "b40df758cdc4a1bbb5cbb6ba71229b2adfcbb02c8827b8c53090452b66d2c4db",
+      "buildId": "ctcoJeuyo8l9FN1qU0Bij",
+      "passed": 19,
+      "failed": 1,
+      "notRun": 4,
+      "classification": "Test platform mismatch: plain Tab on macOS WebKit skipped all anchors. Actual native/hydrated locale cases completed so far passed; remaining serial Hebrew WebKit cases were not executed.",
+      "resolution": "After measured keyboard probe, select Option/Alt-Tab only for WebKit/darwin. Retain all actual focus, Enter, geometry, navigation and data assertions."
+    },
+    {
+      "attempt": "pre-reboot WebKit keyboard diagnostic",
+      "passed": 2,
+      "javaScriptModes": [
+        false,
+        true
+      ],
+      "observedPlainTab": "30 SUMMARY/BODY stops, no anchor visited",
+      "observedOptionTab": "skip link then recovery anchor in two keyboard stops, focus-visible true, Enter to /en/foods, database unchanged",
+      "classification": "Diagnostic only; no manual Safari or assistive-technology acceptance."
+    }
+  ]
+}

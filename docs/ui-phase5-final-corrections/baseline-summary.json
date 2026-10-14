@@ -1,0 +1,208 @@
+{
+  "taskId": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+  "completedAtUtc": "2026-10-14T15:30:52.955358+00:00",
+  "baseSha": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+  "baseTree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+  "buildId": "6arEjaXDrst2_uIaWOo-f",
+  "stats": {
+    "startTime": "2026-10-14T15:29:00.658Z",
+    "duration": 71230.615,
+    "expected": 30,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "reproductionCells": 24,
+  "additionalDenseBaselineCells": 6,
+  "productDisposition": "Four baseline product defects confirmed; reproduction assertions passed",
+  "byFinding": {
+    "UI5-FINAL-002": 6,
+    "UI5-FINAL-001": 6,
+    "UI5-FINAL-004": 6,
+    "UI5-FINAL-003": 6
+  },
+  "sourceFilesVerifiedUnchanged": 1023,
+  "allResidualDatabaseSnapshotsUnchanged": true,
+  "screenshots": [
+    {
+      "path": "screenshots/risk-chromium-account-closure-gated-he-320.png",
+      "sha256": "efb7b9f989c6aca279030266fdb1c16111d607b781ca373a2ea9ba5c0bb1e958"
+    },
+    {
+      "path": "screenshots/risk-chromium-custom-food-long-edit-he-320.png",
+      "sha256": "96fa9c58d00008198227dec9da65cb186f33402314654b71fcb485449201cd09"
+    },
+    {
+      "path": "screenshots/risk-chromium-custom-unavailable-target-en-320.png",
+      "sha256": "e8df0db1826155c2ec76cf7ac100012bb07bde501662a9e10d72349b28e69a0e"
+    },
+    {
+      "path": "screenshots/risk-chromium-custom-unavailable-target-he-320.png",
+      "sha256": "b9909b4ffded70ae3b990965b064fc558301b08e89c07725f222e453df38d6cb"
+    },
+    {
+      "path": "screenshots/risk-chromium-food-search-long-en-1440.png",
+      "sha256": "16885bd64b8189c615e11df7a59b8afc621301964875cef5a869321bcea2d067"
+    },
+    {
+      "path": "screenshots/risk-chromium-historical-target-copy-en-390.png",
+      "sha256": "47072c492f6d0a0e6290bb9e9fd0e62bac22908a608899c2cd4340718ea95532"
+    },
+    {
+      "path": "screenshots/risk-chromium-historical-target-copy-he-390.png",
+      "sha256": "d978c41d7298345f3acfb5fe6d163ac3e045e37ddc04e78b8067e82b5c6f6988"
+    },
+    {
+      "path": "screenshots/risk-chromium-native-locale-context-en-390.png",
+      "sha256": "79327bcfa125a742224acb71f803fdee59f251ff78b6dfe52687c5f4a7e1a2f7"
+    },
+    {
+      "path": "screenshots/risk-chromium-native-locale-context-he-390.png",
+      "sha256": "fba315a8ac4f628f01eefeed5368c37440e012db77c95da8efe5f9beaecc7856"
+    },
+    {
+      "path": "screenshots/risk-chromium-nojs-setup-invalid-en-320.png",
+      "sha256": "05870492c02e236fa5dfd0de0582781465d090b18d9b4bdea5527c8d76efb4ac"
+    },
+    {
+      "path": "screenshots/risk-chromium-nojs-setup-invalid-he-320.png",
+      "sha256": "1a1367fef0ecaa1d9eb25eab7eaf9d35dfd471f118ae89d56f40b271285f7a27"
+    },
+    {
+      "path": "screenshots/risk-chromium-nojs-setup-ready-en-320.png",
+      "sha256": "36f0dcf69178c1b3f28160cf48ec4539febde1c742fefd35aeb9d13ecfea76b0"
+    },
+    {
+      "path": "screenshots/risk-chromium-nojs-setup-ready-he-320.png",
+      "sha256": "1f92e3ecbd08a674ef4280385512f7e7da138aae101cbbe081b59ff6bce82bb7"
+    },
+    {
+      "path": "screenshots/risk-chromium-saved-meal-from-diary-he-320.png",
+      "sha256": "7e0c6278772c99b7a6b96f4dd1bdd2728082496b01d79d4251d53cb90f15e50f"
+    },
+    {
+      "path": "screenshots/risk-chromium-today-populated-he-320.png",
+      "sha256": "f3e0a19bcd7f4146d1e8c32dc370a866d705ae5a51fcd5e9340da78c4423bc26"
+    },
+    {
+      "path": "screenshots/risk-firefox-account-closure-gated-he-320.png",
+      "sha256": "16db6daa083b1b46eff7ad3ca92568f16c0b954a0525243010a74b9fbf65dee6"
+    },
+    {
+      "path": "screenshots/risk-firefox-custom-food-long-edit-he-320.png",
+      "sha256": "0e81acc59da379420643ac94c96298a4dae1f7c256c0e698ae221de9254ad2d1"
+    },
+    {
+      "path": "screenshots/risk-firefox-custom-unavailable-target-en-320.png",
+      "sha256": "fc27e972d22cb87b6ff551fd77b4bdb4d71d027d8062979658d2f0d900344020"
+    },
+    {
+      "path": "screenshots/risk-firefox-custom-unavailable-target-he-320.png",
+      "sha256": "f47e74c90717de762b06f9fc5a2d27640bb276ae8e0d7a158923b18ac17f9a5f"
+    },
+    {
+      "path": "screenshots/risk-firefox-food-search-long-en-1440.png",
+      "sha256": "20f5a2d7b08168ced4877baba741ca81002d69c9c03a52e6c12d8bfa2747c782"
+    },
+    {
+      "path": "screenshots/risk-firefox-historical-target-copy-en-390.png",
+      "sha256": "59a40b07658d4904e2b362a1016117e514474f048ae9292d499f1a76dc002472"
+    },
+    {
+      "path": "screenshots/risk-firefox-historical-target-copy-he-390.png",
+      "sha256": "c4cf940790e7efc9e343d24538f7583edf8cd3445c9acf854ed4b273fb2e72da"
+    },
+    {
+      "path": "screenshots/risk-firefox-native-locale-context-en-390.png",
+      "sha256": "1542a4a77e0e67c08fa22ef34b06cf1cf0982746aaae022cee50501efb3c5c80"
+    },
+    {
+      "path": "screenshots/risk-firefox-native-locale-context-he-390.png",
+      "sha256": "e3a470d764c5b282b70eb500e908e2935a9762970e4450ca72664145ca0e79ea"
+    },
+    {
+      "path": "screenshots/risk-firefox-nojs-setup-invalid-en-320.png",
+      "sha256": "620368ebe6022a64e82ec04944374cf3e14c81032d128fe3f1afbc2b41e5d3dc"
+    },
+    {
+      "path": "screenshots/risk-firefox-nojs-setup-invalid-he-320.png",
+      "sha256": "e8195dbd546dcdddf11a5ccc104a2773e367dd45e79101976c0ff0579ef62dcc"
+    },
+    {
+      "path": "screenshots/risk-firefox-nojs-setup-ready-en-320.png",
+      "sha256": "57997a43464f77e3a1021a6ee3eb8a601f588010151a61958b8e70a33fe97a5f"
+    },
+    {
+      "path": "screenshots/risk-firefox-nojs-setup-ready-he-320.png",
+      "sha256": "be28ec2a8aca349a9f678576e07b7f3560c763eb8dc81c60ac3d1926e93a9068"
+    },
+    {
+      "path": "screenshots/risk-firefox-saved-meal-from-diary-he-320.png",
+      "sha256": "c5542fe308f364abdd2979defa269120ae6a3dfc0ee59d804e0beacdd7362f1a"
+    },
+    {
+      "path": "screenshots/risk-firefox-today-populated-he-320.png",
+      "sha256": "887ff3226015edf6a271971c358fba2bc62bad451750222a3c78a5c8f9ef5380"
+    },
+    {
+      "path": "screenshots/risk-webkit-account-closure-gated-he-320.png",
+      "sha256": "5b69c0beb82ba68c45db320f747ba672e3d6170ebda8293aa52b69978fdfff49"
+    },
+    {
+      "path": "screenshots/risk-webkit-custom-food-long-edit-he-320.png",
+      "sha256": "5f13c667629a71a36867c48f0476a47a0a874c86971de92f180535320efa3428"
+    },
+    {
+      "path": "screenshots/risk-webkit-custom-unavailable-target-en-320.png",
+      "sha256": "4cf22989bc84824fcbd1352fe474219a832155d9d14444a8a80d45e23d4c5b76"
+    },
+    {
+      "path": "screenshots/risk-webkit-custom-unavailable-target-he-320.png",
+      "sha256": "737fd586505911e7f1e97c8a38963e1cf3675ac029f4a100fbee1253ed5ae26c"
+    },
+    {
+      "path": "screenshots/risk-webkit-food-search-long-en-1440.png",
+      "sha256": "08c2cf2f2a9b30e9fc19a71dc849b041e5debf02b86d89c0b65e3bd46774523e"
+    },
+    {
+      "path": "screenshots/risk-webkit-historical-target-copy-en-390.png",
+      "sha256": "fc88f6b9b78cd392bba654581bb7d1b9df96b0872bc6cb710a3e683027a738ff"
+    },
+    {
+      "path": "screenshots/risk-webkit-historical-target-copy-he-390.png",
+      "sha256": "3a7e832ff271ea959f6d1e530a64c8bf40f9f680fc760682757342e8a1ce507b"
+    },
+    {
+      "path": "screenshots/risk-webkit-native-locale-context-en-390.png",
+      "sha256": "cd0730b839753d8cbd3ee7226f63b8adaccb77adc7c6ba54f304ce5fe148c36e"
+    },
+    {
+      "path": "screenshots/risk-webkit-native-locale-context-he-390.png",
+      "sha256": "0adb918d7c1fe7c1398d0b27b6c9b79cd8455fcf38b63fe29a0d29cf97cfa73b"
+    },
+    {
+      "path": "screenshots/risk-webkit-nojs-setup-invalid-en-320.png",
+      "sha256": "a587c6b3b55c97bd22bbe229ce4e6b92c79f8be9e6e77e95e8b31162f94160e4"
+    },
+    {
+      "path": "screenshots/risk-webkit-nojs-setup-invalid-he-320.png",
+      "sha256": "5a67f89913a49a68280ea80f89fcd5ee9d6b05928633a4a9580663fc94b05ba4"
+    },
+    {
+      "path": "screenshots/risk-webkit-nojs-setup-ready-en-320.png",
+      "sha256": "fb282bc58d15b308d405e60fe067fd0cbfc6d3144222ddc7b5801493fa2e2193"
+    },
+    {
+      "path": "screenshots/risk-webkit-nojs-setup-ready-he-320.png",
+      "sha256": "640eeba0d78793a48a79e3688a4b7ef19780a9318756abbffd4be546e18eb596"
+    },
+    {
+      "path": "screenshots/risk-webkit-saved-meal-from-diary-he-320.png",
+      "sha256": "b1964c56eb76d096a49e29b5c2a1bed4aac85ca8b16fbd63cf9042e5f333e449"
+    },
+    {
+      "path": "screenshots/risk-webkit-today-populated-he-320.png",
+      "sha256": "2913df9832fcd6da5e438d2d94b55b6efe8ac69af823e1635c510d42dbd41e56"
+    }
+  ]
+}
