@@ -184,7 +184,7 @@
     },
     "targets": {
       "title": "Manual daily targets",
-      "description": "Enter targets you chose yourself. Changes saved here apply from {date}, the current calendar date on this device. This app does not calculate calorie or nutrition targets.",
+      "description": "Enter targets you chose yourself. Changes saved here apply from the selected effective date, {date}. This app does not calculate calorie or nutrition targets.",
       "blankHelper": "Blank means not set. Zero means an intentional value of 0.",
       "caloriesLabel": "Calories",
       "proteinLabel": "Protein (g)",

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { buttonStyles } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
-import { useSyncExternalStore } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { localeNavigationQuery } from "@/lib/i18n/locale-query";
 import { locales, type Locale } from "@/lib/i18n/routing";
 
 const languageNames: Record<Locale, string> = {
@@ -24,27 +24,36 @@ function localizedPath(pathname: string, locale: Locale) {
   return `/${locale}`;
 }
 
-function subscribeToLocation(callback: () => void) {
-  window.addEventListener("popstate", callback);
-  return () => window.removeEventListener("popstate", callback);
-}
-
-export function LanguageSwitcher({
-  currentLocale,
-  label,
-  currentLabel,
-}: {
+type LanguageSwitcherProps = {
   currentLocale: Locale;
   label: string;
   currentLabel: string;
-}) {
-  const pathname = usePathname();
-  const search = useSyncExternalStore(
-    subscribeToLocation,
-    () => window.location.search,
-    () => "",
-  );
+};
 
+export function LanguageSwitcher(props: LanguageSwitcherProps) {
+  const pathname = usePathname();
+
+  if (locales.some((locale) => pathname === `/${locale}` || pathname === `/${locale}/auth/account-closed`)) {
+    return <LanguageLinks {...props} pathname={pathname} search="" />;
+  }
+
+  return <ContextualLanguageSwitcher {...props} pathname={pathname} />;
+}
+
+function ContextualLanguageSwitcher(props: LanguageSwitcherProps & { pathname: string }) {
+  const searchParams = useSearchParams();
+  const search = localeNavigationQuery(props.pathname, searchParams);
+
+  return <LanguageLinks {...props} search={search} />;
+}
+
+function LanguageLinks({
+  currentLocale,
+  label,
+  currentLabel,
+  pathname,
+  search,
+}: LanguageSwitcherProps & { pathname: string; search: string }) {
   return (
     <nav aria-label={label} className="flex flex-wrap gap-2">
       {locales.map((locale) => {
@@ -59,7 +68,7 @@ export function LanguageSwitcher({
               className: isCurrent ? "ui-current" : undefined,
             })}
             dir={locale === "he" ? "rtl" : "ltr"}
-            href={`${localizedPath(pathname, locale)}${search}`}
+            href={`${localizedPath(pathname, locale)}${search ? `?${search}` : ""}`}
             hrefLang={locale}
             key={locale}
             lang={locale}

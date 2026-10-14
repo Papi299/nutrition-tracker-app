@@ -8,5 +8,9 @@ export function generateStaticParams() {
 }
 
 export default function ProgressiveSetupPage(props: SetupPageProps) {
-  return <SetupPage {...props} progressive />;
+  return (
+    <main>
+      <SetupPage {...props} progressive />
+    </main>
+  );
 }

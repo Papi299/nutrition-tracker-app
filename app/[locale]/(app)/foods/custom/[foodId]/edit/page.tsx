@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonStyles } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -138,7 +139,7 @@ function CustomFoodUnavailable({
         <p className="mt-3 text-sm leading-6 text-amber-950" role="alert">
           {t(state === "invalid" ? "invalidBody" : "unavailableBody")}
         </p>
-        <Link className="mt-4 inline-flex text-sm font-semibold text-teal-800 underline" href={`/${locale}/foods`}>
+        <Link className={buttonStyles({ variant: "outline", className: "mt-4" })} href={`/${locale}/foods`}>
           {t("back")}
         </Link>
       </div>

@@ -1,0 +1,21 @@
+{
+  "taskId": "UI_PHASE_5_FINAL_CORRECTIONS_001",
+  "baseSha": "d11bc28d6f2f14a99611f34a04bf5ccdf3081efe",
+  "baseTree": "d2e09ad10d84bde1200334ecf7bd87b18506af88",
+  "candidateApplicationAndTestSha256": {
+    "app/[locale]/setup/nojs/page.tsx": "1a81539739ee50373c9cb499ddae5af6100068c86a7282a0aae113844743cdce",
+    "components/setup/setup-page.tsx": "d7d6841fcabda1252b6d9d42813c0b20d0c12a4252cb8f33db0ea9a415e29024",
+    "messages/en.json": "602fb05cb6150abe482753ffda64d0ad37d06a7d4162e82ca0297f3b91943057",
+    "messages/he.json": "796a19b817f78e04f20d506a7f0529009057bcc568199b8760d1780d82a68989",
+    "app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx": "f81b8ee8f2328c0b11f78d7c6cecca8fdb840804d4f7f36dbb201e7a3e7ce1be",
+    "components/language-switcher/language-switcher.tsx": "cd08554732d2d75195010ad0436031604ccde55f8c5a261995ac4ec87b9d9df6",
+    "lib/i18n/locale-query.ts": "2b9060ae5edb63a0c81f16774bb1e7ae0efb104337484e221337c2c4f35a02fb",
+    "tests/locale-query.spec.ts": "6011b01ddad2e1e0c3d97a69aeb5f0bda74b70f753eedc0abb3d7771764f288f",
+    "e2e/ui-phase5-final-corrections.spec.ts": "98b8229d6d6050a8a27a6d386405900f147026db6c2db3d6b491f3775f643937"
+  },
+  "candidateAppliedAtUtc": "2026-10-14T15:31:20.380639+00:00",
+  "baselineBuildId": "6arEjaXDrst2_uIaWOo-f",
+  "focusedBuildId": "fafx9QZHf0DjAncuce8N5",
+  "fullSuiteBuildId": "d6_KT43nV9TYb0nKJT3K0",
+  "identityConvention": "Precommit evidence identifies the approved base plus explicit changed/new file hashes. The external final execution report binds these bytes to the implementation commit/tree and exact-head CI. It does not claim that the modified candidate is the base tree."
+}
