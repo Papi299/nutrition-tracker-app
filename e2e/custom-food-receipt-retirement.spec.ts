@@ -36,8 +36,8 @@ test.afterEach(async ({ browser }, info) => {
 });
 
 function persistEvidence(info: TestInfo, browser: Browser, evidence: Evidence) {
-  const destination = process.env.UI5_RECEIPT_EVIDENCE_DIR;
-  if (!destination) return;
+  const destination = info.project.metadata.receiptEvidenceDirectory;
+  if (typeof destination !== "string") return;
   if (!isAbsolute(destination) || !relative(process.cwd(), destination).startsWith("..")) throw new Error("Receipt evidence must be outside the checkout.");
   const directory = join(destination, info.project.name, info.title.replace(/[^A-Za-z0-9_-]+/g, "-"));
   mkdirSync(directory, { recursive: true });

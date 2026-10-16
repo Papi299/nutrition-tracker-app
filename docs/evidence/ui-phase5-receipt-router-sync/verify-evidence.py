@@ -15,7 +15,9 @@ FORM = "components/custom-foods/custom-food-form.tsx"
 TEST = "e2e/custom-food-receipt-retirement.spec.ts"
 BASE_FORM = "e2d0bc871f410364cb62e3bee371b67491facc6d9c4386828eb10851d246fb88"
 FINAL_FORM = "35863c5d8f5c2290898e3353903b46f89e2029de7c714687d4f4977227bc028b"
-FINAL_TEST = "b8c76d545785855aa917c364800937603f343673d11f7bb149d81b6f6a7ef88a"
+FINAL_TEST = "c1a23e58a352bbdb942495dc0576c9ea9111f3b7e93690835bd14852ec42ddc4"
+CAPTURE_HEAD = "3fdaeef7d8b485f4f275ffddc096e2c154338dc8"
+CAPTURE_TREE = "f1c13b3dddcacb8ce8dec87c84eba952a2df489e"
 PAIRS = {(engine, locale) for engine in ("chromium", "firefox", "webkit") for locale in ("en", "he")}
 R4_NAMES = {"missing", "invalid-uuid", "repeated", "mismatched-valid", "updated-notice", "matching-created", "unsupported-query"}
 
@@ -226,10 +228,12 @@ def main():
     require(data["sources"]["baseline"]["fileSha256"][FORM] == BASE_FORM, "Baseline source file mismatch")
     require(data["sources"]["baseline"]["productionDiffSha256"] == digest(b""), "Baseline tracked production differs")
     require(data["sources"]["baseline"]["testSha256"] == "94d7d901417800301f3fb47453b2efc8ca942430f517ee3f55147fbf347c3a5c", "Baseline test identity differs")
-    require(data["sources"]["candidate"]["baseHead"] == BASE and data["sources"]["candidate"]["baseTree"] == TREE, "Candidate base mismatch")
-    require(data["sources"]["candidate"]["sourceState"] == "uncommitted candidate; base tree is not the corrected tree", "Dirty source qualification absent")
+    require(data["sources"]["candidate"]["approvedBaselineHead"] == BASE and data["sources"]["candidate"]["approvedBaselineTree"] == TREE, "Approved baseline mismatch")
+    require(data["sources"]["candidate"]["head"] == CAPTURE_HEAD and data["sources"]["candidate"]["tree"] == CAPTURE_TREE, "Corrected capture HEAD/tree mismatch")
+    require(data["sources"]["candidate"]["sourceState"] == "corrected production committed at capture HEAD; test-only metadata adjustment uncommitted" and data["sources"]["candidate"]["testUncommittedAtCapture"], "Capture source qualification absent")
     require(data["sources"]["candidate"]["fileSha256"][FORM] == FINAL_FORM and data["sources"]["candidate"]["testSha256"] == FINAL_TEST, "Final source hash mismatch")
-    require(data["sources"]["candidate"]["productionDiffSha256"] == "7f5c44ddc311b9b16978f5c2099bb80e4f61a3d39106db6bc5e92285e9fa6ab9", "Final production diff identity differs")
+    require(data["sources"]["candidate"]["productionDiffSha256"] == digest(b""), "Production differs from corrected capture HEAD")
+    require(data["sources"]["candidate"]["productionChangeFromApprovedBaselineSha256"] == "7f5c44ddc311b9b16978f5c2099bb80e4f61a3d39106db6bc5e92285e9fa6ab9", "Approved-baseline production change identity differs")
     for path, value in data["sources"]["baseline"]["fileSha256"].items():
         if path != FORM:
             require(data["sources"]["candidate"]["fileSha256"][path] == value, "Protected source changed: " + path)
@@ -270,7 +274,7 @@ def main():
                 require(compact_record(raw, source_class, ref) == cell, "Compact record differs from original")
                 expected = data["sources"][source_class]
                 require(raw["source"]["fileSha256"] == expected["fileSha256"] and raw["source"]["buildId"] == expected["buildId"], "Original source binding differs")
-                require(raw["source"]["head"] == (expected["head"] if source_class == "baseline" else expected["baseHead"]) and raw["source"]["tree"] == (expected["tree"] if source_class == "baseline" else expected["baseTree"]) and raw["source"]["productionDiffSha256"] == expected["productionDiffSha256"], "Original commit/tree/diff identity differs")
+                require(raw["source"]["head"] == expected["head"] and raw["source"]["tree"] == expected["tree"] and raw["source"]["productionDiffSha256"] == expected["productionDiffSha256"], "Original commit/tree/diff identity differs")
                 external_count += 1
     if args.repository_root:
         for path, expected in [(FORM, FINAL_FORM), (TEST, FINAL_TEST)]:
