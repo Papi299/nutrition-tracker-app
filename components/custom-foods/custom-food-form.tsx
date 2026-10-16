@@ -241,15 +241,18 @@ export function CustomFoodCreationDraftRetirement({
       // Successful persistence does not depend on browser storage cleanup.
     }
 
-    const currentUrl = new URL(window.location.href);
-    if (currentUrl.searchParams.get("creationRequest") === creationRequest) {
-      currentUrl.searchParams.delete("creationRequest");
-      window.history.replaceState(
-        window.history.state,
-        "",
-        `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
-      );
-    }
+    // Let the parent App Router effect install its History API integration first.
+    queueMicrotask(() => {
+      const currentUrl = new URL(window.location.href);
+      if (currentUrl.searchParams.get("creationRequest") === creationRequest) {
+        currentUrl.searchParams.delete("creationRequest");
+        window.history.replaceState(
+          null,
+          "",
+          `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`,
+        );
+      }
+    });
   }, [creationRequest]);
 
   return null;
