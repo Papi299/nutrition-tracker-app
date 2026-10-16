@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UI_PHASE_5_RECEIPT_RETIREMENT_ROUTER_SYNC_001",
+  "createdAtUtc": "2026-10-15T16:48:19.435068+00:00",
+  "inventoryConvention": "Every payload file except this manifest; no self-referential hash",
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "0bad31ba2a912730d597b666d6679008cddd9bc4d1e53d7d2ddcc3f317b3589b",
+      "sizeBytes": 4384
+    },
+    {
+      "path": "before-after.json",
+      "sha256": "d236b63dde0d441f5d71ec900d4a5a6ccd470583b46a31d2c59e393e57fdbc15",
+      "sizeBytes": 141436
+    },
+    {
+      "path": "verify-evidence.py",
+      "sha256": "04e4a3fd439d9981e87a8bbe4aad8f59a629528ad2be138aed33787b42c5f232",
+      "sizeBytes": 19991
+    }
+  ]
+}
