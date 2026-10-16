@@ -315,6 +315,43 @@ that boundary. Service-role/secret API credentials are not application
 runtime requirements and remain prohibited from browser code, Vercel runtime,
 the repository, CI, and ordinary evidence.
 
+### Independently reviewed Production identity
+
+The authority for the Production backend is the existing source-controlled
+`releaseProfiles.PERSONAL_USE_FREE_TIER.hostedTopology.productionDatabaseAuth.projectRef`
+in `deployment/phase-11h-contract.json`. Every hosted deployment must declare
+that same `PRODUCTION_SUPABASE_PROJECT_REF`. Preview/staging must not actively
+target the pinned project; Production must target it. Coordinated relabeling of
+the mutable registry and active URL/ref cannot change this boundary. Local,
+test and device-test retain their existing loopback-only rules.
+
+Changing the real Production identity requires a future explicit Product Owner
+decision, review of that single contract field and its deployment-safety tests,
+and separate configuration/release authorization. Do not duplicate the pin in
+another environment variable or silently repoint an existing deployment.
+
+Hosted `NEXT_PUBLIC_SUPABASE_URL` must be exactly
+`https://<SUPABASE_PROJECT_REF>.supabase.co`, with a valid matching registry ref.
+Credentials, ports (including explicit `:443`), extra hostname labels, a trailing
+slash, paths, query and fragment are rejected. Custom domains and alternative
+endpoint shapes are outside this reviewed contract. The standard endpoint
+shape is documented by [Supabase's Data API guide](https://supabase.com/docs/guides/api).
+
+| Boundary | Authority and limit |
+| --- | --- |
+| Reviewed source | The contract pins Production identity independently of mutable deployment variables. Changing reviewed code is outside the environment-only safety model. |
+| Environment registry | Configuration assertions requiring validation; internal consistency alone is insufficient. |
+| Provider metadata | Genuine project/target/deployment/origin/repository assertions must be checked independently by the release executor. Synthetic tests do not authenticate a provider. |
+| Public URL/key | Browser-visible configuration, never authorization; an opaque publishable key's project ownership requires future provider/functional verification. |
+| Request/browser input | Host, forwarded Host, referrer and caller input cannot select backend or canonical origin. Existing same-origin and authenticated ownership controls remain in force. |
+| Source SHA/tree | SHA format validation does not prove approval. Compare exact provider source SHA/tree and successful CI to the separately authorized candidate. |
+
+This correction closes a deployment-safety gap requiring coordinated control
+over build configuration. It is not evidence of an unauthenticated browser
+exploit, and cannot constrain an infrastructure administrator who replaces the
+reviewed code. With that code intact, Production as Preview must fail even
+when all mutable registry fields agree.
+
 Migrations are repository-owned, ordered, forward-only files. One authorized
 operator applies them serially to one exact target. Direct hosted Dashboard
 schema edits are prohibited once migration history is authoritative. Auth Site
@@ -433,6 +470,36 @@ allow-list evidence must name the same environment.
 | Staging | `STAGING_APP_ORIGIN` equals persistent `https://${VERCEL_BRANCH_URL}` | `/en/auth/confirm`, `/he/auth/confirm`, `/en/auth/recover/confirm`, `/he/auth/recover/confirm` on staging only |
 | Production bootstrap | `PRODUCTION_APP_ORIGIN` equals provider-owned `https://${VERCEL_PROJECT_PRODUCTION_URL}` | Only entries strictly necessary for coherent protected bootstrap smoke; no invitations or recovery delivery |
 | Production release | Exact separately approved Production origin | Same four exact paths only after separate release/domain configuration review |
+
+Preview origin enforcement remains unchanged: `APP_ORIGIN` and
+`PREVIEW_APP_ORIGIN` must equal the exact HTTPS origin represented by genuine
+provider `VERCEL_URL`. That immutable origin is the current candidate for
+native browser navigation, sign-in/session refresh, invite/recovery callbacks,
+recent-password proof, and same-origin export/closure. None of those source
+flows requires a stable alias. This is a conditional architecture, not a proven
+deployable configuration: the exact immutable URL must first be bound coherently
+to build **and** runtime `APP_ORIGIN`, and the source currently provides no
+automatic derivation. Provider metadata's presence alone does not resolve that
+setup dependency.
+
+A separately authorized setup must verify Preview-only Site URL, all four exact
+EN/HE callbacks, templates, outer Vercel Authentication query preservation,
+actual app/protection cookies and refresh behavior. Each new immutable hostname
+requires a fresh exact binding and qualification; sessions are not presumed
+portable across deployments. See [Vercel system variables](https://vercel.com/docs/environment-variables/system-environment-variables),
+[generated URLs](https://vercel.com/docs/deployments/generated-urls), and
+[Supabase redirect configuration](https://supabase.com/docs/guides/auth/redirect-urls)
+(reviewed 2026-10-16).
+
+A stable Preview alias differing from `VERCEL_URL` remains rejected, even if
+`APP_ORIGIN`, `PREVIEW_APP_ORIGIN` and `VERCEL_BRANCH_URL` agree. Future support
+requires independently authenticated provider evidence mapping that exact alias
+to the approved project, Preview deployment/target and source identity, plus a
+reviewed canonical-host policy. An environment variable, hostname suffix or
+branch name is insufficient. Do not introduce wildcard origins, request-derived
+authority, open redirects or Production fallbacks. The existing POST same-origin
+helper is not a global navigation-host gate and does not establish alias
+ownership. This source correction authorizes no hosted setup or deployment.
 
 The provider may require additional exact template/redirect entries, but no
 wildcard may match staging, Production, unrelated branches, deployments, or
