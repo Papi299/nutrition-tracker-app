@@ -13,10 +13,14 @@ import {
   validateEvidencePacket,
 } from "./check-phase-11h-deployment-contract.mjs";
 
-const syntheticRefs = {
+const reviewedProductionRef = phase11hContract.releaseProfiles.PERSONAL_USE_FREE_TIER
+  .hostedTopology.productionDatabaseAuth.projectRef;
+// Production identity is reviewed public metadata; all secrets, non-Production
+// projects and provider assertions are synthetic. No fixture makes a request.
+const fixtureRefs = {
   preview: "syntheticpreview001",
   staging: "syntheticstaging001",
-  production: "syntheticproduction001",
+  production: reviewedProductionRef,
 };
 const syntheticOrigins = {
   preview: "https://preview-commit-synthetic.vercel.app",
@@ -49,7 +53,7 @@ function bootstrapEvidence() {
   packet.environment.applicationEnvironment = "production";
   packet.environment.vercelTargetEnvironment = "production";
   packet.environment.supabaseEnvironment = "production";
-  packet.environment.supabaseProjectReference = syntheticRefs.production;
+  packet.environment.supabaseProjectReference = fixtureRefs.production;
   packet.environment.configurationCandidateIdentifier = "synthetic-config-v1";
   packet.environment.previewRegistryDisposition = "NOT_YET_PROVISIONED";
   packet.environment.stagingRegistryDisposition = "NOT_YET_PROVISIONED";
@@ -107,7 +111,7 @@ function deviceTestEnvironment(overrides = {}) {
 
 function hostedEnvironment(appEnvironment, overrides = {}) {
   const production = appEnvironment === "production";
-  const projectRef = syntheticRefs[appEnvironment];
+  const projectRef = fixtureRefs[appEnvironment];
   const deploymentClass =
     overrides.DEPLOYMENT_CLASS ??
     {
@@ -119,7 +123,7 @@ function hostedEnvironment(appEnvironment, overrides = {}) {
   for (const registryEnvironment of registryLifecycleForDeployment(deploymentClass)
     .requiredRegistryEnvironments) {
     registry[`${registryEnvironment.toUpperCase()}_SUPABASE_PROJECT_REF`] =
-      syntheticRefs[registryEnvironment];
+      fixtureRefs[registryEnvironment];
     registry[`${registryEnvironment.toUpperCase()}_APP_ORIGIN`] =
       syntheticOrigins[registryEnvironment];
   }
@@ -151,6 +155,191 @@ function hostedEnvironment(appEnvironment, overrides = {}) {
     [providerOriginVariable]: hostname(syntheticOrigins[appEnvironment]),
     ...overrides,
   };
+}
+
+function assertHostedNegative(appEnvironment, overrides, expectedError, deploymentClass) {
+  const baseline = hostedEnvironment(appEnvironment,
+    deploymentClass ? { DEPLOYMENT_CLASS: deploymentClass } : {});
+  const valid = validateDeploymentEnvironment(baseline);
+  assert.equal(valid.ok, true, valid.errors.join("\n"));
+  const result = validateDeploymentEnvironment({ ...baseline, ...overrides });
+  assert.equal(result.ok, false, "Unsafe configuration must fail from a passing baseline.");
+  assert.match(result.errors.join("\n"), expectedError);
+  return result;
+}
+
+const productionRegistryPinError =
+  /PRODUCTION_SUPABASE_PROJECT_REF must match the reviewed source-controlled Production identity/;
+
+for (const appEnvironment of ["preview", "staging"]) {
+  for (const replacementProductionRef of [
+    "differentproduction001",
+    fixtureRefs[appEnvironment],
+    "a".repeat(40),
+  ]) {
+    test(`rejects coordinated ${appEnvironment} relabeling with Production registry ${replacementProductionRef}`, () => {
+      const environmentPrefix = appEnvironment.toUpperCase();
+      const origin = `https://${appEnvironment}-coordinated-synthetic.vercel.app`;
+      const providerVariable =
+        phase11hContract.applicationEnvironments[appEnvironment].originProviderVariable;
+      const result = assertHostedNegative(appEnvironment, {
+        APP_ORIGIN: origin,
+        [`${environmentPrefix}_APP_ORIGIN`]: origin,
+        [providerVariable]: hostname(origin),
+        NEXT_PUBLIC_SUPABASE_URL: `https://${reviewedProductionRef}.supabase.co`,
+        SUPABASE_PROJECT_REF: reviewedProductionRef,
+        [`${environmentPrefix}_SUPABASE_PROJECT_REF`]: reviewedProductionRef,
+        PRODUCTION_SUPABASE_PROJECT_REF: replacementProductionRef,
+        PRODUCTION_APP_ORIGIN: "https://production-registry-relabelled-synthetic.vercel.app",
+      }, productionRegistryPinError);
+      assert.match(result.errors.join("\n"), /must not target the Production Supabase project/);
+      assert.doesNotMatch(result.errors.join("\n"), /is required|contradicts|must be distinct/);
+    });
+  }
+
+  test(`rejects ${appEnvironment} relabeling the Production registry while retaining an isolated backend`, () => {
+    assertHostedNegative(appEnvironment, {
+      PRODUCTION_SUPABASE_PROJECT_REF: "differentproduction001",
+    }, productionRegistryPinError);
+  });
+
+  test(`rejects ${appEnvironment} with active and declared non-Production identities both equal to Production`, () => {
+    const prefix = appEnvironment.toUpperCase();
+    const result = assertHostedNegative(appEnvironment, {
+      NEXT_PUBLIC_SUPABASE_URL: `https://${reviewedProductionRef}.supabase.co`,
+      SUPABASE_PROJECT_REF: reviewedProductionRef,
+      [`${prefix}_SUPABASE_PROJECT_REF`]: reviewedProductionRef,
+    }, /must not target the Production Supabase project/);
+    assert.match(result.errors.join("\n"), /hosted Supabase project references must be distinct/);
+  });
+}
+
+for (const deploymentClass of ["PRODUCTION_BOOTSTRAP_ONLY", "PRODUCTION_RELEASE"]) {
+  for (const replacementRef of ["differentproduction001", fixtureRefs.preview]) {
+    test(`rejects ${deploymentClass} coherently replacing its active and declared Production project with ${replacementRef}`, () => {
+      const result = assertHostedNegative("production", {
+        NEXT_PUBLIC_SUPABASE_URL: `https://${replacementRef}.supabase.co`,
+        SUPABASE_PROJECT_REF: replacementRef,
+        PRODUCTION_SUPABASE_PROJECT_REF: replacementRef,
+      }, productionRegistryPinError, deploymentClass);
+      assert.match(result.errors.join("\n"), /Production must target the declared Production Supabase project/);
+      assert.doesNotMatch(result.errors.join("\n"), /is required|contradicts|must be distinct/);
+    });
+
+    test(`rejects ${deploymentClass} relabeling only its Production registry to ${replacementRef}`, () => {
+      assertHostedNegative("production", {
+        PRODUCTION_SUPABASE_PROJECT_REF: replacementRef,
+      }, productionRegistryPinError, deploymentClass);
+    });
+  }
+}
+
+for (const appEnvironment of ["preview", "staging", "production"]) {
+  for (const invalidProductionRef of ["INVALID_REF", "short", "a".repeat(41)]) {
+    test(`rejects ${appEnvironment} with malformed Production registry ${invalidProductionRef}`, () => {
+      assertHostedNegative(appEnvironment, {
+        PRODUCTION_SUPABASE_PROJECT_REF: invalidProductionRef,
+      }, productionRegistryPinError);
+    });
+  }
+
+  const ref = fixtureRefs[appEnvironment];
+  for (const [description, url, expectedError] of [
+    ["a different project", "https://differentendpoint001.supabase.co", /must match NEXT_PUBLIC_SUPABASE_URL|exact HTTPS project endpoint/],
+    ["an extra hostname label", `https://${ref}.extra.supabase.co`, /exact HTTPS project endpoint/],
+    ["an extra leading hostname label", `https://extra.${ref}.supabase.co`, /exact HTTPS project endpoint/],
+    ["a missing hostname label", "https://supabase.co", /exact HTTPS project endpoint/],
+    ["a malformed hostname", "https://.supabase.co", /exact HTTPS project endpoint/],
+    ["an unrelated hostname", `https://${ref}.supabase.co.example.invalid`, /exact HTTPS project endpoint/],
+    ["HTTP", `http://${ref}.supabase.co`, /exact HTTPS project endpoint/],
+    ["an unexpected port", `https://${ref}.supabase.co:8443`, /exact HTTPS project endpoint/],
+    ["an explicit default port", `https://${ref}.supabase.co:443`, /exact HTTPS project endpoint/],
+    ["credentials", `https://user:password@${ref}.supabase.co`, /without credentials|exact HTTPS project endpoint/],
+    ["a path", `https://${ref}.supabase.co/rest/v1`, /without credentials, path, query, or fragment|exact HTTPS project endpoint/],
+    ["a query", `https://${ref}.supabase.co?project=synthetic`, /without credentials, path, query, or fragment|exact HTTPS project endpoint/],
+    ["a fragment", `https://${ref}.supabase.co#synthetic`, /without credentials, path, query, or fragment|exact HTTPS project endpoint/],
+    ["a trailing slash", `https://${ref}.supabase.co/`, /exact HTTPS project endpoint/],
+    ["an uppercase hostname", `https://${ref.toUpperCase()}.supabase.co`, /exact HTTPS project endpoint/],
+    ["a backslash-normalized URL", `https://${ref}.supabase.co\\`, /exact HTTPS project endpoint/],
+    ["a non-URL value", "not-an-endpoint", /valid absolute URL|exact HTTPS project endpoint/],
+  ]) {
+    test(`rejects ${appEnvironment} Supabase endpoint with ${description}`, () => {
+      assertHostedNegative(appEnvironment, { NEXT_PUBLIC_SUPABASE_URL: url }, expectedError);
+    });
+  }
+
+  test(`rejects ${appEnvironment} without the active project identity`, () => {
+    assertHostedNegative(appEnvironment, { SUPABASE_PROJECT_REF: undefined },
+      /SUPABASE_PROJECT_REF is required/);
+  });
+
+  for (const name of ["PRODUCTION_SUPABASE_PROJECT_REF", "PRODUCTION_APP_ORIGIN"]) {
+    test(`rejects ${appEnvironment} with a partial Production registry missing ${name}`, () => {
+      assertHostedNegative(appEnvironment, { [name]: undefined }, new RegExp(`${name} is required`));
+    });
+  }
+}
+
+for (const [description, overrides, expectedError] of [
+  ["a mismatched provider target", { VERCEL_ENV: "production" }, /VERCEL_ENV contradicts/],
+  ["a mismatched target environment", { VERCEL_TARGET_ENV: "production" }, /VERCEL_TARGET_ENV contradicts/],
+  ["a mismatched deployment class", { DEPLOYMENT_CLASS: "STAGING" }, /DEPLOYMENT_CLASS contradicts/],
+  ["an unknown deployment class", { DEPLOYMENT_CLASS: "UNREVIEWED" }, /DEPLOYMENT_CLASS contradicts/],
+  ["a missing reauthentication secret", { AUTH_REAUTH_PROOF_SECRET: undefined }, /AUTH_REAUTH_PROOF_SECRET is required/],
+  ["a missing closure secret", { ACCOUNT_CLOSURE_CAPABILITY_SECRET: undefined }, /ACCOUNT_CLOSURE_CAPABILITY_SECRET is required/],
+  ["a short reauthentication secret", { AUTH_REAUTH_PROOF_SECRET: "short" }, /AUTH_REAUTH_PROOF_SECRET must contain at least 32 bytes/],
+  ["a short closure secret", { ACCOUNT_CLOSURE_CAPABILITY_SECRET: "short" }, /ACCOUNT_CLOSURE_CAPABILITY_SECRET must contain at least 32 bytes/],
+  ["reused server secrets", { AUTH_REAUTH_PROOF_SECRET: "synthetic-hosted-closure-secret-material-0000000000" }, /E3 and E5 application secrets must be distinct/],
+  ["a public secret key", { NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_secret_synthetic_only" }, /must not contain a secret or service-role key/],
+  ["an untrusted Git provider", { VERCEL_GIT_PROVIDER: "untrusted" }, /must identify Papi299\/nutrition-tracker-app/],
+  ["an incorrect repository owner", { VERCEL_GIT_REPO_OWNER: "unrelated-owner" }, /must identify Papi299\/nutrition-tracker-app/],
+  ["a non-hex commit", { VERCEL_GIT_COMMIT_SHA: "g".repeat(40) }, /must bind the deployment to an exact Git commit/],
+  ["a short commit", { VERCEL_GIT_COMMIT_SHA: "a".repeat(39) }, /must bind the deployment to an exact Git commit/],
+]) {
+  test(`rejects Preview with ${description}`, () => {
+    assertHostedNegative("preview", overrides, expectedError);
+  });
+}
+
+for (const secretName of ["AUTH_REAUTH_PROOF_SECRET", "ACCOUNT_CLOSURE_CAPABILITY_SECRET"]) {
+  test(`rejects local public configuration reusing ${secretName}`, () => {
+    const environment = localEnvironment();
+    const valid = validateDeploymentEnvironment(environment);
+    assert.equal(valid.ok, true, valid.errors.join("\n"));
+    const result = validateDeploymentEnvironment({
+      ...environment,
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: environment[secretName],
+    });
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.errors, [
+      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY must not reuse a server-only application secret.",
+    ]);
+  });
+
+  for (const [appEnvironment, deploymentClass] of [
+    ["preview", "PREVIEW"],
+    ["production", "PRODUCTION_BOOTSTRAP_ONLY"],
+    ["production", "PRODUCTION_RELEASE"],
+  ]) {
+    test(`rejects ${deploymentClass} public configuration reusing ${secretName}`, () => {
+      const environment = hostedEnvironment(appEnvironment, { DEPLOYMENT_CLASS: deploymentClass });
+      const result = assertHostedNegative(appEnvironment, {
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: environment[secretName],
+      }, /NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY must not reuse a server-only application secret/, deploymentClass);
+      assert.equal(result.errors.length, 1);
+    });
+  }
+}
+
+for (const includeBranchAssertion of [false, true]) {
+  test(`rejects a coherent but unverified stable Preview alias${includeBranchAssertion ? " even with a matching branch assertion" : ""}`, () => {
+    const stableOrigin = "https://stable-preview-synthetic.vercel.app";
+    assertHostedNegative("preview", {
+      APP_ORIGIN: stableOrigin,
+      PREVIEW_APP_ORIGIN: stableOrigin,
+      ...(includeBranchAssertion ? { VERCEL_BRANCH_URL: hostname(stableOrigin) } : {}),
+    }, /contradicts trusted provider assertion VERCEL_URL/);
+  });
 }
 
 test("accepts a valid local configuration", () => {
@@ -339,10 +528,10 @@ for (const appEnvironment of ["local", "test"]) {
       localEnvironment({
         APP_ENVIRONMENT: appEnvironment,
         NODE_ENV: appEnvironment === "test" ? "test" : "development",
-        NEXT_PUBLIC_SUPABASE_URL: `https://${syntheticRefs.production}.supabase.co`,
-        PRODUCTION_SUPABASE_PROJECT_REF: syntheticRefs.production,
+        NEXT_PUBLIC_SUPABASE_URL: `https://${fixtureRefs.production}.supabase.co`,
+        PRODUCTION_SUPABASE_PROJECT_REF: fixtureRefs.production,
         SUPABASE_ENVIRONMENT: "production",
-        SUPABASE_PROJECT_REF: syntheticRefs.production,
+        SUPABASE_PROJECT_REF: fixtureRefs.production,
       }),
     );
     assert.equal(result.ok, false);
@@ -401,8 +590,8 @@ for (const [appEnvironment, wrongEnvironment] of [
 test("rejects Preview configured against the Production project identity", () => {
   const result = validateDeploymentEnvironment(
     hostedEnvironment("preview", {
-      NEXT_PUBLIC_SUPABASE_URL: `https://${syntheticRefs.production}.supabase.co`,
-      SUPABASE_PROJECT_REF: syntheticRefs.production,
+      NEXT_PUBLIC_SUPABASE_URL: `https://${fixtureRefs.production}.supabase.co`,
+      SUPABASE_PROJECT_REF: fixtureRefs.production,
     }),
   );
   assert.equal(result.ok, false);
@@ -412,8 +601,8 @@ test("rejects Preview configured against the Production project identity", () =>
 test("rejects staging configured against the Production project identity", () => {
   const result = validateDeploymentEnvironment(
     hostedEnvironment("staging", {
-      NEXT_PUBLIC_SUPABASE_URL: `https://${syntheticRefs.production}.supabase.co`,
-      SUPABASE_PROJECT_REF: syntheticRefs.production,
+      NEXT_PUBLIC_SUPABASE_URL: `https://${fixtureRefs.production}.supabase.co`,
+      SUPABASE_PROJECT_REF: fixtureRefs.production,
     }),
   );
   assert.equal(result.ok, false);
@@ -423,8 +612,8 @@ test("rejects staging configured against the Production project identity", () =>
 test("rejects Production configured against a non-production project identity", () => {
   const result = validateDeploymentEnvironment(
     hostedEnvironment("production", {
-      NEXT_PUBLIC_SUPABASE_URL: `https://${syntheticRefs.preview}.supabase.co`,
-      SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      NEXT_PUBLIC_SUPABASE_URL: `https://${fixtureRefs.preview}.supabase.co`,
+      SUPABASE_PROJECT_REF: fixtureRefs.preview,
     }),
   );
   assert.equal(result.ok, false);
@@ -568,7 +757,7 @@ for (const [name, optionalRegistry] of [
   test(`rejects optional ${name} project identity equal to Production`, () => {
     const result = validateDeploymentEnvironment(
       hostedEnvironment("production", {
-        [`${optionalRegistry.toUpperCase()}_SUPABASE_PROJECT_REF`]: syntheticRefs.production,
+        [`${optionalRegistry.toUpperCase()}_SUPABASE_PROJECT_REF`]: fixtureRefs.production,
         [`${optionalRegistry.toUpperCase()}_APP_ORIGIN`]: syntheticOrigins[optionalRegistry],
       }),
     );
@@ -594,9 +783,9 @@ test("rejects duplicate optional non-Production project identities", () => {
 test("rejects duplicate optional non-Production origins", () => {
   const result = validateDeploymentEnvironment(
     hostedEnvironment("production", {
-      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      PREVIEW_SUPABASE_PROJECT_REF: fixtureRefs.preview,
       PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
-      STAGING_SUPABASE_PROJECT_REF: syntheticRefs.staging,
+      STAGING_SUPABASE_PROJECT_REF: fixtureRefs.staging,
       STAGING_APP_ORIGIN: syntheticOrigins.preview,
     }),
   );
@@ -622,7 +811,7 @@ for (const [description, origin] of [
   test(`rejects ${description} optional hosted origin`, () => {
     const result = validateDeploymentEnvironment(
       hostedEnvironment("production", {
-        PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+        PREVIEW_SUPABASE_PROJECT_REF: fixtureRefs.preview,
         PREVIEW_APP_ORIGIN: origin,
       }),
     );
@@ -634,7 +823,7 @@ for (const [description, origin] of [
 test("rejects a half-populated optional registry identity", () => {
   const result = validateDeploymentEnvironment(
     hostedEnvironment("production", {
-      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      PREVIEW_SUPABASE_PROJECT_REF: fixtureRefs.preview,
     }),
   );
   assert.equal(result.ok, false);
@@ -645,9 +834,9 @@ test("accepts optional isolated Preview and staging identities on a personal-use
   const result = validateDeploymentEnvironment(
     hostedEnvironment("production", {
       DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
-      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.preview,
+      PREVIEW_SUPABASE_PROJECT_REF: fixtureRefs.preview,
       PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
-      STAGING_SUPABASE_PROJECT_REF: syntheticRefs.staging,
+      STAGING_SUPABASE_PROJECT_REF: fixtureRefs.staging,
       STAGING_APP_ORIGIN: syntheticOrigins.staging,
     }),
   );
@@ -658,7 +847,7 @@ test("rejects a personal-use Production release with Preview bound to Production
   const result = validateDeploymentEnvironment(
     hostedEnvironment("production", {
       DEPLOYMENT_CLASS: "PRODUCTION_RELEASE",
-      PREVIEW_SUPABASE_PROJECT_REF: syntheticRefs.production,
+      PREVIEW_SUPABASE_PROJECT_REF: fixtureRefs.production,
       PREVIEW_APP_ORIGIN: syntheticOrigins.preview,
     }),
   );
