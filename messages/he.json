@@ -450,7 +450,9 @@
       "emptyMeal": "עדיין לא נרשם מזון",
       "retryDiary": "ניסיון נוסף לטעינת היומן",
       "scan": "סריקת ברקוד",
-      "savedMeals": "ארוחות שמורות"
+      "savedMeals": "ארוחות שמורות",
+      "knownSubtotal": "סכום ביניים ידוע",
+      "unknownValues": "כולל רשומות עם ערכים לא ידועים."
     }
   },
   "CustomFoodEditor": {

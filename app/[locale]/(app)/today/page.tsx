@@ -355,7 +355,7 @@ function LocalizedTodayPage({
       )}
 
       <div className="grid min-w-0 grid-cols-1 gap-5">
-        <div className={surfaceStyles({ className: "min-w-0" })}>
+        <div className={surfaceStyles({ className: "today-diary min-w-0" })}>
           <h2 className="ui-section-title today-diary-title">{dashboardT("diaryTitle")}</h2>
 
           <div className="mt-4">

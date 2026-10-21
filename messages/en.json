@@ -450,7 +450,9 @@
       "emptyMeal": "Nothing logged yet",
       "retryDiary": "Retry diary loading",
       "scan": "Scan barcode",
-      "savedMeals": "Saved meals"
+      "savedMeals": "Saved meals",
+      "knownSubtotal": "Known subtotal",
+      "unknownValues": "Includes entries with unknown values."
     }
   },
   "CustomFoodEditor": {
