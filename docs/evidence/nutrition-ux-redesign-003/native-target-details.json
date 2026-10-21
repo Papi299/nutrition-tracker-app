@@ -1,0 +1,35 @@
+{
+  "browser": "Chromium",
+  "browserVersion": "149.0.7827.55",
+  "integratedApplication": true,
+  "results": [
+    {
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 480
+      },
+      "javaScript": false,
+      "nativeEnterSpace": true,
+      "draftAndRequestIdentityRetained": true,
+      "bottomNavigationClearance": {
+        "bottom": 339.328125,
+        "navTop": 399
+      }
+    },
+    {
+      "locale": "he",
+      "viewport": {
+        "width": 390,
+        "height": 480
+      },
+      "javaScript": false,
+      "nativeEnterSpace": true,
+      "draftAndRequestIdentityRetained": true,
+      "bottomNavigationClearance": {
+        "bottom": 339.21875,
+        "navTop": 399
+      }
+    }
+  ]
+}

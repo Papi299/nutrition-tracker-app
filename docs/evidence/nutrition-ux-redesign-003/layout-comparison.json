@@ -1,0 +1,135 @@
+{
+  "integratedApplication": true,
+  "measurements": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "locale": "en",
+      "fixture": "populated",
+      "before": {
+        "summaryHeight": 468.578125,
+        "diaryHeadingY": 694.578125,
+        "firstEntryY": 794.578125,
+        "firstEntryHeight": 174,
+        "diaryHeight": 1428,
+        "fullyVisibleRows": 0
+      },
+      "after": {
+        "summaryHeight": 136.6875,
+        "diaryHeadingY": 380.1875,
+        "firstEntryY": 476.1875,
+        "firstEntryHeight": 113.796875,
+        "diaryHeight": 946.78125,
+        "fullyVisibleRows": 3
+      },
+      "summaryReductionPercent": 70.83,
+      "firstEntryEarlierPx": 318.39
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "fixture": "populated",
+      "before": {
+        "summaryHeight": 1000.515625,
+        "diaryHeadingY": 1370.515625,
+        "firstEntryY": 1502.515625,
+        "firstEntryHeight": 198,
+        "diaryHeight": 1626.375,
+        "fullyVisibleRows": 0
+      },
+      "after": {
+        "summaryHeight": 292.375,
+        "diaryHeadingY": 631.875,
+        "firstEntryY": 727.875,
+        "firstEntryHeight": 157.390625,
+        "diaryHeight": 1187.546875,
+        "fullyVisibleRows": 0
+      },
+      "summaryReductionPercent": 70.78,
+      "firstEntryEarlierPx": 774.64
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "he",
+      "fixture": "populated",
+      "before": {
+        "summaryHeight": 1000.515625,
+        "diaryHeadingY": 1370.515625,
+        "firstEntryY": 1502.515625,
+        "firstEntryHeight": 198,
+        "diaryHeight": 1666.375,
+        "fullyVisibleRows": 0
+      },
+      "after": {
+        "summaryHeight": 274.375,
+        "diaryHeadingY": 613.875,
+        "firstEntryY": 737.875,
+        "firstEntryHeight": 157.390625,
+        "diaryHeight": 1292.34375,
+        "fullyVisibleRows": 0
+      },
+      "summaryReductionPercent": 72.58,
+      "firstEntryEarlierPx": 764.64
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 720
+      },
+      "locale": "he",
+      "fixture": "forty",
+      "before": {
+        "summaryHeight": 1056.109375,
+        "diaryHeadingY": 1426.109375,
+        "firstEntryY": 1558.109375,
+        "firstEntryHeight": 547.0625,
+        "diaryHeight": 10309.5625,
+        "fullyVisibleRows": 0
+      },
+      "after": {
+        "summaryHeight": 273.171875,
+        "diaryHeadingY": 635.171875,
+        "firstEntryY": 759.171875,
+        "firstEntryHeight": 384.578125,
+        "diaryHeight": 8062,
+        "fullyVisibleRows": 0
+      },
+      "summaryReductionPercent": 74.13,
+      "firstEntryEarlierPx": 798.94
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "locale": "en",
+      "fixture": "empty",
+      "before": {
+        "summaryHeight": 1000.515625,
+        "diaryHeadingY": 1370.515625,
+        "firstEntryY": null,
+        "firstEntryHeight": null,
+        "diaryHeight": 348.09375,
+        "fullyVisibleRows": 0
+      },
+      "after": {
+        "summaryHeight": 252.375,
+        "diaryHeadingY": 566.375,
+        "firstEntryY": null,
+        "firstEntryHeight": null,
+        "diaryHeight": 286.390625,
+        "fullyVisibleRows": 0
+      },
+      "summaryReductionPercent": 74.78,
+      "firstEntryEarlierPx": null
+    }
+  ]
+}

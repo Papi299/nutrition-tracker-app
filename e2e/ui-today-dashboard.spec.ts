@@ -198,7 +198,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         const diary = document.querySelector('[data-testid="save-diary-meal-links"]')!.getBoundingClientRect();
         const rows = Array.from(document.querySelectorAll("[data-diary-entry-id]"));
         const first = rows[0]?.getBoundingClientRect();
-        const navTop = document.querySelector('[data-testid="mobile-bottom-navigation"]')?.getBoundingClientRect().top ?? window.innerHeight;
+        const navigation = document.querySelector('[data-testid="mobile-bottom-navigation"]');
+        const navTop = navigation?.getClientRects().length ? navigation.getBoundingClientRect().top : window.innerHeight;
         return {
           viewportWidth: document.documentElement.clientWidth, documentWidth: document.documentElement.scrollWidth, direction: document.documentElement.dir,
           summaryHeight: summary.height, diaryHeadingY: heading.top, firstEntryY: first?.top ?? null,
@@ -214,6 +215,11 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         const name = `${capture}-${item.width}-${item.locale}-${item.fixture}${item.forcedColors ? "-forced-colors" : ""}${fullPage ? "-full" : ""}.png`;
         const image = await page.screenshot({ path: join(output, name), fullPage, animations: "disabled" });
         files.push({ name, fullPage, scope: fullPage ? "full-page" : "initial-viewport", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
+      }
+      if (capture === "after" && item.fixture === "forty") {
+        const name = `${capture}-${item.width}-${item.locale}-long-row.png`;
+        const image = await page.locator("[data-diary-entry-id]").first().screenshot({ path: join(output, name), animations: "disabled" });
+        files.push({ name, fullPage: false, scope: "first-full-identity-row", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
       }
       let otherSubtotal: string | undefined;
       if (capture === "polish") {
