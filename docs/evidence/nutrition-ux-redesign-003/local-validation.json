@@ -1,0 +1,197 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003",
+  "candidateCommit": "9012331c990faa52f0f8b726d72027dba70f25fe",
+  "candidateTree": "648e7cd385ae6db94ea4103f6e6196ba0fbaab97",
+  "runtime": "/private/tmp/nutrition-ux-003-clean-runtime",
+  "sourceHashes": "/private/tmp/nutrition-ux-003-clean-source-hashes.json",
+  "environmentSafety": "/private/tmp/nutrition-ux-003-clean-environment-safety.json",
+  "productionBuild": {
+    "status": "passed",
+    "command": "node /private/tmp/nutrition-ux-003-clean-build.mjs",
+    "log": "/private/tmp/nutrition-ux-003-clean-build.log"
+  },
+  "fullSuite": {
+    "command": "PLAYWRIGHT_PORT=3110 npm run test:e2e -- --reporter=line,html",
+    "passed": 460,
+    "skipped": 7,
+    "failed": 1,
+    "didNotRun": 1,
+    "duration": "9.9m",
+    "log": "/private/tmp/nutrition-ux-003-clean-full.log",
+    "htmlReport": "/private/tmp/nutrition-ux-003-clean-runtime/playwright-report",
+    "intentionalSkips": [
+      {
+        "test": "baseline exact-approved long-form rejection, alias identity and disclosure measurements",
+        "location": {
+          "file": "ui-phase5e-custom-food.spec.ts",
+          "line": 184,
+          "column": 7
+        },
+        "reason": "Exact approved baseline capture only."
+      },
+      {
+        "test": "captures reproducible visual evidence",
+        "location": {
+          "file": "ui-food-discovery.spec.ts",
+          "line": 124,
+          "column": 7
+        },
+        "reason": "Explicit evidence capture only."
+      },
+      {
+        "test": "R1 baseline archived overflow and confirmation measurements",
+        "location": {
+          "file": "ui-phase5b-library-management.spec.ts",
+          "line": 310,
+          "column": 7
+        },
+        "reason": "Baseline reproduction runs explicitly before presentation edits."
+      },
+      {
+        "test": "R1 baseline F02/F09/F10/F11 rendered defect evidence",
+        "location": {
+          "file": "ui-phase5c-saved-meals.spec.ts",
+          "line": 268,
+          "column": 7
+        },
+        "reason": "Baseline reproduction requires the exact approved unchanged production source."
+      },
+      {
+        "test": "R1 baseline exact-approved F03 F05 F16 evidence",
+        "location": {
+          "file": "ui-phase5d-recipe-forms-review.spec.ts",
+          "line": 113,
+          "column": 7
+        },
+        "reason": "Exact approved baseline capture only."
+      },
+      {
+        "test": "baseline reproduces missing invalid-field descriptions and rejected-submission focus",
+        "location": {
+          "file": "ui-phase5e-setup.spec.ts",
+          "line": 183,
+          "column": 7
+        },
+        "reason": "Baseline-only reproduction."
+      },
+      {
+        "test": "captures reproducible visual evidence",
+        "location": {
+          "file": "ui-today-dashboard.spec.ts",
+          "line": 167,
+          "column": 7
+        },
+        "reason": "Explicit evidence capture only."
+      }
+    ],
+    "failure": {
+      "file": "e2e/ui-phase5e-custom-food.spec.ts",
+      "line": 276,
+      "test": "R3 R5 Edit validation preserves aliases, revision, values and closed group navigation",
+      "message": "alias_text_1 was inactive after keyboard summary navigation; expected focus",
+      "evidence": "/private/tmp/nutrition-ux-003-clean-failure-evidence",
+      "interpretation": "Transient unchanged Custom Food focus-test failure; resolved by unchanged focused suite rerun. Original complete run is not reported as passing."
+    }
+  },
+  "focusedRerun": {
+    "command": "PLAYWRIGHT_PORT=3110 PLAYWRIGHT_HTML_OUTPUT_DIR=/private/tmp/nutrition-ux-003-clean-custom-food-report PLAYWRIGHT_JSON_OUTPUT_FILE=/private/tmp/nutrition-ux-003-clean-custom-food-results.json npm run test:e2e -- e2e/ui-phase5e-custom-food.spec.ts --reporter=line,html,json",
+    "passed": 3,
+    "skipped": 1,
+    "failed": 0,
+    "duration": "17.7s",
+    "applicationOrTestEdits": false,
+    "log": "/private/tmp/nutrition-ux-003-clean-custom-food-rerun.log"
+  },
+  "phase11d": {
+    "command": "PLAYWRIGHT_PORT=3110 PLAYWRIGHT_HTML_OUTPUT_DIR=/private/tmp/nutrition-ux-003-phase11d-report PLAYWRIGHT_JSON_OUTPUT_FILE=/private/tmp/nutrition-ux-003-phase11d-results.json npm run test:phase11d -- --reporter=line,html,json",
+    "passed": 53,
+    "skipped": 3,
+    "failed": 0,
+    "duration": "1.2m",
+    "projects": {
+      "engine-chromium": {
+        "passed": 14,
+        "skipped": 0,
+        "failed": 0
+      },
+      "engine-firefox": {
+        "passed": 13,
+        "skipped": 1,
+        "failed": 0
+      },
+      "engine-webkit": {
+        "passed": 13,
+        "skipped": 1,
+        "failed": 0
+      },
+      "mobile-chromium-390": {
+        "passed": 13,
+        "skipped": 1,
+        "failed": 0
+      }
+    },
+    "skips": [
+      {
+        "project": "engine-firefox",
+        "test": "has zero serious or critical axe findings on the approved critical subset",
+        "reasons": [
+          {
+            "type": "skip",
+            "description": "Axe is deterministic shared-DOM automation; engine behavior is covered separately.",
+            "location": {
+              "file": "/private/tmp/nutrition-ux-003-clean-runtime/e2e/phase-11d-ui.spec.ts",
+              "line": 974,
+              "column": 10
+            }
+          }
+        ]
+      },
+      {
+        "project": "engine-webkit",
+        "test": "has zero serious or critical axe findings on the approved critical subset",
+        "reasons": [
+          {
+            "type": "skip",
+            "description": "Axe is deterministic shared-DOM automation; engine behavior is covered separately.",
+            "location": {
+              "file": "/private/tmp/nutrition-ux-003-clean-runtime/e2e/phase-11d-ui.spec.ts",
+              "line": 974,
+              "column": 10
+            }
+          }
+        ]
+      },
+      {
+        "project": "mobile-chromium-390",
+        "test": "has zero serious or critical axe findings on the approved critical subset",
+        "reasons": [
+          {
+            "type": "skip",
+            "description": "Axe is deterministic shared-DOM automation; engine behavior is covered separately.",
+            "location": {
+              "file": "/private/tmp/nutrition-ux-003-clean-runtime/e2e/phase-11d-ui.spec.ts",
+              "line": 974,
+              "column": 10
+            }
+          }
+        ]
+      }
+    ],
+    "log": "/private/tmp/nutrition-ux-003-clean-phase11d.log",
+    "jsonReport": "/private/tmp/nutrition-ux-003-phase11d-results.json",
+    "htmlReport": "/private/tmp/nutrition-ux-003-phase11d-report",
+    "axe": {
+      "scannedStates": 8,
+      "engine": "Chromium",
+      "violationsBySeverity": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0,
+        "unknown": 0
+      },
+      "incompleteResults": "Not recorded by the existing suite; no zero-incomplete claim.",
+      "limits": "Automated representative subset; no manual screen reader or physical device qualification."
+    }
+  }
+}
