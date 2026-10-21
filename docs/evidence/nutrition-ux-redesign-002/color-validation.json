@@ -1,0 +1,112 @@
+{
+  "tokens": {
+    "background": "#F8FAFC",
+    "foreground": "#1F2937",
+    "surface": "#FFFFFF",
+    "surface-subtle": "#F0F5FB",
+    "surface-raised": "#FFFFFF",
+    "surface-interactive": "#F0F5FB",
+    "border": "#E0E7EF",
+    "border-strong": "#7D8999",
+    "muted": "#F0F3F7",
+    "muted-foreground": "#526074",
+    "primary": "#2563EB",
+    "primary-hover": "#1D4ED8",
+    "primary-pressed": "#1E40AF",
+    "primary-foreground": "#FFFFFF",
+    "primary-surface": "#EBF2FF",
+    "secondary": "#FFFFFF",
+    "secondary-hover": "#F0F5FB",
+    "secondary-foreground": "#1F2937",
+    "accent": "#E76F51",
+    "warm": "#FFF9F4",
+    "warm-border": "#E8C5AF",
+    "success": "#18568B",
+    "success-surface": "#EFF7FF",
+    "success-foreground": "#18568B",
+    "warning": "#805213",
+    "warning-surface": "#FFF5DC",
+    "warning-foreground": "#805213",
+    "danger": "#B42318",
+    "danger-hover": "#912018",
+    "danger-contrast": "#FFFFFF",
+    "danger-surface": "#FFF1F0",
+    "danger-foreground": "#B42318",
+    "info": "#18568B",
+    "info-surface": "#EFF7FF",
+    "info-foreground": "#18568B",
+    "focus-ring": "#123E95",
+    "nutrition-calories": "#BF4D31",
+    "nutrition-protein": "#2563EB",
+    "nutrition-carbs": "#596B82",
+    "nutrition-fat": "#9B570D"
+  },
+  "contrast": [
+    {
+      "foreground": "foreground",
+      "background": "surface",
+      "ratio": 14.68
+    },
+    {
+      "foreground": "muted-foreground",
+      "background": "background",
+      "ratio": 6.11
+    },
+    {
+      "foreground": "primary-foreground",
+      "background": "primary",
+      "ratio": 5.17
+    },
+    {
+      "foreground": "primary",
+      "background": "primary-surface",
+      "ratio": 4.6
+    },
+    {
+      "foreground": "danger-foreground",
+      "background": "danger-surface",
+      "ratio": 5.98
+    },
+    {
+      "foreground": "success-foreground",
+      "background": "success-surface",
+      "ratio": 7.08
+    },
+    {
+      "foreground": "warning-foreground",
+      "background": "warning-surface",
+      "ratio": 6.17
+    },
+    {
+      "foreground": "muted-foreground",
+      "background": "muted",
+      "ratio": 5.75
+    },
+    {
+      "foreground": "border-strong",
+      "background": "surface",
+      "ratio": 3.55
+    },
+    {
+      "foreground": "focus-ring",
+      "background": "surface",
+      "ratio": 9.77
+    },
+    {
+      "foreground": "nutrition-calories",
+      "background": "surface",
+      "ratio": 4.86
+    },
+    {
+      "foreground": "nutrition-carbs",
+      "background": "surface",
+      "ratio": 5.45
+    },
+    {
+      "foreground": "nutrition-fat",
+      "background": "surface",
+      "ratio": 5.58
+    }
+  ],
+  "purpleTokens": []
+}

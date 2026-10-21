@@ -1,0 +1,143 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-002",
+  "baseline": "da15f5eca2506d93beaf063124827f7b3d347fcf",
+  "baselineTree": "fd13d870ac9de24bf095b11fb8490e8aba1e9fcb",
+  "browser": "Chromium 149.0.7827.55",
+  "scope": "Real integrated application, synthetic authenticated loopback-only fixtures; no prototype or component harness.",
+  "sourceFiles": [
+    {
+      "path": "app/globals.css",
+      "sha256": "de1dedee27e5b8758c4367096fe6a7772ba622a7fba342ac3a8149f188ef1f10"
+    },
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "83782c3f86a07cc03b1b333b3a84943c3d1bd838d3a7011374deda7caceb608b"
+    },
+    {
+      "path": "e2e/ui-today-dashboard.spec.ts",
+      "sha256": "092eb92f808a3858b0ab2345ee2e691c2a12ca4240dda5b00e68b463ac9d8db6"
+    }
+  ],
+  "files": [
+    {
+      "file": "before-1440-en-populated.png",
+      "bytes": 125571,
+      "sha256": "250f67d34f38dfdf6fea7d838ce01cc6cd3e13fd7f7a2afc9a24504ae5d710a5"
+    },
+    {
+      "file": "before-390-en-populated.png",
+      "bytes": 46784,
+      "sha256": "233709ae6099c24407ecbe13f697da1a0bded2729582cebb85844990ef52a030"
+    },
+    {
+      "file": "before-390-he-populated.png",
+      "bytes": 36575,
+      "sha256": "44598381eca54068e580c6c79a162d9d31021ae4ffdf7dfcdbbce0a8d147689c"
+    },
+    {
+      "file": "before-320-he-populated.png",
+      "bytes": 30424,
+      "sha256": "7a9be9135959f2c6bcdcf1430da51cab519c4556ba2dc7bee2f7d9d740dd4b16"
+    },
+    {
+      "file": "after-1440-en-populated.png",
+      "bytes": 127260,
+      "sha256": "86f425907b18f51f30a98ee798c73aeec8ba8e0660bd61c5dadc0bf6903107ca"
+    },
+    {
+      "file": "after-390-en-populated.png",
+      "bytes": 46512,
+      "sha256": "67193ef263ae82fe34c84ca9dfbae249d84d97dedbc7e1ab64f574414749d637"
+    },
+    {
+      "file": "after-390-he-populated.png",
+      "bytes": 37538,
+      "sha256": "8e81accf3ae59914fef38fb022c865da4254602535f3d038f4bc983d03ec0513"
+    },
+    {
+      "file": "after-320-he-populated.png",
+      "bytes": 29845,
+      "sha256": "f1be8c0345ac4c340812155974e995d53c91c32c98ce3858c670ae8cc2376fe7"
+    },
+    {
+      "file": "after-390-en-missing.png",
+      "bytes": 42754,
+      "sha256": "e44a88ab43ddf2ef402576c07a3845156ee2e5c15dc2e418d734664ff9201256"
+    },
+    {
+      "file": "after-optional-setup.png",
+      "bytes": 12858,
+      "sha256": "dbd2b1fa33626b1c34b2abe2d652e1682297b33331ae282f81a4d08f8f4f90f2"
+    },
+    {
+      "file": "after-validation-focus-en.png",
+      "bytes": 53961,
+      "sha256": "0c62f462c55243060724b96e133b2de9a5be3402627e3bb9fc78c7207d87b6dd"
+    },
+    {
+      "file": "after-validation-focus-he.png",
+      "bytes": 45179,
+      "sha256": "e43ee2796ff3258ceab773805b850f399ef70a61337e05d925baf4317f2e4bcf"
+    },
+    {
+      "file": "after-auth-en.png",
+      "bytes": 42621,
+      "sha256": "8902494decd56e73f7de77c1d745bd2e737d62edf0c25bdadc1664f1947fc121"
+    },
+    {
+      "file": "after-pending-en.png",
+      "bytes": 2505,
+      "sha256": "bbb5230c80d6baf9e1e6928d480cb57d41ee3e85cc87554ca0db9d8bbb5127a1"
+    },
+    {
+      "file": "after-390-he-populated-forced-colors.png",
+      "bytes": 35186,
+      "sha256": "a684de18b81e765a94d4960bbf2882553e2b80fbc3cd15418cf795adf2cdc106"
+    },
+    {
+      "file": "after-shared-en-setup.png",
+      "bytes": 60367,
+      "sha256": "632de22fa1d40fba0c1a95b14f76ad99ea387b65255236a5897819fcae221dd7"
+    },
+    {
+      "file": "after-shared-en-search.png",
+      "bytes": 52871,
+      "sha256": "61248c7e4d13ea0daad668076b2b8b5145dbdbf63747605fd0b5ca79d14af428"
+    },
+    {
+      "file": "after-shared-en-my-foods.png",
+      "bytes": 57695,
+      "sha256": "4cf0b3a1f1a4db11f32af217b7330a9b744abf404376d60458c93c36dcd9cb46"
+    },
+    {
+      "file": "after-shared-en-saved-meals.png",
+      "bytes": 45607,
+      "sha256": "6223eab7aee4636e4d8640fc4361ab1a98fdd2b750a470df745f42dc967fb163"
+    },
+    {
+      "file": "after-shared-en-recipes.png",
+      "bytes": 45875,
+      "sha256": "7fca6facadef6d1d973a21ba96cfaedc269343fe2f1cec7d8f30c0649d3e7c42"
+    },
+    {
+      "file": "after-shared-en-account.png",
+      "bytes": 47562,
+      "sha256": "8201a76b05dbccfd4ab382688c07c4caedeb5dfe33769d8a90705e39521219d1"
+    },
+    {
+      "file": "color-validation.json",
+      "bytes": 2683,
+      "sha256": "5d6aa4675d5e67f0b38132a41e139c008408a2566185f4c45f84c7fa20dc362d"
+    },
+    {
+      "file": "shared-audits.json",
+      "bytes": 1135,
+      "sha256": "ae7c9c965f74b653760824e56472fefd9a1cb4826878335b74e2aa26b3d11683"
+    }
+  ],
+  "runtimeHarness": {
+    "path": "e2e/ui-today-dashboard.spec.ts",
+    "sha256": "6ab4d95940c57346c071942f131f4c27dad3db69014e783634d6677ca7eaba9c",
+    "difference": "Only the opt-in capture configuration path is redirected to a task-specific temporary file."
+  }
+}

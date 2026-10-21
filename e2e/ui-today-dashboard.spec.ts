@@ -27,7 +27,7 @@ const localeCopy = {
 const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
 
 async function assertInitialMobileShortcut(page: Page, locale: "en" | "he", width: number, height: number) {
-  const shortcut = page.getByTestId("today-mobile-add-food");
+  const shortcut = page.getByTestId("today-add-food");
   // Measure before any focus, click, fill or scroll operation can bring the action into view.
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
   await expect(shortcut).toBeVisible();
@@ -52,7 +52,7 @@ async function assertInitialMobileShortcut(page: Page, locale: "en" | "he", widt
   expect(bounds.y).toBeGreaterThanOrEqual((header?.y ?? 0) + (header?.height ?? 0));
   expect(bounds.bottom).toBeLessThanOrEqual(navigation?.y ?? height);
   expect(bounds.bottom).toBeLessThanOrEqual(height);
-  expect(Math.abs(locale === "he" ? bounds.right - bounds.parentRight : bounds.x - bounds.parentLeft)).toBeLessThanOrEqual(1);
+  expect(Math.abs(locale === "he" ? bounds.x - bounds.parentLeft : bounds.right - bounds.parentRight)).toBeLessThanOrEqual(1);
   const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(documentWidth).toBeLessThanOrEqual(width);
   return { ...bounds, navigationTop: navigation?.y, headerBottom: (header?.y ?? 0) + (header?.height ?? 0), initialScrollY: 0 };
@@ -203,7 +203,72 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       manifest.push({ ...item, route, ...geometry, shortcutBounds, otherSubtotal, files });
       await context.close();
     }
-    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ baseline: "c3fc47c4ac032d87cf10ef279156795aff5cdbab", originalReviewedHead: "b8534e9abb8ab73db1d80a42352dea171f22a060", evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: capture === "polish" ? "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset" : "Original shared synthetic account", captures: manifest, renderedSourceFiles: capture === "before" ? undefined : renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
+    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ task: "NUTRITION-UX-REDESIGN-002", baseline: "da15f5eca2506d93beaf063124827f7b3d347fcf", evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: capture === "polish" ? "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset" : "Original shared synthetic account", captures: manifest, renderedSourceFiles: capture === "before" ? undefined : renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
+  });
+
+  test("Phase A shared colors, focus, pending controls and field feedback stay accessible", async ({ browser }) => {
+    test.setTimeout(120_000);
+    const audits = [];
+    const output = capture === "after" ? captureConfig.evidenceDir : undefined;
+    for (const locale of ["en", "he"] as const) {
+      const { context, page } = await openPage(browser, { viewport: { width: 390, height: 844 } });
+      for (const [name, path] of [
+        ["setup", "/setup"], ["search", `/foods?date=${dates.populated}`],
+        ["my-foods", "/foods/custom"], ["saved-meals", "/saved-meals"],
+        ["recipes", "/recipes"], ["account", "/account"],
+      ]) {
+        await page.goto(`/${locale}${path}`);
+        await expect(page.locator("main h1")).toBeVisible();
+        await expect(page.locator("body")).toHaveCSS("background-color", "rgb(248, 250, 252)");
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+        const audit = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+        expect(audit.violations, `${locale} ${name}`).toEqual([]);
+        audits.push({ locale, name, violations: audit.violations.length, incomplete: audit.incomplete.map(item => item.id) });
+        if (output) await page.screenshot({ path: join(output, `after-shared-${locale}-${name}.png`) });
+      }
+      await page.goto(`/${locale}/today?date=${dates.populated}`);
+      const form = page.getByTestId("manual-diary-entry-form");
+      let releaseRequest: () => void = () => {};
+      const released = new Promise<void>(resolve => { releaseRequest = resolve; });
+      await page.route("**/today?**", async route => {
+        if (route.request().method() === "POST") await released;
+        await route.continue();
+      });
+      const submit = form.locator('button[type="submit"]');
+      try {
+        await submit.click();
+        await expect(submit).toBeDisabled();
+        await expect(submit).toHaveAttribute("aria-busy", "true");
+        await expect(submit).toHaveCSS("background-color", "rgb(240, 243, 247)");
+        if (output) await submit.screenshot({ path: join(output, `after-pending-${locale}.png`) });
+      } finally { releaseRequest(); }
+      const nameInput = form.locator('input[name="food_name"]');
+      await expect(nameInput).toHaveAttribute("aria-invalid", "true");
+      await expect(nameInput).toHaveCSS("border-color", "rgb(180, 35, 24)");
+      // The accepted diary form associates inline feedback through its wrapping label.
+      const fieldLabel = nameInput.locator("..");
+      await expect(fieldLabel).toHaveJSProperty("tagName", "LABEL");
+      await expect(fieldLabel.locator(".ui-field-error")).toBeVisible();
+      await nameInput.focus();
+      await page.keyboard.press("Shift+Tab");
+      await page.keyboard.press("Tab");
+      await expect(nameInput).toBeFocused();
+      await expect(nameInput).toHaveCSS("outline-color", "rgb(18, 62, 149)");
+      await expect(nameInput).toHaveCSS("outline-width", "3px");
+      const audit = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+      expect(audit.violations).toEqual([]);
+      if (output) await page.screenshot({ path: join(output, `after-validation-focus-${locale}.png`) });
+      await context.close();
+
+      const publicContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const publicPage = await publicContext.newPage();
+      await publicPage.goto(`/${locale}/auth/sign-in`);
+      const authAudit = await new AxeBuilder({ page: publicPage }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+      expect(authAudit.violations).toEqual([]);
+      if (output) await publicPage.screenshot({ path: join(output, `after-auth-${locale}.png`) });
+      await publicContext.close();
+    }
+    if (output) writeFileSync(join(output, "shared-audits.json"), JSON.stringify(audits, null, 2) + "\n");
   });
 
   test("shows accurate snapshot totals, all ordered meal groups and source identity", async ({ browser }) => {
@@ -326,7 +391,16 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     queryLocalAuthFixture(`delete from public.profiles where id = '${userId}'::uuid;`);
     try {
       await page.reload();
-      await expect(page.getByRole("heading", { name: "Finish the basic setup" })).toBeVisible();
+      const setup = page.getByTestId("today-setup-guidance");
+      await expect(setup.getByRole("heading", { name: "Finish the basic setup" })).toBeVisible();
+      await expect(setup.getByRole("link")).toHaveAttribute("href", "/en/setup");
+      expect(await setup.evaluate(node => Boolean(node.compareDocumentPosition(document.querySelector("#manual-entry")!) & Node.DOCUMENT_POSITION_PRECEDING))).toBe(true);
+      await expect(page.getByTestId("today-add-food")).toBeEnabled();
+      if (capture === "after") {
+        const output = captureConfig.evidenceDir as string;
+        await setup.screenshot({ path: join(output, "after-optional-setup.png") });
+        await page.screenshot({ path: join(output, "after-optional-setup-full.png"), fullPage: true });
+      }
       await expect(page.getByText("Greek yogurt · יוגורט", { exact: true })).toBeVisible();
     } finally {
       expect((await client.from("profiles").insert({ id: userId, display_name: "Synthetic dashboard reviewer", preferred_language: "en", unit_system: "metric" })).error).toBeNull();
@@ -392,19 +466,21 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
   }
 
   for (const locale of ["en", "he"] as const) {
-    test(`${locale} mobile header shortcut is initially visible, native and preserves the mounted draft`, async ({ browser }) => {
+    test(`${locale} header Add Food is initially visible, native and preserves the mounted draft`, async ({ browser }) => {
       test.setTimeout(60_000);
       const { context, page } = await openPage(browser);
       for (const { width, height } of [{ width: 320, height: 720 }, { width: 390, height: 844 }]) {
         await page.setViewportSize({ width, height });
         await page.goto(`/${locale}/today?date=${dates.populated}`);
         await assertInitialMobileShortcut(page, locale, width, height);
-        const shortcut = page.getByTestId("today-mobile-add-food");
+        const shortcut = page.getByTestId("today-add-food");
         const form = page.getByTestId("manual-diary-entry-form");
+        await expect(page.getByRole("link", { name: localeCopy[locale].addFood, exact: true })).toHaveCount(1);
         await expect(form).toHaveCount(1);
         await form.locator('input[name="food_name"]').fill(`Unsaved ${locale} ${width}px draft`);
         await form.locator('input[name="calories"]').fill("0");
         const key = await form.locator('input[name="idempotency_key"]').inputValue();
+        await page.locator('input[name="date"]').fill(dates.historical);
         await form.evaluate(node => Object.defineProperty(window, "__uiPhase3PolishForm", { configurable: true, value: node }));
         await page.evaluate(() => window.scrollTo(0, 0));
         await shortcut.focus();
@@ -434,7 +510,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       await page.goto(`/${locale}/today?date=${dates.populated}`);
       await page.setViewportSize({ width: 390, height: 844 });
       await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
-      const shortcut = page.getByTestId("today-mobile-add-food");
+      const shortcut = page.getByTestId("today-add-food");
       await shortcut.focus();
       await page.keyboard.press("Shift+Tab");
       await page.keyboard.press("Tab");
@@ -443,8 +519,9 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       await page.emulateMedia({ forcedColors: "none", reducedMotion: "reduce" });
       for (const width of [1024, 1280, 1440]) {
         await page.setViewportSize({ width, height: 900 });
-        await expect(shortcut).toBeHidden();
-        const original = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
+        await expect(page.getByRole("link", { name: localeCopy[locale].addFood, exact: true })).toHaveCount(1);
+        await expect(shortcut).toBeInViewport({ ratio: 1 });
+        const original = page.getByTestId("today-add-food");
         await expect(original).toHaveAccessibleName(localeCopy[locale].addFood);
         await expect(original).toBeVisible();
         await expect(original).toHaveAttribute("href", "#manual-entry");
@@ -458,7 +535,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         const { context, page } = await openPage(browser, { javaScriptEnabled: false, viewport: { width, height } });
         await page.goto(`/${locale}/today?date=${dates.populated}`);
         await assertInitialMobileShortcut(page, locale, width, height);
-        const shortcut = page.getByTestId("today-mobile-add-food");
+        const shortcut = page.getByTestId("today-add-food");
         await shortcut.focus();
         await page.keyboard.press("Enter");
         await expect(page.locator("#manual-entry")).toBeFocused();
@@ -520,7 +597,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await form.locator('input[name="food_name"]').fill("Unsaved synthetic draft");
     await form.locator('input[name="calories"]').fill("0");
     const key = await form.locator('input[name="idempotency_key"]').inputValue();
-    const add = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
+    const add = page.getByTestId("today-add-food");
     await expect(add).toHaveAttribute("href", /#manual-entry$/);
     await add.focus();
     await page.keyboard.press("Enter");
@@ -549,7 +626,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await page.locator('form:has(input[name="date"])').getByRole("button").click();
     await expect(page).toHaveURL(new RegExp(`date=${dates.empty}$`));
     await expect(page.getByTestId("target-progress")).toContainText("0%");
-    const add = page.locator('a[href="#manual-entry"]:not([data-testid="today-mobile-add-food"])');
+    const add = page.getByTestId("today-add-food");
     await add.click();
     await expect(page.locator('input[name="entry_date"]')).toHaveValue(dates.empty);
     await expect(page.locator('input[name="food_name"]')).toBeVisible();

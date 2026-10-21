@@ -247,35 +247,33 @@ function LocalizedTodayPage({
   }
 
   return (
-    <section className="today-dashboard flex flex-1 flex-col gap-6 py-2 text-start">
+    <section className="today-dashboard flex flex-1 flex-col gap-5 py-2 text-start">
       {creationRequest && (
         <CustomFoodCreationDraftRetirement
           creationRequest={creationRequest}
         />
       )}
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <h1 className="ui-page-title">{dashboardT("title")}</h1>
-          <p className="mt-2 text-base text-muted-foreground">
+      <header className="today-header">
+        <div className="today-header-copy">
+          <h1 className="today-title">{dashboardT("title")}</h1>
+          <p className="today-selected-date">
             <time dateTime={selectedDate}>{formatLocalizedDate(locale, selectedDate, { dateStyle: "full" })}</time>
           </p>
         </div>
-        <div className="flex min-w-0 flex-col gap-3">
-          <form action={`/${locale}/today`} className="today-date-form text-sm">
-            <div className="min-w-0">
-              <label className="ui-label block mb-1" htmlFor="diary-date">{diaryT("fields.entryDate")}</label>
-              <input className="ui-control" defaultValue={selectedDate} id="diary-date" name="date" type="date" />
-            </div>
-            <button className={buttonStyles({ variant: "outline" })} type="submit">{diaryT("date.submit")}</button>
-          </form>
-          <a
-            className={buttonStyles({ className: "self-start lg:hidden" })}
-            data-testid="today-mobile-add-food"
-            href="#manual-entry"
-          >
-            <Plus aria-hidden="true" size={18} />{dashboardT("addFood")}
-          </a>
-        </div>
+        <a
+          className={buttonStyles({ className: "today-add-food" })}
+          data-testid="today-add-food"
+          href="#manual-entry"
+        >
+          <Plus aria-hidden="true" size={18} />{dashboardT("addFood")}
+        </a>
+        <form action={`/${locale}/today`} className="today-date-form text-sm">
+          <div className="min-w-0">
+            <label className="ui-label block mb-1" htmlFor="diary-date">{diaryT("fields.entryDate")}</label>
+            <input className="ui-control" defaultValue={selectedDate} id="diary-date" name="date" type="date" />
+          </div>
+          <button className={buttonStyles({ variant: "outline" })} type="submit">{diaryT("date.submit")}</button>
+        </form>
       </header>
 
       {foodSelectionState.status === "ready" && (
@@ -334,23 +332,6 @@ function LocalizedTodayPage({
         </div>
       )}
 
-      {profileState.status === "missing" && (
-        <div className={surfaceStyles({ className: "max-w-2xl bg-info-surface border-info/30" })}>
-          <h2 className="ui-card-title">
-            {t("setupCalloutTitle")}
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {t("setupCalloutBody")}
-          </p>
-          <Link
-            className={buttonStyles({ className: "mt-5" })}
-            href={`/${locale}/setup`}
-          >
-            {t("setupCalloutLink")}
-          </Link>
-        </div>
-      )}
-
       {isRetrievalFailure(targetState) && (
         <div className="max-w-3xl">
           <RetrievalError
@@ -373,14 +354,11 @@ function LocalizedTodayPage({
         />
       )}
 
-      <div className="grid min-w-0 grid-cols-1 gap-6">
+      <div className="grid min-w-0 grid-cols-1 gap-5">
         <div className={surfaceStyles({ className: "min-w-0" })}>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="ui-section-title">{dashboardT("diaryTitle")}</h2>
-            <a className={buttonStyles()} href="#manual-entry"><Plus aria-hidden="true" size={18} />{dashboardT("addFood")}</a>
-          </div>
+          <h2 className="ui-section-title today-diary-title">{dashboardT("diaryTitle")}</h2>
 
-          <div className="mt-6">
+          <div className="mt-4">
             {diaryState.status !== "ready" ? (
               <div className={feedbackStyles("danger")} role="alert" data-testid="diary-retrieval-error">
                 {diaryT(`errors.${retrievalErrorKey(diaryState)}`)}
@@ -723,6 +701,17 @@ function LocalizedTodayPage({
           </div>
         </section>
       </div>
+      {profileState.status === "missing" && (
+        <aside className="today-setup" aria-labelledby="today-setup-title" data-testid="today-setup-guidance">
+          <div className="today-setup-copy">
+            <h2 className="ui-card-title" id="today-setup-title">{t("setupCalloutTitle")}</h2>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">{t("setupCalloutBody")}</p>
+          </div>
+          <Link className={buttonStyles({ variant: "outline" })} href={`/${locale}/setup`}>
+            {t("setupCalloutLink")}
+          </Link>
+        </aside>
+      )}
     </section>
   );
 }
