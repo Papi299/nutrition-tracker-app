@@ -1,0 +1,74 @@
+[
+  {
+    "locale": "en",
+    "name": "setup",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "en",
+    "name": "search",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "en",
+    "name": "my-foods",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "en",
+    "name": "saved-meals",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "en",
+    "name": "recipes",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "en",
+    "name": "account",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "setup",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "search",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "my-foods",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "saved-meals",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "recipes",
+    "violations": 0,
+    "incomplete": []
+  },
+  {
+    "locale": "he",
+    "name": "account",
+    "violations": 0,
+    "incomplete": []
+  }
+]
