@@ -17,6 +17,19 @@ export function calculateDiaryTotals(entries: readonly Snapshot[]): DiaryTotals 
   );
 }
 
+// Count missing stored values separately so known subtotals never imply verified zero.
+export function countUnknownDiaryNutrients(entries: readonly Snapshot[]): Record<NutrientKey, number> {
+  return entries.reduce<Record<NutrientKey, number>>(
+    (counts, entry) => ({
+      calories: counts.calories + (entry.calories === null ? 1 : 0),
+      carbohydrates_g: counts.carbohydrates_g + (entry.carbohydrates_g === null ? 1 : 0),
+      fat_g: counts.fat_g + (entry.fat_g === null ? 1 : 0),
+      protein_g: counts.protein_g + (entry.protein_g === null ? 1 : 0),
+    }),
+    { calories: 0, carbohydrates_g: 0, fat_g: 0, protein_g: 0 },
+  );
+}
+
 export function compareNutritionTarget(consumed: number, target: number | null) {
   const ratio = target !== null && target > 0 ? consumed / target : null;
   return {

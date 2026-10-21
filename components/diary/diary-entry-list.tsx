@@ -5,6 +5,7 @@ import { buttonStyles } from "@/components/ui/button";
 import type { DiaryEntry } from "@/lib/diary-entries";
 import { formatLocalizedNumber } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/routing";
+import { useTranslations } from "next-intl";
 
 type MealTypeLabels = Record<DiaryEntry["meal_type"], string>;
 const mealTypes = ["breakfast", "lunch", "dinner", "snack", "other"] as const;
@@ -80,10 +81,11 @@ export function DiaryEntryList({
   unitCaloriesLabel: string;
   updateAction: DiaryEntryAction;
 }) {
+  const t = useTranslations("Diary.dashboard");
   return (
-    <div className="grid min-w-0 grid-cols-1 gap-6" data-testid="save-diary-meal-links">
+    <div className="diary-workspace" data-testid="save-diary-meal-links">
       {entries.length === 0 && (
-        <p className="ui-body-secondary">{emptyMessage}</p>
+        <p className="diary-empty-invitation">{emptyMessage}</p>
       )}
       {mealTypes.map((mealType) => {
         // Filtering preserves the query's original order within each meal.
@@ -98,17 +100,18 @@ export function DiaryEntryList({
           0,
         );
         const hasKnownCalories = mealEntries.some((entry) => entry.calories !== null);
+        const hasUnknownCalories = mealEntries.some((entry) => entry.calories === null);
         const canSaveMeal = mealEntries.some((entry) => entry.meal_type === mealType);
         const headingId = `diary-meal-${mealType}`;
 
         return (
           <section
             aria-labelledby={headingId}
-            className={mealEntries.length > 0 ? "grid min-w-0 grid-cols-1 gap-3" : "border-b border-border pb-4"}
+            className={mealEntries.length > 0 ? "diary-meal" : "diary-meal diary-meal-empty"}
             data-meal-type={mealType}
             key={mealType}
           >
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+            <div className="diary-meal-toolbar">
               <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h3 className="text-base font-semibold text-foreground" id={headingId}>
                   {mealTypeLabels[mealType]}
@@ -122,9 +125,10 @@ export function DiaryEntryList({
                           })} ${unitCaloriesLabel}`
                         : notSetLabel}
                     </bdi>
+                    {hasKnownCalories && hasUnknownCalories && <span className="diary-meal-known"> · {t("knownSubtotal")}</span>}
                   </p>
                 ) : (
-                  <p className="ui-caption">{emptyMealLabel}</p>
+                  <p className="sr-only">{emptyMealLabel}</p>
                 )}
               </div>
               {canSaveMeal && (
@@ -137,7 +141,7 @@ export function DiaryEntryList({
               )}
             </div>
             {mealEntries.length > 0 && (
-              <ul className="grid min-w-0 grid-cols-1 gap-2">
+              <ul className="diary-meal-entries">
                 {mealEntries.map((entry) => (
                   <DiaryEntryListItem
                     deleteAction={deleteAction}

@@ -1,6 +1,7 @@
 import { provisionActivatedLocalUser, queryLocalAuthFixture } from "@/e2e/helpers/local-auth";
 import AxeBuilder from "@axe-core/playwright";
 import { createHash, randomUUID } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -12,17 +13,17 @@ const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
 const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
 const password = "UiPhase3SyntheticPassword123!";
-const captureConfigPath = "/private/tmp/ui-phase3-capture-config.json";
+const captureConfigPath = "/private/tmp/ui-phase-b-capture-config.json";
 const captureConfig: { capture?: "before" | "after" | "polish"; fixturePath?: string; evidenceDir?: string } = existsSync(captureConfigPath) ? JSON.parse(readFileSync(captureConfigPath, "utf8")) : {};
 const capture = captureConfig.capture;
-const captureFixturePath = captureConfig.fixturePath ?? "/private/tmp/ui-phase3-capture-fixture.json";
-const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15" } as const;
+const captureFixturePath = captureConfig.fixturePath ?? "/private/tmp/ui-phase-b-capture-fixture.json";
+const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15", forty: "2026-10-12", emptyTargets: "2027-01-01" } as const;
 const mealTypes = ["breakfast", "lunch", "dinner", "snack", "other"] as const;
 const expectedTotals = { calories: "1,420", protein_g: "85.5", carbohydrates_g: "198.25", fat_g: "31.25" };
 
 const localeCopy = {
-  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry" },
-  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה" },
+  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry", knownSubtotal: "Known subtotal", unknownValues: "Includes entries with unknown values." },
+  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה", knownSubtotal: "סכום ביניים ידוע", unknownValues: "כולל רשומות עם ערכים לא ידועים." },
 } as const;
 const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
 
@@ -79,6 +80,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       { user_id: userId, effective_from: "2026-02-01", calories: 0, protein_g: 0, carbohydrates_g: null, fat_g: 0 },
       { user_id: userId, effective_from: "2026-03-01", calories: 2000, protein_g: 120, carbohydrates_g: 240, fat_g: 70 },
       { user_id: userId, effective_from: "2026-11-01", calories: 800, protein_g: 50, carbohydrates_g: 100, fat_g: 20 },
+      { user_id: userId, effective_from: "2026-12-02", calories: 100, protein_g: null, carbohydrates_g: 0, fat_g: 2 },
+      { user_id: userId, effective_from: dates.emptyTargets, calories: null, protein_g: null, carbohydrates_g: null, fat_g: null },
     ]);
     expect(targets.error).toBeNull();
     const savedMeal = await client.rpc("persist_saved_meal", {
@@ -125,6 +128,14 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       { user_id: userId, entry_date: dates.subtotalMixed, meal_type: "other", source: "manual", food_name: "Tea · תה", calories: null },
     ]);
     expect(subtotalEntries.error).toBeNull();
+    const fortyEntries = await client.from("diary_entries").insert(Array.from({ length: 40 }, (_, index) => ({
+      user_id: userId, entry_date: dates.forty, meal_type: mealTypes[Math.floor(index / 8)], source: "manual" as const,
+      food_name: index === 0 ? "שם מזון ארוך במיוחד עם עברית English 42% · (סינתטי) ".repeat(3) : index === 1 ? "LongUnbrokenSyntheticFoodIdentity".repeat(5) : `Synthetic diary row ${index + 1} · רשומה`,
+      brand_name: index < 2 ? "LongBrandIdentityמותג".repeat(5) : "Synthetic kitchen",
+      serving_quantity: 1, serving_unit: "portion", calories: index + 1, protein_g: 0.25, carbohydrates_g: 1.5, fat_g: 0,
+      created_at: `${dates.forty}T08:${String(index).padStart(2, "0")}:00Z`,
+    })));
+    expect(fortyEntries.error).toBeNull();
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -155,23 +166,23 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
 
   test("captures reproducible visual evidence", async ({ browser }) => {
     test.skip(!capture, "Explicit evidence capture only.");
-    test.setTimeout(120_000);
-    const output = captureConfig.evidenceDir ?? join(process.cwd(), "docs/evidence/ui-phase3");
+    test.setTimeout(180_000);
+    const output = captureConfig.evidenceDir ?? join(process.cwd(), "docs/evidence/nutrition-ux-redesign-003");
     mkdirSync(output, { recursive: true });
     let captures: { width: number; height: number; locale: "en" | "he"; fixture: keyof typeof dates; forcedColors?: "active" }[] = [
-      { width: 1440, height: 900, locale: "en", fixture: "populated" }, { width: 1440, height: 900, locale: "he", fixture: "populated" },
-      { width: 1280, height: 900, locale: "en", fixture: "empty" }, { width: 390, height: 844, locale: "en", fixture: "populated" },
-      { width: 390, height: 844, locale: "he", fixture: "populated" }, { width: 390, height: 844, locale: "en", fixture: "empty" },
-      { width: 320, height: 720, locale: "he", fixture: "populated" }, { width: 390, height: 844, locale: "en", fixture: "missing" },
-      { width: 1440, height: 900, locale: "en", fixture: "exceeded" }, { width: 390, height: 844, locale: "he", fixture: "exceeded" },
-    ];
-    if (capture === "after") captures.push({ width: 390, height: 844, locale: "en", fixture: "populated", forcedColors: "active" }, { width: 390, height: 844, locale: "he", fixture: "populated", forcedColors: "active" });
-    if (capture === "polish") captures = [
-      { width: 320, height: 720, locale: "en", fixture: "populated" },
-      { width: 320, height: 720, locale: "he", fixture: "populated" },
+      { width: 1440, height: 900, locale: "en", fixture: "populated" },
       { width: 390, height: 844, locale: "en", fixture: "populated" },
       { width: 390, height: 844, locale: "he", fixture: "populated" },
+      { width: 320, height: 720, locale: "he", fixture: "forty" },
+      { width: 390, height: 844, locale: "en", fixture: "empty" },
+      { width: 390, height: 844, locale: "en", fixture: "missing" },
+      { width: 390, height: 844, locale: "en", fixture: "partial" },
+      { width: 390, height: 844, locale: "en", fixture: "zero" },
+      { width: 390, height: 844, locale: "en", fixture: "exceeded" },
+      { width: 390, height: 844, locale: "en", fixture: "subtotalMixed" },
     ];
+    if (capture === "after") captures.push({ width: 390, height: 844, locale: "he", fixture: "populated", forcedColors: "active" });
+    if (capture === "polish") captures = captures.filter(item => item.fixture === "populated");
     const manifest = [];
     for (const item of captures) {
       const { context, page } = await openPage(browser, { viewport: { width: item.width, height: item.height }, deviceScaleFactor: 1 });
@@ -180,7 +191,21 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       await page.goto(route);
       await expect(page.getByTestId("manual-diary-entry-form")).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
-      const geometry = await page.evaluate(() => ({ viewportWidth: document.documentElement.clientWidth, documentWidth: document.documentElement.scrollWidth, direction: document.documentElement.dir }));
+      await page.evaluate(() => window.scrollTo(0, 0));
+      const geometry = await page.evaluate(() => {
+        const summary = document.querySelector(".nutrition-summary")!.getBoundingClientRect();
+        const heading = document.querySelector(".today-diary-title")!.getBoundingClientRect();
+        const diary = document.querySelector('[data-testid="save-diary-meal-links"]')!.getBoundingClientRect();
+        const rows = Array.from(document.querySelectorAll("[data-diary-entry-id]"));
+        const first = rows[0]?.getBoundingClientRect();
+        const navTop = document.querySelector('[data-testid="mobile-bottom-navigation"]')?.getBoundingClientRect().top ?? window.innerHeight;
+        return {
+          viewportWidth: document.documentElement.clientWidth, documentWidth: document.documentElement.scrollWidth, direction: document.documentElement.dir,
+          summaryHeight: summary.height, diaryHeadingY: heading.top, firstEntryY: first?.top ?? null,
+          firstEntryHeight: first?.height ?? null, diaryHeight: diary.height, entryCount: rows.length,
+          fullyVisibleRows: rows.filter(row => { const rect = row.getBoundingClientRect(); return rect.top >= 0 && rect.bottom <= navTop; }).length,
+        };
+      });
       expect(geometry.documentWidth).toBeLessThanOrEqual(geometry.viewportWidth);
       const shortcutBounds = capture === "polish" ? await assertInitialMobileShortcut(page, item.locale, item.width, item.height) : undefined;
       const files = [];
@@ -203,7 +228,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       manifest.push({ ...item, route, ...geometry, shortcutBounds, otherSubtotal, files });
       await context.close();
     }
-    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ task: "NUTRITION-UX-REDESIGN-002", baseline: "da15f5eca2506d93beaf063124827f7b3d347fcf", evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: capture === "polish" ? "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset" : "Original shared synthetic account", captures: manifest, renderedSourceFiles: capture === "before" ? undefined : renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
+    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ task: "NUTRITION-UX-REDESIGN-003", baseline: "abe0124c485a9a298d9a7fbf7ace76b00771fecc", integratedApplication: true, sourceCommit: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(), sourceTree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], { encoding: "utf8" }).trim(), evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", browserVersion: browser.version(), deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: capture === "polish" ? "New activated synthetic local account; original nutrition snapshots recreated after prior regression reset" : "Original shared synthetic account", captures: manifest, renderedSourceFiles: renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
   });
 
   test("Phase A shared colors, focus, pending controls and field feedback stay accessible", async ({ browser }) => {
@@ -315,6 +340,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await expect(page.getByTestId("target-progress")).toContainText("1,420");
     await expect(page.getByTestId("target-progress")).not.toContainText(/\d+%/);
     await expect(page.getByRole("link", { name: "Manage current targets", exact: true })).toBeVisible();
+    await expect(page.getByTestId("target-progress").locator(".macro-track")).toHaveCount(0);
     await page.goto(`/en/today?date=${dates.zero}`);
     await expect(page.getByTestId("target-summary")).toContainText("0");
     await expect(page.getByTestId("target-progress")).not.toContainText(/\d+%|Infinity|NaN/);
@@ -324,7 +350,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await expect(page.getByTestId("target-progress")).toContainText("620");
     await expect(page.getByTestId("target-progress")).toContainText(/over/i);
     await expect(page.getByTestId("target-progress")).not.toContainText(/-620/);
-    await expect(page.getByTestId("calorie-summary").locator("circle.calorie-ring-fill")).toHaveAttribute("stroke-dasharray", "100 100");
+    await expect(page.getByTestId("calorie-summary").locator(".calorie-ring")).toHaveCount(0);
+    await expect(page.getByTestId("calorie-summary").locator(".macro-track > span")).toHaveAttribute("style", /width:\s*100%/);
     for (const bar of await page.locator(".macro-track > span").all()) await expect(bar).toHaveAttribute("style", /width:\s*100%/);
     await context.close();
   });
@@ -336,7 +363,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         await page.setViewportSize({ width, height: 900 });
         await page.goto(`/${locale}/today?date=${dates.large}`);
         await expect(page.getByTestId("calorie-summary")).toContainText("999,999,999");
-        await expect(page.getByTestId("calorie-summary").locator("circle.calorie-ring-fill")).toHaveAttribute("stroke-dasharray", "100 100");
+        await expect(page.getByTestId("calorie-summary").locator(".macro-track > span")).toHaveAttribute("style", /width:\s*100%/);
         const widths = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }));
         if (widths.content > widths.viewport) {
           const overflow = await page.locator("main *").evaluateAll(elements => elements.map(element => {
@@ -357,9 +384,84 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await page.goto(`/en/today?date=${dates.partial}`);
     const row = page.locator('[data-diary-entry-id]').filter({ hasText: "Partial synthetic snapshot" });
     await expect(row.locator("dl > div").filter({ hasText: "Protein (g)" }).locator("dd")).toHaveText("Not set");
-    await expect(row.locator("dl > div").filter({ hasText: "Carbohydrates (g)" }).locator("dd")).toHaveText("0");
-    await expect(row.locator("dl > div").filter({ hasText: "Fat (g)" }).locator("dd")).toHaveText("1.25");
+    await expect(row.locator("dl > div").filter({ hasText: "Carbohydrates (g)" }).locator("dd")).toHaveText("0 g");
+    await expect(row.locator("dl > div").filter({ hasText: "Fat (g)" }).locator("dd")).toHaveText("1.25 g");
     await expect(page.locator('[data-nutrition-metric="protein_g"] dl')).toContainText("0 g");
+    await context.close();
+  });
+
+  test("forty full-identity rows retain exact snapshots, order, complete macros and bounded layout", async ({ browser }) => {
+    test.setTimeout(120_000);
+    const { context, page } = await openPage(browser);
+    const fixture = await client.from("diary_entries").select("id,food_name,brand_name,meal_type").eq("entry_date", dates.forty).order("created_at").order("saved_meal_diary_run_id", { nullsFirst: true }).order("saved_meal_item_position", { nullsFirst: true }).order("id");
+    expect(fixture.error).toBeNull();
+    expect(fixture.data).toHaveLength(40);
+    for (const locale of ["en", "he"] as const) {
+      for (const width of [320, 390, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 640 });
+        await page.goto(`/${locale}/today?date=${dates.forty}`);
+        await expect(page.locator("[data-diary-entry-id]")).toHaveCount(40);
+        for (const [metric, total] of Object.entries({ calories: "820", protein_g: "10", carbohydrates_g: "60", fat_g: "0" })) {
+          await expect(page.locator(`[data-nutrition-metric="${metric}"] dl > div`).first().locator("dd")).toHaveText(`${total} ${metric === "calories" ? localeCopy[locale].calories : localeCopy[locale].grams}`);
+        }
+        for (const meal of mealTypes) {
+          const section = page.locator(`[data-meal-type="${meal}"]`);
+          const expectedRows = fixture.data!.filter(entry => entry.meal_type === meal);
+          expect(await section.locator("[data-diary-entry-id]").evaluateAll(rows => rows.map(row => row.getAttribute("data-diary-entry-id")))).toEqual(expectedRows.map(entry => entry.id));
+        }
+        for (const entry of fixture.data!.slice(0, 2)) {
+          const row = page.locator(`[data-diary-entry-id="${entry.id}"]`);
+          await expect(row).toContainText(entry.food_name);
+          await expect(row).toContainText(entry.brand_name!);
+          await expect(row.getByTestId("diary-source-manual")).toBeVisible();
+          await expect(row.locator("dl > div")).toHaveCount(3);
+          const clipping = await row.locator('[dir="auto"]').first().evaluate(element => ({ clipped: element.scrollHeight > element.clientHeight + 1, ellipsis: getComputedStyle(element).textOverflow === "ellipsis" }));
+          expect(clipping).toEqual({ clipped: false, ellipsis: false });
+        }
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+      }
+    }
+    await context.close();
+  });
+
+  test("known subtotals identify missing snapshots per nutrient without treating explicit zero as unknown", async ({ browser }) => {
+    test.setTimeout(120_000);
+    const { context, page } = await openPage(browser);
+    for (const locale of ["en", "he"] as const) {
+      for (const item of [
+        { date: dates.populated, counts: [1, 1, 1, 1], totals: ["1,420", "85.5", "198.25", "31.25"] },
+        { date: dates.partial, counts: [0, 1, 0, 0], totals: ["100", "0", "0", "1.25"] },
+        { date: dates.unknownMany, counts: [2, 2, 2, 2], totals: ["0", "0", "0", "0"] },
+        { date: dates.subtotalZero, counts: [0, 1, 1, 1], totals: ["0", "0", "0", "0"] },
+        { date: dates.subtotalMixed, counts: [1, 2, 2, 2], totals: ["0", "0", "0", "0"] },
+        { date: dates.forty, counts: [0, 0, 0, 0], totals: ["820", "10", "60", "0"] },
+        { date: dates.empty, counts: [0, 0, 0, 0], totals: ["0", "0", "0", "0"] },
+      ]) {
+        await page.goto(`/${locale}/today?date=${item.date}`);
+        for (const [index, key] of ["calories", "protein_g", "carbohydrates_g", "fat_g"].entries()) {
+          const metric = page.locator(`[data-nutrition-metric="${key}"]`);
+          await expect(metric).toHaveAttribute("data-unknown-count", String(item.counts[index]));
+          await expect(metric.locator("dl > div").first().locator("dd")).toHaveText(`${item.totals[index]} ${key === "calories" ? localeCopy[locale].calories : localeCopy[locale].grams}`);
+          if (item.counts[index] > 0) await expect(metric.locator(".nutrition-known-subtotal")).toHaveText(localeCopy[locale].knownSubtotal);
+          else await expect(metric.locator(".nutrition-known-subtotal")).toHaveCount(0);
+        }
+        if (item.counts.some(count => count > 0)) await expect(page.locator(".nutrition-unknown-note")).toHaveText(localeCopy[locale].unknownValues);
+        else await expect(page.locator(".nutrition-unknown-note")).toHaveCount(0);
+      }
+    }
+    await page.goto(`/en/today?date=${dates.partial}`);
+    await expect(page.locator('[data-nutrition-metric="protein_g"] .nutrition-target bdi')).toHaveText("Not set");
+    await expect(page.locator('[data-nutrition-metric="carbohydrates_g"] .nutrition-target bdi')).toHaveText("0 g");
+    await expect(page.locator('[data-nutrition-metric="carbohydrates_g"] .macro-track')).toHaveCount(0);
+    await expect(page.locator('[data-nutrition-metric="fat_g"] .nutrition-target bdi')).toHaveText("2 g");
+    await page.goto(`/en/today?date=${dates.emptyTargets}`);
+    // The target reader normalizes an all-null target record to no configured target.
+    await expect(page.getByTestId("target-summary")).toHaveCount(0);
+    await expect(page.getByTestId("target-progress")).toBeVisible();
+    await expect(page.getByTestId("target-progress").locator(".macro-track, .nutrition-target")).toHaveCount(0);
+    await expect(page.locator(".nutrition-target-note p")).toHaveCount(1);
+    await expect(page.locator(".nutrition-target-note")).toContainText("No manual target");
+    await expect(page.getByRole("link", { name: "Manage current targets", exact: true })).toBeVisible();
     await context.close();
   });
 
@@ -424,6 +526,13 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
           await expect(progress).toHaveAttribute("aria-valuetext", /.+/);
         }
         await expect(page.locator('[data-nutrition-metric]')).toHaveCount(4);
+        await expect(page.locator(".calorie-ring")).toHaveCount(0);
+        const metricBounds = await page.locator("[data-nutrition-metric]").evaluateAll(metrics => metrics.map(metric => { const rect = metric.getBoundingClientRect(); return { top: rect.top, width: rect.width }; }));
+        expect(Math.abs(metricBounds[0].top - metricBounds[1].top)).toBeLessThanOrEqual(1);
+        expect(Math.abs(metricBounds[2].top - metricBounds[3].top)).toBeLessThanOrEqual(1);
+        expect(Math.max(...metricBounds.map(metric => metric.width)) - Math.min(...metricBounds.map(metric => metric.width))).toBeLessThanOrEqual(1);
+        if (width < 640) expect(metricBounds[2].top).toBeGreaterThan(metricBounds[0].top);
+        else expect(Math.max(...metricBounds.map(metric => metric.top)) - Math.min(...metricBounds.map(metric => metric.top))).toBeLessThanOrEqual(1);
         for (const [key, value] of Object.entries(expectedTotals)) {
           const metric = page.locator(`[data-nutrition-metric="${key}"]`);
           await expect(metric.locator("h3")).toHaveText(/.+/);
@@ -564,7 +673,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         { label: "one null", date: dates.populated, meal: "other", count: 1, subtotal: copy.notSet, populated: true },
         { label: "many null", date: dates.unknownMany, meal: "other", count: 2, subtotal: copy.notSet, populated: false },
         { label: "explicit zero", date: dates.subtotalZero, meal: "other", count: 1, subtotal: `0 ${copy.calories}`, populated: false },
-        { label: "zero and null", date: dates.subtotalMixed, meal: "other", count: 2, subtotal: `0 ${copy.calories}`, populated: false },
+        { label: "zero and null", date: dates.subtotalMixed, meal: "other", count: 2, subtotal: `0 ${copy.calories} · ${copy.knownSubtotal}`, populated: false },
         { label: "positive sum", date: dates.populated, meal: "breakfast", count: 2, subtotal: `395 ${copy.calories}`, populated: true },
         { label: "empty", date: dates.empty, meal: "other", count: 0, subtotal: copy.emptyMeal, populated: false },
       ];
