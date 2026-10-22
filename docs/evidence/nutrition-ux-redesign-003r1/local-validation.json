@@ -90,5 +90,23 @@
       "npm run test:date",
       "npm run test:date -- tests/nutrition-daily-summary.spec.tsx"
     ]
+  },
+  "postCodeQLTestCorrection": {
+    "firstHead": "a2348d7a99fc138ae184ddaba90848f8484112cb",
+    "alert": 6,
+    "alertUrl": "https://github.com/Papi299/nutrition-tracker-app/security/code-scanning/6",
+    "rule": "js/incomplete-multi-character-sanitization",
+    "severity": "high",
+    "file": "tests/nutrition-daily-summary.spec.tsx",
+    "resolution": "Removed generic HTML-to-text/entity replacement; assert raw SSR comparison text and strictly match expected definition markup. No sanitizer, dependency, suppression or dismissal.",
+    "focusedComponentTestsPassed": 16,
+    "unitTestsPassed": 387,
+    "lint": "passed",
+    "typecheck": "passed",
+    "diffCheck": "passed",
+    "renderedApplicationSourceChanged": false,
+    "browserTestsChanged": false,
+    "unitLog": "/private/tmp/nutrition-ux-003r1-codeql-unit.log",
+    "finalExactHeadCodeQL": "Recorded in final delivery report after new push"
   }
 }
