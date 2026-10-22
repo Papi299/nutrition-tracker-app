@@ -61,6 +61,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("      - name: Lint\n", "      - name: Lint\n        if: github.event_name != 'workflow_dispatch'\n"),
     ci.replace("      - name: Type check\n        run: npm run typecheck\n\n", ""),
     ci.replace("  contents: read\n", "  contents: write\n"),
+    ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 30\n"),
+    ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 41\n"),
     ci.replace('workflow_dispatch) base="$CI_HEAD_SHA^" ;;', 'workflow_dispatch) base="$CI_HEAD_SHA" ;;'),
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
   ];

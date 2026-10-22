@@ -20,9 +20,10 @@ export default defineConfig({
   testDir: "./e2e",
   testIgnore: "phase-11d-ui.spec.ts",
   workers: 1,
+  retries: 0,
   use: {
     baseURL,
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
   },
   webServer: {
     command: `npm run start -- -p ${port} -H 127.0.0.1`,
