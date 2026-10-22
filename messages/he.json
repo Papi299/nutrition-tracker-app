@@ -452,6 +452,7 @@
       "scan": "סריקת ברקוד",
       "savedMeals": "ארוחות שמורות",
       "knownSubtotal": "סכום ביניים ידוע",
+      "incompleteNutrition": "נתונים חלקיים",
       "unknownValues": "כולל רשומות עם ערכים לא ידועים."
     }
   },
