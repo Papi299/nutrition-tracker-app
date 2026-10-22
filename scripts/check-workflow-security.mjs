@@ -129,6 +129,14 @@ function checkCiDispatchContract(workflow) {
   if (!steps.get("Start local Supabase").includes("id: supabase")) {
     fail("ci.yml must identify local Supabase startup for safe teardown");
   }
+  const browserInstall =
+    "      - name: Install Playwright Phase 11D engines\n" +
+    "        run: |\n" +
+    "          sudo sed -i 's|http://azure\\.archive\\.ubuntu\\.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources\n" +
+    "          npx playwright install --with-deps chromium firefox webkit\n\n";
+  if (steps.get("Install Playwright Phase 11D engines") !== browserInstall) {
+    fail("ci.yml must retain the reviewed official Ubuntu archive and all browser engines/dependencies");
+  }
 
   const allowedConditions = new Map([
     ["Require main for manual dispatch", "if: ${{ github.event_name == 'workflow_dispatch' }}"],

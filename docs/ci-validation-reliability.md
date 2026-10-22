@@ -19,13 +19,24 @@ alone predicts 31m03s. A separate successful job on the newer runner image
 completed in 19m14s with 45 seconds of browser/OS setup, so the image alone is
 not an established cause.
 
+The 328/332 ignored APT downloads in those failed attempts all used
+`azure.archive.ubuntu.com`. Browser provisioning now changes that source URI
+to Ubuntu's official `https://archive.ubuntu.com/ubuntu`, addressing the
+observed mirror path rather than depending solely on a larger timeout.
+The deb822 source file retains its suites, components and Signed-By keyring;
+the separate security source is unchanged. A fixture test verifies the
+exact URI-only transformation, and workflow policy rejects an unreviewed
+mirror or removal of any engine/dependency. APT signature verification is
+unchanged. This is not a guarantee of network throughput; end-to-end hosted
+provisioning still requires validation after the separate Next.js correction.
+See [Ubuntu package management](https://ubuntu.com/server/docs/how-to/software/package-management/).
+
 Validate now has an explicitly reviewed **40-minute** bound. The workflow
 policy still requires that exact bound and rejects both the former 30-minute
 value and unreviewed increases. Every existing gate, trigger, action pin,
 permission, step condition, test command and cleanup remains in place. The
-production-backup workflow retains its separate 20-minute bound. This focused
-correction does not attempt caching or package-mirror changes without evidence
-that they would preserve engine compatibility and supply-chain constraints.
+production-backup workflow retains its separate 20-minute bound. No cache,
+package-version selection or engine installation command is changed.
 
 The original Custom Food alias keyboard-focus failure remains unexplained.
 Its retained artifact had no trace: the primary Playwright configuration used

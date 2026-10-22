@@ -98,7 +98,9 @@ jobs:
         run: npm run security:build-boundary
 
       - name: Install Playwright Phase 11D engines
-        run: npx playwright install --with-deps chromium firefox webkit
+        run: |
+          sudo sed -i 's|http://azure\.archive\.ubuntu\.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources
+          npx playwright install --with-deps chromium firefox webkit
 
       - name: Start local Supabase
         id: supabase

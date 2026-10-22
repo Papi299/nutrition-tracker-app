@@ -63,6 +63,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("  contents: read\n", "  contents: write\n"),
     ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 30\n"),
     ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 41\n"),
+    ci.replace("https://archive.ubuntu.com/ubuntu", "http://unreviewed.example/ubuntu"),
+    ci.replace("npx playwright install --with-deps chromium firefox webkit", "npx playwright install chromium"),
     ci.replace('workflow_dispatch) base="$CI_HEAD_SHA^" ;;', 'workflow_dispatch) base="$CI_HEAD_SHA" ;;'),
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
   ];
@@ -78,6 +80,23 @@ test("manual dispatch guard accepts main and rejects another ref", () => {
     const script = stepScript("Require main for manual dispatch");
     assert.equal(command(directory, "bash", ["-e", "-c", script], { GITHUB_REF: "refs/heads/main" }).status, 0);
     assert.notEqual(command(directory, "bash", ["-e", "-c", script], { GITHUB_REF: "refs/heads/feature" }).status, 0);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("browser provisioning changes only the Azure archive URI and preserves APT signing and security sources", () => {
+  const directory = mkdtempSync(join(tmpdir(), "ci-apt-sources-"));
+  try {
+    const source = "Types: deb\nURIs: http://azure.archive.ubuntu.com/ubuntu/\nSuites: noble noble-updates noble-backports\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\nTypes: deb\nURIs: http://security.ubuntu.com/ubuntu/\nSuites: noble-security\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n";
+    const file = join(directory, "ubuntu.sources");
+    writeFileSync(file, source);
+    const script = stepScript("Install Playwright Phase 11D engines");
+    const expression = script.match(/sudo sed -i '([^']+)'/)?.[1];
+    assert.ok(expression);
+    const result = command(directory, "sed", ["-e", expression, file]);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, source.replace("http://azure.archive.ubuntu.com/ubuntu/", "https://archive.ubuntu.com/ubuntu/"));
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
