@@ -1,0 +1,94 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003R1",
+  "reviewedHead": "da97a64bb7f3303517b7eb0a1646b42f3aa01114",
+  "reviewedTree": "e96456cac98e4429c6af91fdeb373a2e7d8309fe",
+  "runtime": "/private/tmp/nutrition-ux-003r1-runtime",
+  "candidateSourceHashes": "/private/tmp/nutrition-ux-003r1-candidate-source-hashes.json",
+  "allSixCandidateFilesByteIdentical": true,
+  "builds": {
+    "reviewedHead": "passed",
+    "candidate": "passed",
+    "command": "node /private/tmp/nutrition-ux-003r1-build.mjs"
+  },
+  "beforeDefectProof": [
+    {
+      "command": "PLAYWRIGHT_PORT=3111 npm run test:e2e -- e2e/ui-today-dashboard.spec.ts -g 'R1 incomplete nutrients' --reporter=line,html,json",
+      "result": "expected failure on unchanged reviewed-head application",
+      "actual": "2 comparison/track elements on incomplete calories metric; expected 0",
+      "log": "/private/tmp/nutrition-ux-003r1-before-summary.log",
+      "json": "/private/tmp/nutrition-ux-003r1-before-summary-results.json"
+    },
+    {
+      "command": "PLAYWRIGHT_PORT=3111 npm run test:e2e -- e2e/ui-today-dashboard.spec.ts -g 'R1 row macros' --reporter=line,html,json",
+      "result": "expected failure on unchanged reviewed-head application",
+      "actual": "Protein (g): label; expected Protein:",
+      "log": "/private/tmp/nutrition-ux-003r1-before-row.log",
+      "json": "/private/tmp/nutrition-ux-003r1-before-row-results.json"
+    }
+  ],
+  "afterRegression": [
+    {
+      "command": "PLAYWRIGHT_PORT=3111 PLAYWRIGHT_HTML_OUTPUT_DIR=/private/tmp/nutrition-ux-003r1-focused-report PLAYWRIGHT_JSON_OUTPUT_FILE=/private/tmp/nutrition-ux-003r1-focused-results.json npm run test:e2e -- e2e/ui-today-dashboard.spec.ts e2e/retrieval-reliability.spec.ts e2e/date-correctness.spec.ts e2e/diary-mutation-correctness.spec.ts e2e/diary-nojs-completion.spec.ts --reporter=line,html,json",
+      "passed": 47,
+      "skipped": 1,
+      "failed": 0,
+      "duration": "56.0s",
+      "limitation": "retrieval-reliability.spec.ts filter does not exist and was ignored; actual retrieval suite executed separately below",
+      "skipReason": "Explicit evidence capture only.",
+      "log": "/private/tmp/nutrition-ux-003r1-focused.log",
+      "json": "/private/tmp/nutrition-ux-003r1-focused-results.json"
+    },
+    {
+      "command": "PLAYWRIGHT_PORT=3111 PLAYWRIGHT_HTML_OUTPUT_DIR=/private/tmp/nutrition-ux-003r1-retrieval-report PLAYWRIGHT_JSON_OUTPUT_FILE=/private/tmp/nutrition-ux-003r1-retrieval-results.json npm run test:e2e -- e2e/retrieval-and-core-loop.spec.ts --reporter=line,html,json",
+      "passed": 5,
+      "skipped": 0,
+      "failed": 0,
+      "duration": "5.9s",
+      "log": "/private/tmp/nutrition-ux-003r1-retrieval.log",
+      "json": "/private/tmp/nutrition-ux-003r1-retrieval-results.json"
+    }
+  ],
+  "pairedEvidence": {
+    "directory": "/private/tmp/nutrition-ux-003r1-evidence",
+    "beforeCapture": "1 passed (4.2s)",
+    "afterCapture": "1 passed (3.0s)",
+    "sameFixture": true,
+    "browser": "Chromium",
+    "viewports": [
+      {
+        "locale": "en",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "locale": "he",
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "fixture": "Two synthetic breakfast snapshots; 395 kcal fully known, protein 7.5 g known subtotal plus one null, 46.25 g carbs and 9.25 g fat fully known; targets 2000/120/240/70.",
+    "verifiedAfter": "Only incomplete protein has no track/comparison; complete calorie/carbs/fat metrics retain exact target comparisons.",
+    "limits": "English mobile combined crop includes actual fixed bottom navigation at its original viewport position; Hebrew desktop crop clearly shows complete first-row unit-label correction. No manual AT/device claim."
+  },
+  "environmentSafety": "/private/tmp/nutrition-ux-003r1-environment-safety.json",
+  "cleanup": "Complete: project containers/volumes/network and task proxy/socket/script removed; runtime/evidence/logs retained.",
+  "operationalBoundary": "Local disposable synthetic data only. No remote Supabase/provider operation, original-checkout mutation, or repository branch/history change by this runtime agent.",
+  "implementationCommit": "933cc37b9d3231ee2aacc81226c8535d03d843fb",
+  "implementationTree": "311f000b01c4056eca7aec183a975e3cca14ece8",
+  "sourceBinding": "All6candidatefiles and all7renderedapplicationsourcehashes verified against implementationCommit",
+  "cleanupProof": "/private/tmp/nutrition-ux-003r1-cleanup.json",
+  "staticAndUnitChecks": {
+    "diffCheck": "passed",
+    "lint": "passed",
+    "typecheck": "passed",
+    "unitPassed": 387,
+    "newComponentUnitPassed": 16,
+    "commands": [
+      "git diff --check",
+      "npm run lint",
+      "npm run typecheck",
+      "npm run test:date",
+      "npm run test:date -- tests/nutrition-daily-summary.spec.tsx"
+    ]
+  }
+}
