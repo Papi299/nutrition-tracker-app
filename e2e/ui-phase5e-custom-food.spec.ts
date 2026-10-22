@@ -1,4 +1,5 @@
 import { provisionActivatedLocalUserForUi, queryLocalAuthFixture } from "@/e2e/helpers/local-auth";
+import { attachKeyboardFocusFailure } from "@/e2e/helpers/focus-diagnostics";
 import type { Database, Json } from "@/lib/supabase/database.types";
 import en from "@/messages/en.json";
 import he from "@/messages/he.json";
@@ -145,15 +146,21 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
   }
 
   async function keyboardDestination(page: Page, link: Locator, expectedControl: Locator) {
-    await link.focus();
-    await page.keyboard.press("Enter");
-    await expect(expectedControl).toBeFocused();
-    await expect(expectedControl).toBeVisible();
-    const hit = await expectedControl.evaluate(element => { const r = element.getBoundingClientRect(); const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); const nav = document.querySelector('[data-testid="mobile-bottom-navigation"]'); const navTop = nav?.checkVisibility() ? nav.getBoundingClientRect().top : innerHeight; return { hit: !!hit && (hit === element || element.contains(hit)), y: r.y, bottom: r.bottom, viewportHeight: innerHeight, navTop }; });
-    expect(hit.hit).toBe(true);
-    expect(hit.y).toBeGreaterThanOrEqual(0);
-    expect(hit.bottom).toBeLessThanOrEqual(Math.min(hit.viewportHeight, hit.navTop));
-    return { ...(await description(expectedControl)), ...hit };
+    try {
+      await link.focus();
+      await page.keyboard.press("Enter");
+      await expect(expectedControl).toBeFocused();
+      await expect(expectedControl).toBeVisible();
+      const hit = await expectedControl.evaluate(element => { const r = element.getBoundingClientRect(); const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); const nav = document.querySelector('[data-testid="mobile-bottom-navigation"]'); const navTop = nav?.checkVisibility() ? nav.getBoundingClientRect().top : innerHeight; return { hit: !!hit && (hit === element || element.contains(hit)), y: r.y, bottom: r.bottom, viewportHeight: innerHeight, navTop }; });
+      expect(hit.hit).toBe(true);
+      expect(hit.y).toBeGreaterThanOrEqual(0);
+      expect(hit.bottom).toBeLessThanOrEqual(Math.min(hit.viewportHeight, hit.navTop));
+      return { ...(await description(expectedControl)), ...hit };
+    } catch (error) {
+      // Diagnostic failures must preserve the original keyboard assertion error.
+      await attachKeyboardFocusFailure(page, link, expectedControl, test.info()).catch(() => {});
+      throw error;
+    }
   }
 
   test.beforeAll(async ({ browser }) => {
