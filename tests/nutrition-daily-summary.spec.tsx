@@ -51,20 +51,23 @@ function metric(markup: string, key: NutrientKey) {
   return match![1];
 }
 
-function text(markup: string) {
-  return markup.replace(/<[^>]+>/g, "").replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
-}
-
 function definition(markup: string, className: "nutrition-consumed" | "nutrition-target") {
-  const match = markup.match(new RegExp(`<dd class="${className}">([\\s\\S]*?)<\\/dd>`));
-  expect(match, `Rendered ${className} definition`).not.toBeNull();
-  return text(match![1]);
+  const element = markup.match(new RegExp(`<dd class="${className}">[\\s\\S]*?<\\/dd>`));
+  expect(element, `Rendered ${className} definition`).not.toBeNull();
+  if (className === "nutrition-consumed") {
+    const value = element![0].match(/^<dd class="nutrition-consumed"><bdi>([^<]+)<span class="(?:sr-only|nutrition-unit)"> ([^<]+)<\/span><\/bdi><\/dd>$/);
+    expect(value, "Consumed definition has the expected value and isolated unit structure").not.toBeNull();
+    return `${value![1]} ${value![2]}`;
+  }
+  const value = element![0].match(/^<dd class="nutrition-target">(<span aria-hidden="true">\/ <\/span>)?<bdi>([^<]+)<\/bdi><\/dd>$/);
+  expect(value, "Target definition has the expected optional ratio and isolated value structure").not.toBeNull();
+  return `${value![1] ? "/ " : ""}${value![2]}`;
 }
 
 function assertIncomplete(markup: string, locale: Locale, consumed: string, configuredTarget?: string) {
   expect(definition(markup, "nutrition-consumed")).toBe(consumed);
   expect(markup).toContain(`<dt class="sr-only">${copy[locale].known}</dt>`);
-  expect(text(markup)).toContain(`${copy[locale].known} · ${copy[locale].incomplete}`);
+  expect(markup).toContain(`<p class="nutrition-known-subtotal ui-caption">${copy[locale].known} <span aria-hidden="true">·</span> ${copy[locale].incomplete}</p>`);
   expect(markup).not.toContain('class="nutrition-comparison"');
   expect(markup).not.toContain('class="macro-track"');
   if (configuredTarget !== undefined) {
@@ -88,9 +91,9 @@ for (const locale of ["en", "he"] as const) {
         expect(rendered).toContain('class="macro-track"');
         expect(rendered).toContain('style="width:50%"');
         expect(rendered).toContain('class="nutrition-comparison"');
-        expect(text(rendered)).toContain(locale === "en" ? "50% of target" : "50% מהיעד");
-        expect(text(rendered)).toContain(locale === "en" ? `${[100, 10, 20, 5][index]} ${unit(key)} remaining` : `נותרו ${[100, 10, 20, 5][index]} ${unit(key)}`);
-        expect(text(rendered)).not.toContain(copy[locale].incomplete);
+        expect(rendered).toContain(locale === "en" ? "50% of target" : "50% מהיעד");
+        expect(rendered).toContain(locale === "en" ? `${[100, 10, 20, 5][index]} ${unit(key)} remaining` : `נותרו ${[100, 10, 20, 5][index]} ${unit(key)}`);
+        expect(rendered).not.toContain(copy[locale].incomplete);
       }
     });
 
@@ -101,7 +104,7 @@ for (const locale of ["en", "he"] as const) {
         const rendered = metric(markup, key);
         expect(rendered).toContain('style="width:50%"');
         expect(rendered).toContain('class="nutrition-comparison"');
-        expect(text(rendered)).not.toContain(copy[locale].incomplete);
+        expect(rendered).not.toContain(copy[locale].incomplete);
       }
       expect(definition(metric(markup, "calories"), "nutrition-consumed")).toBe(`100 ${copy[locale].calories}`);
     });
@@ -121,8 +124,8 @@ for (const locale of ["en", "he"] as const) {
         const rendered = metric(markup, key);
         expect(definition(rendered, "nutrition-consumed")).toBe(`0 ${unit(key)}`);
         expect(rendered).toContain('style="width:0%"');
-        expect(text(rendered)).toContain(locale === "en" ? "0% of target" : "0% מהיעד");
-        expect(text(rendered)).not.toContain(copy[locale].incomplete);
+        expect(rendered).toContain(locale === "en" ? "0% of target" : "0% מהיעד");
+        expect(rendered).not.toContain(copy[locale].incomplete);
       }
     });
 
@@ -138,8 +141,8 @@ for (const locale of ["en", "he"] as const) {
       const fat = metric(markup, "fat_g");
       expect(definition(fat, "nutrition-consumed")).toBe(`0 ${copy[locale].grams}`);
       expect(fat).toContain('style="width:0%"');
-      expect(text(fat)).toContain(locale === "en" ? "10 g remaining" : "נותרו 10 גרם");
-      expect(text(fat)).not.toContain(copy[locale].incomplete);
+      expect(fat).toContain(locale === "en" ? "10 g remaining" : "נותרו 10 גרם");
+      expect(fat).not.toContain(copy[locale].incomplete);
     });
 
     test("zero targets retain complete comparisons without ratios and suppress incomplete zero-target comparisons", () => {
@@ -149,14 +152,14 @@ for (const locale of ["en", "he"] as const) {
       const calories = metric(markup, "calories");
       expect(definition(calories, "nutrition-target")).toBe(`/ 0 ${copy[locale].calories}`);
       expect(calories).toContain('class="nutrition-comparison"');
-      expect(text(calories)).toContain(locale === "en" ? "Over target by 100 kcal" : "חריגה מהיעד ב־100 קק״ל");
+      expect(calories).toContain(locale === "en" ? "Over target by 100 kcal" : "חריגה מהיעד ב־100 קק״ל");
       expect(markup).not.toContain('class="macro-track"');
-      expect(text(markup)).not.toMatch(/\d+%|Infinity|NaN/);
+      expect(markup).not.toMatch(/\d+%|Infinity|NaN/);
       const zeroMarkup = renderSummary(locale, [snapshot({ calories: 0, protein_g: 0, carbohydrates_g: 0, fat_g: 0 })], configuredTarget);
       for (const key of nutrientKeys) {
         const rendered = metric(zeroMarkup, key);
-        expect(text(rendered)).toContain(locale === "en" ? `0 ${unit(key)} remaining` : `נותרו 0 ${unit(key)}`);
-        expect(text(rendered)).not.toContain(copy[locale].incomplete);
+        expect(rendered).toContain(locale === "en" ? `0 ${unit(key)} remaining` : `נותרו 0 ${unit(key)}`);
+        expect(rendered).not.toContain(copy[locale].incomplete);
       }
     });
 
@@ -165,9 +168,9 @@ for (const locale of ["en", "he"] as const) {
       for (const [index, key] of nutrientKeys.entries()) {
         const rendered = metric(markup, key);
         expect(rendered).toContain('style="width:100%"');
-        expect(text(rendered)).toContain(locale === "en" ? "125% of target" : "125% מהיעד");
-        expect(text(rendered)).toContain(locale === "en" ? `Over target by ${[50, 5, 10, 2.5][index]} ${unit(key)}` : `חריגה מהיעד ב־${[50, 5, 10, 2.5][index]} ${unit(key)}`);
-        expect(text(rendered)).not.toContain(copy[locale].incomplete);
+        expect(rendered).toContain(locale === "en" ? "125% of target" : "125% מהיעד");
+        expect(rendered).toContain(locale === "en" ? `Over target by ${[50, 5, 10, 2.5][index]} ${unit(key)}` : `חריגה מהיעד ב־${[50, 5, 10, 2.5][index]} ${unit(key)}`);
+        expect(rendered).not.toContain(copy[locale].incomplete);
       }
     });
 
