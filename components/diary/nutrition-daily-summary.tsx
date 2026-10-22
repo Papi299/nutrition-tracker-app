@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { buttonStyles } from "@/components/ui/button";
@@ -40,13 +41,13 @@ export function NutritionDailySummary({ entries, locale, selectedDate, target, t
       <div className="nutrition-summary" data-testid={targetUnavailable ? undefined : "target-progress"}>
         {keys.map((key) => {
           const targetValue = targetUnavailable ? null : target?.[key] ?? null;
-          const comparison = compareNutritionTarget(totals[key], targetValue);
           const incomplete = unknownCounts[key] > 0;
+          const comparison = incomplete ? null : compareNutritionTarget(totals[key], targetValue);
           const targetText = targetUnavailable ? t("unavailable") : targetValue === null ? todayT("targetSummary.notSet") : valueText(targetValue, key);
-          const remainingText = comparison.remaining === null ? null : comparison.remaining < 0
+          const remainingText = comparison === null || comparison.remaining === null ? null : comparison.remaining < 0
             ? t("overTarget", { value: valueText(Math.abs(comparison.remaining), key) })
             : t("remaining", { value: valueText(comparison.remaining, key) });
-          const percentText = comparison.percent === null ? null : t("percent", { percent: formatLocalizedNumber(locale, comparison.percent, { maximumFractionDigits: 0 }) });
+          const percentText = comparison === null || comparison.percent === null ? null : t("percent", { percent: formatLocalizedNumber(locale, comparison.percent, { maximumFractionDigits: 0 }) });
 
           return (
             <article className={`nutrition-metric nutrition-${key}`} data-nutrition-metric={key} data-unknown-count={unknownCounts[key]} data-testid={key === "calories" ? "calorie-summary" : undefined} key={key}>
@@ -63,8 +64,8 @@ export function NutritionDailySummary({ entries, locale, selectedDate, target, t
                   </div>
                 )}
               </dl>
-              {incomplete && <p className="nutrition-known-subtotal ui-caption">{t("knownSubtotal")}</p>}
-              {targetValue !== null && targetValue > 0 && (
+              {incomplete && <p className="nutrition-known-subtotal ui-caption">{t("knownSubtotal")} <span aria-hidden="true">·</span> {t("incompleteNutrition")}</p>}
+              {comparison !== null && targetValue !== null && targetValue > 0 && (
                 <div className="macro-track" aria-hidden="true"><span style={{ width: `${comparison.fill}%` }} /></div>
               )}
               {remainingText && (

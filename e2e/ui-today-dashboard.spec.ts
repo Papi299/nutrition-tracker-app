@@ -17,13 +17,13 @@ const captureConfigPath = "/private/tmp/ui-phase-b-capture-config.json";
 const captureConfig: { capture?: "before" | "after" | "polish"; fixturePath?: string; evidenceDir?: string } = existsSync(captureConfigPath) ? JSON.parse(readFileSync(captureConfigPath, "utf8")) : {};
 const capture = captureConfig.capture;
 const captureFixturePath = captureConfig.fixturePath ?? "/private/tmp/ui-phase-b-capture-fixture.json";
-const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15", forty: "2026-10-12", emptyTargets: "2027-01-01" } as const;
+const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15", forty: "2026-10-12", emptyTargets: "2027-01-01", fullyKnown: "2026-10-16", proteinUnknown: "2026-10-17", fullyKnownZero: "2026-10-18", fullyKnownOver: "2026-11-02", fullyKnownZeroTargets: "2026-02-17" } as const;
 const mealTypes = ["breakfast", "lunch", "dinner", "snack", "other"] as const;
 const expectedTotals = { calories: "1,420", protein_g: "85.5", carbohydrates_g: "198.25", fat_g: "31.25" };
 
 const localeCopy = {
-  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry", knownSubtotal: "Known subtotal", unknownValues: "Includes entries with unknown values." },
-  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה", knownSubtotal: "סכום ביניים ידוע", unknownValues: "כולל רשומות עם ערכים לא ידועים." },
+  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry", knownSubtotal: "Known subtotal", incompleteNutrition: "Incomplete data", unavailable: "Unavailable", macroNames: ["Protein", "Carbs", "Fat"], unknownValues: "Includes entries with unknown values." },
+  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה", knownSubtotal: "סכום ביניים ידוע", incompleteNutrition: "נתונים חלקיים", unavailable: "לא זמין", macroNames: ["חלבון", "פחמימות", "שומן"], unknownValues: "כולל רשומות עם ערכים לא ידועים." },
 } as const;
 const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
 
@@ -136,6 +136,13 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
       created_at: `${dates.forty}T08:${String(index).padStart(2, "0")}:00Z`,
     })));
     expect(fortyEntries.error).toBeNull();
+    const completenessEntries = await client.from("diary_entries").insert([
+      ...[dates.fullyKnown, dates.fullyKnownOver, dates.fullyKnownZeroTargets].map(date => ({ user_id: userId, entry_date: date, meal_type: "breakfast" as const, source: "manual" as const, food_name: "Fully known synthetic snapshot", calories: 1420, protein_g: 85.5, carbohydrates_g: 198.25, fat_g: 31.25 })),
+      { user_id: userId, entry_date: dates.fullyKnownZero, meal_type: "breakfast", source: "manual", food_name: "Explicit zero synthetic snapshot", calories: 0, protein_g: 0, carbohydrates_g: 0, fat_g: 0 },
+      { user_id: userId, entry_date: dates.proteinUnknown, meal_type: "breakfast", source: "manual", food_name: "Protein unknown · חלבון חסר", calories: 180, protein_g: null, carbohydrates_g: 12, fat_g: 4 },
+      { user_id: userId, entry_date: dates.proteinUnknown, meal_type: "breakfast", source: "manual", food_name: "Known protein · חלבון ידוע", calories: 215, protein_g: 7.5, carbohydrates_g: 34.25, fat_g: 5.25 },
+    ]);
+    expect(completenessEntries.error).toBeNull();
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -308,7 +315,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     const progress = page.getByTestId("target-progress");
     for (const value of Object.values(expectedTotals)) await expect(progress).toContainText(value);
     await expect(progress).toContainText("2,000");
-    await expect(progress).toContainText("71%");
+    await expect(progress.locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+    await expect(progress).toContainText(localeCopy.en.incompleteNutrition);
     expect(await page.locator('[data-meal-type]').evaluateAll(nodes => nodes.map(node => node.getAttribute("data-meal-type")))).toEqual(mealTypes);
     const entries = await client.from("diary_entries").select("id,meal_type,food_name,source,calories,protein_g,carbohydrates_g,fat_g").eq("entry_date", dates.populated).order("created_at").order("saved_meal_diary_run_id", { nullsFirst: true }).order("saved_meal_item_position", { nullsFirst: true }).order("id");
     expect(entries.error).toBeNull();
@@ -352,6 +360,9 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await expect(page.getByTestId("target-progress")).not.toContainText(/\d+%|Infinity|NaN/);
     await expect(page.getByTestId("target-progress")).toContainText("Not set");
     await page.goto(`/en/today?date=${dates.exceeded}`);
+    await expect(page.getByTestId("target-progress").locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+    await expect(page.getByTestId("target-progress")).toContainText(localeCopy.en.incompleteNutrition);
+    await page.goto(`/en/today?date=${dates.fullyKnownOver}`);
     await expect(page.getByTestId("target-progress")).toContainText("178%");
     await expect(page.getByTestId("target-progress")).toContainText("620");
     await expect(page.getByTestId("target-progress")).toContainText(/over/i);
@@ -389,9 +400,9 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     }
     await page.goto(`/en/today?date=${dates.partial}`);
     const row = page.locator('[data-diary-entry-id]').filter({ hasText: "Partial synthetic snapshot" });
-    await expect(row.locator("dl > div").filter({ hasText: "Protein (g)" }).locator("dd")).toHaveText("Not set");
-    await expect(row.locator("dl > div").filter({ hasText: "Carbohydrates (g)" }).locator("dd")).toHaveText("0 g");
-    await expect(row.locator("dl > div").filter({ hasText: "Fat (g)" }).locator("dd")).toHaveText("1.25 g");
+    await expect(row.locator("dl > div").filter({ has: page.locator("dt", { hasText: /^Protein:/ }) }).locator("dd")).toHaveText("Not set");
+    await expect(row.locator("dl > div").filter({ has: page.locator("dt", { hasText: /^Carbs:/ }) }).locator("dd")).toHaveText("0 g");
+    await expect(row.locator("dl > div").filter({ has: page.locator("dt", { hasText: /^Fat:/ }) }).locator("dd")).toHaveText("1.25 g");
     await expect(page.locator('[data-nutrition-metric="protein_g"] dl')).toContainText("0 g");
     await context.close();
   });
@@ -448,7 +459,10 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
           const metric = page.locator(`[data-nutrition-metric="${key}"]`);
           await expect(metric).toHaveAttribute("data-unknown-count", String(item.counts[index]));
           await expect(metric.locator("dl > div").first().locator("dd")).toHaveText(`${item.totals[index]} ${key === "calories" ? localeCopy[locale].calories : localeCopy[locale].grams}`);
-          if (item.counts[index] > 0) await expect(metric.locator(".nutrition-known-subtotal")).toHaveText(localeCopy[locale].knownSubtotal);
+          if (item.counts[index] > 0) {
+            await expect(metric.locator(".nutrition-known-subtotal")).toHaveText(`${localeCopy[locale].knownSubtotal} · ${localeCopy[locale].incompleteNutrition}`);
+            await expect(metric.locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+          }
           else await expect(metric.locator(".nutrition-known-subtotal")).toHaveCount(0);
         }
         if (item.counts.some(count => count > 0)) await expect(page.locator(".nutrition-unknown-note")).toHaveText(localeCopy[locale].unknownValues);
@@ -471,6 +485,95 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     await context.close();
   });
 
+  test("R1 incomplete nutrients suppress comparisons independently while complete nutrients retain exact progress", async ({ browser }) => {
+    test.setTimeout(180_000);
+    const { context, page } = await openPage(browser);
+    const cases = [
+      { date: dates.populated, counts: [1, 1, 1, 1], totals: ["1,420", "85.5", "198.25", "31.25"], targets: ["2,000", "120", "240", "70"], differences: [null, null, null, null], percentages: [null, null, null, null], over: false },
+      { date: dates.proteinUnknown, counts: [0, 1, 0, 0], totals: ["395", "7.5", "46.25", "9.25"], targets: ["2,000", "120", "240", "70"], differences: ["1,605", null, "193.75", "60.75"], percentages: [20, null, 19, 13], over: false },
+      { date: dates.unknownMany, counts: [2, 2, 2, 2], totals: ["0", "0", "0", "0"], targets: ["2,000", "120", "240", "70"], differences: [null, null, null, null], percentages: [null, null, null, null], over: false },
+      { date: dates.subtotalMixed, counts: [1, 2, 2, 2], totals: ["0", "0", "0", "0"], targets: ["2,000", "120", "240", "70"], differences: [null, null, null, null], percentages: [null, null, null, null], over: false },
+      { date: dates.subtotalZero, counts: [0, 1, 1, 1], totals: ["0", "0", "0", "0"], targets: ["2,000", "120", "240", "70"], differences: ["2,000", null, null, null], percentages: [0, null, null, null], over: false },
+      { date: dates.partial, counts: [0, 1, 0, 0], totals: ["100", "0", "0", "1.25"], targets: ["100", null, "0", "2"], differences: ["0", null, "0", "0.75"], percentages: [100, null, null, 63], over: false },
+      { date: dates.zero, counts: [1, 1, 1, 1], totals: ["1,420", "85.5", "198.25", "31.25"], targets: ["0", "0", null, "0"], differences: [null, null, null, null], percentages: [null, null, null, null], over: false },
+      { date: dates.missing, counts: [1, 1, 1, 1], totals: ["1,420", "85.5", "198.25", "31.25"], targets: [null, null, null, null], differences: [null, null, null, null], percentages: [null, null, null, null], over: false },
+      { date: dates.fullyKnown, counts: [0, 0, 0, 0], totals: ["1,420", "85.5", "198.25", "31.25"], targets: ["2,000", "120", "240", "70"], differences: ["580", "34.5", "41.75", "38.75"], percentages: [71, 71, 83, 45], over: false },
+      { date: dates.fullyKnownOver, counts: [0, 0, 0, 0], totals: ["1,420", "85.5", "198.25", "31.25"], targets: ["800", "50", "100", "20"], differences: ["620", "35.5", "98.25", "11.25"], percentages: [178, 171, 198, 156], over: true },
+      { date: dates.fullyKnownZero, counts: [0, 0, 0, 0], totals: ["0", "0", "0", "0"], targets: ["2,000", "120", "240", "70"], differences: ["2,000", "120", "240", "70"], percentages: [0, 0, 0, 0], over: false },
+      { date: dates.fullyKnownZeroTargets, counts: [0, 0, 0, 0], totals: ["1,420", "85.5", "198.25", "31.25"], targets: ["0", "0", null, "0"], differences: ["1,420", "85.5", null, "31.25"], percentages: [null, null, null, null], over: true },
+    ];
+    for (const locale of ["en", "he"] as const) {
+      for (const width of [390, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        for (const item of cases) {
+          await page.goto(`/${locale}/today?date=${item.date}`);
+          for (const [index, key] of ["calories", "protein_g", "carbohydrates_g", "fat_g"].entries()) {
+            const metric = page.locator(`[data-nutrition-metric="${key}"]`);
+            const unit = key === "calories" ? localeCopy[locale].calories : localeCopy[locale].grams;
+            await expect(metric).toHaveAttribute("data-unknown-count", String(item.counts[index]));
+            await expect(metric.locator(".nutrition-consumed")).toHaveText(`${item.totals[index]} ${unit}`);
+            if (item.targets.some(target => target !== null)) {
+              await expect(metric.locator(".nutrition-target bdi")).toHaveText(item.targets[index] === null ? localeCopy[locale].notSet : `${item.targets[index]} ${unit}`);
+            } else await expect(metric.locator(".nutrition-target")).toHaveCount(0);
+            if (item.counts[index] > 0) {
+              await expect(metric.locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+              await expect(metric.locator(".nutrition-known-subtotal")).toHaveText(`${localeCopy[locale].knownSubtotal} · ${localeCopy[locale].incompleteNutrition}`);
+              await expect(metric).not.toContainText(/\d+%/);
+            } else {
+              await expect(metric.locator(".nutrition-known-subtotal")).toHaveCount(0);
+              const difference = item.differences[index];
+              if (difference === null) await expect(metric.locator(".nutrition-comparison")).toHaveCount(0);
+              else {
+                const expected = locale === "en"
+                  ? item.over ? `Over target by ${difference} ${unit}` : `${difference} ${unit} remaining`
+                  : item.over ? `חריגה מהיעד ב־${difference} ${unit}` : `נותרו ${difference} ${unit}`;
+                await expect(metric.locator(".nutrition-comparison > span").first()).toHaveText(expected);
+              }
+              const percent = item.percentages[index];
+              if (percent === null) {
+                await expect(metric.locator(".macro-track")).toHaveCount(0);
+                await expect(metric).not.toContainText(/\d+%/);
+              } else {
+                await expect(metric.locator(".nutrition-comparison > span").nth(1)).toHaveText(`${percent}% ${locale === "en" ? "of target" : "מהיעד"}`);
+                const track = metric.locator(".macro-track > span");
+                await expect(track).toHaveCount(1);
+                const fill = await track.evaluate(element => Number.parseFloat((element as HTMLElement).style.width));
+                expect(fill).toBeGreaterThanOrEqual(0);
+                expect(fill).toBeLessThanOrEqual(100);
+                if (item.over) expect(fill).toBe(100);
+                if (percent === 0) expect(fill).toBe(0);
+              }
+            }
+          }
+          expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+        }
+      }
+    }
+    await context.close();
+  });
+
+  test("R1 row macros use unitless nutrient labels and retain one localized unit on each known value", async ({ browser }) => {
+    const { context, page } = await openPage(browser);
+    for (const locale of ["en", "he"] as const) {
+      for (const width of [390, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/${locale}/today?date=${dates.proteinUnknown}`);
+        for (const food of ["Protein unknown · חלבון חסר", "Known protein · חלבון ידוע"]) {
+          const row = page.locator("[data-diary-entry-id]").filter({ has: page.getByRole("heading", { name: food, exact: true }) });
+          const values = food.startsWith("Protein unknown") ? [null, "12", "4"] : ["7.5", "34.25", "5.25"];
+          const macros = row.locator(".diary-row-macros > div");
+          await expect(macros).toHaveCount(3);
+          for (const [index, name] of localeCopy[locale].macroNames.entries()) {
+            await expect(macros.nth(index).locator("dt")).toHaveText(`${name}:`);
+            await expect(macros.nth(index).locator("dt")).not.toContainText(/\(|\)/);
+            await expect(macros.nth(index).locator("dd")).toHaveText(values[index] === null ? localeCopy[locale].notSet : `${values[index]} ${localeCopy[locale].grams}`);
+          }
+        }
+      }
+    }
+    await context.close();
+  });
+
   test("preserves available diary data through profile and target retrieval failures and never invents zero totals on diary failure", async ({ browser }) => {
     const { context, page } = await openPage(browser);
     for (const table of ["nutrition_targets", "profiles", "diary_entries"] as const) {
@@ -489,6 +592,11 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
             await expect(page.getByTestId("target-progress")).toHaveCount(0);
             await expect(page.getByTestId("calorie-summary")).toContainText("1,420");
             await expect(page.getByTestId("calorie-summary")).not.toContainText(/\d+%/);
+            for (const metric of await page.locator("[data-nutrition-metric]").all()) {
+              await expect(metric.locator(".nutrition-target bdi")).toHaveText(localeCopy.en.unavailable);
+              await expect(metric.locator(".nutrition-known-subtotal")).toContainText(localeCopy.en.incompleteNutrition);
+              await expect(metric.locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+            }
           }
         }
       } finally { queryLocalAuthFixture(`grant select on table public.${table} to authenticated;`); }
@@ -735,7 +843,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
     const { context, page } = await openPage(browser, { javaScriptEnabled: false, viewport: { width: 320, height: 720 } });
     await page.goto(`/he/today?date=${dates.populated}`);
     await expect(page.getByTestId("target-progress")).toContainText("1,420");
-    await expect(page.getByTestId("target-progress")).toContainText("71%");
+    await expect(page.getByTestId("target-progress").locator(".nutrition-comparison, .macro-track")).toHaveCount(0);
+    await expect(page.getByTestId("target-progress")).toContainText(localeCopy.he.incompleteNutrition);
     await expect(page.getByTestId("manual-diary-entry-form")).toBeVisible();
     await page.locator('input[name="date"]').fill(dates.empty);
     await page.locator('form:has(input[name="date"])').getByRole("button").click();

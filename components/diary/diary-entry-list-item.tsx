@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
@@ -109,12 +110,13 @@ export function DiaryEntryListItem({
   updateAction: DiaryEntryAction;
 }) {
   const [isEditing, setIsEditing] = useState(false);
+  const totalsT = useTranslations("Diary.totals");
   const serving = formatServing(entry, locale, labels.recipeServingUnits);
   const calories = formatValue(entry.calories, locale, unitCaloriesLabel);
   const macros = [
-    { label: labels.fields.protein_g, value: formatValue(entry.protein_g, locale, labels.unitGrams) },
-    { label: labels.fields.carbohydrates_g, value: formatValue(entry.carbohydrates_g, locale, labels.unitGrams) },
-    { label: labels.fields.fat_g, value: formatValue(entry.fat_g, locale, labels.unitGrams) },
+    { label: totalsT("protein"), value: formatValue(entry.protein_g, locale, labels.unitGrams) },
+    { label: totalsT("carbohydrates"), value: formatValue(entry.carbohydrates_g, locale, labels.unitGrams) },
+    { label: totalsT("fat"), value: formatValue(entry.fat_g, locale, labels.unitGrams) },
   ];
   const source = labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes] ?? entry.source;
 
