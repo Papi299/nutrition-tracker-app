@@ -1282,3 +1282,7 @@ Manual RTL QA checklist:
 
 The repository is Git-managed on `main`, uses focused pull requests, and treats
 GitHub Actions as the authoritative full validation gate.
+
+Phase B nutrition summary/diary UX is integrated for replacement Draft review;
+see [the integration acceptance record](docs/nutrition-ux-redesign-003r2-integration.md).
+Independent review, merge, and any release remain separate gates. Phase C is deferred.

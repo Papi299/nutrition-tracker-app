@@ -1,0 +1,67 @@
+import { test, expect } from '@playwright/test';
+import { createClient } from '@supabase/supabase-js';
+import { provisionActivatedLocalUser } from './helpers/local-auth';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { join } from 'node:path';
+
+const stage = 'integrated-paired';
+const fixturePath = '/private/tmp/nutrition-ux-003r2/paired-account.json';
+const output = '/private/tmp/nutrition-ux-003r2/evidence';
+const date = '2026-10-17';
+const password = 'R1SyntheticEvidencePassword123!';
+const sourcePaths = ['app/globals.css','app/[locale]/(app)/today/page.tsx','components/diary/nutrition-daily-summary.tsx','components/diary/diary-entry-list-item.tsx','lib/diary-presentation.ts','messages/en.json','messages/he.json'];
+const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+
+test('captures integrated R2 matching the historical R1 integrated summary and row evidence', async ({ browser }) => {
+  test.setTimeout(120000);
+  expect(process.env.DATE_E2E_LOCAL_SUPABASE).toBe('1');
+  expect(new URL(process.env.LOCAL_SUPABASE_URL!).hostname).toBe('127.0.0.1');
+  const client = createClient(process.env.LOCAL_SUPABASE_URL!, process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY!, { auth: { autoRefreshToken: false, persistSession: false } });
+  let email: string;
+  if (existsSync(fixturePath)) {
+    email = JSON.parse(readFileSync(fixturePath,'utf8')).email;
+    const signed = await client.auth.signInWithPassword({email,password}); expect(signed.error).toBeNull();
+  } else {
+    email = `r1-evidence-${Date.now()}@example.test`;
+    const signed = await provisionActivatedLocalUser(client, {email,password}); expect(signed.error).toBeNull();
+    const userId = signed.data.user!.id;
+    expect((await client.from('profiles').insert({id:userId, display_name:'Synthetic R1 reviewer', preferred_language:'en', unit_system:'metric'})).error).toBeNull();
+    expect((await client.from('nutrition_targets').insert({user_id:userId,effective_from:'2026-01-01',calories:2000,protein_g:120,carbohydrates_g:240,fat_g:70})).error).toBeNull();
+    expect((await client.from('diary_entries').insert([
+      {user_id:userId,entry_date:date,meal_type:'breakfast',source:'manual',food_name:'Synthetic yogurt · יוגורט',brand_name:'Synthetic kitchen',serving_quantity:200,serving_unit:'g',calories:180,protein_g:null,carbohydrates_g:12,fat_g:4,created_at:`${date}T08:00:00Z`},
+      {user_id:userId,entry_date:date,meal_type:'breakfast',source:'manual',food_name:'Synthetic rolled oats · שיבולת שועל',serving_quantity:60,serving_unit:'g',calories:215,protein_g:7.5,carbohydrates_g:34.25,fat_g:5.25,created_at:`${date}T08:05:00Z`},
+    ])).error).toBeNull();
+    writeFileSync(fixturePath,JSON.stringify({email}),{mode:0o600});
+  }
+  mkdirSync(output,{recursive:true});
+  const initial = await browser.newContext(); const signIn = await initial.newPage();
+  await signIn.goto('/en/auth/sign-in'); await signIn.getByLabel('Email').fill(email); await signIn.getByLabel('Password').fill(password); await signIn.getByRole('button',{name:'Sign in',exact:true}).click(); await expect(signIn).toHaveURL(/\/en\/today\?date=/);
+  const state = await initial.storageState(); await initial.close();
+  const captures=[];
+  for(const item of [{locale:'en',width:390,height:844},{locale:'he',width:1440,height:900}]){
+    const context=await browser.newContext({storageState:state,viewport:{width:item.width,height:item.height},deviceScaleFactor:1,reducedMotion:'reduce'});
+    const page=await context.newPage(); await page.goto(`/${item.locale}/today?date=${date}`); await expect(page.getByTestId('manual-diary-entry-form')).toBeVisible(); await page.evaluate(()=>document.fonts.ready); await page.evaluate(()=>window.scrollTo(0,0));
+    const geometry=await page.evaluate(()=>{
+      const s=document.querySelector('.nutrition-daily-summary')!.getBoundingClientRect();
+      const f=document.querySelector('[data-diary-entry-id]')!.getBoundingClientRect();
+      return {summary:{x:s.x,y:s.y,width:s.width,height:s.height},firstRow:{x:f.x,y:f.y,width:f.width,height:f.height},documentWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth};
+    });
+    expect(geometry.documentWidth).toBeLessThanOrEqual(item.width);
+    const metrics=[];
+    for(const key of ['calories','protein_g','carbohydrates_g','fat_g']){
+      const metric=page.locator(`[data-nutrition-metric="${key}"]`);
+      metrics.push({key,text:await metric.innerText(),unknownCount:await metric.getAttribute('data-unknown-count'),trackCount:await metric.locator('.macro-track').count(),comparisonText:await metric.locator('.nutrition-comparison').allTextContents()});
+    }
+    const viewportName=`${stage}-${item.locale}-${item.width}-viewport.png`;
+    const viewport=await page.screenshot({path:join(output,viewportName),animations:'disabled'});
+    const top=Math.max(0,geometry.summary.y); const left=Math.max(0,Math.min(geometry.summary.x,geometry.firstRow.x));
+    const right=Math.min(item.width,Math.max(geometry.summary.x+geometry.summary.width,geometry.firstRow.x+geometry.firstRow.width));
+    const cropName=`${stage}-${item.locale}-${item.width}-summary-row.png`;
+    const crop=await page.screenshot({path:join(output,cropName),clip:{x:left,y:top,width:right-left,height:geometry.firstRow.y+geometry.firstRow.height-top},animations:'disabled'});
+    captures.push({...item,route:`/${item.locale}/today?date=${date}`,geometry,metrics,files:[{name:viewportName,sha256:hash(viewport)},{name:cropName,sha256:hash(crop)}]});
+    await context.close();
+  }
+  writeFileSync(join(output,`${stage}-manifest.json`),JSON.stringify({task:'NUTRITION-UX-REDESIGN-003R2',stage,integratedApplication:true,browser:'Chromium',browserVersion:browser.version(),deviceScaleFactor:1,reducedMotion:'reduce',baselineCommit:'6d0b0984d997106aa83c64ae9b723148c79eb428',baselineTree:'f3ccc50a42f12bee1d3b556081ed49d9554acb6e',runtimeGitHead:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),fixture:{synthetic:true,date,entryCount:2,knownTotals:{calories:395,protein_g:7.5,carbohydrates_g:46.25,fat_g:9.25},unknownCounts:{calories:0,protein_g:1,carbohydrates_g:0,fat_g:0},target:{calories:2000,protein_g:120,carbohydrates_g:240,fat_g:70}},captures,sourceHashes:sourcePaths.map(path=>({path,sha256:hash(readFileSync(path))}))},null,2)+'\n');
+});

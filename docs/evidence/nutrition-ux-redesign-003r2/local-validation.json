@@ -1,0 +1,96 @@
+{
+  "runtime": {
+    "node": "26.5.1",
+    "authoritativeHostedNode": "22",
+    "supabase": "2.116.0",
+    "playwright": "1.61.1"
+  },
+  "cleanInstall": {
+    "added": 405,
+    "reportedVulnerabilities": 0
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "clientSecretBoundary": "passed",
+    "unit": {
+      "passed": 411
+    },
+    "workflowApt": {
+      "passed": 9
+    },
+    "deployment": {
+      "passed": 203
+    },
+    "recovery": {
+      "passed": 200
+    },
+    "advisoryPolicyRegressions": {
+      "passed": 5
+    },
+    "securityHeadersCookies": {
+      "passed": 7
+    },
+    "journeyEvidence": {
+      "passed": 52
+    },
+    "performanceHarness": {
+      "passed": 19
+    },
+    "performanceEvidence": {
+      "passed": 50
+    },
+    "productionAdvisories": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0
+    },
+    "migrationRoleCompatibility": "passed local simulation",
+    "ingestionTypes": "synchronized",
+    "focusedBrowser": {
+      "startTime": "2026-10-23T18:22:50.134Z",
+      "duration": 91603.233,
+      "expected": 79,
+      "skipped": 1,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "freshCapture": {
+      "startTime": "2026-10-23T18:25:59.453Z",
+      "duration": 17687.806,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "fullBrowser": "running; final outcome in replacement Draft PR delivery report",
+    "phase11d": "queued after full browser; final outcome in replacement Draft PR delivery report"
+  },
+  "mainBaseline": {
+    "commit": "6d0b0984d997106aa83c64ae9b723148c79eb428",
+    "unitPassed": 393,
+    "browserPassed": 462,
+    "browserSkipped": 7,
+    "phase11dPassed": 53,
+    "phase11dSkipped": 3,
+    "openCodeqlAlerts": 0,
+    "javascriptTypescriptRetainedResults": 5,
+    "actionsResults": 0
+  },
+  "sourceAdaptations": [],
+  "infrastructureObservations": [
+    "Task-only Docker adapter corrected for raw attach, archive buffering, and stdin half-close handling.",
+    "Initial generated-type attempt ran before the task default network existed; synchronized after correction.",
+    "Temporary screenshot-helper variable scope corrected; helper excluded from delivered application and test source.",
+    "No local registry throttling observed; registry unchanged."
+  ],
+  "operationalBoundaries": {
+    "hostedSupabaseOperations": 0,
+    "productionMutations": 0,
+    "originalPr189Mutations": 0,
+    "merges": 0,
+    "deployments": 0
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "implementationCommit": "1a9db160ed5fa2b49e9719076ccab9b0a3ae1986",
+  "implementationTree": "1f9c224e488caaa5dfda7167ca84a449c966ff32",
+  "independentlyVerified": true,
+  "manifests": [
+    {
+      "name": "integrated-manifest.json",
+      "sha256": "267cf13ae470e71bf10e8e61ee63ae6eb5646f6f39224329fde2d968f4079b42",
+      "sourceHashesMatchImplementation": true,
+      "images": [
+        {
+          "name": "integrated-1440-en-populated.png",
+          "sha256": "ad033203f935e8be52b00d428a082464d6e462a543a8c67f9e379d8d78b89567",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "integrated-1440-en-populated-full.png",
+          "sha256": "006e1d25ab3113aaf3405531cb3d1a36229ac2692966a5cce9b10babbbe00770",
+          "width": 1440,
+          "height": 2665
+        },
+        {
+          "name": "integrated-390-en-populated.png",
+          "sha256": "f982fa0c0f72cdc768f4bf0f9db6f61d45a8ea653df322ff365df50cbb00447b",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-populated-full.png",
+          "sha256": "fbc7ff79539d6091cef2261d155669c4c6456508c5dd68a2edb5b49b567b23b6",
+          "width": 390,
+          "height": 4126
+        },
+        {
+          "name": "integrated-390-he-populated.png",
+          "sha256": "ea830b1beda955d884806bf261ad4df74eecb195a6b8834902b611126a6442a2",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-he-populated-full.png",
+          "sha256": "c50c80c988084f16d495d7d378491d3862c7476ba4efe3c1e3862835400b8ace",
+          "width": 390,
+          "height": 4233
+        },
+        {
+          "name": "integrated-320-he-forty.png",
+          "sha256": "07d70f5e082d42a76322eaaa6d326eb6d50cbfe8950464fd4c873ba3ea6fb755",
+          "width": 320,
+          "height": 720
+        },
+        {
+          "name": "integrated-320-he-forty-full.png",
+          "sha256": "fd98aa16bc284268932b2c22e3dc19ebbdadd1d3c82c828373b705616677de2a",
+          "width": 320,
+          "height": 11400
+        },
+        {
+          "name": "integrated-320-he-long-row.png",
+          "sha256": "b52d37a8d684dffbb1518b710f19516d57fcd8cdc38faf3657e522886e719e35",
+          "width": 262,
+          "height": 361
+        },
+        {
+          "name": "integrated-390-en-empty.png",
+          "sha256": "f517b7f560971ebcd73554a725dd50abc0cb53502c806f44cd669f955e9bacea",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-empty-full.png",
+          "sha256": "9156e1fca567ab5b9637b1604004a9ee80fa1cdae74579d846b8e5b798bd958f",
+          "width": 390,
+          "height": 3328
+        },
+        {
+          "name": "integrated-390-en-missing.png",
+          "sha256": "9258687ea52f71c7073d49cdc29872cd4c82463cc668b5f2f77c0bbb5fc0676c",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-missing-full.png",
+          "sha256": "c288120f57bdb05c7b6aec2e3ae371d6a9c494aabe0ef47afebb8cadc477b270",
+          "width": 390,
+          "height": 4214
+        },
+        {
+          "name": "integrated-390-en-partial.png",
+          "sha256": "392abcaa34e773175000807b8e80ec5c4666647344d653b4a65de1a153a33ee7",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-partial-full.png",
+          "sha256": "db0a39d356e7e0c1eaecc879362fdb37da8191a20ba8c9fbea7e83f293fb8514",
+          "width": 390,
+          "height": 3435
+        },
+        {
+          "name": "integrated-390-en-zero.png",
+          "sha256": "be35a71abe5880d03bab2300b4848458f4eadfb536698dd901c2aac692a80f4a",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-zero-full.png",
+          "sha256": "02723f422f1c01e26ce5488cb561e2b6e60428d2d8831500cc6e99ff8cdbc3ca",
+          "width": 390,
+          "height": 4126
+        },
+        {
+          "name": "integrated-390-en-exceeded.png",
+          "sha256": "f19550ac2ccc93fc072d456d252934ac04f74cdfa9b474e56845d2955eb0c6d8",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-exceeded-full.png",
+          "sha256": "317b9f27faa849b5d7b28cd673fb2aaad4be420ae2f82fbe23383a4e428feb85",
+          "width": 390,
+          "height": 4126
+        },
+        {
+          "name": "integrated-390-en-subtotalMixed.png",
+          "sha256": "f686694f036f2d7b81ace9750502090a0e3fbb0b08a40d8330c8fa9612905ab9",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-subtotalMixed-full.png",
+          "sha256": "0c3b0c03a380fb569983836cf4af01233b8472fd482558924adfa6485c59082e",
+          "width": 390,
+          "height": 3576
+        },
+        {
+          "name": "integrated-768-he-populated.png",
+          "sha256": "4295e26996b4683069b1093c6a0d3834aed43eb3448ebce0daf9262b82400a7d",
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "name": "integrated-768-he-populated-full.png",
+          "sha256": "b49212aa5c932cbe4f042f994273e887db1b1142b38174384b8dec5484030871",
+          "width": 768,
+          "height": 3106
+        },
+        {
+          "name": "integrated-1024-en-populated.png",
+          "sha256": "e5c422445a603572d4395ebc0b4d99e8dce178a69d8ee785701b3ef48426c90c",
+          "width": 1024,
+          "height": 900
+        },
+        {
+          "name": "integrated-1024-en-populated-full.png",
+          "sha256": "cbe8e117318bd514e1ae878ddb30e7350589e62e902b16f392279313b9c9d4ea",
+          "width": 1024,
+          "height": 2811
+        },
+        {
+          "name": "integrated-320-en-populated.png",
+          "sha256": "4a0453f94286b58afd19300c3f45962a01ab2610ecdf1f5a6d2dbbf002ed456b",
+          "width": 320,
+          "height": 720
+        },
+        {
+          "name": "integrated-320-en-populated-full.png",
+          "sha256": "3b12e1e3fe904a2186c7aade5c190ad44a00d6f698ba8b86c8424c132182cc19",
+          "width": 320,
+          "height": 4607
+        },
+        {
+          "name": "integrated-390-en-proteinUnknown.png",
+          "sha256": "bb3b0e683553bcbb1ac8b7dc7dbdb908c0cfcb96e65a7e5226ca278f555cfdd3",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-390-en-proteinUnknown-full.png",
+          "sha256": "2a018467f89b12634cc7c51ffbde1bc927b600e7ed66e84767048cc273d53f08",
+          "width": 390,
+          "height": 3572
+        },
+        {
+          "name": "integrated-1440-he-proteinUnknown.png",
+          "sha256": "121b9b056c84985ff22130d25c56437ffd5da95d86c43a1bd7e8fb99e89c221c",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "integrated-1440-he-proteinUnknown-full.png",
+          "sha256": "7bc85b600e20a4f3dbbdb6141b96953a0328d5c0ca340de288ecd0ff552b05d4",
+          "width": 1440,
+          "height": 2189
+        }
+      ],
+      "captureCount": 15
+    },
+    {
+      "name": "integrated-paired-manifest.json",
+      "sha256": "fb4f8d40ba6439fda837e29337e0e0d30b2e2e8d717ceb91832f28df6f084b7c",
+      "sourceHashesMatchImplementation": true,
+      "images": [
+        {
+          "name": "integrated-paired-en-390-viewport.png",
+          "sha256": "85f6cec5883ccc0793d04dc4f9fb7569cd84a5367899b818e1c872b3c95e7bd2",
+          "width": 390,
+          "height": 844
+        },
+        {
+          "name": "integrated-paired-en-390-summary-row.png",
+          "sha256": "83072c27878db676d97346e36a4f95084c66514830acca09a9ae3ca8d50990c8",
+          "width": 358,
+          "height": 591
+        },
+        {
+          "name": "integrated-paired-he-1440-viewport.png",
+          "sha256": "f17084b2e3b706c39a85c5be9f438e92fc75f3f635f794ff4923350240abd356",
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "name": "integrated-paired-he-1440-summary-row.png",
+          "sha256": "22920baae48c3695f43d05e40aea88627aeb79ce261859a0f68b43fd61321e11",
+          "width": 1088,
+          "height": 440
+        }
+      ],
+      "captureCount": 2
+    }
+  ],
+  "captureTools": [
+    {
+      "name": "runtime-r2-matrix-evidence.spec.ts.txt",
+      "sha256": "8ae36a644dee484abf12496cf7de620b871c5d2196a17e719c3283d912b6e780",
+      "runtimeOnly": true
+    },
+    {
+      "name": "runtime-r2-paired-evidence.spec.ts.txt",
+      "sha256": "745e05aca7183f92784353aa0e07ce7858b64d4ed7dc50450f84cf323776d849",
+      "runtimeOnly": true
+    }
+  ],
+  "runtimeOverrides": {
+    "project": "nutrition-ux-003r2",
+    "apiOrigin": "http://127.0.0.1:55821",
+    "appOrigin": "http://127.0.0.1:3112",
+    "runtimeConfigOnly": true,
+    "committedConfigMatchesMain": true
+  },
+  "imageCount": 35
+}

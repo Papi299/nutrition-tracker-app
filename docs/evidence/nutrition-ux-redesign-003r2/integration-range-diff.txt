@@ -1,0 +1,50 @@
+1:  9012331 ! 1:  f1292ff feat(ui): compact Today nutrition summary and diary rows
+    @@ Metadata
+      ## Commit message ##
+         feat(ui): compact Today nutrition summary and diary rows
+
+    +    (cherry picked from commit 9012331c990faa52f0f8b726d72027dba70f25fe)
+    +
+      ## app/[locale]/(app)/today/page.tsx ##
+     @@ app/[locale]/(app)/today/page.tsx: function LocalizedTodayPage({
+            )}
+2:  da97a64 ! 2:  4fe9f52 docs(ui): record Phase B acceptance and integrated visual evidence
+    @@ Metadata
+      ## Commit message ##
+         docs(ui): record Phase B acceptance and integrated visual evidence
+
+    +    (cherry picked from commit da97a64bb7f3303517b7eb0a1646b42f3aa01114)
+    +
+      ## docs/evidence/nutrition-ux-redesign-003/README.md (new) ##
+     @@
+     +# Phase B integrated visual evidence
+3:  933cc37 ! 3:  210940a fix(ui): withhold target comparisons for incomplete nutrients
+    @@ Metadata
+      ## Commit message ##
+         fix(ui): withhold target comparisons for incomplete nutrients
+
+    +    (cherry picked from commit 933cc37b9d3231ee2aacc81226c8535d03d843fb)
+    +
+      ## components/diary/diary-entry-list-item.tsx ##
+     @@
+      "use client";
+4:  a2348d7 ! 4:  ef2a49b docs(ui): record R1 comparison regressions and paired evidence
+    @@ Metadata
+      ## Commit message ##
+         docs(ui): record R1 comparison regressions and paired evidence
+
+    +    (cherry picked from commit a2348d7a99fc138ae184ddaba90848f8484112cb)
+    +
+      ## docs/evidence/nutrition-ux-redesign-003r1/after-en-390-summary-row.png (new) ##
+      Binary files /dev/null and docs/evidence/nutrition-ux-redesign-003r1/after-en-390-summary-row.png differ
+
+5:  63d6c3b ! 5:  1a9db16 test(ui): assert rendered nutrients without HTML filtering
+    @@ Metadata
+      ## Commit message ##
+         test(ui): assert rendered nutrients without HTML filtering
+
+    +    (cherry picked from commit 63d6c3b9529e9d49a036f8ffe1e3a0bd2cbf5512)
+    +
+      ## docs/evidence/nutrition-ux-redesign-003r1/local-validation.json ##
+     @@
+            "npm run test:date",

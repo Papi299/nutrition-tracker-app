@@ -3907,3 +3907,15 @@ Windows stays deferred under DEC-039, unexecuted, without PASS credit; current v
 Remaining subrequirements: A=1, B=19, C=20. One real P11A-010 backup/recovery blocker exists: empty-bootstrap source guards reject the already-created owner and subsequent nutrition/custom-food state. The smallest corrective task is safe populated capture plus credible isolated populated recovery and separately authorized adoption of a successful recurring owner-state backup; exact eight-hour timing/repeated drills are improvements. Historical P11A-011 is not reopened. Proposed owner-use result: `PERSONAL_OWNER_USE_NOT_READY_1_MINIMUM_BLOCKERS`.
 
 Re-baseline before: another person uses the app; external invitations; public access; commercial use; distribution to users; an SLA/support promise; or material health-related recommendations beyond current personal tracking. Any concrete owner security/integrity/core/UX defect also reopens its safeguard. Removed requirements remain available for future scope. `publicLaunchAuthorized=false`; no public/commercial launch, provider action, application implementation, backup/restore execution or PR merge is authorized by this recording. Draft PR review only.
+
+## 2026-10-23 — Phase B nutrition UX integration for Draft review
+
+NUTRITION-UX-REDESIGN-003R2 carries PR #189's five reviewed commits onto accepted
+main `6d0b0984d997106aa83c64ae9b723148c79eb428` using attributed, conflict-free
+cherry-picks. The full reviewed implementation and historical visual evidence
+are preserved; no functional adaptation or dependency/policy change is needed.
+New integrated-application captures and local/exact-head hosted validation are
+recorded in [the integration report](nutrition-ux-redesign-003r2-integration.md)
+and the replacement Draft PR delivery report. Independent exact-head review is
+the next continuation point. Original #189 is preserved; merge, deployment,
+hosted Supabase, meal-specific Add, and Phase C remain outside this task.

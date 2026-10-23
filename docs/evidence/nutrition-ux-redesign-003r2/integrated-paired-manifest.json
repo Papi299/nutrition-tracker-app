@@ -1,0 +1,203 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003R2",
+  "stage": "integrated-paired",
+  "integratedApplication": true,
+  "browser": "Chromium",
+  "browserVersion": "149.0.7827.55",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "baselineCommit": "6d0b0984d997106aa83c64ae9b723148c79eb428",
+  "baselineTree": "f3ccc50a42f12bee1d3b556081ed49d9554acb6e",
+  "runtimeGitHead": "1a9db160ed5fa2b49e9719076ccab9b0a3ae1986",
+  "fixture": {
+    "synthetic": true,
+    "date": "2026-10-17",
+    "entryCount": 2,
+    "knownTotals": {
+      "calories": 395,
+      "protein_g": 7.5,
+      "carbohydrates_g": 46.25,
+      "fat_g": 9.25
+    },
+    "unknownCounts": {
+      "calories": 0,
+      "protein_g": 1,
+      "carbohydrates_g": 0,
+      "fat_g": 0
+    },
+    "target": {
+      "calories": 2000,
+      "protein_g": 120,
+      "carbohydrates_g": 240,
+      "fat_g": 70
+    }
+  },
+  "captures": [
+    {
+      "locale": "en",
+      "width": 390,
+      "height": 844,
+      "route": "/en/today?date=2026-10-17",
+      "geometry": {
+        "summary": {
+          "x": 16,
+          "y": 233,
+          "width": 358,
+          "height": 325.875
+        },
+        "firstRow": {
+          "x": 29,
+          "y": 687.875,
+          "width": 332,
+          "height": 136.59375
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "metrics": [
+        {
+          "key": "calories",
+          "text": "Calories\nConsumed\n395\nkcal\nDaily target\n/ 2,000 kcal\n\n1,605 kcal remaining\n20% of target",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "1,605 kcal remaining20% of target"
+          ]
+        },
+        {
+          "key": "protein_g",
+          "text": "Protein\nKnown subtotal\n7.5\ng\nDaily target\n/ 120 g\n\nKnown subtotal · Incomplete data",
+          "unknownCount": "1",
+          "trackCount": 0,
+          "comparisonText": []
+        },
+        {
+          "key": "carbohydrates_g",
+          "text": "Carbs\nConsumed\n46.25\ng\nDaily target\n/ 240 g\n\n193.75 g remaining\n19% of target",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "193.75 g remaining19% of target"
+          ]
+        },
+        {
+          "key": "fat_g",
+          "text": "Fat\nConsumed\n9.25\ng\nDaily target\n/ 70 g\n\n60.75 g remaining\n13% of target",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "60.75 g remaining13% of target"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "integrated-paired-en-390-viewport.png",
+          "sha256": "85f6cec5883ccc0793d04dc4f9fb7569cd84a5367899b818e1c872b3c95e7bd2"
+        },
+        {
+          "name": "integrated-paired-en-390-summary-row.png",
+          "sha256": "83072c27878db676d97346e36a4f95084c66514830acca09a9ae3ca8d50990c8"
+        }
+      ]
+    },
+    {
+      "locale": "he",
+      "width": 1440,
+      "height": 900,
+      "route": "/he/today?date=2026-10-17",
+      "geometry": {
+        "summary": {
+          "x": 48,
+          "y": 129,
+          "width": 1088,
+          "height": 190.1875
+        },
+        "firstRow": {
+          "x": 69,
+          "y": 456.1875,
+          "width": 1046,
+          "height": 113.796875
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "metrics": [
+        {
+          "key": "calories",
+          "text": "קלוריות\nנצרך\n395\nקק״ל\nיעד יומי\n/ 2,000 קק״ל\n\nנותרו 1,605 קק״ל\n20% מהיעד",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "נותרו 1,605 קק״ל20% מהיעד"
+          ]
+        },
+        {
+          "key": "protein_g",
+          "text": "חלבון\nסכום ביניים ידוע\n7.5\nגרם\nיעד יומי\n/ 120 גרם\n\nסכום ביניים ידוע · נתונים חלקיים",
+          "unknownCount": "1",
+          "trackCount": 0,
+          "comparisonText": []
+        },
+        {
+          "key": "carbohydrates_g",
+          "text": "פחמימות\nנצרך\n46.25\nגרם\nיעד יומי\n/ 240 גרם\n\nנותרו 193.75 גרם\n19% מהיעד",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "נותרו 193.75 גרם19% מהיעד"
+          ]
+        },
+        {
+          "key": "fat_g",
+          "text": "שומן\nנצרך\n9.25\nגרם\nיעד יומי\n/ 70 גרם\n\nנותרו 60.75 גרם\n13% מהיעד",
+          "unknownCount": "0",
+          "trackCount": 1,
+          "comparisonText": [
+            "נותרו 60.75 גרם13% מהיעד"
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "integrated-paired-he-1440-viewport.png",
+          "sha256": "f17084b2e3b706c39a85c5be9f438e92fc75f3f635f794ff4923350240abd356"
+        },
+        {
+          "name": "integrated-paired-he-1440-summary-row.png",
+          "sha256": "22920baae48c3695f43d05e40aea88627aeb79ce261859a0f68b43fd61321e11"
+        }
+      ]
+    }
+  ],
+  "sourceHashes": [
+    {
+      "path": "app/globals.css",
+      "sha256": "ace20d0067118c389804f5b9c26d09cbf11dac64224c3d7d99ae3a77a8de6290"
+    },
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "9ab0c3e8217b4a864fbeb9a3dd6190d38ce977d08d8e2cacef9b700498244ac8"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02d9b6ba91170fd4bbe3a0da6905c5b9a2f973433237a97b9265d6864bc8dd91"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "9ff6a5a55591b008a0024d5df8d4630c3ae4026ecd5511a3b5624f5d5ca07b9f"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "31c10042e0ba1de02f1ee649ede01893911847d892c1b1cdb471cc435f06cb12"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "17112f2eac86a785947c32047ce225a302c015927c09ec2fd9b6c67a8af4895e"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "c69c18528a8c5b0d62caa1aeb1c55d5fd3e84ff375935b1f738119821f741c47"
+    }
+  ]
+}

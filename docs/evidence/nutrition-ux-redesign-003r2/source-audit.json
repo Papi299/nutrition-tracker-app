@@ -1,0 +1,284 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003R2",
+  "baseCommit": "6d0b0984d997106aa83c64ae9b723148c79eb428",
+  "baseTree": "f3ccc50a42f12bee1d3b556081ed49d9554acb6e",
+  "originalCommit": "63d6c3b9529e9d49a036f8ffe1e3a0bd2cbf5512",
+  "originalTree": "01ebc358d65497c7eac1bc76ab914b1c9360c3ae",
+  "implementationCommit": "1a9db160ed5fa2b49e9719076ccab9b0a3ae1986",
+  "implementationTree": "1f9c224e488caaa5dfda7167ca84a449c966ff32",
+  "overlappingPaths": [],
+  "allOriginalFilesMatch": true,
+  "allNewerMainFilesMatch": true,
+  "originalFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "9ab0c3e8217b4a864fbeb9a3dd6190d38ce977d08d8e2cacef9b700498244ac8"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "ace20d0067118c389804f5b9c26d09cbf11dac64224c3d7d99ae3a77a8de6290"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "9ff6a5a55591b008a0024d5df8d4630c3ae4026ecd5511a3b5624f5d5ca07b9f"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "d970bb168b5af73e5e72d5bca716d7563b934517924d6c8038007d4025c3b11e"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02d9b6ba91170fd4bbe3a0da6905c5b9a2f973433237a97b9265d6864bc8dd91"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/README.md",
+      "sha256": "5f9f4e8bf56385e37c029175e430a0cf94da8ebd6e98362ad4a570b8e5c4341b"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-1440-en-populated.png",
+      "sha256": "0e661b2ed38e26eea583e771a1dbb32e4bbdd8de74167e9700ccf2ff26dac1d7"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-320-he-forty-full.png",
+      "sha256": "2db8ef10cd6100e21f115cf79fc90bbf70b368077f4f928f5d4f6c34f6a971b1"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-320-he-forty.png",
+      "sha256": "07d70f5e082d42a76322eaaa6d326eb6d50cbfe8950464fd4c873ba3ea6fb755"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-320-he-long-row.png",
+      "sha256": "91f95d4271ee78f1260856e40fb8c16c682d46c6444fa06e3dc6831799e945f8"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-empty.png",
+      "sha256": "f517b7f560971ebcd73554a725dd50abc0cb53502c806f44cd669f955e9bacea"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-exceeded.png",
+      "sha256": "9cdabf1d323b8a9c7910dcdeaf9c0a452a27036e1214e1db3c1d3f9e7c4723cc"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-missing.png",
+      "sha256": "2846f9f7b7d01765d534494601bd5a93a6b98ffeda65a0fa87f06e9b419f7539"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-partial.png",
+      "sha256": "3262f7c3ff65f39ef78ff9d7956e8ef07ab4fb7e73eaac8c67db12af7cc3d3c4"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-populated-full.png",
+      "sha256": "8d04d930d14b195aeca03569993d3728d0528377d4966067d7fb1dffc5c90b93"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-populated.png",
+      "sha256": "29ade399df7bd87029f449012da9bfe76b1c69b3904c7fab6dd24d74fd4f1d5a"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-subtotalMixed.png",
+      "sha256": "629f0c0411e7006743ee07f9046ec7eb54d58bcf40b452c82e4d2bdc2f65c095"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-en-zero.png",
+      "sha256": "6f1afe68f6581011f3ae454a7791f279c5bbdee4f1fed6e217b5244b9abf341d"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-he-populated-forced-colors.png",
+      "sha256": "a28df7c1c9dd9f751a6f4907b391592c1c2d9ca3b83ea5526cb2c5057eac0dbf"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-390-he-populated.png",
+      "sha256": "e9cebd387aa733c10a8418604cd60ae63a2a24a8f3d4f9165129540ec54ac169"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/after-manifest.json",
+      "sha256": "d6f650498b295dfced7f75a0541cae3bd3564d4cb589e696078f15250707c5aa"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-1440-en-populated.png",
+      "sha256": "86f425907b18f51f30a98ee798c73aeec8ba8e0660bd61c5dadc0bf6903107ca"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-320-he-forty.png",
+      "sha256": "23cb11eba0b4041ef60390a0e3cd21eb3ab43cc157552564608eba5394a490f3"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-390-en-empty.png",
+      "sha256": "9b615366416f67348f7c4e6450f50f5d14b0c1145d239e45c62a0234c46584f4"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-390-en-populated.png",
+      "sha256": "67193ef263ae82fe34c84ca9dfbae249d84d97dedbc7e1ab64f574414749d637"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-390-he-populated.png",
+      "sha256": "8e81accf3ae59914fef38fb022c865da4254602535f3d038f4bc983d03ec0513"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/before-manifest.json",
+      "sha256": "b51c705a69dbc94d12bee420c23aea4f2248354c2ba29a3fc4c7ff7bb0733921"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/layout-comparison.json",
+      "sha256": "3739bdb148059753170704eb1bfb8411a2a41418d7f48f172e2120ec66f84da0"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/local-validation.json",
+      "sha256": "54bb4097dcccb2acff34e42cd61e010493056ba64f7af4867e483765e04e8561"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003/native-target-details.json",
+      "sha256": "fb350370c39b4bfdb7fde878f04109a2aaa3c7b85c2b26e178169004c19d2b96"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/after-en-390-summary-row.png",
+      "sha256": "83072c27878db676d97346e36a4f95084c66514830acca09a9ae3ca8d50990c8"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/after-en-390-viewport.png",
+      "sha256": "85f6cec5883ccc0793d04dc4f9fb7569cd84a5367899b818e1c872b3c95e7bd2"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/after-he-1440-summary-row.png",
+      "sha256": "22920baae48c3695f43d05e40aea88627aeb79ce261859a0f68b43fd61321e11"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/after-he-1440-viewport.png",
+      "sha256": "f17084b2e3b706c39a85c5be9f438e92fc75f3f635f794ff4923350240abd356"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/after-manifest.json",
+      "sha256": "8c2eb973ff420ed347a7f5fddbd078cfc80b6acb89e3ae69e583368c26049dfa"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/before-en-390-summary-row.png",
+      "sha256": "6c51b4533a7649fec69be9ac0975d8baeef4bca31937ac3d71208941453358f8"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/before-en-390-viewport.png",
+      "sha256": "88dea0a6f85dcea15e703bb10e8d8e95f0cc97114b83c1b5dd8757c0975e9b73"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/before-he-1440-summary-row.png",
+      "sha256": "f60a358c55dbf066b759c3602f585292050fba6490591679fad33d4409090287"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/before-he-1440-viewport.png",
+      "sha256": "786de316cfea39a7ffa8a443ff1f92b3b8bf900907eed0ea8bb688c90865f2ca"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/before-manifest.json",
+      "sha256": "f3002481c9b064dfe15c381ace09b37d85a5a9ba25ce778fb04a6b94623b41fe"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/cleanup.json",
+      "sha256": "2f14bd16da6ad78c5a6083f6d5ab5819909f14122bc7a3a9bc99eeb452cba5a0"
+    },
+    {
+      "path": "docs/evidence/nutrition-ux-redesign-003r1/local-validation.json",
+      "sha256": "4763a43e9eaab3e1dbbbdfd5155462c2d915a3d98a550bdd4e2a0db52a8e5801"
+    },
+    {
+      "path": "docs/nutrition-ux-redesign-003-phase-b.md",
+      "sha256": "0aca095855937e25333b1bee894ee03ce9fc4c411311217ac14ece30a45e4420"
+    },
+    {
+      "path": "docs/nutrition-ux-redesign-003r1-review-corrections.md",
+      "sha256": "727482e2531b2b36c8f4d85c84463d2935419b4b3c32d55582abf16d3ba455e3"
+    },
+    {
+      "path": "e2e/ui-today-dashboard.spec.ts",
+      "sha256": "fd2c30377da55e2c5c4d7bc703cd602a3d5eeefcc69c1802f9f0240445b13f73"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "31c10042e0ba1de02f1ee649ede01893911847d892c1b1cdb471cc435f06cb12"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "17112f2eac86a785947c32047ce225a302c015927c09ec2fd9b6c67a8af4895e"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "c69c18528a8c5b0d62caa1aeb1c55d5fd3e84ff375935b1f738119821f741c47"
+    },
+    {
+      "path": "tests/diary-presentation.spec.ts",
+      "sha256": "c00b71d1a4c6bb388631d5b82de4bc820ec956439bf3660206812fc4bf60daba"
+    },
+    {
+      "path": "tests/nutrition-daily-summary.spec.tsx",
+      "sha256": "a33dd8fcfb61a52bfc6608613ae0f4516e84d113c114cc77c7c4e7d7857ef9e5"
+    }
+  ],
+  "preservedMainFiles": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "18e99ef7b06e3fe720d68837a1855dc3ac563c856aa84e62c8c04045d844925a"
+    },
+    {
+      "path": "components/custom-foods/custom-food-form.tsx",
+      "sha256": "68c95c31b0fd9dc5a133856bb52b0e2da6c77fd0bf0bae0cc2afda68db3eaf16"
+    },
+    {
+      "path": "docs/ci-validation-reliability.md",
+      "sha256": "e87b21e101be399d8af381b70971040f72d9383f04d5cc054c62d1cf112b022c"
+    },
+    {
+      "path": "docs/security-ci-acceptance-003-custom-food.md",
+      "sha256": "3c0c722a834c75b4cbf5599e8d494c9f39d66ef3f7a482885118e85f538c84e5"
+    },
+    {
+      "path": "e2e/custom-food-receipt-retirement.spec.ts",
+      "sha256": "5bd83d42fcba8bfee81d356efc11c025d47e11580aa7feba59f02b5dacad93d3"
+    },
+    {
+      "path": "e2e/focus-diagnostics.spec.ts",
+      "sha256": "27556467df51dbf5d73c1c76a3ef37ade5edf0dd8c92b1e657e0c33665826171"
+    },
+    {
+      "path": "e2e/helpers/custom-food-prefetch.ts",
+      "sha256": "edad954b0608b994c0c5f5d87a56e8e67e32420abece20fbcc3fcd8c685bf62e"
+    },
+    {
+      "path": "e2e/helpers/focus-diagnostics.ts",
+      "sha256": "cc5e93d5b0a2d39f8ff85364db7e611c762c56a79f0ca0992f7ae0a9d3642871"
+    },
+    {
+      "path": "e2e/ui-phase5e-custom-food.spec.ts",
+      "sha256": "cac72f2332d0962df9e15fdb8bb2f2afea9cd090e054605900f6f79c76b7fa72"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874"
+    },
+    {
+      "path": "package.json",
+      "sha256": "2500ffd2551383257d56f924dcfec895ca7135463d3bfce3e81bbb0a1d482769"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "3d936f99234abec118e7b212125c8f1a92254c0c02a9c72ca1b49ce760535996"
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "sha256": "689fbf5a12e576476180214315743dfab2453fdbd9203c56891e74b8d8e834fc"
+    },
+    {
+      "path": "scripts/check-workflow-security.test.mjs",
+      "sha256": "50aba304e1414e1846090e99eb297923229d76c8b936f97d295a2ed4220d7907"
+    },
+    {
+      "path": "scripts/configure-ci-apt.mjs",
+      "sha256": "86ecf25266c106a64a6cd764f7b894c03e92e47e460eae618dba1d693df0ac35"
+    },
+    {
+      "path": "scripts/configure-ci-apt.test.mjs",
+      "sha256": "21326aa58ec397a4fec767b135730bbd037d8b7a19aa2d5059e41299a2614d4e"
+    },
+    {
+      "path": "tests/custom-food-prefetch.spec.ts",
+      "sha256": "a95af6afabb0fc5088e85fa297801962f20c37659eca0e4f5f82d69d11beeecf"
+    }
+  ]
+}
