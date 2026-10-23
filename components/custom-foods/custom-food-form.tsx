@@ -823,7 +823,7 @@ export function CustomFoodForm({
           </h2>
           <ul className="mt-2 grid gap-2">
             {errorLinks.map(({ field, label, target }) => (
-              <li className="min-w-0" key={field}>
+              <li className="min-w-0" key={aliasField(field) ? target : field}>
                 <a
                   className="ui-text-link inline-flex min-h-11 min-w-11 items-center"
                   href={`#${target}`}
