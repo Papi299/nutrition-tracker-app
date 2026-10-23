@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { surfaceStyles } from "@/components/ui/card";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { DiaryEntryDeleteButton } from "@/components/diary/diary-entry-delete-button";
 import { DiaryEntryEditForm } from "@/components/diary/diary-entry-edit-form";
@@ -110,34 +110,35 @@ export function DiaryEntryListItem({
   updateAction: DiaryEntryAction;
 }) {
   const [isEditing, setIsEditing] = useState(false);
+  const totalsT = useTranslations("Diary.totals");
   const serving = formatServing(entry, locale, labels.recipeServingUnits);
   const calories = formatValue(entry.calories, locale, unitCaloriesLabel);
   const macros = [
-    { label: labels.fields.protein_g, value: formatValue(entry.protein_g, locale) },
-    { label: labels.fields.carbohydrates_g, value: formatValue(entry.carbohydrates_g, locale) },
-    { label: labels.fields.fat_g, value: formatValue(entry.fat_g, locale) },
+    { label: totalsT("protein"), value: formatValue(entry.protein_g, locale, labels.unitGrams) },
+    { label: totalsT("carbohydrates"), value: formatValue(entry.carbohydrates_g, locale, labels.unitGrams) },
+    { label: totalsT("fat"), value: formatValue(entry.fat_g, locale, labels.unitGrams) },
   ];
   const source = labels.sourceTypes[entry.source as keyof typeof labels.sourceTypes] ?? entry.source;
 
   return (
     <li
-      className={surfaceStyles({ className: "min-w-0 p-4 text-start wrap-anywhere" })}
+      className="diary-entry"
       data-diary-entry-id={entry.id}
       data-entry-meal-type={entry.meal_type}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="diary-row-heading">
         <div className="min-w-0 flex-1">
-          <h4 className="ui-card-title break-words" dir="auto">
+          <h4 className="diary-food-name" dir="auto">
             {entry.food_name}
           </h4>
         </div>
-        <p className="min-w-0 max-w-1/2 break-words text-end text-lg font-semibold leading-7 tabular-nums text-foreground">
+        <p className="diary-row-calories">
           <span className="sr-only">{labels.calories}: </span>
           <bdi>{calories ?? notSetLabel}</bdi>
         </p>
       </div>
 
-      <p className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-sm leading-6 text-muted-foreground">
+      <p className="diary-row-metadata">
         <span className="min-w-0 max-w-full break-words">
           <span className="sr-only">{labels.serving}: </span>
           <bdi>{serving ?? notSetLabel}</bdi>
@@ -151,30 +152,31 @@ export function DiaryEntryListItem({
             </span>
           </>
         )}
+        <span aria-hidden="true">·</span>
+        <span data-testid={`diary-source-${entry.source}`}>{labels.source}: <bdi>{source}</bdi></span>
       </p>
 
-      <dl
-        aria-label={labels.macros}
-        className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs leading-5 text-muted-foreground"
-      >
-        {macros.map((macro) => (
-          <div className="flex min-w-0 flex-wrap gap-x-1" key={macro.label}>
-            <dt>{macro.label}: </dt>
-            <dd className="break-words font-medium tabular-nums text-foreground">
-              <bdi>{macro.value ?? notSetLabel}</bdi>
-            </dd>
-          </div>
-        ))}
-      </dl>
+      <div className="diary-row-bottom">
+        <dl
+          aria-label={labels.macros}
+          className="diary-row-macros"
+        >
+          {macros.map((macro) => (
+            <div className="flex min-w-0 flex-wrap gap-x-1" key={macro.label}>
+              <dt>{macro.label}: </dt>
+              <dd className="break-words font-medium tabular-nums text-foreground">
+                <bdi>{macro.value ?? notSetLabel}</bdi>
+              </dd>
+            </div>
+          ))}
+        </dl>
 
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-        <p className="ui-caption" data-testid={`diary-source-${entry.source}`}>
-          {labels.source}: <bdi>{source}</bdi>
-        </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="diary-row-actions">
           <Button
             size="sm"
             variant="ghost"
+            aria-expanded={isEditing}
+            aria-controls={`diary-edit-${entry.id}`}
             onClick={() => setIsEditing((current) => !current)}
             type="button"
           >
@@ -192,31 +194,33 @@ export function DiaryEntryListItem({
         </div>
       </div>
 
-      {isEditing && (
-        <DiaryEntryEditForm
-          action={updateAction}
-          entry={entry}
-          fieldErrorMessages={fieldErrorMessages}
-          labels={{
-            ...labels.fields,
-            cancel: labels.cancel,
-            save: labels.save,
-            title: labels.editTitle,
-          }}
-          mealTypeOptions={mealTypeOptions}
-          onCancel={() => setIsEditing(false)}
-          pendingLabel={labels.savePending}
-          statusMessages={{
-            conflict: labels.saveConflict,
-            database_error: labels.saveError,
-            idle: labels.saveIdle,
-            not_found: labels.saveError,
-            success: labels.saveSuccess,
-            unauthenticated: labels.saveError,
-            validation_error: labels.saveError,
-          }}
-        />
-      )}
+      <div id={`diary-edit-${entry.id}`}>
+        {isEditing && (
+          <DiaryEntryEditForm
+            action={updateAction}
+            entry={entry}
+            fieldErrorMessages={fieldErrorMessages}
+            labels={{
+              ...labels.fields,
+              cancel: labels.cancel,
+              save: labels.save,
+              title: labels.editTitle,
+            }}
+            mealTypeOptions={mealTypeOptions}
+            onCancel={() => setIsEditing(false)}
+            pendingLabel={labels.savePending}
+            statusMessages={{
+              conflict: labels.saveConflict,
+              database_error: labels.saveError,
+              idle: labels.saveIdle,
+              not_found: labels.saveError,
+              success: labels.saveSuccess,
+              unauthenticated: labels.saveError,
+              validation_error: labels.saveError,
+            }}
+          />
+        )}
+      </div>
     </li>
   );
 }

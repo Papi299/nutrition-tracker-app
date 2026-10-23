@@ -336,27 +336,50 @@
   .today-setup .ui-card-title { font-size: 1rem; }
   .today-date-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; align-items: end; }
   .today-date-form input { min-inline-size: 0; inline-size: 100%; }
-  .nutrition-summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
-  .nutrition-metric { min-inline-size: 0; --metric-color: var(--nutrition-calories); }
-  .nutrition-calories { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 1.5rem; }
+  .nutrition-daily-summary { min-inline-size: 0; }
+  .nutrition-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+  .nutrition-metric { min-inline-size: 0; padding: 0.625rem 0.75rem; --metric-color: var(--nutrition-calories); }
+  .nutrition-metric:nth-child(even) { border-inline-start: 1px solid var(--border); }
+  .nutrition-metric:nth-child(n+3) { border-block-start: 1px solid var(--border); }
+  .nutrition-metric h3 { display: flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; font-weight: 650; }
+  .nutrition-metric h3::before { content: ""; inline-size: 0.375rem; block-size: 0.375rem; flex: 0 0 auto; border-radius: 50%; background: var(--metric-color); }
   .nutrition-protein_g { --metric-color: var(--nutrition-protein); }
   .nutrition-carbohydrates_g { --metric-color: var(--nutrition-carbs); }
   .nutrition-fat_g { --metric-color: var(--nutrition-fat); }
-  .calorie-ring { position: relative; flex: 0 0 9rem; inline-size: 9rem; block-size: 9rem; color: var(--metric-color); }
-  .calorie-ring svg { display: block; inline-size: 100%; block-size: 100%; }
-  .calorie-ring-track { stroke: var(--muted); }
-  .calorie-ring-fill { stroke: currentColor; }
-  .calorie-ring-label { position: absolute; inset: 0; display: grid; place-content: center; font-size: 0.8125rem; font-weight: 600; }
-  .nutrition-values { margin-block-start: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+  .nutrition-values { margin-block-start: 0.25rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.25rem; }
   .nutrition-values > div { min-inline-size: 0; }
   .nutrition-values dd { overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-  .calorie-value { margin-block-start: 0.25rem; font-size: clamp(2rem, 1.75rem + 1vw, 3.25rem); font-weight: 650; line-height: 1.2; letter-spacing: -0.035em; }
-  .macro-value { font-size: 1.5rem; font-weight: 650; line-height: 1.3; }
-  .nutrition-target { font-size: 1rem; font-weight: 600; }
-  .nutrition-comparison { margin-block-start: 1rem; font-size: 0.875rem; font-weight: 600; overflow-wrap: anywhere; }
-  .macro-track { margin-block-start: 1rem; block-size: 0.375rem; border-radius: 1rem; overflow: hidden; background: var(--muted); }
+  .nutrition-consumed { font-size: 1.5rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.025em; }
+  .nutrition-unit { font-size: 0.8125rem; font-weight: 500; letter-spacing: normal; }
+  .nutrition-target { font-size: 0.8125rem; color: var(--muted-foreground); }
+  .nutrition-comparison { display: flex; flex-wrap: wrap; gap: 0 0.375rem; margin-block-start: 0.25rem; font-size: 0.75rem; line-height: 1.5; color: var(--muted-foreground); overflow-wrap: anywhere; }
+  .nutrition-known-subtotal { margin-block-start: 0.125rem; font-size: 0.75rem; color: var(--muted-foreground); }
+  .nutrition-unknown-note { margin-block-start: 0.375rem; font-size: 0.8125rem; color: var(--muted-foreground); }
+  .macro-track { margin-block-start: 0.375rem; block-size: 0.25rem; border-radius: 1rem; overflow: hidden; background: var(--border); }
   .macro-track > span { display: block; block-size: 100%; background: var(--metric-color); }
-  .nutrition-target-note { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-block-start: 0.5rem; }
+  .nutrition-target-note { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-block-start: 0.25rem; }
+  .nutrition-target-details { flex: 1 1 10rem; min-inline-size: 0; font-size: 0.8125rem; color: var(--muted-foreground); }
+  .nutrition-target-details summary { min-block-size: 2.75rem; align-content: center; cursor: pointer; }
+  .nutrition-target-details[open] { flex-basis: 100%; }
+  .nutrition-target-note .ui-caption { font-size: 0.8125rem; line-height: 1.5; }
+  .nutrition-target-note .ui-label { font-size: 0.875rem; }
+  .today-diary { padding: 0.75rem; box-shadow: none; }
+  .today-diary > .mt-4 { margin-block-start: 0.5rem; }
+  .diary-workspace, .diary-meal, .diary-meal-entries { min-inline-size: 0; }
+  .diary-meal + .diary-meal { border-block-start: 1px solid var(--border); }
+  .diary-meal-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 0.75rem; min-block-size: 3rem; padding-block: 0.25rem; }
+  .diary-meal-empty .diary-meal-toolbar { min-block-size: 2.75rem; }
+  .diary-empty-invitation { margin-block: 0.5rem; padding: 0.75rem; border-inline-start: 3px solid var(--accent); border-radius: 0.25rem; background: var(--warm); color: var(--muted-foreground); font-size: 0.875rem; }
+  .diary-entry { min-inline-size: 0; padding-block: 0.625rem; text-align: start; overflow-wrap: anywhere; border-block-start: 1px solid var(--border); }
+  .diary-row-heading { display: flex; align-items: start; justify-content: space-between; gap: 0.75rem; }
+  .diary-food-name { font-size: 1rem; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+  .diary-row-calories { min-inline-size: 0; max-inline-size: 45%; flex: 0 1 auto; font-size: 0.9375rem; font-weight: 650; line-height: 1.6; text-align: end; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .diary-row-metadata { display: flex; flex-wrap: wrap; gap: 0 0.375rem; margin-block-start: 0.125rem; font-size: 0.8125rem; line-height: 1.6; color: var(--muted-foreground); }
+  .diary-row-metadata > span { min-inline-size: 0; max-inline-size: 100%; }
+  .diary-row-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.125rem 0.75rem; margin-block-start: 0.125rem; }
+  .diary-row-macros { display: flex; flex-wrap: wrap; gap: 0 0.75rem; font-size: 0.8125rem; line-height: 1.6; color: var(--muted-foreground); }
+  .diary-row-actions { display: flex; flex-wrap: wrap; align-items: start; gap: 0.25rem; margin-inline-start: auto; }
+  .diary-row-actions .ui-button { padding-inline: 0.625rem; }
   #manual-entry { scroll-margin-block-start: 1rem; }
 }
 @media (min-width: 640px) {
@@ -364,19 +387,18 @@
   .today-header-copy { grid-column: 1; grid-row: 1; }
   .today-add-food { grid-column: 2; grid-row: 1; }
   .today-header .today-date-form { max-inline-size: 26rem; }
-  .nutrition-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-  .nutrition-calories { grid-column: 1 / -1; padding: 2rem; }
-  .calorie-ring { flex-basis: 11rem; inline-size: 11rem; block-size: 11rem; }
+  .nutrition-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .nutrition-metric { padding: 0.875rem 1rem; }
+  .nutrition-metric:nth-child(n+2) { border-inline-start: 1px solid var(--border); }
+  .nutrition-metric:nth-child(n+3) { border-block-start: 0; }
+  .today-diary { padding: 1.25rem; }
 }
 @media (max-width: 639px) {
-  .nutrition-calories { flex-direction: column; text-align: center; gap: 1rem; }
-  .nutrition-calories .nutrition-values { justify-content: center; }
-  .nutrition-target-note { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .nutrition-target-note-missing { flex-direction: column; align-items: stretch; gap: 0.5rem; }
   .nutrition-target-note .ui-button { align-self: flex-start; }
 }
 @media (forced-colors: active) {
-  .calorie-ring-track { stroke: GrayText; }
-  .calorie-ring-fill { stroke: Highlight; }
+  .nutrition-summary, .nutrition-metric, .diary-meal, .diary-entry, .diary-empty-invitation { border-color: CanvasText; }
   .macro-track { border: 1px solid CanvasText; }
   .macro-track > span { background: Highlight; forced-color-adjust: none; }
 }

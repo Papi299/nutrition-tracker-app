@@ -1,0 +1,588 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003R2",
+  "baseline": "6d0b0984d997106aa83c64ae9b723148c79eb428",
+  "integratedApplication": true,
+  "sourceCommit": "1a9db160ed5fa2b49e9719076ccab9b0a3ae1986",
+  "sourceTree": "1f9c224e488caaa5dfda7167ca84a449c966ff32",
+  "evidenceVersion": "integrated",
+  "browser": "Chromium",
+  "browserVersion": "149.0.7827.55",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixtureTotals": {
+    "calories": "1,420",
+    "protein_g": "85.5",
+    "carbohydrates_g": "198.25",
+    "fat_g": "31.25"
+  },
+  "fixtureAccount": "Fresh synthetic local R2 account; original numeric fixture snapshots recreated",
+  "captures": [
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "summaryHeight": 104.6875,
+      "diaryHeadingY": 348.1875,
+      "firstEntryY": 444.1875,
+      "firstEntryHeight": 113.796875,
+      "diaryHeight": 946.78125,
+      "entryCount": 6,
+      "fullyVisibleRows": 3,
+      "files": [
+        {
+          "name": "integrated-1440-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 1440,
+          "height": 900,
+          "sha256": "ad033203f935e8be52b00d428a082464d6e462a543a8c67f9e379d8d78b89567"
+        },
+        {
+          "name": "integrated-1440-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 1440,
+          "height": 2665,
+          "sha256": "006e1d25ab3113aaf3405531cb3d1a36229ac2692966a5cce9b10babbbe00770"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 567.875,
+      "firstEntryY": 663.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 1083.5625,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "f982fa0c0f72cdc768f4bf0f9db6f61d45a8ea653df322ff365df50cbb00447b"
+        },
+        {
+          "name": "integrated-390-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 4126,
+          "sha256": "fbc7ff79539d6091cef2261d155669c4c6456508c5dd68a2edb5b49b567b23b6"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 567.875,
+      "firstEntryY": 691.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 1167.5625,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-he-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "ea830b1beda955d884806bf261ad4df74eecb195a6b8834902b611126a6442a2"
+        },
+        {
+          "name": "integrated-390-he-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 4233,
+          "sha256": "c50c80c988084f16d495d7d378491d3862c7476ba4efe3c1e3862835400b8ace"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "fixture": "forty",
+      "route": "/he/today?date=2026-10-12",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "rtl",
+      "summaryHeight": 273.171875,
+      "diaryHeadingY": 635.171875,
+      "firstEntryY": 759.171875,
+      "firstEntryHeight": 384.578125,
+      "diaryHeight": 8062,
+      "entryCount": 40,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-320-he-forty.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 320,
+          "height": 720,
+          "sha256": "07d70f5e082d42a76322eaaa6d326eb6d50cbfe8950464fd4c873ba3ea6fb755"
+        },
+        {
+          "name": "integrated-320-he-forty-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 320,
+          "height": 11400,
+          "sha256": "fd98aa16bc284268932b2c22e3dc19ebbdadd1d3c82c828373b705616677de2a"
+        },
+        {
+          "name": "integrated-320-he-long-row.png",
+          "fullPage": false,
+          "scope": "first-full-identity-row",
+          "width": 262,
+          "height": 361,
+          "sha256": "b52d37a8d684dffbb1518b710f19516d57fcd8cdc38faf3657e522886e719e35"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 252.375,
+      "diaryHeadingY": 566.375,
+      "firstEntryY": null,
+      "firstEntryHeight": null,
+      "diaryHeight": 286.390625,
+      "entryCount": 0,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-empty.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "f517b7f560971ebcd73554a725dd50abc0cb53502c806f44cd669f955e9bacea"
+        },
+        {
+          "name": "integrated-390-en-empty-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 3328,
+          "sha256": "9156e1fca567ab5b9637b1604004a9ee80fa1cdae74579d846b8e5b798bd958f"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "missing",
+      "route": "/en/today?date=2025-12-31",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 655.375,
+      "firstEntryY": 751.375,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 1083.5625,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-missing.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "9258687ea52f71c7073d49cdc29872cd4c82463cc668b5f2f77c0bbb5fc0676c"
+        },
+        {
+          "name": "integrated-390-en-missing-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 4214,
+          "sha256": "c288120f57bdb05c7b6aec2e3ae371d6a9c494aabe0ef47afebb8cadc477b270"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "partial",
+      "route": "/en/today?date=2026-12-02",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 252.375,
+      "diaryHeadingY": 591.875,
+      "firstEntryY": 822.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 368.59375,
+      "entryCount": 1,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-partial.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "392abcaa34e773175000807b8e80ec5c4666647344d653b4a65de1a153a33ee7"
+        },
+        {
+          "name": "integrated-390-en-partial-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 3435,
+          "sha256": "db0a39d356e7e0c1eaecc879362fdb37da8191a20ba8c9fbea7e83f293fb8514"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "zero",
+      "route": "/en/today?date=2026-02-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 567.875,
+      "firstEntryY": 663.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 1083.5625,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-zero.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "be35a71abe5880d03bab2300b4848458f4eadfb536698dd901c2aac692a80f4a"
+        },
+        {
+          "name": "integrated-390-en-zero-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 4126,
+          "sha256": "02723f422f1c01e26ce5488cb561e2b6e60428d2d8831500cc6e99ff8cdbc3ca"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "exceeded",
+      "route": "/en/today?date=2026-11-01",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 567.875,
+      "firstEntryY": 663.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 1083.5625,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-exceeded.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "f19550ac2ccc93fc072d456d252934ac04f74cdfa9b474e56845d2955eb0c6d8"
+        },
+        {
+          "name": "integrated-390-en-exceeded-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 4126,
+          "sha256": "317b9f27faa849b5d7b28cd673fb2aaad4be420ae2f82fbe23383a4e428feb85"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "subtotalMixed",
+      "route": "/en/today?date=2026-10-15",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 228.375,
+      "diaryHeadingY": 567.875,
+      "firstEntryY": 871.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 533.1875,
+      "entryCount": 2,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-subtotalMixed.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "f686694f036f2d7b81ace9750502090a0e3fbb0b08a40d8330c8fa9612905ab9"
+        },
+        {
+          "name": "integrated-390-en-subtotalMixed-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 3576,
+          "sha256": "0c3b0c03a380fb569983836cf4af01233b8472fd482558924adfa6485c59082e"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 768,
+      "documentWidth": 768,
+      "direction": "rtl",
+      "summaryHeight": 143.484375,
+      "diaryHeadingY": 498.984375,
+      "firstEntryY": 594.984375,
+      "firstEntryHeight": 113.796875,
+      "diaryHeight": 946.78125,
+      "entryCount": 6,
+      "fullyVisibleRows": 2,
+      "files": [
+        {
+          "name": "integrated-768-he-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 768,
+          "height": 1024,
+          "sha256": "4295e26996b4683069b1093c6a0d3834aed43eb3448ebce0daf9262b82400a7d"
+        },
+        {
+          "name": "integrated-768-he-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 768,
+          "height": 3106,
+          "sha256": "b49212aa5c932cbe4f042f994273e887db1b1142b38174384b8dec5484030871"
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 1024,
+      "documentWidth": 1024,
+      "direction": "ltr",
+      "summaryHeight": 122.6875,
+      "diaryHeadingY": 366.1875,
+      "firstEntryY": 462.1875,
+      "firstEntryHeight": 113.796875,
+      "diaryHeight": 946.78125,
+      "entryCount": 6,
+      "fullyVisibleRows": 3,
+      "files": [
+        {
+          "name": "integrated-1024-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 1024,
+          "height": 900,
+          "sha256": "e5c422445a603572d4395ebc0b4d99e8dce178a69d8ee785701b3ef48426c90c"
+        },
+        {
+          "name": "integrated-1024-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 1024,
+          "height": 2811,
+          "sha256": "cbe8e117318bd514e1ae878ddb30e7350589e62e902b16f392279313b9c9d4ea"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "ltr",
+      "summaryHeight": 269.96875,
+      "diaryHeadingY": 673.46875,
+      "firstEntryY": 797.46875,
+      "firstEntryHeight": 157.390625,
+      "diaryHeight": 1285.953125,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-320-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 320,
+          "height": 720,
+          "sha256": "4a0453f94286b58afd19300c3f45962a01ab2610ecdf1f5a6d2dbbf002ed456b"
+        },
+        {
+          "name": "integrated-320-en-populated-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 320,
+          "height": 4607,
+          "sha256": "3b12e1e3fe904a2186c7aade5c190ad44a00d6f698ba8b86c8424c132182cc19"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "proteinUnknown",
+      "route": "/en/today?date=2026-10-17",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 252.375,
+      "diaryHeadingY": 591.875,
+      "firstEntryY": 687.875,
+      "firstEntryHeight": 136.59375,
+      "diaryHeight": 505.1875,
+      "entryCount": 2,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "integrated-390-en-proteinUnknown.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "bb3b0e683553bcbb1ac8b7dc7dbdb908c0cfcb96e65a7e5226ca278f555cfdd3"
+        },
+        {
+          "name": "integrated-390-en-proteinUnknown-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 390,
+          "height": 3572,
+          "sha256": "2a018467f89b12634cc7c51ffbde1bc927b600e7ed66e84767048cc273d53f08"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "he",
+      "fixture": "proteinUnknown",
+      "route": "/he/today?date=2026-10-17",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "rtl",
+      "summaryHeight": 116.6875,
+      "diaryHeadingY": 360.1875,
+      "firstEntryY": 456.1875,
+      "firstEntryHeight": 113.796875,
+      "diaryHeight": 459.59375,
+      "entryCount": 2,
+      "fullyVisibleRows": 2,
+      "files": [
+        {
+          "name": "integrated-1440-he-proteinUnknown.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 1440,
+          "height": 900,
+          "sha256": "121b9b056c84985ff22130d25c56437ffd5da95d86c43a1bd7e8fb99e89c221c"
+        },
+        {
+          "name": "integrated-1440-he-proteinUnknown-full.png",
+          "fullPage": true,
+          "scope": "full-page",
+          "width": 1440,
+          "height": 2189,
+          "sha256": "7bc85b600e20a4f3dbbdb6141b96953a0328d5c0ca340de288ecd0ff552b05d4"
+        }
+      ]
+    }
+  ],
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "9ab0c3e8217b4a864fbeb9a3dd6190d38ce977d08d8e2cacef9b700498244ac8"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "ace20d0067118c389804f5b9c26d09cbf11dac64224c3d7d99ae3a77a8de6290"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02d9b6ba91170fd4bbe3a0da6905c5b9a2f973433237a97b9265d6864bc8dd91"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "d970bb168b5af73e5e72d5bca716d7563b934517924d6c8038007d4025c3b11e"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "9ff6a5a55591b008a0024d5df8d4630c3ae4026ecd5511a3b5624f5d5ca07b9f"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "17112f2eac86a785947c32047ce225a302c015927c09ec2fd9b6c67a8af4895e"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "c69c18528a8c5b0d62caa1aeb1c55d5fd3e84ff375935b1f738119821f741c47"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "31c10042e0ba1de02f1ee649ede01893911847d892c1b1cdb471cc435f06cb12"
+    }
+  ]
+}

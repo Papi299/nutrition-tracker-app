@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { calculateDiaryTotals, compareNutritionTarget, roundDiaryValue, type NutrientKey } from "@/lib/diary-presentation";
+import { calculateDiaryTotals, countUnknownDiaryNutrients, compareNutritionTarget, roundDiaryValue, type NutrientKey } from "@/lib/diary-presentation";
 
 const keys: NutrientKey[] = ["calories", "protein_g", "carbohydrates_g", "fat_g"];
 const empty = { calories: 0, protein_g: 0, carbohydrates_g: 0, fat_g: 0 };
@@ -56,4 +56,24 @@ test("rounding percentage does not fabricate a completed visual target", () => {
   expect(result.percent).toBe(100);
   expect(result.fill).toBe(99.95);
   expect(result.remaining).toBe(1);
+});
+
+
+test("unknown nutrient metadata distinguishes empty, all-null and explicit zero snapshots", () => {
+  expect(countUnknownDiaryNutrients([])).toEqual(empty);
+  expect(countUnknownDiaryNutrients([empty])).toEqual(empty);
+  expect(countUnknownDiaryNutrients([{ calories: null, protein_g: null, carbohydrates_g: null, fat_g: null }]))
+    .toEqual({ calories: 1, protein_g: 1, carbohydrates_g: 1, fat_g: 1 });
+});
+
+test("unknown counts reflect each nutrient independently without changing frozen snapshots or totals", () => {
+  const entries = Object.freeze([
+    Object.freeze({ calories: null, protein_g: 0, carbohydrates_g: 12.25, fat_g: null }),
+    Object.freeze({ calories: 37, protein_g: null, carbohydrates_g: 0, fat_g: null }),
+    Object.freeze({ calories: null, protein_g: 2.5, carbohydrates_g: null, fat_g: 0 }),
+  ]);
+  expect(countUnknownDiaryNutrients(entries)).toEqual({ calories: 2, protein_g: 1, carbohydrates_g: 1, fat_g: 2 });
+  expect(calculateDiaryTotals(entries)).toEqual({ calories: 37, protein_g: 2.5, carbohydrates_g: 12.25, fat_g: 0 });
+  expect(countUnknownDiaryNutrients(entries)).toEqual({ calories: 2, protein_g: 1, carbohydrates_g: 1, fat_g: 2 });
+  expect(entries[0]).toEqual({ calories: null, protein_g: 0, carbohydrates_g: 12.25, fat_g: null });
 });

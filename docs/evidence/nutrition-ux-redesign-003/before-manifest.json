@@ -1,0 +1,189 @@
+{
+  "task": "NUTRITION-UX-REDESIGN-003",
+  "baseline": "abe0124c485a9a298d9a7fbf7ace76b00771fecc",
+  "integratedApplication": true,
+  "sourceCommit": "abe0124c485a9a298d9a7fbf7ace76b00771fecc",
+  "sourceTree": "681fb887c9463eb220c16ed02dfd3510280cebe8",
+  "evidenceVersion": "before",
+  "browser": "Chromium",
+  "deviceScaleFactor": 1,
+  "reducedMotion": "reduce",
+  "fixtureTotals": {
+    "calories": "1,420",
+    "protein_g": "85.5",
+    "carbohydrates_g": "198.25",
+    "fat_g": "31.25"
+  },
+  "fixtureAccount": "Original shared synthetic account",
+  "captures": [
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "direction": "ltr",
+      "summaryHeight": 468.578125,
+      "diaryHeadingY": 694.578125,
+      "firstEntryY": 794.578125,
+      "firstEntryHeight": 174,
+      "diaryHeight": 1428,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "before-1440-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 1440,
+          "height": 900,
+          "sha256": "86f425907b18f51f30a98ee798c73aeec8ba8e0660bd61c5dadc0bf6903107ca"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "populated",
+      "route": "/en/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 1000.515625,
+      "diaryHeadingY": 1370.515625,
+      "firstEntryY": 1502.515625,
+      "firstEntryHeight": 198,
+      "diaryHeight": 1626.375,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "before-390-en-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "67193ef263ae82fe34c84ca9dfbae249d84d97dedbc7e1ab64f574414749d637"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "he",
+      "fixture": "populated",
+      "route": "/he/today?date=2026-10-10",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "rtl",
+      "summaryHeight": 1000.515625,
+      "diaryHeadingY": 1370.515625,
+      "firstEntryY": 1502.515625,
+      "firstEntryHeight": 198,
+      "diaryHeight": 1666.375,
+      "entryCount": 6,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "before-390-he-populated.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "8e81accf3ae59914fef38fb022c865da4254602535f3d038f4bc983d03ec0513"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "height": 720,
+      "locale": "he",
+      "fixture": "forty",
+      "route": "/he/today?date=2026-10-12",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "direction": "rtl",
+      "summaryHeight": 1056.109375,
+      "diaryHeadingY": 1426.109375,
+      "firstEntryY": 1558.109375,
+      "firstEntryHeight": 547.0625,
+      "diaryHeight": 10309.5625,
+      "entryCount": 40,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "before-320-he-forty.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 320,
+          "height": 720,
+          "sha256": "23cb11eba0b4041ef60390a0e3cd21eb3ab43cc157552564608eba5394a490f3"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "fixture": "empty",
+      "route": "/en/today?date=2026-10-11",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "direction": "ltr",
+      "summaryHeight": 1000.515625,
+      "diaryHeadingY": 1370.515625,
+      "firstEntryY": null,
+      "firstEntryHeight": null,
+      "diaryHeight": 348.09375,
+      "entryCount": 0,
+      "fullyVisibleRows": 0,
+      "files": [
+        {
+          "name": "before-390-en-empty.png",
+          "fullPage": false,
+          "scope": "initial-viewport",
+          "width": 390,
+          "height": 844,
+          "sha256": "9b615366416f67348f7c4e6450f50f5d14b0c1145d239e45c62a0234c46584f4"
+        }
+      ]
+    }
+  ],
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "83782c3f86a07cc03b1b333b3a84943c3d1bd838d3a7011374deda7caceb608b"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "de1dedee27e5b8758c4367096fe6a7772ba622a7fba342ac3a8149f188ef1f10"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02616b93b4ca00c14a15979bf92ecc96a70510f49aae2ab5359e19c0a9da1fec"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "88954f1023562248c4533c4c1505193ffb24bbc003151d86d76db6f7fc58a454"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "e3242362815610fc82ef5220572ba72a8174b284a481c3de6afd23cf50851481"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "602fb05cb6150abe482753ffda64d0ad37d06a7d4162e82ca0297f3b91943057"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "796a19b817f78e04f20d506a7f0529009057bcc568199b8760d1780d82a68989"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "5933e690280adb9abb65d6cc01344e82ccea674b4dfdf85838f809c77d8c4cf6"
+    }
+  ]
+}

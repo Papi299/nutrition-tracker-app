@@ -1,0 +1,249 @@
+import { provisionActivatedLocalUser, queryLocalAuthFixture } from "@/e2e/helpers/local-auth";
+import AxeBuilder from "@axe-core/playwright";
+import { createHash, randomUUID } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { expect, test, type Browser, type BrowserContext, type Page } from "@playwright/test";
+import { formatLocalizedDate } from "@/lib/i18n/format";
+import type { Database, Json } from "@/lib/supabase/database.types";
+
+const localSupabaseUrl = process.env.LOCAL_SUPABASE_URL;
+const localSupabasePublishableKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
+const localOnly = process.env.DATE_E2E_LOCAL_SUPABASE === "1";
+const password = "UiPhase3SyntheticPassword123!";
+const captureConfigPath = "/private/tmp/nutrition-ux-003r2/capture-config.json";
+const captureConfig: { capture?: "before" | "after" | "polish"; fixturePath?: string; evidenceDir?: string } = existsSync(captureConfigPath) ? JSON.parse(readFileSync(captureConfigPath, "utf8")) : {};
+const capture = captureConfig.capture;
+const captureFixturePath = captureConfig.fixturePath ?? "/private/tmp/nutrition-ux-003r2/capture-account.json";
+const dates = { populated: "2026-10-10", empty: "2026-10-11", missing: "2025-12-31", zero: "2026-02-15", historical: "2026-01-15", exceeded: "2026-11-01", large: "2026-12-01", partial: "2026-12-02", unknownMany: "2026-10-13", subtotalZero: "2026-10-14", subtotalMixed: "2026-10-15", forty: "2026-10-12", emptyTargets: "2027-01-01", fullyKnown: "2026-10-16", proteinUnknown: "2026-10-17", fullyKnownZero: "2026-10-18", fullyKnownOver: "2026-11-02", fullyKnownZeroTargets: "2026-02-17" } as const;
+const mealTypes = ["breakfast", "lunch", "dinner", "snack", "other"] as const;
+const expectedTotals = { calories: "1,420", protein_g: "85.5", carbohydrates_g: "198.25", fat_g: "31.25" };
+
+const localeCopy = {
+  en: { addFood: "Add food", notSet: "Not set", emptyMeal: "Nothing logged yet", calories: "kcal", grams: "g", addEntry: "Add entry", knownSubtotal: "Known subtotal", incompleteNutrition: "Incomplete data", unavailable: "Unavailable", macroNames: ["Protein", "Carbs", "Fat"], unknownValues: "Includes entries with unknown values." },
+  he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה", knownSubtotal: "סכום ביניים ידוע", incompleteNutrition: "נתונים חלקיים", unavailable: "לא זמין", macroNames: ["חלבון", "פחמימות", "שומן"], unknownValues: "כולל רשומות עם ערכים לא ידועים." },
+} as const;
+const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
+
+async function assertInitialMobileShortcut(page: Page, locale: "en" | "he", width: number, height: number) {
+  const shortcut = page.getByTestId("today-add-food");
+  // Measure before any focus, click, fill or scroll operation can bring the action into view.
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(shortcut).toBeVisible();
+  await expect(shortcut).toBeInViewport({ ratio: 1 });
+  await expect(shortcut).toHaveAccessibleName(localeCopy[locale].addFood);
+  await expect(shortcut).toHaveAttribute("href", "#manual-entry");
+  await expect(shortcut).toHaveClass(/ui-button-primary/);
+  await expect(shortcut.locator("svg")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator("html")).toHaveAttribute("dir", locale === "he" ? "rtl" : "ltr");
+  const bounds = await shortcut.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    const parent = element.parentElement!.getBoundingClientRect();
+    return { tag: element.tagName, x: rect.x, y: rect.y, width: rect.width, height: rect.height, right: rect.right, bottom: rect.bottom, parentLeft: parent.left, parentRight: parent.right };
+  });
+  const header = await page.locator(".mobile-app-header").boundingBox();
+  const navigation = await page.getByTestId("mobile-bottom-navigation").boundingBox();
+  expect(bounds.tag).toBe("A");
+  expect(bounds.width).toBeGreaterThanOrEqual(44);
+  expect(bounds.height).toBeGreaterThanOrEqual(44);
+  expect(bounds.x).toBeGreaterThanOrEqual(0);
+  expect(bounds.right).toBeLessThanOrEqual(width);
+  expect(bounds.y).toBeGreaterThanOrEqual((header?.y ?? 0) + (header?.height ?? 0));
+  expect(bounds.bottom).toBeLessThanOrEqual(navigation?.y ?? height);
+  expect(bounds.bottom).toBeLessThanOrEqual(height);
+  expect(Math.abs(locale === "he" ? bounds.x - bounds.parentLeft : bounds.right - bounds.parentRight)).toBeLessThanOrEqual(1);
+  const documentWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(documentWidth).toBeLessThanOrEqual(width);
+  return { ...bounds, navigationTop: navigation?.y, headerBottom: (header?.y ?? 0) + (header?.height ?? 0), initialScrollY: 0 };
+}
+
+test.skip(!localOnly || !localSupabaseUrl || !localSupabasePublishableKey, "Today dashboard requires the safe local fixture runner.");
+
+test.describe.serial("Today dashboard presentation and preserved workflows", () => {
+  let state: Awaited<ReturnType<BrowserContext["storageState"]>>;
+  let client: SupabaseClient<Database>;
+  let userId: string;
+  let email: string;
+
+  async function openPage(browser: Browser, options: Parameters<Browser["newContext"]>[0] = {}) {
+    const context = await browser.newContext({ storageState: state, reducedMotion: "reduce", ...options });
+    return { context, page: await context.newPage() };
+  }
+
+  async function seedFixture() {
+    const profile = await client.from("profiles").insert({ id: userId, display_name: "Synthetic dashboard reviewer", preferred_language: "en", unit_system: "metric" });
+    expect(profile.error).toBeNull();
+    const targets = await client.from("nutrition_targets").insert([
+      { user_id: userId, effective_from: "2026-01-01", calories: 1800, protein_g: 110, carbohydrates_g: 220, fat_g: 65 },
+      { user_id: userId, effective_from: "2026-02-01", calories: 0, protein_g: 0, carbohydrates_g: null, fat_g: 0 },
+      { user_id: userId, effective_from: "2026-03-01", calories: 2000, protein_g: 120, carbohydrates_g: 240, fat_g: 70 },
+      { user_id: userId, effective_from: "2026-11-01", calories: 800, protein_g: 50, carbohydrates_g: 100, fat_g: 20 },
+      { user_id: userId, effective_from: "2026-12-02", calories: 100, protein_g: null, carbohydrates_g: 0, fat_g: 2 },
+      { user_id: userId, effective_from: dates.emptyTargets, calories: null, protein_g: null, carbohydrates_g: null, fat_g: null },
+    ]);
+    expect(targets.error).toBeNull();
+    const savedMeal = await client.rpc("persist_saved_meal", {
+      p_expected_edit_revision: null as unknown as number, p_locale: "und", p_name: "Synthetic lunch", p_saved_meal_id: null as unknown as string,
+      p_items: [{ position: 1, food_id: null, food_name: "Chickpea salad · סלט", brand_name: null, serving_quantity: 1, serving_unit: "bowl", calories: 420, protein_g: 28, carbohydrates_g: 52, fat_g: 12, notes: null }] as Json,
+    });
+    expect(savedMeal.error).toBeNull();
+    const savedMealId = savedMeal.data?.[0].saved_meal_id as string;
+    const savedVersion = await client.from("saved_meals").select("updated_at").eq("id", savedMealId).single();
+    expect(savedVersion.error).toBeNull();
+    const recipe = await client.rpc("persist_recipe", {
+      p_locale: "und", p_name: "Lentil soup · מרק עדשים", p_recipe_id: null as unknown as string, p_yield_servings: 1,
+      p_ingredients: [{ position: 1, food_id: null, ingredient_name: "Synthetic lentil soup", brand_name: null, quantity: 1, unit: "bowl", calories: 510, protein_g: 30, carbohydrates_g: 75, fat_g: 10, notes: null }] as Json,
+    });
+    expect(recipe.error).toBeNull();
+    const recipeId = recipe.data?.[0].recipe_id as string;
+    const recipeVersion = await client.from("recipes").select("updated_at").eq("id", recipeId).single();
+    expect(recipeVersion.error).toBeNull();
+    for (const date of [dates.populated, dates.missing, dates.zero, dates.historical, dates.exceeded]) {
+      const entries = await client.from("diary_entries").insert([
+        { user_id: userId, entry_date: date, meal_type: "breakfast", source: "manual", food_name: "Greek yogurt · יוגורט", brand_name: "Synthetic kitchen", serving_quantity: 200, serving_unit: "g", calories: 180, protein_g: 20, carbohydrates_g: 12, fat_g: 4, created_at: `${date}T08:00:00Z` },
+        { user_id: userId, entry_date: date, meal_type: "breakfast", source: "manual", food_name: "Rolled oats", serving_quantity: 60, serving_unit: "g", calories: 215, protein_g: 7.5, carbohydrates_g: 34.25, fat_g: 5.25, created_at: `${date}T08:05:00Z` },
+        { user_id: userId, entry_date: date, meal_type: "snack", source: "manual", food_name: "Apple · תפוח", serving_quantity: 1, serving_unit: "piece", calories: 95, protein_g: 0, carbohydrates_g: 25, fat_g: 0, created_at: `${date}T15:00:00Z` },
+        { user_id: userId, entry_date: date, meal_type: "other", source: "manual", food_name: "Tea · תה", serving_quantity: 1, serving_unit: "cup", calories: null, protein_g: null, carbohydrates_g: null, fat_g: null, created_at: `${date}T16:00:00Z` },
+      ]);
+      expect(entries.error).toBeNull();
+      const loggedMeal = await client.rpc("log_saved_meal_to_diary", { p_entry_date: date, p_expected_updated_at: savedVersion.data?.updated_at as string, p_idempotency_key: randomUUID(), p_meal_type: "lunch", p_saved_meal_id: savedMealId });
+      expect(loggedMeal.error).toBeNull();
+      expect(loggedMeal.data?.[0].result_status).toBe("success");
+      const loggedRecipe = await client.rpc("log_recipe_to_diary", { p_entry_date: date, p_expected_updated_at: recipeVersion.data?.updated_at as string, p_idempotency_key: randomUUID(), p_meal_type: "dinner", p_recipe_id: recipeId, p_requested_servings: 1 });
+      expect(loggedRecipe.error).toBeNull();
+      expect(loggedRecipe.data?.[0].result_status).toBe("success");
+    }
+    const edgeEntries = await client.from("diary_entries").insert([
+      { user_id: userId, entry_date: dates.large, meal_type: "other", source: "manual", food_name: "Large synthetic snapshot", brand_name: "SyntheticBrand".repeat(8), serving_quantity: 9999999.999, serving_unit: "SyntheticUnbrokenServingUnit012345678901", calories: 999999999, protein_g: 999999.99, carbohydrates_g: 999999.99, fat_g: 999999.99 },
+      { user_id: userId, entry_date: dates.partial, meal_type: "snack", source: "manual", food_name: "Partial synthetic snapshot", calories: 100, protein_g: null, carbohydrates_g: 0, fat_g: 1.25 },
+    ]);
+    expect(edgeEntries.error).toBeNull();
+    const subtotalEntries = await client.from("diary_entries").insert([
+      { user_id: userId, entry_date: dates.unknownMany, meal_type: "other", source: "manual", food_name: "Tea · תה", calories: null },
+      { user_id: userId, entry_date: dates.unknownMany, meal_type: "other", source: "manual", food_name: "Coffee · קפה", calories: null },
+      { user_id: userId, entry_date: dates.subtotalZero, meal_type: "other", source: "manual", food_name: "Water · מים", calories: 0 },
+      { user_id: userId, entry_date: dates.subtotalMixed, meal_type: "other", source: "manual", food_name: "Water · מים", calories: 0 },
+      { user_id: userId, entry_date: dates.subtotalMixed, meal_type: "other", source: "manual", food_name: "Tea · תה", calories: null },
+    ]);
+    expect(subtotalEntries.error).toBeNull();
+    const fortyEntries = await client.from("diary_entries").insert(Array.from({ length: 40 }, (_, index) => ({
+      user_id: userId, entry_date: dates.forty, meal_type: mealTypes[Math.floor(index / 8)], source: "manual" as const,
+      food_name: index === 0 ? "שם מזון ארוך במיוחד עם עברית English 42% · (סינתטי) ".repeat(3) : index === 1 ? "LongUnbrokenSyntheticFoodIdentity".repeat(5) : `Synthetic diary row ${index + 1} · רשומה`,
+      brand_name: index < 2 ? "LongBrandIdentityמותג".repeat(5) : "Synthetic kitchen",
+      serving_quantity: 1, serving_unit: "portion", calories: index + 1, protein_g: 0.25, carbohydrates_g: 1.5, fat_g: 0,
+      created_at: `${dates.forty}T08:${String(index).padStart(2, "0")}:00Z`,
+    })));
+    expect(fortyEntries.error).toBeNull();
+    const completenessEntries = await client.from("diary_entries").insert([
+      ...[dates.fullyKnown, dates.fullyKnownOver, dates.fullyKnownZeroTargets].map(date => ({ user_id: userId, entry_date: date, meal_type: "breakfast" as const, source: "manual" as const, food_name: "Fully known synthetic snapshot", calories: 1420, protein_g: 85.5, carbohydrates_g: 198.25, fat_g: 31.25 })),
+      { user_id: userId, entry_date: dates.fullyKnownZero, meal_type: "breakfast", source: "manual", food_name: "Explicit zero synthetic snapshot", calories: 0, protein_g: 0, carbohydrates_g: 0, fat_g: 0 },
+      { user_id: userId, entry_date: dates.proteinUnknown, meal_type: "breakfast", source: "manual", food_name: "Protein unknown · חלבון חסר", calories: 180, protein_g: null, carbohydrates_g: 12, fat_g: 4 },
+      { user_id: userId, entry_date: dates.proteinUnknown, meal_type: "breakfast", source: "manual", food_name: "Known protein · חלבון ידוע", calories: 215, protein_g: 7.5, carbohydrates_g: 34.25, fat_g: 5.25 },
+    ]);
+    expect(completenessEntries.error).toBeNull();
+  }
+
+  test.beforeAll(async ({ browser }) => {
+    client = createClient<Database>(localSupabaseUrl as string, localSupabasePublishableKey as string, { auth: { autoRefreshToken: false, persistSession: false } });
+    if (capture === "after") {
+      email = JSON.parse(readFileSync(captureFixturePath, "utf8")).email;
+      const signedIn = await client.auth.signInWithPassword({ email, password });
+      expect(signedIn.error).toBeNull();
+      userId = signedIn.data.user?.id as string;
+    } else {
+      email = `ui-phase3-${Date.now()}-${Math.random().toString(36).slice(2)}@example.test`;
+      const signedIn = await provisionActivatedLocalUser(client, { email, password });
+      expect(signedIn.error).toBeNull();
+      userId = signedIn.data.user?.id as string;
+      await seedFixture();
+      if (capture === "before") writeFileSync(captureFixturePath, JSON.stringify({ email }), { mode: 0o600 });
+    }
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("/en/auth/sign-in");
+    await page.getByLabel("Email").fill(email);
+    await page.getByLabel("Password").fill(password);
+    await page.getByRole("button", { name: "Sign in" }).click();
+    await expect(page).toHaveURL(/\/en\/today\?date=\d{4}-\d{2}-\d{2}$/);
+    state = await context.storageState();
+    await context.close();
+  });
+
+  test("captures reproducible visual evidence", async ({ browser }) => {
+    const capture = "integrated" as string;
+    test.skip(!capture, "Explicit evidence capture only.");
+    test.setTimeout(180_000);
+    const output = captureConfig.evidenceDir ?? join(process.cwd(), "docs/evidence/nutrition-ux-redesign-003");
+    mkdirSync(output, { recursive: true });
+    let captures: { width: number; height: number; locale: "en" | "he"; fixture: keyof typeof dates; forcedColors?: "active" }[] = [
+      { width: 1440, height: 900, locale: "en", fixture: "populated" },
+      { width: 390, height: 844, locale: "en", fixture: "populated" },
+      { width: 390, height: 844, locale: "he", fixture: "populated" },
+      { width: 320, height: 720, locale: "he", fixture: "forty" },
+      { width: 390, height: 844, locale: "en", fixture: "empty" },
+      { width: 390, height: 844, locale: "en", fixture: "missing" },
+      { width: 390, height: 844, locale: "en", fixture: "partial" },
+      { width: 390, height: 844, locale: "en", fixture: "zero" },
+      { width: 390, height: 844, locale: "en", fixture: "exceeded" },
+      { width: 390, height: 844, locale: "en", fixture: "subtotalMixed" },
+    ];
+    if (capture === "after") captures.push({ width: 390, height: 844, locale: "he", fixture: "populated", forcedColors: "active" });
+    if (capture === "polish") captures = captures.filter(item => item.fixture === "populated");
+    captures.push({width:768,height:1024,locale:"he",fixture:"populated"},{width:1024,height:900,locale:"en",fixture:"populated"},{width:320,height:720,locale:"en",fixture:"populated"},{width:390,height:844,locale:"en",fixture:"proteinUnknown"},{width:1440,height:900,locale:"he",fixture:"proteinUnknown"});
+    const manifest = [];
+    for (const item of captures) {
+      const { context, page } = await openPage(browser, { viewport: { width: item.width, height: item.height }, deviceScaleFactor: 1 });
+      await page.emulateMedia({ forcedColors: item.forcedColors ?? "none", reducedMotion: "reduce" });
+      const route = `/${item.locale}/today?date=${dates[item.fixture]}`;
+      await page.goto(route);
+      await expect(page.getByTestId("manual-diary-entry-form")).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      await page.evaluate(() => window.scrollTo(0, 0));
+      const geometry = await page.evaluate(() => {
+        const summary = document.querySelector(".nutrition-summary")!.getBoundingClientRect();
+        const heading = document.querySelector(".today-diary-title")!.getBoundingClientRect();
+        const diary = document.querySelector('[data-testid="save-diary-meal-links"]')!.getBoundingClientRect();
+        const rows = Array.from(document.querySelectorAll("[data-diary-entry-id]"));
+        const first = rows[0]?.getBoundingClientRect();
+        const navigation = document.querySelector('[data-testid="mobile-bottom-navigation"]');
+        const navTop = navigation?.getClientRects().length ? navigation.getBoundingClientRect().top : window.innerHeight;
+        return {
+          viewportWidth: document.documentElement.clientWidth, documentWidth: document.documentElement.scrollWidth, direction: document.documentElement.dir,
+          summaryHeight: summary.height, diaryHeadingY: heading.top, firstEntryY: first?.top ?? null,
+          firstEntryHeight: first?.height ?? null, diaryHeight: diary.height, entryCount: rows.length,
+          fullyVisibleRows: rows.filter(row => { const rect = row.getBoundingClientRect(); return rect.top >= 0 && rect.bottom <= navTop; }).length,
+        };
+      });
+      expect(geometry.documentWidth).toBeLessThanOrEqual(geometry.viewportWidth);
+      const shortcutBounds = capture === "polish" ? await assertInitialMobileShortcut(page, item.locale, item.width, item.height) : undefined;
+      const files = [];
+      for (const fullPage of [false, true]) {
+        await page.evaluate(() => window.scrollTo(0, 0));
+        const name = `${capture}-${item.width}-${item.locale}-${item.fixture}${item.forcedColors ? "-forced-colors" : ""}${fullPage ? "-full" : ""}.png`;
+        const image = await page.screenshot({ path: join(output, name), fullPage, animations: "disabled" });
+        files.push({ name, fullPage, scope: fullPage ? "full-page" : "initial-viewport", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
+      }
+      if (capture === "integrated" && item.fixture === "forty") {
+        const name = `${capture}-${item.width}-${item.locale}-long-row.png`;
+        const image = await page.locator("[data-diary-entry-id]").first().screenshot({ path: join(output, name), animations: "disabled" });
+        files.push({ name, fullPage: false, scope: "first-full-identity-row", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
+      }
+      let otherSubtotal: string | undefined;
+      if (capture === "polish") {
+        const section = page.locator('[data-meal-type="other"]');
+        const subtotal = section.getByRole("heading", { level: 3 }).locator("..").locator("p");
+        await expect(subtotal).toHaveText(localeCopy[item.locale].notSet);
+        otherSubtotal = await subtotal.innerText();
+        const name = `${capture}-${item.width}-${item.locale}-other-unknown.png`;
+        const image = await section.screenshot({ path: join(output, name), animations: "disabled" });
+        files.push({ name, fullPage: false, scope: "other-meal", width: image.readUInt32BE(16), height: image.readUInt32BE(20), sha256: createHash("sha256").update(image).digest("hex") });
+      }
+      manifest.push({ ...item, route, ...geometry, shortcutBounds, otherSubtotal, files });
+      await context.close();
+    }
+    writeFileSync(join(output, `${capture}-manifest.json`), JSON.stringify({ task: "NUTRITION-UX-REDESIGN-003R2", baseline: "6d0b0984d997106aa83c64ae9b723148c79eb428", integratedApplication: true, sourceCommit: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(), sourceTree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], { encoding: "utf8" }).trim(), evidenceVersion: capture === "polish" ? "bounded-final-polish" : capture, browser: "Chromium", browserVersion: browser.version(), deviceScaleFactor: 1, reducedMotion: "reduce", fixtureTotals: expectedTotals, fixtureAccount: "Fresh synthetic local R2 account; original numeric fixture snapshots recreated", captures: manifest, renderedSourceFiles: renderedSourcePaths.map(path => ({ path, sha256: createHash("sha256").update(readFileSync(join(process.cwd(), path))).digest("hex") })) }, null, 2) + "\n");
+  });
+
+});

@@ -1,0 +1,147 @@
+{
+  "project": "nutrition-ux-003r2",
+  "allPublishedPortsLoopback": true,
+  "containers": [
+    {
+      "name": "supabase_studio_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "55823"
+          }
+        ]
+      }
+    },
+    {
+      "name": "supabase_pg_meta_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "8080/tcp": null
+      }
+    },
+    {
+      "name": "supabase_edge_runtime_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {}
+    },
+    {
+      "name": "supabase_storage_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "5000/tcp": null
+      }
+    },
+    {
+      "name": "supabase_rest_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "supabase_realtime_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "4000/tcp": null
+      }
+    },
+    {
+      "name": "supabase_inbucket_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "55824"
+          }
+        ]
+      }
+    },
+    {
+      "name": "supabase_auth_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "9999/tcp": null
+      }
+    },
+    {
+      "name": "supabase_kong_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "55821"
+          }
+        ]
+      }
+    },
+    {
+      "name": "supabase_vector_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {}
+    },
+    {
+      "name": "supabase_analytics_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "4000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "55827"
+          }
+        ]
+      }
+    },
+    {
+      "name": "supabase_db_nutrition-ux-003r2",
+      "state": "running",
+      "networks": [
+        "supabase_network_nutrition-ux-003r2"
+      ],
+      "effectivePorts": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "55822"
+          }
+        ]
+      }
+    }
+  ]
+}

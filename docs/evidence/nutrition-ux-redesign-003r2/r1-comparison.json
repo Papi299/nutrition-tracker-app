@@ -1,0 +1,116 @@
+{
+  "historicalSource": "933cc37b9d3231ee2aacc81226c8535d03d843fb",
+  "integratedSource": "1a9db160ed5fa2b49e9719076ccab9b0a3ae1986",
+  "freshRunStats": {
+    "startTime": "2026-10-23T18:25:59.453Z",
+    "duration": 17687.806,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "comparisons": [
+    {
+      "locale": "en",
+      "width": 390,
+      "height": 844,
+      "oldGeometry": {
+        "summary": {
+          "x": 16,
+          "y": 233,
+          "width": 358,
+          "height": 325.875
+        },
+        "firstRow": {
+          "x": 29,
+          "y": 687.875,
+          "width": 332,
+          "height": 136.59375
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "newGeometry": {
+        "summary": {
+          "x": 16,
+          "y": 233,
+          "width": 358,
+          "height": 325.875
+        },
+        "firstRow": {
+          "x": 29,
+          "y": 687.875,
+          "width": 332,
+          "height": 136.59375
+        },
+        "documentWidth": 390,
+        "viewportWidth": 390
+      },
+      "geometryIdentical": true,
+      "metricsIdentical": true,
+      "imagePairs": [
+        {
+          "historical": "after-en-390-viewport.png",
+          "integrated": "integrated-paired-en-390-viewport.png",
+          "sha256Identical": true
+        },
+        {
+          "historical": "after-en-390-summary-row.png",
+          "integrated": "integrated-paired-en-390-summary-row.png",
+          "sha256Identical": true
+        }
+      ]
+    },
+    {
+      "locale": "he",
+      "width": 1440,
+      "height": 900,
+      "oldGeometry": {
+        "summary": {
+          "x": 48,
+          "y": 129,
+          "width": 1088,
+          "height": 190.1875
+        },
+        "firstRow": {
+          "x": 69,
+          "y": 456.1875,
+          "width": 1046,
+          "height": 113.796875
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "newGeometry": {
+        "summary": {
+          "x": 48,
+          "y": 129,
+          "width": 1088,
+          "height": 190.1875
+        },
+        "firstRow": {
+          "x": 69,
+          "y": 456.1875,
+          "width": 1046,
+          "height": 113.796875
+        },
+        "documentWidth": 1440,
+        "viewportWidth": 1440
+      },
+      "geometryIdentical": true,
+      "metricsIdentical": true,
+      "imagePairs": [
+        {
+          "historical": "after-he-1440-viewport.png",
+          "integrated": "integrated-paired-he-1440-viewport.png",
+          "sha256Identical": true
+        },
+        {
+          "historical": "after-he-1440-summary-row.png",
+          "integrated": "integrated-paired-he-1440-summary-row.png",
+          "sha256Identical": true
+        }
+      ]
+    }
+  ]
+}
