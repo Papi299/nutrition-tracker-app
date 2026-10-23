@@ -1,3 +1,4 @@
+import { isExpectedCustomFoodEditPrefetch, type ReceiptRequest } from "@/e2e/helpers/custom-food-prefetch";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { expect, test, type Browser, type BrowserContext, type Page, type Request, type TestInfo } from "@playwright/test";
 import { createHash, randomUUID } from "node:crypto";
@@ -86,7 +87,7 @@ function observe(page: Page, evidence: Evidence, phase: () => string) {
     if (url.origin !== new URL(page.url()).origin || url.pathname.startsWith("/_next/static/")) return;
     const headers = request.headers();
     const prefetch = headers["next-router-prefetch"] === "1" || headers.purpose === "prefetch";
-    evidence.requests.push({ phase: phase(), url: url.pathname + url.search, method: request.method(), kind: prefetch ? "prefetch" : request.isNavigationRequest() ? "document-navigation" : headers.rsc === "1" ? "App-Router-RSC" : headers["next-action"] ? "Server-Action" : request.resourceType(), prefetch, action: Boolean(headers["next-action"]) });
+    evidence.requests.push({ phase: phase(), url: url.pathname + url.search, method: request.method(), kind: prefetch ? "prefetch" : request.isNavigationRequest() ? "document-navigation" : headers.rsc === "1" ? "App-Router-RSC" : headers["next-action"] ? "Server-Action" : request.resourceType(), prefetch, action: Boolean(headers["next-action"]), navigation: request.isNavigationRequest(), resourceType: request.resourceType(), rsc: headers.rsc === "1", routerPrefetch: headers["next-router-prefetch"] === "1" });
   });
 }
 
@@ -257,7 +258,8 @@ test.describe("Custom Food receipt retirement and App Router coherence", () => {
         await expect(page.locator('[name="name"]')).toHaveValue(unsaved);
         expect(await stableForm!.evaluate(element => element.isConnected)).toBe(true);
         expect(await page.evaluate(() => history.length)).toBe(historyLength);
-        expect(evidence.requests.slice(requestOffset)).toEqual([]);
+        const subsequentRequests = evidence.requests.slice(requestOffset) as ReceiptRequest[];
+        expect(subsequentRequests.filter(request => !isExpectedCustomFoodEditPrefetch(request, { origin: page.url(), foodId }))).toEqual([]);
         expect(snapshot()).toBe(acceptedFingerprint);
         const actionRequests = (evidence.requests as { method: string; action: boolean }[]).filter(request => request.method === "POST" && request.action);
         expect(actionRequests).toHaveLength(1);

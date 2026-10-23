@@ -289,8 +289,14 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
       await expect(field(page, "name")).toHaveValue(longName); await expect(field(page, "brand_name")).toHaveValue(longBrand); await expect(field(page, "nutrient_protein_g")).toHaveValue("0");
       const beforeNavigation = await measure(page, "edit-rejected-closed-group"); expect(beforeNavigation.invalid.find(control => control.name === "nutrient_sodium_mg")?.visible).toBe(false);
       const destination = await keyboardDestination(page, summary(page).locator('a[href="#custom-food-nutrient_sodium_mg"]'), field(page, "nutrient_sodium_mg"));
-      const aliasTarget = await summary(page).getByRole("link").last().getAttribute("href"); await rows(page).first().getByRole("button", { name: messages[locale].CustomFoodEditor.aliases.remove, exact: true }).click();
+      const aliasTarget = await summary(page).getByRole("link").last().getAttribute("href");
+      const retainedSummaryLink = await summary(page).locator(`a[href="${aliasTarget}"]`).elementHandle();
+      const retainedAliasInput = await field(page, "alias_text_2").elementHandle();
+      await rows(page).first().getByRole("button", { name: messages[locale].CustomFoodEditor.aliases.remove, exact: true }).click();
       await keyboardDestination(page, summary(page).locator(`a[href="${aliasTarget}"]`), field(page, "alias_text_1")); await expect(field(page, "alias_text_1")).toHaveAttribute("aria-invalid", "true");
+      // Reindexing preserves the error link and its surviving input, including focus between commits.
+      expect(await summary(page).locator(`a[href="${aliasTarget}"]`).evaluate((current, previous) => current === previous, retainedSummaryLink)).toBe(true);
+      expect(await field(page, "alias_text_1").evaluate((current, previous) => current === previous, retainedAliasInput)).toBe(true);
       assertGeometry(await measure(page, "edit-validation-navigation")); await summary(page).evaluate(element => element.scrollIntoView({ block: "start", behavior: "instant" })); if (locale === "en") await capture(page, "edit-rejection-en-390"); await axe(page, "rejected-edit");
       for (const width of widths) {
         await page.setViewportSize({ width, height: 1000 });
