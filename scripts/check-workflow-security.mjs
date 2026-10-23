@@ -14,8 +14,8 @@ const workflowExpectations = new Map([
       timeout: 40,
       node: 22,
       actions: new Map([
-        ["actions/checkout", 1],
-        ["actions/setup-node", 1],
+        ["actions/checkout", 2],
+        ["actions/setup-node", 2],
         ["actions/upload-artifact", 2],
       ]),
     },
@@ -63,7 +63,51 @@ const ciSteps = [
   "Stop local Supabase",
 ];
 
+const reviewedAptCompatibilityJob = `
+  apt_ubuntu26:
+    name: Ubuntu 26.04 browser provisioning
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out compatibility probe
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Set up compatibility Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Verify Ubuntu 26.04 browser prerequisites
+        run: |
+          test "$(. /etc/os-release && echo "$VERSION_ID")" = 26.04
+          npm ci
+          node --test scripts/configure-ci-apt.test.mjs
+          sudo "$(command -v node)" scripts/configure-ci-apt.mjs
+          apt-config dump Acquire::Retries Acquire::http::Timeout Acquire::https::Timeout
+          npx playwright install --with-deps chromium firefox webkit
+          node --input-type=module - <<'NODE'
+          import { chromium, firefox, webkit } from 'playwright';
+          for (const engine of [chromium, firefox, webkit]) {
+            const browser = await engine.launch();
+            try {
+              const page = await browser.newPage();
+              await page.setContent('<title>APT compatibility probe</title>');
+              if (await page.title() !== 'APT compatibility probe') throw new Error('Browser probe failed');
+              console.log(\`\${engine.name()} launched: \${browser.version()}\`);
+            } finally {
+              await browser.close();
+            }
+          }
+          NODE
+          node --version
+          docker version
+          docker compose version
+          npx supabase --version
+`;
+
 function checkCiDispatchContract(workflow) {
+  if (!workflow.endsWith(reviewedAptCompatibilityJob)) {
+    fail("ci.yml must retain the exact bounded Ubuntu 26.04 browser-only compatibility probe");
+  }
+  workflow = workflow.slice(0, -reviewedAptCompatibilityJob.length);
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
@@ -132,7 +176,8 @@ function checkCiDispatchContract(workflow) {
   const browserInstall =
     "      - name: Install Playwright Phase 11D engines\n" +
     "        run: |\n" +
-    "          sudo sed -i 's|http://azure\\.archive\\.ubuntu\\.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources\n" +
+    '          sudo "$(command -v node)" scripts/configure-ci-apt.mjs\n' +
+    "          apt-config dump Acquire::Retries Acquire::http::Timeout Acquire::https::Timeout\n" +
     "          npx playwright install --with-deps chromium firefox webkit\n\n";
   if (steps.get("Install Playwright Phase 11D engines") !== browserInstall) {
     fail("ci.yml must retain the reviewed official Ubuntu archive and all browser engines/dependencies");
