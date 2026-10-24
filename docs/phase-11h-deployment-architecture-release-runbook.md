@@ -249,7 +249,7 @@ Current official Vercel documentation was re-checked on 2026-09-15:
 | Preview | Optional exact-commit deployment; frontend-only with no backend or a dedicated non-Production Supabase project; no automatic branch/PR deployment |
 | Staging | Historical full-profile capability; `NOT_REQUIRED_PERSONAL_USE_PROFILE` |
 | Production bootstrap | One future exact `PRODUCTION_BOOTSTRAP_ONLY` first deployment, protected, provider-domain-only, with no release/user/invitation/launch/closure credit |
-| Production release | A later exact Production build requiring fresh release authorization and current recovery qualification; the bootstrap authorization is insufficient |
+| Production release | An exact Production build or separately authorized promotion of that existing READY Production build; fresh release authorization and current recovery qualification are required; bootstrap authorization is insufficient |
 | Branch/revision | A branch selects build input, never security identity or release authority. `VERCEL_GIT_COMMIT_SHA` must match the authorized candidate and CI head. |
 | Variables | No variable is shared by convenience across scopes. Each scope is reviewed against the manifest; imported values must be detached and independently verified. |
 | Domains | Preview uses provider deployment URLs; staging needs one canonical HTTPS origin before Auth configuration; Production canonical domain/DNS is a separate later decision/action. |
@@ -368,6 +368,17 @@ secret values.
 Hosted Storage reality and backup/recovery remain external. Phase 11I owns the
 daily/30-day backup contract, RPO 24 hours, RTO 8 hours, isolated restore, and
 quarterly qualification. Restore is not an ordinary release rollback.
+
+For the active personal-use profile, apply the later
+[DEC-040 owner-readiness disposition](phase-11k-personal-use-owner-readiness-baseline.md)
+and [accepted owner-backup qualification](phase-11k-p11a010-production-owner-backup-verification.md)
+when evaluating this historical recovery contract. A current eligible encrypted
+owner backup and the accepted populated synthetic recovery path remain required.
+Formal eight-hour RTO timing and repeated drills remain `P11A-010-B1`
+improvements; their historical scope is not relabeled as passed. Keep
+`currentRecoveryQualificationRequired=true`, refresh freshness and artifact
+availability at release time, and stop if the applicable qualification cannot
+be established. This documentation does not authorize a backup or restore.
 
 Under `DEC-032`, the Production bootstrap used project
 `hskfanrqwtqknzpquwhg` after its conversion was accepted as `PRODUCTION`; it
@@ -630,15 +641,102 @@ mismatch, or second Production deployment is `STOP + ESCALATE`.
    reviewed suffix to one target. Do not retry when commit status is unknown.
 9. **Verify ledger and invariants.** Re-read the ledger; verify roles, grants,
    RLS, activation/closure boundaries, and any migration-specific checks.
-10. **Deploy exact candidate.** Require target, Git SHA, build provenance, and
-    environment validator success. A new build is required when scoped
-    variables change.
+10. **Deploy or promote exact candidate.** Require target, Git SHA, build
+    provenance, and environment validator success. An existing READY
+    Production-targeted build may be promoted only under separate exact
+    Product Owner authority and the staging procedure below. A new build is
+    required when scoped variables change; promoting an unchanged accepted
+    build does not itself require a rebuild.
 11. **Smoke.** Execute Section 12 without unsafe duplicate writes.
 12. **Observe and review.** Check the approved deployment/version, health,
     Auth, database, and privacy-minimal signals. The independent reviewer
     signs the evidence disposition.
 13. **Exit.** Close the maintenance window only when smoke, integrity,
     observability, and evidence are complete and no state is indeterminate.
+
+### Controlled staged Production and existing-deployment promotion
+
+The [Phase B Production closeout](nutrition-phaseb-production-release-closeout.md)
+records the 2026-10-24 provider investigation and accepted release. The R1
+failure report remains historical evidence against its original criterion.
+The corrected rules below govern future operations; they grant no authority
+to perform one.
+
+| Provider surface | Meaning and authoritative check |
+| --- | --- |
+| Configured Production domain | Inventory every explicitly configured Production domain and read its live alias mapping; a `vercel.app` suffix does not by itself make a hostname a generated alias. |
+| Generated project URL | Moving provider-generated project entry point; classify using provider metadata and inventory, not hostname spelling alone. |
+| Generated Git branch URL | Moving branch entry point; verify `automaticAliases`, branch association and actual destination. |
+| Unique deployment URL | Identifies one immutable deployment; use this exact URL for candidate acceptance. It remains Production-connected. |
+| Latest deployment | Most recently created deployment metadata; it may be staged while Current Production still serves the prior release. |
+| Current Production target | Read authoritative project `targets.production.id` and independently verify canonical live routing; `latestDeployment` alone is insufficient. |
+
+Vercel's [`autoAssignCustomDomains` model](https://github.com/vercel/sdk/blob/main/docs/models/getdeploymentresponsebody2.md)
+applies to custom-domain assignment. It does not freeze all generated URLs.
+The [generated URL documentation](https://vercel.com/docs/deployments/generated-urls)
+and [staged-promotion documentation](https://vercel.com/docs/deployments/promoting-a-deployment)
+describe separate routing surfaces. Candidate `aliasAssigned=true`, a nonempty
+`alias` list, or a historical deployment alias array does not establish that
+the configured canonical domain was promoted. Live mappings and the Current
+target decide that question.
+
+1. Pin the reviewed source SHA/tree, successful required exact-source CI and
+   security gates, team/project/repository, Git source, framework, Production
+   target, service/origin binding and READY build. Record an exact authorized
+   UTC window and sole executor. Merge or CI success grants no deployment or
+   promotion permission.
+2. Separately authorize controlled Production-targeted staging. Record the
+   project's authoritative automatic custom-domain-assignment value and the
+   supported creation-time suppression setting. Preserve **every configured
+   Production domain and its mapping**, plus the prior Current target, until
+   promotion is independently authorized. This is not a Preview environment.
+3. Inventory all generated aliases before and after staging. Permit only
+   explicitly accounted-for generated classes moving to the exact candidate;
+   verify branch association and destination. Do not require zero movement,
+   empty candidate aliases or `aliasAssigned=false`. An unexpected configured
+   domain, unexplained alias or wrong destination remains a stop condition.
+4. Keep Vercel Authentication for **All Deployments**, with no new bypass,
+   share link or unauthorized external access. Generated URLs can expose the
+   staged candidate to authorized members before promotion: test protection
+   on the canonical, generated and unique entry points. Do not treat a moving
+   generated URL as a fixed owner-release address.
+5. Perform bounded read-only candidate acceptance at its unique URL. Reuse a
+   legitimate existing owner session or stop for owner authentication. Do not
+   copy cookies, weaken origin/callback boundaries, submit data/settings or
+   manufacture Production fixtures. Label unrepresented owner-data scenarios
+   and distinguish supporting synthetic tests from live observations.
+6. Refresh the independent backup/recovery gate under the applicable profile:
+   successful eligible capture, conservative RPO from capture start, available
+   unexpired artifact, encrypted integrity, approved recipient and current
+   recovery prerequisites. Do not create qualification during the release or
+   silently waive `currentRecoveryQualificationRequired`.
+7. Obtain separate exact Product Owner promotion authority after candidate
+   acceptance, including accepted limitations, target, window, attempt limit
+   and failure boundary. Recheck identities, configured mappings, protection,
+   environment metadata, inventories and recovery freshness before mutation.
+8. Use the supported [existing-deployment Promote operation](https://vercel.com/docs/rest-api/sdk/projects/point-production-traffic-to-a-given-deployment)
+   exactly as authorized. It does not rebuild the deployment. Do not substitute
+   a manual alias override, another SHA or a new deployment. An ambiguous
+   response requires read-only Current/alias/audit reconciliation, never a
+   blind retry or second mutation route.
+9. Independently verify the canonical mapping **and** authoritative Current
+   target, READY state, exact Git source/framework, configured/generated
+   routing, unchanged deployment inventory, environment metadata and continued
+   protection. Run bounded canonical health GET/HEAD, EN/HE, authentication,
+   headers/origin and runtime checks. Use an existing canonical owner session
+   read-only where available; otherwise record that limitation.
+10. Directly reread project `autoAssignCustomDomains` after promotion, even if
+    routing and health pass. Record before/after and provider audit evidence.
+    A false-to-true intrinsic side effect is a release-control follow-up:
+    separately authorize a correction equivalent to
+    `SECURITY-PRODUCTION-RELEASE-004`. Do not change it automatically or create
+    another deployment. A healthy, securely protected release may remain live.
+11. Stop further writes on failure, unexpected routing or a critical defect;
+    preserve actual provider/error evidence. Failed pre-reassignment promotion
+    is not retried under an exhausted one-attempt authority. Rollback, forward
+    fix, alias repair, settings correction and restore each require their own
+    applicable incident/action authorization. Never silently return canonical
+    traffic to another deployment.
 
 Forward-fix is required after an irreversible migration when the prior app is
 not compatible or the database state cannot be safely reverted. Application

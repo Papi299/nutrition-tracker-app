@@ -1,0 +1,267 @@
+{
+  "schemaVersion": "nutrition-phaseb-production-closeout/v1",
+  "taskId": "NUTRITION-PHASEB-PRODUCTION-005",
+  "recordedAtUtc": "2026-10-24 05:17:46 UTC",
+  "evidenceMeaning": "Fresh read-only metadata reconciliation; R1-R4 observations remain historical and are not newly executed owner tests.",
+  "approvedSource": {
+    "repository": "Papi299/nutrition-tracker-app",
+    "repositoryId": 1223506255,
+    "mainSha": "02723650b002a607e44b1bac14f8809b5c251582",
+    "tree": "5f2ca6b853be6b6643590f8eda75d81f7c667ac3",
+    "mergedPr": "https://github.com/Papi299/nutrition-tracker-app/pull/197"
+  },
+  "project": {
+    "id": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "teamId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+    "currentProductionId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+    "autoAssignCustomDomains": false,
+    "ssoProtection": {
+      "deploymentType": "all"
+    },
+    "protectionBypassCount": 0,
+    "productionEnvMetadataEntryCount": 12,
+    "productionEnvironmentMetadataUnchangedFromR4": true,
+    "projectUpdatedAtUnchangedFromR4": true,
+    "effectiveAutomaticGitDeploymentsEnabled": false,
+    "connectedIntegrationCreateDeployments": "enabled"
+  },
+  "candidate": {
+    "id": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+    "url": "nutrition-tracker-jk33z9apg-peachys-projects-4596e52a.vercel.app",
+    "readyState": "READY",
+    "target": "production",
+    "createdAt": 1792813499231,
+    "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+    "gitSource": {
+      "type": "github",
+      "repoId": 1223506255,
+      "ref": "main",
+      "sha": "02723650b002a607e44b1bac14f8809b5c251582"
+    },
+    "automaticAliases": [
+      "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app",
+      "nutrition-tracker-app-git-main-peachys-projects-4596e52a.vercel.app"
+    ],
+    "aliasAssigned": true
+  },
+  "canonicalLookup": {
+    "id": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+    "state": "READY",
+    "target": "production",
+    "project": {
+      "id": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "name": "nutrition-tracker-app",
+      "framework": "nextjs"
+    },
+    "gitSha": "02723650b002a607e44b1bac14f8809b5c251582"
+  },
+  "configuredDomains": [
+    {
+      "name": "nutrition-tracker-app-xi.vercel.app",
+      "verified": true,
+      "gitBranch": null,
+      "customEnvironmentId": null
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "nutrition-tracker-app-git-main-peachys-projects-4596e52a.vercel.app",
+      "deploymentId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+      "updatedAt": 1792813529401
+    },
+    {
+      "alias": "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app",
+      "deploymentId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+      "updatedAt": 1792813529229
+    },
+    {
+      "alias": "nutrition-tracker-app-xi.vercel.app",
+      "deploymentId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+      "updatedAt": 1792817325425
+    },
+    {
+      "alias": "nutrition-tracker-app-git-ad92-fc4157-peachys-projects-4596e52a.vercel.app",
+      "deploymentId": "dpl_cydL1xMN2TMPFaU3WAQai91BHxQg",
+      "updatedAt": 1789571468832
+    }
+  ],
+  "deployments": [
+    {
+      "id": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+      "state": "READY",
+      "target": "production",
+      "created": 1792813499231,
+      "gitSha": "02723650b002a607e44b1bac14f8809b5c251582"
+    },
+    {
+      "id": "dpl_13WtxbvAjfLfUQ9PV8rHQoRgPTGV",
+      "state": "READY",
+      "target": "production",
+      "created": 1792732927010,
+      "gitSha": "c87d9c0fff0ffe8dd6df8017b4b3b6478c89a8bb"
+    },
+    {
+      "id": "dpl_2Zb8ny3cb7E6tEaMBNsPHd7fGW9P",
+      "state": "READY",
+      "target": "production",
+      "created": 1792218669391,
+      "gitSha": "da15f5eca2506d93beaf063124827f7b3d347fcf"
+    },
+    {
+      "id": "dpl_53J1g2s9m6zXiK2kx6G9NSujGUMu",
+      "state": "READY",
+      "target": "production",
+      "created": 1790683959501,
+      "gitSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0"
+    },
+    {
+      "id": "dpl_FY6mkZ8By62mFDxcUarJLmy1oxiN",
+      "state": "READY",
+      "target": "production",
+      "created": 1790668220732,
+      "gitSha": "7f3aea526ea3751f39b37fd02c90153d3a93e2a0"
+    }
+  ],
+  "postR4AuditEvents": [],
+  "runtimeQuery": {
+    "deploymentId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+    "levels": [
+      "error",
+      "fatal",
+      "warning"
+    ],
+    "since": "2026-10-24T04:53:33Z",
+    "until": "2026-10-24T05:17:30.745Z",
+    "matchingLogs": 0,
+    "rawSummary": "## Runtime Logs\n\n**Project:** prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd\n**Deployment:** dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh\n**Time range:** 2026-10-24T04:53:33.000Z \u2192 2026-10-24T05:17:30.745Z\n\nNo logs found for the specified criteria."
+  },
+  "acceptedMainChecks": [
+    {
+      "id": 120741582404,
+      "name": "Encrypted Production backup",
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40050403210/job/120741582404"
+    },
+    {
+      "id": 120623357666,
+      "name": "Analyze (javascript-typescript)",
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40014614399/job/120623357666"
+    },
+    {
+      "id": 120623357614,
+      "name": "Analyze (actions)",
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40014614399/job/120623357614"
+    },
+    {
+      "id": 120623357103,
+      "name": "Validate",
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40014616223/job/120623357103"
+    },
+    {
+      "id": 120623356893,
+      "name": "Ubuntu 26.04 browser provisioning",
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40014616223/job/120623356893"
+    }
+  ],
+  "backup": {
+    "workflow": {
+      "id": 360360478,
+      "name": "Phase 11I Production Backup",
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "state": "active"
+    },
+    "latestRun": {
+      "id": 40050403210,
+      "head_sha": "02723650b002a607e44b1bac14f8809b5c251582",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-24T01:34:21Z",
+      "updated_at": "2026-10-24T01:43:37Z",
+      "html_url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40050403210"
+    },
+    "artifact": {
+      "id": 12543435962,
+      "name": "phase-11i-production-backup-40050403210",
+      "size_in_bytes": 11904076,
+      "expired": false,
+      "expires_at": "2026-11-23T01:43:31Z",
+      "digest": "sha256:b60dcdbd4aedb32b7be28eadec9dae96c39f023c47880589eda27ab64e42d2dc"
+    },
+    "captureStartUtc": "2026-10-24T01:34:51.475Z",
+    "captureCompletedUtc": "2026-10-24T01:43:29.876Z",
+    "conservativeRpoDeadlineUtc": "2026-10-25T01:34:51.475Z",
+    "integrityEvidence": "R4 fresh immutable-artifact verification carried forward; R5 reread workflow/artifact metadata only",
+    "restoredDuringRelease": false,
+    "artifactRestoreDisposition": "PENDING_RESTORE",
+    "recoveryProfile": "PERSONAL_USE_FREE_TIER",
+    "currentRecoveryQualificationRequired": true,
+    "applicableGateAtR4": "SATISFIED_UNDER_DEC040_WITH_ACCEPTED_POPULATED_SYNTHETIC_PATH_AND_CURRENT_ENCRYPTED_OWNER_BACKUP",
+    "formal8hRtoAndRepeatedDrills": "P11A-010-B1_POST_OWNER_USE_IMPROVEMENT"
+  },
+  "historicalReports": [
+    {
+      "task": "NUTRITION-PHASEB-PRODUCTION-001",
+      "path": "docs/evidence/nutrition-phaseb-production/production-001-report.md",
+      "sha256": "48d070eb9b78545f3432d11e35eaa5dc4905a9885cae3ebc9bc41edc6a4dcff2",
+      "verdict": "NUTRITION_PHASEB_PRODUCTION_001_STAGED_VALIDATION_FAILED"
+    },
+    {
+      "task": "NUTRITION-PHASEB-PRODUCTION-002",
+      "path": "docs/evidence/nutrition-phaseb-production/production-002-report.md",
+      "sha256": "9adbc5686dbfd3e552a58d11603a22e66940196e8ce39c9c69e07a15b8be8183",
+      "verdict": "NUTRITION_PHASEB_PRODUCTION_002_GENERATED_ALIAS_BEHAVIOR_CONFIRMED"
+    },
+    {
+      "task": "NUTRITION-PHASEB-PRODUCTION-003",
+      "path": "docs/evidence/nutrition-phaseb-production/production-003-report.md",
+      "sha256": "7d004b0f03ff86a97ef88b6214846bbcfc6919d020971e694e1993f1a3a94155",
+      "verdict": "NUTRITION_PHASEB_PRODUCTION_003_ACCEPTED_WITH_LIMITATIONS"
+    },
+    {
+      "task": "NUTRITION-PHASEB-PRODUCTION-004",
+      "path": "docs/evidence/nutrition-phaseb-production/production-004-report.md",
+      "sha256": "5f238e0463567102375198e000393d687e35db4aae9632b6207ffb3f032dec76",
+      "verdict": "NUTRITION_PHASEB_PRODUCTION_004_PROMOTED_WITH_LIMITATIONS"
+    }
+  ],
+  "r4Promotion": {
+    "attempts": 1,
+    "requestedAtUtc": "2026-10-24T04:48:40Z",
+    "providerAuditAtUtc": "2026-10-24T04:48:43.878Z",
+    "canonicalReassignedAtUtc": "2026-10-24T04:48:45.425Z",
+    "fromDeploymentId": "dpl_13WtxbvAjfLfUQ9PV8rHQoRgPTGV",
+    "toDeploymentId": "dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh",
+    "promotionAuditId": "uev_NqtfHnTAoBojAzCNRQlpSyJy",
+    "aliasAuditId": "uev_7OY9gfyiYJzhSfwfh4EPWhtm",
+    "autoAssignCustomDomainsBefore": false,
+    "autoAssignCustomDomainsAfter": false,
+    "newBuilds": 0,
+    "newDeployments": 0,
+    "correctiveConfigurationOperations": 0
+  },
+  "ciReliability": {
+    "run": 40014616223,
+    "validateJob": 120623357103,
+    "registry": "public.ecr.aws",
+    "observedThrottling": "toomanyrequests: Rate exceeded",
+    "firstObservedAtUtc": "2026-10-23T19:53:08Z",
+    "recovery": "Existing 4/8-second pull retries, successful image pulls and successful Validate job; no throttling-free assertion"
+  },
+  "task005ProductionMutationCount": 0,
+  "newOwnerAcceptancePerformedByTask005": false,
+  "privateOwnerDataOrSessionMaterialIncluded": false
+}
