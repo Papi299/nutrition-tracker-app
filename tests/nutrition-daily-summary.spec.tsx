@@ -21,7 +21,7 @@ function snapshot(values: Partial<DiaryEntry> = {}): DiaryEntry {
     id: "00000000-0000-4000-8000-000000000001", user_id: "00000000-0000-4000-8000-000000000002",
     entry_date: "2026-10-10", meal_type: "breakfast", source: "manual", food_name: "Synthetic snapshot",
     brand_name: null, food_id: null, notes: null, serving_quantity: 1, serving_unit: "portion",
-    calories: 100, protein_g: 10, carbohydrates_g: 20, fat_g: 5,
+    calories: 100, protein_g: 10, carbohydrates_g: 20, fat_g: 5, additional_nutrient_snapshot: null,
     created_at: "2026-10-10T08:00:00Z", updated_at: "2026-10-10T08:00:00Z", version: 1,
     recipe_diary_run_id: null, saved_meal_diary_run_id: null, saved_meal_item_position: null,
     ...values,

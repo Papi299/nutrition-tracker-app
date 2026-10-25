@@ -50,6 +50,16 @@ const intentionallyLifecycleTables = [
   "nutrients",
 ] as const;
 const accountAccessRequiredRpcs = [
+  "public.create_manual_diary_entry_v2(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, jsonb)|INVOKER",
+  "public.update_manual_diary_entry_v2(uuid, bigint, jsonb)|INVOKER",
+  "public.get_owned_recipe_editor_v2(uuid)|INVOKER",
+  "public.get_owned_recipe_use_contract_v2(uuid, numeric)|INVOKER",
+  "public.get_owned_saved_meal_editor_v2(uuid)|INVOKER",
+  "public.get_readable_food_nutrition_reference_v1(uuid)|INVOKER",
+  "public.log_recipe_to_diary_v2(uuid, timestamp with time zone, numeric, date, text, uuid)|INVOKER",
+  "public.log_saved_meal_to_diary_v2(uuid, timestamp with time zone, date, text, uuid)|INVOKER",
+  "public.persist_recipe_v2(uuid, text, text, numeric, jsonb, bigint)|INVOKER",
+  "public.persist_saved_meal_v2(uuid, text, text, jsonb, bigint)|INVOKER",
   "private.insert_completed_custom_food_creation_request(uuid, jsonb, uuid)|DEFINER",
   "private.insert_completed_manual_diary_entry_request(uuid, jsonb, uuid)|DEFINER",
   "private.insert_new_owned_custom_food_barcode(uuid, text)|DEFINER",
@@ -80,6 +90,10 @@ const accountAccessRequiredRpcs = [
   "public.set_saved_meal_archived(uuid, boolean)|INVOKER",
 ] as const;
 const intentionallyLifecycleRpcs = [
+  // Pure frozen metadata/validators reveal no account or catalog state.
+  "public.nutrient_snapshot_manifest_v1()|INVOKER",
+  "private.is_valid_additional_nutrient_snapshot_v1(jsonb)|INVOKER",
+  "private.normalize_additional_nutrient_request_v1(jsonb)|INVOKER",
   "public.close_current_account(uuid, text)|DEFINER",
   "public.complete_invited_account_activation(boolean, boolean)|DEFINER",
   "public.current_account_access_state()|INVOKER",
@@ -876,15 +890,9 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
   test("CJ-002 gates incomplete identities, permits sign-out, and rejects unauthenticated or non-invited activation", async ({
     browser,
   }) => {
-    const unauthenticated = localClient();
-    const unauthenticatedAttempt = await unauthenticated.rpc(
-      "complete_invited_account_activation",
-      {
-        p_age_18_attested: true,
-        p_israel_attested: true,
-      },
-    );
-    expect(unauthenticatedAttempt.error).not.toBeNull();
+    // Supabase Postgres issue #2112 crashes this image on denied function EXECUTE.
+    // Assert the ACL directly; live anonymous table/route isolation remains tested.
+    expect(queryLocalAuthFixture("select has_function_privilege('anon','public.complete_invited_account_activation(boolean,boolean)','EXECUTE')")).toBe("f");
 
     const email = uniqueEmail("phase11e1-incomplete");
     const client = localClient();

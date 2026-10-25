@@ -1,0 +1,258 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-001A",
+  "status": "LOCAL_ACCEPTANCE_PASSED",
+  "baseline": {
+    "head": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+    "tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17"
+  },
+  "branch": "codex/nutrition-diary-correctness-001",
+  "gates": {
+    "clean_install": {
+      "status": "PASS",
+      "logSha256": "39519be503eba1305d563cad6ed7a3a06365120d25952dfcdb2ae597fffeec02",
+      "localLog": "/private/tmp/nutrition-001a-npm-ci.log"
+    },
+    "lint": {
+      "status": "PASS",
+      "logSha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800",
+      "localLog": "/private/tmp/nutrition-001a-final-lint.log"
+    },
+    "global_typecheck": {
+      "status": "PASS",
+      "logSha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095",
+      "localLog": "/private/tmp/nutrition-001a-final-types.log"
+    },
+    "unit": {
+      "status": "PASS",
+      "logSha256": "14a5d39755e92e08c71bac2da74b2c78412137b03e6f216b9a7cab80564065f3",
+      "localLog": "/private/tmp/nutrition-001a-final-unit.log"
+    },
+    "client_secret_boundary": {
+      "status": "PASS",
+      "logSha256": "1ce5890eeb17d767e84825c8ac3b9aaf78f728f857b9b066340a2943b653056a",
+      "localLog": "/private/tmp/nutrition-001a-final-build-boundary.log"
+    },
+    "production_build": {
+      "status": "PASS",
+      "logSha256": "8a37fdf00478e88b9846f8f179e6541fee157193c83af32e3e9b1749bbb37045",
+      "localLog": "/private/tmp/nutrition-001a-final-build.log"
+    },
+    "local_reset": {
+      "status": "PASS",
+      "logSha256": "241743668b60e39fad7e68a20412167001979ac4cc7671b61f7c464116105361",
+      "localLog": "/private/tmp/nutrition-001a-final-clean-reset.log"
+    },
+    "local_database": {
+      "status": "PASS",
+      "logSha256": "fb25b8a7c8f89af0fdec8516aeaac271ddddc898741155f885306506a1aaa96a",
+      "localLog": "/private/tmp/nutrition-001a-access-guard-database.log"
+    },
+    "migration_roles": {
+      "status": "PASS",
+      "logSha256": "d024096e8aab521dc88b2d064f49d6f6de34b05047e4f7d9fb936184554ddb0b",
+      "localLog": "/private/tmp/nutrition-001a-access-guard-roles.log"
+    },
+    "ingestion_types": {
+      "status": "PASS",
+      "logSha256": "b1acf2187571ef5bcb3f067a69b8e165d19e5ec9b20d5d13efc882e6ed595117",
+      "localLog": "/private/tmp/nutrition-001a-access-guard-ingestion.log"
+    },
+    "sql_lint": {
+      "status": "PASS",
+      "logSha256": "8b9a1292144b79f965fddb6d065b67a5a40092bfd4e1fdfa38d1e8c52a6d160a",
+      "localLog": "/private/tmp/nutrition-001a-final-clean-sql-lint.log"
+    },
+    "security_advisors": {
+      "status": "PASS",
+      "logSha256": "a6ebe36b7a9045d1af62b9b2c6a7d1ed2ab6dd4c2734c224f95262eb85193f32",
+      "localLog": "/private/tmp/nutrition-001a-final-clean-advisors.log"
+    },
+    "activation": {
+      "status": "PASS",
+      "logSha256": "24319603d9d4910077546617927b063ee6f148926545a6bd0aaf0493d9877c87",
+      "localLog": "/private/tmp/nutrition-001a-access-guard-activation.log"
+    },
+    "unavailable_reference_draft": {
+      "status": "PASS",
+      "logSha256": "810be5db6d67dd19fb32b8081fc4b33cbe371a1ba53395f841ba4203292326c7",
+      "localLog": "/private/tmp/nutrition-001a-unavailable-draft-regression.log"
+    },
+    "native_setup_closure": {
+      "status": "PASS",
+      "logSha256": "2d4211b109c3204ed166a54bdbac32baeeef2abc74e99014eccaf861d5ff270d",
+      "localLog": "/private/tmp/nutrition-001a-final-closure-setup.log"
+    },
+    "saved_meal_ui": {
+      "status": "PASS",
+      "logSha256": "350670a56fb6c5b46d70401803efb93fae36ddfe797492d4531f2426b6063976",
+      "localLog": "/private/tmp/nutrition-001a-final-saved-meal-rerun.log"
+    },
+    "deployment_contract": {
+      "status": "PASS",
+      "logSha256": "1db6776ec005a98028ff7c6ea9557cbf3814e9f201f157ae8c5dacf05f798c14",
+      "localLog": "/private/tmp/nutrition-001a-final-deployment-contract.log"
+    },
+    "recovery_contract": {
+      "status": "PASS",
+      "logSha256": "b5d278d9dd13f9765d90afcbc59ad6a2509878ca745166fab1b444fea7f94b27",
+      "localLog": "/private/tmp/nutrition-001a-final-recovery-contract.log"
+    },
+    "workflow_security": {
+      "status": "PASS",
+      "logSha256": "0c84bc9404d42cc836add4e49dd9be7c15d3847e15e3156f07b40d15f5f51c29",
+      "localLog": "/private/tmp/nutrition-001a-final-workflow-contract.log"
+    },
+    "journey_contract": {
+      "status": "PASS",
+      "logSha256": "4c218620b5a33a2c0d2f5e9fb58ca25e638f40949b676498e2d65ebd7a542985",
+      "localLog": "/private/tmp/nutrition-001a-final-journey-contract.log"
+    },
+    "historical_performance_contract": {
+      "status": "PASS",
+      "logSha256": "548c46bccb7e183daf91e5ffed8564e92e1655944c1ec3ffcd19b79fff6fced8",
+      "localLog": "/private/tmp/nutrition-001a-final-performance-contract.log"
+    },
+    "production_advisories": {
+      "status": "PASS",
+      "logSha256": "bec72ce06252c61276eac2f281a3bfdbc8c3389ed260279eb5cf88ee9cae75af",
+      "localLog": "/private/tmp/nutrition-001a-final-production-advisories.log"
+    },
+    "encrypted_recovery": {
+      "status": "PASS",
+      "logSha256": "e1c13f4e6cdc6dafdf51739d9bdc2fa4e28712ce21bb35ecddbc0b27ee34c76e",
+      "localLog": "/private/tmp/nutrition-001a-canonical-guard-recovery.log"
+    },
+    "security_policy_regressions": {
+      "status": "PASS",
+      "logSha256": "5d2fba6f687e6c5995a9063ecc337bfb98f5c10ccc9cc97a1ed986e68616b72b",
+      "localLog": "/private/tmp/nutrition-001a-final-security.log"
+    }
+  },
+  "completePlaywright": {
+    "stats": {
+      "startTime": "2026-10-25T04:44:32.615Z",
+      "duration": 902228.511,
+      "expected": 508,
+      "skipped": 7,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "skips": [
+      {
+        "file": "ui-food-discovery.spec.ts",
+        "title": "captures reproducible visual evidence",
+        "project": "chromium",
+        "reasons": [
+          "Explicit evidence capture only."
+        ]
+      },
+      {
+        "file": "ui-phase5b-library-management.spec.ts",
+        "title": "R1 baseline archived overflow and confirmation measurements",
+        "project": "chromium",
+        "reasons": [
+          "Baseline reproduction runs explicitly before presentation edits."
+        ]
+      },
+      {
+        "file": "ui-phase5c-saved-meals.spec.ts",
+        "title": "R1 baseline F02/F09/F10/F11 rendered defect evidence",
+        "project": "chromium",
+        "reasons": [
+          "Baseline reproduction requires the exact approved unchanged production source."
+        ]
+      },
+      {
+        "file": "ui-phase5d-recipe-forms-review.spec.ts",
+        "title": "R1 baseline exact-approved F03 F05 F16 evidence",
+        "project": "chromium",
+        "reasons": [
+          "Exact approved baseline capture only."
+        ]
+      },
+      {
+        "file": "ui-phase5e-custom-food.spec.ts",
+        "title": "baseline exact-approved long-form rejection, alias identity and disclosure measurements",
+        "project": "chromium",
+        "reasons": [
+          "Exact approved baseline capture only."
+        ]
+      },
+      {
+        "file": "ui-phase5e-setup.spec.ts",
+        "title": "baseline reproduces missing invalid-field descriptions and rejected-submission focus",
+        "project": "chromium",
+        "reasons": [
+          "Baseline-only reproduction."
+        ]
+      },
+      {
+        "file": "ui-today-dashboard.spec.ts",
+        "title": "captures reproducible visual evidence",
+        "project": "chromium",
+        "reasons": [
+          "Explicit evidence capture only."
+        ]
+      }
+    ],
+    "rawReportSha256": "eb73d3013c250b6482c0a47d1a3ea36c4320cb24d072b9054e0725cb7ac4d851"
+  },
+  "phase11d": {
+    "stats": {
+      "startTime": "2026-10-25T04:42:26.577Z",
+      "duration": 81131.56999999999,
+      "expected": 53,
+      "skipped": 3,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "projects": [
+      "engine-chromium",
+      "engine-firefox",
+      "engine-webkit",
+      "mobile-chromium-390"
+    ],
+    "skips": [
+      {
+        "file": "phase-11d-ui.spec.ts",
+        "title": "has zero serious or critical axe findings on the approved critical subset",
+        "project": "engine-firefox",
+        "reasons": [
+          "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        ]
+      },
+      {
+        "file": "phase-11d-ui.spec.ts",
+        "title": "has zero serious or critical axe findings on the approved critical subset",
+        "project": "engine-webkit",
+        "reasons": [
+          "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        ]
+      },
+      {
+        "file": "phase-11d-ui.spec.ts",
+        "title": "has zero serious or critical axe findings on the approved critical subset",
+        "project": "mobile-chromium-390",
+        "reasons": [
+          "Axe is deterministic shared-DOM automation; engine behavior is covered separately."
+        ]
+      }
+    ],
+    "rawReportSha256": "d8c0c70caf8eb5634ab261740245b835215a3ad0d63ca2c3df2bb6e55cee5af1"
+  },
+  "productionMutationAccounting": {
+    "hostedSupabaseOperations": 0,
+    "productionDataReads": 0,
+    "productionWritesRepairs": 0,
+    "vercelOperations": 0,
+    "productionBackupKeyOperations": 0,
+    "mergeOperations": 0,
+    "roadmapPhaseC": 0
+  },
+  "notes": [
+    "The role rehearsal is followed by a complete local reset; its temporary 32-migration schema is not application acceptance.",
+    "Historical non-passing performance evidence is validated for preservation; this is not a new performance qualification.",
+    "Anonymous function EXECUTE revocations use catalog assertions for the pinned vendor crash; anonymous table/route and tenant isolation remain live.",
+    "All source/test fixtures are synthetic and local. Hosted acceptance is recorded separately on the exact PR head."
+  ]
+}

@@ -36,10 +36,10 @@ export async function getOwnedRecipeUseContract(
 
   const supabase = await createServerClient();
   const { data, error } = await supabase
-    .rpc("get_owned_recipe_use_contract", {
+    .rpc("get_owned_recipe_use_contract_v2", {
       p_recipe_id: validation.data.recipe_id,
       p_requested_servings: validation.data.requested_servings,
-    } as Database["public"]["Functions"]["get_owned_recipe_use_contract"]["Args"])
+    } as Database["public"]["Functions"]["get_owned_recipe_use_contract_v2"]["Args"])
     .maybeSingle();
 
   if (error?.code === "42501") return { status: "unauthenticated" };

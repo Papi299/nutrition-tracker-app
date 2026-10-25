@@ -649,7 +649,7 @@ test.describe.serial("Phase 11E4 synchronous account export", () => {
       const downloadedPath = await download.path();
       expect(downloadedPath).not.toBeNull();
       expect(download.suggestedFilename()).toMatch(
-        /^nutrition-tracker-account-export-v1-\d{4}-\d{2}-\d{2}\.json$/,
+        /^nutrition-tracker-account-export-v2-\d{4}-\d{2}-\d{2}\.json$/,
       );
       const body = await readFile(downloadedPath as string, "utf8");
       const payload = JSON.parse(body) as AccountExportPayload;
@@ -725,7 +725,7 @@ test.describe.serial("Phase 11E4 synchronous account export", () => {
       "x-content-type-options": "nosniff",
     });
     expect(response.headers()["content-disposition"]).toMatch(
-      /^attachment; filename="nutrition-tracker-account-export-v1-\d{4}-\d{2}-\d{2}\.json"$/,
+      /^attachment; filename="nutrition-tracker-account-export-v2-\d{4}-\d{2}-\d{2}\.json"$/,
     );
     expect(response.headers()["access-control-allow-origin"]).toBeUndefined();
     const payload = (await response.json()) as AccountExportPayload;

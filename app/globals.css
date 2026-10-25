@@ -325,16 +325,15 @@
   .today-dashboard { inline-size: 100%; max-inline-size: 68rem; margin-inline: auto; }
   .today-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.75rem 1rem; }
   .today-header-copy { min-inline-size: 0; }
-  .today-header-copy .today-selected-date { display: none; }
   .today-title { font-size: 1.5rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.025em; }
   .today-selected-date { margin-block-start: 0.25rem; font-size: 0.875rem; color: var(--muted-foreground); }
-  .today-add-food { justify-self: end; }
+  .today-add-food { justify-self: end; max-inline-size: 10rem; }
   .today-header .today-date-form { grid-column: 1 / -1; }
   .today-diary-title { border-inline-start: 3px solid var(--accent); padding-inline-start: 0.75rem; }
   .today-setup { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; border: 1px solid var(--warm-border); border-radius: var(--radius-lg); padding: 1rem; background: var(--warm); }
   .today-setup-copy { flex: 1 1 20rem; min-inline-size: 0; }
   .today-setup .ui-card-title { font-size: 1rem; }
-  .today-date-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.5rem; align-items: end; }
+  .today-date-form { display: grid; grid-template-columns: minmax(0, 1fr) fit-content(50%); gap: 0.5rem; align-items: end; }
   .today-date-form input { min-inline-size: 0; inline-size: 100%; }
   .nutrition-daily-summary { min-inline-size: 0; }
   .nutrition-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
@@ -409,7 +408,6 @@
 }
 
 @media (min-width: 1024px) {
-  .today-header { grid-template-columns: minmax(0, 1fr) auto auto; }
-  .today-header-copy .today-selected-date { display: block; }
+  .today-header { grid-template-columns: minmax(0, 1fr) auto auto; align-items: end; }
   .today-header .today-date-form { grid-column: 3; grid-row: 1; inline-size: 17rem; max-inline-size: none; }
 }

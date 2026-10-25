@@ -290,20 +290,25 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       .getByRole("button", { name: "Use snapshot" })
       .click();
     await expect(card.getByLabel("Ingredient name")).toHaveValue("Recipe public lentils");
-    await expect(card.getByLabel("Quantity")).toHaveValue("100");
+    await expect(card.getByRole("spinbutton", { name: "Quantity" })).toHaveValue("100");
     await expect(card.locator('input[name="ingredient_unit_0"]')).toHaveValue("g");
-    await expect(card.getByLabel("Calories")).toHaveValue("116");
+    await expect(card.getByRole("spinbutton", { name: "Calories" })).toHaveValue("116");
     await expect(card).toContainText("Linked food provenance");
-    await card.getByLabel("Quantity").fill("50");
-    await expect(card.getByLabel("Calories")).toHaveValue("116");
+    // This scenario intentionally retains manual consumed totals after selection.
+    for (const details of await card.locator("details").all()) {
+      if (await details.getAttribute("open") === null) await details.locator("summary").click();
+    }
+    for (const mode of await card.locator('input[name^="ingredient_automatic_"]').all()) await mode.uncheck();
+    await card.getByRole("spinbutton", { name: "Quantity" }).fill("50");
+    await expect(card.getByRole("spinbutton", { name: "Calories" })).toHaveValue("116");
     queryLocalDatabase(`
       update public.foods
       set name = 'Recipe public lentils revised', serving_size = 75
       where id = '${publicFoodId}';
     `);
     await expect(card.getByLabel("Ingredient name")).toHaveValue("Recipe public lentils");
-    await expect(card.getByLabel("Quantity")).toHaveValue("50");
-    await expect(card.getByLabel("Calories")).toHaveValue("116");
+    await expect(card.getByRole("spinbutton", { name: "Quantity" })).toHaveValue("50");
+    await expect(card.getByRole("spinbutton", { name: "Calories" })).toHaveValue("116");
     expect(
       queryLocalDatabase(`select count(*) from public.recipes where user_id = '${userAId}';`),
     ).toBe(recipeCountBefore);
@@ -320,7 +325,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       .getByRole("button", { name: "Use snapshot" })
       .click();
     await expect(ownedCard.getByLabel("Ingredient name")).toHaveValue("Recipe owned tempeh");
-    await expect(ownedCard.getByLabel("Calories")).toHaveValue("0");
+    await expect(ownedCard.getByRole("spinbutton", { name: "Calories" })).toHaveValue("0");
     await ownedCard.getByLabel("Food name, alias, or brand").fill("Recipe archived tempeh");
     await ownedCard.getByRole("button", { name: "Search foods" }).click();
     await expect(ownedCard.getByText("Recipe archived tempeh", { exact: true })).toHaveCount(0);
@@ -389,10 +394,10 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
     await page.getByRole("button", { name: "Add blank ingredient" }).click();
     await expect(cards).toHaveCount(2);
     await cards.nth(1).getByLabel("Ingredient name").fill("Zero nutrient spice");
-    await cards.nth(1).getByLabel("Calories").fill("0");
-    await cards.nth(1).getByLabel("Protein (g)").fill("0");
-    await cards.nth(1).getByLabel("Carbohydrates (g)").fill("0");
-    await cards.nth(1).getByLabel("Fat (g)").fill("0");
+    await cards.nth(1).getByRole("spinbutton", { name: "Calories" }).fill("0");
+    await cards.nth(1).getByRole("spinbutton", { name: "Protein (g)" }).fill("0");
+    await cards.nth(1).getByRole("spinbutton", { name: "Carbohydrates (g)" }).fill("0");
+    await cards.nth(1).getByRole("spinbutton", { name: "Fat (g)" }).fill("0");
     await cards.nth(1).getByRole("button", { name: "Move ingredient 2 up" }).click();
     await page.getByLabel("Recipe name").fill("Ordered unlinked bowl");
     await page.getByRole("button", { name: "Save changes" }).click();
@@ -787,7 +792,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       await page.goto("/en/recipes/new");
       await page.getByLabel("Recipe name").fill("F04 valid unsaved recipe");
       await page.getByLabel("Ingredient name").fill("F04 unsaved manual ingredient");
-      await page.getByLabel("Calories").fill("0");
+      await page.getByRole("spinbutton", { name: "Calories" }).fill("0");
       const valuesBefore = await editorSnapshot(page);
       const actions = observeActions(page);
       const before = ownedDatabaseSnapshot();
@@ -889,14 +894,14 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       await picker.getByRole("button", { name: "Use snapshot" }).click();
       const card = page.getByTestId("recipe-ingredient").first();
       await expect(card.getByLabel("Ingredient name")).toHaveValue(mixedFoodName);
-      await expect(card.getByLabel("Calories")).toHaveValue("0");
-      await expect(card.getByLabel("Protein (g)")).toHaveValue("3.5");
-      await expect(card.getByLabel("Carbohydrates (g)")).toHaveValue("");
-      await expect(card.getByLabel("Fat (g)")).toHaveValue("");
-      await expect(card.getByLabel("Quantity")).toHaveValue("2");
-      await card.getByLabel("Quantity").fill("4");
-      await expect(card.getByLabel("Protein (g)")).toHaveValue("3.5");
-      await expect(card.getByLabel("Calories")).toHaveValue("0");
+      await expect(card.getByRole("spinbutton", { name: "Calories" })).toHaveValue("0");
+      await expect(card.getByRole("spinbutton", { name: "Protein (g)" })).toHaveValue("3.5");
+      await expect(card.getByRole("spinbutton", { name: "Carbohydrates (g)" })).toHaveValue("");
+      await expect(card.getByRole("spinbutton", { name: "Fat (g)" })).toHaveValue("");
+      await expect(card.getByRole("spinbutton", { name: "Quantity" })).toHaveValue("2");
+      await card.getByRole("spinbutton", { name: "Quantity" }).fill("4");
+      await expect(card.getByRole("spinbutton", { name: "Protein (g)" })).toHaveValue("7");
+      await expect(card.getByRole("spinbutton", { name: "Calories" })).toHaveValue("0");
       expect(actions.map((action) => action.intent)).toEqual(["search", "selection"]);
       expect(actions[1].value).toBe(mixedFoodId);
       expect(actions[1].actionId).not.toBe(actions[0].actionId);
@@ -913,7 +918,7 @@ test.describe.serial("localized recipe creation, editing, and management", () =>
       expect(created.error).toBeNull();
       expect(created.data).toEqual({
         food_id: mixedFoodId, ingredient_name: mixedFoodName, quantity: 4,
-        calories: 0, protein_g: 3.5, carbohydrates_g: null, fat_g: null,
+        calories: 0, protein_g: 7, carbohydrates_g: null, fat_g: null,
       });
       const createdBefore = ownedDatabaseSnapshot();
       const revisionBefore = Number(queryLocalDatabase(`select recipe_edit_revision from public.recipes where id = '${recipeId}';`));

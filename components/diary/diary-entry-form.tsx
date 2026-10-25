@@ -9,8 +9,11 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
+import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutrient-fields";
+import { additionalNutrientCodesV1, type AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
+import { allNutrientFields, nutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   FieldDescription,
   FieldError as UIFieldError,
@@ -35,7 +38,7 @@ type MealTypeOption = {
 
 type VisibleFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id" | "idempotency_key"
+  "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
 >;
 
 type FieldLabels = Record<VisibleFieldName, string>;
@@ -52,6 +55,10 @@ type SectionLabels = {
 };
 
 const persistedDraftFieldNames = [
+  ...additionalNutrientCodesV1,
+  ...allNutrientFields.map(field => `automatic_${field}` as const),
+  "reference_fingerprint",
+  "additional_nutrients_captured",
   "brand_name",
   "calories",
   "carbohydrates_g",
@@ -68,6 +75,7 @@ const persistedDraftFieldNames = [
 
 type PersistedDiaryEntryDraft = {
   idempotencyKey: string;
+  referenceKey?: string;
   values: DiaryEntryFieldValues;
   version: 1;
 };
@@ -100,6 +108,8 @@ function readFormValues(form: HTMLFormElement) {
 
       if (typeof value === "string") {
         values[field] = value;
+      } else if (field.startsWith("automatic_")) {
+        values[field] = "";
       }
 
       return values;
@@ -126,9 +136,17 @@ function parsePersistedDraft(rawValue: string | null) {
       return null;
     }
 
+    const values = pickPersistedValues(parsed.values);
+    // Older drafts have intentional snapshot values but no mode provenance.
+    // Preserve them as manual rather than guessing from numerical equality.
+    for (const field of allNutrientFields) {
+      values[`automatic_${field}`] ??= "";
+      values[field] ??= "";
+    }
     return {
       idempotencyKey: parsed.idempotencyKey,
-      values: pickPersistedValues(parsed.values),
+      referenceKey: typeof parsed.referenceKey === "string" ? parsed.referenceKey : undefined,
+      values,
       version: 1,
     } satisfies PersistedDiaryEntryDraft;
   } catch {
@@ -275,6 +293,7 @@ function TextInput({
 
 export function DiaryEntryForm({
   action,
+  automaticNutrition,
   draftScope,
   fieldHelpText,
   fieldErrorMessages,
@@ -286,6 +305,7 @@ export function DiaryEntryForm({
   optionalLabel,
   permalink,
   pendingLabel,
+  reference,
   requiredLabel,
   sectionLabels,
   statusMessages,
@@ -295,6 +315,7 @@ export function DiaryEntryForm({
     state: DiaryEntryActionState,
     formData: FormData,
   ) => Promise<DiaryEntryActionState>;
+  automaticNutrition: { description: string; label: string; unavailable: string; referenceChanged: string; reviewRequired: string };
   draftScope: string;
   fieldHelpText: FieldHelpText;
   fieldErrorMessages: FieldErrorMessages;
@@ -306,6 +327,7 @@ export function DiaryEntryForm({
   optionalLabel: string;
   permalink: string;
   pendingLabel: string;
+  reference?: AllFoodNutrientReference;
   requiredLabel: string;
   sectionLabels: SectionLabels;
   statusMessages: Record<DiaryEntryActionStatus, string>;
@@ -330,6 +352,7 @@ export function DiaryEntryForm({
     ),
   );
   const storageKey = `${draftStoragePrefix}${encodeURIComponent(draftScope)}`;
+  const referenceKey = reference?.reference_fingerprint ?? "manual";
   const [draft, setDraft] = useState(() => ({
     idempotencyKey:
       state.status === "success"
@@ -339,6 +362,8 @@ export function DiaryEntryForm({
     values: initialValues,
   }));
   const [hydrated, setHydrated] = useState(false);
+  const [scalingUnavailable, setScalingUnavailable] = useState(() => Boolean(reference && !scaleAllFoodNutrients(reference, reference.serving_quantity, reference.serving_unit).ok));
+  const [referenceChanged, setReferenceChanged] = useState(false);
   const [statusOverride, setStatusOverride] = useState<
     "idle" | "success" | null
   >(() => (state.status === "success" ? "success" : null));
@@ -355,9 +380,17 @@ export function DiaryEntryForm({
       storedDraft = null;
     }
 
+    const changedReference = storedDraft !== null && storedDraft.referenceKey !== referenceKey &&
+      allNutrientFields.some((field) => storedDraft?.values[`automatic_${field}`] === "1");
+    if (storedDraft && changedReference) {
+      for (const field of allNutrientFields) storedDraft.values[`automatic_${field}`] = "";
+      storedDraft.values.reference_fingerprint = reference?.reference_fingerprint ?? "";
+    }
+
     if (!storedDraft) {
       persistDraft(storageKey, {
         idempotencyKey: initialIdempotencyKey,
+        referenceKey,
         values: initialValues,
         version: 1,
       });
@@ -379,13 +412,15 @@ export function DiaryEntryForm({
         }));
       }
 
+      setReferenceChanged(changedReference);
+
       setHydrated(true);
     });
 
     return () => {
       cancelled = true;
     };
-  }, [initialIdempotencyKey, initialValues, storageKey]);
+  }, [initialIdempotencyKey, initialValues, referenceKey, reference?.reference_fingerprint, storageKey]);
 
   useEffect(() => {
     const submissionKey = state.values?.idempotency_key;
@@ -405,6 +440,7 @@ export function DiaryEntryForm({
     if (state.status === "success") {
       const nextDraft: PersistedDiaryEntryDraft = {
         idempotencyKey: crypto.randomUUID(),
+        referenceKey,
         values: initialValues,
         version: 1,
       };
@@ -421,6 +457,7 @@ export function DiaryEntryForm({
 
     const retainedDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: submissionKey,
+      referenceKey,
       values: pickPersistedValues(state.values ?? {}),
       version: 1,
     };
@@ -432,7 +469,7 @@ export function DiaryEntryForm({
       }));
       setStatusOverride(null);
     });
-  }, [draft.idempotencyKey, hydrated, initialValues, state, storageKey]);
+  }, [draft.idempotencyKey, hydrated, initialValues, referenceKey, state, storageKey]);
 
   const stateMatchesDraft =
     state.values?.idempotency_key === draft.idempotencyKey;
@@ -444,6 +481,7 @@ export function DiaryEntryForm({
   function persistCurrentForm(form: HTMLFormElement) {
     persistDraft(storageKey, {
       idempotencyKey: draft.idempotencyKey,
+      referenceKey,
       values: readFormValues(form),
       version: 1,
     });
@@ -454,7 +492,31 @@ export function DiaryEntryForm({
   }
 
   function handleFormEvent(event: FormEvent<HTMLFormElement>) {
-    persistCurrentForm(event.currentTarget);
+    const form = event.currentTarget;
+    const target = event.target;
+    if (reference && target instanceof HTMLInputElement) {
+      if ((allNutrientFields as readonly string[]).includes(target.name)) {
+        const mode = form.elements.namedItem(`automatic_${target.name}`);
+        if (mode instanceof HTMLInputElement) mode.checked = false;
+      }
+      if (target.name.startsWith("automatic_") && target.checked) {
+        const fingerprint = form.elements.namedItem("reference_fingerprint");
+        if (fingerprint instanceof HTMLInputElement) fingerprint.value = reference.reference_fingerprint;
+      }
+      if (target.name === "serving_quantity" || target.name === "serving_unit" || target.name.startsWith("automatic_")) {
+        const currentValues = readFormValues(form);
+        const automaticFields = allNutrientFields.filter((field) => currentValues[`automatic_${field}`] === "1");
+        const scaled = scaleAllFoodNutrients(reference, currentValues.serving_quantity, currentValues.serving_unit, automaticFields);
+        setScalingUnavailable(automaticFields.length > 0 && !scaled.ok);
+        if (scaled.ok) {
+          for (const field of automaticFields) {
+            const input = form.elements.namedItem(field);
+            if (input instanceof HTMLInputElement) input.value = scaled.values[field];
+          }
+        }
+      }
+    }
+    persistCurrentForm(form);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -466,6 +528,7 @@ export function DiaryEntryForm({
     event.preventDefault();
     const nextDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: crypto.randomUUID(),
+      referenceKey,
       values: formRef.current
         ? readFormValues(formRef.current)
         : draft.values,
@@ -492,6 +555,8 @@ export function DiaryEntryForm({
       onSubmit={handleSubmit}
       ref={formRef}
     >
+      <input name="additional_nutrients_captured" type="hidden" value="1" />
+      <input name="reference_fingerprint" type="hidden" defaultValue={values.reference_fingerprint ?? reference?.reference_fingerprint ?? ""} />
       <input
         data-testid="manual-diary-idempotency-key"
         name="idempotency_key"
@@ -610,60 +675,28 @@ export function DiaryEntryForm({
       </FormSection>
 
       <FormSection title={sectionLabels.nutrition}>
+        {(referenceChanged || fieldErrors?.form === "reference_changed") && <p className="text-sm text-muted-foreground" data-testid="nutrition-reference-changed" role="status">{automaticNutrition.referenceChanged}</p>}
+        {fieldErrors?.form === "nutrition_review_required" && <p className="text-sm text-muted-foreground" data-testid="nutrition-review-required" role="status">{automaticNutrition.reviewRequired}</p>}
+        {fieldErrors?.form !== "nutrition_review_required" && fieldErrors?.form !== "reference_changed" && <FieldError code={fieldErrors?.form} messages={fieldErrorMessages} />}
+        {reference && <p className="text-sm text-muted-foreground">{automaticNutrition.description}</p>}
+        {reference && scalingUnavailable && <p className="text-sm text-danger" role="status">{automaticNutrition.unavailable}</p>}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <TextInput
-            error={fieldErrors?.calories}
-            helpText={fieldHelpText.calories}
-            inputMode="numeric"
-            label={labels.calories}
-            messages={fieldErrorMessages}
-            name="calories"
-            optionalLabel={optionalLabel}
-            requiredLabel={requiredLabel}
-            step="1"
-            type="number"
-            value={values.calories}
-          />
-          <TextInput
-            error={fieldErrors?.protein_g}
-            helpText={fieldHelpText.protein_g}
-            inputMode="decimal"
-            label={labels.protein_g}
-            messages={fieldErrorMessages}
-            name="protein_g"
-            optionalLabel={optionalLabel}
-            requiredLabel={requiredLabel}
-            step="any"
-            type="number"
-            value={values.protein_g}
-          />
-          <TextInput
-            error={fieldErrors?.carbohydrates_g}
-            helpText={fieldHelpText.carbohydrates_g}
-            inputMode="decimal"
-            label={labels.carbohydrates_g}
-            messages={fieldErrorMessages}
-            name="carbohydrates_g"
-            optionalLabel={optionalLabel}
-            requiredLabel={requiredLabel}
-            step="any"
-            type="number"
-            value={values.carbohydrates_g}
-          />
-          <TextInput
-            error={fieldErrors?.fat_g}
-            helpText={fieldHelpText.fat_g}
-            inputMode="decimal"
-            label={labels.fat_g}
-            messages={fieldErrorMessages}
-            name="fat_g"
-            optionalLabel={optionalLabel}
-            requiredLabel={requiredLabel}
-            step="any"
-            type="number"
-            value={values.fat_g}
-          />
+          {nutrientFields.map((field) => <div className="grid content-start gap-2" key={field}>
+            <TextInput error={fieldErrors?.[field]} helpText={fieldHelpText[field]}
+              inputMode={field === "calories" ? "numeric" : "decimal"} label={labels[field]}
+              messages={fieldErrorMessages} name={field} optionalLabel={optionalLabel}
+              requiredLabel={requiredLabel} step={field === "calories" ? "1" : "any"}
+              type="number" value={values[field]} />
+            {reference && <label className="flex min-h-11 items-center gap-2 text-sm">
+              <input defaultChecked={values[`automatic_${field}`] === "1"}
+                name={`automatic_${field}`} type="checkbox" value="1" />
+              <span>{automaticNutrition.label}: {labels[field]}</span>
+            </label>}
+          </div>)}
         </div>
+        <AdditionalNutrientFields values={values} errors={fieldErrors} controlPrefix="diary-create"
+          automaticValues={reference ? Object.fromEntries(additionalNutrientCodesV1.map(code => [code, values[`automatic_${code}`]])) : undefined}
+          expandAll={fieldErrors?.form === "nutrition_review_required"} />
       </FormSection>
 
       <FormSection title={sectionLabels.notes}>

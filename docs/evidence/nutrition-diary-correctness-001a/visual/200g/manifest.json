@@ -1,0 +1,122 @@
+{
+  "capturedAt": "2026-10-25T04:50:12.118Z",
+  "sourceHead": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "sourceTree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "b29367e389e27529b1fba7b92a22226d9f6ab3ba2791d066946f6834fd2c023f"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-action.ts",
+      "sha256": "58dffe6622177c8d6fa70b429b68b4b302dd9fef268744f1b38a626639bc0dfb"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-submission.ts",
+      "sha256": "60f0af6b01567a2d2a7fea7e59342ef33e060eff00fec018ef5e22140feca095"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd"
+    },
+    {
+      "path": "components/diary/diary-entry-form.tsx",
+      "sha256": "a31a5bfb3003e46898097b46c08a40f3b2199c4515def099ed7d16bc2f61ff9d"
+    },
+    {
+      "path": "lib/food-selection/nutrient-scaling.ts",
+      "sha256": "374568ec5ca2c50dbc66c77f0ac7400906014a01d18c0d6be433cdffdd042a25"
+    },
+    {
+      "path": "lib/nutrition-snapshots/decimal.ts",
+      "sha256": "abbc77d3b22a62ebee7203f441d2d65dc3f9d881011e5ccd12c0f4e843b0daab"
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-details.tsx",
+      "sha256": "64c43ec524bb2d5a4ff53de7c3bf5dab6a1cb670479364210ac58bc95f8c33fb"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "26dc1d92d8b8ed0b335890a6b452ac76ce5cbca2a1c73c664f3f0be492c9b19d"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
+    }
+  ],
+  "workingTreeStatus": "M app/[locale]/(app)/recipes/action-state.ts\n M app/[locale]/(app)/recipes/actions.ts\n M app/[locale]/(app)/saved-meals/action-state.ts\n M app/[locale]/(app)/saved-meals/actions.ts\n M app/[locale]/(app)/setup/actions.ts\n M app/[locale]/(app)/today/action-state.ts\n M app/[locale]/(app)/today/actions.ts\n M app/[locale]/(app)/today/create-submission.ts\n M app/[locale]/(app)/today/page.tsx\n M app/globals.css\n M components/diary/diary-entry-edit-form.tsx\n M components/diary/diary-entry-form.tsx\n M components/diary/diary-entry-list-item.tsx\n M components/recipes/recipe-form.tsx\n M components/recipes/recipe-use-preview.tsx\n M components/saved-meals/saved-meal-form.tsx\n M components/saved-meals/saved-meal-use-review.tsx\n M deployment/phase-11h-contract.json\n M docs/phase-11h-deployment-architecture-release-runbook.md\n M e2e/account-closure.spec.ts\n M e2e/account-export.spec.ts\n M e2e/auth-invitation-activation.spec.ts\n M e2e/barcode-foundation.spec.ts\n M e2e/custom-food-creation-idempotency.spec.ts\n M e2e/custom-food-editor.spec.ts\n M e2e/food-diary-prefill.spec.ts\n M e2e/helpers/local-auth.ts\n M e2e/phase-11d-ui.spec.ts\n M e2e/recipe-ui.spec.ts\n M e2e/recipe-use-ui.spec.ts\n M e2e/saved-meal-ui.spec.ts\n M e2e/setup-persistence.spec.ts\n M e2e/ui-food-discovery.spec.ts\n M e2e/ui-phase5c-saved-meals.spec.ts\n M e2e/ui-phase5d-recipe-forms-review.spec.ts\n M e2e/ui-phase5e-account-secondary.spec.ts\n M e2e/ui-phase5e-custom-food.spec.ts\n M e2e/ui-phase5e-setup.spec.ts\n M e2e/ui-today-dashboard.spec.ts\n M lib/account-export/collector.ts\n M lib/account-export/schema.ts\n M lib/auth/account-access.ts\n M lib/diary-entries/mutations.ts\n M lib/diary-entries/validation.ts\n M lib/food-selection/prefill.ts\n M lib/recipes/diary-log.ts\n M lib/recipes/editor-parser.ts\n M lib/recipes/editor.ts\n M lib/recipes/persistence.ts\n M lib/recipes/use-contract-parser.ts\n M lib/recipes/use-contract.ts\n M lib/recipes/validation.ts\n M lib/saved-meals/diary-log.ts\n M lib/saved-meals/editor-parser.ts\n M lib/saved-meals/editor.ts\n M lib/saved-meals/persistence.ts\n M lib/saved-meals/source.ts\n M lib/saved-meals/validation.ts\n M lib/supabase/database.types.ts\n M messages/en.json\n M messages/he.json\n M package.json\n M scripts/phase-11i-backup-pipeline.mjs\n M scripts/phase-11i-cli-transport.test.mjs\n M scripts/phase-11i-psql-diagnostics.test.mjs\n M scripts/phase-11i-public-verification.mjs\n M scripts/phase-11i-public-verification.test.mjs\n M scripts/phase-11i-recovery-contract.mjs\n M scripts/phase-11i-recovery-contract.test.mjs\n M scripts/phase-11i-restore-pipeline.mjs\n M scripts/qualify-phase-11i-populated-recovery.mjs\n M scripts/verify-phase-11i-github-artifact.mjs\n M supabase/config.toml\n M tests/account-export.spec.ts\n M tests/nutrition-daily-summary.spec.tsx\n?? app/[locale]/(app)/today/create-action.ts\n?? components/nutrition/\n?? docs/evidence/nutrition-diary-correctness-001/\n?? docs/evidence/nutrition-diary-correctness-001a/\n?? docs/nutrition-diary-correctness-001-all-nutrient-design.md\n?? docs/nutrition-diary-correctness-001a-implementation.md\n?? docs/nutrition-diary-correctness-001a-review-report.md\n?? docs/ui-phase5e/evidence/account-secondary-after-manifest.json\n?? docs/ui-phase5e/evidence/custom-food-after-manifest.json\n?? docs/ui-phase5e/evidence/setup-after-manifest.json\n?? e2e/helpers/nutrition-evidence.ts\n?? e2e/nutrition-diary-all-nutrients.spec.ts\n?? e2e/nutrition-diary-correctness.spec.ts\n?? e2e/nutrition-reuse-all-nutrients.spec.ts\n?? e2e/nutrition-snapshot-database.spec.ts\n?? lib/food-selection/nutrient-scaling.ts\n?? lib/food-selection/reference-parser.ts\n?? lib/nutrition-snapshots/\n?? playwright.database.config.ts\n?? supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql\n?? test-results-phase11d/\n?? tests/all-food-nutrient-scaling.spec.ts\n?? tests/food-nutrient-scaling.spec.ts\n?? tests/nutrition-reuse-form-state.spec.ts\n?? tests/nutrition-snapshot-presentation.spec.ts\n?? tests/nutrition-snapshots.spec.ts",
+  "workingDiffSha256": "d377ac75ce3a9a40701bf9339a95dece48772cf1fae46312e98ccbe082826e9c",
+  "fixture": {
+    "synthetic": true,
+    "provisioner": "provisionActivatedLocalUser",
+    "foodCreation": "authenticated create_custom_food RPC",
+    "foodName": "Test",
+    "brandName": "Tnuva",
+    "nutrientBasis": "per_100g",
+    "reference": {
+      "calories": 200,
+      "protein_g": 20,
+      "carbohydrates_g": 20,
+      "fat_g": 5
+    },
+    "diary": {
+      "entryId": "e7fa713c-e325-4a5b-916c-b8c6f66740ad",
+      "serving_quantity": 200,
+      "serving_unit": "g",
+      "calories": 400,
+      "protein_g": 40,
+      "carbohydrates_g": 40,
+      "fat_g": 10
+    }
+  },
+  "captures": [
+    {
+      "name": "consumed-200g-en-1440.png",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "browser": "149.0.7827.55",
+      "route": "/en/today?date=2026-10-24",
+      "sha256": "743626d13bb1aff2249fac7f05642b386e52c19c7bdcae42501f138df429f15b"
+    },
+    {
+      "name": "consumed-200g-en-390.png",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "browser": "149.0.7827.55",
+      "route": "/en/today?date=2026-10-24",
+      "sha256": "0334990dc9e3142fb3867fb80981c83c549337d8d1ac175be793cfd500427e2b"
+    },
+    {
+      "name": "consumed-200g-he-1440.png",
+      "locale": "he",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "browser": "149.0.7827.55",
+      "route": "/he/today?date=2026-10-24",
+      "sha256": "2f22fe531e53add555756318fa4b3a2730f4b622876e6715ae6f5b202a2933e5"
+    },
+    {
+      "name": "consumed-200g-he-390.png",
+      "locale": "he",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "browser": "149.0.7827.55",
+      "route": "/he/today?date=2026-10-24",
+      "sha256": "bf0e90a3500c48e8e01a4570891fe4fa6b8e855879216c19797fe9b46430926f"
+    }
+  ]
+}

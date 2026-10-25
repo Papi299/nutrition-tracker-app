@@ -1,8 +1,9 @@
+import { nutrientManifestV1, parseAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
 import type { User } from "@supabase/supabase-js";
 import type { Database } from "@/lib/supabase/database.types";
 
 export const accountExportSchema = "nutrition-tracker-account-export";
-export const accountExportVersion = 1;
+export const accountExportVersion = 2;
 
 type TableName = keyof Database["public"]["Tables"];
 type Row<Table extends TableName> =
@@ -74,19 +75,20 @@ function groupedBy<Parent extends string, Value>(
   return grouped;
 }
 
-export function accountExportFilename(exportedAt: Date) {
+export function accountExportFilename(exportedAt: Date, version: 1 | 2 = accountExportVersion) {
   if (!Number.isFinite(exportedAt.getTime())) {
     throw new Error("Account export time is invalid.");
   }
 
-  return `nutrition-tracker-account-export-v${accountExportVersion}-${exportedAt
+  return `nutrition-tracker-account-export-v${version}-${exportedAt
     .toISOString()
     .slice(0, 10)}.json`;
 }
 
-export function buildAccountExportPayload(
+function projectAccountExport(
   source: AccountExportSourceData,
   exportedAt: string,
+  includeAdditional: boolean,
 ) {
   const aliasesByFood = groupedBy(
     source.customFoodAliases,
@@ -114,8 +116,12 @@ export function buildAccountExportPayload(
 
   return {
     schema: accountExportSchema,
-    version: accountExportVersion,
+    version: includeAdditional ? accountExportVersion : 1,
     exportedAt,
+    ...(includeAdditional ? { nutritionSnapshotManifest: {
+      version: 1,
+      nutrients: nutrientManifestV1.map(({ code, unit, coreField, precision }) => ({ code, unit, coreField, precision })),
+    } } : {}),
     account: {
       id: source.account.id,
       email: source.account.email ?? null,
@@ -169,6 +175,7 @@ export function buildAccountExportPayload(
         proteinG: row.protein_g,
         carbohydratesG: row.carbohydrates_g,
         fatG: row.fat_g,
+        ...(includeAdditional ? { additionalNutrientSnapshot: exportAdditionalSnapshot(row.additional_nutrient_snapshot) } : {}),
         notes: row.notes,
         source: row.source,
         savedMealDiaryRunId: row.saved_meal_diary_run_id,
@@ -269,6 +276,7 @@ export function buildAccountExportPayload(
             proteinG: row.protein_g,
             carbohydratesG: row.carbohydrates_g,
             fatG: row.fat_g,
+        ...(includeAdditional ? { additionalNutrientSnapshot: exportAdditionalSnapshot(row.additional_nutrient_snapshot) } : {}),
             notes: row.notes,
             createdAt: row.created_at,
           })),
@@ -297,6 +305,7 @@ export function buildAccountExportPayload(
             proteinG: row.protein_g,
             carbohydratesG: row.carbohydrates_g,
             fatG: row.fat_g,
+        ...(includeAdditional ? { additionalNutrientSnapshot: exportAdditionalSnapshot(row.additional_nutrient_snapshot) } : {}),
             notes: row.notes,
             createdAt: row.created_at,
           })),
@@ -329,6 +338,7 @@ export function buildAccountExportPayload(
           mealType: row.meal_type,
           itemCount: row.item_count,
           sourceUpdatedAt: row.source_updated_at,
+          ...(includeAdditional ? { snapshotContractVersion: exportReceiptVersion(row.snapshot_contract_version) } : {}),
           createdAt: row.created_at,
         })),
       recipeDiaryRuns: [...source.recipeDiaryRuns]
@@ -340,6 +350,7 @@ export function buildAccountExportPayload(
           mealType: row.meal_type,
           requestedServings: row.requested_servings,
           sourceUpdatedAt: row.source_updated_at,
+          ...(includeAdditional ? { snapshotContractVersion: exportReceiptVersion(row.snapshot_contract_version) } : {}),
           createdAt: row.created_at,
         })),
     },
@@ -392,6 +403,29 @@ export function buildAccountExportPayload(
 export type AccountExportPayload = ReturnType<
   typeof buildAccountExportPayload
 >;
+
+function exportReceiptVersion(value: unknown) {
+  if (value !== 1 && value !== 2) throw new Error("Account export contains an unsupported receipt version.");
+  return value;
+}
+
+function exportAdditionalSnapshot(value: unknown) {
+  const parsed = parseAdditionalNutrientSnapshot(value);
+  if (!parsed.ok) throw new Error("Account export contains an unsupported nutrient snapshot.");
+  return parsed.data;
+}
+
+export function buildAccountExportPayload(source: AccountExportSourceData, exportedAt: string) {
+  return projectAccountExport(source, exportedAt, true);
+}
+
+export function buildLegacyAccountExportPayload(source: AccountExportSourceData, exportedAt: string) {
+  if ([...source.diaryEntries, ...source.savedMealItems, ...source.recipeIngredients]
+    .some(row => row.additional_nutrient_snapshot != null)) {
+    throw new Error("A legacy export would discard captured nutrient snapshots.");
+  }
+  return projectAccountExport(source, exportedAt, false);
+}
 
 export function serializeAccountExport(payload: AccountExportPayload) {
   return `${JSON.stringify(payload, null, 2)}\n`;

@@ -43,7 +43,7 @@ export async function logRecipeToDiaryForCurrentUser(
   if (!auth.ok) return { code: "unauthenticated", ok: false };
 
   const supabase = await createServerClient();
-  const args: Database["public"]["Functions"]["log_recipe_to_diary"]["Args"] = {
+  const args: Database["public"]["Functions"]["log_recipe_to_diary_v2"]["Args"] = {
     p_entry_date: validation.data.entry_date,
     p_expected_updated_at: validation.data.expected_source_updated_at,
     p_idempotency_key: validation.data.idempotency_key,
@@ -52,7 +52,7 @@ export async function logRecipeToDiaryForCurrentUser(
     p_requested_servings: validation.data.requested_servings,
   };
   const { data, error } = await supabase
-    .rpc("log_recipe_to_diary", args)
+    .rpc("log_recipe_to_diary_v2", args)
     .maybeSingle();
 
   if (error?.code === "42501") {

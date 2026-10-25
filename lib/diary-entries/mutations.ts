@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
+import { additionalSnapshotToRequest, parseAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
 import type {
   DataErrorCode,
   DataResult,
@@ -78,13 +79,17 @@ export async function createDiaryEntryForCurrentUser(
     p_serving_quantity: validationResult.data.serving_quantity,
     p_serving_unit: validationResult.data.serving_unit,
   };
-  const { data, error } = await supabase
-    // Generated function arguments omit PostgreSQL's runtime null acceptance.
-    .rpc(
-      "create_manual_diary_entry",
-      args as Database["public"]["Functions"]["create_manual_diary_entry"]["Args"],
-    )
-    .maybeSingle();
+  const additional = validationResult.data.additional_nutrient_snapshot;
+  const captured = additional !== undefined;
+  const snapshot = captured ? parseAdditionalNutrientSnapshot(additional) : null;
+  if (snapshot && !snapshot.ok) return { code: "database_error", ok: false };
+  const response = captured && snapshot?.ok
+    ? supabase.rpc("create_manual_diary_entry_v2", {
+        ...args, p_additional_nutrients: additionalSnapshotToRequest(snapshot.data),
+      } as Database["public"]["Functions"]["create_manual_diary_entry_v2"]["Args"])
+    : supabase.rpc("create_manual_diary_entry",
+        args as Database["public"]["Functions"]["create_manual_diary_entry"]["Args"]);
+  const { data, error } = await response.maybeSingle();
 
   if (error?.code === "42501") {
     return { code: "unauthenticated", ok: false };
@@ -157,37 +162,28 @@ export async function updateCurrentDiaryEntry(
   }
 
   const supabase = await createServerClient();
-  const { data, error } = await supabase
-    .from("diary_entries")
-    .update(validationResult.data)
-    .eq("id", entryId)
-    .eq("user_id", userIdResult.data)
-    .eq("version", versionResult.data)
-    .select("*")
-    .maybeSingle();
-
-  if (error) {
+  const patch = { ...validationResult.data };
+  if (patch.additional_nutrient_snapshot !== undefined) {
+    const additional = parseAdditionalNutrientSnapshot(patch.additional_nutrient_snapshot);
+    if (!additional.ok) return { code: "database_error", ok: false };
+    patch.additional_nutrient_snapshot = additionalSnapshotToRequest(additional.data);
+  }
+  const { data, error } = await supabase.rpc("update_manual_diary_entry_v2", {
+    p_id: entryId, p_expected_version: versionResult.data, p_patch: patch,
+  }).maybeSingle();
+  if (error?.code === "42501") return { code: "unauthenticated", ok: false };
+  if (error?.code === "22023") return { code: "validation_error", fieldErrors: { form: "invalid_input" }, ok: false };
+  if (error || !data) return { code: "database_error", ok: false };
+  if (data.result_status === "not_found") return { code: "not_found", ok: false };
+  if (data.result_status === "conflict") return { code: "conflict", ok: false };
+  if (data.result_status !== "success" || !data.entry || typeof data.entry !== "object" || Array.isArray(data.entry)) {
     return { code: "database_error", ok: false };
   }
-
-  if (!data) {
-    const { data: currentEntry, error: currentEntryError } = await supabase
-      .from("diary_entries")
-      .select("version")
-      .eq("id", entryId)
-      .eq("user_id", userIdResult.data)
-      .maybeSingle();
-
-    if (currentEntryError) {
-      return { code: "database_error", ok: false };
-    }
-
-    return currentEntry
-      ? { code: "conflict", ok: false }
-      : { code: "not_found", ok: false };
+  const entry = data.entry as DiaryEntry;
+  if (!parseAdditionalNutrientSnapshot(entry.additional_nutrient_snapshot).ok) {
+    return { code: "database_error", ok: false };
   }
-
-  return { data, ok: true };
+  return { data: entry, ok: true };
 }
 
 export async function deleteCurrentDiaryEntry(

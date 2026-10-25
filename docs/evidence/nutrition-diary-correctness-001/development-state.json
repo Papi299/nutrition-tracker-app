@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "nutrition-diary-correctness-development-state/v1",
+  "recordedAtUtc": "2026-10-24T08:15:43Z",
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_001_DESIGN_BLOCKED",
+  "reason": "Product Owner requested an all-nutrient snapshot design for approval before further implementation.",
+  "repository": "Papi299/nutrition-tracker-app",
+  "startingMainSha": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "startingMainTree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "branch": "codex/nutrition-diary-correctness-001",
+  "implementationState": "Uncommitted, incomplete, not Draft-ready; no all-nutrient schema or mutation changes implemented.",
+  "supportedNutrientCount": 35,
+  "coreNutrientCount": 4,
+  "proposedAdditionalSnapshotCount": 31,
+  "uncommittedSourceSha256": {
+    "app/[locale]/(app)/today/action-state.ts": "1d28bba66c5977a9fa263ff4b1ef845dcb6cc2489bfbe84efa129172e6caf657",
+    "app/[locale]/(app)/today/actions.ts": "6ccb9e6c733687372087c13f9088774438067cd0946050301dcb30853b2913e7",
+    "app/[locale]/(app)/today/create-submission.ts": "ae6a51fedc2ed164e35cd7f9ec805c1aac0306e74d9bc923a0d32a4c4ef9080b",
+    "app/[locale]/(app)/today/page.tsx": "5060ccc4a7e72557e95f46fd81ffeb05cdddd81bd039d53af6ecf0f3875fbe0f",
+    "app/globals.css": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd",
+    "components/diary/diary-entry-edit-form.tsx": "1c614a23f3b2064a9256fe715eb6940a2224aff327ca174c9346565802845dd2",
+    "components/diary/diary-entry-form.tsx": "d16db492536b55687f1eae69347102a55c2fa539548ce5e53936ce3ca68bcbbc",
+    "e2e/food-diary-prefill.spec.ts": "4482db50abbb60a547436ea4dfc74d38df5c836f6ee749bccbb056a0ac82b474",
+    "e2e/nutrition-diary-correctness.spec.ts": "56946dd735a9ccc87a2e49f826a4caf29240f9ff359390305b860c8b89f55397",
+    "e2e/ui-today-dashboard.spec.ts": "a032cbb7d0a52fb3a1f3d21f920b784906fc4e33298f2aab9450ae98e7563767",
+    "lib/food-selection/nutrient-scaling.ts": "9f2567da5f7852eec869d73ce497f26ed2f8624e9a198dc950e244b56c3b31cd",
+    "lib/food-selection/prefill.ts": "b8e4d13c22d2209e44e51bcb2fdef4043ed381564f6d7b7ec354bb7f971cadc1",
+    "messages/en.json": "c0544073b58c6c84d436eda58733e2c1cdfc2d48de882ffd0bf92560bd4531c9",
+    "messages/he.json": "316c1b7423157d9b314aa7ba7050045d6a67d145e8643c069b43d1ab90d9e88a",
+    "tests/food-nutrient-scaling.spec.ts": "d17b8405de8689fbab01bb6ac463f1ad153c66fcd59d5d830e5bae19eac37f66"
+  },
+  "checks": {
+    "cleanInstall": {
+      "result": "passed",
+      "logSha256": "9d6b4be42ff246a4daaf3e82b1b500eebcaf9a113b39ad3c8536da5ef30cc8fa"
+    },
+    "finalLint": {
+      "result": "passed",
+      "logSha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800"
+    },
+    "finalTypecheck": {
+      "result": "passed",
+      "logSha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095"
+    },
+    "unitTests": {
+      "result": "430 passed; includes 19 new scaling tests; preliminary WIP",
+      "logSha256": "fc19c7c93e0c67a6f10df16eb58fdd031aa63ad712c5e1c209f656559282d1c2"
+    },
+    "productionBuildSecretBoundary": {
+      "result": "passed for earlier WIP; final source not rebuilt",
+      "logSha256": "e8f9cf2c6b068e67413462d6fcfb2353f7f7b397b9f1142591a35207ecb61af3"
+    },
+    "workflowSecurity": {
+      "result": "9 tests plus validator passed",
+      "logSha256": "a8b0f8c7088f44f5d418fc8e3198c8f523ab2a2d1a94ff6e1ebd583a522eb9ff"
+    },
+    "productionAdvisories": {
+      "result": "passed; critical/high/moderate/low all zero",
+      "logSha256": "bec72ce06252c61276eac2f281a3bfdbc8c3389ed260279eb5cf88ee9cae75af"
+    },
+    "deploymentContractTests": {
+      "result": "203 tests passed; initial validator failed undocumented evidence env",
+      "logSha256": "2c671de0953d804e47f90170fb40bd4279641c41528bed007399103c5cbe953b"
+    },
+    "finalDeploymentValidator": {
+      "result": "passed after removing undocumented env",
+      "logSha256": "468b86ec9686c5b57c8dad88b01fa8dddb16fb61716a5d623b5fb42e016db7d1"
+    },
+    "localMigrationsReset": {
+      "result": "passed on isolated disposable project",
+      "logSha256": "17653096e788016d8291c568524ed4bfa6c14ff49244447e3f647285b3152172"
+    },
+    "localMigrationRoles": {
+      "result": "passed; local simulated hosted-role behavior only",
+      "logSha256": "d024096e8aab521dc88b2d064f49d6f6de34b05047e4f7d9fb936184554ddb0b"
+    },
+    "ingestionTypes": {
+      "result": "passed",
+      "logSha256": "b1acf2187571ef5bcb3f067a69b8e165d19e5ec9b20d5d13efc882e6ed595117"
+    },
+    "localCleanup": {
+      "result": "passed; task containers/volumes deleted; config restored",
+      "logSha256": "c140ff152af3e121f37a39f7a8cbf4d2ddb63191812b8f4e56a3c55268ac6ea4"
+    }
+  },
+  "notCompleted": [
+    "Full Playwright",
+    "Phase 11D",
+    "Final post-draft-change production build",
+    "Final recovery/security contract chain",
+    "Runtime/screenshots",
+    "Exact-head hosted CI/CodeQL"
+  ],
+  "knownRemainingImplementationIssue": "Separate prefill metadata and raw-calorie reads can mix catalog revisions; proposed atomic all-nutrient reference read is not implemented.",
+  "localServices": {
+    "isolatedProject": "nutrition-correctness-001-20261024",
+    "ports": "58320-58329 loopback",
+    "migrationsAndRoleTests": "synthetic local only",
+    "taskContainersAndVolumesDeleted": true,
+    "trackedConfigRestored": true,
+    "unrelatedServicesPreserved": true,
+    "existingDefaultTestVolume": "Brief start/stop before test fixtures/reset; backup preserved"
+  },
+  "mutations": {
+    "localBranchCreated": 1,
+    "commits": 0,
+    "pushes": 0,
+    "pullRequests": 0,
+    "ciDispatches": 0,
+    "merges": 0,
+    "vercelOperations": 0,
+    "hostedSupabaseOperations": 0,
+    "productionDataReads": 0,
+    "productionDataWrites": 0,
+    "historicalRepairs": 0
+  },
+  "privacy": "No owner nutrition records, hosted keys, session material, or Production fixtures included."
+}

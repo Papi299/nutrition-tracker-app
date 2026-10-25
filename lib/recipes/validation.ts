@@ -1,3 +1,6 @@
+import { normalizeNutrientAmount, parseExactNonnegativeDecimal, formatExactFraction } from "@/lib/nutrition-snapshots";
+import { validateReusableSnapshotFields } from "@/lib/nutrition-snapshots/reuse";
+import type { AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { validationError, type DataResult } from "@/lib/data/result";
 import { isUuid } from "@/lib/food-selection/query";
 
@@ -8,6 +11,8 @@ export type RecipeInput = Record<string, unknown>;
 export type RecipeArchiveInput = Record<string, unknown>;
 
 export type ValidatedRecipeIngredient = {
+  ingredient_id?: string | null;
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   position: number;
   food_id: string | null;
   ingredient_name: string;
@@ -46,6 +51,7 @@ const persistenceFields = new Set([
 ]);
 const archiveFields = new Set(["recipe_id", "is_archived"]);
 const ingredientFields = new Set([
+  "ingredient_id", "additional_nutrient_snapshot",
   "position",
   "food_id",
   "ingredient_name",
@@ -147,6 +153,20 @@ function parseNumber(
     fieldErrors[field] = "integer_required";
   }
 
+  if (!options.integer) {
+    const name = field.split(".").at(-1);
+    if (name === "quantity" || name === "yield_servings") {
+      const exact = parseExactNonnegativeDecimal(value);
+      const text = exact ? formatExactFraction(exact, 3) : null;
+      if (text === null) { fieldErrors[field] = "number_out_of_range"; return null; }
+      return Number(text);
+    }
+    if (name === "protein_g" || name === "carbohydrates_g" || name === "fat_g") {
+      const amount = normalizeNutrientAmount(name, value);
+      if (!amount.ok) { fieldErrors[field] = "number_out_of_range"; return null; }
+      return amount.data;
+    }
+  }
   return parsed;
 }
 
@@ -164,6 +184,7 @@ function validateIngredient(
 
   rejectUnsupportedFields(input, ingredientFields, fieldErrors, prefix);
   for (const field of ingredientFields) {
+    if (field === "ingredient_id" || field === "additional_nutrient_snapshot") continue;
     if (!(field in input)) fieldErrors[`${prefix}${field}`] = "required_field";
   }
 
@@ -198,7 +219,10 @@ function validateIngredient(
     fieldErrors[`${prefix}quantity_unit`] = "both_or_neither_required";
   }
 
+  const extension = validateReusableSnapshotFields(input, "ingredient_id", prefix, fieldErrors);
   return {
+    ...(extension.identity !== undefined ? { ingredient_id: extension.identity } : {}),
+    ...(extension.snapshot !== undefined ? { additional_nutrient_snapshot: extension.snapshot } : {}),
     position: Number.isFinite(position) ? position : 0,
     food_id: foodId,
     ingredient_name: parseRequiredText(
@@ -308,6 +332,10 @@ export function validateRecipeInput(
       );
     if (!contiguous) fieldErrors.ingredients = "positions_must_be_contiguous";
   }
+
+  const retainedIds = ingredients.map(child => child.ingredient_id).filter((id): id is string => typeof id === "string");
+  if (new Set(retainedIds).size !== retainedIds.length) fieldErrors.ingredients = "duplicate_child_id";
+  if (recipeId === null && retainedIds.length > 0) fieldErrors.ingredients = "invalid_uuid";
 
   if (Object.keys(fieldErrors).length > 0 || yieldServings === null) {
     return validationError(fieldErrors);

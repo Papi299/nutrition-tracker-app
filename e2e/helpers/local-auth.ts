@@ -140,6 +140,8 @@ export function queryLocalAuthFixture(
       "exec",
       databaseContainer,
       "psql",
+      "-h",
+      "127.0.0.1",
       "-U",
       databaseRole,
       "-d",

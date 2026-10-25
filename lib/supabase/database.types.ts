@@ -97,6 +97,7 @@ export type Database = {
       }
       diary_entries: {
         Row: {
+          additional_nutrient_snapshot: Json | null
           brand_name: string | null
           calories: number | null
           carbohydrates_g: number | null
@@ -120,6 +121,7 @@ export type Database = {
           version: number
         }
         Insert: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -143,6 +145,7 @@ export type Database = {
           version?: number
         }
         Update: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -611,6 +614,7 @@ export type Database = {
           meal_type: string
           recipe_id: string | null
           requested_servings: number
+          snapshot_contract_version: number
           source_updated_at: string
           user_id: string
           write_transaction_id: unknown
@@ -623,6 +627,7 @@ export type Database = {
           meal_type: string
           recipe_id?: string | null
           requested_servings: number
+          snapshot_contract_version?: number
           source_updated_at: string
           user_id: string
           write_transaction_id?: unknown
@@ -635,6 +640,7 @@ export type Database = {
           meal_type?: string
           recipe_id?: string | null
           requested_servings?: number
+          snapshot_contract_version?: number
           source_updated_at?: string
           user_id?: string
           write_transaction_id?: unknown
@@ -651,6 +657,7 @@ export type Database = {
       }
       recipe_ingredients: {
         Row: {
+          additional_nutrient_snapshot: Json | null
           brand_name: string | null
           calories: number | null
           carbohydrates_g: number | null
@@ -667,6 +674,7 @@ export type Database = {
           unit: string | null
         }
         Insert: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -683,6 +691,7 @@ export type Database = {
           unit?: string | null
         }
         Update: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -760,6 +769,7 @@ export type Database = {
           item_count: number
           meal_type: string
           saved_meal_id: string | null
+          snapshot_contract_version: number
           source_updated_at: string
           user_id: string
           write_transaction_id: unknown
@@ -772,6 +782,7 @@ export type Database = {
           item_count: number
           meal_type: string
           saved_meal_id?: string | null
+          snapshot_contract_version?: number
           source_updated_at: string
           user_id: string
           write_transaction_id?: unknown
@@ -784,6 +795,7 @@ export type Database = {
           item_count?: number
           meal_type?: string
           saved_meal_id?: string | null
+          snapshot_contract_version?: number
           source_updated_at?: string
           user_id?: string
           write_transaction_id?: unknown
@@ -800,6 +812,7 @@ export type Database = {
       }
       saved_meal_items: {
         Row: {
+          additional_nutrient_snapshot: Json | null
           brand_name: string | null
           calories: number | null
           carbohydrates_g: number | null
@@ -816,6 +829,7 @@ export type Database = {
           serving_unit: string | null
         }
         Insert: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -832,6 +846,7 @@ export type Database = {
           serving_unit?: string | null
         }
         Update: {
+          additional_nutrient_snapshot?: Json | null
           brand_name?: string | null
           calories?: number | null
           carbohydrates_g?: number | null
@@ -966,6 +981,29 @@ export type Database = {
           result_status: string
         }[]
       }
+      create_manual_diary_entry_v2: {
+        Args: {
+          p_additional_nutrients: Json
+          p_brand_name: string
+          p_calories: number
+          p_carbohydrates_g: number
+          p_entry_date: string
+          p_fat_g: number
+          p_food_id: string
+          p_food_name: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_notes: string
+          p_protein_g: number
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          completed_at: string
+          diary_entry_id: string
+          result_status: string
+        }[]
+      }
       current_account_access_state: { Args: never; Returns: string }
       get_owned_custom_food_editor: {
         Args: { p_food_id: string }
@@ -984,6 +1022,20 @@ export type Database = {
         }[]
       }
       get_owned_recipe_editor: {
+        Args: { p_recipe_id: string }
+        Returns: {
+          created_at: string
+          edit_revision: number
+          ingredients: Json
+          is_archived: boolean
+          locale: string
+          name: string
+          recipe_id: string
+          updated_at: string
+          yield_servings: number
+        }[]
+      }
+      get_owned_recipe_editor_v2: {
         Args: { p_recipe_id: string }
         Returns: {
           created_at: string
@@ -1035,7 +1087,59 @@ export type Database = {
           yield_servings: number
         }[]
       }
+      get_owned_recipe_use_contract_v2: {
+        Args: { p_recipe_id: string; p_requested_servings: number }
+        Returns: {
+          additional_nutrient_snapshot: Json
+          calories_complete: boolean
+          calories_known_ingredient_count: number
+          calories_per_serving: number
+          calories_requested: number
+          calories_whole_recipe: number
+          carbohydrates_complete: boolean
+          carbohydrates_known_ingredient_count: number
+          carbohydrates_per_serving: number
+          carbohydrates_requested: number
+          carbohydrates_whole_recipe: number
+          diary_calories: number
+          diary_carbohydrates_g: number
+          diary_fat_g: number
+          diary_protein_g: number
+          fat_complete: boolean
+          fat_known_ingredient_count: number
+          fat_per_serving: number
+          fat_requested: number
+          fat_whole_recipe: number
+          ingredient_count: number
+          is_archived: boolean
+          protein_complete: boolean
+          protein_known_ingredient_count: number
+          protein_per_serving: number
+          protein_requested: number
+          protein_whole_recipe: number
+          recipe_id: string
+          recipe_locale: string
+          recipe_name: string
+          requested_servings: number
+          result_status: string
+          source_updated_at: string
+          yield_servings: number
+        }[]
+      }
       get_owned_saved_meal_editor: {
+        Args: { p_saved_meal_id: string }
+        Returns: {
+          created_at: string
+          edit_revision: number
+          is_archived: boolean
+          items: Json
+          locale: string
+          name: string
+          saved_meal_id: string
+          updated_at: string
+        }[]
+      }
+      get_owned_saved_meal_editor_v2: {
         Args: { p_saved_meal_id: string }
         Returns: {
           created_at: string
@@ -1066,6 +1170,27 @@ export type Database = {
           serving_unit: string
           source_code: string
           source_name: string
+        }[]
+      }
+      get_readable_food_nutrition_reference_v1: {
+        Args: { p_food_id: string }
+        Returns: {
+          brand_name: string
+          data_quality: string
+          food_id: string
+          food_type: string
+          is_owned: boolean
+          name: string
+          nutrient_basis: string
+          nutrients: Json
+          reference_fingerprint: string
+          serving_quantity: number
+          serving_unit: string
+          source_code: string
+          source_food_id: string
+          source_id: string
+          source_name: string
+          source_updated_at: string
         }[]
       }
       get_reusable_foods: {
@@ -1113,7 +1238,36 @@ export type Database = {
           result_status: string
         }[]
       }
+      log_recipe_to_diary_v2: {
+        Args: {
+          p_entry_date: string
+          p_expected_updated_at: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_recipe_id: string
+          p_requested_servings: number
+        }
+        Returns: {
+          created_entry_count: number
+          diary_run_id: string
+          result_status: string
+        }[]
+      }
       log_saved_meal_to_diary: {
+        Args: {
+          p_entry_date: string
+          p_expected_updated_at: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_saved_meal_id: string
+        }
+        Returns: {
+          diary_run_id: string
+          item_count: number
+          result_status: string
+        }[]
+      }
+      log_saved_meal_to_diary_v2: {
         Args: {
           p_entry_date: string
           p_expected_updated_at: string
@@ -1154,6 +1308,7 @@ export type Database = {
         }[]
       }
       normalize_food_search_text: { Args: { value: string }; Returns: string }
+      nutrient_snapshot_manifest_v1: { Args: never; Returns: Json }
       persist_custom_food:
         | {
             Args: {
@@ -1241,6 +1396,21 @@ export type Database = {
               recipe_id: string
             }[]
           }
+      persist_recipe_v2: {
+        Args: {
+          p_expected_edit_revision: number
+          p_ingredients: Json
+          p_locale: string
+          p_name: string
+          p_recipe_id: string
+          p_yield_servings: number
+        }
+        Returns: {
+          ingredient_count: number
+          is_archived: boolean
+          recipe_id: string
+        }[]
+      }
       persist_saved_meal:
         | {
             Args: {
@@ -1269,6 +1439,20 @@ export type Database = {
               saved_meal_id: string
             }[]
           }
+      persist_saved_meal_v2: {
+        Args: {
+          p_expected_edit_revision: number
+          p_items: Json
+          p_locale: string
+          p_name: string
+          p_saved_meal_id: string
+        }
+        Returns: {
+          is_archived: boolean
+          item_count: number
+          saved_meal_id: string
+        }[]
+      }
       persist_setup: {
         Args: {
           p_calories: number
@@ -1332,6 +1516,13 @@ export type Database = {
         Returns: {
           is_archived: boolean
           saved_meal_id: string
+        }[]
+      }
+      update_manual_diary_entry_v2: {
+        Args: { p_expected_version: number; p_id: string; p_patch: Json }
+        Returns: {
+          entry: Json
+          result_status: string
         }[]
       }
     }

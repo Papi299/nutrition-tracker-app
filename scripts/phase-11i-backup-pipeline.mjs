@@ -19,7 +19,7 @@ import {
   assertMigrationHistory,
   assertRedactedEvidence,
   assertStorageScope,
-  EXPECTED_MIGRATION_HEAD,
+  recoveryMigrationBoundary,
   fail,
   sha256,
   TASK_ID,
@@ -44,9 +44,10 @@ function run(command, args, options = {}) {
 export async function captureBackup({
   sourceIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient,
   backupRootInput, recipientInput, operator, privateKey, project, authConfig,
-  rows, psqlBinary, runSupabase, refreshSourceTransport,
+  rows, psqlBinary, runSupabase, refreshSourceTransport, localNutritionSnapshots = false,
 }) {
   assertSourceIdentity(sourceIdentity);
+  const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots);
   assertEncryptionRecipient(recipientInput);
   if (typeof refreshSourceTransport !== "function") fail("Source transport refresh callback is required.");
   if (!backupRootInput || !operator) fail("Backup root and operator are required.");
@@ -161,7 +162,7 @@ export async function captureBackup({
       "select version from supabase_migrations.schema_migrations order by version;",
       "MIGRATION_LEDGER",
     ).map(([version]) => version);
-    assertMigrationHistory(migrations);
+    assertMigrationHistory(migrations, migrationBoundary);
 
     const applicationTables = rows(
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
@@ -285,7 +286,7 @@ export async function captureBackup({
     const publicVerificationSummary = buildPublicVerificationSummary({
       migrations, storage: { buckets: storageBuckets, objects: storageObjects },
       ownerValidation, accountActivationCount, sourceCaptureConsistency: "PASS",
-    });
+    }, migrationBoundary);
     const sourceSnapshot = {
       sourceProjectRef: sourceIdentity.projectRef,
       sourceEnvironment: sourceIdentity.sourceEnvironment,
@@ -356,7 +357,7 @@ export async function captureBackup({
         storage: "STORAGE_NOT_USED_CURRENTLY",
         vault: "IDENTIFIER_ONLY_SEPARATE_REPROVISION_CONTROL",
       },
-      migrationHead: EXPECTED_MIGRATION_HEAD,
+      migrationHead: migrationBoundary.head,
       artifacts,
       encryption: {
         format: "CMS AuthEnvelopedData DER",
@@ -447,7 +448,7 @@ export async function captureBackup({
       postEncryptionDecryptVerification: privateKey ? "PASS" : "PENDING_RESTORE",
       credentialScanStatus: "REDACTED_MANIFEST_PASS",
     };
-    assertNewBackupPublicVerification(finalManifest);
+    assertNewBackupPublicVerification(finalManifest, migrationBoundary);
     assertRedactedEvidence(finalManifest);
     const manifestBytes = Buffer.from(`${JSON.stringify(finalManifest, null, 2)}\n`);
     writeFileSync(manifestPath, manifestBytes, { mode: 0o600 });

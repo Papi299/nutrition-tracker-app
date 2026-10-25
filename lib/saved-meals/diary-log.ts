@@ -42,7 +42,7 @@ export async function logSavedMealToDiaryForCurrentUser(
   if (!auth.ok) return { code: "unauthenticated", ok: false };
 
   const supabase = await createServerClient();
-  const args: Database["public"]["Functions"]["log_saved_meal_to_diary"]["Args"] = {
+  const args: Database["public"]["Functions"]["log_saved_meal_to_diary_v2"]["Args"] = {
     p_entry_date: validation.data.entry_date,
     p_expected_updated_at: validation.data.expected_source_updated_at,
     p_idempotency_key: validation.data.idempotency_key,
@@ -50,7 +50,7 @@ export async function logSavedMealToDiaryForCurrentUser(
     p_saved_meal_id: validation.data.saved_meal_id,
   };
   const { data, error } = await supabase
-    .rpc("log_saved_meal_to_diary", args)
+    .rpc("log_saved_meal_to_diary_v2", args)
     .maybeSingle();
 
   if (error?.code === "42501") return { code: "unauthenticated", ok: false };

@@ -1178,6 +1178,17 @@
       "rotation": "Per separately authorized restore class.",
       "browserExposure": "forbidden",
       "vaultMatch": null
+    },
+    {
+      "name": "NUTRITION_EVIDENCE_DIR",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Optional directory for synthetic local nutrition screenshots and source manifests.",
+      "sourceBoundary": "Local Playwright invocation; screenshots require a loopback application URL.",
+      "rotation": "Per local qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
     }
   ],
   "databaseSecrets": [

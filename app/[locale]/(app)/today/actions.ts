@@ -1,11 +1,10 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import {
   deleteCurrentDiaryEntry,
   updateCurrentDiaryEntry,
+  validateDiaryEntryUpdateInput,
   type DiaryEntryMutationError,
   type DiaryEntryUpdateInput,
 } from "@/lib/diary-entries";
@@ -14,20 +13,20 @@ import {
   locales,
   type Locale,
 } from "@/lib/i18n/routing";
+import { additionalNutrientCodesV1, normalizeNutrientAmount } from "@/lib/nutrition-snapshots";
 import type { DataError } from "@/lib/data/result";
-import { hasAuthenticatedUser, signInPath } from "@/lib/auth/require-user";
 import type {
   DiaryEntryActionState,
   DiaryEntryFieldErrors,
   DiaryEntryFieldName,
   DiaryEntryFieldValues,
 } from "./action-state";
+import { createDiaryEntryFromReference } from "./create-action";
 import {
   diaryEntryCreateInputFields,
-  readCreateValues,
   readInputField,
   readTextField,
-  submitDiaryEntryCreate,
+  sameDisplayedAmount,
 } from "./create-submission";
 
 const diaryEntryUpdateInputFields = diaryEntryCreateInputFields.filter(
@@ -40,21 +39,37 @@ function resolveLocale(locale: string): Locale {
     : defaultLocale;
 }
 
-function readUpdateInput(
-  formData: FormData,
-  values: DiaryEntryFieldValues,
-): DiaryEntryUpdateInput {
-  return diaryEntryUpdateInputFields.reduce<DiaryEntryUpdateInput>(
-    (input, field) => {
-      if (formData.has(field)) {
-        values[field] = readInputField(formData, field);
-        input[field] = values[field];
-      }
-
-      return input;
-    },
-    {},
-  );
+function readUpdateInput(formData: FormData, values: DiaryEntryFieldValues) {
+  const input: DiaryEntryUpdateInput = {};
+  const errors: DiaryEntryFieldErrors = {};
+  let reviewRequired = false;
+  for (const field of [...diaryEntryUpdateInputFields, ...additionalNutrientCodesV1,
+    "id", "expected_version", "additional_nutrients_captured"] as const) {
+    const entries = formData.getAll(field);
+    if (entries.length > 1 || entries.some(value => typeof value !== "string")) errors.form = "invalid_input";
+  }
+  for (const field of diaryEntryUpdateInputFields) {
+    if (formData.has(field)) input[field] = values[field] = readInputField(formData, field);
+  }
+  values.additional_nutrients_captured = formData.get("additional_nutrients_captured") === "1" ? "1" : "";
+  for (const code of additionalNutrientCodesV1) values[code] = readInputField(formData, code);
+  if (values.additional_nutrients_captured === "1") {
+    const items = [];
+    for (const code of additionalNutrientCodesV1) {
+      if (!formData.has(code)) { errors.form = "invalid_input"; continue; }
+      const raw = values[code] ?? "";
+      const amount = normalizeNutrientAmount(code, raw === "" ? null : raw);
+      if (!amount.ok) { errors[code] = "invalid_number"; continue; }
+      const normalized = amount.data === null ? "" : String(amount.data);
+      reviewRequired ||= !sameDisplayedAmount(raw, normalized);
+      values[code] = normalized;
+      items.push({ code, amount: amount.data });
+    }
+    input.additional_nutrient_snapshot = { version: 1, values: items };
+  } else if (additionalNutrientCodesV1.some(code => values[code] !== "")) {
+    errors.form = "capture_required";
+  }
+  return { input, errors, reviewRequired };
 }
 
 function mapFieldErrors(
@@ -65,7 +80,8 @@ function mapFieldErrors(
     "form",
     "id",
     "idempotency_key",
-    "expected_version",
+    "expected_version", "additional_nutrient_snapshot", "additional_nutrients_captured",
+    ...additionalNutrientCodesV1,
     ...diaryEntryCreateInputFields,
   ]);
 
@@ -115,44 +131,9 @@ function revalidateToday(locale: Locale) {
 }
 
 export async function createDiaryEntryAction(
-  localeInput: string,
-  _previousState: DiaryEntryActionState,
-  formData: FormData,
+  localeInput: string, previousState: DiaryEntryActionState, formData: FormData,
 ): Promise<DiaryEntryActionState> {
-  const locale = resolveLocale(localeInput);
-  const nativeSubmission = formData.get("native_submission") === "1";
-  const submissionIntent = formData.get("submission_intent");
-
-  if (submissionIntent === "start_new") {
-    if (nativeSubmission && !(await hasAuthenticatedUser())) {
-      redirect(signInPath(locale));
-    }
-
-    return {
-      status: "idle",
-      values: {
-        ...readCreateValues(formData),
-        idempotency_key: randomUUID(),
-      },
-    };
-  }
-
-  const { result, values } = await submitDiaryEntryCreate(formData);
-
-  if (!result.ok) {
-    if (nativeSubmission && result.code === "unauthenticated") {
-      redirect(signInPath(locale));
-    }
-
-    return actionStateFromError(result, values);
-  }
-
-  revalidateToday(locale);
-
-  return {
-    status: "success",
-    values,
-  };
+  return createDiaryEntryFromReference(localeInput, previousState, formData);
 }
 
 export async function updateDiaryEntryAction(
@@ -172,16 +153,26 @@ export async function updateDiaryEntryAction(
     return validationFailure(values, { id: "required" });
   }
 
-  const result = await updateCurrentDiaryEntry(
-    id,
-    expectedVersion,
-    readUpdateInput(formData, values),
-  );
+  const parsed = readUpdateInput(formData, values);
+  if (Object.keys(parsed.errors).length) return validationFailure(values, parsed.errors);
+  const validation = validateDiaryEntryUpdateInput(parsed.input);
+  if (!validation.ok) return actionStateFromError(validation, values);
+  let reviewRequired = parsed.reviewRequired;
+  for (const field of ["calories", "protein_g", "carbohydrates_g", "fat_g", "serving_quantity"] as const) {
+    if (formData.has(field)) {
+      const normalized = validation.data[field] == null ? "" : String(validation.data[field]);
+      reviewRequired ||= !sameDisplayedAmount(values[field], normalized);
+      values[field] = normalized;
+    }
+  }
+  if (reviewRequired) return validationFailure(values, { form: "nutrition_review_required" });
+  const result = await updateCurrentDiaryEntry(id, expectedVersion, parsed.input);
 
   if (!result.ok) {
     return actionStateFromError(result, values);
   }
 
+  values.expected_version = String(result.data.version);
   revalidateToday(locale);
 
   return {

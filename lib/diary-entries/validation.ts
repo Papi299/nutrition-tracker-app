@@ -3,6 +3,10 @@ import { validationError } from "@/lib/data/result";
 import { isCanonicalCalendarDate } from "@/lib/calendar-date";
 import { isUuid } from "@/lib/food-selection/query";
 import type { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
+import {
+  normalizeAdditionalNutrientRequest, normalizeNutrientAmount,
+  parseExactNonnegativeDecimal, formatExactFraction,
+} from "@/lib/nutrition-snapshots";
 
 export const diaryEntryMealTypes = [
   "breakfast",
@@ -38,6 +42,7 @@ export function parseDiaryMealTypeQuery(
 }
 
 export type DiaryEntryCreateInput = {
+  additional_nutrient_snapshot?: unknown;
   brand_name?: null | string;
   calories?: null | number | string;
   carbohydrates_g?: null | number | string;
@@ -63,6 +68,7 @@ export type ValidatedDiaryEntryCreateInput = Omit<
 
 export type ValidatedDiaryEntryUpdateInput = Pick<
   TablesUpdate<"diary_entries">,
+  | "additional_nutrient_snapshot"
   | "brand_name"
   | "calories"
   | "carbohydrates_g"
@@ -77,6 +83,7 @@ export type ValidatedDiaryEntryUpdateInput = Pick<
 >;
 
 const allowedDiaryEntryCreateFields = new Set([
+  "additional_nutrient_snapshot",
   "brand_name",
   "calories",
   "carbohydrates_g",
@@ -321,6 +328,27 @@ function normalizeNullableNumber(
     return null;
   }
 
+  if (field === "calories") {
+    if (parsed > 2_147_483_647) fieldErrors[field] = "out_of_range";
+    return parsed;
+  }
+  if (field === "serving_quantity") {
+    const exact = parseExactNonnegativeDecimal(value);
+    const rounded = exact ? formatExactFraction(exact, 3) : null;
+    if (rounded === null || Number(rounded) > 9_999_999.999) {
+      fieldErrors[field] = "out_of_range";
+      return null;
+    }
+    return Number(rounded);
+  }
+  if (field === "protein_g" || field === "carbohydrates_g" || field === "fat_g") {
+    const result = normalizeNutrientAmount(field, value);
+    if (!result.ok) {
+      fieldErrors[field] = result.code === "amount_out_of_range" ? "out_of_range" : "invalid_number";
+      return null;
+    }
+    return result.data;
+  }
   return parsed;
 }
 
@@ -451,6 +479,9 @@ export function validateDiaryEntryCreateInput(
     maxNotesLength,
     fieldErrors,
   );
+  const additional = hasOwn(input, "additional_nutrient_snapshot")
+    ? normalizeAdditionalNutrientRequest(input.additional_nutrient_snapshot) : undefined;
+  if (additional && !additional.ok) fieldErrors.additional_nutrient_snapshot = additional.code;
 
   if (Object.keys(fieldErrors).length > 0) {
     return validationError(fieldErrors);
@@ -458,6 +489,7 @@ export function validateDiaryEntryCreateInput(
 
   return {
     data: {
+      ...(additional?.ok ? { additional_nutrient_snapshot: additional.data } : {}),
       brand_name: brandName,
       calories,
       carbohydrates_g: carbohydrates,
@@ -547,6 +579,11 @@ export function validateDiaryEntryUpdateInput(
   if (carbohydrates !== undefined) update.carbohydrates_g = carbohydrates;
   if (fat !== undefined) update.fat_g = fat;
   if (notes !== undefined) update.notes = notes;
+  if (hasOwn(input, "additional_nutrient_snapshot")) {
+    const additional = normalizeAdditionalNutrientRequest(input.additional_nutrient_snapshot);
+    if (additional.ok) update.additional_nutrient_snapshot = additional.data;
+    else fieldErrors.additional_nutrient_snapshot = additional.code;
+  }
 
   if (Object.keys(update).length === 0) {
     fieldErrors.form = "empty_update";

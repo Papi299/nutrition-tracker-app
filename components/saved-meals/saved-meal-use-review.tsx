@@ -1,5 +1,6 @@
 "use client";
 
+import { AdditionalNutrientDetails } from "@/components/nutrition/additional-nutrient-details";
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
@@ -131,6 +132,7 @@ export function SavedMealUseReview({
                 <Detail label={t("fields.carbohydrates")} value={value(item.carbohydrates_g, locale, t("notSet"), t("unitGrams"))} />
                 <Detail label={t("fields.fat")} value={value(item.fat_g, locale, t("notSet"), t("unitGrams"))} />
               </dl>
+              <AdditionalNutrientDetails snapshots={[item.additional_nutrient_snapshot ?? null]} locale={locale} />
               {item.notes && <p className="ui-body-secondary mt-4 whitespace-pre-wrap [overflow-wrap:anywhere] [unicode-bidi:isolate]" dir="auto">{item.notes}</p>}
             </li>
           ))}

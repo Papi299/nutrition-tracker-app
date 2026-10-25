@@ -163,10 +163,10 @@ test.describe.serial("UI Phase 5E Custom Food", () => {
     }
   }
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser }, testInfo) => {
     test.setTimeout(120_000);
     if (!localUrl || !["localhost", "127.0.0.1"].includes(new URL(localUrl).hostname)) throw new Error("Refusing nonlocal fixtures.");
-    evidenceDirectory = join(process.cwd(), "docs/ui-phase5e/evidence");
+    evidenceDirectory = join(testInfo.project.outputDir, "ui-phase5e-custom-food-evidence");
     mkdirSync(evidenceDirectory, { recursive: true });
     sourceIdentity = { head: git("rev-parse", "HEAD"), tree: git("rev-parse", "HEAD^{tree}"), buildId: readFileSync(".next/BUILD_ID", "utf8").trim(), productionDiffSha256: digest(git("diff", "HEAD", "--", ...sourceFiles, "messages/en.json", "messages/he.json")), sourceFileSha256: Object.fromEntries([...sourceFiles, "messages/en.json", "messages/he.json"].map(file => [file, digest(readFileSync(file))])) };
     if (baseline) { expect(git("rev-parse", "HEAD")).toBe(approvedHead); expect(git("rev-parse", "HEAD^{tree}")).toBe(approvedTree); }

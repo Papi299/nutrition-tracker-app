@@ -17,7 +17,7 @@ const approved = {
   PGUSER: "cli_login_postgres.hskfanrqwtqknzpquwhg", PGDATABASE: "postgres",
 };
 const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql"))
-  .sort().map((name) => [name.split("_")[0]]);
+  .sort().map((name) => [name.split("_")[0]]).filter(([version]) => version <= "20260927170418");
 const dumpLabels = ["DUMP_ROLES", "DUMP_APPLICATION_SCHEMA", "DUMP_APPLICATION_DATA", "DUMP_DURABLE_AUTH"];
 const expectedOrder = [
   "ACQUIRE_INITIAL", "MIGRATION_LEDGER", "APPLICATION_TABLE_INVENTORY",

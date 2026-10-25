@@ -161,7 +161,7 @@ export async function collectAccountExport({
     supabase
       .from("diary_entries")
       .select(
-        "brand_name,calories,carbohydrates_g,created_at,entry_date,fat_g,food_id,food_name,id,meal_type,notes,protein_g,recipe_diary_run_id,saved_meal_diary_run_id,saved_meal_item_position,serving_quantity,serving_unit,source,updated_at,user_id,version",
+        "additional_nutrient_snapshot,brand_name,calories,carbohydrates_g,created_at,entry_date,fat_g,food_id,food_name,id,meal_type,notes,protein_g,recipe_diary_run_id,saved_meal_diary_run_id,saved_meal_item_position,serving_quantity,serving_unit,source,updated_at,user_id,version",
       )
       .eq("user_id", userId)
       .order("entry_date", { ascending: true })
@@ -254,7 +254,7 @@ export async function collectAccountExport({
       supabase
         .from("saved_meal_items")
         .select(
-          "brand_name,calories,carbohydrates_g,created_at,fat_g,food_id,food_name,id,notes,position,protein_g,saved_meal_id,serving_quantity,serving_unit",
+          "additional_nutrient_snapshot,brand_name,calories,carbohydrates_g,created_at,fat_g,food_id,food_name,id,notes,position,protein_g,saved_meal_id,serving_quantity,serving_unit",
         )
         .in("saved_meal_id", ids)
         .order("saved_meal_id", { ascending: true })
@@ -268,7 +268,7 @@ export async function collectAccountExport({
     supabase
       .from("saved_meal_diary_runs")
       .select(
-        "created_at,entry_date,id,item_count,meal_type,saved_meal_id,source_updated_at,user_id",
+        "created_at,entry_date,id,item_count,meal_type,saved_meal_id,snapshot_contract_version,source_updated_at,user_id",
       )
       .eq("user_id", userId)
       .order("created_at", { ascending: true })
@@ -295,7 +295,7 @@ export async function collectAccountExport({
       supabase
         .from("recipe_ingredients")
         .select(
-          "brand_name,calories,carbohydrates_g,created_at,fat_g,food_id,id,ingredient_name,notes,position,protein_g,quantity,recipe_id,unit",
+          "additional_nutrient_snapshot,brand_name,calories,carbohydrates_g,created_at,fat_g,food_id,id,ingredient_name,notes,position,protein_g,quantity,recipe_id,unit",
         )
         .in("recipe_id", ids)
         .order("recipe_id", { ascending: true })
@@ -308,7 +308,7 @@ export async function collectAccountExport({
       supabase
         .from("recipe_diary_runs")
         .select(
-          "created_at,entry_date,id,meal_type,recipe_id,requested_servings,source_updated_at,user_id",
+          "created_at,entry_date,id,meal_type,recipe_id,requested_servings,snapshot_contract_version,source_updated_at,user_id",
         )
         .eq("user_id", userId)
         .order("created_at", { ascending: true })

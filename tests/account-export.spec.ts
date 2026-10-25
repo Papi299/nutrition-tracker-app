@@ -1,9 +1,11 @@
+import { additionalNutrientCodesV1, emptyAdditionalNutrientSnapshot, nutrientManifestV1 } from "@/lib/nutrition-snapshots";
 import { expect, test } from "@playwright/test";
 import {
   accountExportFilename,
   accountExportSchema,
   accountExportVersion,
   buildAccountExportPayload,
+  buildLegacyAccountExportPayload,
   serializeAccountExport,
   type AccountExportSourceData,
 } from "@/lib/account-export/schema";
@@ -66,6 +68,7 @@ function diaryEntry({
   name: string;
 }) {
   return {
+    additional_nutrient_snapshot: null,
     brand_name: null,
     calories: 0,
     carbohydrates_g: null,
@@ -109,6 +112,7 @@ test.describe("versioned account export contract", () => {
       "schema",
       "version",
       "exportedAt",
+      "nutritionSnapshotManifest",
       "account",
       "profile",
       "nutritionTargets",
@@ -279,10 +283,53 @@ test.describe("versioned account export contract", () => {
     );
 
     expect(filename).toBe(
-      "nutrition-tracker-account-export-v1-2026-08-28.json",
+      "nutrition-tracker-account-export-v2-2026-08-28.json",
     );
     expect(filename).not.toMatch(/@|example|11111111|export-owner/i);
     expect(() => accountExportFilename(new Date("invalid"))).toThrow();
+  });
+
+  test("exports complete frozen consumed snapshots and rejects lossy legacy conversion", () => {
+    const snapshot = emptyAdditionalNutrientSnapshot();
+    for (const [index, code] of additionalNutrientCodesV1.entries()) snapshot.values[code] = Number(`${index + 1}.2345`);
+    snapshot.values.fiber_g = 0;
+    snapshot.values.vitamin_d_ug = null;
+    const timestamp = "2026-10-24T12:00:00Z";
+    const mealId = "22222222-2222-4222-8222-222222222222";
+    const recipeId = "33333333-3333-4333-8333-333333333333";
+    const nutrition = { brand_name: null, calories: 400, protein_g: 40, carbohydrates_g: 40,
+      fat_g: 10, food_id: null, notes: null, position: 1, created_at: timestamp, additional_nutrient_snapshot: snapshot };
+    const data = source({
+      diaryEntries: [{ ...diaryEntry({ id: mealId, entryDate: "2026-10-24", createdAt: timestamp, name: "Captured" }), additional_nutrient_snapshot: snapshot }],
+      savedMeals: [{ id: mealId, user_id: userId, name: "Captured meal", locale: "en", is_archived: false, saved_meal_edit_revision: 1, created_at: timestamp, updated_at: timestamp }],
+      savedMealItems: [{ ...nutrition, id: mealId, saved_meal_id: mealId, food_name: "Captured item", serving_quantity: 200, serving_unit: "g" }],
+      recipes: [{ id: recipeId, user_id: userId, name: "Captured recipe", locale: "en", is_archived: false, recipe_edit_revision: 1, yield_servings: 2, created_at: timestamp, updated_at: timestamp }],
+      recipeIngredients: [{ ...nutrition, id: recipeId, recipe_id: recipeId, ingredient_name: "Captured ingredient", quantity: 200, unit: "g" }],
+    });
+    const payload = buildAccountExportPayload(data, timestamp);
+    expect(payload.version).toBe(2);
+    expect(payload.nutritionSnapshotManifest).toEqual({ version: 1,
+      nutrients: nutrientManifestV1.map(({ code, unit, coreField, precision }) => ({ code, unit, coreField, precision })),
+    });
+    expect(payload.diaryEntries[0].additionalNutrientSnapshot).toEqual(snapshot);
+    expect(payload.savedMeals[0].items[0].additionalNutrientSnapshot).toEqual(snapshot);
+    expect(payload.recipes[0].ingredients[0].additionalNutrientSnapshot).toEqual(snapshot);
+    expect(Object.keys(payload.diaryEntries[0].additionalNutrientSnapshot!.values)).toHaveLength(31);
+    expect(serializeAccountExport(payload)).toBe(serializeAccountExport(buildAccountExportPayload(data, timestamp)));
+    expect(() => buildLegacyAccountExportPayload(data, timestamp)).toThrow("discard captured");
+    const unknownVersion = source({ diaryEntries: [{ ...data.diaryEntries[0], additional_nutrient_snapshot: { version: 2, values: snapshot.values } }] });
+    expect(() => buildAccountExportPayload(unknownVersion, timestamp)).toThrow("unsupported nutrient snapshot");
+  });
+
+  test("preserves explicit version 1 export shape for uncaptured historical data", () => {
+    const data = source({ diaryEntries: [diaryEntry({ id: userId, entryDate: "2026-10-24", createdAt: "2026-10-24T12:00:00Z", name: "Historical" })] });
+    const v2 = buildAccountExportPayload(data, "2026-10-24T12:00:00Z");
+    expect(v2.diaryEntries[0].additionalNutrientSnapshot).toBeNull();
+    const legacy = buildLegacyAccountExportPayload(data, "2026-10-24T12:00:00Z");
+    expect(legacy.version).toBe(1);
+    expect(legacy).not.toHaveProperty("nutritionSnapshotManifest");
+    expect(legacy.diaryEntries[0]).not.toHaveProperty("additionalNutrientSnapshot");
+    expect(accountExportFilename(new Date("2026-08-28T12:00:00Z"), 1)).toBe("nutrition-tracker-account-export-v1-2026-08-28.json");
   });
 
   test("accepts only the two fixed account-action reauthentication intents", () => {

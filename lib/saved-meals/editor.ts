@@ -42,7 +42,7 @@ export async function getOwnedSavedMealEditor(
 
   const supabase = await createServerClient();
   const { data, error } = await supabase
-    .rpc("get_owned_saved_meal_editor", { p_saved_meal_id: savedMealId })
+    .rpc("get_owned_saved_meal_editor_v2", { p_saved_meal_id: savedMealId })
     .maybeSingle();
 
   if (error) return { code: "database_error", ok: false };

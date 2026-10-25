@@ -587,7 +587,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
     ).toBe("Other user custom editor food");
 
     queryLocalDatabase(
-      "revoke execute on function public.get_owned_custom_food_editor(uuid) from authenticated;",
+      "alter function public.get_owned_custom_food_editor(uuid) rename to get_owned_custom_food_editor_test_hidden; notify pgrst, 'reload schema'; select pg_sleep(0.5);",
     );
     try {
       await page.goto("/en/foods/custom/not-a-uuid/edit");
@@ -601,7 +601,7 @@ test.describe.serial("localized custom-food creation and editing UI", () => {
       );
     } finally {
       queryLocalDatabase(
-        "grant execute on function public.get_owned_custom_food_editor(uuid) to authenticated;",
+        "alter function public.get_owned_custom_food_editor_test_hidden(uuid) rename to get_owned_custom_food_editor; notify pgrst, 'reload schema'; select pg_sleep(0.5);",
       );
     }
 

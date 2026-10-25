@@ -1,6 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
+import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutrient-fields";
+import { additionalNutrientCodesV1, parseAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +18,7 @@ import type {
   DiaryEntryActionStatus,
   DiaryEntryFieldName,
 } from "@/app/[locale]/(app)/today/action-state";
+import type { AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
 import type { Tables } from "@/lib/supabase/database.types";
 
 type DiaryEntry = Tables<"diary_entries">;
@@ -30,7 +34,7 @@ type MealTypeOption = {
 
 type EditableFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id" | "idempotency_key"
+  "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
 >;
 type FieldLabels = Record<EditableFieldName, string>;
 
@@ -139,14 +143,30 @@ export function DiaryEntryEditForm({
     status: "idle",
     values: { expected_version: String(entry.version), id: entry.id },
   } satisfies DiaryEntryActionState);
+  const t = useTranslations("Diary.additionalNutrients");
+  const formT = useTranslations("Diary.form");
   const values = state.values;
+  const snapshot = parseAdditionalNutrientSnapshot(entry.additional_nutrient_snapshot);
+  if (!snapshot.ok) return <AuthStatusNote tone="error">{t("unavailable")}</AuthStatusNote>;
+  const additionalValues = Object.fromEntries(additionalNutrientCodesV1.map(code => [code,
+    values && code in values ? values[code] : snapshot.data?.values[code] == null ? "" : String(snapshot.data.values[code]),
+  ]));
+  function captureAdditional(event: FormEvent<HTMLFormElement>) {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && (additionalNutrientCodesV1 as readonly string[]).includes(target.name)) {
+      const capture = event.currentTarget.elements.namedItem("additional_nutrients_captured");
+      if (capture instanceof HTMLInputElement && capture.type === "checkbox") capture.checked = true;
+    }
+  }
   const provenanceContextLocked = entry.source !== "manual";
 
   return (
     <form
       action={formAction}
       className="mt-4 grid gap-4 border-t border-border pt-4 text-start"
+      key={JSON.stringify(state.values ?? {})}
       noValidate
+      onInput={captureAdditional}
     >
       <input name="id" type="hidden" value={entry.id} />
       <input
@@ -276,6 +296,14 @@ export function DiaryEntryEditForm({
         />
       </div>
 
+      {state.fieldErrors?.form === "nutrition_review_required" && <p data-testid="nutrition-review-required" role="status">{formT("nutritionReviewRequired")}</p>}
+      {state.fieldErrors?.form === "capture_required" && <p role="alert">{t("captureRequired")}</p>}
+      {snapshot.data === null ? <label className="flex min-h-11 items-center gap-2 text-sm">
+        <input defaultChecked={values?.additional_nutrients_captured === "1"} name="additional_nutrients_captured" type="checkbox" value="1" />
+        <span>{t("capture")}</span>
+      </label> : <input name="additional_nutrients_captured" type="hidden" value="1" />}
+      <AdditionalNutrientFields values={additionalValues} errors={state.fieldErrors}
+        controlPrefix={`diary-edit-${entry.id}`} expandAll={state.fieldErrors?.form === "nutrition_review_required"} />
       <FieldLabel className="grid gap-2">
         <span>{labels.notes}</span>
         <Textarea

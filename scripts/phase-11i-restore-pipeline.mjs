@@ -17,6 +17,7 @@ import {
   assertHash,
   assertIsolatedRestoreTarget,
   assertMigrationHistory,
+  recoveryMigrationBoundary,
   assertRedactedEvidence,
   assertStorageScope,
   fail,
@@ -165,7 +166,7 @@ export function assertRoleCompatibility(sourceOnlyRoles, localOnlyRoles) {
 
 export function restoreBackup({
   archiveInput, manifestInput, recipientInput, privateKeyInput, reportInput,
-  targetIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient, runSupabase,
+  targetIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient, runSupabase, localNutritionSnapshots = false,
 }) {
   if (!archiveInput || !manifestInput || !recipientInput || !privateKeyInput || !reportInput) {
     fail("Archive, manifest, recipient, private key, and restore report paths are required.");
@@ -193,6 +194,7 @@ export function restoreBackup({
     projectRef: manifest.sourceProjectRef,
     sourceEnvironment: manifest.sourceEnvironment,
   });
+  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
   if (manifest.taskId !== TASK_ID || manifest.schemaVersion !== "phase-11i-backup-manifest/v1") {
     fail("Backup manifest contract identity mismatch.");
   }
@@ -367,7 +369,7 @@ export function restoreBackup({
     const migrations = JSON.parse(
       readFileSync(join(contentRoot, "migration-ledger.json"), "utf8"),
     ).versions;
-    assertMigrationHistory(migrations);
+    assertMigrationHistory(migrations, migrationBoundary);
     const sourceSnapshot = JSON.parse(
       readFileSync(join(contentRoot, "source-snapshot-redacted.json"), "utf8"),
     );

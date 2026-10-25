@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getAuthenticatedUserId } from "@/lib/data/auth";
 import { persistSetupForCurrentUser } from "@/lib/setup";
 import { signInPath } from "@/lib/auth/require-user";
 import {
@@ -120,6 +121,8 @@ export async function saveSetupAction(
   formData: FormData,
 ): Promise<SetupActionState> {
   const locale = resolveLocale(localeInput);
+  const auth = await getAuthenticatedUserId();
+  if (!auth.ok) redirect(signInPath(locale));
   const values = readSetupValues(formData);
   const fieldErrors: Partial<Record<SetupFieldName, string>> = {};
 

@@ -1,0 +1,710 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-001A",
+  "recordedAt": "2026-10-25T05:02:09.517934+00:00",
+  "repository": "Papi299/nutrition-tracker-app",
+  "branch": "codex/nutrition-diary-correctness-001",
+  "approvedBase": {
+    "head": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+    "tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17"
+  },
+  "sourceIdentity": "Final delivery head and Git tree are recorded in the Draft PR body. Per-file hashes identify the candidate independently.",
+  "changedFileCount": 137,
+  "files": [
+    {
+      "path": "app/[locale]/(app)/recipes/action-state.ts",
+      "bytes": 3317,
+      "sha256": "29dd0b8d780040c138324637a58f7c01d810800fdcb927f4880fec944914faa9"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/actions.ts",
+      "bytes": 14595,
+      "sha256": "353ddb25353e8f5ee65a5f110d7700e520e80fc3bf0a33e1217e3acb628b63fd"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/action-state.ts",
+      "bytes": 3580,
+      "sha256": "c5ff9269541913121159a4231055123323684929ac67666b5bbd591a0acab34e"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/actions.ts",
+      "bytes": 7427,
+      "sha256": "845f663e6364f7d4073c29986b538a7688de0d7b0c394ea9daefa7d4cf41d81c"
+    },
+    {
+      "path": "app/[locale]/(app)/setup/actions.ts",
+      "bytes": 4624,
+      "sha256": "107e1643bb3ad4672aa9c128e69a822c9b4a9aab52e3668cdfd84edba2789664"
+    },
+    {
+      "path": "app/[locale]/(app)/today/action-state.ts",
+      "bytes": 1336,
+      "sha256": "2ebcb7056fefc3a83d71b0b488e9fd7c66eefd7b239862b50a797dd6a21d223e"
+    },
+    {
+      "path": "app/[locale]/(app)/today/actions.ts",
+      "bytes": 6523,
+      "sha256": "41d7356d054f16b94746fdaece458bb0eecf891685b7c97b840190893eb94e9e"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-action.ts",
+      "bytes": 1733,
+      "sha256": "58dffe6622177c8d6fa70b429b68b4b302dd9fef268744f1b38a626639bc0dfb"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-submission.ts",
+      "bytes": 6467,
+      "sha256": "60f0af6b01567a2d2a7fea7e59342ef33e060eff00fec018ef5e22140feca095"
+    },
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "bytes": 34693,
+      "sha256": "b29367e389e27529b1fba7b92a22226d9f6ab3ba2791d066946f6834fd2c023f"
+    },
+    {
+      "path": "app/globals.css",
+      "bytes": 24592,
+      "sha256": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd"
+    },
+    {
+      "path": "components/diary/diary-entry-edit-form.tsx",
+      "bytes": 10548,
+      "sha256": "aa903a3649a6a799d906a5aed0051669bb5f79ac4c78c00cdce950c8d52ac971"
+    },
+    {
+      "path": "components/diary/diary-entry-form.tsx",
+      "bytes": 23270,
+      "sha256": "a31a5bfb3003e46898097b46c08a40f3b2199c4515def099ed7d16bc2f61ff9d"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "bytes": 7098,
+      "sha256": "70389190179cf1134ebcc5eb0ea5e6922edccca81cb039df3f2ecf8e8ce12c37"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-details.tsx",
+      "bytes": 2699,
+      "sha256": "64c43ec524bb2d5a4ff53de7c3bf5dab6a1cb670479364210ac58bc95f8c33fb"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-fields.tsx",
+      "bytes": 3302,
+      "sha256": "8a8f35d419df2d07adf07ca3cecc2625a0548716d94320c65209262eaefd0a85"
+    },
+    {
+      "path": "components/recipes/recipe-form.tsx",
+      "bytes": 34112,
+      "sha256": "15b41f66b7a7c72f2dbbc326449f06b8fd2dd184fa2c6e6d56c867ddd8747d6e"
+    },
+    {
+      "path": "components/recipes/recipe-use-preview.tsx",
+      "bytes": 15000,
+      "sha256": "30d2b3d87c1bfce46f337c89f18e0edb3ce3b9264d4c6690792dd9f30c2a8310"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-form.tsx",
+      "bytes": 25625,
+      "sha256": "5db2a5ad2e145969fc735fb4d97d69da0bd249bda74fd68abd3b061a07b566b2"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-use-review.tsx",
+      "bytes": 8442,
+      "sha256": "9abd6999e7e311a1152238319d81aedab9bc39d4ccd04687967d7697b6ce965d"
+    },
+    {
+      "path": "deployment/phase-11h-contract.json",
+      "bytes": 59081,
+      "sha256": "6fec90b5c1e446428ab829459bc6143f401f663bf7c9ba8fb87e2275aa369080"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001/development-state.json",
+      "bytes": 5899,
+      "sha256": "c04cca4ab259717d40fc76a3c5ab943dce8ed4a0df55e304916ad76a92889651"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/historical-evidence-preservation.json",
+      "bytes": 8928,
+      "sha256": "485396a101f27d5fc9183066ad5ca4cbc042c3c64554f21bec7f032e1945fb20"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/local-cleanup.json",
+      "bytes": 1569,
+      "sha256": "496150eb9658641f74896a62cef2262f4dfc373f09575fd64ec3c10061dd0ad7"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/local-recovery.json",
+      "bytes": 12694,
+      "sha256": "d57e10e39125acc4453486906164261f2558514931cac683c8af687dc1366c9a"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/local-validation.json",
+      "bytes": 9855,
+      "sha256": "86cf4016be1f634ba8fa173cc32240e803725d514a15e410660f0c5a0d231cf9"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/starting-state.json",
+      "bytes": 3202,
+      "sha256": "558029c4c5d1b48ef2437515b8b6583a82316275d7ce3f7db16a2b364c832ff7"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/consumed-200g-en-1440.png",
+      "bytes": 243565,
+      "sha256": "743626d13bb1aff2249fac7f05642b386e52c19c7bdcae42501f138df429f15b"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/consumed-200g-en-390.png",
+      "bytes": 219361,
+      "sha256": "0334990dc9e3142fb3867fb80981c83c549337d8d1ac175be793cfd500427e2b"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/consumed-200g-he-1440.png",
+      "bytes": 189556,
+      "sha256": "2f22fe531e53add555756318fa4b3a2730f4b622876e6715ae6f5b202a2933e5"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/consumed-200g-he-390.png",
+      "bytes": 171402,
+      "sha256": "bf0e90a3500c48e8e01a4570891fe4fa6b8e855879216c19797fe9b46430926f"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/manifest.json",
+      "bytes": 7850,
+      "sha256": "d25142df32d84ef10ced0ae35edc2e7a01eb4852f35b4e1f2d4ba5e5a362c098"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.json",
+      "bytes": 2134,
+      "sha256": "81c6b409f5b6e954d6c8ce388490135614888cef6457c0c952521e09d937e32f"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.png",
+      "bytes": 60385,
+      "sha256": "b69a81ca0fa8527c32e71b17a89a61924f30cce375d2d57eeac4c165e98a7411"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.json",
+      "bytes": 2134,
+      "sha256": "bd099212a7ad99191202b1fefdf46544eea7d70c7f34b8db770a3c8903f283c7"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.png",
+      "bytes": 48563,
+      "sha256": "12cd6db6e3db93c29f6a157b01e7466b592f6c8fc7cdd757f33d2f3f18baa3a6"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.json",
+      "bytes": 2063,
+      "sha256": "23b5a5a96b4c77431beff66e4b84c05e83310215c479d989578977c15dd3bfd9"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.png",
+      "bytes": 117213,
+      "sha256": "a6d4fff56b77eadb89f65b8f87c0100a1b49c89096aefb81ce505a4107753b0d"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.json",
+      "bytes": 2063,
+      "sha256": "347599e05801bf57af8c547a1edd73ebd39103220f66ecff20e7c3fe8a63b8d9"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.png",
+      "bytes": 119140,
+      "sha256": "f67a052656732d219de027dbf9c640dddefc97ab867b0ea0a918ef1c482275c9"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.json",
+      "bytes": 2062,
+      "sha256": "0ddc8c7cba532f593a7bda0d9ee6a6588531351d8aa46e9c0f876245e0c1af89"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.png",
+      "bytes": 54288,
+      "sha256": "d9257e1ae99728b7dd67cc2e5384b6dbac48efa4a4c0125a0fd22a47fddca057"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.json",
+      "bytes": 2062,
+      "sha256": "4f396379962cdfedd8f13310b708f0f31cdf38c1e10b4cbe082e56db549b7cd5"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.png",
+      "bytes": 64308,
+      "sha256": "23fe66551ffbe22d2a664232d4f6bd3223c6ed8a05317b7ed7b05cf99b83cee0"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.json",
+      "bytes": 2062,
+      "sha256": "f9db646e2186769ee91b2fc5702af9d4181b9e5414fb4d0ed76d24f7458e916f"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.png",
+      "bytes": 75920,
+      "sha256": "da03574657514563b6c4accf19fe13c85226db0b39bee60d2a1e933f888bc73d"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.json",
+      "bytes": 2063,
+      "sha256": "19fb6dc2dd15137178ed8c3bf924f77b8d6d7d32a0652ebea48325cc1eae32a7"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.png",
+      "bytes": 96586,
+      "sha256": "d5c9f610e69e6bb72772dbdc97338bedde6c9cf8ef43bc65d4243a2d553bfad8"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.json",
+      "bytes": 2063,
+      "sha256": "12ebdd41877550c736f35e74a4b7460db12259f413aa1490102b6be483ce7d4f"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.png",
+      "bytes": 98084,
+      "sha256": "8c9ee06da04758c4b9e8f862a85c1994bcb442e8e50a2dfc2a1deb06c46ea45e"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.json",
+      "bytes": 2062,
+      "sha256": "b2534344818c16c1b341794047f72d2111373cc2c2fac560b6fb8e82dd2d56c0"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.png",
+      "bytes": 44265,
+      "sha256": "9af6e7456e23651455008f719c3f32e82f4d9805e9e90c8cfdd0e33250c5e8ef"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.json",
+      "bytes": 2062,
+      "sha256": "d94e45eba49410122c68728c8a8fe5078907186c46faba26bd61f1b2017eb67d"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.png",
+      "bytes": 48329,
+      "sha256": "3c2762ed06beae002d7c96e38c6c660836ac7496d3943e37075b3d3c3dc48942"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.json",
+      "bytes": 2062,
+      "sha256": "08959dd1fcf2d316f37b17fcc14efe6a9e4f909faa0dff41d0508477118248ff"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.png",
+      "bytes": 64753,
+      "sha256": "71a35812b1d8f99e1d5f467f8b621a8dc23a46ed6abaea704a7f264fb732e1f5"
+    },
+    {
+      "path": "docs/nutrition-diary-correctness-001-all-nutrient-design.md",
+      "bytes": 26065,
+      "sha256": "a1b9ea5df117a6f3b6c8ca8dbcf3267b165d6906d8518ff7f7374ae3aba3b580"
+    },
+    {
+      "path": "docs/nutrition-diary-correctness-001a-implementation.md",
+      "bytes": 20599,
+      "sha256": "c8ee966e8e6237aa5e1dec1291ca33aae8115a1ad768672f3f54aced41ff5c87"
+    },
+    {
+      "path": "docs/nutrition-diary-correctness-001a-review-report.md",
+      "bytes": 14843,
+      "sha256": "c7e0dbec86a6177cc18cfd4272dfdfe52d96846429cfa5e547d95e0634f46854"
+    },
+    {
+      "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
+      "bytes": 73792,
+      "sha256": "595c32c8894f5a7ccad3e6ec8404cffb36f50519bd9af05ea5160b2ea8d88833"
+    },
+    {
+      "path": "e2e/account-closure.spec.ts",
+      "bytes": 54310,
+      "sha256": "fa579e631bcb2f47593d591787b7a8366b21cf18dd7da22ea7efa0d935090cf1"
+    },
+    {
+      "path": "e2e/account-export.spec.ts",
+      "bytes": 36207,
+      "sha256": "e443ad06a10959eb0b70829575b789b6f88cb7a6886249e25aba314cc99f6845"
+    },
+    {
+      "path": "e2e/auth-invitation-activation.spec.ts",
+      "bytes": 36280,
+      "sha256": "7b32f2ce4e0732b009bab42217bf7f81542598560d328574b36cf77e2faec742"
+    },
+    {
+      "path": "e2e/barcode-foundation.spec.ts",
+      "bytes": 31562,
+      "sha256": "32e0c604ccda9dcfdc7939a466d3d471ca04f79e435dd486d912c548abfbde2c"
+    },
+    {
+      "path": "e2e/custom-food-creation-idempotency.spec.ts",
+      "bytes": 29526,
+      "sha256": "d6c28169d3e0214eb5877cfe1dcfde203de1f090d18406f82456102e5192b85f"
+    },
+    {
+      "path": "e2e/custom-food-editor.spec.ts",
+      "bytes": 25606,
+      "sha256": "8e9a51c792df355dbaf5b03b6539bb841bc353db261b6371ab7da9cd972f75a0"
+    },
+    {
+      "path": "e2e/food-diary-prefill.spec.ts",
+      "bytes": 42951,
+      "sha256": "4482db50abbb60a547436ea4dfc74d38df5c836f6ee749bccbb056a0ac82b474"
+    },
+    {
+      "path": "e2e/helpers/local-auth.ts",
+      "bytes": 9701,
+      "sha256": "da0beec17c12435f834d1b0df1818209400067d1a5b7b6a26f8ee97f1159c1ee"
+    },
+    {
+      "path": "e2e/helpers/nutrition-evidence.ts",
+      "bytes": 2028,
+      "sha256": "ea1ecaffe37fe15cd35e1409a4977e100274e774a01bb46b901ae1a84f1c4b78"
+    },
+    {
+      "path": "e2e/nutrition-diary-all-nutrients.spec.ts",
+      "bytes": 32490,
+      "sha256": "8b741346f90b94b5d627d61bbecdcc01765ec0d67f07c0a7d1447de74460446a"
+    },
+    {
+      "path": "e2e/nutrition-diary-correctness.spec.ts",
+      "bytes": 23416,
+      "sha256": "6b85a6f32d8ac3a7501afee908321e5edf674d3d8e750ef8646d9483cfa6ffb7"
+    },
+    {
+      "path": "e2e/nutrition-reuse-all-nutrients.spec.ts",
+      "bytes": 16180,
+      "sha256": "a8edca74c5c3541250da0116a73b5de5b52e0ccfc841b6b09ced44e8452c2f6d"
+    },
+    {
+      "path": "e2e/nutrition-snapshot-database.spec.ts",
+      "bytes": 43321,
+      "sha256": "bbe2bb75260e4260a63af8a8a71f601a7211f012b04f13ba70a40711a57c1b55"
+    },
+    {
+      "path": "e2e/phase-11d-ui.spec.ts",
+      "bytes": 45278,
+      "sha256": "315797d34033be514b752887f552ca1b0e8d9c199823c028d7aed4a025104a27"
+    },
+    {
+      "path": "e2e/recipe-ui.spec.ts",
+      "bytes": 51866,
+      "sha256": "3c5bca1ab513c12be01e61c387cde617237e79567259044b0c13ec5e19095199"
+    },
+    {
+      "path": "e2e/recipe-use-ui.spec.ts",
+      "bytes": 30260,
+      "sha256": "62e534f574c11befed616dd597a7262b5393143c4606837c6455f355e1f7d2e6"
+    },
+    {
+      "path": "e2e/saved-meal-ui.spec.ts",
+      "bytes": 33489,
+      "sha256": "a1a1e2ad120e062235d26c2137d88a02e8387e54f2e5ef5dc201f8815057f0d0"
+    },
+    {
+      "path": "e2e/setup-persistence.spec.ts",
+      "bytes": 30721,
+      "sha256": "75d58204c0270a476373a4b9baf6049620cd0873caaca5697efc81d03ec3378e"
+    },
+    {
+      "path": "e2e/ui-food-discovery.spec.ts",
+      "bytes": 37046,
+      "sha256": "64c270642478df70dc2514649546e6f724eed25497ef0cd3be3196a2246683ae"
+    },
+    {
+      "path": "e2e/ui-phase5c-saved-meals.spec.ts",
+      "bytes": 48939,
+      "sha256": "550cceaa6e5f2729ce1578ffdbca066ca3e6ea7acd0e723ab52e0867850da7b3"
+    },
+    {
+      "path": "e2e/ui-phase5d-recipe-forms-review.spec.ts",
+      "bytes": 45813,
+      "sha256": "5ea954586fbc4a37634c8cad95407dce3fe51d39552d370a6d51b8e415959c72"
+    },
+    {
+      "path": "e2e/ui-phase5e-account-secondary.spec.ts",
+      "bytes": 25077,
+      "sha256": "cb283703d64af6ed440eb515db7b55d20f09175d54b304f88a33d0c43433c886"
+    },
+    {
+      "path": "e2e/ui-phase5e-custom-food.spec.ts",
+      "bytes": 32817,
+      "sha256": "4e328534685cf3040a9714a3ccf5c707fc8569dedeffbaaa6036ce9379568051"
+    },
+    {
+      "path": "e2e/ui-phase5e-setup.spec.ts",
+      "bytes": 21905,
+      "sha256": "e4e95fdf3cf1709e01ddd7e612a9e0005ab95d8864f651ff879869985541e400"
+    },
+    {
+      "path": "e2e/ui-today-dashboard.spec.ts",
+      "bytes": 71199,
+      "sha256": "65a92497c48bdc08c706702d7b02f5ea08cbf289c6404b387d9739cb1753a8ed"
+    },
+    {
+      "path": "lib/account-export/collector.ts",
+      "bytes": 13549,
+      "sha256": "852e27dc266ccb4f4ab769d1405ad31a91cca8465d590fde7b02d59f89d2b781"
+    },
+    {
+      "path": "lib/account-export/schema.ts",
+      "bytes": 14944,
+      "sha256": "84a4b66f5d3d2fa2bad54e192690f4e5354f137a78498a8a800a3ea30fc1969b"
+    },
+    {
+      "path": "lib/auth/account-access.ts",
+      "bytes": 3101,
+      "sha256": "862c343f7adb68c0532256483175a0b415d8198f21b92fa2e12be2eed316ed0d"
+    },
+    {
+      "path": "lib/diary-entries/mutations.ts",
+      "bytes": 6710,
+      "sha256": "df3fed146d8ed62cfede760fb9b8aaa2b60f38b7ce4163a764ea38454dde726f"
+    },
+    {
+      "path": "lib/diary-entries/validation.ts",
+      "bytes": 15105,
+      "sha256": "2db7da837810ef3edba50f40339837e2fb35bd925218e5a8f5c5256447545c7c"
+    },
+    {
+      "path": "lib/food-selection/nutrient-scaling.ts",
+      "bytes": 6739,
+      "sha256": "374568ec5ca2c50dbc66c77f0ac7400906014a01d18c0d6be433cdffdd042a25"
+    },
+    {
+      "path": "lib/food-selection/prefill.ts",
+      "bytes": 1445,
+      "sha256": "bf59ca8da7b30b5d49fd972a30aad579ad777f0c04bc526126f3037d96190d2c"
+    },
+    {
+      "path": "lib/food-selection/reference-parser.ts",
+      "bytes": 4343,
+      "sha256": "eb6f4c0077e37eefa3d212e42cf3353f69d74cac66e5350b149ed12ccab7c0ed"
+    },
+    {
+      "path": "lib/nutrition-snapshots/contracts.ts",
+      "bytes": 6440,
+      "sha256": "2c2ab8d4eee8440382013d0b6407f63e1eaa20be7082f7326eed53002cb2a7e9"
+    },
+    {
+      "path": "lib/nutrition-snapshots/decimal.ts",
+      "bytes": 4128,
+      "sha256": "abbc77d3b22a62ebee7203f441d2d65dc3f9d881011e5ccd12c0f4e843b0daab"
+    },
+    {
+      "path": "lib/nutrition-snapshots/form-state.ts",
+      "bytes": 3975,
+      "sha256": "b6ae7368c40d5058428833637615bfb9b4a5dab3290769001575b9431771995c"
+    },
+    {
+      "path": "lib/nutrition-snapshots/index.ts",
+      "bytes": 84,
+      "sha256": "00f05fd47b4ba7b7dcedfb4b0614df7c74501ef4d1d7bd8fb60a2eb3711d0d95"
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "bytes": 3538,
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5"
+    },
+    {
+      "path": "lib/nutrition-snapshots/presentation.ts",
+      "bytes": 2333,
+      "sha256": "035d6338c4508b12a771f0fca3ce85342ca97a92eea9ebad5911edaac43d4444"
+    },
+    {
+      "path": "lib/nutrition-snapshots/reuse.ts",
+      "bytes": 1101,
+      "sha256": "898c0afcf1aa261ca430231d31371cff8e3f2245ce47698aec7ed54efff7712e"
+    },
+    {
+      "path": "lib/recipes/diary-log.ts",
+      "bytes": 2777,
+      "sha256": "bfdada426b67f591e13b6e35e8e305b797af7e3b58539b49b20c2bec09da0e02"
+    },
+    {
+      "path": "lib/recipes/editor-parser.ts",
+      "bytes": 4292,
+      "sha256": "4e22d1e427c65c1057d66f5340953fc713707c83b4fc06d709de85854a17c65e"
+    },
+    {
+      "path": "lib/recipes/editor.ts",
+      "bytes": 2618,
+      "sha256": "afdf4452446d49de6b1354e87a74c2c378aa2c6bb23530e662887007a5f8f0d5"
+    },
+    {
+      "path": "lib/recipes/persistence.ts",
+      "bytes": 3012,
+      "sha256": "96673820211f6e4f46084f0fdb7ca41039e7c3f796fcb7a5db008514206ef996"
+    },
+    {
+      "path": "lib/recipes/use-contract-parser.ts",
+      "bytes": 8683,
+      "sha256": "9b9ab90a4a3af3b23ccbb360604fb66f593bb9cdfa79734e59c594eb565d1969"
+    },
+    {
+      "path": "lib/recipes/use-contract.ts",
+      "bytes": 1946,
+      "sha256": "d5901d199169236d5ef538dcf4a4aea2668773bc02afcd85d846937b42177184"
+    },
+    {
+      "path": "lib/recipes/validation.ts",
+      "bytes": 11773,
+      "sha256": "727080a42342ddcbf282ee37a41f2d8ce3514dd467e7ae867d01b4df49d0b71b"
+    },
+    {
+      "path": "lib/saved-meals/diary-log.ts",
+      "bytes": 2523,
+      "sha256": "181d546b751eee7d348c5a3bf1139bd1a0d70ac3476724455f3c402d182da0e6"
+    },
+    {
+      "path": "lib/saved-meals/editor-parser.ts",
+      "bytes": 3005,
+      "sha256": "0271a42e410168bd14dd02128c94c0787d1b18a36aade411f2a3e4726f2cb77b"
+    },
+    {
+      "path": "lib/saved-meals/editor.ts",
+      "bytes": 2004,
+      "sha256": "94991a9d632372c9fdee0a72b6cebe7935a06a5e25f715084501a1a55a491400"
+    },
+    {
+      "path": "lib/saved-meals/persistence.ts",
+      "bytes": 3068,
+      "sha256": "12e1bb203406544bf3715e25ae129abf280aa30468bf2aedc2a6ae4506c286d7"
+    },
+    {
+      "path": "lib/saved-meals/source.ts",
+      "bytes": 2269,
+      "sha256": "00996b9ef95276028881a7f5d4a557b80371bddcac396ddc5cfefe0e66c49060"
+    },
+    {
+      "path": "lib/saved-meals/validation.ts",
+      "bytes": 11125,
+      "sha256": "48389d3b5da0ed4ddae294ca8b0d0cc5c230d84c8c8b529954c9f8330701d7ef"
+    },
+    {
+      "path": "lib/supabase/database.types.ts",
+      "bytes": 48640,
+      "sha256": "c8561c3773ac4045c0b55fc359ab017b9e0aa53e5d0215760cf7e9969668ee07"
+    },
+    {
+      "path": "messages/en.json",
+      "bytes": 84918,
+      "sha256": "26dc1d92d8b8ed0b335890a6b452ac76ce5cbca2a1c73c664f3f0be492c9b19d"
+    },
+    {
+      "path": "messages/he.json",
+      "bytes": 113730,
+      "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
+    },
+    {
+      "path": "package.json",
+      "bytes": 4855,
+      "sha256": "9df243399cb09faf7322d746f9e64ef9c046de019e5f4dbda3e6d6b117752bdc"
+    },
+    {
+      "path": "playwright.database.config.ts",
+      "bytes": 413,
+      "sha256": "f86f167f4fc88d4796233a271601a52c6c3091cb4b449693af7a708ba66ab5fa"
+    },
+    {
+      "path": "scripts/phase-11i-backup-pipeline.mjs",
+      "bytes": 17626,
+      "sha256": "a5882bc1c67b89554e6278dd8244074de90d5986dce18242d3627f8f46f03dfa"
+    },
+    {
+      "path": "scripts/phase-11i-cli-transport.test.mjs",
+      "bytes": 12782,
+      "sha256": "bde5b228b77ed21173f736fc52a13aff2f613a8ce7cba654f560d1aeb26f2b3a"
+    },
+    {
+      "path": "scripts/phase-11i-psql-diagnostics.test.mjs",
+      "bytes": 11882,
+      "sha256": "0fd8fe85d79cba740fe739c74b02dcbaa91719def1ea9e6e0170313bbab4c7cf"
+    },
+    {
+      "path": "scripts/phase-11i-public-verification.mjs",
+      "bytes": 3872,
+      "sha256": "169efa5272bfdf0ddbd17bd8bf44bceac30831929a5a6fcd52fe74685e7e11b8"
+    },
+    {
+      "path": "scripts/phase-11i-public-verification.test.mjs",
+      "bytes": 5335,
+      "sha256": "1f20ef7bf31024bb3c3c645807adb563fdfdf5e40fa2141ae30b186f657d71fb"
+    },
+    {
+      "path": "scripts/phase-11i-recovery-contract.mjs",
+      "bytes": 15907,
+      "sha256": "b8df258ae901aa304971ece57e898e85226f580a68116d4c2d471776943103b4"
+    },
+    {
+      "path": "scripts/phase-11i-recovery-contract.test.mjs",
+      "bytes": 14443,
+      "sha256": "bb130fd2786a20a89877bb82136996300377ab4c55dd9b41be59aafb4641bdf2"
+    },
+    {
+      "path": "scripts/phase-11i-restore-pipeline.mjs",
+      "bytes": 22616,
+      "sha256": "ff22579aeab14ddb5577adf7b17849eb2e5a8b21c5a6e3fc96c638b144f4498f"
+    },
+    {
+      "path": "scripts/qualify-phase-11i-populated-recovery.mjs",
+      "bytes": 28541,
+      "sha256": "f32c94330975c2be3812391f48e911b5f5a4d18661ca7eb28d660e4119de2c10"
+    },
+    {
+      "path": "scripts/verify-phase-11i-github-artifact.mjs",
+      "bytes": 6893,
+      "sha256": "0f182e9f25046c6ef7c16d0b173a9ecdc5eb8d98e1b5fe47f687e0780e6b7283"
+    },
+    {
+      "path": "supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql",
+      "bytes": 147319,
+      "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+    },
+    {
+      "path": "tests/account-export.spec.ts",
+      "bytes": 13038,
+      "sha256": "a82bbac73f0dab00164a87ec86f7f1103a382e1f4cba13dd7f4b48d966345fd8"
+    },
+    {
+      "path": "tests/all-food-nutrient-scaling.spec.ts",
+      "bytes": 9814,
+      "sha256": "bdf8e446cfa761bc4c1c2649c6cea79bca495e5876b57e51632a7e50533a7d66"
+    },
+    {
+      "path": "tests/food-nutrient-scaling.spec.ts",
+      "bytes": 9389,
+      "sha256": "d17b8405de8689fbab01bb6ac463f1ad153c66fcd59d5d830e5bae19eac37f66"
+    },
+    {
+      "path": "tests/nutrition-daily-summary.spec.tsx",
+      "bytes": 12403,
+      "sha256": "c15a15d284cab86b19093d9b5262627a8b9bd915eba456fefa0ce630214ef60d"
+    },
+    {
+      "path": "tests/nutrition-reuse-form-state.spec.ts",
+      "bytes": 5752,
+      "sha256": "99d1ecba64f35e3413675273e666728ffe82b5bda49e6bd4f3adedf884bc3c77"
+    },
+    {
+      "path": "tests/nutrition-snapshot-presentation.spec.ts",
+      "bytes": 1977,
+      "sha256": "cc11465cea113568a798aad4f3622eae5b1d8742f11bd280807d0f478ec5859f"
+    },
+    {
+      "path": "tests/nutrition-snapshots.spec.ts",
+      "bytes": 14230,
+      "sha256": "119b3e68e2b974b8a741a30d6591f4efe4938fb7461f33889ac5369dfdc3c012"
+    }
+  ],
+  "selfEntry": {
+    "path": "docs/evidence/nutrition-diary-correctness-001a/source-inventory.json",
+    "sha256": null,
+    "reason": "Self-hashing is intentionally excluded; the final Git tree attests this inventory."
+  },
+  "preservation": {
+    "originalConfigMatchesBaseline": true,
+    "historicalPhase5eEvidenceMatchesBaseline": true,
+    "lockfileUnchanged": true
+  },
+  "secretMaterialScan": {
+    "newSecretPatterns": 0,
+    "unchangedSyntheticRedactionFixtures": [
+      "scripts/phase-11i-psql-diagnostics.test.mjs"
+    ]
+  }
+}
