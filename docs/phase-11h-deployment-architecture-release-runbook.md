@@ -452,7 +452,7 @@ rejects `sb_secret_`, service-role-shaped prefixes, and a JWT whose role is
   `LOCAL_SUPABASE_SERVICE_ROLE_KEY`, `LOCAL_SUPABASE_MAILPIT_URL`,
   `LOCAL_SUPABASE_FAULT_CONTROL_URL`,
   `LOCAL_RELIABILITY_FAULT_CONTROL_URL`, `PLAYWRIGHT_BASE_URL`,
-  `PLAYWRIGHT_PORT`, `NODE_OPTIONS`, and `TZ`.
+  `PLAYWRIGHT_PORT`, `NODE_OPTIONS`, `NUTRITION_EVIDENCE_DIR` (optional local synthetic screenshot output), and `TZ`.
 - Local migration-role/ingestion safety: `HOSTED_ROLE_SUPABASE_WORKDIR`,
   `DATABASE_URL`, `SUPABASE_DB_URL`, and `SUPABASE_URL`. Their historical
   names grant no hosted authority; non-loopback targets remain rejected.

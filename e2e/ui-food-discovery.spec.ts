@@ -372,7 +372,7 @@ test.describe.serial("Phase 4 food discovery and logging presentation", () => {
     const selected = await client.from("diary_entries").select("id").eq("user_id", userId).eq("entry_date", date);
     expect(selected.data).toHaveLength(before.data!.length);
     await form.locator('[name=serving_quantity]').fill("2");
-    await expect(form.locator('[name=calories]')).toHaveValue("215");
+    await expect(form.locator('[name=calories]')).toHaveValue("7");
     await form.locator('[name=meal_type]').selectOption("dinner");
     await form.locator('[name=food_name]').fill("Phase 4 reviewed oats");
     await form.locator('[name=calories]').fill("0");

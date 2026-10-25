@@ -26,6 +26,7 @@
     "test:security": "node --test scripts/check-production-advisories.test.mjs && playwright test --config=playwright.unit.config.ts security-headers.spec.ts supabase-cookie-options.spec.ts",
     "test:deployment-contract": "node --test scripts/check-phase-11h-deployment-contract.test.mjs && npm run deployment:validate",
     "test:e2e": "node scripts/run-local-date-e2e.mjs",
+    "test:nutrition-database": "node scripts/run-local-date-e2e.mjs --config=playwright.database.config.ts",
     "test:phase11d": "node scripts/run-local-date-e2e.mjs --config=playwright.phase11d.config.ts",
     "test:e2e:smoke": "playwright test e2e/smoke.spec.ts",
     "test:date": "playwright test --config=playwright.unit.config.ts",

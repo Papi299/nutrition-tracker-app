@@ -1,5 +1,7 @@
 "use server";
 
+import { additionalNutrientCodesV1 } from "@/lib/nutrition-snapshots";
+import { normalizeAdditionalFormState, sameDecimalFormValue } from "@/lib/nutrition-snapshots/form-state";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
@@ -32,6 +34,8 @@ function readItems(formData: FormData) {
 
   for (let index = 0; index < count; index += 1) {
     items.push({
+      additional_captured: readText(formData, `item_additional_nutrients_captured_${index}`) === "1",
+      additional_values: Object.fromEntries(additionalNutrientCodesV1.map(code => [code, readText(formData, `item_${code}_${index}`)])) as SavedMealFormItemValues["additional_values"],
       brand_name: readText(formData, `item_brand_name_${index}`),
       calories: readText(formData, `item_calories_${index}`),
       carbohydrates_g: readText(formData, `item_carbohydrates_g_${index}`),
@@ -95,6 +99,16 @@ export async function saveSavedMealAction(
   const fieldErrors: Record<string, string> = {};
   const bindingMap = new Map(bindings.map((binding) => [binding.row_key, binding.food_id]));
   const seenRowKeys = new Set<string>();
+  let reviewRequired = false;
+  for (const [name, value] of formData) {
+    if (name.startsWith("item_") && (formData.getAll(name).length !== 1 || typeof value !== "string")) fieldErrors.form = "invalid_input";
+    if (name.startsWith("item_") && (name.includes("_automatic_") || name.includes("_additional_nutrients_captured_")) && value !== "1") fieldErrors.form = "invalid_input";
+  }
+  for (const [index, row] of values.items.entries()) {
+    if (row.additional_captured) for (const code of additionalNutrientCodesV1) {
+      if (!formData.has(`item_${code}_${index}`)) fieldErrors[`item_${code}_${index}`] = "required_field";
+    }
+  }
 
   if (values.saved_meal_id !== (expectedSavedMealId ?? "")) {
     fieldErrors.saved_meal_id = "invalid_link";
@@ -109,13 +123,19 @@ export async function saveSavedMealAction(
 
     if (!rowKey) {
       fieldErrors[`item_row_key_${index}`] = "invalid_row_key";
+    } else if (rowKey.kind === "item" && !bindingMap.has(item.row_key)) {
+      fieldErrors[`item_row_key_${index}`] = "invalid_row_key";
     } else if (seenRowKeys.has(item.row_key)) {
       fieldErrors[`item_row_key_${index}`] = "duplicate_row_key";
     }
 
     seenRowKeys.add(item.row_key);
-
+    const additional = normalizeAdditionalFormState(item);
+    reviewRequired ||= additional.reviewRequired;
+    for (const [field, code] of Object.entries(additional.errors)) fieldErrors[`item_${field}_${index}`] = code;
     return {
+      item_id: !fieldErrors[`item_row_key_${index}`] && rowKey?.kind === "item" ? rowKey.id : null,
+      additional_nutrient_snapshot: additional.request,
       position: index + 1,
       food_id: item.remove_food_link ? null : (bindingMap.get(item.row_key) ?? null),
       food_name: item.food_name,
@@ -142,6 +162,16 @@ export async function saveSavedMealAction(
     Object.assign(fieldErrors, mapValidationErrors(validation.fieldErrors));
   }
 
+  if (validation.ok) {
+    for (const [index, item] of validation.data.items.entries()) {
+      for (const field of ["calories", "protein_g", "carbohydrates_g", "fat_g", "serving_quantity"] as const) {
+        const normalized = item[field] === null ? "" : String(item[field]);
+        reviewRequired ||= !sameDecimalFormValue(values.items[index][field], normalized);
+        values.items[index][field] = normalized;
+      }
+    }
+  }
+  if (reviewRequired) fieldErrors.form = "nutrition_review_required";
   if (Object.keys(fieldErrors).length > 0) {
     return { fieldErrors, status: "validation_error", values };
   }

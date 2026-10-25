@@ -1,3 +1,4 @@
+import { AdditionalNutrientDetails } from "@/components/nutrition/additional-nutrient-details";
 import Link from "next/link";
 import Form from "next/form";
 import { useTranslations } from "next-intl";
@@ -324,6 +325,8 @@ export function RecipeUsePreview({
           <PerspectiveCard contract={contract} field="diary_value" locale={locale} title={t("nutrition.diary")} />
         </div>
       </section>
+
+      <AdditionalNutrientDetails snapshots={[contract.additional_nutrient_snapshot ?? null]} locale={locale} />
 
       <Completeness contract={contract} />
 

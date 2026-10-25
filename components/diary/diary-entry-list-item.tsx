@@ -1,5 +1,6 @@
 "use client";
 
+import { AdditionalNutrientDetails } from "@/components/nutrition/additional-nutrient-details";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -193,6 +194,8 @@ export function DiaryEntryListItem({
           />
         </div>
       </div>
+
+      <AdditionalNutrientDetails snapshots={[entry.additional_nutrient_snapshot]} locale={locale} />
 
       <div id={`diary-edit-${entry.id}`}>
         {isEditing && (

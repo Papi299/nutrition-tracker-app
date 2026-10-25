@@ -1,3 +1,4 @@
+import { captureNutritionEvidence } from "@/e2e/helpers/nutrition-evidence";
 import { provisionActivatedLocalUser, queryLocalAuthFixture } from "@/e2e/helpers/local-auth";
 import AxeBuilder from "@axe-core/playwright";
 import { createHash, randomUUID } from "node:crypto";
@@ -26,6 +27,54 @@ const localeCopy = {
   he: { addFood: "הוספת מזון", notSet: "לא הוגדר", emptyMeal: "עדיין לא נרשם מזון", calories: "קק״ל", grams: "גרם", addEntry: "הוספת רשומה", knownSubtotal: "סכום ביניים ידוע", incompleteNutrition: "נתונים חלקיים", unavailable: "לא זמין", macroNames: ["חלבון", "פחמימות", "שומן"], unknownValues: "כולל רשומות עם ערכים לא ידועים." },
 } as const;
 const renderedSourcePaths = ["app/[locale]/(app)/today/page.tsx", "app/globals.css", "components/diary/nutrition-daily-summary.tsx", "components/diary/diary-entry-list.tsx", "components/diary/diary-entry-list-item.tsx", "messages/en.json", "messages/he.json", "lib/diary-presentation.ts"];
+
+async function assertTodayHeader(page: Page, locale: "en" | "he", width: number) {
+  const header = page.locator(".today-header");
+  const addFood = header.getByTestId("today-add-food");
+  const date = header.locator('input[name="date"]');
+  const showDate = header.getByRole("button");
+  const label = header.locator('label[for="diary-date"]');
+  await expect(label).toBeVisible();
+  await expect(date).toHaveAccessibleName(locale === "en" ? "Date" : "תאריך");
+  await expect(header.locator(".today-header-copy time")).toBeVisible();
+  const geometry = await header.evaluate(element => {
+    const bounds = (selector: string) => {
+      const rect = element.querySelector(selector)!.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom, height: rect.height };
+    };
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom,
+      add: bounds(".today-add-food"), date: bounds('input[name="date"]'), show: bounds("button"),
+      title: bounds(".today-title"), selectedDate: bounds(".today-selected-date") };
+  });
+  expect(geometry.left).toBeGreaterThanOrEqual(0);
+  expect(geometry.right).toBeLessThanOrEqual(width);
+  expect(geometry.selectedDate.top).toBeGreaterThanOrEqual(geometry.title.bottom - 1);
+  expect(Math.abs(geometry.date.bottom - geometry.show.bottom)).toBeLessThanOrEqual(1);
+  expect(Math.abs(geometry.add.height - geometry.show.height)).toBeLessThanOrEqual(1);
+  if (width >= 1024) {
+    expect(Math.abs(geometry.add.bottom - geometry.show.bottom)).toBeLessThanOrEqual(1);
+    const sidebar = await page.locator(".desktop-sidebar").boundingBox();
+    expect(sidebar).not.toBeNull();
+    if (locale === "en") expect(geometry.left).toBeGreaterThanOrEqual(sidebar!.x + sidebar!.width);
+    else expect(geometry.right).toBeLessThanOrEqual(sidebar!.x);
+  } else {
+    const mobileHeader = await page.locator(".mobile-app-header").boundingBox();
+    const navigation = await page.getByTestId("mobile-bottom-navigation").boundingBox();
+    expect(geometry.top).toBeGreaterThanOrEqual((mobileHeader?.y ?? 0) + (mobileHeader?.height ?? 0));
+    expect(geometry.bottom).toBeLessThanOrEqual(navigation?.y ?? 900);
+    expect(geometry.date.top).toBeGreaterThanOrEqual(geometry.add.bottom);
+  }
+  await addFood.focus();
+  await page.keyboard.press("Tab");
+  await expect(date).toBeFocused();
+  // Native date inputs can expose separate keyboard stops for their date parts.
+  for (let stop = 0; stop < 4 && !(await showDate.evaluate(element => element === document.activeElement)); stop += 1) {
+    await expect(date).toBeFocused();
+    await page.keyboard.press("Tab");
+  }
+  await expect(showDate).toBeFocused();
+}
 
 async function assertInitialMobileShortcut(page: Page, locale: "en" | "he", width: number, height: number) {
   const shortcut = page.getByTestId("today-add-food");
@@ -634,6 +683,8 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         await expect(page.getByTestId("target-progress")).toContainText("1,420");
         const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, content: document.documentElement.scrollWidth }));
         expect(dimensions.content, `${locale} ${width}px overflow`).toBeLessThanOrEqual(dimensions.viewport);
+        await assertTodayHeader(page, locale, width);
+        if (width !== 1024) await captureNutritionEvidence(page, `today-header-${locale}-${width}`, "Activated synthetic dashboard owner; historical diary snapshots, 1420 kcal known subtotal, fixed target history.");
         for (const progress of await page.getByRole("progressbar").all()) {
           await expect(progress).toHaveAccessibleName(/.+/);
           await expect(progress).toHaveAttribute("aria-valuenow", /\d/);
@@ -689,6 +740,43 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
   }
 
   for (const locale of ["en", "he"] as const) {
+    test(`${locale} header keeps long action labels within their responsive groups`, async ({ browser }) => {
+      const { context, page } = await openPage(browser);
+      for (const width of [320, 390, 768, 1280, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(`/${locale}/today?date=${dates.populated}`);
+        await page.locator(".today-header").evaluate((element, language) => {
+          element.querySelector(".today-add-food")!.textContent = language === "he"
+            ? "הוספת מזון ליומן התזונה של היום שנבחר"
+            : "Add another food to the selected day's nutrition diary";
+          element.querySelector("button")!.textContent = language === "he"
+            ? "הצגת היומן לתאריך שנבחר"
+            : "Show the diary for the selected date";
+          // Wider glyph spacing reproduces the Linux heading overflow across platforms.
+          const heading = element.querySelector(".today-title") as HTMLElement;
+          heading.style.fontFamily = "monospace";
+          heading.style.letterSpacing = "0.12em";
+        }, locale);
+        const geometry = await page.locator(".today-header").evaluate(element => ({
+          viewport: document.documentElement.clientWidth,
+          document: document.documentElement.scrollWidth,
+          controls: Array.from(element.querySelectorAll("a, input, button, .today-header-copy")).map(control => {
+            const rect = control.getBoundingClientRect();
+            return { name: control.className || control.tagName, left: rect.left, right: rect.right, width: rect.width, content: control.scrollWidth };
+          }),
+        }));
+        expect(geometry.document).toBeLessThanOrEqual(geometry.viewport);
+        for (const control of geometry.controls) {
+          expect(control.left).toBeGreaterThanOrEqual(0);
+          expect(control.right).toBeLessThanOrEqual(width);
+          expect(control.width).toBeGreaterThanOrEqual(44);
+          expect(control.content, `${locale} ${width}px ${control.name} text overflow`).toBeLessThanOrEqual(Math.ceil(control.width));
+        }
+        await expect(page.locator('.today-date-form label[for="diary-date"]')).toBeVisible();
+      }
+      await context.close();
+    });
+
     test(`${locale} header Add Food is initially visible, native and preserves the mounted draft`, async ({ browser }) => {
       test.setTimeout(60_000);
       const { context, page } = await openPage(browser);

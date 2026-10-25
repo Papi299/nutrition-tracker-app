@@ -1,3 +1,4 @@
+import { AdditionalNutrientDetails } from "@/components/nutrition/additional-nutrient-details";
 import { randomUUID } from "node:crypto";
 import Link from "next/link";
 import { surfaceStyles } from "@/components/ui/card";
@@ -7,10 +8,10 @@ import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import {
-  createDiaryEntryAction,
   deleteDiaryEntryAction,
   updateDiaryEntryAction,
 } from "@/app/[locale]/(app)/today/actions";
+import { createDiaryEntryFromReference } from "@/app/[locale]/(app)/today/create-action";
 import type { DiaryEntryActionState } from "@/app/[locale]/(app)/today/action-state";
 import { BrowserDateBootstrap } from "@/components/calendar-date/browser-date-bootstrap";
 import { CustomFoodCreationDraftRetirement } from "@/components/custom-foods/custom-food-form";
@@ -43,6 +44,7 @@ import {
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { isUuid } from "@/lib/food-selection/query";
+import { allNutrientFields, scaleAllFoodNutrients } from "@/lib/food-selection/nutrient-scaling";
 import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 import { routing, type Locale } from "@/lib/i18n/routing";
 import {
@@ -224,7 +226,11 @@ function LocalizedTodayPage({
   const t = useTranslations("AppShell.today");
   const diaryT = useTranslations("Diary");
   const dashboardT = useTranslations("Diary.dashboard");
-  const createAction = createDiaryEntryAction.bind(null, locale);
+  const nutrientReference = foodSelectionState.status === "ready" ? foodSelectionState.data : undefined;
+  async function createAction(previousState: DiaryEntryActionState, formData: FormData) {
+    "use server";
+    return createDiaryEntryFromReference(locale, previousState, formData, nutrientReference ? { ownerId: currentUserId, reference: nutrientReference } : undefined);
+  }
   const deleteAction = deleteDiaryEntryAction.bind(null, locale);
   const updateAction = updateDiaryEntryAction.bind(null, locale);
   const initialDiaryEntryState: DiaryEntryActionState = {
@@ -353,6 +359,8 @@ function LocalizedTodayPage({
           targetUnavailable={isRetrievalFailure(targetState)}
         />
       )}
+
+      {diaryState.status === "ready" && <AdditionalNutrientDetails daily snapshots={diaryState.data.map(entry => entry.additional_nutrient_snapshot)} locale={locale} />}
 
       <div className="grid min-w-0 grid-cols-1 gap-5">
         <div className={surfaceStyles({ className: "today-diary min-w-0" })}>
@@ -601,9 +609,17 @@ function LocalizedTodayPage({
           <div className="mt-6">
             <DiaryEntryForm
               action={createAction}
+              automaticNutrition={{
+                description: diaryT("form.automaticDescription"),
+                label: diaryT("form.automaticLabel"),
+                unavailable: diaryT("form.automaticUnavailable"),
+                referenceChanged: diaryT("form.referenceChanged"),
+                reviewRequired: diaryT("form.nutritionReviewRequired"),
+              }}
+              reference={foodSelectionState.status === "ready" ? foodSelectionState.data : undefined}
               draftScope={`${currentUserId}:${locale}:${selectedDate}:${
-                foodSelectionState.status === "ready"
-                  ? foodSelectionState.data.food_id
+                selectionContext.status === "valid" && selectionContext.food_id
+                  ? selectionContext.food_id
                   : "manual"
               }:${
                 selectionContext.status === "valid" &&
@@ -629,6 +645,16 @@ function LocalizedTodayPage({
                 invalid_input: diaryT("errors.validation"),
                 invalid_integer: diaryT("errors.invalidInteger"),
                 invalid_number: diaryT("errors.invalidNumber"),
+                incompatible_unit: diaryT("form.automaticUnavailable"),
+                missing_reference: diaryT("form.automaticUnavailable"),
+                out_of_range: diaryT("errors.outOfRange"),
+                nutrient_out_of_range: diaryT("errors.outOfRange"),
+                quantity_out_of_range: diaryT("errors.outOfRange"),
+                invalid_quantity: diaryT("errors.invalidNumber"),
+                quantity_precision: diaryT("errors.quantityPrecision"),
+                invalid_reference: diaryT("form.automaticUnavailable"),
+                reference_changed: diaryT("form.referenceChanged"),
+                nutrition_review_required: diaryT("form.nutritionReviewRequired"),
                 invalid_type: diaryT("errors.validation"),
                 invalid_uuid: diaryT("errors.invalidFoodSelection"),
                 negative_value: diaryT("errors.negativeValue"),
@@ -677,7 +703,11 @@ function LocalizedTodayPage({
               optionalLabel={diaryT("form.optional")}
               newDraftLabel={diaryT("form.startNewDraft")}
               pendingLabel={diaryT("form.pending")}
-              permalink={`/${locale}/today?date=${selectedDate}`}
+              permalink={`/${locale}/today?${new URLSearchParams({
+                date: selectedDate,
+                ...(selectionContext.status === "valid" && selectionContext.food_id ? { foodId: selectionContext.food_id } : {}),
+                ...(selectionContext.status === "valid" && selectionContext.meal_type ? { mealType: selectionContext.meal_type } : {}),
+              }).toString()}`}
               requiredLabel={diaryT("form.required")}
               sectionLabels={{
                 foodDetails: diaryT("form.sections.foodDetails"),
@@ -760,16 +790,17 @@ function Metadata({ label, value }: { label: string; value: string }) {
 function diaryValuesFromPrefill(
   prefill: Extract<FoodDiaryPrefillState, { status: "ready" }>["data"],
 ): NonNullable<DiaryEntryActionState["values"]> {
+  const scaled = scaleAllFoodNutrients(prefill, prefill.serving_quantity, prefill.serving_unit);
   return {
+    ...Object.fromEntries(allNutrientFields.map((field) => [`automatic_${field}`, scaled.ok ? "1" : ""])),
+    additional_nutrients_captured: "1",
+    reference_fingerprint: prefill.reference_fingerprint,
     brand_name: inputValue(prefill.brand_name),
-    calories: inputValue(prefill.calories),
-    carbohydrates_g: inputValue(prefill.carbohydrates_g),
-    fat_g: inputValue(prefill.fat_g),
     food_id: prefill.food_id,
     food_name: prefill.name,
-    protein_g: inputValue(prefill.protein_g),
     serving_quantity: inputValue(prefill.serving_quantity),
     serving_unit: inputValue(prefill.serving_unit),
+    ...(scaled.ok ? scaled.values : Object.fromEntries(allNutrientFields.map(field => [field, ""]))),
   };
 }
 

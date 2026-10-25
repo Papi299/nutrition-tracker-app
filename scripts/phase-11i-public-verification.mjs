@@ -1,6 +1,6 @@
 import {
   assertMigrationHistory, assertStorageScope, fail,
-  EXPECTED_MIGRATION_COUNT, EXPECTED_MIGRATION_HEAD,
+  recoveryMigrationBoundary,
 } from "./phase-11i-recovery-contract.mjs";
 
 function exactKeys(value, expected, label) {
@@ -10,14 +10,14 @@ function exactKeys(value, expected, label) {
   }
 }
 
-export function assertPublicVerificationSummary(summary) {
+export function assertPublicVerificationSummary(summary, boundary = recoveryMigrationBoundary()) {
   exactKeys(summary, ["schemaVersion", "migration", "storage", "ownerState", "sourceCaptureConsistency"], "summary");
   exactKeys(summary.migration, ["count", "head"], "migration");
   exactKeys(summary.storage, ["buckets", "objects"], "storage");
   exactKeys(summary.ownerState, ["profile", "authUserCount", "accountActivationCount", "ownershipValidation"], "ownerState");
   if (summary.schemaVersion !== "phase-11i-public-verification-summary/v1" ||
-      summary.migration.count !== EXPECTED_MIGRATION_COUNT ||
-      summary.migration.head !== EXPECTED_MIGRATION_HEAD) {
+      summary.migration.count !== boundary.count ||
+      summary.migration.head !== boundary.head) {
     fail("Public verification summary migration or schema mismatch.");
   }
   assertStorageScope(summary.storage);
@@ -35,8 +35,8 @@ export function assertPublicVerificationSummary(summary) {
 // Select individual validated scalars; the encrypted snapshot never becomes public.
 export function buildPublicVerificationSummary({
   migrations, storage, ownerValidation, accountActivationCount, sourceCaptureConsistency,
-}) {
-  assertMigrationHistory(migrations);
+}, boundary = recoveryMigrationBoundary()) {
+  assertMigrationHistory(migrations, boundary);
   assertStorageScope(storage);
   const summary = {
     schemaVersion: "phase-11i-public-verification-summary/v1",
@@ -50,7 +50,7 @@ export function buildPublicVerificationSummary({
     },
     sourceCaptureConsistency,
   };
-  assertPublicVerificationSummary(summary);
+  assertPublicVerificationSummary(summary, boundary);
   return summary;
 }
 
@@ -65,12 +65,12 @@ const PUBLIC_MANIFEST_KEYS = new Set([
   "contentManifestSha256", "postEncryptionDecryptVerification", "credentialScanStatus",
   "publicVerificationSummary",
 ]);
-export function assertNewBackupPublicVerification(manifest) {
+export function assertNewBackupPublicVerification(manifest, boundary = recoveryMigrationBoundary()) {
   if (!manifest || typeof manifest !== "object" || Array.isArray(manifest) ||
       Object.keys(manifest).some((key) => !PUBLIC_MANIFEST_KEYS.has(key))) {
     fail("Public backup manifest has unexpected fields.");
   }
-  assertPublicVerificationSummary(manifest.publicVerificationSummary);
+  assertPublicVerificationSummary(manifest.publicVerificationSummary, boundary);
   if (manifest.migrationHead !== manifest.publicVerificationSummary.migration.head) {
     fail("Public verification summary disagrees with manifest migration head.");
   }

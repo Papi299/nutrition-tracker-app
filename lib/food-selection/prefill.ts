@@ -2,36 +2,9 @@ import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
 import { createServerClient } from "@/lib/supabase";
-import type { Database } from "@/lib/supabase/database.types";
 import { parseFoodSelectionQuery } from "./query";
-
-type GeneratedFoodDiaryPrefill =
-  Database["public"]["Functions"]["get_readable_food_diary_prefill"]["Returns"][number];
-
-export type FoodDiaryPrefill = Omit<
-  GeneratedFoodDiaryPrefill,
-  | "brand_name"
-  | "calories"
-  | "carbohydrates_g"
-  | "fat_g"
-  | "nutrient_basis"
-  | "protein_g"
-  | "serving_quantity"
-  | "serving_unit"
-  | "source_code"
-  | "source_name"
-> & {
-  brand_name: string | null;
-  calories: number | null;
-  carbohydrates_g: number | null;
-  fat_g: number | null;
-  nutrient_basis: string | null;
-  protein_g: number | null;
-  serving_quantity: number | null;
-  serving_unit: string | null;
-  source_code: string | null;
-  source_name: string | null;
-};
+import { parseFoodNutritionReference, type FoodDiaryPrefill } from "./reference-parser";
+export type { FoodDiaryPrefill } from "./reference-parser";
 
 export type FoodDiaryPrefillState =
   | { status: "missing" }
@@ -58,7 +31,7 @@ export async function getReadableFoodDiaryPrefill(
 
   const supabase = await createServerClient();
   const { data, error } = await supabase.rpc(
-    "get_readable_food_diary_prefill",
+    "get_readable_food_nutrition_reference_v1",
     { p_food_id: query.foodId },
   );
 
@@ -66,9 +39,9 @@ export async function getReadableFoodDiaryPrefill(
     return { status: "database_error" };
   }
 
-  if (!data?.[0]) {
+  if (!data || data.length === 0) {
     return { status: "unavailable" };
   }
-
-  return { data: data[0] as FoodDiaryPrefill, status: "ready" };
+  const prefill = data.length === 1 ? parseFoodNutritionReference(data[0], query.foodId) : null;
+  return prefill ? { data: prefill, status: "ready" } : { status: "database_error" };
 }

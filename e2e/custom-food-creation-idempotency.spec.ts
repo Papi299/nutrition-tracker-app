@@ -583,10 +583,9 @@ test.describe.serial("CJ-018 custom-food creation idempotency", () => {
       .select("id")
       .eq("idempotency_key", securityKey);
     expect(anonymousRead.error?.code).toBe("42501");
-    const anonymousCreate = await createFood(anonymous, randomUUID(), {
-      p_name: "Anonymous creation denied",
-    });
-    expect(anonymousCreate.error).not.toBeNull();
+    // Supabase Postgres issue #2112 crashes this image on denied function EXECUTE.
+    // Assert the ACL directly; live anonymous table/route isolation remains tested.
+    expect(queryDatabase("select has_function_privilege('anon','public.create_custom_food(uuid,text,text,text,text,numeric,text,jsonb,jsonb)','EXECUTE')")).toBe("f");
   });
 
   test("CJ-018 retains one UI creation key through validation and ordinary success", async ({

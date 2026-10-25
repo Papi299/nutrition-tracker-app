@@ -1,3 +1,4 @@
+import { additionalSnapshotToRequest } from "@/lib/nutrition-snapshots";
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
@@ -48,14 +49,17 @@ export async function persistRecipeForCurrentUser(
   const supabase = await createServerClient();
   const args = {
     p_expected_edit_revision: validation.data.expected_edit_revision,
-    p_ingredients: validation.data.ingredients as Json,
+    p_ingredients: validation.data.ingredients.map(child => ({ ...child,
+      ingredient_id: child.ingredient_id ?? null,
+      additional_nutrient_snapshot: additionalSnapshotToRequest(child.additional_nutrient_snapshot ?? null),
+    })) as Json,
     p_locale: validation.data.locale,
     p_name: validation.data.name,
     p_recipe_id: validation.data.recipe_id,
     p_yield_servings: validation.data.yield_servings,
   };
   const { data, error } = await supabase
-    .rpc("persist_recipe", args as Database["public"]["Functions"]["persist_recipe"]["Args"])
+    .rpc("persist_recipe_v2", args as Database["public"]["Functions"]["persist_recipe_v2"]["Args"])
     .maybeSingle();
 
   if (error) return persistRpcError(error);

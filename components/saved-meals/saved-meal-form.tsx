@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutrient-fields";
+import { additionalNutrientCodesV1 } from "@/lib/nutrition-snapshots";
+import { mergeReviewedRows } from "@/lib/nutrition-snapshots/form-state";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
@@ -54,6 +57,14 @@ function FieldError({ code, field }: { code?: string; field: string }) {
   if (!code) return null;
 
   const messages: Record<string, string> = {
+    nutrition_review_required: t("nutritionReviewRequired"),
+    reference_changed: t("referenceChanged"),
+    missing_reference: t("automaticUnavailable"),
+    incompatible_unit: t("automaticUnavailable"),
+    invalid_reference: t("automaticUnavailable"),
+    quantity_precision: t("automaticUnavailable"),
+    nutrient_out_of_range: t("automaticUnavailable"),
+    capture_required: t("captureRequired"),
     boolean_required: t("validation"),
     duplicate_row_key: t("duplicateRowKey"),
     integer_required: t("integer"),
@@ -185,10 +196,11 @@ function SavedMealItemCard({
   update: (update: Partial<SavedMealFormItemValues>) => void;
 }) {
   const t = useTranslations("SavedMealEditor");
+  const additionalT = useTranslations("Diary.additionalNutrients");
   const field = (name: string) => `item_${name}_${index}`;
   const rowErrors = Object.entries(fieldErrors).filter(([name]) => {
     const parsed = itemField(name);
-    return parsed?.index === index && !itemFieldLabels[parsed.name];
+    return parsed?.index === index && !itemFieldLabels[parsed.name] && !(additionalNutrientCodesV1 as readonly string[]).includes(parsed.name);
   });
 
   return (
@@ -377,6 +389,13 @@ function SavedMealItemCard({
           <FieldError code={fieldErrors[field("notes")]} field={field("notes")} />
         </label>
       </div>
+      {item.additional_captured ? <input name={field("additional_nutrients_captured")} type="hidden" value="1" /> : <label className="flex min-h-11 items-center gap-2 text-sm">
+        <input checked={item.additional_captured} name={field("additional_nutrients_captured")} onChange={event => update({ additional_captured: event.target.checked })} type="checkbox" value="1" />
+        <span>{additionalT("capture")}</span>
+      </label>}
+      <AdditionalNutrientFields controlPrefix="saved-meal" fieldPrefix="item_" fieldSuffix={`_${index}`}
+        values={item.additional_values} errors={fieldErrors}
+        onValueChange={(code, value) => update({ additional_captured: true, additional_values: { ...item.additional_values, [code]: value } })} />
     </fieldset>
   );
 }
@@ -402,8 +421,17 @@ export function SavedMealForm({
   saved: "created" | "updated" | null;
 }) {
   const t = useTranslations("SavedMealEditor");
+  const additionalLabelsT = useTranslations("Diary.additionalNutrients.labels");
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [items, setItems] = useState(state.values.items);
+  const submittedRows = useRef(state.values.items);
+  const lastReview = useRef(initialState);
+  const nutritionT = useTranslations("Diary.form");
+  useEffect(() => {
+    if (isPending || state === lastReview.current) return;
+    lastReview.current = state;
+    if (state.status === "validation_error") queueMicrotask(() => setItems(current => mergeReviewedRows(current, submittedRows.current, state.values.items)));
+  }, [state, isPending]);
   const [submittedRowKeys, setSubmittedRowKeys] = useState(() =>
     initialState.values.items.map((item) => item.row_key),
   );
@@ -443,8 +471,8 @@ export function SavedMealForm({
       const labelKey = itemFieldLabels[parsed.name];
       return {
         field,
-        label: `${t("items.itemNumber", { number: parsed.index + 1 })}${labelKey ? `: ${t(`fields.${labelKey}`)}` : ""}`,
-        target: labelKey ? controlId(field) : `saved-meal-row-${parsed.index}`,
+        label: `${t("items.itemNumber", { number: parsed.index + 1 })}${labelKey ? `: ${t(`fields.${labelKey}`)}` : (additionalNutrientCodesV1 as readonly string[]).includes(parsed.name) ? `: ${additionalLabelsT(parsed.name)}` : ""}`,
+        target: labelKey || (additionalNutrientCodesV1 as readonly string[]).includes(parsed.name) ? controlId(field) : `saved-meal-row-${parsed.index}`,
       };
     }
     return {
@@ -477,7 +505,7 @@ export function SavedMealForm({
       action={formAction}
       className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 text-start [overflow-wrap:anywhere]"
       noValidate
-      onSubmit={() => setSubmittedRowKeys(items.map((item) => item.row_key))}
+      onSubmit={() => { submittedRows.current = items; setSubmittedRowKeys(items.map((item) => item.row_key)); }}
     >
       <input
         name="saved_meal_id"
@@ -485,6 +513,7 @@ export function SavedMealForm({
         value={state.values.saved_meal_id}
       />
       <input name="item_count" type="hidden" value={items.length} />
+      {state.fieldErrors?.form === "nutrition_review_required" && <p data-testid="nutrition-review-required" role="status">{nutritionT("nutritionReviewRequired")}</p>}
 
       {state.status === "validation_error" && !isPending && (
         <div
@@ -508,6 +537,8 @@ export function SavedMealForm({
                     const control = document.getElementById(target);
                     if (!control) return;
                     event.preventDefault();
+                    let disclosure = control.closest("details");
+                    while (disclosure) { disclosure.open = true; disclosure = disclosure.parentElement?.closest("details") ?? null; }
                     control.focus({ preventScroll: true });
                     control.scrollIntoView({
                       block: control.matches("input, select, textarea") ? "center" : "start",

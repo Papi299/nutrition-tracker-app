@@ -1,3 +1,6 @@
+import { normalizeNutrientAmount, parseExactNonnegativeDecimal, formatExactFraction } from "@/lib/nutrition-snapshots";
+import { validateReusableSnapshotFields } from "@/lib/nutrition-snapshots/reuse";
+import type { AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { validationError, type DataResult } from "@/lib/data/result";
 import { isUuid } from "@/lib/food-selection/query";
 
@@ -8,6 +11,8 @@ export type SavedMealInput = Record<string, unknown>;
 export type SavedMealArchiveInput = Record<string, unknown>;
 
 export type ValidatedSavedMealItem = {
+  item_id?: string | null;
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   position: number;
   food_id: string | null;
   food_name: string;
@@ -44,6 +49,7 @@ const persistenceFields = new Set([
 ]);
 const archiveFields = new Set(["saved_meal_id", "is_archived"]);
 const itemFields = new Set([
+  "item_id", "additional_nutrient_snapshot",
   "position",
   "food_id",
   "food_name",
@@ -149,6 +155,20 @@ function parseOptionalNumber(
     fieldErrors[field] = "integer_required";
   }
 
+  if (!integer) {
+    const name = field.split(".").at(-1);
+    if (name === "serving_quantity") {
+      const exact = parseExactNonnegativeDecimal(value);
+      const text = exact ? formatExactFraction(exact, 3) : null;
+      if (text === null) { fieldErrors[field] = "nonnegative_finite_required"; return null; }
+      return Number(text);
+    }
+    if (name === "protein_g" || name === "carbohydrates_g" || name === "fat_g") {
+      const amount = normalizeNutrientAmount(name, value);
+      if (!amount.ok) { fieldErrors[field] = "nonnegative_finite_required"; return null; }
+      return amount.data;
+    }
+  }
   return parsed;
 }
 
@@ -167,6 +187,7 @@ function validateItem(
   rejectUnsupportedFields(input, itemFields, fieldErrors, prefix);
 
   for (const field of itemFields) {
+    if (field === "item_id" || field === "additional_nutrient_snapshot") continue;
     if (!(field in input)) {
       fieldErrors[`${prefix}${field}`] = "required_field";
     }
@@ -194,7 +215,10 @@ function validateItem(
     }
   }
 
+  const extension = validateReusableSnapshotFields(input, "item_id", prefix, fieldErrors);
   return {
+    ...(extension.identity !== undefined ? { item_id: extension.identity } : {}),
+    ...(extension.snapshot !== undefined ? { additional_nutrient_snapshot: extension.snapshot } : {}),
     position: Number.isFinite(position) ? position : 0,
     food_id: foodId,
     food_name: parseRequiredText(input.food_name, 200, `${prefix}food_name`, fieldErrors),
@@ -316,6 +340,10 @@ export function validateSavedMealInput(
       fieldErrors.items = "positions_must_be_contiguous";
     }
   }
+
+  const retainedIds = items.map(child => child.item_id).filter((id): id is string => typeof id === "string");
+  if (new Set(retainedIds).size !== retainedIds.length) fieldErrors.items = "duplicate_child_id";
+  if (savedMealId === null && retainedIds.length > 0) fieldErrors.items = "invalid_uuid";
 
   if (Object.keys(fieldErrors).length > 0) {
     return validationError(fieldErrors);

@@ -1,0 +1,122 @@
+{
+  "capturedAt": "2026-10-25T05:37:30.211Z",
+  "sourceHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
+  "sourceTree": "c2cbd354239af91bbfe448509a8e5fa0b23a577d",
+  "renderedSourceFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "b29367e389e27529b1fba7b92a22226d9f6ab3ba2791d066946f6834fd2c023f"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-action.ts",
+      "sha256": "58dffe6622177c8d6fa70b429b68b4b302dd9fef268744f1b38a626639bc0dfb"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-submission.ts",
+      "sha256": "60f0af6b01567a2d2a7fea7e59342ef33e060eff00fec018ef5e22140feca095"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
+    },
+    {
+      "path": "components/diary/diary-entry-form.tsx",
+      "sha256": "a31a5bfb3003e46898097b46c08a40f3b2199c4515def099ed7d16bc2f61ff9d"
+    },
+    {
+      "path": "lib/food-selection/nutrient-scaling.ts",
+      "sha256": "374568ec5ca2c50dbc66c77f0ac7400906014a01d18c0d6be433cdffdd042a25"
+    },
+    {
+      "path": "lib/nutrition-snapshots/decimal.ts",
+      "sha256": "abbc77d3b22a62ebee7203f441d2d65dc3f9d881011e5ccd12c0f4e843b0daab"
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-details.tsx",
+      "sha256": "64c43ec524bb2d5a4ff53de7c3bf5dab6a1cb670479364210ac58bc95f8c33fb"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "26dc1d92d8b8ed0b335890a6b452ac76ce5cbca2a1c73c664f3f0be492c9b19d"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
+    }
+  ],
+  "workingTreeStatus": "M app/globals.css\n M docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.json\n M e2e/ui-today-dashboard.spec.ts\n M supabase/config.toml\n?? test-results-phase11d/",
+  "workingDiffSha256": "b297f01726ac7d1c1f8d0fe67c79e3f2d7b8694aa96c59f07345b703cc4722df",
+  "fixture": {
+    "synthetic": true,
+    "provisioner": "provisionActivatedLocalUser",
+    "foodCreation": "authenticated create_custom_food RPC",
+    "foodName": "Test",
+    "brandName": "Tnuva",
+    "nutrientBasis": "per_100g",
+    "reference": {
+      "calories": 200,
+      "protein_g": 20,
+      "carbohydrates_g": 20,
+      "fat_g": 5
+    },
+    "diary": {
+      "entryId": "6fc17162-4db5-49e3-a5ab-0981d44c033a",
+      "serving_quantity": 200,
+      "serving_unit": "g",
+      "calories": 400,
+      "protein_g": 40,
+      "carbohydrates_g": 40,
+      "fat_g": 10
+    }
+  },
+  "captures": [
+    {
+      "name": "consumed-200g-en-1440.png",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "browser": "149.0.7827.55",
+      "route": "/en/today?date=2026-10-24",
+      "sha256": "743626d13bb1aff2249fac7f05642b386e52c19c7bdcae42501f138df429f15b"
+    },
+    {
+      "name": "consumed-200g-en-390.png",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "browser": "149.0.7827.55",
+      "route": "/en/today?date=2026-10-24",
+      "sha256": "0334990dc9e3142fb3867fb80981c83c549337d8d1ac175be793cfd500427e2b"
+    },
+    {
+      "name": "consumed-200g-he-1440.png",
+      "locale": "he",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "browser": "149.0.7827.55",
+      "route": "/he/today?date=2026-10-24",
+      "sha256": "2f22fe531e53add555756318fa4b3a2730f4b622876e6715ae6f5b202a2933e5"
+    },
+    {
+      "name": "consumed-200g-he-390.png",
+      "locale": "he",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "browser": "149.0.7827.55",
+      "route": "/he/today?date=2026-10-24",
+      "sha256": "bf0e90a3500c48e8e01a4570891fe4fa6b8e855879216c19797fe9b46430926f"
+    }
+  ]
+}

@@ -346,7 +346,12 @@
       },
       "submit": "Add entry",
       "pending": "Adding entry...",
-      "startNewDraft": "Start a new entry with these values"
+      "startNewDraft": "Start a new entry with these values",
+      "automaticDescription": "Checked nutrients are calculated from the logged quantity and catalog reference. Editing a nutrient keeps it as a manual total. Without JavaScript, clear its checkbox before entering a manual total; automatic totals are calculated when saved.",
+      "automaticLabel": "Calculate from quantity",
+      "automaticUnavailable": "Automatic calculation requires a valid quantity and compatible reference unit. Use the catalog unit, or clear the calculation checkboxes and enter consumed totals manually.",
+      "referenceChanged": "The catalog reference changed since this draft was saved. Your displayed totals were kept as manual values. Review them or select calculation again.",
+      "nutritionReviewRequired": "Review the updated nutrient totals, then submit again to save them."
     },
     "selection": {
       "findFood": "Find a food",
@@ -432,7 +437,9 @@
       "tooLong": "This field is too long.",
       "unauthenticated": "Sign in again before using the diary.",
       "unsupportedMealType": "Choose a supported meal type.",
-      "validation": "Check the highlighted fields and try again."
+      "validation": "Check the highlighted fields and try again.",
+      "outOfRange": "This calculated value exceeds the diary storage limit.",
+      "quantityPrecision": "Use at most 3 decimal places for the logged quantity."
     },
     "dashboard": {
       "title": "Daily overview",
@@ -454,6 +461,58 @@
       "knownSubtotal": "Known subtotal",
       "incompleteNutrition": "Incomplete data",
       "unknownValues": "Includes entries with unknown values."
+    },
+    "additionalNutrients": {
+      "groups": {
+        "additional": "Additional carbohydrates and fats",
+        "minerals": "Minerals",
+        "vitamins": "Vitamins"
+      },
+      "labels": {
+        "fiber_g": "Dietary Fiber",
+        "sugars_g": "Sugars",
+        "added_sugars_g": "Added Sugars",
+        "saturated_fat_g": "Saturated Fat",
+        "monounsaturated_fat_g": "Monounsaturated Fat",
+        "polyunsaturated_fat_g": "Polyunsaturated Fat",
+        "trans_fat_g": "Trans Fat",
+        "cholesterol_mg": "Cholesterol",
+        "sodium_mg": "Sodium",
+        "potassium_mg": "Potassium",
+        "calcium_mg": "Calcium",
+        "iron_mg": "Iron",
+        "magnesium_mg": "Magnesium",
+        "phosphorus_mg": "Phosphorus",
+        "zinc_mg": "Zinc",
+        "copper_mg": "Copper",
+        "manganese_mg": "Manganese",
+        "selenium_ug": "Selenium",
+        "vitamin_a_rae_ug": "Vitamin A (RAE)",
+        "vitamin_c_mg": "Vitamin C",
+        "vitamin_d_ug": "Vitamin D",
+        "vitamin_e_mg": "Vitamin E",
+        "vitamin_k_ug": "Vitamin K",
+        "thiamin_mg": "Thiamin",
+        "riboflavin_mg": "Riboflavin",
+        "niacin_mg": "Niacin",
+        "pantothenic_acid_mg": "Pantothenic Acid",
+        "vitamin_b6_mg": "Vitamin B6",
+        "folate_dfe_ug": "Folate (DFE)",
+        "vitamin_b12_ug": "Vitamin B12",
+        "choline_mg": "Choline"
+      },
+      "invalidAmount": "Enter a nonnegative amount within the supported four-decimal range.",
+      "capture": "Capture additional nutrient totals",
+      "uncaptured": "Additional nutrients were not captured for this entry.",
+      "unknown": "Unknown",
+      "unavailable": "These nutrient details cannot be edited in this version.",
+      "captureRequired": "Select capture additional nutrient totals to save these values.",
+      "detailsTitle": "Additional consumed nutrients",
+      "dailyTitle": "Additional daily nutrients",
+      "snapshotExplanation": "These amounts use saved consumed nutrition. A missing value stays unknown.",
+      "uncapturedCount": "Additional nutrients were not captured for {count} entries.",
+      "knownSubtotal": "Known subtotal",
+      "detailsUnavailable": "These nutrient details are unavailable."
     }
   },
   "CustomFoodEditor": {
@@ -946,7 +1005,11 @@
       "positions": "Item positions must be continuous and ordered.",
       "required": "This field is required.",
       "tooLong": "This field is too long.",
-      "language": "Choose a supported language."
+      "language": "Choose a supported language.",
+      "nutritionReviewRequired": "Review the updated nutrient totals, then submit again to save them.",
+      "referenceChanged": "The catalog reference changed since this draft was saved. Your displayed totals were kept as manual values. Review them or select calculation again.",
+      "automaticUnavailable": "Automatic calculation requires a valid quantity and compatible reference unit. Use the catalog unit, or clear the calculation checkboxes and enter consumed totals manually.",
+      "captureRequired": "Select capture additional nutrient totals to save these values."
     },
     "status": {
       "idle": "Review the meal and save when ready.",
@@ -1241,7 +1304,7 @@
       "remove": "Remove ingredient",
       "add": "Add blank ingredient",
       "count": "{count, plural, one {# ingredient} other {# ingredients}}",
-      "snapshotHelp": "Nutrition values describe this editable ingredient snapshot for the entered quantity. Quantity changes never scale nutrients automatically."
+      "snapshotHelp": "Automatic nutrients follow the entered quantity. Editing a nutrient makes it manual. Removing the food link keeps all amounts as manual totals."
     },
     "fields": {
       "ingredientName": "Ingredient name",
@@ -1295,7 +1358,11 @@
       "positions": "Ingredient positions must be continuous and ordered.",
       "required": "This field is required.",
       "tooLong": "This field is too long.",
-      "language": "Choose a supported language."
+      "language": "Choose a supported language.",
+      "nutritionReviewRequired": "Review the updated nutrient totals, then submit again to save them.",
+      "referenceChanged": "The catalog reference changed since this draft was saved. Your displayed totals were kept as manual values. Review them or select calculation again.",
+      "automaticUnavailable": "Automatic calculation requires a valid quantity and compatible reference unit. Use the catalog unit, or clear the calculation checkboxes and enter consumed totals manually.",
+      "captureRequired": "Select capture additional nutrient totals to save these values."
     },
     "status": {
       "idle": "Review the recipe and save when ready.",

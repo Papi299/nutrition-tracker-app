@@ -1,7 +1,9 @@
+import { parseAdditionalNutrientSnapshot, type AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { isUuid } from "@/lib/food-selection/query";
 import type { Json } from "@/lib/supabase/database.types";
 
 export type SavedMealEditorItem = {
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   brand_name: string | null;
   calories: number | null;
   carbohydrates_g: number | null;
@@ -65,7 +67,10 @@ export function parseSavedMealEditorItems(
       return null;
     }
 
+    const additional = item.additional_nutrient_snapshot === undefined ? undefined : parseAdditionalNutrientSnapshot(item.additional_nutrient_snapshot);
+    if (additional && !additional.ok) return null;
     items.push({
+      ...(additional?.ok ? { additional_nutrient_snapshot: additional.data } : {}),
       brand_name: item.brand_name as string | null,
       calories: item.calories as number | null,
       carbohydrates_g: item.carbohydrates_g as number | null,

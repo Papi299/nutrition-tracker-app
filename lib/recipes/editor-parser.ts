@@ -1,7 +1,9 @@
+import { parseAdditionalNutrientSnapshot, type AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { isUuid } from "@/lib/food-selection/query";
 import type { Json } from "@/lib/supabase/database.types";
 
 export type RecipeEditorIngredient = {
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   brand_name: string | null;
   calories: number | null;
   carbohydrates_g: number | null;
@@ -66,8 +68,8 @@ export function parseRecipeEditorIngredients(
   for (const [index, ingredient] of value.entries()) {
     if (
       !isRecord(ingredient) ||
-      Object.keys(ingredient).length !== ingredientFields.size ||
-      Object.keys(ingredient).some((field) => !ingredientFields.has(field)) ||
+      Object.keys(ingredient).length !== ingredientFields.size + (Object.hasOwn(ingredient, "additional_nutrient_snapshot") ? 1 : 0) ||
+      Object.keys(ingredient).some((field) => field !== "additional_nutrient_snapshot" && !ingredientFields.has(field)) ||
       typeof ingredient.id !== "string" ||
       !isUuid(ingredient.id) ||
       ingredientIds.has(ingredient.id) ||
@@ -94,7 +96,10 @@ export function parseRecipeEditorIngredients(
 
     ingredientIds.add(ingredient.id);
 
+    const additional = ingredient.additional_nutrient_snapshot === undefined ? undefined : parseAdditionalNutrientSnapshot(ingredient.additional_nutrient_snapshot);
+    if (additional && !additional.ok) return null;
     ingredients.push({
+      ...(additional?.ok ? { additional_nutrient_snapshot: additional.data } : {}),
       brand_name: ingredient.brand_name as string | null,
       calories: ingredient.calories as number | null,
       carbohydrates_g: ingredient.carbohydrates_g as number | null,

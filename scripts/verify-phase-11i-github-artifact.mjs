@@ -16,6 +16,7 @@ import {
   assertProductionSource,
   assertRecipientCertificateFingerprint,
   assertRedactedEvidence,
+  recoveryMigrationBoundary,
   sha256,
 } from "./phase-11i-recovery-contract.mjs";
 
@@ -37,6 +38,7 @@ export function verifyGitHubArtifact({
   assertSourceIdentity = assertProductionSource,
   assertArtifactIdentity = assertBackupId,
   assertRecipient = assertRecipientCertificateFingerprint,
+  localNutritionSnapshots = false,
 }) {
   if (!backupRootInput || !runnerTempInput || !workspaceInput) {
     fail("PHASE11I_BACKUP_ROOT, RUNNER_TEMP, and GITHUB_WORKSPACE are required.");
@@ -99,7 +101,8 @@ export function verifyGitHubArtifact({
   } catch {
     fail("Manifest is not valid JSON.");
   }
-  assertNewBackupPublicVerification(manifest);
+  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  assertNewBackupPublicVerification(manifest, migrationBoundary);
   assertRedactedEvidence(manifest);
   assertSourceIdentity({
     projectRef: manifest.sourceProjectRef,

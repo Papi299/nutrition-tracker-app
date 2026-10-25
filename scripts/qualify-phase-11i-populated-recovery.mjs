@@ -8,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 import { captureBackup } from "./phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "./phase-11i-restore-pipeline.mjs";
 import { validateCompletedOwnerActivation, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
-import { assertRedactedEvidence, RECOVERY_TARGET, sha256 } from "./phase-11i-recovery-contract.mjs";
+import { assertRedactedEvidence, RECOVERY_TARGET, sha256, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 
 import { assertPublicVerificationSummary } from "./phase-11i-public-verification.mjs";
 import { verifyGitHubArtifact } from "./verify-phase-11i-github-artifact.mjs";
@@ -21,6 +21,9 @@ const cli = join(repositoryRoot, "node_modules/.bin/supabase");
 const reportPath = process.argv[2];
 if (!reportPath || !reportPath.startsWith("/")) throw new Error("An absolute redacted report path is required.");
 if (existsSync(reportPath)) throw new Error("Refusing to overwrite a qualification report.");
+const localNutritionSnapshots = process.argv[3] === "--nutrition-snapshots";
+if (process.argv[3] && !localNutritionSnapshots) throw new Error("Unsupported synthetic qualification option.");
+const migrationBoundary = recoveryMigrationBoundary({ projectRef: SYNTHETIC_IDENTITY, sourceEnvironment: "LocalSynthetic" }, localNutritionSnapshots);
 const startedAt = new Date().toISOString();
 const root = mkdtempSync(join(tmpdir(), "p11a010-synthetic-"));
 chmodSync(root, 0o700);
@@ -43,11 +46,16 @@ function prepare(project, offset) {
   const directory = join(root, project);
   mkdirSync(join(directory, "supabase"), { recursive: true, mode: 0o700 });
   cpSync("supabase/migrations", join(directory, "supabase/migrations"), { recursive: true });
+  if (!localNutritionSnapshots) {
+    for (const migration of readdirSync(join(directory, "supabase/migrations"))) {
+      if (migration.slice(0, 14) > migrationBoundary.head) rmSync(join(directory, "supabase/migrations", migration));
+    }
+  }
   cpSync("supabase/seed.sql", join(directory, "supabase/seed.sql"));
   cpSync("supabase/templates", join(directory, "supabase/templates"), { recursive: true });
   const config = readFileSync("supabase/config.toml", "utf8")
     .replace(/^project_id = .*$/m, `project_id = "${project}"`)
-    .replace(/\b543(\d{2})\b/g, (_, suffix) => String(54300 + Number(suffix) + offset));
+    .replace(/^(\s*port = )(\d+)$/gm, (_, prefix, port) => prefix + String(Number(port) + offset));
   writeFileSync(join(directory, "supabase/config.toml"), config, { mode: 0o600 });
   return directory;
 }
@@ -71,7 +79,7 @@ try {
   const sourceCli = supabaseAt(sourceDirectory);
   const targetCli = supabaseAt(targetDirectory);
   const excludes = "realtime,studio,postgres-meta,edge-runtime,logflare,vector,supavisor";
-  process.stdout.write("Starting fresh local synthetic source with all 44 migrations.\n");
+  process.stdout.write(`Starting fresh local synthetic source with ${migrationBoundary.count} migrations.\n`);
   startedProjects.push(sourceProject);
   sourceCli(["start", "--exclude", excludes]);
   const sourceDb = dbAt(sourceProject);
@@ -97,6 +105,29 @@ try {
   authed(`select * from public.create_manual_diary_entry('11000000-0000-4000-8000-000000000002','2026-09-30','lunch','${food}','Synthetic fixture food',null,100,'g',120,6,null,0,null)`);
   authed(`insert into public.food_favorites(user_id,food_id) values ('${owner}','${food}')`);
   authed(`select * from public.persist_saved_meal(null,'Synthetic fixture meal','he','[{"position":1,"brand_name":null,"notes":null,"food_id":"${food}","food_name":"Synthetic fixture food","serving_quantity":100,"serving_unit":"g","calories":120,"protein_g":6,"carbohydrates_g":null,"fat_g":0}]')`);
+  if (localNutritionSnapshots) {
+    const manifest = JSON.parse(sourceDb("select public.nutrient_snapshot_manifest_v1()"));
+    const values = manifest.filter(definition => definition.coreField === null).map(({ code }, index) => ({
+      code, amount: index === 0 ? 0 : index === 1 ? null : Number(`${index + 1}.2345`),
+    }));
+    assert.equal(values.length, 31);
+    const extension = { version: 1, values };
+    authed(`select * from public.create_manual_diary_entry_v2('11000000-0000-4000-8000-000000000003','2026-09-30','dinner','${food}','Synthetic complete snapshot',null,200,'g',240,12,null,0,null,'${JSON.stringify(extension)}')`);
+    const item = { item_id: null, position: 1, brand_name: null, notes: null, food_id: food,
+      food_name: "Synthetic extended meal", serving_quantity: 200, serving_unit: "g", calories: 240,
+      protein_g: 12, carbohydrates_g: null, fat_g: 0, additional_nutrient_snapshot: extension };
+    authed(`select * from public.persist_saved_meal_v2(null,'Synthetic extended meal','en','${JSON.stringify([item])}',null)`);
+    const { item_id: _itemId, serving_quantity, serving_unit, food_name, ...ingredient } = item;
+    void _itemId;
+    authed(`select * from public.persist_recipe_v2(null,'Synthetic extended recipe','en',2,'${JSON.stringify([{ ...ingredient, ingredient_id: null, quantity: serving_quantity, unit: serving_unit, ingredient_name: food_name }])}',null)`);
+    authed(`select * from public.log_saved_meal_to_diary_v2((select id from public.saved_meals where name='Synthetic extended meal'),(select updated_at from public.saved_meals where name='Synthetic extended meal'),'2026-09-30','snack','11000000-0000-4000-8000-000000000004')`);
+    authed(`select * from public.log_recipe_to_diary_v2((select id from public.recipes where name='Synthetic extended recipe'),(select updated_at from public.recipes where name='Synthetic extended recipe'),3,'2026-09-30','breakfast','11000000-0000-4000-8000-000000000005')`);
+    for (const table of ["diary_entries", "saved_meal_items", "recipe_ingredients"]) {
+      assert.ok(Number(sourceDb(`select count(*) from public.${table} where additional_nutrient_snapshot is not null`)) > 0);
+    }
+    assert.equal(sourceDb("select snapshot_contract_version from public.saved_meal_diary_runs"), "2");
+    assert.equal(sourceDb("select snapshot_contract_version from public.recipe_diary_runs"), "2");
+  }
   // Synthetic shared catalog volume crosses the old total gates without copying a real dataset.
   sourceDb(`insert into public.foods(id,source_id,source_food_id,food_type,name,is_public,data_quality)
     select ('33000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,
@@ -127,7 +158,7 @@ try {
   rejected("additionalAuthUser", `insert into auth.users(id) values ('${foreign}')`);
   rejected("foreignIdentity", `set local session_replication_role=replica; update auth.identities set user_id='${foreign}'`);
   rejected("foreignApplicationOwner", `set local session_replication_role=replica; update public.nutrition_targets set user_id='${foreign}'`);
-  rejected("orphanIndirectChild", `set local session_replication_role=replica; update public.saved_meal_items set saved_meal_id='${foreign}'`);
+  rejected("orphanIndirectChild", `set local session_replication_role=replica; update public.saved_meal_items set saved_meal_id='${foreign}' where id=(select id from public.saved_meal_items order by id limit 1)`);
   rejected("foreignCustomFood", `set local session_replication_role=replica; update public.foods set owner_user_id='${foreign}' where id='${food}'`);
   rejected("missingReferenceCode", "set local session_replication_role=replica; delete from public.nutrients where code='protein_g'");
   for (const [label, mutation] of [
@@ -162,6 +193,7 @@ try {
       recordTransportEvent(stage);
       return transportRows(sql);
     },
+    localNutritionSnapshots,
     refreshSourceTransport: () => {
       assert.equal(dumpCalls, 4);
       assert.equal(transportRefreshes, 0);
@@ -210,17 +242,17 @@ try {
   assert.deepEqual(readdirSync(backupRoot).sort(), [capture.archivePath.split("/").at(-1), capture.manifestPath.split("/").at(-1)].sort());
   const manifestBytes = readFileSync(capture.manifestPath);
   const manifest = JSON.parse(manifestBytes.toString("utf8"));
-  assertPublicVerificationSummary(manifest.publicVerificationSummary);
+  assertPublicVerificationSummary(manifest.publicVerificationSummary, migrationBoundary);
   assert.deepEqual(manifest.publicVerificationSummary, {
     schemaVersion: "phase-11i-public-verification-summary/v1",
-    migration: { count: 44, head: "20260927170418" }, storage: { buckets: 0, objects: 0 },
+    migration: { count: migrationBoundary.count, head: migrationBoundary.head }, storage: { buckets: 0, objects: 0 },
     ownerState: { profile: "PERSONAL_USE_ONE_NON_DELETED_OWNER", authUserCount: 1,
       accountActivationCount: 1, ownershipValidation: "PASS" }, sourceCaptureConsistency: "PASS",
   });
   const verifierOptions = { backupRootInput: backupRoot, runnerTempInput: root,
     workspaceInput: repositoryRoot, githubSha: manifest.sourceCommit,
     assertSourceIdentity: assertSyntheticSource, assertArtifactIdentity: assertSyntheticArtifact,
-    assertRecipient: options.assertRecipient };
+    assertRecipient: options.assertRecipient, localNutritionSnapshots };
   const verifiedArtifact = verifyGitHubArtifact(verifierOptions);
   assert.equal(verifiedArtifact.encryptedArchiveSha256, manifest.encryptedArchiveSha256);
   assert.equal(verifiedArtifact.manifestSha256, sha256(manifestBytes));
@@ -263,7 +295,7 @@ try {
     recipientInput: cert, privateKeyInput: key, reportInput: join(root, "restore-report.json"),
     targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
     assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
-    runSupabase: targetCli });
+    runSupabase: targetCli, localNutritionSnapshots });
   // Restore the same valid v1 artifact after removing only the additive outer field.
   // This exercises historical compatibility without altering the encrypted archive.
   const historicalManifest = structuredClone(manifest);
@@ -275,7 +307,7 @@ try {
       recipientInput: cert, privateKeyInput: key, reportInput: join(root, "historical-restore-report.json"),
       targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
       assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
-      runSupabase: targetCli });
+      runSupabase: targetCli, localNutritionSnapshots });
     assert.deepEqual(historicalRestored.restoreSafeCounts, restored.restoreSafeCounts);
     commandsPassed++;
   } finally { writeFileSync(capture.manifestPath, manifestBytes, { mode: 0o600 }); }
@@ -286,14 +318,21 @@ try {
     activation: `select row_to_json(t)::text from public.account_activations t where user_id='${owner}'`,
     profile: `select row_to_json(t)::text from public.profiles t where id='${owner}'`,
     target: `select row_to_json(t)::text from public.nutrition_targets t where user_id='${owner}'`,
-    diary: "select row_to_json(t)::text from public.diary_entries t",
+    diary: "select row_to_json(t)::text from public.diary_entries t order by id",
     customFood: `select row_to_json(t)::text from public.foods t where id='${food}'`,
     customNutrients: `select row_to_json(t)::text from public.food_nutrients t where food_id='${food}' order by id`,
     customAlias: `select row_to_json(t)::text from public.food_aliases t where food_id='${food}' order by id`,
     completionReceipt: "select row_to_json(t)::text from public.custom_food_creation_requests t",
     favorite: "select row_to_json(t)::text from public.food_favorites t",
-    savedMeal: "select row_to_json(t)::text from public.saved_meals t",
-    savedMealItem: "select row_to_json(t)::text from public.saved_meal_items t",
+    savedMeal: "select row_to_json(t)::text from public.saved_meals t order by id",
+    savedMealItem: "select row_to_json(t)::text from public.saved_meal_items t order by id",
+    ...(localNutritionSnapshots ? {
+      recipe: "select row_to_json(t)::text from public.recipes t order by id",
+      ingredient: "select row_to_json(t)::text from public.recipe_ingredients t order by id",
+      manualReceipts: "select row_to_json(t)::text from public.manual_diary_entry_requests t order by idempotency_key",
+      savedMealRuns: "select row_to_json(t)::text from public.saved_meal_diary_runs t order by id",
+      recipeRuns: "select row_to_json(t)::text from public.recipe_diary_runs t order by id",
+    } : {}),
     durableAuthUser: "select row_to_json(t)::text from auth.users t",
     durableAuthIdentity: "select row_to_json(t)::text from auth.identities t",
   };
@@ -334,6 +373,7 @@ try {
     archiveIntegrity: restored.archiveIntegrity, contentIntegrity: restored.contentIntegrity,
     postEncryptionDecryptVerification: manifest.postEncryptionDecryptVerification,
     plaintextTemporaryRemoved: true, durableDestinationCiphertextAndRedactedManifestOnly: true, syntheticPrivateKeyDestroyed: true,
+    nutritionSnapshotsQualified: localNutritionSnapshots,
     productionAccess: false, fixtureIdentifiersInEvidence: "OPAQUE_CATEGORY_LABELS_ONLY" };
   assertRedactedEvidence(report);
   // The report is only published after finally has destroyed keys, dumps and local stacks.

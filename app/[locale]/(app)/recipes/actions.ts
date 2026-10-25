@@ -1,5 +1,8 @@
 "use server";
 
+import { allNutrientFields, nutrientFields, scaleAllFoodNutrients } from "@/lib/food-selection/nutrient-scaling";
+import { additionalNutrientCodesV1 } from "@/lib/nutrition-snapshots";
+import { normalizeAdditionalFormState, sameDecimalFormValue } from "@/lib/nutrition-snapshots/form-state";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { resolveAuthLocale } from "@/lib/auth/require-user";
@@ -37,7 +40,7 @@ export type RecipeFoodSelectionResult =
   | { status: "database_error" | "unavailable" | "unauthenticated" }
   | {
       status: "ready";
-      value: {
+      value: Pick<RecipeFormIngredientValues, "additional_captured" | "additional_values" | "reference" | "reference_fingerprint" | "automatic_values"> & {
         brand_name: string;
         calories: string;
         carbohydrates_g: string;
@@ -65,6 +68,13 @@ function readIngredients(formData: FormData) {
 
   for (let index = 0; index < count; index += 1) {
     ingredients.push({
+      additional_captured: readText(formData, `ingredient_additional_nutrients_captured_${index}`) === "1",
+      additional_values: Object.fromEntries(additionalNutrientCodesV1.map(code => [code, readText(formData, `ingredient_${code}_${index}`)])) as RecipeFormIngredientValues["additional_values"],
+      reference: null,
+      reference_fingerprint: readText(formData, `ingredient_reference_fingerprint_${index}`),
+      automatic_values: Object.fromEntries(allNutrientFields.map(field => [field,
+        readText(formData, `ingredient_automatic_${field}_${index}`) === "1" ? "1" : "",
+      ])),
       brand_name: readText(formData, `ingredient_brand_name_${index}`),
       calories: readText(formData, `ingredient_calories_${index}`),
       carbohydrates_g: readText(formData, `ingredient_carbohydrates_g_${index}`),
@@ -156,17 +166,23 @@ export async function selectRecipeIngredientFoodAction(
 
   const completeQuantity =
     result.data.serving_quantity !== null && result.data.serving_unit !== null;
-  const text = (value: number | null) => (value === null ? "" : String(value));
+  const scaled = scaleAllFoodNutrients(result.data, result.data.serving_quantity, result.data.serving_unit);
+  const amounts = scaled.ok ? scaled.values : Object.fromEntries(allNutrientFields.map(field => [field, ""]));
   return {
     status: "ready",
     value: {
+      additional_captured: true,
+      additional_values: Object.fromEntries(additionalNutrientCodesV1.map(code => [code, amounts[code]])) as RecipeFormIngredientValues["additional_values"],
+      reference: result.data,
+      reference_fingerprint: result.data.reference_fingerprint,
+      automatic_values: Object.fromEntries(allNutrientFields.map(field => [field, scaled.ok ? "1" : ""])),
       brand_name: result.data.brand_name ?? "",
-      calories: text(result.data.calories),
-      carbohydrates_g: text(result.data.carbohydrates_g),
-      fat_g: text(result.data.fat_g),
+      calories: amounts.calories,
+      carbohydrates_g: amounts.carbohydrates_g,
+      fat_g: amounts.fat_g,
       food_id: result.data.food_id,
       ingredient_name: result.data.name,
-      protein_g: text(result.data.protein_g),
+      protein_g: amounts.protein_g,
       quantity: completeQuantity ? String(result.data.serving_quantity) : "",
       unit: completeQuantity ? (result.data.serving_unit ?? "") : "",
     },
@@ -187,6 +203,16 @@ export async function saveRecipeAction(
   const fieldErrors: Record<string, string> = {};
   const bindingMap = new Map(bindings.map((binding) => [binding.row_key, binding.food_id]));
   const seenRowKeys = new Set<string>();
+  let reviewRequired = false;
+  for (const [name, value] of formData) {
+    if (name.startsWith("ingredient_") && (formData.getAll(name).length !== 1 || typeof value !== "string")) fieldErrors.form = "invalid_input";
+    if (name.startsWith("ingredient_") && (name.includes("_automatic_") || name.includes("_additional_nutrients_captured_")) && value !== "1") fieldErrors.form = "invalid_input";
+  }
+  for (const [index, row] of values.ingredients.entries()) {
+    if (row.additional_captured) for (const code of additionalNutrientCodesV1) {
+      if (!formData.has(`ingredient_${code}_${index}`)) fieldErrors[`ingredient_${code}_${index}`] = "required_field";
+    }
+  }
 
   if (values.recipe_id !== (expectedRecipeId ?? "")) {
     fieldErrors.recipe_id = "invalid_link";
@@ -209,13 +235,14 @@ export async function saveRecipeAction(
       seenRowKeys.add(ingredient.row_key);
 
       let foodId = bindingMap.get(ingredient.row_key) ?? null;
+      let selection: Awaited<ReturnType<typeof getReadableFoodDiaryPrefill>> | undefined;
       if (ingredient.remove_food_link) {
         foodId = null;
       } else if (ingredient.selected_food_id !== "") {
         if (!isUuid(ingredient.selected_food_id)) {
           fieldErrors[`ingredient_row_key_${index}`] = "invalid_link";
         } else {
-          const selection = await getReadableFoodDiaryPrefill(
+          selection = await getReadableFoodDiaryPrefill(
             ingredient.selected_food_id,
           );
           if (selection.status === "ready") {
@@ -226,7 +253,34 @@ export async function saveRecipeAction(
         }
       }
 
+      const automatic = allNutrientFields.filter(field => ingredient.automatic_values[field] === "1");
+      if (automatic.length && foodId && !selection) selection = await getReadableFoodDiaryPrefill(foodId);
+      if (selection?.status === "ready") ingredient.reference = selection.data;
+      if (automatic.length) {
+        if (!foodId || selection?.status !== "ready") {
+          fieldErrors[`ingredient_reference_fingerprint_${index}`] = "missing_reference";
+        } else if (ingredient.reference_fingerprint !== selection.data.reference_fingerprint) {
+          ingredient.automatic_values = Object.fromEntries(allNutrientFields.map(field => [field, ""]));
+          ingredient.reference_fingerprint = selection.data.reference_fingerprint;
+          fieldErrors[`ingredient_reference_fingerprint_${index}`] = "reference_changed";
+        } else {
+          const scaled = scaleAllFoodNutrients(selection.data, ingredient.quantity, ingredient.unit, automatic);
+          if (!scaled.ok) fieldErrors[`ingredient_${scaled.field === "serving_quantity" ? "quantity" : scaled.field === "serving_unit" ? "unit" : "reference_fingerprint"}_${index}`] = scaled.code;
+          else for (const field of automatic) {
+            const old = (nutrientFields as readonly string[]).includes(field)
+              ? ingredient[field as (typeof nutrientFields)[number]] : ingredient.additional_values[field as typeof additionalNutrientCodesV1[number]];
+            reviewRequired ||= !sameDecimalFormValue(old, scaled.values[field]);
+            if ((nutrientFields as readonly string[]).includes(field)) ingredient[field as (typeof nutrientFields)[number]] = scaled.values[field];
+            else ingredient.additional_values[field as typeof additionalNutrientCodesV1[number]] = scaled.values[field];
+          }
+        }
+      }
+      const additional = normalizeAdditionalFormState(ingredient);
+      reviewRequired ||= additional.reviewRequired;
+      for (const [field, code] of Object.entries(additional.errors)) fieldErrors[`ingredient_${field}_${index}`] = code;
       return {
+        ingredient_id: !fieldErrors[`ingredient_row_key_${index}`] && rowKey?.kind === "ingredient" ? rowKey.id : null,
+        additional_nutrient_snapshot: additional.request,
         brand_name: ingredient.brand_name,
         calories: ingredient.calories,
         carbohydrates_g: ingredient.carbohydrates_g,
@@ -254,6 +308,19 @@ export async function saveRecipeAction(
     Object.assign(fieldErrors, mapValidationErrors(validation.fieldErrors));
   }
 
+  if (validation.ok) {
+    for (const [index, ingredient] of validation.data.ingredients.entries()) {
+      for (const field of ["calories", "protein_g", "carbohydrates_g", "fat_g", "quantity"] as const) {
+        const normalized = ingredient[field] === null ? "" : String(ingredient[field]);
+        reviewRequired ||= !sameDecimalFormValue(values.ingredients[index][field], normalized);
+        values.ingredients[index][field] = normalized;
+      }
+    }
+    const normalizedYield = String(validation.data.yield_servings);
+    reviewRequired ||= !sameDecimalFormValue(values.yield_servings, normalizedYield);
+    values.yield_servings = normalizedYield;
+  }
+  if (reviewRequired) fieldErrors.form = "nutrition_review_required";
   if (Object.keys(fieldErrors).length > 0) {
     return { fieldErrors, status: "validation_error", values };
   }

@@ -17,7 +17,7 @@ const git = (...args: string[]) => execFileSync("git", args, { encoding: "utf8" 
 const digest = (value: string | Buffer) => createHash("sha256").update(value).digest("hex");
 const baseline = sourceFiles.every(file => digest(readFileSync(file)) === digest(execFileSync("git", ["show", `${approvedHead}:${file}`])));
 const mode = baseline ? "baseline" : "after";
-const evidenceDirectory = join("docs", "ui-phase5e", "evidence");
+let evidenceDirectory: string;
 const localUrl = process.env.LOCAL_SUPABASE_URL;
 const localKey = process.env.LOCAL_SUPABASE_PUBLISHABLE_KEY;
 const locales = ["en", "he"] as const;
@@ -160,9 +160,10 @@ test.describe.serial("UI Phase 5E Profile and Targets", () => {
     return controls;
   }
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser }, testInfo) => {
     test.setTimeout(120_000);
     if (!localUrl || !["localhost", "127.0.0.1"].includes(new URL(localUrl).hostname)) throw new Error("Refusing nonlocal fixtures.");
+    evidenceDirectory = join(testInfo.project.outputDir, "ui-phase5e-setup-evidence");
     mkdirSync(evidenceDirectory, { recursive: true });
     sourceIdentity = { approvedHead, approvedTree, head: git("rev-parse", "HEAD"), tree: git("rev-parse", "HEAD^{tree}"), buildId: readFileSync(".next/BUILD_ID", "utf8").trim(), productionDiffSha256: digest(git("diff", "HEAD", "--", ...sourceFiles)), sourceFileSha256: Object.fromEntries(sourceFiles.map(file => [file, digest(readFileSync(file))])) };
     if (baseline) {

@@ -1,8 +1,14 @@
+import type { AllFoodNutrientReference, AllNutrientField } from "@/lib/food-selection/nutrient-scaling";
+import { additionalSnapshotFormState, type AdditionalNutrientFormState } from "@/lib/nutrition-snapshots/form-state";
+import { emptyAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
 import type { OwnedRecipeEditor } from "@/lib/recipes";
 import { recipeRowKey } from "@/lib/recipes/row-identity";
 import type { Locale } from "@/lib/i18n/routing";
 
-export type RecipeFormIngredientValues = {
+export type RecipeFormIngredientValues = AdditionalNutrientFormState & {
+  reference: AllFoodNutrientReference | null;
+  reference_fingerprint: string;
+  automatic_values: Partial<Record<AllNutrientField, string>>;
   brand_name: string;
   calories: string;
   carbohydrates_g: string;
@@ -48,6 +54,8 @@ function inputValue(value: null | number | string) {
 
 export function blankRecipeIngredient(rowKey: string): RecipeFormIngredientValues {
   return {
+    ...additionalSnapshotFormState(emptyAdditionalNutrientSnapshot()),
+    reference: null, reference_fingerprint: "", automatic_values: {},
     brand_name: "",
     calories: "",
     carbohydrates_g: "",
@@ -79,6 +87,8 @@ export function newRecipeFormValues(
 export function editorRecipeFormValues(editor: OwnedRecipeEditor): RecipeFormValues {
   return {
     ingredients: editor.ingredients.map((ingredient) => ({
+      ...additionalSnapshotFormState(ingredient.additional_nutrient_snapshot),
+      reference: null, reference_fingerprint: "", automatic_values: {},
       brand_name: inputValue(ingredient.brand_name),
       calories: inputValue(ingredient.calories),
       carbohydrates_g: inputValue(ingredient.carbohydrates_g),

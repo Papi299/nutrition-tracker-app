@@ -1,0 +1,58 @@
+{
+  "recordedAt": "2026-10-25T05:00:37.872656+00:00",
+  "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "restoredConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+  "configMatchesApprovedBaseline": true,
+  "taskProject": "nutrition-correctness-001a-20261024",
+  "unrelatedContainersBefore": [
+    {
+      "id": "72a67802b8a5",
+      "name": "supabase_db_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "f1782eec72ca",
+      "name": "supabase_kong_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "278d5e218cf1",
+      "name": "supabase_studio_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "95bcf251e549",
+      "name": "supabase_pg_meta_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "52801468a3f7",
+      "name": "supabase_storage_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "9419b5bd5eda",
+      "name": "supabase_rest_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "da8c0f32f5bb",
+      "name": "supabase_realtime_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "8722615dffc2",
+      "name": "supabase_inbucket_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "225158a3160f",
+      "name": "supabase_auth_ui-phase5-corrections-d11bc28-20261014"
+    },
+    {
+      "id": "de3de360e4e2",
+      "name": "supabase_analytics_ui-phase5-corrections-d11bc28-20261014"
+    }
+  ],
+  "taskContainersRemoved": true,
+  "unrelatedContainersPreserved": true,
+  "followupCleanup": {
+    "recordedAt": "2026-10-25T05:39:51.274649+00:00",
+    "reason": "Bounded hosted Linux header correction requalification",
+    "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+    "taskContainersRemoved": true,
+    "unrelatedContainersPreserved": true
+  }
+}

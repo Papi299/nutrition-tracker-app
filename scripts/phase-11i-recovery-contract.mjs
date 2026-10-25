@@ -114,11 +114,25 @@ export function assertEncryptedDurableOutput(outputPath) {
   }
 }
 
-export function assertMigrationHistory(versions) {
-  if (!Array.isArray(versions) || versions.length !== EXPECTED_MIGRATION_COUNT) {
+export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = Object.freeze({ count: 45, head: "20261024083339" });
+const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
+
+// This opt-in is available only to the imported synthetic harness. Production
+// entry points never pass it and retain the separately approved 44-migration pin.
+export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false) {
+  if (!localNutritionSnapshots) return productionMigrationBoundary;
+  if (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
+      sourceIdentity?.projectRef !== "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE") {
+    fail("Nutrition recovery qualification requires the fixed local synthetic identity.");
+  }
+  return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
+}
+
+export function assertMigrationHistory(versions, boundary = productionMigrationBoundary) {
+  if (!Array.isArray(versions) || versions.length !== boundary.count) {
     fail("Source migration count mismatch.");
   }
-  if (versions.at(-1) !== EXPECTED_MIGRATION_HEAD) {
+  if (versions.at(-1) !== boundary.head) {
     fail("Source migration head mismatch.");
   }
   if (new Set(versions).size !== versions.length) {

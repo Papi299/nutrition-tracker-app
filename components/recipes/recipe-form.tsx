@@ -1,6 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutrient-fields";
+import { additionalNutrientCodesV1 } from "@/lib/nutrition-snapshots";
+import { mergeReviewedRows } from "@/lib/nutrition-snapshots/form-state";
+import { allNutrientFields, nutrientFields, scaleAllFoodNutrients } from "@/lib/food-selection/nutrient-scaling";
 import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import {
@@ -57,6 +61,14 @@ function FieldError({ code, field }: { code?: string; field: string }) {
   const t = useTranslations("RecipeEditor.errors");
   if (!code) return null;
   const messages: Record<string, string> = {
+    nutrition_review_required: t("nutritionReviewRequired"),
+    reference_changed: t("referenceChanged"),
+    missing_reference: t("automaticUnavailable"),
+    incompatible_unit: t("automaticUnavailable"),
+    invalid_reference: t("automaticUnavailable"),
+    quantity_precision: t("automaticUnavailable"),
+    nutrient_out_of_range: t("automaticUnavailable"),
+    capture_required: t("captureRequired"),
     both_or_neither_required: t("quantityUnit"),
     duplicate_row_key: t("duplicateRowKey"),
     ingredient_count_out_of_range: t("ingredientCount"),
@@ -170,8 +182,10 @@ function FoodPicker({
   disabled,
   onCompositionEnter,
   onSelect,
+  onSelectionPendingChange,
 }: {
   disabled: boolean;
+  onSelectionPendingChange: (pending: boolean) => void;
   onCompositionEnter: (input: HTMLInputElement | null) => void;
   onSelect: (value: Awaited<ReturnType<typeof selectRecipeIngredientFoodAction>> extends infer R ? R : never) => void;
 }) {
@@ -205,6 +219,7 @@ function FoodPicker({
   function select(foodId: string) {
     if (disabled || pending || requestPending.current) return;
     requestPending.current = true;
+    onSelectionPendingChange(true);
     startTransition(async () => {
       try {
         const result = await selectRecipeIngredientFoodAction(foodId);
@@ -212,6 +227,7 @@ function FoodPicker({
         onSelect(result);
       } finally {
         requestPending.current = false;
+        onSelectionPendingChange(false);
       }
     });
   }
@@ -279,6 +295,8 @@ function RecipeIngredientCard({
   index,
   isLinked,
   isPending,
+  isSelecting,
+  onSelectionPendingChange,
   ingredient,
   ingredientCount,
   move,
@@ -290,6 +308,8 @@ function RecipeIngredientCard({
   index: number;
   isLinked: boolean;
   isPending: boolean;
+  isSelecting: boolean;
+  onSelectionPendingChange: (pending: boolean) => void;
   ingredient: RecipeFormIngredientValues;
   ingredientCount: number;
   move: (direction: -1 | 1) => void;
@@ -298,18 +318,21 @@ function RecipeIngredientCard({
   update: (value: Partial<RecipeFormIngredientValues>) => void;
 }) {
   const t = useTranslations("RecipeEditor");
+  const nutritionT = useTranslations("Diary.form");
+  const additionalT = useTranslations("Diary.additionalNutrients");
   const field = (name: string) => `ingredient_${name}_${index}`;
   const sharedErrorField = fieldErrors[field("quantity_unit")] ? field("quantity_unit") : undefined;
   const rowErrors = Object.entries(fieldErrors).filter(([name]) => {
     const parsed = ingredientField(name);
-    return parsed?.index === index && !ingredientFieldLabels[parsed.name] && parsed.name !== "quantity_unit";
+    return parsed?.index === index && !ingredientFieldLabels[parsed.name] && parsed.name !== "quantity_unit" && !(additionalNutrientCodesV1 as readonly string[]).includes(parsed.name);
   });
 
   return (
-    <fieldset aria-describedby={rowErrors.map(([name]) => errorId(name)).join(" ") || undefined} className={surfaceStyles({ variant: "subtle", className: "grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 [min-inline-size:0] scroll-mt-4" })} id={`recipe-row-${index}`} tabIndex={-1} data-row-key={ingredient.row_key} data-testid="recipe-ingredient">
+    <fieldset disabled={isSelecting} aria-busy={isSelecting || undefined} data-selection-pending={isSelecting ? "true" : undefined} aria-describedby={rowErrors.map(([name]) => errorId(name)).join(" ") || undefined} className={surfaceStyles({ variant: "subtle", className: "grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 [min-inline-size:0] scroll-mt-4" })} id={`recipe-row-${index}`} tabIndex={-1} data-row-key={ingredient.row_key} data-testid="recipe-ingredient">
       <legend className="ui-card-title max-w-full px-2 [overflow-wrap:anywhere]">{t("ingredients.number", { number: index + 1 })}</legend>
       <input name={field("row_key")} type="hidden" value={ingredient.row_key} />
       <input name={field("selected_food_id")} type="hidden" value={ingredient.selected_food_id} />
+      <input name={field("reference_fingerprint")} type="hidden" value={ingredient.reference_fingerprint} />
       <input name={field("remove_food_link")} type="hidden" value={ingredient.remove_food_link ? "1" : "0"} />
 
       <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
@@ -322,7 +345,7 @@ function RecipeIngredientCard({
         <div className="flex min-w-0 flex-wrap gap-2">
           <Button aria-label={t("ingredients.moveUpLabel", { number: index + 1 })} size="sm" variant="outline" disabled={isPending || index === 0} onClick={() => move(-1)} type="button">{t("ingredients.moveUp")}</Button>
           <Button aria-label={t("ingredients.moveDownLabel", { number: index + 1 })} size="sm" variant="outline" disabled={isPending || index === ingredientCount - 1} onClick={() => move(1)} type="button">{t("ingredients.moveDown")}</Button>
-          {isLinked && <Button size="sm" variant="outline" disabled={isPending} onClick={() => update({ remove_food_link: true, selected_food_id: "" })} type="button">{t("ingredients.removeLink")}</Button>}
+          {isLinked && <Button size="sm" variant="outline" disabled={isPending} onClick={() => update({ remove_food_link: true, selected_food_id: "", reference: null, reference_fingerprint: "", automatic_values: {} })} type="button">{t("ingredients.removeLink")}</Button>}
           <Button size="sm" variant="destructive" disabled={isPending || ingredientCount === 1} onClick={remove} type="button">{t("ingredients.remove")}</Button>
         </div>
       </div>
@@ -330,6 +353,7 @@ function RecipeIngredientCard({
       {rowErrors.map(([name, code]) => <FieldError code={code} field={name} key={name} />)}
       <FoodPicker
         disabled={isPending}
+        onSelectionPendingChange={onSelectionPendingChange}
         onCompositionEnter={onCompositionEnter}
         onSelect={(result) => {
           if (result.status === "ready") {
@@ -353,10 +377,10 @@ function RecipeIngredientCard({
           <TextInput error={fieldErrors[field("unit")]} sharedErrorField={sharedErrorField} field={field("unit")} help={t("help.unit")} label={t("fields.unit")} maxLength={40} onChange={(unit) => update({ unit })} value={ingredient.unit} />
           <div className="min-w-0 sm:col-span-2"><FieldError code={fieldErrors[field("quantity_unit")]} field={field("quantity_unit")} /></div>
         </fieldset>
-        <NumberInput error={fieldErrors[field("calories")]} field={field("calories")} help={t("help.calories")} integer label={t("fields.calories")} maximum={2_147_483_647} onChange={(calories) => update({ calories })} value={ingredient.calories} />
-        <NumberInput error={fieldErrors[field("protein_g")]} field={field("protein_g")} help={t("help.protein")} label={t("fields.protein")} maximum={999_999.99} onChange={(protein_g) => update({ protein_g })} value={ingredient.protein_g} />
-        <NumberInput error={fieldErrors[field("carbohydrates_g")]} field={field("carbohydrates_g")} help={t("help.carbohydrates")} label={t("fields.carbohydrates")} maximum={999_999.99} onChange={(carbohydrates_g) => update({ carbohydrates_g })} value={ingredient.carbohydrates_g} />
-        <NumberInput error={fieldErrors[field("fat_g")]} field={field("fat_g")} help={t("help.fat")} label={t("fields.fat")} maximum={999_999.99} onChange={(fat_g) => update({ fat_g })} value={ingredient.fat_g} />
+        <NumberInput error={fieldErrors[field("calories")]} field={field("calories")} help={t("help.calories")} integer label={t("fields.calories")} maximum={2_147_483_647} onChange={(calories) => update({ calories, automatic_values: { ...ingredient.automatic_values, calories: "" } })} value={ingredient.calories} />
+        <NumberInput error={fieldErrors[field("protein_g")]} field={field("protein_g")} help={t("help.protein")} label={t("fields.protein")} maximum={999_999.99} onChange={(protein_g) => update({ protein_g, automatic_values: { ...ingredient.automatic_values, protein_g: "" } })} value={ingredient.protein_g} />
+        <NumberInput error={fieldErrors[field("carbohydrates_g")]} field={field("carbohydrates_g")} help={t("help.carbohydrates")} label={t("fields.carbohydrates")} maximum={999_999.99} onChange={(carbohydrates_g) => update({ carbohydrates_g, automatic_values: { ...ingredient.automatic_values, carbohydrates_g: "" } })} value={ingredient.carbohydrates_g} />
+        <NumberInput error={fieldErrors[field("fat_g")]} field={field("fat_g")} help={t("help.fat")} label={t("fields.fat")} maximum={999_999.99} onChange={(fat_g) => update({ fat_g, automatic_values: { ...ingredient.automatic_values, fat_g: "" } })} value={ingredient.fat_g} />
         <label className="ui-label grid min-w-0 gap-2 sm:col-span-2">
           <span>{t("fields.notes")}</span>
           <Textarea id={controlId(field("notes"))} aria-describedby={describedBy(field("notes"), fieldErrors[field("notes")])} aria-invalid={Boolean(fieldErrors[field("notes")])} dir="auto" maxLength={1000} name={field("notes")} onChange={(event) => update({ notes: event.target.value })} value={ingredient.notes} />
@@ -364,6 +388,23 @@ function RecipeIngredientCard({
           <FieldError code={fieldErrors[field("notes")]} field={field("notes")} />
         </label>
       </div>
+      {ingredient.reference && <div className="grid gap-2 sm:grid-cols-2">
+        {nutrientFields.map(fieldName => <label className="flex min-h-11 items-center gap-2 text-sm" key={fieldName}>
+          <input checked={ingredient.automatic_values[fieldName] === "1"} name={field(`automatic_${fieldName}`)} type="checkbox" value="1"
+            onChange={event => update({ automatic_values: { ...ingredient.automatic_values, [fieldName]: event.target.checked ? "1" : "" } })} />
+          <span>{nutritionT("automaticLabel")}: {t(`fields.${fieldName === "protein_g" ? "protein" : fieldName === "carbohydrates_g" ? "carbohydrates" : fieldName === "fat_g" ? "fat" : "calories"}`)}</span>
+        </label>)}
+      </div>}
+      {ingredient.additional_captured ? <input name={field("additional_nutrients_captured")} type="hidden" value="1" /> : <label className="flex min-h-11 items-center gap-2 text-sm">
+        <input checked={ingredient.additional_captured} name={field("additional_nutrients_captured")} type="checkbox" value="1" onChange={event => update({ additional_captured: event.target.checked })} />
+        <span>{additionalT("capture")}</span>
+      </label>}
+      <AdditionalNutrientFields controlPrefix="recipe" fieldPrefix="ingredient_" fieldSuffix={`_${index}`}
+        values={ingredient.additional_values} errors={fieldErrors}
+        automaticValues={ingredient.reference ? ingredient.automatic_values : undefined}
+        onValueChange={(code, value) => update({ additional_captured: true,
+          additional_values: { ...ingredient.additional_values, [code]: value }, automatic_values: { ...ingredient.automatic_values, [code]: "" } })}
+        onAutomaticChange={(code, enabled) => update({ automatic_values: { ...ingredient.automatic_values, [code]: enabled ? "1" : "" } })} />
       <p className="ui-body-secondary">{t("ingredients.snapshotHelp")}</p>
     </fieldset>
   );
@@ -387,9 +428,23 @@ export function RecipeForm({
   saved: "created" | "updated" | null;
 }) {
   const t = useTranslations("RecipeEditor");
+  const additionalLabelsT = useTranslations("Diary.additionalNutrients.labels");
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [ingredients, setIngredients] = useState(state.values.ingredients);
+  const [selectingRows, setSelectingRows] = useState<Set<string>>(() => new Set());
   const [yieldServings, setYieldServings] = useState(state.values.yield_servings);
+  const submittedYield = useRef(state.values.yield_servings);
+  const submittedRows = useRef(state.values.ingredients);
+  const reviewedResponse = useRef(initialState);
+  const nutritionT = useTranslations("Diary.form");
+  useEffect(() => {
+    if (isPending || state === reviewedResponse.current) return;
+    reviewedResponse.current = state;
+    if (state.status === "validation_error") queueMicrotask(() => {
+      setIngredients(current => mergeReviewedRows(current, submittedRows.current, state.values.ingredients));
+      setYieldServings(current => current === submittedYield.current ? state.values.yield_servings : current);
+    });
+  }, [state, isPending]);
   const compositionEnterInput = useRef<HTMLInputElement | null>(null);
   const linkedRows = new Set(linkedRowKeys);
   const [submittedRowKeys, setSubmittedRowKeys] = useState(() => initialState.values.ingredients.map((ingredient) => ingredient.row_key));
@@ -421,8 +476,8 @@ export function RecipeForm({
       const labelKey = ingredientFieldLabels[parsed.name];
       return {
         field,
-        label: `${t("ingredients.number", { number: parsed.index + 1 })}: ${parsed.name === "quantity_unit" ? `${t("fields.quantity")} / ${t("fields.unit")}` : labelKey ? t(`fields.${labelKey}`) : t("ingredients.title")}`,
-        target: parsed.name === "quantity_unit" ? controlId(field) : labelKey ? controlId(field) : `recipe-row-${parsed.index}`,
+        label: `${t("ingredients.number", { number: parsed.index + 1 })}: ${parsed.name === "quantity_unit" ? `${t("fields.quantity")} / ${t("fields.unit")}` : labelKey ? t(`fields.${labelKey}`) : (additionalNutrientCodesV1 as readonly string[]).includes(parsed.name) ? additionalLabelsT(parsed.name) : t("ingredients.title")}`,
+        target: parsed.name === "quantity_unit" || labelKey || (additionalNutrientCodesV1 as readonly string[]).includes(parsed.name) ? controlId(field) : `recipe-row-${parsed.index}`,
       };
     }
     const identityField = ["name", "recipe_locale", "yield_servings"].includes(field);
@@ -441,8 +496,23 @@ export function RecipeForm({
     validation_error: t("status.validationError"),
   }[state.status];
 
-  function updateIngredient(index: number, update: Partial<RecipeFormIngredientValues>) {
-    setIngredients((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, ...update } : item));
+  function updateIngredient(rowKey: string, update: Partial<RecipeFormIngredientValues>) {
+    setIngredients(current => current.map(item => {
+      if (item.row_key !== rowKey) return item;
+      const next = { ...item, ...update };
+      if (next.reference && (update.quantity !== undefined || update.unit !== undefined || update.automatic_values !== undefined)) {
+        const automatic = allNutrientFields.filter(field => next.automatic_values[field] === "1");
+        const scaled = scaleAllFoodNutrients(next.reference, next.quantity, next.unit, automatic);
+        if (scaled.ok) {
+          next.additional_values = { ...next.additional_values };
+          for (const field of automatic) {
+            if ((nutrientFields as readonly string[]).includes(field)) next[field as typeof nutrientFields[number]] = scaled.values[field];
+            else next.additional_values[field as typeof additionalNutrientCodesV1[number]] = scaled.values[field];
+          }
+        }
+      }
+      return next;
+    }));
   }
 
   function moveIngredient(index: number, direction: -1 | 1) {
@@ -456,13 +526,16 @@ export function RecipeForm({
   }
 
   return (
-    <form action={formAction} className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 text-start [overflow-wrap:anywhere]" noValidate onSubmit={(event) => { if (!event.defaultPrevented) setSubmittedRowKeys(ingredients.map((ingredient) => ingredient.row_key)); }} onSubmitCapture={(event) => {
+    <form action={formAction} className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 text-start [overflow-wrap:anywhere]" noValidate onSubmit={(event) => { if (!event.defaultPrevented) { submittedRows.current = ingredients; submittedYield.current = yieldServings; setSubmittedRowKeys(ingredients.map((ingredient) => ingredient.row_key)); } }} onSubmitCapture={(event) => {
+      if (selectingRows.size > 0) { event.preventDefault(); return; }
       if (compositionEnterInput.current && compositionEnterInput.current === event.currentTarget.ownerDocument.activeElement) {
         event.preventDefault();
       }
     }}>
       <input name="recipe_id" type="hidden" value={state.values.recipe_id} />
       <input name="ingredient_count" type="hidden" value={ingredients.length} />
+      {state.fieldErrors?.form === "nutrition_review_required" && <p data-testid="nutrition-review-required" role="status">{nutritionT("nutritionReviewRequired")}</p>}
+      {Object.values(state.fieldErrors ?? {}).includes("reference_changed") && <p data-testid="nutrition-reference-changed" role="status">{nutritionT("referenceChanged")}</p>}
 
 
       {state.status === "validation_error" && !isPending && (
@@ -475,6 +548,8 @@ export function RecipeForm({
                   const control = document.getElementById(target);
                   if (!control) return;
                   event.preventDefault();
+                  let disclosure = control.closest("details");
+                  while (disclosure) { disclosure.open = true; disclosure = disclosure.parentElement?.closest("details") ?? null; }
                   control.focus({ preventScroll: true });
                   control.scrollIntoView({ block: control.matches("input, select, textarea") ? "center" : "start", behavior: "instant" });
                 }}>{label}</a>
@@ -524,7 +599,9 @@ export function RecipeForm({
         <FieldError code={fieldErrors.ingredients} field="ingredients" />
         <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5">
           {ingredients.map((ingredient, index) => (
-            <RecipeIngredientCard fieldErrors={fieldErrors} index={index} ingredient={ingredient} ingredientCount={ingredients.length} isLinked={(linkedRows.has(ingredient.row_key) || ingredient.selected_food_id !== "") && !ingredient.remove_food_link} isPending={isPending} key={ingredient.row_key} move={(direction) => moveIngredient(index, direction)} onCompositionEnter={(input) => { compositionEnterInput.current = input; }} remove={() => setIngredients((current) => current.filter((_, itemIndex) => itemIndex !== index))} update={(update) => updateIngredient(index, update)} />
+            <RecipeIngredientCard fieldErrors={fieldErrors} index={index} ingredient={ingredient} ingredientCount={ingredients.length} isLinked={(linkedRows.has(ingredient.row_key) || ingredient.selected_food_id !== "") && !ingredient.remove_food_link} isPending={isPending} isSelecting={selectingRows.has(ingredient.row_key)} onSelectionPendingChange={(pending) => setSelectingRows(current => {
+              const next = new Set(current); if (pending) next.add(ingredient.row_key); else next.delete(ingredient.row_key); return next;
+            })} key={ingredient.row_key} move={(direction) => moveIngredient(index, direction)} onCompositionEnter={(input) => { compositionEnterInput.current = input; }} remove={() => setIngredients((current) => current.filter((_, itemIndex) => itemIndex !== index))} update={(update) => updateIngredient(ingredient.row_key, update)} />
           ))}
         </div>
         <div className="flex min-w-0 flex-wrap items-center gap-4">
@@ -538,7 +615,7 @@ export function RecipeForm({
           {statusMessage}
           {Object.entries(fieldErrors).filter(([field]) => !ingredientField(field) && !["name", "recipe_locale", "yield_servings", "ingredients"].includes(field)).map(([field, code]) => <FieldError code={code} field={field} key={field} />)}
         </div>
-        <Button size="lg" pending={isPending} disabled={isPending} onPointerDown={() => { compositionEnterInput.current = null; }} type="submit">{isPending ? t(mode === "create" ? "submit.createPending" : "submit.updatePending") : t(mode === "create" ? "submit.create" : "submit.update")}</Button>
+        <Button size="lg" pending={isPending} disabled={isPending || selectingRows.size > 0} onPointerDown={() => { compositionEnterInput.current = null; }} type="submit">{isPending ? t(mode === "create" ? "submit.createPending" : "submit.updatePending") : t(mode === "create" ? "submit.create" : "submit.update")}</Button>
       </div>
       <div className="flex min-w-0 flex-wrap gap-4"><Link className={buttonStyles({ variant: "ghost", className: "underline" })} href={`/${locale}/recipes`}>{t("backToManagement")}</Link><Link className={buttonStyles({ variant: "ghost", className: "underline" })} href={`/${locale}/today`}>{t("backToToday")}</Link></div>
     </form>

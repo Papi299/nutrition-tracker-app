@@ -1,0 +1,58 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-001A",
+  "capturedAt": "2026-10-25T05:37:25.343Z",
+  "sourceHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
+  "sourceState": "Candidate working tree; exact rendered file hashes below",
+  "renderedFiles": [
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "b29367e389e27529b1fba7b92a22226d9f6ab3ba2791d066946f6834fd2c023f"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "70389190179cf1134ebcc5eb0ea5e6922edccca81cb039df3f2ecf8e8ce12c37"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02d9b6ba91170fd4bbe3a0da6905c5b9a2f973433237a97b9265d6864bc8dd91"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-details.tsx",
+      "sha256": "64c43ec524bb2d5a4ff53de7c3bf5dab6a1cb670479364210ac58bc95f8c33fb"
+    },
+    {
+      "path": "lib/nutrition-snapshots/presentation.ts",
+      "sha256": "035d6338c4508b12a771f0fca3ce85342ca97a92eea9ebad5911edaac43d4444"
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "26dc1d92d8b8ed0b335890a6b452ac76ce5cbca2a1c73c664f3f0be492c9b19d"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
+    }
+  ],
+  "route": "/en/today?date=2027-01-20",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "browser": "Chromium",
+  "browserVersion": "149.0.7827.55",
+  "fixture": {
+    "synthetic": true,
+    "localOnly": true,
+    "provisioner": "provisionActivatedLocalUser",
+    "description": "Two captured synthetic snapshots, independent explicit fiber zero/vitamin D unknown, and one historical uncaptured row. Daily complete totals remain unknown; known subtotals are shown."
+  },
+  "sha256": "b69a81ca0fa8527c32e71b17a89a61924f30cce375d2d57eeac4c165e98a7411"
+}

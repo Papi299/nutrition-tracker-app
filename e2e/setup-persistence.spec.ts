@@ -448,13 +448,9 @@ test.describe.serial("atomic setup persistence", () => {
     expect(userBTargetAfter.data?.calories).toBe(7777);
     expect(userAId).not.toBe(userBId);
 
-    const anonymousClient = localClient();
-    const anonymous = await anonymousClient.rpc(
-      "persist_setup",
-      rpcArgs({ p_effective_from: "2028-07-01" }),
-    );
-    expect(anonymous.data).toBeNull();
-    expect(anonymous.error).not.toBeNull();
+    // Supabase Postgres issue #2112 crashes this image on denied function EXECUTE.
+    // Assert the ACL directly; live anonymous table/route isolation remains tested.
+    expect(queryLocalDatabase("select has_function_privilege('anon','public.persist_setup(text,text,date,integer,numeric,numeric,numeric)','EXECUTE')")).toBe("f");
   });
 
   test("CJ-009 completes first setup and recovers safely without JavaScript in Hebrew", async ({

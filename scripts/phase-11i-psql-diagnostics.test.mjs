@@ -137,7 +137,7 @@ test("spawn errors cannot expose command/environment properties", () => {
 });
 
 const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql"))
-  .sort().map((name) => [name.split("_")[0]]);
+  .sort().map((name) => [name.split("_")[0]]).filter(([version]) => version <= "20260927170418");
 const durableAuth = ["identities", "mfa_factors", "users", "webauthn_credentials"];
 for (const failedStage of PSQL_QUERY_STAGES) {
   test(`capture labels ${failedStage} and aborts without retry or durable output`, async () => {

@@ -9,6 +9,7 @@ import {
   assertHash,
   assertIsolatedRestoreTarget,
   assertMigrationHistory,
+  recoveryMigrationBoundary,
   assertPre11KStatus,
   assertProductionSource,
   assertRecipientCertificateFingerprint,
@@ -37,10 +38,22 @@ const githubBackupRunbook = readFileSync(
   "docs/phase-11i-github-artifact-backup-automation.md",
   "utf8",
 );
-const repositoryMigrationVersions = readdirSync("supabase/migrations")
+const allRepositoryMigrationVersions = readdirSync("supabase/migrations")
   .filter((name) => /^\d{14}_.+\.sql$/.test(name))
   .sort()
   .map((name) => name.slice(0, 14));
+const repositoryMigrationVersions = allRepositoryMigrationVersions.filter(version => version <= EXPECTED_MIGRATION_HEAD);
+
+test("development migration qualifies only under the explicit synthetic boundary", () => {
+  assert.equal(allRepositoryMigrationVersions.length, 45);
+  assert.throws(() => assertMigrationHistory(allRepositoryMigrationVersions), /count mismatch/);
+  const local = { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" };
+  assertMigrationHistory(allRepositoryMigrationVersions, recoveryMigrationBoundary(local, true));
+  for (const identity of [undefined, { ...local, projectRef: PRODUCTION_PROJECT_REF }, { ...local, sourceEnvironment: "Production" }]) {
+    assert.throws(() => recoveryMigrationBoundary(identity, true), /fixed local synthetic identity/);
+  }
+});
+
 
 function assertWorkflowRejected(workflow = githubBackupWorkflow, runbook = githubBackupRunbook) {
   assert.throws(() => assertGitHubBackupWorkflowContract({ workflow, runbook }));

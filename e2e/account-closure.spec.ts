@@ -1,3 +1,4 @@
+import { additionalNutrientCodesV1 } from "@/lib/nutrition-snapshots";
 import AxeBuilder from "@axe-core/playwright";
 import { createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
@@ -256,6 +257,9 @@ function gtin14(seed: string) {
 }
 
 function seedRepresentativeProductData(userId: string) {
+  const additional = JSON.stringify({ version: 1, values: Object.fromEntries(
+    additionalNutrientCodesV1.map((code, index) => [code, index === 0 ? 0 : index === 1 ? null : Number(`${index + 1}.2345`)]),
+  ) });
   const ids = Array.from({ length: 13 }, () => crypto.randomUUID());
   const [
     targetId,
@@ -319,10 +323,10 @@ function seedRepresentativeProductData(userId: string) {
 
     insert into public.diary_entries (
       id, user_id, entry_date, meal_type, food_id, food_name,
-      serving_quantity, serving_unit, calories, source
+      serving_quantity, serving_unit, calories, source, additional_nutrient_snapshot
     ) values (
       '${diaryId}', '${userId}', '2026-08-29', 'breakfast', '${foodId}',
-      'Closure diary snapshot', 0, 'portion', 0, 'manual'
+      'Closure diary snapshot', 0, 'portion', 0, 'manual', '${additional}'::jsonb
     );
 
     insert into public.manual_diary_entry_requests (
@@ -342,10 +346,10 @@ function seedRepresentativeProductData(userId: string) {
     );
     insert into public.saved_meal_items (
       id, saved_meal_id, position, food_id, food_name, serving_quantity,
-      serving_unit, calories
+      serving_unit, calories, additional_nutrient_snapshot
     ) values (
       '${savedItemId}', '${savedMealId}', 1, '${foodId}',
-      'Closure saved snapshot', 0, 'portion', 0
+      'Closure saved snapshot', 0, 'portion', 0, '${additional}'::jsonb
     );
 
     insert into public.saved_meal_diary_runs (
@@ -368,10 +372,10 @@ function seedRepresentativeProductData(userId: string) {
     insert into public.recipes (id, user_id, name, locale, yield_servings)
     values ('${recipeId}', '${userId}', 'Closure recipe', 'en', 1);
     insert into public.recipe_ingredients (
-      id, recipe_id, position, food_id, ingredient_name, quantity, unit, calories
+      id, recipe_id, position, food_id, ingredient_name, quantity, unit, calories, additional_nutrient_snapshot
     ) values (
       '${recipeItemId}', '${recipeId}', 1, '${foodId}',
-      'Closure recipe snapshot', 1, 'portion', 0
+      'Closure recipe snapshot', 1, 'portion', 0, '${additional}'::jsonb
     );
     insert into public.recipe_diary_runs (
       id, user_id, recipe_id, idempotency_key, source_updated_at,
@@ -1010,7 +1014,7 @@ test.describe.serial("Phase 11E5 account closure", () => {
     const preClosureDownload = await preClosureDownloadEvent;
     expect(await preClosureDownload.path()).not.toBeNull();
     expect(preClosureDownload.suggestedFilename()).toMatch(
-      /^nutrition-tracker-account-export-v1-\d{4}-\d{2}-\d{2}\.json$/,
+      /^nutrition-tracker-account-export-v2-\d{4}-\d{2}-\d{2}\.json$/,
     );
     expect(productFingerprint(userId)).toBe(before);
     await signedIn.page.goto("/en/account/closure");

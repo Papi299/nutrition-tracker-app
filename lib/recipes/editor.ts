@@ -42,7 +42,7 @@ export async function getOwnedRecipeEditor(
 
   const supabase = await createServerClient();
   const { data, error } = await supabase
-    .rpc("get_owned_recipe_editor", { p_recipe_id: recipeId })
+    .rpc("get_owned_recipe_editor_v2", { p_recipe_id: recipeId })
     .maybeSingle();
 
   if (error) return { code: "database_error", ok: false };

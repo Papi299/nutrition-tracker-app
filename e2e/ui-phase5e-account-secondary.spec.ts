@@ -187,10 +187,10 @@ test.describe.serial("UI Phase 5E Account and secondary presentation", () => {
     contracts.push({ state: `${kind}-ready`, locale, action: await form.getAttribute("action"), method: await form.getAttribute("method"), explicitSubmit: true, closureSubmitted: false });
   }
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({ browser }, testInfo) => {
     test.setTimeout(120_000);
     if (!localUrl || !["localhost", "127.0.0.1"].includes(new URL(localUrl).hostname)) throw new Error("Refusing nonlocal Account fixtures.");
-    evidenceDirectory = join(process.cwd(), "docs/ui-phase5e/evidence");
+    evidenceDirectory = join(testInfo.project.outputDir, "ui-phase5e-account-evidence");
     mkdirSync(evidenceDirectory, { recursive: true });
     const protectedHashes = Object.fromEntries(protectedFiles.map(file => {
       const actual = digest(readFileSync(file));
@@ -305,7 +305,7 @@ test.describe.serial("UI Phase 5E Account and secondary presentation", () => {
       await expect(native).toHaveURL(`/${locale}/account`);
       await native.getByRole("link", { name: messages[locale].Account.export.open, exact: true }).click(); await accountContract(native, locale, true, "export");
       const downloadEvent = native.waitForEvent("download"); await native.getByRole("button", { name: messages[locale].Account.export.download, exact: true }).click();
-      const download = await downloadEvent; expect(download.suggestedFilename()).toMatch(/^nutrition-tracker-account-export-v1-\d{4}-\d{2}-\d{2}\.json$/);
+      const download = await downloadEvent; expect(download.suggestedFilename()).toMatch(/^nutrition-tracker-account-export-v2-\d{4}-\d{2}-\d{2}\.json$/);
       const path = await download.path(); expect(path).not.toBeNull(); const payload = JSON.parse(readFileSync(path as string, "utf8"));
       expect(payload.schema).toBe(accountExportSchema); expect(payload.account.id).toBe(userId);
       expect(databaseSnapshot()).toBe(before);

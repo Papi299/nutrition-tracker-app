@@ -1,3 +1,5 @@
+import { additionalSnapshotFormState, type AdditionalNutrientFormState } from "@/lib/nutrition-snapshots/form-state";
+import { emptyAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
 import type {
   OwnedSavedMealEditor,
   SavedMealDiarySourceItem,
@@ -5,7 +7,7 @@ import type {
 import { savedMealRowKey } from "@/lib/saved-meals/row-identity";
 import type { Locale } from "@/lib/i18n/routing";
 
-export type SavedMealFormItemValues = {
+export type SavedMealFormItemValues = AdditionalNutrientFormState & {
   brand_name: string;
   calories: string;
   carbohydrates_g: string;
@@ -49,6 +51,7 @@ function inputValue(value: null | number | string) {
 
 export function blankSavedMealItem(rowKey: string): SavedMealFormItemValues {
   return {
+    ...additionalSnapshotFormState(emptyAdditionalNutrientSnapshot()),
     brand_name: "",
     calories: "",
     carbohydrates_g: "",
@@ -81,6 +84,7 @@ export function diarySourceSavedMealFormValues(
 ): SavedMealFormValues {
   return {
     items: source.map((item) => ({
+      ...additionalSnapshotFormState(item.additional_nutrient_snapshot),
       brand_name: inputValue(item.brand_name),
       calories: inputValue(item.calories),
       carbohydrates_g: inputValue(item.carbohydrates_g),
@@ -104,6 +108,7 @@ export function editorSavedMealFormValues(
 ): SavedMealFormValues {
   return {
     items: editor.items.map((item) => ({
+      ...additionalSnapshotFormState(item.additional_nutrient_snapshot),
       brand_name: inputValue(item.brand_name),
       calories: inputValue(item.calories),
       carbohydrates_g: inputValue(item.carbohydrates_g),

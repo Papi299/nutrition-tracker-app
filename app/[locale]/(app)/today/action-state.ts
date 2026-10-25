@@ -1,3 +1,5 @@
+import type { AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
+
 export type DiaryEntryActionStatus =
   | "conflict"
   | "database_error"
@@ -7,7 +9,18 @@ export type DiaryEntryActionStatus =
   | "unauthenticated"
   | "validation_error";
 
+export type DiaryNutrientField = "calories" | "protein_g" | "carbohydrates_g" | "fat_g" | AdditionalNutrientCode;
+
 export type DiaryEntryFieldName =
+  | DiaryNutrientField
+  | `automatic_${DiaryNutrientField}`
+  | "additional_nutrients_captured"
+  | "additional_nutrient_snapshot"
+  | "reference_fingerprint"
+  | "automatic_calories"
+  | "automatic_carbohydrates_g"
+  | "automatic_fat_g"
+  | "automatic_protein_g"
   | "brand_name"
   | "calories"
   | "carbohydrates_g"

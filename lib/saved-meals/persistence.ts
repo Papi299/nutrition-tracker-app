@@ -1,3 +1,4 @@
+import { additionalSnapshotToRequest } from "@/lib/nutrition-snapshots";
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
@@ -58,15 +59,18 @@ export async function persistSavedMealForCurrentUser(
   const supabase = await createServerClient();
   const args = {
     p_expected_edit_revision: validation.data.expected_edit_revision,
-    p_items: validation.data.items as Json,
+    p_items: validation.data.items.map(child => ({ ...child,
+      item_id: child.item_id ?? null,
+      additional_nutrient_snapshot: additionalSnapshotToRequest(child.additional_nutrient_snapshot ?? null),
+    })) as Json,
     p_locale: validation.data.locale,
     p_name: validation.data.name,
     p_saved_meal_id: validation.data.saved_meal_id,
   };
   const { data, error } = await supabase
     .rpc(
-      "persist_saved_meal",
-      args as Database["public"]["Functions"]["persist_saved_meal"]["Args"],
+      "persist_saved_meal_v2",
+      args as Database["public"]["Functions"]["persist_saved_meal_v2"]["Args"],
     )
     .maybeSingle();
 

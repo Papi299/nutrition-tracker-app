@@ -1,3 +1,4 @@
+import { parseAdditionalNutrientSnapshot, additionalSnapshotToRequest } from "@/lib/nutrition-snapshots";
 import {
   provisionActivatedLocalUser,
   provisionActivatedLocalUserForUi,
@@ -311,7 +312,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
 
     const persisted = await userAClient
       .from("saved_meal_items")
-      .select("position,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes")
+      .select("id,additional_nutrient_snapshot,position,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes")
       .eq("saved_meal_id", sourceMealId)
       .order("position");
     expect(persisted.error).toBeNull();
@@ -376,7 +377,7 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await items.nth(2).getByLabel("Calories").fill("0");
     await items.nth(2).getByLabel("Protein (g)").fill("0");
     await items.nth(2).getByLabel("Carbohydrates (g)").fill("0");
-    await items.nth(2).getByLabel("Fat (g)").fill("0");
+    await items.nth(2).locator('input[name="item_fat_g_2"]').fill("0");
     await page.evaluate((injectedFoodId) => {
       const input = document.createElement("input");
       input.type = "hidden";
@@ -666,13 +667,20 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
     await expect(page.getByTestId("saved-meal-use-unavailable")).toBeVisible();
 
     queryLocalDatabase(`
-      revoke execute on function public.get_owned_saved_meal_editor(uuid) from authenticated;
+      alter function public.get_owned_saved_meal_editor_v2(uuid)
+      rename to get_owned_saved_meal_editor_v2_test_hidden;
+      notify pgrst, 'reload schema'; select pg_sleep(0.5);
     `);
-    await page.goto(`/en/saved-meals/${sourceMealId}/use?date=2024-02-29`);
-    await expect(page.getByTestId("saved-meal-use-retrieval-error")).toBeVisible();
-    queryLocalDatabase(`
-      grant execute on function public.get_owned_saved_meal_editor(uuid) to authenticated;
-    `);
+    try {
+      await page.goto(`/en/saved-meals/${sourceMealId}/use?date=2024-02-29`);
+      await expect(page.getByTestId("saved-meal-use-retrieval-error")).toBeVisible();
+    } finally {
+      queryLocalDatabase(`
+        alter function public.get_owned_saved_meal_editor_v2_test_hidden(uuid)
+        rename to get_owned_saved_meal_editor_v2;
+        notify pgrst, 'reload schema'; select pg_sleep(0.5);
+      `);
+    }
 
     await expect(async () => {
       await page.goto(`/en/saved-meals/${sourceMealId}/use?date=9999-12-31`);
@@ -727,11 +735,11 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
 
     const sourceItems = await userAClient
       .from("saved_meal_items")
-      .select("position,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes")
+      .select("id,additional_nutrient_snapshot,position,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes")
       .eq("saved_meal_id", sourceMealId)
       .order("position");
     expect(sourceItems.error).toBeNull();
-    const changed = await userAClient.rpc("persist_saved_meal", {
+    const changed = await userAClient.rpc("persist_saved_meal_v2", {
       p_expected_edit_revision: Number(
         queryLocalDatabase(`
           select saved_meal_edit_revision
@@ -739,7 +747,12 @@ test.describe.serial("localized saved-meal creation, editing, and management", (
           where id = '${sourceMealId}';
         `),
       ),
-      p_items: sourceItems.data as Json,
+      p_items: sourceItems.data!.map(({ id, additional_nutrient_snapshot, ...item }) => {
+        const additional = parseAdditionalNutrientSnapshot(additional_nutrient_snapshot);
+        expect(additional.ok).toBe(true);
+        if (!additional.ok) throw new Error("Synthetic fixture contains invalid nutrients.");
+        return { ...item, item_id: id, additional_nutrient_snapshot: additionalSnapshotToRequest(additional.data) };
+      }) as Json,
       p_locale: "und",
       p_name: "Changed after review loaded",
       p_saved_meal_id: sourceMealId,

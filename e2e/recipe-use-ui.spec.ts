@@ -293,8 +293,9 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
     const context = await newAuthenticatedContext(browser);
     const page = await context.newPage();
     queryLocalDatabase(`
-      revoke execute on function public.get_owned_recipe_use_contract(uuid, numeric)
-      from authenticated;
+      alter function public.get_owned_recipe_use_contract_v2(uuid, numeric)
+      rename to get_owned_recipe_use_contract_v2_test_hidden;
+      notify pgrst, 'reload schema'; select pg_sleep(0.5);
     `);
     try {
       await page.goto("/en/recipes/not-a-uuid/use?date=2024-02-29&servings=1");
@@ -318,8 +319,9 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
 
     } finally {
       queryLocalDatabase(`
-        grant execute on function public.get_owned_recipe_use_contract(uuid, numeric)
-        to authenticated;
+        alter function public.get_owned_recipe_use_contract_v2_test_hidden(uuid, numeric)
+        rename to get_owned_recipe_use_contract_v2;
+        notify pgrst, 'reload schema'; select pg_sleep(0.5);
       `);
     }
     await context.close();
@@ -693,7 +695,7 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
       "href",
       `/en/recipes/${activeRecipeId}/use`,
     );
-    await page.getByTestId("recipe-ingredient").first().getByLabel("Calories").fill("9");
+    await page.getByTestId("recipe-ingredient").first().getByRole("spinbutton", { name: "Calories" }).fill("9");
     await expect(summary).toContainText("Whole recipe: 3");
     await page.getByRole("button", { name: "Save changes" }).click();
     await expect(page).toHaveURL(new RegExp(`/en/recipes/${activeRecipeId}/edit\\?saved=updated$`));
@@ -714,8 +716,8 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
     const context = await newAuthenticatedContext(browser);
     const page = await context.newPage();
     queryLocalDatabase(`
-      alter function public.get_owned_recipe_use_contract(uuid, numeric)
-      rename to get_owned_recipe_use_contract_test_hidden;
+      alter function public.get_owned_recipe_use_contract_v2(uuid, numeric)
+      rename to get_owned_recipe_use_contract_v2_test_hidden;
       notify pgrst, 'reload schema';
       select pg_sleep(0.5);
     `);
@@ -732,8 +734,8 @@ test.describe.serial("localized recipe nutrition display and reviewed preview", 
       await expect(page.getByRole("button", { name: "Save changes" })).toBeEnabled();
     } finally {
       queryLocalDatabase(`
-        alter function public.get_owned_recipe_use_contract_test_hidden(uuid, numeric)
-        rename to get_owned_recipe_use_contract;
+        alter function public.get_owned_recipe_use_contract_v2_test_hidden(uuid, numeric)
+        rename to get_owned_recipe_use_contract_v2;
         notify pgrst, 'reload schema';
         select pg_sleep(0.5);
       `);

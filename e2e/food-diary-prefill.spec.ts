@@ -349,13 +349,22 @@ test.describe.serial("food selection and diary snapshot prefill", () => {
     );
 
     await page.locator('input[name="serving_quantity"]').fill("9");
-    await expect(page.locator('input[name="calories"]')).toHaveValue("124");
+    await expect(page.locator('input[name="calories"]')).toHaveValue("556");
+    await expect(page.locator('input[name="protein_g"]')).toHaveValue("0");
+    await expect(page.locator('input[name="carbohydrates_g"]')).toHaveValue("");
+    await expect(page.locator('input[name="fat_g"]')).toHaveValue("20.25");
     await page.locator('input[name="food_name"]').fill("Edited selected snapshot");
     await page.locator('input[name="brand_name"]').fill("Edited Snapshot Brand");
     await page.locator('input[name="calories"]').fill("130");
     await page.locator('input[name="protein_g"]').fill("1.5");
     await page.locator('input[name="carbohydrates_g"]').fill("2.5");
     await page.locator('input[name="fat_g"]').fill("");
+    await page.locator('input[name="serving_quantity"]').fill("10");
+    await expect(page.locator('input[name="calories"]')).toHaveValue("130");
+    await expect(page.locator('input[name="protein_g"]')).toHaveValue("1.5");
+    await expect(page.locator('input[name="carbohydrates_g"]')).toHaveValue("2.5");
+    await expect(page.locator('input[name="fat_g"]')).toHaveValue("");
+    await page.locator('input[name="serving_quantity"]').fill("9");
     await page.locator('textarea[name="notes"]').fill("Reviewed before submit");
     await page.getByRole("button", { name: "Add entry" }).click();
     await expect(page.getByText("Entry added.")).toBeVisible();

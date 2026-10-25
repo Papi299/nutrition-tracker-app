@@ -253,7 +253,7 @@ test.describe.serial("UI Phase 5C Saved Meal forms and exact snapshot review", (
     oneMealId = await persist("Normal snapshot ארוחה / 123", [item(1, { food_name: "Normal zero snapshot", brand_name: null, notes: null, serving_unit: "portion" })]);
     archivedMealId = await persist("Archived editable ארוחה", [item(1)]);
     expect((await client.rpc("set_saved_meal_archived", { p_saved_meal_id: archivedMealId, p_is_archived: true })).error).toBeNull();
-    const diary = await client.from("diary_entries").insert(sourceItems.map(({ position, ...snapshot }) => ({ ...snapshot, user_id: userId, entry_date: date, meal_type: "breakfast" as const, created_at: `2026-07-16T08:${String(position).padStart(2, "0")}:00Z` })));
+    const diary = await client.from("diary_entries").insert(sourceItems.map(({ position, item_id, ...snapshot }) => { expect(item_id).toBeUndefined(); return { ...snapshot, user_id: userId, entry_date: date, meal_type: "breakfast" as const, created_at: `2026-07-16T08:${String(position).padStart(2, "0")}:00Z` }; }));
     expect(diary.error).toBeNull();
     const context = await browser.newContext(); const page = await context.newPage();
     await page.goto("/en/auth/sign-in"); await page.getByLabel("Email").fill(email); await page.getByLabel("Password").fill(password); await page.getByRole("button", { name: "Sign in", exact: true }).click();

@@ -459,11 +459,9 @@ test.describe.serial("barcode identity and local lookup foundation", () => {
     );
     expect(authenticatedValidation).toMatchObject({ data: true, error: null });
 
-    const anonymousValidation = await localClient().rpc(
-      "is_valid_canonical_gtin",
-      { p_gtin: codes.publicOnly },
-    );
-    expect(anonymousValidation.error).not.toBeNull();
+    // Supabase Postgres issue #2112 crashes this image on denied function EXECUTE.
+    // Assert the ACL directly; live anonymous table/route isolation remains tested.
+    expect(queryLocalDatabase("select has_function_privilege('anon','public.is_valid_canonical_gtin(text)','EXECUTE')")).toBe("f");
   });
 
   test("enforces canonical validation, derived scope, parent state, and mapping fields", () => {
@@ -783,8 +781,9 @@ test.describe.serial("barcode identity and local lookup foundation", () => {
     const invalid = await lookupBarcode(userAClient, "00000000000001");
     expect(invalid.error?.code).toBe("22023");
 
-    const anonymous = await lookupBarcode(localClient(), codes.publicOnly);
-    expect(anonymous.error).not.toBeNull();
+    // Supabase Postgres issue #2112 crashes this image on denied function EXECUTE.
+    // Assert the ACL directly; live anonymous table/route isolation remains tested.
+    expect(queryLocalDatabase("select has_function_privilege('anon','public.lookup_readable_food_by_gtin(text)','EXECUTE')")).toBe("f");
 
     const before = queryLocalDatabase(`
       select updated_at from public.food_barcodes

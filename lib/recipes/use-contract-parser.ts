@@ -1,3 +1,4 @@
+import { parseAdditionalNutrientSnapshot, type AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { isUuid } from "@/lib/food-selection/query";
 import { recipeLocales, type RecipeLocale } from "./validation";
 
@@ -22,6 +23,7 @@ export type RecipeUseNutrientContract = {
 };
 
 export type RecipeUseContract = {
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   ingredient_count: number;
   is_archived: boolean;
   nutrients: {
@@ -176,7 +178,7 @@ function nutrientIsValid(
     : hasAtMostTwoDecimalPlaces(nutrient.diary_value);
 }
 
-export function parseRecipeUseContractPayload(
+function parseLegacyRecipeUseContractPayload(
   value: unknown,
   expectedRequestedServings: number,
 ): ParsedRecipeUseContract | null {
@@ -283,4 +285,17 @@ export function parseRecipeUseContractPayload(
     },
     status,
   };
+}
+
+export function parseRecipeUseContractPayload(value: unknown, expectedRequestedServings: number): ParsedRecipeUseContract | null {
+  if (!isRecord(value)) return null;
+  const hasAdditional = Object.hasOwn(value, "additional_nutrient_snapshot");
+  const { additional_nutrient_snapshot, ...legacy } = value;
+  const parsed = parseLegacyRecipeUseContractPayload(hasAdditional ? legacy : value, expectedRequestedServings);
+  if (!parsed) return null;
+  if (!hasAdditional) return parsed;
+  const additional = parseAdditionalNutrientSnapshot(additional_nutrient_snapshot);
+  if (!additional.ok) return null;
+  if (parsed.status === "unavailable") return additional.data === null ? parsed : null;
+  return { ...parsed, data: { ...parsed.data, additional_nutrient_snapshot: additional.data } };
 }

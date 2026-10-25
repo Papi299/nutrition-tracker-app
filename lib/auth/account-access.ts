@@ -45,19 +45,15 @@ export async function getAccountLifecycleState(
   }
 
   const supabase = suppliedClient ?? (await createServerClient());
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
+  if (claimsError || typeof claimsData?.claims?.sub !== "string") {
+    return { status: "unauthenticated" };
+  }
   const { data, error } = await supabase.rpc(
     "current_account_access_state",
   );
 
   if (error) {
-    const { data: claimsData, error: claimsError } =
-      await supabase.auth.getClaims();
-    const userId = claimsData?.claims?.sub;
-
-    if (claimsError || typeof userId !== "string") {
-      return { status: "unauthenticated" };
-    }
-
     emitAccountAccessFailure();
     return { status: "unavailable" };
   }

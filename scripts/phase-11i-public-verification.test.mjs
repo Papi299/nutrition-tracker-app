@@ -7,7 +7,7 @@ import {
 } from "./phase-11i-public-verification.mjs";
 import { validateCompletedOwnerActivation } from "./phase-11i-owner-validation.mjs";
 
-const migrations = readdirSync("supabase/migrations").filter((name) => /^\d{14}_.+\.sql$/.test(name)).sort().map((name) => name.slice(0, 14));
+const migrations = readdirSync("supabase/migrations").filter((name) => /^\d{14}_.+\.sql$/.test(name)).sort().map((name) => name.slice(0, 14)).filter(version => version <= "20260927170418");
 const validated = {
   migrations, storage: { buckets: 0, objects: 0 },
   ownerValidation: { authCounts: { users: 1, sessions: 9, refreshTokens: 10 },

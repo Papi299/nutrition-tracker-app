@@ -1,11 +1,13 @@
 import "server-only";
 
+import { parseAdditionalNutrientSnapshot, type AdditionalNutrientSnapshotV1 } from "@/lib/nutrition-snapshots";
 import { getAuthenticatedUserId } from "@/lib/data/auth";
 import type { DataResult } from "@/lib/data/result";
 import type { DiaryEntryMealType } from "@/lib/diary-entries/validation";
 import { createServerClient } from "@/lib/supabase";
 
 export type SavedMealDiarySourceItem = {
+  additional_nutrient_snapshot?: AdditionalNutrientSnapshotV1 | null;
   brand_name: string | null;
   calories: number | null;
   carbohydrates_g: number | null;
@@ -31,7 +33,7 @@ export async function getSavedMealDiarySource(
   const { data, error } = await supabase
     .from("diary_entries")
     .select(
-      "id,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes",
+      "id,food_id,food_name,brand_name,serving_quantity,serving_unit,calories,protein_g,carbohydrates_g,fat_g,notes,additional_nutrient_snapshot",
     )
     .eq("user_id", auth.data)
     .eq("entry_date", date)
@@ -41,8 +43,12 @@ export async function getSavedMealDiarySource(
 
   if (error || !data) return { code: "database_error", ok: false };
 
+  if (data.some(entry => !parseAdditionalNutrientSnapshot(entry.additional_nutrient_snapshot).ok)) {
+    return { code: "database_error", ok: false };
+  }
   return {
     data: data.map((entry) => ({
+      additional_nutrient_snapshot: entry.additional_nutrient_snapshot as AdditionalNutrientSnapshotV1 | null,
       brand_name: entry.brand_name,
       calories: entry.calories,
       carbohydrates_g: entry.carbohydrates_g,
