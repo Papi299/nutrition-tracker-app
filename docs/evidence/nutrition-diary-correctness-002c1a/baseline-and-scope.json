@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "nutrition-002c1a-baseline/v1",
+  "repository": "Papi299/nutrition-tracker-app",
+  "main": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "predecessors": [
+    {
+      "number": 200,
+      "head": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 201,
+      "head": "7201879935903e846dab5e2adef6d86beea0d597",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 202,
+      "head": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "tree": "d5b74c91f16ceac3f8e62c95cff54e8e1c777b0f",
+      "draft": true,
+      "merged": false
+    }
+  ],
+  "historical44Source": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "historical44Tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+  "branch": "codex/nutrition-002c1a-snapshot-catalog",
+  "stackedBase": "codex/nutrition-002c1-fidelity",
+  "implementationCommit": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
+  "implementationTree": "e1837f3d9c802b6100e623b800a584ecb358bf7a",
+  "productionAuthority": "NONE",
+  "mergeAuthority": "NONE",
+  "deploymentAuthority": "NONE",
+  "predecessorFilesByteIdenticalExceptWorkflowPolicy": 1304,
+  "allMigrationsUnchanged": true,
+  "allPreviousCatalogCaptureAndRecoveryModulesUnchanged": true,
+  "productionCaptureGuardUnchanged": true,
+  "ordinaryWorkflowsUnchanged": true,
+  "dependencyLockUnchanged": true,
+  "scope": "RESTRICTED_RAW_HISTORICAL_OBSERVATION_AND_INCOMPLETE_FUNCTION_SUBSET_ONLY",
+  "fullHistoricalCatalog": "BLOCKED",
+  "productionRecoveryEligibility": false,
+  "productionAccess": false
+}

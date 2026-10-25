@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "nutrition-002c1a-validation/v1",
+  "implementationCommit": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
+  "implementationTree": "e1837f3d9c802b6100e623b800a584ecb358bf7a",
+  "implementationSha256": "1dccd4254667ce8d32f4371405483065de2a008326f9f559aae8aac3dee6c06f",
+  "node": "v22.23.4",
+  "postgres": "17.6",
+  "nativeDump": "17.6",
+  "unitCommand": "node --test scripts/nutrition-002c1a/contracts.test.mjs scripts/nutrition-002c1a/mapping.test.mjs scripts/nutrition-002c1/contracts.test.mjs scripts/nutrition-002c1/normalization.test.mjs scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs",
+  "unitTests": {
+    "tests": 242,
+    "passed": 242,
+    "failed": 0,
+    "skipped": 0,
+    "tapSha256": "759e1cdebb84988fc7be86e48d39f7869b39f8967b53bb800847f8e89fa0569c"
+  },
+  "qualificationCommand": "node scripts/nutrition-002c1a/qualify-local.mjs /absolute/new/sanitized-report.json",
+  "localDatabaseCases": 22,
+  "focusedLint": "PASS_ZERO_WARNINGS",
+  "workflowPolicy": "PASS",
+  "workflowSha256": "2145450c2ee70de0b8eee2b122b2e0af87a7fbbba5ec3f1898fb1651f5c5ab44",
+  "diffCheck": "PASS",
+  "priorFilesByteIdenticalExceptTwoWorkflowPolicyEdits": 1304,
+  "cleanupConfirmed": true,
+  "fullApplicationCi": "NOT_RUN_STACKED_BASE",
+  "codeql": "NOT_RUN_AT_EVIDENCE_COMMIT_SEE_EXACT_HEAD_PR_REPORT",
+  "codeqlActionCommit": "9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+  "productionAccess": false
+}
