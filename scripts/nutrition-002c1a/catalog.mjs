@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { canonical, hash, validateModel } from '../nutrition-002c1/catalog.mjs';
-import { PROTOCOL } from './snapshot.mjs';
+import { PROTOCOL,Snapshot } from './snapshot.mjs';
 
 export const CONTRACT = 'nutrition-002c1a-raw-snapshot/v1';
 export const SUBSET = 'nutrition-002c1a-stored-function-subset/v1';
@@ -48,6 +48,7 @@ export function rawSql() {
   return sql;
 }
 export async function observeSnapshot(lease,reader) {
+  if (!(lease instanceof Snapshot)) fail('N002C1A_LOCAL_SNAPSHOT_REQUIRED');
   try { return validateRaw(JSON.parse((await lease.read(reader,rawSql())).join('\n'))); }
   catch (e) { if (/^N002C1A_/.test(e.message)) throw e; fail('N002C1A_OBSERVATION_FAILED'); }
 }

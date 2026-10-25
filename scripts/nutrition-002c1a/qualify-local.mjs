@@ -143,13 +143,13 @@ async function temporalCases() {
       assert.deepEqual(await reader.query('select 1;'),['1']);
       await assert.rejects(lease.read(reader,'select 1;'),/EXPORTER_LOST/);
       await assert.rejects(lease.dump(),/EXPORTER_LOST/);
-      await assert.rejects(lease.importExpiredForTest(),/22023/);
+      await assert.rejects(lease.importExpiredForTest(),/42704/);
       return {alreadyImportedReader:'SURVIVES_AT_SERVER',supervisor:'REFUSES',newImport:'REFUSES',productionRecoveryEligibility:false};
     } finally {await lease.close();}
   });
   await record('invalidLateImportReadOnlyAndParticipantFailures',()=>snapshotAction(async(lease,reader)=>{
     await assert.rejects(lease.importSequenceForTest('select 1;'),/25001/);
-    await assert.rejects(source.sql("begin isolation level repeatable read read only;set transaction snapshot '00000000-00000000-0';"),/22023/);
+    await assert.rejects(source.sql("begin isolation level repeatable read read only;set transaction snapshot '00000000-00000000-0';"),/42704/);
     await assert.rejects(lease.read(reader,"create function pg_temp.unapproved() returns integer language sql as $$select 1$$;"),/PARTICIPANT_LOST/);
     const other=await lease.reader();
     await assert.rejects(lease.read(other,"set statement_timeout='100ms';select pg_sleep(2);"),/PARTICIPANT_LOST/);
