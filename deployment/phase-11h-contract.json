@@ -1180,6 +1180,17 @@
       "vaultMatch": null
     },
     {
+      "name": "PHASE11I_RECOVERY_CAPSULE",
+      "visibility": "operator-only",
+      "requiredEnvironments": [],
+      "ownerCategory": "restore executor",
+      "purpose": "Independent restore-only capsule selection: migration45 (default) or fixed migration44. Never selected from backup metadata.",
+      "sourceBoundary": "Approved operator invocation; does not grant capture, checkout, hosted execution or nonlocal restore authority.",
+      "rotation": "Per separately approved recovery selection.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "NUTRITION_EVIDENCE_DIR",
       "visibility": "local test only",
       "requiredEnvironments": [],

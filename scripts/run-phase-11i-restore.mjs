@@ -4,6 +4,7 @@ import {
   assertBackupId, assertProductionSource, assertRecipientCertificateFingerprint, fail,
 } from "./phase-11i-recovery-contract.mjs";
 const result = restoreBackup({
+  recoveryCapsule: process.env.PHASE11I_RECOVERY_CAPSULE,
   archiveInput: process.env.PHASE11I_ARCHIVE,
   manifestInput: process.env.PHASE11I_MANIFEST,
   recipientInput: process.env.PHASE11I_RECIPIENT_CERT,

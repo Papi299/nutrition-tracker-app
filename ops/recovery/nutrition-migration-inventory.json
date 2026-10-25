@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "nutrition-recovery-inventory/v1",
+  "approvedApplicationSource": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "migration44Capsule": {
+    "source": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+    "tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+    "packageLockSha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874",
+    "supabaseCli": "2.116.0",
+    "nodeMajor": 22,
+    "targetProject": "phase-11i-recovery-isolated"
+  },
+  "migrations": [
+    {
+      "filename": "20260429163444_create_profiles_and_nutrition_targets.sql",
+      "version": "20260429163444",
+      "sha256": "de6d618d1b4c1df64506b41e526ba0453dbba32df48ee928497909c1834993fb"
+    },
+    {
+      "filename": "20260626185634_grant_authenticated_profile_target_privileges.sql",
+      "version": "20260626185634",
+      "sha256": "9f0cc6378c45ed356cc6bcfbda75ee687e0acf373eaf11f594e92710b7a049d6"
+    },
+    {
+      "filename": "20260630193832_create_diary_entries.sql",
+      "version": "20260630193832",
+      "sha256": "4e754c7e1d0f89cb5b3bf8a0495eb3805a4b406031129c30870866d51a3586b4"
+    },
+    {
+      "filename": "20260630201904_harden_public_table_privileges.sql",
+      "version": "20260630201904",
+      "sha256": "7208e811df4387aae97be5a9b54e01b8a0ca7b7196af76a182a73fb74728aac7"
+    },
+    {
+      "filename": "20260704142707_create_nutrition_domain_schema_foundation.sql",
+      "version": "20260704142707",
+      "sha256": "931839a941c0ec5621c36547107219c97ef9ee15e4d3b6c1eb8b2f84658e736e"
+    },
+    {
+      "filename": "20260705061118_add_diary_food_linking_rules.sql",
+      "version": "20260705061118",
+      "sha256": "1db5efe05a6d03a2183bb5a1dc132df66c93084a34492abdae36e046a6f78f74"
+    },
+    {
+      "filename": "20260711071000_persist_setup_atomically.sql",
+      "version": "20260711071000",
+      "sha256": "b8b1571bc47ab020ac503b26c6199ac01c447f88c6e83c3c06c3aacc2daa55bd"
+    },
+    {
+      "filename": "20260714090000_create_food_alias_search_foundation.sql",
+      "version": "20260714090000",
+      "sha256": "553d5be3ee1f3bf99ca6847466f2e5ebd1a61d0778e17473ccaa2a7c6af2abc6"
+    },
+    {
+      "filename": "20260714100000_search_readable_foods.sql",
+      "version": "20260714100000",
+      "sha256": "894a73e8aa4330575e4b07d541b82c9a414b37493451075a971fd5db78c47e37"
+    },
+    {
+      "filename": "20260714110000_get_readable_food_diary_prefill.sql",
+      "version": "20260714110000",
+      "sha256": "bc41813c745a455cfbdaf14d4c6c75bfc115031762e98d728dcbd214f848652e"
+    },
+    {
+      "filename": "20260714120000_custom_food_persistence_foundation.sql",
+      "version": "20260714120000",
+      "sha256": "4cc4a8ef3053326446aaffd1503173aba012dba877988cca0f4b2e5c0f540932"
+    },
+    {
+      "filename": "20260714130000_persist_custom_food_nutrient_basis.sql",
+      "version": "20260714130000",
+      "sha256": "48f472fc7869d4dd02c77769c17c2eca68db9e07985de1df134d02439217b6d8"
+    },
+    {
+      "filename": "20260714140000_enforce_custom_food_nutrient_basis.sql",
+      "version": "20260714140000",
+      "sha256": "875b6155862c200fb4a3d1ca0a3034db06e615cd9f39bbb6cbc4392fc9f8b1f6"
+    },
+    {
+      "filename": "20260714150000_get_owned_custom_food_editor.sql",
+      "version": "20260714150000",
+      "sha256": "aaa2ab9d16a53459e09c5827305238f0e17db18817a629f54cce46d9bb8731aa"
+    },
+    {
+      "filename": "20260716100000_add_food_favorites_and_reusable_foods.sql",
+      "version": "20260716100000",
+      "sha256": "3d1b8ec9e07e29a0ec1930fba2d5987ef65a2958ff4fdf71a55136edceae7967"
+    },
+    {
+      "filename": "20260716110000_create_saved_meal_persistence_foundation.sql",
+      "version": "20260716110000",
+      "sha256": "e4697c789052c6477521bcab1bf7f8dcc5a0d4ee08bcf2d0662393d10f3666f0"
+    },
+    {
+      "filename": "20260716120000_get_owned_saved_meal_editor.sql",
+      "version": "20260716120000",
+      "sha256": "bfe58522f807201cea490f0973012a15c52433b15c0f57ca496e0d61d7e958a9"
+    },
+    {
+      "filename": "20260716130000_log_saved_meal_to_diary.sql",
+      "version": "20260716130000",
+      "sha256": "dfac6dd449ffef77d51768d03e693f3fdc40fc19dd8bc584916e93aa637e40f9"
+    },
+    {
+      "filename": "20260717100000_create_recipe_persistence_foundation.sql",
+      "version": "20260717100000",
+      "sha256": "63422b57835708a48b58caf57698e07b4f4af7eb3b5e8ae73514584c1fa479c6"
+    },
+    {
+      "filename": "20260717110000_get_owned_recipe_editor.sql",
+      "version": "20260717110000",
+      "sha256": "3f2d2ba6ddab7213bbb298c4613a51c02d0992094af1e219598fec1aab6cffdd"
+    },
+    {
+      "filename": "20260717120000_recipe_use_contract_foundation.sql",
+      "version": "20260717120000",
+      "sha256": "ad1c34a31e83ce7507f65db2d351fbe9097e6dd3965c5eeafd3688905c62a71a"
+    },
+    {
+      "filename": "20260717130000_log_recipe_to_diary.sql",
+      "version": "20260717130000",
+      "sha256": "265ac26c764405c549bc4c9d5a9bc75fb4d911ca86f1c16cae81be7554f1ab11"
+    },
+    {
+      "filename": "20260717140000_create_barcode_identity_local_lookup.sql",
+      "version": "20260717140000",
+      "sha256": "f79a25444cd015aeacfd6d0ded802643770e9951ba2112866ddd6d94a87e9758"
+    },
+    {
+      "filename": "20260717150000_create_custom_food_barcode_handoff.sql",
+      "version": "20260717150000",
+      "sha256": "a5fcdb367755563c9b7f4e875211a6837e4df90344d244f50b50d593b9f33554"
+    },
+    {
+      "filename": "20260718100000_create_ingestion_governance_foundation.sql",
+      "version": "20260718100000",
+      "sha256": "42e12af612d970cf71b9656581a60f9bc6562958b959236f9a1b332345ab75a2"
+    },
+    {
+      "filename": "20260718120000_add_foundation_parser_contracts.sql",
+      "version": "20260718120000",
+      "sha256": "fafab05f56b3b9d95c7dcc2aa2ab0e21f34c9b5b524b9d00fedfc036e99ed569"
+    },
+    {
+      "filename": "20260718140000_create_foundation_promotion_boundary.sql",
+      "version": "20260718140000",
+      "sha256": "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9"
+    },
+    {
+      "filename": "20260718150000_allow_phase_10e_terminal_run_classification.sql",
+      "version": "20260718150000",
+      "sha256": "8f994738d401a018ac21f2d1229cab43eccaa6cf19e5a0dfb4cfec3a3f01fecd"
+    },
+    {
+      "filename": "20260719080000_create_foundation_lifecycle_foundation.sql",
+      "version": "20260719080000",
+      "sha256": "53a5f697c8453d5f386e58eb2ec60b99463a641bbacf41088f27decf006f7bb2"
+    },
+    {
+      "filename": "20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+      "version": "20260719120000",
+      "sha256": "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec"
+    },
+    {
+      "filename": "20260719160000_execute_foundation_lifecycle_updates.sql",
+      "version": "20260719160000",
+      "sha256": "1aca06911972763b613dc93f44e5ae6ee9a5472db4e93cdaa0a00c8da79ff173"
+    },
+    {
+      "filename": "20260721100000_restore_strict_terminal_run_immutability.sql",
+      "version": "20260721100000",
+      "sha256": "22eb5ec118035a19ae0b28a8345391dc64e95a4bf2e39c3bad80d4417cddf7ed"
+    },
+    {
+      "filename": "20260721110000_remove_remote_rls_auto_enable.sql",
+      "version": "20260721110000",
+      "sha256": "1c35133335fde1b85b7705fafa4da55a9b7fe85859e4b591d15e8e1c8cb9a676"
+    },
+    {
+      "filename": "20260801141841_phase_11c2a_diary_mutation_correctness.sql",
+      "version": "20260801141841",
+      "sha256": "96c8d645ba0f9596c1f00d8f51c9e56749c5165145298826fd438aa0d1dae9c5"
+    },
+    {
+      "filename": "20260801190220_reject_unreadable_linked_diary_creates.sql",
+      "version": "20260801190220",
+      "sha256": "0edd4381368694bf872e1d86ea5a18160dd858b000d5f6503223c8ef709cfa84"
+    },
+    {
+      "filename": "20260808093826_cj019_custom_food_edit_concurrency.sql",
+      "version": "20260808093826",
+      "sha256": "1513fe25ab01d20176ac88730ac8476556f46de481785146706b9e418f8a116c"
+    },
+    {
+      "filename": "20260810175638_cj022_saved_meal_edit_concurrency.sql",
+      "version": "20260810175638",
+      "sha256": "e3b795c06c85637a535e23f58598b4c2a9bd7e4a8515d232b6a95d1a086e3fd9"
+    },
+    {
+      "filename": "20260811142805_cj025_recipe_edit_concurrency.sql",
+      "version": "20260811142805",
+      "sha256": "603ac96c204010b2b97469ba808e77ceeeae873470eb2add9bdf0e60f7dd469d"
+    },
+    {
+      "filename": "20260812194829_cj018_custom_food_creation_idempotency.sql",
+      "version": "20260812194829",
+      "sha256": "7302c7b6af543eb2ef92814a1a342de69bc6a13e74f22346de6e12540b7e1b66"
+    },
+    {
+      "filename": "20260827070838_create_invited_account_activation.sql",
+      "version": "20260827070838",
+      "sha256": "3dccc6fef3527ed2400358c6ceae730bc13c535323343559d95cf3131f467770"
+    },
+    {
+      "filename": "20260827110552_enforce_account_activation_authorization.sql",
+      "version": "20260827110552",
+      "sha256": "2930cb32fa010660c9d386eb301ca157a12690dfdc232c114ad171832ead0665"
+    },
+    {
+      "filename": "20260829030137_implement_account_closure_lifecycle.sql",
+      "version": "20260829030137",
+      "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312"
+    },
+    {
+      "filename": "20260830143000_cache_search_account_access_policy.sql",
+      "version": "20260830143000",
+      "sha256": "d87abf0653b05858e23c7b6c1b6a713073d418ab6ae2a2efb68563b83453e33b"
+    },
+    {
+      "filename": "20260927170418_harden_account_closure_mac_comparison.sql",
+      "version": "20260927170418",
+      "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3"
+    },
+    {
+      "filename": "20261024083339_consumed_nutrition_snapshots_v1.sql",
+      "version": "20261024083339",
+      "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+    }
+  ]
+}

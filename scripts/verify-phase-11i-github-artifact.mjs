@@ -1,3 +1,4 @@
+import { assertCaptureImplementation } from "./phase-11i-capture-consistency.mjs";
 import { spawnSync } from "node:child_process";
 import {
   appendFileSync,
@@ -102,6 +103,7 @@ export function verifyGitHubArtifact({
     fail("Manifest is not valid JSON.");
   }
   const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  assertCaptureImplementation({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment });
   assertNewBackupPublicVerification(manifest, migrationBoundary);
   assertRedactedEvidence(manifest);
   assertSourceIdentity({

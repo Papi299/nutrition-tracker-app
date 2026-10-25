@@ -1,3 +1,5 @@
+import { assertNewBackupPublicVerification } from "./phase-11i-public-verification.mjs";
+import { assertCapsuleLock, assertRecoveryCheckout, selectRestoreBoundary } from "./phase-11i-migration-inventory.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -166,7 +168,7 @@ export function assertRoleCompatibility(sourceOnlyRoles, localOnlyRoles) {
 
 export function restoreBackup({
   archiveInput, manifestInput, recipientInput, privateKeyInput, reportInput,
-  targetIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient, runSupabase, localNutritionSnapshots = false,
+  targetIdentity, assertSourceIdentity, assertArtifactIdentity, assertRecipient, runSupabase, localNutritionSnapshots = false, recoveryCapsule,
 }) {
   if (!archiveInput || !manifestInput || !recipientInput || !privateKeyInput || !reportInput) {
     fail("Archive, manifest, recipient, private key, and restore report paths are required.");
@@ -194,7 +196,14 @@ export function restoreBackup({
     projectRef: manifest.sourceProjectRef,
     sourceEnvironment: manifest.sourceEnvironment,
   });
-  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  const migrationBoundary = selectRestoreBoundary(recoveryCapsule);
+  assertRecoveryCheckout("supabase/migrations", migrationBoundary);
+  assertCapsuleLock(process.cwd(), migrationBoundary);
+  if (manifest.migrationHead !== migrationBoundary.head) fail("Artifact disagrees with independently selected recovery capsule.");
+  if (migrationBoundary.count === 45) assertNewBackupPublicVerification(manifest, migrationBoundary);
+  if (manifest.sourceRepository !== "Papi299/nutrition-tracker-app" ||
+      !/^[a-f0-9]{40}$/.test(manifest.sourceCommit ?? "") || !/^[a-f0-9]{40}$/.test(manifest.sourceTree ?? "")) fail("Recovery source repository identity mismatch.");
   if (manifest.taskId !== TASK_ID || manifest.schemaVersion !== "phase-11i-backup-manifest/v1") {
     fail("Backup manifest contract identity mismatch.");
   }
@@ -374,6 +383,9 @@ export function restoreBackup({
       readFileSync(join(contentRoot, "source-snapshot-redacted.json"), "utf8"),
     );
     assertRedactedEvidence(sourceSnapshot);
+    if (contentManifest.migrationHead !== migrationBoundary.head ||
+        sourceSnapshot.migrationHead !== migrationBoundary.head ||
+        sourceSnapshot.migrationCount !== migrationBoundary.count) fail("Mixed-boundary recovery artifact rejected.");
     assertStorageScope(sourceSnapshot.storage);
     assertSourceIdentity({ projectRef: sourceSnapshot.sourceProjectRef, sourceEnvironment: sourceSnapshot.sourceEnvironment });
 
@@ -562,7 +574,7 @@ export function restoreBackup({
     const securityDefinerMissingSearchPath = database(`
       select n.nspname||'.'||p.proname
       from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-      where n.nspname in ('public','ingestion') and p.prosecdef
+      where n.nspname in ('public','private','ingestion') and p.prosecdef
         and not exists (
           select 1 from unnest(coalesce(p.proconfig,array[]::text[])) entry
           where entry in ('search_path=""', 'search_path=')
@@ -586,6 +598,8 @@ export function restoreBackup({
       backupId: manifest.backupId,
       sourceCommit: manifest.sourceCommit,
       sourceTree: manifest.sourceTree,
+      recoveryCapsule: recoveryCapsule ?? "migration45",
+      replayHistorySha256: migrationBoundary.historySha256,
       targetIdentity: RECOVERY_TARGET,
       targetProjectId: projectId,
       recoveryStartedAt,

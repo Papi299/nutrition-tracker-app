@@ -1,3 +1,4 @@
+import { MIGRATION45_BOUNDARY } from "./phase-11i-migration-inventory.mjs";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readdirSync } from "node:fs";
@@ -7,27 +8,27 @@ import {
 } from "./phase-11i-public-verification.mjs";
 import { validateCompletedOwnerActivation } from "./phase-11i-owner-validation.mjs";
 
-const migrations = readdirSync("supabase/migrations").filter((name) => /^\d{14}_.+\.sql$/.test(name)).sort().map((name) => name.slice(0, 14)).filter(version => version <= "20260927170418");
+const migrations = readdirSync("supabase/migrations").filter((name) => /^\d{14}_.+\.sql$/.test(name)).sort().map((name) => name.slice(0, 14));
 const validated = {
   migrations, storage: { buckets: 0, objects: 0 },
   ownerValidation: { authCounts: { users: 1, sessions: 9, refreshTokens: 10 },
     ownershipIntegrity: { profile: "PERSONAL_USE_ONE_NON_DELETED_OWNER", result: "PASS" } },
-  accountActivationCount: 1, sourceCaptureConsistency: "PASS",
+  accountActivationCount: 1, sourceCaptureConsistency: "LOCAL_SYNTHETIC_SINGLE_WRITER_TEST_ONLY",
 };
 const expected = {
-  schemaVersion: "phase-11i-public-verification-summary/v1",
-  migration: { count: 44, head: "20260927170418" },
+  schemaVersion: "phase-11i-public-verification-summary/v2",
+  migration: { count: 45, head: "20261024083339", historySha256: MIGRATION45_BOUNDARY.historySha256 },
   storage: { buckets: 0, objects: 0 },
   ownerState: { profile: "PERSONAL_USE_ONE_NON_DELETED_OWNER", authUserCount: 1,
     accountActivationCount: 1, ownershipValidation: "PASS" },
-  sourceCaptureConsistency: "PASS",
+  sourceCaptureConsistency: "LOCAL_SYNTHETIC_SINGLE_WRITER_TEST_ONLY",
 };
 test("public summary selects exactly approved fields from validated source", () => {
   const summary = buildPublicVerificationSummary({ ...validated,
     tableCounts: { "public.diary_entries": 999 }, userId: "opaque-synthetic-owner" });
   assert.deepEqual(summary, expected);
   assertPublicVerificationSummary(summary);
-  assertNewBackupPublicVerification({ migrationHead: "20260927170418", publicVerificationSummary: summary });
+  assertNewBackupPublicVerification({ migrationHead: "20261024083339", publicVerificationSummary: summary });
 });
 for (const [label, change] of [
   ["schema", (s) => { s.schemaVersion = "wrong"; }],
@@ -70,12 +71,12 @@ test("privacy allow-list requires approved keys at every level", () => {
   }
 });
 test("new artifact requires summary and consistent outer migration head", () => {
-  assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20260927170418" }));
+  assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20261024083339" }));
   assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "wrong", publicVerificationSummary: expected }));
 });
 for (const key of ["tableCounts", "authCounts", "sourceSnapshot", "sourceSafeCounts", "ownerUuid", "diaryEntries", "nutritionTargets"]) {
   test(`outer manifest prohibits ${key} beside public summary`, () => {
-    assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20260927170418", publicVerificationSummary: expected, [key]: {} }));
+    assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20261024083339", publicVerificationSummary: expected, [key]: {} }));
   });
 }
 test("summary builder fails before publication on unvalidated prerequisites", () => {

@@ -17,7 +17,7 @@ const approved = {
   PGUSER: "cli_login_postgres.hskfanrqwtqknzpquwhg", PGDATABASE: "postgres",
 };
 const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql"))
-  .sort().map((name) => [name.split("_")[0]]).filter(([version]) => version <= "20260927170418");
+  .sort().map((name) => [name.split("_")[0]]);
 const dumpLabels = ["DUMP_ROLES", "DUMP_APPLICATION_SCHEMA", "DUMP_APPLICATION_DATA", "DUMP_DURABLE_AUTH"];
 const expectedOrder = [
   "ACQUIRE_INITIAL", "MIGRATION_LEDGER", "APPLICATION_TABLE_INVENTORY",
@@ -93,11 +93,11 @@ function harness(config = {}) {
     } });
   };
   const options = {
-    sourceIdentity: { projectRef: "SYNTHETIC_TRANSPORT_FIXTURE", sourceEnvironment: "LocalSynthetic" },
+    sourceIdentity: { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" },
     assertSourceIdentity: () => {}, assertArtifactIdentity: () => {}, assertRecipient: () => {},
     backupRootInput: root, recipientInput: join(process.cwd(), "ops/recovery/phase-11i-recipient.pem"),
     operator: "Local synthetic transport test",
-    project: { id: "SYNTHETIC_TRANSPORT_FIXTURE", status: "ACTIVE_HEALTHY" }, authConfig: {},
+    project: { id: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", status: "ACTIVE_HEALTHY" }, authConfig: {},
     psqlBinary: process.execPath, runSupabase,
   };
   return {
@@ -144,7 +144,7 @@ test("normal capture acquires twice, refreshes after dump 4, and all post-dump r
     assertRedactedEvidence(manifest);
     assert.equal(sha256(readFileSync(result.archivePath)), manifest.encryptedArchiveSha256);
     assert.equal(manifest.plaintextTemporaryRemoved, true);
-    assert.equal(manifest.publicVerificationSummary.sourceCaptureConsistency, "PASS");
+    assert.equal(manifest.publicVerificationSummary.sourceCaptureConsistency, "LOCAL_SYNTHETIC_SINGLE_WRITER_TEST_ONLY");
   } finally { h.cleanup(); }
 });
 

@@ -44,9 +44,9 @@ const allRepositoryMigrationVersions = readdirSync("supabase/migrations")
   .map((name) => name.slice(0, 14));
 const repositoryMigrationVersions = allRepositoryMigrationVersions.filter(version => version <= EXPECTED_MIGRATION_HEAD);
 
-test("development migration qualifies only under the explicit synthetic boundary", () => {
+test("strict45 boundary and fixed synthetic identity agree", () => {
   assert.equal(allRepositoryMigrationVersions.length, 45);
-  assert.throws(() => assertMigrationHistory(allRepositoryMigrationVersions), /count mismatch/);
+  assert.doesNotThrow(() => assertMigrationHistory(allRepositoryMigrationVersions));
   const local = { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" };
   assertMigrationHistory(allRepositoryMigrationVersions, recoveryMigrationBoundary(local, true));
   for (const identity of [undefined, { ...local, projectRef: PRODUCTION_PROJECT_REF }, { ...local, sourceEnvironment: "Production" }]) {
@@ -154,25 +154,22 @@ test("manifest or archive hash mismatch is rejected", () => {
 });
 
 test("source migration mismatch is rejected", () => {
-  const versions = Array.from({ length: EXPECTED_MIGRATION_COUNT }, (_, index) =>
-    String(20260000000000 + index),
-  );
-  versions[versions.length - 1] = EXPECTED_MIGRATION_HEAD;
+  const versions = [...repositoryMigrationVersions];
   assert.doesNotThrow(() => assertMigrationHistory(versions));
   assert.throws(() => assertMigrationHistory(versions.slice(1)));
   assert.throws(() => assertMigrationHistory([...versions.slice(0, -1), "99999999999999"]));
 });
 
-test("approved Production migration boundary is fixed at migration 44", () => {
-  assert.equal(EXPECTED_MIGRATION_COUNT, 44);
-  assert.equal(EXPECTED_MIGRATION_HEAD, "20260927170418");
-  assert.equal(repositoryMigrationVersions.length, 44);
-  assert.equal(repositoryMigrationVersions.at(-1), "20260927170418");
+test("future Production migration boundary is fixed at migration45", () => {
+  assert.equal(EXPECTED_MIGRATION_COUNT, 45);
+  assert.equal(EXPECTED_MIGRATION_HEAD, "20261024083339");
+  assert.equal(repositoryMigrationVersions.length, 45);
+  assert.equal(repositoryMigrationVersions.at(-1), "20261024083339");
 });
 
-test("current ordered repository ledger passes and historical 43-prefix fails", () => {
+test("current ordered repository ledger passes and historical44 prefix fails", () => {
   assert.doesNotThrow(() => assertMigrationHistory(repositoryMigrationVersions));
-  assert.equal(repositoryMigrationVersions.at(-2), "20260830143000");
+  assert.equal(repositoryMigrationVersions.at(-2), "20260927170418");
   assert.throws(
     () => assertMigrationHistory(repositoryMigrationVersions.slice(0, -1)),
     /Source migration count mismatch/,

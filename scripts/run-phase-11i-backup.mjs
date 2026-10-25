@@ -1,3 +1,4 @@
+import { assertCaptureImplementation } from "./phase-11i-capture-consistency.mjs";
 import { spawnSync } from "node:child_process";
 import { captureBackup } from "./phase-11i-backup-pipeline.mjs";
 import { createLinkedSourceTransport } from "./phase-11i-cli-transport.mjs";
@@ -10,6 +11,7 @@ import {
 const sourceEnvironment = process.env.PHASE11I_SOURCE_ENVIRONMENT;
 const recipientInput = process.env.PHASE11I_RECIPIENT_CERT;
 assertProductionSource({ projectRef: PRODUCTION_PROJECT_REF, sourceEnvironment });
+assertCaptureImplementation({ projectRef: PRODUCTION_PROJECT_REF, sourceEnvironment });
 assertEncryptionRecipient(recipientInput);
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
