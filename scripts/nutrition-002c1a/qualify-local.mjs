@@ -14,7 +14,7 @@ const output = process.argv[2];
 if (!output?.startsWith('/') || existsSync(output) || process.argv.length !== 3 || !process.version.startsWith('v22.')) throw new Error('N002C1A_RUNTIME_OR_OUTPUT_DENIED');
 const source = new Cluster('source'), target = new Cluster('target'), cases = [];
 const beforeDigest = implementationDigest(), startedAt = new Date().toISOString();
-let success=false,failure;
+let success=false,failure,phase='TRUSTED_CHECKOUT';
 async function record(name,action) {
   const start=Date.now();
   try { const facts=await action();cases.push({name,result:'PASS',elapsedMs:Date.now()-start,...facts});process.stdout.write(name+': PASS\n'); }
@@ -159,7 +159,7 @@ async function temporalCases() {
 try {
   assertRecoveryCheckout(fileURLToPath(new URL('../../supabase/migrations',import.meta.url)));
   assertTrustedBaseline({source:SOURCE,tree:await run('git',['rev-parse',SOURCE+'^{tree}'])});
-  await source.start();await target.start();
+  phase='SOURCE_START';await source.start();phase='TARGET_START';await target.start();phase='SQL_QUALIFICATION';
   await record('preexistingOwnedContainerNameRefused',async()=>{await assert.rejects(new Cluster('source').start(),/EXISTING_CLUSTER_REFUSED/);});
   await record('minimalRawHelperNativeDumpCheckpoint',()=>minimalExperiment(source));
   await target.sql('create schema oid_churn;'+Array.from({length:40},(_,i)=>`create table oid_churn.t${i}(id integer);`).join('')+'drop schema oid_churn cascade;');
@@ -183,7 +183,7 @@ try {
   await temporalCases();
   success=true;
 } catch(e) {
-  failure=/^N002C1A_[A-Z_]+$/.test(e.message)?e.message:'LOCAL_QUALIFICATION_FAILED';
+  failure=/^N002C[0-9A-Z_]+$/.test(e.message)?e.message:'LOCAL_QUALIFICATION_FAILED';
   process.stderr.write(failure+'\n');process.exitCode=1;
 } finally {
   const cleanup=await Promise.allSettled([source.stop(),target.stop()]);
@@ -193,7 +193,7 @@ try {
   const result={schemaVersion:'nutrition-002c1a-qualification/v1',startedAt,completedAt:new Date().toISOString(),
     sourceCommit:await run('git',['rev-parse','HEAD']),sourceTree:await run('git',['rev-parse','HEAD^{tree}']),trustedBase:SOURCE,trustedBaseTree:TREE,
     implementationSha256:beforeDigest,node:process.version,image:IMAGE,postgres:'17.6',nativeDump:'17.6',protocol:PROTOCOL,
-    result:success?'PASS_BOUNDED_PREREQUISITE_RECOVERY_BLOCKED':'FAIL',failure,cases,cleanupConfirmed,
+    result:success?'PASS_BOUNDED_PREREQUISITE_RECOVERY_BLOCKED':'FAIL',failure,failureStage:success?undefined:phase,cases,cleanupConfirmed,
     fullHistoricalCatalog:'BLOCKED',fullHistoricalCatalogAndDumpEquivalence:'BLOCKED',producerAuthenticated:false,productionRecoveryEligibility:false,productionAccess:false};
   assertRedactedEvidence(result);writeFileSync(output,JSON.stringify(result,null,2)+'\n',{mode:0o600,flag:'wx'});
   if(success) process.stdout.write('002C1A bounded snapshot prerequisite passed; full mapping and recovery remain blocked.\n');

@@ -9,7 +9,7 @@ const reviewedPins = new Map([
   ["actions/upload-artifact", "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"],
 ]);
 const workflowExpectations = new Map([
-  ["nutrition-002c1a-local.yml", { reviewedSha256: "2145450c2ee70de0b8eee2b122b2e0af87a7fbbba5ec3f1898fb1651f5c5ab44" }],
+  ["nutrition-002c1a-local.yml", { reviewedSha256: "bf38a1d474903d393245049535d597203fde57d60b758ca593ba39d58bbbcc37" }],
   ["nutrition-002c1-local.yml", { reviewedSha256: "11bb6253d7511ca5e57c2bfb773835a486fad808e2e8af749c3d9f6e76542d3b" }],
   [
     "ci.yml",
