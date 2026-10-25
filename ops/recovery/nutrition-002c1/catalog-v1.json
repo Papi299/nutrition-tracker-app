@@ -1,0 +1,63 @@
+{
+  "contract": "nutrition-002c1-logical-catalog/v1",
+  "mode": "ISOLATED_LOCAL_LIVE_ONLY",
+  "postgresVersionNum": "170006",
+  "applicationSchemas": [
+    "public",
+    "private",
+    "ingestion"
+  ],
+  "operationalSchemas": [
+    "recovery_ops"
+  ],
+  "providerSchemas": [
+    "auth",
+    "extensions",
+    "vault"
+  ],
+  "providerCompatibilityDeltas": [],
+  "oidResolution": "Typed pg_identify_object_as_address with explicit internal foreign-key trigger identity",
+  "aclSemantics": "Expand effective acldefault when NULL; compare exact grantor, grantee, privilege and grant option",
+  "volatileFields": [
+    "physical relation and toast identifiers",
+    "relation page/count/freeze statistics",
+    "database freeze counters"
+  ],
+  "historicalCatalogQualification": "UNQUALIFIED_DEPARSE_IS_LIVE",
+  "unsupported": [
+    "sequence",
+    "partition",
+    "foreign or materialized relation",
+    "typed table",
+    "identity or dropped column",
+    "aggregate",
+    "parsed SQL body",
+    "range or multirange type",
+    "domain default parse tree",
+    "non-extension user base type",
+    "dependency outside explicit schema scope",
+    "unapproved schema",
+    "unmodeled namespace object",
+    "unmodeled non-extension custom cast",
+    "custom tablespace"
+  ],
+  "dataRestorationQualified": false,
+  "recoveryEligible": false,
+  "providerVolatileSequenceSchemaOnly": [
+    "auth.refresh_tokens_id_seq"
+  ],
+  "sequenceValuesCaptured": false,
+  "catalogSqlSha256": "1a4fd04d73b5bbbe89490492d5717c12778e11a6c205ac2e4d023ffb853d627b",
+  "schemaOnlyExclusions": [
+    "physical relation/toast identifiers and statistics/freeze counters",
+    "atthasmissing and attmissingval; require separate complete effective-row comparison"
+  ],
+  "booleanNormalization": "Conservative parenthesized same-operator association; retain operand order, duplicates, literals, NOT and mixed precedence",
+  "providerSchemasOutsideComparison": [
+    "graphql",
+    "graphql_public",
+    "realtime",
+    "storage",
+    "pgbouncer"
+  ]
+}
