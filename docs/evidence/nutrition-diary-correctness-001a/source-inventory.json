@@ -1,6 +1,6 @@
 {
   "task": "NUTRITION-DIARY-CORRECTNESS-001A",
-  "recordedAt": "2026-10-25T05:02:09.517934+00:00",
+  "recordedAt": "2026-10-25T05:40:14.130424+00:00",
   "repository": "Papi299/nutrition-tracker-app",
   "branch": "codex/nutrition-diary-correctness-001",
   "approvedBase": {
@@ -62,8 +62,8 @@
     },
     {
       "path": "app/globals.css",
-      "bytes": 24592,
-      "sha256": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd"
+      "bytes": 24617,
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
     },
     {
       "path": "components/diary/diary-entry-edit-form.tsx",
@@ -127,8 +127,8 @@
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/local-cleanup.json",
-      "bytes": 1569,
-      "sha256": "496150eb9658641f74896a62cef2262f4dfc373f09575fd64ec3c10061dd0ad7"
+      "bytes": 1895,
+      "sha256": "724de8fedf3b368fdb90b0c4e2b790924aa9c4058b4c5fc8c3f1667c0d1a22e1"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/local-recovery.json",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/local-validation.json",
-      "bytes": 9855,
-      "sha256": "86cf4016be1f634ba8fa173cc32240e803725d514a15e410660f0c5a0d231cf9"
+      "bytes": 12013,
+      "sha256": "8a6a2cb2eee015668f18190ea43e192d1d56ca8fd362e8ad28d4d4622388be95"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/starting-state.json",
@@ -167,13 +167,13 @@
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/200g/manifest.json",
-      "bytes": 7850,
-      "sha256": "d25142df32d84ef10ced0ae35edc2e7a01eb4852f35b4e1f2d4ba5e5a362c098"
+      "bytes": 4901,
+      "sha256": "7576895c850f4f6c7aca857cb632088f477cd9e715008357edd5e05a30cc0665"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.json",
       "bytes": 2134,
-      "sha256": "81c6b409f5b6e954d6c8ce388490135614888cef6457c0c952521e09d937e32f"
+      "sha256": "bdedd04de0ac8c5eaecfb0c096978edc4804ea579f8390c8b0e3f6791b4c30d7"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.png",
@@ -183,7 +183,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.json",
       "bytes": 2134,
-      "sha256": "bd099212a7ad99191202b1fefdf46544eea7d70c7f34b8db770a3c8903f283c7"
+      "sha256": "2ab7ad660b1600e390e3ccb2a30404f3748ef04714b7a0c59176fdc3e2239e6b"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.png",
@@ -193,7 +193,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.json",
       "bytes": 2063,
-      "sha256": "23b5a5a96b4c77431beff66e4b84c05e83310215c479d989578977c15dd3bfd9"
+      "sha256": "db0a247c56afe4a732f5a3d8c8167ee7b0602a4769e4b6ae72a5c85991ca0f03"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.png",
@@ -203,7 +203,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.json",
       "bytes": 2063,
-      "sha256": "347599e05801bf57af8c547a1edd73ebd39103220f66ecff20e7c3fe8a63b8d9"
+      "sha256": "82dd4bdab582f7da516b14761380f7cca7a1d1cd439bb6114fc321410eabe598"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.png",
@@ -213,7 +213,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.json",
       "bytes": 2062,
-      "sha256": "0ddc8c7cba532f593a7bda0d9ee6a6588531351d8aa46e9c0f876245e0c1af89"
+      "sha256": "960e224e4b713d37a87d0fe03f0041503546504603561a5d7dc2fc8482ffd03f"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.png",
@@ -223,7 +223,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.json",
       "bytes": 2062,
-      "sha256": "4f396379962cdfedd8f13310b708f0f31cdf38c1e10b4cbe082e56db549b7cd5"
+      "sha256": "553f321157ea9174d7d7c1a0484c5f4b12fda560897e774a650bd4b1385fd152"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.png",
@@ -233,7 +233,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.json",
       "bytes": 2062,
-      "sha256": "f9db646e2186769ee91b2fc5702af9d4181b9e5414fb4d0ed76d24f7458e916f"
+      "sha256": "870249698c1cc0c4c895e4a201a33a8aae52d16d64e7b67059532c6bd0f2056e"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.png",
@@ -243,7 +243,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.json",
       "bytes": 2063,
-      "sha256": "19fb6dc2dd15137178ed8c3bf924f77b8d6d7d32a0652ebea48325cc1eae32a7"
+      "sha256": "9a6890a3550c5628dc43bb796b2d19655efd7a1e0f06155b7a2d6d4643095e44"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.png",
@@ -253,7 +253,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.json",
       "bytes": 2063,
-      "sha256": "12ebdd41877550c736f35e74a4b7460db12259f413aa1490102b6be483ce7d4f"
+      "sha256": "0b4661a41d61a1811b235f0662ea870387f1f4732fac9f9dd535612a11a41fa8"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.png",
@@ -263,7 +263,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.json",
       "bytes": 2062,
-      "sha256": "b2534344818c16c1b341794047f72d2111373cc2c2fac560b6fb8e82dd2d56c0"
+      "sha256": "f34f12ee9e6f2e47205e20e193850e40edfe39ce2a3871ecdd8db51833fe647e"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.png",
@@ -273,7 +273,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.json",
       "bytes": 2062,
-      "sha256": "d94e45eba49410122c68728c8a8fe5078907186c46faba26bd61f1b2017eb67d"
+      "sha256": "768139cb91aaf2979e38345fc370c558a6a7ab6fc83f12494cde6e9023eb17a2"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.png",
@@ -283,7 +283,7 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.json",
       "bytes": 2062,
-      "sha256": "08959dd1fcf2d316f37b17fcc14efe6a9e4f909faa0dff41d0508477118248ff"
+      "sha256": "90096e957790842880d6c40067ae0dba2ad011f073964ddf1e58c18974a1e634"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.png",
@@ -297,13 +297,13 @@
     },
     {
       "path": "docs/nutrition-diary-correctness-001a-implementation.md",
-      "bytes": 20599,
-      "sha256": "c8ee966e8e6237aa5e1dec1291ca33aae8115a1ad768672f3f54aced41ff5c87"
+      "bytes": 21761,
+      "sha256": "ba92d7af41299a5560c20b9d0deb7b0481ed0dfe0c285de9696f8225e7569b08"
     },
     {
       "path": "docs/nutrition-diary-correctness-001a-review-report.md",
-      "bytes": 14843,
-      "sha256": "c7e0dbec86a6177cc18cfd4272dfdfe52d96846429cfa5e547d95e0634f46854"
+      "bytes": 15761,
+      "sha256": "effec6c2ed63a4c188921110bece71c6f843a81d8e88f76dd499b0942873287e"
     },
     {
       "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
@@ -432,8 +432,8 @@
     },
     {
       "path": "e2e/ui-today-dashboard.spec.ts",
-      "bytes": 71199,
-      "sha256": "65a92497c48bdc08c706702d7b02f5ea08cbf289c6404b387d9739cb1753a8ed"
+      "bytes": 71566,
+      "sha256": "29f860119208480b107c5d714b58e352eb89a47a77767fa819b5b13ca9b16ab4"
     },
     {
       "path": "lib/account-export/collector.ts",
@@ -706,5 +706,6 @@
     "unchangedSyntheticRedactionFixtures": [
       "scripts/phase-11i-psql-diagnostics.test.mjs"
     ]
-  }
+  },
+  "followupQualification": "One-property header wrapping correction, strengthened wider-font regression and refreshed clean-build visual evidence; exact final-head complete acceptance is in the PR body."
 }

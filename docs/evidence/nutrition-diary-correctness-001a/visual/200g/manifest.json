@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-25T04:50:12.118Z",
-  "sourceHead": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
-  "sourceTree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "capturedAt": "2026-10-25T05:37:30.211Z",
+  "sourceHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
+  "sourceTree": "c2cbd354239af91bbfe448509a8e5fa0b23a577d",
   "renderedSourceFiles": [
     {
       "path": "app/[locale]/(app)/today/page.tsx",
@@ -17,7 +17,7 @@
     },
     {
       "path": "app/globals.css",
-      "sha256": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd"
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
     },
     {
       "path": "components/diary/diary-entry-form.tsx",
@@ -48,8 +48,8 @@
       "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
     }
   ],
-  "workingTreeStatus": "M app/[locale]/(app)/recipes/action-state.ts\n M app/[locale]/(app)/recipes/actions.ts\n M app/[locale]/(app)/saved-meals/action-state.ts\n M app/[locale]/(app)/saved-meals/actions.ts\n M app/[locale]/(app)/setup/actions.ts\n M app/[locale]/(app)/today/action-state.ts\n M app/[locale]/(app)/today/actions.ts\n M app/[locale]/(app)/today/create-submission.ts\n M app/[locale]/(app)/today/page.tsx\n M app/globals.css\n M components/diary/diary-entry-edit-form.tsx\n M components/diary/diary-entry-form.tsx\n M components/diary/diary-entry-list-item.tsx\n M components/recipes/recipe-form.tsx\n M components/recipes/recipe-use-preview.tsx\n M components/saved-meals/saved-meal-form.tsx\n M components/saved-meals/saved-meal-use-review.tsx\n M deployment/phase-11h-contract.json\n M docs/phase-11h-deployment-architecture-release-runbook.md\n M e2e/account-closure.spec.ts\n M e2e/account-export.spec.ts\n M e2e/auth-invitation-activation.spec.ts\n M e2e/barcode-foundation.spec.ts\n M e2e/custom-food-creation-idempotency.spec.ts\n M e2e/custom-food-editor.spec.ts\n M e2e/food-diary-prefill.spec.ts\n M e2e/helpers/local-auth.ts\n M e2e/phase-11d-ui.spec.ts\n M e2e/recipe-ui.spec.ts\n M e2e/recipe-use-ui.spec.ts\n M e2e/saved-meal-ui.spec.ts\n M e2e/setup-persistence.spec.ts\n M e2e/ui-food-discovery.spec.ts\n M e2e/ui-phase5c-saved-meals.spec.ts\n M e2e/ui-phase5d-recipe-forms-review.spec.ts\n M e2e/ui-phase5e-account-secondary.spec.ts\n M e2e/ui-phase5e-custom-food.spec.ts\n M e2e/ui-phase5e-setup.spec.ts\n M e2e/ui-today-dashboard.spec.ts\n M lib/account-export/collector.ts\n M lib/account-export/schema.ts\n M lib/auth/account-access.ts\n M lib/diary-entries/mutations.ts\n M lib/diary-entries/validation.ts\n M lib/food-selection/prefill.ts\n M lib/recipes/diary-log.ts\n M lib/recipes/editor-parser.ts\n M lib/recipes/editor.ts\n M lib/recipes/persistence.ts\n M lib/recipes/use-contract-parser.ts\n M lib/recipes/use-contract.ts\n M lib/recipes/validation.ts\n M lib/saved-meals/diary-log.ts\n M lib/saved-meals/editor-parser.ts\n M lib/saved-meals/editor.ts\n M lib/saved-meals/persistence.ts\n M lib/saved-meals/source.ts\n M lib/saved-meals/validation.ts\n M lib/supabase/database.types.ts\n M messages/en.json\n M messages/he.json\n M package.json\n M scripts/phase-11i-backup-pipeline.mjs\n M scripts/phase-11i-cli-transport.test.mjs\n M scripts/phase-11i-psql-diagnostics.test.mjs\n M scripts/phase-11i-public-verification.mjs\n M scripts/phase-11i-public-verification.test.mjs\n M scripts/phase-11i-recovery-contract.mjs\n M scripts/phase-11i-recovery-contract.test.mjs\n M scripts/phase-11i-restore-pipeline.mjs\n M scripts/qualify-phase-11i-populated-recovery.mjs\n M scripts/verify-phase-11i-github-artifact.mjs\n M supabase/config.toml\n M tests/account-export.spec.ts\n M tests/nutrition-daily-summary.spec.tsx\n?? app/[locale]/(app)/today/create-action.ts\n?? components/nutrition/\n?? docs/evidence/nutrition-diary-correctness-001/\n?? docs/evidence/nutrition-diary-correctness-001a/\n?? docs/nutrition-diary-correctness-001-all-nutrient-design.md\n?? docs/nutrition-diary-correctness-001a-implementation.md\n?? docs/nutrition-diary-correctness-001a-review-report.md\n?? docs/ui-phase5e/evidence/account-secondary-after-manifest.json\n?? docs/ui-phase5e/evidence/custom-food-after-manifest.json\n?? docs/ui-phase5e/evidence/setup-after-manifest.json\n?? e2e/helpers/nutrition-evidence.ts\n?? e2e/nutrition-diary-all-nutrients.spec.ts\n?? e2e/nutrition-diary-correctness.spec.ts\n?? e2e/nutrition-reuse-all-nutrients.spec.ts\n?? e2e/nutrition-snapshot-database.spec.ts\n?? lib/food-selection/nutrient-scaling.ts\n?? lib/food-selection/reference-parser.ts\n?? lib/nutrition-snapshots/\n?? playwright.database.config.ts\n?? supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql\n?? test-results-phase11d/\n?? tests/all-food-nutrient-scaling.spec.ts\n?? tests/food-nutrient-scaling.spec.ts\n?? tests/nutrition-reuse-form-state.spec.ts\n?? tests/nutrition-snapshot-presentation.spec.ts\n?? tests/nutrition-snapshots.spec.ts",
-  "workingDiffSha256": "d377ac75ce3a9a40701bf9339a95dece48772cf1fae46312e98ccbe082826e9c",
+  "workingTreeStatus": "M app/globals.css\n M docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-en-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/additional-details-he-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1280.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-1440.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-320.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-en-768.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1280.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-1440.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-320.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-390.json\n M docs/evidence/nutrition-diary-correctness-001a/visual/today-header-he-768.json\n M e2e/ui-today-dashboard.spec.ts\n M supabase/config.toml\n?? test-results-phase11d/",
+  "workingDiffSha256": "b297f01726ac7d1c1f8d0fe67c79e3f2d7b8694aa96c59f07345b703cc4722df",
   "fixture": {
     "synthetic": true,
     "provisioner": "provisionActivatedLocalUser",
@@ -64,7 +64,7 @@
       "fat_g": 5
     },
     "diary": {
-      "entryId": "e7fa713c-e325-4a5b-916c-b8c6f66740ad",
+      "entryId": "6fc17162-4db5-49e3-a5ab-0981d44c033a",
       "serving_quantity": 200,
       "serving_unit": "g",
       "calories": 400,

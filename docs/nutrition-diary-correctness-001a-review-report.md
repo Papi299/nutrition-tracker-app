@@ -84,6 +84,8 @@ Reuse, requested yield, export v2, closure, historical NULLs and immutable read-
 
 Desktop heading/actions/date controls have intentional bottom alignment. Selected-date context remains visible; long localized action labels reflow. EN and HE pass at 320, 390, 768, 1280 and 1440 px, with accessible labels, keyboard order, control heights and no horizontal overflow. The accepted four-metric summary and navigation remain unchanged.
 
+The initial hosted run exposed a 6 px English heading overflow with Linux fonts at 320 px. The header copy now wraps within its grid column. A deterministic monospace/letter-spacing stress case reproduces the defect before the correction (138 px content in a 112 px column) and passes afterward, retaining the original bounds assertions. Fresh-build verification confirms the wrapping rule is present in the generated CSS.
+
 [Visual evidence](evidence/nutrition-diary-correctness-001a/visual) contains authentic Chromium local screenshots for the exact 200 g case, both headers at every requested width, and expanded additional details. Manifests record synthetic fixture provenance, viewport/browser, timestamps, source identity and rendered-file SHA-256 values.
 
 ## 15. Local migration and security validation
@@ -94,7 +96,9 @@ The pinned vendor PostgreSQL image crashes on denied function EXECUTE ([upstream
 
 ## 16. Full local validation
 
-Final uninterrupted acceptance passed: **470 unit tests**, **508 complete-browser tests** with seven documented baseline/evidence-capture skips, and **53 Phase 11D tests** with three duplicate axe skips across four browser configurations. Both browser reports have zero unexpected and zero flaky results. The complete browser run started immediately after a fresh 45-migration local reset.
+Pre-PR uninterrupted acceptance passed: **470 unit tests**, **508 complete-browser tests** with seven documented baseline/evidence-capture skips, and **53 Phase 11D tests** with three duplicate axe skips across four browser configurations. Both browser reports have zero unexpected and zero flaky results. The complete browser run started immediately after a fresh 45-migration local reset.
+
+After hosted CI identified the bounded header overflow, the corrected candidate passed all 470 units, lint/typecheck, a clean production build and secret scan, six focused EN/HE layout/detail/200 g cases, and a fresh 53-pass Phase 11D run. All 16 visual captures were refreshed and their source/image hashes verified. The complete final-source browser suite is repeated by the exact-head hosted gate; the pre-PR complete local report remains explicitly associated with its earlier candidate.
 
 Clean dependency installation, lint, typecheck, production build, the 115-artifact client-secret boundary scan, zero production dependency advisories, deployment/workflow/security/journey/performance/recovery contracts and synthetic encrypted recovery passed. [Local validation](evidence/nutrition-diary-correctness-001a/local-validation.json) records gate results, report/log hashes and every skip reason; [recovery evidence](evidence/nutrition-diary-correctness-001a/local-recovery.json) records full restored-state comparisons. Historical non-passing performance evidence is preserved, not requalified as passing.
 

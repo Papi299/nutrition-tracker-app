@@ -1,7 +1,7 @@
 {
   "task": "NUTRITION-DIARY-CORRECTNESS-001A",
-  "capturedAt": "2026-10-25T04:49:58.591Z",
-  "sourceHead": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "capturedAt": "2026-10-25T05:37:25.343Z",
+  "sourceHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
   "sourceState": "Candidate working tree; exact rendered file hashes below",
   "renderedFiles": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "path": "app/globals.css",
-      "sha256": "a276189e84dbf69382c0ca8f884dc62155378e22ff34f418a4a4749d6cbc03dd"
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
     },
     {
       "path": "components/diary/diary-entry-list-item.tsx",

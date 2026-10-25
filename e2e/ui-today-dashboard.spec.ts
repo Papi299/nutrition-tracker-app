@@ -752,13 +752,17 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
           element.querySelector("button")!.textContent = language === "he"
             ? "הצגת היומן לתאריך שנבחר"
             : "Show the diary for the selected date";
+          // Wider glyph spacing reproduces the Linux heading overflow across platforms.
+          const heading = element.querySelector(".today-title") as HTMLElement;
+          heading.style.fontFamily = "monospace";
+          heading.style.letterSpacing = "0.12em";
         }, locale);
         const geometry = await page.locator(".today-header").evaluate(element => ({
           viewport: document.documentElement.clientWidth,
           document: document.documentElement.scrollWidth,
           controls: Array.from(element.querySelectorAll("a, input, button, .today-header-copy")).map(control => {
             const rect = control.getBoundingClientRect();
-            return { left: rect.left, right: rect.right, width: rect.width, content: control.scrollWidth };
+            return { name: control.className || control.tagName, left: rect.left, right: rect.right, width: rect.width, content: control.scrollWidth };
           }),
         }));
         expect(geometry.document).toBeLessThanOrEqual(geometry.viewport);
@@ -766,7 +770,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
           expect(control.left).toBeGreaterThanOrEqual(0);
           expect(control.right).toBeLessThanOrEqual(width);
           expect(control.width).toBeGreaterThanOrEqual(44);
-          expect(control.content).toBeLessThanOrEqual(Math.ceil(control.width));
+          expect(control.content, `${locale} ${width}px ${control.name} text overflow`).toBeLessThanOrEqual(Math.ceil(control.width));
         }
         await expect(page.locator('.today-date-form label[for="diary-date"]')).toBeVisible();
       }

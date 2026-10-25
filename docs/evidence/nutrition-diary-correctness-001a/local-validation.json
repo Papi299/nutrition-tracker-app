@@ -15,32 +15,32 @@
     "lint": {
       "status": "PASS",
       "logSha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800",
-      "localLog": "/private/tmp/nutrition-001a-final-lint.log"
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-lint.log"
     },
     "global_typecheck": {
       "status": "PASS",
       "logSha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095",
-      "localLog": "/private/tmp/nutrition-001a-final-types.log"
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-types.log"
     },
     "unit": {
       "status": "PASS",
-      "logSha256": "14a5d39755e92e08c71bac2da74b2c78412137b03e6f216b9a7cab80564065f3",
-      "localLog": "/private/tmp/nutrition-001a-final-unit.log"
+      "logSha256": "3803115232e636079560f2e0ffdbe41dc3eb1fb4139a811ac9b3530dd71ca999",
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-unit.log"
     },
     "client_secret_boundary": {
       "status": "PASS",
-      "logSha256": "1ce5890eeb17d767e84825c8ac3b9aaf78f728f857b9b066340a2943b653056a",
-      "localLog": "/private/tmp/nutrition-001a-final-build-boundary.log"
+      "logSha256": "6899fcaba74161606139019abd838145011251b6e91f8246734411d8da68304f",
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-clean-build-boundary.log"
     },
     "production_build": {
       "status": "PASS",
-      "logSha256": "8a37fdf00478e88b9846f8f179e6541fee157193c83af32e3e9b1749bbb37045",
-      "localLog": "/private/tmp/nutrition-001a-final-build.log"
+      "logSha256": "b4ccfbc33aaa9928fb027336932587da997de8fb14175e30e0e43e5c20b41498",
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-clean-build.log"
     },
     "local_reset": {
       "status": "PASS",
       "logSha256": "241743668b60e39fad7e68a20412167001979ac4cc7671b61f7c464116105361",
-      "localLog": "/private/tmp/nutrition-001a-final-clean-reset.log"
+      "localLog": "/private/tmp/nutrition-001a-ci-fix-clean-reset.log"
     },
     "local_database": {
       "status": "PASS",
@@ -195,12 +195,14 @@
         ]
       }
     ],
-    "rawReportSha256": "eb73d3013c250b6482c0a47d1a3ea36c4320cb24d072b9054e0725cb7ac4d851"
+    "rawReportSha256": "eb73d3013c250b6482c0a47d1a3ea36c4320cb24d072b9054e0725cb7ac4d851",
+    "sourceHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
+    "scope": "Complete pre-PR local validation. A later bounded header wrapping correction is qualified by focused local checks and repeated complete acceptance on the final hosted head."
   },
   "phase11d": {
     "stats": {
-      "startTime": "2026-10-25T04:42:26.577Z",
-      "duration": 81131.56999999999,
+      "startTime": "2026-10-25T05:37:51.053Z",
+      "duration": 72851.064,
       "expected": 53,
       "skipped": 3,
       "unexpected": 0,
@@ -238,7 +240,8 @@
         ]
       }
     ],
-    "rawReportSha256": "d8c0c70caf8eb5634ab261740245b835215a3ad0d63ca2c3df2bb6e55cee5af1"
+    "rawReportSha256": "a0aadcdd0da6f097c387c82e071a6e1d06a6e81e929a7112beede483e88ce43c",
+    "qualificationStage": "Fresh clean production build after the hosted Linux heading correction."
   },
   "productionMutationAccounting": {
     "hostedSupabaseOperations": 0,
@@ -254,5 +257,48 @@
     "Historical non-passing performance evidence is validated for preservation; this is not a new performance qualification.",
     "Anonymous function EXECUTE revocations use catalog assertions for the pinned vendor crash; anonymous table/route and tenant isolation remain live.",
     "All source/test fixtures are synthetic and local. Hosted acceptance is recorded separately on the exact PR head."
-  ]
+  ],
+  "headerFollowup": {
+    "triggeringCiRun": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40164110477",
+    "triggeringHead": "1768771e53f5078dc53ed164a9d1783c590cca78",
+    "initialHostedResult": {
+      "passed": 498,
+      "failed": 1,
+      "skipped": 7,
+      "notRun": 9
+    },
+    "rootCause": "Linux heading glyphs exceeded a 112px grid column by 6px in the 320px long-action-label case.",
+    "correction": "Allow the existing header-copy text to wrap within its grid column.",
+    "deterministicReproduction": {
+      "beforeContentPx": 138,
+      "columnPx": 112,
+      "font": "monospace",
+      "letterSpacing": "0.12em",
+      "beforeLogSha256": "68647d1f03f593eddab564ecb3fd157e6db5a099081c37f4961ea3a77835b0a6"
+    },
+    "focusedBrowser": {
+      "stats": {
+        "startTime": "2026-10-25T05:37:20.385Z",
+        "duration": 27749.827,
+        "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "rawReportSha256": "80f9559408e2d4b1b41fcd3e898dfd63dd489ba68afe98f3d7a95e1fb7e25554",
+      "logSha256": "65540bb9b98dfd978f5935643b74dc0a990154ce3e3e6a390c93535bc755598a"
+    },
+    "generatedCssVerification": [
+      {
+        "path": ".next/static/chunks/1ly63gmuuweb1.css",
+        "sha256": "facfe23c64d0a42b179ae5af3807d545a0439dbf860747cb84198d861cc919a5",
+        "wrappingRulePresent": true
+      }
+    ],
+    "candidateSourceHashes": {
+      "app/globals.css": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1",
+      "e2e/ui-today-dashboard.spec.ts": "29f860119208480b107c5d714b58e352eb89a47a77767fa819b5b13ca9b16ab4"
+    },
+    "discardedLocalRuns": "Incremental builds with stale generated CSS are not acceptance; only the verified clean-build results above qualify the correction."
+  }
 }

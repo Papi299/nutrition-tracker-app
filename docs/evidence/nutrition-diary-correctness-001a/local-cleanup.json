@@ -47,5 +47,12 @@
     }
   ],
   "taskContainersRemoved": true,
-  "unrelatedContainersPreserved": true
+  "unrelatedContainersPreserved": true,
+  "followupCleanup": {
+    "recordedAt": "2026-10-25T05:39:51.274649+00:00",
+    "reason": "Bounded hosted Linux header correction requalification",
+    "originalConfigSha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+    "taskContainersRemoved": true,
+    "unrelatedContainersPreserved": true
+  }
 }
