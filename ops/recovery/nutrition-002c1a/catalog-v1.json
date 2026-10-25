@@ -1,0 +1,8 @@
+{
+  "contract": "nutrition-002c1a-raw-snapshot/v1",
+  "protocol": "nutrition-002c1a-retained-export-import/v1",
+  "rawSqlSha256": "8ad78100404708f45a70de4584a983c463ff6a970deb64e9599df4c1cc6926eb",
+  "normalization": "NONE_RAW_TUPLES_MULTISET",
+  "fullHistoricalCatalog": false,
+  "productionRecoveryEligibility": false
+}

@@ -22,7 +22,7 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8")) {
+function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8"), historicalWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1a-local.yml"), "utf8")) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
@@ -31,6 +31,7 @@ function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".gith
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
     writeFileSync(join(workflowDirectory, "nutrition-002c-local.yml"), localWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002c1-local.yml"), fidelityWorkflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002c1a-local.yml"), historicalWorkflow);
     return command(directory, process.execPath, [checker]);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -159,4 +160,19 @@ test("002C1 exact-head security cannot gain dispatch, hosted authority or code-s
     workflow.replace("upload: never", "upload: always"),
     workflow.replace("9b3254085494b55a0f7c4c2b3d2d52cc712ce370", "v4"),
   ]) assert.notEqual(policyResult(ci, local, mutation).status, 0);
+});
+
+
+test("002C1A historical workflow is exact-head, read-only and has no dispatch", () => {
+  const file = name => readFileSync(join(root, ".github/workflows/" + name), "utf8");
+  const workflow=file("nutrition-002c1a-local.yml");
+  for(const mutation of [
+    workflow.replace("branches: [codex/nutrition-002c1-fidelity]", "branches: [main]"),
+    workflow.replace("  pull_request:", "  workflow_dispatch:\n  pull_request:"),
+    workflow.replace("contents: read", "contents: write"),
+    workflow.replaceAll("ref: ${{ github.event.pull_request.head.sha }}", "ref: main"),
+    workflow.replace("persist-credentials: false", "persist-credentials: true"),
+    workflow.replace("upload: never", "upload: always"),
+    workflow.replace("9b3254085494b55a0f7c4c2b3d2d52cc712ce370", "v4"),
+  ]) assert.notEqual(policyResult(ci,file("nutrition-002c-local.yml"),file("nutrition-002c1-local.yml"),mutation).status,0);
 });
