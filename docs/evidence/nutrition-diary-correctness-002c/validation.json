@@ -1,0 +1,40 @@
+{
+  "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+  "node": "v22.23.4",
+  "commands": [
+    {
+      "command": "node --test scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs",
+      "expected": "All boundary/regression tests pass",
+      "actual": {
+        "tests": 227,
+        "pass": 227,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "classification": "PASS"
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js scripts/nutrition-002c scripts/check-workflow-security.mjs scripts/check-workflow-security.test.mjs",
+      "expected": "No lint errors",
+      "actual": "exit 0",
+      "classification": "PASS"
+    },
+    {
+      "command": "node scripts/check-workflow-security.mjs",
+      "expected": "Exact reviewed immutable pins, scope and least privilege",
+      "actual": "exit 0",
+      "classification": "PASS"
+    },
+    {
+      "command": "git diff f969a52e297a3de5453e2bee1904eec552d43c63..HEAD --check",
+      "expected": "No whitespace errors",
+      "actual": "exit 0",
+      "classification": "PASS"
+    }
+  ],
+  "dependencyLockUnchanged": true,
+  "developerDependencyReuse": "Existing node_modules with identical package-lock SHA256; no install/upgrade",
+  "fullApplicationQualification": "BLOCKED",
+  "hostedQualification": "BLOCKED"
+}

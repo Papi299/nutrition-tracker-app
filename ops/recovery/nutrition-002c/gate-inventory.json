@@ -1,0 +1,217 @@
+{
+  "version": "nutrition-002c-application-gate-inventory/v1",
+  "status": "SOURCE_DERIVED_NOT_FULL_APPLICATION_QUALIFIED",
+  "sourceBaseCommit": "f969a52e297a3de5453e2bee1904eec552d43c63",
+  "retainedLocalEvidence": "docs/evidence/nutrition-diary-correctness-002a/local-recovery45.json",
+  "evidenceSha256": "14e88c90cf941385c82487b1af514a3d00138242fb59cfec5afa5a605f18ac51",
+  "tables": [
+    "ingestion.application_food_identity_reservations",
+    "ingestion.data_sources",
+    "ingestion.dataset_projection_current_heads",
+    "ingestion.dataset_projection_heads",
+    "ingestion.food_nutrient_evidence",
+    "ingestion.food_nutrient_projection_evidence_links",
+    "ingestion.food_nutrient_projection_versions",
+    "ingestion.food_portions",
+    "ingestion.food_projection_heads",
+    "ingestion.food_projection_versions",
+    "ingestion.food_source_link_events",
+    "ingestion.food_source_links",
+    "ingestion.foundation_promotion_approvals",
+    "ingestion.foundation_promotion_receipts",
+    "ingestion.foundation_reject_allowances",
+    "ingestion.foundation_validation_receipts",
+    "ingestion.import_run_events",
+    "ingestion.import_run_items",
+    "ingestion.import_runs",
+    "ingestion.lifecycle_allowances",
+    "ingestion.lifecycle_execution_plan_items",
+    "ingestion.lifecycle_execution_plans",
+    "ingestion.lifecycle_update_approvals",
+    "ingestion.lifecycle_update_receipts",
+    "ingestion.lifecycle_validation_receipts",
+    "ingestion.nutrient_mapping_versions",
+    "ingestion.nutrient_source_mappings",
+    "ingestion.reconciliation_decision_items",
+    "ingestion.reconciliation_decisions",
+    "ingestion.release_diff_items",
+    "ingestion.release_diff_reports",
+    "ingestion.release_scope_current_evidence",
+    "ingestion.release_scope_evidence",
+    "ingestion.source_datasets",
+    "ingestion.source_distributors",
+    "ingestion.source_record_versions",
+    "ingestion.source_records",
+    "ingestion.source_releases",
+    "ingestion.source_transformations",
+    "ingestion.staged_candidates",
+    "ingestion.staged_source_records",
+    "public.account_activations",
+    "public.account_closures",
+    "public.custom_food_creation_requests",
+    "public.diary_entries",
+    "public.food_aliases",
+    "public.food_barcodes",
+    "public.food_favorites",
+    "public.food_nutrients",
+    "public.food_sources",
+    "public.foods",
+    "public.manual_diary_entry_requests",
+    "public.nutrients",
+    "public.nutrition_targets",
+    "public.profiles",
+    "public.recipe_diary_runs",
+    "public.recipe_ingredients",
+    "public.recipes",
+    "public.saved_meal_diary_runs",
+    "public.saved_meal_items",
+    "public.saved_meals"
+  ],
+  "count": 61,
+  "evidenceTablesWithoutLiteralCreateTable": [],
+  "literalCreatedTablesOutsideRetainedEvidence": [],
+  "writePaths": [
+    {
+      "class": "diary",
+      "tables": [
+        "public.diary_entries",
+        "public.manual_diary_entry_requests"
+      ],
+      "paths": [
+        "direct DELETE",
+        "legacy create/update RPC",
+        "v2 create/update RPC",
+        "completion receipt helper"
+      ]
+    },
+    {
+      "class": "catalog",
+      "tables": [
+        "public.foods",
+        "public.food_nutrients",
+        "public.food_aliases",
+        "public.food_barcodes",
+        "public.custom_food_creation_requests"
+      ],
+      "paths": [
+        "direct grants",
+        "legacy/v2 custom-food RPC",
+        "archive RPC",
+        "barcode persistence"
+      ]
+    },
+    {
+      "class": "saved-meal-and-recipe",
+      "tables": [
+        "public.saved_meals",
+        "public.saved_meal_items",
+        "public.saved_meal_diary_runs",
+        "public.recipes",
+        "public.recipe_ingredients",
+        "public.recipe_diary_runs",
+        "public.diary_entries"
+      ],
+      "paths": [
+        "legacy/v2 persist",
+        "archive",
+        "legacy/v2 log",
+        "receipt replay",
+        "parent/child cascade"
+      ]
+    },
+    {
+      "class": "profile-targets-favorites",
+      "tables": [
+        "public.profiles",
+        "public.nutrition_targets",
+        "public.food_favorites"
+      ],
+      "paths": [
+        "direct INSERT/UPDATE/DELETE",
+        "persist_setup"
+      ]
+    },
+    {
+      "class": "account-lifecycle",
+      "tables": [
+        "public.account_activations",
+        "public.account_closures"
+      ],
+      "paths": [
+        "complete_invited_account_activation",
+        "close_current_account",
+        "Auth-side multistep changes outside application gate"
+      ]
+    },
+    {
+      "class": "ingestion",
+      "tables": [
+        "ingestion.application_food_identity_reservations",
+        "ingestion.data_sources",
+        "ingestion.dataset_projection_current_heads",
+        "ingestion.dataset_projection_heads",
+        "ingestion.food_nutrient_evidence",
+        "ingestion.food_nutrient_projection_evidence_links",
+        "ingestion.food_nutrient_projection_versions",
+        "ingestion.food_portions",
+        "ingestion.food_projection_heads",
+        "ingestion.food_projection_versions",
+        "ingestion.food_source_link_events",
+        "ingestion.food_source_links",
+        "ingestion.foundation_promotion_approvals",
+        "ingestion.foundation_promotion_receipts",
+        "ingestion.foundation_reject_allowances",
+        "ingestion.foundation_validation_receipts",
+        "ingestion.import_run_events",
+        "ingestion.import_run_items",
+        "ingestion.import_runs",
+        "ingestion.lifecycle_allowances",
+        "ingestion.lifecycle_execution_plan_items",
+        "ingestion.lifecycle_execution_plans",
+        "ingestion.lifecycle_update_approvals",
+        "ingestion.lifecycle_update_receipts",
+        "ingestion.lifecycle_validation_receipts",
+        "ingestion.nutrient_mapping_versions",
+        "ingestion.nutrient_source_mappings",
+        "ingestion.reconciliation_decision_items",
+        "ingestion.reconciliation_decisions",
+        "ingestion.release_diff_items",
+        "ingestion.release_diff_reports",
+        "ingestion.release_scope_current_evidence",
+        "ingestion.release_scope_evidence",
+        "ingestion.source_datasets",
+        "ingestion.source_distributors",
+        "ingestion.source_record_versions",
+        "ingestion.source_records",
+        "ingestion.source_releases",
+        "ingestion.source_transformations",
+        "ingestion.staged_candidates",
+        "ingestion.staged_source_records"
+      ],
+      "paths": [
+        "narrow executor roles",
+        "legacy/definer lifecycle functions",
+        "projection/receipt/reservation writes",
+        "local promotion writer"
+      ]
+    }
+  ],
+  "alternateMutations": [
+    "INSERT",
+    "UPDATE",
+    "DELETE",
+    "TRUNCATE",
+    "COPY FROM",
+    "ON CONFLICT",
+    "MERGE",
+    "cascades",
+    "definer functions",
+    "replica role"
+  ],
+  "unsupported": [
+    "partition and foreign table routes",
+    "privileged trigger disable or DDL bypass",
+    "complete RPC and full application role/receipt qualification outstanding"
+  ],
+  "authTriggersInstalled": false
+}

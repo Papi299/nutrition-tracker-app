@@ -1,0 +1,44 @@
+name: Nutrition 002C local components
+
+on:
+  pull_request:
+    branches: [codex/nutrition-002a-recovery]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nutrition-002c-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  local-components:
+    name: 002C isolated PostgreSQL components
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up operational Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Verify boundaries and existing recovery regressions
+        run: |
+          node scripts/check-workflow-security.mjs
+          node --test scripts/nutrition-002c/contracts.test.mjs
+          node --test scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs
+      - name: Qualify disposable components
+        run: node scripts/nutrition-002c/qualify-local.mjs "$RUNNER_TEMP/nutrition-002c-components.json"
+      - name: Retain sanitized local evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: nutrition-002c-components-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/nutrition-002c-components.json
+          if-no-files-found: error
+          retention-days: 14

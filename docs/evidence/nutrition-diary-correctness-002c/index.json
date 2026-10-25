@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "nutrition-002c-evidence-index/v1",
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_002C_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+  "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+  "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+  "sourceFiles": {
+    ".github/workflows/nutrition-002c-local.yml": "3b706ecdb67f8519295e9defb5e665c181a4cc62ff9141c41369a06f57d33130",
+    "docs/nutrition-diary-correctness-002c-report.md": "a73cd82c07d74052214886d9dd9d62a7009c74d39be524156c0321f0dc1c9deb",
+    "docs/nutrition-diary-correctness-002c-runbook.md": "8c3a21a1681f02a0c099376872f265d9a3bed1dd390adf846d0ca84da9230ca0",
+    "ops/recovery/nutrition-002c/README.md": "3e7f375358af297c2950efd61f3bcd9005f0739ff308de4fb9d1f3da3b4fd719",
+    "ops/recovery/nutrition-002c/gate-inventory.json": "247cf7a7675e085d2e9e4b56ed11770c998efe3c1ef1aae1f0aa44df69489075",
+    "ops/recovery/nutrition-002c/overlay-v1.json": "f85cd2f4dc46484147171293d2625da75124bc41035526d1f4503b13e8dbdcb5",
+    "ops/recovery/nutrition-002c/overlay-v1.sql": "3930aa88b689294dccf90dd26cdf3a0b3e0183e5679a21043a11124fa1bd5463",
+    "scripts/check-workflow-security.mjs": "d57e085ad8c398a7866a1e2f18c465326193868b01e0c44215ba0a61edd12d60",
+    "scripts/check-workflow-security.test.mjs": "cbd3dff33126ce701f24d87261cae2231b83668f8e89c354b571a98c65218126",
+    "scripts/nutrition-002c/capture.mjs": "eae2859ef6f4daaaccb65c569973e96bef32d2c44f8b5f356aa2796a0541cbec",
+    "scripts/nutrition-002c/catalog.mjs": "14aa721aebd61f579064a15ae45f9a61d81d5e9f82f5f10d1a2fa30ff0d77fc7",
+    "scripts/nutrition-002c/contracts.test.mjs": "7f56ce3c032431dd98e7e8ac61f4fada05259659ac773134e70187ae9af58618",
+    "scripts/nutrition-002c/evidence.mjs": "943fd5da5c0ce22abfcdb7fb0c2fa7e4ff7e08c337e0c060d8715725d1c44f1c",
+    "scripts/nutrition-002c/gate.mjs": "f1891cde2e438fbacdd55c5d5c81c920646cebf08cbf179652928bb138547d92",
+    "scripts/nutrition-002c/local-postgres.mjs": "0a8068a55edbfcbba7cee043f5fdab66a19693b4f9e6a4acc4815cdbc2c09306",
+    "scripts/nutrition-002c/overlay.mjs": "d748b0010efcac2fd5c3ceda82afcd95a2e687921d22ad723c8c2ce8e0876702",
+    "scripts/nutrition-002c/qualify-local.mjs": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1"
+  },
+  "evidenceFiles": {
+    "baseline-and-scope.json": "085c84c1d42a8274fbd611c701feffedac2de78b4d6716df1886cebabda76759",
+    "component-qualification.json": "9863924399a169530470e28680574b64ae911ca5fe6284fecca37a3098626095",
+    "development-attempts.json": "72f72a36b3d8a808892831fdda83e310af1f86e7d64bd04036a7086c7d9ac58c",
+    "qualification-matrix.json": "a85e7d928a46cd09e5cb88424c256c5dd7272d7c441a2540512ecdcf7e6bbfb7",
+    "validation.json": "85cec70a2ae6469e861cbdadd66921ed37305eb0aee153bac03d24451c5cfa5b"
+  },
+  "exactDeliveryHead": "See stacked PR description and exact-head CI artifact; evidence-only followup commit does not alter runtime source",
+  "noPlaintextOrPrivateKeysCommitted": true,
+  "componentCases": 19,
+  "unitTests": 227
+}

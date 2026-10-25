@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 
 const workflowDirectory = ".github/workflows";
 const reviewedPins = new Map([
@@ -17,6 +18,18 @@ const workflowExpectations = new Map([
         ["actions/checkout", 2],
         ["actions/setup-node", 2],
         ["actions/upload-artifact", 2],
+      ]),
+    },
+  ],
+  [
+    "nutrition-002c-local.yml",
+    {
+      timeout: 10,
+      node: 22,
+      actions: new Map([
+        ["actions/checkout", 1],
+        ["actions/setup-node", 1],
+        ["actions/upload-artifact", 1],
       ]),
     },
   ],
@@ -217,6 +230,13 @@ for (const [workflowName, expectation] of workflowExpectations) {
   const observedCounts = new Map();
 
   if (workflowName === "ci.yml") checkCiDispatchContract(workflow);
+  // The stacked PR has a separate read-only, exact-head, disposable-only job.
+  // Pin its complete trigger/steps so it cannot silently gain hosted authority.
+  if (workflowName === "nutrition-002c-local.yml" &&
+      createHash("sha256").update(workflow).digest("hex") !==
+      "3b706ecdb67f8519295e9defb5e665c181a4cc62ff9141c41369a06f57d33130") {
+    fail("nutrition-002c-local.yml differs from the reviewed local-only workflow");
+  }
 
   if (!/^permissions:\n  contents: read$/m.test(workflow)) {
     fail(`${workflowName} top-level permissions must be exactly contents: read`);

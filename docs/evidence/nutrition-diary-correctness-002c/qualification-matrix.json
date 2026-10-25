@@ -1,0 +1,551 @@
+{
+  "schemaVersion": "nutrition-002c-matrix/v1",
+  "cases": [
+    {
+      "name": "closedByDefaultAndPrivateOverlay",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 318
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "encryptedComponentLedger44",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 3016
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "encryptedComponentLedger45",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 3004
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "wrongBoundaryRejected",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1531
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "selectedSequenceRejected",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1113
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "catalogHistoricalFieldsAndCurrentHelpers",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 276
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "observedCatalogDriftRejectsCapture",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1973
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "competingBackupAndMigrationAndStaleInputs",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 2891
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "exporterLossAndDurableTakeoverRefusal",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 2303
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "immutableAttemptAndMigrationAdmission",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 2195
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "lostSessionLockInvalidatesCapture",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1705
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "sealFailureAndLostAcknowledgementStayBlocked",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 4915
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "captureDeadlineNoAutomaticExpiry",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 3804
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "orphanBackendAndRestartRequireExplicitReconciliation",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 2389
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "actualDumpBackendFailureCancelsAttempt",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 7102
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "stalledDumpAndUnconfirmedCleanupStayBlocked",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 18424
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "gateDrainsInflightAndPersistsClosed",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1991
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "gateCoverageDriftAndPartitionFailClosed",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1771
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "overlayHelperAndGrantDriftRejected",
+      "classification": "PASS",
+      "expected": "Case assertions pass; no recovery or Production eligibility",
+      "actual": {
+        "result": "PASS_COMPONENT_ONLY",
+        "elapsedMs": 1217
+      },
+      "command": "node scripts/nutrition-002c/qualify-local.mjs /absolute/new/sanitized-report.json",
+      "environment": {
+        "node": "v22.23.4",
+        "postgres": "17.6",
+        "dump": "17.6",
+        "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+        "network": "none",
+        "dataMount": "tmpfs",
+        "providerAuth": "NOT_STARTED",
+        "applicationMigrations": "NOT_REPLAYED_COMPONENT_FIXTURE_ONLY"
+      },
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+      "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+      "evidence": "component-qualification.json"
+    },
+    {
+      "name": "fullApplication44and45",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Actual migration replay, real GoTrue and complete encrypted restore/security comparison",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "all35NutrientsAndReferenceAmounts",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Per Serving, Per 100 g, Per 100 ml; complete additional carbohydrates/fats, minerals/vitamins; NULL/zero precision in real diary, Saved Meals, Recipes and receipts",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "roleCatalogRestore",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Portable role/type/catalog/dependency serialization and faithful cross-cluster comparison",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "full61TableGate",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "All real tables/RPCs/receipts/cascades and overlay restore equality",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "final44ProductionRoute",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Reviewed compatible release/adapter and complete local final44 rehearsal",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "distributedProcessAndPublication",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Actual distributed process-start/daemon/client acknowledgement windows; trusted producer/publication eligibility",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "executorPostCommitAckLoss",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Actual migration executor with authoritative schema/ledger reconciliation, no blind retry",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "hostedCapabilities",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Provider session affinity/credentials/privileges/sequence inventory, no authorized hosted probe",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "fullServiceRpoRto",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Accepted provider/secret recovery contract and timed full-service recovery",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    },
+    {
+      "name": "sourceToProviderSecurity",
+      "classification": "BLOCKED",
+      "command": "NOT_EXECUTED_AT_COMPONENT_BOUNDARY",
+      "expected": "Owner/activation/Storage/Vault invariants are not integrated into new capture",
+      "actual": "Required continuation; not inherited from 002A/002B or component PASS",
+      "implementationCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+      "evidence": "../../nutrition-diary-correctness-002c-report.md"
+    }
+  ]
+}

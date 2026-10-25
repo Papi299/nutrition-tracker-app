@@ -1,0 +1,278 @@
+{
+  "scope": "NONQUALIFYING_DEVELOPMENT_HISTORY",
+  "caveat": "Some earlier reports read file hashes at completion while files were being edited. These reported hashes are diagnostic only. Final qualification binds an unchanged committed implementation and its full file inventory.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "startedAt": "2026-10-25T14:15:03.788Z",
+      "completedAt": "2026-10-25T14:15:34.191Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "2a4bebf8c01048d399009cb40d9d63f552b1a76c12eb59aceb1738837aa64e8d",
+      "reportedHarnessSha256": "51b578d71f2311556364b3c9a630754e8f6c5e115da5c3716f9a95635eb80ca0"
+    },
+    {
+      "attempt": 2,
+      "startedAt": "2026-10-25T14:17:45.006Z",
+      "completedAt": "2026-10-25T14:18:45.357Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "2a4bebf8c01048d399009cb40d9d63f552b1a76c12eb59aceb1738837aa64e8d",
+      "reportedHarnessSha256": "a19426e333795d59b8ee7a5659f804aa9f3fe34f067bf1282139094acae3bfae"
+    },
+    {
+      "attempt": 3,
+      "startedAt": "2026-10-25T14:19:02.523Z",
+      "completedAt": "2026-10-25T14:19:03.954Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "2a4bebf8c01048d399009cb40d9d63f552b1a76c12eb59aceb1738837aa64e8d",
+      "reportedHarnessSha256": "a19426e333795d59b8ee7a5659f804aa9f3fe34f067bf1282139094acae3bfae"
+    },
+    {
+      "attempt": 4,
+      "startedAt": "2026-10-25T14:20:22.159Z",
+      "completedAt": "2026-10-25T14:20:23.628Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "72c1b3896315b8db4465aaa85e65631863fd0db420dbf57f52f236153ddbbcb8",
+      "reportedHarnessSha256": "c367600ae5159a218ba117d657b8e2bbc201652377141ad76f6a8a2f6151afe0"
+    },
+    {
+      "attempt": 5,
+      "startedAt": "2026-10-25T14:23:58.467Z",
+      "completedAt": "2026-10-25T14:23:59.884Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "42fd484aedfbb6fe7c383e1539b107e5c5aa64fd82b7986b04fbbbb14cd68f0b",
+      "reportedHarnessSha256": "8d8ff0a863c8c5d9de6d9d7cbc86b46932a4fe196135bd92a8fa8502c5a4ce68"
+    },
+    {
+      "attempt": 6,
+      "startedAt": "2026-10-25T14:25:12.278Z",
+      "completedAt": "2026-10-25T14:25:13.746Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "af9b28ab13079c8029a05032b1a61718dd4351edb661e0a766ef679f4cdeb5dd",
+      "reportedHarnessSha256": "8d8ff0a863c8c5d9de6d9d7cbc86b46932a4fe196135bd92a8fa8502c5a4ce68"
+    },
+    {
+      "attempt": 7,
+      "startedAt": "2026-10-25T14:25:55.871Z",
+      "completedAt": "2026-10-25T14:26:56.334Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "af9b28ab13079c8029a05032b1a61718dd4351edb661e0a766ef679f4cdeb5dd",
+      "reportedHarnessSha256": "787d73713c86f345d13a0cfe3c1b5acd4750c2f03c59ac8ea3c3e55a8a392499"
+    },
+    {
+      "attempt": 8,
+      "startedAt": "2026-10-25T14:27:32.465Z",
+      "completedAt": "2026-10-25T14:27:56.566Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "af9b28ab13079c8029a05032b1a61718dd4351edb661e0a766ef679f4cdeb5dd",
+      "reportedHarnessSha256": "3a3dc630bb8dbc87754fcd60f3a2073cc189753412199ef57b22a28d28407932"
+    },
+    {
+      "attempt": 9,
+      "startedAt": "2026-10-25T14:28:55.043Z",
+      "completedAt": "2026-10-25T14:29:25.501Z",
+      "result": "PASS_COMPONENT_TESTS_RECOVERY_BLOCKED",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay",
+        "encryptedComponentLedger44",
+        "encryptedComponentLedger45",
+        "wrongBoundaryRejected",
+        "selectedSequenceRejected",
+        "catalogHistoricalFieldsAndCurrentHelpers",
+        "observedCatalogDriftRejectsCapture",
+        "competingBackupAndMigrationAndStaleInputs",
+        "exporterLossAndDurableTakeoverRefusal",
+        "lostSessionLockInvalidatesCapture",
+        "sealFailureAndLostAcknowledgementStayBlocked",
+        "captureDeadlineNoAutomaticExpiry",
+        "orphanBackendAndRestartRequireExplicitReconciliation",
+        "gateDrainsInflightAndPersistsClosed",
+        "gateCoverageDriftAndPartitionFailClosed"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "832117e824267c3451a9282aa5a7e2892d321a648a1d2e738a1382dd6d359072",
+      "reportedHarnessSha256": "3a3dc630bb8dbc87754fcd60f3a2073cc189753412199ef57b22a28d28407932"
+    },
+    {
+      "attempt": 10,
+      "startedAt": "2026-10-25T14:31:04.407Z",
+      "completedAt": "2026-10-25T14:31:45.104Z",
+      "result": "FAILED_COMPONENT_QUALIFICATION",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay",
+        "encryptedComponentLedger44",
+        "encryptedComponentLedger45",
+        "wrongBoundaryRejected",
+        "selectedSequenceRejected",
+        "catalogHistoricalFieldsAndCurrentHelpers",
+        "observedCatalogDriftRejectsCapture",
+        "competingBackupAndMigrationAndStaleInputs",
+        "exporterLossAndDurableTakeoverRefusal",
+        "lostSessionLockInvalidatesCapture",
+        "sealFailureAndLostAcknowledgementStayBlocked",
+        "captureDeadlineNoAutomaticExpiry",
+        "orphanBackendAndRestartRequireExplicitReconciliation",
+        "actualDumpBackendFailureCancelsAttempt"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "88505babc9be90a89da656a7179c96fedc9e5c3c8eaf422bf1b8c72b7cde2ab6",
+      "reportedHarnessSha256": "362c785beb2e2c5db300c3a7a18abd748dd5bdad9eceb43c146f454f0de32b0e"
+    },
+    {
+      "attempt": 11,
+      "startedAt": "2026-10-25T14:32:54.468Z",
+      "completedAt": "2026-10-25T14:33:50.295Z",
+      "result": "PASS_COMPONENT_TESTS_RECOVERY_BLOCKED",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay",
+        "encryptedComponentLedger44",
+        "encryptedComponentLedger45",
+        "wrongBoundaryRejected",
+        "selectedSequenceRejected",
+        "catalogHistoricalFieldsAndCurrentHelpers",
+        "observedCatalogDriftRejectsCapture",
+        "competingBackupAndMigrationAndStaleInputs",
+        "exporterLossAndDurableTakeoverRefusal",
+        "lostSessionLockInvalidatesCapture",
+        "sealFailureAndLostAcknowledgementStayBlocked",
+        "captureDeadlineNoAutomaticExpiry",
+        "orphanBackendAndRestartRequireExplicitReconciliation",
+        "actualDumpBackendFailureCancelsAttempt",
+        "stalledDumpAndUnconfirmedCleanupStayBlocked",
+        "gateDrainsInflightAndPersistsClosed",
+        "gateCoverageDriftAndPartitionFailClosed"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "b89f3b1c6660fedc036fc072476355e4e003f51b527c3d9d1f8182561e609c3e",
+      "reportedHarnessSha256": "f755a321e1054279673b0e9f5d87d426c325bbf6c3cef6ba1000ed50f4800030"
+    },
+    {
+      "attempt": 12,
+      "startedAt": "2026-10-25T14:37:09.309Z",
+      "completedAt": "2026-10-25T14:38:08.958Z",
+      "result": "PASS_COMPONENT_TESTS_RECOVERY_BLOCKED",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay",
+        "encryptedComponentLedger44",
+        "encryptedComponentLedger45",
+        "wrongBoundaryRejected",
+        "selectedSequenceRejected",
+        "catalogHistoricalFieldsAndCurrentHelpers",
+        "observedCatalogDriftRejectsCapture",
+        "competingBackupAndMigrationAndStaleInputs",
+        "exporterLossAndDurableTakeoverRefusal",
+        "immutableAttemptAndMigrationAdmission",
+        "lostSessionLockInvalidatesCapture",
+        "sealFailureAndLostAcknowledgementStayBlocked",
+        "captureDeadlineNoAutomaticExpiry",
+        "orphanBackendAndRestartRequireExplicitReconciliation",
+        "actualDumpBackendFailureCancelsAttempt",
+        "stalledDumpAndUnconfirmedCleanupStayBlocked",
+        "gateDrainsInflightAndPersistsClosed",
+        "gateCoverageDriftAndPartitionFailClosed"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "da2bfa595f77adf2e7db422ebc0ae470901a228243d40a3bda29bb73606ec15c",
+      "reportedHarnessSha256": "2ce7e7bf47844e32103d8866d71e8fb762859c21f08f9c303d7a01f472a30638"
+    },
+    {
+      "attempt": 13,
+      "startedAt": "2026-10-25T14:41:43.135Z",
+      "completedAt": "2026-10-25T14:42:48.995Z",
+      "result": "PASS_COMPONENT_TESTS_RECOVERY_BLOCKED",
+      "passedCaseNames": [
+        "closedByDefaultAndPrivateOverlay",
+        "encryptedComponentLedger44",
+        "encryptedComponentLedger45",
+        "wrongBoundaryRejected",
+        "selectedSequenceRejected",
+        "catalogHistoricalFieldsAndCurrentHelpers",
+        "observedCatalogDriftRejectsCapture",
+        "competingBackupAndMigrationAndStaleInputs",
+        "exporterLossAndDurableTakeoverRefusal",
+        "immutableAttemptAndMigrationAdmission",
+        "lostSessionLockInvalidatesCapture",
+        "sealFailureAndLostAcknowledgementStayBlocked",
+        "captureDeadlineNoAutomaticExpiry",
+        "orphanBackendAndRestartRequireExplicitReconciliation",
+        "actualDumpBackendFailureCancelsAttempt",
+        "stalledDumpAndUnconfirmedCleanupStayBlocked",
+        "gateDrainsInflightAndPersistsClosed",
+        "gateCoverageDriftAndPartitionFailClosed",
+        "overlayHelperAndGrantDriftRejected"
+      ],
+      "otherCases": {},
+      "cleanup": {
+        "containerAbsent": true,
+        "plaintextAndSyntheticKeysRemoved": true
+      },
+      "reportedImplementationSha256": "df9da021542ee7805e636986813fa9f687419b50cc39d01417165f471c206ed0",
+      "reportedHarnessSha256": "2e46680d375653ae217baa18b7f43a4dc9e2203c558b12d0fc31787951560fcf"
+    }
+  ]
+}

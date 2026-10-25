@@ -22,13 +22,14 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow) {
+function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8")) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
     mkdirSync(workflowDirectory, { recursive: true });
     writeFileSync(join(workflowDirectory, "ci.yml"), ciWorkflow);
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
+    writeFileSync(join(workflowDirectory, "nutrition-002c-local.yml"), localWorkflow);
     return command(directory, process.execPath, [checker]);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -51,6 +52,16 @@ function stepScript(name) {
 
 test("CI workflow security policy accepts the reviewed dispatch contract", () => {
   assert.equal(policyResult(ci).status, 0);
+});
+
+test("stacked local qualification cannot broaden triggers, source or authority", () => {
+  const local = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8");
+  for (const mutation of [
+    local.replace("branches: [codex/nutrition-002a-recovery]", "branches: [main]"),
+    local.replace("contents: read", "contents: write"),
+    local.replace("ref: ${{ github.event.pull_request.head.sha }}", "ref: main"),
+    local.replace("persist-credentials: false", "persist-credentials: true"),
+  ]) assert.notEqual(policyResult(ci, mutation).status, 0);
 });
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
