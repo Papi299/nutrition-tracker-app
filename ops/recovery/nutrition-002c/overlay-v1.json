@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "nutrition-002c-overlay-inventory/v1",
+  "status": "PROPOSED_LOCAL_ONLY",
+  "targetSchema": "recovery_ops",
+  "owner": "nutrition_recovery_owner",
+  "sqlSha256": "3930aa88b689294dccf90dd26cdf3a0b3e0183e5679a21043a11124fa1bd5463",
+  "tables": [
+    "control",
+    "attempts",
+    "participants",
+    "gate",
+    "gated_tables"
+  ],
+  "functions": [
+    "require_lock",
+    "admit",
+    "register",
+    "fail_attempt",
+    "seal",
+    "reconcile",
+    "enforce_gate",
+    "guard_attempt_update"
+  ],
+  "triggers": [
+    "attempts.immutable_attempt",
+    "per selected application table: nutrition002c_write_gate"
+  ],
+  "clientGrants": [],
+  "installation": "fresh disposable database only",
+  "initialControlState": "RECONCILIATION_REQUIRED",
+  "initialGateClosed": true,
+  "productionInstalled": false,
+  "functionDefinitions": [
+    {
+      "name": "require_lock",
+      "bodySha256": "8819db80e71690e4032843aa509af104023f21b640052f05f811747356ddf081",
+      "securityDefiner": false
+    },
+    {
+      "name": "admit",
+      "bodySha256": "f452688fe8f6a877a868be6a4459ee07a1c90ff41f002268945ba729c686a0c5",
+      "securityDefiner": false
+    },
+    {
+      "name": "register",
+      "bodySha256": "979a13e24e5f2ccb74ec80bfebd847cbcbadc2756c697b226f00f7af8ae30b01",
+      "securityDefiner": false
+    },
+    {
+      "name": "fail_attempt",
+      "bodySha256": "3c284fc5f66567fd9a75e85406bd0a1cc5b519f6573beb47a82e8e4a4d46a6d2",
+      "securityDefiner": false
+    },
+    {
+      "name": "seal",
+      "bodySha256": "3a087c57731b50660b230e5f3c85755b6b58d5f0604b64dde9142d7afdd7d5a3",
+      "securityDefiner": false
+    },
+    {
+      "name": "reconcile",
+      "bodySha256": "0e50a774369c4d65776bd412892d4dd00dca60d094f9b1398313e3584633b0cf",
+      "securityDefiner": false
+    },
+    {
+      "name": "enforce_gate",
+      "bodySha256": "29c50b9e74bc878fb664963aa7bd2d5b4a6eabe565c1e0fef18bc34310cb9ddd",
+      "securityDefiner": true
+    },
+    {
+      "name": "guard_attempt_update",
+      "bodySha256": "72fe62f6c2f9cb1fa2a6f6376d1bb1c01ed609a6f1b5e28668eb1e7b40301a11",
+      "securityDefiner": false
+    }
+  ]
+}
