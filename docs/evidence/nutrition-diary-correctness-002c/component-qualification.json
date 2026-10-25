@@ -1,0 +1,112 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-002C",
+  "startedAt": "2026-10-25T14:47:49.323Z",
+  "completedAt": "2026-10-25T14:48:55.466Z",
+  "sourceCommit": "584e1554f112574224de6e7d0fa709af8ebd7e9d",
+  "implementationSha256": "9176f671a94d99754b27e510055ff9da50e98cd58d69043946050942c6da826a",
+  "harnessSha256": "3591b87828252d150c296b83d45259ab5a2616df98fbf653ef004a5b3af3d4f1",
+  "node": "v22.23.4",
+  "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "postgres": "17.6",
+  "nativeDump": "17.6",
+  "scope": "DISPOSABLE_COMPONENT_DATABASE_ONLY",
+  "fullApplicationMigrationsReplayed": false,
+  "actualGoTrueExercised": false,
+  "historicalLedgerFixtures": [
+    44,
+    45
+  ],
+  "all35NutrientApplicationContractsQualified": false,
+  "result": "PASS_COMPONENT_TESTS_RECOVERY_BLOCKED",
+  "cases": {
+    "closedByDefaultAndPrivateOverlay": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 318
+    },
+    "encryptedComponentLedger44": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 3016
+    },
+    "encryptedComponentLedger45": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 3004
+    },
+    "wrongBoundaryRejected": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1531
+    },
+    "selectedSequenceRejected": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1113
+    },
+    "catalogHistoricalFieldsAndCurrentHelpers": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 276
+    },
+    "observedCatalogDriftRejectsCapture": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1973
+    },
+    "competingBackupAndMigrationAndStaleInputs": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 2891
+    },
+    "exporterLossAndDurableTakeoverRefusal": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 2303
+    },
+    "immutableAttemptAndMigrationAdmission": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 2195
+    },
+    "lostSessionLockInvalidatesCapture": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1705
+    },
+    "sealFailureAndLostAcknowledgementStayBlocked": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 4915
+    },
+    "captureDeadlineNoAutomaticExpiry": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 3804
+    },
+    "orphanBackendAndRestartRequireExplicitReconciliation": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 2389
+    },
+    "actualDumpBackendFailureCancelsAttempt": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 7102
+    },
+    "stalledDumpAndUnconfirmedCleanupStayBlocked": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 18424
+    },
+    "gateDrainsInflightAndPersistsClosed": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1991
+    },
+    "gateCoverageDriftAndPartitionFailClosed": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1771
+    },
+    "overlayHelperAndGrantDriftRejected": {
+      "result": "PASS_COMPONENT_ONLY",
+      "elapsedMs": 1217
+    }
+  },
+  "cleanup": {
+    "containerAbsent": true,
+    "plaintextAndSyntheticKeysRemoved": true
+  },
+  "productionAccess": false,
+  "productionCaptureEnabled": false,
+  "blockers": [
+    "completeRoleCatalogRestoreMapping",
+    "fullApplicationOverlayQualification",
+    "encryptedFullApplication44And45Recovery",
+    "providerAndSecretRecoveryAcceptance",
+    "hostedCapabilitiesUnqualified"
+  ]
+}
