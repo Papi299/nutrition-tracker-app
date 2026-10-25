@@ -9,6 +9,7 @@ const reviewedPins = new Map([
   ["actions/upload-artifact", "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"],
 ]);
 const workflowExpectations = new Map([
+  ["nutrition-002c1-local.yml", { reviewedSha256: "11bb6253d7511ca5e57c2bfb773835a486fad808e2e8af749c3d9f6e76542d3b" }],
   [
     "ci.yml",
     {
@@ -228,6 +229,14 @@ if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
 for (const [workflowName, expectation] of workflowExpectations) {
   const workflow = readFileSync(join(workflowDirectory, workflowName), "utf8");
   const observedCounts = new Map();
+  // Exact whole-file approval binds the stacked scope, all jobs, read-only
+  // authority, immutable CodeQL/action pins and upload-never behavior together.
+  if (expectation.reviewedSha256) {
+    if (createHash("sha256").update(workflow).digest("hex") !== expectation.reviewedSha256) {
+      fail(`${workflowName} differs from the reviewed isolated catalog/security workflow`);
+    }
+    continue;
+  }
 
   if (workflowName === "ci.yml") checkCiDispatchContract(workflow);
   // The stacked PR has a separate read-only, exact-head, disposable-only job.

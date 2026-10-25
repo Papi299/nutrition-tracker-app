@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "nutrition-002c1-local-qualification/v1",
+  "startedAt": "2026-10-25T17:40:20.581Z",
+  "completedAt": "2026-10-25T17:42:18.921Z",
+  "sourceCommit": "06695c1e748078d3c12b14ea1d72fdfb9a1badaa",
+  "implementationSha256": "e14f8555d4dadc62786bce7a3e751bb6ca9f3504fbf266cba94834c58f3c2e6a",
+  "node": "v22.23.4",
+  "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "postgres": "17.6",
+  "nativeDump": "17.6",
+  "result": "PASS_DECLARED_SCOPE_RECOVERY_BLOCKED",
+  "cases": [
+    {
+      "name": "actual44MigrationsReplayAndCrossClusterCatalog",
+      "result": "PASS",
+      "elapsedMs": 9605
+    },
+    {
+      "name": "actual44NativeSchemaDumpRestore",
+      "result": "PASS",
+      "elapsedMs": 3438
+    },
+    {
+      "name": "actual44FreshClosedOverlayAnd61Gates",
+      "result": "PASS",
+      "elapsedMs": 3296
+    },
+    {
+      "name": "actual44UnusedOverlayControlledRollback",
+      "result": "PASS",
+      "elapsedMs": 2472
+    },
+    {
+      "name": "actual45MigrationsReplayAndCrossClusterCatalog",
+      "result": "PASS",
+      "elapsedMs": 1866
+    },
+    {
+      "name": "actual45NativeSchemaDumpRestore",
+      "result": "PASS",
+      "elapsedMs": 3403
+    },
+    {
+      "name": "anonymousMutationGrant",
+      "result": "PASS",
+      "elapsedMs": 2507
+    },
+    {
+      "name": "columnGrantOption",
+      "result": "PASS",
+      "elapsedMs": 2513
+    },
+    {
+      "name": "anonymousFunctionExecute",
+      "result": "PASS",
+      "elapsedMs": 2467
+    },
+    {
+      "name": "changedDefinerOwner",
+      "result": "PASS",
+      "elapsedMs": 2481
+    },
+    {
+      "name": "changedDefinerMode",
+      "result": "PASS",
+      "elapsedMs": 2498
+    },
+    {
+      "name": "changedFunctionSearchPath",
+      "result": "PASS",
+      "elapsedMs": 2533
+    },
+    {
+      "name": "missingFunctionGuard",
+      "result": "PASS",
+      "elapsedMs": 2507
+    },
+    {
+      "name": "weakenedRlsPolicy",
+      "result": "PASS",
+      "elapsedMs": 2521
+    },
+    {
+      "name": "disabledRls",
+      "result": "PASS",
+      "elapsedMs": 2475
+    },
+    {
+      "name": "constraintValidationDrift",
+      "result": "PASS",
+      "elapsedMs": 2564
+    },
+    {
+      "name": "unexpectedDefaultExecute",
+      "result": "PASS",
+      "elapsedMs": 2511
+    },
+    {
+      "name": "extraPrivilegedFunction",
+      "result": "PASS",
+      "elapsedMs": 2463
+    },
+    {
+      "name": "providerFunctionDrift",
+      "result": "PASS",
+      "elapsedMs": 2502
+    },
+    {
+      "name": "databaseSettingDrift",
+      "result": "PASS",
+      "elapsedMs": 2501
+    },
+    {
+      "name": "roleAttributeDrift",
+      "result": "PASS",
+      "elapsedMs": 2491
+    },
+    {
+      "name": "roleMembershipDrift",
+      "result": "PASS",
+      "elapsedMs": 2601
+    },
+    {
+      "name": "roleSettingDrift",
+      "result": "PASS",
+      "elapsedMs": 2623
+    },
+    {
+      "name": "unsupportedApplicationSequence",
+      "result": "PASS",
+      "elapsedMs": 2510
+    },
+    {
+      "name": "unsupportedPartition",
+      "result": "PASS",
+      "elapsedMs": 2405
+    },
+    {
+      "name": "unmodeledNamespaceObject",
+      "result": "PASS",
+      "elapsedMs": 2346
+    },
+    {
+      "name": "extraUnapprovedSchema",
+      "result": "PASS",
+      "elapsedMs": 2418
+    },
+    {
+      "name": "parameterPrivilegeDrift",
+      "result": "PASS",
+      "elapsedMs": 2558
+    },
+    {
+      "name": "extraEventTrigger",
+      "result": "PASS",
+      "elapsedMs": 2506
+    },
+    {
+      "name": "extensionSchemaDrift",
+      "result": "PASS",
+      "elapsedMs": 2512
+    },
+    {
+      "name": "actual45FreshClosedOverlayAnd61Gates",
+      "result": "PASS",
+      "elapsedMs": 3348
+    },
+    {
+      "name": "missingOverlayObject",
+      "result": "PASS",
+      "elapsedMs": 2538
+    },
+    {
+      "name": "extraOverlayObject",
+      "result": "PASS",
+      "elapsedMs": 2596
+    },
+    {
+      "name": "modifiedOverlayFunction",
+      "result": "PASS",
+      "elapsedMs": 2559
+    },
+    {
+      "name": "wrongOverlayOwner",
+      "result": "PASS",
+      "elapsedMs": 2615
+    },
+    {
+      "name": "broadOverlayExecute",
+      "result": "PASS",
+      "elapsedMs": 2699
+    },
+    {
+      "name": "modifiedGateTrigger",
+      "result": "PASS",
+      "elapsedMs": 2576
+    },
+    {
+      "name": "missingGateTrigger",
+      "result": "PASS",
+      "elapsedMs": 2559
+    },
+    {
+      "name": "extraUnapprovedTrigger",
+      "result": "PASS",
+      "elapsedMs": 2680
+    },
+    {
+      "name": "restoredOpenGateRejected",
+      "result": "PASS",
+      "elapsedMs": 50
+    },
+    {
+      "name": "restoredIdleAuthorityRejected",
+      "result": "PASS",
+      "elapsedMs": 49
+    },
+    {
+      "name": "unexpectedAdmissionEpochRejected",
+      "result": "PASS",
+      "elapsedMs": 48
+    },
+    {
+      "name": "unsupportedOverlayVersionRejected",
+      "result": "PASS",
+      "elapsedMs": 46
+    },
+    {
+      "name": "actual45UnusedOverlayControlledRollback",
+      "result": "PASS",
+      "elapsedMs": 2641
+    },
+    {
+      "name": "enumDomainVariadicAndViewOidMapping",
+      "result": "PASS",
+      "elapsedMs": 1991
+    },
+    {
+      "name": "liveDeparserAndActualDumpCannotCertifyHistoricalCatalog",
+      "result": "PASS",
+      "elapsedMs": 395
+    }
+  ],
+  "cleanupConfirmed": true,
+  "scope": "ISOLATED_LIVE_SCHEMA_CATALOG_ONLY",
+  "actualGoTrueExercised": false,
+  "encryptedFullRecoveryQualified": false,
+  "historicalSnapshotCertified": false,
+  "producerAuthenticated": false,
+  "recoveryEligible": false,
+  "productionAccess": false
+}
