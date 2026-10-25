@@ -137,7 +137,7 @@ test("spawn errors cannot expose command/environment properties", () => {
 });
 
 const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql"))
-  .sort().map((name) => [name.split("_")[0]]).filter(([version]) => version <= "20260927170418");
+  .sort().map((name) => [name.split("_")[0]]);
 const durableAuth = ["identities", "mfa_factors", "users", "webauthn_credentials"];
 for (const failedStage of PSQL_QUERY_STAGES) {
   test(`capture labels ${failedStage} and aborts without retry or durable output`, async () => {
@@ -167,10 +167,10 @@ for (const failedStage of PSQL_QUERY_STAGES) {
     };
     try {
       await assert.rejects(captureBackup({
-        sourceIdentity: { projectRef: "SYNTHETIC_DIAGNOSTIC_FIXTURE", sourceEnvironment: "LocalSynthetic" },
+        sourceIdentity: { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" },
         assertSourceIdentity: () => {}, assertArtifactIdentity: () => {}, assertRecipient: () => {},
         backupRootInput: root, recipientInput: join(process.cwd(), "ops/recovery/phase-11i-recipient.pem"),
-        operator: "Local synthetic diagnostic test", project: { id: "SYNTHETIC_DIAGNOSTIC_FIXTURE", status: "ACTIVE_HEALTHY" },
+        operator: "Local synthetic diagnostic test", project: { id: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", status: "ACTIVE_HEALTHY" },
         authConfig: {}, rows, psqlBinary: "synthetic-psql", refreshSourceTransport: () => {},
         runSupabase: (args) => { dumps++; writeFileSync(args[args.indexOf("--file") + 1], "-- synthetic dump\n"); },
       }), (error) => {

@@ -1077,3 +1077,14 @@ authorization, exact-candidate Production deployment, bounded
 verification stops normal use and invokes fix/redeploy/rollback procedure.
 All 18 findings remain `OPEN`, Phase 11 remains `INCOMPLETE`, and Phase 11J
 execution remains `NOT_STARTED`.
+
+## Nutrition migration45 transition preparation (002A Draft)
+
+The [blocked recovery transition runbook](nutrition-diary-correctness-002a-cutover-runbook.md)
+defines the separate strict45 operational source and fixed44 recovery capsule.
+Production migration/capture/deployment and merge remain unauthorized. This Draft
+blocks Production capture until consistent capture and writer exclusion are
+independently implemented and accepted; do not activate it on main in that state.
+`PHASE11I_RECOVERY_CAPSULE` is an operator-only restore selection (`migration45`
+default or fixed `migration44`), never inferred from backup metadata and never a
+Production capture bypass. Historical release evidence above remains historical.

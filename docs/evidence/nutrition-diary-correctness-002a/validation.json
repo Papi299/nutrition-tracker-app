@@ -1,0 +1,256 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-002A",
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_002A_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "qualifiedSource": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+  "qualifiedTree": "84c6f7b95c277cfd7dd8aa3c2f661ce5dc2bc740",
+  "baselineSource": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "baselineTree": "74776eeb63db7481baad4fa40ca86ceaa574d241",
+  "localGates": [
+    {
+      "gate": "recovery-contract",
+      "command": "npm run test:recovery-contract",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 214,
+      "skipped": 0,
+      "logSha256": "71efe4f40b229446a02a9fc53c29cb7914623f4113eeef787def96f72899cedc",
+      "localLog": "/private/tmp/002a-recovery-contract.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "deployment",
+      "command": "npm run test:deployment-contract",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 203,
+      "skipped": 0,
+      "logSha256": "1c49e323d0a0174d5b0b3dc852accddad25808478c5d7ba928e2222a7f4438a5",
+      "localLog": "/private/tmp/002a-deployment.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "workflow",
+      "command": "npm run security:workflow",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 9,
+      "skipped": 0,
+      "logSha256": "3ba2fcdb95c69349d2e4d0cce144d5f4e3ff4be1b8828a377e341cc328c89372",
+      "localLog": "/private/tmp/002a-workflow.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "security",
+      "command": "npm run test:security",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 12,
+      "skipped": 0,
+      "logSha256": "95bd6656a1a3fb429e026a2b193a1e1e09038e268eb24d360450c91574005586",
+      "localLog": "/private/tmp/002a-security.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "units",
+      "command": "npm run test:date",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 470,
+      "skipped": 0,
+      "logSha256": "59d30bc6b12441b255c06a43038be7d43a18bb7aa0577783dd66f7eaa1253b5a",
+      "localLog": "/private/tmp/002a-units.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "journey",
+      "command": "npm run test:journey-evidence",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 52,
+      "skipped": 0,
+      "logSha256": "67716333af705252154eddfddde161ba671b4cfc70eec0b34d9e98c7c745ae48",
+      "localLog": "/private/tmp/002a-journey.log",
+      "source": "pre-commit worktree with unchanged relevant files; git source baseline50716d3",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "performance-harness",
+      "command": "npm run test:performance-harness",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 19,
+      "skipped": 0,
+      "logSha256": "a1941f1c6a2a10e112c30a47bebbc6222c42098068ec048dddb03af19310d2cb",
+      "localLog": "/private/tmp/002a-performance-harness.log",
+      "source": "pre-commit worktree with unchanged relevant files; git source baseline50716d3",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "performance-evidence",
+      "command": "npm run test:performance-evidence",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 50,
+      "skipped": 0,
+      "logSha256": "afb49caeb5036560a47c95eb9265b61116db4ced4e7e9a0617697e3026ca3e89",
+      "localLog": "/private/tmp/002a-performance-evidence.log",
+      "source": "pre-commit worktree with unchanged relevant files; git source baseline50716d3",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "lint",
+      "command": "npm run lint",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": null,
+      "skipped": 0,
+      "logSha256": "4fb866852398145a6465e87758a2d276e8c54445d995edb510841dedf1c7e800",
+      "localLog": "/private/tmp/002a-lint.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": null,
+      "skipped": 0,
+      "logSha256": "b9b2fa3b3101aa22539ce4c1d2666a4dd2840683317ca9215cca0f262ec64095",
+      "localLog": "/private/tmp/002a-typecheck.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    },
+    {
+      "gate": "build",
+      "command": "npm run security:build-boundary",
+      "expected": "PASS",
+      "actual": "PASS",
+      "assertionOrArtifactCount": 115,
+      "skipped": 0,
+      "logSha256": "2ace18b2daa477c36afe8a05947b0b4075db74d32e0b8321e53776e6e56d023a",
+      "localLog": "/private/tmp/002a-build.log",
+      "source": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "environment": "macOS arm64; Node26.5.1; locked dependencies"
+    }
+  ],
+  "limitations": [
+    "No integrated consistent capture or writer exclusion",
+    "No integrated fail-closed coordination/session-loss monitor",
+    "Post-commit lost acknowledgement modeled, not network-injected",
+    "No Production recovery eligibility or service RTO established",
+    "Complete local browser/migration-role rerun delegated to exact-head existing GitHub CI; no UI/schema changed",
+    "Local recovery Node26; GitHub CI Node22 does not itself run the full encrypted rehearsals"
+  ],
+  "developmentDependencyFinding": {
+    "package": "zod",
+    "version": "4.3.6",
+    "advisory": "GHSA-mrhx-c7xc-m3w5",
+    "severity": "high",
+    "devOnly": true,
+    "introducedByTask": false,
+    "path": [
+      "eslint-config-next",
+      "eslint-plugin-react-hooks",
+      "zod"
+    ],
+    "lockfileChanged": false,
+    "productionAudit": "PASS: zero advisories"
+  },
+  "nonPassingDevelopmentAttempts": [
+    {
+      "scope": "existing diagnostic and transport unit mocks",
+      "cause": "old synthetic identity/count assumptions after strict boundary guard",
+      "resolution": "updated mocks to fixed synthetic identity and exact45 inventory; all214pass"
+    },
+    {
+      "scope": "deployment contract",
+      "cause": "new operator capsule variable not yet documented; direct PATH scanner read in a test",
+      "resolution": "registered optional variable, documented restore-only meaning, used full inherited test environment; all203pass"
+    },
+    {
+      "scope": "executor harness",
+      "cause": "CLI emits SQL errors on stdout; schema observer initially waited out test lock; CLI application-name assumption mismatched actual waiter",
+      "resolution": "classify combined bounded local output; observe schema before lock; identify unique waiting client in reserved isolated stack; final immutable-source run passed measured cases"
+    }
+  ],
+  "providerSafety": {
+    "hostedSupabaseCalls": 0,
+    "productionArtifactDownloads": 0,
+    "productionCaptureRestore": 0,
+    "vercelOperations": 0,
+    "secretsChanged": 0,
+    "mergeAuthorized": false,
+    "productionExecutionAuthorized": false
+  },
+  "evidenceBinding": "Local JSON captures exact executable sourcecd9a943 and hashes. Final PR adds only sanitized evidence. Source/ledger hashes are not historical hosted SQL attestation.",
+  "rehearsals": {
+    "local-recovery45": {
+      "command": "node scripts/qualify-phase-11i-populated-recovery.mjs <new-absolute-redacted-report> --nutrition-snapshots",
+      "sourceCommit": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "startedAt": "2026-10-25T11:43:42.076Z",
+      "completedAt": "2026-10-25T11:46:56.448Z",
+      "elapsedMs": 194372,
+      "measuredStagesMs": {
+        "capture": 23301,
+        "isolatedRestore": 42782
+      },
+      "fullApplicationTables": 61,
+      "fullDurableAuthTables": 4,
+      "negativeCases": 37,
+      "expected": "Local semantic recovery PASS only",
+      "actual": "PASS",
+      "skip": 0,
+      "backupCreationSource": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "recoveryCapsuleSource": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "captureImplementationSource": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "recoveryScope": "LOCAL_SYNTHETIC_SINGLE_WRITER_TEST_ONLY"
+    },
+    "local-recovery44": {
+      "command": "node scripts/qualify-phase-11i-populated-recovery.mjs <new-absolute-redacted-report> --migration44-capsule",
+      "sourceCommit": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "startedAt": "2026-10-25T11:46:59.948Z",
+      "completedAt": "2026-10-25T11:50:50.397Z",
+      "elapsedMs": 230449,
+      "measuredStagesMs": {
+        "capture": 22641,
+        "isolatedRestore": 42955
+      },
+      "fullApplicationTables": 61,
+      "fullDurableAuthTables": 4,
+      "negativeCases": 21,
+      "expected": "Local semantic recovery PASS only",
+      "actual": "PASS",
+      "skip": 0,
+      "backupCreationSource": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+      "recoveryCapsuleSource": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+      "captureImplementationSource": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+      "recoveryScope": "HISTORICAL44_COUNT_CHECKS_ONLY_SYNTHETIC_FIXTURE"
+    }
+  },
+  "executor": {
+    "command": "node scripts/qualify-nutrition-002a-executor.mjs <new-absolute-redacted-report>",
+    "sourceCommit": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+    "actual": "Measured SQL/timeout/precommit failure and exact45 selection passed; coordination unimplemented and ambiguity model-only remain blocked",
+    "elapsedMs": 103796
+  },
+  "evidenceFiles": {
+    "local-recovery45.json": {
+      "sha256": "14e88c90cf941385c82487b1af514a3d00138242fb59cfec5afa5a605f18ac51"
+    },
+    "local-recovery44.json": {
+      "sha256": "5861dda7916e4756d9ca0f9f4e2e5ad732583437fa574a59a1b856bfb98a676f"
+    },
+    "local-executor.json": {
+      "sha256": "aec6f214e007870a04dad3007eb4d457c29baee1be6dbbdba3febfefe2549f56"
+    },
+    "pinned-cli-source-review.json": {
+      "sha256": "b26b71a17ca549fe62a5fb29a000565c5b9f7abb795cbc654868c7015112f355"
+    }
+  }
+}

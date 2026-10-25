@@ -1,3 +1,4 @@
+import { MIGRATION45_BOUNDARY, assertTrustedBoundary } from "./phase-11i-migration-inventory.mjs";
 import { createHash } from "node:crypto";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 
@@ -5,8 +6,8 @@ export const TASK_ID = "PHASE-11I-RECOVERY-QUALIFICATION-001";
 export const PRODUCTION_PROJECT_REF = "hskfanrqwtqknzpquwhg";
 export const PRODUCTION_ENVIRONMENT = "Production";
 export const RECOVERY_TARGET = "PHASE_11I_RECOVERY_ISOLATED";
-export const EXPECTED_MIGRATION_COUNT = 44;
-export const EXPECTED_MIGRATION_HEAD = "20260927170418";
+export const EXPECTED_MIGRATION_COUNT = 45;
+export const EXPECTED_MIGRATION_HEAD = "20261024083339";
 export const RPO_LIMIT_MS = 24 * 60 * 60 * 1_000;
 export const RTO_LIMIT_MS = 8 * 60 * 60 * 1_000;
 export const RETENTION_DAYS = 30;
@@ -114,11 +115,11 @@ export function assertEncryptedDurableOutput(outputPath) {
   }
 }
 
-export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = Object.freeze({ count: 45, head: "20261024083339" });
-const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
+export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = MIGRATION45_BOUNDARY;
+const productionMigrationBoundary = MIGRATION45_BOUNDARY;
 
 // This opt-in is available only to the imported synthetic harness. Production
-// entry points never pass it and retain the separately approved 44-migration pin.
+// entry points never pass it. Both identities now require the exact45 inventory.
 export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false) {
   if (!localNutritionSnapshots) return productionMigrationBoundary;
   if (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
@@ -129,6 +130,7 @@ export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshot
 }
 
 export function assertMigrationHistory(versions, boundary = productionMigrationBoundary) {
+  assertTrustedBoundary(boundary);
   if (!Array.isArray(versions) || versions.length !== boundary.count) {
     fail("Source migration count mismatch.");
   }
@@ -140,6 +142,9 @@ export function assertMigrationHistory(versions, boundary = productionMigrationB
   }
   if ([...versions].sort().some((version, index) => version !== versions[index])) {
     fail("Source migration ledger is not ordered.");
+  }
+  if (versions.some((version, index) => version !== boundary.versions[index])) {
+    fail("Source migration history differs from the trusted exact inventory.");
   }
 }
 

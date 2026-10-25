@@ -1,3 +1,4 @@
+import { assertCaptureImplementation, SYNTHETIC_CAPTURE_SCOPE } from "./phase-11i-capture-consistency.mjs";
 import {
   assertMigrationHistory, assertStorageScope, fail,
   recoveryMigrationBoundary,
@@ -12,12 +13,13 @@ function exactKeys(value, expected, label) {
 
 export function assertPublicVerificationSummary(summary, boundary = recoveryMigrationBoundary()) {
   exactKeys(summary, ["schemaVersion", "migration", "storage", "ownerState", "sourceCaptureConsistency"], "summary");
-  exactKeys(summary.migration, ["count", "head"], "migration");
+  exactKeys(summary.migration, ["count", "head", "historySha256"], "migration");
   exactKeys(summary.storage, ["buckets", "objects"], "storage");
   exactKeys(summary.ownerState, ["profile", "authUserCount", "accountActivationCount", "ownershipValidation"], "ownerState");
-  if (summary.schemaVersion !== "phase-11i-public-verification-summary/v1" ||
+  if (summary.schemaVersion !== "phase-11i-public-verification-summary/v2" ||
       summary.migration.count !== boundary.count ||
-      summary.migration.head !== boundary.head) {
+      summary.migration.head !== boundary.head ||
+      summary.migration.historySha256 !== boundary.historySha256) {
     fail("Public verification summary migration or schema mismatch.");
   }
   assertStorageScope(summary.storage);
@@ -27,7 +29,7 @@ export function assertPublicVerificationSummary(summary, boundary = recoveryMigr
       summary.ownerState.ownershipValidation !== "PASS") {
     fail("Public verification summary owner/activation invariant failed.");
   }
-  if (summary.sourceCaptureConsistency !== "PASS") {
+  if (summary.sourceCaptureConsistency !== SYNTHETIC_CAPTURE_SCOPE) {
     fail("Public verification summary source capture consistency failed.");
   }
 }
@@ -39,8 +41,8 @@ export function buildPublicVerificationSummary({
   assertMigrationHistory(migrations, boundary);
   assertStorageScope(storage);
   const summary = {
-    schemaVersion: "phase-11i-public-verification-summary/v1",
-    migration: { count: migrations.length, head: migrations.at(-1) },
+    schemaVersion: "phase-11i-public-verification-summary/v2",
+    migration: { count: migrations.length, head: migrations.at(-1), historySha256: boundary.historySha256 },
     storage: { buckets: storage.buckets, objects: storage.objects },
     ownerState: {
       profile: ownerValidation?.ownershipIntegrity?.profile,
@@ -69,6 +71,9 @@ export function assertNewBackupPublicVerification(manifest, boundary = recoveryM
   if (!manifest || typeof manifest !== "object" || Array.isArray(manifest) ||
       Object.keys(manifest).some((key) => !PUBLIC_MANIFEST_KEYS.has(key))) {
     fail("Public backup manifest has unexpected fields.");
+  }
+  if (manifest.sourceProjectRef !== undefined || manifest.sourceEnvironment !== undefined) {
+    assertCaptureImplementation({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment });
   }
   assertPublicVerificationSummary(manifest.publicVerificationSummary, boundary);
   if (manifest.migrationHead !== manifest.publicVerificationSummary.migration.head) {

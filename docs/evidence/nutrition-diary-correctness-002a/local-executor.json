@@ -1,0 +1,122 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-002A",
+  "startedAt": "2026-10-25T11:43:44.490Z",
+  "completedAt": "2026-10-25T11:45:28.286Z",
+  "sourceCommit": "cd9a943ca155a5e3aef7f70eea7d2e1c8ee48559",
+  "runtime": {
+    "node": "v26.5.1",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "toolingSha256": "287c079539addf804d09322682b3552561234bef50c98ea8d107e1adf689c638",
+  "cli": "2.116.0",
+  "postgres": "17.6",
+  "scope": "DISPOSABLE_LOCAL_ONLY",
+  "cases": {
+    "earlySqlFailure": {
+      "result": "PASS",
+      "cliExit": 1,
+      "elapsedMs": 807,
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true
+    },
+    "lateSqlFailure": {
+      "result": "PASS",
+      "cliExit": 1,
+      "elapsedMs": 857,
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true
+    },
+    "actualSessionTimeoutSettings": {
+      "result": "PASS",
+      "cliExit": 1,
+      "elapsedMs": 764,
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true
+    },
+    "statementTimeout": {
+      "result": "PASS",
+      "cliExit": 1,
+      "elapsedMs": 1055,
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true
+    },
+    "lockTimeout5000ms": {
+      "result": "PASS",
+      "cliExit": 1,
+      "elapsedMs": 5733,
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true
+    },
+    "connectionFailureBeforeCommit": {
+      "result": "PASS",
+      "exact44Ledger": true,
+      "completeApplicationSchemaUnchanged": true,
+      "blindRetryAllowed": false
+    },
+    "inPlaceUpdate": {
+      "result": "COUNTEREXAMPLE_CONFIRMED",
+      "countCheckWouldAccept": true,
+      "coherenceProven": false
+    },
+    "balancedDeleteInsert": {
+      "result": "COUNTEREXAMPLE_CONFIRMED",
+      "countCheckWouldAccept": true,
+      "coherenceProven": false
+    },
+    "authAndSchemaChanges": {
+      "result": "COUNTEREXAMPLE_CONFIRMED",
+      "countCheckWouldAccept": true,
+      "coherenceProven": false,
+      "scope": "actual disposable Auth row UPDATE and application DDL; not an integrated capture test"
+    },
+    "backupBackup": {
+      "result": "LOCAL_COOPERATION_ONLY",
+      "cooperatingSessionExcluded": true,
+      "productionIntegration": "UNIMPLEMENTED"
+    },
+    "backupMigration": {
+      "result": "LOCAL_COOPERATION_ONLY",
+      "cooperatingSessionExcluded": true,
+      "productionIntegration": "UNIMPLEMENTED"
+    },
+    "advisoryDoesNotExcludeWriters": {
+      "result": "PASS",
+      "writeExclusion": false
+    },
+    "coordinationLoss": {
+      "result": "CONTROL_UNIMPLEMENTED",
+      "lockAutomaticallyReleased": true,
+      "continuedCaptureMustBeRejected": true,
+      "productionLossMonitor": "UNIMPLEMENTED_CAPTURE_BLOCKED"
+    },
+    "successfulOneTimeTransition": {
+      "result": "PASS",
+      "selected": [
+        "20261024083339_consumed_nutrition_snapshots_v1.sql"
+      ],
+      "elapsedMs": 750,
+      "exact45Ledger": true,
+      "migrationChecksum": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+    },
+    "ambiguousCompletionReadback": {
+      "result": "MODEL_ONLY_BLOCKED_FOR_EXECUTION",
+      "modeledLostAcknowledgement": true,
+      "exact45Ledger": true,
+      "decision": "ALREADY_APPLIED_VERIFY_SCHEMA_NO_RETRY",
+      "actualPostCommitNetworkFault": "NOT_INJECTED"
+    },
+    "noDuplicateLedgerOnSecondSelection": {
+      "result": "PASS",
+      "additionalMigrationsApplied": 0
+    }
+  },
+  "productionExecutorShipped": false,
+  "productionAccess": false,
+  "remainingBlockers": [
+    "consistentCaptureAndWriterExclusion",
+    "integratedFailClosedCoordination",
+    "actualPostCommitAmbiguousNetworkFault",
+    "hostedSessionTimeoutAndTransportAcceptance"
+  ]
+}

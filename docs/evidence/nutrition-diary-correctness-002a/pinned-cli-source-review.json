@@ -1,0 +1,32 @@
+{
+  "repository": "supabase/cli",
+  "tag": "v2.116.0",
+  "tree": "997a1e69a4a83466964ed874d3a604c88a7b3866",
+  "files": [
+    {
+      "path": "apps/cli/src/legacy/commands/migration/up/up.handler.ts",
+      "blob": "e98b2731f4b8c76650d6059c777e6b3781eb4ef9",
+      "sourceReviewed": true
+    },
+    {
+      "path": "apps/cli/src/legacy/shared/legacy-migration-apply.ts",
+      "blob": "806973a2e3b07a9199a68510f130a8c4143feda9",
+      "sourceReviewed": true
+    },
+    {
+      "path": "apps/cli/src/legacy/shared/legacy-db-connection.sql-pg.layer.ts",
+      "blob": "a0cd4c1fbeb5cfd6d20a17eadeed7de1e58150f7",
+      "sourceReviewed": true
+    },
+    {
+      "path": "apps/cli/src/legacy/commands/db/dump/dump.handler.ts",
+      "blob": "dacfdc53f294e1c26df4c18a0fae90cb82e77fd7",
+      "sourceReviewed": true
+    }
+  ],
+  "notes": [
+    "Native TypeScript migration up path inspected, rather than only the retained Go implementation.",
+    "Actual installed CLI help and disposable local execution also checked.",
+    "No current CLI upgrade was performed."
+  ]
+}

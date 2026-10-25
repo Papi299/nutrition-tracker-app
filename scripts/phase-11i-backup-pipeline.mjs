@@ -1,3 +1,5 @@
+import { assertCaptureImplementation } from "./phase-11i-capture-consistency.mjs";
+import { assertRecoveryCheckout } from "./phase-11i-migration-inventory.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -47,7 +49,9 @@ export async function captureBackup({
   rows, psqlBinary, runSupabase, refreshSourceTransport, localNutritionSnapshots = false,
 }) {
   assertSourceIdentity(sourceIdentity);
+  const captureScope = assertCaptureImplementation(sourceIdentity);
   const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots);
+  assertRecoveryCheckout("supabase/migrations", migrationBoundary);
   assertEncryptionRecipient(recipientInput);
   if (typeof refreshSourceTransport !== "function") fail("Source transport refresh callback is required.");
   if (!backupRootInput || !operator) fail("Backup root and operator are required.");
@@ -209,7 +213,7 @@ export async function captureBackup({
     const securityDefinerMissingSearchPath = rows(`
       select n.nspname||'.'||p.proname
       from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-      where n.nspname in ('public','ingestion') and p.prosecdef
+      where n.nspname in ('public','private','ingestion') and p.prosecdef
         and not exists (
           select 1 from unnest(coalesce(p.proconfig,array[]::text[])) entry
           where entry in ('search_path=""', 'search_path=')
@@ -273,7 +277,7 @@ export async function captureBackup({
     // Linked CLI dumps may expire or replace the temporary login credential.
     await refreshSourceTransport();
 
-    // Fail rather than publish a count-inconsistent capture if writes occurred during the dumps.
+    // Supplemental count checks detect some changes only; they do not prove coherent capture.
     const afterCounts = exactTableCounts(applicationTables, "POST_DUMP_TABLE_COUNTS");
     if (JSON.stringify(afterCounts) !== JSON.stringify(tableCounts)) fail("Source changed during backup capture.");
     const afterAuth = validateOwnerDatabase((sql) => rows(sql, "POST_DUMP_OWNER_VALIDATION")).authCounts;
@@ -285,7 +289,7 @@ export async function captureBackup({
     }
     const publicVerificationSummary = buildPublicVerificationSummary({
       migrations, storage: { buckets: storageBuckets, objects: storageObjects },
-      ownerValidation, accountActivationCount, sourceCaptureConsistency: "PASS",
+      ownerValidation, accountActivationCount, sourceCaptureConsistency: captureScope,
     }, migrationBoundary);
     const sourceSnapshot = {
       sourceProjectRef: sourceIdentity.projectRef,
