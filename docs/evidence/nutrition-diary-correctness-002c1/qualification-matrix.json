@@ -1,0 +1,336 @@
+{
+  "schemaVersion": "nutrition-002c1-qualification-matrix/v1",
+  "implementationCommit": "06695c1e748078d3c12b14ea1d72fdfb9a1badaa",
+  "implementationSha256": "e14f8555d4dadc62786bce7a3e751bb6ca9f3504fbf266cba94834c58f3c2e6a",
+  "families": [
+    {
+      "family": "Role/catalog mapping",
+      "classification": "PASS",
+      "evidenceOrFinding": "Actual schemas and native schema restores equal in the versioned isolated live scope; typed OID and privilege negatives pass."
+    },
+    {
+      "family": "Historical role/catalog mapping",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Live deparsers cannot certify raw historical snapshots; native-dump counterexample executed."
+    },
+    {
+      "family": "44 application schema",
+      "classification": "PASS",
+      "evidenceOrFinding": "44 unchanged actual SQL migrations replayed; 61-table schema and native restoration compared."
+    },
+    {
+      "family": "45 application schema",
+      "classification": "PASS",
+      "evidenceOrFinding": "Unchanged actual migration45 applied and native schema restoration compared."
+    },
+    {
+      "family": "44/45 full application data",
+      "classification": "NOT_RUN",
+      "evidenceOrFinding": "No populated journey or complete effective-row comparison under the new capture engine."
+    },
+    {
+      "family": "Overlay",
+      "classification": "PASS",
+      "evidenceOrFinding": "Fresh CLOSED actual44/45 installation, exact coverage, owner/grant/trigger drift and rollback cases pass."
+    },
+    {
+      "family": "Gate full application behavior",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "61-table installed coverage qualified; authenticated direct/RPC/receipt/drain/stale/COPY/TRUNCATE/cascade/MERGE/replica/open behavior not requalified."
+    },
+    {
+      "family": "Auth",
+      "classification": "NOT_RUN",
+      "evidenceOrFinding": "Pinned provider bootstrap schema only; real GoTrue service and all lifecycle acceptance unexercised."
+    },
+    {
+      "family": "Snapshot DDL boundary",
+      "classification": "PASS",
+      "evidenceOrFinding": "Actual exported-snapshot dump retains old helper while live deparser observes new helper; no historical certification follows."
+    },
+    {
+      "family": "Snapshot concurrent application/Auth writes",
+      "classification": "NOT_RUN",
+      "evidenceOrFinding": "New shared-snapshot full-data round trip not integrated."
+    },
+    {
+      "family": "Encryption",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Full CMS encrypted 44/45 shared-snapshot integration is a later requirement."
+    },
+    {
+      "family": "Restore",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Schema scope passes; full schema/security/data/operational/evidence composition unqualified."
+    },
+    {
+      "family": "Coordination",
+      "classification": "HISTORICAL",
+      "evidenceOrFinding": "002C durable component evidence unchanged; no portable operational successor is qualified."
+    },
+    {
+      "family": "Fault handling",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Fresh overlay partial DDL rollback passes; whole-capture process/backend/seal/publication/cleanup windows not requalified."
+    },
+    {
+      "family": "Privacy",
+      "classification": "PASS",
+      "evidenceOrFinding": "No dumps, catalog values, Auth/owner records, snapshot token/PID or private key published; sanitized reports pass scanner."
+    },
+    {
+      "family": "CI",
+      "classification": "NOT_RUN",
+      "evidenceOrFinding": "Exact new delivery-head GitHub checks required after push; results recorded in PR and CI artifacts."
+    },
+    {
+      "family": "Security analysis",
+      "classification": "NOT_RUN",
+      "evidenceOrFinding": "Dedicated pinned exact-head CodeQL workflow prepared; executed results required after push."
+    },
+    {
+      "family": "All 35 nutrients and reference bases",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Per Serving, Per 100 g and Per 100 ml; NULL/zero/precision/reuse/receipts/history need full encrypted integration."
+    },
+    {
+      "family": "Provider/key/configuration recovery and RPO/RTO",
+      "classification": "BLOCKED",
+      "evidenceOrFinding": "Essential dependencies and timed full-service recovery unaccepted."
+    }
+  ],
+  "cases": [
+    {
+      "name": "actual44MigrationsReplayAndCrossClusterCatalog",
+      "result": "PASS",
+      "elapsedMs": 9605
+    },
+    {
+      "name": "actual44NativeSchemaDumpRestore",
+      "result": "PASS",
+      "elapsedMs": 3438
+    },
+    {
+      "name": "actual44FreshClosedOverlayAnd61Gates",
+      "result": "PASS",
+      "elapsedMs": 3296
+    },
+    {
+      "name": "actual44UnusedOverlayControlledRollback",
+      "result": "PASS",
+      "elapsedMs": 2472
+    },
+    {
+      "name": "actual45MigrationsReplayAndCrossClusterCatalog",
+      "result": "PASS",
+      "elapsedMs": 1866
+    },
+    {
+      "name": "actual45NativeSchemaDumpRestore",
+      "result": "PASS",
+      "elapsedMs": 3403
+    },
+    {
+      "name": "anonymousMutationGrant",
+      "result": "PASS",
+      "elapsedMs": 2507
+    },
+    {
+      "name": "columnGrantOption",
+      "result": "PASS",
+      "elapsedMs": 2513
+    },
+    {
+      "name": "anonymousFunctionExecute",
+      "result": "PASS",
+      "elapsedMs": 2467
+    },
+    {
+      "name": "changedDefinerOwner",
+      "result": "PASS",
+      "elapsedMs": 2481
+    },
+    {
+      "name": "changedDefinerMode",
+      "result": "PASS",
+      "elapsedMs": 2498
+    },
+    {
+      "name": "changedFunctionSearchPath",
+      "result": "PASS",
+      "elapsedMs": 2533
+    },
+    {
+      "name": "missingFunctionGuard",
+      "result": "PASS",
+      "elapsedMs": 2507
+    },
+    {
+      "name": "weakenedRlsPolicy",
+      "result": "PASS",
+      "elapsedMs": 2521
+    },
+    {
+      "name": "disabledRls",
+      "result": "PASS",
+      "elapsedMs": 2475
+    },
+    {
+      "name": "constraintValidationDrift",
+      "result": "PASS",
+      "elapsedMs": 2564
+    },
+    {
+      "name": "unexpectedDefaultExecute",
+      "result": "PASS",
+      "elapsedMs": 2511
+    },
+    {
+      "name": "extraPrivilegedFunction",
+      "result": "PASS",
+      "elapsedMs": 2463
+    },
+    {
+      "name": "providerFunctionDrift",
+      "result": "PASS",
+      "elapsedMs": 2502
+    },
+    {
+      "name": "databaseSettingDrift",
+      "result": "PASS",
+      "elapsedMs": 2501
+    },
+    {
+      "name": "roleAttributeDrift",
+      "result": "PASS",
+      "elapsedMs": 2491
+    },
+    {
+      "name": "roleMembershipDrift",
+      "result": "PASS",
+      "elapsedMs": 2601
+    },
+    {
+      "name": "roleSettingDrift",
+      "result": "PASS",
+      "elapsedMs": 2623
+    },
+    {
+      "name": "unsupportedApplicationSequence",
+      "result": "PASS",
+      "elapsedMs": 2510
+    },
+    {
+      "name": "unsupportedPartition",
+      "result": "PASS",
+      "elapsedMs": 2405
+    },
+    {
+      "name": "unmodeledNamespaceObject",
+      "result": "PASS",
+      "elapsedMs": 2346
+    },
+    {
+      "name": "extraUnapprovedSchema",
+      "result": "PASS",
+      "elapsedMs": 2418
+    },
+    {
+      "name": "parameterPrivilegeDrift",
+      "result": "PASS",
+      "elapsedMs": 2558
+    },
+    {
+      "name": "extraEventTrigger",
+      "result": "PASS",
+      "elapsedMs": 2506
+    },
+    {
+      "name": "extensionSchemaDrift",
+      "result": "PASS",
+      "elapsedMs": 2512
+    },
+    {
+      "name": "actual45FreshClosedOverlayAnd61Gates",
+      "result": "PASS",
+      "elapsedMs": 3348
+    },
+    {
+      "name": "missingOverlayObject",
+      "result": "PASS",
+      "elapsedMs": 2538
+    },
+    {
+      "name": "extraOverlayObject",
+      "result": "PASS",
+      "elapsedMs": 2596
+    },
+    {
+      "name": "modifiedOverlayFunction",
+      "result": "PASS",
+      "elapsedMs": 2559
+    },
+    {
+      "name": "wrongOverlayOwner",
+      "result": "PASS",
+      "elapsedMs": 2615
+    },
+    {
+      "name": "broadOverlayExecute",
+      "result": "PASS",
+      "elapsedMs": 2699
+    },
+    {
+      "name": "modifiedGateTrigger",
+      "result": "PASS",
+      "elapsedMs": 2576
+    },
+    {
+      "name": "missingGateTrigger",
+      "result": "PASS",
+      "elapsedMs": 2559
+    },
+    {
+      "name": "extraUnapprovedTrigger",
+      "result": "PASS",
+      "elapsedMs": 2680
+    },
+    {
+      "name": "restoredOpenGateRejected",
+      "result": "PASS",
+      "elapsedMs": 50
+    },
+    {
+      "name": "restoredIdleAuthorityRejected",
+      "result": "PASS",
+      "elapsedMs": 49
+    },
+    {
+      "name": "unexpectedAdmissionEpochRejected",
+      "result": "PASS",
+      "elapsedMs": 48
+    },
+    {
+      "name": "unsupportedOverlayVersionRejected",
+      "result": "PASS",
+      "elapsedMs": 46
+    },
+    {
+      "name": "actual45UnusedOverlayControlledRollback",
+      "result": "PASS",
+      "elapsedMs": 2641
+    },
+    {
+      "name": "enumDomainVariadicAndViewOidMapping",
+      "result": "PASS",
+      "elapsedMs": 1991
+    },
+    {
+      "name": "liveDeparserAndActualDumpCannotCertifyHistoricalCatalog",
+      "result": "PASS",
+      "elapsedMs": 395
+    }
+  ],
+  "recoveryEligible": false,
+  "productionAccess": false
+}

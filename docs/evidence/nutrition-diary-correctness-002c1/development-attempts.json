@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "nutrition-002c1-development-history/v1",
+  "classification": "DEVELOPMENT_WORKING_TREE_RESULTS_NOT_IMMUTABLE_SOURCE_QUALIFICATION",
+  "attempts": [
+    {
+      "attempt": 1,
+      "reportSha256": "3fb1a57be6234b15a8ad3cb66822b21cb1c58ff1afe1d7df6709bad91bb96388",
+      "result": "FAIL",
+      "casesExecuted": 1,
+      "failedCases": [
+        "actual44MigrationsReplayAndCrossClusterCatalog"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Historical capsule field name corrected; invalid Git object failed before migration replay."
+    },
+    {
+      "attempt": 2,
+      "reportSha256": "15e25e0d838ff9b792a554f9d3ec9756517d80f2b498f0b4b1f710de77c2bb02",
+      "result": "FAIL",
+      "casesExecuted": 1,
+      "failedCases": [
+        "actual44MigrationsReplayAndCrossClusterCatalog"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "The first unsupported-kind policy correctly rejected an unclassified provider volatile sequence."
+    },
+    {
+      "attempt": 3,
+      "reportSha256": "f4913cab92dea20d618209280483710de5add2ab77223d161070ec2bab7057f0",
+      "result": "FAIL",
+      "casesExecuted": 2,
+      "failedCases": [
+        "actual44NativeSchemaDumpRestore"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Native schema restoration exposed ACL, fast-default and boolean association differences."
+    },
+    {
+      "attempt": 4,
+      "reportSha256": "1af9928094947c37273eaa52b20e5064c20ce07ef24d9dd945c2fa8c1de99564",
+      "result": "FAIL",
+      "casesExecuted": 2,
+      "failedCases": [
+        "actual44NativeSchemaDumpRestore"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Retained schema-field diagnostics confirmed the specific native-restore mismatches."
+    },
+    {
+      "attempt": 5,
+      "reportSha256": "5fa09cbcb392c310a6e2806b3e351c10e4f7fe428e75fae13a15182bd9f3d7cf",
+      "result": "FAIL",
+      "casesExecuted": 2,
+      "failedCases": [
+        "actual44NativeSchemaDumpRestore"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Schema-only diagnostics established exact boolean nesting and PUBLIC USAGE differences; no blanket waiver added."
+    },
+    {
+      "attempt": 6,
+      "reportSha256": "4461275ac7766cdce04f499ee14db4d80d60de3dcd7a520544fa6f1c96b114e7",
+      "result": "PASS_DECLARED_SCOPE_RECOVERY_BLOCKED",
+      "casesExecuted": 4,
+      "failedCases": [],
+      "cleanupConfirmed": true,
+      "finding": "Initial actual44/45 schema-only native round trips passed before overlay expansion."
+    },
+    {
+      "attempt": 7,
+      "reportSha256": "148b0a802539ee975aa418372ab81bf6fb6faba7f7799221f56018f55a0e5d2e",
+      "result": "FAIL",
+      "casesExecuted": 3,
+      "failedCases": [
+        "actual44FreshClosedOverlayAnd61Gates"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Overlay transaction-end newline check was incorrectly escaped and rejected installation."
+    },
+    {
+      "attempt": 8,
+      "reportSha256": "ab6e9544492c9f8bb269f292d59b392bfe23c763ec8ee0726c9d4c760d7aae9c",
+      "result": "FAIL",
+      "casesExecuted": 11,
+      "failedCases": [
+        "changedDefinerMode"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "Definer-mode fault targeted an already-invoker function; corrected to a real definer."
+    },
+    {
+      "attempt": 9,
+      "reportSha256": "8864d7689a44072ee27d5ad164521f0f05006d6858ec0230d774421691f8f89d",
+      "result": "PASS_DECLARED_SCOPE_RECOVERY_BLOCKED",
+      "casesExecuted": 42,
+      "failedCases": [],
+      "cleanupConfirmed": true,
+      "finding": "Expanded 42-case bounded scope passed."
+    },
+    {
+      "attempt": 10,
+      "reportSha256": "fcba62fd1ea0b1aead0f2552ff9ec67e11b27e5736ff02f4ba722c35464648a5",
+      "result": "FAIL",
+      "casesExecuted": 1,
+      "failedCases": [
+        "actual44MigrationsReplayAndCrossClusterCatalog"
+      ],
+      "cleanupConfirmed": true,
+      "finding": "The stricter schema inventory refused the pinned pgbouncer provider namespace until explicitly classified outside comparison."
+    },
+    {
+      "attempt": 11,
+      "reportSha256": "932279f4d94ee22347c0b25ec6c296b006bb6c2af984934c9b7a56bf33b5c79e",
+      "result": "PASS_DECLARED_SCOPE_RECOVERY_BLOCKED",
+      "casesExecuted": 45,
+      "failedCases": [],
+      "cleanupConfirmed": true,
+      "finding": "Expanded 45-case bounded scope passed before the final enum/domain/variadic fixture."
+    }
+  ],
+  "additionalDiagnostics": [
+    "Empty ACL arrays are zero-dimensional in PostgreSQL; helper now passes NULL rather than exploding an empty ACL.",
+    "Unit fixture minimum-section list corrected after typed catalog inventory expansion.",
+    "Unknown provider namespace was diagnosed on a fresh empty image, never an existing stack."
+  ],
+  "finalEvidence": "qualification.json",
+  "productionAccess": false
+}

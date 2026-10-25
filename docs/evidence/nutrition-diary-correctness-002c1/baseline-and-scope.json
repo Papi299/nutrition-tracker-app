@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "nutrition-002c1-baseline/v1",
+  "repository": "Papi299/nutrition-tracker-app",
+  "main": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "pr200": {
+    "head": "f969a52e297a3de5453e2bee1904eec552d43c63",
+    "state": "OPEN_DRAFT_UNMERGED"
+  },
+  "pr201": {
+    "head": "7201879935903e846dab5e2adef6d86beea0d597",
+    "tree": "24211f8719018cba2743bf6b90d0451ca0bffaef",
+    "state": "OPEN_DRAFT_UNMERGED",
+    "base": "codex/nutrition-002a-recovery"
+  },
+  "historical44": {
+    "source": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+    "tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17"
+  },
+  "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+  "newBranch": "codex/nutrition-002c1-fidelity",
+  "base": "7201879935903e846dab5e2adef6d86beea0d597",
+  "declaredScope": "LOCAL_LIVE_CATALOG_AND_FRESH_CLOSED_OVERLAY_ON_ACTUAL_SCHEMAS",
+  "scopeBoundaryAuthority": "Task sections 18 and 21",
+  "productionAuthority": false,
+  "mergeAuthority": false,
+  "historicalMigrationsChanged": false,
+  "predecessorSourcesChanged": false
+}

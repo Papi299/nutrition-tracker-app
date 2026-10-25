@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "nutrition-002c1-evidence-index/v1",
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_002C1_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "implementationCommit": "06695c1e748078d3c12b14ea1d72fdfb9a1badaa",
+  "implementationTree": "08d42611c0e9210e245f6345c83e5c2344af894e",
+  "implementationSha256": "e14f8555d4dadc62786bce7a3e751bb6ca9f3504fbf266cba94834c58f3c2e6a",
+  "sourceFiles": {
+    ".github/workflows/nutrition-002c1-local.yml": "11bb6253d7511ca5e57c2bfb773835a486fad808e2e8af749c3d9f6e76542d3b",
+    "docs/nutrition-diary-correctness-002c1-design.md": "b5f7a16be2a81f9da152e339191ca34f3a9b49f1660402c93511f5a396613563",
+    "docs/nutrition-diary-correctness-002c1-report.md": "486482e0cb12a147ec58bbbe8c07c36af8a082c869418f0d198533d4649e2716",
+    "ops/recovery/nutrition-002c1/README.md": "4cfccae0a6ab4bf983f9e0a11952d05a13d3bc323e32f2bc2559a4076ed6fb41",
+    "ops/recovery/nutrition-002c1/catalog-v1.json": "2249888698adbb4c917b6ace480e7776abf63e66a4a9dd94c52cb8755da741e9",
+    "scripts/check-workflow-security.mjs": "b0d8e43f62e4ab40bc50b974c2d7d74af3124051e471b7d0d237ddb41873c213",
+    "scripts/check-workflow-security.test.mjs": "3ed9d481c3990706f95dd88b01c3928cf362849fb8f2d49bb10dfea306d4cfa5",
+    "scripts/nutrition-002c1/boolean-sql.mjs": "0a135f0f866ebb26603acd59a0bf41f165e56ad8fb8b32cff4b8f922b5f7137e",
+    "scripts/nutrition-002c1/catalog.mjs": "ea90d37deb41806e7a212bce9c87723c62df43c8a8e78c5006e87ba27af80880",
+    "scripts/nutrition-002c1/catalog.sql": "1a4fd04d73b5bbbe89490492d5717c12778e11a6c205ac2e4d023ffb853d627b",
+    "scripts/nutrition-002c1/check-sarif.mjs": "fc1189ced8376787479813bd06dfd16d1b8aad5920e759d546a22bb94dde24d7",
+    "scripts/nutrition-002c1/contracts.test.mjs": "8e4e9a449a5b3bb70d06bda99894be8997fe10392b0922b0540d128e326e06a1",
+    "scripts/nutrition-002c1/local.mjs": "19e0f6df39042dda060a5c94c5019f1b38da5e5668b4d10abab3bd094bcb8be6",
+    "scripts/nutrition-002c1/normalization.test.mjs": "5a54d12e7036b590317233c26c0bcf9e75fffd52570094d837b7bd42fd35efeb",
+    "scripts/nutrition-002c1/overlay.mjs": "0885f90c72fe130943ee0d734a851e27adfb278fcb7b98cf29a03f971486f35c",
+    "scripts/nutrition-002c1/qualify-local.mjs": "b8a9ede256887bbbcbb466ed3177042ebf39fb1e50154bc6a9977ac4e08011ee"
+  },
+  "evidenceFiles": {
+    "baseline-and-scope.json": "16add698cad7fd4abcd3895b0ed8514888e038bcc5247f8480fefd1501bbb2ea",
+    "development-attempts.json": "641ed3f0e1d1ef7faeb03f1e522b9eec036d5ee96e45da932deec809460ccf21",
+    "qualification-matrix.json": "ff05b0bee4e0864312e557e28fe09a611347d235902ba79136c50e0bd6a86454",
+    "qualification.json": "50c881c8bfbc27c6e57258a5e3fda04d5fb21580897e021d3ca44291f0085d67",
+    "validation.json": "570ce865502084c5eba12e5494ea76965e0f47bdb108c604ff600df545e9afc0"
+  },
+  "deliveryIdentity": "Exact final head/tree and CI/CodeQL proof in the new stacked Draft description and exact-head artifacts; evidence-only followup does not alter implementation",
+  "recoveryEligible": false,
+  "productionAccess": false
+}
