@@ -235,7 +235,13 @@ try {
     await record('preexistingTaskContainerNameRefused', async () => { await assert.rejects(new Cluster('source').start(), /EXISTING_CLUSTER_REFUSED/); });
     await concurrency();
     for (const boundary of [44, 45]) {
-        await record('actual' + boundary + 'TrustedReplay', async () => { await replay(source, boundary === 44 ? 0 : 44, boundary); await replay(target, boundary === 44 ? 0 : 44, boundary); compareCatalogs(await live(source), await live(target)); return { actualSql: true, inventory: 'EXACT_TRUSTED' }; });
+        await record('actual' + boundary + 'FreshDisposableClusters', async () => {
+            await source.stop(); await target.stop();
+            await source.start(); await target.start();
+            await install(source); await install(target);
+            return { initialization: 'NEW_CLUSTER_IDENTITIES', previousStateCarried: false };
+        });
+        await record('actual' + boundary + 'TrustedReplay', async () => { await replay(source, 0, boundary); await replay(target, 0, boundary); compareCatalogs(await live(source), await live(target)); return { actualSql: true, inventory: 'EXACT_TRUSTED' }; });
         await record('actual' + boundary + 'CoordinatedSnapshotDumpRestore', () => stableCapture(boundary));
         await record('actual' + boundary + 'UnsupportedObjectAndDependencyRefused', async () => { const expected = await live(source); await source.sql('create sequence public.ddl_unsupported;'); try {
             const unsupported = await live(source);
