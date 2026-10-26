@@ -1,0 +1,211 @@
+{
+  "runId": 40324234776,
+  "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40324234776",
+  "head": "fed1b2e7b5c0022c72a422bf96d475270daf1bfc",
+  "result": "failure",
+  "startedAt": "2026-10-26T12:39:37Z",
+  "completedAt": "2026-10-26T12:42:44Z",
+  "jobs": [
+    {
+      "id": 121576676758,
+      "name": "002E2 Auth scope, password recovery and pending-authority gate",
+      "result": "failure",
+      "startedAt": "2026-10-26T12:39:40Z",
+      "completedAt": "2026-10-26T12:42:44Z",
+      "failedSteps": [
+        "Qualify recovery lifecycle and enforce pending-authority gate"
+      ]
+    },
+    {
+      "id": 121576676984,
+      "name": "002E2 CodeQL javascript-typescript",
+      "result": "failure",
+      "startedAt": "2026-10-26T12:39:40Z",
+      "completedAt": "2026-10-26T12:41:25Z",
+      "failedSteps": [
+        "Validate analysis results"
+      ]
+    },
+    {
+      "id": 121576677247,
+      "name": "002E2 CodeQL actions",
+      "result": "success",
+      "startedAt": "2026-10-26T12:39:40Z",
+      "completedAt": "2026-10-26T12:40:37Z",
+      "failedSteps": []
+    }
+  ],
+  "focusedTests": {
+    "pass": 338,
+    "fail": 0,
+    "skip": 0
+  },
+  "e1Scenarios": [
+    {
+      "name": "preexistingOwnedNameCollisionRefusedWithoutAdoption",
+      "result": "PASS"
+    },
+    {
+      "name": "independentRealProviderBootstrap",
+      "result": "PASS"
+    },
+    {
+      "name": "wrongTargetAndCleanupIdentityRefuseBeforeOperatingOnSource",
+      "result": "PASS"
+    },
+    {
+      "name": "independentSchemaAndMigrationInventory",
+      "result": "PASS"
+    },
+    {
+      "name": "authSchemaDriftRefusals",
+      "result": "PASS"
+    },
+    {
+      "name": "authentic44ApplicationReplayBothEnvironments",
+      "result": "PASS"
+    },
+    {
+      "name": "realApiUnauthorizedSignupAndAnonymousDenied",
+      "result": "PASS"
+    },
+    {
+      "name": "apiInvitationConfirmationPasswordLoginAndRefresh",
+      "result": "PASS"
+    },
+    {
+      "name": "actual44ActivationRlsOwnerAndForeignDenial",
+      "result": "PASS"
+    },
+    {
+      "name": "populatedEncryptedTotpEnrolmentAndVerification",
+      "result": "PASS"
+    },
+    {
+      "name": "sourcePendingRecoveryCreatedThroughSupportedApiWithoutMail",
+      "result": "PASS"
+    },
+    {
+      "name": "stoppedSameVersionAuthOnlyCopyWithExactRowsAndNoSessions",
+      "result": "PASS"
+    },
+    {
+      "name": "restoredOriginalPasswordUuidAndPopulatedFactorAccepted",
+      "result": "PASS"
+    },
+    {
+      "name": "pendingSourceRecoveryEvaluatedBeforeAnyTargetPasswordLoginForThatUser",
+      "result": "PASS"
+    },
+    {
+      "name": "oldSourceAccessAndRefreshDeniedByActualTargetPaths",
+      "result": "PASS"
+    },
+    {
+      "name": "logoutRevokesRefreshAndAuthSessionButJwtRlsRemainsExplicit",
+      "result": "PASS"
+    },
+    {
+      "name": "wrongAndMissingCredentialEncryptionKeyRejectPassword",
+      "result": "PASS"
+    },
+    {
+      "name": "credentialTamperAndUuidBoundCiphertextRejected",
+      "result": "PASS"
+    },
+    {
+      "name": "interruptedAuthAndTargetRestartPreserveFreshLogin",
+      "result": "PASS"
+    },
+    {
+      "name": "authentic45ReplayBothAndAuthorizationContinuity",
+      "result": "PASS"
+    },
+    {
+      "name": "closedAccountCannotAuthorizeOrReactivate",
+      "result": "PASS"
+    }
+  ],
+  "e2Scenarios": [
+    {
+      "name": "ownedCollisionRefusedWithoutAdoption",
+      "result": "PASS"
+    },
+    {
+      "name": "realIndependentBootstrapPinnedSchemaAndMigrationBytes",
+      "result": "PASS"
+    },
+    {
+      "name": "realInvitedPasswordAccountsAndNoUnapprovedSignup",
+      "result": "PASS"
+    },
+    {
+      "name": "sourcePublicRecoverMailVerificationUpdateOldDenialReplayBothLocales",
+      "result": "PASS"
+    },
+    {
+      "name": "foreignTokenCannotChooseOwnerOrOverwriteOwnerPassword",
+      "result": "PASS"
+    },
+    {
+      "name": "genuineRecoveryNaturallyExpiresWithoutTokenTimestampMutation",
+      "result": "PASS"
+    },
+    {
+      "name": "populatedEncryptedTotpPreservedAcrossAuthorizedRecovery",
+      "result": "PASS"
+    },
+    {
+      "name": "sourceValidPendingRecoveryControlsAndDistinctUnconsumedTokens",
+      "result": "PASS"
+    },
+    {
+      "name": "stoppedFourTableTransferExactRowsFreshTargetWithoutSessionsOrOtt",
+      "result": "PASS"
+    },
+    {
+      "name": "targetOriginalPasswordUuidFactorThenFreshPublicRecoveryBothLocales",
+      "result": "PASS"
+    },
+    {
+      "name": "targetActivationOwnerAnonymousForeignAndRecoveryAmrRestrictions",
+      "result": "PASS"
+    },
+    {
+      "name": "oldSourceJwtRefreshWrongSigningKeyAndValidatorSpecificLogout",
+      "result": "PASS"
+    },
+    {
+      "name": "actualApplicationRecentProofBoundToFreshIdentitySessionAndSecret",
+      "result": "PASS"
+    },
+    {
+      "name": "wrongMissingCredentialRootsDenyPasswordAndEncryptedFactor",
+      "result": "PASS"
+    },
+    {
+      "name": "wrongTargetCleanupRefusalInterruptionAndRetainedDatabaseRestart",
+      "result": "PASS"
+    },
+    {
+      "name": "unchanged45ApplicationMetadataAndClosedRecoveryCannotAuthorize",
+      "result": "PASS"
+    },
+    {
+      "name": "pendingSourceHashAndEmailOtpMustNotRestoreOldRecoveryAuthority",
+      "result": "FAIL",
+      "code": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE"
+    }
+  ],
+  "e2Finding": [
+    "N002E2_EMBEDDED_SOURCE_RECOVERY_OTP_AUTHORITY_SURVIVES_FOUR_TABLE_COPY"
+  ],
+  "e1Cleanup": true,
+  "e2Cleanup": true,
+  "codeql": {
+    "actions": "PASS_ZERO_FINDINGS",
+    "javascriptTypescript": "FAIL_2_FINDINGS_COUNT_ONLY",
+    "diagnosticNext": "Bounded static rule/file/line output without SARIF message/snippet/artifact; unchanged zero-finding gate"
+  },
+  "artifactCount": 0
+}

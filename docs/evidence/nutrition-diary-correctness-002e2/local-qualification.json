@@ -1,0 +1,185 @@
+{
+  "contract": "nutrition-002e2-local-auth-scope-recovery/v1",
+  "base": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+  "sourceCommit": "af9c28a5698ce9057e6120a340116568b2c3ea6e",
+  "implementationSha256": "885437212e0c3cbc55c7647014f73af17baa10e888902e66ef3b9496a788a528",
+  "node": "v22.23.2",
+  "startedAt": "2026-10-26T13:01:13.315Z",
+  "completedAt": "2026-10-26T13:02:57.282Z",
+  "result": "BLOCKED_WITH_ACTUAL_SECURITY_FINDING",
+  "failedStage": "pendingSourceHashAndEmailOtpMustNotRestoreOldRecoveryAuthority",
+  "failure": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
+  "cases": [
+    {
+      "name": "ownedCollisionRefusedWithoutAdoption",
+      "result": "PASS",
+      "elapsedMs": 547
+    },
+    {
+      "name": "realIndependentBootstrapPinnedSchemaAndMigrationBytes",
+      "result": "PASS",
+      "elapsedMs": 30069
+    },
+    {
+      "name": "realInvitedPasswordAccountsAndNoUnapprovedSignup",
+      "result": "PASS",
+      "elapsedMs": 5393
+    },
+    {
+      "name": "sourcePublicRecoverMailVerificationUpdateOldDenialReplayBothLocales",
+      "result": "PASS",
+      "elapsedMs": 6183
+    },
+    {
+      "name": "foreignTokenCannotChooseOwnerOrOverwriteOwnerPassword",
+      "result": "PASS",
+      "elapsedMs": 2341
+    },
+    {
+      "name": "genuineRecoveryNaturallyExpiresWithoutTokenTimestampMutation",
+      "result": "PASS",
+      "elapsedMs": 5615
+    },
+    {
+      "name": "populatedEncryptedTotpPreservedAcrossAuthorizedRecovery",
+      "result": "PASS",
+      "elapsedMs": 4440
+    },
+    {
+      "name": "sourceValidPendingRecoveryControlsAndDistinctUnconsumedTokens",
+      "result": "PASS",
+      "elapsedMs": 7188
+    },
+    {
+      "name": "stoppedFourTableTransferExactRowsFreshTargetWithoutSessionsOrOtt",
+      "result": "PASS",
+      "elapsedMs": 5410
+    },
+    {
+      "name": "targetOriginalPasswordUuidFactorThenFreshPublicRecoveryBothLocales",
+      "result": "PASS",
+      "elapsedMs": 10619
+    },
+    {
+      "name": "targetActivationOwnerAnonymousForeignAndRecoveryAmrRestrictions",
+      "result": "PASS",
+      "elapsedMs": 4060
+    },
+    {
+      "name": "oldSourceJwtRefreshWrongSigningKeyAndValidatorSpecificLogout",
+      "result": "PASS",
+      "elapsedMs": 2196
+    },
+    {
+      "name": "actualApplicationRecentProofBoundToFreshIdentitySessionAndSecret",
+      "result": "PASS",
+      "elapsedMs": 250
+    },
+    {
+      "name": "wrongMissingCredentialRootsDenyPasswordAndEncryptedFactor",
+      "result": "PASS",
+      "elapsedMs": 5655
+    },
+    {
+      "name": "wrongTargetCleanupRefusalInterruptionAndRetainedDatabaseRestart",
+      "result": "PASS",
+      "elapsedMs": 5880
+    },
+    {
+      "name": "unchanged45ApplicationMetadataAndClosedRecoveryCannotAuthorize",
+      "result": "PASS",
+      "elapsedMs": 5922
+    },
+    {
+      "name": "pendingSourceHashAndEmailOtpMustNotRestoreOldRecoveryAuthority",
+      "result": "FAIL",
+      "code": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
+      "elapsedMs": 812
+    }
+  ],
+  "observations": {
+    "provider": {
+      "version": "v2.196.0",
+      "migrationCount": 77,
+      "head": "20260625000000",
+      "independentSchemas": true,
+      "internalNetworks": 2,
+      "publishedPorts": 0,
+      "externalMail": false,
+      "template": "UNCHANGED_REPOSITORY_RECOVERY_TEMPLATE",
+      "sink": "PINNED_NODE_RECEIVE_ONLY_MEMORY"
+    },
+    "expiry": {
+      "fixtureOtpLifetimeSeconds": 2,
+      "elapsedMs": 3041,
+      "tokenStateMutated": false,
+      "httpStatus": 403,
+      "code": "otp_expired"
+    },
+    "mfa": {
+      "aal1PasswordUpdateHttp": 401,
+      "aal1Code": "insufficient_aal",
+      "aal2ContinuationPassed": true,
+      "originalFactorIdPreserved": true,
+      "originalAuthenticatorPreserved": true,
+      "applicationMfaContinuation": "ABSENT_IN_REVIEWED_SOURCE_CONDITIONAL_GATE"
+    },
+    "pending": {
+      "sourceHashControl": true,
+      "sourceOtpControl": true,
+      "bothControlsReplayDenied": true,
+      "pendingTokensUnconsumed": true,
+      "sourceOtpLifetimeSeconds": 3600,
+      "oldJwtSigningKeyIrrelevantToOtp": true,
+      "targetHashStatus": 403,
+      "targetHashCode": "otp_expired",
+      "targetOtpStatus": 200,
+      "targetOtpCode": null,
+      "targetOtpUserMatches": true,
+      "elapsedSinceFixtureStartMs": 102597
+    },
+    "identity": {
+      "passwordBeforeTransferPreserved": true,
+      "uuidStable": true,
+      "factorIdStable": true,
+      "freshRecoveryAfterRestore": true,
+      "enTemplate": true,
+      "heTemplate": true,
+      "completeLocalizedBrowserJourney": "NOT_RUN"
+    },
+    "logout": {
+      "authSessionDenied": true,
+      "refreshDenied": true,
+      "postgrestStillReadsOwnRows": true,
+      "allTokenRevocation": false,
+      "signingScheme": "HS256_FIXTURE_ONLY",
+      "asymmetricJwks": "NOT_RUN"
+    },
+    "recentAuth": {
+      "actualApplicationProofFunctions": true,
+      "realProviderSessionIdentity": true,
+      "wrongUserSessionSecretExpiryDenied": true,
+      "completeServerActionAndCookieJourney": "NOT_RUN",
+      "pairedVaultCapabilityJourney": "NOT_RUN"
+    },
+    "closure": {
+      "realAuthRecoveryCompleted": true,
+      "applicationStateStillClosed": true,
+      "rlsStillDenies": true,
+      "marker": "SYNTHETIC_APPLICATION_FIXTURE",
+      "signedCapabilityBrowserJourney": "NOT_RUN"
+    }
+  },
+  "findings": [
+    "N002E2_EMBEDDED_SOURCE_RECOVERY_OTP_AUTHORITY_SURVIVES_FOUR_TABLE_COPY"
+  ],
+  "cleanupConfirmed": true,
+  "hostedFeatures": "HOSTED_CONFIGURATION_UNKNOWN",
+  "hostedCredentialRoot": "HOSTED_CUSTODY_UNKNOWN",
+  "conditionalCeremonies": "NOT_REQUIRED_BY_REVIEWED_SOURCE_NOT_RUN",
+  "completeLocalizedBrowserJourney": "NOT_RUN",
+  "fullApplicationCapture": false,
+  "recoveryEligible": false,
+  "productionAccess": false,
+  "additionalSpendDollars": 0
+}

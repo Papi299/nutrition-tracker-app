@@ -1,0 +1,68 @@
+{
+  "attempts": [
+    {
+      "type": "FOCUSED_UNIT",
+      "result": "58_PASS_1_FAIL",
+      "reason": "Synthetic test MIME fixture claimed quoted-printable but omitted equals encoding; corrected test fixture, actual provider MIME parser already passed."
+    },
+    {
+      "type": "FOCUSED_LINT",
+      "result": "FAIL_ONE_UNUSED_IMPORT",
+      "reason": "Removed unused read import; no assertion change."
+    },
+    {
+      "type": "FIRST_ACTUAL_SERVICE",
+      "result": "BLOCKED_WITH_ACTUAL_SECURITY_FINDING",
+      "sourceCommit": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+      "binding": "UNCOMMITTED_DEVELOPMENT_ONLY",
+      "implementationSha256": "6c1e78dff1769e43212cbf3520776cd625d240c06eef7edda7bd9dfd9423c9cf",
+      "casesPassed": 16,
+      "casesFailed": 1,
+      "failure": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
+      "cleanupConfirmed": true,
+      "startedAt": "2026-10-26T12:27:01.201Z",
+      "completedAt": "2026-10-26T12:28:34.708Z"
+    }
+  ],
+  "mitigationImplemented": false,
+  "tokenStateFabricated": false,
+  "failedSecurityNegativeRetained": true,
+  "additionalAttempts": [
+    {
+      "type": "IMMUTABLE_LOCAL_PRIOR",
+      "sourceCommit": "eae5ee6ed0c088fb5d4839baf966a179cc11adbf",
+      "result": "16_PASS_1_FAILED_PENDING_OTP_GATE",
+      "historyCommit": "fed1b2e7b5c0022c72a422bf96d475270daf1bfc",
+      "cleanupConfirmed": true
+    },
+    {
+      "type": "IMMUTABLE_LOCAL_PRIOR",
+      "sourceCommit": "6ddcc2214652047191816e5837c2a08bf6b43b07",
+      "result": "16_PASS_1_FAILED_PENDING_OTP_GATE",
+      "historyCommit": "8d6a9435bb9255407ec96a1b6b4c8d3231861866",
+      "cleanupConfirmed": true
+    },
+    {
+      "type": "CI_FIRST",
+      "runId": 40324234776,
+      "evidence": "ci-first-attempt.json"
+    },
+    {
+      "type": "CI_DIAGNOSTIC",
+      "runId": 40324978788,
+      "evidence": "ci-diagnostic-attempt.json"
+    },
+    {
+      "type": "CI_KEY_SOURCE_CHANGE",
+      "runId": 40325723787,
+      "evidence": "ci-reviewed-findings.json",
+      "result": "Key-source hypothesis did not clear JS CodeQL alerts; no claim of resolution"
+    },
+    {
+      "type": "CI_FLOW_DIAGNOSTIC",
+      "runId": 40326311057,
+      "evidence": "ci-reviewed-findings.json",
+      "result": "Login-response/claim/proof static flows retained; two alerts remain unsuppressed"
+    }
+  ]
+}

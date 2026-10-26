@@ -1,0 +1,222 @@
+{
+  "base": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+  "files": [
+    {
+      "path": "app/[locale]/(app)/account/closure/submit/route.ts",
+      "sha256": "2351aaf7dc8cadedd0c1cca144651f5e6d2325a3d5b9f6a80c648039f855aabd"
+    },
+    {
+      "path": "app/[locale]/auth/account-closed/page.tsx",
+      "sha256": "ce4051f08b617984d074a864e5e9ef6fce61ddf4d65f1fd6b99c1de7fb367ef6"
+    },
+    {
+      "path": "app/[locale]/auth/action-state.ts",
+      "sha256": "d97449cc3fabf6f01116ec4b6cfd750be12127f69f6b64856bfecbe63121485d"
+    },
+    {
+      "path": "app/[locale]/auth/actions.ts",
+      "sha256": "984258047317b98678f850d604273b6d269ac7654b9a940a8edc0d5b19619fa0"
+    },
+    {
+      "path": "app/[locale]/auth/activate/action-state.ts",
+      "sha256": "e41d19cddbbf10464f14e6b791749eaae575fc90955b6ff5cd4834ce46b5c4a2"
+    },
+    {
+      "path": "app/[locale]/auth/activate/actions.ts",
+      "sha256": "f3ae5ade65c761abd384216fc44ca53d13e2a5e806e1d02427bc793110077095"
+    },
+    {
+      "path": "app/[locale]/auth/activate/page.tsx",
+      "sha256": "41a432b57f6dc89a87cb7236ac16b3a19dd9f4249a18716a17bd799b9bb3c9d9"
+    },
+    {
+      "path": "app/[locale]/auth/confirm/route.ts",
+      "sha256": "ef31346dd57e4e73730f4cf9dd309c67334829780eb671f3859e24ebaba35d53"
+    },
+    {
+      "path": "app/[locale]/auth/confirmation-error/page.tsx",
+      "sha256": "6fd715a3fb11e8e56deae5672d88e1eb3823572e21577bf8add3e30b503ff628"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/action-state.ts",
+      "sha256": "dd968b12b07910ab2b405a803c9236d1c37a8bb2dde4f2dc9e857790036bd97b"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/actions.ts",
+      "sha256": "3c483ab4e8652af2bd227bb9559bcc27b8df9ad67ea2c71eb08d219d9f8828df"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/page.tsx",
+      "sha256": "b44141d01d1af435c468961a87fb44b1438fce0ab141346e9d72d4021f0d0bb7"
+    },
+    {
+      "path": "app/[locale]/auth/recover/action-state.ts",
+      "sha256": "284ebf7692c2ba3c403b238b605361b62e1399265c59718442198811c30d2497"
+    },
+    {
+      "path": "app/[locale]/auth/recover/actions.ts",
+      "sha256": "b54a59973b110b12b73d83b6bb387a4b9eb40fd12e5acfaba988e608932f313e"
+    },
+    {
+      "path": "app/[locale]/auth/recover/confirm/route.ts",
+      "sha256": "54977060b4a6ef37a1a43dd0588c58eeb2931bdc71486221df82d2dccf5ae25b"
+    },
+    {
+      "path": "app/[locale]/auth/recover/error/page.tsx",
+      "sha256": "3150e56c740af25301a75f14f65e41786ec1565c67815e319b7fdb896103e1ef"
+    },
+    {
+      "path": "app/[locale]/auth/recover/page.tsx",
+      "sha256": "ed116235b2e6899ed89809b1926d5ac1ca77eba13cfc1cfd0839f18cce42fd43"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/action-state.ts",
+      "sha256": "700e6ba367a5518364a3a70c5a0b6510cb7100a44948e2a620a3cccd68b46884"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/actions.ts",
+      "sha256": "2db40e2f867eddbeb4601c8a52406a21358bc0c5ac5d5c13eeb3c6ddf91dcca7"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/page.tsx",
+      "sha256": "c5783cf5727ca9f97f697fb5f1e3f1c7ce833f453601ed2b4a90fcb41f7477eb"
+    },
+    {
+      "path": "app/[locale]/auth/sign-in/page.tsx",
+      "sha256": "f6d4c6c71f6e466babbcabdc73fb5251e6a9524094b95a9e0b2bd89d0687715d"
+    },
+    {
+      "path": "app/[locale]/auth/sign-up/page.tsx",
+      "sha256": "a113f12b28092bc0d61014244a2ca0ece1163516f02aef3993b22ef70d336198"
+    },
+    {
+      "path": "components/auth/activation-form.tsx",
+      "sha256": "91e6ed4323f5f6a6123a98d1d3733487f80667768503c6ff65557b8174e72fd3"
+    },
+    {
+      "path": "components/auth/auth-card.tsx",
+      "sha256": "021dcf5483c02faadb307c6ca18e459df8501e7e928852c5df4d3a4ce947a1cf"
+    },
+    {
+      "path": "components/auth/auth-form-shell.tsx",
+      "sha256": "a903363e08a35ec614ad228a6d6a38be17b3232c8521b7c1f5592de75edb0f11"
+    },
+    {
+      "path": "components/auth/auth-status-note.tsx",
+      "sha256": "5d688af82b145b2a3a4e82e4aea5bfcd22394dd999c607488304cc0712ca9c7f"
+    },
+    {
+      "path": "components/auth/invitation-only-card.tsx",
+      "sha256": "378bdbdc0f2403ea65e4d7ff6471e9499894b0015d600793541d0e7c7f7c8fd0"
+    },
+    {
+      "path": "components/auth/reauthentication-form.tsx",
+      "sha256": "6d1441d3f850ca659e3de68237a2257b4cacbcee267e37ee79a56835d34d32c8"
+    },
+    {
+      "path": "components/auth/recovery-request-form.tsx",
+      "sha256": "1324589ed029c04a1ecd95292fcd3648f76a3e895527d262c453d4804209124a"
+    },
+    {
+      "path": "components/auth/recovery-reset-form.tsx",
+      "sha256": "26fc6643256a891cd4eb5a035f63e297b1cd3c25c730fa45ad90529cbbc6dc01"
+    },
+    {
+      "path": "components/auth/sign-out-button.tsx",
+      "sha256": "e6804b1e1453829f485ce40e497194f9cd39a21899f4275d798b61483548e1ec"
+    },
+    {
+      "path": "lib/account-closure/capability.ts",
+      "sha256": "bde0a0725c8970b906fcc8ece7973f858603b77bfd17e8f736119735983781c4"
+    },
+    {
+      "path": "lib/auth/account-access.ts",
+      "sha256": "862c343f7adb68c0532256483175a0b415d8198f21b92fa2e12be2eed316ed0d"
+    },
+    {
+      "path": "lib/auth/account-activation.ts",
+      "sha256": "3e4316e2e0d8123f319456f29e97fa4cd0a9dea0739969f0ac8639ad93f09a0d"
+    },
+    {
+      "path": "lib/auth/password-recovery.ts",
+      "sha256": "04bf006917b228f34eb5d12646a2cf551e65b077e4993d53158c57039e9e07d5"
+    },
+    {
+      "path": "lib/auth/reauthentication-intent.ts",
+      "sha256": "00035f640573c4fa8231adf0dc056d66a8da39d0762941c04b1a0d982d72c0d3"
+    },
+    {
+      "path": "lib/auth/recent-password-auth-proof.ts",
+      "sha256": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204"
+    },
+    {
+      "path": "lib/auth/recent-password-auth.ts",
+      "sha256": "4c752062d8f470ce5107449b6b0313a7f1fb2df921e8e91257602c5f57b393b0"
+    },
+    {
+      "path": "lib/auth/require-user.ts",
+      "sha256": "f8ef26e85db3d30f4cfe60a65a65ae0d7984dd4c355846f4bb3a6c850e2ada22"
+    },
+    {
+      "path": "lib/auth/session-cleanup.ts",
+      "sha256": "0f7adce1bc5fd2410d42b379e1d4d16f56108984ad71236bb06bd11f65c0c5fb"
+    },
+    {
+      "path": "lib/supabase/env.ts",
+      "sha256": "e79b8d4dc9b440940122d2fec42bde323b89e61819d412ed4896da2913a100dd"
+    },
+    {
+      "path": "lib/supabase/proxy.ts",
+      "sha256": "cc7d302f3675105f2b565aebc55f523ae859eabfb84ca6ad8fe4c79a4ce05621"
+    },
+    {
+      "path": "lib/supabase/server.ts",
+      "sha256": "40ece9c91cb41fea97dd027b1b4c02877bdd4e942886b2c93cc413c0f640960a"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/contract-v1.json",
+      "sha256": "3b8c92d4140ad1efc19b7c528299d78fbd14db672abb4029c76fe4998de938a9"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/expected-profiles.json",
+      "sha256": "3322a96942beff8d43405867cf4c006727d60080019bcc8b874cc03a211b8d92"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/contract-v1.json",
+      "sha256": "32d63ce7501f018b77634d1a34bb7c0bfbcb9e0c38ec0ae0c3cc9e90f8cfa77e"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/table-classification.json",
+      "sha256": "eba226a4b4f4e17e1a0dd51569ea0b2202cc950947e03db5e0ba54187b4c58ad"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874"
+    },
+    {
+      "path": "package.json",
+      "sha256": "aa12e9fbd94617871648521a881d19c1985669aee527f1e81f330778d39ae73c"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768"
+    },
+    {
+      "path": "supabase/templates/invite.html",
+      "sha256": "d64ca439a494e6812d241f94f7bbee69e700d931ac16ba0b7ddbf956367d5ec2"
+    },
+    {
+      "path": "supabase/templates/recovery.html",
+      "sha256": "b33dafa099f2dd4407f6d67a9ccfbe110937dbc87df85bd0029f531d19811560"
+    }
+  ],
+  "searchScope": "All application app/lib/components TypeScript for auth API calls; all Auth and closure source read; local config independent from hosted.",
+  "lockedDependencies": {
+    "@supabase/ssr": "0.10.2",
+    "@supabase/supabase-js": "2.105.1",
+    "@supabase/auth-js": "2.105.1",
+    "supabase": "2.116.0",
+    "@playwright/test": "1.61.1",
+    "typescript": "5.9.3"
+  }
+}

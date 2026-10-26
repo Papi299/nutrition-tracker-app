@@ -22,7 +22,7 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8"), historicalWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1a-local.yml"), "utf8"), ddlWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1b-local.yml"), "utf8"), applicationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e-local.yml"), "utf8"), authWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e1-local.yml"), "utf8")) {
+function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8"), historicalWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1a-local.yml"), "utf8"), ddlWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1b-local.yml"), "utf8"), applicationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e-local.yml"), "utf8"), authWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e1-local.yml"), "utf8"), scopeWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e2-local.yml"), "utf8")) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
@@ -35,6 +35,7 @@ function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".gith
     writeFileSync(join(workflowDirectory, "nutrition-002c1b-local.yml"), ddlWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002e-local.yml"), applicationWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002e1-local.yml"), authWorkflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002e2-local.yml"), scopeWorkflow);
     return command(directory, process.execPath, [checker]);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -226,4 +227,22 @@ test("002E exact-head local workflow preserves no hosted, storage or dispatch au
     workflow.replace("upload: never", "upload: always"),
     workflow + "\n# unreviewed artifact upload\n",
   ]) assert.notEqual(policyResult(...inputs, changed).status, 0);
+});
+
+
+test("002E2 scope workflow cannot broaden authority, skip old scenarios or conceal its acceptance gate", () => {
+  const source = readFileSync(join(root, ".github/workflows/nutrition-002e2-local.yml"), "utf8");
+  for (const [before, after] of [
+    ["branches: [codex/nutrition-002e1-auth-compatibility]", "branches: [main]"],
+    ["github.event.pull_request.draft &&", "true &&"],
+    ["contents: read", "contents: write"],
+    ["ref: ${{ github.event.pull_request.head.sha }}", "ref: main"],
+    ["persist-credentials: false", "persist-credentials: true"],
+    ["upload: never", "upload: always"],
+    ["scripts/nutrition-002e1/qualify-local.mjs", "scripts/omitted.mjs"],
+    ["run: node --experimental-strip-types scripts/nutrition-002e2/qualify-local.mjs", "continue-on-error: true\n        run: node --experimental-strip-types scripts/nutrition-002e2/qualify-local.mjs"],
+  ]) {
+    assert.ok(source.includes(before));
+    assert.notEqual(policyResult(ci, undefined, undefined, undefined, undefined, undefined, undefined, source.replace(before, after)).status, 0);
+  }
 });

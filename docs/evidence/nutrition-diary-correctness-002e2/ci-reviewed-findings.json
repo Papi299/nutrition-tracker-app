@@ -1,0 +1,106 @@
+{
+  "attempts": [
+    {
+      "runId": 40325723787,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40325723787",
+      "head": "8d6a9435bb9255407ec96a1b6b4c8d3231861866",
+      "startedAt": "2026-10-26T12:51:09Z",
+      "completedAt": "2026-10-26T12:54:14Z",
+      "result": "failure",
+      "jobs": [
+        {
+          "id": 121581775336,
+          "name": "002E2 Auth scope, password recovery and pending-authority gate",
+          "result": "failure",
+          "startedAt": "2026-10-26T12:51:12Z",
+          "completedAt": "2026-10-26T12:54:13Z",
+          "failedSteps": [
+            "Qualify recovery lifecycle and enforce pending-authority gate"
+          ]
+        },
+        {
+          "id": 121581775955,
+          "name": "002E2 CodeQL javascript-typescript",
+          "result": "failure",
+          "startedAt": "2026-10-26T12:51:12Z",
+          "completedAt": "2026-10-26T12:52:37Z",
+          "failedSteps": [
+            "Validate analysis results"
+          ]
+        },
+        {
+          "id": 121581776077,
+          "name": "002E2 CodeQL actions",
+          "result": "success",
+          "startedAt": "2026-10-26T12:51:12Z",
+          "completedAt": "2026-10-26T12:52:03Z",
+          "failedSteps": []
+        }
+      ],
+      "artifactCount": 0
+    },
+    {
+      "runId": 40326311057,
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40326311057",
+      "head": "38c8d35583435ec4d4f0aa1f28a97530348e7333",
+      "startedAt": "2026-10-26T12:55:39Z",
+      "completedAt": "2026-10-26T12:58:11Z",
+      "result": "failure",
+      "jobs": [
+        {
+          "id": 121583788870,
+          "name": "002E2 CodeQL javascript-typescript",
+          "result": "failure",
+          "startedAt": "2026-10-26T12:55:43Z",
+          "completedAt": "2026-10-26T12:57:15Z",
+          "failedSteps": [
+            "Validate analysis results"
+          ]
+        },
+        {
+          "id": 121583789055,
+          "name": "002E2 Auth scope, password recovery and pending-authority gate",
+          "result": "failure",
+          "startedAt": "2026-10-26T12:55:42Z",
+          "completedAt": "2026-10-26T12:58:10Z",
+          "failedSteps": [
+            "Qualify recovery lifecycle and enforce pending-authority gate"
+          ]
+        },
+        {
+          "id": 121583789394,
+          "name": "002E2 CodeQL actions",
+          "result": "success",
+          "startedAt": "2026-10-26T12:55:43Z",
+          "completedAt": "2026-10-26T12:56:36Z",
+          "failedSteps": []
+        }
+      ],
+      "artifactCount": 0
+    }
+  ],
+  "findings": [
+    {
+      "rule": "js/insufficient-password-hash",
+      "file": "lib/auth/recent-password-auth-proof.ts",
+      "line": 135,
+      "flowOrigin": {
+        "file": "scripts/nutrition-002e2/helpers.mjs",
+        "line": 31
+      },
+      "flowThrough": "Real login response -> session JWT claims -> explicit proof UUID/session/time payload; also proof issuance result -> verifier"
+    },
+    {
+      "rule": "js/insufficient-password-hash",
+      "file": "lib/auth/recent-password-auth-proof.ts",
+      "line": 183,
+      "flowOrigin": {
+        "file": "scripts/nutrition-002e2/helpers.mjs",
+        "line": 31
+      },
+      "flowThrough": "Real login response -> session JWT claims -> explicit proof UUID/session/time payload; also proof issuance result -> verifier"
+    }
+  ],
+  "review": "Likely fixture SensitiveNode classification of password-login response; actual HMAC payload is UUID/session/version/timestamps. Not accepted as a false positive, not suppressed; zero-findings gate remains FAILED. The independent key-generation change did not resolve these alerts.",
+  "fullRecoveryAccepted": false
+}

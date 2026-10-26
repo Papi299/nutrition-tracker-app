@@ -1,0 +1,153 @@
+{
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_002E2_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "rows": [
+    {
+      "case": "Good recovery token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Source and restored-target /recover -> in-memory SMTP -> genuine token_hash /verify -> password update."
+    },
+    {
+      "case": "Reused token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual source/target reset replay and both source controls reject consumed token."
+    },
+    {
+      "case": "Wrong token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual invalid random token_hash POST verify denied."
+    },
+    {
+      "case": "Expired token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual natural2s expiry with elapsed wait;403 otp_expired; no token/timestamp SQL mutation."
+    },
+    {
+      "case": "Foreign-user token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Foreign hash plus owner email rejected; foreign session returns only foreign UUID on attempted owner-ID password update; owner password unchanged."
+    },
+    {
+      "case": "Fresh post-restore token",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Target /recover works in en/he and yields correct UUID, authorized new password and original factor continuation."
+    },
+    {
+      "case": "New password success / old password denial",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual password grant after each source/target reset."
+    },
+    {
+      "case": "Stable UUID",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Exact Auth row equality at transfer and actual API response checks after resets."
+    },
+    {
+      "case": "Preserved populated TOTP",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Original factor ID/secret from real enrollment verifies before/after copy, recovery and restart; AAL1 update denied401 insufficient_aal; AAL2 update works."
+    },
+    {
+      "case": "Wrong/missing credential encryption root",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual target login refused; wrong root also prevents real factor verification; original root restored then password/factor succeed."
+    },
+    {
+      "case": "Wrong JWT signing key",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Old source JWT rejected by actual Auth and PostgREST target paths, distinct targetHS256."
+    },
+    {
+      "case": "Session/refresh confusion",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Fresh target sessions; old source refresh refused; actual logout Auth/refresh refusal while PostgREST still reads only own rows."
+    },
+    {
+      "case": "Closed-account denial",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Real Auth reset succeeds but actual app access staysclosed; RLS empty/write denial and reactivation denied; explicit synthetic closure marker."
+    },
+    {
+      "case": "Unapproved/anonymous signup",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual API denial both sides, no forbidden user row."
+    },
+    {
+      "case": "Wrong provider version",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Retained E1 version substitution unit negatives; actual pinnedhealth/image migration hashes checked."
+    },
+    {
+      "case": "Missing required Auth table",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Retained E1 schema unit and actual rollbackdrift negatives; newfixture actual complete schema check."
+    },
+    {
+      "case": "Unsupported conditional feature",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Retained E1 actual phone/passkey disabled route negatives and new scoped restart/config refusal; recovery codes sourceVERSION_UNSUPPORTED."
+    },
+    {
+      "case": "Interrupted Auth",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual stop/HTTP unavailability/restart; subsequent password succeeds."
+    },
+    {
+      "case": "Database restart",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual retained-volume restart then same password/TOTP succeeds."
+    },
+    {
+      "case": "Resource collision",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual owned sentinel preserved; startup refuses adoption then ownership-checked cleanup."
+    },
+    {
+      "case": "Wrong cleanup target",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual cross-selection refused before deletion; both DBs still usable; own ID restored and final cleanup confirmed."
+    },
+    {
+      "case": "Recent proof",
+      "status": "PASS_BOUNDED_ACTUAL_OR_EXPLICIT_RETAINED_COVERAGE",
+      "evidence": "Actual source proof issue/verify functions using real target identities; wrong session/user/secret/expiry denied; full action/cookie NOTRUN."
+    },
+    {
+      "case": "Pre-restore pending hash link",
+      "status": "PASS_FOR_THIS_PATH_ONLY",
+      "evidence": "Actual source-valid control and real unconsumed target hash gives403 otp_expired without target login for user. Not universal invalidation."
+    },
+    {
+      "case": "Pre-restore pending email+OTP",
+      "status": "FAIL_ACCEPTANCE_GATE",
+      "evidence": "Actual source-valid control; genuine pending source OTP yields target200/session for same UUID after four-table copy without OTT/sessions. Exits1; no repair or silent pass."
+    },
+    {
+      "case": "Wrong passkey RP/origin",
+      "status": "CONDITIONAL_NOT_RUN",
+      "evidence": "No reviewed source/Product Owner requirement; hosted unknown; original proposed table retained. No cryptographic ceremony."
+    },
+    {
+      "case": "Intentional final cleanup failure / host crash",
+      "status": "NOT_RUN",
+      "evidence": "Wrong-target cleanup is actual; no host-loss/SIGKILL-every-point or intentionally orphaned final resource claimed. Final absence checked."
+    },
+    {
+      "case": "Hosted features and credential root",
+      "status": "BLOCKED_UNKNOWN",
+      "evidence": "No hosted inspection or provider-owned key export assertion; supported pre-incident custody unestablished."
+    },
+    {
+      "case": "Complete browser/email/recent-auth/paired Vault flow",
+      "status": "NOT_RUN",
+      "evidence": "Real Auth/internal mail/template and bounded application API/proof only; no fresh localized browser or external email."
+    },
+    {
+      "case": "JavaScript CodeQL zero-findings gate",
+      "status": "FAIL_FINDINGS_REQUIRE_REVIEW",
+      "evidence": "Two js/insufficient-password-hash findings at existing proof HMAC sites; likely fixture classification, not accepted/suppressed. Actions analysis succeeds; final exact-head CI remains authoritative."
+    }
+  ],
+  "fourTableScopeAccepted": false,
+  "allExpectedNegativesPassed": false,
+  "recoveryEligible": false
+}

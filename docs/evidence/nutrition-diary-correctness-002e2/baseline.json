@@ -1,0 +1,85 @@
+{
+  "reviewedAt": "2026-10-26T12:35:19.408Z",
+  "main": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "base": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+  "baseTree": "73b4890a5a49df59d87cc41673388cdbc0c61497",
+  "historical44": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "historical44Tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+  "predecessors": [
+    {
+      "number": 200,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002a-recovery",
+      "headSha": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "base": "main",
+      "baseSha": "50716d3759e9b75c66fe98b9c483ebb10c28b531"
+    },
+    {
+      "number": 201,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002c-hybrid",
+      "headSha": "7201879935903e846dab5e2adef6d86beea0d597",
+      "base": "codex/nutrition-002a-recovery",
+      "baseSha": "f969a52e297a3de5453e2bee1904eec552d43c63"
+    },
+    {
+      "number": 202,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002c1-fidelity",
+      "headSha": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "base": "codex/nutrition-002c-hybrid",
+      "baseSha": "7201879935903e846dab5e2adef6d86beea0d597"
+    },
+    {
+      "number": 203,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002c1a-snapshot-catalog",
+      "headSha": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "base": "codex/nutrition-002c1-fidelity",
+      "baseSha": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4"
+    },
+    {
+      "number": 204,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002c1b-ddl-stability",
+      "headSha": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+      "base": "codex/nutrition-002c1a-snapshot-catalog",
+      "baseSha": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f"
+    },
+    {
+      "number": 205,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002e-application-recovery",
+      "headSha": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
+      "base": "codex/nutrition-002c1b-ddl-stability",
+      "baseSha": "e568edbd438770ddef9f4e52e1e535dbc9f4a536"
+    },
+    {
+      "number": 206,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "codex/nutrition-002e1-auth-compatibility",
+      "headSha": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+      "base": "codex/nutrition-002e-application-recovery",
+      "baseSha": "18cbb050244fc14ae9f0cc2def46e21e1072b779"
+    }
+  ],
+  "repositoryPublic": true,
+  "newWorktree": "/Users/maor/.codex/worktrees/nutrition-002e2-auth-scope-recovery/github-plugin-github-openai-curated-you",
+  "newBranch": "codex/nutrition-002e2-auth-scope-recovery",
+  "hostedAccess": false
+}

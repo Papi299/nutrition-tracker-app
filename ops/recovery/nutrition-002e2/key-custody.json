@@ -1,0 +1,149 @@
+{
+  "scope": "PROPOSED_PREREQUISITES_NO_SECRETS_RETRIEVED",
+  "dependencies": [
+    {
+      "dependency": "password hash/encrypted credential material",
+      "classification": [
+        "PRESERVED_EXACTLY"
+      ],
+      "requirements": "Preserve genuine user UUID/identity and credential bytes; pinned local encryption wraps bcrypt, distinct from hashing.",
+      "originalProjectPermanentlyInaccessible": "Ciphertext alone cannot authenticate without its original decryption root; resetting passwords is not accepted preservation.",
+      "verification": "Actual original password works after transfer; wrong/missing root denies; public hash-only docs do not establish encrypted-root export support."
+    },
+    {
+      "dependency": "credential database encryption root and all referenced key IDs",
+      "classification": [
+        "PRESERVED_EXACTLY",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Local AES-GCM/HKDF roots are independent from JWT keys; encrypted fields bound to object UUID. Need supported provider-compatible pre-incident custody or provider-supported portability.",
+      "originalProjectPermanentlyInaccessible": "Full recovery BLOCKED if essential root is unavailable. Do not plan to extract a secret from destroyed project or claim provider-owned root exportability.",
+      "verification": "Local shared-root positive/wrong-root/missing-root tests; no hosted inspection; documented supported hosted export/reprovision procedure remains UNKNOWN."
+    },
+    {
+      "dependency": "TOTP factor encrypted secret and authenticator",
+      "classification": [
+        "PRESERVED_EXACTLY",
+        "CONDITIONALLY_REQUIRED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Preserve factor ID/status/secret and DB decryption root; user authenticator still required.",
+      "originalProjectPermanentlyInaccessible": "Without key or authenticator cannot claim factor continuity; factor deletion/password reset workaround not authorized.",
+      "verification": "Actual enrollment, AAL2 challenge/verify before/after transfer and recovery; no private bytes retained."
+    },
+    {
+      "dependency": "passkey/WebAuthn credential and RP/origin",
+      "classification": [
+        "CONDITIONALLY_REQUIRED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Preserve credential/public key/counter/user/factor ID and original authenticator; approved stable RP ID/origins and challenge recipe.",
+      "originalProjectPermanentlyInaccessible": "Loss of RP/domain or authenticator can prevent login even if public rows survive; provider/version compatibility required.",
+      "verification": "No source requirement established; no ceremony run; future approved real wrong-RP/origin tests if enabled."
+    },
+    {
+      "dependency": "JWT signing identity / asymmetric private keys / JWKS",
+      "classification": [
+        "SAFELY_REPROVISIONED",
+        "INTENTIONALLY_INVALIDATED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Fresh target signing and validator trust policy; old target-external source tokens refused; do not require export of provider nonexportable signing private keys.",
+      "originalProjectPermanentlyInaccessible": "Generate supported new target signing identity before exposure, update all validators/origins and respect cache/revocation rules; old provider keys unnecessary only under accepted fresh-auth policy.",
+      "verification": "Actual distinct local HS256 target; Auth/PostgREST rejection. Asymmetric/JWKS/cache rollout NOT QUALIFIED; rotation alone not all-token revocation."
+    },
+    {
+      "dependency": "refresh/session/AMR/challenge/pending flow authority",
+      "classification": [
+        "INTENTIONALLY_INVALIDATED"
+      ],
+      "requirements": "No old sessions/refresh imported; fresh Auth creates AMR. Embedded users token fields require independent invalidation qualification; omitted one_time_tokens alone insufficient evidence.",
+      "originalProjectPermanentlyInaccessible": "Fresh sign-in/recovery must work without old project; pending authority gate remains closed if embedded tokens survive.",
+      "verification": "Actual logout Auth/refresh refusal vs PostgREST JWT behavior, both source recovery verification paths; do not clear token columns in SQL."
+    },
+    {
+      "dependency": "application recent-auth proof secret",
+      "classification": [
+        "SAFELY_REPROVISIONED",
+        "INTENTIONALLY_INVALIDATED"
+      ],
+      "requirements": "New independent >=32-byte secret invalidates short-lived proofs; require fresh current password and matching fresh session/UUID.",
+      "originalProjectPermanentlyInaccessible": "No source secret extraction necessary when accepted policy invalidates all old proofs.",
+      "verification": "Actual application verifier with real target claims and wrong secret/session/user/expiry; full server/cookie journey unqualified."
+    },
+    {
+      "dependency": "closure capability secret and dedicated Vault pairing",
+      "classification": [
+        "SAFELY_REPROVISIONED",
+        "INTENTIONALLY_INVALIDATED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Reprovision same new secret in application ACCOUNT_CLOSURE_CAPABILITY_SECRET and Vault account_closure_capability_v1; invalidate capabilities; preserve closure rows. Generic Vault ciphertext is not assumed portable.",
+      "originalProjectPermanentlyInaccessible": "Can only claim restoration after supported secure pairing on new target, no dependence on original project for post-incident extraction.",
+      "verification": "SQL and application HMAC source reviewed; invalid capability refused; full paired closure ceremony NOT RUN."
+    },
+    {
+      "dependency": "backup public recipient",
+      "classification": [
+        "PRESERVED_EXACTLY"
+      ],
+      "requirements": "Keep independently selected recipient identity/fingerprint and approved envelope/format/producer provenance.",
+      "originalProjectPermanentlyInaccessible": "Original project loss must not remove trusted recovery source/recipient policy.",
+      "verification": "Existing protected recipient bytes unchanged; no encryption integration in 002E2."
+    },
+    {
+      "dependency": "backup private decryption key and custody",
+      "classification": [
+        "PRESERVED_EXACTLY",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Required off-project recoverable private key before incident; not in Actions or public evidence; independent executor/approver and custody drill.",
+      "originalProjectPermanentlyInaccessible": "No artifact is recoverable without authorized private key; cannot fetch from destroyed project as recovery plan.",
+      "verification": "No key requested/retrieved; actual offline custody/drill unqualified; no secret hashes as evidence."
+    },
+    {
+      "dependency": "provider configuration and API keys",
+      "classification": [
+        "SAFELY_REPROVISIONED",
+        "CONDITIONALLY_REQUIRED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Record accepted enabled-feature/version profile and invitation-only policy; safely issue target API credentials; preserve necessary external client relationships.",
+      "originalProjectPermanentlyInaccessible": "Supported target provisioning must be possible from source-bound recipe and independently held external credentials.",
+      "verification": "Local strict config only; hosted inventory/version/entitlement and recovery procedure unknown."
+    },
+    {
+      "dependency": "SMTP/email template/redirects/APP_ORIGIN",
+      "classification": [
+        "SAFELY_REPROVISIONED",
+        "CONDITIONALLY_REQUIRED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "App recovery requires mail delivery and server-owned en/he callback/template token hash; preserve email account control and allowlist.",
+      "originalProjectPermanentlyInaccessible": "Need independently available target sender and domain access; no reliance on source-project-only SMTP secret.",
+      "verification": "Actual internal receive-only mail, unchanged template, no external delivery; hosted SMTP/sender/budget availability not qualified."
+    },
+    {
+      "dependency": "OAuth/SSO external providers and SMS secrets",
+      "classification": [
+        "CONDITIONALLY_REQUIRED",
+        "HOSTED_CUSTODY_UNKNOWN"
+      ],
+      "requirements": "Only if enabled: exact conditional durable tables plus supported secret/issuer/callback/domain/provider account custody.",
+      "originalProjectPermanentlyInaccessible": "Without independently available provider credentials/config continuity full enabled-feature recovery blocked.",
+      "verification": "No provider contacts, SMS, payment or comprehensive optional implementation; feature unknown retained."
+    },
+    {
+      "dependency": "recovery codes in pinned version",
+      "classification": [
+        "NOT_REQUIRED_FOR_APPROVED_SCOPE",
+        "CONDITIONALLY_REQUIRED"
+      ],
+      "requirements": "No implementation/table in pinned version; never discard potential differently versioned hosted codes without inventory.",
+      "originalProjectPermanentlyInaccessible": "Different hosted provider capabilities require separate supported recovery decision.",
+      "verification": "Version/source/schema review only; hosted UNKNOWN."
+    }
+  ],
+  "fullRecoveryBlocked": true,
+  "postIncidentOriginalProjectSecretExtractionAllowed": false
+}

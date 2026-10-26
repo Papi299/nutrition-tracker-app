@@ -1,0 +1,51 @@
+{
+  "implementationCommit": "af9c28a5698ce9057e6120a340116568b2c3ea6e",
+  "implementationSha256": "885437212e0c3cbc55c7647014f73af17baa10e888902e66ef3b9496a788a528",
+  "node": "v22.23.2",
+  "commands": [
+    {
+      "command": "node --test scripts/nutrition-002e2/contracts.test.mjs scripts/nutrition-002e1/contracts.test.mjs scripts/nutrition-002e/contracts.test.mjs scripts/nutrition-002c1b/contracts.test.mjs scripts/nutrition-002c1a/contracts.test.mjs scripts/nutrition-002c1a/mapping.test.mjs scripts/nutrition-002c1/contracts.test.mjs scripts/nutrition-002c1/normalization.test.mjs scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs",
+      "result": "339_PASS_0_FAIL_0_SKIP",
+      "evidenceSha256": "7f393244b3e5d159fdf854bfb675b99b02e25f0219f0190f95853a9525d00ad8"
+    },
+    {
+      "command": "node scripts/check-workflow-security.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js scripts/nutrition-002e2 scripts/nutrition-002e1 scripts/check-workflow-security.mjs scripts/check-workflow-security.test.mjs --max-warnings 0",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/nutrition-002e1/qualify-local.mjs /absolute/new/sanitized-e1.json",
+      "result": "21_PASS_BOUNDED",
+      "binding": "DEVELOPMENT_DIGEST_THEN_EXACT_HEAD_CI"
+    },
+    {
+      "command": "node --experimental-strip-types scripts/nutrition-002e2/qualify-local.mjs /absolute/new/sanitized-e2.json",
+      "exitCode": 1,
+      "result": "16_PASS_1_FAILED_PENDING_OTP_ACCEPTANCE_NEGATIVE",
+      "startedAt": "2026-10-26T13:01:13.315Z",
+      "completedAt": "2026-10-26T13:02:57.282Z"
+    },
+    {
+      "command": "node node_modules/@playwright/test/cli.js test --config=playwright.unit.config.ts tests/recent-password-auth-proof.spec.ts tests/account-closure-capability.spec.ts",
+      "result": "14_PASS",
+      "evidenceSha256": "16480206fbcc964eea6967084f1b19ecc8b4303c5e53ecd9148cb59b4335bcbe"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "Full recovery DENIED",
+    "Complete61-table capture/envelope/producer NOTRUN",
+    "Browser/external mail/paired Vault ceremony NOTRUN",
+    "RPO24h/RTO8h NOTQUALIFIED",
+    "Hosted feature/key/version status UNKNOWN",
+    "CodeQL and exact delivery CI closed externally after final candidate",
+    "JS CodeQL retains2 unresolved findings; zero-findings gate FAILED; no all-green CI claim"
+  ],
+  "additionalSpendDollars": 0
+}

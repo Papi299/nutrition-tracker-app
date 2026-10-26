@@ -1,0 +1,81 @@
+{
+  "authSource": "0204331ca41a5b49f076b6fa3dc6c0d20b996590",
+  "files": [
+    {
+      "path": "internal/api/recover.go",
+      "gitBlob": "7c967aaf009624b5479080292904650c3789806c",
+      "sha256": "993749795aa8a9aef54bdb4274e373de07dfbc93eccc39087fb12aac61a8a561"
+    },
+    {
+      "path": "internal/api/verify.go",
+      "gitBlob": "c0b58e4a68efa4a82790f88a00dd92102add47ac",
+      "sha256": "8dcf4454fa150e4ddc0a25f2b0d5af5521c7d090e490ec75fe20b6b2c8452df5"
+    },
+    {
+      "path": "internal/api/mail.go",
+      "gitBlob": "9a42651c425fe20474e7e3cd618af8e1af63d5f5",
+      "sha256": "b690ee6909bff12edc29a4b91ef3e5ecb6d4082e9e99c88657bd3294325650a2"
+    },
+    {
+      "path": "internal/api/user.go",
+      "gitBlob": "f96b174ef7fcc1df90660aed9eb7ada6858840f8",
+      "sha256": "bae046e8931bf9e6929f5588ad49b3007881c8e9e6d61cb77268db9491791b01"
+    },
+    {
+      "path": "internal/api/logout.go",
+      "gitBlob": "310b7c0d60688fff3d62ca73b2c71b616c88b882",
+      "sha256": "de117309d7e81c12cc4ee8152060bc3b5e8d8279e7f3dd6faa6b72fd8c4c3c76"
+    },
+    {
+      "path": "internal/api/token_refresh.go",
+      "gitBlob": "3178b9ec9205f74df10cab4ad7de4cad04303eb6",
+      "sha256": "cb42859267f8878c01263175cc6276e6cdd6d48f100bc6da4d00cd1878fe7c97"
+    },
+    {
+      "path": "internal/models/one_time_token.go",
+      "gitBlob": "34e4309f3f70419778945e5fbae656831ed3c5a4",
+      "sha256": "c5c9250b997ef2910c6c4914d79910e9ac4b6202249f5ce1a482d8dafbd8ae62"
+    },
+    {
+      "path": "internal/models/user.go",
+      "gitBlob": "c469bf56692c51ad2aad580cb55351e5f1f630ba",
+      "sha256": "f5063be47e4f1a5ec5815b97ce35c256d9c73a9d1b5d16e28860857bbe00a658"
+    },
+    {
+      "path": "internal/models/factor.go",
+      "gitBlob": "de67f801a5e9e6c22334434d333f1b5275574ba0",
+      "sha256": "1950b4724143fed26be84ad0bfe5f449f09706c97a0568b592b98d27e80627aa"
+    },
+    {
+      "path": "internal/crypto/crypto.go",
+      "gitBlob": "1d54170245d520cf721e7b859a93f23226ac64fb",
+      "sha256": "d457f1fee03ceba68118fc7184ca82d1380ffa8da4975b5e0d51de2707a14f6c"
+    },
+    {
+      "path": "internal/conf/configuration.go",
+      "gitBlob": "00e0367029628ae03ae07fc78319b73c2dd1e632",
+      "sha256": "6a6cfe2b2f14ea5387c875bfedfa3f1b900472fd9ccb58da92927c05e849072e"
+    },
+    {
+      "path": "internal/models/custom_oauth_provider.go",
+      "gitBlob": "2f461502ebaaa3ca2271204e81c0b38e9eb33e2c",
+      "sha256": "d389f982289a62f254f0c77d488e9ef7594aaea845348f3716e5a87017d16769"
+    },
+    {
+      "path": "internal/models/oauth_client.go",
+      "gitBlob": "1e34c187959509fc33069f2ca247f64d9e7c300c",
+      "sha256": "dc87b67f266efcf6e75ce4b308950436c7351e25f80232687ff7ccd49b12c5d2"
+    },
+    {
+      "path": "internal/models/oauth_consent.go",
+      "gitBlob": "4aeeaa4bf377f056537dd34f251aad1f8aa29296",
+      "sha256": "3c1a0860d26caa9d8ff9a9080103db946c7a71b3c2462fb36d865fc7b74e43c4"
+    },
+    {
+      "path": "internal/models/sso.go",
+      "gitBlob": "3a5be7d9730f6bfa0c2054222cde19f3769faba2",
+      "sha256": "5afc398821dd55b3897ababe2d1e31298b7ba4194678c12f391c9b56ffa8603d"
+    }
+  ],
+  "verification": "Local source bytes match independent official immutable GitHub Auth tree blob identities; SHA256 recorded without copying provider code."
+}
