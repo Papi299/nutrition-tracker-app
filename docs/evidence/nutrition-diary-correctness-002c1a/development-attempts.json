@@ -99,5 +99,47 @@
     "statementTimeout": "N002C1A_PARTICIPANT_LOST",
     "alreadyImportedReaderSurvives": true,
     "scope": "DISPOSABLE_LOCAL_MINIMAL_PROBES_UNCOMMITTED_SOURCE"
+  },
+  "firstCi": {
+    "head": "c19c899d73320b72461b4332500560863a06695b",
+    "run": 40222347307,
+    "unitTests": 242,
+    "unitResult": "PASS",
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "databaseQualification": "FAIL_BEFORE_ANY_CASE",
+    "cleanupConfirmed": true,
+    "causeAtEvidenceCommit": "STARTUP_UNCLASSIFIED_REQUIRES_PHASE_DIAGNOSTICS",
+    "sanitizedArtifactId": 12610156043,
+    "artifactSha256": "a17fac2fc7afccbadbdaef582135682e740110d53b60bff2c6419c641788aed2",
+    "confirmedCause": "ECR_TOOMANYREQUESTS_DATA_LIMIT_EXCEEDED"
+  },
+  "secondCi": {
+    "head": "3d3416a55998d014888d00dcddba4b7ec49b609f",
+    "run": 40222642722,
+    "unitTests": 242,
+    "unitResult": "PASS",
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "databaseQualification": "NOT_RUN_IMAGE_PREPARATION_FAILED",
+    "registryDiagnostic": "ECR_TOOMANYREQUESTS_DATA_LIMIT_EXCEEDED",
+    "sanitizedArtifactProduced": false,
+    "correction": "OFFICIAL_DOCKER_HUB_EXACT_SAME_OCI_INDEX_DIGEST"
+  },
+  "intermediateMirrorCi": {
+    "head": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+    "run": 40257377112,
+    "unitTests": 242,
+    "databaseCases": 22,
+    "qualification": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "codeqlActions": "SUCCESS",
+    "scope": "IMPLEMENTATION_HEAD_NOT_FINAL_EVIDENCE_DELIVERY_HEAD"
+  },
+  "earlierLocalPass": {
+    "source": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
+    "cases": 22,
+    "scope": "HISTORICAL_PRE_MIRROR_IMPLEMENTATION",
+    "reportSha256": "aabb09d706f008a3cf40748c4f2ccfe03b33cb184c137beacd57a2af693067cd"
   }
 }

@@ -28,8 +28,8 @@
   "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
   "branch": "codex/nutrition-002c1a-snapshot-catalog",
   "stackedBase": "codex/nutrition-002c1-fidelity",
-  "implementationCommit": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
-  "implementationTree": "e1837f3d9c802b6100e623b800a584ecb358bf7a",
+  "implementationCommit": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+  "implementationTree": "f3a7b8ddd86041600afc8f198de3ebeac7b92596",
   "productionAuthority": "NONE",
   "mergeAuthority": "NONE",
   "deploymentAuthority": "NONE",
@@ -42,5 +42,7 @@
   "scope": "RESTRICTED_RAW_HISTORICAL_OBSERVATION_AND_INCOMPLETE_FUNCTION_SUBSET_ONLY",
   "fullHistoricalCatalog": "BLOCKED",
   "productionRecoveryEligibility": false,
-  "productionAccess": false
+  "productionAccess": false,
+  "imageRegistry": "docker.io/supabase/postgres",
+  "originalReviewedImageDigestPreserved": true
 }

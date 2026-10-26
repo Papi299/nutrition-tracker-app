@@ -1,8 +1,8 @@
 {
   "schemaVersion": "nutrition-002c1a-validation/v1",
-  "implementationCommit": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
-  "implementationTree": "e1837f3d9c802b6100e623b800a584ecb358bf7a",
-  "implementationSha256": "1dccd4254667ce8d32f4371405483065de2a008326f9f559aae8aac3dee6c06f",
+  "implementationCommit": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+  "implementationTree": "f3a7b8ddd86041600afc8f198de3ebeac7b92596",
+  "implementationSha256": "db0c60a4fab5b5a71873cf003f2f8a0d2aa15a994a9f05de4d5f974518be2732",
   "node": "v22.23.4",
   "postgres": "17.6",
   "nativeDump": "17.6",
@@ -12,18 +12,22 @@
     "passed": 242,
     "failed": 0,
     "skipped": 0,
-    "tapSha256": "759e1cdebb84988fc7be86e48d39f7869b39f8967b53bb800847f8e89fa0569c"
+    "tapSha256": "fcd76ecb731b265450c08c78a5296dc2a1bf402ec06619c1479d290b2f727942"
   },
   "qualificationCommand": "node scripts/nutrition-002c1a/qualify-local.mjs /absolute/new/sanitized-report.json",
   "localDatabaseCases": 22,
   "focusedLint": "PASS_ZERO_WARNINGS",
   "workflowPolicy": "PASS",
-  "workflowSha256": "2145450c2ee70de0b8eee2b122b2e0af87a7fbbba5ec3f1898fb1651f5c5ab44",
+  "workflowSha256": "70692211a679c7588f2b2dd05e5a015b0af62cbf1255b801ae8b52260a24c919",
   "diffCheck": "PASS",
   "priorFilesByteIdenticalExceptTwoWorkflowPolicyEdits": 1304,
   "cleanupConfirmed": true,
   "fullApplicationCi": "NOT_RUN_STACKED_BASE",
-  "codeql": "NOT_RUN_AT_EVIDENCE_COMMIT_SEE_EXACT_HEAD_PR_REPORT",
+  "codeql": "PASS_IMPLEMENTATION_SOURCE_38131D8_FINAL_DELIVERY_HEAD_PENDING",
   "codeqlActionCommit": "9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
-  "productionAccess": false
+  "productionAccess": false,
+  "imageRegistry": "docker.io/supabase/postgres",
+  "originalReviewedImageDigestPreserved": true,
+  "intermediateCiRun": 40257377112,
+  "intermediateCiHead": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69"
 }

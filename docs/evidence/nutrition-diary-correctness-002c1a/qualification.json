@@ -1,14 +1,14 @@
 {
   "schemaVersion": "nutrition-002c1a-qualification/v1",
-  "startedAt": "2026-10-25T18:36:28.450Z",
-  "completedAt": "2026-10-25T18:38:32.847Z",
-  "sourceCommit": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
-  "sourceTree": "e1837f3d9c802b6100e623b800a584ecb358bf7a",
+  "startedAt": "2026-10-26T02:05:32.087Z",
+  "completedAt": "2026-10-26T02:07:36.678Z",
+  "sourceCommit": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+  "sourceTree": "f3a7b8ddd86041600afc8f198de3ebeac7b92596",
   "trustedBase": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
   "trustedBaseTree": "d5b74c91f16ceac3f8e62c95cff54e8e1c777b0f",
-  "implementationSha256": "1dccd4254667ce8d32f4371405483065de2a008326f9f559aae8aac3dee6c06f",
+  "implementationSha256": "db0c60a4fab5b5a71873cf003f2f8a0d2aa15a994a9f05de4d5f974518be2732",
   "node": "v22.23.4",
-  "image": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "image": "docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
   "postgres": "17.6",
   "nativeDump": "17.6",
   "protocol": "nutrition-002c1a-retained-export-import/v1",
@@ -17,22 +17,22 @@
     {
       "name": "preexistingOwnedContainerNameRefused",
       "result": "PASS",
-      "elapsedMs": 57
+      "elapsedMs": 48
     },
     {
       "name": "minimalRawHelperNativeDumpCheckpoint",
       "result": "PASS",
-      "elapsedMs": 880
+      "elapsedMs": 866
     },
     {
       "name": "actual44TrustedMigrationReplay",
       "result": "PASS",
-      "elapsedMs": 12806
+      "elapsedMs": 12843
     },
     {
       "name": "actual44ImportedSnapshotNativeDumpRestoreSubset",
       "result": "PASS",
-      "elapsedMs": 6676,
+      "elapsedMs": 6669,
       "historicalFunctionSubset": "PASS",
       "fullHistoricalCatalog": "BLOCKED",
       "productionRecoveryEligibility": false
@@ -40,12 +40,12 @@
     {
       "name": "actual45TrustedMigrationReplay",
       "result": "PASS",
-      "elapsedMs": 2043
+      "elapsedMs": 1956
     },
     {
       "name": "actual45ImportedSnapshotNativeDumpRestoreSubset",
       "result": "PASS",
-      "elapsedMs": 6438,
+      "elapsedMs": 6754,
       "historicalFunctionSubset": "PASS",
       "fullHistoricalCatalog": "BLOCKED",
       "productionRecoveryEligibility": false
@@ -53,7 +53,7 @@
     {
       "name": "functionReplacement",
       "result": "PASS",
-      "elapsedMs": 7000,
+      "elapsedMs": 6749,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -66,7 +66,7 @@
     {
       "name": "functionRename",
       "result": "PASS",
-      "elapsedMs": 6987,
+      "elapsedMs": 6961,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -79,7 +79,7 @@
     {
       "name": "grantAfterSnapshot",
       "result": "PASS",
-      "elapsedMs": 6697,
+      "elapsedMs": 6760,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -92,7 +92,7 @@
     {
       "name": "revokeAfterSnapshot",
       "result": "PASS",
-      "elapsedMs": 6939,
+      "elapsedMs": 6681,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -105,7 +105,7 @@
     {
       "name": "roleAttribute",
       "result": "PASS",
-      "elapsedMs": 6965,
+      "elapsedMs": 6604,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "IDENTITY_ONLY_NOT_ATTRIBUTE",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -118,7 +118,7 @@
     {
       "name": "roleMembership",
       "result": "PASS",
-      "elapsedMs": 6679,
+      "elapsedMs": 6750,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -131,7 +131,7 @@
     {
       "name": "defaultPrivilege",
       "result": "PASS",
-      "elapsedMs": 6722,
+      "elapsedMs": 6559,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "NOT_USED",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -144,7 +144,7 @@
     {
       "name": "rlsPolicy",
       "result": "PASS",
-      "elapsedMs": 6835,
+      "elapsedMs": 6654,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -157,7 +157,7 @@
     {
       "name": "triggerDisable",
       "result": "PASS",
-      "elapsedMs": 6711,
+      "elapsedMs": 6611,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "DEFINITION_OMITS_ENABLED_STATE",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -170,7 +170,7 @@
     {
       "name": "newObject",
       "result": "PASS",
-      "elapsedMs": 6494,
+      "elapsedMs": 6742,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -183,7 +183,7 @@
     {
       "name": "dropRecreateFunction",
       "result": "PASS",
-      "elapsedMs": 5487,
+      "elapsedMs": 5667,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "NATIVE_SUCCESS_UNRESTORABLE_SCHEMA_REJECTED",
@@ -196,7 +196,7 @@
     {
       "name": "changeAndRevert",
       "result": "PASS",
-      "elapsedMs": 6372,
+      "elapsedMs": 6466,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -209,7 +209,7 @@
     {
       "name": "mixedHistoricalBodyCurrentArguments",
       "result": "PASS",
-      "elapsedMs": 7400,
+      "elapsedMs": 7750,
       "raw": "HISTORICAL_TUPLES_UNCHANGED",
       "helper": "EXACT_EXPECTED_RESULT",
       "nativeDump": "MIXED_STATE_REJECTED",
@@ -222,7 +222,7 @@
     {
       "name": "existingRelationDdlLockTimeout",
       "result": "PASS",
-      "elapsedMs": 3172,
+      "elapsedMs": 3231,
       "ddl": "LOCK_TIMEOUT",
       "raw": "UNCHANGED",
       "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
@@ -231,7 +231,7 @@
     {
       "name": "exporterDeathAfterImport",
       "result": "PASS",
-      "elapsedMs": 625,
+      "elapsedMs": 665,
       "alreadyImportedReader": "SURVIVES_AT_SERVER",
       "supervisor": "REFUSES",
       "newImport": "REFUSES",
@@ -240,7 +240,7 @@
     {
       "name": "invalidLateImportReadOnlyAndParticipantFailures",
       "result": "PASS",
-      "elapsedMs": 684,
+      "elapsedMs": 701,
       "lateImport": "REFUSES",
       "invalidImport": "REFUSES",
       "catalogWritingDdl": "REFUSES",
