@@ -6,8 +6,8 @@ import { run, assertLocalDocker, waitUntil } from '../nutrition-002c/local-postg
 import { AUTH_IMAGE, DB_IMAGE, REST_IMAGE, CLIENT_IMAGE, AUTH_VERSION, assertService, assertEqual, fail, token } from './contract.mjs';
 
 export const LABEL = 'NUTRITION-DIARY-CORRECTNESS-002E1';
-export function assertOwnedContainer(c,id,image,network,volume) {
- if(c.Id!==id||c.Config.Image!==image||c.Config.Labels?.['codex.task']!==LABEL||
+export function assertOwnedContainer(c,id,image,network,volume,label=LABEL) {
+ if(c.Id!==id||c.Config.Image!==image||c.Config.Labels?.['codex.task']!==label||
   c.HostConfig.LogConfig.Type!=='none'||c.Mounts.some(m=>m.Type!=='tmpfs'&&!(volume&&m.Type==='volume'&&m.Name===volume&&m.Destination==='/var/lib/postgresql/data'))||
   Object.keys(c.NetworkSettings.Networks).length!==1||!c.NetworkSettings.Networks[network]||
   Object.values(c.HostConfig.PortBindings??{}).flat().some(p=>p.HostIp!=='127.0.0.1')) fail('RESOURCE_IDENTITY');
@@ -15,9 +15,11 @@ export function assertOwnedContainer(c,id,image,network,volume) {
 // Every connection endpoint is derived from a newly created owned resource.
 // No hosted URL, external secret or arbitrary source/target selector is accepted.
 export class Environment {
- constructor(side) {
+ constructor(side,scope='002e1') {
   if(!['source','target'].includes(side))fail('SIDE');
-  this.side=side;this.prefix='nutrition-002e1-'+side;this.network=this.prefix;this.volume=this.prefix+'-data';
+  if(!['002e1','002e2'].includes(scope))fail('SCOPE');
+  this.label='NUTRITION-DIARY-CORRECTNESS-'+scope.toUpperCase();
+  this.scope=scope;this.side=side;this.prefix='nutrition-'+scope+'-'+side;this.network=this.prefix;this.volume=this.prefix+'-data';
   this.ids=new Map();this.images={db:DB_IMAGE,auth:AUTH_IMAGE,rest:REST_IMAGE,client:CLIENT_IMAGE};
   this.signing=randomBytes(48).toString('base64url');this.dbPassword=randomBytes(32).toString('hex');
   this.key=randomBytes(32).toString('base64url');this.modes={};
@@ -26,9 +28,9 @@ export class Environment {
   await assertLocalDocker();
   if(!this.ids.has(kind))fail('RESOURCE_NOT_CREATED');
   const c=JSON.parse(await run('docker',['inspect',this.ids.get(kind)]))[0];
-  assertOwnedContainer(c,this.ids.get(kind),this.images[kind],this.network,kind==='db'?this.volume:undefined);
+  assertOwnedContainer(c,this.ids.get(kind),this.images[kind],this.network,kind==='db'?this.volume:undefined,this.label);
   const n=JSON.parse(await run('docker',['network','inspect',this.networkId]))[0];
-  if(n.Id!==this.networkId||n.Name!==this.network||!n.Internal||n.Labels?.['codex.task']!==LABEL)fail('NETWORK_IDENTITY');
+  if(n.Id!==this.networkId||n.Name!==this.network||!n.Internal||n.Labels?.['codex.task']!==this.label)fail('NETWORK_IDENTITY');
   if(kind==='db') {
    if(Object.keys(c.HostConfig.PortBindings??{}).length||!c.Mounts.some(m=>m.Type==='volume'&&m.Name===this.volume))fail('DATABASE_ISOLATION');
    await this.checkVolume();
@@ -42,12 +44,12 @@ export class Environment {
  async create(kind,extra,env) {
   const name=this.prefix+'-'+kind;
   if(await run('docker',['ps','-a','--filter',`name=^/${name}$`,'--format','{{.Names}}']))fail('PREEXISTING_RESOURCE');
-  const args=['run','-d','--pull=never','--name',name,'--label','codex.task='+LABEL,'--network',this.network,
+  const args=['run','-d','--pull=never','--name',name,'--label','codex.task='+this.label,'--network',this.network,
    '--log-driver','none','--memory',kind==='db'?'768m':'256m','--cpus','1'];
   // Linux cannot reopen Node's stdin socket as /dev/stdin. Docker reads this
   // exclusive 0600 file in a fresh 0700 directory; it is never mounted, logged
   // or retained after create, including subprocess failure.
-  const directory=mkdtempSync(join(tmpdir(),'nutrition-002e1-env-')),file=join(directory,'environment');
+  const directory=mkdtempSync(join(tmpdir(),'nutrition-'+this.scope+'-env-')),file=join(directory,'environment');
   let id;
   try {
    writeFileSync(file,Object.entries(env).map(([k,v])=>k+'='+v).join('\n')+'\n',{mode:0o600,flag:'wx'});
@@ -68,10 +70,10 @@ export class Environment {
   this.phase='VOLUME_NAMESPACE';
   if(await run('docker',['volume','ls','--filter','name=^'+this.volume+'$','--format','{{.Name}}']))fail('PREEXISTING_VOLUME');
   this.phase='NETWORK_CREATE';
-  this.networkId=await run('docker',['network','create','--internal','--label','codex.task='+LABEL,this.network]);
+  this.networkId=await run('docker',['network','create','--internal','--label','codex.task='+this.label,this.network]);
   if(!/^[a-f0-9]{64}$/.test(this.networkId))fail('AMBIGUOUS_NETWORK');
   this.phase='VOLUME_CREATE';
-  assertEqual(await run('docker',['volume','create','--label','codex.task='+LABEL,this.volume]),this.volume,'VOLUME_CREATE');
+  assertEqual(await run('docker',['volume','create','--label','codex.task='+this.label,this.volume]),this.volume,'VOLUME_CREATE');
   const v=JSON.parse(await run('docker',['volume','inspect',this.volume]))[0];this.volumeCreatedAt=v.CreatedAt;await this.checkVolume();
   this.phase='DATABASE_CREATE';
   await this.create('db',['--mount','type=volume,source='+this.volume+',target=/var/lib/postgresql/data',DB_IMAGE,'postgres','-D','/var/lib/postgresql/data',
@@ -85,14 +87,15 @@ export class Environment {
   this.phase='ROLE_BOOTSTRAP';
   await this.sql(`alter role supabase_auth_admin password '${this.dbPassword}';alter role authenticator password '${this.dbPassword}';`);
   this.phase='CLIENT_CREATE';
-  await this.create('client',[CLIENT_IMAGE,'node','-e','setInterval(()=>{},1000)'],{});
+  await this.startClient();
   this.phase='AUTH_CREATE';
   await this.startAuth();
   this.phase='READY';
  }
+ async startClient() {await this.create('client',[CLIENT_IMAGE,'node','-e','setInterval(()=>{},1000)'],{});}
  async checkVolume() {
   const v=JSON.parse(await run('docker',['volume','inspect',this.volume]))[0];
-  if(!this.volumeCreatedAt||v.CreatedAt!==this.volumeCreatedAt||v.Name!==this.volume||v.Driver!=='local'||v.Labels?.['codex.task']!==LABEL||Object.keys(v.Options??{}).length)fail('VOLUME_IDENTITY');
+  if(!this.volumeCreatedAt||v.CreatedAt!==this.volumeCreatedAt||v.Name!==this.volume||v.Driver!=='local'||v.Labels?.['codex.task']!==this.label||Object.keys(v.Options??{}).length)fail('VOLUME_IDENTITY');
  }
  authEnvironment() {
   return {GOTRUE_API_HOST:'0.0.0.0',GOTRUE_API_PORT:'9999',API_EXTERNAL_URL:'http://localhost:3000',
@@ -158,7 +161,7 @@ export class Environment {
   const failures=[];for(const kind of ['rest','auth','client','db'])try{await this.remove(kind);}catch{failures.push(kind);}
   if(this.networkId&&failures.length===0){
    const n=JSON.parse(await run('docker',['network','inspect',this.networkId]))[0];
-   if(n.Id!==this.networkId||!n.Internal||n.Labels?.['codex.task']!==LABEL||Object.keys(n.Containers??{}).length)fail('CLEANUP_NETWORK_IDENTITY');
+   if(n.Id!==this.networkId||!n.Internal||n.Labels?.['codex.task']!==this.label||Object.keys(n.Containers??{}).length)fail('CLEANUP_NETWORK_IDENTITY');
    await run('docker',['network','rm',this.networkId]);this.networkId=null;
   }
   if(this.volumeCreatedAt&&failures.length===0){await this.checkVolume();await run('docker',['volume','rm',this.volume]);this.volumeCreatedAt=null;}

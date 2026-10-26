@@ -1,0 +1,1558 @@
+{
+  "base": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "18e99ef7b06e3fe720d68837a1855dc3ac563c856aa84e62c8c04045d844925a"
+    },
+    {
+      "path": ".github/workflows/nutrition-002c-local.yml",
+      "sha256": "3b706ecdb67f8519295e9defb5e665c181a4cc62ff9141c41369a06f57d33130"
+    },
+    {
+      "path": ".github/workflows/nutrition-002c1-local.yml",
+      "sha256": "11bb6253d7511ca5e57c2bfb773835a486fad808e2e8af749c3d9f6e76542d3b"
+    },
+    {
+      "path": ".github/workflows/nutrition-002c1a-local.yml",
+      "sha256": "70692211a679c7588f2b2dd05e5a015b0af62cbf1255b801ae8b52260a24c919"
+    },
+    {
+      "path": ".github/workflows/nutrition-002c1b-local.yml",
+      "sha256": "8ba6f302319dee6dd84c96f5b33511acc5a1c714fdda17087c9890dc7d83b40f"
+    },
+    {
+      "path": ".github/workflows/nutrition-002e-local.yml",
+      "sha256": "53339b618f76904e5a2a14460fc27485bc71d421cefe3c42dae746b975174cf4"
+    },
+    {
+      "path": ".github/workflows/nutrition-002e1-local.yml",
+      "sha256": "19e2b19f5337baaa83e542bdaf78ec50fe8ead8573806b0c4e58becc27d47f2b"
+    },
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "sha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6"
+    },
+    {
+      "path": "app/[locale]/(app)/account/closure/page.tsx",
+      "sha256": "74d3fb2f851f01c29c7724b9a468239186f9460ca5153324c9b2cd614a706773"
+    },
+    {
+      "path": "app/[locale]/(app)/account/closure/submit/route.ts",
+      "sha256": "2351aaf7dc8cadedd0c1cca144651f5e6d2325a3d5b9f6a80c648039f855aabd"
+    },
+    {
+      "path": "app/[locale]/(app)/account/export/download/route.ts",
+      "sha256": "2e4a1ddeabb2d6a5b36b44c44d65736ee716685434923a50af47c37b7994ab42"
+    },
+    {
+      "path": "app/[locale]/(app)/account/export/page.tsx",
+      "sha256": "40bbadb910ccc815c9261dbbd7e38406cb0a7178353de549cacb2cc656b520c4"
+    },
+    {
+      "path": "app/[locale]/(app)/account/page.tsx",
+      "sha256": "c612ae76362d080ef8954dc40b1341f8059422ef17052a88c78260fcafb5822f"
+    },
+    {
+      "path": "app/[locale]/(app)/error.tsx",
+      "sha256": "12ce07b55d0ba73da81aba701a6e5ba89cea23b9c8472de2cf12c4513835f2ea"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/barcode/page.tsx",
+      "sha256": "1cf118d69cc23a5875184126b8c870bffd7289825910b77b39900c74ffea2fb2"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/[foodId]/edit/page.tsx",
+      "sha256": "f81b8ee8f2328c0b11f78d7c6cecca8fdb840804d4f7f36dbb201e7a3e7ce1be"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/action-state.ts",
+      "sha256": "c2cae5a983649f58c56e415aad6025853bebfa12d020504efdc9c36c783e446a"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/actions.ts",
+      "sha256": "72faf19ab12fd8234f0da22a7dc5bdc5b756c7a112e7ef6445c4c2a1c93d226a"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/management-actions.ts",
+      "sha256": "7cbf52623ba87bd112106f55ff842702925e0ce360a28878f5f7acbfea0fb2f9"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/new/page.tsx",
+      "sha256": "339d7be7d2de15a91ed5fe6839d76bff565e09f5ee713a574286eca7e774dfc1"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/custom/page.tsx",
+      "sha256": "c60bce50f3ebc8bf7a7fa7e70a62518081a8a4a474363c448e6ce527564267cc"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/favorite-actions.ts",
+      "sha256": "49bded59609942d3524a0875233a1aad81fcb26d349108edba097ca1ad5b1558"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/page.tsx",
+      "sha256": "1f3d01e9dcb1219b454af50226212bb59392e8eecbbd8cd5f1ef9c7d55fddec3"
+    },
+    {
+      "path": "app/[locale]/(app)/foods/reuse/page.tsx",
+      "sha256": "3db49315a4eb926046ddf34b3538904e0834c0720aafd51f9f55bb41b0eae41d"
+    },
+    {
+      "path": "app/[locale]/(app)/layout.tsx",
+      "sha256": "ebc35a16116c81f50b92a52a6dbd8d6273baeb51219e70380ae618fd3f7c469f"
+    },
+    {
+      "path": "app/[locale]/(app)/local-reliability-fixture/page.tsx",
+      "sha256": "ffff80cf42a54a125b69b1c76f53769e7941ae418ae6f6a190a03ee746dbf9b6"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/[recipeId]/edit/page.tsx",
+      "sha256": "9daf47241c76c331f62012f52820c4b5f12330e33d5bf5a9963d70bb1559c44b"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/[recipeId]/use/page.tsx",
+      "sha256": "13a9bbc9b6269da899ddc7fcbddfa8c6dd619542d6283fa5f6f21a4abefa15a0"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/action-state.ts",
+      "sha256": "29dd0b8d780040c138324637a58f7c01d810800fdcb927f4880fec944914faa9"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/actions.ts",
+      "sha256": "353ddb25353e8f5ee65a5f110d7700e520e80fc3bf0a33e1217e3acb628b63fd"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/management-actions.ts",
+      "sha256": "6296be900c63254dc34fbe7518009f05a5281d18d147b1ecae92b5fd76425722"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/new/page.tsx",
+      "sha256": "969ca3615c62a2665e4ab28f5a68293ddb447a9724135d895d3cf20a95f7617b"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/page.tsx",
+      "sha256": "1695a0123811ac5d77e88658e803d267d0dbcdb14172f88606097acd2c115044"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/use-action-state.ts",
+      "sha256": "984ee730817db97372796fa804b66b3ccd76b1acd68d0ae6eba53949ec4e6c19"
+    },
+    {
+      "path": "app/[locale]/(app)/recipes/use-actions.ts",
+      "sha256": "3459349f1be45b5d415a5c9ee06bcbf59dd0f46ef6b89bbadf7fec77e0b82720"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/[savedMealId]/edit/page.tsx",
+      "sha256": "320c9586d4e0727b00a84fbb93cc4bfbbd23cfd34f1b0f59468f71ad6e45606d"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/[savedMealId]/use/page.tsx",
+      "sha256": "b8be2586b74b84ca1d3fa3f9dfbdf99f407dddb0c0b13cdb1a5e7ae66ac43a0a"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/action-state.ts",
+      "sha256": "c5ff9269541913121159a4231055123323684929ac67666b5bbd591a0acab34e"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/actions.ts",
+      "sha256": "845f663e6364f7d4073c29986b538a7688de0d7b0c394ea9daefa7d4cf41d81c"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/management-actions.ts",
+      "sha256": "0db1713f205feb90cadcd371b9b17815ed17c8e7cf12c82ccc4eea9e18547e02"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/new/page.tsx",
+      "sha256": "498d1a249b02c53607075fb41f94a0270c7cbdc3fd13c21d3f22291f63f7082f"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/page.tsx",
+      "sha256": "e2b5caf577eb66c070bc15aa12f23e15e10dadf0a3e864ea4200ae7d534cd48d"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/use-action-state.ts",
+      "sha256": "371a899fed21922ae03064c8ba7caf45f951a6596028223531dbf0ec2964538f"
+    },
+    {
+      "path": "app/[locale]/(app)/saved-meals/use-actions.ts",
+      "sha256": "4496a338913dac4384df18aad542fa75840ed8c0f69bf1c943476b0f42c11de4"
+    },
+    {
+      "path": "app/[locale]/(app)/setup/action-state.ts",
+      "sha256": "f60c360742c3eb4ffdd377e7b6ca5ec2c1c48c57a1d840c116924ff8ede45313"
+    },
+    {
+      "path": "app/[locale]/(app)/setup/actions.ts",
+      "sha256": "107e1643bb3ad4672aa9c128e69a822c9b4a9aab52e3668cdfd84edba2789664"
+    },
+    {
+      "path": "app/[locale]/(app)/setup/page.tsx",
+      "sha256": "6b87263f9e9cf0d1ae611039eeede1cca97a9626d2fc9edeecc728ef16f01baf"
+    },
+    {
+      "path": "app/[locale]/(app)/sign-out-failed/page.tsx",
+      "sha256": "f2e70982698ff51ddd3f669cbc6d66065435246f7eb4e87bab1adaaf3df0ce37"
+    },
+    {
+      "path": "app/[locale]/(app)/today/action-state.ts",
+      "sha256": "2ebcb7056fefc3a83d71b0b488e9fd7c66eefd7b239862b50a797dd6a21d223e"
+    },
+    {
+      "path": "app/[locale]/(app)/today/actions.ts",
+      "sha256": "41d7356d054f16b94746fdaece458bb0eecf891685b7c97b840190893eb94e9e"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-action.ts",
+      "sha256": "58dffe6622177c8d6fa70b429b68b4b302dd9fef268744f1b38a626639bc0dfb"
+    },
+    {
+      "path": "app/[locale]/(app)/today/create-submission.ts",
+      "sha256": "60f0af6b01567a2d2a7fea7e59342ef33e060eff00fec018ef5e22140feca095"
+    },
+    {
+      "path": "app/[locale]/(app)/today/page.tsx",
+      "sha256": "b29367e389e27529b1fba7b92a22226d9f6ab3ba2791d066946f6834fd2c023f"
+    },
+    {
+      "path": "app/[locale]/auth/account-closed/page.tsx",
+      "sha256": "ce4051f08b617984d074a864e5e9ef6fce61ddf4d65f1fd6b99c1de7fb367ef6"
+    },
+    {
+      "path": "app/[locale]/auth/action-state.ts",
+      "sha256": "d97449cc3fabf6f01116ec4b6cfd750be12127f69f6b64856bfecbe63121485d"
+    },
+    {
+      "path": "app/[locale]/auth/actions.ts",
+      "sha256": "984258047317b98678f850d604273b6d269ac7654b9a940a8edc0d5b19619fa0"
+    },
+    {
+      "path": "app/[locale]/auth/activate/action-state.ts",
+      "sha256": "e41d19cddbbf10464f14e6b791749eaae575fc90955b6ff5cd4834ce46b5c4a2"
+    },
+    {
+      "path": "app/[locale]/auth/activate/actions.ts",
+      "sha256": "f3ae5ade65c761abd384216fc44ca53d13e2a5e806e1d02427bc793110077095"
+    },
+    {
+      "path": "app/[locale]/auth/activate/page.tsx",
+      "sha256": "41a432b57f6dc89a87cb7236ac16b3a19dd9f4249a18716a17bd799b9bb3c9d9"
+    },
+    {
+      "path": "app/[locale]/auth/confirm/route.ts",
+      "sha256": "ef31346dd57e4e73730f4cf9dd309c67334829780eb671f3859e24ebaba35d53"
+    },
+    {
+      "path": "app/[locale]/auth/confirmation-error/page.tsx",
+      "sha256": "6fd715a3fb11e8e56deae5672d88e1eb3823572e21577bf8add3e30b503ff628"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/action-state.ts",
+      "sha256": "dd968b12b07910ab2b405a803c9236d1c37a8bb2dde4f2dc9e857790036bd97b"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/actions.ts",
+      "sha256": "3c483ab4e8652af2bd227bb9559bcc27b8df9ad67ea2c71eb08d219d9f8828df"
+    },
+    {
+      "path": "app/[locale]/auth/reauthenticate/page.tsx",
+      "sha256": "b44141d01d1af435c468961a87fb44b1438fce0ab141346e9d72d4021f0d0bb7"
+    },
+    {
+      "path": "app/[locale]/auth/recover/action-state.ts",
+      "sha256": "284ebf7692c2ba3c403b238b605361b62e1399265c59718442198811c30d2497"
+    },
+    {
+      "path": "app/[locale]/auth/recover/actions.ts",
+      "sha256": "b54a59973b110b12b73d83b6bb387a4b9eb40fd12e5acfaba988e608932f313e"
+    },
+    {
+      "path": "app/[locale]/auth/recover/confirm/route.ts",
+      "sha256": "54977060b4a6ef37a1a43dd0588c58eeb2931bdc71486221df82d2dccf5ae25b"
+    },
+    {
+      "path": "app/[locale]/auth/recover/error/page.tsx",
+      "sha256": "3150e56c740af25301a75f14f65e41786ec1565c67815e319b7fdb896103e1ef"
+    },
+    {
+      "path": "app/[locale]/auth/recover/page.tsx",
+      "sha256": "ed116235b2e6899ed89809b1926d5ac1ca77eba13cfc1cfd0839f18cce42fd43"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/action-state.ts",
+      "sha256": "700e6ba367a5518364a3a70c5a0b6510cb7100a44948e2a620a3cccd68b46884"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/actions.ts",
+      "sha256": "2db40e2f867eddbeb4601c8a52406a21358bc0c5ac5d5c13eeb3c6ddf91dcca7"
+    },
+    {
+      "path": "app/[locale]/auth/recover/reset/page.tsx",
+      "sha256": "c5783cf5727ca9f97f697fb5f1e3f1c7ce833f453601ed2b4a90fcb41f7477eb"
+    },
+    {
+      "path": "app/[locale]/auth/sign-in/page.tsx",
+      "sha256": "f6d4c6c71f6e466babbcabdc73fb5251e6a9524094b95a9e0b2bd89d0687715d"
+    },
+    {
+      "path": "app/[locale]/auth/sign-up/page.tsx",
+      "sha256": "a113f12b28092bc0d61014244a2ca0ece1163516f02aef3993b22ef70d336198"
+    },
+    {
+      "path": "app/[locale]/error.tsx",
+      "sha256": "9b4e50284086369e679d6ae5576c1b5727cc23cf50c906cf5b30002e86a72327"
+    },
+    {
+      "path": "app/[locale]/layout.tsx",
+      "sha256": "8570739df84ca2e28bd73caf67e40eff04367e356fa43ebc2522a68e54b555b6"
+    },
+    {
+      "path": "app/[locale]/page.tsx",
+      "sha256": "5e3044c54dce2e29f471dab3d2f2e1eca41c1ad81c804f363b3337bbc1996cbc"
+    },
+    {
+      "path": "app/[locale]/setup/nojs/page.tsx",
+      "sha256": "1a81539739ee50373c9cb499ddae5af6100068c86a7282a0aae113844743cdce"
+    },
+    {
+      "path": "app/api/health/route.ts",
+      "sha256": "00b5ef999be0690670efc83329424493eda6313c757eeeeb8f077d2c8d0311f3"
+    },
+    {
+      "path": "app/favicon.ico",
+      "sha256": "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
+    },
+    {
+      "path": "app/global-error.tsx",
+      "sha256": "fd8aacaa6e9add4034719c6674728ca202c32d1d293f3b72ce8eb8d3310434b0"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "5803d9bb08f1e3cfbdce14cf935aa7696b1dcd6107a25cb03adf6aeb8e8cc0e1"
+    },
+    {
+      "path": "components/auth/activation-form.tsx",
+      "sha256": "91e6ed4323f5f6a6123a98d1d3733487f80667768503c6ff65557b8174e72fd3"
+    },
+    {
+      "path": "components/auth/auth-card.tsx",
+      "sha256": "021dcf5483c02faadb307c6ca18e459df8501e7e928852c5df4d3a4ce947a1cf"
+    },
+    {
+      "path": "components/auth/auth-form-shell.tsx",
+      "sha256": "a903363e08a35ec614ad228a6d6a38be17b3232c8521b7c1f5592de75edb0f11"
+    },
+    {
+      "path": "components/auth/auth-status-note.tsx",
+      "sha256": "5d688af82b145b2a3a4e82e4aea5bfcd22394dd999c607488304cc0712ca9c7f"
+    },
+    {
+      "path": "components/auth/invitation-only-card.tsx",
+      "sha256": "378bdbdc0f2403ea65e4d7ff6471e9499894b0015d600793541d0e7c7f7c8fd0"
+    },
+    {
+      "path": "components/auth/reauthentication-form.tsx",
+      "sha256": "6d1441d3f850ca659e3de68237a2257b4cacbcee267e37ee79a56835d34d32c8"
+    },
+    {
+      "path": "components/auth/recovery-request-form.tsx",
+      "sha256": "1324589ed029c04a1ecd95292fcd3648f76a3e895527d262c453d4804209124a"
+    },
+    {
+      "path": "components/auth/recovery-reset-form.tsx",
+      "sha256": "26fc6643256a891cd4eb5a035f63e297b1cd3c25c730fa45ad90529cbbc6dc01"
+    },
+    {
+      "path": "components/auth/sign-out-button.tsx",
+      "sha256": "e6804b1e1453829f485ce40e497194f9cd39a21899f4275d798b61483548e1ec"
+    },
+    {
+      "path": "components/barcodes/barcode-camera-scanner.tsx",
+      "sha256": "b4656a1d481555da6b7cc668fea8a3eb4f01f327314052a75819fb9798b15e79"
+    },
+    {
+      "path": "components/barcodes/barcode-lookup-form.tsx",
+      "sha256": "9bea85642b5b1fcaad65c73b497fe712bd8f252a3c386065de2e7822cd302fb1"
+    },
+    {
+      "path": "components/calendar-date/browser-date-bootstrap.tsx",
+      "sha256": "01708375a5e4baa91aa175b48bb153a0d5f089ad056f63e6951ed6ced2b6f239"
+    },
+    {
+      "path": "components/calendar-date/calendar-date-error.tsx",
+      "sha256": "b23a98a79d6cbce8b2833bc5ed5994ceb73bea76fc32922682988ea748f7024c"
+    },
+    {
+      "path": "components/calendar-date/calendar-date-form.tsx",
+      "sha256": "08a9fd6a536bd3bf38bf2aef035e15d6c79ba0b2d65cca04dc668c805a6b2e84"
+    },
+    {
+      "path": "components/custom-foods/custom-food-archive-control.tsx",
+      "sha256": "926ce732059e597154889d12bb81941b935f5b23ea9f78549c2557951a47ebae"
+    },
+    {
+      "path": "components/custom-foods/custom-food-form.tsx",
+      "sha256": "68c95c31b0fd9dc5a133856bb52b0e2da6c77fd0bf0bae0cc2afda68db3eaf16"
+    },
+    {
+      "path": "components/custom-foods/custom-food-page.tsx",
+      "sha256": "4bee1cd5654caf4044c46418dcb3c3261e1c167b99b335a4c35a323a05ac5b7b"
+    },
+    {
+      "path": "components/data/retrieval-error.tsx",
+      "sha256": "d43395e53ed931f67bcdecc0b1dab6cad3b603a4d38165a5fc4b4c4161d9f58d"
+    },
+    {
+      "path": "components/diary/diary-entry-delete-button.tsx",
+      "sha256": "dac155a4405621467da12df668302759adf43a5997300699950bdc0f110e985f"
+    },
+    {
+      "path": "components/diary/diary-entry-edit-form.tsx",
+      "sha256": "aa903a3649a6a799d906a5aed0051669bb5f79ac4c78c00cdce950c8d52ac971"
+    },
+    {
+      "path": "components/diary/diary-entry-form.tsx",
+      "sha256": "a31a5bfb3003e46898097b46c08a40f3b2199c4515def099ed7d16bc2f61ff9d"
+    },
+    {
+      "path": "components/diary/diary-entry-list-item.tsx",
+      "sha256": "70389190179cf1134ebcc5eb0ea5e6922edccca81cb039df3f2ecf8e8ce12c37"
+    },
+    {
+      "path": "components/diary/diary-entry-list.tsx",
+      "sha256": "d970bb168b5af73e5e72d5bca716d7563b934517924d6c8038007d4025c3b11e"
+    },
+    {
+      "path": "components/diary/nutrition-daily-summary.tsx",
+      "sha256": "02d9b6ba91170fd4bbe3a0da6905c5b9a2f973433237a97b9265d6864bc8dd91"
+    },
+    {
+      "path": "components/foods/food-discovery-date-context.tsx",
+      "sha256": "63e0a4de02a9334d79d085eaf399679b2b0fe5054b7d38bfe3c53b2b0693e7a4"
+    },
+    {
+      "path": "components/foods/food-discovery-header.tsx",
+      "sha256": "d50457a8c30f77c3bb844a3806a914b1611c41d911cffdf009c05281350f3cfc"
+    },
+    {
+      "path": "components/foods/food-discovery-navigation.tsx",
+      "sha256": "b2e2174d84b88dcf9ced499eeca7ecd17511b00a1ecbb2c95a606c771268a93e"
+    },
+    {
+      "path": "components/foods/food-discovery-options.tsx",
+      "sha256": "d79cbc283776287100e1959d938487d1e6e854fa4dbe38dcff58e717389da5e4"
+    },
+    {
+      "path": "components/foods/food-favorite-control.tsx",
+      "sha256": "6e7de297dd268fb562625a43988e607309b82041e4819a8a1f553ac75679bab8"
+    },
+    {
+      "path": "components/foods/food-result-card.tsx",
+      "sha256": "c67e394a1bcbef3d9b9ea7640227000b2f49c59412b82b37db0cc470e0040a58"
+    },
+    {
+      "path": "components/foods/food-result-metadata.tsx",
+      "sha256": "91c16563b5405e0073989567639e78376f5daea1b196cb8c896853cc46c847de"
+    },
+    {
+      "path": "components/language-switcher/language-switcher.tsx",
+      "sha256": "cd08554732d2d75195010ad0436031604ccde55f8c5a261995ac4ec87b9d9df6"
+    },
+    {
+      "path": "components/layout/app-navigation.tsx",
+      "sha256": "1880873217ad52103100eab4632579f54eabeb01d468eaff690f4f1fa26583b2"
+    },
+    {
+      "path": "components/layout/app-shell.tsx",
+      "sha256": "d80503bdd6cd82d1b36d86e1018a8b1888ca5f8b577ad66747dfa73174175e4b"
+    },
+    {
+      "path": "components/layout/navigation-icons.tsx",
+      "sha256": "2a9e3412c150bbaf8b3648a58a4aaebf4096644b7264e56f1dea990431db6ffa"
+    },
+    {
+      "path": "components/layout/primary-navigation.ts",
+      "sha256": "354fc8907e48045b36b3f2c50260a6e17227c209517f2fda7146b1d7cf118f47"
+    },
+    {
+      "path": "components/layout/public-shell.tsx",
+      "sha256": "4baed977ff22f37d8a5a26590cef414f5ad1af89302213bb07057f0ffac5c169"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-details.tsx",
+      "sha256": "64c43ec524bb2d5a4ff53de7c3bf5dab6a1cb670479364210ac58bc95f8c33fb"
+    },
+    {
+      "path": "components/nutrition/additional-nutrient-fields.tsx",
+      "sha256": "8a8f35d419df2d07adf07ca3cecc2625a0548716d94320c65209262eaefd0a85"
+    },
+    {
+      "path": "components/recipes/recipe-archive-control.tsx",
+      "sha256": "97fe7b5ec26a4f47b685453d82a45994fb415a645630a1fb31c0400afa04a8a0"
+    },
+    {
+      "path": "components/recipes/recipe-form.tsx",
+      "sha256": "15b41f66b7a7c72f2dbbc326449f06b8fd2dd184fa2c6e6d56c867ddd8747d6e"
+    },
+    {
+      "path": "components/recipes/recipe-nutrition-summary.tsx",
+      "sha256": "b686be4f599834d50f4bf9ed719f313731e163e6daf81fe21b7383a5e83cbb46"
+    },
+    {
+      "path": "components/recipes/recipe-page.tsx",
+      "sha256": "1aea8c9bef7e9ff1f99703e2c834b1dd9ae341df40f90219623cfdd6a50b73c3"
+    },
+    {
+      "path": "components/recipes/recipe-use-confirmation.tsx",
+      "sha256": "31c92ce4b58f42a8649877316329a6020fbb243949d51b3c9f8137b14bb2a880"
+    },
+    {
+      "path": "components/recipes/recipe-use-preview.tsx",
+      "sha256": "30d2b3d87c1bfce46f337c89f18e0edb3ce3b9264d4c6690792dd9f30c2a8310"
+    },
+    {
+      "path": "components/reliability/localized-error-boundary.tsx",
+      "sha256": "1751bf64c4bbb6119800b6eeede3cc63089ae6c1c9cdeeaf63cc04709590e2d9"
+    },
+    {
+      "path": "components/reliability/recovery-model.ts",
+      "sha256": "47207e14241819655666390b87d9a0d7edbd3a3f2e9bdfa51825391cf068f721"
+    },
+    {
+      "path": "components/reliability/recovery-panel.tsx",
+      "sha256": "358fa80c2732b331c87fcdfa0435d5d5f4c5c0f91866f5f28e4c77e972eac7a9"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-archive-control.tsx",
+      "sha256": "e337a1df463f9499264a6101b6ac4bc01585973935081ec09b3862487f6e3d0a"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-form.tsx",
+      "sha256": "5db2a5ad2e145969fc735fb4d97d69da0bd249bda74fd68abd3b061a07b566b2"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-page.tsx",
+      "sha256": "8a44305a0145c02b07676fdeea276cc1ce6d16d7a8118546b2011af601ed0af3"
+    },
+    {
+      "path": "components/saved-meals/saved-meal-use-review.tsx",
+      "sha256": "9abd6999e7e311a1152238319d81aedab9bc39d4ccd04687967d7697b6ce965d"
+    },
+    {
+      "path": "components/setup/setup-form.tsx",
+      "sha256": "40f5b30802eb4207bfae6263f81e69ba0e17ba4b6a13e95518e50ff631d7eee5"
+    },
+    {
+      "path": "components/setup/setup-page.tsx",
+      "sha256": "d7d6841fcabda1252b6d9d42813c0b20d0c12a4252cb8f33db0ea9a415e29024"
+    },
+    {
+      "path": "components/ui/badge.tsx",
+      "sha256": "695cd2a77d84432fce0a795480faab9fc6cf0eae1fe2a334be32b7af9717b0c8"
+    },
+    {
+      "path": "components/ui/button.tsx",
+      "sha256": "2f6000a78745c1c0ecc0e8a7c52a7f70359308c5cd942ed8315d6e7f8cc38214"
+    },
+    {
+      "path": "components/ui/card.tsx",
+      "sha256": "4c5f0f7de72a3054d2bd46defd8efd40e75bff7ce91ed9e31480b888037c6101"
+    },
+    {
+      "path": "components/ui/feedback.ts",
+      "sha256": "d3d0de017a4dff7a31f46345bda35b953e3a4ff7ee101d5c961025924125cfaf"
+    },
+    {
+      "path": "components/ui/form-controls.tsx",
+      "sha256": "be87694294b0dc2065ae8fb7ee912f827483daa98241e1ba7f87a6f61018c670"
+    },
+    {
+      "path": "deployment/phase-11-prek-before-11k-role-assignments-evidence.json",
+      "sha256": "72bd8e4c38dbc06d23c2185a2ea14118f44ad84eab59599ddab64d4dda7b3955"
+    },
+    {
+      "path": "deployment/phase-11-prek-codeql-false-positive-disposition-evidence.json",
+      "sha256": "36fde1653d25b4b05ee382bb6613dded42fe1eafa7c5d6446a4e6363941d5000"
+    },
+    {
+      "path": "deployment/phase-11-prek-codeql-high-alert-triage-evidence.json",
+      "sha256": "0c94eb8ca1accf35cd14b3991ac6eebde1b9ca3244a1e9863628bcbcbdb543a8"
+    },
+    {
+      "path": "deployment/phase-11-prek-crypto001-correction-evidence.json",
+      "sha256": "d2750e2842e6f08d75ad3dbcb2ba1a084dc410ede7c4c5d29827a8f8b38066c1"
+    },
+    {
+      "path": "deployment/phase-11-prek-dec039-windows-deferral-evidence.json",
+      "sha256": "1fad23a4876345a50140de80d17b5c2543085775059da3128a77091c971b9339"
+    },
+    {
+      "path": "deployment/phase-11-prek-dependency-graph-config-resolution-evidence.json",
+      "sha256": "8150260fba00cd6a10911216381bfdc7a07a16d3ae7b41fb0425031400cef1db"
+    },
+    {
+      "path": "deployment/phase-11-prek-github-governance-refresh-evidence.json",
+      "sha256": "599520384e4a7ad5f94bd78ea88965de5b21e000c2f9447652d5250c3941d046"
+    },
+    {
+      "path": "deployment/phase-11-prek-github-governance-remediation-evidence.json",
+      "sha256": "7a37daee7a1b20adb594a729f7b9cb17985e3e680cea385314511f53e439b2ee"
+    },
+    {
+      "path": "deployment/phase-11h-contract.json",
+      "sha256": "0504e1fd762cb7c9fae8fb70b411dee9736a5fdf9efa2d15fae0b564d1f4ba16"
+    },
+    {
+      "path": "deployment/phase-11i-migration44-fresh-backup-verification-evidence.json",
+      "sha256": "324cf00154abcf047baa9e13bc3fea1258021825edc5dc576caedb1aae835d80"
+    },
+    {
+      "path": "deployment/phase-11j1-current-candidate-refresh-evidence.json",
+      "sha256": "a82bc2e8b7e387b6fbf53a752baefc670357b0db26db9c97003f78e4bc18a036"
+    },
+    {
+      "path": "deployment/phase-11j1-device-test-candidate-refresh-evidence.json",
+      "sha256": "95041319ff7431c1f0d8a0f7129a503f7064213a94f12f66df4bee66c7a93442"
+    },
+    {
+      "path": "deployment/phase-11j1-local-ci-rehearsal-evidence.json",
+      "sha256": "838b394555443ef71350bd57a6bc29908185f10c7a38521f2937c7de82290f76"
+    },
+    {
+      "path": "deployment/phase-11j1-navigation-fix-candidate-refresh-evidence.json",
+      "sha256": "b1d0d09e649c9226168fb0b433eebf9a9934d169efbeffc252b50a5a631ec707"
+    },
+    {
+      "path": "deployment/phase-11j2-local-auth-lifecycle-evidence.json",
+      "sha256": "3598fd6d6a37523d858440e0fd3aa9df06d412b70a4f566cf05cb702d33e3985"
+    },
+    {
+      "path": "deployment/phase-11j3-camera-evidence-carry-forward.json",
+      "sha256": "d8e05db2f3c955d61ccd7a7cc64dc2cc6dcee16cee273b4e6a90a18a60204285"
+    },
+    {
+      "path": "deployment/phase-11j3-current-owner-ui-validation-plan.json",
+      "sha256": "f74278e4560abaefe606c0c6c6c4633d027e0ef9d3eb388ed7c6339efbf611a8"
+    },
+    {
+      "path": "deployment/phase-11j3-local-supabase-reset-network-isolation-correction-evidence.json",
+      "sha256": "36feb529cfeafec09fef7b0b3b2cae352c57561b9da5c9e8ad7a420771c01cd9"
+    },
+    {
+      "path": "deployment/phase-11j3-navigation-fix-owner-rerun-manifest.json",
+      "sha256": "edf325c368c96b2eb0a4086a39ec4f6789cc2ce18bd0f4549a7f6ab60aaa0da9"
+    },
+    {
+      "path": "deployment/phase-11j3-navigation-fix-owner-ui-execution-results.json",
+      "sha256": "d36c3c4555ce0b8841612a0854fbc7ad1c538d23460799b741b870351c6d15f1"
+    },
+    {
+      "path": "deployment/phase-11j3-non-windows-owner-device-observation-checkpoint.json",
+      "sha256": "82633bec2c0a9066307eebcaab2dbe732b31254b46fe22a8327a8181479375d7"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-observation-checkpoint.json",
+      "sha256": "e3bdba35d712bf14b50d7ed5582cfd2cf4283839383210074b95dbf95198027f"
+    },
+    {
+      "path": "deployment/phase-11j3-owner-device-validation-template.json",
+      "sha256": "c3bef0a616c31b328d8e81ea929f525cb3080cdb0dea9664a626017ab0ecedf2"
+    },
+    {
+      "path": "deployment/phase-11j3-private-device-test-remaining-topology-preflight-evidence.json",
+      "sha256": "bc266b6e2d060879056f6e653c4b95a906c5c76ad12f008ecca2d319fdcadb6d"
+    },
+    {
+      "path": "deployment/phase-11j3-private-device-test-topology-evidence.json",
+      "sha256": "a3096d9b79ded12eb9a61b28d028e4d0a5922ba1ad168f8cba8ac9be9349e7bc"
+    },
+    {
+      "path": "deployment/phase-11j4-provider-recovery-freshness-evidence.json",
+      "sha256": "a541c6f5bb80bc1ee9940607f88b9ef13e9efc37bc672e546c8ae3df561cc070"
+    },
+    {
+      "path": "deployment/phase-11j5-delta-migration44-evidence.json",
+      "sha256": "84f0c1c36de84bdd32ea00e21119c0e6b5e8ca8f09bcde6cdab80875dec84de0"
+    },
+    {
+      "path": "deployment/phase-11j5-release-rollback-dry-run-evidence.json",
+      "sha256": "83ec7a7326b875f5b5cb95f94e6faf4dad66f68bda64a7a4a400ec1739c08393"
+    },
+    {
+      "path": "deployment/phase-11j6-forward-final-evidence-reconciliation.json",
+      "sha256": "d98d634bd042b23fe96c583c6a1c59ddd954bc4fc7fe46c809359dd427195926"
+    },
+    {
+      "path": "deployment/phase-11j6-interim-evidence-reconciliation.json",
+      "sha256": "e3ba0edf11f2df10136b233588b6f1bae44f18ec8a0efcd3840c252d399a9631"
+    },
+    {
+      "path": "deployment/phase-11k-integrated-acceptance-evidence.json",
+      "sha256": "f0962da00b914967c7c04c7fa5b93cf22f4fc4fe3476364c80193f1aeeafe6fb"
+    },
+    {
+      "path": "deployment/phase-11k-p11a006-production-owner-auth-qualification-evidence.json",
+      "sha256": "f0f0c149663b18220cabd0a9bfc55a384e0856309fc1e1f3122e7cdc28236d84"
+    },
+    {
+      "path": "deployment/phase-11k-p11a009-policy-data-governance-evidence.json",
+      "sha256": "33cce398dec77873660749174c37998542d8810a79f1056b9f6e4fbf0cc71b3e"
+    },
+    {
+      "path": "deployment/phase-11k-p11a010-hosted-ledger-schema-preflight-evidence.json",
+      "sha256": "ee09deff7e26ff574f599752a26456b7f5c98042cf051bc47c082ce2adf1c11b"
+    },
+    {
+      "path": "deployment/phase-11k-p11a010-migration44-application-verification-evidence.json",
+      "sha256": "8f5a92ba7d35258d6a3eccf4c51462f2b6d23d1c12df76a9649c03c80cfa091a"
+    },
+    {
+      "path": "deployment/phase-11k-p11a010-populated-owner-backup-implementation-evidence.json",
+      "sha256": "4ce90dca2368001d6688580bf07b9d85b7bd5b9ac62ba1e9f0eb8103b33d48f2"
+    },
+    {
+      "path": "deployment/phase-11k-p11a010-production-owner-backup-verification-evidence.json",
+      "sha256": "8640d8fe005930d4072804faf90e6467e43c8d9045ddbdcf13d4a8e472bca96e"
+    },
+    {
+      "path": "deployment/phase-11k-p11a017-exact-candidate-deployment-verification-evidence.json",
+      "sha256": "2e17d69b13e4dd3d5c46c01b813750df60976e9647064fe031dc92362859224a"
+    },
+    {
+      "path": "deployment/phase-11k-p11a017-redeploy-rollback-rehearsal-evidence.json",
+      "sha256": "57af07182e6c8f46eee3f0ad0b942b6eef8fd0d91f38bd316b358162e84775c7"
+    },
+    {
+      "path": "deployment/phase-11k-p11a017-release-evidence.json",
+      "sha256": "a9d93e174a23b626af031cb51d7295c1caec48c3dcbf8d993c87401ccaf9e3c9"
+    },
+    {
+      "path": "deployment/phase-11k-personal-use-owner-readiness-baseline.json",
+      "sha256": "b72a15995afb3310e02124a2c9295da2efa28e481c7be333282567230b53b331"
+    },
+    {
+      "path": "deployment/release-evidence-template.json",
+      "sha256": "6a165ea0a9cb8db6619e64b45aa169318ecd331f17c2a40c71b4c79991bcdcec"
+    },
+    {
+      "path": "lib/account-closure/capability.ts",
+      "sha256": "bde0a0725c8970b906fcc8ece7973f858603b77bfd17e8f736119735983781c4"
+    },
+    {
+      "path": "lib/account-export/collector.ts",
+      "sha256": "852e27dc266ccb4f4ab769d1405ad31a91cca8465d590fde7b02d59f89d2b781"
+    },
+    {
+      "path": "lib/account-export/schema.ts",
+      "sha256": "84a4b66f5d3d2fa2bad54e192690f4e5354f137a78498a8a800a3ea30fc1969b"
+    },
+    {
+      "path": "lib/account-export/security.ts",
+      "sha256": "81232a84d099faef6fd5f6c26bb5bccad1ff16528d356cc1aa224e5665b6feca"
+    },
+    {
+      "path": "lib/auth/account-access.ts",
+      "sha256": "862c343f7adb68c0532256483175a0b415d8198f21b92fa2e12be2eed316ed0d"
+    },
+    {
+      "path": "lib/auth/account-activation.ts",
+      "sha256": "3e4316e2e0d8123f319456f29e97fa4cd0a9dea0739969f0ac8639ad93f09a0d"
+    },
+    {
+      "path": "lib/auth/password-recovery.ts",
+      "sha256": "04bf006917b228f34eb5d12646a2cf551e65b077e4993d53158c57039e9e07d5"
+    },
+    {
+      "path": "lib/auth/reauthentication-intent.ts",
+      "sha256": "00035f640573c4fa8231adf0dc056d66a8da39d0762941c04b1a0d982d72c0d3"
+    },
+    {
+      "path": "lib/auth/recent-password-auth-proof.ts",
+      "sha256": "15f2fb8fcadc52e59f497809dd825c01b3f3ee5cc0e70ca2246b55a4a5b45204"
+    },
+    {
+      "path": "lib/auth/recent-password-auth.ts",
+      "sha256": "4c752062d8f470ce5107449b6b0313a7f1fb2df921e8e91257602c5f57b393b0"
+    },
+    {
+      "path": "lib/auth/require-user.ts",
+      "sha256": "f8ef26e85db3d30f4cfe60a65a65ae0d7984dd4c355846f4bb3a6c850e2ada22"
+    },
+    {
+      "path": "lib/auth/session-cleanup.ts",
+      "sha256": "0f7adce1bc5fd2410d42b379e1d4d16f56108984ad71236bb06bd11f65c0c5fb"
+    },
+    {
+      "path": "lib/barcodes/custom-handoff.ts",
+      "sha256": "43c02e421cfcf45da49efeba23e2044ae8bc63479fd144f12bdc2f2b8c37d180"
+    },
+    {
+      "path": "lib/barcodes/index.ts",
+      "sha256": "acc12b067d768e0397942b39646c008cb2aa4b283c6e2f4d5134d900e9789058"
+    },
+    {
+      "path": "lib/barcodes/lookup-core.ts",
+      "sha256": "11be58549f019cab1bcea4638ce6a8b8510ec7bcb44c58d9d11a2bf3e104d9cf"
+    },
+    {
+      "path": "lib/barcodes/lookup.ts",
+      "sha256": "506a68f7070969d819f22f071ca47e53ccdce1ad9b9c950d0fe75dcf8a48d16f"
+    },
+    {
+      "path": "lib/barcodes/parser.ts",
+      "sha256": "a34f3055de7ad031fa1b1c034d82678ab60c6bbb2cc2639b6d1843c8d28b7a76"
+    },
+    {
+      "path": "lib/barcodes/query.ts",
+      "sha256": "0377687db32e769c8274a195bf0970ba92020ce9899381b325f833fe199910c6"
+    },
+    {
+      "path": "lib/barcodes/scanner-capabilities.ts",
+      "sha256": "aae78d15112528ec3b44bd8e961efbe5aa34a4dc395f7c2d5adf2025dd7f5880"
+    },
+    {
+      "path": "lib/barcodes/scanner-detection.ts",
+      "sha256": "4ad6963b8e6e7cba856a533033fc4019cdd7510aeb0c7ddeddc43cf637fb2fdd"
+    },
+    {
+      "path": "lib/barcodes/scanner-lifecycle.ts",
+      "sha256": "b31b240081ac5420cfb41496ac7c04daec0a6e1784910c7988c8f444f132f318"
+    },
+    {
+      "path": "lib/barcodes/scanner-software.ts",
+      "sha256": "1c4af87ef4758e9f5f5e420df1e3300729c751ddbef52f8f4328f0e815a30cda"
+    },
+    {
+      "path": "lib/barcodes/validation.ts",
+      "sha256": "3c93869bb877ac7b1b64adf55db382343f7de585db2950c709f182867edf641d"
+    },
+    {
+      "path": "lib/calendar-date/calendar-date.ts",
+      "sha256": "38e442b75b73ca2f44e0a3cb49daf4f91c7c697916052c9e8f0ec6f16afa8a55"
+    },
+    {
+      "path": "lib/calendar-date/index.ts",
+      "sha256": "0a733c90f536460f26c20f282bc2a93e3108457a80f8c627e933137ba1b2eb31"
+    },
+    {
+      "path": "lib/custom-foods/barcode-persistence-parser.ts",
+      "sha256": "0d6e39fdae892da98ef4feede5a43b11b68af73332e049ecfe5330f676228b85"
+    },
+    {
+      "path": "lib/custom-foods/barcode-persistence.ts",
+      "sha256": "84320ebcdaaf70bc09e3bb53e6838c324c261cc6c0b46a80d590985427c61de2"
+    },
+    {
+      "path": "lib/custom-foods/editor.ts",
+      "sha256": "57ac11dd70fb6d187e6c1b1c3495a46ab4a816eebd17a690a5d33e7443126521"
+    },
+    {
+      "path": "lib/custom-foods/form-validation.ts",
+      "sha256": "6d1c753f50fc123c5939aa99e72c5710cdbca359100ee466a557add1270cd0a7"
+    },
+    {
+      "path": "lib/custom-foods/index.ts",
+      "sha256": "7aae70514acef0d1c1b6568898856d8b4bab8c72a5244304fec4b5aae4497b32"
+    },
+    {
+      "path": "lib/custom-foods/management-query.ts",
+      "sha256": "6a8c916b6ff326a6ec791b45986d5aa2e0e55316c9c754eb872845f61c001fa5"
+    },
+    {
+      "path": "lib/custom-foods/management.ts",
+      "sha256": "1cd14c118b871dd6a9323cef9100a114273b3433fe913521af32bc17d3f97ed5"
+    },
+    {
+      "path": "lib/custom-foods/persistence.ts",
+      "sha256": "25d036ba1e9c916a0bb29e9dd8f0efaebf6418f191c84586e023c2842f9b2dd8"
+    },
+    {
+      "path": "lib/custom-foods/validation.ts",
+      "sha256": "35952b42b2acbc937b2578b1397ab19e614a4a5b0e492596bab48decdf071839"
+    },
+    {
+      "path": "lib/data/auth.ts",
+      "sha256": "d3742a86be9741eef571e71e121cf8ecdd0812871732f54c41c673c40f81569d"
+    },
+    {
+      "path": "lib/data/result.ts",
+      "sha256": "8619979b99ca87e8dac453e1e4128875a114c1c7c5f35e2d72d4c4dddb74199b"
+    },
+    {
+      "path": "lib/data/retrieval-state.ts",
+      "sha256": "ba35b9de631391a883cdfe1ce056ca2d68cb8f625ac4371e87d9b85584db8dca"
+    },
+    {
+      "path": "lib/deployment/environment.mjs",
+      "sha256": "3cfc1475cea537f40144ad970670181f3be0638617bd3eb6b892e95e269a049b"
+    },
+    {
+      "path": "lib/diary-entries/index.ts",
+      "sha256": "2b971f8beeae81a0dcb432aa5e9da3eb2bbab2fb1d5d10c5851c5839fa2d6cbf"
+    },
+    {
+      "path": "lib/diary-entries/mutations.ts",
+      "sha256": "df3fed146d8ed62cfede760fb9b8aaa2b60f38b7ce4163a764ea38454dde726f"
+    },
+    {
+      "path": "lib/diary-entries/queries.ts",
+      "sha256": "57ec827ae75d12f4db5f8e57e766b735b2933ec414a4b7cff93c460e79a38d5e"
+    },
+    {
+      "path": "lib/diary-entries/validation.ts",
+      "sha256": "2db7da837810ef3edba50f40339837e2fb35bd925218e5a8f5c5256447545c7c"
+    },
+    {
+      "path": "lib/diary-presentation.ts",
+      "sha256": "31c10042e0ba1de02f1ee649ede01893911847d892c1b1cdb471cc435f06cb12"
+    },
+    {
+      "path": "lib/food-search/index.ts",
+      "sha256": "048dec0965dc9f88ab52d180bb970bfed28b7e32c0fdd7eac996b543a6fd603a"
+    },
+    {
+      "path": "lib/food-search/query.ts",
+      "sha256": "09e4a8cae2690e0b79c78e28b6461382f2ed456e2ceb0adb46b2ea9d2a1b6e3c"
+    },
+    {
+      "path": "lib/food-search/search.ts",
+      "sha256": "5ed28d85bc096026bbff667cde8814f5549aa082df5df162ce0f679963af9120"
+    },
+    {
+      "path": "lib/food-selection/context.ts",
+      "sha256": "dddb1943a67e0dd53454d6852eb5c9fe3e51c8bcdfafba05784b116371c07cd1"
+    },
+    {
+      "path": "lib/food-selection/index.ts",
+      "sha256": "69780d976267e211e2420d958a578178472c12941d40c0b90bc17bbd6821e5f8"
+    },
+    {
+      "path": "lib/food-selection/nutrient-scaling.ts",
+      "sha256": "374568ec5ca2c50dbc66c77f0ac7400906014a01d18c0d6be433cdffdd042a25"
+    },
+    {
+      "path": "lib/food-selection/prefill.ts",
+      "sha256": "bf59ca8da7b30b5d49fd972a30aad579ad777f0c04bc526126f3037d96190d2c"
+    },
+    {
+      "path": "lib/food-selection/query.ts",
+      "sha256": "e2b2ae153f0932ebaf8423f082a50cdee751fa774bab354998fcc072117031be"
+    },
+    {
+      "path": "lib/food-selection/reference-parser.ts",
+      "sha256": "eb6f4c0077e37eefa3d212e42cf3353f69d74cac66e5350b149ed12ccab7c0ed"
+    },
+    {
+      "path": "lib/i18n/format.ts",
+      "sha256": "9ef53252dc536e04c38506ee130b9ae5ef2210799e6a093e320abd892546f42e"
+    },
+    {
+      "path": "lib/i18n/locale-query.ts",
+      "sha256": "2b9060ae5edb63a0c81f16774bb1e7ae0efb104337484e221337c2c4f35a02fb"
+    },
+    {
+      "path": "lib/i18n/routing.ts",
+      "sha256": "3a665211895e748d1102a1230855e1cf82648c099eadbcae8ee2689ae90220d1"
+    },
+    {
+      "path": "lib/nutrition-snapshots/contracts.ts",
+      "sha256": "2c2ab8d4eee8440382013d0b6407f63e1eaa20be7082f7326eed53002cb2a7e9"
+    },
+    {
+      "path": "lib/nutrition-snapshots/decimal.ts",
+      "sha256": "abbc77d3b22a62ebee7203f441d2d65dc3f9d881011e5ccd12c0f4e843b0daab"
+    },
+    {
+      "path": "lib/nutrition-snapshots/form-state.ts",
+      "sha256": "b6ae7368c40d5058428833637615bfb9b4a5dab3290769001575b9431771995c"
+    },
+    {
+      "path": "lib/nutrition-snapshots/index.ts",
+      "sha256": "00f05fd47b4ba7b7dcedfb4b0614df7c74501ef4d1d7bd8fb60a2eb3711d0d95"
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5"
+    },
+    {
+      "path": "lib/nutrition-snapshots/presentation.ts",
+      "sha256": "035d6338c4508b12a771f0fca3ce85342ca97a92eea9ebad5911edaac43d4444"
+    },
+    {
+      "path": "lib/nutrition-snapshots/reuse.ts",
+      "sha256": "898c0afcf1aa261ca430231d31371cff8e3f2245ce47698aec7ed54efff7712e"
+    },
+    {
+      "path": "lib/nutrition-targets/index.ts",
+      "sha256": "b8205e7334854c29f6504146efc99de7f23de326ad1dacce7a86408c12d7314c"
+    },
+    {
+      "path": "lib/nutrition-targets/mutations.ts",
+      "sha256": "0dc6c0fc9a19fdc609cfe72aa3b11fc152cd87f6b1fb632caa5e75d432b1b5b5"
+    },
+    {
+      "path": "lib/nutrition-targets/queries.ts",
+      "sha256": "093f602dc2b271341e7b5321fcd1e4e95c857f7225df2a062f999f9902b86b5c"
+    },
+    {
+      "path": "lib/nutrition-targets/validation.ts",
+      "sha256": "6549855e6efb052b18af835502744cd9df3f5f2f0c24ceca8c7380ea6f93cb7f"
+    },
+    {
+      "path": "lib/observability/contracts.ts",
+      "sha256": "ad86e11cf81a95b701f60f5fe3605dd7bc91c6be0f47c0d764b4313b5f258f2a"
+    },
+    {
+      "path": "lib/observability/correlation.ts",
+      "sha256": "5f1ca69415ce6646b19881810190c65d99390173db76d030193beb608101fdc0"
+    },
+    {
+      "path": "lib/observability/events.ts",
+      "sha256": "c7c41c63bbe2ebed3c158c7c9fb7b911ac281fbae687aad4b868483364c3f59d"
+    },
+    {
+      "path": "lib/observability/incident-policy.ts",
+      "sha256": "e7c230394074a79b898b85fafd12f354f6f17315361610a10066e6b12073f259"
+    },
+    {
+      "path": "lib/observability/index.ts",
+      "sha256": "28fa8b1c93775264cd5e20c29d0a18ece1b4640e462fff607e5924fe20aac2fa"
+    },
+    {
+      "path": "lib/performance/index.ts",
+      "sha256": "cf490d5ace2af29b6bec0becbfa6f39928c756933ab622098b83e4e3a76d3b1b"
+    },
+    {
+      "path": "lib/performance/qualification.ts",
+      "sha256": "9c5d76b0fac5c3a17beb430dbc206649c3ecb6a80f92c0261bbc2bb845a8fae2"
+    },
+    {
+      "path": "lib/profile/index.ts",
+      "sha256": "f567e13c393680fe7580b3c1790839f13b4f15b27954c9639300b08ae0f390c4"
+    },
+    {
+      "path": "lib/profile/mutations.ts",
+      "sha256": "e342ce7a60cf2701f6ee322837f68758c36a02adeba65047b17781574d861ea3"
+    },
+    {
+      "path": "lib/profile/queries.ts",
+      "sha256": "b5e0142076767b6a7cead1fb4d74baf322a29c619ec4c5efbaf4f726b9f6a9f1"
+    },
+    {
+      "path": "lib/profile/validation.ts",
+      "sha256": "8bd738285c6ec12af8bc8e6665b590e10f8d1bd31660e7ecc7994b7bcf1b2333"
+    },
+    {
+      "path": "lib/recipes/diary-log-validation.ts",
+      "sha256": "78432ca7bb960bd9710022a817c037ca0cbf21256b5a6e2609099479717b751a"
+    },
+    {
+      "path": "lib/recipes/diary-log.ts",
+      "sha256": "bfdada426b67f591e13b6e35e8e305b797af7e3b58539b49b20c2bec09da0e02"
+    },
+    {
+      "path": "lib/recipes/editor-parser.ts",
+      "sha256": "4e22d1e427c65c1057d66f5340953fc713707c83b4fc06d709de85854a17c65e"
+    },
+    {
+      "path": "lib/recipes/editor.ts",
+      "sha256": "afdf4452446d49de6b1354e87a74c2c378aa2c6bb23530e662887007a5f8f0d5"
+    },
+    {
+      "path": "lib/recipes/index.ts",
+      "sha256": "95c6501f9839db09f285b40045963bff9180aeb3af9097d6bb61309f7abab4eb"
+    },
+    {
+      "path": "lib/recipes/management-query.ts",
+      "sha256": "6a752d9865399221265f812afa97ff7dc7a2d9fb28369003ddd1231b351f7778"
+    },
+    {
+      "path": "lib/recipes/management.ts",
+      "sha256": "c6c03b3c27550ee5572c39e84faa7abac102edb4d2941db161ee087aa71338e0"
+    },
+    {
+      "path": "lib/recipes/persistence.ts",
+      "sha256": "96673820211f6e4f46084f0fdb7ca41039e7c3f796fcb7a5db008514206ef996"
+    },
+    {
+      "path": "lib/recipes/row-identity.ts",
+      "sha256": "67d361d97a0f26a0aea18821d3197748c40b48ed9b3fcc05328a4efba4ab61ee"
+    },
+    {
+      "path": "lib/recipes/use-contract-parser.ts",
+      "sha256": "9b9ab90a4a3af3b23ccbb360604fb66f593bb9cdfa79734e59c594eb565d1969"
+    },
+    {
+      "path": "lib/recipes/use-contract-validation.ts",
+      "sha256": "d5e6b70909cd75a947129de918e682991b443c5dbfa25aace76e780f9e968705"
+    },
+    {
+      "path": "lib/recipes/use-contract.ts",
+      "sha256": "d5901d199169236d5ef538dcf4a4aea2668773bc02afcd85d846937b42177184"
+    },
+    {
+      "path": "lib/recipes/use-query.ts",
+      "sha256": "600687226e1f63636216e0b7b6d18518aa999df7ce4b374025fe9980ea3fa19a"
+    },
+    {
+      "path": "lib/recipes/validation.ts",
+      "sha256": "727080a42342ddcbf282ee37a41f2d8ce3514dd467e7ae867d01b4df49d0b71b"
+    },
+    {
+      "path": "lib/reliability/local-test-fixture.ts",
+      "sha256": "f70f0c6f80f3b2517ac2c3f1d4d7c44fb309d707f932757b2c5704a1aa8c6352"
+    },
+    {
+      "path": "lib/reliability/recovery-policy.ts",
+      "sha256": "5deead5fa05f44677874e86ca1e84d50fa7d88434c6f923cf6fe2bfd51606787"
+    },
+    {
+      "path": "lib/reusable-foods/favorites.ts",
+      "sha256": "3f8ca12e0004c8a273c9011cacfbff467ab1cdb6857a9a2f08722057dbbdd1a7"
+    },
+    {
+      "path": "lib/reusable-foods/index.ts",
+      "sha256": "3cb5a2d904d750b0464b86f68d7a0044d9c2d8aaffb9ff3838d1b9f5f26d7e9f"
+    },
+    {
+      "path": "lib/reusable-foods/reusable.ts",
+      "sha256": "b710748ce6eb7c7f18c8ecad3bf8ae269e25cf67a18b4fd288e8ceda72156b7a"
+    },
+    {
+      "path": "lib/saved-meals/diary-log-validation.ts",
+      "sha256": "8af62f1602986e395eff592733f7db591a79e02e2eca36033f4b3888650c83f1"
+    },
+    {
+      "path": "lib/saved-meals/diary-log.ts",
+      "sha256": "181d546b751eee7d348c5a3bf1139bd1a0d70ac3476724455f3c402d182da0e6"
+    },
+    {
+      "path": "lib/saved-meals/editor-parser.ts",
+      "sha256": "0271a42e410168bd14dd02128c94c0787d1b18a36aade411f2a3e4726f2cb77b"
+    },
+    {
+      "path": "lib/saved-meals/editor.ts",
+      "sha256": "94991a9d632372c9fdee0a72b6cebe7935a06a5e25f715084501a1a55a491400"
+    },
+    {
+      "path": "lib/saved-meals/index.ts",
+      "sha256": "23a6c0eb137bd320a90ec3e729d6633985e526fc23e9a1f3aeab894780bdcd25"
+    },
+    {
+      "path": "lib/saved-meals/management-query.ts",
+      "sha256": "1be51a449fa371917eccae43a1fb53623f792cba9d403083cc98b9d0eb7aa3ae"
+    },
+    {
+      "path": "lib/saved-meals/management.ts",
+      "sha256": "bc40975b4b9785662209f3193abb2360d443d6416a6865df84d8a49dd1310206"
+    },
+    {
+      "path": "lib/saved-meals/persistence.ts",
+      "sha256": "12e1bb203406544bf3715e25ae129abf280aa30468bf2aedc2a6ae4506c286d7"
+    },
+    {
+      "path": "lib/saved-meals/row-identity.ts",
+      "sha256": "caab30cf45963c1235dc70c79df4ca4c4b6d9d598141d6c44be768b3eb1368f5"
+    },
+    {
+      "path": "lib/saved-meals/source-query.ts",
+      "sha256": "c2bc39447aaf8cf2cd8cad737a8f58aea8f091af502b1ca5f1a79ce41ac37025"
+    },
+    {
+      "path": "lib/saved-meals/source.ts",
+      "sha256": "00996b9ef95276028881a7f5d4a557b80371bddcac396ddc5cfefe0e66c49060"
+    },
+    {
+      "path": "lib/saved-meals/validation.ts",
+      "sha256": "48389d3b5da0ed4ddae294ca8b0d0cc5c230d84c8c8b529954c9f8330701d7ef"
+    },
+    {
+      "path": "lib/security/browser-headers.ts",
+      "sha256": "9589689176c78971c4c19c4fc2c2fa80a7c9353d94ab33c2f0fc08d7461834ad"
+    },
+    {
+      "path": "lib/security/same-origin.ts",
+      "sha256": "37e254efab546cca1d0289facfe28200676ea9084c06fa34a9e52c54d85aeeec"
+    },
+    {
+      "path": "lib/setup/index.ts",
+      "sha256": "1576a0d8e18275863b7416a8440d5cace81cf740d2094e43b253d95814574b57"
+    },
+    {
+      "path": "lib/setup/persistence.ts",
+      "sha256": "a10a0ef96a093eda089ef6fb74b2d4de8c2916a10cead6000e880d887b013dbb"
+    },
+    {
+      "path": "lib/supabase/client.ts",
+      "sha256": "3199d81cdd2faf9deb58a00fa5b15563ffee525b0b95b310e13eb9764f2c8228"
+    },
+    {
+      "path": "lib/supabase/cookie-options.ts",
+      "sha256": "43789a2f5e5c2ccbbc6283640ab13b59e2a59c11baaf7e67c2f85d1e32e1419e"
+    },
+    {
+      "path": "lib/supabase/database.types.ts",
+      "sha256": "c8561c3773ac4045c0b55fc359ab017b9e0aa53e5d0215760cf7e9969668ee07"
+    },
+    {
+      "path": "lib/supabase/env.ts",
+      "sha256": "e79b8d4dc9b440940122d2fec42bde323b89e61819d412ed4896da2913a100dd"
+    },
+    {
+      "path": "lib/supabase/index.ts",
+      "sha256": "a4aa80265eee320b5be367da7f55a835970b093770d22f236b05d106844da37f"
+    },
+    {
+      "path": "lib/supabase/proxy.ts",
+      "sha256": "cc7d302f3675105f2b565aebc55f523ae859eabfb84ca6ad8fe4c79a4ce05621"
+    },
+    {
+      "path": "lib/supabase/server.ts",
+      "sha256": "40ece9c91cb41fea97dd027b1b4c02877bdd4e942886b2c93cc413c0f640960a"
+    },
+    {
+      "path": "messages/en.json",
+      "sha256": "26dc1d92d8b8ed0b335890a6b452ac76ce5cbca2a1c73c664f3f0be492c9b19d"
+    },
+    {
+      "path": "messages/he.json",
+      "sha256": "173ca0f4244872a99a0df8a077c82f4f230bdd9a7549fa161156165fe3f2b527"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c/README.md",
+      "sha256": "3e7f375358af297c2950efd61f3bcd9005f0739ff308de4fb9d1f3da3b4fd719"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c/gate-inventory.json",
+      "sha256": "247cf7a7675e085d2e9e4b56ed11770c998efe3c1ef1aae1f0aa44df69489075"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c/overlay-v1.json",
+      "sha256": "f85cd2f4dc46484147171293d2625da75124bc41035526d1f4503b13e8dbdcb5"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c/overlay-v1.sql",
+      "sha256": "3930aa88b689294dccf90dd26cdf3a0b3e0183e5679a21043a11124fa1bd5463"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1/README.md",
+      "sha256": "4cfccae0a6ab4bf983f9e0a11952d05a13d3bc323e32f2bc2559a4076ed6fb41"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1/catalog-v1.json",
+      "sha256": "2249888698adbb4c917b6ace480e7776abf63e66a4a9dd94c52cb8755da741e9"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1a/README.md",
+      "sha256": "34968841eb6219a6d3ada26ce4c0a32fd5638e1760e61bcc8f93cea95af1c562"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1a/catalog-v1.json",
+      "sha256": "137f826b748b049392ab7eef432b92f8841c18abc3e9b30548aea3919acaa683"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1b/README.md",
+      "sha256": "7ca56057cf1449656ad883ce70b029463bf7ae81a1654cf4c8bde341c1a265ff"
+    },
+    {
+      "path": "ops/recovery/nutrition-002c1b/ddl-v1.sql",
+      "sha256": "75b4bacf813bd941e0f401c9ee565823eb7b9d3811bbc6d46472985903983392"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/README.md",
+      "sha256": "1d4447cc665f11f8032edd453303ae6d9db6385665144a242ae11f135b4968ac"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/contract-v1.json",
+      "sha256": "3b8c92d4140ad1efc19b7c528299d78fbd14db672abb4029c76fe4998de938a9"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/expected-profiles.json",
+      "sha256": "3322a96942beff8d43405867cf4c006727d60080019bcc8b874cc03a211b8d92"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-44.json",
+      "sha256": "625c147a3178eaa83a50376f6448172f8bcb27e938449106b78ca15b9ac1d469"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-45.json",
+      "sha256": "27fec6c2dfa0fc1aea2342ae87a9f601b978345cb0c714da1e4d3c6cfc73afa4"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/auth-inventory.json",
+      "sha256": "33922a7c0a62b4bbd31e6aa8da20a37d6697c307cd94032bdac31305e2cb6424"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/contract-v1.json",
+      "sha256": "32d63ce7501f018b77634d1a34bb7c0bfbcb9e0c38ec0ae0c3cc9e90f8cfa77e"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/table-classification.json",
+      "sha256": "eba226a4b4f4e17e1a0dd51569ea0b2202cc950947e03db5e0ba54187b4c58ad"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e1/upstream-sources.json",
+      "sha256": "4347529f2908bd5a4d617d5963540767034829ffd5269edd8999894b9d7edf5e"
+    },
+    {
+      "path": "ops/recovery/nutrition-migration-inventory.json",
+      "sha256": "3acaa948d89bf084b6a30f969211add7980eaccdc737ec12e64a42a837d8574e"
+    },
+    {
+      "path": "ops/recovery/phase-11i-crontab.example",
+      "sha256": "a4d956ce1925b99901c699e4dd5aed44da13a38f56c589f7d1beab56f69e2ebd"
+    },
+    {
+      "path": "ops/recovery/phase-11i-recipient.pem",
+      "sha256": "a1d1e8d82b7990f0929967b837ced094389163c457d1951540e79c0dfb4b6a55"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874"
+    },
+    {
+      "path": "package.json",
+      "sha256": "aa12e9fbd94617871648521a881d19c1985669aee527f1e81f330778d39ae73c"
+    },
+    {
+      "path": "scripts/nutrition-002e/contract.mjs",
+      "sha256": "a506411cf36178c5248731197bf4ac102021a2d8b5d50dae1697fc16365eb4a0"
+    },
+    {
+      "path": "scripts/nutrition-002e/contracts.test.mjs",
+      "sha256": "11bcdb03d8fb949048473bf05d6be3a4cec30f864aaa2de03f79858845c7c7e4"
+    },
+    {
+      "path": "scripts/nutrition-002e/inventory.sql",
+      "sha256": "4ee8a82524778f566109128a2cd91a5b1cd772c32ec0bc686e1687e3e0bc6550"
+    },
+    {
+      "path": "scripts/nutrition-002e/qualify-local.mjs",
+      "sha256": "a37549be29136c9a74ecd28ab5b005fbd117acaea1b3201b838fc21ed8b686c7"
+    },
+    {
+      "path": "scripts/nutrition-002e1/contract.mjs",
+      "sha256": "dbfb80fd0adadc7648053409ab01d3a729951c0a4cf2297e27cd1b533b8a3e22"
+    },
+    {
+      "path": "scripts/nutrition-002e1/contracts.test.mjs",
+      "sha256": "4353b3f7aed4940799b68c84dad57979263e90430a10dd4397143f46dedd2288"
+    },
+    {
+      "path": "scripts/nutrition-002e1/inventory.sql",
+      "sha256": "6647386c687c1e7b78e22e4d1fd8fd50cdfbce3678a6816c45f1219094ec0ae3"
+    },
+    {
+      "path": "scripts/nutrition-002e1/qualify-local.mjs",
+      "sha256": "ff8da6a1e476999ecb5b7ead9ec458225e53e3c28923fc87fb6cb13719f0180f"
+    },
+    {
+      "path": "scripts/phase-11i-capture-consistency.mjs",
+      "sha256": "3dcc4f6f8d6133b530ed5cbfbacfa256b6af296f398c108e70359c70a596f00c"
+    },
+    {
+      "path": "supabase/.gitignore",
+      "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768"
+    },
+    {
+      "path": "supabase/migrations/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+      "sha256": "de6d618d1b4c1df64506b41e526ba0453dbba32df48ee928497909c1834993fb"
+    },
+    {
+      "path": "supabase/migrations/20260626185634_grant_authenticated_profile_target_privileges.sql",
+      "sha256": "9f0cc6378c45ed356cc6bcfbda75ee687e0acf373eaf11f594e92710b7a049d6"
+    },
+    {
+      "path": "supabase/migrations/20260630193832_create_diary_entries.sql",
+      "sha256": "4e754c7e1d0f89cb5b3bf8a0495eb3805a4b406031129c30870866d51a3586b4"
+    },
+    {
+      "path": "supabase/migrations/20260630201904_harden_public_table_privileges.sql",
+      "sha256": "7208e811df4387aae97be5a9b54e01b8a0ca7b7196af76a182a73fb74728aac7"
+    },
+    {
+      "path": "supabase/migrations/20260704142707_create_nutrition_domain_schema_foundation.sql",
+      "sha256": "931839a941c0ec5621c36547107219c97ef9ee15e4d3b6c1eb8b2f84658e736e"
+    },
+    {
+      "path": "supabase/migrations/20260705061118_add_diary_food_linking_rules.sql",
+      "sha256": "1db5efe05a6d03a2183bb5a1dc132df66c93084a34492abdae36e046a6f78f74"
+    },
+    {
+      "path": "supabase/migrations/20260711071000_persist_setup_atomically.sql",
+      "sha256": "b8b1571bc47ab020ac503b26c6199ac01c447f88c6e83c3c06c3aacc2daa55bd"
+    },
+    {
+      "path": "supabase/migrations/20260714090000_create_food_alias_search_foundation.sql",
+      "sha256": "553d5be3ee1f3bf99ca6847466f2e5ebd1a61d0778e17473ccaa2a7c6af2abc6"
+    },
+    {
+      "path": "supabase/migrations/20260714100000_search_readable_foods.sql",
+      "sha256": "894a73e8aa4330575e4b07d541b82c9a414b37493451075a971fd5db78c47e37"
+    },
+    {
+      "path": "supabase/migrations/20260714110000_get_readable_food_diary_prefill.sql",
+      "sha256": "bc41813c745a455cfbdaf14d4c6c75bfc115031762e98d728dcbd214f848652e"
+    },
+    {
+      "path": "supabase/migrations/20260714120000_custom_food_persistence_foundation.sql",
+      "sha256": "4cc4a8ef3053326446aaffd1503173aba012dba877988cca0f4b2e5c0f540932"
+    },
+    {
+      "path": "supabase/migrations/20260714130000_persist_custom_food_nutrient_basis.sql",
+      "sha256": "48f472fc7869d4dd02c77769c17c2eca68db9e07985de1df134d02439217b6d8"
+    },
+    {
+      "path": "supabase/migrations/20260714140000_enforce_custom_food_nutrient_basis.sql",
+      "sha256": "875b6155862c200fb4a3d1ca0a3034db06e615cd9f39bbb6cbc4392fc9f8b1f6"
+    },
+    {
+      "path": "supabase/migrations/20260714150000_get_owned_custom_food_editor.sql",
+      "sha256": "aaa2ab9d16a53459e09c5827305238f0e17db18817a629f54cce46d9bb8731aa"
+    },
+    {
+      "path": "supabase/migrations/20260716100000_add_food_favorites_and_reusable_foods.sql",
+      "sha256": "3d1b8ec9e07e29a0ec1930fba2d5987ef65a2958ff4fdf71a55136edceae7967"
+    },
+    {
+      "path": "supabase/migrations/20260716110000_create_saved_meal_persistence_foundation.sql",
+      "sha256": "e4697c789052c6477521bcab1bf7f8dcc5a0d4ee08bcf2d0662393d10f3666f0"
+    },
+    {
+      "path": "supabase/migrations/20260716120000_get_owned_saved_meal_editor.sql",
+      "sha256": "bfe58522f807201cea490f0973012a15c52433b15c0f57ca496e0d61d7e958a9"
+    },
+    {
+      "path": "supabase/migrations/20260716130000_log_saved_meal_to_diary.sql",
+      "sha256": "dfac6dd449ffef77d51768d03e693f3fdc40fc19dd8bc584916e93aa637e40f9"
+    },
+    {
+      "path": "supabase/migrations/20260717100000_create_recipe_persistence_foundation.sql",
+      "sha256": "63422b57835708a48b58caf57698e07b4f4af7eb3b5e8ae73514584c1fa479c6"
+    },
+    {
+      "path": "supabase/migrations/20260717110000_get_owned_recipe_editor.sql",
+      "sha256": "3f2d2ba6ddab7213bbb298c4613a51c02d0992094af1e219598fec1aab6cffdd"
+    },
+    {
+      "path": "supabase/migrations/20260717120000_recipe_use_contract_foundation.sql",
+      "sha256": "ad1c34a31e83ce7507f65db2d351fbe9097e6dd3965c5eeafd3688905c62a71a"
+    },
+    {
+      "path": "supabase/migrations/20260717130000_log_recipe_to_diary.sql",
+      "sha256": "265ac26c764405c549bc4c9d5a9bc75fb4d911ca86f1c16cae81be7554f1ab11"
+    },
+    {
+      "path": "supabase/migrations/20260717140000_create_barcode_identity_local_lookup.sql",
+      "sha256": "f79a25444cd015aeacfd6d0ded802643770e9951ba2112866ddd6d94a87e9758"
+    },
+    {
+      "path": "supabase/migrations/20260717150000_create_custom_food_barcode_handoff.sql",
+      "sha256": "a5fcdb367755563c9b7f4e875211a6837e4df90344d244f50b50d593b9f33554"
+    },
+    {
+      "path": "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+      "sha256": "42e12af612d970cf71b9656581a60f9bc6562958b959236f9a1b332345ab75a2"
+    },
+    {
+      "path": "supabase/migrations/20260718120000_add_foundation_parser_contracts.sql",
+      "sha256": "fafab05f56b3b9d95c7dcc2aa2ab0e21f34c9b5b524b9d00fedfc036e99ed569"
+    },
+    {
+      "path": "supabase/migrations/20260718140000_create_foundation_promotion_boundary.sql",
+      "sha256": "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9"
+    },
+    {
+      "path": "supabase/migrations/20260718150000_allow_phase_10e_terminal_run_classification.sql",
+      "sha256": "8f994738d401a018ac21f2d1229cab43eccaa6cf19e5a0dfb4cfec3a3f01fecd"
+    },
+    {
+      "path": "supabase/migrations/20260719080000_create_foundation_lifecycle_foundation.sql",
+      "sha256": "53a5f697c8453d5f386e58eb2ec60b99463a641bbacf41088f27decf006f7bb2"
+    },
+    {
+      "path": "supabase/migrations/20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+      "sha256": "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec"
+    },
+    {
+      "path": "supabase/migrations/20260719160000_execute_foundation_lifecycle_updates.sql",
+      "sha256": "1aca06911972763b613dc93f44e5ae6ee9a5472db4e93cdaa0a00c8da79ff173"
+    },
+    {
+      "path": "supabase/migrations/20260721100000_restore_strict_terminal_run_immutability.sql",
+      "sha256": "22eb5ec118035a19ae0b28a8345391dc64e95a4bf2e39c3bad80d4417cddf7ed"
+    },
+    {
+      "path": "supabase/migrations/20260721110000_remove_remote_rls_auto_enable.sql",
+      "sha256": "1c35133335fde1b85b7705fafa4da55a9b7fe85859e4b591d15e8e1c8cb9a676"
+    },
+    {
+      "path": "supabase/migrations/20260801141841_phase_11c2a_diary_mutation_correctness.sql",
+      "sha256": "96c8d645ba0f9596c1f00d8f51c9e56749c5165145298826fd438aa0d1dae9c5"
+    },
+    {
+      "path": "supabase/migrations/20260801190220_reject_unreadable_linked_diary_creates.sql",
+      "sha256": "0edd4381368694bf872e1d86ea5a18160dd858b000d5f6503223c8ef709cfa84"
+    },
+    {
+      "path": "supabase/migrations/20260808093826_cj019_custom_food_edit_concurrency.sql",
+      "sha256": "1513fe25ab01d20176ac88730ac8476556f46de481785146706b9e418f8a116c"
+    },
+    {
+      "path": "supabase/migrations/20260810175638_cj022_saved_meal_edit_concurrency.sql",
+      "sha256": "e3b795c06c85637a535e23f58598b4c2a9bd7e4a8515d232b6a95d1a086e3fd9"
+    },
+    {
+      "path": "supabase/migrations/20260811142805_cj025_recipe_edit_concurrency.sql",
+      "sha256": "603ac96c204010b2b97469ba808e77ceeeae873470eb2add9bdf0e60f7dd469d"
+    },
+    {
+      "path": "supabase/migrations/20260812194829_cj018_custom_food_creation_idempotency.sql",
+      "sha256": "7302c7b6af543eb2ef92814a1a342de69bc6a13e74f22346de6e12540b7e1b66"
+    },
+    {
+      "path": "supabase/migrations/20260827070838_create_invited_account_activation.sql",
+      "sha256": "3dccc6fef3527ed2400358c6ceae730bc13c535323343559d95cf3131f467770"
+    },
+    {
+      "path": "supabase/migrations/20260827110552_enforce_account_activation_authorization.sql",
+      "sha256": "2930cb32fa010660c9d386eb301ca157a12690dfdc232c114ad171832ead0665"
+    },
+    {
+      "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+      "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312"
+    },
+    {
+      "path": "supabase/migrations/20260830143000_cache_search_account_access_policy.sql",
+      "sha256": "d87abf0653b05858e23c7b6c1b6a713073d418ab6ae2a2efb68563b83453e33b"
+    },
+    {
+      "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+      "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3"
+    },
+    {
+      "path": "supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql",
+      "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+    },
+    {
+      "path": "supabase/seed.sql",
+      "sha256": "d3eef00aca82967c9c05cdb4916010f5647a6403be6bf5c43841d019ccfb27fc"
+    },
+    {
+      "path": "supabase/templates/invite.html",
+      "sha256": "d64ca439a494e6812d241f94f7bbee69e700d931ac16ba0b7ddbf956367d5ec2"
+    },
+    {
+      "path": "supabase/templates/recovery.html",
+      "sha256": "b33dafa099f2dd4407f6d67a9ccfbe110937dbc87df85bd0029f531d19811560"
+    }
+  ],
+  "exception": "Only scripts/nutrition-002e1/local.mjs minimal namespace/client-hook adaptation; covered by prior315/21 regressions"
+}

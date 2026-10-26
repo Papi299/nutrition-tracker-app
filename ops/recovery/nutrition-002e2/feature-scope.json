@@ -1,0 +1,497 @@
+{
+  "contract": "nutrition-002e2-local-auth-scope-recovery/v1",
+  "scope": "SOURCE_DERIVED_PROPOSAL_NOT_HOSTED_ATTESTATION",
+  "features": [
+    {
+      "feature": "invited_email_password",
+      "classifications": [
+        "REQUIRED_BY_REVIEWED_APPLICATION_SOURCE",
+        "ENABLED_IN_REVIEWED_LOCAL_CONFIG"
+      ],
+      "repositoryConfiguration": "Global signup false; email provider true; confirmations false; minimum length 6. Admin invitation is separately privileged.",
+      "applicationUsage": "signInWithPassword; verifyOtp invite; updateUser password; password session required for activation.",
+      "tables": [
+        "auth.users",
+        "auth.identities",
+        "auth.one_time_tokens (in-flight invite only)",
+        "auth.sessions",
+        "auth.mfa_amr_claims"
+      ],
+      "durableDependencies": "Preserve user/identity UUID, invited_at, confirmed status and genuine password material.",
+      "signingEncryptionDependencies": "DB root if encrypted; fresh target JWT signing; invitation mail/config.",
+      "pinnedLocalSupport": "SUPPORTED v2.196.0",
+      "priorLocalEvidence": "002E1 original-password/UUID/refresh PASS_BOUNDED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "REQUIRED",
+      "remaining": "Complete invited-user lifecycle on restored app; hosted provider and custody qualification.",
+      "sourcePaths": [
+        "app/[locale]/auth/actions.ts",
+        "app/[locale]/auth/confirm/route.ts",
+        "app/[locale]/auth/activate/actions.ts",
+        "supabase/config.toml"
+      ]
+    },
+    {
+      "feature": "password_recovery",
+      "classifications": [
+        "REQUIRED_BY_REVIEWED_APPLICATION_SOURCE",
+        "ENABLED_IN_REVIEWED_LOCAL_CONFIG"
+      ],
+      "repositoryConfiguration": "Recovery template and en/he redirect allowlist; OTP expiry 3600; secure_password_change false; max_frequency 10s.",
+      "applicationUsage": "resetPasswordForEmail; isolated implicit nonpersistent client; deferred token_hash verification; updateUser; local logout and cookies cleared; fresh sign-in.",
+      "tables": [
+        "auth.users (embedded recovery fields)",
+        "auth.one_time_tokens (hash lookup)",
+        "auth.sessions",
+        "auth.refresh_tokens",
+        "auth.mfa_amr_claims"
+      ],
+      "durableDependencies": "Durable identity/password; pending token state is volatile but embedded fields require explicit invalidation gate.",
+      "signingEncryptionDependencies": "DB encryption root needed for encrypted password/factors; SMTP/template/APP_ORIGIN and redirects; JWT signing.",
+      "pinnedLocalSupport": "SUPPORTED; email+OTP and token_hash take different source paths.",
+      "priorLocalEvidence": "002E1 one limited pending hash denial, not full lifecycle.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "REQUIRED",
+      "remaining": "Qualify genuine public recover/mail/verify/update/replay/expiry before and after transfer; stop on surviving pending authority.",
+      "sourcePaths": [
+        "lib/auth/password-recovery.ts",
+        "app/[locale]/auth/recover/actions.ts",
+        "app/[locale]/auth/recover/confirm/route.ts",
+        "app/[locale]/auth/recover/reset/actions.ts",
+        "supabase/templates/recovery.html"
+      ]
+    },
+    {
+      "feature": "email_change",
+      "classifications": [
+        "ENABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "double_confirm_changes true; email enabled.",
+      "applicationUsage": "No email-change settings/action found; confirmation route accepts invite only.",
+      "tables": [
+        "auth.users",
+        "auth.identities",
+        "auth.one_time_tokens"
+      ],
+      "durableDependencies": "If enabled preserve current identity/email and accepted confirmation state; invalidate/restart unfinished changes using reviewed procedure.",
+      "signingEncryptionDependencies": "SMTP/redirects, DB credential root if encrypted, signed fresh session.",
+      "pinnedLocalSupport": "SUPPORTED secure two-address confirmation.",
+      "priorLocalEvidence": "NOT_QUALIFIED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "Hosted feature inventory and approved pending-email-change disposition; do not infer local app UI absence disables provider API.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "app/[locale]/auth/confirm/route.ts",
+        "app/[locale]/(app)/account/closure/submit/route.ts"
+      ]
+    },
+    {
+      "feature": "totp",
+      "classifications": [
+        "DISABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "auth.mfa.totp enroll_enabled=false, verify_enabled=false.",
+      "applicationUsage": "No MFA enrollment/challenge/verify UI/API usage found; fixture enables for continuity only.",
+      "tables": [
+        "auth.mfa_factors",
+        "auth.mfa_challenges (volatile)",
+        "auth.sessions",
+        "auth.mfa_amr_claims (volatile)"
+      ],
+      "durableDependencies": "Preserve genuine factor UUID/status/secret; never reset/remove factor to recover password.",
+      "signingEncryptionDependencies": "DB root/HKDF factor UUID for encrypted secret; original authenticator still needed.",
+      "pinnedLocalSupport": "SUPPORTED; AAL2 required for password/email/phone changes on MFA user.",
+      "priorLocalEvidence": "002E1 encrypted TOTP populated restoration PASS_BOUNDED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL_PRESERVE_ANY_REQUIRED_POPULATED_FACTOR",
+      "remaining": "Qualify AAL1 denial and AAL2 provider recovery; absent application MFA continuation is a gate if hosted enabled.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "app/[locale]/auth/recover/reset/actions.ts",
+        "lib/auth/recent-password-auth.ts"
+      ]
+    },
+    {
+      "feature": "phone_mfa",
+      "classifications": [
+        "DISABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "phone enroll/verify false; SMS signup false; Twilio false.",
+      "applicationUsage": "No phone or MFA client methods found.",
+      "tables": [
+        "auth.mfa_factors",
+        "auth.mfa_challenges (volatile)",
+        "auth.users"
+      ],
+      "durableDependencies": "Preserve phone factor/identity if enabled; provider account and destination continuity.",
+      "signingEncryptionDependencies": "SMS provider credentials and delivery; DB roots for applicable encrypted state.",
+      "pinnedLocalSupport": "SUPPORTED; disabled explicitly only in fixture/local config.",
+      "priorLocalEvidence": "002E1 disabled enrollment refused.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "Authoritative hosted enabled-feature decision; no SMS/provider cost or ceremony in this task.",
+      "sourcePaths": [
+        "supabase/config.toml"
+      ]
+    },
+    {
+      "feature": "passkeys",
+      "classifications": [
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "auth.passkey enabled=false exists only as comments; no active section.",
+      "applicationUsage": "No passkey application calls or Product Owner requirement established.",
+      "tables": [
+        "auth.webauthn_credentials",
+        "auth.webauthn_challenges (volatile)",
+        "auth.users"
+      ],
+      "durableDependencies": "Credential ID/public key/counter/UUID and original authenticator; retain proposed table.",
+      "signingEncryptionDependencies": "Stable RP ID and permitted origins; new challenges; target JWT signing independent.",
+      "pinnedLocalSupport": "SUPPORTED v2.196.0; fixture explicitly disabled.",
+      "priorLocalEvidence": "002E1 empty table/schema and disabled route only; NO CEREMONY.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "No full virtual-authenticator work justified by reviewed source; hosted inventory and RP/origin ceremony gate remain.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "ops/recovery/nutrition-002e1/table-classification.json"
+      ]
+    },
+    {
+      "feature": "webauthn_mfa",
+      "classifications": [
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "auth.mfa.web_authn enroll/verify lines commented, not active settings.",
+      "applicationUsage": "No WebAuthn MFA source usage found.",
+      "tables": [
+        "auth.mfa_factors",
+        "auth.mfa_challenges (volatile)",
+        "auth.sessions"
+      ],
+      "durableDependencies": "Real populated credential/factor state and authenticator if enabled.",
+      "signingEncryptionDependencies": "RP/origin, challenge lifecycle and provider encryption dependency where applicable.",
+      "pinnedLocalSupport": "SUPPORTED in provider source; fixture explicitly disabled.",
+      "priorLocalEvidence": "NO CEREMONY",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "Later approved feature/RP/origin inventory and real cryptographic test if required.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "ops/recovery/nutrition-002e1/table-classification.json"
+      ]
+    },
+    {
+      "feature": "recovery_codes",
+      "classifications": [
+        "UNSUPPORTED_IN_PINNED_PROVIDER_VERSION",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "No local configuration or application usage.",
+      "applicationUsage": "No recovery-code application API found.",
+      "tables": [
+        "NO_IMPLEMENTATION_OR_TABLE_IN_PINNED_PROVIDER"
+      ],
+      "durableDependencies": "No codes fabricated or declared volatile; hosted provider may differ.",
+      "signingEncryptionDependencies": "Depends on actual separately inventoried provider if later supported.",
+      "pinnedLocalSupport": "UNSUPPORTED_IN_PINNED_PROVIDER_VERSION; complete pinned tree/schema search, public MFA docs consistent.",
+      "priorLocalEvidence": "002E1 source/schema review only.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL_IF_DIFFERENT_PROVIDER_SUPPORTS",
+      "remaining": "Hosted unknown; a different provider/feature requires new pinned qualification.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "ops/recovery/nutrition-002e1/table-classification.json"
+      ]
+    },
+    {
+      "feature": "anonymous",
+      "classifications": [
+        "DISABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "enable_anonymous_sign_ins=false.",
+      "applicationUsage": "No signInAnonymously calls; authenticated-only roles alone do not imply invitation.",
+      "tables": [
+        "auth.users",
+        "auth.sessions"
+      ],
+      "durableDependencies": "If enabled preserve anonymous-owned durable data/UUID; never silently discard users.",
+      "signingEncryptionDependencies": "Target signing; activation policy must be reviewed.",
+      "pinnedLocalSupport": "SUPPORTED but disabled in fixture/local TOML.",
+      "priorLocalEvidence": "002E1 actual anonymous signup refusal.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "Maintain public/anonymous signup denial; hosted status unknown.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "lib/auth/account-access.ts"
+      ]
+    },
+    {
+      "feature": "social_oauth",
+      "classifications": [
+        "DISABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "Only explicit external provider Apple=false; absent provider sections are not authoritative hosted denial.",
+      "applicationUsage": "No signInWithOAuth/linkIdentity calls or callback code exchange found.",
+      "tables": [
+        "auth.users",
+        "auth.identities",
+        "auth.custom_oauth_providers (custom providers only)",
+        "auth.flow_state (in-flight)"
+      ],
+      "durableDependencies": "Stable provider subjects/identity mappings; enabled provider configuration and client secrets.",
+      "signingEncryptionDependencies": "External provider secrets/callback origin; custom provider secret encrypted under DB root if enabled.",
+      "pinnedLocalSupport": "SUPPORTED built-in and custom OAuth/OIDC.",
+      "priorLocalEvidence": "NOT_QUALIFIED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "Four-table path sufficient only for bounded absent-feature fixture; do not omit custom provider durable state if enabled.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "app/[locale]/auth/confirm/route.ts",
+        "lib/supabase/server.ts"
+      ]
+    },
+    {
+      "feature": "sso_saml",
+      "classifications": [
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "No active SSO/SAML source config; absence does not establish hosted status.",
+      "applicationUsage": "No signInWithSSO or SAML route usage found.",
+      "tables": [
+        "auth.sso_providers",
+        "auth.sso_domains",
+        "auth.saml_providers",
+        "auth.users",
+        "auth.identities",
+        "auth.saml_relay_states (in-flight)"
+      ],
+      "durableDependencies": "Preserve provider IDs/domain routing/entity metadata/attribute maps and identity references.",
+      "signingEncryptionDependencies": "External IdP metadata/certs/configuration and SP private key/issuer/domain continuity where enabled.",
+      "pinnedLocalSupport": "SUPPORTED conditional provider functionality.",
+      "priorLocalEvidence": "NOT_QUALIFIED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "If enabled require exact durable rows and external SAML recipe; four proposed tables insufficient.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "ops/recovery/nutrition-002e1/table-classification.json"
+      ]
+    },
+    {
+      "feature": "oauth_server",
+      "classifications": [
+        "DISABLED_IN_REVIEWED_LOCAL_CONFIG",
+        "SUPPORTED_BY_PROVIDER_NOT_USED_IN_REVIEWED_SOURCE",
+        "CONDITIONALLY_REQUIRED_IF_ENABLED"
+      ],
+      "repositoryConfiguration": "auth.oauth_server.enabled=false and dynamic registration=false.",
+      "applicationUsage": "No OAuth server consent UI/API found.",
+      "tables": [
+        "auth.oauth_clients",
+        "auth.oauth_consents",
+        "auth.oauth_authorizations (in-flight)",
+        "auth.oauth_client_states (in-flight)"
+      ],
+      "durableDependencies": "Client IDs/secret hashes/registered redirects/grants/auth methods and consent scope/revocation.",
+      "signingEncryptionDependencies": "Issuer/audience and external confidential client-held secrets; target signing/JWKS validation policy.",
+      "pinnedLocalSupport": "SUPPORTED conditional OAuth server.",
+      "priorLocalEvidence": "NOT_QUALIFIED",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "CONDITIONAL",
+      "remaining": "If enabled require clients/consents plus external clients/issuer recipe; no blind table expansion.",
+      "sourcePaths": [
+        "supabase/config.toml",
+        "ops/recovery/nutrition-002e1/table-classification.json"
+      ]
+    },
+    {
+      "feature": "activation_closure",
+      "classifications": [
+        "REQUIRED_BY_REVIEWED_APPLICATION_SOURCE"
+      ],
+      "repositoryConfiguration": "Application-owned SQL and server actions; closure secret paired with dedicated Vault entry.",
+      "applicationUsage": "Explicit invited/current password session + age/Israel attestations; closed state checked before activation; closed owners filtered by RLS.",
+      "tables": [
+        "public.account_activations",
+        "public.account_closures",
+        "public.profiles",
+        "auth.users",
+        "auth.sessions",
+        "auth.mfa_amr_claims",
+        "vault.secrets (dedicated pairing)"
+      ],
+      "durableDependencies": "Preserve activation/closure rows exactly with application rows; no reset to active.",
+      "signingEncryptionDependencies": "ACCOUNT_CLOSURE_CAPABILITY_SECRET paired with Vault account_closure_capability_v1; server-owned origin; recent proof secret.",
+      "pinnedLocalSupport": "Provider sessions support app-specific SQL requirements.",
+      "priorLocalEvidence": "002E1 actual RPC/RLS with synthetic closure marker; signed capability journey NOT RUN.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "REQUIRED",
+      "remaining": "Full paired Vault/signed closure/browser journey remains separate; restored recovery must not reopen closed account.",
+      "sourcePaths": [
+        "lib/auth/account-access.ts",
+        "lib/auth/account-activation.ts",
+        "app/[locale]/auth/activate/actions.ts",
+        "app/[locale]/(app)/account/closure/submit/route.ts",
+        "lib/account-closure/capability.ts"
+      ]
+    },
+    {
+      "feature": "recent_auth",
+      "classifications": [
+        "REQUIRED_BY_REVIEWED_APPLICATION_SOURCE"
+      ],
+      "repositoryConfiguration": "Server AUTH_REAUTH_PROOF_SECRET; 10-minute proof; isolated password verifier.",
+      "applicationUsage": "Current email/password verified via actual Auth; temporary session locally revoked; proof bound to current UUID/session/time.",
+      "tables": [
+        "auth.users",
+        "auth.sessions",
+        "auth.mfa_amr_claims"
+      ],
+      "durableDependencies": "No historical proof/session authority imported; fresh password verification after recovery.",
+      "signingEncryptionDependencies": "Separate HMAC proof secret; may safely reprovision to invalidate all old proofs.",
+      "pinnedLocalSupport": "Provider password sign-in and Auth getUser plus app proof.",
+      "priorLocalEvidence": "002E1 password behavior only; no full recent-auth action.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "REQUIRED",
+      "remaining": "Actual app proof verifier with fresh provider session and wrong user/session/root/expiry; full action/cookie journey separate.",
+      "sourcePaths": [
+        "lib/auth/recent-password-auth.ts",
+        "lib/auth/recent-password-auth-proof.ts",
+        "lib/auth/reauthentication-intent.ts"
+      ]
+    },
+    {
+      "feature": "session_jwt",
+      "classifications": [
+        "REQUIRED_BY_REVIEWED_APPLICATION_SOURCE",
+        "ENABLED_IN_REVIEWED_LOCAL_CONFIG"
+      ],
+      "repositoryConfiguration": "JWT 3600, refresh rotation true/reuse10s in TOML; fixture1800 and independent target HS256 roots.",
+      "applicationUsage": "SSR getClaims; Auth getUser for sensitive operations; app RLS/access state; local/global/others logout scopes.",
+      "tables": [
+        "auth.sessions",
+        "auth.refresh_tokens",
+        "auth.mfa_amr_claims"
+      ],
+      "durableDependencies": "Intentionally invalidate old sessions/refresh, create fresh sessions; preserve durable credentials.",
+      "signingEncryptionDependencies": "Fresh signing keys; validator/JWKS/cache rollout separate from DB and backup encryption.",
+      "pinnedLocalSupport": "SUPPORTED; signing out does not erase unexpired JWT cryptographic validity.",
+      "priorLocalEvidence": "002E1 Auth/refresh denial and PostgREST accepts signed JWT after logout.",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "requiredForApplicationRecovery": "REQUIRED",
+      "remaining": "Retain actual per-validator observations; no universal revocation or asymmetric/JWKS cache qualification.",
+      "sourcePaths": [
+        "lib/supabase/server.ts",
+        "lib/supabase/proxy.ts",
+        "lib/auth/recent-password-auth.ts",
+        "lib/auth/session-cleanup.ts",
+        "supabase/config.toml"
+      ]
+    }
+  ],
+  "proposedDurableTables": [
+    "users",
+    "identities",
+    "mfa_factors",
+    "webauthn_credentials"
+  ],
+  "durableScopeAccepted": false,
+  "recoveryEligible": false,
+  "conditionalTables": [
+    {
+      "table": "auth.custom_oauth_providers",
+      "enablingFeature": "custom OAuth/OIDC",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, identifier, type, enablement, client_id/client_secret, issuer/discovery/endpoints/scopes/PKCE/attribute mapping",
+      "dependencies": "EncryptedString client_secret requires same DB decryption root and provider UUID; external OAuth app credentials/callbacks.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    },
+    {
+      "table": "auth.oauth_clients",
+      "enablingFeature": "OAuth server",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, client_secret_hash, client type, redirect URIs, grant types, registration and token endpoint auth method",
+      "dependencies": "Preserve hash; external confidential client retains its original secret; issuer/signing policy separately reviewed.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    },
+    {
+      "table": "auth.oauth_consents",
+      "enablingFeature": "OAuth server consent",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, user_id, client_id, scope, granted_at and revoked_at",
+      "dependencies": "Preserve user/client referential integrity and revocation; consent is durable, not an expired challenge.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    },
+    {
+      "table": "auth.sso_providers",
+      "enablingFeature": "SAML SSO",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, resource_id, disabled and provider relationships",
+      "dependencies": "Preserve stable provider references in users/identities and external IdP config.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    },
+    {
+      "table": "auth.sso_domains",
+      "enablingFeature": "SAML SSO domain routing",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, sso_provider_id, domain and timestamps",
+      "dependencies": "Exact domain/provider routing plus actual DNS/issuer/config continuity.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    },
+    {
+      "table": "auth.saml_providers",
+      "enablingFeature": "SAML SSO",
+      "reviewedUse": "NOT_USED_IN_REVIEWED_APPLICATION_SOURCE",
+      "localConfiguration": "OAuth server and Apple explicitly disabled; SSO/custom provider configuration absent",
+      "hosted": "HOSTED_CONFIGURATION_UNKNOWN",
+      "classification": "CONDITIONALLY_REQUIRED_IF_ENABLED",
+      "durableState": "ID, sso_provider_id, entity_id, metadata XML/URL, attribute mapping/name_id_format",
+      "dependencies": "External IdP/SP key and cert/metadata/configuration pairing; do not presume keys are in rows.",
+      "whenAbsent": "Not needed by bounded email/password/TOTP fixture; four-table operational sufficiency NOT ACCEPTED",
+      "ifEnabled": "STOP four-table acceptance; separately approve exact durable-table/configuration/version/custody expansion and real external-provider continuity qualification."
+    }
+  ],
+  "unresolvedOtherState": [
+    "auth.instances raw_base_config legacy use UNKNOWN; not silently excluded",
+    "auth.audit_log_entries retention outside bounded credential fixture; full recovery retention decision unaccepted"
+  ],
+  "minimumSourceRequiredScope": "Invited email/password + public password recovery + activation/closure + recent password proof + new-session/validator behavior; preserve any actually required populated durable factor; no optional feature exclusion approved."
+}
