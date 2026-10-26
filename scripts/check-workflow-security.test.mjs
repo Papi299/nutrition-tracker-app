@@ -22,7 +22,7 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8"), historicalWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1a-local.yml"), "utf8"), ddlWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1b-local.yml"), "utf8"), applicationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e-local.yml"), "utf8")) {
+function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c-local.yml"), "utf8"), fidelityWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1-local.yml"), "utf8"), historicalWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1a-local.yml"), "utf8"), ddlWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002c1b-local.yml"), "utf8"), applicationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e-local.yml"), "utf8"), authWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002e1-local.yml"), "utf8")) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
@@ -34,6 +34,7 @@ function policyResult(ciWorkflow, localWorkflow = readFileSync(join(root, ".gith
     writeFileSync(join(workflowDirectory, "nutrition-002c1a-local.yml"), historicalWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002c1b-local.yml"), ddlWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002e-local.yml"), applicationWorkflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002e1-local.yml"), authWorkflow);
     return command(directory, process.execPath, [checker]);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -56,6 +57,22 @@ function stepScript(name) {
 
 test("CI workflow security policy accepts the reviewed dispatch contract", () => {
   assert.equal(policyResult(ci).status, 0);
+});
+
+test("002E1 Auth qualification stays draft-only, stacked, exact-head and without uploads", () => {
+  const source = readFileSync(join(root, ".github/workflows/nutrition-002e1-local.yml"), "utf8");
+  for (const [before, after] of [
+    ["branches: [codex/nutrition-002e-application-recovery]", "branches: [main]"],
+    ["github.event.pull_request.draft &&", "true &&"],
+    ["contents: read", "contents: write"],
+    ["ref: ${{ github.event.pull_request.head.sha }}", "ref: main"],
+    ["persist-credentials: false", "persist-credentials: true"],
+    ["upload: never", "upload: always"],
+    ["run: npm ci", "run: npm install"],
+  ]) {
+    assert.ok(source.includes(before));
+    assert.notEqual(policyResult(ci, undefined, undefined, undefined, undefined, undefined, source.replace(before, after)).status, 0);
+  }
 });
 
 test("stacked local qualification cannot broaden triggers, source or authority", () => {

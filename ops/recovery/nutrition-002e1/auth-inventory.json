@@ -1,0 +1,4289 @@
+{
+  "enums": [
+    {
+      "name": "aal_level",
+      "labels": [
+        "aal1",
+        "aal2",
+        "aal3"
+      ]
+    },
+    {
+      "name": "code_challenge_method",
+      "labels": [
+        "s256",
+        "plain"
+      ]
+    },
+    {
+      "name": "factor_status",
+      "labels": [
+        "unverified",
+        "verified"
+      ]
+    },
+    {
+      "name": "factor_type",
+      "labels": [
+        "totp",
+        "webauthn",
+        "phone"
+      ]
+    },
+    {
+      "name": "oauth_authorization_status",
+      "labels": [
+        "pending",
+        "approved",
+        "denied",
+        "expired"
+      ]
+    },
+    {
+      "name": "oauth_client_type",
+      "labels": [
+        "public",
+        "confidential"
+      ]
+    },
+    {
+      "name": "oauth_registration_type",
+      "labels": [
+        "dynamic",
+        "manual"
+      ]
+    },
+    {
+      "name": "oauth_response_type",
+      "labels": [
+        "code"
+      ]
+    },
+    {
+      "name": "one_time_token_type",
+      "labels": [
+        "confirmation_token",
+        "reauthentication_token",
+        "recovery_token",
+        "email_change_token_new",
+        "email_change_token_current",
+        "phone_change_token"
+      ]
+    }
+  ],
+  "schema": {
+    "acl": "{supabase_admin=UC/supabase_admin,anon=U/supabase_admin,authenticated=U/supabase_admin,service_role=U/supabase_admin,supabase_auth_admin=UC/supabase_admin,dashboard_user=UC/supabase_admin,postgres=U/supabase_admin}",
+    "owner": "supabase_admin"
+  },
+  "tables": [
+    {
+      "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "audit_log_entries",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "instance_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "payload",
+          "type": "json",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "ip_address",
+          "type": "character varying(64)",
+          "default": "''::character varying",
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "audit_log_entries_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX audit_log_entries_pkey ON auth.audit_log_entries USING btree (id)"
+        },
+        {
+          "name": "audit_logs_instance_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX audit_logs_instance_id_idx ON auth.audit_log_entries USING btree (instance_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "audit_log_entries_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "custom_oauth_providers",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider_type",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "identifier",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_secret",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "acceptable_client_ids",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "notNull": true,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "scopes",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "notNull": true,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "pkce_enabled",
+          "type": "boolean",
+          "default": "true",
+          "notNull": true,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "attribute_mapping",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notNull": true,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authorization_params",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notNull": true,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "enabled",
+          "type": "boolean",
+          "default": "true",
+          "notNull": true,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_optional",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "issuer",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "discovery_url",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 15,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "skip_nonce_check",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 16,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "cached_discovery",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 17,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "discovery_cached_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 18,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authorization_url",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 19,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "token_url",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 20,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "userinfo_url",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 21,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "jwks_uri",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 22,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 23,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 24,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "custom_claims_allowlist",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "notNull": true,
+          "ordinal": 25,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "custom_oauth_providers_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX custom_oauth_providers_created_at_idx ON auth.custom_oauth_providers USING btree (created_at)"
+        },
+        {
+          "name": "custom_oauth_providers_enabled_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX custom_oauth_providers_enabled_idx ON auth.custom_oauth_providers USING btree (enabled)"
+        },
+        {
+          "name": "custom_oauth_providers_identifier_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX custom_oauth_providers_identifier_idx ON auth.custom_oauth_providers USING btree (identifier)"
+        },
+        {
+          "name": "custom_oauth_providers_identifier_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX custom_oauth_providers_identifier_key ON auth.custom_oauth_providers USING btree (identifier)"
+        },
+        {
+          "name": "custom_oauth_providers_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX custom_oauth_providers_pkey ON auth.custom_oauth_providers USING btree (id)"
+        },
+        {
+          "name": "custom_oauth_providers_provider_type_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX custom_oauth_providers_provider_type_idx ON auth.custom_oauth_providers USING btree (provider_type)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_authorization_url_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((authorization_url IS NULL) OR (authorization_url ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_authorization_url_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((authorization_url IS NULL) OR (char_length(authorization_url) <= 2048)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_client_id_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((char_length(client_id) >= 1) AND (char_length(client_id) <= 512)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_discovery_url_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((discovery_url IS NULL) OR (char_length(discovery_url) <= 2048)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_identifier_format",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((identifier ~ '^[a-z0-9][a-z0-9:-]{0,48}[a-z0-9]$'::text))"
+        },
+        {
+          "kind": "u",
+          "name": "custom_oauth_providers_identifier_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (identifier)"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_issuer_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((issuer IS NULL) OR ((char_length(issuer) >= 1) AND (char_length(issuer) <= 2048))))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_jwks_uri_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((jwks_uri IS NULL) OR (jwks_uri ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_jwks_uri_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((jwks_uri IS NULL) OR (char_length(jwks_uri) <= 2048)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_name_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((char_length(name) >= 1) AND (char_length(name) <= 100)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_oauth2_requires_endpoints",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((provider_type <> 'oauth2'::text) OR ((authorization_url IS NOT NULL) AND (token_url IS NOT NULL) AND (userinfo_url IS NOT NULL))))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_oidc_discovery_url_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((provider_type <> 'oidc'::text) OR (discovery_url IS NULL) OR (discovery_url ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_oidc_issuer_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((provider_type <> 'oidc'::text) OR (issuer IS NULL) OR (issuer ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_oidc_requires_issuer",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((provider_type <> 'oidc'::text) OR (issuer IS NOT NULL)))"
+        },
+        {
+          "kind": "p",
+          "name": "custom_oauth_providers_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_provider_type_check",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((provider_type = ANY (ARRAY['oauth2'::text, 'oidc'::text])))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_token_url_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((token_url IS NULL) OR (token_url ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_token_url_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((token_url IS NULL) OR (char_length(token_url) <= 2048)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_userinfo_url_https",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((userinfo_url IS NULL) OR (userinfo_url ~~ 'https://%'::text)))"
+        },
+        {
+          "kind": "c",
+          "name": "custom_oauth_providers_userinfo_url_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((userinfo_url IS NULL) OR (char_length(userinfo_url) <= 2048)))"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "flow_state",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "auth_code",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "code_challenge_method",
+          "type": "auth.code_challenge_method",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "code_challenge",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider_type",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider_access_token",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider_refresh_token",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authentication_method",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "auth_code_issued_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "invite_token",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "referrer",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "oauth_client_state_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 15,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "linking_target_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 16,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_optional",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 17,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "flow_state_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX flow_state_created_at_idx ON auth.flow_state USING btree (created_at DESC)"
+        },
+        {
+          "name": "flow_state_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX flow_state_pkey ON auth.flow_state USING btree (id)"
+        },
+        {
+          "name": "idx_auth_code",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX idx_auth_code ON auth.flow_state USING btree (auth_code)"
+        },
+        {
+          "name": "idx_user_id_auth_method",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX idx_user_id_auth_method ON auth.flow_state USING btree (user_id, authentication_method)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "flow_state_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "identities",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "provider_id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "identity_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "last_sign_in_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email",
+          "type": "text",
+          "default": "lower((identity_data ->> 'email'::text))",
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": "s"
+        },
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "identities_email_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX identities_email_idx ON auth.identities USING btree (email text_pattern_ops)"
+        },
+        {
+          "name": "identities_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX identities_pkey ON auth.identities USING btree (id)"
+        },
+        {
+          "name": "identities_provider_id_provider_unique",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX identities_provider_id_provider_unique ON auth.identities USING btree (provider_id, provider)"
+        },
+        {
+          "name": "identities_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX identities_user_id_idx ON auth.identities USING btree (user_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "identities_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "u",
+          "name": "identities_provider_id_provider_unique",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (provider_id, provider)"
+        },
+        {
+          "kind": "f",
+          "name": "identities_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "instances",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "uuid",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "raw_base_config",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "instances_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX instances_pkey ON auth.instances USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "instances_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "mfa_amr_claims",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "session_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authentication_method",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "amr_id_pk",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX amr_id_pk ON auth.mfa_amr_claims USING btree (id)"
+        },
+        {
+          "name": "mfa_amr_claims_session_id_authentication_method_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX mfa_amr_claims_session_id_authentication_method_pkey ON auth.mfa_amr_claims USING btree (session_id, authentication_method)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "amr_id_pk",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "u",
+          "name": "mfa_amr_claims_session_id_authentication_method_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (session_id, authentication_method)"
+        },
+        {
+          "kind": "f",
+          "name": "mfa_amr_claims_session_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (session_id) REFERENCES auth.sessions(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "mfa_challenges",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "factor_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "verified_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "ip_address",
+          "type": "inet",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "otp_code",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "web_authn_session_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "mfa_challenge_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX mfa_challenge_created_at_idx ON auth.mfa_challenges USING btree (created_at DESC)"
+        },
+        {
+          "name": "mfa_challenges_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX mfa_challenges_pkey ON auth.mfa_challenges USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "f",
+          "name": "mfa_challenges_auth_factor_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (factor_id) REFERENCES auth.mfa_factors(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "p",
+          "name": "mfa_challenges_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "mfa_factors",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "friendly_name",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "factor_type",
+          "type": "auth.factor_type",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "status",
+          "type": "auth.factor_status",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "secret",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "last_challenged_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "web_authn_credential",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "web_authn_aaguid",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "last_webauthn_challenge_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "factor_id_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX factor_id_created_at_idx ON auth.mfa_factors USING btree (user_id, created_at)"
+        },
+        {
+          "name": "mfa_factors_last_challenged_at_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX mfa_factors_last_challenged_at_key ON auth.mfa_factors USING btree (last_challenged_at)"
+        },
+        {
+          "name": "mfa_factors_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX mfa_factors_pkey ON auth.mfa_factors USING btree (id)"
+        },
+        {
+          "name": "mfa_factors_user_friendly_name_unique",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX mfa_factors_user_friendly_name_unique ON auth.mfa_factors USING btree (friendly_name, user_id) WHERE (TRIM(BOTH FROM friendly_name) <> ''::text)"
+        },
+        {
+          "name": "mfa_factors_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX mfa_factors_user_id_idx ON auth.mfa_factors USING btree (user_id)"
+        },
+        {
+          "name": "unique_phone_factor_per_user",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX unique_phone_factor_per_user ON auth.mfa_factors USING btree (user_id, phone)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "u",
+          "name": "mfa_factors_last_challenged_at_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (last_challenged_at)"
+        },
+        {
+          "kind": "p",
+          "name": "mfa_factors_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "mfa_factors_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "oauth_authorizations",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authorization_id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "redirect_uri",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "scope",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "state",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "resource",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "code_challenge",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "code_challenge_method",
+          "type": "auth.code_challenge_method",
+          "default": null,
+          "notNull": false,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "response_type",
+          "type": "auth.oauth_response_type",
+          "default": "'code'::auth.oauth_response_type",
+          "notNull": true,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "status",
+          "type": "auth.oauth_authorization_status",
+          "default": "'pending'::auth.oauth_authorization_status",
+          "notNull": true,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "authorization_code",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": "(now() + '00:03:00'::interval)",
+          "notNull": true,
+          "ordinal": 15,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 16,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "nonce",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 17,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "oauth_auth_pending_exp_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX oauth_auth_pending_exp_idx ON auth.oauth_authorizations USING btree (expires_at) WHERE (status = 'pending'::auth.oauth_authorization_status)"
+        },
+        {
+          "name": "oauth_authorizations_authorization_code_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_authorizations_authorization_code_key ON auth.oauth_authorizations USING btree (authorization_code)"
+        },
+        {
+          "name": "oauth_authorizations_authorization_id_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_authorizations_authorization_id_key ON auth.oauth_authorizations USING btree (authorization_id)"
+        },
+        {
+          "name": "oauth_authorizations_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_authorizations_pkey ON auth.oauth_authorizations USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "u",
+          "name": "oauth_authorizations_authorization_code_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (authorization_code)"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_authorization_code_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(authorization_code) <= 255))"
+        },
+        {
+          "kind": "u",
+          "name": "oauth_authorizations_authorization_id_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (authorization_id)"
+        },
+        {
+          "kind": "f",
+          "name": "oauth_authorizations_client_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_code_challenge_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(code_challenge) <= 128))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_expires_at_future",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((expires_at > created_at))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_nonce_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(nonce) <= 255))"
+        },
+        {
+          "kind": "p",
+          "name": "oauth_authorizations_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_redirect_uri_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(redirect_uri) <= 2048))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_resource_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(resource) <= 2048))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_scope_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(scope) <= 4096))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_authorizations_state_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(state) <= 4096))"
+        },
+        {
+          "kind": "f",
+          "name": "oauth_authorizations_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "oauth_client_states",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "provider_type",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "code_verifier",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_oauth_client_states_created_at",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX idx_oauth_client_states_created_at ON auth.oauth_client_states USING btree (created_at)"
+        },
+        {
+          "name": "oauth_client_states_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_client_states_pkey ON auth.oauth_client_states USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "oauth_client_states_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "oauth_clients",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_secret_hash",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "registration_type",
+          "type": "auth.oauth_registration_type",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "redirect_uris",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "grant_types",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_name",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_uri",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "logo_uri",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_type",
+          "type": "auth.oauth_client_type",
+          "default": "'confidential'::auth.oauth_client_type",
+          "notNull": true,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "token_endpoint_auth_method",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "oauth_clients_deleted_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX oauth_clients_deleted_at_idx ON auth.oauth_clients USING btree (deleted_at)"
+        },
+        {
+          "name": "oauth_clients_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_clients_pkey ON auth.oauth_clients USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "oauth_clients_client_name_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(client_name) <= 1024))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_clients_client_uri_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(client_uri) <= 2048))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_clients_logo_uri_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(logo_uri) <= 2048))"
+        },
+        {
+          "kind": "p",
+          "name": "oauth_clients_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_clients_token_endpoint_auth_method_check",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "oauth_consents",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "client_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "scopes",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "granted_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "oauth_consents_active_client_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX oauth_consents_active_client_idx ON auth.oauth_consents USING btree (client_id) WHERE (revoked_at IS NULL)"
+        },
+        {
+          "name": "oauth_consents_active_user_client_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX oauth_consents_active_user_client_idx ON auth.oauth_consents USING btree (user_id, client_id) WHERE (revoked_at IS NULL)"
+        },
+        {
+          "name": "oauth_consents_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_consents_pkey ON auth.oauth_consents USING btree (id)"
+        },
+        {
+          "name": "oauth_consents_user_client_unique",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX oauth_consents_user_client_unique ON auth.oauth_consents USING btree (user_id, client_id)"
+        },
+        {
+          "name": "oauth_consents_user_order_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX oauth_consents_user_order_idx ON auth.oauth_consents USING btree (user_id, granted_at DESC)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "f",
+          "name": "oauth_consents_client_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "p",
+          "name": "oauth_consents_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_consents_revoked_after_granted",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((revoked_at IS NULL) OR (revoked_at >= granted_at)))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_consents_scopes_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(scopes) <= 2048))"
+        },
+        {
+          "kind": "c",
+          "name": "oauth_consents_scopes_not_empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(TRIM(BOTH FROM scopes)) > 0))"
+        },
+        {
+          "kind": "u",
+          "name": "oauth_consents_user_client_unique",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (user_id, client_id)"
+        },
+        {
+          "kind": "f",
+          "name": "oauth_consents_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "one_time_tokens",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "token_type",
+          "type": "auth.one_time_token_type",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "token_hash",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "relates_to",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp without time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "one_time_tokens_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX one_time_tokens_pkey ON auth.one_time_tokens USING btree (id)"
+        },
+        {
+          "name": "one_time_tokens_relates_to_hash_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX one_time_tokens_relates_to_hash_idx ON auth.one_time_tokens USING hash (relates_to)"
+        },
+        {
+          "name": "one_time_tokens_token_hash_hash_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX one_time_tokens_token_hash_hash_idx ON auth.one_time_tokens USING hash (token_hash)"
+        },
+        {
+          "name": "one_time_tokens_user_id_token_type_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX one_time_tokens_user_id_token_type_key ON auth.one_time_tokens USING btree (user_id, token_type)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "one_time_tokens_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "one_time_tokens_token_hash_check",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(token_hash) > 0))"
+        },
+        {
+          "kind": "f",
+          "name": "one_time_tokens_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "refresh_tokens",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "instance_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "id",
+          "type": "bigint",
+          "default": "nextval('auth.refresh_tokens_id_seq'::regclass)",
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "token",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "revoked",
+          "type": "boolean",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "parent",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "session_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "refresh_tokens_instance_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX refresh_tokens_instance_id_idx ON auth.refresh_tokens USING btree (instance_id)"
+        },
+        {
+          "name": "refresh_tokens_instance_id_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX refresh_tokens_instance_id_user_id_idx ON auth.refresh_tokens USING btree (instance_id, user_id)"
+        },
+        {
+          "name": "refresh_tokens_parent_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX refresh_tokens_parent_idx ON auth.refresh_tokens USING btree (parent)"
+        },
+        {
+          "name": "refresh_tokens_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX refresh_tokens_pkey ON auth.refresh_tokens USING btree (id)"
+        },
+        {
+          "name": "refresh_tokens_session_id_revoked_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX refresh_tokens_session_id_revoked_idx ON auth.refresh_tokens USING btree (session_id, revoked)"
+        },
+        {
+          "name": "refresh_tokens_token_unique",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX refresh_tokens_token_unique ON auth.refresh_tokens USING btree (token)"
+        },
+        {
+          "name": "refresh_tokens_updated_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX refresh_tokens_updated_at_idx ON auth.refresh_tokens USING btree (updated_at DESC)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "refresh_tokens_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "refresh_tokens_session_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (session_id) REFERENCES auth.sessions(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "u",
+          "name": "refresh_tokens_token_unique",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (token)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "saml_providers",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "sso_provider_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "entity_id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "metadata_xml",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "metadata_url",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "attribute_mapping",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "name_id_format",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "saml_providers_entity_id_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX saml_providers_entity_id_key ON auth.saml_providers USING btree (entity_id)"
+        },
+        {
+          "name": "saml_providers_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX saml_providers_pkey ON auth.saml_providers USING btree (id)"
+        },
+        {
+          "name": "saml_providers_sso_provider_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX saml_providers_sso_provider_id_idx ON auth.saml_providers USING btree (sso_provider_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "entity_id not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(entity_id) > 0))"
+        },
+        {
+          "kind": "c",
+          "name": "metadata_url not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((metadata_url = NULL::text) OR (char_length(metadata_url) > 0)))"
+        },
+        {
+          "kind": "c",
+          "name": "metadata_xml not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(metadata_xml) > 0))"
+        },
+        {
+          "kind": "u",
+          "name": "saml_providers_entity_id_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (entity_id)"
+        },
+        {
+          "kind": "p",
+          "name": "saml_providers_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "saml_providers_sso_provider_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "saml_relay_states",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "sso_provider_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "request_id",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "for_email",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "redirect_to",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "flow_state_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "saml_relay_states_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX saml_relay_states_created_at_idx ON auth.saml_relay_states USING btree (created_at DESC)"
+        },
+        {
+          "name": "saml_relay_states_for_email_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX saml_relay_states_for_email_idx ON auth.saml_relay_states USING btree (for_email)"
+        },
+        {
+          "name": "saml_relay_states_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX saml_relay_states_pkey ON auth.saml_relay_states USING btree (id)"
+        },
+        {
+          "name": "saml_relay_states_sso_provider_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX saml_relay_states_sso_provider_id_idx ON auth.saml_relay_states USING btree (sso_provider_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "request_id not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(request_id) > 0))"
+        },
+        {
+          "kind": "f",
+          "name": "saml_relay_states_flow_state_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (flow_state_id) REFERENCES auth.flow_state(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "p",
+          "name": "saml_relay_states_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "saml_relay_states_sso_provider_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=r*/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "schema_migrations",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "version",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "schema_migrations_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX schema_migrations_pkey ON auth.schema_migrations USING btree (version)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "schema_migrations_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (version)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "sessions",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "factor_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "aal",
+          "type": "auth.aal_level",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "not_after",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "refreshed_at",
+          "type": "timestamp without time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_agent",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "ip",
+          "type": "inet",
+          "default": null,
+          "notNull": false,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "tag",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "oauth_client_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "refresh_token_hmac_key",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "refresh_token_counter",
+          "type": "bigint",
+          "default": null,
+          "notNull": false,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "scopes",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 15,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sessions_not_after_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX sessions_not_after_idx ON auth.sessions USING btree (not_after DESC)"
+        },
+        {
+          "name": "sessions_oauth_client_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX sessions_oauth_client_id_idx ON auth.sessions USING btree (oauth_client_id)"
+        },
+        {
+          "name": "sessions_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX sessions_pkey ON auth.sessions USING btree (id)"
+        },
+        {
+          "name": "sessions_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX sessions_user_id_idx ON auth.sessions USING btree (user_id)"
+        },
+        {
+          "name": "user_id_created_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX user_id_created_at_idx ON auth.sessions USING btree (user_id, created_at)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "f",
+          "name": "sessions_oauth_client_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE"
+        },
+        {
+          "kind": "p",
+          "name": "sessions_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "c",
+          "name": "sessions_scopes_length",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(scopes) <= 4096))"
+        },
+        {
+          "kind": "f",
+          "name": "sessions_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "sso_domains",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "sso_provider_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "domain",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sso_domains_domain_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX sso_domains_domain_idx ON auth.sso_domains USING btree (lower(domain))"
+        },
+        {
+          "name": "sso_domains_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX sso_domains_pkey ON auth.sso_domains USING btree (id)"
+        },
+        {
+          "name": "sso_domains_sso_provider_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX sso_domains_sso_provider_id_idx ON auth.sso_domains USING btree (sso_provider_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "domain not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((char_length(domain) > 0))"
+        },
+        {
+          "kind": "p",
+          "name": "sso_domains_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "sso_domains_sso_provider_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (sso_provider_id) REFERENCES auth.sso_providers(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "sso_providers",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "resource_id",
+          "type": "text",
+          "default": null,
+          "notNull": false,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "disabled",
+          "type": "boolean",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sso_providers_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX sso_providers_pkey ON auth.sso_providers USING btree (id)"
+        },
+        {
+          "name": "sso_providers_resource_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX sso_providers_resource_id_idx ON auth.sso_providers USING btree (lower(resource_id))"
+        },
+        {
+          "name": "sso_providers_resource_id_pattern_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX sso_providers_resource_id_pattern_idx ON auth.sso_providers USING btree (resource_id text_pattern_ops)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "resource_id not empty",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((resource_id = NULL::text) OR (char_length(resource_id) > 0)))"
+        },
+        {
+          "kind": "p",
+          "name": "sso_providers_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+      "rls": true,
+      "kind": "r",
+      "name": "users",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "instance_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "aud",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "role",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "encrypted_password",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_confirmed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "invited_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "confirmation_token",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "confirmation_sent_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "recovery_token",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "recovery_sent_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_change_token_new",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_change",
+          "type": "character varying(255)",
+          "default": null,
+          "notNull": false,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_change_sent_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 15,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "last_sign_in_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 16,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "raw_app_meta_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 17,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "raw_user_meta_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": false,
+          "ordinal": 18,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "is_super_admin",
+          "type": "boolean",
+          "default": null,
+          "notNull": false,
+          "ordinal": 19,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 20,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 21,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone",
+          "type": "text",
+          "default": "NULL::character varying",
+          "notNull": false,
+          "ordinal": 22,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone_confirmed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 23,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone_change",
+          "type": "text",
+          "default": "''::character varying",
+          "notNull": false,
+          "ordinal": 24,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone_change_token",
+          "type": "character varying(255)",
+          "default": "''::character varying",
+          "notNull": false,
+          "ordinal": 25,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "phone_change_sent_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 26,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "confirmed_at",
+          "type": "timestamp with time zone",
+          "default": "LEAST(email_confirmed_at, phone_confirmed_at)",
+          "notNull": false,
+          "ordinal": 27,
+          "identity": "",
+          "generated": "s"
+        },
+        {
+          "acl": null,
+          "name": "email_change_token_current",
+          "type": "character varying(255)",
+          "default": "''::character varying",
+          "notNull": false,
+          "ordinal": 28,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "email_change_confirm_status",
+          "type": "smallint",
+          "default": "0",
+          "notNull": false,
+          "ordinal": 29,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "banned_until",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 30,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "reauthentication_token",
+          "type": "character varying(255)",
+          "default": "''::character varying",
+          "notNull": false,
+          "ordinal": 31,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "reauthentication_sent_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 32,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "is_sso_user",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 33,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 34,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "is_anonymous",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 35,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "confirmation_token_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX confirmation_token_idx ON auth.users USING btree (confirmation_token) WHERE ((confirmation_token)::text !~ '^[0-9 ]*$'::text)"
+        },
+        {
+          "name": "email_change_token_current_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX email_change_token_current_idx ON auth.users USING btree (email_change_token_current) WHERE ((email_change_token_current)::text !~ '^[0-9 ]*$'::text)"
+        },
+        {
+          "name": "email_change_token_new_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX email_change_token_new_idx ON auth.users USING btree (email_change_token_new) WHERE ((email_change_token_new)::text !~ '^[0-9 ]*$'::text)"
+        },
+        {
+          "name": "reauthentication_token_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX reauthentication_token_idx ON auth.users USING btree (reauthentication_token) WHERE ((reauthentication_token)::text !~ '^[0-9 ]*$'::text)"
+        },
+        {
+          "name": "recovery_token_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX recovery_token_idx ON auth.users USING btree (recovery_token) WHERE ((recovery_token)::text !~ '^[0-9 ]*$'::text)"
+        },
+        {
+          "name": "users_email_partial_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX users_email_partial_key ON auth.users USING btree (email) WHERE (is_sso_user = false)"
+        },
+        {
+          "name": "users_instance_id_email_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX users_instance_id_email_idx ON auth.users USING btree (instance_id, lower((email)::text))"
+        },
+        {
+          "name": "users_instance_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX users_instance_id_idx ON auth.users USING btree (instance_id)"
+        },
+        {
+          "name": "users_is_anonymous_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX users_is_anonymous_idx ON auth.users USING btree (is_anonymous)"
+        },
+        {
+          "name": "users_phone_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX users_phone_key ON auth.users USING btree (phone)"
+        },
+        {
+          "name": "users_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX users_pkey ON auth.users USING btree (id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "users_email_change_confirm_status_check",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK (((email_change_confirm_status >= 0) AND (email_change_confirm_status <= 2)))"
+        },
+        {
+          "kind": "u",
+          "name": "users_phone_key",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "UNIQUE (phone)"
+        },
+        {
+          "kind": "p",
+          "name": "users_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "webauthn_challenges",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "challenge_type",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "session_data",
+          "type": "jsonb",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "webauthn_challenges_expires_at_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX webauthn_challenges_expires_at_idx ON auth.webauthn_challenges USING btree (expires_at)"
+        },
+        {
+          "name": "webauthn_challenges_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX webauthn_challenges_pkey ON auth.webauthn_challenges USING btree (id)"
+        },
+        {
+          "name": "webauthn_challenges_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX webauthn_challenges_user_id_idx ON auth.webauthn_challenges USING btree (user_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "c",
+          "name": "webauthn_challenges_challenge_type_check",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "CHECK ((challenge_type = ANY (ARRAY['signup'::text, 'registration'::text, 'authentication'::text])))"
+        },
+        {
+          "kind": "p",
+          "name": "webauthn_challenges_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "webauthn_challenges_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "rls": false,
+      "kind": "r",
+      "name": "webauthn_credentials",
+      "owner": "supabase_auth_admin",
+      "columns": [
+        {
+          "acl": null,
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true,
+          "ordinal": 1,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true,
+          "ordinal": 2,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "credential_id",
+          "type": "bytea",
+          "default": null,
+          "notNull": true,
+          "ordinal": 3,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "public_key",
+          "type": "bytea",
+          "default": null,
+          "notNull": true,
+          "ordinal": 4,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "attestation_type",
+          "type": "text",
+          "default": "''::text",
+          "notNull": true,
+          "ordinal": 5,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "aaguid",
+          "type": "uuid",
+          "default": null,
+          "notNull": false,
+          "ordinal": 6,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "sign_count",
+          "type": "bigint",
+          "default": "0",
+          "notNull": true,
+          "ordinal": 7,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "transports",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "notNull": true,
+          "ordinal": 8,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "backup_eligible",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 9,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "backed_up",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true,
+          "ordinal": 10,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "friendly_name",
+          "type": "text",
+          "default": "''::text",
+          "notNull": true,
+          "ordinal": 11,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 12,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true,
+          "ordinal": 13,
+          "identity": "",
+          "generated": ""
+        },
+        {
+          "acl": null,
+          "name": "last_used_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false,
+          "ordinal": 14,
+          "identity": "",
+          "generated": ""
+        }
+      ],
+      "indexes": [
+        {
+          "name": "webauthn_credentials_credential_id_key",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX webauthn_credentials_credential_id_key ON auth.webauthn_credentials USING btree (credential_id)"
+        },
+        {
+          "name": "webauthn_credentials_pkey",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE UNIQUE INDEX webauthn_credentials_pkey ON auth.webauthn_credentials USING btree (id)"
+        },
+        {
+          "name": "webauthn_credentials_user_id_idx",
+          "ready": true,
+          "valid": true,
+          "definition": "CREATE INDEX webauthn_credentials_user_id_idx ON auth.webauthn_credentials USING btree (user_id)"
+        }
+      ],
+      "forceRls": false,
+      "policies": [],
+      "triggers": [],
+      "constraints": [
+        {
+          "kind": "p",
+          "name": "webauthn_credentials_pkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "kind": "f",
+          "name": "webauthn_credentials_user_id_fkey",
+          "deferred": false,
+          "validated": true,
+          "deferrable": false,
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "acl": "{=X/supabase_auth_admin,supabase_auth_admin=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "name": "email",
+      "owner": "supabase_auth_admin",
+      "arguments": "",
+      "definition": "CREATE OR REPLACE FUNCTION auth.email()\n RETURNS text\n LANGUAGE sql\n STABLE\nAS $function$\n  select \n  coalesce(\n    nullif(current_setting('request.jwt.claim.email', true), ''),\n    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'email')\n  )::text\n$function$\n"
+    },
+    {
+      "acl": "{=X/supabase_auth_admin,postgres=X/supabase_auth_admin,supabase_auth_admin=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "name": "jwt",
+      "owner": "supabase_auth_admin",
+      "arguments": "",
+      "definition": "CREATE OR REPLACE FUNCTION auth.jwt()\n RETURNS jsonb\n LANGUAGE sql\n STABLE\nAS $function$\n  select \n    coalesce(\n        nullif(current_setting('request.jwt.claim', true), ''),\n        nullif(current_setting('request.jwt.claims', true), '')\n    )::jsonb\n$function$\n"
+    },
+    {
+      "acl": "{=X/supabase_auth_admin,supabase_auth_admin=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "name": "role",
+      "owner": "supabase_auth_admin",
+      "arguments": "",
+      "definition": "CREATE OR REPLACE FUNCTION auth.role()\n RETURNS text\n LANGUAGE sql\n STABLE\nAS $function$\n  select \n  coalesce(\n    nullif(current_setting('request.jwt.claim.role', true), ''),\n    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'role')\n  )::text\n$function$\n"
+    },
+    {
+      "acl": "{=X/supabase_auth_admin,supabase_auth_admin=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "name": "uid",
+      "owner": "supabase_auth_admin",
+      "arguments": "",
+      "definition": "CREATE OR REPLACE FUNCTION auth.uid()\n RETURNS uuid\n LANGUAGE sql\n STABLE\nAS $function$\n  select \n  coalesce(\n    nullif(current_setting('request.jwt.claim.sub', true), ''),\n    (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')\n  )::uuid\n$function$\n"
+    }
+  ],
+  "sequences": [
+    {
+      "acl": "{supabase_auth_admin=rwU/supabase_auth_admin,dashboard_user=rwU/supabase_auth_admin,postgres=rwU/supabase_auth_admin}",
+      "max": "9223372036854775807",
+      "min": "1",
+      "name": "refresh_tokens_id_seq",
+      "type": "bigint",
+      "cache": "1",
+      "cycle": false,
+      "owner": "supabase_auth_admin",
+      "start": "1",
+      "increment": "1"
+    }
+  ],
+  "extensions": [
+    {
+      "name": "pg_stat_statements",
+      "schema": "extensions",
+      "version": "1.11"
+    },
+    {
+      "name": "pgcrypto",
+      "schema": "extensions",
+      "version": "1.3"
+    },
+    {
+      "name": "plpgsql",
+      "schema": "pg_catalog",
+      "version": "1.0"
+    },
+    {
+      "name": "supabase_vault",
+      "schema": "vault",
+      "version": "0.3.1"
+    },
+    {
+      "name": "uuid-ossp",
+      "schema": "extensions",
+      "version": "1.1"
+    }
+  ],
+  "migrations": [
+    "00",
+    "20171026211738",
+    "20171026211808",
+    "20171026211834",
+    "20180103212743",
+    "20180108183307",
+    "20180119214651",
+    "20180125194653",
+    "20210710035447",
+    "20210722035447",
+    "20210730183235",
+    "20210909172000",
+    "20210927181326",
+    "20211122151130",
+    "20211124214934",
+    "20211202183645",
+    "20220114185221",
+    "20220114185340",
+    "20220224000811",
+    "20220323170000",
+    "20220429102000",
+    "20220531120530",
+    "20220614074223",
+    "20220811173540",
+    "20221003041349",
+    "20221003041400",
+    "20221011041400",
+    "20221020193600",
+    "20221021073300",
+    "20221021082433",
+    "20221027105023",
+    "20221114143122",
+    "20221114143410",
+    "20221125140132",
+    "20221208132122",
+    "20221215195500",
+    "20221215195800",
+    "20221215195900",
+    "20230116124310",
+    "20230116124412",
+    "20230131181311",
+    "20230322519590",
+    "20230402418590",
+    "20230411005111",
+    "20230508135423",
+    "20230523124323",
+    "20230818113222",
+    "20230914180801",
+    "20231027141322",
+    "20231114161723",
+    "20231117164230",
+    "20240115144230",
+    "20240214120130",
+    "20240306115329",
+    "20240314092811",
+    "20240427152123",
+    "20240612123726",
+    "20240729123726",
+    "20240802193726",
+    "20240806073726",
+    "20241009103726",
+    "20250717082212",
+    "20250731150234",
+    "20250804100000",
+    "20250901200500",
+    "20250903112500",
+    "20250904133000",
+    "20250925093508",
+    "20251007112900",
+    "20251104100000",
+    "20251111201300",
+    "20251201000000",
+    "20260115000000",
+    "20260121000000",
+    "20260219120000",
+    "20260302000000",
+    "20260625000000"
+  ],
+  "defaultAcls": [
+    {
+      "acl": "{postgres=rwU/supabase_auth_admin,dashboard_user=rwU/supabase_auth_admin}",
+      "kind": "S",
+      "role": "supabase_auth_admin"
+    },
+    {
+      "acl": "{postgres=X/supabase_auth_admin,dashboard_user=X/supabase_auth_admin}",
+      "kind": "f",
+      "role": "supabase_auth_admin"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "kind": "r",
+      "role": "supabase_auth_admin"
+    }
+  ]
+}

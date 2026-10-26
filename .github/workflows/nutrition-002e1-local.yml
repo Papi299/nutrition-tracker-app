@@ -1,0 +1,97 @@
+name: Nutrition 002E1 real local Auth compatibility
+
+on:
+  pull_request:
+    branches: [codex/nutrition-002e-application-recovery]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nutrition-002e1-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  qualify:
+    if: github.event.pull_request.draft && github.event.pull_request.head.ref == 'codex/nutrition-002e1-auth-compatibility' && github.event.pull_request.head.repo.full_name == github.repository
+    name: 002E1 real Auth and application compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Install pinned dependencies
+        run: npm ci
+      - name: Check contracts and existing recovery regressions
+        run: |
+          node scripts/check-workflow-security.mjs
+          node --test scripts/nutrition-002e1/contracts.test.mjs scripts/nutrition-002e/contracts.test.mjs scripts/nutrition-002c1b/contracts.test.mjs scripts/nutrition-002c1a/contracts.test.mjs scripts/nutrition-002c1a/mapping.test.mjs scripts/nutrition-002c1/contracts.test.mjs scripts/nutrition-002c1/normalization.test.mjs scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs
+      - name: Check focused JavaScript
+        run: node node_modules/eslint/bin/eslint.js scripts/nutrition-002e1 scripts/check-workflow-security.mjs scripts/check-workflow-security.test.mjs --max-warnings 0
+      - name: Check incremental diff
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: git diff --check "$BASE_SHA..$HEAD_SHA"
+      - name: Prepare reviewed local Auth images
+        run: |
+          docker pull docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
+          docker pull docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232
+          docker pull docker.io/postgrest/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d
+          docker pull docker.io/library/node@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d
+      - name: Qualify real Auth on independent local source and target
+        run: node scripts/nutrition-002e1/qualify-local.mjs "$RUNNER_TEMP/nutrition-002e1-local.json"
+      - name: Record sanitized qualification without artifact storage
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/nutrition-002e1-local.json"; then
+            cat "$RUNNER_TEMP/nutrition-002e1-local.json" >> "$GITHUB_STEP_SUMMARY"
+            cat "$RUNNER_TEMP/nutrition-002e1-local.json"
+          fi
+
+  security:
+    if: github.event.pull_request.draft && github.event.pull_request.head.ref == 'codex/nutrition-002e1-auth-compatibility' && github.event.pull_request.head.repo.full_name == github.repository
+    name: 002E1 CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - name: Check out exact security candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up security Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Initialize pinned CodeQL
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - name: Analyze without code-scanning mutation
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          upload: never
+          upload-database: false
+          output: ${{ runner.temp }}/nutrition-002e1-sarif
+      - name: Validate analysis results
+        env:
+          CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+          ANALYSIS_LANGUAGE: ${{ matrix.language }}
+        run: node scripts/nutrition-002c1/check-sarif.mjs "$RUNNER_TEMP/nutrition-002e1-sarif" "$RUNNER_TEMP/nutrition-002e1-security.json"
+      - name: Record analysis without artifact storage
+        run: cat "$RUNNER_TEMP/nutrition-002e1-security.json" >> "$GITHUB_STEP_SUMMARY"

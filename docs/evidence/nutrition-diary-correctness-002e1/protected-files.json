@@ -1,0 +1,302 @@
+{
+  "base": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
+  "files": [
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "sha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/phase-11i-recipient.pem",
+      "sha256": "a1d1e8d82b7990f0929967b837ced094389163c457d1951540e79c0dfb4b6a55",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "aa12e9fbd94617871648521a881d19c1985669aee527f1e81f330778d39ae73c",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-capture-consistency.mjs",
+      "sha256": "3dcc4f6f8d6133b530ed5cbfbacfa256b6af296f398c108e70359c70a596f00c",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-backup-pipeline.mjs",
+      "sha256": "5cfb0cb9da6112d86ff0405c20222e26c80cac0ca27bc419b39b8e65d24d43c0",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-restore-pipeline.mjs",
+      "sha256": "8c4663928c1261f8ac68d57f1cb45f4b4f1490fc4ee7ef1c3a143c9e4b80cf08",
+      "unchanged": true
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5",
+      "unchanged": true
+    },
+    {
+      "path": "deployment/phase-11h-contract.json",
+      "sha256": "0504e1fd762cb7c9fae8fb70b411dee9736a5fdf9efa2d15fae0b564d1f4ba16",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "7320c82d9285830ab392aef2770ede0222fe61cfb608bae476fbba332830d768",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/contract-v1.json",
+      "sha256": "3b8c92d4140ad1efc19b7c528299d78fbd14db672abb4029c76fe4998de938a9",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/expected-profiles.json",
+      "sha256": "3322a96942beff8d43405867cf4c006727d60080019bcc8b874cc03a211b8d92",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-44.json",
+      "sha256": "625c147a3178eaa83a50376f6448172f8bcb27e938449106b78ca15b9ac1d469",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-45.json",
+      "sha256": "27fec6c2dfa0fc1aea2342ae87a9f601b978345cb0c714da1e4d3c6cfc73afa4",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+      "sha256": "de6d618d1b4c1df64506b41e526ba0453dbba32df48ee928497909c1834993fb",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260626185634_grant_authenticated_profile_target_privileges.sql",
+      "sha256": "9f0cc6378c45ed356cc6bcfbda75ee687e0acf373eaf11f594e92710b7a049d6",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260630193832_create_diary_entries.sql",
+      "sha256": "4e754c7e1d0f89cb5b3bf8a0495eb3805a4b406031129c30870866d51a3586b4",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260630201904_harden_public_table_privileges.sql",
+      "sha256": "7208e811df4387aae97be5a9b54e01b8a0ca7b7196af76a182a73fb74728aac7",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260704142707_create_nutrition_domain_schema_foundation.sql",
+      "sha256": "931839a941c0ec5621c36547107219c97ef9ee15e4d3b6c1eb8b2f84658e736e",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260705061118_add_diary_food_linking_rules.sql",
+      "sha256": "1db5efe05a6d03a2183bb5a1dc132df66c93084a34492abdae36e046a6f78f74",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260711071000_persist_setup_atomically.sql",
+      "sha256": "b8b1571bc47ab020ac503b26c6199ac01c447f88c6e83c3c06c3aacc2daa55bd",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714090000_create_food_alias_search_foundation.sql",
+      "sha256": "553d5be3ee1f3bf99ca6847466f2e5ebd1a61d0778e17473ccaa2a7c6af2abc6",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714100000_search_readable_foods.sql",
+      "sha256": "894a73e8aa4330575e4b07d541b82c9a414b37493451075a971fd5db78c47e37",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714110000_get_readable_food_diary_prefill.sql",
+      "sha256": "bc41813c745a455cfbdaf14d4c6c75bfc115031762e98d728dcbd214f848652e",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714120000_custom_food_persistence_foundation.sql",
+      "sha256": "4cc4a8ef3053326446aaffd1503173aba012dba877988cca0f4b2e5c0f540932",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714130000_persist_custom_food_nutrient_basis.sql",
+      "sha256": "48f472fc7869d4dd02c77769c17c2eca68db9e07985de1df134d02439217b6d8",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714140000_enforce_custom_food_nutrient_basis.sql",
+      "sha256": "875b6155862c200fb4a3d1ca0a3034db06e615cd9f39bbb6cbc4392fc9f8b1f6",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260714150000_get_owned_custom_food_editor.sql",
+      "sha256": "aaa2ab9d16a53459e09c5827305238f0e17db18817a629f54cce46d9bb8731aa",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260716100000_add_food_favorites_and_reusable_foods.sql",
+      "sha256": "3d1b8ec9e07e29a0ec1930fba2d5987ef65a2958ff4fdf71a55136edceae7967",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260716110000_create_saved_meal_persistence_foundation.sql",
+      "sha256": "e4697c789052c6477521bcab1bf7f8dcc5a0d4ee08bcf2d0662393d10f3666f0",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260716120000_get_owned_saved_meal_editor.sql",
+      "sha256": "bfe58522f807201cea490f0973012a15c52433b15c0f57ca496e0d61d7e958a9",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260716130000_log_saved_meal_to_diary.sql",
+      "sha256": "dfac6dd449ffef77d51768d03e693f3fdc40fc19dd8bc584916e93aa637e40f9",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717100000_create_recipe_persistence_foundation.sql",
+      "sha256": "63422b57835708a48b58caf57698e07b4f4af7eb3b5e8ae73514584c1fa479c6",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717110000_get_owned_recipe_editor.sql",
+      "sha256": "3f2d2ba6ddab7213bbb298c4613a51c02d0992094af1e219598fec1aab6cffdd",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717120000_recipe_use_contract_foundation.sql",
+      "sha256": "ad1c34a31e83ce7507f65db2d351fbe9097e6dd3965c5eeafd3688905c62a71a",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717130000_log_recipe_to_diary.sql",
+      "sha256": "265ac26c764405c549bc4c9d5a9bc75fb4d911ca86f1c16cae81be7554f1ab11",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717140000_create_barcode_identity_local_lookup.sql",
+      "sha256": "f79a25444cd015aeacfd6d0ded802643770e9951ba2112866ddd6d94a87e9758",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260717150000_create_custom_food_barcode_handoff.sql",
+      "sha256": "a5fcdb367755563c9b7f4e875211a6837e4df90344d244f50b50d593b9f33554",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+      "sha256": "42e12af612d970cf71b9656581a60f9bc6562958b959236f9a1b332345ab75a2",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260718120000_add_foundation_parser_contracts.sql",
+      "sha256": "fafab05f56b3b9d95c7dcc2aa2ab0e21f34c9b5b524b9d00fedfc036e99ed569",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260718140000_create_foundation_promotion_boundary.sql",
+      "sha256": "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260718150000_allow_phase_10e_terminal_run_classification.sql",
+      "sha256": "8f994738d401a018ac21f2d1229cab43eccaa6cf19e5a0dfb4cfec3a3f01fecd",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260719080000_create_foundation_lifecycle_foundation.sql",
+      "sha256": "53a5f697c8453d5f386e58eb2ec60b99463a641bbacf41088f27decf006f7bb2",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+      "sha256": "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260719160000_execute_foundation_lifecycle_updates.sql",
+      "sha256": "1aca06911972763b613dc93f44e5ae6ee9a5472db4e93cdaa0a00c8da79ff173",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260721100000_restore_strict_terminal_run_immutability.sql",
+      "sha256": "22eb5ec118035a19ae0b28a8345391dc64e95a4bf2e39c3bad80d4417cddf7ed",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260721110000_remove_remote_rls_auto_enable.sql",
+      "sha256": "1c35133335fde1b85b7705fafa4da55a9b7fe85859e4b591d15e8e1c8cb9a676",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260801141841_phase_11c2a_diary_mutation_correctness.sql",
+      "sha256": "96c8d645ba0f9596c1f00d8f51c9e56749c5165145298826fd438aa0d1dae9c5",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260801190220_reject_unreadable_linked_diary_creates.sql",
+      "sha256": "0edd4381368694bf872e1d86ea5a18160dd858b000d5f6503223c8ef709cfa84",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260808093826_cj019_custom_food_edit_concurrency.sql",
+      "sha256": "1513fe25ab01d20176ac88730ac8476556f46de481785146706b9e418f8a116c",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260810175638_cj022_saved_meal_edit_concurrency.sql",
+      "sha256": "e3b795c06c85637a535e23f58598b4c2a9bd7e4a8515d232b6a95d1a086e3fd9",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260811142805_cj025_recipe_edit_concurrency.sql",
+      "sha256": "603ac96c204010b2b97469ba808e77ceeeae873470eb2add9bdf0e60f7dd469d",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260812194829_cj018_custom_food_creation_idempotency.sql",
+      "sha256": "7302c7b6af543eb2ef92814a1a342de69bc6a13e74f22346de6e12540b7e1b66",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260827070838_create_invited_account_activation.sql",
+      "sha256": "3dccc6fef3527ed2400358c6ceae730bc13c535323343559d95cf3131f467770",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260827110552_enforce_account_activation_authorization.sql",
+      "sha256": "2930cb32fa010660c9d386eb301ca157a12690dfdc232c114ad171832ead0665",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+      "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260830143000_cache_search_account_access_policy.sql",
+      "sha256": "d87abf0653b05858e23c7b6c1b6a713073d418ab6ae2a2efb68563b83453e33b",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+      "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+      "unchanged": true
+    },
+    {
+      "path": "supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql",
+      "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+      "unchanged": true
+    }
+  ],
+  "allHistoricalSqlUnmodified": true,
+  "existingLedgerUnmodified": true
+}

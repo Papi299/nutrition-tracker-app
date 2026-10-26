@@ -1,0 +1,123 @@
+{
+  "scope": "PROPOSED_NOT_OPERATIONAL",
+  "authVersion": "v2.196.0",
+  "tables": [
+    {
+      "table": "audit_log_entries",
+      "classification": "AUDIT_HISTORY_OUTSIDE_CREDENTIAL_EXPERIMENT",
+      "reason": "Provider Auth audit trail; excluded only from bounded credential experiment, no full recovery/retention decision implied."
+    },
+    {
+      "table": "custom_oauth_providers",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "Provider configuration and potentially encrypted client secrets; exact enabled scope unknown."
+    },
+    {
+      "table": "flow_state",
+      "classification": "VOLATILE_EXCLUDED",
+      "reason": "In-flight PKCE/OAuth flows; restart authentication, not durable identity storage."
+    },
+    {
+      "table": "identities",
+      "classification": "REQUIRED_DURABLE",
+      "reason": "Provider identity mapping; stable provider/user relationships."
+    },
+    {
+      "table": "instances",
+      "classification": "UNKNOWN_LEGACY_PROVIDER_CONFIGURATION",
+      "reason": "Legacy raw_base_config table exists; no active model usage found in this exact source. Not approved for silent exclusion from full recovery."
+    },
+    {
+      "table": "mfa_amr_claims",
+      "classification": "VOLATILE_EXCLUDED_RECREATED",
+      "reason": "Session-bound authentication claims recreated by actual password/TOTP APIs; application activation depends on them."
+    },
+    {
+      "table": "mfa_challenges",
+      "classification": "VOLATILE_EXCLUDED",
+      "reason": "Challenge/OTP state; request a new challenge after recovery, preserve factor itself."
+    },
+    {
+      "table": "mfa_factors",
+      "classification": "REQUIRED_DURABLE",
+      "reason": "Verified factors, encrypted TOTP secret, phone/WebAuthn state; only encrypted TOTP populated here."
+    },
+    {
+      "table": "oauth_authorizations",
+      "classification": "VOLATILE_AUTHORIZATION_CODE_SCOPE_UNQUALIFIED",
+      "reason": "In-flight authorization codes/status; issuer/client/consent continuity requires separate review."
+    },
+    {
+      "table": "oauth_client_states",
+      "classification": "VOLATILE_SCOPE_UNQUALIFIED",
+      "reason": "OAuth browser state with expiration, not a substitute for provider client configuration."
+    },
+    {
+      "table": "oauth_clients",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "OAuth server clients and credential/configuration relationships."
+    },
+    {
+      "table": "oauth_consents",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "Durable user authorization grants if OAuth server is enabled."
+    },
+    {
+      "table": "one_time_tokens",
+      "classification": "VOLATILE_EXCLUDED_LIMITED_QUALIFICATION",
+      "reason": "Reset/invite/email-change tokens; users also embeds token state. Only invitation consumption and one pending recovery denial evaluated."
+    },
+    {
+      "table": "refresh_tokens",
+      "classification": "VOLATILE_EXCLUDED",
+      "reason": "Old refresh authority intentionally excluded and tested denied."
+    },
+    {
+      "table": "saml_providers",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "SAML metadata/configuration tied to SSO; external signing/encryption configuration required."
+    },
+    {
+      "table": "saml_relay_states",
+      "classification": "VOLATILE_SCOPE_UNQUALIFIED",
+      "reason": "Expiring SAML relay state; SAML login/configuration is not qualified."
+    },
+    {
+      "table": "schema_migrations",
+      "classification": "PROVIDER_GENERATED_METADATA",
+      "reason": "Recreated by authentic provider bootstrap, independently compared; never load source-selected DDL or fabricate ledger."
+    },
+    {
+      "table": "sessions",
+      "classification": "VOLATILE_EXCLUDED",
+      "reason": "New sessions must be created; do not revive prior authorization."
+    },
+    {
+      "table": "sso_domains",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "SSO domain routing configuration, not an expired login challenge."
+    },
+    {
+      "table": "sso_providers",
+      "classification": "CONDITIONAL_DURABLE_OUTSIDE_PROPOSAL",
+      "reason": "SSO provider identity/configuration; also referenced by users/identities when enabled."
+    },
+    {
+      "table": "users",
+      "classification": "REQUIRED_DURABLE",
+      "reason": "Identity UUID, password ciphertext and account security state; token fields also require explicit lifecycle review."
+    },
+    {
+      "table": "webauthn_challenges",
+      "classification": "VOLATILE_EXCLUDED_UNQUALIFIED",
+      "reason": "Expiring ceremony session_data per exact provider migration; fresh ceremony unqualified."
+    },
+    {
+      "table": "webauthn_credentials",
+      "classification": "REQUIRED_DURABLE_UNQUALIFIED",
+      "reason": "Passkey public credential, ID and counter; empty fixture is not ceremony acceptance."
+    }
+  ],
+  "fourTableSufficiency": "PROVEN_ONLY_FOR_BOUNDED_PASSWORD_AND_TOTP_FIXTURE_NOT_ACCEPTED_FOR_FULL_FEATURE_SCOPE",
+  "recoveryCodes": "No implementation or persistence found in 82 reviewed source blobs/complete Auth tree search and 23 actual tables; hosted status unknown."
+}

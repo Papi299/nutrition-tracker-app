@@ -1,0 +1,70 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-002E1",
+  "main": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "prs": [
+    {
+      "number": 200,
+      "head_sha": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "base_sha": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+      "head": "codex/nutrition-002a-recovery",
+      "base": "main",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 201,
+      "head_sha": "7201879935903e846dab5e2adef6d86beea0d597",
+      "base_sha": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "head": "codex/nutrition-002c-hybrid",
+      "base": "codex/nutrition-002a-recovery",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 202,
+      "head_sha": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "base_sha": "7201879935903e846dab5e2adef6d86beea0d597",
+      "head": "codex/nutrition-002c1-fidelity",
+      "base": "codex/nutrition-002c-hybrid",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 203,
+      "head_sha": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "base_sha": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "head": "codex/nutrition-002c1a-snapshot-catalog",
+      "base": "codex/nutrition-002c1-fidelity",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 204,
+      "head_sha": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+      "base_sha": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "head": "codex/nutrition-002c1b-ddl-stability",
+      "base": "codex/nutrition-002c1a-snapshot-catalog",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "number": 205,
+      "head_sha": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
+      "base_sha": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+      "head": "codex/nutrition-002e-application-recovery",
+      "base": "codex/nutrition-002c1b-ddl-stability",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    }
+  ],
+  "baseTree": "e3870ca28926f1355b83a8b6844dd7c20e208b8c",
+  "historical44": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+  "historicalTree": "04e719ff60e0472a0760236c7fe6a481c54b7d17",
+  "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+}

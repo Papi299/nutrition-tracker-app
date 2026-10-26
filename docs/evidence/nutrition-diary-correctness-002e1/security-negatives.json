@@ -1,0 +1,104 @@
+{
+  "families": [
+    {
+      "family": "wrong Auth/provider version",
+      "status": "GUARD_PASS",
+      "evidence": "Fixed service/version/image gates; a different service version is not launched."
+    },
+    {
+      "family": "wrong Auth schema boundary",
+      "status": "ACTUAL_PASS",
+      "evidence": "Rollback mutation of real provider ledger refuses metadata comparison."
+    },
+    {
+      "family": "missing durable table",
+      "status": "ACTUAL_PASS",
+      "evidence": "Rollback drop of webauthn_credentials refuses metadata comparison."
+    },
+    {
+      "family": "missing credential column",
+      "status": "ACTUAL_PASS",
+      "evidence": "Rollback drop of encrypted_password refuses comparison."
+    },
+    {
+      "family": "unknown credential table",
+      "status": "ACTUAL_PASS",
+      "evidence": "Rollback extra table refuses comparison."
+    },
+    {
+      "family": "wrong signing key",
+      "status": "ACTUAL_PASS",
+      "evidence": "Real Auth and PostgREST reject JWT signed by source key."
+    },
+    {
+      "family": "wrong/missing encryption dependency",
+      "status": "ACTUAL_PASS",
+      "evidence": "Real target password API refuses encrypted credentials under wrong/absent root."
+    },
+    {
+      "family": "UUID substitution and password tampering",
+      "status": "ACTUAL_PASS",
+      "evidence": "Real API rejects changed ciphertext and ciphertext moved between UUIDs."
+    },
+    {
+      "family": "unsupported factor/disabled method",
+      "status": "ACTUAL_PASS_LIMITED",
+      "evidence": "Phone enrollment and disabled passkey endpoint reject; WebAuthn factor and all other unsupported methods NOT RUN."
+    },
+    {
+      "family": "incorrect passkey RP",
+      "status": "BLOCKED_NOT_RUN",
+      "evidence": "No ceremony; preserve RP/origin dependency."
+    },
+    {
+      "family": "session/token confusion",
+      "status": "ACTUAL_PASS_WITH_EXPLICIT_LIMIT",
+      "evidence": "No sessions imported; refresh/Auth logout denial; PostgREST JWT continuity observed."
+    },
+    {
+      "family": "authentication under unapproved settings",
+      "status": "GUARD_PASS_LIMITED",
+      "evidence": "Config equality and restart allowlist refuse signup/provider changes; no alternative unsafe settings accepted."
+    },
+    {
+      "family": "unauthorized signup",
+      "status": "ACTUAL_PASS",
+      "evidence": "Ordinary/anonymous self enrollment denied by both services."
+    },
+    {
+      "family": "closed-account authorization bypass",
+      "status": "ACTUAL_PASS_LIMITED",
+      "evidence": "Real application closure record blocks rows/reactivation/mutation; capability/browser closure flow NOT RUN."
+    },
+    {
+      "family": "foreign-owner access",
+      "status": "ACTUAL_PASS",
+      "evidence": "Actual JWT-authenticated PostgREST read/write isolation."
+    },
+    {
+      "family": "failed migration/bootstrap",
+      "status": "DEVELOPMENT_REFUSAL_PLUS_GUARDS",
+      "evidence": "Failed bootstrap attempts remained ineligible; original SQL never changed; broad crash/bootstrap matrix NOT RUN."
+    },
+    {
+      "family": "interrupted service/target restart",
+      "status": "ACTUAL_PASS",
+      "evidence": "HTTP unavailable after stop; real Auth and retained-volume DB restart followed by password/TOTP success."
+    },
+    {
+      "family": "failed cleanup",
+      "status": "ACTUAL_REFUSAL_PLUS_RESOLVED_DEVELOPMENT_FAILURE",
+      "evidence": "Cross-target removal refused before deleting source. A development expectation bug left two owned resources, then scoped cleanup removed them; final cleanup PASS. SIGKILL/host-loss recovery NOT RUN."
+    },
+    {
+      "family": "preexisting resource name collision",
+      "status": "ACTUAL_PASS",
+      "evidence": "Created owned sentinel remains unadopted and unchanged until explicit owned cleanup."
+    },
+    {
+      "family": "wrong source/target identity",
+      "status": "ACTUAL_PASS",
+      "evidence": "Cross-selected source DB rejected as target before SQL/removal; both remain usable."
+    }
+  ]
+}
