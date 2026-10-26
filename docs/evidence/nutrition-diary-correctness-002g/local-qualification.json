@@ -1,0 +1,168 @@
+{
+  "contract": "nutrition-002g-local-qualification/v1",
+  "result": "PASS",
+  "startedAt": "2026-10-26T17:41:36.254Z",
+  "completedAt": "2026-10-26T17:44:28.414Z",
+  "node": "v22.23.4",
+  "implementationSha256": "a5dee56f19267b531b09c5f0933169434881537b237e272ebc67125cd7e641a7",
+  "cases": [
+    {
+      "name": "boundary44RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7428
+    },
+    {
+      "name": "boundary44TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15019
+    },
+    {
+      "name": "boundary44PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 2770
+    },
+    {
+      "name": "boundary44CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 1716
+    },
+    {
+      "name": "boundary44EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 720
+    },
+    {
+      "name": "boundary44ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 472
+    },
+    {
+      "name": "boundary44ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 750
+    },
+    {
+      "name": "boundary44CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 278
+    },
+    {
+      "name": "boundary44ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 366
+    },
+    {
+      "name": "boundary44OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 2144
+    },
+    {
+      "name": "boundary44ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 1604
+    },
+    {
+      "name": "boundary44Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 30577
+    },
+    {
+      "name": "boundary44OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 2444
+    },
+    {
+      "name": "boundary44VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1913
+    },
+    {
+      "name": "boundary44RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4139
+    },
+    {
+      "name": "maintenance44To45TrustedTransitionPreservesPriorValues",
+      "result": "PASS",
+      "elapsedMs": 9815
+    },
+    {
+      "name": "boundary45RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 6963
+    },
+    {
+      "name": "boundary45TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15226
+    },
+    {
+      "name": "boundary45PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 3766
+    },
+    {
+      "name": "boundary45CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 1711
+    },
+    {
+      "name": "boundary45EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 695
+    },
+    {
+      "name": "boundary45ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 469
+    },
+    {
+      "name": "boundary45ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 730
+    },
+    {
+      "name": "boundary45CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 262
+    },
+    {
+      "name": "boundary45ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 217
+    },
+    {
+      "name": "boundary45OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 2193
+    },
+    {
+      "name": "boundary45ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 1574
+    },
+    {
+      "name": "boundary45Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 31377
+    },
+    {
+      "name": "boundary45OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 2412
+    },
+    {
+      "name": "boundary45VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1839
+    },
+    {
+      "name": "boundary45RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4081
+    }
+  ],
+  "failure": null,
+  "cleanupConfirmed": true,
+  "productionAccess": false
+}

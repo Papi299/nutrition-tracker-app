@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -207,7 +208,9 @@ function fail(message) {
 const workflowFiles = readdirSync(workflowDirectory)
   .filter((name) => /\.ya?ml$/.test(name))
   .sort();
-const expectedFiles = [...workflowExpectations.keys()].sort();
+const recoveryWorkflow = readFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), "utf8");
+if (createHash("sha256").update(recoveryWorkflow).digest("hex") !== "b2e17f05c8910fc05d642fab2471a88653a29170d96a079a0e052ae28cf2abaa") fail("002G workflow differs from the reviewed exact draft-only workflow");
+const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml"].sort();
 if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
   fail("workflow inventory contains an unreviewed or missing workflow");
 }
