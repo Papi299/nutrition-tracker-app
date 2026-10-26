@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "nutrition-002c1b-preservation/v1",
+  "base": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+  "predecessorFilesByteIdentical": 1324,
+  "authorizedExistingEdits": [
+    "scripts/check-workflow-security.mjs",
+    "scripts/check-workflow-security.test.mjs"
+  ],
+  "unexpectedChanges": [],
+  "migration45Sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+  "productionWorkflowUnchanged": true,
+  "captureDenialUnchanged": true
+}

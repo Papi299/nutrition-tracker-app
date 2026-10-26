@@ -1,0 +1,91 @@
+name: Nutrition 002C1B DDL stability and defaults and security
+
+on:
+  pull_request:
+    branches: [codex/nutrition-002c1a-snapshot-catalog]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nutrition-002c1b-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  qualify:
+    name: 002C1B DDL stability and defaults qualification
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Check contracts and existing recovery regressions
+        run: |
+          node scripts/check-workflow-security.mjs
+          node --test scripts/nutrition-002c1b/contracts.test.mjs scripts/nutrition-002c1a/contracts.test.mjs scripts/nutrition-002c1a/mapping.test.mjs scripts/nutrition-002c1/contracts.test.mjs scripts/nutrition-002c1/normalization.test.mjs scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs
+      - name: Prepare reviewed local database image
+        run: docker pull docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
+      - name: Qualify two disposable clusters
+        run: node scripts/nutrition-002c1b/qualify-local.mjs "$RUNNER_TEMP/nutrition-002c1b-local.json"
+      - name: Retain sanitized qualification
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: nutrition-002c1b-local-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/nutrition-002c1b-local.json
+          if-no-files-found: error
+          retention-days: 14
+
+  security:
+    name: 002C1B CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - name: Check out exact security candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up security Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Initialize pinned CodeQL
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - name: Analyze without code-scanning mutation
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          upload: never
+          upload-database: false
+          output: ${{ runner.temp }}/nutrition-002c1b-sarif
+      - name: Validate analysis results
+        env:
+          CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+          ANALYSIS_LANGUAGE: ${{ matrix.language }}
+        run: node scripts/nutrition-002c1/check-sarif.mjs "$RUNNER_TEMP/nutrition-002c1b-sarif" "$RUNNER_TEMP/nutrition-002c1b-security.json"
+      - name: Retain exact-head analysis
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: nutrition-002c1b-codeql-${{ matrix.language }}-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/nutrition-002c1b-sarif/*.sarif
+            ${{ runner.temp }}/nutrition-002c1b-security.json
+          if-no-files-found: error
+          retention-days: 14

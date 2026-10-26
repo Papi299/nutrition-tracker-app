@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "nutrition-002c1b-implementation-ci/v1",
+  "runs": [
+    {
+      "head": "210ab62e3c211df2fd890cbdb8d7b797eeb7973e",
+      "run": 40269196997,
+      "jobs": [
+        {
+          "id": 121398133572,
+          "name": "002C1B CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121398133780,
+          "name": "002C1B DDL stability and defaults qualification",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121398133787,
+          "name": "002C1B CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "head": "bb82ac3e8b7af76718771a77d9ff8d9959c8d2bb",
+      "run": 40269834121,
+      "jobs": [
+        {
+          "id": 121400041464,
+          "name": "002C1B DDL stability and defaults qualification",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121400041670,
+          "name": "002C1B CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121400041680,
+          "name": "002C1B CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "head": "5acaab1b13d7b99b8e94d05c6b9de13e30a68923",
+      "run": 40270300751,
+      "jobs": [
+        {
+          "id": 121401470986,
+          "name": "002C1B DDL stability and defaults qualification",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121401471249,
+          "name": "002C1B CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 121401471252,
+          "name": "002C1B CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "deliveryHeadCi": "SEE_DRAFT_PR_CLOSING_RECORD",
+  "productionRecoveryEligibility": false
+}

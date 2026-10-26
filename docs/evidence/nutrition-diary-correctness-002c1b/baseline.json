@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "nutrition-002c1b-baseline/v1",
+  "acceptedMain": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "predecessors": [
+    {
+      "number": 200,
+      "head": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "base": "main",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-25T12:21:54Z"
+    },
+    {
+      "number": 201,
+      "head": "7201879935903e846dab5e2adef6d86beea0d597",
+      "base": "codex/nutrition-002a-recovery",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-25T16:35:10Z"
+    },
+    {
+      "number": 202,
+      "head": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "base": "codex/nutrition-002c-hybrid",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-25T17:52:25Z"
+    },
+    {
+      "number": 203,
+      "head": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "base": "codex/nutrition-002c1-fidelity",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "updatedAt": "2026-10-26T02:16:32Z"
+    }
+  ],
+  "baseTree": "c48c2d3f26726ede8b1c15ed66e0abd41ded1dfc",
+  "migration44": {
+    "source": "2617a6012d743e3196c7c2618e4ea46cbfe5c600",
+    "tree": "04e719ff60e0472a0760236c7fe6a481c54b7d17"
+  },
+  "migration45": {
+    "path": "supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql",
+    "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc"
+  },
+  "newBranch": "codex/nutrition-002c1b-ddl-stability",
+  "productionAuthority": false,
+  "mergeAuthority": false
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "nutrition-002c1b-public-sources/v1",
+  "reviewDate": "2026-10-26",
+  "projectAccess": false,
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/src/backend/utils/adt/ruleutils.c",
+      "sha256": "f1017456a03b2ca194dc964c55476223d224ecc1ba73b7a60204657f7d7b5f23",
+      "reviewedRanges": [
+        "3133-3150",
+        "3190-3240",
+        "3252-3385"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/src/bin/pg_dump/pg_dump.c",
+      "sha256": "492bf92268986d0764664fd5f6edb606d111fcbe9b73af2787bd776cfd3c7f47",
+      "reviewedRanges": [
+        "9-24",
+        "12355-12485"
+      ]
+    },
+    {
+      "url": "https://supabase.com/changelog.md",
+      "sha256": "45528009025b8ad8487ccb73f7c769b66d4b0e7aa4560157047899dcb5b5a006",
+      "relevantChanges": [
+        "https://supabase.com/changelog/postgres-15-19-17-11-breaking-changes",
+        "https://supabase.com/changelog/extension-version-pinning-ignored"
+      ]
+    }
+  ],
+  "hostedProviderDdlAcceptance": "BLOCKED",
+  "productionRecoveryEligibility": false
+}
