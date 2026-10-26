@@ -166,18 +166,18 @@ try {
   observations.logout={authSessionDenied:true,refreshDenied:true,postgrestStillReadsOwnRows:true,allTokenRevocation:false,signingScheme:'HS256_FIXTURE_ONLY',asymmetricJwks:'NOT_RUN'};
  });
  await record('actualApplicationRecentProofBoundToFreshIdentitySessionAndSecret',async()=>{
-  const identity=claims(owner.session.access_token),secret=password(),nowSeconds=Math.floor(Date.now()/1000);
+  const identity=claims(owner.session.access_token),secret=randomBytes(48).toString('base64url'),nowSeconds=Math.floor(Date.now()/1000);
   const proof=issueRecentPasswordAuthProof({nowSeconds,secret,sessionId:identity.session_id,userId:owner.id});
   const input={currentSessionId:identity.session_id,currentUserId:owner.id,nowSeconds,proof,secret};
   assertEqual(verifyRecentPasswordAuthProof(input).status,'valid','RECENT_PROOF');
-  for(const extra of [{currentSessionId:randomUUID()},{currentUserId:foreign.id},{secret:password()},{nowSeconds:nowSeconds+600}])
+  for(const extra of [{currentSessionId:randomUUID()},{currentUserId:foreign.id},{secret:randomBytes(48).toString('base64url')},{nowSeconds:nowSeconds+600}])
    assertEqual(verifyRecentPasswordAuthProof({...input,...extra}).status,'invalid','RECENT_PROOF_REPLAY');
   await denied(await target.rest('/rpc/close_current_account',{method:'POST',bearer:owner.session.access_token,body:{p_capability:'invalid',p_closure_request_id:randomUUID()}}),'UNPROVEN_CLOSURE');
   observations.recentAuth={actualApplicationProofFunctions:true,realProviderSessionIdentity:true,wrongUserSessionSecretExpiryDenied:true,
    completeServerActionAndCookieJourney:'NOT_RUN',pairedVaultCapabilityJourney:'NOT_RUN'};
  });
  await record('wrongMissingCredentialRootsDenyPasswordAndEncryptedFactor',async()=>{
-  const key=target.key;target.key=password();await target.restartAuth();
+  const key=target.key;target.key=randomBytes(32).toString('base64url');await target.restartAuth();
   await denied(await target.api('/token?grant_type=password',{method:'POST',body:{email:factorUser.email,password:factorUser.password}}),'WRONG_CREDENTIAL_ROOT');
   let factorDenied=false;try{await verifyFactor(target,factorUser,factorUser.session);}catch{factorDenied=true;}if(!factorDenied)fail('WRONG_FACTOR_ROOT_ACCEPTED');
   target.key=key;await target.restartAuth({GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPT:'false',GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPTION_KEY_ID:'',GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPTION_KEY:'',GOTRUE_SECURITY_DB_ENCRYPTION_DECRYPTION_KEYS:''});

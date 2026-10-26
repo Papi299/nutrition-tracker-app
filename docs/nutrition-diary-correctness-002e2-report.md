@@ -314,7 +314,7 @@ are NOT RUN. No unconditional successful cleanup claim is possible on failure.
 
 ## N. Test commands, counts and limitations
 
-338 focused tests pass (315 retained plus23 new guards/policy checks), no fail/skip.
+339 focused tests pass (315 retained plus24 new guards/policy checks), no fail/skip.
 Focused ESLint, workflow policy, source/protected hashes and diff checks pass.
 14 existing pure application proof/capability tests pass. All21 predecessor real
 Auth scenarios pass after the minimal environment extension. New lifecycle fixture
@@ -354,7 +354,8 @@ predecessor branch, checks out the candidate head SHA without persisted credenti
 uses contents-read and reviewed full action pins, Node22 and immutable images.
 A10-minute local job preserves all21 E1 scenarios and invokes E2's nonzero gate;
 two20-minute CodeQL jobs analyze Actions and JavaScript/TypeScript without upload.
-The existing SARIF validator requires one nonempty successful analysis/language,
+A bounded diagnostic prints only static rule/file/line, never messages/snippets or
+runtime data. The existing SARIF validator requires one nonempty successful analysis/language,
 actual CodeQL identity and zero findings. No cache/artifact/database/code-scanning
 upload, external secret, schedule/dispatch, paid runner or writable token is added.
 Sanitized summaries are retained even when the pending-authority assertion fails.
@@ -363,6 +364,14 @@ Exact delivery head/run/job IDs, measured runtime, artifacts and actual CodeQL
 outcomes are closed in the Draft PR and complete external final report after CI.
 A reproduced red security gate must remain red, explained and BLOCKED; no
 continue-on-error, skipped negative or assertion weakening is allowed.
+
+The first exact-head CI40324234776 reproduced the failed Auth gate and also
+refused two JS CodeQL findings. Diagnostic CI identifies js/insufficient-password-hash
+at the existing recent-proof HMAC update sites. The new fixture had passed its
+password-labelled random generator as the proof key. Fixture proof keys now come
+from independent random48-byte key material; wrong credential roots likewise use
+a separate key source. Application HMAC/password code and analysis scope are
+unchanged; no suppression or weaker threshold. Final CodeQL determines correction.
 
 ## P. Draft PR URL, head/base/tree and diff
 
