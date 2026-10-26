@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 
 export const BASE = '18cbb050244fc14ae9f0cc2def46e21e1072b779';
 export const CONTRACT = 'nutrition-002e1-local-auth-compatibility/v1';
-export const AUTH_IMAGE = 'public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232';
-export const DB_IMAGE = 'public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518';
-export const REST_IMAGE = 'public.ecr.aws/supabase/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d';
+export const AUTH_IMAGE = 'docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232';
+export const DB_IMAGE = 'docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518';
+export const REST_IMAGE = 'docker.io/postgrest/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d';
 export const CLIENT_IMAGE = 'docker.io/library/node@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d';
 export const AUTH_VERSION = 'v2.196.0';
 export const AUTH_BOUNDARY = '20260625000000';

@@ -94,3 +94,12 @@ state. The corrected method uses two separate task-owned disposable local volume
 checks final database readiness after restart, and must verify restored credentials
 again. See [Docker tmpfs documentation](https://docs.docker.com/engine/storage/tmpfs/).
 No prior tmpfs restart failure is accepted as an Auth compatibility result.
+
+CI correction: the first exact-head workflow 40297462971 passed 315 tests and
+lint but ECR refused the initial image download with `toomanyrequests: Data limit
+exceeded`. No service fixture ran in that attempt. The official Docker Hub
+repositories were independently pulled at the identical existing digests:
+`supabase/postgres`, `supabase/gotrue` and `postgrest/postgrest` (the last namespace
+is fixed by the reviewed CLI Dockerfile). No Auth/DB/API version or content
+digest changes. The new immutable implementation is requalified locally before
+final exact-head CI. No paid registry, credential, bypass or quota change is used.

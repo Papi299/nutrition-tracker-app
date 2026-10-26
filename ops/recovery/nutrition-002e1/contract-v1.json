@@ -7,8 +7,8 @@
   "cliSource": "997a1e69a4a83466964ed874d3a604c88a7b3866",
   "authVersion": "v2.196.0",
   "authSource": "0204331ca41a5b49f076b6fa3dc6c0d20b996590",
-  "authImage": "public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
-  "databaseImage": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "authImage": "docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+  "databaseImage": "docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
   "providerMigrationHead": "20260625000000",
   "postgresServerVersion": "170006",
   "proposedDurableTables": [
