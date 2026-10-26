@@ -1,0 +1,316 @@
+{
+  "contract": "nutrition-002e-application-defined-recovery/v1",
+  "status": "PROPOSED_CHECKPOINT_1_RECOVERY_BLOCKED",
+  "approvedForOperationalUse": false,
+  "budgetAdditionalDollars": 0,
+  "applicationSchemas": [
+    "public",
+    "private",
+    "ingestion"
+  ],
+  "relationalScope": "61 application/ingestion + proposed 4 durable Auth + exact ledger/validation in one snapshot",
+  "schemaAuthority": "INDEPENDENTLY_SELECTED_IMMUTABLE_MIGRATIONS",
+  "capturedSqlExecutable": false,
+  "providerDeltaAllowlist": [],
+  "supportedPostgres": "170006",
+  "supportedNativeDump": "17.6",
+  "supportedAuthService": null,
+  "bootstrapAcceptance": "BLOCKED",
+  "authSubsetAcceptance": "BLOCKED",
+  "producerAuthentication": "BLOCKED",
+  "recipientAcceptance": "BLOCKED",
+  "formatAcceptance": "BLOCKED",
+  "operationalInitialState": "CLOSED / RECONCILIATION_REQUIRED",
+  "recoveryEligible": false,
+  "productionAuthority": false,
+  "mergeAuthority": false,
+  "deploymentAuthority": false,
+  "rpoHours": 24,
+  "rtoHours": 8,
+  "retentionDays": 30,
+  "referenceBases": [
+    "Per Serving",
+    "Per 100 g",
+    "Per 100 ml"
+  ],
+  "nutrients": [
+    {
+      "code": "energy_kcal",
+      "unit": "kcal",
+      "group": "core",
+      "precision": 0,
+      "maximum": "2147483647"
+    },
+    {
+      "code": "protein_g",
+      "unit": "g",
+      "group": "core",
+      "precision": 2,
+      "maximum": "999999.99"
+    },
+    {
+      "code": "carbohydrates_g",
+      "unit": "g",
+      "group": "core",
+      "precision": 2,
+      "maximum": "999999.99"
+    },
+    {
+      "code": "fat_g",
+      "unit": "g",
+      "group": "core",
+      "precision": 2,
+      "maximum": "999999.99"
+    },
+    {
+      "code": "fiber_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "sugars_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "added_sugars_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "saturated_fat_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "trans_fat_g",
+      "unit": "g",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "cholesterol_mg",
+      "unit": "mg",
+      "group": "additional",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "sodium_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "potassium_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "calcium_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "iron_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "magnesium_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "phosphorus_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "zinc_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "copper_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "manganese_mg",
+      "unit": "mg",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "selenium_ug",
+      "unit": "ug",
+      "group": "minerals",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "unit": "ug",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "unit": "ug",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "unit": "ug",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "thiamin_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "riboflavin_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "niacin_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "unit": "ug",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "unit": "ug",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    },
+    {
+      "code": "choline_mg",
+      "unit": "mg",
+      "group": "vitamins",
+      "precision": 4,
+      "maximum": "9999999999.9999"
+    }
+  ],
+  "nullSemantics": [
+    "SQL NULL: historical snapshot never captured",
+    "JSON null: captured but unknown",
+    "zero: known measured zero",
+    "missing/invalid: reject"
+  ],
+  "migration44ExpandedSnapshots": "ABSENT_NO_BACKFILL",
+  "numericTransport": "PostgreSQL text/COPY, never JS Number",
+  "volatileStatePolicy": "No historical sessions/refresh tokens/OTP/challenges; per-table functional justification required; recovery codes unresolved",
+  "externalRequirements": [
+    "signing keys and old-token invalidation",
+    "durable credential encryption",
+    "passkey RP/origin continuity",
+    "SMTP/invitation/recovery",
+    "account closure capability paired with Vault",
+    "recent-auth proof signing",
+    "empty Storage or separately approved object-byte scope",
+    "source/tooling/recipient/producer custody",
+    "application deployment/origin/routing",
+    "independent executor and recovery approver"
+  ],
+  "unsupported": [
+    "unknown/mixed source or migrations",
+    "schema/security drift",
+    "unknown private persistent rows",
+    "unapproved sequence/identity dependencies",
+    "unqualified provider/Auth version",
+    "missing durable credentials or keys",
+    "arbitrary captured schema/role SQL",
+    "lost exporter/participant or ambiguous publication",
+    "failed exact comparison or cleanup"
+  ],
+  "generatedColumnTransport": "BLOCKED: public.food_aliases.normalized_alias is stored generated; future COPY must explicitly exclude it on load and compare its exact recomputed value under trusted immutable definition; no nutrition recomputation."
+}

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "nutrition-002e-acceptance/v1",
+  "overall": "NUTRITION_DIARY_CORRECTNESS_002E_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "checkpoint": "1 metadata proposal; essential Auth/bootstrap prerequisite blocked",
+  "categories": {
+    "LOCAL_SCHEMA_REPLAY": {
+      "status": "PASS",
+      "detail": "Trusted actual 44/45 application SQL only; Auth bootstrap incompatible"
+    },
+    "LOCAL_APPLICATION_SECURITY": {
+      "status": "BLOCKED",
+      "detail": "Metadata drift diagnostics only; effective-role acceptance absent"
+    },
+    "LOCAL_COHERENT_CAPTURE": {
+      "status": "NOT RUN",
+      "detail": "Stopped before integration"
+    },
+    "LOCAL_ENCRYPTED_ROUNDTRIP": {
+      "status": "NOT RUN",
+      "detail": "No new envelope or restore"
+    },
+    "LOCAL_FULL_ROW_EQUALITY": {
+      "status": "NOT RUN",
+      "detail": "No complete data fixture or load"
+    },
+    "LOCAL_NUTRITION_HISTORY": {
+      "status": "NOT RUN",
+      "detail": "Manifest/schema contract only, historical evidence not attributed"
+    },
+    "LOCAL_RECEIPT_IDEMPOTENCY": {
+      "status": "NOT RUN",
+      "detail": "Restored behavioral fixture absent"
+    },
+    "LOCAL_AUTH_COMPATIBILITY": {
+      "status": "BLOCKED",
+      "detail": "Required identities/factors/WebAuthn tables absent; real service/key/features unqualified"
+    },
+    "LOCAL_FUNCTIONAL_RECOVERY": {
+      "status": "NOT RUN",
+      "detail": "No recovered application/browser"
+    },
+    "LOCAL_FAULT_SAFETY": {
+      "status": "NOT RUN",
+      "detail": "Local replay cleanup only; no integrated capture faults"
+    },
+    "PRODUCER_AUTHENTICATION": {
+      "status": "BLOCKED",
+      "detail": "Descriptor equality is not independent authorized producer evidence"
+    },
+    "HOSTED_PROVIDER_COMPATIBILITY": {
+      "status": "BLOCKED",
+      "detail": "No hosted access authorized/performed"
+    },
+    "PRODUCTION_RECOVERY_ELIGIBILITY": {
+      "status": "BLOCKED",
+      "detail": "DENIED"
+    },
+    "RPO_24H": {
+      "status": "BLOCKED",
+      "detail": "NOT QUALIFIED"
+    },
+    "RTO_8H": {
+      "status": "BLOCKED",
+      "detail": "NOT QUALIFIED"
+    }
+  },
+  "historicalEvidenceStatus": "HISTORICAL ONLY",
+  "productionRecoveryEligibility": "DENIED",
+  "rpo24h": "NOT QUALIFIED",
+  "rto8h": "NOT QUALIFIED"
+}

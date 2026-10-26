@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "nutrition-002e-index/v1",
+  "implementationCommit": "7f8b79fd852d526c18e2066c371a776be8081ddd",
+  "implementationSha256": "8c3539869dd0591895395f5228d1d2d28988d004344544a2cb5fe5e1623a7658",
+  "files": [
+    {
+      "path": ".github/workflows/nutrition-002e-local.yml",
+      "bytes": 4098,
+      "sha256": "53339b618f76904e5a2a14460fc27485bc71d421cefe3c42dae746b975174cf4"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/baseline.json",
+      "bytes": 2000,
+      "sha256": "b1e2833099041970cb277f3023ce1cbd7cb1918fd0e7dbe2cf13e44a1b26d531"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/development-history.json",
+      "bytes": 3500,
+      "sha256": "7e59b6fac5b3d3ea84211c74da95a3619cd6fcf4f111642e87e2c81ea70e1d01"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/local-qualification.json",
+      "bytes": 4650,
+      "sha256": "0680ab273103437bc309e31c2ba738dd466c917c1129c7b1a67315a47a32b75c"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/protected-files.json",
+      "bytes": 1682,
+      "sha256": "186fd64fe706d4e46d9c7358b4f877573d611721be789568816bb15b5598de31"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/qualification-matrix.json",
+      "bytes": 2291,
+      "sha256": "058f8c7b2f50809a0dba0da6a63f00399d0a173dd834fe7ca71068cf1cb35583"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e/validation.json",
+      "bytes": 948,
+      "sha256": "3e76193bf8da752d129ed928ddc8f9b67beca714c7105361a9973ea5b94c62df"
+    },
+    {
+      "path": "docs/nutrition-diary-correctness-002e-design.md",
+      "bytes": 10588,
+      "sha256": "4cb385591cbc6fbb509ffe5fe266c4164d192c0b11a0ed4e328769725c3fb62d"
+    },
+    {
+      "path": "docs/nutrition-diary-correctness-002e-report.md",
+      "bytes": 21638,
+      "sha256": "009be94ba865f894a7a9191351d8bcc45564471711f7840e206d5a5f5b656105"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/README.md",
+      "bytes": 9403,
+      "sha256": "1d4447cc665f11f8032edd453303ae6d9db6385665144a242ae11f135b4968ac"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/contract-v1.json",
+      "bytes": 7838,
+      "sha256": "3b8c92d4140ad1efc19b7c528299d78fbd14db672abb4029c76fe4998de938a9"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/expected-profiles.json",
+      "bytes": 5927,
+      "sha256": "3322a96942beff8d43405867cf4c006727d60080019bcc8b874cc03a211b8d92"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-44.json",
+      "bytes": 499547,
+      "sha256": "625c147a3178eaa83a50376f6448172f8bcb27e938449106b78ca15b9ac1d469"
+    },
+    {
+      "path": "ops/recovery/nutrition-002e/inventory-45.json",
+      "bytes": 504360,
+      "sha256": "27fec6c2dfa0fc1aea2342ae87a9f601b978345cb0c714da1e4d3c6cfc73afa4"
+    },
+    {
+      "path": "scripts/check-workflow-security.mjs",
+      "bytes": 12363,
+      "sha256": "111c072be27443f981b5e772426622419fa86d9d955472ade799c03b8d642e93"
+    },
+    {
+      "path": "scripts/check-workflow-security.test.mjs",
+      "bytes": 11540,
+      "sha256": "75ad358f37e62f4336175173a0a653a1143355726b9dcdb53a262210e40d7d6d"
+    },
+    {
+      "path": "scripts/nutrition-002e/contract.mjs",
+      "bytes": 5910,
+      "sha256": "a506411cf36178c5248731197bf4ac102021a2d8b5d50dae1697fc16365eb4a0"
+    },
+    {
+      "path": "scripts/nutrition-002e/contracts.test.mjs",
+      "bytes": 4267,
+      "sha256": "11bcdb03d8fb949048473bf05d6be3a4cec30f864aaa2de03f79858845c7c7e4"
+    },
+    {
+      "path": "scripts/nutrition-002e/inventory.sql",
+      "bytes": 2319,
+      "sha256": "4ee8a82524778f566109128a2cd91a5b1cd772c32ec0bc686e1687e3e0bc6550"
+    },
+    {
+      "path": "scripts/nutrition-002e/qualify-local.mjs",
+      "bytes": 10340,
+      "sha256": "a37549be29136c9a74ecd28ab5b005fbd117acaea1b3201b838fc21ed8b686c7"
+    }
+  ],
+  "recoveryEligible": false,
+  "productionAccess": false
+}

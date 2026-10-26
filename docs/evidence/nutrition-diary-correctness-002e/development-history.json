@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "nutrition-002e-development-history/v1",
+  "attempts": [
+    {
+      "path": "nutrition-002e-proposal-attempt1.json",
+      "sha256": "8ffa6250613ba6c213ec169dea37fa2b0a0c53c27a307647ff597c7caf7d630c",
+      "result": "FAIL",
+      "diagnostic": null,
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt2.json",
+      "sha256": "5b50aa7428d12079bd3619152df5de104c023c45a8c7791e557ee3df5915048f",
+      "result": "FAIL",
+      "diagnostic": "N002E_TABLE_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt3.json",
+      "sha256": "2058a0ae8aaef1d018b8245cc6b1ff4921b368daf48ee5c7bb5d7fe56558dc47",
+      "result": "FAIL",
+      "diagnostic": "N002E_AUTH_WEBAUTHN_CREDENTIALS_ABSENT",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt4.json",
+      "sha256": "bb7fcc595df9d96c7b8137d2e579cb3752da87947a0a48c55ca4c236694d8f6d",
+      "result": "FAIL",
+      "diagnostic": "N002E_TABLE_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt5.json",
+      "sha256": "cb3c1ef59d6e01287a17c64fdbed275eac49a11919af2017e4f202f9367bb7aa",
+      "result": "FAIL",
+      "diagnostic": "N002E_TABLE_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt6.json",
+      "sha256": "cd8b66f065db4e1e18d8e7be73cd132fa3e10d20b248cfc2dc33e0cbda35d57d",
+      "result": "FAIL",
+      "diagnostic": "N002E_COLUMN_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt7.json",
+      "sha256": "f4d665b0f0a148e2b557e681bc188dc2ee7985221e5aceec4c3e02ce9ec96056",
+      "result": "FAIL",
+      "diagnostic": "N002E_COLUMN_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt8.json",
+      "sha256": "b3abb574aa6a77defaaffad4f4b6dcc7783192a1f2bd6404077950183e333cfc",
+      "result": "FAIL",
+      "diagnostic": "N002E_COLUMN_INVENTORY",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-proposal-attempt9.json",
+      "sha256": "8d3a1570b89893fb6edfef9ae2334db62f18ebcd61a4255fbd48d44056f0c7de",
+      "result": "PASS_CHECKPOINT1_RECOVERY_BLOCKED",
+      "diagnostic": null,
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    },
+    {
+      "path": "nutrition-002e-immutable-local.json",
+      "sha256": "7fa88314b1c06c6f3a1a5fc6180c7fd4ba50815f649477fb3c04ab7a0b790045",
+      "result": "FAIL",
+      "diagnostic": "ERR_ASSERTION",
+      "cleanupConfirmed": true,
+      "qualificationAccepted": false
+    }
+  ],
+  "findings": [
+    "Initial full Auth inventory failed: bare pinned PostgreSQL initializes only auth.users; identities/factors/WebAuthn absent.",
+    "Column diagnostic rejected actual stored generated normalized_alias; explicitly inventoried without qualifying a data transport.",
+    "Initial added mode fixture reasserted existing invoker mode; corrected to an actual definer change.",
+    "Proposal compilation PASS is development metadata only; immutable final run required."
+  ],
+  "productionAccess": false
+}

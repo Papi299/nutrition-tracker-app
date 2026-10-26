@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "nutrition-002e-baseline/v1",
+  "main": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+  "base": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+  "baseTree": "4ae327d758328632ab69d77e11f03a3024e1899a",
+  "pullRequests": [
+    {
+      "number": 200,
+      "head": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "base": "50716d3759e9b75c66fe98b9c483ebb10c28b531",
+      "headBranch": "codex/nutrition-002a-recovery",
+      "baseBranch": "main",
+      "draft": true,
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 201,
+      "head": "7201879935903e846dab5e2adef6d86beea0d597",
+      "base": "f969a52e297a3de5453e2bee1904eec552d43c63",
+      "headBranch": "codex/nutrition-002c-hybrid",
+      "baseBranch": "codex/nutrition-002a-recovery",
+      "draft": true,
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 202,
+      "head": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "base": "7201879935903e846dab5e2adef6d86beea0d597",
+      "headBranch": "codex/nutrition-002c1-fidelity",
+      "baseBranch": "codex/nutrition-002c-hybrid",
+      "draft": true,
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 203,
+      "head": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "base": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+      "headBranch": "codex/nutrition-002c1a-snapshot-catalog",
+      "baseBranch": "codex/nutrition-002c1-fidelity",
+      "draft": true,
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 204,
+      "head": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+      "base": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "headBranch": "codex/nutrition-002c1b-ddl-stability",
+      "baseBranch": "codex/nutrition-002c1a-snapshot-catalog",
+      "draft": true,
+      "merged": false,
+      "state": "open"
+    }
+  ],
+  "branch": "codex/nutrition-002e-application-recovery",
+  "productionAccess": false,
+  "mergeAuthorized": false,
+  "additionalSpendAuthorized": 0
+}

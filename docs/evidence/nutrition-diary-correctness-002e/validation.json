@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "nutrition-002e-validation/v1",
+  "sourceCommit": "7f8b79fd852d526c18e2066c371a776be8081ddd",
+  "sourceTree": "a8c46f6ac0df91151296f8773f16023b340580b8",
+  "implementationSha256": "8c3539869dd0591895395f5228d1d2d28988d004344544a2cb5fe5e1623a7658",
+  "node": "v22.23.2",
+  "focusedTests": {
+    "passCount": 293,
+    "failCount": 0,
+    "skipCount": 0,
+    "tapSha256": "4850db4283fb4ba8408610e7b3e8fcaf7c13f9b1ccea13d54c56eacb284a2128",
+    "elapsedMs": 2538.095792
+  },
+  "databaseCases": 36,
+  "localReplayElapsedSeconds": 77.057,
+  "cleanupConfirmed": true,
+  "eslint": "PASS_MAX_WARNINGS_ZERO",
+  "workflowPolicy": "PASS",
+  "diffCheck": "PASS",
+  "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_CHANGED",
+  "fullApplicationCi": "NOT_RUN",
+  "productionAccess": false,
+  "productionRecoveryEligibility": "DENIED",
+  "rpo24h": "NOT QUALIFIED",
+  "rto8h": "NOT QUALIFIED",
+  "exactDeliveryHeadCi": "SEE_DRAFT_PR_CLOSING_RECORD"
+}
