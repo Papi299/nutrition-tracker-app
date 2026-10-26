@@ -140,6 +140,11 @@
       "case": "Complete browser/email/recent-auth/paired Vault flow",
       "status": "NOT_RUN",
       "evidence": "Real Auth/internal mail/template and bounded application API/proof only; no fresh localized browser or external email."
+    },
+    {
+      "case": "JavaScript CodeQL zero-findings gate",
+      "status": "FAIL_FINDINGS_REQUIRE_REVIEW",
+      "evidence": "Two js/insufficient-password-hash findings at existing proof HMAC sites; likely fixture classification, not accepted/suppressed. Actions analysis succeeds; final exact-head CI remains authoritative."
     }
   ],
   "fourTableScopeAccepted": false,
