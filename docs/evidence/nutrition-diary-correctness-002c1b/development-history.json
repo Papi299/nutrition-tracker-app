@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "nutrition-002c1b-development-history/v1",
+  "attempts": [
+    {
+      "attempt": "1",
+      "immutableSourceProof": false,
+      "sourceCommit": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "implementationSha256": "c8317b227c7d48086b266480e378e7b43f96eeacc7c5f90adce16715a5d55dcd",
+      "result": "FAIL",
+      "caseCount": 8,
+      "failure": "LOCAL_QUALIFICATION_FAILED",
+      "failedCase": "participantSurvivesClientTermination",
+      "cleanupConfirmed": true,
+      "sanitizedReportSha256": "0bb3df68e3abcdaf264a40a43956b929497e94800482e3eadedfc1a5d2762f8f"
+    },
+    {
+      "attempt": "2",
+      "immutableSourceProof": false,
+      "sourceCommit": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "implementationSha256": "0fcd333e330db39ca657a8e5e46b7801c6bf6cf6802378a79e08aee7e3412140",
+      "result": "FAIL",
+      "caseCount": 43,
+      "failure": "N002C_LOCAL_PROCESS_FAILED_42883",
+      "failedCase": "no_ddl_stability_contract_referencedOverload",
+      "cleanupConfirmed": true,
+      "sanitizedReportSha256": "ef2ef7f63107433e64a08c7661e922f9711c434ef9220ace44c1114fa074c43f"
+    },
+    {
+      "attempt": "3",
+      "immutableSourceProof": false,
+      "sourceCommit": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "implementationSha256": "e322adcfb4624ff442d0f48d545f3238164b37bb7d5a89eb96b19c74b235c119",
+      "result": "FAIL",
+      "caseCount": 17,
+      "failure": "N002C1B_DUPLICATE_DEPENDENCY",
+      "failedCase": "fixtureRawDefaultsDependencyWitnessAndRefusals",
+      "cleanupConfirmed": true,
+      "sanitizedReportSha256": "f64325583df6c4ddc1966f9a0eadd7ef2394875a78f661eac25860ebc1755ab2"
+    },
+    {
+      "attempt": "4",
+      "immutableSourceProof": false,
+      "sourceCommit": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+      "implementationSha256": "44e97e306d480bf1a3d625cf026eee0a1b11baecf03da5f6732de90f76bae18d",
+      "result": "PASS_LOCAL_BOUNDARY_ARCHITECTURE_BLOCKED",
+      "caseCount": 82,
+      "failure": null,
+      "failedCase": null,
+      "cleanupConfirmed": true,
+      "sanitizedReportSha256": "755f582caefc485cea14bc9ba07c437e31c9d63f037c37fc5c41dd8a37059328"
+    }
+  ],
+  "unitPreparationFailure": "INCORRECT_CAPTURE_GUARD_FILENAME_CORRECTED",
+  "immutablePreFreshBoundaryRun": {
+    "sourceCommit": "210ab62e3c211df2fd890cbdb8d7b797eeb7973e",
+    "sourceTree": "4ac990e1a07eaaca446cb6c4153849c06c3e247c",
+    "implementationSha256": "3de14f57222a8ea7eaa7bc9fb494b77b2db034c2b067966f818965e6319c44ea",
+    "result": "PASS_LOCAL_BOUNDARY_ARCHITECTURE_BLOCKED",
+    "caseCount": 85,
+    "cleanupConfirmed": true
+  },
+  "interruptedLocalRun": {
+    "schemaVersion": "nutrition-002c1b-interrupted-local-run/v1",
+    "sourceCommit": "bb82ac3e8b7af76718771a77d9ff8d9959c8d2bb",
+    "result": "INTERRUPTED_NOT_QUALIFICATION_EVIDENCE",
+    "diagnostic": "PARTICIPANT_LOST_AND_DOCKER_QUERY_FAILED",
+    "cause": "NOT_ESTABLISHED",
+    "resultFileProduced": false,
+    "containers": [
+      {
+        "side": "source",
+        "exitCode": 0,
+        "oomKilled": false,
+        "startedAt": "2026-10-26T04:34:07.30003688Z",
+        "finishedAt": "2026-10-26T04:37:58.974860251Z",
+        "ownershipVerified": true
+      },
+      {
+        "side": "target",
+        "exitCode": 0,
+        "oomKilled": false,
+        "startedAt": "2026-10-26T04:34:08.89411509Z",
+        "finishedAt": "2026-10-26T04:37:59.171974252Z",
+        "ownershipVerified": true
+      }
+    ],
+    "manualOwnedCleanupConfirmed": true,
+    "productionAccess": false,
+    "productionRecoveryEligibility": false
+  },
+  "productionRecoveryEligibility": false
+}

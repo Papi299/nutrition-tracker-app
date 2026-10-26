@@ -22,3 +22,9 @@ administrative metadata changes in this inventory. No category is silently treat
 as ordinary row DML. No event trigger or new application write gate is installed.
 The existing 002C application gate remains a separate earlier cutover design;
 this task does not wire it into application or Auth tables.
+
+A concrete source detail matters: `promote-local.ts` performs GRANT/REVOKE of
+ingestion role memberships around its DML. Its local target restriction does not
+make that administrative path DML-only. The migration-role test script likewise
+uses disposable local role creation/grants despite its “hosted” compatibility name;
+it is not evidence of an installed hosted coordination mechanism.
