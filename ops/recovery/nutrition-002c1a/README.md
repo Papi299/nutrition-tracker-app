@@ -103,3 +103,16 @@ Public results contain classifications, source/tool/digest bindings and cleanup
 only. Raw catalogs, dump SQL, snapshot tokens, PIDs, credentials and per-object
 content fingerprints remain out of reports/artifacts. No encrypted data recovery,
 Auth service journey, provider/secret acceptance or RPO/RTO qualification occurs.
+
+
+## Exact-content official image mirror
+
+ECR rejected both initial candidate runs with `toomanyrequests: Data limit exceeded`.
+This task now pins `docker.io/supabase/postgres` at the identical reviewed
+`sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518`.
+The public OCI index bytes were independently SHA256-verified at Docker Hub;
+its amd64/arm64 child digests are recorded in sanitized image-mirror evidence.
+Supabase's own dockerhub-release-matrix.yml publishes the supabase/postgres image.
+The new local runner asserts its digest equals the unchanged002C reviewed image
+digest. No tag, environment variable, arbitrary mirror or different image is
+accepted. Old modules and workflows still retain their original references.

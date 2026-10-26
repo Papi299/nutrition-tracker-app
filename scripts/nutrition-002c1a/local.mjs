@@ -1,6 +1,10 @@
-import { run, startProcess, IMAGE, assertLocalDocker, waitUntil, snapshotToken } from '../nutrition-002c/local-postgres.mjs';
+import { run, startProcess, IMAGE as REVIEWED_IMAGE, assertLocalDocker, waitUntil, snapshotToken } from '../nutrition-002c/local-postgres.mjs';
 
-export { run, IMAGE, waitUntil };
+export { run, waitUntil };
+// The official mirror serves the identical reviewed OCI index bytes. No runtime
+// registry/image selector or tag substitution is accepted.
+export const IMAGE='docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518';
+if (IMAGE.split('@')[1] !== REVIEWED_IMAGE.split('@')[1]) throw new Error('N002C1A_IMAGE_DIGEST_MISMATCH');
 export const CONTAINERS = Object.freeze({ source: 'nutrition-002c1a-source', target: 'nutrition-002c1a-target' });
 const LABEL = 'codex.task=NUTRITION-DIARY-CORRECTNESS-002C1A';
 const fail = code => { throw new Error(code); };

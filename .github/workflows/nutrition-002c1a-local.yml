@@ -32,7 +32,7 @@ jobs:
           node scripts/check-workflow-security.mjs
           node --test scripts/nutrition-002c1a/contracts.test.mjs scripts/nutrition-002c1a/mapping.test.mjs scripts/nutrition-002c1/contracts.test.mjs scripts/nutrition-002c1/normalization.test.mjs scripts/nutrition-002c/contracts.test.mjs scripts/check-workflow-security.test.mjs scripts/phase-11i-recovery-contract.test.mjs scripts/phase-11i-populated-recovery.test.mjs scripts/phase-11i-public-verification.test.mjs scripts/phase-11i-psql-diagnostics.test.mjs scripts/phase-11i-cli-transport.test.mjs scripts/nutrition-002a-recovery.test.mjs
       - name: Prepare reviewed local database image
-        run: docker pull public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
+        run: docker pull docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
       - name: Qualify two disposable clusters
         run: node scripts/nutrition-002c1a/qualify-local.mjs "$RUNNER_TEMP/nutrition-002c1a-local.json"
       - name: Retain sanitized qualification

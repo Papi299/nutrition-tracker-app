@@ -1,0 +1,41 @@
+{
+  "registry": "docker.io/supabase/postgres",
+  "digest": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "manifestMediaType": "application/vnd.oci.image.index.v1+json",
+  "manifestBytes": 1609,
+  "manifests": [
+    {
+      "digest": "sha256:fc542c31f334749adbbd3c9e16b6be90f17d0fe6460d5196066d73f2723c9ecf",
+      "platform": {
+        "architecture": "amd64",
+        "os": "linux"
+      }
+    },
+    {
+      "digest": "sha256:2680c8995b8425a470c23aadf580e45579bf7e0dfcf17f20675c0be256ee48e7",
+      "platform": {
+        "architecture": "unknown",
+        "os": "unknown"
+      }
+    },
+    {
+      "digest": "sha256:917ced7b01be819d54f6d1888c79a7380aaa3efb9186d3a182d3b77bb672f39f",
+      "platform": {
+        "architecture": "arm64",
+        "os": "linux"
+      }
+    },
+    {
+      "digest": "sha256:e7c87bd667a58fdeb7c2ba1efafca0f005e3b462cc7012eebff1665cc284a3b1",
+      "platform": {
+        "architecture": "unknown",
+        "os": "unknown"
+      }
+    }
+  ],
+  "schemaVersion": "nutrition-002c1a-official-image-mirror/v1",
+  "reviewedOriginalRegistry": "public.ecr.aws/supabase/postgres",
+  "exactOriginalDigestPreserved": true,
+  "publisherSource": "https://github.com/supabase/postgres/blob/develop/.github/workflows/dockerhub-release-matrix.yml",
+  "productionAccess": false
+}

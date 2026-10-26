@@ -122,6 +122,7 @@ Paths are repository-relative within the isolated worktree:
 | docs/evidence/nutrition-diary-correctness-002c1a/development-attempts.json | Retained nonpassing development history |
 | docs/evidence/nutrition-diary-correctness-002c1a/qualification-matrix.json | PASS/BLOCKED/NOT RUN distinctions and negative-test classification |
 | docs/evidence/nutrition-diary-correctness-002c1a/validation.json | Commands, runtimes, source-bound validation |
+| docs/evidence/nutrition-diary-correctness-002c1a/image-mirror.json | Exact official mirror manifest digest and platform descriptor proof |
 | docs/evidence/nutrition-diary-correctness-002c1a/index.json | Implementation/protected source and evidence digests |
 
 Only the workflow-security allowlist/test edit existing files. No dependency,
@@ -263,7 +264,7 @@ CodeQL is source analysis, not PostgreSQL semantic/privilege or independent SQL 
 ## L. Validation
 
 Node22 and the unchanged reviewed image are required:
-`public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518`.
+`docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518`.
 Server/native dump are PostgreSQL17.6. Supabase CLI remains locked2.116.0 and is
 not invoked by this native experiment. No dependency install or upgrade occurred.
 
@@ -283,6 +284,17 @@ full encrypted recovery, actual GoTrue and hosted acceptance are NOT RUN here.
 Older passing evidence is historical input, never attributed to this implementation.
 
 ## M. PR and CI
+
+Initial heads c19c899 and3d3416a passed242 tests and both CodeQL analyses, but
+ECR refused the image pull with `toomanyrequests: Data limit exceeded` before
+database qualification. No failed run is treated as a database PASS. Explicit
+image preparation exposed the registry failure. The official Docker Hub image
+serves the identical reviewed1609-byte OCI index: SHA256 was checked directly,
+including the exact amd64/arm64 descriptors. Only this task's fixed reference
+changes registry; no image bytes, tags, provider versions or old modules change.
+The runner asserts digest equality with002C's unchanged reviewed constant.
+[Official publisher workflow](https://github.com/supabase/postgres/blob/develop/.github/workflows/dockerhub-release-matrix.yml).
+
 
 A new stacked Draft targets only `codex/nutrition-002c1-fidelity`. Existing PRs
 are not edited/rebased/retargeted/force-pushed/merged. The new workflow checks out
