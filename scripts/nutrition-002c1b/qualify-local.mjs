@@ -304,13 +304,18 @@ catch (e) {
 }
 finally {
     const cleanup = await Promise.allSettled([source.stop(), target.stop()]);
-    const absent = await run('docker', ['ps', '-a', '--filter', 'label=codex.task=NUTRITION-DIARY-CORRECTNESS-002C1B', '--format', '{{.Names}}']);
+    let absent, cleanupFailure;
+    try {
+        absent = await run('docker', ['ps', '-a', '--filter', 'label=codex.task=NUTRITION-DIARY-CORRECTNESS-002C1B', '--format', '{{.Names}}']);
+    } catch {
+        cleanupFailure = 'LOCAL_DOCKER_UNAVAILABLE_CLEANUP_UNCONFIRMED';
+    }
     const cleanupConfirmed = cleanup.every(r => r.status === 'fulfilled') && absent === '';
     if (!cleanupConfirmed || implementationDigest() !== digest) {
         success = false;
         process.exitCode = 1;
     }
-    const result = { schemaVersion: 'nutrition-002c1b-qualification/v1', startedAt, completedAt: new Date().toISOString(), ...await sourceIdentity(), trustedBase: BASE, trustedBaseTree: BASE_TREE, node: process.version, image: IMAGE, postgres: '17.6', nativeDump: '17.6', protocol: PROTOCOL, result: success ? 'PASS_LOCAL_BOUNDARY_ARCHITECTURE_BLOCKED' : 'FAIL', failure, failureStage: success ? undefined : phase, cases, cleanupConfirmed, ...classifications(), producerAuthenticated: false, productionAccess: false };
+    const result = { schemaVersion: 'nutrition-002c1b-qualification/v1', startedAt, completedAt: new Date().toISOString(), ...await sourceIdentity(), trustedBase: BASE, trustedBaseTree: BASE_TREE, node: process.version, image: IMAGE, postgres: '17.6', nativeDump: '17.6', protocol: PROTOCOL, result: success ? 'PASS_LOCAL_BOUNDARY_ARCHITECTURE_BLOCKED' : 'FAIL', failure, failureStage: success ? undefined : phase, cases, cleanupConfirmed, cleanupFailure, ...classifications(), producerAuthenticated: false, productionAccess: false };
     assertRedactedEvidence(result);
     writeFileSync(output, JSON.stringify(result, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
 }
