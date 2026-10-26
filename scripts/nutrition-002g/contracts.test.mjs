@@ -14,9 +14,10 @@ test('only complete trusted 44/45 inventories are accepted',()=>{
 });
 test('every enabled unsupported durable authentication method blocks fresh reconstruction',()=>{
  validateIdentity(witness());
- for(const change of [{factors:1},{passkeys:1},{provider:'google'},{unsupported:1},{phone:'+15550000000'},{anonymous:true},{confirmed:false},{banned:true},{deleted:true},{identities:2},{subject:'wrong-owner'}]) {
+ for(const change of [{factors:1},{passkeys:1},{provider:'google'},{unsupported:1},{phone:'+15550000000'},{anonymous:true},{confirmed:false},{banned:true},{deleted:true},{identities:2},{subject:'wrong-owner'},{deleted:undefined},{banned:null},{confirmed:'true'},{anonymous:undefined}]) {
   const w=witness();Object.assign(w.owners[0],change);assert.throws(()=>validateIdentity(w),/N002G_UNSUPPORTED_AUTH_STATE/);
  }
+ const extra=witness();extra.owners[0].unknownDurableFactor=true;assert.throws(()=>validateIdentity(extra),/IDENTITY_FIELD_INVENTORY/);
  const w=witness();w.authVersion='v9.0.0';assert.throws(()=>validateIdentity(w),/N002G_IDENTITY_PROFILE/);
 });
 test('owner authorization binds independently to both artifact and identity witness',()=>{

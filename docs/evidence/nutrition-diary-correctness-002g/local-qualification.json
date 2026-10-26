@@ -1,165 +1,165 @@
 {
   "contract": "nutrition-002g-local-qualification/v1",
   "result": "PASS",
-  "startedAt": "2026-10-26T17:41:36.254Z",
-  "completedAt": "2026-10-26T17:44:28.414Z",
+  "startedAt": "2026-10-26T17:55:55.144Z",
+  "completedAt": "2026-10-26T17:58:48.419Z",
   "node": "v22.23.4",
-  "implementationSha256": "a5dee56f19267b531b09c5f0933169434881537b237e272ebc67125cd7e641a7",
+  "implementationSha256": "5be72d08cf3363761e71acf035d1d07c4d56bf5ede3e321663b4a2888f4afbc3",
   "cases": [
     {
       "name": "boundary44RealIndependentBootstrap",
       "result": "PASS",
-      "elapsedMs": 7428
+      "elapsedMs": 7116
     },
     {
       "name": "boundary44TrustedReplayAndSecurity",
       "result": "PASS",
-      "elapsedMs": 15019
+      "elapsedMs": 14773
     },
     {
       "name": "boundary44PopulatedNutritionAndReceipts",
       "result": "PASS",
-      "elapsedMs": 2770
+      "elapsedMs": 2649
     },
     {
       "name": "boundary44CoherentCompleteCapture",
       "result": "PASS",
-      "elapsedMs": 1716
+      "elapsedMs": 1725
     },
     {
       "name": "boundary44EqualCountRowReplacementRetainsSnapshotIdentity",
       "result": "PASS",
-      "elapsedMs": 720
+      "elapsedMs": 697
     },
     {
       "name": "boundary44ReaderAndExporterFailureReject",
       "result": "PASS",
-      "elapsedMs": 472
+      "elapsedMs": 474
     },
     {
       "name": "boundary44ActualEnabledFactorProfileBlocked",
       "result": "PASS",
-      "elapsedMs": 750
+      "elapsedMs": 739
     },
     {
       "name": "boundary44CmsEncryptedRoundtrip",
       "result": "PASS",
-      "elapsedMs": 278
+      "elapsedMs": 456
     },
     {
       "name": "boundary44ArchiveNegatives",
       "result": "PASS",
-      "elapsedMs": 366
+      "elapsedMs": 148
     },
     {
       "name": "boundary44OwnerVerificationAndSameUuidApiReconstruction",
       "result": "PASS",
-      "elapsedMs": 2144
+      "elapsedMs": 2180
     },
     {
       "name": "boundary44ActualSchemaRoleAndBoundaryDriftRefused",
       "result": "PASS",
-      "elapsedMs": 1604
+      "elapsedMs": 1600
     },
     {
       "name": "boundary44Complete61TableValueRestore",
       "result": "PASS",
-      "elapsedMs": 30577
+      "elapsedMs": 31434
     },
     {
       "name": "boundary44OldSourceAuthorityRefusedBeforeFreshRecovery",
       "result": "PASS",
-      "elapsedMs": 2444
+      "elapsedMs": 2822
     },
     {
       "name": "boundary44VerifiedFreshTargetRecoverySingleUse",
       "result": "PASS",
-      "elapsedMs": 1913
+      "elapsedMs": 2111
     },
     {
       "name": "boundary44RealRlsActivationClosureAndSignup",
       "result": "PASS",
-      "elapsedMs": 4139
+      "elapsedMs": 4032
     },
     {
       "name": "maintenance44To45TrustedTransitionPreservesPriorValues",
       "result": "PASS",
-      "elapsedMs": 9815
+      "elapsedMs": 9713
     },
     {
       "name": "boundary45RealIndependentBootstrap",
       "result": "PASS",
-      "elapsedMs": 6963
+      "elapsedMs": 7184
     },
     {
       "name": "boundary45TrustedReplayAndSecurity",
       "result": "PASS",
-      "elapsedMs": 15226
+      "elapsedMs": 15464
     },
     {
       "name": "boundary45PopulatedNutritionAndReceipts",
       "result": "PASS",
-      "elapsedMs": 3766
+      "elapsedMs": 3840
     },
     {
       "name": "boundary45CoherentCompleteCapture",
       "result": "PASS",
-      "elapsedMs": 1711
+      "elapsedMs": 1705
     },
     {
       "name": "boundary45EqualCountRowReplacementRetainsSnapshotIdentity",
       "result": "PASS",
-      "elapsedMs": 695
+      "elapsedMs": 711
     },
     {
       "name": "boundary45ReaderAndExporterFailureReject",
       "result": "PASS",
-      "elapsedMs": 469
+      "elapsedMs": 490
     },
     {
       "name": "boundary45ActualEnabledFactorProfileBlocked",
       "result": "PASS",
-      "elapsedMs": 730
+      "elapsedMs": 733
     },
     {
       "name": "boundary45CmsEncryptedRoundtrip",
       "result": "PASS",
-      "elapsedMs": 262
+      "elapsedMs": 222
     },
     {
       "name": "boundary45ArchiveNegatives",
       "result": "PASS",
-      "elapsedMs": 217
+      "elapsedMs": 349
     },
     {
       "name": "boundary45OwnerVerificationAndSameUuidApiReconstruction",
       "result": "PASS",
-      "elapsedMs": 2193
+      "elapsedMs": 2185
     },
     {
       "name": "boundary45ActualSchemaRoleAndBoundaryDriftRefused",
       "result": "PASS",
-      "elapsedMs": 1574
+      "elapsedMs": 1621
     },
     {
       "name": "boundary45Complete61TableValueRestore",
       "result": "PASS",
-      "elapsedMs": 31377
+      "elapsedMs": 30839
     },
     {
       "name": "boundary45OldSourceAuthorityRefusedBeforeFreshRecovery",
       "result": "PASS",
-      "elapsedMs": 2412
+      "elapsedMs": 2476
     },
     {
       "name": "boundary45VerifiedFreshTargetRecoverySingleUse",
       "result": "PASS",
-      "elapsedMs": 1839
+      "elapsedMs": 1887
     },
     {
       "name": "boundary45RealRlsActivationClosureAndSignup",
       "result": "PASS",
-      "elapsedMs": 4081
+      "elapsedMs": 4134
     }
   ],
   "failure": null,

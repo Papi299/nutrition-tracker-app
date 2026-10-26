@@ -7,7 +7,7 @@ import { CONTRACT, AUTH_VERSION, boundary, literal, identifier, assertEqual, fai
 const catalogs=['pg_class','pg_attribute','pg_proc','pg_constraint','pg_policy','pg_trigger','pg_namespace','pg_type','pg_depend','pg_authid','pg_auth_members','pg_db_role_setting','pg_extension','pg_default_acl','pg_shdepend','pg_index','pg_attrdef','pg_enum','pg_rewrite'];
 export const identitySql=`select jsonb_build_object('profile','VERIFIED_EMAIL_NO_FACTORS_V1','authVersion','${AUTH_VERSION}',
  'owners',(select coalesce(jsonb_agg(jsonb_build_object('id',u.id,'email',u.email,'confirmed',u.email_confirmed_at is not null,
- 'deleted',u.deleted_at is not null,'banned',u.banned_until>now(),'anonymous',u.is_anonymous,'phone',coalesce(u.phone,''),
+ 'deleted',u.deleted_at is not null,'banned',coalesce(u.banned_until>now(),false),'anonymous',u.is_anonymous,'phone',coalesce(u.phone,''),
  'factors',(select count(*) from auth.mfa_factors f where f.user_id=u.id),'passkeys',(select count(*) from auth.webauthn_credentials f where f.user_id=u.id),
  'identities',(select count(*) from auth.identities i where i.user_id=u.id),
  'provider',(select min(provider) from auth.identities i where i.user_id=u.id),

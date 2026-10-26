@@ -3,9 +3,9 @@ import { readFileSync, readdirSync } from 'node:fs';
 export const root = new URL('../../', import.meta.url);
 export const CONTRACT = 'nutrition-002g-local-recovery/v1';
 export const AUTH_VERSION = 'v2.196.0';
-export const AUTH_IMAGE = 'public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232';
-export const DB_IMAGE = 'public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518';
-export const REST_IMAGE = 'public.ecr.aws/supabase/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d';
+export const AUTH_IMAGE = 'docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232';
+export const DB_IMAGE = 'docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518';
+export const REST_IMAGE = 'docker.io/postgrest/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d';
 export const CLIENT_IMAGE = 'docker.io/library/node@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d';
 export const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 export function canonical(v) {
@@ -32,8 +32,10 @@ export function assertCheckout() {
 export function validateIdentity(w) {
  if(!w||w.profile!=='VERIFIED_EMAIL_NO_FACTORS_V1'||w.authVersion!==AUTH_VERSION||!Array.isArray(w.owners)||!w.owners.length)fail('IDENTITY_PROFILE');
  for(const o of w.owners) {
+  const keys=['id','email','confirmed','deleted','banned','anonymous','phone','factors','passkeys','identities','provider','subject','unsupported'].sort();
+  assertEqual(Object.keys(o).sort(),keys,'IDENTITY_FIELD_INVENTORY');
   assertUuid(o.id);
-  if(typeof o.email!=='string'||!o.email.includes('@')||!o.confirmed||o.deleted||o.banned||o.anonymous||o.phone||o.factors!==0||o.passkeys!==0||o.identities!==1||o.provider!=='email'||o.subject!==o.id||o.unsupported!==0)fail('UNSUPPORTED_AUTH_STATE');
+  if(typeof o.email!=='string'||!o.email.includes('@')||o.confirmed!==true||o.deleted!==false||o.banned!==false||o.anonymous!==false||o.phone!==''||o.factors!==0||o.passkeys!==0||o.identities!==1||o.provider!=='email'||o.subject!==o.id||o.unsupported!==0)fail('UNSUPPORTED_AUTH_STATE');
  }
  if(new Set(w.owners.map(o=>o.id)).size!==w.owners.length||new Set(w.owners.map(o=>o.email)).size!==w.owners.length)fail('DUPLICATE_IDENTITY');
 }
