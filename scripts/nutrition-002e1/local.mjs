@@ -47,25 +47,37 @@ export class Environment {
   await this.check(kind);
  }
  async start() {
+  this.phase='DOCKER_CONTEXT';
   await assertLocalDocker();
   // Check the whole namespace before creating any resource, never adopt it.
+  this.phase='CONTAINER_NAMESPACE';
   for(const kind of ['db','auth','rest','client'])if(await run('docker',['ps','-a','--filter',`name=^/${this.prefix}-${kind}$`,'--format','{{.Names}}']))fail('PREEXISTING_RESOURCE');
+  this.phase='NETWORK_NAMESPACE';
   if(await run('docker',['network','ls','--filter','name=^'+this.network+'$','--format','{{.Name}}']))fail('PREEXISTING_NETWORK');
+  this.phase='VOLUME_NAMESPACE';
   if(await run('docker',['volume','ls','--filter','name=^'+this.volume+'$','--format','{{.Name}}']))fail('PREEXISTING_VOLUME');
+  this.phase='NETWORK_CREATE';
   this.networkId=await run('docker',['network','create','--internal','--label','codex.task='+LABEL,this.network]);
   if(!/^[a-f0-9]{64}$/.test(this.networkId))fail('AMBIGUOUS_NETWORK');
+  this.phase='VOLUME_CREATE';
   assertEqual(await run('docker',['volume','create','--label','codex.task='+LABEL,this.volume]),this.volume,'VOLUME_CREATE');
   const v=JSON.parse(await run('docker',['volume','inspect',this.volume]))[0];this.volumeCreatedAt=v.CreatedAt;await this.checkVolume();
+  this.phase='DATABASE_CREATE';
   await this.create('db',['--mount','type=volume,source='+this.volume+',target=/var/lib/postgresql/data',DB_IMAGE,'postgres','-D','/var/lib/postgresql/data',
    '-c','listen_addresses=*','-c','shared_preload_libraries='],{POSTGRES_PASSWORD:this.dbPassword});
   // The image temporarily runs a Unix-socket-only server during initialization.
   // Wait for the final TCP server before changing roles or launching Auth.
+  this.phase='DATABASE_READINESS';
   await waitUntil(async()=>{try{return (await run('docker',['exec',this.ids.get('db'),'pg_isready','-h','127.0.0.1','-p','5432'])).includes('accepting connections')&&await this.sql('select 1;')==='1';}catch{return false;}},60000);
   assertEqual(await this.sql('show server_version_num;'),'170006','POSTGRES_VERSION');
   // Same role-password bootstrap as CLI schema.sql, no provider table DDL.
+  this.phase='ROLE_BOOTSTRAP';
   await this.sql(`alter role supabase_auth_admin password '${this.dbPassword}';alter role authenticator password '${this.dbPassword}';`);
+  this.phase='CLIENT_CREATE';
   await this.create('client',[CLIENT_IMAGE,'node','-e','setInterval(()=>{},1000)'],{});
+  this.phase='AUTH_CREATE';
   await this.startAuth();
+  this.phase='READY';
  }
  async checkVolume() {
   const v=JSON.parse(await run('docker',['volume','inspect',this.volume]))[0];

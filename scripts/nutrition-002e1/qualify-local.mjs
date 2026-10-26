@@ -237,7 +237,18 @@ try {
  });
  passed=true;
  }
-}catch(e){failure=/^N002[A-Z0-9_]+$/.test(e.message)?e.message:'LOCAL_QUALIFICATION_FAILED';process.exitCode=1;}
+}catch(e){
+ failure=/^N002[A-Z0-9_]+$/.test(e.message)?e.message:'LOCAL_QUALIFICATION_FAILED';
+ if(stage==='independentRealProviderBootstrap') {
+  observations.bootstrapPhases=envs.map(e=>({side:e.side,phase:e.phase??'NOT_STARTED'}));
+  // Only fresh bootstrap, before any account/credential is created. Retain
+  // a bounded Docker diagnostic with every generated secret and URI removed.
+  let d=e.localDiagnostic??'';for(const env of envs)for(const value of [env.key,env.signing,env.dbPassword])d=d.replaceAll(value,'[redacted]');
+  const line=d.match(/(?:Error response from daemon:|docker:|template parsing error:|failed to execute template:)[^\n]{0,300}/)?.[0];
+  if(line)observations.bootstrapDockerDiagnostic=line.replace(/[a-z]+:\/\/\S+/gi,'[redacted-uri]').replace(/[a-zA-Z0-9_+/=-]{24,}/g,'[redacted]');
+ }
+ process.exitCode=1;
+}
 finally {
  const cleanup=await Promise.allSettled(envs.map(e=>e.stop()));
  let absent=false;try{absent=await run('docker',['ps','-a','--filter','label=codex.task='+LABEL,'--format','{{.Names}}'])===''&&await run('docker',['network','ls','--filter','label=codex.task='+LABEL,'--format','{{.Name}}'])===''&&await run('docker',['volume','ls','--filter','label=codex.task='+LABEL,'--format','{{.Name}}'])==='';}catch{}
@@ -246,7 +257,7 @@ finally {
  const result={contract:CONTRACT,base:BASE,sourceCommit:await run('git',['rev-parse','HEAD']),implementationSha256:digest??null,
   startedAt,completedAt:new Date().toISOString(),node:process.version,runtime,stages,cases,securityFindings,observations,compileProposal:compile,
   result:passed&&cleanupConfirmed?(compile?'PASS_BOOTSTRAP_PROPOSAL_ONLY':'PASS_BOUNDED_AUTH_RECOVERY_BLOCKED'):'FAIL',
-  failure:failure??null,failedStage:passed?null:stage,cleanupConfirmed,actualAuthService:true,
+  failure:failure??null,failedStage:passed?null:stage,cleanupConfirmed,actualAuthService:stages.includes('REAL_AUTH_BOOTSTRAP'),
   passkeyCeremony:'NOT_RUN',mfaWebauthn:'NOT_RUN',hostedFeatures:'UNKNOWN',closureCapabilityJourney:'NOT_RUN',
   coherentApplicationCapture:false,producerAuthenticated:false,recoveryEligible:false,productionAccess:false};
  writeFileSync(output,JSON.stringify(result,null,2)+'\n',{mode:0o600,flag:'wx'});
