@@ -67,6 +67,9 @@ for(const [name,value] of [
 test('CodeQL diagnostics expose only static rule/file/line, preserving the independent zero-findings gate',()=>{
  const input={version:'2.1.0',runs:[{tool:{driver:{name:'CodeQL'}},results:[{ruleId:'js/example',message:{text:'must never be printed'},locations:[{physicalLocation:{artifactLocation:{uri:'scripts/example.mjs'},region:{startLine:12}}}]}]}]};
  assert.deepEqual(coordinates(input),[{rule:'js/example',file:'scripts/example.mjs',line:12}]);
+ const flow=structuredClone(input);
+ flow.runs[0].results[0].codeFlows=[{threadFlows:[{locations:[{location:{physicalLocation:{artifactLocation:{uri:'scripts/source.mjs'},region:{startLine:1}},message:{text:'never emit source values'}}}]}]}];
+ assert.deepEqual(coordinates(flow)[0].flows,[[{file:'scripts/source.mjs',line:1}]]);
  for(const change of [r=>r.ruleId='invalid\nvalue',r=>r.locations[0].physicalLocation.artifactLocation.uri='https://external.invalid/value',r=>r.locations[0].physicalLocation.artifactLocation.uri='../escape.mjs',r=>r.locations[0].physicalLocation.region.startLine=0]) {
   const v=structuredClone(input);change(v.runs[0].results[0]);assert.throws(()=>coordinates(v));
  }
