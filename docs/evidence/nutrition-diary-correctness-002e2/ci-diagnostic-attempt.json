@@ -1,0 +1,69 @@
+{
+  "runId": 40324978788,
+  "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40324978788",
+  "head": "f84fe045243dbde5e3b86ac6686d0f0a6e3563e6",
+  "result": "failure",
+  "startedAt": "2026-10-26T12:45:25Z",
+  "completedAt": "2026-10-26T12:48:26Z",
+  "jobs": [
+    {
+      "id": 121579232297,
+      "name": "002E2 Auth scope, password recovery and pending-authority gate",
+      "result": "failure",
+      "startedAt": "2026-10-26T12:45:29Z",
+      "completedAt": "2026-10-26T12:48:25Z",
+      "failedSteps": [
+        "Qualify recovery lifecycle and enforce pending-authority gate"
+      ]
+    },
+    {
+      "id": 121579232667,
+      "name": "002E2 CodeQL actions",
+      "result": "success",
+      "startedAt": "2026-10-26T12:45:29Z",
+      "completedAt": "2026-10-26T12:46:24Z",
+      "failedSteps": []
+    },
+    {
+      "id": 121579232872,
+      "name": "002E2 CodeQL javascript-typescript",
+      "result": "failure",
+      "startedAt": "2026-10-26T12:45:29Z",
+      "completedAt": "2026-10-26T12:47:17Z",
+      "failedSteps": [
+        "Validate analysis results"
+      ]
+    }
+  ],
+  "focusedTests": {
+    "pass": 339,
+    "fail": 0,
+    "skip": 0
+  },
+  "e1Result": "PASS_BOUNDED_AUTH_RECOVERY_BLOCKED",
+  "e1Cases": 21,
+  "e1Cleanup": true,
+  "e2Result": "BLOCKED_WITH_ACTUAL_SECURITY_FINDING",
+  "e2CasesPassed": 16,
+  "e2CasesFailed": 1,
+  "e2Failure": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
+  "e2Cleanup": true,
+  "codeql": {
+    "actions": "PASS_ZERO_FINDINGS",
+    "javascriptTypescript": "FAIL_2_FINDINGS_REQUIRE_REVIEW",
+    "coordinates": [
+      {
+        "rule": "js/insufficient-password-hash",
+        "file": "lib/auth/recent-password-auth-proof.ts",
+        "line": 135
+      },
+      {
+        "rule": "js/insufficient-password-hash",
+        "file": "lib/auth/recent-password-auth-proof.ts",
+        "line": 183
+      }
+    ],
+    "correction": "Independent random proof keys replace password-labelled fixture generator for signing-key values; no app crypto or analysis threshold change; final CI required."
+  },
+  "artifactCount": 0
+}

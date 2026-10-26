@@ -1,11 +1,11 @@
 {
   "contract": "nutrition-002e2-local-auth-scope-recovery/v1",
   "base": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
-  "sourceCommit": "eae5ee6ed0c088fb5d4839baf966a179cc11adbf",
-  "implementationSha256": "19c8be134e2b9e112b004935d6f7461107a173d62aa767ade93c637175aa5b47",
+  "sourceCommit": "6ddcc2214652047191816e5837c2a08bf6b43b07",
+  "implementationSha256": "da4b6f61385687431781b4afebcd3606fa9382ceec75a9c2c61086a0973afaf3",
   "node": "v22.23.2",
-  "startedAt": "2026-10-26T12:36:18.796Z",
-  "completedAt": "2026-10-26T12:37:54.205Z",
+  "startedAt": "2026-10-26T12:48:51.982Z",
+  "completedAt": "2026-10-26T12:50:27.467Z",
   "result": "BLOCKED_WITH_ACTUAL_SECURITY_FINDING",
   "failedStage": "pendingSourceHashAndEmailOtpMustNotRestoreOldRecoveryAuthority",
   "failure": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
@@ -13,88 +13,88 @@
     {
       "name": "ownedCollisionRefusedWithoutAdoption",
       "result": "PASS",
-      "elapsedMs": 579
+      "elapsedMs": 668
     },
     {
       "name": "realIndependentBootstrapPinnedSchemaAndMigrationBytes",
       "result": "PASS",
-      "elapsedMs": 25773
+      "elapsedMs": 26038
     },
     {
       "name": "realInvitedPasswordAccountsAndNoUnapprovedSignup",
       "result": "PASS",
-      "elapsedMs": 4471
+      "elapsedMs": 4372
     },
     {
       "name": "sourcePublicRecoverMailVerificationUpdateOldDenialReplayBothLocales",
       "result": "PASS",
-      "elapsedMs": 6110
+      "elapsedMs": 6295
     },
     {
       "name": "foreignTokenCannotChooseOwnerOrOverwriteOwnerPassword",
       "result": "PASS",
-      "elapsedMs": 2341
+      "elapsedMs": 2170
     },
     {
       "name": "genuineRecoveryNaturallyExpiresWithoutTokenTimestampMutation",
       "result": "PASS",
-      "elapsedMs": 5455
+      "elapsedMs": 5610
     },
     {
       "name": "populatedEncryptedTotpPreservedAcrossAuthorizedRecovery",
       "result": "PASS",
-      "elapsedMs": 4478
+      "elapsedMs": 4383
     },
     {
       "name": "sourceValidPendingRecoveryControlsAndDistinctUnconsumedTokens",
       "result": "PASS",
-      "elapsedMs": 7353
+      "elapsedMs": 7707
     },
     {
       "name": "stoppedFourTableTransferExactRowsFreshTargetWithoutSessionsOrOtt",
       "result": "PASS",
-      "elapsedMs": 4871
+      "elapsedMs": 4716
     },
     {
       "name": "targetOriginalPasswordUuidFactorThenFreshPublicRecoveryBothLocales",
       "result": "PASS",
-      "elapsedMs": 9652
+      "elapsedMs": 9825
     },
     {
       "name": "targetActivationOwnerAnonymousForeignAndRecoveryAmrRestrictions",
       "result": "PASS",
-      "elapsedMs": 3870
+      "elapsedMs": 3749
     },
     {
       "name": "oldSourceJwtRefreshWrongSigningKeyAndValidatorSpecificLogout",
       "result": "PASS",
-      "elapsedMs": 2086
+      "elapsedMs": 2023
     },
     {
       "name": "actualApplicationRecentProofBoundToFreshIdentitySessionAndSecret",
       "result": "PASS",
-      "elapsedMs": 241
+      "elapsedMs": 242
     },
     {
       "name": "wrongMissingCredentialRootsDenyPasswordAndEncryptedFactor",
       "result": "PASS",
-      "elapsedMs": 5318
+      "elapsedMs": 5204
     },
     {
       "name": "wrongTargetCleanupRefusalInterruptionAndRetainedDatabaseRestart",
       "result": "PASS",
-      "elapsedMs": 5292
+      "elapsedMs": 4809
     },
     {
       "name": "unchanged45ApplicationMetadataAndClosedRecoveryCannotAuthorize",
       "result": "PASS",
-      "elapsedMs": 5536
+      "elapsedMs": 5625
     },
     {
       "name": "pendingSourceHashAndEmailOtpMustNotRestoreOldRecoveryAuthority",
       "result": "FAIL",
       "code": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
-      "elapsedMs": 729
+      "elapsedMs": 733
     }
   ],
   "observations": {
@@ -111,7 +111,7 @@
     },
     "expiry": {
       "fixtureOtpLifetimeSeconds": 2,
-      "elapsedMs": 2987,
+      "elapsedMs": 3012,
       "tokenStateMutated": false,
       "httpStatus": 403,
       "code": "otp_expired"
@@ -136,7 +136,7 @@
       "targetOtpStatus": 200,
       "targetOtpCode": null,
       "targetOtpUserMatches": true,
-      "elapsedSinceFixtureStartMs": 94168
+      "elapsedSinceFixtureStartMs": 94185
     },
     "identity": {
       "passwordBeforeTransferPreserved": true,

@@ -26,5 +26,31 @@
   ],
   "mitigationImplemented": false,
   "tokenStateFabricated": false,
-  "failedSecurityNegativeRetained": true
+  "failedSecurityNegativeRetained": true,
+  "additionalAttempts": [
+    {
+      "type": "FIRST_IMMUTABLE_LOCAL",
+      "sourceCommit": "eae5ee6ed0c088fb5d4839baf966a179cc11adbf",
+      "result": "16_PASS_1_FAILED_PENDING_OTP_GATE",
+      "historyCommit": "fed1b2e7b5c0022c72a422bf96d475270daf1bfc",
+      "cleanupConfirmed": true
+    },
+    {
+      "type": "CI_FIRST",
+      "runId": 40324234776,
+      "result": "AUTH_GATE_FAILURE_AND_TWO_JS_CODEQL_FINDINGS",
+      "evidence": "ci-first-attempt.json"
+    },
+    {
+      "type": "CI_DIAGNOSTIC",
+      "runId": 40324978788,
+      "result": "AUTH_GATE_FAILURE_AND_TWO_JS_CODEQL_FINDINGS_IDENTIFIED",
+      "evidence": "ci-diagnostic-attempt.json"
+    },
+    {
+      "type": "PROOF_KEY_SOURCE_CORRECTION",
+      "sourceCommit": "6ddcc2214652047191816e5837c2a08bf6b43b07",
+      "reason": "Separate random proof/credential-root keys from password fixture generator; preserve app cryptography and all gates."
+    }
+  ]
 }
