@@ -1,0 +1,30 @@
+{
+  "attempts": [
+    {
+      "type": "FOCUSED_UNIT",
+      "result": "58_PASS_1_FAIL",
+      "reason": "Synthetic test MIME fixture claimed quoted-printable but omitted equals encoding; corrected test fixture, actual provider MIME parser already passed."
+    },
+    {
+      "type": "FOCUSED_LINT",
+      "result": "FAIL_ONE_UNUSED_IMPORT",
+      "reason": "Removed unused read import; no assertion change."
+    },
+    {
+      "type": "FIRST_ACTUAL_SERVICE",
+      "result": "BLOCKED_WITH_ACTUAL_SECURITY_FINDING",
+      "sourceCommit": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+      "binding": "UNCOMMITTED_DEVELOPMENT_ONLY",
+      "implementationSha256": "6c1e78dff1769e43212cbf3520776cd625d240c06eef7edda7bd9dfd9423c9cf",
+      "casesPassed": 16,
+      "casesFailed": 1,
+      "failure": "N002E2_PENDING_SOURCE_OTP_INVALIDATION_GATE",
+      "cleanupConfirmed": true,
+      "startedAt": "2026-10-26T12:27:01.201Z",
+      "completedAt": "2026-10-26T12:28:34.708Z"
+    }
+  ],
+  "mitigationImplemented": false,
+  "tokenStateFabricated": false,
+  "failedSecurityNegativeRetained": true
+}
