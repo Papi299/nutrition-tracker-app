@@ -1,4 +1,7 @@
 import { randomBytes } from 'node:crypto';
+import { mkdtempSync, writeFileSync, unlinkSync, rmdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { run, assertLocalDocker, waitUntil } from '../nutrition-002c/local-postgres.mjs';
 import { AUTH_IMAGE, DB_IMAGE, REST_IMAGE, CLIENT_IMAGE, AUTH_VERSION, assertService, assertEqual, fail, token } from './contract.mjs';
 
@@ -40,8 +43,16 @@ export class Environment {
   const name=this.prefix+'-'+kind;
   if(await run('docker',['ps','-a','--filter',`name=^/${name}$`,'--format','{{.Names}}']))fail('PREEXISTING_RESOURCE');
   const args=['run','-d','--pull=never','--name',name,'--label','codex.task='+LABEL,'--network',this.network,
-   '--log-driver','none','--memory',kind==='db'?'768m':'256m','--cpus','1','--env-file','/dev/stdin',...extra];
-  const id=await run('docker',args,{input:Object.entries(env).map(([k,v])=>k+'='+v).join('\n')+'\n',timeoutMs:30000});
+   '--log-driver','none','--memory',kind==='db'?'768m':'256m','--cpus','1'];
+  // Linux cannot reopen Node's stdin socket as /dev/stdin. Docker reads this
+  // exclusive 0600 file in a fresh 0700 directory; it is never mounted, logged
+  // or retained after create, including subprocess failure.
+  const directory=mkdtempSync(join(tmpdir(),'nutrition-002e1-env-')),file=join(directory,'environment');
+  let id;
+  try {
+   writeFileSync(file,Object.entries(env).map(([k,v])=>k+'='+v).join('\n')+'\n',{mode:0o600,flag:'wx'});
+   id=await run('docker',[...args,'--env-file',file,...extra],{timeoutMs:30000});
+  }finally{try{unlinkSync(file);}finally{rmdirSync(directory);}}
   if(!/^[a-f0-9]{64}$/.test(id))fail('AMBIGUOUS_CREATE');this.ids.set(kind,id);
   if(kind==='auth')this.expectedAuthEnv=structuredClone(env);
   await this.check(kind);
