@@ -94,6 +94,8 @@ jobs:
           upload: never
           upload-database: false
           output: ${{ runner.temp }}/nutrition-002e2-sarif
+      - name: Record bounded static finding coordinates
+        run: node scripts/nutrition-002e2/sarif-findings.mjs "$RUNNER_TEMP/nutrition-002e2-sarif"
       - name: Validate analysis results
         env:
           CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}

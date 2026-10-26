@@ -4,6 +4,7 @@ import { json, validateScope, validateSources, assertRecoveryEligibility } from 
 import { Environment } from './local.mjs';
 import { Environment as PriorEnvironment } from '../nutrition-002e1/local.mjs';
 import { recoveryMail, syntheticAddress } from './mail-sink.mjs';
+import { coordinates } from './sarif-findings.mjs';
 
 const scope=json('ops/recovery/nutrition-002e2/feature-scope.json');
 test('source-bound scope keeps all fifteen features, all four proposed tables and unconditional refusal',()=>{
@@ -62,3 +63,11 @@ for(const [name,value] of [
  ['unreviewed encoding',mail(url).replace('quoted-printable','base64')],
  ['oversized',mail(url)+'a'.repeat(131072)],
 ])test('mail refuses '+name,()=>assert.throws(()=>recoveryMail(value,'owner@example.invalid'),/N002E2_MAIL/));
+
+test('CodeQL diagnostics expose only static rule/file/line, preserving the independent zero-findings gate',()=>{
+ const input={version:'2.1.0',runs:[{tool:{driver:{name:'CodeQL'}},results:[{ruleId:'js/example',message:{text:'must never be printed'},locations:[{physicalLocation:{artifactLocation:{uri:'scripts/example.mjs'},region:{startLine:12}}}]}]}]};
+ assert.deepEqual(coordinates(input),[{rule:'js/example',file:'scripts/example.mjs',line:12}]);
+ for(const change of [r=>r.ruleId='invalid\nvalue',r=>r.locations[0].physicalLocation.artifactLocation.uri='https://external.invalid/value',r=>r.locations[0].physicalLocation.artifactLocation.uri='../escape.mjs',r=>r.locations[0].physicalLocation.region.startLine=0]) {
+  const v=structuredClone(input);change(v.runs[0].results[0]);assert.throws(()=>coordinates(v));
+ }
+});

@@ -28,7 +28,7 @@ export function validateSources() {
  validateScope(json('ops/recovery/nutrition-002e2/feature-scope.json'));
 }
 export function implementationDigest() {
- const paths=['contract.mjs','local.mjs','mail-sink.mjs','helpers.mjs','qualify-local.mjs','contracts.test.mjs'].map(p=>'scripts/nutrition-002e2/'+p);
+ const paths=['contract.mjs','local.mjs','mail-sink.mjs','helpers.mjs','qualify-local.mjs','contracts.test.mjs','sarif-findings.mjs'].map(p=>'scripts/nutrition-002e2/'+p);
  paths.push('scripts/nutrition-002e1/contract.mjs','scripts/nutrition-002e1/local.mjs','scripts/nutrition-002e1/qualify-local.mjs',
   'ops/recovery/nutrition-002e2/feature-scope.json','ops/recovery/nutrition-002e2/key-custody.json','ops/recovery/nutrition-002e2/reviewed-source.json',
   'ops/recovery/nutrition-002e2/upstream-sources.json','ops/recovery/nutrition-002e1/upstream-sources.json',
