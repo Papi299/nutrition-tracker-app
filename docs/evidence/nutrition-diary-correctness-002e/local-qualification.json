@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "nutrition-002e-checkpoint1/v1",
+  "base": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+  "sourceCommit": "7f8b79fd852d526c18e2066c371a776be8081ddd",
+  "implementationSha256": "8c3539869dd0591895395f5228d1d2d28988d004344544a2cb5fe5e1623a7658",
+  "startedAt": "2026-10-26T08:03:17.401Z",
+  "completedAt": "2026-10-26T08:04:34.458Z",
+  "node": "v22.23.2",
+  "image": "docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "result": "PASS_CHECKPOINT1_RECOVERY_BLOCKED",
+  "failure": null,
+  "caseDiagnostic": null,
+  "observedAuthTables": [
+    "auth.users"
+  ],
+  "cases": [
+    {
+      "name": "trusted44IndependentReplayAndInventory",
+      "result": "PASS",
+      "elapsedMs": 14872
+    },
+    {
+      "name": "actual44RejectextraTable",
+      "result": "PASS",
+      "elapsedMs": 1644
+    },
+    {
+      "name": "actual44RejectcolumnPrecision",
+      "result": "PASS",
+      "elapsedMs": 1619
+    },
+    {
+      "name": "actual44RejectcolumnGrant",
+      "result": "PASS",
+      "elapsedMs": 1802
+    },
+    {
+      "name": "actual44RejectfunctionGrant",
+      "result": "PASS",
+      "elapsedMs": 1641
+    },
+    {
+      "name": "actual44RejectdefinerOwner",
+      "result": "PASS",
+      "elapsedMs": 1855
+    },
+    {
+      "name": "actual44RejectsearchPath",
+      "result": "PASS",
+      "elapsedMs": 1677
+    },
+    {
+      "name": "actual44RejectextraFunction",
+      "result": "PASS",
+      "elapsedMs": 1606
+    },
+    {
+      "name": "actual44RejectargumentDefault",
+      "result": "PASS",
+      "elapsedMs": 1613
+    },
+    {
+      "name": "actual44RejectforceRls",
+      "result": "PASS",
+      "elapsedMs": 1565
+    },
+    {
+      "name": "actual44RejectdefinerMode",
+      "result": "PASS",
+      "elapsedMs": 1615
+    },
+    {
+      "name": "actual44RejecttableGrant",
+      "result": "PASS",
+      "elapsedMs": 1670
+    },
+    {
+      "name": "actual44Rejectpolicy",
+      "result": "PASS",
+      "elapsedMs": 1574
+    },
+    {
+      "name": "actual44Rejectrls",
+      "result": "PASS",
+      "elapsedMs": 1615
+    },
+    {
+      "name": "actual44RejectdefaultAcl",
+      "result": "PASS",
+      "elapsedMs": 1565
+    },
+    {
+      "name": "actual44RejecttriggerMode",
+      "result": "PASS",
+      "elapsedMs": 1710
+    },
+    {
+      "name": "actual44RejectroleMembership",
+      "result": "PASS",
+      "elapsedMs": 1691
+    },
+    {
+      "name": "actual44RejectunknownSequence",
+      "result": "PASS",
+      "elapsedMs": 1520
+    },
+    {
+      "name": "trusted45IndependentReplayAndInventory",
+      "result": "PASS",
+      "elapsedMs": 2698
+    },
+    {
+      "name": "actual45RejectextraTable",
+      "result": "PASS",
+      "elapsedMs": 1718
+    },
+    {
+      "name": "actual45RejectcolumnPrecision",
+      "result": "PASS",
+      "elapsedMs": 1679
+    },
+    {
+      "name": "actual45RejectcolumnGrant",
+      "result": "PASS",
+      "elapsedMs": 1656
+    },
+    {
+      "name": "actual45RejectfunctionGrant",
+      "result": "PASS",
+      "elapsedMs": 1653
+    },
+    {
+      "name": "actual45RejectdefinerOwner",
+      "result": "PASS",
+      "elapsedMs": 1615
+    },
+    {
+      "name": "actual45RejectsearchPath",
+      "result": "PASS",
+      "elapsedMs": 1613
+    },
+    {
+      "name": "actual45RejectextraFunction",
+      "result": "PASS",
+      "elapsedMs": 1657
+    },
+    {
+      "name": "actual45RejectargumentDefault",
+      "result": "PASS",
+      "elapsedMs": 1624
+    },
+    {
+      "name": "actual45RejectforceRls",
+      "result": "PASS",
+      "elapsedMs": 1610
+    },
+    {
+      "name": "actual45RejectdefinerMode",
+      "result": "PASS",
+      "elapsedMs": 1686
+    },
+    {
+      "name": "actual45RejecttableGrant",
+      "result": "PASS",
+      "elapsedMs": 1599
+    },
+    {
+      "name": "actual45Rejectpolicy",
+      "result": "PASS",
+      "elapsedMs": 1682
+    },
+    {
+      "name": "actual45Rejectrls",
+      "result": "PASS",
+      "elapsedMs": 1613
+    },
+    {
+      "name": "actual45RejectdefaultAcl",
+      "result": "PASS",
+      "elapsedMs": 1656
+    },
+    {
+      "name": "actual45RejecttriggerMode",
+      "result": "PASS",
+      "elapsedMs": 1639
+    },
+    {
+      "name": "actual45RejectroleMembership",
+      "result": "PASS",
+      "elapsedMs": 1649
+    },
+    {
+      "name": "actual45RejectunknownSequence",
+      "result": "PASS",
+      "elapsedMs": 1465
+    }
+  ],
+  "cleanupConfirmed": true,
+  "compileProposal": false,
+  "actualAuthService": false,
+  "coherentCapture": false,
+  "encryptedRoundtrip": false,
+  "fullRowEquality": false,
+  "recoveryEligible": false,
+  "productionAccess": false
+}

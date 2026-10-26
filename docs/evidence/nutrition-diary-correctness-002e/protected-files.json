@@ -1,0 +1,51 @@
+{
+  "files": [
+    {
+      "path": ".github/workflows/phase-11i-production-backup.yml",
+      "sha256": "3ba0b04913407b0574c222eac4d01167fdfb1ad42b1ac83e5ee216c9da3970a6",
+      "unchanged": true
+    },
+    {
+      "path": "ops/recovery/phase-11i-recipient.pem",
+      "sha256": "a1d1e8d82b7990f0929967b837ced094389163c457d1951540e79c0dfb4b6a55",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "aa12e9fbd94617871648521a881d19c1985669aee527f1e81f330778d39ae73c",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "371ad88b03b2ec579b5e46245b9f93630e5ea62a4a99ff314f23c211876f8874",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-capture-consistency.mjs",
+      "sha256": "3dcc4f6f8d6133b530ed5cbfbacfa256b6af296f398c108e70359c70a596f00c",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-backup-pipeline.mjs",
+      "sha256": "5cfb0cb9da6112d86ff0405c20222e26c80cac0ca27bc419b39b8e65d24d43c0",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/phase-11i-restore-pipeline.mjs",
+      "sha256": "8c4663928c1261f8ac68d57f1cb45f4b4f1490fc4ee7ef1c3a143c9e4b80cf08",
+      "unchanged": true
+    },
+    {
+      "path": "lib/nutrition-snapshots/manifest.ts",
+      "sha256": "2c71f2c8d19aad5ef8c4b0878cfd3590328f19335de9dde9a5196fd4c92e5ce5",
+      "unchanged": true
+    },
+    {
+      "path": "deployment/phase-11h-contract.json",
+      "sha256": "0504e1fd762cb7c9fae8fb70b411dee9736a5fdf9efa2d15fae0b564d1f4ba16",
+      "unchanged": true
+    }
+  ],
+  "allHistoricalSqlUnmodified": true,
+  "validation": "actual blob/hash-checked replay in local qualification"
+}
