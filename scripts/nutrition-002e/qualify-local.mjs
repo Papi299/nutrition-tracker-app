@@ -99,7 +99,7 @@ try {
      execute replace(definition,'p_israel_attested boolean','p_israel_attested boolean DEFAULT false');
    end$$`],
    ['forceRls','alter table public.profiles force row level security'],
-   ['definerMode','alter function public.is_current_account_activated() security invoker'],
+   ['definerMode','alter function public.is_current_account_activated() security definer'],
    ['tableGrant','grant insert on public.profiles to anon'],
    ['policy','alter policy "Users can select their own profile" on public.profiles using(true)'],
    ['rls','alter table public.profiles disable row level security'],
