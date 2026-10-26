@@ -249,5 +249,7 @@ finally {
   failure:failure??null,failedStage:passed?null:stage,cleanupConfirmed,actualAuthService:true,
   passkeyCeremony:'NOT_RUN',mfaWebauthn:'NOT_RUN',hostedFeatures:'UNKNOWN',closureCapabilityJourney:'NOT_RUN',
   coherentApplicationCapture:false,producerAuthenticated:false,recoveryEligible:false,productionAccess:false};
- writeFileSync(output,JSON.stringify(result,null,2)+'\n',{mode:0o600,flag:'wx'});process.stdout.write(result.result+'\n');
+ writeFileSync(output,JSON.stringify(result,null,2)+'\n',{mode:0o600,flag:'wx'});
+ process.stdout.write(JSON.stringify({result:result.result,failure:result.failure,failedStage:result.failedStage,cleanupConfirmed,
+  cases:cases.map(({name,result,code})=>({name,result,...(code?{code}:{})}))})+'\n');
 }

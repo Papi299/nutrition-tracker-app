@@ -50,7 +50,12 @@ jobs:
       - name: Qualify real Auth on independent local source and target
         run: node scripts/nutrition-002e1/qualify-local.mjs "$RUNNER_TEMP/nutrition-002e1-local.json"
       - name: Record sanitized qualification without artifact storage
-        run: cat "$RUNNER_TEMP/nutrition-002e1-local.json" >> "$GITHUB_STEP_SUMMARY"
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/nutrition-002e1-local.json"; then
+            cat "$RUNNER_TEMP/nutrition-002e1-local.json" >> "$GITHUB_STEP_SUMMARY"
+            cat "$RUNNER_TEMP/nutrition-002e1-local.json"
+          fi
 
   security:
     if: github.event.pull_request.draft && github.event.pull_request.head.ref == 'codex/nutrition-002e1-auth-compatibility' && github.event.pull_request.head.repo.full_name == github.repository
