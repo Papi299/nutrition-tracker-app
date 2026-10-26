@@ -45,10 +45,10 @@ All predecessor PRs were Open/Draft/unmerged. The new managed worktree and branc
 `codex/nutrition-002e-application-recovery`. Main and predecessors are untouched.
 
 Local immutable implementation commit:
-`bcb3e4f9c99b32453e133686b048467f9302bef0`, tree
-`ce3b1be1a202c180d4b914f4e9682be96b17df1f`.
+`c635136f1eb78f7ab2baadddfdc50fa0154f9af2`, tree
+`fb3a96f3625ef91e09eca07f436acde34a98d90b`.
 Implementation SHA256:
-`b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578`.
+`0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03`.
 The implementation digest binds executable helpers, fixed source manifests,
 expected metadata, original app inventories/config/lock and CI policy. Delivery
 head/tree, PR URL and exact-head CI are closed in the PR and external final report
@@ -73,9 +73,9 @@ trees; both running images' shipped SQL files match the reviewed SHA256 inventor
 
 | Component | Fixed image digest |
 |---|---|
-| Auth, official ECR mirror | `c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232` |
-| Postgres, official ECR mirror | `28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518` |
-| PostgREST, official ECR mirror | `5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d` |
+| Auth, official Docker Hub supabase/gotrue | `c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232` |
+| Postgres, official Docker Hub supabase/postgres | `28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518` |
+| PostgREST, official Docker Hub postgrest/postgrest | `5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d` |
 | Node22 internal HTTP client | `de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d` |
 
 Runtime Auth health and PostgreSQL **17.6 / 170006** are independently checked.
@@ -278,7 +278,7 @@ remain NOT RUN. No universal crash-recovery guarantee is claimed.
 
 Node **v22.23.2** on the host, existing pinned dependencies and installed CLI
 **2.116.0**. No local dependency upgrade/install. Immutable run:
-**2026-10-26T09:01:18.529Z–09:02:21.182Z**, **62.653 seconds**,
+**2026-10-26T09:13:04.602Z–09:14:00.815Z**, **56.213 seconds**,
 **21 real service/scenario families PASS**, with six real metadata drift negatives
 inside their scenario and complete owned-resource cleanup.
 
@@ -313,11 +313,13 @@ actual runtimes, artifact API count and sanitized log conclusions are recorded i
 the closing PR body and external final report after CI. This committed report
 does not claim a future run has passed.
 
+Initial exact-head CI [40297462971](https://github.com/Papi299/nutrition-tracker-app/actions/runs/40297462971) passed all 315 tests and both CodeQL gates, but ECR refused the first image download with `toomanyrequests: Data limit exceeded`. The service fixture was **NOT RUN** in that attempt. The official Docker Hub images were independently pulled at identical digests (no version change); the corrected immutable implementation passed locally. The initial failed run is retained in `ci-initial-attempt.json`; it is not accepted as final CI.
+
 ## O. Draft PR
 
 Stacked Draft delivery only: `codex/nutrition-002e1-auth-compatibility` →
-`codex/nutrition-002e-application-recovery`, exact base PR205 SHA above. The PR URL,
-final delivery head/tree, diff and CI are closed in the final delivery record.
+`codex/nutrition-002e-application-recovery`, exact base PR205 SHA above. [Draft PR206](https://github.com/Papi299/nutrition-tracker-app/pull/206) is open.
+Final delivery head/tree, diff and exact-head CI are closed in the final delivery record.
 No merge/deployment authority; predecessor Drafts and main remain unchanged.
 
 ## P. Remaining blockers

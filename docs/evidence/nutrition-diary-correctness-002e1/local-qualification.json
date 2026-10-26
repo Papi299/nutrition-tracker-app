@@ -1,17 +1,17 @@
 {
   "contract": "nutrition-002e1-local-auth-compatibility/v1",
   "base": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
-  "sourceCommit": "bcb3e4f9c99b32453e133686b048467f9302bef0",
-  "implementationSha256": "b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578",
-  "startedAt": "2026-10-26T09:01:18.529Z",
-  "completedAt": "2026-10-26T09:02:21.182Z",
+  "sourceCommit": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
+  "implementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
+  "startedAt": "2026-10-26T09:13:04.602Z",
+  "completedAt": "2026-10-26T09:14:00.815Z",
   "node": "v22.23.2",
   "runtime": {
     "source": {
       "authVersion": "v2.196.0",
-      "authImage": "public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "authImage": "docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
       "authImageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
-      "dbImage": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "dbImage": "docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
       "dbImageId": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
       "serverVersion": "17.6",
       "networkInternal": true,
@@ -22,9 +22,9 @@
     },
     "target": {
       "authVersion": "v2.196.0",
-      "authImage": "public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "authImage": "docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
       "authImageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
-      "dbImage": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "dbImage": "docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
       "dbImageId": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
       "serverVersion": "17.6",
       "networkInternal": true,
@@ -48,107 +48,107 @@
     {
       "name": "preexistingOwnedNameCollisionRefusedWithoutAdoption",
       "result": "PASS",
-      "elapsedMs": 622
+      "elapsedMs": 472
     },
     {
       "name": "independentRealProviderBootstrap",
       "result": "PASS",
-      "elapsedMs": 8149
+      "elapsedMs": 7647
     },
     {
       "name": "wrongTargetAndCleanupIdentityRefuseBeforeOperatingOnSource",
       "result": "PASS",
-      "elapsedMs": 359
+      "elapsedMs": 354
     },
     {
       "name": "independentSchemaAndMigrationInventory",
       "result": "PASS",
-      "elapsedMs": 314
+      "elapsedMs": 294
     },
     {
       "name": "authSchemaDriftRefusals",
       "result": "PASS",
-      "elapsedMs": 1221
+      "elapsedMs": 1013
     },
     {
       "name": "authentic44ApplicationReplayBothEnvironments",
       "result": "PASS",
-      "elapsedMs": 19035
+      "elapsedMs": 15815
     },
     {
       "name": "realApiUnauthorizedSignupAndAnonymousDenied",
       "result": "PASS",
-      "elapsedMs": 994
+      "elapsedMs": 935
     },
     {
       "name": "apiInvitationConfirmationPasswordLoginAndRefresh",
       "result": "PASS",
-      "elapsedMs": 3092
+      "elapsedMs": 3046
     },
     {
       "name": "actual44ActivationRlsOwnerAndForeignDenial",
       "result": "PASS",
-      "elapsedMs": 3485
+      "elapsedMs": 3293
     },
     {
       "name": "populatedEncryptedTotpEnrolmentAndVerification",
       "result": "PASS",
-      "elapsedMs": 1530
+      "elapsedMs": 1418
     },
     {
       "name": "sourcePendingRecoveryCreatedThroughSupportedApiWithoutMail",
       "result": "PASS",
-      "elapsedMs": 281
+      "elapsedMs": 240
     },
     {
       "name": "stoppedSameVersionAuthOnlyCopyWithExactRowsAndNoSessions",
       "result": "PASS",
-      "elapsedMs": 5941
+      "elapsedMs": 4665
     },
     {
       "name": "restoredOriginalPasswordUuidAndPopulatedFactorAccepted",
       "result": "PASS",
-      "elapsedMs": 1778
+      "elapsedMs": 1556
     },
     {
       "name": "pendingSourceRecoveryEvaluatedBeforeAnyTargetPasswordLoginForThatUser",
       "result": "PASS",
-      "elapsedMs": 252
+      "elapsedMs": 219
     },
     {
       "name": "oldSourceAccessAndRefreshDeniedByActualTargetPaths",
       "result": "PASS",
-      "elapsedMs": 1241
+      "elapsedMs": 1080
     },
     {
       "name": "logoutRevokesRefreshAndAuthSessionButJwtRlsRemainsExplicit",
       "result": "PASS",
-      "elapsedMs": 1471
+      "elapsedMs": 1393
     },
     {
       "name": "wrongAndMissingCredentialEncryptionKeyRejectPassword",
       "result": "PASS",
-      "elapsedMs": 3796
+      "elapsedMs": 3638
     },
     {
       "name": "credentialTamperAndUuidBoundCiphertextRejected",
       "result": "PASS",
-      "elapsedMs": 1576
+      "elapsedMs": 1586
     },
     {
       "name": "interruptedAuthAndTargetRestartPreserveFreshLogin",
       "result": "PASS",
-      "elapsedMs": 4177
+      "elapsedMs": 4246
     },
     {
       "name": "authentic45ReplayBothAndAuthorizationContinuity",
       "result": "PASS",
-      "elapsedMs": 1006
+      "elapsedMs": 985
     },
     {
       "name": "closedAccountCannotAuthorizeOrReactivate",
       "result": "PASS",
-      "elapsedMs": 1175
+      "elapsedMs": 1161
     }
   ],
   "securityFindings": [],

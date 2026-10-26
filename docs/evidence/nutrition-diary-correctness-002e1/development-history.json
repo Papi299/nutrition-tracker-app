@@ -81,8 +81,15 @@
     "Development 3/4 used tmpfs for database restart; data was lost on stop. Replaced with separately owned local volumes, removed on completion.",
     "Development 5 incorrectly required pending recovery acceptance after another login could clear it. Replaced with an observation before any target password login for that user. No universal reset-token revocation inferred.",
     "Development 6 passed the bounded fixture before immutable commit; only the immutable final run is accepted.",
-    "First focused run found and corrected a no-op type mutation and identifier null/newline coercion. First workflow regression found a wrong generated stacked base; corrected before push. All final checks pass."
+    "First focused run found and corrected a no-op type mutation and identifier null/newline coercion. First workflow regression found a wrong generated stacked base; corrected before push. All final checks pass.",
+    "Initial CI 40297462971 passed 315 tests and both CodeQL gates but ECR refused image download before services ran. Verified official Docker Hub names at unchanged digests; immutable implementation c635136 requalified locally in 56.213 seconds. Initial failed attempt is retained in ci-initial-attempt.json."
   ],
-  "finalImmutableSource": "bcb3e4f9c99b32453e133686b048467f9302bef0",
-  "finalImplementationSha256": "b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578"
+  "finalImmutableSource": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
+  "finalImplementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
+  "historicalImmutableRun": {
+    "source": "bcb3e4f9c99b32453e133686b048467f9302bef0",
+    "result": "PASS_BOUNDED_AUTH_RECOVERY_BLOCKED",
+    "file": "local-ecr-qualification.json",
+    "acceptedAsFinalDeliveryQualification": false
+  }
 }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "nutrition-002e1-evidence-index/v1",
-  "implementationCommit": "bcb3e4f9c99b32453e133686b048467f9302bef0",
-  "implementationSha256": "b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578",
+  "implementationCommit": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
+  "implementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
   "verdict": "NUTRITION_DIARY_CORRECTNESS_002E1_BLOCKED_WITH_EXPLICIT_FINDINGS",
   "files": [
     {
       "path": ".github/workflows/nutrition-002e1-local.yml",
-      "bytes": 4953,
-      "sha256": "10c40fc65d5cb191e22076f7f2e08613304ebc3a9a66f7df406df0b73590e218"
+      "bytes": 4939,
+      "sha256": "ef04e394e3b27693fd71837f47b198d73148077bda5f94a4971adb595d66c131"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-002e1/baseline.json",
@@ -15,14 +15,24 @@
       "sha256": "5021e615ba665b4d36731d209d43e808d6a5eca4a37b9672648622ea8f42006c"
     },
     {
+      "path": "docs/evidence/nutrition-diary-correctness-002e1/ci-initial-attempt.json",
+      "bytes": 900,
+      "sha256": "43163e6aaa1fdb619405adc5bb830d72365858d1facbafcdbd72d78480715090"
+    },
+    {
       "path": "docs/evidence/nutrition-diary-correctness-002e1/development-history.json",
-      "bytes": 4165,
-      "sha256": "57427e8464c9155e8bf0838bf1427af0c6700256a589e7783225399723c9b115"
+      "bytes": 4717,
+      "sha256": "b10d214ecd44ec4dc7ed180469c3d56c9556a9d7770c361e7a5641f53db52265"
+    },
+    {
+      "path": "docs/evidence/nutrition-diary-correctness-002e1/local-ecr-qualification.json",
+      "bytes": 5309,
+      "sha256": "f4c3ffb9080fd7e08c79651149de318a5dac0166e63755a624ae253de81e35fb"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-002e1/local-qualification.json",
-      "bytes": 5309,
-      "sha256": "f4c3ffb9080fd7e08c79651149de318a5dac0166e63755a624ae253de81e35fb"
+      "bytes": 5288,
+      "sha256": "e70ab8d95ca4199d3b07933ffe4058428ae8413526de56af3ac54d15568173f0"
     },
     {
       "path": "docs/evidence/nutrition-diary-correctness-002e1/protected-files.json",
@@ -42,17 +52,17 @@
     {
       "path": "docs/evidence/nutrition-diary-correctness-002e1/validation.json",
       "bytes": 858,
-      "sha256": "4e67ba1935c0582a1425430e3d1458c320b3fd4288d692241f5a172bbac2a45a"
+      "sha256": "ff0712f056e63c75ea8cc4bb09fdf6e1a04c13a0935e4035b96798405de4984d"
     },
     {
       "path": "docs/nutrition-diary-correctness-002e1-design.md",
-      "bytes": 6747,
-      "sha256": "bf40d29916d7902357e7d87118d99cf18da27c20f19b53f745c8c0ede055469a"
+      "bytes": 7380,
+      "sha256": "d349537036d6817831321e750460e64fa32a887c0e22ee21f730e94a2f1a7bab"
     },
     {
       "path": "docs/nutrition-diary-correctness-002e1-report.md",
-      "bytes": 22089,
-      "sha256": "596f71de463de5d8cd6bbf10b45d4ab504f7f883aaa0537845e910726e86af34"
+      "bytes": 22770,
+      "sha256": "c90e48c24c9bfcb2795cf854c1f218413d4d483bb6532e254ef8b928613643f5"
     },
     {
       "path": "ops/recovery/nutrition-002e1/auth-inventory.json",
@@ -61,8 +71,8 @@
     },
     {
       "path": "ops/recovery/nutrition-002e1/contract-v1.json",
-      "bytes": 2816,
-      "sha256": "5b3a77761d5205240a2077a95ca2e1b6db8e36e2e8133133e5093614e7934436"
+      "bytes": 2806,
+      "sha256": "32d63ce7501f018b77634d1a34bb7c0bfbcb9e0c38ec0ae0c3cc9e90f8cfa77e"
     },
     {
       "path": "ops/recovery/nutrition-002e1/table-classification.json",
@@ -77,7 +87,7 @@
     {
       "path": "scripts/check-workflow-security.mjs",
       "bytes": 12484,
-      "sha256": "d225a35ce1ea350f9214a8b65c86ac8a72d8b6e833f4ba94030d84221f7375b5"
+      "sha256": "7a46e97815cdc08a6011c8f0c1051078f8362eb7dfc376e361605f920a429451"
     },
     {
       "path": "scripts/check-workflow-security.test.mjs",
@@ -86,8 +96,8 @@
     },
     {
       "path": "scripts/nutrition-002e1/contract.mjs",
-      "bytes": 3850,
-      "sha256": "f6ffeae14c391106ff189f9df6403db6ea6690d0670d51c4d41845202ebb4275"
+      "bytes": 3836,
+      "sha256": "dbfb80fd0adadc7648053409ab01d3a729951c0a4cf2297e27cd1b533b8a3e22"
     },
     {
       "path": "scripts/nutrition-002e1/contracts.test.mjs",
