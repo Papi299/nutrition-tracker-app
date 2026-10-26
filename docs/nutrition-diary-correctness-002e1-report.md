@@ -45,10 +45,10 @@ All predecessor PRs were Open/Draft/unmerged. The new managed worktree and branc
 `codex/nutrition-002e-application-recovery`. Main and predecessors are untouched.
 
 Local immutable implementation commit:
-`c635136f1eb78f7ab2baadddfdc50fa0154f9af2`, tree
-`fb3a96f3625ef91e09eca07f436acde34a98d90b`.
+`304f9761243bc17386bd9d446b3ce5a7ad048678`, tree
+`35e8fa9ba916c0068498c72d51ec7d76ecd95e1e`.
 Implementation SHA256:
-`0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03`.
+`d9aa03442e6f95e4ce815737d307e92486545e84ccad6363e4bf3c8b9874a4e8`.
 The implementation digest binds executable helpers, fixed source manifests,
 expected metadata, original app inventories/config/lock and CI policy. Delivery
 head/tree, PR URL and exact-head CI are closed in the PR and external final report
@@ -81,8 +81,11 @@ trees; both running images' shipped SQL files match the reviewed SHA256 inventor
 Runtime Auth health and PostgreSQL **17.6 / 170006** are independently checked.
 Each side has a separate internal Docker network, four task-owned containers and
 one disposable local DB volume. No host ports, external SMTP or host bind mounts.
-The Node client performs real HTTP inside its own side's network, with secrets
-only in stdin/captured memory. Source/target share no network or volume.
+The Node client performs real HTTP inside its own side's network, with HTTP credentials
+only in stdin/captured memory. Container startup uses an exclusive 0600 environment
+file inside a fresh 0700 directory, immediately deleted in finally; it is never
+mounted, logged, uploaded or retained. No such directory remains after final
+qualification. Source/target share no network or volume.
 
 ## D. Auth schema inventory
 
@@ -278,7 +281,7 @@ remain NOT RUN. No universal crash-recovery guarantee is claimed.
 
 Node **v22.23.2** on the host, existing pinned dependencies and installed CLI
 **2.116.0**. No local dependency upgrade/install. Immutable run:
-**2026-10-26T09:13:04.602Z–09:14:00.815Z**, **56.213 seconds**,
+**2026-10-26T09:27:44.437Z–09:28:41.199Z**, **56.762 seconds**,
 **21 real service/scenario families PASS**, with six real metadata drift negatives
 inside their scenario and complete owned-resource cleanup.
 
@@ -314,6 +317,8 @@ the closing PR body and external final report after CI. This committed report
 does not claim a future run has passed.
 
 Initial exact-head CI [40297462971](https://github.com/Papi299/nutrition-tracker-app/actions/runs/40297462971) passed all 315 tests and both CodeQL gates, but ECR refused the first image download with `toomanyrequests: Data limit exceeded`. The service fixture was **NOT RUN** in that attempt. The official Docker Hub images were independently pulled at identical digests (no version change); the corrected immutable implementation passed locally. The initial failed run is retained in `ci-initial-attempt.json`; it is not accepted as final CI.
+
+Three subsequent CI attempts (40298169769, 40298603674, 40299169453) pulled the reviewed images and passed the regressions/CodeQL gates, but failed during fresh resource bootstrap. Sanitized phase diagnostics identified Docker Linux `open /dev/stdin: no such device or address` before Auth started. The final implementation uses restricted ephemeral env files with immediate cleanup; no image/version/security gate changed. These attempts and their actual job times are retained in `ci-portability-attempts.json`. Final CI also preserves sanitized failure summaries under `if: always()`; no failed attempt is relabelled successful.
 
 ## O. Draft PR
 

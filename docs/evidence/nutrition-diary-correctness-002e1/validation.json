@@ -5,12 +5,13 @@
     "focusedTests": 315,
     "failed": 0,
     "skipped": 0,
-    "tapSha256": "ead1c50c4b271e4bc748b78add67310b6653b696e5ddd8199c9df2c953f82b9d",
+    "tapSha256": "d4255983ff790a42dc3cc1e86eed5fefa734fa053606838241f79ff14233820e",
     "realServiceScenarios": 21,
     "metadataDriftNegativesWithinScenario": 6,
-    "immutableSource": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
-    "implementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
-    "cleanupConfirmed": true
+    "immutableSource": "304f9761243bc17386bd9d446b3ce5a7ad048678",
+    "implementationSha256": "d9aa03442e6f95e4ce815737d307e92486545e84ccad6363e4bf3c8b9874a4e8",
+    "cleanupConfirmed": true,
+    "temporaryEnvironmentDirectoriesRemaining": 0
   },
   "upstreamPublicSourceBlobsIndependentlyVerified": 82,
   "focusedEslint": "PASS_ZERO_WARNINGS",

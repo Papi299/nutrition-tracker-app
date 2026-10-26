@@ -1,0 +1,125 @@
+{
+  "attempts": [
+    {
+      "runId": 40298169769,
+      "head": "e0041e8b71cd1d1e8dba854345f5be78f43caf68",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40298169769",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-10-26T09:15:38Z",
+      "completedAt": "2026-10-26T09:17:28Z",
+      "jobs": [
+        {
+          "id": 121489229066,
+          "name": "002E1 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:15:41Z",
+          "completed_at": "2026-10-26T09:16:31Z"
+        },
+        {
+          "id": 121489229494,
+          "name": "002E1 real Auth and application compatibility",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-26T09:15:42Z",
+          "completed_at": "2026-10-26T09:16:38Z"
+        },
+        {
+          "id": 121489229721,
+          "name": "002E1 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:15:42Z",
+          "completed_at": "2026-10-26T09:17:27Z"
+        }
+      ],
+      "artifacts": {
+        "artifacts": []
+      },
+      "qualification": "FAILED_BEFORE_AUTH_START_DIAGNOSTIC_NOT_YET_EXPOSED",
+      "cleanupConfirmed": null
+    },
+    {
+      "runId": 40298603674,
+      "head": "1d24ceac81e6f87407dc9fe3df8cec6aac5a3f2a",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40298603674",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-10-26T09:19:05Z",
+      "completedAt": "2026-10-26T09:20:45Z",
+      "jobs": [
+        {
+          "id": 121490666649,
+          "name": "002E1 real Auth and application compatibility",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-26T09:19:09Z",
+          "completed_at": "2026-10-26T09:20:01Z"
+        },
+        {
+          "id": 121490667065,
+          "name": "002E1 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:19:08Z",
+          "completed_at": "2026-10-26T09:20:07Z"
+        },
+        {
+          "id": 121490667081,
+          "name": "002E1 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:19:09Z",
+          "completed_at": "2026-10-26T09:20:44Z"
+        }
+      ],
+      "artifacts": {
+        "artifacts": []
+      },
+      "qualification": "FAILED_AT_FRESH_BOOTSTRAP_AFTER_COLLISION_GUARD",
+      "cleanupConfirmed": true
+    },
+    {
+      "runId": 40299169453,
+      "head": "07c395bef42dda6683bca2ae18302baa99ff8b06",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/40299169453",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-10-26T09:23:28Z",
+      "completedAt": "2026-10-26T09:25:08Z",
+      "jobs": [
+        {
+          "id": 121492536243,
+          "name": "002E1 real Auth and application compatibility",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-26T09:23:32Z",
+          "completed_at": "2026-10-26T09:24:25Z"
+        },
+        {
+          "id": 121492536468,
+          "name": "002E1 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:23:32Z",
+          "completed_at": "2026-10-26T09:25:08Z"
+        },
+        {
+          "id": 121492536571,
+          "name": "002E1 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-26T09:23:32Z",
+          "completed_at": "2026-10-26T09:24:29Z"
+        }
+      ],
+      "artifacts": {
+        "artifacts": []
+      },
+      "qualification": "FAILED_DATABASE_CREATE_DEV_STDIN_ENXIO",
+      "cleanupConfirmed": true
+    }
+  ],
+  "correction": "Docker Linux cannot open Node's stdin socket through /dev/stdin. Use an exclusive 0600 env file in a fresh 0700 directory, delete immediately in finally; no image, version, privilege, RLS or recovery guarantee changes."
+}

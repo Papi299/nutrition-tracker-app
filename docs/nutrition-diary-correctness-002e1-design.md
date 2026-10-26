@@ -103,3 +103,13 @@ repositories were independently pulled at the identical existing digests:
 is fixed by the reviewed CLI Dockerfile). No Auth/DB/API version or content
 digest changes. The new immutable implementation is requalified locally before
 final exact-head CI. No paid registry, credential, bypass or quota change is used.
+
+Linux CI portability correction: actual pre-account diagnostics showed Docker
+cannot open the Node child stdin socket via `/dev/stdin` for `--env-file`.
+Container creation now writes an exclusive 0600 env file in a new 0700 directory,
+passes its path to Docker without mounting it, and unlinks/removes both in finally
+immediately after create. HTTP credentials still pass through stdin/memory only.
+Final local qualification confirms no temporary env directory remains. The runner
+architecture was investigated through official OCI manifests (both amd64/arm64
+present); no runner or image-version change was needed. All failed CI attempts
+are retained separately, with no artifact uploads or paid resource.

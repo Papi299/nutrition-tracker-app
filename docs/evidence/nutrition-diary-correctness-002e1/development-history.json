@@ -82,14 +82,20 @@
     "Development 5 incorrectly required pending recovery acceptance after another login could clear it. Replaced with an observation before any target password login for that user. No universal reset-token revocation inferred.",
     "Development 6 passed the bounded fixture before immutable commit; only the immutable final run is accepted.",
     "First focused run found and corrected a no-op type mutation and identifier null/newline coercion. First workflow regression found a wrong generated stacked base; corrected before push. All final checks pass.",
-    "Initial CI 40297462971 passed 315 tests and both CodeQL gates but ECR refused image download before services ran. Verified official Docker Hub names at unchanged digests; immutable implementation c635136 requalified locally in 56.213 seconds. Initial failed attempt is retained in ci-initial-attempt.json."
+    "Initial CI 40297462971 passed 315 tests and both CodeQL gates but ECR refused image download before services ran. Verified official Docker Hub names at unchanged digests; immutable implementation c635136 requalified locally in 56.213 seconds. Initial failed attempt is retained in ci-initial-attempt.json.",
+    "CI runs 40298169769, 40298603674 and 40299169453 passed 315 regressions and both CodeQL languages but refused resource bootstrap. Failure summaries were initially skipped and then made unconditional. Fixed bootstrap phases and pre-account redacted diagnostics located Docker Linux /dev/stdin ENXIO. Replaced env-file stdin socket with exclusive 0600 temporary files under 0700 directories, immediately removed in finally. Final committed implementation 304f976 requalified locally; no temporary environment directory remains."
   ],
-  "finalImmutableSource": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
-  "finalImplementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
+  "finalImmutableSource": "304f9761243bc17386bd9d446b3ce5a7ad048678",
+  "finalImplementationSha256": "d9aa03442e6f95e4ce815737d307e92486545e84ccad6363e4bf3c8b9874a4e8",
   "historicalImmutableRun": {
     "source": "bcb3e4f9c99b32453e133686b048467f9302bef0",
     "result": "PASS_BOUNDED_AUTH_RECOVERY_BLOCKED",
     "file": "local-ecr-qualification.json",
+    "acceptedAsFinalDeliveryQualification": false
+  },
+  "historicalMirrorRun": {
+    "source": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
+    "file": "local-mirror-before-portability.json",
     "acceptedAsFinalDeliveryQualification": false
   }
 }

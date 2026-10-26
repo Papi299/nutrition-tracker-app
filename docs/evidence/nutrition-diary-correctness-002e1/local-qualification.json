@@ -1,10 +1,10 @@
 {
   "contract": "nutrition-002e1-local-auth-compatibility/v1",
   "base": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
-  "sourceCommit": "c635136f1eb78f7ab2baadddfdc50fa0154f9af2",
-  "implementationSha256": "0be1a9bb67775d51675d622cb2138f0c591f6575a00f9d4434d9fb7ebfbf8f03",
-  "startedAt": "2026-10-26T09:13:04.602Z",
-  "completedAt": "2026-10-26T09:14:00.815Z",
+  "sourceCommit": "304f9761243bc17386bd9d446b3ce5a7ad048678",
+  "implementationSha256": "d9aa03442e6f95e4ce815737d307e92486545e84ccad6363e4bf3c8b9874a4e8",
+  "startedAt": "2026-10-26T09:27:44.437Z",
+  "completedAt": "2026-10-26T09:28:41.199Z",
   "node": "v22.23.2",
   "runtime": {
     "source": {
@@ -48,97 +48,97 @@
     {
       "name": "preexistingOwnedNameCollisionRefusedWithoutAdoption",
       "result": "PASS",
-      "elapsedMs": 472
+      "elapsedMs": 523
     },
     {
       "name": "independentRealProviderBootstrap",
       "result": "PASS",
-      "elapsedMs": 7647
+      "elapsedMs": 7943
     },
     {
       "name": "wrongTargetAndCleanupIdentityRefuseBeforeOperatingOnSource",
       "result": "PASS",
-      "elapsedMs": 354
+      "elapsedMs": 357
     },
     {
       "name": "independentSchemaAndMigrationInventory",
       "result": "PASS",
-      "elapsedMs": 294
+      "elapsedMs": 300
     },
     {
       "name": "authSchemaDriftRefusals",
       "result": "PASS",
-      "elapsedMs": 1013
+      "elapsedMs": 1009
     },
     {
       "name": "authentic44ApplicationReplayBothEnvironments",
       "result": "PASS",
-      "elapsedMs": 15815
+      "elapsedMs": 16006
     },
     {
       "name": "realApiUnauthorizedSignupAndAnonymousDenied",
       "result": "PASS",
-      "elapsedMs": 935
+      "elapsedMs": 955
     },
     {
       "name": "apiInvitationConfirmationPasswordLoginAndRefresh",
       "result": "PASS",
-      "elapsedMs": 3046
+      "elapsedMs": 2946
     },
     {
       "name": "actual44ActivationRlsOwnerAndForeignDenial",
       "result": "PASS",
-      "elapsedMs": 3293
+      "elapsedMs": 3339
     },
     {
       "name": "populatedEncryptedTotpEnrolmentAndVerification",
       "result": "PASS",
-      "elapsedMs": 1418
+      "elapsedMs": 1398
     },
     {
       "name": "sourcePendingRecoveryCreatedThroughSupportedApiWithoutMail",
       "result": "PASS",
-      "elapsedMs": 240
+      "elapsedMs": 253
     },
     {
       "name": "stoppedSameVersionAuthOnlyCopyWithExactRowsAndNoSessions",
       "result": "PASS",
-      "elapsedMs": 4665
+      "elapsedMs": 4676
     },
     {
       "name": "restoredOriginalPasswordUuidAndPopulatedFactorAccepted",
       "result": "PASS",
-      "elapsedMs": 1556
+      "elapsedMs": 1511
     },
     {
       "name": "pendingSourceRecoveryEvaluatedBeforeAnyTargetPasswordLoginForThatUser",
       "result": "PASS",
-      "elapsedMs": 219
+      "elapsedMs": 228
     },
     {
       "name": "oldSourceAccessAndRefreshDeniedByActualTargetPaths",
       "result": "PASS",
-      "elapsedMs": 1080
+      "elapsedMs": 1102
     },
     {
       "name": "logoutRevokesRefreshAndAuthSessionButJwtRlsRemainsExplicit",
       "result": "PASS",
-      "elapsedMs": 1393
+      "elapsedMs": 1245
     },
     {
       "name": "wrongAndMissingCredentialEncryptionKeyRejectPassword",
       "result": "PASS",
-      "elapsedMs": 3638
+      "elapsedMs": 3710
     },
     {
       "name": "credentialTamperAndUuidBoundCiphertextRejected",
       "result": "PASS",
-      "elapsedMs": 1586
+      "elapsedMs": 1707
     },
     {
       "name": "interruptedAuthAndTargetRestartPreserveFreshLogin",
       "result": "PASS",
-      "elapsedMs": 4246
+      "elapsedMs": 4198
     },
     {
       "name": "authentic45ReplayBothAndAuthorizationContinuity",
@@ -148,7 +148,7 @@
     {
       "name": "closedAccountCannotAuthorizeOrReactivate",
       "result": "PASS",
-      "elapsedMs": 1161
+      "elapsedMs": 1189
     }
   ],
   "securityFindings": [],
