@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "nutrition-002c1a-development/v1",
+  "caveat": "Uncommitted evolving source; none establishes immutable candidate qualification. Attempt2 overlapped an edit. All final results must bind immutable source.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "OID_JSON_STRING_NOT_INTEGER",
+      "reportSha256": "b9fface0db6ca05122698fdba4c0e3b19ff0cfca3c48d9ff2e0a52628b4ffd0c",
+      "passedBeforeFailure": 2,
+      "failure": "N002C1A_AMBIGUOUS_IDENTITY",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 2,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "LIVE_TYPE_ADDRESS_PROJECTION",
+      "reportSha256": "94d3364c814e0b8d846be7812ec90749985b824871108b80f9b9d2d58e6d5e53",
+      "passedBeforeFailure": 2,
+      "failure": "N002C1A_FUNCTION_SUBSET_MISMATCH",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 3,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "GLOBAL_ROLE_FIXTURE_MISSING",
+      "reportSha256": "a1866084bf32be9b9f9675869defca8184c8263c46aed0ea18a8ab7df2fe8de6",
+      "passedBeforeFailure": 5,
+      "failure": "ASSERTION_OR_LOCAL_OPERATION_FAILED",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 4,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "GLOBAL_ROLE_FIXTURE_MISSING",
+      "reportSha256": "43b65291c763fb59eb779514990dbd5b71ff98b6d568255aa6fb5fc0b8c7f0d6",
+      "passedBeforeFailure": 5,
+      "failure": "N002C1_CATALOG_MISMATCH",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 5,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "INHERITED_PRIVILEGE_FIXTURE",
+      "reportSha256": "0d44d2f8e29617f01d3ff9a01eccd9457529a0f89734153cce063a0c6b9f19ba",
+      "passedBeforeFailure": 8,
+      "failure": "ASSERTION_OR_LOCAL_OPERATION_FAILED",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 6,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "NATIVE_EXIT_ASSUMPTION",
+      "reportSha256": "789b7aebc3c234d028f46676acdbc53381dbd7a384360ea8ab640745c317ad75",
+      "passedBeforeFailure": 15,
+      "failure": "ASSERTION_OR_LOCAL_OPERATION_FAILED",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 7,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "NATIVE_SUCCESS_RESTORE_SQL_FAILURE",
+      "reportSha256": "711e9ae099193b7f6e63fbb9c7135e1b235a045e19b569ed5f116934d779e90b",
+      "passedBeforeFailure": 16,
+      "failure": "N002C_LOCAL_PROCESS_FAILED_42601",
+      "cleanupConfirmed": true
+    },
+    {
+      "attempt": 8,
+      "classification": "FAIL_DEVELOPMENT_ONLY",
+      "reason": "IDLE_CLIENT_EOF_TEST_TIMEOUT",
+      "reportSha256": "a37cb77b20739624c8422d0d58ae1e26dc0e345ddfa558d19d4169972a9d0a10",
+      "passedBeforeFailure": 20,
+      "failure": "N002C1A_PARTICIPANT_LOST",
+      "cleanupConfirmed": true
+    }
+  ],
+  "otherDevelopmentFindings": [
+    "Initial workflow base replacement typo was rejected by mutation regression and corrected before commit.",
+    "Unused Session import warning removed; final lint requires zero warnings.",
+    "Type regproc/ACL serialization replaced with explicit static fields before final qualification."
+  ],
+  "productionAccess": false,
+  "immutableNonpassingAttempt": {
+    "sourceCommit": "41958e721fe77e7c94d1970bd422c177e99bb7f7",
+    "sourceTree": "d4b95eae6c88ca2d1c8a07d406431600d2b999c2",
+    "implementationSha256": "036d68d4a8b3a3117207e7c3aa198d4a7ff9e391795b888522060473fcde38db",
+    "result": "FAIL",
+    "passedBeforeFailure": 20,
+    "failure": "IMPORT_FAILURE_SQLSTATE_EXPECTATION_22023_ACTUAL_42704",
+    "cleanupConfirmed": true,
+    "reportSha256": "63b6e2acd79c242c6116576040197fd40723c40cad752acf09551e9033736280"
+  },
+  "targetedFailureProbes": {
+    "expiredImport": "42704",
+    "invalidImport": "42704",
+    "lateImport": "25001",
+    "readOnlyCatalogDdl": "N002C1A_PARTICIPANT_LOST",
+    "statementTimeout": "N002C1A_PARTICIPANT_LOST",
+    "alreadyImportedReaderSurvives": true,
+    "scope": "DISPOSABLE_LOCAL_MINIMAL_PROBES_UNCOMMITTED_SOURCE"
+  },
+  "firstCi": {
+    "head": "c19c899d73320b72461b4332500560863a06695b",
+    "run": 40222347307,
+    "unitTests": 242,
+    "unitResult": "PASS",
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "databaseQualification": "FAIL_BEFORE_ANY_CASE",
+    "cleanupConfirmed": true,
+    "causeAtEvidenceCommit": "STARTUP_UNCLASSIFIED_REQUIRES_PHASE_DIAGNOSTICS",
+    "sanitizedArtifactId": 12610156043,
+    "artifactSha256": "a17fac2fc7afccbadbdaef582135682e740110d53b60bff2c6419c641788aed2",
+    "confirmedCause": "ECR_TOOMANYREQUESTS_DATA_LIMIT_EXCEEDED"
+  },
+  "secondCi": {
+    "head": "3d3416a55998d014888d00dcddba4b7ec49b609f",
+    "run": 40222642722,
+    "unitTests": 242,
+    "unitResult": "PASS",
+    "codeqlActions": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "databaseQualification": "NOT_RUN_IMAGE_PREPARATION_FAILED",
+    "registryDiagnostic": "ECR_TOOMANYREQUESTS_DATA_LIMIT_EXCEEDED",
+    "sanitizedArtifactProduced": false,
+    "correction": "OFFICIAL_DOCKER_HUB_EXACT_SAME_OCI_INDEX_DIGEST"
+  },
+  "intermediateMirrorCi": {
+    "head": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+    "run": 40257377112,
+    "unitTests": 242,
+    "databaseCases": 22,
+    "qualification": "SUCCESS",
+    "codeqlJavascriptTypescript": "SUCCESS",
+    "codeqlActions": "SUCCESS",
+    "scope": "IMPLEMENTATION_HEAD_NOT_FINAL_EVIDENCE_DELIVERY_HEAD"
+  },
+  "earlierLocalPass": {
+    "source": "b32e5d21cf08c5dfa7e135e8489073b51a975288",
+    "cases": 22,
+    "scope": "HISTORICAL_PRE_MIRROR_IMPLEMENTATION",
+    "reportSha256": "aabb09d706f008a3cf40748c4f2ccfe03b33cb184c137beacd57a2af693067cd"
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "schemaVersion": "nutrition-002c1a-matrix/v1",
+  "implementationCommit": "38131d80fd8ce5b71aa1ad4eb077d987c5098a69",
+  "implementationSha256": "db0c60a4fab5b5a71873cf003f2f8a0d2aa15a994a9f05de4d5f974518be2732",
+  "families": [
+    {
+      "name": "Retained export independent early import and read-only transaction",
+      "classification": "PASS_LOCAL_TESTED_SCOPE"
+    },
+    {
+      "name": "Snapshot-visible raw tuple multiset observation",
+      "classification": "PASS_LOCAL_TESTED_SCOPE"
+    },
+    {
+      "name": "Actual44 and45 trusted migration replay and native restore with historical function subset",
+      "classification": "PASS_LOCAL_TESTED_SCOPE"
+    },
+    {
+      "name": "Native mixed-definition and unrestorable-dump counterexamples rejected",
+      "classification": "PASS_NEGATIVE_ASSERTIONS"
+    },
+    {
+      "name": "Wrong source/tree/database/version/binary-version/model/protocol/normalization and missing/duplicate/tampered references",
+      "classification": "PASS_PURE_CONTRACT_TESTS_NOT_HOSTED_CAPABILITY"
+    },
+    {
+      "name": "Wrong preexisting container name, late/invalid/expired import, exporter/participant loss, statement and lock timeout",
+      "classification": "PASS_LOCAL_DATABASE_NEGATIVES"
+    },
+    {
+      "name": "Complete portable historical identifiers, expressions/defaults/security and dependency closure",
+      "classification": "BLOCKED"
+    },
+    {
+      "name": "Universal administrative or provider DDL exclusion and change-revert absence",
+      "classification": "BLOCKED"
+    },
+    {
+      "name": "Full historical catalog and native dump equivalence on all source content",
+      "classification": "BLOCKED"
+    },
+    {
+      "name": "Full encrypted44/45 data/Auth/overlay and35-nutrient three-reference-basis recovery",
+      "classification": "NOT_RUN_BLOCKED"
+    },
+    {
+      "name": "Real GoTrue, provider/configuration/secret recovery, portable supervision and full-service RPO/RTO",
+      "classification": "NOT_RUN_BLOCKED"
+    },
+    {
+      "name": "Exact delivery-head CI and CodeQL",
+      "classification": "PASS_IMPLEMENTATION_SOURCE_38131D8_SEE_FINAL_HEAD_PR_RECORD"
+    }
+  ],
+  "cases": [
+    {
+      "name": "preexistingOwnedContainerNameRefused",
+      "result": "PASS",
+      "elapsedMs": 48
+    },
+    {
+      "name": "minimalRawHelperNativeDumpCheckpoint",
+      "result": "PASS",
+      "elapsedMs": 866
+    },
+    {
+      "name": "actual44TrustedMigrationReplay",
+      "result": "PASS",
+      "elapsedMs": 12843
+    },
+    {
+      "name": "actual44ImportedSnapshotNativeDumpRestoreSubset",
+      "result": "PASS",
+      "elapsedMs": 6669,
+      "historicalFunctionSubset": "PASS",
+      "fullHistoricalCatalog": "BLOCKED",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "actual45TrustedMigrationReplay",
+      "result": "PASS",
+      "elapsedMs": 1956
+    },
+    {
+      "name": "actual45ImportedSnapshotNativeDumpRestoreSubset",
+      "result": "PASS",
+      "elapsedMs": 6754,
+      "historicalFunctionSubset": "PASS",
+      "fullHistoricalCatalog": "BLOCKED",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "functionReplacement",
+      "result": "PASS",
+      "elapsedMs": 6749,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "functionRename",
+      "result": "PASS",
+      "elapsedMs": 6961,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "grantAfterSnapshot",
+      "result": "PASS",
+      "elapsedMs": 6760,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "revokeAfterSnapshot",
+      "result": "PASS",
+      "elapsedMs": 6681,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "roleAttribute",
+      "result": "PASS",
+      "elapsedMs": 6604,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "IDENTITY_ONLY_NOT_ATTRIBUTE",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "roleMembership",
+      "result": "PASS",
+      "elapsedMs": 6750,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "defaultPrivilege",
+      "result": "PASS",
+      "elapsedMs": 6559,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "NOT_USED",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "rlsPolicy",
+      "result": "PASS",
+      "elapsedMs": 6654,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "triggerDisable",
+      "result": "PASS",
+      "elapsedMs": 6611,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "DEFINITION_OMITS_ENABLED_STATE",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "newObject",
+      "result": "PASS",
+      "elapsedMs": 6742,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "dropRecreateFunction",
+      "result": "PASS",
+      "elapsedMs": 5667,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "NATIVE_SUCCESS_UNRESTORABLE_SCHEMA_REJECTED",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "changeAndRevert",
+      "result": "PASS",
+      "elapsedMs": 6466,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "partialProjectionMissesDefaults": false,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "mixedHistoricalBodyCurrentArguments",
+      "result": "PASS",
+      "elapsedMs": 7750,
+      "raw": "HISTORICAL_TUPLES_UNCHANGED",
+      "helper": "EXACT_EXPECTED_RESULT",
+      "nativeDump": "MIXED_STATE_REJECTED",
+      "partialProjectionMissesDefaults": true,
+      "ddl": "COMMITTED",
+      "historicalRepresentation": "RAW_OBSERVATION_ONLY",
+      "exclusion": "MANDATORY_ADMINISTRATIVE_AND_PROVIDER_PRECONDITION",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "existingRelationDdlLockTimeout",
+      "result": "PASS",
+      "elapsedMs": 3231,
+      "ddl": "LOCK_TIMEOUT",
+      "raw": "UNCHANGED",
+      "nativeDump": "HISTORICAL_LIVE_MODEL_MATCH",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "exporterDeathAfterImport",
+      "result": "PASS",
+      "elapsedMs": 665,
+      "alreadyImportedReader": "SURVIVES_AT_SERVER",
+      "supervisor": "REFUSES",
+      "newImport": "REFUSES",
+      "productionRecoveryEligibility": false
+    },
+    {
+      "name": "invalidLateImportReadOnlyAndParticipantFailures",
+      "result": "PASS",
+      "elapsedMs": 701,
+      "lateImport": "REFUSES",
+      "invalidImport": "REFUSES",
+      "catalogWritingDdl": "REFUSES",
+      "statementTimeout": "REFUSES",
+      "productionRecoveryEligibility": false
+    }
+  ],
+  "fullHistoricalCatalog": false,
+  "productionRecoveryEligibility": false,
+  "productionAccess": false
+}
