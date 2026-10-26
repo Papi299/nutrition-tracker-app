@@ -127,12 +127,20 @@ try {
   await record('boundary'+count+'Complete61TableValueRestore',async()=>{await restoreRows(target,restored,count);assertEqual(await roleState(target),restored.roles,'RESTORED_ROLES');});
   await target.startRest();
   await record('boundary'+count+'OldSourceAuthorityRefusedBeforeFreshRecovery',async()=>{
+   assert.match(oldRecovery.hashed_token,/^[a-f0-9]{56}$/);assert.match(oldRecovery.email_otp,/^[0-9]{6}$/);
    const invitation=status(await source.api('/admin/generate_link',{method:'POST',bearer:source.admin(),body:{type:'invite',email:'pending-invite@example.invalid'}}));
    for(const body of [{type:'invite',token_hash:invitation.hashed_token},{type:'invite',email:'pending-invite@example.invalid',token:invitation.email_otp},{type:'recovery',token_hash:oldRecovery.hashed_token},{type:'recovery',email:owner.email,token:oldRecovery.email_otp}])
     assert.ok((await target.api('/verify',{method:'POST',body})).status>=400);
    assert.ok((await target.api('/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:owner.session.refresh_token}})).status>=400);
    assert.ok((await target.api('/user',{bearer:owner.session.access_token})).status>=400);
    assert.ok((await target.rest('/profiles',{bearer:owner.session.access_token})).status>=400);
+   assert.match(invitation.hashed_token,/^[a-f0-9]{56}$/);assert.match(invitation.email_otp,/^[0-9]{6}$/);
+   // Genuine source controls run after target refusal so they cannot consume
+   // authority before the negative. Expired or malformed inputs cannot pass.
+   assertEqual(status(await source.api('/verify',{method:'POST',body:{type:'recovery',email:owner.email,token:oldRecovery.email_otp}})).user.id,owner.id,'SOURCE_OTP_POSITIVE');
+   assertEqual(status(await source.api('/verify',{method:'POST',body:{type:'invite',email:'pending-invite@example.invalid',token:invitation.email_otp}})).user.id,invitation.id,'SOURCE_INVITE_POSITIVE');
+   assertEqual(status(await source.api('/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:owner.session.refresh_token}})).user.id,owner.id,'SOURCE_REFRESH_POSITIVE');
+   status(await source.api('/user',{bearer:owner.session.access_token}));
    status(await source.api('/admin/users/'+invitation.id,{method:'DELETE',bearer:source.admin()}));
    assert.ok((await target.api('/token?grant_type=password',{method:'POST',body:{email:owner.email,password:owner.password}})).status>=400);
   });
