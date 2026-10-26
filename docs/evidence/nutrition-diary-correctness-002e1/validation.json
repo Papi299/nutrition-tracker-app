@@ -1,0 +1,24 @@
+{
+  "node": "v22.23.2",
+  "cli": "2.116.0",
+  "local": {
+    "focusedTests": 315,
+    "failed": 0,
+    "skipped": 0,
+    "tapSha256": "adffda4339db1fda174a9a174cd4d4ed96058f9fd7d1f0ab7a5478b75f18d751",
+    "realServiceScenarios": 21,
+    "metadataDriftNegativesWithinScenario": 6,
+    "immutableSource": "bcb3e4f9c99b32453e133686b048467f9302bef0",
+    "implementationSha256": "b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578",
+    "cleanupConfirmed": true
+  },
+  "upstreamPublicSourceBlobsIndependentlyVerified": 82,
+  "focusedEslint": "PASS_ZERO_WARNINGS",
+  "workflowPolicy": "PASS",
+  "diffCheck": "PASS",
+  "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_CHANGES",
+  "browserAndFullClosureJourney": "NOT_RUN",
+  "productionAccess": false,
+  "additionalSpendDollars": 0,
+  "ci": "EXACT_DELIVERY_HEAD_RESULT_CLOSED_IN_PR_AND_EXTERNAL_REPORT"
+}

@@ -1,0 +1,175 @@
+{
+  "contract": "nutrition-002e1-local-auth-compatibility/v1",
+  "base": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
+  "sourceCommit": "bcb3e4f9c99b32453e133686b048467f9302bef0",
+  "implementationSha256": "b2064f39b724103a6a30ef9c1905b6dfc1615ad2adfb2a11a84c8bbf25a01578",
+  "startedAt": "2026-10-26T09:01:18.529Z",
+  "completedAt": "2026-10-26T09:02:21.182Z",
+  "node": "v22.23.2",
+  "runtime": {
+    "source": {
+      "authVersion": "v2.196.0",
+      "authImage": "public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "authImageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "dbImage": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "dbImageId": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "serverVersion": "17.6",
+      "networkInternal": true,
+      "publishedPorts": 0,
+      "internalOwnedHttpClient": true,
+      "hostBindMounts": 0,
+      "ownedDisposableDatabaseVolume": true
+    },
+    "target": {
+      "authVersion": "v2.196.0",
+      "authImage": "public.ecr.aws/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "authImageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "dbImage": "public.ecr.aws/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "dbImageId": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+      "serverVersion": "17.6",
+      "networkInternal": true,
+      "publishedPorts": 0,
+      "internalOwnedHttpClient": true,
+      "hostBindMounts": 0,
+      "ownedDisposableDatabaseVolume": true
+    }
+  },
+  "stages": [
+    "REAL_AUTH_BOOTSTRAP",
+    "PROVIDER_METADATA",
+    "APPLICATION_44",
+    "REAL_INVITED_PASSWORD_AND_REFRESH",
+    "POPULATED_ENCRYPTED_TOTP",
+    "AUTH_ONLY_DURABLE_TRANSFER",
+    "TARGET_PASSWORD_TOTP_UUID",
+    "APPLICATION_45"
+  ],
+  "cases": [
+    {
+      "name": "preexistingOwnedNameCollisionRefusedWithoutAdoption",
+      "result": "PASS",
+      "elapsedMs": 622
+    },
+    {
+      "name": "independentRealProviderBootstrap",
+      "result": "PASS",
+      "elapsedMs": 8149
+    },
+    {
+      "name": "wrongTargetAndCleanupIdentityRefuseBeforeOperatingOnSource",
+      "result": "PASS",
+      "elapsedMs": 359
+    },
+    {
+      "name": "independentSchemaAndMigrationInventory",
+      "result": "PASS",
+      "elapsedMs": 314
+    },
+    {
+      "name": "authSchemaDriftRefusals",
+      "result": "PASS",
+      "elapsedMs": 1221
+    },
+    {
+      "name": "authentic44ApplicationReplayBothEnvironments",
+      "result": "PASS",
+      "elapsedMs": 19035
+    },
+    {
+      "name": "realApiUnauthorizedSignupAndAnonymousDenied",
+      "result": "PASS",
+      "elapsedMs": 994
+    },
+    {
+      "name": "apiInvitationConfirmationPasswordLoginAndRefresh",
+      "result": "PASS",
+      "elapsedMs": 3092
+    },
+    {
+      "name": "actual44ActivationRlsOwnerAndForeignDenial",
+      "result": "PASS",
+      "elapsedMs": 3485
+    },
+    {
+      "name": "populatedEncryptedTotpEnrolmentAndVerification",
+      "result": "PASS",
+      "elapsedMs": 1530
+    },
+    {
+      "name": "sourcePendingRecoveryCreatedThroughSupportedApiWithoutMail",
+      "result": "PASS",
+      "elapsedMs": 281
+    },
+    {
+      "name": "stoppedSameVersionAuthOnlyCopyWithExactRowsAndNoSessions",
+      "result": "PASS",
+      "elapsedMs": 5941
+    },
+    {
+      "name": "restoredOriginalPasswordUuidAndPopulatedFactorAccepted",
+      "result": "PASS",
+      "elapsedMs": 1778
+    },
+    {
+      "name": "pendingSourceRecoveryEvaluatedBeforeAnyTargetPasswordLoginForThatUser",
+      "result": "PASS",
+      "elapsedMs": 252
+    },
+    {
+      "name": "oldSourceAccessAndRefreshDeniedByActualTargetPaths",
+      "result": "PASS",
+      "elapsedMs": 1241
+    },
+    {
+      "name": "logoutRevokesRefreshAndAuthSessionButJwtRlsRemainsExplicit",
+      "result": "PASS",
+      "elapsedMs": 1471
+    },
+    {
+      "name": "wrongAndMissingCredentialEncryptionKeyRejectPassword",
+      "result": "PASS",
+      "elapsedMs": 3796
+    },
+    {
+      "name": "credentialTamperAndUuidBoundCiphertextRejected",
+      "result": "PASS",
+      "elapsedMs": 1576
+    },
+    {
+      "name": "interruptedAuthAndTargetRestartPreserveFreshLogin",
+      "result": "PASS",
+      "elapsedMs": 4177
+    },
+    {
+      "name": "authentic45ReplayBothAndAuthorizationContinuity",
+      "result": "PASS",
+      "elapsedMs": 1006
+    },
+    {
+      "name": "closedAccountCannotAuthorizeOrReactivate",
+      "result": "PASS",
+      "elapsedMs": 1175
+    }
+  ],
+  "securityFindings": [],
+  "observations": {
+    "pendingSourceRecovery": {
+      "targetHttpStatus": 403,
+      "code": "otp_expired"
+    }
+  },
+  "compileProposal": false,
+  "result": "PASS_BOUNDED_AUTH_RECOVERY_BLOCKED",
+  "failure": null,
+  "failedStage": null,
+  "cleanupConfirmed": true,
+  "actualAuthService": true,
+  "passkeyCeremony": "NOT_RUN",
+  "mfaWebauthn": "NOT_RUN",
+  "hostedFeatures": "UNKNOWN",
+  "closureCapabilityJourney": "NOT_RUN",
+  "coherentApplicationCapture": false,
+  "producerAuthenticated": false,
+  "recoveryEligible": false,
+  "productionAccess": false
+}

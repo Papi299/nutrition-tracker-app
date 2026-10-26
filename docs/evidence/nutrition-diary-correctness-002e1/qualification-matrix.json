@@ -1,0 +1,115 @@
+{
+  "verdict": "NUTRITION_DIARY_CORRECTNESS_002E1_BLOCKED_WITH_EXPLICIT_FINDINGS",
+  "rows": [
+    {
+      "category": "REAL_PROVIDER_BOOTSTRAP",
+      "status": "PASS",
+      "evidence": "Two independently initialized official GoTrue v2.196.0 services; 77 real provider migrations; all shipped SQL hashes match immutable source."
+    },
+    {
+      "category": "AUTH_SCHEMA_METADATA",
+      "status": "PASS",
+      "evidence": "23 tables, 240 columns, 94 constraints, 87 indexes, 4 functions, 1 sequence, owners/ACL/RLS/types/extensions; independent and expected comparisons."
+    },
+    {
+      "category": "PASSWORD_IDENTITY",
+      "status": "PASS",
+      "evidence": "Admin-generated invitation, verification, authenticated password setting, real login/refresh, stable UUID."
+    },
+    {
+      "category": "SAME_VERSION_DURABLE_TRANSFER",
+      "status": "PASS_BOUNDED_ONLY",
+      "evidence": "Four explicit provider tables copied with writable columns, service stopped, exact rows and constraints; full scope remains unaccepted."
+    },
+    {
+      "category": "ENCRYPTED_TOTP",
+      "status": "PASS_BOUNDED_ONLY",
+      "evidence": "Real populated factor enrollment and verification, encrypted persistence, same factor/UUID on target and after restart."
+    },
+    {
+      "category": "OLD_ACCESS_REFRESH",
+      "status": "PASS_FOR_EXACT_HS256_PATHS",
+      "evidence": "Different target signing root; source JWT rejected by Auth and PostgREST; old refresh rejected. No general asymmetric/JWKS-cache claim."
+    },
+    {
+      "category": "LOGOUT_JWT_CONTINUITY",
+      "status": "OBSERVED_LIMITATION",
+      "evidence": "Auth session and refresh rejected after logout; PostgREST still validates unexpired signed JWT. Complete revocation is not established by session deletion."
+    },
+    {
+      "category": "WRONG_MISSING_CREDENTIAL_ROOT",
+      "status": "PASS",
+      "evidence": "Actual password login denied with wrong and absent DB encryption roots; restored correct root works."
+    },
+    {
+      "category": "UUID_HASH_TAMPER",
+      "status": "PASS",
+      "evidence": "Invalid ciphertext and genuine ciphertext assigned to a different UUID reject authentication; exact bytes restored only in disposable negative fixture."
+    },
+    {
+      "category": "APPLICATION_44_45",
+      "status": "PASS_BOUNDED_AUTH_SCOPE",
+      "evidence": "Both authentic SQL boundaries executed in both environments; all 61 app/ingestion table metadata matches unchanged 002E inventories. No application ledger or 61-table capture qualification."
+    },
+    {
+      "category": "ACTIVATION_OWNER_CLOSURE",
+      "status": "PASS_DATABASE_API_BOUNDARY",
+      "evidence": "Actual activation RPC requires current real password session and attestations; owner/foreign/anonymous/closed authorization tested. Signed closure capability/browser journey NOT RUN."
+    },
+    {
+      "category": "RESOURCE_ISOLATION_CLEANUP",
+      "status": "PASS",
+      "evidence": "Actual name collision refused; cross-environment DB/cleanup selection refused before operation; Auth interruption and retained-volume DB restart tested; all owned resources absent."
+    },
+    {
+      "category": "PENDING_RECOVERY_LINK",
+      "status": "LIMITED_OBSERVATION",
+      "evidence": "Specific source pending link returns target 403 otp_expired before target password login for that user. Source link validity and all pending-flow/token cases are not qualified."
+    },
+    {
+      "category": "PASSKEY_CEREMONY",
+      "status": "BLOCKED_NOT_RUN",
+      "evidence": "Provider version contains passkey schema/API; fixture and local config disable it. No cryptographic ceremony, populated credential, RP/origin or wrong-RP acceptance proof."
+    },
+    {
+      "category": "MFA_WEBAUTHN",
+      "status": "BLOCKED_NOT_RUN",
+      "evidence": "Supported by source; not populated or restored through a ceremony. Preserve requirement."
+    },
+    {
+      "category": "PHONE_MFA",
+      "status": "DISABLED_IN_LOCAL_CONFIG_ONLY",
+      "evidence": "No SMS/provider dependency, enrollment/verification or phone-factor transfer qualified; hosted status unknown."
+    },
+    {
+      "category": "RECOVERY_CODES",
+      "status": "VERSION_UNSUPPORTED_HOSTED_UNKNOWN",
+      "evidence": "No recovery-code implementation found in exact source or actual schema. Does not establish hosted feature state."
+    },
+    {
+      "category": "OAUTH_SSO_SCOPE",
+      "status": "BLOCKED",
+      "evidence": "Additional conditional durable provider/client/consent/domain/SAML state exists outside four tables; no full-scope approval or functional fixture."
+    },
+    {
+      "category": "FULL_PASSWORD_RESET_EMAIL_DELIVERY",
+      "status": "SUPPORTED_NOT_TESTED",
+      "evidence": "Generate-link exercised; full reset/reauthentication/SMTP/PKCE and all pending-flow lifecycle cases remain unqualified."
+    },
+    {
+      "category": "HOSTED_VERSION_FEATURES_KEYS",
+      "status": "BLOCKED",
+      "evidence": "No hosted access authorized; provider version/features, encryption-root availability/custody, signing/JWKS/RP configuration unknown."
+    },
+    {
+      "category": "FULL_SHARED_CAPTURE_ENCRYPTION_PRODUCER",
+      "status": "BLOCKED",
+      "evidence": "Out of scope; no full 61-table capture, CMS integration, producer authentication, acceptance or cutover."
+    },
+    {
+      "category": "RPO_RTO_PRODUCTION",
+      "status": "BLOCKED_DENIED",
+      "evidence": "No Production eligibility; no RPO24h/RTO8h qualification; original backup controls unchanged."
+    }
+  ]
+}
