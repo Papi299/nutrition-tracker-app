@@ -31,6 +31,13 @@ browser/capability journeys and operational recovery remain unqualified. Stop at
 this bounded checkpoint. No mitigation, provider-state repair, contract narrowing,
 new durable-table transfer or full backup integration is implemented.
 
+JavaScript CodeQL additionally retains two unresolved js/insufficient-password-hash
+alerts at existing recent-proof HMAC sites. Static paths originate in the fixture
+password-login response and propagate to UUID/session proof data. The actual HMAC
+payload contains only version, UUID, session ID and times, not a password. This
+indicates a likely fixture data-classification issue, but no false-positive waiver
+is accepted: the unchanged zero-findings gate stays FAILED. Actions CodeQL passes.
+
 ## B. Verified baseline and source identities
 
 Fresh independent GitHub reads confirm main 50716d3759e9b75c66fe98b9c483ebb10c28b531
@@ -112,7 +119,7 @@ provider source and actual local behavior take precedence for versioned assertio
 
 ## E. Implementation and changed files
 
-- scripts/nutrition-002e2/{contract,helpers,local,mail-sink,qualify-local,contracts.test}.mjs: fixed scope, source checks, existing bounded fixture helpers, same-version transfer, receive-only memory SMTP, lifecycle/security assertions and unconditional refusal.
+- scripts/nutrition-002e2/{contract,helpers,local,mail-sink,qualify-local,contracts.test,sarif-findings}.mjs: fixed scope, source checks, existing bounded fixture helpers, same-version transfer, receive-only memory SMTP, lifecycle/security assertions and unconditional refusal.
 - scripts/nutrition-002e1/local.mjs: minimal fixed002E2 namespace/label and client-startup hook; default002E1 behavior retained and its21 actual scenarios rerun. No old expected profile or table-selection change.
 - ops/recovery/nutrition-002e2/{feature-scope,key-custody,reviewed-source,upstream-sources}.json: complete source/feature/custody matrices and byte identities.
 - .github/workflows/nutrition-002e2-local.yml and workflow-security checker/tests: exact-head, Draft/branch/base constrained, read-only finite local service and two-language CodeQL workflow, zero uploads, visible nonzero acceptance gate.
@@ -365,19 +372,25 @@ outcomes are closed in the Draft PR and complete external final report after CI.
 A reproduced red security gate must remain red, explained and BLOCKED; no
 continue-on-error, skipped negative or assertion weakening is allowed.
 
-The first exact-head CI40324234776 reproduced the failed Auth gate and also
-refused two JS CodeQL findings. Diagnostic CI identifies js/insufficient-password-hash
-at the existing recent-proof HMAC update sites. The new fixture had passed its
-password-labelled random generator as the proof key. Fixture proof keys now come
-from independent random48-byte key material; wrong credential roots likewise use
-a separate key source. Application HMAC/password code and analysis scope are
-unchanged; no suppression or weaker threshold. Final CodeQL determines correction.
+Four finite prior CI runs are retained. They reproduce all21 predecessor scenarios,
+339 focused tests after the diagnostic addition (338 initially),16 passing E2
+families, the failed pending-OTP negative and cleanup. Actions CodeQL passes;
+JS analysis completes but zero-findings validation refuses two CWE916 alerts.
+Bounded static flow coordinates show helpers.mjs:31 password-login response ->
+claims/session identifiers -> explicit HMAC session proof, plus proof -> verifier.
+The signed payload has no password data by construction. Independently generated
+proof keys did not remove the alerts, disproving the initial key-source hypothesis.
+That correction remains a separation of test key/password generators, not an
+accepted CodeQL fix. No app HMAC code, scope, query, suppression or threshold is
+changed. These remain explicit independent-review findings and a failed gate.
+Final exact-head CI closes the same blocked status; no all-green claim is made.
 
 ## P. Draft PR URL, head/base/tree and diff
 
 Focused branch codex/nutrition-002e2-auth-scope-recovery, stacked Draft base
 codex/nutrition-002e1-auth-compatibility at696ffbf22a7eaf76a00c3b53153b09f048c7f75e.
-The closing record supplies created URL, exact delivery head/tree, immutable
+[Draft PR207](https://github.com/Papi299/nutrition-tracker-app/pull/207) is open.
+The closing record supplies exact delivery head/tree, immutable
 implementation commit/digest, changed-file metrics and final CI. Evidence-only
 closing commits avoid self-referential source hashes. No predecessor retarget,
 rebase, merge, branch deletion or main synchronization occurs under no-merge authority.
@@ -389,7 +402,8 @@ rebase, merge, branch deletion or main synchronization occurs under no-merge aut
 3. **Essential credential custody:** supported pre-incident Auth DB-encryption root portability is unestablished. Preserve actual required credentials; cannot waive by password reset/factor removal or destroyed-source extraction.
 4. **MFA applicability:** source-required browser flow is password-only; if hosted TOTP is required, reviewed app lacks recovery continuation. This requires a separate product/source decision, preserving existing factors.
 5. **Complete app/Vault/mail/routing/custody:** localized browser and recent-auth/signed closure procedures, actual SMTP/free sender/target capacity and operator access remain unqualified.
-6. **Operational integration:** coherent61-table/auth capture, CMS/provenance, full equality/nutrition/history/idempotency, RPO24h/RTO8h, fixed44 route/executor/cutover remain outside this task.
+6. **CodeQL review gate:** two alerts remain at the existing proof HMAC sites, with static flow review above. The likely fixture classification explanation is not a waiver; keep zero-findings refusal. No password enters the explicit proof payload, but independent review/correction remains necessary.
+7. **Operational integration:** coherent61-table/auth capture, CMS/provenance, full equality/nutrition/history/idempotency, RPO24h/RTO8h, fixed44 route/executor/cutover remain outside this task.
 
 No decision here approves operational scope, secret access, dropping proposed
 webauthn_credentials, conditional durable rows, target reduction or full backup.
