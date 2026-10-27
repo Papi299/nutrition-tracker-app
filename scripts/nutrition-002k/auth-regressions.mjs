@@ -228,7 +228,13 @@ async function recentProofChecks(environment,probe,record) {
   rejected(await environment.api('/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:temporary.refresh_token}}));
  });
  await record('auth197RecentProofActualClaimBindingAndExpiry',async()=>{
-  proof=issueRecentPasswordAuthProof({nowSeconds:now,secret,sessionId:original.session_id,userId:original.sub});
+  // Construct an independent expected receipt from actual provider claims.
+  // Check issuance against it, then exercise verification with that receipt.
+  // No password or provider credential enters this session-bound HMAC input.
+  const payload={v:1,sub:original.sub,sid:original.session_id,iat:now,exp:now+600};
+  const authenticatedValue='v1.'+Buffer.from(JSON.stringify(payload)).toString('base64url');
+  proof=authenticatedValue+'.'+createHmac('sha256',secret).update(authenticatedValue).digest('base64url');
+  assert.equal(issueRecentPasswordAuthProof({nowSeconds:now,secret,sessionId:original.session_id,userId:original.sub}),proof);
   const verify=(sessionId,userId,at=now)=>verifyRecentPasswordAuthProof({currentSessionId:sessionId,currentUserId:userId,nowSeconds:at,proof,secret});
   assert.equal(verify(original.session_id,original.sub).status,'valid');
   assert.equal(verify(randomUUID(),original.sub).reason,'session_mismatch');assert.equal(verify(original.session_id,randomUUID()).reason,'user_mismatch');
