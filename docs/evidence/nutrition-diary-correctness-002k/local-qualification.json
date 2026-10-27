@@ -1,0 +1,700 @@
+{
+  "contract": "nutrition-002k-local-qualification/v1",
+  "result": "PASS",
+  "startedAt": "2026-10-27T06:11:58.131Z",
+  "completedAt": "2026-10-27T06:17:59.700Z",
+  "node": "v22.20.0",
+  "implementationSha256": "0dceee6ff1acb08f24e30ba6502aa65c4fd14d123c8251f646f8cc89b8b43972",
+  "cases": [
+    {
+      "name": "boundary44RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7362
+    },
+    {
+      "name": "boundary44TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15543
+    },
+    {
+      "name": "boundary44PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 2627
+    },
+    {
+      "name": "boundary44CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 3728
+    },
+    {
+      "name": "boundary44IndependentReaderDetectsValuesRowsPrecisionAndNullCorruption",
+      "result": "PASS",
+      "elapsedMs": 16290
+    },
+    {
+      "name": "boundary44RealReaderLossAndImportFailureAbort",
+      "result": "PASS",
+      "elapsedMs": 3436
+    },
+    {
+      "name": "boundary44OwnershipRestrictionsAndConcurrentClosureRemainCoherent",
+      "result": "PASS",
+      "elapsedMs": 3681
+    },
+    {
+      "name": "boundary44FunctionGrantRevertsAndPersistentMembershipDriftAbort",
+      "result": "PASS",
+      "elapsedMs": 10750
+    },
+    {
+      "name": "boundary44PolicyDDLIsLockedAndPreexistingPolicyDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 5021
+    },
+    {
+      "name": "boundary44WrongLedgerUnexpectedRelationColumnAndExtensionAbort",
+      "result": "PASS",
+      "elapsedMs": 8717
+    },
+    {
+      "name": "boundary44ActualTrustedTypesAndNullPrecisionProbe",
+      "result": "PASS",
+      "elapsedMs": 272
+    },
+    {
+      "name": "boundary44EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 3190
+    },
+    {
+      "name": "boundary44ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 3919
+    },
+    {
+      "name": "boundary44ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 2705
+    },
+    {
+      "name": "boundary44CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 269
+    },
+    {
+      "name": "boundary44ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 169
+    },
+    {
+      "name": "boundary44OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 30483
+    },
+    {
+      "name": "boundary44ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2969
+    },
+    {
+      "name": "boundary44Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 19287
+    },
+    {
+      "name": "boundary44IndependentValueAcceptanceFailureRollsBack",
+      "result": "PASS",
+      "elapsedMs": 10515
+    },
+    {
+      "name": "boundary44InvalidForeignKeyRollbackPreservesIndependentValuesAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 10377
+    },
+    {
+      "name": "boundary44OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3530
+    },
+    {
+      "name": "boundary44VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1877
+    },
+    {
+      "name": "boundary44RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4038
+    },
+    {
+      "name": "boundary45RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7208
+    },
+    {
+      "name": "boundary45TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 16420
+    },
+    {
+      "name": "boundary45PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 3771
+    },
+    {
+      "name": "boundary45CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 3786
+    },
+    {
+      "name": "boundary45IndependentReaderDetectsValuesRowsPrecisionAndNullCorruption",
+      "result": "PASS",
+      "elapsedMs": 17251
+    },
+    {
+      "name": "boundary45RealReaderLossAndImportFailureAbort",
+      "result": "PASS",
+      "elapsedMs": 3538
+    },
+    {
+      "name": "boundary45OwnershipRestrictionsAndConcurrentClosureRemainCoherent",
+      "result": "PASS",
+      "elapsedMs": 3779
+    },
+    {
+      "name": "boundary45FunctionGrantRevertsAndPersistentMembershipDriftAbort",
+      "result": "PASS",
+      "elapsedMs": 10227
+    },
+    {
+      "name": "boundary45PolicyDDLIsLockedAndPreexistingPolicyDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 4986
+    },
+    {
+      "name": "boundary45WrongLedgerUnexpectedRelationColumnAndExtensionAbort",
+      "result": "PASS",
+      "elapsedMs": 8716
+    },
+    {
+      "name": "boundary45ActualTrustedTypesAndNullPrecisionProbe",
+      "result": "PASS",
+      "elapsedMs": 271
+    },
+    {
+      "name": "boundary45EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 3243
+    },
+    {
+      "name": "boundary45ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 3976
+    },
+    {
+      "name": "boundary45ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 2716
+    },
+    {
+      "name": "boundary45CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 514
+    },
+    {
+      "name": "boundary45ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 352
+    },
+    {
+      "name": "boundary45OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 30450
+    },
+    {
+      "name": "boundary45ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2864
+    },
+    {
+      "name": "boundary45Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 19097
+    },
+    {
+      "name": "boundary45IndependentValueAcceptanceFailureRollsBack",
+      "result": "PASS",
+      "elapsedMs": 10422
+    },
+    {
+      "name": "boundary45InvalidForeignKeyRollbackPreservesIndependentValuesAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 10530
+    },
+    {
+      "name": "boundary45OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3604
+    },
+    {
+      "name": "boundary45VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1859
+    },
+    {
+      "name": "boundary45RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4002
+    }
+  ],
+  "failure": null,
+  "cleanupConfirmed": true,
+  "productionAccess": false,
+  "syntheticMeasurements": [
+    {
+      "boundary": 44,
+      "plainBytes": 912423,
+      "compressedBytes": 119190,
+      "cipherBytes": 119758,
+      "artifactBytes": 169681,
+      "typesSha256": "804386d7e927bdbb370ee797c0b49ae6caee0e574747cff5cab3e9fc68aba897",
+      "numericTypes": [
+        "bigint",
+        "numeric(10,3)",
+        "numeric(12,4)",
+        "numeric(14,4)",
+        "numeric(18,6)",
+        "numeric(24,10)",
+        "numeric(24,12)",
+        "numeric(8,2)",
+        "xid8"
+      ],
+      "jsonColumns": [
+        {
+          "table": "ingestion.foundation_promotion_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "allowance_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_validation_receipts",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "exact_item_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "proposed_food_state",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "nutrient_states",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "item_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "decision_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "allowance_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "identity_reservation_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "plan_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "receipt_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "public_mutation_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "history_insertion_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_validation_receipts",
+          "column": "validation_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.reconciliation_decisions",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "contract_versions",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "report_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "evidence_references",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_candidates",
+          "column": "normalized_candidate",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_source_records",
+          "column": "raw_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.custom_food_creation_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.manual_diary_entry_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "boundary": 45,
+      "plainBytes": 1021774,
+      "compressedBytes": 127017,
+      "cipherBytes": 127585,
+      "artifactBytes": 180299,
+      "typesSha256": "5e0fb35ecb849e736cd288689ad049f6e7bf4a47dd4b3688ae26e084d67b2658",
+      "numericTypes": [
+        "bigint",
+        "numeric(10,3)",
+        "numeric(12,4)",
+        "numeric(14,4)",
+        "numeric(18,6)",
+        "numeric(24,10)",
+        "numeric(24,12)",
+        "numeric(8,2)",
+        "xid8"
+      ],
+      "jsonColumns": [
+        {
+          "table": "ingestion.foundation_promotion_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "allowance_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_validation_receipts",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "exact_item_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "proposed_food_state",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "nutrient_states",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "item_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "decision_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "allowance_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "identity_reservation_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "plan_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "receipt_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "public_mutation_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "history_insertion_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_validation_receipts",
+          "column": "validation_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.reconciliation_decisions",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "contract_versions",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "report_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "evidence_references",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_candidates",
+          "column": "normalized_candidate",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_source_records",
+          "column": "raw_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.custom_food_creation_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.diary_entries",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "public.manual_diary_entry_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.recipe_ingredients",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "public.saved_meal_items",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        }
+      ]
+    }
+  ],
+  "hostedQualification": "NOT_PERFORMED"
+}

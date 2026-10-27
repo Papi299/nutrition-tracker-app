@@ -12,7 +12,7 @@ export const catalogs = [
   'pg_db_role_setting','pg_extension','pg_default_acl','pg_shdepend',
   'pg_index','pg_attrdef','pg_enum','pg_rewrite',
 ];
-const authTables = [
+export const authTables = [
   'users','identities','mfa_factors','webauthn_credentials','oauth_clients',
   'oauth_consents','custom_oauth_providers','sso_providers','sso_domains','saml_providers',
 ];
@@ -46,7 +46,13 @@ export const catalogWitnessSql = 'select jsonb_build_object(' + catalogs.map(nam
   literal(name) + `,(select coalesce(jsonb_agg(jsonb_build_array(ctid::text,xmin::text,xmax::text)
   order by ctid),'[]') from pg_catalog.${name})`).join(',') + ');';
 
-const readOnly = "begin isolation level repeatable read read only;set local search_path=pg_catalog;set local lock_timeout='2s';set local statement_timeout='10s';";
+export const readOnly = "begin isolation level repeatable read read only;set local search_path=pg_catalog;set local lock_timeout='2s';set local statement_timeout='10s';";
+export const applicationSql = t => `select coalesce(jsonb_agg(rowtext order by rowtext collate "C"),'[]')
+        from (select row_to_json(t)::text rowtext from ${identifier(t.schema)}.${identifier(t.name)} t) r;`;
+export const lockSql = inventory => 'lock table '+[
+  ...inventory.map(t=>identifier(t.schema)+'.'+identifier(t.name)),
+  ...authTables.map(t=>'auth.'+identifier(t)), 'supabase_migrations.schema_migrations',
+].join(',')+' in access share mode;';
 export async function roleState(e) {
   return e.roleSql('begin read only;set local search_path=pg_catalog;' + rolesSql + 'commit;');
 }
@@ -77,23 +83,21 @@ async function trusted(e, count) {
   if (inventory.length !== 61 || inventory.some(t => t.kind !== 'r')) fail('UNSUPPORTED_RELATION');
   return { inventory, schema: await schema(e), roles: await roleState(e) };
 }
-export async function capture(e, count, { reference, afterSnapshot, failReader=false, killExporter=false } = {}) {
+export async function capture(e, count, { reference, afterSnapshot, failReader=false, killExporter=false, transport } = {}) {
   if (e.side !== 'source' || e.scope !== '002i') fail('SOURCE_IDENTITY');
   const expected = await trusted(reference, count);
   await assertRestricted(e); await e.check('auth');
-  const session = new Session(['exec','-i',e.ids.get('db'),'psql','-XqAt','-v',
+  const session = transport ? await transport.openExporter(e, expected) : new Session(['exec','-i',e.ids.get('db'),'psql','-XqAt','-v',
     'ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate','-U','postgres','-d','postgres']);
   const query = async sql => {
     const rows = await session.query(sql);
-    if (session.closed || session.process.done) fail('EXPORTER_LOST');
+    if (session.closed || session.process?.done) fail('EXPORTER_LOST');
     return rows;
   };
   try {
     await query(readOnly);
     const before = (await query(catalogWitnessSql))[0];
-    const relations = [...expected.inventory.map(t => identifier(t.schema)+'.'+identifier(t.name)),
-      ...authTables.map(t => 'auth.'+identifier(t)), 'supabase_migrations.schema_migrations'];
-    await query('lock table '+relations.join(',')+' in access share mode;');
+    await query(lockSql(expected.inventory));
     const [snapshot] = await query('select pg_export_snapshot();');
     const migrations = await query('select version from supabase_migrations.schema_migrations order by version;');
     assertEqual(migrations, boundary(count).map(m => m.version), 'LEDGER');
@@ -101,16 +105,15 @@ export async function capture(e, count, { reference, afterSnapshot, failReader=f
     const capturedAt = (await query('select transaction_timestamp();'))[0];
     if (afterSnapshot) await afterSnapshot();
     if (killExporter) { await query('select pg_terminate_backend(pg_backend_pid());'); fail('EXPORTER_SHOULD_FAIL'); }
-    const application = [];
-    for (const t of expected.inventory) {
-      const name = identifier(t.schema)+'.'+identifier(t.name);
-      const rows = JSON.parse((await query(`select coalesce(jsonb_agg(rowtext order by rowtext collate "C"),'[]')
-        from (select row_to_json(t)::text rowtext from ${name} t) r;`))[0]);
+    const application = transport ? await transport.application(e,expected.inventory,snapshot) : [];
+    if (!transport) for (const t of expected.inventory) {
+      const rows = JSON.parse((await query(applicationSql(t)))[0]);
       application.push({schema:t.schema,name:t.name,columns:t.columns,rows});
     }
-    const identity = JSON.parse((await query(identitySql))[0]); validateIdentity(identity);
-    const definition = await schema(e, failReader ? '00000000-00000000-0' : snapshot);
+    const identity = transport ? await transport.identity(e,snapshot,capturedAt) : JSON.parse((await query(identitySql))[0]); validateIdentity(identity);
+    const definition = await (transport?.schema ?? schema)(e, failReader ? '00000000-00000000-0' : snapshot);
     const roles = (await query(rolesSql))[0];
+    const verification = transport ? await transport.verify({e,expected,snapshot,application,identity,capturedAt}) : undefined;
     // Fresh visibility is essential: repeating this read inside the exported
     // snapshot would hide committed catalog changes and incorrectly accept ABA.
     const after = await e.roleSql('begin read only;set local search_path=pg_catalog;' + catalogWitnessSql + 'commit;');
@@ -120,10 +123,11 @@ export async function capture(e, count, { reference, afterSnapshot, failReader=f
     await query('select 1;'); await query('commit;');
     return {contract:CONTRACT,adapter:ADAPTER,scope:'LOCAL_SYNTHETIC_ONLY',source:e.prefix,
       boundary:count,capturedAt,migrations,schema:definition,roles,identity,application,
-      captureProof:{role:'postgres',catalogWitnessSha256:hash(before),catalogStable:true}};
+      captureProof:{role:'postgres',catalogWitnessSha256:hash(before),catalogStable:true},
+      ...(verification ? {verification} : {})};
   } finally { await session.close(); }
 }
-export async function restoreRows(e, payload, count) {
+export async function restoreRows(e, payload, count, { validationSql } = {}) {
   if (e.side !== 'target' || e.scope !== '002i') fail('TARGET_IDENTITY');
   validatePayload(payload, {source:'nutrition-002i-source',boundary:count});
   if (payload.adapter !== ADAPTER || payload.captureProof?.role !== 'postgres' ||
@@ -164,6 +168,9 @@ export async function restoreRows(e, payload, count) {
   }
   for (const c of objects.fks) sql.push('alter table '+tableName(c.table)+' add constraint '+identifier(c.name)+' '+c.definition+';');
   for (const t of expected.inventory) sql.push('alter table '+tableName(t.schema+'.'+t.name)+' enable trigger user;');
+  // Optional trusted-code acceptance runs inside the load transaction. Archive
+  // contents never supply executable SQL or constraint definitions.
+  if (validationSql) sql.push(...await validationSql(expected.inventory));
   sql.push('commit;');
   await e.roleSql(sql.join('\n'));
   for (const t of payload.application) {

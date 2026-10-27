@@ -1,0 +1,112 @@
+name: Nutrition 002K bounded backup integration qualification
+
+on:
+  pull_request:
+    branches: [codex/nutrition-002i-hosted-role]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nutrition-002k-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  qualify:
+    if: github.event.pull_request.draft && github.event.pull_request.head.ref == 'codex/nutrition-002k-backup-integration' && github.event.pull_request.head.repo.full_name == github.repository
+    name: 002K independent 44/45 backup integration and recovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Install pinned dependencies
+        run: npm ci
+      - name: Verify affected contracts and nutrition units
+        run: |
+          npm run security:workflow
+          npm run security:dependencies
+          npm run test:deployment-contract
+          npm run test:recovery-contract
+          node --test scripts/nutrition-002g/contracts.test.mjs scripts/nutrition-002k/contracts.test.mjs
+          npx playwright test --config=playwright.unit.config.ts tests/nutrition-snapshots.spec.ts
+          npm run lint
+          npm run typecheck
+          npm run security:build-boundary
+      - name: Pull immutable local service images
+        run: |
+          docker pull docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
+          docker pull docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232
+          docker pull docker.io/postgrest/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d
+          docker pull docker.io/library/node@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d
+      - name: Verify original 002G qualification
+        run: node scripts/nutrition-002g/qualify-local.mjs "$RUNNER_TEMP/nutrition-002g-regression.json"
+      - name: Verify retained 002I qualification
+        run: node scripts/nutrition-002i/qualify-local.mjs "$RUNNER_TEMP/nutrition-002i-regression.json"
+      - name: Qualify isolated integration
+        run: node scripts/nutrition-002k/qualify-local.mjs "$RUNNER_TEMP/nutrition-002k.json"
+      - name: Record sanitized result without artifact storage
+        if: always()
+        run: |
+          for result in "$RUNNER_TEMP/nutrition-002g-regression.json" "$RUNNER_TEMP/nutrition-002i-regression.json" "$RUNNER_TEMP/nutrition-002k.json"; do
+            if test -f "$result"; then
+              cat "$result"
+              cat "$result" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+      - name: Confirm task-owned cleanup
+        if: always()
+        run: |
+          test -z "$(docker ps -aq --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002I)"
+          test -z "$(docker ps -aq --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002G)"
+          test -z "$(docker volume ls -q --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002I)"
+          test -z "$(docker volume ls -q --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002G)"
+          test -z "$(docker network ls -q --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002I)"
+          test -z "$(docker network ls -q --filter label=codex.task=NUTRITION-DIARY-CORRECTNESS-002G)"
+
+  security:
+    if: github.event.pull_request.draft && github.event.pull_request.head.ref == 'codex/nutrition-002k-backup-integration' && github.event.pull_request.head.repo.full_name == github.repository
+    name: 002K CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - name: Check out exact security candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up security Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Initialize pinned CodeQL
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - name: Analyze without code-scanning mutation
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          upload: never
+          upload-database: false
+          output: ${{ runner.temp }}/nutrition-002k-sarif
+      - name: Require successful zero-findings analysis
+        env:
+          CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+          ANALYSIS_LANGUAGE: ${{ matrix.language }}
+        run: node scripts/nutrition-002g/check-sarif.mjs "$RUNNER_TEMP/nutrition-002k-sarif" "$RUNNER_TEMP/nutrition-002k-security.json"
+      - name: Record static security result
+        run: cat "$RUNNER_TEMP/nutrition-002k-security.json" >> "$GITHUB_STEP_SUMMARY"

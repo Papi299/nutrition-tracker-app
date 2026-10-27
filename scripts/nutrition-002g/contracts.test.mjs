@@ -45,7 +45,7 @@ test('new workflow guard rejects schedule, write token, mutable image and skippe
  const path=new URL('.github/workflows/nutrition-002g-local.yml',root),workflow=readFileSync(path,'utf8'),dir=mkdtempSync(join(tmpdir(),'nutrition-002g-policy-'));
  try {
   mkdirSync(join(dir,'.github/workflows'),{recursive:true});
-  for(const name of ['ci.yml','phase-11i-production-backup.yml','nutrition-002i-local.yml'])writeFileSync(join(dir,'.github/workflows',name),readFileSync(new URL('.github/workflows/'+name,root)));
+  for(const name of ['ci.yml','phase-11i-production-backup.yml','nutrition-002i-local.yml','nutrition-002k-local.yml'])writeFileSync(join(dir,'.github/workflows',name),readFileSync(new URL('.github/workflows/'+name,root)));
   for(const change of [workflow,workflow.replace('  pull_request:','  schedule:'),workflow.replace('contents: read','contents: write'),workflow.replace('upload: never','upload: always'),workflow.replace('@sha256:','@mutable:')]) {
    writeFileSync(join(dir,'.github/workflows/nutrition-002g-local.yml'),change);
    const r=spawnSync(process.execPath,[new URL('../check-workflow-security.mjs',import.meta.url).pathname],{cwd:dir});
