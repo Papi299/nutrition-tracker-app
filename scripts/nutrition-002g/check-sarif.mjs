@@ -32,5 +32,19 @@ const report = {
   codeScanningUploaded: false,
   recoveryEligible: false,
 };
+// Log only bounded rule/source locations, never result messages or snippets.
+// Findings remain counted in full and always fail the zero-findings gate.
+if (report.findings) {
+  const locations = run.results.slice(0, 20).map(result => {
+    const physical = result.locations?.[0]?.physicalLocation;
+    const uri = physical?.artifactLocation?.uri;
+    return {
+      rule: typeof result.ruleId === 'string' && /^[a-zA-Z0-9_/-]{1,120}$/.test(result.ruleId) ? result.ruleId : 'UNVERIFIED_RULE',
+      path: typeof uri === 'string' && /^[a-zA-Z0-9_./-]{1,300}$/.test(uri) && !uri.startsWith('/') && !uri.split('/').includes('..') ? uri : 'UNVERIFIED_PATH',
+      line: Number.isSafeInteger(physical?.region?.startLine) && physical.region.startLine > 0 ? physical.region.startLine : null,
+    };
+  });
+  console.error(JSON.stringify({ codeqlFindingLocations: locations }));
+}
 writeFileSync(output, JSON.stringify(report, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
 assert.equal(report.findings, 0, 'CodeQL findings require review before the declared scope can pass');

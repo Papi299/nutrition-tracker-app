@@ -1,4 +1,5 @@
 import { fixturePassword, fixturePasswordPolicy } from './password-fixture.mjs';
+import './check-sarif.test.mjs';
 import { generateKeyPairSync, sign } from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
