@@ -4,7 +4,7 @@ import { approveIdentity, assertEqual, fail } from './contract.mjs';
 // never inferred from a matching email or a possession of the encrypted backup.
 // This entry point has no hosted adapter, URL argument or production authority.
 export async function reconstructIdentities(e,payload,approval,artifactSha256,operatorPublicKey) {
- await e.check('auth');if(e.side!=='target'||e.scope!=='002g')fail('TARGET_IDENTITY');
+ await e.check('auth');if(e.side!=='target'||!['002g','002i'].includes(e.scope))fail('TARGET_IDENTITY');
  approveIdentity(payload,approval,artifactSha256,operatorPublicKey,e.ids.get('db'));
  assertEqual(await e.sql('select count(*) from auth.users;'),'0','TARGET_AUTH_NOT_EMPTY');
  for(const owner of payload.identity.owners) {

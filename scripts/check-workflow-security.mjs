@@ -210,7 +210,9 @@ const workflowFiles = readdirSync(workflowDirectory)
   .sort();
 const recoveryWorkflow = readFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), "utf8");
 if (createHash("sha256").update(recoveryWorkflow).digest("hex") !== "2928375a1e8a91e7f1197c35cbc8e40f3f160f280eebbdbf56fcf0984793e5d9") fail("002G workflow differs from the reviewed exact draft-only workflow");
-const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml"].sort();
+const hostedRoleWorkflow = readFileSync(join(workflowDirectory, "nutrition-002i-local.yml"), "utf8");
+if (createHash("sha256").update(hostedRoleWorkflow).digest("hex") !== "cbae02417d7fdde3968d574e9d722a20d80f4a4958c4c8bb9df016a31e254693") fail("002I workflow differs from the reviewed exact draft-only workflow");
+const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml", "nutrition-002i-local.yml"].sort();
 if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
   fail("workflow inventory contains an unreviewed or missing workflow");
 }
