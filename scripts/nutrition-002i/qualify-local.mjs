@@ -8,7 +8,7 @@ await qualify({
   output:process.argv[2], profile:'002i', Environment,
   capture, schema, restoreRows, roleState, transition:false,
   implementationPaths:[
-    'contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs',
+    'contract.mjs','password-fixture.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs',
     'capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs',
     '../nutrition-002i/local.mjs','../nutrition-002i/adapter.mjs',
     '../nutrition-002i/qualify-local.mjs',

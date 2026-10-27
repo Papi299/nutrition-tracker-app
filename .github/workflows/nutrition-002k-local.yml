@@ -44,7 +44,7 @@ jobs:
       - name: Pull immutable local service images
         run: |
           docker pull docker.io/supabase/postgres@sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518
-          docker pull docker.io/supabase/gotrue@sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232
+          docker pull docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b
           docker pull docker.io/postgrest/postgrest@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d
           docker pull docker.io/library/node@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d
       - name: Verify original 002G qualification
@@ -52,7 +52,7 @@ jobs:
       - name: Verify retained 002I qualification
         run: node scripts/nutrition-002i/qualify-local.mjs "$RUNNER_TEMP/nutrition-002i-regression.json"
       - name: Qualify isolated integration
-        run: node scripts/nutrition-002k/qualify-local.mjs "$RUNNER_TEMP/nutrition-002k.json"
+        run: node --experimental-strip-types scripts/nutrition-002k/qualify-local.mjs "$RUNNER_TEMP/nutrition-002k.json"
       - name: Record sanitized result without artifact storage
         if: always()
         run: |

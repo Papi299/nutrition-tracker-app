@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { qualify } from '../nutrition-002g/qualify-local.mjs';
 import { run } from '../nutrition-002g/process.mjs';
 import { canonical, hash, assertEqual } from '../nutrition-002g/contract.mjs';
-import { Environment } from '../nutrition-002i/local.mjs';
+import { AuthRegressionEnvironment as Environment, fixtureFacts, beforeCapture, targetInitialChecks, afterRecovery, observations as authObservations } from './auth-regressions.mjs';
 import { schema, roleState } from '../nutrition-002i/adapter.mjs';
 import { capture, typesSql, verifyTarget } from './transport.mjs';
 import { seal, open } from './archive.mjs';
@@ -14,13 +14,16 @@ import { restore, restoreRows } from './restore.mjs';
 const candidates=new Map(),archives=new Map(),metrics=[];let sourceEnvironment,serial=0;
 const observed={kind:'LOCAL_OBSERVED',postgres:'170006',auth:null};
 await qualify({output:process.argv[2],profile:'002k',Environment,transition:false,schema,roleState,restoreRows,
-  implementationPaths:['contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs',
-    '../nutrition-002i/local.mjs','../nutrition-002i/adapter.mjs','../nutrition-002k/transport.mjs','../nutrition-002k/archive.mjs','../nutrition-002k/publication.mjs','../nutrition-002k/restore.mjs','../nutrition-002k/qualify-local.mjs'],
+  implementationPaths:['contract.mjs','password-fixture.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs',
+    '../nutrition-002i/local.mjs','../nutrition-002i/adapter.mjs','../nutrition-002k/transport.mjs','../nutrition-002k/archive.mjs','../nutrition-002k/publication.mjs','../nutrition-002k/restore.mjs','../nutrition-002k/qualify-local.mjs','../nutrition-002k/auth-regressions.mjs','../../lib/auth/recent-password-auth-proof.ts'],
   afterReplay:async(source,target)=>{
     sourceEnvironment=source;await source.restrictRole();await target.restrictRole();
     observed.auth=(await source.api('/health')).body.version;
   },
-  afterPopulate:async({source,owner})=>{
+  extraAuthChecks:afterRecovery,
+  afterPopulate:async({source,target,count,owner,record})=>{
+    await fixtureFacts({source,target,count,record});
+    await beforeCapture({source,target,count,record});
     // Fixture bootstrap only, outside the capture transport. The real trusted
     // jsonb object column retains exact large/decimal values, nested JSON null,
     // empty object/array/string and zero through archive and target restoration.
@@ -150,6 +153,7 @@ await qualify({output:process.argv[2],profile:'002k',Environment,transition:fals
     });
   },
   extraRestoreChecks:async({target,count,restored,record})=>{
+    await targetInitialChecks({target,count,restored,record});
     await record('boundary'+count+'IndependentValueAcceptanceFailureRollsBack',async()=>{
       const bad=structuredClone(restored);bad.verification.tables[0].sha256='0'.repeat(64);
       bad.verification.completeValueSha256=hash(canonical(bad.verification.tables));
@@ -165,5 +169,5 @@ await qualify({output:process.argv[2],profile:'002k',Environment,transition:fals
     });
   },
 });
-const evidence=JSON.parse(readFileSync(process.argv[2]));evidence.syntheticMeasurements=metrics;
+const evidence=JSON.parse(readFileSync(process.argv[2]));evidence.syntheticMeasurements=metrics;evidence.authObservations=authObservations;
 evidence.hostedQualification='NOT_PERFORMED';writeFileSync(process.argv[2],JSON.stringify(evidence,null,2)+'\n',{mode:0o600});

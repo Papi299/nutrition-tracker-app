@@ -1,3 +1,4 @@
+import { fixturePassword, fixturePasswordPolicy } from './password-fixture.mjs';
 import { generateKeyPairSync, sign } from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,7 +6,7 @@ import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { boundary, assertCheckout, canonical, validateIdentity, validatePayload, approveIdentity, hash, CONTRACT, AUTH_VERSION, root } from './contract.mjs';
+import { boundary, assertCheckout, canonical, validateIdentity, validatePayload, approveIdentity, hash, CONTRACT, AUTH_VERSION, AUTH_IMAGE, assertService, root } from './contract.mjs';
 
 const witness=()=>({profile:'VERIFIED_EMAIL_NO_FACTORS_V1',authVersion:AUTH_VERSION,owners:[{id:'11000000-0000-4000-8000-000000000001',email:'owner@example.invalid',confirmed:true,deleted:false,banned:false,anonymous:false,phone:'',factors:0,passkeys:0,identities:1,provider:'email',subject:'11000000-0000-4000-8000-000000000001',unsupported:0}]});
 test('only complete trusted 44/45 inventories are accepted',()=>{
@@ -45,11 +46,31 @@ test('new workflow guard rejects schedule, write token, mutable image and skippe
  const path=new URL('.github/workflows/nutrition-002g-local.yml',root),workflow=readFileSync(path,'utf8'),dir=mkdtempSync(join(tmpdir(),'nutrition-002g-policy-'));
  try {
   mkdirSync(join(dir,'.github/workflows'),{recursive:true});
-  for(const name of ['ci.yml','phase-11i-production-backup.yml','nutrition-002i-local.yml','nutrition-002k-local.yml'])writeFileSync(join(dir,'.github/workflows',name),readFileSync(new URL('.github/workflows/'+name,root)));
+  for(const name of ['ci.yml','phase-11i-production-backup.yml','nutrition-002i-local.yml','nutrition-002k-local.yml','nutrition-002l-b1e-local.yml'])writeFileSync(join(dir,'.github/workflows',name),readFileSync(new URL('.github/workflows/'+name,root)));
   for(const change of [workflow,workflow.replace('  pull_request:','  schedule:'),workflow.replace('contents: read','contents: write'),workflow.replace('upload: never','upload: always'),workflow.replace('@sha256:','@mutable:')]) {
    writeFileSync(join(dir,'.github/workflows/nutrition-002g-local.yml'),change);
    const r=spawnSync(process.execPath,[new URL('../check-workflow-security.mjs',import.meta.url).pathname],{cwd:dir});
    assert.equal(r.status===0,change===workflow);
   }
  }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+
+test('Auth 197 exact binding rejects the historical version and mutable fallback',()=>{
+ assert.equal(AUTH_VERSION,'v2.197.0');assertService(AUTH_VERSION);
+ assert.throws(()=>assertService('v2.196.0'),/AUTH_VERSION/);
+ assert.equal(AUTH_IMAGE,'docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b');
+ const w=witness();w.authVersion='v2.196.0';assert.throws(()=>validateIdentity(w),/IDENTITY_PROFILE/);
+ for(const name of ['nutrition-002g-local.yml','nutrition-002i-local.yml','nutrition-002k-local.yml','nutrition-002l-b1e-local.yml'])
+  assert.ok(readFileSync(new URL('.github/workflows/'+name,root),'utf8').includes('docker pull '+AUTH_IMAGE));
+});
+test('fixture passwords always satisfy the strict policy while retaining fresh randomness',()=>{
+ assert.equal(fixturePasswordPolicy.minimumLength,12);
+ const values=new Set();
+ for(let i=0;i<64;i++) {
+  const value=fixturePassword();assert.ok(value.length>=fixturePasswordPolicy.minimumLength&&value.length<=72);
+  for(const pattern of [/[a-z]/,/[A-Z]/,/[0-9]/,/[!@#$%^&*()_+\-=[\]{};]/])assert.match(value,pattern);
+  values.add(value);
+ }
+ assert.equal(values.size,64);
 });
