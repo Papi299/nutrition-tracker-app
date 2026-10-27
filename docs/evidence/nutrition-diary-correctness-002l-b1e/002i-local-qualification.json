@@ -1,0 +1,233 @@
+{
+  "contract": "nutrition-002i-local-qualification/v1",
+  "result": "PASS",
+  "startedAt": "2026-10-27T20:17:40.682Z",
+  "completedAt": "2026-10-27T20:20:39.616Z",
+  "node": "v22.23.4",
+  "implementationSha256": "ecd85eec0c88b283fe633dba9ebc569e7db1afcf8f5418f4b540474034892771",
+  "cases": [
+    {
+      "name": "boundary44RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7301
+    },
+    {
+      "name": "boundary44TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15464
+    },
+    {
+      "name": "boundary44PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 2692
+    },
+    {
+      "name": "boundary44CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 2420
+    },
+    {
+      "name": "boundary44RestrictedRolesActuallyDenyAdministrativeOperations",
+      "result": "PASS",
+      "elapsedMs": 1072
+    },
+    {
+      "name": "boundary44CatalogFunctionChangeAndRevertRejected",
+      "result": "PASS",
+      "elapsedMs": 2618
+    },
+    {
+      "name": "boundary44CatalogGrantChangeAndRevertRejected",
+      "result": "PASS",
+      "elapsedMs": 2497
+    },
+    {
+      "name": "boundary44ConcurrentRoleMembershipChangeRejected",
+      "result": "PASS",
+      "elapsedMs": 2122
+    },
+    {
+      "name": "boundary44PreexistingSourceSecurityDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 1871
+    },
+    {
+      "name": "boundary44PreexistingApplicationRoleEscalationRejected",
+      "result": "PASS",
+      "elapsedMs": 1857
+    },
+    {
+      "name": "boundary44EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 1831
+    },
+    {
+      "name": "boundary44ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 2416
+    },
+    {
+      "name": "boundary44ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 1994
+    },
+    {
+      "name": "boundary44CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 239
+    },
+    {
+      "name": "boundary44ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 336
+    },
+    {
+      "name": "boundary44OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 2235
+    },
+    {
+      "name": "boundary44ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2123
+    },
+    {
+      "name": "boundary44Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 10212
+    },
+    {
+      "name": "boundary44InvalidForeignKeyLoadRollsBackDataAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 9914
+    },
+    {
+      "name": "boundary44OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3529
+    },
+    {
+      "name": "boundary44VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1885
+    },
+    {
+      "name": "boundary44RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4153
+    },
+    {
+      "name": "boundary45RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7034
+    },
+    {
+      "name": "boundary45TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15667
+    },
+    {
+      "name": "boundary45PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 3787
+    },
+    {
+      "name": "boundary45CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 2368
+    },
+    {
+      "name": "boundary45RestrictedRolesActuallyDenyAdministrativeOperations",
+      "result": "PASS",
+      "elapsedMs": 1116
+    },
+    {
+      "name": "boundary45CatalogFunctionChangeAndRevertRejected",
+      "result": "PASS",
+      "elapsedMs": 2301
+    },
+    {
+      "name": "boundary45CatalogGrantChangeAndRevertRejected",
+      "result": "PASS",
+      "elapsedMs": 2352
+    },
+    {
+      "name": "boundary45ConcurrentRoleMembershipChangeRejected",
+      "result": "PASS",
+      "elapsedMs": 2080
+    },
+    {
+      "name": "boundary45PreexistingSourceSecurityDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 1830
+    },
+    {
+      "name": "boundary45PreexistingApplicationRoleEscalationRejected",
+      "result": "PASS",
+      "elapsedMs": 1797
+    },
+    {
+      "name": "boundary45EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 1808
+    },
+    {
+      "name": "boundary45ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 2425
+    },
+    {
+      "name": "boundary45ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 1738
+    },
+    {
+      "name": "boundary45CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 389
+    },
+    {
+      "name": "boundary45ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 254
+    },
+    {
+      "name": "boundary45OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 2260
+    },
+    {
+      "name": "boundary45ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2115
+    },
+    {
+      "name": "boundary45Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 10185
+    },
+    {
+      "name": "boundary45InvalidForeignKeyLoadRollsBackDataAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 9798
+    },
+    {
+      "name": "boundary45OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3579
+    },
+    {
+      "name": "boundary45VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 1844
+    },
+    {
+      "name": "boundary45RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4141
+    }
+  ],
+  "failure": null,
+  "cleanupConfirmed": true,
+  "productionAccess": false
+}

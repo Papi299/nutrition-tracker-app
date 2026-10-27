@@ -17,7 +17,7 @@ All three local gates simulate the historical minimum-12/all-four-character-clas
 - Real TOTP/AAL2 and recovery-code enrollment, consumption, replay, rotation and deletion; capture rejects enrolled factors before fixture cleanup.
 - Independent empty target authority tables, including new recovery-code tables. Validated provider foreign keys plus the count of every factor type preserve the no-factor exclusion model; no credential tables are copied.
 - Genuine source-positive/target-negative credentials, configured expiry of recovery hash and numeric OTP, fresh recovery, session/refresh cleanup and subsequent login.
-- The unchanged recent-password proof helper with actual provider claims, temporary verification-session cleanup, user/session binding and proof expiry.
+- The unchanged recent-password proof helper with actual provider claims, an independently constructed expected HMAC receipt, temporary verification-session cleanup, user/session binding and proof expiry.
 - A restrictive AAL2 policy denies access and trusted-schema drift is rejected. This does not establish unknown hosted mandatory-factor/hook policy.
 
 Optional recovery-code APIs are enabled only in the disposable 002K regression environment. No owner factors are removed to accept a capture: unsupported state is first rejected and recorded, then the synthetic probe is deleted. Logs stay disabled, mail stays receive-only/internal with `.invalid` recipients, and all local ownership/network/role/cleanup guards remain active. Full Next.js route/browser execution is covered separately by ordinary CI; the service/helper tests do not claim full hosted recovery qualification.
@@ -28,7 +28,19 @@ The new workflow runs only for the exact same-repository Draft B1E branch target
 
 Ordinary CI additionally accepts PRs targeting the exact #210 branch; main pushes and main-only manual dispatch retain their previous behavior. Every existing CI step remains required. Workflow inventory, exact qualification-workflow hashes and mutation tests reject broader triggers/permissions, mutable images, omitted gates and security-upload changes. The Production workflow is unchanged.
 
-Local and authoritative exact-head CI results are recorded in the Draft PR description and the evidence accompanying this candidate. Historical v2.196.0 evidence is retained as historical evidence rather than overwritten.
+The CodeQL gate retains its zero-findings requirement and successful, nonempty analysis checks. Failures now expose at most 20 validated rule/path/line locations for review; result messages and snippets remain excluded. Tests cover bounded diagnostics, unsafe locations and full finding counts. No rule or source file is suppressed.
+
+The retained [local evidence summary](evidence/nutrition-diary-correctness-002l-b1e/summary.json) verifies these groups against the candidate implementation digests:
+
+| Gate | Retained groups | Added Auth 197 groups | Result |
+| --- | ---: | ---: | --- |
+| 002G | 31 | 0 | PASS |
+| 002I | 44 | 0 | PASS |
+| 002K | 48 | 42 | PASS |
+
+Every run confirms cleanup and no Production access. The local toolchain was Node 22.23.4, Docker 29.9.2 and OpenSSL 3.6.3 on arm64. One rerun initially selected macOS LibreSSL through PATH and failed closed at `N002G_CMS_FORMAT`; cleanup succeeded. Correcting PATH and repeating the full 002K gate passed all 90 groups without changing its code or safeguards.
+
+Focused validation also passed 33 contract/workflow-security tests, 203 deployment contract tests, 201 legacy recovery contract tests, 30 focused Playwright unit tests, lint, typecheck, the zero-production-advisory gate, and the build/client-secret boundary check. Authoritative final-head CI and both zero-findings CodeQL results are linked from [Draft PR #211](https://github.com/Papi299/nutrition-tracker-app/pull/211). Historical v2.196.0 evidence remains unchanged.
 
 ## Remaining boundary
 
