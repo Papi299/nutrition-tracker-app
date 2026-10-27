@@ -54,9 +54,12 @@ jobs:
       - name: Record sanitized result without artifact storage
         if: always()
         run: |
-          if test -f "$RUNNER_TEMP/nutrition-002i.json"; then
-            cat "$RUNNER_TEMP/nutrition-002i.json" >> "$GITHUB_STEP_SUMMARY"
-          fi
+          for result in "$RUNNER_TEMP/nutrition-002g-regression.json" "$RUNNER_TEMP/nutrition-002i.json"; do
+            if test -f "$result"; then
+              cat "$result"
+              cat "$result" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
       - name: Confirm task-owned cleanup
         if: always()
         run: |
