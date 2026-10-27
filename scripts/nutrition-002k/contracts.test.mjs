@@ -91,7 +91,7 @@ test('immutable publication is independently verified and lost acknowledgement r
 });
 test('partial/missing/wrong/digest/expiry/timeout publication failures preserve existing artifact',async()=>{
   const good=new MockPublication();const valid=await publish(pair,good,expected);
-  for(const fault of ['partial','missing','identity','digest','manifest','expiry','size','cipher','timeout'])
+  for(const fault of ['partial','missing','identity','digest','manifest','capture','expiry','size','cipher','timeout'])
     await assert.rejects(()=>publish(pair,new MockPublication(fault),expected),/ARTIFACT|UPLOAD_TIMEOUT/);
   verifyReceipt(pair,valid,expected);
   assert.throws(()=>verifyReceipt(pair,{...valid,artifactSha256:'0'.repeat(64)},expected),/RECEIPT_ARTIFACT/);
@@ -107,11 +107,61 @@ test('stale, expired and unknown mandatory compatibility metadata are never acce
   const manifest=canonical(old);await assert.rejects(()=>publish({...pair,manifest},new MockPublication(),{...expected,manifestSha256:hash(manifest)}),/STALE_PUBLICATION/);
   assert.throws(()=>inspect(pair,expected,Date.parse(m.expiresAt)),/ARCHIVE_BINDING_OR_EXPIRY/);
 });
-test('capacity and age are bounded inactive recommendations, with no assumed account headroom',()=>{
-  assert.throws(()=>capacity({candidateBytes:1}),/QUOTA_UNVERIFIED/);
-  assert.throws(()=>capacity({candidateBytes:LIMITS.cipher+1,accountUsedBytes:0,accountLimitBytes:1024**3,overlapCandidates:1,otherReserveBytes:0}),/CANDIDATE_OR_OVERLAP_LIMIT/);
-  assert.throws(()=>capacity({candidateBytes:10,accountUsedBytes:100,accountLimitBytes:200,overlapCandidates:1,otherReserveBytes:10}),/QUOTA_CAPACITY/);
-  assert.equal(capacity({candidateBytes:10,accountUsedBytes:100,accountLimitBytes:1000,overlapCandidates:1,otherReserveBytes:10}).retentionDays,30);
-  const now=Date.now(),r=agePolicy({capturedAt:new Date(now-21*3600000).toISOString(),expiresAt:new Date(now+86400000).toISOString()},now);
-  assert.equal(r.active,false);assert.equal(r.action,'INVESTIGATE_AND_REQUEST_CATCH_UP');assert.equal(r.rpoDemonstrated,false);
+test('actual publication receipts supply authenticated capture time to valid, stale and expired age checks',async()=>{
+  const receipt=await publish(pair,new MockPublication(),expected),m=JSON.parse(pair.manifest);
+  verifyReceipt(pair,receipt,expected);assert.equal(receipt.capturedAt,m.capturedAt);
+  assert.equal(agePolicy(receipt).action,'NO_ACTION');
+  const captured=Date.parse(receipt.capturedAt),expires=Date.parse(receipt.expiresAt);
+  for(const age of [0,20*3600000-1,20*3600000,21*3600000,25*3600000]) {
+    const r=agePolicy(receipt,captured+age);
+    assert.equal(r.ageMs,age);assert.equal(r.action,age>=20*3600000?'INVESTIGATE_AND_REQUEST_CATCH_UP':'NO_ACTION');
+    assert.equal(r.active,false);assert.equal(r.rpoDemonstrated,false);
+  }
+  assert.equal(agePolicy(receipt,expires-1).action,'INVESTIGATE_AND_REQUEST_CATCH_UP');
+  for(const now of [captured-1,expires,expires+1,NaN,Infinity,'invalid'])assert.throws(()=>agePolicy(receipt,now),/AGE_METADATA/);
+  for(const malformed of [undefined,null,{}])assert.throws(()=>agePolicy(malformed,captured),/AGE_METADATA/);
+  for(const field of ['capturedAt','expiresAt'])for(const value of [undefined,null,0,'invalid',new Date(captured)])
+    assert.throws(()=>agePolicy({...receipt,[field]:value},captured),/AGE_METADATA/);
+  for(const change of [{capturedAt:new Date(captured-1).toISOString()},{expiresAt:new Date(expires+1).toISOString()}])
+    assert.throws(()=>agePolicy({...receipt,...change},captured),/AGE_METADATA/);
+});
+test('exact publication and receipt validation reject mismatched capture and expiry timestamps',async()=>{
+  const receipt=await publish(pair,new MockPublication(),expected);
+  for(const field of ['capturedAt','expiresAt']) {
+    const changed=new Date(Date.parse(receipt[field])+1).toISOString();
+    assert.throws(()=>verifyReceipt(pair,{...receipt,[field]:changed},expected),/RECEIPT_ARTIFACT/);
+    const missing={...receipt};delete missing[field];assert.throws(()=>verifyReceipt(pair,missing,expected),/RECEIPT_ARTIFACT/);
+    // Even mutually consistent acknowledgement/service metadata must match the
+    // authenticated manifest, rather than merely agreeing with each other.
+    class WrongTimestamp extends MockPublication {
+      async put(p) {return {...await super.put(p),[field]:changed};}
+      async find(p) {const r=await super.find(p);r.metadata[field]=changed;return r;}
+    }
+    await assert.rejects(()=>publish(pair,new WrongTimestamp(),expected),/ARTIFACT_METADATA/);
+  }
+});
+test('capacity accounts for complete stored packages, retention, overlap and reserve at exact boundaries',async()=>{
+  const receipt=await publish(pair,new MockPublication(),expected);
+  assert.ok(receipt.bytes>pair.cipher.length);
+  const inputs={artifactBytes:receipt.bytes,accountUsedBytes:100,accountLimitBytes:Number.MAX_SAFE_INTEGER,otherReserveBytes:200};
+  for(const overlapCandidates of [0,1,2]) {
+    const total=inputs.accountUsedBytes+receipt.bytes*(30+overlapCandidates)+inputs.otherReserveBytes;
+    const r=capacity({...inputs,overlapCandidates,accountLimitBytes:total});
+    assert.deepEqual(r,{forecastBytes:total,retentionDays:30,operationalHeadroomVerified:false});
+    assert.throws(()=>capacity({...inputs,overlapCandidates,accountLimitBytes:total-1}),/QUOTA_CAPACITY/);
+  }
+  assert.equal(capacity(inputs).forecastBytes,100+receipt.bytes*31+200);
+  assert.throws(()=>capacity({...inputs,accountLimitBytes:100+pair.cipher.length*31+200}),/QUOTA_CAPACITY/);
+  // A legitimate package may exceed the separate ciphertext cap through
+  // packaging overhead. Ciphertext itself remains bounded by inspect().
+  const artifactBytes=LIMITS.cipher+4096;
+  assert.equal(capacity({...inputs,artifactBytes}).forecastBytes,100+artifactBytes*31+200);
+  assert.throws(()=>inspect({...pair,cipher:Buffer.alloc(LIMITS.cipher+1)},expected),/ARCHIVE_SIZE/);
+  assert.throws(()=>capacity({candidateBytes:receipt.bytes,accountUsedBytes:0,accountLimitBytes:1024**3,otherReserveBytes:0}),/QUOTA_UNVERIFIED/);
+  for(const field of ['artifactBytes','accountUsedBytes','accountLimitBytes','overlapCandidates','otherReserveBytes'])
+    for(const value of [-1,1.5,NaN,Number.MAX_SAFE_INTEGER+1,'10'])
+      assert.throws(()=>capacity({...inputs,[field]:value}),/QUOTA_UNVERIFIED/);
+  for(const change of [{artifactBytes:0},{accountLimitBytes:0},{overlapCandidates:3}])
+    assert.throws(()=>capacity({...inputs,...change}),/ARTIFACT_OR_OVERLAP_LIMIT/);
+  assert.throws(()=>capacity({...inputs,artifactBytes:Number.MAX_SAFE_INTEGER}),/QUOTA_CAPACITY/);
 });

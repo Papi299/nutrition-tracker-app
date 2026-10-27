@@ -20,7 +20,9 @@ Migration 45 SHA-256 remains `d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2e
 
 All 48 002K groups, 44 retained 002I groups and 31 retained 002G groups pass; failures/skips are zero in the final runs. All suites confirm task-owned cleanup. Sanitized evidence is in `docs/evidence/nutrition-diary-correctness-002k/`.
 
-| Suite | Implementation SHA-256 |
+The following digests and committed local evidence record the accepted `9de5f8e` baseline. Current exact-head CI evidence for review fixes is recorded in the Draft PR description.
+
+| Baseline suite | Implementation SHA-256 |
 | --- | --- |
 | 002K | `0dceee6ff1acb08f24e30ba6502aa65c4fd14d123c8251f646f8cc89b8b43972` |
 | 002I regression | `894cb3ccd1e9697982937e1e3e7567dc42c9fa3cd4dd3bcbf4172bb99768627a` |
@@ -60,3 +62,9 @@ The single next checkpoint is independent engineering/security review of this ex
 No Production Supabase access, real backup access/decryption, real Auth/recovery action, Production workflow change, migration, Vercel deployment, parent PR mutation, merge or additional spending occurred. Generated synthetic plaintext, keys and owned containers/networks/volumes were removed; only sanitized evidence is retained.
 
 [Design](nutrition-diary-correctness-002k-design.md) · [Runbook and authorization checklist](nutrition-diary-correctness-002k-runbook.md)
+
+## Review fix 001: receipt timestamps and package capacity
+
+Publication metadata/receipts now carry the authenticated manifest's exact capture timestamp alongside expiry. Exact metadata and receipt comparisons bind both. Regression tests pass actual `publish()` receipts to age inspection and exercise valid/stale/expired/malformed/inconsistent times and mutually consistent but manifest-mismatched provider timestamps. Publication freshness and inactive age recommendations remain separate.
+
+Capacity accepts complete stored `artifactBytes` from verified `receipt.bytes`, including packaging overhead. Ciphertext limits remain in archive validation. Tests cover actual package overhead, packages larger than the ciphertext cap, exact/one-byte-short quota, 30-day retention, bounded/default overlap, reserve, invalid inputs and overflow. The old ambiguous input is rejected. No recovery algorithm, archive cryptography, Production workflow or parent PR is changed.

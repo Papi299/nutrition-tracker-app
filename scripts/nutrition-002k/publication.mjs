@@ -1,5 +1,5 @@
 import { canonical, hash, assertEqual, fail } from '../nutrition-002g/contract.mjs';
-import { FORMAT, inspect, LIMITS } from './archive.mjs';
+import { FORMAT, inspect } from './archive.mjs';
 
 const key=p=>p.runId+'-'+p.attempt;
 const bundle=pair=>Buffer.from(canonical({manifest:pair.manifest,cipher:pair.cipher.toString('base64')}));
@@ -7,7 +7,7 @@ const metadata=(pair,id)=>{
   const m=JSON.parse(pair.manifest);
   return {id,name:'nutrition-002k-'+key(m.publication),publication:m.publication,format:FORMAT,
     manifestSha256:hash(pair.manifest),cipherSha256:hash(pair.cipher),
-    artifactSha256:hash(bundle(pair)),bytes:bundle(pair).length,expiresAt:m.expiresAt};
+    artifactSha256:hash(bundle(pair)),bytes:bundle(pair).length,capturedAt:m.capturedAt,expiresAt:m.expiresAt};
 };
 
 // An immutable, in-memory service substitute. It has no fetch, GitHub client,
@@ -31,7 +31,7 @@ export class MockPublication {
     const result=structuredClone(r);
     result.pair.cipher=Buffer.from(result.pair.cipher);
     const mutations={identity:{id:999},digest:{artifactSha256:'0'.repeat(64)},manifest:{manifestSha256:'0'.repeat(64)},
-      expiry:{expiresAt:'2000-01-01T00:00:00.000Z'},size:{bytes:1}};
+      capture:{capturedAt:'2000-01-01T00:00:00.000Z'},expiry:{expiresAt:'2000-01-01T00:00:00.000Z'},size:{bytes:1}};
     Object.assign(result.metadata,mutations[this.fault]??{});
     if(this.fault==='cipher')result.pair.cipher[0]^=1;
     return result;
@@ -63,17 +63,21 @@ export function verifyReceipt(pair,receipt,expected) {
   assertEqual(sourceEvidenceSha256,m.sourceEvidenceSha256,'RECEIPT_SOURCE_EVIDENCE');
   assertEqual(actual,metadata(pair,actual.id),'RECEIPT_ARTIFACT');
 }
-export function capacity({candidateBytes,accountUsedBytes,accountLimitBytes,overlapCandidates=1,otherReserveBytes}) {
-  for(const n of [candidateBytes,accountUsedBytes,accountLimitBytes,overlapCandidates,otherReserveBytes])
+// artifactBytes is the complete accepted stored package (verified receipt.bytes),
+// including manifest/container/encoding overhead. inspect() limits ciphertext;
+// that separate bound is not a storage-quota limit for the complete artifact.
+export function capacity({artifactBytes,accountUsedBytes,accountLimitBytes,overlapCandidates=1,otherReserveBytes}) {
+  for(const n of [artifactBytes,accountUsedBytes,accountLimitBytes,overlapCandidates,otherReserveBytes])
     if(!Number.isSafeInteger(n)||n<0)fail('QUOTA_UNVERIFIED');
-  if(candidateBytes>LIMITS.cipher||overlapCandidates>2||accountLimitBytes===0)fail('CANDIDATE_OR_OVERLAP_LIMIT');
-  const forecastBytes=accountUsedBytes+candidateBytes*(30+overlapCandidates)+otherReserveBytes;
+  if(artifactBytes===0||overlapCandidates>2||accountLimitBytes===0)fail('ARTIFACT_OR_OVERLAP_LIMIT');
+  const forecastBytes=accountUsedBytes+artifactBytes*(30+overlapCandidates)+otherReserveBytes;
   if(!Number.isSafeInteger(forecastBytes)||forecastBytes>accountLimitBytes)fail('QUOTA_CAPACITY');
   return {forecastBytes,retentionDays:30,operationalHeadroomVerified:false};
 }
 export function agePolicy(receipt,now=Date.now()) {
-  const age=now-Date.parse(receipt.capturedAt);
-  if(!Number.isFinite(age)||age<0||!Number.isFinite(Date.parse(receipt.expiresAt))||now>=Date.parse(receipt.expiresAt))fail('AGE_METADATA');
+  const captured=Date.parse(receipt?.capturedAt),expires=Date.parse(receipt?.expiresAt),age=now-captured;
+  if(typeof receipt?.capturedAt!=='string'||typeof receipt?.expiresAt!=='string'||!Number.isFinite(now)||
+    !Number.isFinite(age)||age<0||!Number.isFinite(expires)||expires!==captured+30*86400000||now>=expires)fail('AGE_METADATA');
   return {ageMs:age,action:age>=20*3600000?'INVESTIGATE_AND_REQUEST_CATCH_UP':'NO_ACTION',
     rpoDemonstrated:false,active:false};
 }
