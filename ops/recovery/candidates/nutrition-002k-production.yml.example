@@ -1,0 +1,48 @@
+# INERT DESIGN CANDIDATE. Outside .github/workflows, no trigger, false job guard,
+# no credentials and a permanently disabled entry point. Moving this file does
+# not authorize or enable a backup. A separately reviewed change is required.
+name: INACTIVE 002K future producer candidate
+on: {}
+permissions:
+  contents: read
+concurrency:
+  group: future-production-capture-and-migration-exclusion
+  cancel-in-progress: false
+jobs:
+  disabled:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      EXPECTED_PROJECT: hskfanrqwtqknzpquwhg
+      EXPECTED_DATABASE: postgres
+      EXPECTED_ROLE: postgres
+      RETENTION_DAYS: '30'
+      MAX_PLAIN_BYTES: '67108864'
+      MAX_CIPHER_BYTES: '17825792'
+    steps:
+      - name: Refuse operational use
+        run: node scripts/nutrition-002k/disabled-producer.mjs
+# Future reviewed steps, each blocked pending separate operational authority:
+# 1. Fixed trusted SHA checkout, pinned Actions/Node 22/locked dependencies.
+# 2. Verified account-wide free headroom; forbid billable overage. Forecast
+#    existing usage + 30 candidates + at most 2 transition candidates + reserve.
+# 3. Establish provider/operator DDL, role, extension, Auth-setting and migration
+#    exclusion; a page-level application maintenance switch is insufficient.
+# 4. Issue explicitly approved temporary credentials; fixed session route,
+#    verify-full TLS and effective postgres. No alternate endpoint or escalation.
+# 5. Read-only REPEATABLE READ exporter, 2s lock / 10s statement timeout,
+#    61 application tables + reviewed Auth projection, common imported snapshot,
+#    independent typed value verification, trusted schema/security comparison,
+#    fresh closing catalog witness. Close every reader/exporter before sealing.
+# 6. Bound compression and CMS AES-256-GCM to independently reviewed recipient.
+#    No decryption key/signing root in runner. Cleanup plaintext on every exit.
+# 7. Exact two-member cipher/manifest publication; independently trusted manifest
+#    and source-evidence receipt; immutable run/attempt/artifact/expiry binding.
+#    Fail on mismatched digests. Reconcile lost ACK; never blind retry/overwrite.
+# 8. Keep 30-day retention. Preserve valid legacy artifacts on failure. Report
+#    non-secret success/age/size/failure metadata. No automatic catch-up yet.
+# Runner expectation: local measurement in review report; hosted duration and
+# source size remain unverified. Abort within budget, never relax limits.
+# Artifact size forecast uses measured ciphertext/container overhead, not an
+# assumed Production compression ratio. No second permanent daily stream.

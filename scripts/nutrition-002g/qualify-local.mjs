@@ -8,14 +8,16 @@ import { Environment as DefaultEnvironment } from './mail-local.mjs';
 import { run } from './process.mjs';
 import { boundary, assertCheckout, hash, canonical, assertEqual, fail } from './contract.mjs';
 import { capture as defaultCapture, schema as defaultSchema, restoreRows as defaultRestoreRows, roleState as defaultRoleState } from './capture.mjs';
-import { seal, openArchive } from './archive.mjs';
-import { reconstructIdentities } from './identity.mjs';
+import { seal as defaultSeal, openArchive as defaultOpenArchive } from './archive.mjs';
+import { reconstructIdentities as defaultReconstructIdentities } from './identity.mjs';
 import { populate } from './fixtures.mjs';
 
 export async function qualify({
  output, profile='002g', Environment=DefaultEnvironment,
  capture=defaultCapture, schema=defaultSchema, restoreRows=defaultRestoreRows,
  roleState=defaultRoleState, afterReplay=async()=>{}, extraCaptureChecks=async()=>{},
+ afterPopulate=async()=>{},
+ seal=defaultSeal, openArchive=defaultOpenArchive, reconstructIdentities=defaultReconstructIdentities,
  extraRestoreChecks=async()=>{}, transition=true,
  implementationPaths=['contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs'],
  duringCapture=async source=>{
@@ -23,7 +25,7 @@ export async function qualify({
    await assert.rejects(()=>source.sql("begin;set local lock_timeout='100ms';"+ddl+';commit;'),/N002G_LOCAL_PROCESS_FAILED_55P03/);
  },
 }) {
-if(!['002g','002i'].includes(profile))fail('QUALIFICATION_PROFILE');
+if(!['002g','002i','002k'].includes(profile))fail('QUALIFICATION_PROFILE');
 if(process.argv.length!==3||!isAbsolute(output??'')||existsSync(output)||!process.version.startsWith('v22.'))fail('RUNTIME_OR_OUTPUT');
 const cases=[],envs=[],work=mkdtempSync(join(tmpdir(),'nutrition-'+profile+'-')),startedAt=new Date().toISOString();
 let stage='start',failure,success=false;
@@ -66,6 +68,7 @@ try {
   status(await source.rest('/profiles',{method:'POST',bearer:foreign.session.access_token,body:{id:foreign.id,display_name:'Closed synthetic owner'}}),201);
   await source.sql("insert into public.account_closures(user_id,closure_request_id,closure_policy_version) values ('"+foreign.id+"',gen_random_uuid(),'p11e-e5-account-closure-v1');");
   await record('boundary'+count+'PopulatedNutritionAndReceipts',()=>populate(source,owner,count));
+  await afterPopulate({source,target,count,owner});
   await source.sql("update public.profiles set display_name='Snapshot original';");
   const oldRecovery=status(await source.api('/admin/generate_link',{method:'POST',bearer:source.admin(),body:{type:'recovery',email:owner.email}}));
   let payload;
