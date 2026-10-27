@@ -1,0 +1,68 @@
+{
+  "contract": "nutrition-002l-b1e-local-evidence/v1",
+  "scope": "LOCAL_SYNTHETIC_ONLY",
+  "implementationCommit": "c5e48cbfa779292ac8bef07b6e6d04ad9a25854a",
+  "platform": "Darwin/arm64",
+  "authVersion": "v2.197.0",
+  "authImage": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+  "gates": [
+    {
+      "gate": "002g",
+      "file": "002g-local-qualification.json",
+      "result": "PASS",
+      "groups": 31,
+      "implementationSha256": "6c6b6a6e2e46cfdb6c2f4567615010da690c6c7167169e957de948fe124d3cc9",
+      "implementationMatchesCandidate": true,
+      "sha256": "ff38f8539497798519165cc4475f0b66ce84942651b8fad5515a73dc6a5528fb",
+      "cleanupConfirmed": true,
+      "productionAccess": false
+    },
+    {
+      "gate": "002i",
+      "file": "002i-local-qualification.json",
+      "result": "PASS",
+      "groups": 44,
+      "implementationSha256": "ecd85eec0c88b283fe633dba9ebc569e7db1afcf8f5418f4b540474034892771",
+      "implementationMatchesCandidate": true,
+      "sha256": "aa1c1e3253d6e5eb1425ee0ae5b5735e32100c483ab5a769e245630c00350269",
+      "cleanupConfirmed": true,
+      "productionAccess": false
+    },
+    {
+      "gate": "002k",
+      "file": "002k-local-qualification.json",
+      "result": "PASS",
+      "groups": 90,
+      "implementationSha256": "9472a0c3ca8fd4fe59174c8f91867887632c112b19b45b8f463c4f1a174c9ffe",
+      "implementationMatchesCandidate": true,
+      "sha256": "17183ce5cbc7f7d3003e0983b8b2e6138dc8324742703ef0e1b67ad8f62ca310",
+      "cleanupConfirmed": true,
+      "productionAccess": false
+    }
+  ],
+  "retainedGroups": {
+    "002g": 31,
+    "002i": 44,
+    "002k": 48
+  },
+  "addedAuth197Groups": 42,
+  "focusedContractTests": 33,
+  "deploymentContractTests": 203,
+  "legacyRecoveryContractTests": 201,
+  "focusedPlaywrightUnitTests": 30,
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "productionDependencyAdvisories": 0,
+  "buildAndClientSecretBoundary": "PASS",
+  "localToolchainCorrection": {
+    "priorAttempt": "N002G_CMS_FORMAT at boundary44CmsEncryptedRoundtrip",
+    "reason": "PATH selected macOS LibreSSL instead of OpenSSL 3",
+    "cleanupConfirmed": true,
+    "productionAccess": false,
+    "codeOrSafeguardsChanged": false,
+    "resolution": "Rerun with OpenSSL 3.6.3"
+  },
+  "productionAccess": false,
+  "hostedQualification": "NOT_PERFORMED",
+  "authoritativeCi": "Final PR head checks; linked from PR #211"
+}

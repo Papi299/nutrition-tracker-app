@@ -1,5 +1,6 @@
+import { fixturePassword } from './password-fixture.mjs';
 import assert from 'node:assert/strict';
-import { randomBytes, generateKeyPairSync, sign } from 'node:crypto';
+import { generateKeyPairSync, sign } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, isAbsolute, resolve } from 'node:path';
@@ -16,10 +17,10 @@ export async function qualify({
  output, profile='002g', Environment=DefaultEnvironment,
  capture=defaultCapture, schema=defaultSchema, restoreRows=defaultRestoreRows,
  roleState=defaultRoleState, afterReplay=async()=>{}, extraCaptureChecks=async()=>{},
- afterPopulate=async()=>{},
+ afterPopulate=async()=>{}, extraAuthChecks=async()=>{},
  seal=defaultSeal, openArchive=defaultOpenArchive, reconstructIdentities=defaultReconstructIdentities,
  extraRestoreChecks=async()=>{}, transition=true,
- implementationPaths=['contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs'],
+ implementationPaths=['contract.mjs','password-fixture.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs'],
  duringCapture=async source=>{
   for(const ddl of ['alter table public.profiles add column forbidden integer','grant authenticated to anon',"alter function public.is_current_account_activated() set search_path=public"])
    await assert.rejects(()=>source.sql("begin;set local lock_timeout='100ms';"+ddl+';commit;'),/N002G_LOCAL_PROCESS_FAILED_55P03/);
@@ -49,7 +50,7 @@ async function replay(e,count) {
 async function account(e,email) {
  const invite=status(await e.api('/admin/generate_link',{method:'POST',bearer:e.admin(),body:{type:'invite',email}}));
  const verified=status(await e.api('/verify',{method:'POST',body:{type:'invite',token_hash:invite.hashed_token}}));
- const password=randomBytes(32).toString('base64url');
+ const password=fixturePassword();
  status(await e.api('/user',{method:'PUT',bearer:verified.access_token,body:{password}}));
  const session=status(await e.api('/token?grant_type=password',{method:'POST',body:{email,password}}));
  return {id:invite.id,email,password,session};
@@ -68,7 +69,7 @@ try {
   status(await source.rest('/profiles',{method:'POST',bearer:foreign.session.access_token,body:{id:foreign.id,display_name:'Closed synthetic owner'}}),201);
   await source.sql("insert into public.account_closures(user_id,closure_request_id,closure_policy_version) values ('"+foreign.id+"',gen_random_uuid(),'p11e-e5-account-closure-v1');");
   await record('boundary'+count+'PopulatedNutritionAndReceipts',()=>populate(source,owner,count));
-  await afterPopulate({source,target,count,owner});
+  await afterPopulate({source,target,count,owner,record});
   await source.sql("update public.profiles set display_name='Snapshot original';");
   const oldRecovery=status(await source.api('/admin/generate_link',{method:'POST',bearer:source.admin(),body:{type:'recovery',email:owner.email}}));
   let payload;
@@ -165,19 +166,20 @@ try {
    const mail=await target.recovery(owner);
    const recovery=status(await target.api('/verify',{method:'POST',body:{type:'recovery',token_hash:mail.hash}}));
    assertEqual(recovery.user.id,owner.id,'RECOVERY_UUID');
-   const password=randomBytes(32).toString('base64url');
+   const password=fixturePassword();
    status(await target.api('/user',{method:'PUT',bearer:recovery.access_token,body:{password}}));
    assert.ok((await target.api('/verify',{method:'POST',body:{type:'recovery',token_hash:mail.hash}})).status>=400);
    fresh=status(await target.api('/token?grant_type=password',{method:'POST',body:{email:owner.email,password}}));
    assertEqual(fresh.user.id,owner.id,'FRESH_UUID');
    status(await target.api('/user',{bearer:fresh.access_token}));
   });
+  await extraAuthChecks({source,target,count,owner,foreign,inactive,fresh,record});
   await record('boundary'+count+'RealRlsActivationClosureAndSignup',async()=>{
    const profiles=status(await target.rest('/profiles?select=id',{bearer:fresh.access_token}));assertEqual(profiles.map(x=>x.id),[owner.id],'OWNER_ROWS');
    assert.ok((await target.rest('/profiles')).status>=400);
    assert.ok((await target.rest('/profiles',{method:'POST',bearer:fresh.access_token,body:{id:foreign.id}})).status>=400);
    assert.ok((await target.rest('/diary_entries',{method:'PATCH',bearer:fresh.access_token,body:{user_id:foreign.id}})).status>=400);
-   assert.ok((await target.api('/signup',{method:'POST',body:{email:'intruder@example.invalid',password:randomBytes(32).toString('hex')}})).status>=400);
+   assert.ok((await target.api('/signup',{method:'POST',body:{email:'intruder@example.invalid',password:fixturePassword()}})).status>=400);
    const foreignMail=await target.recovery(foreign);
    const foreignSession=status(await target.api('/verify',{method:'POST',body:{type:'recovery',token_hash:foreignMail.hash}}));
    assertEqual(status(await target.rest('/profiles?id=eq.'+owner.id,{bearer:foreignSession.access_token})),[],'FOREIGN_OWNER_ACCESS');

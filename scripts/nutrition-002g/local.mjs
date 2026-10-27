@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { fixturePasswordPolicy } from './password-fixture.mjs';
 import { mkdtempSync, writeFileSync, unlinkSync, rmdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -98,7 +99,7 @@ export class Environment {
   if(!this.volumeCreatedAt||v.CreatedAt!==this.volumeCreatedAt||v.Name!==this.volume||v.Driver!=='local'||v.Labels?.['codex.task']!==this.label||Object.keys(v.Options??{}).length)fail('VOLUME_IDENTITY');
  }
  authEnvironment() {
-  return {GOTRUE_API_HOST:'0.0.0.0',GOTRUE_API_PORT:'9999',API_EXTERNAL_URL:'http://localhost:3000',
+  return {GOTRUE_PASSWORD_MIN_LENGTH:String(fixturePasswordPolicy.minimumLength),GOTRUE_PASSWORD_REQUIRED_CHARACTERS:fixturePasswordPolicy.requiredCharacters,GOTRUE_API_HOST:'0.0.0.0',GOTRUE_API_PORT:'9999',API_EXTERNAL_URL:'http://localhost:3000',
    GOTRUE_DB_DRIVER:'postgres',GOTRUE_DB_DATABASE_URL:`postgresql://supabase_auth_admin:${this.dbPassword}@${this.prefix}-db:5432/postgres`,
    GOTRUE_SITE_URL:'http://localhost:3000',GOTRUE_URI_ALLOW_LIST:'http://localhost:3000',
    GOTRUE_JWT_SECRET:this.signing,GOTRUE_JWT_AUD:'authenticated',GOTRUE_JWT_ADMIN_ROLES:'service_role',

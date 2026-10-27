@@ -1,0 +1,1004 @@
+{
+  "contract": "nutrition-002k-local-qualification/v1",
+  "result": "PASS",
+  "startedAt": "2026-10-27T20:31:35.943Z",
+  "completedAt": "2026-10-27T20:39:02.071Z",
+  "node": "v22.23.4",
+  "implementationSha256": "9472a0c3ca8fd4fe59174c8f91867887632c112b19b45b8f463c4f1a174c9ffe",
+  "cases": [
+    {
+      "name": "boundary44RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7292
+    },
+    {
+      "name": "boundary44TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 15570
+    },
+    {
+      "name": "boundary44PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 2677
+    },
+    {
+      "name": "boundary44Auth197Actual197VersionsAndAuthSchema",
+      "result": "PASS",
+      "elapsedMs": 738
+    },
+    {
+      "name": "boundary44Auth197ExactAdminPayloadCreatesRandomCredentialAndEmailIdentity",
+      "result": "PASS",
+      "elapsedMs": 455
+    },
+    {
+      "name": "boundary44Auth197StrictAdminPasswordPolicyRejectsEveryInvalidClass",
+      "result": "PASS",
+      "elapsedMs": 1842
+    },
+    {
+      "name": "boundary44Auth197StrictSuppliedPasswordWorks",
+      "result": "PASS",
+      "elapsedMs": 687
+    },
+    {
+      "name": "boundary44Auth197AdminContactUpdateRevokesGenuinePendingRecoveryAuthority",
+      "result": "PASS",
+      "elapsedMs": 2574
+    },
+    {
+      "name": "boundary44Auth197RecoveryCodesCannotEnrollFromAal1",
+      "result": "PASS",
+      "elapsedMs": 249
+    },
+    {
+      "name": "boundary44Auth197RealTotpAndRecoveryCodeEnrollment",
+      "result": "PASS",
+      "elapsedMs": 1978
+    },
+    {
+      "name": "boundary44Auth197EnrolledRecoveryCodeStateRejectsCaptureAndRemainsOutsideTarget",
+      "result": "PASS",
+      "elapsedMs": 2816
+    },
+    {
+      "name": "boundary44Auth197RecoveryCodeOneUseAndAmrBinding",
+      "result": "PASS",
+      "elapsedMs": 2136
+    },
+    {
+      "name": "boundary44Auth197RecoveryCodeRotationAndDeletionRevokeAuthority",
+      "result": "PASS",
+      "elapsedMs": 4712
+    },
+    {
+      "name": "boundary44Auth197NoFactorCaptureRemainsEligibleAfterRecordedNegativeProbeCleanup",
+      "result": "PASS",
+      "elapsedMs": 3129
+    },
+    {
+      "name": "boundary44CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 3829
+    },
+    {
+      "name": "boundary44IndependentReaderDetectsValuesRowsPrecisionAndNullCorruption",
+      "result": "PASS",
+      "elapsedMs": 18841
+    },
+    {
+      "name": "boundary44RealReaderLossAndImportFailureAbort",
+      "result": "PASS",
+      "elapsedMs": 3522
+    },
+    {
+      "name": "boundary44OwnershipRestrictionsAndConcurrentClosureRemainCoherent",
+      "result": "PASS",
+      "elapsedMs": 3711
+    },
+    {
+      "name": "boundary44FunctionGrantRevertsAndPersistentMembershipDriftAbort",
+      "result": "PASS",
+      "elapsedMs": 10209
+    },
+    {
+      "name": "boundary44PolicyDDLIsLockedAndPreexistingPolicyDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 5055
+    },
+    {
+      "name": "boundary44WrongLedgerUnexpectedRelationColumnAndExtensionAbort",
+      "result": "PASS",
+      "elapsedMs": 9828
+    },
+    {
+      "name": "boundary44ActualTrustedTypesAndNullPrecisionProbe",
+      "result": "PASS",
+      "elapsedMs": 304
+    },
+    {
+      "name": "boundary44EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 3396
+    },
+    {
+      "name": "boundary44ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 4518
+    },
+    {
+      "name": "boundary44ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 2661
+    },
+    {
+      "name": "boundary44CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 226
+    },
+    {
+      "name": "boundary44ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 240
+    },
+    {
+      "name": "boundary44OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 30417
+    },
+    {
+      "name": "boundary44ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2950
+    },
+    {
+      "name": "boundary44Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 19169
+    },
+    {
+      "name": "boundary44Auth197IndependentReconstructedIdentityAndEmptyAuthorityTables",
+      "result": "PASS",
+      "elapsedMs": 1514
+    },
+    {
+      "name": "boundary44IndependentValueAcceptanceFailureRollsBack",
+      "result": "PASS",
+      "elapsedMs": 10395
+    },
+    {
+      "name": "boundary44InvalidForeignKeyRollbackPreservesIndependentValuesAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 10495
+    },
+    {
+      "name": "boundary44OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3677
+    },
+    {
+      "name": "boundary44VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 2001
+    },
+    {
+      "name": "boundary44Auth197SourcePasswordAndSessionPositiveControls",
+      "result": "PASS",
+      "elapsedMs": 627
+    },
+    {
+      "name": "boundary44Auth197StrictRecoveryPasswordUpdateAndSessionCleanup",
+      "result": "PASS",
+      "elapsedMs": 2965
+    },
+    {
+      "name": "boundary44Auth197RecentProofRealPasswordSessionClaims",
+      "result": "PASS",
+      "elapsedMs": 460
+    },
+    {
+      "name": "boundary44Auth197RecentProofWrongPasswordRejected",
+      "result": "PASS",
+      "elapsedMs": 308
+    },
+    {
+      "name": "boundary44Auth197RecentProofTemporarySessionCleanupPreservesPrimary",
+      "result": "PASS",
+      "elapsedMs": 1214
+    },
+    {
+      "name": "boundary44Auth197RecentProofActualClaimBindingAndExpiry",
+      "result": "PASS",
+      "elapsedMs": 1
+    },
+    {
+      "name": "boundary44Auth197RecentProofNewRealSessionCannotReuseOldProof",
+      "result": "PASS",
+      "elapsedMs": 326
+    },
+    {
+      "name": "boundary44Auth197RealConfiguredExpiryRejectsRecoveryHashAndNumericOtp",
+      "result": "PASS",
+      "elapsedMs": 7106
+    },
+    {
+      "name": "boundary44Auth197MandatoryAal2PolicyFailsClosedAndSchemaDriftIsRejected",
+      "result": "PASS",
+      "elapsedMs": 3752
+    },
+    {
+      "name": "boundary44RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4020
+    },
+    {
+      "name": "boundary45RealIndependentBootstrap",
+      "result": "PASS",
+      "elapsedMs": 7258
+    },
+    {
+      "name": "boundary45TrustedReplayAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 16062
+    },
+    {
+      "name": "boundary45PopulatedNutritionAndReceipts",
+      "result": "PASS",
+      "elapsedMs": 4066
+    },
+    {
+      "name": "boundary45Auth197Actual197VersionsAndAuthSchema",
+      "result": "PASS",
+      "elapsedMs": 762
+    },
+    {
+      "name": "boundary45Auth197ExactAdminPayloadCreatesRandomCredentialAndEmailIdentity",
+      "result": "PASS",
+      "elapsedMs": 449
+    },
+    {
+      "name": "boundary45Auth197StrictAdminPasswordPolicyRejectsEveryInvalidClass",
+      "result": "PASS",
+      "elapsedMs": 1949
+    },
+    {
+      "name": "boundary45Auth197StrictSuppliedPasswordWorks",
+      "result": "PASS",
+      "elapsedMs": 721
+    },
+    {
+      "name": "boundary45Auth197AdminContactUpdateRevokesGenuinePendingRecoveryAuthority",
+      "result": "PASS",
+      "elapsedMs": 2576
+    },
+    {
+      "name": "boundary45Auth197RecoveryCodesCannotEnrollFromAal1",
+      "result": "PASS",
+      "elapsedMs": 253
+    },
+    {
+      "name": "boundary45Auth197RealTotpAndRecoveryCodeEnrollment",
+      "result": "PASS",
+      "elapsedMs": 1889
+    },
+    {
+      "name": "boundary45Auth197EnrolledRecoveryCodeStateRejectsCaptureAndRemainsOutsideTarget",
+      "result": "PASS",
+      "elapsedMs": 2633
+    },
+    {
+      "name": "boundary45Auth197RecoveryCodeOneUseAndAmrBinding",
+      "result": "PASS",
+      "elapsedMs": 2070
+    },
+    {
+      "name": "boundary45Auth197RecoveryCodeRotationAndDeletionRevokeAuthority",
+      "result": "PASS",
+      "elapsedMs": 4583
+    },
+    {
+      "name": "boundary45Auth197NoFactorCaptureRemainsEligibleAfterRecordedNegativeProbeCleanup",
+      "result": "PASS",
+      "elapsedMs": 3154
+    },
+    {
+      "name": "boundary45CoherentCompleteCapture",
+      "result": "PASS",
+      "elapsedMs": 3709
+    },
+    {
+      "name": "boundary45IndependentReaderDetectsValuesRowsPrecisionAndNullCorruption",
+      "result": "PASS",
+      "elapsedMs": 16438
+    },
+    {
+      "name": "boundary45RealReaderLossAndImportFailureAbort",
+      "result": "PASS",
+      "elapsedMs": 3435
+    },
+    {
+      "name": "boundary45OwnershipRestrictionsAndConcurrentClosureRemainCoherent",
+      "result": "PASS",
+      "elapsedMs": 3787
+    },
+    {
+      "name": "boundary45FunctionGrantRevertsAndPersistentMembershipDriftAbort",
+      "result": "PASS",
+      "elapsedMs": 10115
+    },
+    {
+      "name": "boundary45PolicyDDLIsLockedAndPreexistingPolicyDriftRejected",
+      "result": "PASS",
+      "elapsedMs": 5155
+    },
+    {
+      "name": "boundary45WrongLedgerUnexpectedRelationColumnAndExtensionAbort",
+      "result": "PASS",
+      "elapsedMs": 8801
+    },
+    {
+      "name": "boundary45ActualTrustedTypesAndNullPrecisionProbe",
+      "result": "PASS",
+      "elapsedMs": 267
+    },
+    {
+      "name": "boundary45EqualCountRowReplacementRetainsSnapshotIdentity",
+      "result": "PASS",
+      "elapsedMs": 3323
+    },
+    {
+      "name": "boundary45ReaderAndExporterFailureReject",
+      "result": "PASS",
+      "elapsedMs": 3945
+    },
+    {
+      "name": "boundary45ActualEnabledFactorProfileBlocked",
+      "result": "PASS",
+      "elapsedMs": 2675
+    },
+    {
+      "name": "boundary45CmsEncryptedRoundtrip",
+      "result": "PASS",
+      "elapsedMs": 427
+    },
+    {
+      "name": "boundary45ArchiveNegatives",
+      "result": "PASS",
+      "elapsedMs": 175
+    },
+    {
+      "name": "boundary45OwnerVerificationAndSameUuidApiReconstruction",
+      "result": "PASS",
+      "elapsedMs": 29958
+    },
+    {
+      "name": "boundary45ActualSchemaRoleAndBoundaryDriftRefused",
+      "result": "PASS",
+      "elapsedMs": 2863
+    },
+    {
+      "name": "boundary45Complete61TableValueRestore",
+      "result": "PASS",
+      "elapsedMs": 18952
+    },
+    {
+      "name": "boundary45Auth197IndependentReconstructedIdentityAndEmptyAuthorityTables",
+      "result": "PASS",
+      "elapsedMs": 1483
+    },
+    {
+      "name": "boundary45IndependentValueAcceptanceFailureRollsBack",
+      "result": "PASS",
+      "elapsedMs": 11442
+    },
+    {
+      "name": "boundary45InvalidForeignKeyRollbackPreservesIndependentValuesAndSecurity",
+      "result": "PASS",
+      "elapsedMs": 10462
+    },
+    {
+      "name": "boundary45OldSourceAuthorityRefusedBeforeFreshRecovery",
+      "result": "PASS",
+      "elapsedMs": 3634
+    },
+    {
+      "name": "boundary45VerifiedFreshTargetRecoverySingleUse",
+      "result": "PASS",
+      "elapsedMs": 2092
+    },
+    {
+      "name": "boundary45Auth197SourcePasswordAndSessionPositiveControls",
+      "result": "PASS",
+      "elapsedMs": 609
+    },
+    {
+      "name": "boundary45Auth197StrictRecoveryPasswordUpdateAndSessionCleanup",
+      "result": "PASS",
+      "elapsedMs": 2891
+    },
+    {
+      "name": "boundary45Auth197RecentProofRealPasswordSessionClaims",
+      "result": "PASS",
+      "elapsedMs": 456
+    },
+    {
+      "name": "boundary45Auth197RecentProofWrongPasswordRejected",
+      "result": "PASS",
+      "elapsedMs": 327
+    },
+    {
+      "name": "boundary45Auth197RecentProofTemporarySessionCleanupPreservesPrimary",
+      "result": "PASS",
+      "elapsedMs": 1182
+    },
+    {
+      "name": "boundary45Auth197RecentProofActualClaimBindingAndExpiry",
+      "result": "PASS",
+      "elapsedMs": 3
+    },
+    {
+      "name": "boundary45Auth197RecentProofNewRealSessionCannotReuseOldProof",
+      "result": "PASS",
+      "elapsedMs": 308
+    },
+    {
+      "name": "boundary45Auth197RealConfiguredExpiryRejectsRecoveryHashAndNumericOtp",
+      "result": "PASS",
+      "elapsedMs": 7163
+    },
+    {
+      "name": "boundary45Auth197MandatoryAal2PolicyFailsClosedAndSchemaDriftIsRejected",
+      "result": "PASS",
+      "elapsedMs": 4095
+    },
+    {
+      "name": "boundary45RealRlsActivationClosureAndSignup",
+      "result": "PASS",
+      "elapsedMs": 4169
+    }
+  ],
+  "failure": null,
+  "cleanupConfirmed": true,
+  "productionAccess": false,
+  "syntheticMeasurements": [
+    {
+      "boundary": 44,
+      "plainBytes": 912427,
+      "compressedBytes": 119226,
+      "cipherBytes": 119794,
+      "artifactBytes": 169729,
+      "typesSha256": "804386d7e927bdbb370ee797c0b49ae6caee0e574747cff5cab3e9fc68aba897",
+      "numericTypes": [
+        "bigint",
+        "numeric(10,3)",
+        "numeric(12,4)",
+        "numeric(14,4)",
+        "numeric(18,6)",
+        "numeric(24,10)",
+        "numeric(24,12)",
+        "numeric(8,2)",
+        "xid8"
+      ],
+      "jsonColumns": [
+        {
+          "table": "ingestion.foundation_promotion_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "allowance_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_validation_receipts",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "exact_item_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "proposed_food_state",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "nutrient_states",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "item_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "decision_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "allowance_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "identity_reservation_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "plan_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "receipt_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "public_mutation_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "history_insertion_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_validation_receipts",
+          "column": "validation_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.reconciliation_decisions",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "contract_versions",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "report_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "evidence_references",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_candidates",
+          "column": "normalized_candidate",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_source_records",
+          "column": "raw_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.custom_food_creation_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.manual_diary_entry_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        }
+      ]
+    },
+    {
+      "boundary": 45,
+      "plainBytes": 1021782,
+      "compressedBytes": 127098,
+      "cipherBytes": 127666,
+      "artifactBytes": 180407,
+      "typesSha256": "5e0fb35ecb849e736cd288689ad049f6e7bf4a47dd4b3688ae26e084d67b2658",
+      "numericTypes": [
+        "bigint",
+        "numeric(10,3)",
+        "numeric(12,4)",
+        "numeric(14,4)",
+        "numeric(18,6)",
+        "numeric(24,10)",
+        "numeric(24,12)",
+        "numeric(8,2)",
+        "xid8"
+      ],
+      "jsonColumns": [
+        {
+          "table": "ingestion.foundation_promotion_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "allowance_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_reject_allowances",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.foundation_validation_receipts",
+          "column": "reject_category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "exact_item_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_allowances",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "proposed_food_state",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "nutrient_states",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plan_items",
+          "column": "item_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "decision_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "allowance_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "identity_reservation_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "action_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_execution_plans",
+          "column": "plan_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_approvals",
+          "column": "approval_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "receipt_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "public_mutation_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_update_receipts",
+          "column": "history_insertion_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.lifecycle_validation_receipts",
+          "column": "validation_contract",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.reconciliation_decisions",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_fingerprints",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "exact_set_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "category_counts",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "contract_versions",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_diff_reports",
+          "column": "report_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "evidence_references",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.release_scope_evidence",
+          "column": "contract_json",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_candidates",
+          "column": "normalized_candidate",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "ingestion.staged_source_records",
+          "column": "raw_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.custom_food_creation_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.diary_entries",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "public.manual_diary_entry_requests",
+          "column": "request_payload",
+          "type": "jsonb",
+          "notNull": true
+        },
+        {
+          "table": "public.recipe_ingredients",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        },
+        {
+          "table": "public.saved_meal_items",
+          "column": "additional_nutrient_snapshot",
+          "type": "jsonb",
+          "notNull": false
+        }
+      ]
+    }
+  ],
+  "authObservations": [
+    {
+      "boundary": 44,
+      "side": "source",
+      "version": "v2.197.0",
+      "image": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "postgres": "170006",
+      "newAuthTables": 4,
+      "expiryColumn": true,
+      "appTables": 61,
+      "observedAt": "2026-10-27T20:32:07.297Z"
+    },
+    {
+      "boundary": 44,
+      "side": "target",
+      "version": "v2.197.0",
+      "image": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "postgres": "170006",
+      "newAuthTables": 4,
+      "expiryColumn": true,
+      "appTables": 61,
+      "observedAt": "2026-10-27T20:32:07.654Z"
+    },
+    {
+      "boundary": 44,
+      "identityWitnessVersion": "v2.197.0",
+      "independentIdentityChecks": true,
+      "emptyTargetAuthorityTables": [
+        "sessions",
+        "refresh_tokens",
+        "one_time_tokens",
+        "flow_state",
+        "mfa_factors",
+        "webauthn_credentials",
+        "mfa_recovery_code_sets",
+        "mfa_recovery_codes"
+      ],
+      "importedAuthCredentialRows": 0
+    },
+    {
+      "boundary": 44,
+      "tokenExpirySecondsTested": 2,
+      "expiredHashRejected": true,
+      "expiredNumericOtpRejected": true,
+      "newExpiresAtColumnPopulated": false,
+      "subsequentLiveRecoveryAccepted": true
+    },
+    {
+      "boundary": 45,
+      "side": "source",
+      "version": "v2.197.0",
+      "image": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "postgres": "170006",
+      "newAuthTables": 4,
+      "expiryColumn": true,
+      "appTables": 61,
+      "observedAt": "2026-10-27T20:35:53.075Z"
+    },
+    {
+      "boundary": 45,
+      "side": "target",
+      "version": "v2.197.0",
+      "image": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "postgres": "170006",
+      "newAuthTables": 4,
+      "expiryColumn": true,
+      "appTables": 61,
+      "observedAt": "2026-10-27T20:35:53.453Z"
+    },
+    {
+      "boundary": 45,
+      "identityWitnessVersion": "v2.197.0",
+      "independentIdentityChecks": true,
+      "emptyTargetAuthorityTables": [
+        "sessions",
+        "refresh_tokens",
+        "one_time_tokens",
+        "flow_state",
+        "mfa_factors",
+        "webauthn_credentials",
+        "mfa_recovery_code_sets",
+        "mfa_recovery_codes"
+      ],
+      "importedAuthCredentialRows": 0
+    },
+    {
+      "boundary": 45,
+      "tokenExpirySecondsTested": 2,
+      "expiredHashRejected": true,
+      "expiredNumericOtpRejected": true,
+      "newExpiresAtColumnPopulated": false,
+      "subsequentLiveRecoveryAccepted": true
+    }
+  ],
+  "hostedQualification": "NOT_PERFORMED"
+}

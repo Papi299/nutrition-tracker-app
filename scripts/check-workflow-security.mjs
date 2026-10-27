@@ -112,9 +112,9 @@ function checkCiDispatchContract(workflow) {
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main, codex/nutrition-002k-backup-integration]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
-    fail("ci.yml must retain only main PR, main push, and manual dispatch triggers");
+    fail("ci.yml must retain only reviewed main/002K-base PR, main push, and main-only manual dispatch triggers");
   }
   if (
     !workflow.includes(
@@ -209,12 +209,14 @@ const workflowFiles = readdirSync(workflowDirectory)
   .filter((name) => /\.ya?ml$/.test(name))
   .sort();
 const recoveryWorkflow = readFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), "utf8");
-if (createHash("sha256").update(recoveryWorkflow).digest("hex") !== "2928375a1e8a91e7f1197c35cbc8e40f3f160f280eebbdbf56fcf0984793e5d9") fail("002G workflow differs from the reviewed exact draft-only workflow");
+if (createHash("sha256").update(recoveryWorkflow).digest("hex") !== "28482e56391f2e1c7ae4f5a78126acb265c1e9a7d9194f1a502c01e065425924") fail("002G workflow differs from the reviewed exact draft-only workflow");
 const hostedRoleWorkflow = readFileSync(join(workflowDirectory, "nutrition-002i-local.yml"), "utf8");
-if (createHash("sha256").update(hostedRoleWorkflow).digest("hex") !== "cbae02417d7fdde3968d574e9d722a20d80f4a4958c4c8bb9df016a31e254693") fail("002I workflow differs from the reviewed exact draft-only workflow");
+if (createHash("sha256").update(hostedRoleWorkflow).digest("hex") !== "4aab918d4ede30e9473635a8238f179b49dcff385dbde5838843bcc4cab60dec") fail("002I workflow differs from the reviewed exact draft-only workflow");
 const integrationWorkflow = readFileSync(join(workflowDirectory, "nutrition-002k-local.yml"), "utf8");
-if (createHash("sha256").update(integrationWorkflow).digest("hex") !== "68ade698df8ca6ff6f062addc16895fbbe4b01a934143bc3b910528955b7c32d") fail("002K workflow differs from the reviewed exact draft-only workflow");
-const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml", "nutrition-002i-local.yml", "nutrition-002k-local.yml"].sort();
+if (createHash("sha256").update(integrationWorkflow).digest("hex") !== "6a7b379ab392baf3f5d7304089999109b7dc3484ff38ac2a663735c87f5979c9") fail("002K workflow differs from the reviewed exact draft-only workflow");
+const auth197Workflow = readFileSync(join(workflowDirectory, "nutrition-002l-b1e-local.yml"), "utf8");
+if (createHash("sha256").update(auth197Workflow).digest("hex") !== "ffa452e9c9f4c25e260fefdaa2e00e6d0c1195371293018326a0dde542174f14") fail("B1E workflow differs from the reviewed exact draft-only workflow");
+const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml", "nutrition-002i-local.yml", "nutrition-002k-local.yml", "nutrition-002l-b1e-local.yml"].sort();
 if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
   fail("workflow inventory contains an unreviewed or missing workflow");
 }

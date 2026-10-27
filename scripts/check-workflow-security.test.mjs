@@ -22,13 +22,14 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml")), integrationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002k-local.yml"))) {
+function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml")), integrationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002k-local.yml")), auth197Workflow = readFileSync(join(root, ".github/workflows/nutrition-002l-b1e-local.yml"))) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
     mkdirSync(workflowDirectory, { recursive: true });
     writeFileSync(join(workflowDirectory, "ci.yml"), ciWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002k-local.yml"), integrationWorkflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002l-b1e-local.yml"), auth197Workflow);
     writeFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), readFileSync(join(root, ".github/workflows/nutrition-002g-local.yml")));
     writeFileSync(join(workflowDirectory, "nutrition-002i-local.yml"), hostedRoleWorkflow);
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
@@ -93,6 +94,7 @@ test("002K workflow rejects broadened access, mutable images and omitted indepen
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
+    ci.replace("branches: [main, codex/nutrition-002k-backup-integration]", "branches: [main, '**']"),
     ci.replace("  workflow_dispatch:\n", ""),
     ci.replace("  workflow_dispatch:\n", "  workflow_dispatch:\n  schedule:\n"),
     ci.replace('"refs/heads/main"', '"refs/heads/feature"'),
@@ -170,4 +172,21 @@ test("hygiene uses PR, push, and dispatch bases and fails when a base is unavail
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
+});
+
+
+test("B1E workflow refuses broader authority and omitted retained or Auth gates", () => {
+ const workflow=readFileSync(join(root,".github/workflows/nutrition-002l-b1e-local.yml"),"utf8");
+ for(const mutation of [
+  workflow.replace("  pull_request:","  workflow_dispatch:"),
+  workflow.replace("contents: read","contents: write"),
+  workflow.replace("github.event.pull_request.draft && ",""),
+  workflow.replace("codex/nutrition-002l-b1e-auth197","any-branch"),
+  workflow.replace("persist-credentials: false","persist-credentials: true"),
+  workflow.replace("@sha256:","@mutable:"),
+  workflow.replace("scripts/nutrition-002g/qualify-local.mjs","scripts/skipped.mjs"),
+  workflow.replace("scripts/nutrition-002i/qualify-local.mjs","scripts/skipped.mjs"),
+  workflow.replace("scripts/nutrition-002k/qualify-local.mjs","scripts/skipped.mjs"),
+  workflow.replace("upload: never","upload: always"),
+ ]) {assert.notEqual(mutation,workflow);assert.notEqual(policyResult(ci,undefined,undefined,mutation).status,0);}
 });
