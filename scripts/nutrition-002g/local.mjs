@@ -17,7 +17,7 @@ export function assertOwnedContainer(c,id,image,network,volume,label=LABEL) {
 export class Environment {
  constructor(side,scope='002g') {
   if(!['source','target'].includes(side))fail('SIDE');
-  if(!['002g'].includes(scope))fail('SCOPE');
+  if(!['002g','002i'].includes(scope))fail('SCOPE');
   this.label='NUTRITION-DIARY-CORRECTNESS-'+scope.toUpperCase();
   this.scope=scope;this.side=side;this.prefix='nutrition-'+scope+'-'+side;this.network=this.prefix;this.volume=this.prefix+'-data';
   this.ids=new Map();this.images={db:DB_IMAGE,auth:AUTH_IMAGE,rest:REST_IMAGE,client:CLIENT_IMAGE};

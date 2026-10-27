@@ -2,22 +2,34 @@ import assert from 'node:assert/strict';
 import { randomBytes, generateKeyPairSync, sign } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, isAbsolute } from 'node:path';
-import { Environment } from './mail-local.mjs';
+import { join, isAbsolute, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { Environment as DefaultEnvironment } from './mail-local.mjs';
 import { run } from './process.mjs';
 import { boundary, assertCheckout, hash, canonical, assertEqual, fail } from './contract.mjs';
-import { capture, schema, restoreRows, roleState } from './capture.mjs';
+import { capture as defaultCapture, schema as defaultSchema, restoreRows as defaultRestoreRows, roleState as defaultRoleState } from './capture.mjs';
 import { seal, openArchive } from './archive.mjs';
 import { reconstructIdentities } from './identity.mjs';
 import { populate } from './fixtures.mjs';
 
-const output=process.argv[2];
+export async function qualify({
+ output, profile='002g', Environment=DefaultEnvironment,
+ capture=defaultCapture, schema=defaultSchema, restoreRows=defaultRestoreRows,
+ roleState=defaultRoleState, afterReplay=async()=>{}, extraCaptureChecks=async()=>{},
+ extraRestoreChecks=async()=>{}, transition=true,
+ implementationPaths=['contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs'],
+ duringCapture=async source=>{
+  for(const ddl of ['alter table public.profiles add column forbidden integer','grant authenticated to anon',"alter function public.is_current_account_activated() set search_path=public"])
+   await assert.rejects(()=>source.sql("begin;set local lock_timeout='100ms';"+ddl+';commit;'),/N002G_LOCAL_PROCESS_FAILED_55P03/);
+ },
+}) {
+if(!['002g','002i'].includes(profile))fail('QUALIFICATION_PROFILE');
 if(process.argv.length!==3||!isAbsolute(output??'')||existsSync(output)||!process.version.startsWith('v22.'))fail('RUNTIME_OR_OUTPUT');
-const cases=[],envs=[],work=mkdtempSync(join(tmpdir(),'nutrition-002g-')),startedAt=new Date().toISOString();
+const cases=[],envs=[],work=mkdtempSync(join(tmpdir(),'nutrition-'+profile+'-')),startedAt=new Date().toISOString();
 let stage='start',failure,success=false;
-const implementationSha256=hash(canonical(['contract.mjs','process.mjs','local.mjs','mail-local.mjs','mail-sink.mjs','capture.mjs','archive.mjs','identity.mjs','fixtures.mjs','qualify-local.mjs'].map(p=>[p,hash(readFileSync(new URL(p,import.meta.url)))])));
-export function status(r,expected=200) {if(r.status!==expected)fail('HTTP_'+r.status);return r.body;}
-export async function record(name,fn) {
+const implementationSha256=hash(canonical(implementationPaths.map(p=>[p,hash(readFileSync(new URL(p,import.meta.url)))])));
+function status(r,expected=200) {if(r.status!==expected)fail('HTTP_'+r.status);return r.body;}
+async function record(name,fn) {
  stage=name;const start=Date.now();try{await fn();cases.push({name,result:'PASS',elapsedMs:Date.now()-start});process.stdout.write(name+' PASS\n');}
  catch(e){cases.push({name,result:'FAIL',code:/^N002G_[A-Z0-9_]+$/.test(e.message)?e.message:'ASSERTION_FAILED',elapsedMs:Date.now()-start});throw e;}
 }
@@ -44,7 +56,7 @@ try {
  for(const count of [44,45]) {
   const source=new Environment('source'),target=new Environment('target');envs.push(source,target);
   await record('boundary'+count+'RealIndependentBootstrap',async()=>{await source.start();await target.start();});
-  await record('boundary'+count+'TrustedReplayAndSecurity',async()=>{await replay(source,count);await replay(target,count);assertEqual(await schema(source),await schema(target),'SCHEMA_REPLAY');});
+  await record('boundary'+count+'TrustedReplayAndSecurity',async()=>{await replay(source,count);await replay(target,count);await afterReplay(source,target,count);assertEqual(await schema(source),await schema(target),'SCHEMA_REPLAY');});
   const owner=await account(source,'owner@example.invalid');
   const foreign=await account(source,'foreign@example.invalid'),inactive=await account(source,'inactive@example.invalid');
   await source.startRest();
@@ -58,31 +70,31 @@ try {
   const oldRecovery=status(await source.api('/admin/generate_link',{method:'POST',bearer:source.admin(),body:{type:'recovery',email:owner.email}}));
   let payload;
   await record('boundary'+count+'CoherentCompleteCapture',async()=>{
-   payload=await capture(source,count,{afterSnapshot:async()=>{
+   payload=await capture(source,count,{reference:target,afterSnapshot:async()=>{
     await source.sql("update public.profiles set display_name='Equal count replacement value';");
     // Actual provider write after the shared snapshot: email/identity row counts
     // remain unchanged, but the captured original channel must stay coherent.
     status(await source.api('/admin/users/'+foreign.id,{method:'PUT',bearer:source.admin(),body:{email:'changed@example.invalid',email_confirm:true}}));
-    for(const ddl of ['alter table public.profiles add column forbidden integer','grant authenticated to anon',"alter function public.is_current_account_activated() set search_path=public"])
-     await assert.rejects(()=>source.sql("begin;set local lock_timeout='100ms';"+ddl+';commit;'),/N002G_LOCAL_PROCESS_FAILED_55P03/);
+    await duringCapture(source);
    }});
    const rows=payload.application.find(t=>t.name==='profiles').rows;
    assert.equal(rows.length,2);assert.ok(rows.find(r=>r.includes(owner.id)).includes('Snapshot original'));
    assert.ok((await source.sql('select display_name from public.profiles;')).includes('Equal count replacement value'));
    assertEqual(payload.identity.owners.find(o=>o.id===foreign.id).email,'foreign@example.invalid','COHERENT_AUTH_CHANNEL');
   });
+  await extraCaptureChecks({source,target,count,owner,record});
   await record('boundary'+count+'EqualCountRowReplacementRetainsSnapshotIdentity',async()=>{
-   const p=await capture(source,count,{afterSnapshot:()=>source.sql("begin;delete from public.profiles where id='"+owner.id+"';insert into public.profiles(id,display_name) values ('"+owner.id+"','Balanced replacement');commit;")});
+   const p=await capture(source,count,{reference:target,afterSnapshot:()=>source.sql("begin;delete from public.profiles where id='"+owner.id+"';insert into public.profiles(id,display_name) values ('"+owner.id+"','Balanced replacement');commit;")});
    const a=p.application.find(t=>t.name==='profiles').rows;assert.equal(a.length,2);assert.ok(a.find(r=>r.includes(owner.id)).includes('Equal count replacement value'));
    assertEqual(await source.sql("select display_name from public.profiles where id='"+owner.id+"';"),'Balanced replacement','REPLACEMENT_EXECUTED');
   });
   await record('boundary'+count+'ReaderAndExporterFailureReject',async()=>{
-   await assert.rejects(()=>capture(source,count,{failReader:true}));
-   await assert.rejects(()=>capture(source,count,{killExporter:true}));
+   await assert.rejects(()=>capture(source,count,{reference:target,failReader:true}));
+   await assert.rejects(()=>capture(source,count,{reference:target,killExporter:true}));
   });
   await record('boundary'+count+'ActualEnabledFactorProfileBlocked',async()=>{
    const factor=status(await source.api('/factors',{method:'POST',bearer:owner.session.access_token,body:{factor_type:'totp',friendly_name:'Unsupported profile negative'}}));
-   await assert.rejects(()=>capture(source,count),/N002G_UNSUPPORTED_AUTH_STATE/);
+   await assert.rejects(()=>capture(source,count,{reference:target}),/N002G_UNSUPPORTED_AUTH_STATE/);
    status(await source.api('/factors/'+factor.id,{method:'DELETE',bearer:owner.session.access_token}));
   });
   const archive=join(work,'archive'+count),key=join(work,'key'+count+'.pem'),cert=join(work,'cert'+count+'.pem');
@@ -125,6 +137,7 @@ try {
    await target.sql('revoke authenticated from anon;');
   });
   await record('boundary'+count+'Complete61TableValueRestore',async()=>{await restoreRows(target,restored,count);assertEqual(await roleState(target),restored.roles,'RESTORED_ROLES');});
+  await extraRestoreChecks({source,target,count,restored,record});
   await target.startRest();
   await record('boundary'+count+'OldSourceAuthorityRefusedBeforeFreshRecovery',async()=>{
    assert.match(oldRecovery.hashed_token,/^[a-f0-9]{56}$/);assert.match(oldRecovery.email_otp,/^[0-9]{6}$/);
@@ -175,7 +188,7 @@ try {
    await target.rest('/profiles',{method:'PATCH',bearer:fresh.access_token,body:{display_name:'forbidden'}});
    assert.notEqual(await target.sql('select display_name from public.profiles;'),'forbidden');
   });
-  if(count===44)await record('maintenance44To45TrustedTransitionPreservesPriorValues',async()=>{
+  if(count===44&&transition)await record('maintenance44To45TrustedTransitionPreservesPriorValues',async()=>{
    await source.remove('rest');await source.remove('auth');
    const before=await capture(source,44),m=boundary(45).at(-1),bytes=readFileSync(new URL('../../supabase/migrations/'+m.filename,import.meta.url));
    assertEqual(hash(bytes),m.sha256,'TRANSITION_BYTES');
@@ -197,6 +210,9 @@ try {
 finally {
  const cleanup=await Promise.allSettled(envs.map(e=>e.stop()));rmSync(work,{recursive:true,force:true});
  const cleanupConfirmed=cleanup.every(r=>r.status==='fulfilled');if(!cleanupConfirmed)process.exitCode=1;
- const evidence={contract:'nutrition-002g-local-qualification/v1',result:success&&cleanupConfirmed?'PASS':'BLOCKED',startedAt,completedAt:new Date().toISOString(),node:process.version,implementationSha256,cases,failure:failure??null,cleanupConfirmed,productionAccess:false};
+ const evidence={contract:'nutrition-'+profile+'-local-qualification/v1',result:success&&cleanupConfirmed?'PASS':'BLOCKED',startedAt,completedAt:new Date().toISOString(),node:process.version,implementationSha256,cases,failure:failure??null,cleanupConfirmed,productionAccess:false};
  writeFileSync(output,JSON.stringify(evidence,null,2)+'\n',{mode:0o600,flag:'wx'});process.stdout.write(evidence.result+'\n');
 }
+}
+
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await qualify({output:process.argv[2]});

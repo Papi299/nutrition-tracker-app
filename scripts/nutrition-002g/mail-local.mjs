@@ -6,7 +6,7 @@ import { recoveryMail, syntheticAddress } from './mail-sink.mjs';
 
 export const LABEL='NUTRITION-DIARY-CORRECTNESS-002G';
 export class Environment extends PriorEnvironment {
- constructor(side){super(side,'002g');this.otpExpiry=3600;}
+ constructor(side,scope='002g'){super(side,scope);this.otpExpiry=3600;}
  async check(kind) {
   const c=await super.check(kind);
   if(Object.keys(c.HostConfig.PortBindings??{}).length)throw Error('N002G_PUBLISHED_PORT');

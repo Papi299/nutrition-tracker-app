@@ -22,13 +22,14 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow) {
+function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml"))) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
     mkdirSync(workflowDirectory, { recursive: true });
     writeFileSync(join(workflowDirectory, "ci.yml"), ciWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), readFileSync(join(root, ".github/workflows/nutrition-002g-local.yml")));
+    writeFileSync(join(workflowDirectory, "nutrition-002i-local.yml"), hostedRoleWorkflow);
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
     return command(directory, process.execPath, [checker]);
   } finally {
@@ -52,6 +53,23 @@ function stepScript(name) {
 
 test("CI workflow security policy accepts the reviewed dispatch contract", () => {
   assert.equal(policyResult(ci).status, 0);
+});
+
+test("002I workflow rejects broadened access, unpinned services and omitted regression/security checks", () => {
+  const workflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml"), "utf8");
+  for (const mutation of [
+    workflow.replace("  pull_request:", "  schedule:"),
+    workflow.replace("contents: read", "contents: write"),
+    workflow.replace("github.event.pull_request.draft && ", ""),
+    workflow.replace("fetch-depth: 0", "fetch-depth: 1"),
+    workflow.replace("@sha256:", "@mutable:"),
+    workflow.replace("scripts/nutrition-002g/qualify-local.mjs", "scripts/skipped.mjs"),
+    workflow.replace("upload: never", "upload: always"),
+    workflow.replace("scripts/nutrition-002g/check-sarif.mjs", "scripts/skipped.mjs"),
+  ]) {
+    assert.notEqual(mutation, workflow);
+    assert.notEqual(policyResult(ci, mutation).status, 0);
+  }
 });
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
