@@ -47,7 +47,6 @@ export async function captureBackup({
   rows, psqlBinary, runSupabase, refreshSourceTransport, localNutritionSnapshots = false,
 }) {
   assertSourceIdentity(sourceIdentity);
-  const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots);
   assertEncryptionRecipient(recipientInput);
   if (typeof refreshSourceTransport !== "function") fail("Source transport refresh callback is required.");
   if (!backupRootInput || !operator) fail("Backup root and operator are required.");
@@ -162,6 +161,7 @@ export async function captureBackup({
       "select version from supabase_migrations.schema_migrations order by version;",
       "MIGRATION_LEDGER",
     ).map(([version]) => version);
+    const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots, migrations.at(-1));
     assertMigrationHistory(migrations, migrationBoundary);
 
     const applicationTables = rows(

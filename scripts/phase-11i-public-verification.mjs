@@ -10,7 +10,7 @@ function exactKeys(value, expected, label) {
   }
 }
 
-export function assertPublicVerificationSummary(summary, boundary = recoveryMigrationBoundary()) {
+export function assertPublicVerificationSummary(summary, boundary = recoveryMigrationBoundary(undefined, false, summary?.migration?.head)) {
   exactKeys(summary, ["schemaVersion", "migration", "storage", "ownerState", "sourceCaptureConsistency"], "summary");
   exactKeys(summary.migration, ["count", "head"], "migration");
   exactKeys(summary.storage, ["buckets", "objects"], "storage");
@@ -35,7 +35,7 @@ export function assertPublicVerificationSummary(summary, boundary = recoveryMigr
 // Select individual validated scalars; the encrypted snapshot never becomes public.
 export function buildPublicVerificationSummary({
   migrations, storage, ownerValidation, accountActivationCount, sourceCaptureConsistency,
-}, boundary = recoveryMigrationBoundary()) {
+}, boundary = recoveryMigrationBoundary(undefined, false, migrations?.at(-1))) {
   assertMigrationHistory(migrations, boundary);
   assertStorageScope(storage);
   const summary = {
@@ -65,7 +65,7 @@ const PUBLIC_MANIFEST_KEYS = new Set([
   "contentManifestSha256", "postEncryptionDecryptVerification", "credentialScanStatus",
   "publicVerificationSummary",
 ]);
-export function assertNewBackupPublicVerification(manifest, boundary = recoveryMigrationBoundary()) {
+export function assertNewBackupPublicVerification(manifest, boundary = recoveryMigrationBoundary(undefined, false, manifest?.migrationHead)) {
   if (!manifest || typeof manifest !== "object" || Array.isArray(manifest) ||
       Object.keys(manifest).some((key) => !PUBLIC_MANIFEST_KEYS.has(key))) {
     fail("Public backup manifest has unexpected fields.");

@@ -46,7 +46,7 @@ function prepare(project, offset) {
   const directory = join(root, project);
   mkdirSync(join(directory, "supabase"), { recursive: true, mode: 0o700 });
   cpSync("supabase/migrations", join(directory, "supabase/migrations"), { recursive: true });
-  if (!localNutritionSnapshots) {
+  if (!localNutritionSnapshots && project === sourceProject) {
     for (const migration of readdirSync(join(directory, "supabase/migrations"))) {
       if (migration.slice(0, 14) > migrationBoundary.head) rmSync(join(directory, "supabase/migrations", migration));
     }
@@ -193,7 +193,7 @@ try {
       recordTransportEvent(stage);
       return transportRows(sql);
     },
-    localNutritionSnapshots,
+    // Exercise the same closed history selection as the Production entry points.
     refreshSourceTransport: () => {
       assert.equal(dumpCalls, 4);
       assert.equal(transportRefreshes, 0);
@@ -225,6 +225,12 @@ try {
     await assert.rejects(captureBackup({ ...options, rows: mutatedRows }));
     negativeResults[label] = "PASS";
   }
+  const temporaryBefore = readdirSync(tmpdir()).filter((name) => name.startsWith("phase11i-backup-")).sort();
+  await assert.rejects(captureBackup({ ...options, rows: sourceRows,
+    runSupabase: () => { throw new Error("Synthetic dump failure"); } }), /Synthetic dump failure/);
+  assert.deepEqual(readdirSync(backupRoot), []);
+  assert.deepEqual(readdirSync(tmpdir()).filter((name) => name.startsWith("phase11i-backup-")).sort(), temporaryBefore);
+  negativeResults.backupFailureCleanup = "PASS";
   process.stdout.write("Capturing populated synthetic owner with temporary CMS recipient.\n");
   recordTransportEvent("INITIAL_LOCAL_TRANSPORT");
   const capture = await captureBackup(options);
@@ -252,7 +258,7 @@ try {
   const verifierOptions = { backupRootInput: backupRoot, runnerTempInput: root,
     workspaceInput: repositoryRoot, githubSha: manifest.sourceCommit,
     assertSourceIdentity: assertSyntheticSource, assertArtifactIdentity: assertSyntheticArtifact,
-    assertRecipient: options.assertRecipient, localNutritionSnapshots };
+    assertRecipient: options.assertRecipient };
   const verifiedArtifact = verifyGitHubArtifact(verifierOptions);
   assert.equal(verifiedArtifact.encryptedArchiveSha256, manifest.encryptedArchiveSha256);
   assert.equal(verifiedArtifact.manifestSha256, sha256(manifestBytes));
@@ -295,7 +301,7 @@ try {
     recipientInput: cert, privateKeyInput: key, reportInput: join(root, "restore-report.json"),
     targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
     assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
-    runSupabase: targetCli, localNutritionSnapshots });
+    runSupabase: targetCli });
   // Restore the same valid v1 artifact after removing only the additive outer field.
   // This exercises historical compatibility without altering the encrypted archive.
   const historicalManifest = structuredClone(manifest);
@@ -303,12 +309,18 @@ try {
   writeFileSync(capture.manifestPath, JSON.stringify(historicalManifest), { mode: 0o600 });
   let historicalRestored;
   try {
-    historicalRestored = restoreBackup({ archiveInput: capture.archivePath, manifestInput: capture.manifestPath,
+    const historicalOptions = { archiveInput: capture.archivePath, manifestInput: capture.manifestPath,
       recipientInput: cert, privateKeyInput: key, reportInput: join(root, "historical-restore-report.json"),
       targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
       assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
-      runSupabase: targetCli, localNutritionSnapshots });
-    assert.deepEqual(historicalRestored.restoreSafeCounts, restored.restoreSafeCounts);
+      runSupabase: targetCli };
+    if (migrationBoundary.count === 44) {
+      historicalRestored = restoreBackup(historicalOptions);
+      assert.deepEqual(historicalRestored.restoreSafeCounts, restored.restoreSafeCounts);
+    } else {
+      assert.throws(() => restoreBackup(historicalOptions), /unexpected or missing fields/);
+      negativeResults.migration45RequiresPublicSummary = "PASS";
+    }
     commandsPassed++;
   } finally { writeFileSync(capture.manifestPath, manifestBytes, { mode: 0o600 }); }
   process.chdir(repositoryRoot);
@@ -358,7 +370,7 @@ try {
       dumpCalls, eventOrder: transportEvents, allPostDumpReadsUsedRefreshedTransport: true },
     publicVerificationSummary: manifest.publicVerificationSummary,
     publicManifestContainsDetailedCounts: false, githubArtifactVerification: "PASS",
-    historicalManifestWithoutSummaryRestored: true,
+    historicalManifestWithoutSummaryRestored: migrationBoundary.count === 44,
     dumpTools: manifest.dumpTools,
     testedToolingSha256: Object.fromEntries([
       "phase-11i-recovery-contract.mjs", "phase-11i-backup-pipeline.mjs", "phase-11i-restore-pipeline.mjs",

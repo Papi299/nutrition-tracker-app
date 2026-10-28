@@ -101,7 +101,7 @@ export function verifyGitHubArtifact({
   } catch {
     fail("Manifest is not valid JSON.");
   }
-  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
   assertNewBackupPublicVerification(manifest, migrationBoundary);
   assertRedactedEvidence(manifest);
   assertSourceIdentity({
