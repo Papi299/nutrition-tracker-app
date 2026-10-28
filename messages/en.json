@@ -100,12 +100,14 @@
       "passwordConfirmationLabel": "Confirm new password",
       "submit": "Update password",
       "pending": "Updating password...",
-      "statusIdle": "Enter the same password in both fields.",
+      "statusIdle": "Use at least 12 characters, including a lowercase letter (a–z), an uppercase letter (A–Z), a digit and a symbol (for example !). Enter the same password in both fields. Non-ASCII characters can count as multiple bytes; the limit is 72 UTF-8 bytes.",
       "skipContent": "Skip to password form",
       "errors": {
         "passwordMismatch": "The passwords do not match.",
         "passwordRequired": "Enter a password.",
-        "passwordTooShort": "Password must be at least 6 characters."
+        "passwordTooShort": "Password must be at least 12 characters (measured in UTF-8 bytes).",
+        "passwordTooLong": "Password must not exceed 72 UTF-8 bytes. Non-ASCII characters may use more than one byte.",
+        "passwordRequirements": "Include a lowercase letter (a–z), an uppercase letter (A–Z), a digit and a symbol (for example !)."
       }
     },
     "recoveryError": {

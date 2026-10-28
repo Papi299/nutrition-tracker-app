@@ -1,0 +1,103 @@
+{
+  "task": "NUTRITION-DIARY-CORRECTNESS-002L-B1G",
+  "base_sha": "fd85bce0f9d5786e788475ff18772b7b1c0478a2",
+  "node": "22.23.4",
+  "local_auth_version": "v2.197.0",
+  "local_auth_image": "docker.io/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+  "local_password_profile": {
+    "minimum_utf8_bytes": 12,
+    "required_classes": [
+      "ASCII lowercase",
+      "ASCII uppercase",
+      "digit",
+      "provider symbol"
+    ]
+  },
+  "gates": [
+    {
+      "name": "new policy/action/localization units",
+      "command": "npx playwright test --config=playwright.unit.config.ts tests/recovery-password-validation.spec.ts --reporter=line",
+      "passed": 20,
+      "result": "PASS"
+    },
+    {
+      "name": "all pure units",
+      "command": "npm run test:date",
+      "passed": 490,
+      "result": "PASS"
+    },
+    {
+      "name": "recovery contracts",
+      "command": "npm run test:recovery-contract",
+      "passed": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "deployment contracts",
+      "command": "npm run test:deployment-contract",
+      "passed": 203,
+      "result": "PASS"
+    },
+    {
+      "name": "security dependency-policy tests",
+      "command": "npm run test:security (node portion)",
+      "passed": 5,
+      "result": "PASS"
+    },
+    {
+      "name": "security headers/cookies",
+      "command": "npm run test:security (Playwright portion)",
+      "passed": 7,
+      "result": "PASS"
+    },
+    {
+      "name": "workflow security and mutation tests",
+      "command": "npm run security:workflow",
+      "passed": 14,
+      "result": "PASS"
+    },
+    {
+      "name": "retained engine lightweight safety contracts",
+      "command": "node --test scripts/nutrition-002g/contracts.test.mjs scripts/nutrition-002k/contracts.test.mjs",
+      "passed": 21,
+      "result": "PASS"
+    },
+    {
+      "name": "local v2.197.0 recovery browser suite",
+      "command": "PLAYWRIGHT_PORT=3200 CI=1 npm run test:e2e -- e2e/auth-password-recovery.spec.ts --reporter=line",
+      "passed": 11,
+      "result": "PASS"
+    },
+    {
+      "name": "other local Auth/session suites",
+      "command": "PLAYWRIGHT_PORT=3200 CI=1 npm run test:e2e -- e2e/auth-password-recovery.spec.ts e2e/auth-invitation-activation.spec.ts e2e/auth-reauthentication.spec.ts e2e/critical-auth-session.spec.ts --reporter=line",
+      "passed": 26,
+      "result": "PASS"
+    }
+  ],
+  "additional_passes": [
+    "npm run lint",
+    "npm run typecheck",
+    "npm run security:build-boundary (production build and 115 browser/static artifacts)",
+    "git diff --check"
+  ],
+  "notes": [
+    "20 new policy/action cases are a subset of the 490 unit tests; do not add these totals.",
+    "The four-suite browser attempt passed 26 unaffected tests but the first new no-JavaScript case timed out in axe and serially skipped ten recovery tests. After scoping axe to both JavaScript-enabled locales, the complete 11-test recovery rerun passed, including all four new cases. No mandatory test remains skipped.",
+    "A dependency symlink was rejected by Turbopack; a lockfile npm ci --offline installation resolved the build.",
+    "The initial engine safety check detected the temporary test config override and a stale workflow fixture inventory. Config restoration and addition of the new workflow to the temporary fixture inventory resolved both; 21/21 final checks passed.",
+    "No G/I/K Docker battery rerun. Retained accepted #211 qualification is G31/I44/K90 and both CodeQL languages zero findings, not new B1G execution.",
+    "Local browser tests used strict GoTrue v2.197.0. Ordinary CI retains its existing local Supabase provider profile and tests application prevalidation."
+  ],
+  "cleanup": {
+    "containers": [],
+    "volumes": [],
+    "networks": [],
+    "application_port_3200_closed": true,
+    "tracked_local_config_restored": true
+  },
+  "production_access": false,
+  "hosted_auth_operations": false,
+  "additional_spending": 0,
+  "owner_attestation_received": false
+}

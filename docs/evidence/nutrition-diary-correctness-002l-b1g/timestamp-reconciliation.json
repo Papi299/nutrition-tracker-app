@@ -1,0 +1,47 @@
+{
+  "classification": "TIMESTAMP_RECONCILED_FROM_TRUSTED_SOURCE",
+  "timezone": "Asia/Jerusalem",
+  "rows": [
+    {
+      "observation": "early bound start",
+      "record_line": 2523,
+      "tool_record_utc": "2026-10-27T21:50:39.841Z",
+      "clock_value_utc": "2026-10-27T21:50:39Z",
+      "correct_asia_jerusalem": "2026-10-27T23:50:39+02:00",
+      "record_sha256": "35e501a26f5d4faead931c2ab10b6660403e9ade2f9fcfc3b82ac2312d770320"
+    },
+    {
+      "observation": "early bound end",
+      "record_line": 2626,
+      "tool_record_utc": "2026-10-27T21:52:37.866Z",
+      "clock_value_utc": "2026-10-27T21:52:37.842Z",
+      "correct_asia_jerusalem": "2026-10-27T23:52:37.842000+02:00",
+      "record_sha256": "31c94a6f02b43ea623f3267a4483545bd9d15d0658ef786cd6f1e0ba3ceee608"
+    },
+    {
+      "observation": "Email policy",
+      "record_line": 2658,
+      "tool_record_utc": "2026-10-27T21:53:17.596Z",
+      "clock_value_utc": "2026-10-27T21:53:17.590Z",
+      "correct_asia_jerusalem": "2026-10-27T23:53:17.590000+02:00",
+      "record_sha256": "5450d5eb2cd3f703e0718b1cfa0db47a169c98dd40cfa4a37ba06dfd21ac4d16"
+    },
+    {
+      "observation": "Passkeys",
+      "record_line": 2714,
+      "tool_record_utc": "2026-10-27T21:54:43.831Z",
+      "clock_value_utc": "2026-10-27T21:54:43.825Z",
+      "correct_asia_jerusalem": "2026-10-27T23:54:43.825000+02:00",
+      "record_sha256": "3d2d2797a8b654ae7cdb9490a4d5f3a1fb76caee6626458ebc14797fa74c687d"
+    },
+    {
+      "observation": "Recovery template",
+      "record_line": 2743,
+      "tool_record_utc": "2026-10-27T21:55:21.814Z",
+      "clock_value_utc": "2026-10-27T21:55:21.809Z",
+      "correct_asia_jerusalem": "2026-10-27T23:55:21.809000+02:00",
+      "record_sha256": "593082d2303b22a018803cf4a000452ee5a1989024781b025946a692d4dd80a1"
+    }
+  ],
+  "note": "First five page observations are bounded by clock reads; individual page times were not retained. Exact later values are original browser tool clock output, corroborated by execution record times. No hosted observation was repeated."
+}

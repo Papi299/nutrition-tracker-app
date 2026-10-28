@@ -1,7 +1,9 @@
 export type RecoveryResetActionCode =
   | "passwordMismatch"
   | "passwordRequired"
-  | "passwordTooShort";
+  | "passwordTooShort"
+  | "passwordTooLong"
+  | "passwordRequirements";
 
 export type RecoveryResetActionState = Readonly<{
   code?: RecoveryResetActionCode;
