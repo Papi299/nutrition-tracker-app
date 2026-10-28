@@ -44,9 +44,11 @@ const allRepositoryMigrationVersions = readdirSync("supabase/migrations")
   .map((name) => name.slice(0, 14));
 const repositoryMigrationVersions = allRepositoryMigrationVersions.filter(version => version <= EXPECTED_MIGRATION_HEAD);
 
-test("development migration qualifies only under the explicit synthetic boundary", () => {
+test("both reviewed release histories qualify and the synthetic identity gate remains fixed", () => {
   assert.equal(allRepositoryMigrationVersions.length, 45);
-  assert.throws(() => assertMigrationHistory(allRepositoryMigrationVersions), /count mismatch/);
+  assertMigrationHistory(allRepositoryMigrationVersions);
+  assert.deepEqual(recoveryMigrationBoundary(undefined, false, "20261024083339"), { count: 45, head: "20261024083339" });
+  assert.throws(() => recoveryMigrationBoundary(undefined, false, "99999999999999"), /head mismatch/);
   const local = { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" };
   assertMigrationHistory(allRepositoryMigrationVersions, recoveryMigrationBoundary(local, true));
   for (const identity of [undefined, { ...local, projectRef: PRODUCTION_PROJECT_REF }, { ...local, sourceEnvironment: "Production" }]) {
@@ -158,7 +160,7 @@ test("source migration mismatch is rejected", () => {
     String(20260000000000 + index),
   );
   versions[versions.length - 1] = EXPECTED_MIGRATION_HEAD;
-  assert.doesNotThrow(() => assertMigrationHistory(versions));
+  assert.throws(() => assertMigrationHistory(versions), /exact reviewed history/);
   assert.throws(() => assertMigrationHistory(versions.slice(1)));
   assert.throws(() => assertMigrationHistory([...versions.slice(0, -1), "99999999999999"]));
 });
@@ -179,10 +181,10 @@ test("current ordered repository ledger passes and historical 43-prefix fails", 
   );
 });
 
-test("current contract rejects an extra migration and wrong head", () => {
+test("current contract rejects an unknown migration and wrong head", () => {
   assert.throws(
     () => assertMigrationHistory([...repositoryMigrationVersions, "99999999999999"]),
-    /Source migration count mismatch/,
+    /Source migration head mismatch/,
   );
   assert.throws(
     () =>
@@ -192,6 +194,25 @@ test("current contract rejects an extra migration and wrong head", () => {
       ]),
     /Source migration head mismatch/,
   );
+});
+
+for (const versions of [repositoryMigrationVersions, allRepositoryMigrationVersions]) {
+  test(`exact ${versions.length}-migration history rejects interior substitution, count, duplicates and order`, () => {
+    assertMigrationHistory(versions);
+    const changed = [...versions]; changed[10] = "20260714115000";
+    assert.throws(() => assertMigrationHistory(changed), /exact reviewed history/);
+    const duplicate = [...versions]; duplicate[10] = duplicate[9];
+    assert.throws(() => assertMigrationHistory(duplicate), /duplicates/);
+    const unordered = [...versions]; [unordered[10], unordered[11]] = [unordered[11], unordered[10]];
+    assert.throws(() => assertMigrationHistory(unordered), /not ordered/);
+    assert.throws(() => assertMigrationHistory(versions.slice(1)), /count mismatch/);
+    assert.throws(() => assertMigrationHistory(versions, { count: 46, head: versions.at(-1) }), /count mismatch/);
+  });
+}
+
+test("migration 45 SQL retains the approved release identity", () => {
+  assert.equal(sha256(readFileSync("supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql")),
+    "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc");
 });
 
 test("current contract rejects duplicate and unordered ledgers", () => {

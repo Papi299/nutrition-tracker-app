@@ -6,6 +6,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   realpathSync,
   rmSync,
   statSync,
@@ -27,6 +28,7 @@ import {
 } from "./phase-11i-recovery-contract.mjs";
 
 import { assertDatabaseSecurity, assertRestoredAuth, assertRestoredCounts, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
+import { assertNewBackupPublicVerification } from "./phase-11i-public-verification.mjs";
 const EXPECTED_ARCHIVE_FILES = [
   "application-data.sql",
   "application-schema.sql",
@@ -194,7 +196,11 @@ export function restoreBackup({
     projectRef: manifest.sourceProjectRef,
     sourceEnvironment: manifest.sourceEnvironment,
   });
-  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots);
+  const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
+  // Historical migration-44 manifests predate the additive public summary.
+  if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count === 45) {
+    assertNewBackupPublicVerification(manifest, migrationBoundary);
+  }
   if (manifest.taskId !== TASK_ID || manifest.schemaVersion !== "phase-11i-backup-manifest/v1") {
     fail("Backup manifest contract identity mismatch.");
   }
@@ -376,8 +382,20 @@ export function restoreBackup({
     assertRedactedEvidence(sourceSnapshot);
     assertStorageScope(sourceSnapshot.storage);
     assertSourceIdentity({ projectRef: sourceSnapshot.sourceProjectRef, sourceEnvironment: sourceSnapshot.sourceEnvironment });
+    if (manifest.migrationHead !== migrationBoundary.head || contentManifest.migrationHead !== migrationBoundary.head ||
+        sourceSnapshot.migrationHead !== migrationBoundary.head || sourceSnapshot.migrationCount !== migrationBoundary.count) {
+      fail("Backup migration metadata disagrees with the reviewed ledger.");
+    }
 
-    runSupabase(["db", "reset", "--local"]);
+    const replayVersions = readdirSync("supabase/migrations")
+      .filter((name) => /^\d{14}_.+\.sql$/.test(name))
+      .sort().map((name) => name.slice(0, 14)).filter((version) => version <= migrationBoundary.head);
+    assertMigrationHistory(replayVersions, migrationBoundary);
+    if (migrationBoundary.count === 45) {
+      assertHash(readFileSync("supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql"),
+        "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc", "reviewed migration 45 SQL");
+    }
+    runSupabase(["db", "reset", "--local", "--version", migrationBoundary.head]);
 
     const localRolesPath = join(workRoot, "local-roles.sql");
     const localSchemaPath = join(workRoot, "local-application-schema.sql");

@@ -190,7 +190,7 @@ All activation items passed for workflow run `35236459394`. The active state is
 verify current workflow-enabled state and backup freshness; they do not repeat
 or replace the accepted restore qualification.
 
-### Current source contract after migration 44 (2026-09-28)
+### Historical source contract after migration 44 (2026-09-28)
 
 Production migration 44 was applied and the hosted ledger was independently
 read back as the exact 44-entry repository sequence ending at
@@ -224,6 +224,66 @@ while the count of 44 is established by the exact-main source contract, fresh
 hosted ledger and successful backup script. The encrypted source snapshot was
 not decrypted. A 44-migration isolated restore and 8-hour RTO qualification
 remain pending under separate authority.
+
+### Reviewed release transition: migrations 44 and 45 (2026-10-28)
+
+The release correction supports only the two complete, pinned migration
+histories: 44 versions ending `20260927170418`, and that identical prefix plus
+`20261024083339` (45 versions). Count/head checks alone are insufficient;
+every ledger entry must match. Unknown heads, interior substitutions,
+duplicates, unordered ledgers and mismatched counts fail closed. No runtime
+override or repository-directory scan can extend the allow-list.
+
+Capture selects the boundary from the actual source ledger. The ciphertext
+artifact verifier checks the corresponding public summary and manifest head.
+Isolated restoration checks the encrypted ledger, content manifest and source
+snapshot against the same boundary, then replays trusted local migrations
+using `db reset --local --version <reviewed-head>`. Migration-45 replay also
+checks the approved SQL SHA-256
+`d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc`.
+Historical migration-44 manifests without the additive public summary remain
+restorable; migration-45 manifests require that summary. A migration-44
+restore can therefore use the release checkout containing migration 45
+without accidentally applying it. The two fixed histories remain supported
+for historical recovery; a future migration requires a separate reviewed
+contract change.
+
+The Production workflow, pinned CMS recipient, AES-256-GCM format, project
+and environment binding, one-owner/activation policy, empty Storage scope,
+failure cleanup, daily `02:17 Asia/Jerusalem` cadence, 24-hour RPO and
+30-day retention remain unchanged. Repository CI additionally runs both
+disposable synthetic encrypted capture/verify/restore paths; no synthetic
+private keys or plaintext are uploaded.
+
+The Product Owner accepts the completed migration-44 restoration
+`LEGACY_MIGRATION_44_DATABASE_RESTORE_VERIFIED` for accidental data loss:
+run `40639374254`, artifact `12794209573`, ZIP SHA-256
+`3f082a6dd9fea282b042ecd39110943e3689ee0f512e279d9260929444ec2d66`,
+completed `2026-10-28T05:48:35.520Z`. Its 24-hour freshness expires
+`2026-10-29T05:48:35.520Z`; recheck before any Production migration.
+Cryptographic integrity, database restoration and accidental-data-loss
+recoverability are accepted. Fresh-credential security recovery remains
+unqualified and is outside this release gate.
+
+**Source password authority is preserved.** This is not secure recovery from
+credential compromise. Keep any restored environment isolated until
+authentication containment and recovery acceptance are complete. Before
+public exposure, rotate applicable credentials, invalidate sessions and
+verify authentication under the incident-response policy. Never expose a
+database immediately after raw Auth import. Do not rotate current Production
+credentials merely for this release, or restore over a healthy Production
+database for application rollback.
+
+The correction must pass exact-head CI and independent review before merge
+and before migration 45. Thereafter reverify the release source, provider
+identities, ledger, RPO, SQL hash, old-application compatibility and staged
+Production build. Apply only migration 45, verify database/security/data
+integrity, then run and verify a fresh encrypted Production backup before
+promoting the exact staged deployment. Preserve
+`dpl_G8xjT3VzfMGCsw3NuhMnos51Wvbh` for application rollback against the
+additive schema. No destructive database downgrade is authorized. See the
+[release evidence](nutrition-production-release-completion.md) for observed
+state and the current gate.
 
 ## 7. Failure and governance boundaries
 

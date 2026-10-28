@@ -117,18 +117,40 @@ export function assertEncryptedDurableOutput(outputPath) {
 export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = Object.freeze({ count: 45, head: "20261024083339" });
 const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
 
-// This opt-in is available only to the imported synthetic harness. Production
-// entry points never pass it and retain the separately approved 44-migration pin.
-export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false) {
-  if (!localNutritionSnapshots) return productionMigrationBoundary;
-  if (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
-      sourceIdentity?.projectRef !== "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE") {
+// Closed release allow-list: adding a file or changing a manifest cannot extend it.
+const migration44Versions = Object.freeze([
+  "20260429163444", "20260626185634", "20260630193832", "20260630201904",
+  "20260704142707", "20260705061118", "20260711071000", "20260714090000",
+  "20260714100000", "20260714110000", "20260714120000", "20260714130000",
+  "20260714140000", "20260714150000", "20260716100000", "20260716110000",
+  "20260716120000", "20260716130000", "20260717100000", "20260717110000",
+  "20260717120000", "20260717130000", "20260717140000", "20260717150000",
+  "20260718100000", "20260718120000", "20260718140000", "20260718150000",
+  "20260719080000", "20260719120000", "20260719160000", "20260721100000",
+  "20260721110000", "20260801141841", "20260801190220", "20260808093826",
+  "20260810175638", "20260811142805", "20260812194829", "20260827070838",
+  "20260827110552", "20260829030137", "20260830143000", "20260927170418",
+]);
+const migration45Versions = Object.freeze([...migration44Versions, "20261024083339"]);
+
+export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false, head = EXPECTED_MIGRATION_HEAD) {
+  if (localNutritionSnapshots !== false && (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
+      sourceIdentity?.projectRef !== "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE")) {
     fail("Nutrition recovery qualification requires the fixed local synthetic identity.");
   }
-  return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
+  if (localNutritionSnapshots) return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
+  if (head === productionMigrationBoundary.head) return productionMigrationBoundary;
+  if (head === NUTRITION_LOCAL_MIGRATION_BOUNDARY.head) return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
+  fail("Source migration head mismatch: unsupported reviewed history.");
 }
 
-export function assertMigrationHistory(versions, boundary = productionMigrationBoundary) {
+export function assertMigrationHistory(versions, boundary) {
+  if (!boundary) {
+    if (!Array.isArray(versions) || ![44, 45].includes(versions.length)) fail("Source migration count mismatch.");
+    boundary = recoveryMigrationBoundary(undefined, false, versions.at(-1));
+  }
+  const reviewed = recoveryMigrationBoundary(undefined, false, boundary.head);
+  if (boundary.count !== reviewed.count) fail("Source migration count mismatch.");
   if (!Array.isArray(versions) || versions.length !== boundary.count) {
     fail("Source migration count mismatch.");
   }
@@ -140,6 +162,10 @@ export function assertMigrationHistory(versions, boundary = productionMigrationB
   }
   if ([...versions].sort().some((version, index) => version !== versions[index])) {
     fail("Source migration ledger is not ordered.");
+  }
+  const expected = boundary.count === 44 ? migration44Versions : migration45Versions;
+  if (versions.some((version, index) => version !== expected[index])) {
+    fail("Source migration ledger differs from the exact reviewed history.");
   }
 }
 

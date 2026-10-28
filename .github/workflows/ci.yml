@@ -78,7 +78,11 @@ jobs:
         run: npm run test:deployment-contract
 
       - name: Verify Phase 11I recovery safety contract
-        run: npm run test:recovery-contract
+        timeout-minutes: 15
+        run: |
+          npm run test:recovery-contract
+          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration44.json"
+          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration45.json" --nutrition-snapshots
 
       - name: Verify security policy regressions
         run: npm run test:security
