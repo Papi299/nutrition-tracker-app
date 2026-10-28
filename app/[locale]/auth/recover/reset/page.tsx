@@ -66,6 +66,8 @@ function LocalizedRecoveryReset({ locale }: { locale: Locale }) {
                 passwordMismatch: t("errors.passwordMismatch"),
                 passwordRequired: t("errors.passwordRequired"),
                 passwordTooShort: t("errors.passwordTooShort"),
+                passwordTooLong: t("errors.passwordTooLong"),
+                passwordRequirements: t("errors.passwordRequirements"),
               }}
               passwordConfirmationLabel={t("passwordConfirmationLabel")}
               passwordLabel={t("passwordLabel")}

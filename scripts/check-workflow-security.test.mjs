@@ -22,7 +22,7 @@ function command(cwd, executable, args, env = {}) {
   return result;
 }
 
-function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml")), integrationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002k-local.yml")), auth197Workflow = readFileSync(join(root, ".github/workflows/nutrition-002l-b1e-local.yml"))) {
+function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002i-local.yml")), integrationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002k-local.yml")), auth197Workflow = readFileSync(join(root, ".github/workflows/nutrition-002l-b1e-local.yml")), recoveryValidationWorkflow = readFileSync(join(root, ".github/workflows/nutrition-002l-b1g-local.yml"))) {
   const directory = mkdtempSync(join(tmpdir(), "ci-workflow-policy-"));
   try {
     const workflowDirectory = join(directory, ".github/workflows");
@@ -30,6 +30,7 @@ function policyResult(ciWorkflow, hostedRoleWorkflow = readFileSync(join(root, "
     writeFileSync(join(workflowDirectory, "ci.yml"), ciWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002k-local.yml"), integrationWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002l-b1e-local.yml"), auth197Workflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002l-b1g-local.yml"), recoveryValidationWorkflow);
     writeFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), readFileSync(join(root, ".github/workflows/nutrition-002g-local.yml")));
     writeFileSync(join(workflowDirectory, "nutrition-002i-local.yml"), hostedRoleWorkflow);
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
@@ -94,7 +95,7 @@ test("002K workflow rejects broadened access, mutable images and omitted indepen
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
-    ci.replace("branches: [main, codex/nutrition-002k-backup-integration]", "branches: [main, '**']"),
+    ci.replace("branches: [main, codex/nutrition-002k-backup-integration, codex/nutrition-002l-b1e-auth197]", "branches: [main, '**']"),
     ci.replace("  workflow_dispatch:\n", ""),
     ci.replace("  workflow_dispatch:\n", "  workflow_dispatch:\n  schedule:\n"),
     ci.replace('"refs/heads/main"', '"refs/heads/feature"'),
@@ -189,4 +190,35 @@ test("B1E workflow refuses broader authority and omitted retained or Auth gates"
   workflow.replace("scripts/nutrition-002k/qualify-local.mjs","scripts/skipped.mjs"),
   workflow.replace("upload: never","upload: always"),
  ]) {assert.notEqual(mutation,workflow);assert.notEqual(policyResult(ci,undefined,undefined,mutation).status,0);}
+});
+
+
+test("B1G workflow rejects broad triggers, wrong heads, write authority and omitted CodeQL gates", () => {
+  const workflow = readFileSync(join(root, ".github/workflows/nutrition-002l-b1g-local.yml"), "utf8");
+  for (const mutation of [
+    workflow.replace("  pull_request:", "  pull_request_target:"),
+    workflow.replace("branches: [codex/nutrition-002l-b1e-auth197]", "branches: ['**']"),
+    workflow.replace("codex/nutrition-002l-b1g-recovery-validation", "any-head"),
+    workflow.replace("github.event.pull_request.draft && ", ""),
+    workflow.replace("contents: read", "contents: write"),
+    workflow.replace("persist-credentials: false", "persist-credentials: true"),
+    workflow.replace("language: [javascript-typescript, actions]", "language: [javascript-typescript]"),
+    workflow.replace("upload: never", "upload: always"),
+    workflow.replace("scripts/nutrition-002g/check-sarif.mjs", "scripts/skipped.mjs"),
+  ]) {
+    assert.notEqual(mutation, workflow);
+    assert.notEqual(policyResult(ci, undefined, undefined, undefined, mutation).status, 0);
+  }
+});
+
+test("ordinary CI requires the exact reviewed B1G base and exact candidate checkout", () => {
+  for (const mutation of [
+    ci.replace("codex/nutrition-002l-b1e-auth197]", "codex/unreviewed-base]"),
+    ci.replace("codex/nutrition-002l-b1e-auth197]", "codex/nutrition-002l-b1e-auth197, '**']"),
+    ci.replace("ref: ${{ github.event.pull_request.head.sha || github.sha }}", "ref: main"),
+    ci.replace("ref: ${{ github.event.pull_request.head.sha || github.sha }}", "ref: ${{ github.sha }}"),
+  ]) {
+    assert.notEqual(mutation, ci);
+    assert.notEqual(policyResult(mutation).status, 0);
+  }
 });

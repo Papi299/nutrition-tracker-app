@@ -266,6 +266,84 @@ function recoveryCookieMetadata(
 }
 
 test.describe.serial("Phase 11E2 password recovery", () => {
+  for (const locale of ["en", "he"] as const) {
+    for (const javaScriptEnabled of [false, true]) {
+      test(`B1G ${locale} preserves the actual recovery credential after policy errors (JavaScript ${javaScriptEnabled})`, async ({ browser }) => {
+        const client = localClient();
+        const email = uniqueEmail(`b1g-${locale}`);
+        const provisioned = await provisionActivatedLocalUser(client, { email, password: oldPassword });
+        const userId = provisioned.data.user!.id;
+        await client.auth.signOut({ scope: "local" });
+        const context = await browser.newContext({ javaScriptEnabled });
+        const page = await context.newPage();
+        await requestRecovery(page, locale, email);
+        const recoveryLink = await waitForLocalRecoveryLink(email);
+        await page.goto(recoveryLink);
+        await expect(page).toHaveURL(`/${locale}/auth/recover/reset`);
+        await expect(page.locator("html")).toHaveAttribute("dir", locale === "he" ? "rtl" : "ltr");
+        const cookieBefore = (await context.cookies()).find((cookie) => cookie.name === `nutrition_tracker_recovery_${locale}`)!;
+        const authSnapshot = () => queryLocalAuthFixture(`
+          select json_build_object(
+            'credential', recovery_token,
+            'password', encrypted_password,
+            'sessions', (select count(*) from auth.sessions where user_id = '${userId}'::uuid),
+            'refresh_tokens', (select count(*) from auth.refresh_tokens where user_id = '${userId}')
+          )::text from auth.users where id = '${userId}'::uuid;
+        `);
+        const before = authSnapshot();
+        const labels = locale === "en" ? {password: "New password", submit: "Update password"} : {password: "סיסמה חדשה", submit: "עדכון הסיסמה"};
+        const messages = locale === "en" ? {
+          short: "Password must be at least 12 characters (measured in UTF-8 bytes).",
+          classes: "Include a lowercase letter (a–z), an uppercase letter (A–Z), a digit and a symbol (for example !).",
+          mismatch: "The passwords do not match.",
+        } : {
+          short: "הסיסמה צריכה להכיל לפחות 12 תווים (המדידה היא בבתי UTF-8).",
+          classes: "יש לכלול אות קטנה (a–z), אות גדולה (A–Z), ספרה וסימן (למשל !).",
+          mismatch: "הסיסמאות אינן תואמות.",
+        };
+        for (const [password, confirmation, message] of [
+          ["Abcdefghi1!", "Abcdefghi1!", messages.short],
+          ["ABCDEFGHIJ1!", "ABCDEFGHIJ1!", messages.classes],
+          ["abcdefghij1!", "abcdefghij1!", messages.classes],
+          ["Abcdefghijk!", "Abcdefghijk!", messages.classes],
+          ["Abcdefghijk1", "Abcdefghijk1", messages.classes],
+          [newPassword, replayPassword, messages.mismatch],
+        ]) {
+          await submitNewPassword(page, locale, password, confirmation);
+          await expect(page).toHaveURL(`/${locale}/auth/recover/reset`);
+          await expect(page.locator("#recovery-reset-status")).toHaveText(message);
+          await expect(page.getByRole("button", {name: labels.submit})).toBeVisible();
+          const field = page.getByLabel(labels.password, {exact: true});
+          await expect(field).toHaveAttribute("aria-invalid", "true");
+          await expect(field).toHaveAttribute("aria-describedby", "recovery-reset-status");
+          if (javaScriptEnabled) await expect(field).toBeFocused();
+          const cookieAfter = (await context.cookies()).find((cookie) => cookie.name === cookieBefore.name);
+          // Compare secrets as booleans so a failing assertion cannot print them.
+          expect(cookieAfter?.value === cookieBefore.value).toBe(true);
+          expect(cookieAfter?.expires).toBe(cookieBefore.expires);
+          expect(authSnapshot() === before).toBe(true);
+          expect((await context.cookies()).some((cookie) => cookie.name.startsWith("sb-"))).toBe(false);
+        }
+        // axe requires an enabled JavaScript runtime. The no-JS variants still
+        // assert server-rendered error semantics; both enabled locales get axe.
+        if (javaScriptEnabled) {
+          const scan = await new AxeBuilder({page}).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+          expect(scan.violations.filter((finding) => finding.impact === "critical" || finding.impact === "serious")).toEqual([]);
+        }
+        await expectPasswordSignIn(email, oldPassword, true);
+        // No new link: successful update proves the original one-time credential
+        // survived every rejected submission, beyond cookie preservation alone.
+        await submitNewPassword(page, locale, newPassword);
+        await expect(page).toHaveURL(`/${locale}/auth/sign-in?recovery=complete`);
+        expect(recoveryCookieMetadata(await context.cookies(), locale)).toBeNull();
+        expect((await context.cookies()).some((cookie) => cookie.name.startsWith("sb-"))).toBe(false);
+        await expectPasswordSignIn(email, newPassword, true);
+        await expectPasswordSignIn(email, oldPassword, false);
+        await context.close();
+      });
+    }
+  }
+
   test("CJ-007 is enumeration-safe, localized, rate-limit-safe, and non-mutating without JavaScript", async ({
     browser,
   }) => {
@@ -439,7 +517,7 @@ test.describe.serial("Phase 11E2 password recovery", () => {
     });
 
     await submitNewPassword(page, "en", "short", "different");
-    await expect(page.getByText("Password must be at least 6 characters.")).toBeVisible();
+    await expect(page.getByText("Password must be at least 12 characters (measured in UTF-8 bytes).")).toBeVisible();
     expect(recoveryCookieMetadata(await context.cookies(), "en")).not.toBeNull();
 
     await submitNewPassword(page, "en", newPassword, replayPassword);

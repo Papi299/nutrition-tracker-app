@@ -12,32 +12,8 @@ import {
 import { resolveAuthLocale, signInPath } from "@/lib/auth/require-user";
 import { clearRecentPasswordAuthentication } from "@/lib/auth/recent-password-auth";
 import { createServerClient } from "@/lib/supabase";
+import { validateRecoveryPassword } from "@/lib/auth/recovery-password-validation";
 import type { RecoveryResetActionState } from "./action-state";
-
-const minimumPasswordLength = 6;
-
-function validatePasswordForm(
-  formData: FormData,
-): RecoveryResetActionState | null {
-  const password = String(formData.get("password") ?? "");
-  const passwordConfirmation = String(
-    formData.get("passwordConfirmation") ?? "",
-  );
-
-  if (!password) {
-    return { code: "passwordRequired", status: "error" };
-  }
-
-  if (password.length < minimumPasswordLength) {
-    return { code: "passwordTooShort", status: "error" };
-  }
-
-  if (password !== passwordConfirmation) {
-    return { code: "passwordMismatch", status: "error" };
-  }
-
-  return null;
-}
 
 export async function completePasswordRecoveryAction(
   localeInput: string,
@@ -45,10 +21,12 @@ export async function completePasswordRecoveryAction(
   formData: FormData,
 ): Promise<RecoveryResetActionState> {
   const locale = resolveAuthLocale(localeInput);
-  const validationError = validatePasswordForm(formData);
+  const password = String(formData.get("password") ?? "");
+  const confirmation = String(formData.get("passwordConfirmation") ?? "");
+  const validationError = validateRecoveryPassword(password, confirmation);
 
   if (validationError) {
-    return validationError;
+    return { code: validationError, status: "error" };
   }
 
   const cookieStore = await cookies();
@@ -60,7 +38,6 @@ export async function completePasswordRecoveryAction(
     redirect(recoveryErrorPath(locale));
   }
 
-  const password = String(formData.get("password"));
   let recoveryClient: ReturnType<typeof createPasswordRecoveryClient> | null =
     null;
   let passwordUpdated = false;

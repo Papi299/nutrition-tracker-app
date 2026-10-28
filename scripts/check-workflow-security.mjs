@@ -112,9 +112,9 @@ function checkCiDispatchContract(workflow) {
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main, codex/nutrition-002k-backup-integration]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main, codex/nutrition-002k-backup-integration, codex/nutrition-002l-b1e-auth197]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
-    fail("ci.yml must retain only reviewed main/002K-base PR, main push, and main-only manual dispatch triggers");
+    fail("ci.yml must retain only reviewed main/002K/B1E-base PR, main push, and main-only manual dispatch triggers");
   }
   if (
     !workflow.includes(
@@ -152,8 +152,8 @@ function checkCiDispatchContract(workflow) {
     fail("ci.yml manual dispatch must fail early outside refs/heads/main");
   }
   const checkout = steps.get("Check out repository");
-  if (/^\s+ref:/m.test(checkout)) {
-    fail("ci.yml checkout must use GitHub's workflow context SHA");
+  if (!checkout.includes("          ref: ${{ github.event.pull_request.head.sha || github.sha }}\n") || (checkout.match(/^\s+ref:/gm) ?? []).length !== 1) {
+    fail("ci.yml checkout must use the exact PR head or non-PR workflow SHA");
   }
 
   const hygiene = steps.get("Check repository hygiene");
@@ -161,7 +161,7 @@ function checkCiDispatchContract(workflow) {
     "CI_EVENT_NAME: ${{ github.event_name }}",
     "CI_PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}",
     "CI_PUSH_BEFORE_SHA: ${{ github.event.before }}",
-    "CI_HEAD_SHA: ${{ github.sha }}",
+    "CI_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}",
     'pull_request) base="$CI_PR_BASE_SHA" ;;',
     'push) base="$CI_PUSH_BEFORE_SHA" ;;',
     'workflow_dispatch) base="$CI_HEAD_SHA^" ;;',
@@ -216,7 +216,9 @@ const integrationWorkflow = readFileSync(join(workflowDirectory, "nutrition-002k
 if (createHash("sha256").update(integrationWorkflow).digest("hex") !== "6a7b379ab392baf3f5d7304089999109b7dc3484ff38ac2a663735c87f5979c9") fail("002K workflow differs from the reviewed exact draft-only workflow");
 const auth197Workflow = readFileSync(join(workflowDirectory, "nutrition-002l-b1e-local.yml"), "utf8");
 if (createHash("sha256").update(auth197Workflow).digest("hex") !== "ffa452e9c9f4c25e260fefdaa2e00e6d0c1195371293018326a0dde542174f14") fail("B1E workflow differs from the reviewed exact draft-only workflow");
-const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml", "nutrition-002i-local.yml", "nutrition-002k-local.yml", "nutrition-002l-b1e-local.yml"].sort();
+const recoveryValidationWorkflow = readFileSync(join(workflowDirectory, "nutrition-002l-b1g-local.yml"), "utf8");
+if (createHash("sha256").update(recoveryValidationWorkflow).digest("hex") !== "6cd36a1ed08e78a92394af1c93c5bd4dd2251786e0d2becdaa4a4a54b6454efa") fail("B1G workflow differs from the reviewed exact draft-only security workflow");
+const expectedFiles = [...workflowExpectations.keys(), "nutrition-002g-local.yml", "nutrition-002i-local.yml", "nutrition-002k-local.yml", "nutrition-002l-b1e-local.yml", "nutrition-002l-b1g-local.yml"].sort();
 if (JSON.stringify(workflowFiles) !== JSON.stringify(expectedFiles)) {
   fail("workflow inventory contains an unreviewed or missing workflow");
 }
