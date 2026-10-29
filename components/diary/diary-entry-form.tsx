@@ -13,7 +13,7 @@ import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutr
 import { additionalNutrientCodesV1, type AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
-import { allNutrientFields, nutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
+import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, nutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   FieldDescription,
   FieldError as UIFieldError,
@@ -38,7 +38,7 @@ type MealTypeOption = {
 
 type VisibleFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
+  "quantity_unit" | "serving_intent" | "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
 >;
 
 type FieldLabels = Record<VisibleFieldName, string>;
@@ -58,6 +58,7 @@ const persistedDraftFieldNames = [
   ...additionalNutrientCodesV1,
   ...allNutrientFields.map(field => `automatic_${field}` as const),
   "reference_fingerprint",
+  "quantity_unit",
   "additional_nutrients_captured",
   "brand_name",
   "calories",
@@ -76,6 +77,7 @@ const persistedDraftFieldNames = [
 type PersistedDiaryEntryDraft = {
   idempotencyKey: string;
   referenceKey?: string;
+  referenceReviewRequired?: boolean;
   values: DiaryEntryFieldValues;
   version: 1;
 };
@@ -137,6 +139,7 @@ function parsePersistedDraft(rawValue: string | null) {
     }
 
     const values = pickPersistedValues(parsed.values);
+    values.quantity_unit ??= values.serving_unit ?? "";
     // Older drafts have intentional snapshot values but no mode provenance.
     // Preserve them as manual rather than guessing from numerical equality.
     for (const field of allNutrientFields) {
@@ -145,6 +148,7 @@ function parsePersistedDraft(rawValue: string | null) {
     }
     return {
       idempotencyKey: parsed.idempotencyKey,
+      referenceReviewRequired: parsed.referenceReviewRequired === true,
       referenceKey: typeof parsed.referenceKey === "string" ? parsed.referenceKey : undefined,
       values,
       version: 1,
@@ -315,7 +319,7 @@ export function DiaryEntryForm({
     state: DiaryEntryActionState,
     formData: FormData,
   ) => Promise<DiaryEntryActionState>;
-  automaticNutrition: { description: string; label: string; unavailable: string; referenceChanged: string; reviewRequired: string };
+  automaticNutrition: { description: string; label: string; unavailable: string; referenceChanged: string; reviewRequired: string; servingEquivalence: string; resetServing: string; incompatibleDraft: string };
   draftScope: string;
   fieldHelpText: FieldHelpText;
   fieldErrorMessages: FieldErrorMessages;
@@ -351,6 +355,7 @@ export function DiaryEntryForm({
         : (state.values ?? initialState.values ?? {}),
     ),
   );
+  const [quantityUnit, setQuantityUnit] = useState(initialValues.quantity_unit ?? initialValues.serving_unit ?? "");
   const storageKey = `${draftStoragePrefix}${encodeURIComponent(draftScope)}`;
   const referenceKey = reference?.reference_fingerprint ?? "manual";
   const [draft, setDraft] = useState(() => ({
@@ -364,6 +369,8 @@ export function DiaryEntryForm({
   const [hydrated, setHydrated] = useState(false);
   const [scalingUnavailable, setScalingUnavailable] = useState(() => Boolean(reference && !scaleAllFoodNutrients(reference, reference.serving_quantity, reference.serving_unit).ok));
   const [referenceChanged, setReferenceChanged] = useState(false);
+  const serving = reference ? verifiedCatalogServing(reference) : null;
+  const [incompatibleDraft, setIncompatibleDraft] = useState(false);
   const [statusOverride, setStatusOverride] = useState<
     "idle" | "success" | null
   >(() => (state.status === "success" ? "success" : null));
@@ -380,8 +387,13 @@ export function DiaryEntryForm({
       storedDraft = null;
     }
 
-    const changedReference = storedDraft !== null && storedDraft.referenceKey !== referenceKey &&
-      allNutrientFields.some((field) => storedDraft?.values[`automatic_${field}`] === "1");
+    const changedReference = Boolean(storedDraft !== null && (storedDraft.referenceReviewRequired === true ||
+      (storedDraft.referenceKey !== undefined && storedDraft.referenceKey !== referenceKey) ||
+      (storedDraft.referenceKey === undefined && (allNutrientFields.some((field) => storedDraft?.values[`automatic_${field}`] === "1") ||
+        (reference && verifiedCatalogServing(reference) && storedDraft.values.serving_unit?.trim().toLowerCase() === "serving")))));
+    const incompatible = Boolean(storedDraft && reference &&
+      (!scaleAllFoodNutrients(reference, storedDraft.values.serving_quantity, storedDraft.values.serving_unit).ok ||
+        (changedReference && storedDraft.values.serving_unit?.trim().toLowerCase() === "serving")));
     if (storedDraft && changedReference) {
       for (const field of allNutrientFields) storedDraft.values[`automatic_${field}`] = "";
       storedDraft.values.reference_fingerprint = reference?.reference_fingerprint ?? "";
@@ -402,6 +414,7 @@ export function DiaryEntryForm({
       }
 
       if (storedDraft) {
+        setQuantityUnit(storedDraft.values.quantity_unit ?? storedDraft.values.serving_unit ?? "");
         setDraft((current) => ({
           idempotencyKey: storedDraft.idempotencyKey,
           revision: current.revision + 1,
@@ -413,14 +426,17 @@ export function DiaryEntryForm({
       }
 
       setReferenceChanged(changedReference);
-
+      setIncompatibleDraft(incompatible);
+      if (storedDraft && (changedReference || incompatible)) {
+        persistDraft(storageKey, { ...storedDraft, referenceKey, referenceReviewRequired: changedReference });
+      }
       setHydrated(true);
     });
 
     return () => {
       cancelled = true;
     };
-  }, [initialIdempotencyKey, initialValues, referenceKey, reference?.reference_fingerprint, storageKey]);
+  }, [initialIdempotencyKey, initialValues, referenceKey, reference, storageKey]);
 
   useEffect(() => {
     const submissionKey = state.values?.idempotency_key;
@@ -446,11 +462,14 @@ export function DiaryEntryForm({
       };
       persistDraft(storageKey, nextDraft);
       queueMicrotask(() => {
+        setQuantityUnit(nextDraft.values.quantity_unit ?? nextDraft.values.serving_unit ?? "");
         setDraft((current) => ({
           ...nextDraft,
           revision: current.revision + 1,
         }));
         setStatusOverride("success");
+        setReferenceChanged(false);
+        setIncompatibleDraft(false);
       });
       return;
     }
@@ -458,18 +477,20 @@ export function DiaryEntryForm({
     const retainedDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: submissionKey,
       referenceKey,
+      referenceReviewRequired: referenceChanged || state.fieldErrors?.form === "reference_changed",
       values: pickPersistedValues(state.values ?? {}),
       version: 1,
     };
     persistDraft(storageKey, retainedDraft);
     queueMicrotask(() => {
+      setQuantityUnit(retainedDraft.values.quantity_unit ?? retainedDraft.values.serving_unit ?? "");
       setDraft((current) => ({
         ...retainedDraft,
         revision: current.revision + 1,
       }));
       setStatusOverride(null);
     });
-  }, [draft.idempotencyKey, hydrated, initialValues, referenceKey, state, storageKey]);
+  }, [draft.idempotencyKey, hydrated, initialValues, referenceKey, referenceChanged, state, storageKey]);
 
   const stateMatchesDraft =
     state.values?.idempotency_key === draft.idempotencyKey;
@@ -482,12 +503,29 @@ export function DiaryEntryForm({
     persistDraft(storageKey, {
       idempotencyKey: draft.idempotencyKey,
       referenceKey,
+      referenceReviewRequired: referenceChanged,
       values: readFormValues(form),
       version: 1,
     });
 
     if (statusOverride === "success") {
       setStatusOverride("idle");
+    }
+  }
+
+  function recalculate(form: HTMLFormElement) {
+    if (!reference) return;
+    const currentValues = readFormValues(form);
+    if (currentValues.quantity_unit && currentValues.quantity_unit !== currentValues.serving_unit) {
+      setScalingUnavailable(true);
+      return;
+    }
+    const automaticFields = allNutrientFields.filter((field) => currentValues[`automatic_${field}`] === "1");
+    const scaled = scaleAllFoodNutrients(reference, currentValues.serving_quantity, currentValues.serving_unit, automaticFields);
+    setScalingUnavailable(automaticFields.length > 0 && !scaled.ok);
+    if (scaled.ok) for (const field of automaticFields) {
+      const input = form.elements.namedItem(field);
+      if (input instanceof HTMLInputElement) input.value = scaled.values[field];
     }
   }
 
@@ -502,21 +540,73 @@ export function DiaryEntryForm({
       if (target.name.startsWith("automatic_") && target.checked) {
         const fingerprint = form.elements.namedItem("reference_fingerprint");
         if (fingerprint instanceof HTMLInputElement) fingerprint.value = reference.reference_fingerprint;
+        setReferenceChanged(false);
       }
-      if (target.name === "serving_quantity" || target.name === "serving_unit" || target.name.startsWith("automatic_")) {
-        const currentValues = readFormValues(form);
-        const automaticFields = allNutrientFields.filter((field) => currentValues[`automatic_${field}`] === "1");
-        const scaled = scaleAllFoodNutrients(reference, currentValues.serving_quantity, currentValues.serving_unit, automaticFields);
-        setScalingUnavailable(automaticFields.length > 0 && !scaled.ok);
-        if (scaled.ok) {
-          for (const field of automaticFields) {
-            const input = form.elements.namedItem(field);
-            if (input instanceof HTMLInputElement) input.value = scaled.values[field];
+      if (target.name === "serving_unit") {
+        if (referenceChanged) {
+          setScalingUnavailable(true);
+          persistCurrentForm(form);
+          return;
+        }
+        const quantity = form.elements.namedItem("serving_quantity");
+        const previous = form.elements.namedItem("quantity_unit");
+        if (quantity instanceof HTMLInputElement && previous instanceof HTMLInputElement) {
+          const converted = convertFoodQuantity(reference, quantity.value, previous.value, target.value);
+          if (converted.ok) {
+            quantity.value = converted.quantity;
+            previous.value = target.value;
+            setQuantityUnit(target.value);
+          } else {
+            const currentValues = readFormValues(form);
+            const automatic = allNutrientFields.some(field => currentValues[`automatic_${field}`] === "1");
+            if (!automatic && converted.code === "incompatible_unit") {
+              previous.value = target.value;
+              setQuantityUnit(target.value);
+            }
+            setScalingUnavailable(automatic || converted.code !== "incompatible_unit");
+            persistCurrentForm(form);
+            return;
           }
         }
       }
+      if (target.name === "serving_quantity") {
+        const currentUnit = form.elements.namedItem("serving_unit");
+        const previous = form.elements.namedItem("quantity_unit");
+        if (currentUnit instanceof HTMLInputElement && previous instanceof HTMLInputElement) {
+          previous.value = currentUnit.value;
+          setQuantityUnit(currentUnit.value);
+        }
+      }
+      if (target.name === "serving_quantity" || target.name === "serving_unit" || target.name.startsWith("automatic_")) {
+        setIncompatibleDraft(false);
+        recalculate(form);
+      }
     }
     persistCurrentForm(form);
+    // State updates apply after this event; persist explicit review immediately.
+    if (target instanceof HTMLInputElement && target.name.startsWith("automatic_") && target.checked) {
+      persistDraft(storageKey, { idempotencyKey: draft.idempotencyKey, referenceKey,
+        referenceReviewRequired: false, values: readFormValues(form), version: 1 });
+    }
+  }
+
+  function resetCatalogServing(event: MouseEvent<HTMLButtonElement>) {
+    if (!reference || !serving || !formRef.current) return;
+    event.preventDefault();
+    const form = formRef.current;
+    for (const [name, value] of Object.entries({ serving_quantity: "1", serving_unit: "serving", quantity_unit: "serving",
+      reference_fingerprint: reference.reference_fingerprint })) {
+      const input = form.elements.namedItem(name);
+      if (input instanceof HTMLInputElement) input.value = value;
+    }
+    setQuantityUnit("serving");
+    // Reset only the amount. Manual values (including former automatic values
+    // retained after reference drift) stay manual until individually selected.
+    setIncompatibleDraft(false);
+    setReferenceChanged(false);
+    recalculate(form);
+    persistDraft(storageKey, { idempotencyKey: draft.idempotencyKey, referenceKey,
+      values: readFormValues(form), version: 1 });
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -529,12 +619,14 @@ export function DiaryEntryForm({
     const nextDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: crypto.randomUUID(),
       referenceKey,
+      referenceReviewRequired: referenceChanged,
       values: formRef.current
         ? readFormValues(formRef.current)
         : draft.values,
       version: 1,
     };
     persistDraft(storageKey, nextDraft);
+    setQuantityUnit(nextDraft.values.quantity_unit ?? nextDraft.values.serving_unit ?? "");
     setDraft((current) => ({
       ...nextDraft,
       revision: current.revision + 1,
@@ -555,6 +647,9 @@ export function DiaryEntryForm({
       onSubmit={handleSubmit}
       ref={formRef}
     >
+      {/* Enter saves/reviews the entry; it must not invoke the earlier reset control. */}
+      <button aria-hidden="true" disabled={isPending} hidden tabIndex={-1} type="submit" />
+      <input name="quantity_unit" type="hidden" value={quantityUnit} />
       <input name="additional_nutrients_captured" type="hidden" value="1" />
       <input name="reference_fingerprint" type="hidden" defaultValue={values.reference_fingerprint ?? reference?.reference_fingerprint ?? ""} />
       <input
@@ -647,6 +742,12 @@ export function DiaryEntryForm({
       </FormSection>
 
       <FormSection title={sectionLabels.serving}>
+        {serving && <p className="text-sm" data-testid="catalog-serving-equivalence">
+          {automaticNutrition.servingEquivalence} <bdi>1 serving = {serving.quantity} {serving.unit}</bdi>
+        </p>}
+        {incompatibleDraft && <p className="text-sm text-danger" role="status" data-testid="incompatible-serving-draft">{automaticNutrition.incompatibleDraft}</p>}
+        {serving && <Button name="serving_intent" value="reset_catalog_serving" type="submit" variant="secondary"
+          disabled={isPending} onClick={resetCatalogServing}>{automaticNutrition.resetServing}</Button>}
         <div className="grid gap-4 sm:grid-cols-2">
           <TextInput
             error={fieldErrors?.serving_quantity}

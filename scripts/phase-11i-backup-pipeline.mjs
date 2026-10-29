@@ -6,6 +6,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   realpathSync,
   rmSync,
   statSync,
@@ -17,6 +18,7 @@ import {
   assertEncryptedDurableOutput,
   assertEncryptionRecipient,
   assertMigrationHistory,
+  assertTrustedMigrationReplay,
   assertRedactedEvidence,
   assertStorageScope,
   recoveryMigrationBoundary,
@@ -163,6 +165,8 @@ export async function captureBackup({
     ).map(([version]) => version);
     const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots, migrations.at(-1));
     assertMigrationHistory(migrations, migrationBoundary);
+    assertTrustedMigrationReplay(readdirSync("supabase/migrations"), migrationBoundary,
+      (name) => readFileSync(join("supabase/migrations", name)));
 
     const applicationTables = rows(
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",

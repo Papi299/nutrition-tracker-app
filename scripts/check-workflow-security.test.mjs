@@ -62,14 +62,16 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("      - name: Lint\n", "      - name: Lint\n        if: github.event_name != 'workflow_dispatch'\n"),
     ci.replace("      - name: Type check\n        run: npm run typecheck\n\n", ""),
     ci.replace("  contents: read\n", "  contents: write\n"),
-    ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 30\n"),
-    ci.replace("    timeout-minutes: 40\n", "    timeout-minutes: 41\n"),
+    ci.replace("    timeout-minutes: 50\n", "    timeout-minutes: 40\n"),
+    ci.replace("    timeout-minutes: 50\n", "    timeout-minutes: 51\n"),
     ci.replace("scripts/configure-ci-apt.mjs", "scripts/unreviewed-apt.mjs"),
     ci.replace("runs-on: ubuntu-26.04", "runs-on: ubuntu-latest"),
     ci.replace("    timeout-minutes: 20\n    steps:", "    timeout-minutes: 40\n    steps:"),
     ci.replace("npx playwright install --with-deps chromium firefox webkit", "npx playwright install chromium"),
     ci.replace('workflow_dispatch) base="$CI_HEAD_SHA^" ;;', 'workflow_dispatch) base="$CI_HEAD_SHA" ;;'),
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
+    ...[44, 45, 46].map(count => ci.replace(new RegExp(`^.*phase11i-migration${count}\\.json.*\\n`, "m"), "")),
+    ci.replace("--serving-reference", "--nutrition-snapshots"),
   ];
   for (const mutation of mutations) {
     assert.notEqual(mutation, ci);

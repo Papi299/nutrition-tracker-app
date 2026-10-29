@@ -11,7 +11,7 @@ const workflowExpectations = new Map([
   [
     "ci.yml",
     {
-      timeout: 40,
+      timeout: 50,
       node: 22,
       actions: new Map([
         ["actions/checkout", 2],
@@ -124,7 +124,7 @@ function checkCiDispatchContract(workflow) {
   }
   const jobHeader = workflow.match(/^jobs:\n  validate:\n([\s\S]*?)^    steps:/m)?.[1];
   if (
-    jobHeader !== "    name: Validate\n    runs-on: ubuntu-latest\n    timeout-minutes: 40\n\n" ||
+    jobHeader !== "    name: Validate\n    runs-on: ubuntu-latest\n    timeout-minutes: 50\n\n" ||
     (workflow.slice(workflow.indexOf("jobs:\n")).match(/^  [a-z][\w-]*:$/gm) ?? [])
       .map((line) => line.trim()).join() !== "validate:"
   ) {
@@ -172,6 +172,15 @@ function checkCiDispatchContract(workflow) {
   }
   if (!steps.get("Start local Supabase").includes("id: supabase")) {
     fail("ci.yml must identify local Supabase startup for safe teardown");
+  }
+  const recoveryStep = "      - name: Verify Phase 11I recovery safety contract\n" +
+    "        timeout-minutes: 20\n        run: |\n" +
+    "          npm run test:recovery-contract\n" +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration44.json"\n' +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration45.json" --nutrition-snapshots\n' +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration46.json" --serving-reference\n\n';
+  if (steps.get("Verify Phase 11I recovery safety contract") !== recoveryStep) {
+    fail("ci.yml must qualify encrypted recovery at all three reviewed migration boundaries");
   }
   const browserInstall =
     "      - name: Install Playwright Phase 11D engines\n" +

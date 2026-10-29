@@ -18,6 +18,7 @@ import {
   assertHash,
   assertIsolatedRestoreTarget,
   assertMigrationHistory,
+  assertTrustedMigrationReplay,
   recoveryMigrationBoundary,
   assertRedactedEvidence,
   assertStorageScope,
@@ -198,7 +199,7 @@ export function restoreBackup({
   });
   const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
   // Historical migration-44 manifests predate the additive public summary.
-  if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count === 45) {
+  if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count >= 45) {
     assertNewBackupPublicVerification(manifest, migrationBoundary);
   }
   if (manifest.taskId !== TASK_ID || manifest.schemaVersion !== "phase-11i-backup-manifest/v1") {
@@ -387,14 +388,8 @@ export function restoreBackup({
       fail("Backup migration metadata disagrees with the reviewed ledger.");
     }
 
-    const replayVersions = readdirSync("supabase/migrations")
-      .filter((name) => /^\d{14}_.+\.sql$/.test(name))
-      .sort().map((name) => name.slice(0, 14)).filter((version) => version <= migrationBoundary.head);
-    assertMigrationHistory(replayVersions, migrationBoundary);
-    if (migrationBoundary.count === 45) {
-      assertHash(readFileSync("supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql"),
-        "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc", "reviewed migration 45 SQL");
-    }
+    assertTrustedMigrationReplay(readdirSync("supabase/migrations"), migrationBoundary,
+      (name) => readFileSync(join("supabase/migrations", name)));
     runSupabase(["db", "reset", "--local", "--version", migrationBoundary.head]);
 
     const localRolesPath = join(workRoot, "local-roles.sql");

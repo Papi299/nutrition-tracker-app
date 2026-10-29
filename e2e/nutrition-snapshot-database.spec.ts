@@ -104,6 +104,48 @@ test.describe.serial("35-nutrient database snapshot boundaries", () => {
     `)).toBe('true|search_path=""|false|true');
   });
 
+  test("v2 reads physical catalog metadata with the same authority and fingerprints serving-only changes", async () => {
+    expect(queryLocalAuthFixture(`
+      select prosecdef || '|' || array_to_string(proconfig, ',') || '|' ||
+        has_function_privilege('anon', oid, 'execute') || '|' ||
+        has_function_privilege('authenticated', oid, 'execute')
+      from pg_proc where oid = 'public.get_readable_food_nutrition_reference_v2(uuid)'::regprocedure;
+    `)).toBe('false|search_path=""|false|true');
+    for (const basis of ["per_100g", "per_serving"]) {
+      const id = randomUUID();
+      queryLocalAuthFixture(`
+        insert into public.foods(id,food_type,name,locale,serving_size,serving_unit,data_quality,
+          owner_user_id,is_public,custom_nutrient_basis)
+        values('${id}','user_custom','Synthetic private 50 g serving','en',50,'g','user_provided',
+          '${ownerId}',false,'${basis}');
+        insert into public.food_nutrients(food_id,nutrient_id,amount,basis) values
+          ('${id}',(select id from public.nutrients where code='energy_kcal'),201.4,'${basis}');
+      `);
+      const args = { p_food_id: id };
+      const first = await owner.rpc("get_readable_food_nutrition_reference_v2", args).single<ReferenceRow & { catalog_serving_quantity: number; catalog_serving_unit: string }>();
+      expect(first.error).toBeNull();
+      expect(first.data).toMatchObject({ nutrient_basis: basis, serving_quantity: basis === "per_100g" ? 100 : 50,
+        serving_unit: "g", catalog_serving_quantity: 50, catalog_serving_unit: "g", nutrients: { energy_kcal: expect.any(String) } });
+      const legacy = await owner.rpc("get_readable_food_nutrition_reference_v1", args).single<ReferenceRow>();
+      expect(legacy.error).toBeNull();
+      expect(legacy.data).not.toHaveProperty("catalog_serving_quantity");
+      expect(legacy.data!.nutrients).toEqual(first.data!.nutrients);
+      for (const denied of [other, unactivated]) {
+        const hidden = await denied.rpc("get_readable_food_nutrition_reference_v2", args);
+        expect(hidden.error).toBeNull();
+        expect(hidden.data).toEqual([]);
+      }
+      queryLocalAuthFixture(`update public.foods set serving_size=25 where id='${id}'`);
+      const changed = await owner.rpc("get_readable_food_nutrition_reference_v2", args).single<ReferenceRow & { catalog_serving_quantity: number; catalog_serving_unit: string }>();
+      expect(changed.error).toBeNull();
+      expect(changed.data!.catalog_serving_quantity).toBe(25);
+      expect(changed.data!.reference_fingerprint).not.toBe(first.data!.reference_fingerprint);
+      expect(changed.data!.nutrients).toEqual(first.data!.nutrients);
+      queryLocalAuthFixture(`update public.foods set is_archived=true where id='${id}'`);
+      expect((await owner.rpc("get_readable_food_nutrition_reference_v2", args)).data).toEqual([]);
+    }
+  });
+
   test("keeps the private receipt attestation closed to an activated but closed account", () => {
     const result = queryLocalAuthFixture(`
       begin;

@@ -1193,6 +1193,29 @@ export type Database = {
           source_updated_at: string
         }[]
       }
+      get_readable_food_nutrition_reference_v2: {
+        Args: { p_food_id: string }
+        Returns: {
+          catalog_serving_quantity: number
+          catalog_serving_unit: string
+          brand_name: string
+          data_quality: string
+          food_id: string
+          food_type: string
+          is_owned: boolean
+          name: string
+          nutrient_basis: string
+          nutrients: Json
+          reference_fingerprint: string
+          serving_quantity: number
+          serving_unit: string
+          source_code: string
+          source_food_id: string
+          source_id: string
+          source_name: string
+          source_updated_at: string
+        }[]
+      }
       get_reusable_foods: {
         Args: never
         Returns: {

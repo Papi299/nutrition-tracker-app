@@ -73,3 +73,17 @@ export function parseFoodNutritionReference(value: unknown, expectedFoodId?: str
     fat_g: number(nutrients.data.fat_g),
   } as FoodDiaryPrefill;
 }
+
+// v1 stays strict and unchanged for existing consumers. v2 adds catalog serving
+// metadata from the same database snapshot as the nutrient reference.
+export function parseFoodNutritionReferenceV2(value: unknown, expectedFoodId?: string): FoodDiaryPrefill | null {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) return null;
+  const row = value as Record<string, unknown>;
+  if (Object.keys(row).length !== expectedKeys.length + 2 ||
+    !Object.hasOwn(row, "catalog_serving_quantity") || !Object.hasOwn(row, "catalog_serving_unit") ||
+    !quantityIsValid(row.catalog_serving_quantity) || !nullableText(row.catalog_serving_unit, 40) ||
+    (typeof row.catalog_serving_unit === "string" && row.catalog_serving_unit.trim() === "")) return null;
+  const { catalog_serving_quantity, catalog_serving_unit, ...v1 } = row;
+  const reference = parseFoodNutritionReference(v1, expectedFoodId);
+  return reference ? { ...reference, catalog_serving_quantity, catalog_serving_unit } as FoodDiaryPrefill : null;
+}

@@ -34,7 +34,7 @@ type MealTypeOption = {
 
 type EditableFieldName = Exclude<
   DiaryEntryFieldName,
-  "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
+  "quantity_unit" | "serving_intent" | "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
 >;
 type FieldLabels = Record<EditableFieldName, string>;
 

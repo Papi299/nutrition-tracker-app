@@ -44,7 +44,7 @@ import {
   type FoodDiaryPrefillState,
 } from "@/lib/food-selection";
 import { isUuid } from "@/lib/food-selection/query";
-import { allNutrientFields, scaleAllFoodNutrients } from "@/lib/food-selection/nutrient-scaling";
+import { allNutrientFields, initialFoodQuantity, scaleAllFoodNutrients } from "@/lib/food-selection/nutrient-scaling";
 import { formatLocalizedDate, formatLocalizedNumber } from "@/lib/i18n/format";
 import { routing, type Locale } from "@/lib/i18n/routing";
 import {
@@ -615,6 +615,9 @@ function LocalizedTodayPage({
                 unavailable: diaryT("form.automaticUnavailable"),
                 referenceChanged: diaryT("form.referenceChanged"),
                 reviewRequired: diaryT("form.nutritionReviewRequired"),
+                servingEquivalence: diaryT("form.servingEquivalence"),
+                resetServing: diaryT("form.resetServing"),
+                incompatibleDraft: diaryT("form.incompatibleDraft"),
               }}
               reference={foodSelectionState.status === "ready" ? foodSelectionState.data : undefined}
               draftScope={`${currentUserId}:${locale}:${selectedDate}:${
@@ -790,7 +793,8 @@ function Metadata({ label, value }: { label: string; value: string }) {
 function diaryValuesFromPrefill(
   prefill: Extract<FoodDiaryPrefillState, { status: "ready" }>["data"],
 ): NonNullable<DiaryEntryActionState["values"]> {
-  const scaled = scaleAllFoodNutrients(prefill, prefill.serving_quantity, prefill.serving_unit);
+  const consumed = initialFoodQuantity(prefill);
+  const scaled = scaleAllFoodNutrients(prefill, consumed.quantity, consumed.unit);
   return {
     ...Object.fromEntries(allNutrientFields.map((field) => [`automatic_${field}`, scaled.ok ? "1" : ""])),
     additional_nutrients_captured: "1",
@@ -798,8 +802,9 @@ function diaryValuesFromPrefill(
     brand_name: inputValue(prefill.brand_name),
     food_id: prefill.food_id,
     food_name: prefill.name,
-    serving_quantity: inputValue(prefill.serving_quantity),
-    serving_unit: inputValue(prefill.serving_unit),
+    serving_quantity: consumed.quantity,
+    serving_unit: consumed.unit,
+    quantity_unit: consumed.unit,
     ...(scaled.ok ? scaled.values : Object.fromEntries(allNutrientFields.map(field => [field, ""]))),
   };
 }

@@ -18,7 +18,7 @@ jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 50
 
     steps:
       - name: Check out repository
@@ -78,11 +78,12 @@ jobs:
         run: npm run test:deployment-contract
 
       - name: Verify Phase 11I recovery safety contract
-        timeout-minutes: 15
+        timeout-minutes: 20
         run: |
           npm run test:recovery-contract
           node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration44.json"
           node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration45.json" --nutrition-snapshots
+          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration46.json" --serving-reference
 
       - name: Verify security policy regressions
         run: npm run test:security

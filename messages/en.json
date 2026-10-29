@@ -337,7 +337,7 @@
         "foodName": "Use any clear food name. Mixed Hebrew and English names are okay.",
         "brandName": "Add a brand only when it helps you recognize the item.",
         "servingQuantity": "Leave blank if the amount is not useful. Zero is saved as 0.",
-        "servingUnit": "Examples: g, cup, piece, serving.",
+        "servingUnit": "Examples: g, cup, piece, serving. For a verified catalog serving, changing between g and serving converts the quantity. Without JavaScript, review the converted amount before saving.",
         "calories": "Whole number only. Blank means not set; 0 is allowed.",
         "protein": "Grams. Blank means not set; 0 is allowed.",
         "carbohydrates": "Grams. Blank means not set; 0 is allowed.",
@@ -350,7 +350,10 @@
       "automaticDescription": "Checked nutrients are calculated from the logged quantity and catalog reference. Editing a nutrient keeps it as a manual total. Without JavaScript, clear its checkbox before entering a manual total; automatic totals are calculated when saved.",
       "automaticLabel": "Calculate from quantity",
       "automaticUnavailable": "Automatic calculation requires a valid quantity and compatible reference unit. Use the catalog unit, or clear the calculation checkboxes and enter consumed totals manually.",
-      "referenceChanged": "The catalog reference changed since this draft was saved. Your displayed totals were kept as manual values. Review them or select calculation again.",
+      "referenceChanged": "The catalog reference changed or cannot be verified for this saved draft. Your displayed totals were kept as manual values. Review the amount and totals, reset the quantity if needed, or select calculation again.",
+      "servingEquivalence": "Verified catalog serving:",
+      "resetServing": "Reset quantity to one catalog serving (keep manual totals)",
+      "incompatibleDraft": "This saved quantity and unit cannot be calculated from the current catalog reference. Review the amount, or reset it to one verified serving. Your totals and retry identity are preserved.",
       "nutritionReviewRequired": "Review the updated nutrient totals, then submit again to save them."
     },
     "selection": {

@@ -312,3 +312,28 @@ classification that may report `unknown` and the public-repository scheduled
 workflow inactivity/freshness monitoring requirement. The active
 `PERSONAL_USE_FREE_TIER` profile changes neither the daily encrypted GitHub
 Actions backup, 30-day retention, tested isolated restore, RPO 24h, nor RTO 8h.
+
+
+### Serving hotfix release transition: migration 46 (2026-10-29)
+
+The combined PR #214 candidate additionally accepts the identical reviewed
+45-version prefix plus `20261029083108` (46 migrations). Migration 47 and
+arbitrary future histories remain unsupported. The shared contract validates
+exact ordered versions and pins the selected repository filenames; migration
+46 replay checks both migration-45 and migration-46 SQL hashes before reset.
+Historical 44/45 archives select only their own trusted replay boundary even
+when the checkout contains migration 46. Only historical migration-44 archives
+may omit the additive public verification summary.
+
+The existing scheduled producer and artifact verifier select the boundary from
+the validated source history. No second producer, workflow, credential,
+recipient, encryption format, cadence, RPO, retention, concurrency, permission,
+cleanup or manual-dispatch change is needed. The Production workflow remains
+unchanged. See the [release review package](reviews/diary-serving-migration46-release.md)
+for synthetic qualification and the exact-head review/release gate.
+
+This remains accidental-data-loss recovery under the accepted legacy policy.
+A restored environment containing source password authority must stay isolated
+until authentication containment and applicable credential rotation are complete.
+It does not qualify credential-compromise recovery or authorize Production
+credential changes. Draft PRs #208–#212 remain outside this release.

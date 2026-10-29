@@ -21,9 +21,10 @@ const cli = join(repositoryRoot, "node_modules/.bin/supabase");
 const reportPath = process.argv[2];
 if (!reportPath || !reportPath.startsWith("/")) throw new Error("An absolute redacted report path is required.");
 if (existsSync(reportPath)) throw new Error("Refusing to overwrite a qualification report.");
-const localNutritionSnapshots = process.argv[3] === "--nutrition-snapshots";
-if (process.argv[3] && !localNutritionSnapshots) throw new Error("Unsupported synthetic qualification option.");
-const migrationBoundary = recoveryMigrationBoundary({ projectRef: SYNTHETIC_IDENTITY, sourceEnvironment: "LocalSynthetic" }, localNutritionSnapshots);
+const servingReference = process.argv[3] === "--serving-reference";
+const localNutritionSnapshots = process.argv[3] === "--nutrition-snapshots" || servingReference;
+if (process.argv.length > 4 || (process.argv[3] && !localNutritionSnapshots)) throw new Error("Unsupported synthetic qualification option.");
+const migrationBoundary = recoveryMigrationBoundary({ projectRef: SYNTHETIC_IDENTITY, sourceEnvironment: "LocalSynthetic" }, false, servingReference ? "20261029083108" : localNutritionSnapshots ? "20261024083339" : "20260927170418");
 const startedAt = new Date().toISOString();
 const root = mkdtempSync(join(tmpdir(), "p11a010-synthetic-"));
 chmodSync(root, 0o700);
@@ -46,7 +47,8 @@ function prepare(project, offset) {
   const directory = join(root, project);
   mkdirSync(join(directory, "supabase"), { recursive: true, mode: 0o700 });
   cpSync("supabase/migrations", join(directory, "supabase/migrations"), { recursive: true });
-  if (!localNutritionSnapshots && project === sourceProject) {
+  // Qualify exactly the reviewed 44/45/46 source history even after later migrations.
+  if (project === sourceProject) {
     for (const migration of readdirSync(join(directory, "supabase/migrations"))) {
       if (migration.slice(0, 14) > migrationBoundary.head) rmSync(join(directory, "supabase/migrations", migration));
     }
@@ -128,6 +130,9 @@ try {
     assert.equal(sourceDb("select snapshot_contract_version from public.saved_meal_diary_runs"), "2");
     assert.equal(sourceDb("select snapshot_contract_version from public.recipe_diary_runs"), "2");
   }
+  if (servingReference) sourceDb(`update public.foods set serving_size=50,serving_unit='g' where id='${food}'`);
+  sourceDb(`insert into ingestion.data_sources(code,legal_name,classification,approval_status,approval_reference)
+    values ('synthetic_recovery','Synthetic recovery source','user_contributed','approved','Synthetic local qualification')`);
   // Synthetic shared catalog volume crosses the old total gates without copying a real dataset.
   sourceDb(`insert into public.foods(id,source_id,source_food_id,food_type,name,is_public,data_quality)
     select ('33000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,
@@ -297,11 +302,98 @@ try {
   targetCli(["start", "--exclude", excludes]);
   // Shared restore reads config from the isolated project, never from the source worktree.
   process.chdir(targetDirectory);
-  const restored = restoreBackup({ archiveInput: capture.archivePath, manifestInput: capture.manifestPath,
+  const restoreOptions = { archiveInput: capture.archivePath, manifestInput: capture.manifestPath,
     recipientInput: cert, privateKeyInput: key, reportInput: join(root, "restore-report.json"),
     targetIdentity: RECOVERY_TARGET, assertSourceIdentity: assertSyntheticSource,
     assertArtifactIdentity: assertSyntheticArtifact, assertRecipient: options.assertRecipient,
-    runSupabase: targetCli });
+    runSupabase: targetCli };
+  if (servingReference) {
+    // Every rejection must precede reset/data writes, and remove decrypted scratch.
+    const archiveBytes = readFileSync(capture.archivePath);
+    function rejectRestore(label, overrides = {}, pattern) {
+      const temporaryBefore = readdirSync(tmpdir()).filter(name => name.startsWith("phase11i-restore-")).sort();
+      let resets = 0;
+      assert.throws(() => restoreBackup({ ...restoreOptions, ...overrides, runSupabase: args => {
+        if (args[0] === "db" && args[1] === "reset") resets++;
+        return (overrides.runSupabase ?? targetCli)(args);
+      } }), pattern);
+      assert.equal(resets, 0);
+      assert.equal(existsSync(restoreOptions.reportInput), false);
+      assert.deepEqual(readdirSync(tmpdir()).filter(name => name.startsWith("phase11i-restore-")).sort(), temporaryBefore);
+      negativeResults[label] = "PASS";
+    }
+    function changedManifest(label, change, pattern) {
+      const changed = structuredClone(manifest); change(changed);
+      writeFileSync(capture.manifestPath, JSON.stringify(changed), { mode: 0o600 });
+      try { rejectRestore(label, {}, pattern); }
+      finally { writeFileSync(capture.manifestPath, manifestBytes); }
+    }
+    changedManifest("wrongSourceProject", m => { m.sourceProjectRef = "WRONG_SYNTHETIC_PROJECT"; });
+    changedManifest("wrongSourceEnvironment", m => { m.sourceEnvironment = "Preview"; });
+    changedManifest("wrongEncryptionRecipient", m => { m.encryption.recipientCertificateSha256 = "0".repeat(64); }, /recipient fingerprint/);
+    changedManifest("manifestLedgerMismatch", m => {
+      m.migrationHead = "20261024083339"; m.publicVerificationSummary.migration = { count: 45, head: "20261024083339" };
+    }, /migration count mismatch/);
+    rejectRestore("wrongRestoreTarget", { targetIdentity: "ordinary-development" }, /target identity/);
+    rejectRestore("nonLocalRestoreTarget", { runSupabase: args => args[0] === "status"
+      ? 'DB_URL="postgresql://synthetic@nonlocal.invalid/postgres"' : targetCli(args) }, /non-local restore/);
+    const corrupted = Buffer.from(archiveBytes); corrupted[corrupted.length - 1] ^= 1;
+    writeFileSync(capture.archivePath, corrupted);
+    try {
+      rejectRestore("corruptCiphertextHash", {}, /encrypted archive hash/);
+      changedManifest("corruptCiphertextAuthentication", m => { m.encryptedArchiveSha256 = sha256(corrupted); }, /openssl cms failed/);
+    } finally { writeFileSync(capture.archivePath, archiveBytes); }
+    for (const [number, filename] of [[45, "20261024083339_consumed_nutrition_snapshots_v1.sql"], [46, "20261029083108_diary_serving_reference_v2.sql"]]) {
+      const path = join("supabase/migrations", filename), original = readFileSync(path);
+      writeFileSync(path, Buffer.concat([original, Buffer.from("\n-- synthetic tamper\n")]));
+      try { rejectRestore(`modifiedMigration${number}Sql`, {}, new RegExp(`migration ${number} SQL hash mismatch`)); }
+      finally { writeFileSync(path, original); }
+    }
+    const innerRoot = join(root, "tampered-content"); mkdirSync(innerRoot, { mode: 0o700 });
+    const tarPath = join(root, "tampered.tar");
+    run("openssl", ["cms", "-decrypt", "-binary", "-inform", "DER", "-in", capture.archivePath,
+      "-recip", cert, "-inkey", key, "-out", tarPath]);
+    run("tar", ["-xf", tarPath, "-C", innerRoot]);
+    const ledgerPath = join(innerRoot, "migration-ledger.json");
+    const ledgerBytes = readFileSync(ledgerPath);
+    const ledger = JSON.parse(ledgerBytes);
+    const contentPath = join(innerRoot, "backup-content-manifest.json");
+    const contentBytes = readFileSync(contentPath);
+    const dataPath = join(innerRoot, "application-data.sql");
+    const dataBytes = readFileSync(dataPath);
+    const cases = [
+      ["corruptArchiveContent", () => writeFileSync(dataPath, "corrupt synthetic content"), false, /hash mismatch/],
+      ["missingMigration46", versions => versions.pop(), true, /count mismatch/],
+      ["unknownMigration47", versions => versions.push("20261030000000"), true, /count mismatch/],
+      ["interiorMigrationSubstitution", versions => { versions[10] = "20260714115000"; }, true, /exact reviewed history/],
+      ["duplicatedMigration", versions => { versions[10] = versions[9]; }, true, /duplicates/],
+      ["unorderedLedger", versions => { [versions[10], versions[11]] = [versions[11], versions[10]]; }, true, /not ordered/],
+      ["wrongMigrationCount", versions => versions.shift(), true, /count mismatch/],
+    ];
+    for (const [label, change, updateLedger, pattern] of cases) {
+      const changed = structuredClone(manifest);
+      const content = JSON.parse(contentBytes);
+      if (updateLedger) {
+        const versions = [...ledger.versions]; change(versions);
+        const bytes = Buffer.from(JSON.stringify({ versions })); writeFileSync(ledgerPath, bytes);
+        content.artifacts.find(artifact => artifact.filename === "migration-ledger.json").sha256 = sha256(bytes);
+      } else change();
+      const contentModified = Buffer.from(JSON.stringify(content)); writeFileSync(contentPath, contentModified);
+      changed.contentManifestSha256 = sha256(contentModified);
+      run("tar", ["-cf", tarPath, "-C", innerRoot, "."]);
+      changed.plaintextArchiveSha256 = sha256(readFileSync(tarPath));
+      run("openssl", ["cms", "-encrypt", "-binary", "-aes-256-gcm", "-outform", "DER", "-in", tarPath, "-out", capture.archivePath, cert]);
+      changed.encryptedArchiveSha256 = sha256(readFileSync(capture.archivePath));
+      writeFileSync(capture.manifestPath, JSON.stringify(changed));
+      try { rejectRestore(label, {}, pattern); }
+      finally {
+        writeFileSync(dataPath, dataBytes); writeFileSync(ledgerPath, ledgerBytes); writeFileSync(contentPath, contentBytes);
+        writeFileSync(capture.archivePath, archiveBytes); writeFileSync(capture.manifestPath, manifestBytes);
+      }
+    }
+    rmSync(innerRoot, { recursive: true }); rmSync(tarPath);
+  }
+  const restored = restoreBackup(restoreOptions);
   // Restore the same valid v1 artifact after removing only the additive outer field.
   // This exercises historical compatibility without altering the encrypted archive.
   const historicalManifest = structuredClone(manifest);
@@ -319,7 +411,7 @@ try {
       assert.deepEqual(historicalRestored.restoreSafeCounts, restored.restoreSafeCounts);
     } else {
       assert.throws(() => restoreBackup(historicalOptions), /unexpected or missing fields/);
-      negativeResults.migration45RequiresPublicSummary = "PASS";
+      negativeResults[`migration${migrationBoundary.count}RequiresPublicSummary`] = "PASS";
     }
     commandsPassed++;
   } finally { writeFileSync(capture.manifestPath, manifestBytes, { mode: 0o600 }); }
@@ -356,6 +448,30 @@ try {
     semanticRecovery[label] = true;
     commandsPassed++;
   }
+  // Compare every complete row in every application/ingestion table, not just counts.
+  // Canonical JSONB ordering includes nulls, zeros, opaque IDs, and timestamps.
+  const allDataTables = [...Object.keys(capture.sourceSafeCounts.tableCounts),
+    "auth.users", "auth.identities", "auth.mfa_factors", "auth.webauthn_credentials"];
+  for (const qualified of allDataTables) {
+    assert.match(qualified, /^(public|ingestion|auth)\.[a-z_][a-z0-9_]*$/);
+    const [schema, table] = qualified.split(".");
+    const sql = `select to_jsonb(t)::text from "${schema}"."${table}" t order by to_jsonb(t)::text collate "C"`;
+    // No row contents or password authority leave memory or appear in evidence.
+    if (sourceDb(sql) !== targetDb(sql)) throw new Error(`Full-data recovery differs: ${qualified}`);
+  }
+  let servingReferenceQualified = false;
+  if (servingReference) {
+    const targetAuthed = (sql, subject = owner) => targetDb(`begin; set local role authenticated;
+      select set_config('request.jwt.claims','${JSON.stringify({ ...claims, sub: subject })}',true); ${sql}; commit;`).split(/\r?\n/).at(-1);
+    const referenceSql = `select row_to_json(t) from public.get_readable_food_nutrition_reference_v2('${food}') t`;
+    const reference = JSON.parse(targetAuthed(referenceSql));
+    assert.equal(reference.catalog_serving_quantity, 50); assert.equal(reference.catalog_serving_unit, "g");
+    assert.equal(targetAuthed(`select count(*) from public.get_readable_food_nutrition_reference_v1('${food}')`), "1");
+    assert.equal(targetAuthed(`select count(*) from public.get_readable_food_nutrition_reference_v2('${food}')`, foreign), "0");
+    assert.equal(targetDb("select prosecdef::text||':'||provolatile::text||':'||has_function_privilege('anon',oid,'EXECUTE')::text||':'||has_function_privilege('authenticated',oid,'EXECUTE')::text from pg_proc where oid='public.get_readable_food_nutrition_reference_v2(uuid)'::regprocedure"), "false:s:false:true");
+    assert.equal(targetAuthed(`select count(*) from public.diary_entries`, foreign), "0");
+    servingReferenceQualified = true;
+  }
   assert.equal(restored.authComparison.restore.sessions, 0);
   assert.equal(restored.authComparison.restore.refreshTokens, 0);
   commandsPassed += 2;
@@ -385,7 +501,9 @@ try {
     archiveIntegrity: restored.archiveIntegrity, contentIntegrity: restored.contentIntegrity,
     postEncryptionDecryptVerification: manifest.postEncryptionDecryptVerification,
     plaintextTemporaryRemoved: true, durableDestinationCiphertextAndRedactedManifestOnly: true, syntheticPrivateKeyDestroyed: true,
-    nutritionSnapshotsQualified: localNutritionSnapshots,
+    nutritionSnapshotsQualified: localNutritionSnapshots, servingReferenceQualified,
+    fullDataIntegrity: { result: "PASS", applicationAndIngestionTables: Object.keys(capture.sourceSafeCounts.tableCounts).length, durableAuthTables: 4 },
+    cleanup: { taskOwnedStacksRemoved: true, temporaryRootRemoved: true },
     productionAccess: false, fixtureIdentifiersInEvidence: "OPAQUE_CATEGORY_LABELS_ONLY" };
   assertRedactedEvidence(report);
   // The report is only published after finally has destroyed keys, dumps and local stacks.
