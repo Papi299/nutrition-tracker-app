@@ -88,7 +88,7 @@ function harness(config = {}) {
       "Every post-dump query must use the replaced credential.");
     return readPsqlRows({ psqlBinary, sql, environment, stage, spawn: () => {
       if (config.failedStage === stage) return { status: 2,
-        stderr: 'psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: password authentication failed for user "' + environment.PGPASSWORD + '"' };
+        stderr: config.failureDiagnostic ?? 'psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: password authentication failed for user "' + environment.PGPASSWORD + '"' };
       return { status: 0, stdout: fixtureRows(sql, stage).map((row) => row.join("\t")).join("\n") };
     } });
   };
@@ -210,13 +210,14 @@ test("initial acquisition validates the approved transport before any query or d
 });
 
 for (const stage of ["POST_DUMP_TABLE_COUNTS", "POST_DUMP_OWNER_VALIDATION", "POST_DUMP_OWNER_ACTIVATION"]) {
-  test(stage + " failure retains sanitized diagnostics and never retries query or transport", async () => {
+  test(stage + " failure retains category-only diagnostics and never retries query or transport", async () => {
     const h = harness({ failedStage: stage });
     try {
       h.acquire();
       await assert.rejects(captureBackup(h.options), (error) => {
-        assert.match(error.message, new RegExp("^psql failed at " + stage + " \\(exit 2\\):"));
-        assert.match(error.message, /FATAL: password authentication failed for user \[REDACTED\]/);
+        assert.match(error.message, new RegExp("^psql failed at " + stage + " \\(exit 2\\);"));
+        assert.equal(error.category, "AUTHENTICATION_FAILURE");
+        assert.match(error.message, /diagnostic=SAFE_MESSAGE_RECOGNIZED/);
         assert.doesNotMatch(error.message, /synthetic-|select |PGPASSWORD|postgresql:\/\//);
         assertRedactedEvidence(error.message);
         return true;
@@ -240,6 +241,33 @@ for (const dump of [1, 2, 3, 4]) {
       assertNoOutput(h);
     } finally { h.cleanup(); }
   });
+}
+for (const stage of ["APPLICATION_TABLE_INVENTORY", "POST_DUMP_OWNER_VALIDATION"]) {
+  for (const [diagnostic, category, diagnosticState] of [
+    ["ERROR: server closed the connection unexpectedly", "CONNECTION_TERMINATED", "SAFE_MESSAGE_RECOGNIZED"],
+    ["psql: error: timeout expired", "CONNECTION_TIMEOUT", "SAFE_MESSAGE_RECOGNIZED"],
+    ['ERROR: permission denied for table "synthetic-private-table"', "SQL_EXECUTION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
+    ['FATAL: password authentication failed for user "synthetic-user"', "AUTHENTICATION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
+    ["ERROR: synthetic-unknown-owner-row 70.5", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
+  ]) {
+    test(`${stage} ${category} fails closed once, retaining dump order and cleanup`, async () => {
+      const h = harness({ failedStage: stage, failureDiagnostic: diagnostic });
+      try {
+        h.acquire();
+        await assert.rejects(captureBackup(h.options), error => {
+          assert.equal(error.category, category);
+          assert.equal(error.diagnosticState, diagnosticState);
+          assertRedactedEvidence(error.message);
+          assert.doesNotMatch(error.message, /synthetic-|70\.5|select |PGPASSWORD/);
+          return true;
+        });
+        assert.equal(h.reads.filter(read => read.stage === stage).length, 1);
+        assert.equal(h.acquisitions, stage.startsWith("POST_DUMP_") ? 2 : 1);
+        assert.equal(h.dumpArguments.length, stage.startsWith("POST_DUMP_") ? 4 : 0);
+        assertNoOutput(h);
+      } finally { h.cleanup(); }
+    });
+  }
 }
 test("shared pipeline requires an explicit refresh callback", async () => {
   const h = harness();
