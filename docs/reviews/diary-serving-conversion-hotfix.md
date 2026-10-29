@@ -76,7 +76,7 @@ can continue using v1 after the migration; the new application requires v2.
 2. Before authorizing migration 46, separately review and qualify recovery
    support for the new 46-migration history, including backup/restore and exact
    retry. Existing recovery runtime deliberately accepts only reviewed histories
-   44/45. This PR only bounds its historical test fixture to those histories;
+   44/45. This PR only bounds its historical test and synthetic qualification fixtures to those histories;
    it does not extend or weaken any operational recovery contract.
 3. Obtain explicit human authorization for the exact remote project, reviewed
    migration, backup/recovery evidence, release SHA, executor, and rollback plan.

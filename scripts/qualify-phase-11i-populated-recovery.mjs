@@ -46,7 +46,8 @@ function prepare(project, offset) {
   const directory = join(root, project);
   mkdirSync(join(directory, "supabase"), { recursive: true, mode: 0o700 });
   cpSync("supabase/migrations", join(directory, "supabase/migrations"), { recursive: true });
-  if (!localNutritionSnapshots && project === sourceProject) {
+  // Qualify exactly the reviewed 44/45 source history even after later migrations.
+  if (project === sourceProject) {
     for (const migration of readdirSync(join(directory, "supabase/migrations"))) {
       if (migration.slice(0, 14) > migrationBoundary.head) rmSync(join(directory, "supabase/migrations", migration));
     }
