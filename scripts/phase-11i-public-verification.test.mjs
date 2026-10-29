@@ -29,17 +29,20 @@ test("public summary selects exactly approved fields from validated source", () 
   assertPublicVerificationSummary(summary);
   assertNewBackupPublicVerification({ migrationHead: "20260927170418", publicVerificationSummary: summary });
 });
-test("migration 45 summary uses the exact reviewed boundary and rejects mixed metadata", () => {
-  const summary = buildPublicVerificationSummary({ ...validated, migrations: [...migrations, "20261024083339"] });
-  assert.deepEqual(summary, { ...expected, migration: { count: 45, head: "20261024083339" } });
-  assertPublicVerificationSummary(summary);
-  assertNewBackupPublicVerification({ migrationHead: "20261024083339", publicVerificationSummary: summary });
-  for (const migration of [{ count: 44, head: "20261024083339" }, { count: 45, head: "20260927170418" },
-    { count: 46, head: "20261024083340" }]) {
-    assert.throws(() => assertPublicVerificationSummary({ ...summary, migration }));
-  }
-  assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20260927170418", publicVerificationSummary: summary }));
-});
+for (const [count, versions] of [[45, [...migrations, "20261024083339"]], [46, [...migrations, "20261024083339", "20261029083108"]]]) {
+  test(`migration ${count} summary requires the exact reviewed boundary`, () => {
+    const head = versions.at(-1);
+    const summary = buildPublicVerificationSummary({ ...validated, migrations: versions });
+    assert.deepEqual(summary, { ...expected, migration: { count, head } });
+    assertPublicVerificationSummary(summary);
+    assertNewBackupPublicVerification({ migrationHead: head, publicVerificationSummary: summary });
+    assert.throws(() => assertNewBackupPublicVerification({ migrationHead: head }));
+    for (const migration of [{ count: count - 1, head }, { count, head: "20260927170418" }, { count: 47, head: "20261030000000" }]) {
+      assert.throws(() => assertPublicVerificationSummary({ ...summary, migration }));
+    }
+    assert.throws(() => assertNewBackupPublicVerification({ migrationHead: "20260927170418", publicVerificationSummary: summary }));
+  });
+}
 for (const [label, change] of [
   ["schema", (s) => { s.schemaVersion = "wrong"; }],
   ["migration count", (s) => { s.migration.count = 43; }],

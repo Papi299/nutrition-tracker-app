@@ -76,11 +76,10 @@ can continue using v1 after the migration; the new application requires v2.
 
 1. Independently review the application change, migration SQL, and exact-head
    CI/CodeQL results. Keep the PR Draft until review decisions are complete.
-2. Before authorizing migration 46, separately review and qualify recovery
-   support for the new 46-migration history, including backup/restore and exact
-   retry. Existing recovery runtime deliberately accepts only reviewed histories
-   44/45. This PR only bounds its historical test and synthetic qualification fixtures to those histories;
-   it does not extend or weaken any operational recovery contract.
+2. Review the combined candidate and its [migration-46 recovery qualification](diary-serving-migration46-release.md).
+   Recovery accepts only the exact reviewed 44/45/46 histories, with cumulative
+   migration-45/46 SQL pins and encrypted synthetic restoration at each boundary.
+   This qualification does not authorize a Production migration or release.
 3. Obtain explicit human authorization for the exact remote project, reviewed
    migration, backup/recovery evidence, release SHA, executor, and rollback plan.
    Verify a fresh encrypted backup of the current migration-45 state first.

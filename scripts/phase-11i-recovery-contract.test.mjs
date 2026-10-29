@@ -9,6 +9,7 @@ import {
   assertHash,
   assertIsolatedRestoreTarget,
   assertMigrationHistory,
+  assertTrustedMigrationReplay,
   recoveryMigrationBoundary,
   assertPre11KStatus,
   assertProductionSource,
@@ -43,16 +44,17 @@ const allRepositoryMigrationVersions = readdirSync("supabase/migrations")
   .sort()
   .map((name) => name.slice(0, 14))
   // Later migrations do not authorize a new Production recovery boundary.
-  .filter((version) => version <= "20261024083339");
+  .filter((version) => version <= "20261029083108");
 const repositoryMigrationVersions = allRepositoryMigrationVersions.filter(version => version <= EXPECTED_MIGRATION_HEAD);
 
-test("both reviewed release histories qualify and the synthetic identity gate remains fixed", () => {
-  assert.equal(allRepositoryMigrationVersions.length, 45);
+test("all three reviewed release histories qualify and the synthetic identity gate remains fixed", () => {
+  assert.equal(allRepositoryMigrationVersions.length, 46);
   assertMigrationHistory(allRepositoryMigrationVersions);
   assert.deepEqual(recoveryMigrationBoundary(undefined, false, "20261024083339"), { count: 45, head: "20261024083339" });
   assert.throws(() => recoveryMigrationBoundary(undefined, false, "99999999999999"), /head mismatch/);
   const local = { projectRef: "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE", sourceEnvironment: "LocalSynthetic" };
-  assertMigrationHistory(allRepositoryMigrationVersions, recoveryMigrationBoundary(local, true));
+  assertMigrationHistory(allRepositoryMigrationVersions.slice(0, 45), recoveryMigrationBoundary(local, true));
+  assert.deepEqual(recoveryMigrationBoundary(local, false, "20261029083108"), { count: 46, head: "20261029083108" });
   for (const identity of [undefined, { ...local, projectRef: PRODUCTION_PROJECT_REF }, { ...local, sourceEnvironment: "Production" }]) {
     assert.throws(() => recoveryMigrationBoundary(identity, true), /fixed local synthetic identity/);
   }
@@ -198,7 +200,7 @@ test("current contract rejects an unknown migration and wrong head", () => {
   );
 });
 
-for (const versions of [repositoryMigrationVersions, allRepositoryMigrationVersions]) {
+for (const versions of [repositoryMigrationVersions, allRepositoryMigrationVersions.slice(0, 45), allRepositoryMigrationVersions]) {
   test(`exact ${versions.length}-migration history rejects interior substitution, count, duplicates and order`, () => {
     assertMigrationHistory(versions);
     const changed = [...versions]; changed[10] = "20260714115000";
@@ -208,13 +210,37 @@ for (const versions of [repositoryMigrationVersions, allRepositoryMigrationVersi
     const unordered = [...versions]; [unordered[10], unordered[11]] = [unordered[11], unordered[10]];
     assert.throws(() => assertMigrationHistory(unordered), /not ordered/);
     assert.throws(() => assertMigrationHistory(versions.slice(1)), /count mismatch/);
-    assert.throws(() => assertMigrationHistory(versions, { count: 46, head: versions.at(-1) }), /count mismatch/);
+    assert.throws(() => assertMigrationHistory(versions, { count: 47, head: versions.at(-1) }), /count mismatch/);
   });
 }
 
 test("migration 45 SQL retains the approved release identity", () => {
   assert.equal(sha256(readFileSync("supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql")),
     "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc");
+});
+
+const migrationFiles = readdirSync("supabase/migrations");
+const readMigration = (name) => readFileSync(`supabase/migrations/${name}`);
+for (const count of [44, 45, 46]) {
+  test(`trusted ${count}-migration replay selects exact names and cumulative SQL pins`, () => {
+    const boundary = recoveryMigrationBoundary(undefined, false, allRepositoryMigrationVersions[count - 1]);
+    const selected = assertTrustedMigrationReplay([...migrationFiles, "20261030000000_unreviewed.sql"], boundary, readMigration);
+    assert.equal(selected.length, count);
+    assert.equal(selected.at(-1).slice(0, 14), boundary.head);
+    assert.throws(() => assertTrustedMigrationReplay(migrationFiles.map(name => name.startsWith("20260429163444_") ? "20260429163444_substituted.sql" : name), boundary, readMigration), /filenames hash mismatch/);
+    assert.throws(() => assertTrustedMigrationReplay(migrationFiles.filter(name => !name.startsWith(boundary.head)), boundary, readMigration), /count mismatch/);
+    for (const pinned of [45, 46].filter(value => value <= count)) {
+      assert.throws(() => assertTrustedMigrationReplay(migrationFiles, boundary, name =>
+        name.startsWith(allRepositoryMigrationVersions[pinned - 1]) ? Buffer.from("modified SQL") : readMigration(name)),
+      new RegExp(`migration ${pinned} SQL hash mismatch`));
+    }
+  });
+}
+test("migration 46 cannot be omitted, forged by count, or extended to 47", () => {
+  const boundary = recoveryMigrationBoundary(undefined, false, "20261029083108");
+  assert.throws(() => assertMigrationHistory(allRepositoryMigrationVersions.slice(0, 45), boundary), /count mismatch/);
+  assert.throws(() => assertMigrationHistory([...allRepositoryMigrationVersions, "20261030000000"]), /count mismatch/);
+  assert.throws(() => recoveryMigrationBoundary(undefined, false, "20261030000000"), /unsupported reviewed history/);
 });
 
 test("current contract rejects duplicate and unordered ledgers", () => {

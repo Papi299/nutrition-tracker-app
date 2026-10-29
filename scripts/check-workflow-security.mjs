@@ -173,6 +173,15 @@ function checkCiDispatchContract(workflow) {
   if (!steps.get("Start local Supabase").includes("id: supabase")) {
     fail("ci.yml must identify local Supabase startup for safe teardown");
   }
+  const recoveryStep = "      - name: Verify Phase 11I recovery safety contract\n" +
+    "        timeout-minutes: 20\n        run: |\n" +
+    "          npm run test:recovery-contract\n" +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration44.json"\n' +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration45.json" --nutrition-snapshots\n' +
+    '          node scripts/qualify-phase-11i-populated-recovery.mjs "${RUNNER_TEMP}/phase11i-migration46.json" --serving-reference\n\n';
+  if (steps.get("Verify Phase 11I recovery safety contract") !== recoveryStep) {
+    fail("ci.yml must qualify encrypted recovery at all three reviewed migration boundaries");
+  }
   const browserInstall =
     "      - name: Install Playwright Phase 11D engines\n" +
     "        run: |\n" +

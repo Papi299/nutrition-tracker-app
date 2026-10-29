@@ -70,6 +70,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("npx playwright install --with-deps chromium firefox webkit", "npx playwright install chromium"),
     ci.replace('workflow_dispatch) base="$CI_HEAD_SHA^" ;;', 'workflow_dispatch) base="$CI_HEAD_SHA" ;;'),
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
+    ...[44, 45, 46].map(count => ci.replace(new RegExp(`^.*phase11i-migration${count}\\.json.*\\n`, "m"), "")),
+    ci.replace("--serving-reference", "--nutrition-snapshots"),
   ];
   for (const mutation of mutations) {
     assert.notEqual(mutation, ci);
