@@ -465,6 +465,8 @@ export function DiaryEntryForm({
           revision: current.revision + 1,
         }));
         setStatusOverride("success");
+        setReferenceChanged(false);
+        setIncompatibleDraft(false);
       });
       return;
     }
@@ -472,6 +474,7 @@ export function DiaryEntryForm({
     const retainedDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: submissionKey,
       referenceKey,
+      referenceReviewRequired: referenceChanged || state.fieldErrors?.form === "reference_changed",
       values: pickPersistedValues(state.values ?? {}),
       version: 1,
     };
@@ -483,7 +486,7 @@ export function DiaryEntryForm({
       }));
       setStatusOverride(null);
     });
-  }, [draft.idempotencyKey, hydrated, initialValues, referenceKey, state, storageKey]);
+  }, [draft.idempotencyKey, hydrated, initialValues, referenceKey, referenceChanged, state, storageKey]);
 
   const stateMatchesDraft =
     state.values?.idempotency_key === draft.idempotencyKey;
@@ -600,6 +603,7 @@ export function DiaryEntryForm({
     const nextDraft: PersistedDiaryEntryDraft = {
       idempotencyKey: crypto.randomUUID(),
       referenceKey,
+      referenceReviewRequired: referenceChanged,
       values: formRef.current
         ? readFormValues(formRef.current)
         : draft.values,

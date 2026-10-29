@@ -231,6 +231,12 @@ test.describe.serial("verified physical catalog servings", () => {
     for (const { code } of nutrientManifestV1) await expect(input(form, `automatic_${field(code)}`)).not.toBeChecked();
     await page.reload();
     await expect(page.getByTestId("nutrition-reference-changed")).toBeVisible();
+    await input(form, "food_name").fill("");
+    await form.getByRole("button", { name: "Add entry", exact: true }).click();
+    await expect(page.getByText("This field is required.")).toBeVisible();
+    await page.reload();
+    await expect(page.getByTestId("nutrition-reference-changed")).toBeVisible();
+    await input(form, "food_name").fill("Synthetic reviewed old draft");
     await form.getByRole("button", { name: /Reset quantity to one catalog serving/ }).click();
     await expect(input(form, "serving_quantity")).toHaveValue("1");
     await expect(input(form, "idempotency_key")).toHaveValue(key);
