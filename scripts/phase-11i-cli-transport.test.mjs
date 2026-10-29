@@ -248,6 +248,7 @@ for (const stage of ["APPLICATION_TABLE_INVENTORY", "POST_DUMP_OWNER_VALIDATION"
     ["psql: error: timeout expired", "CONNECTION_TIMEOUT", "SAFE_MESSAGE_RECOGNIZED"],
     ['ERROR: permission denied for table "synthetic-private-table"', "SQL_EXECUTION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
     ['FATAL: password authentication failed for user "synthetic-user"', "AUTHENTICATION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
+    ["FATAL: auth_query secret check timed out", "AUTHENTICATION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
     ["ERROR: synthetic-unknown-owner-row 70.5", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
   ]) {
     test(`${stage} ${category} fails closed once, retaining dump order and cleanup`, async () => {

@@ -14,7 +14,8 @@ The existing diagnostic implementation has a reproducible reporting defect:
 `readPsqlRows` then throws inside the same catch block used for the redaction
 guard and reports a guard rejection even though that guard was never called.
 The original stderr was not retained. Its actual category cannot be recovered
-from either previous report.
+from either previous report alone. The bounded server-message investigation
+below subsequently identified the corresponding authentication-query timeouts.
 
 This correction emits fixed failure categories and diagnostic-state labels.
 It separates an unrecognized diagnostic, missing diagnostic, invalid sanitizer
@@ -53,9 +54,32 @@ this sequence; it is not attributed to Production or the backup implementation.
 Only fixed categories and aggregate probe counts were emitted; raw stderr,
 connection secrets, SQL payloads and owner rows were not published.
 
-The safe conclusion remains: the original failures are unclassified; the
-diagnostic conflation is demonstrated. No unchanged third backup attempt was
-dispatched. No unreviewed backup source was executed with Production secrets.
+The successful probes do not establish a permanent client configuration defect
+or demonstrate that a credential refresh fixes the two failures.
+
+### Correlated provider-message evidence
+
+The initial telemetry queries searched only `log_attributes`; current Supabase
+documentation places message text in the separate `event_message` column.
+Those initial zero pattern counts were not evidence that no error was logged.
+Corrected bounded queries selected only predefined category indicators and
+counts, never message text, identifiers, SQL or unrestricted provider logs.
+
+For the exact CLI role, attempt 1 has one timeout event at
+`2026-10-29T16:18:02.296232`; attempt 2 has one at
+`2026-10-29T18:26:54.162211`, immediately before its client error. Both match
+the fixed upstream `auth_query secret check timed out` template. Neither
+window has a matching bad-password or pool-checkout indicator. This correlates
+the failures with Supavisor's authentication-secret lookup timeout; it does
+not establish why that internal operation timed out or prove a bad credential,
+expired password, pool exhaustion or application SQL defect.
+
+The corrected classifier recognizes this exact message as
+`AUTHENTICATION_FAILURE`. It is deliberately non-retryable: automatic retries
+of authentication failures are excluded by the task. Local successful probes
+do not revoke that restriction. The internal provider timeout remains unresolved.
+No unchanged third backup attempt was dispatched and no unreviewed backup
+source was executed with Production secrets.
 
 ## Qualification and unchanged boundaries
 
@@ -109,7 +133,10 @@ remain gated on a verified real migration-46 encrypted backup.
 - [Supabase database connections](https://supabase.com/docs/guides/database/connecting-to-postgres)
 - [Supabase changelog](https://supabase.com/changelog)
 - [Supavisor error definitions](https://github.com/supabase/supavisor/tree/main/lib/supavisor/errors)
+- [Supavisor authentication-query error](https://github.com/supabase/supavisor/blob/main/lib/supavisor/errors/auth_query_error.ex)
+- [Supabase unified-log fields](https://supabase.com/docs/guides/observability/log-field-reference)
 
-Current documentation and changelog were checked during diagnosis. No observed
-configuration drift or documented change establishes the cause of these two
-failures; no endpoint, transport mode or dependency upgrade is proposed.
+Current documentation and changelog were checked during diagnosis. The
+authentication-query timeout is supported by the bounded provider-message
+evidence; no configuration drift or documented change explains its deeper cause.
+No endpoint, transport mode or dependency upgrade is proposed.

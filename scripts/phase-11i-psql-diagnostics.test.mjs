@@ -162,6 +162,7 @@ for (const [message, category] of [
   ["psql: error: server does not support SSL, but SSL was required", "TLS_FAILURE"],
   ["psql: error: SSL error: certificate verify failed", "TLS_FAILURE"],
   ["FATAL: Tenant or user not found", "AUTHENTICATION_FAILURE"],
+  ["FATAL: auth_query secret check timed out", "AUTHENTICATION_FAILURE"],
   ["FATAL: DbHandler exited. Check logs for more information", "CONNECTION_TERMINATED"],
   ["FATAL: failed to start proxy connection", "CONNECTION_ESTABLISHMENT_FAILURE"],
   ["FATAL: unable to check out connection from the pool after 10000ms in Session mode", "CONNECTION_TIMEOUT"],

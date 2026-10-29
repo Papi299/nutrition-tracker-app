@@ -21,7 +21,7 @@ export const PSQL_QUERY_STAGES = Object.freeze([
 // not establish that any particular pooler error caused the observed failures.
 const ADDITIONAL_SAFE_CATEGORIES = [
   ["TLS_FAILURE", /^(?:server does not support SSL, but SSL was required|SSL error: certificate verify failed)$/i],
-  ["AUTHENTICATION_FAILURE", /^Tenant or user not found$/i],
+  ["AUTHENTICATION_FAILURE", /^(?:Tenant or user not found|auth_query secret check timed out)$/i],
   ["CONNECTION_TERMINATED", /^(?:DbHandler exited\. Check logs for more information|connection to database closed\. Check logs for more information)$/i],
   ["CONNECTION_ESTABLISHMENT_FAILURE", /^failed to start proxy connection$/i],
   ["CONNECTION_TIMEOUT", /^unable to check out connection from the pool after \d+ms in (?:Session|Transaction) mode$/i],
