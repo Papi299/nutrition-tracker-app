@@ -28,6 +28,7 @@ function policyResult(ciWorkflow) {
     const workflowDirectory = join(directory, ".github/workflows");
     mkdirSync(workflowDirectory, { recursive: true });
     writeFileSync(join(workflowDirectory, "ci.yml"), ciWorkflow);
+    writeFileSync(join(workflowDirectory, "nutrition-002g-local.yml"), readFileSync(join(root, ".github/workflows/nutrition-002g-local.yml")));
     writeFileSync(join(workflowDirectory, "phase-11i-production-backup.yml"), backup);
     return command(directory, process.execPath, [checker]);
   } finally {

@@ -421,6 +421,60 @@
   },
   "environmentVariables": [
     {
+      "name": "CANDIDATE_SHA",
+      "visibility": "CI only",
+      "requiredEnvironments": [
+        "test"
+      ],
+      "ownerCategory": "local recovery qualification owner",
+      "purpose": "Exact candidate commit bound to the development-only CodeQL result.",
+      "sourceBoundary": "GitHub pull_request.head.sha on the gated Draft workflow.",
+      "rotation": "Ephemeral local/CI invocation metadata; no hosted configuration change.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "ANALYSIS_LANGUAGE",
+      "visibility": "CI only",
+      "requiredEnvironments": [
+        "test"
+      ],
+      "ownerCategory": "local recovery qualification owner",
+      "purpose": "Selects the reviewed CodeQL analysis result language.",
+      "sourceBoundary": "Fixed javascript-typescript/actions workflow matrix.",
+      "rotation": "Ephemeral local/CI invocation metadata; no hosted configuration change.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "PATH",
+      "visibility": "local test only",
+      "requiredEnvironments": [
+        "local",
+        "test"
+      ],
+      "ownerCategory": "local recovery qualification owner",
+      "purpose": "Executable search path passed to bounded local recovery child processes.",
+      "sourceBoundary": "Authorized local/CI host; source or archive metadata cannot select executables.",
+      "rotation": "Ephemeral local/CI invocation metadata; no hosted configuration change.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "HOME",
+      "visibility": "local test only",
+      "requiredEnvironments": [
+        "local",
+        "test"
+      ],
+      "ownerCategory": "local recovery qualification owner",
+      "purpose": "Local Docker context/config location for the isolated recovery harness.",
+      "sourceBoundary": "Authorized local/CI host; remote Docker contexts are rejected.",
+      "rotation": "Ephemeral local/CI invocation metadata; no hosted configuration change.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "APP_ENVIRONMENT",
       "visibility": "server-only application",
       "requiredEnvironments": ["local", "test", "device-test", "preview", "staging", "production"],
