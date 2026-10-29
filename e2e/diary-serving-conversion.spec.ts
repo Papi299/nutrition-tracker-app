@@ -181,6 +181,24 @@ test.describe.serial("verified physical catalog servings", () => {
     }
   });
 
+  for (const javaScriptEnabled of [true, false]) {
+    test(`Enter submits the entry rather than resetting quantity (JavaScript ${javaScriptEnabled})`, async ({ browser }) => {
+      const date = javaScriptEnabled ? "2027-07-24" : "2027-07-25";
+      const { context, page, form } = await open(browser, date, foods.per_100g, "en", javaScriptEnabled);
+      await input(form, "serving_quantity").fill("2");
+      await input(form, "food_name").press("Enter");
+      if (!javaScriptEnabled) {
+        await expect(page.getByTestId("nutrition-review-required")).toBeVisible();
+        await expect(input(form, "serving_quantity")).toHaveValue("2");
+        await noWrite(date);
+        await input(form, "food_name").press("Enter");
+      }
+      await expect(form).toContainText("Entry added.");
+      expect(await saved(date)).toMatchObject({ serving_quantity: 2, serving_unit: "serving", calories: 201 });
+      await context.close();
+    });
+  }
+
   test("fully manual totals keep explicit custom portion labels", async ({ browser }) => {
     const { context, form } = await open(browser, "2027-07-23");
     await expand(form);

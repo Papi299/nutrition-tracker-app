@@ -626,6 +626,8 @@ export function DiaryEntryForm({
       onSubmit={handleSubmit}
       ref={formRef}
     >
+      {/* Enter saves/reviews the entry; it must not invoke the earlier reset control. */}
+      <button aria-hidden="true" disabled={isPending} hidden tabIndex={-1} type="submit" />
       <input name="quantity_unit" type="hidden" defaultValue={values.quantity_unit ?? values.serving_unit ?? ""} />
       <input name="additional_nutrients_captured" type="hidden" value="1" />
       <input name="reference_fingerprint" type="hidden" defaultValue={values.reference_fingerprint ?? reference?.reference_fingerprint ?? ""} />
