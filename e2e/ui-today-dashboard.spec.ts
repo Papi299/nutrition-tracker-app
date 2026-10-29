@@ -321,7 +321,7 @@ test.describe.serial("Today dashboard presentation and preserved workflows", () 
         if (route.request().method() === "POST") await released;
         await route.continue();
       });
-      const submit = form.locator('button[type="submit"]');
+      const submit = form.locator('button[type="submit"]:visible');
       try {
         await submit.click();
         await expect(submit).toBeDisabled();
