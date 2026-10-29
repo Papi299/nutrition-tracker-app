@@ -62,7 +62,10 @@ values. English and Hebrew copy explain review and reset behavior.
 - Local checks use an isolated synthetic Supabase stack on loopback ports;
   no owner Production nutrition records are accessed.
 - Exact PR-head GitHub Actions CI and both CodeQL analyses are the final gate.
-  Their final links/results are recorded in the Draft PR description.
+  Their final links/results are recorded in the Draft PR description. The full
+  validation job has a bounded 50-minute allowance: the prior 40-minute limit
+  cancelled the final engine/accessibility stage after the full 530-case browser
+  suite passed. All checks remain required and unchanged.
 
 ## Migration impact and controlled Production path
 
