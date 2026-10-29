@@ -129,6 +129,22 @@ test.describe.serial("verified physical catalog servings", () => {
     await context.close();
   });
 
+  test("typed unit changes retain the physical amount through intermediate invalid input", async ({ browser }) => {
+    const { context, form } = await open(browser, "2027-07-26");
+    await input(form, "serving_unit").fill("");
+    await input(form, "serving_unit").pressSequentially("g");
+    await expect(input(form, "serving_quantity")).toHaveValue("50");
+    await expect(input(form, "quantity_unit")).toHaveValue("g");
+    await input(form, "serving_unit").fill("");
+    await input(form, "serving_unit").pressSequentially("serving");
+    await expect(input(form, "serving_quantity")).toHaveValue("1");
+    await expect(input(form, "quantity_unit")).toHaveValue("serving");
+    await form.getByRole("button", { name: "Add entry", exact: true }).click();
+    await expect(form).toContainText("Entry added.");
+    expect(await saved("2027-07-26")).toMatchObject({ serving_quantity: 1, serving_unit: "serving", calories: 101 });
+    await context.close();
+  });
+
   for (const [basis, locale, day] of [["per_100g", "en", "18"], ["per_serving", "he", "21"]] as const) {
     test(`${locale} native ${basis}: serving/gram transitions require review and replay once`, async ({ browser }) => {
       const date = `2027-07-${day}`;
