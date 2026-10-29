@@ -56,6 +56,7 @@ const accountAccessRequiredRpcs = [
   "public.get_owned_recipe_use_contract_v2(uuid, numeric)|INVOKER",
   "public.get_owned_saved_meal_editor_v2(uuid)|INVOKER",
   "public.get_readable_food_nutrition_reference_v1(uuid)|INVOKER",
+  "public.get_readable_food_nutrition_reference_v2(uuid)|INVOKER",
   "public.log_recipe_to_diary_v2(uuid, timestamp with time zone, numeric, date, text, uuid)|INVOKER",
   "public.log_saved_meal_to_diary_v2(uuid, timestamp with time zone, date, text, uuid)|INVOKER",
   "public.persist_recipe_v2(uuid, text, text, numeric, jsonb, bigint)|INVOKER",
