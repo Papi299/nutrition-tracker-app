@@ -1,5 +1,6 @@
 import {
   additionalNutrientCodesV1,
+  formatExactFraction,
   normalizeNutrientFraction,
   parseExactNonnegativeDecimal,
   type AdditionalNutrientCode,
@@ -20,6 +21,8 @@ export type FoodNutrientReference = Record<NutrientField, number | null> & {
   nutrient_basis: string | null;
   serving_quantity: number | null;
   serving_unit: string | null;
+  catalog_serving_quantity?: number | null;
+  catalog_serving_unit?: string | null;
 };
 export type AllFoodNutrientReference = FoodNutrientReference & {
   nutrients: NutrientReferenceValuesV1;
@@ -54,6 +57,74 @@ function knownUnit(unit: string) {
   }
 }
 
+// A serving alias is usable only with this food's coherent physical metadata.
+// Custom portions keep their existing exact-unit behavior; no density or portion
+// conversion is inferred from a name such as cup, slice, or serving.
+export function verifiedCatalogServing(reference: FoodNutrientReference) {
+  const quantity = parseExactNonnegativeDecimal(reference.catalog_serving_quantity);
+  const unit = reference.catalog_serving_unit?.trim();
+  const physical = unit ? knownUnit(unit) : null;
+  const basis = reference.serving_unit ? knownUnit(reference.serving_unit.trim()) : null;
+  if (!quantity || quantity.numerator === zero || quantity.numerator * thousand % quantity.denominator !== zero ||
+    quantity.numerator * thousand / quantity.denominator > BigInt("9999999999") || !unit || !physical || !basis ||
+    physical.dimension !== basis.dimension ||
+    !["per_100g", "per_100ml", "per_serving"].includes(reference.nutrient_basis ?? "")) return null;
+  if (reference.nutrient_basis === "per_serving" &&
+    (reference.catalog_serving_quantity !== reference.serving_quantity || unit !== reference.serving_unit?.trim())) return null;
+  return { quantity: reference.catalog_serving_quantity!, unit };
+}
+
+function unitFactor(reference: FoodNutrientReference, unit: string) {
+  if (unit.toLowerCase() === "serving") {
+    const serving = verifiedCatalogServing(reference);
+    if (serving) {
+      const physical = knownUnit(serving.unit)!;
+      const quantity = parseExactNonnegativeDecimal(serving.quantity)!;
+      return { dimension: physical.dimension,
+        numerator: physical.numerator * quantity.numerator,
+        denominator: physical.denominator * quantity.denominator };
+    }
+  }
+  return knownUnit(unit);
+}
+
+export function convertFoodQuantity(
+  reference: FoodNutrientReference, quantity: string | number | null | undefined,
+  fromUnit: string | null | undefined, toUnit: string | null | undefined,
+): { ok: true; quantity: string } | ScalingFailure {
+  const amount = parseExactNonnegativeDecimal(quantity);
+  if (!amount) return { ok: false, field: "serving_quantity", code: "invalid_quantity" };
+  const from = fromUnit?.trim();
+  const to = toUnit?.trim();
+  const source = from ? unitFactor(reference, from) : null;
+  const destination = to ? unitFactor(reference, to) : null;
+  let converted = amount;
+  if (from !== to) {
+    if (!source || !destination || source.dimension !== destination.dimension) {
+      return { ok: false, field: "serving_unit", code: "incompatible_unit" };
+    }
+    converted = { numerator: amount.numerator * source.numerator * destination.denominator,
+      denominator: amount.denominator * source.denominator * destination.numerator };
+  }
+  const thousandths = converted.numerator * thousand;
+  // Never round a unit transition into a different physical amount.
+  if (thousandths % converted.denominator !== zero) return { ok: false, field: "serving_quantity", code: "quantity_precision" };
+  if (thousandths / converted.denominator > BigInt("9999999999")) return { ok: false, field: "serving_quantity", code: "quantity_out_of_range" };
+  return { ok: true, quantity: formatExactFraction(converted, 3)! };
+}
+
+export function initialFoodQuantity(reference: FoodNutrientReference) {
+  const serving = verifiedCatalogServing(reference);
+  // Keep the familiar 100 g/ml basis default when it is itself the catalog
+  // amount. A distinct physical catalog portion starts as one serving.
+  if (serving && (reference.nutrient_basis === "per_serving" ||
+    serving.quantity !== reference.serving_quantity || serving.unit !== reference.serving_unit)) {
+    return { quantity: "1", unit: "serving" };
+  }
+  return { quantity: reference.serving_quantity === null ? "" : String(reference.serving_quantity),
+    unit: reference.serving_unit ?? "" };
+}
+
 function consumedRatio(
   reference: FoodNutrientReference,
   quantity: string | number | null | undefined,
@@ -84,7 +155,7 @@ function consumedRatio(
 
   const loggedUnit = unit?.trim();
   if (!loggedUnit) return { ok: false, field: "serving_unit", code: "incompatible_unit" };
-  const from = knownUnit(loggedUnit);
+  const from = unitFactor(reference, loggedUnit);
   const to = knownUnit(referenceUnit);
   let conversion: ExactFraction;
   if (from && to && from.dimension === to.dimension) {

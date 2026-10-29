@@ -1,12 +1,13 @@
 import { expect, test } from "@playwright/test";
 import {
   allNutrientFields,
+  convertFoodQuantity, initialFoodQuantity, verifiedCatalogServing,
   nutrientCodeForField,
   scaleAllFoodNutrients,
   scaleFoodNutrients,
   type AllFoodNutrientReference,
 } from "@/lib/food-selection/nutrient-scaling";
-import { parseFoodNutritionReference } from "@/lib/food-selection/reference-parser";
+import { parseFoodNutritionReference, parseFoodNutritionReferenceV2 } from "@/lib/food-selection/reference-parser";
 import { nutrientCodesV1, nutrientManifestV1, type NutrientReferenceValuesV1 } from "@/lib/nutrition-snapshots";
 
 const foodId = "11111111-1111-4111-8111-111111111111";
@@ -154,4 +155,67 @@ test("coherent parser rejects unsupported contracts, invalid identities and mism
   expect(parseFoodNutritionReference(raw, "22222222-2222-4222-8222-222222222222")).toBeNull();
   const missing = { ...raw } as Record<string, unknown>; delete missing.source_name;
   expect(parseFoodNutritionReference(missing)).toBeNull();
+});
+
+for (const basis of ["per_100g", "per_serving"]) {
+  for (const quantity of [1, 2, 0.5, 0]) {
+    test(`verified 50 g: ${quantity} servings uses all 35 ${basis} raw values exactly once`, () => {
+      const food = { ...reference(), nutrient_basis: basis,
+        serving_quantity: basis === "per_100g" ? 100 : 50,
+        catalog_serving_quantity: 50, catalog_serving_unit: "g" };
+      expect(initialFoodQuantity(food)).toEqual({ quantity: "1", unit: "serving" });
+      expect(scaleAllFoodNutrients(food, quantity, "serving"))
+        .toEqual(scaleAllFoodNutrients(reference(), quantity * (basis === "per_100g" ? 50 : 100), "g"));
+      expect(scaleAllFoodNutrients(food, quantity, "serving"))
+        .toEqual(scaleAllFoodNutrients(food, quantity * 50, "g"));
+    });
+  }
+}
+
+test("unit transitions preserve physical amounts exactly and reject rounding/overflow", () => {
+  const food = { ...reference(), catalog_serving_quantity: 50, catalog_serving_unit: "g" };
+  for (const [servings, grams] of [["1", "50"], ["2", "100"], ["0.5", "25"], ["0", "0"], ["0.001", "0.05"]]) {
+    expect(convertFoodQuantity(food, servings, "serving", "g")).toEqual({ ok: true, quantity: grams });
+    expect(convertFoodQuantity(food, grams, "g", "serving")).toEqual({ ok: true, quantity: servings });
+  }
+  expect(convertFoodQuantity(food, "0.001", "g", "serving")).toMatchObject({ ok: false, code: "quantity_precision" });
+  expect(convertFoodQuantity(food, "9999999", "serving", "g")).toMatchObject({ ok: false, code: "quantity_out_of_range" });
+  expect(convertFoodQuantity(food, "1", "serving", "ml")).toMatchObject({ ok: false, code: "incompatible_unit" });
+  expect(scaleAllFoodNutrients({ ...food, nutrients: { ...food.nutrients, sodium_mg: "0", vitamin_c_mg: null } }, 0, "serving"))
+    .toMatchObject({ ok: true, values: { sodium_mg: "0", vitamin_c_mg: "" } });
+  expect(scaleAllFoodNutrients({ ...food, nutrients: { ...food.nutrients, vitamin_d_ug: "9999999999.9999" } }, 3, "serving"))
+    .toMatchObject({ ok: false, code: "nutrient_out_of_range" });
+});
+
+test("serving aliases require coherent, compatible food-specific physical metadata", () => {
+  for (const metadata of [ {}, { catalog_serving_quantity: null, catalog_serving_unit: null },
+    { catalog_serving_quantity: 0, catalog_serving_unit: "g" },
+    { catalog_serving_quantity: -50, catalog_serving_unit: "g" },
+    { catalog_serving_quantity: 50, catalog_serving_unit: "ml" },
+    { catalog_serving_quantity: 50, catalog_serving_unit: "cup" },
+    { catalog_serving_quantity: 50, catalog_serving_unit: null },
+    { catalog_serving_quantity: Number.NaN, catalog_serving_unit: "g" }]) {
+    const food = { ...reference(), ...metadata };
+    expect(verifiedCatalogServing(food)).toBeNull();
+    expect(scaleAllFoodNutrients(food, 1, "serving")).toMatchObject({ ok: false, code: "incompatible_unit" });
+    expect(scaleAllFoodNutrients(food, 50, "g").ok).toBe(true);
+  }
+  expect(verifiedCatalogServing({ ...reference(), nutrient_basis: "per_serving", serving_quantity: 50,
+    catalog_serving_quantity: 25, catalog_serving_unit: "g" })).toBeNull();
+  const drink = { ...reference(), nutrient_basis: "per_100ml", serving_unit: "ml",
+    catalog_serving_quantity: 250, catalog_serving_unit: "ml" };
+  expect(scaleAllFoodNutrients(drink, 1, "serving")).toEqual(scaleAllFoodNutrients(drink, 250, "ml"));
+});
+
+test("v2 parser requires both separate catalog fields while v1 remains strict", () => {
+  const wire = { ...wireReference(), catalog_serving_quantity: 50, catalog_serving_unit: "g" };
+  const parsed = parseFoodNutritionReferenceV2(wire, foodId);
+  expect(parsed).toMatchObject({ serving_quantity: 100, serving_unit: "g", catalog_serving_quantity: 50, catalog_serving_unit: "g" });
+  expect(parseFoodNutritionReference(wire)).toBeNull();
+  expect(parseFoodNutritionReferenceV2(wireReference())).toBeNull();
+  for (const invalid of [ { ...wire, catalog_serving_quantity: "50" }, { ...wire, catalog_serving_quantity: -1 },
+    { ...wire, catalog_serving_quantity: 0.0001 }, { ...wire, catalog_serving_unit: "" }, { ...wire, extra: true }]) {
+    expect(parseFoodNutritionReferenceV2(invalid)).toBeNull();
+  }
+  expect(parseFoodNutritionReferenceV2({ ...wire, catalog_serving_quantity: null, catalog_serving_unit: null })).not.toBeNull();
 });

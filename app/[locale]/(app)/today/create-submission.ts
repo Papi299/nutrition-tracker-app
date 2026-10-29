@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
-import { allNutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
+import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   additionalNutrientCodesV1, normalizeNutrientAmount,
   parseExactNonnegativeDecimal,
@@ -38,7 +38,7 @@ export function readInputField(formData: FormData, field: DiaryEntryFieldName) {
 export function readCreateValues(formData: FormData): DiaryEntryFieldValues {
   const values: DiaryEntryFieldValues = {};
   for (const field of [...diaryEntryCreateInputFields, ...additionalNutrientCodesV1,
-    "reference_fingerprint", "additional_nutrients_captured"] as const) {
+    "reference_fingerprint", "additional_nutrients_captured", "quantity_unit"] as const) {
     values[field] = readInputField(formData, field);
   }
   for (const field of allNutrientFields) {
@@ -67,7 +67,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const uniqueFields = new Set<DiaryEntryFieldName>([
     ...diaryEntryCreateInputFields, ...allNutrientFields,
     ...allNutrientFields.map(field => `automatic_${field}` as const),
-    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured",
+    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "serving_intent",
   ]);
   for (const field of uniqueFields) {
     const entries = formData.getAll(field);
@@ -85,13 +85,35 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   }
   const automaticFields = allNutrientFields.filter(field => values[`automatic_${field}`] === "1");
   let reviewRequired = false;
-  if (automaticFields.length > 0) {
-    if (!context || context.reference.food_id !== values.food_id) return fail({ form: "missing_reference" });
-    if (values.reference_fingerprint !== context.reference.reference_fingerprint) {
+  const servingIntent = readTextField(formData, "serving_intent");
+  if (servingIntent && servingIntent !== "reset_catalog_serving") return fail({ form: "invalid_input" });
+  if (context && context.reference.food_id === values.food_id) {
+    // A changed reference must be reviewed before using even its unit conversion.
+    if ((automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit) &&
+      values.reference_fingerprint !== context.reference.reference_fingerprint) {
       for (const field of allNutrientFields) values[`automatic_${field}`] = "";
       values.reference_fingerprint = context.reference.reference_fingerprint;
       return fail({ form: "reference_changed" });
     }
+    if (servingIntent) {
+      if (!verifiedCatalogServing(context.reference)) return fail({ form: "missing_reference" });
+      values.serving_quantity = "1";
+      values.serving_unit = "serving";
+      values.quantity_unit = "serving";
+      reviewRequired = true;
+    } else if (values.quantity_unit && values.quantity_unit !== values.serving_unit) {
+      const converted = convertFoodQuantity(context.reference, values.serving_quantity, values.quantity_unit, values.serving_unit);
+      if (!converted.ok) {
+        if (automaticFields.length > 0 || converted.code !== "incompatible_unit") return fail({ [converted.field]: converted.code });
+        // Explicit manual snapshots can use arbitrary portion labels. There is
+        // no inferred conversion; native users review the retained amount.
+      } else values.serving_quantity = converted.quantity;
+      values.quantity_unit = values.serving_unit;
+      reviewRequired = true;
+    }
+  } else if (servingIntent) return fail({ form: "missing_reference" });
+  if (automaticFields.length > 0) {
+    if (!context || context.reference.food_id !== values.food_id) return fail({ form: "missing_reference" });
     const scaled = scaleAllFoodNutrients(context.reference, values.serving_quantity, values.serving_unit, automaticFields);
     if (!scaled.ok) return fail({ [scaled.field]: scaled.code });
     for (const field of automaticFields) {

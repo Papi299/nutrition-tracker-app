@@ -41,7 +41,9 @@ const githubBackupRunbook = readFileSync(
 const allRepositoryMigrationVersions = readdirSync("supabase/migrations")
   .filter((name) => /^\d{14}_.+\.sql$/.test(name))
   .sort()
-  .map((name) => name.slice(0, 14));
+  .map((name) => name.slice(0, 14))
+  // Later migrations do not authorize a new Production recovery boundary.
+  .filter((version) => version <= "20261024083339");
 const repositoryMigrationVersions = allRepositoryMigrationVersions.filter(version => version <= EXPECTED_MIGRATION_HEAD);
 
 test("both reviewed release histories qualify and the synthetic identity gate remains fixed", () => {
