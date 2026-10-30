@@ -35,7 +35,53 @@ No automatic query, credential-acquisition or dump retry has been added:
 the required evidence for a reliably classified transient Production failure
 has not been obtained. Neither authentication nor unknown failures are retried.
 
-## Bounded Production diagnosis
+## PR #215 corrective review: R1 and R2
+
+Task: `NUTRITION-SERVING-BACKUP-DIAGNOSTICS-215R1`. Independent source review
+returned `REQUEST CHANGES` for head
+`af497aafcef094670d3db26afa9b64a55be20e04`, tree
+`15ae126f5644fb92c455141d1f9211542053dc31`. Before editing, GitHub main,
+PR state/branch/head and the remote commit tree were independently verified
+against the required baseline; main was
+`04659e529821a1d8e5614342ed49519a8549a809`, PR #215 open and unmerged.
+
+R1 adds only the exact `(EAUTHQUERY) auth_query secret check timed out`
+template, retaining the existing bare template. Standard PostgreSQL severity
+and psql connection/file wrappers use the existing normalization. The reviewed
+code prefix is not stripped generically: unknown codes, changed codes,
+different messages and appended content remain unrecognized. Both supported
+forms classify as `AUTHENTICATION_FAILURE` and abort without retry.
+
+R2 counts explicit PostgreSQL `ERROR`/`FATAL`/`PANIC` or psql error headers
+before masking, then requires every such primary to be recognized. This
+preserves ambiguity even when a supplied secret masks an entire unknown
+primary. Any unknown primary vetoes the partial result before truncation:
+the existing fixed `UNCLASSIFIED_FAILURE` / `UNRECOGNIZED_DIAGNOSTIC` path
+is used, with no unknown text or new raw error property. Recognized messages
+with conflicting categories also remain unclassified.
+
+Explicit `DETAIL`, `HINT`, `CONTEXT`, `STATEMENT`, `QUERY` and `LINE n`
+headers are suppressed before recognition and do not count as primaries.
+Unmarked statement echoes, data rows and caret/context text remain suppressed;
+they are not guessed to be unknown primary errors. This is a conservative
+parser for explicit diagnostic headers, not a reconstruction of arbitrary
+stderr or PostgreSQL protocol records. All failures still abort once.
+
+Focused fixtures cover bare/code-prefixed/wrapped positives, unknown-code and
+altered-message negatives, mixed primaries in both orders and all supported
+headers, ambiguity beyond the length limit and across masking, ancillary/row
+suppression, full error-property/stack/cause confidentiality, plus both failing
+pipeline stages with unchanged dump counts, transport acquisitions and cleanup.
+Final exact-head validation results and candidate SHA/tree are recorded in the
+PR description after CI. Previous-head CI is historical evidence only.
+
+This corrective revision uses synthetic fixtures and established CI only.
+No Production secrets, Supabase/Vercel inspection or configuration, Production
+backup, migration, owner-data mutation, deployment action or merge is part of
+this task. These diagnostic fixes do not resolve the provider timeout or the
+Production backup/release blocker. A new independent review remains required.
+
+## Earlier bounded Production diagnosis (historical evidence)
 
 Only the previously approved linked CLI route was used:
 `aws-0-eu-west-1.pooler.supabase.com:5432`, database `postgres`, role

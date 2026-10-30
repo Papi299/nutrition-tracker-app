@@ -119,8 +119,98 @@ test("unrecognized diagnostics are distinct from actual guard rejection", () => 
   assert.doesNotMatch(rejected.stack, /synthetic-sensitive-rejection-reason/);
 });
 test("unrecognized diagnostic never escapes beside a recognized message", () => {
-  const output = failure("ERROR: server closed the connection unexpectedly\nERROR: synthetic-private-row-detail");
-  assert.doesNotMatch(output, /synthetic-private-row-detail/);
+  const error = failureError("ERROR: server closed the connection unexpectedly\nERROR: synthetic-private-row-detail");
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+  assert.doesNotMatch(error.stack, /synthetic-private-row-detail/);
+});
+
+const authQueryTimeout = "(EAUTHQUERY) auth_query secret check timed out";
+for (const message of [
+  "auth_query secret check timed out", authQueryTimeout,
+  `ERROR: ${authQueryTimeout}`, `FATAL: ${authQueryTimeout}`, `PANIC: ${authQueryTimeout}`,
+  `psql: error: ${authQueryTimeout}`,
+  `psql: error: FATAL: ${authQueryTimeout}`,
+  `psql:synthetic-file.sql:42: ERROR: ${authQueryTimeout}`,
+  `psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: ${authQueryTimeout}`,
+  `psql: error: connection to server at "synthetic-host" (192.0.2.10), port 5432 failed: FATAL: ${authQueryTimeout}`,
+]) {
+  test(`R1 exact auth-query template and standard wrapper: ${message.split(":")[0]}`, () => {
+    const error = failureError(message);
+    assert.equal(error.category, "AUTHENTICATION_FAILURE");
+    assert.equal(error.diagnosticState, "SAFE_MESSAGE_RECOGNIZED");
+    assert.doesNotMatch(error.stack, /EAUTHQUERY|auth_query|synthetic-file|synthetic-host|192\.0\.2\.10/);
+  });
+}
+for (const message of [
+  "(EUNKNOWN) auth_query secret check timed out",
+  "(EAUTHQUERY_OTHER) auth_query secret check timed out",
+  "(eauthquery) auth_query secret check timed out",
+  "(EAUTHQUERY) auth_query secret check timed out synthetic-private-suffix",
+  "(EAUTHQUERY) auth_query secret check timed out.",
+  "(EAUTHQUERY) auth_query connection failed",
+  "(EAUTHQUERY) server closed the connection unexpectedly",
+]) {
+  test("R1 unknown codes and altered provider messages fail closed", () => {
+    const error = failureError(`FATAL: ${message}`);
+    assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+    assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+    assert.doesNotMatch(error.stack, /EAUTHQUERY|EUNKNOWN|auth_query|synthetic-private-suffix/);
+  });
+}
+for (const unknown of [
+  "ERROR: synthetic-unknown-primary", "FATAL: synthetic-unknown-primary",
+  "PANIC: synthetic-unknown-primary", "psql: error: synthetic-unknown-primary",
+  "psql:synthetic-file.sql:42: ERROR: synthetic-unknown-primary",
+  'psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: synthetic-unknown-primary',
+]) {
+  for (const unknownFirst of [false, true]) {
+    test("R2 unknown primary vetoes recognized classification in either order", () => {
+      const known = `FATAL: ${authQueryTimeout}`;
+      const stderr = (unknownFirst ? [unknown, known] : [known, unknown]).join("\n");
+      assert.equal(sanitizePsqlDiagnostic(stderr), null);
+      const error = failureError(stderr);
+      assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+      assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+      assert.doesNotMatch(error.stack, /synthetic-|EAUTHQUERY|auth_query/);
+    });
+  }
+}
+test("R2 unknown primary beyond the diagnostic bound still vetoes classification", () => {
+  const error = failureError("ERROR: server closed the connection unexpectedly\n".repeat(200) + "ERROR: synthetic-unknown-at-end");
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+});
+test("R2 masking an entire unknown primary cannot erase ambiguity", () => {
+  const privatePrimary = "ERROR: synthetic-private-primary";
+  const error = failureError(`FATAL: ${authQueryTimeout}\n${privatePrimary}`, { environment: { PGPASSWORD: privatePrimary } });
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+  assert.doesNotMatch(error.stack, /synthetic-private-primary/);
+});
+test("R2 ancillary labels, statement echoes and rows do not become unknown primaries", () => {
+  const ancillary = [
+    "DETAIL: ERROR: synthetic-private-detail", "HINT: FATAL: synthetic-private-hint",
+    "CONTEXT: PANIC: synthetic-private-context", "STATEMENT: select 'synthetic-private-sql';",
+    "QUERY: select 'ERROR: synthetic-private-query';", "LINE 1: ERROR: synthetic-private-line",
+    "psql:synthetic-file.sql:42: CONTEXT: ERROR: synthetic-private-context",
+    "select 'synthetic-unlabelled-statement';", "synthetic-private-row", "       ^",
+  ];
+  const error = failureError([`FATAL: ${authQueryTimeout}`, ...ancillary].join("\r\n"));
+  assert.equal(error.category, "AUTHENTICATION_FAILURE");
+  assert.equal(error.diagnosticState, "SAFE_MESSAGE_RECOGNIZED");
+  assert.doesNotMatch(error.stack, /synthetic-|select |DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE 1/);
+});
+test("R2 mixed private primary data is absent from every error property and stack", () => {
+  const credentials = { PGPASSWORD: "synthetic-runtime-password", SUPABASE_ACCESS_TOKEN: "synthetic-runtime-token" };
+  const stderr = `FATAL: ${authQueryTimeout}\nERROR: synthetic-owner@example.invalid 12345678-1234-1234-1234-123456789abc select private_column PGPASSWORD=${credentials.PGPASSWORD} Authorization: Bearer ${credentials.SUPABASE_ACCESS_TOKEN}`;
+  const error = failureError(stderr, { environment: credentials });
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+  assert.deepEqual(Object.getOwnPropertyNames(error).sort(), ["category", "diagnosticState", "message", "name", "stack"]);
+  const emitted = Object.getOwnPropertyNames(error).map(key => String(error[key])).join("\n");
+  assert.doesNotMatch(emitted, /synthetic-|example\.invalid|12345678|select |private_column|PGPASSWORD|Bearer|EAUTHQUERY|auth_query/);
+  assert.equal(error.cause, undefined);
 });
 test("diagnostic and complete failure message are bounded", () => {
   const stderr = "ERROR: server closed the connection unexpectedly\n".repeat(200);

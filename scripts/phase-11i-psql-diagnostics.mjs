@@ -22,6 +22,7 @@ export const PSQL_QUERY_STAGES = Object.freeze([
 const ADDITIONAL_SAFE_CATEGORIES = [
   ["TLS_FAILURE", /^(?:server does not support SSL, but SSL was required|SSL error: certificate verify failed)$/i],
   ["AUTHENTICATION_FAILURE", /^(?:Tenant or user not found|auth_query secret check timed out)$/i],
+  ["AUTHENTICATION_FAILURE", /^\(EAUTHQUERY\) auth_query secret check timed out$/],
   ["CONNECTION_TERMINATED", /^(?:DbHandler exited\. Check logs for more information|connection to database closed\. Check logs for more information)$/i],
   ["CONNECTION_ESTABLISHMENT_FAILURE", /^failed to start proxy connection$/i],
   ["CONNECTION_TIMEOUT", /^unable to check out connection from the pool after \d+ms in (?:Session|Transaction) mode$/i],
@@ -66,6 +67,17 @@ function primaryMessage(line) {
     .replace(/^(?:ERROR|FATAL|PANIC):\s*/i, "");
 }
 
+const ANCILLARY_DIAGNOSTIC = /^(?:DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE\s+\d+):/i;
+
+function isPrimaryDiagnosticLine(rawLine) {
+  const line = rawLine.trim().replace(/[\t ]+/g, " ");
+  const message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+  if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
+  return /^psql:(?:[^:\r\n]*:\d+:)?\s*error:/i.test(line) ||
+    /^(?:ERROR|FATAL|PANIC):/i.test(message) ||
+    /^connection to server at .+, port \d{1,5} failed: (?:ERROR|FATAL|PANIC):/i.test(message);
+}
+
 function classifySafePsqlDiagnostic(diagnostic) {
   const categories = new Set(diagnostic.split("\n").map((line) => {
     const message = primaryMessage(line);
@@ -87,6 +99,9 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
   if (stderr == null) return "";
   if (typeof stderr !== "string") return null;
   if (!stderr.trim()) return "";
+  // Count only explicit primary headers, before masking can erase a header or
+  // collapse lines inside a supplied secret. No header text leaves this scope.
+  const primaryCount = stderr.split(/\r?\n/).filter(isPrimaryDiagnosticLine).length;
   let text = stderr;
   for (const value of sensitiveValues.filter((value) => typeof value === "string" && value.length)
     .sort((a, b) => b.length - a.length)) {
@@ -105,18 +120,23 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
     .replace(/(at \[REDACTED\] )\([^\r\n)]*\)(, port )/gi, "$1([REDACTED])$2");
 
   const messages = [];
+  let recognizedPrimaries = 0;
   for (const rawLine of text.split(/\r?\n/)) {
     const line = rawLine.trim().replace(/[\t ]+/g, " ");
     // Never forward PostgreSQL DETAIL/HINT/CONTEXT/LINE, query echoes, or rows.
     let message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+    if (ANCILLARY_DIAGNOSTIC.test(message)) continue;
     const connection = message.match(/^(connection to server at \[REDACTED\](?: \(\[REDACTED\]\))?, port \d{1,5} failed: )(.+)$/i);
     if (connection) message = connection[2];
     const severity = message.match(/^(ERROR|FATAL|PANIC):\s*/i)?.[0] ?? "";
     message = message.slice(severity.length);
     if (!SAFE_MESSAGE_PATTERNS.some((pattern) => pattern.test(message))) continue;
+    if (isPrimaryDiagnosticLine(line)) recognizedPrimaries++;
     messages.push(`${connection?.[1] ?? ""}${severity}${message}`);
   }
-  if (!messages.length) return null;
+  // Unknown primary errors veto partial classification before truncation;
+  // unmarked rows and explicitly ancillary lines do not add primary headers.
+  if (!messages.length || primaryCount > recognizedPrimaries) return null;
   return messages.join("\n").slice(0, MAX_PSQL_DIAGNOSTIC_CHARACTERS);
 }
 
