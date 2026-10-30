@@ -1,0 +1,148 @@
+{
+  "captured_from_commit": "7b71e03da6e0b683d6c28e1163258a2312c44c55",
+  "synthetic_only": true,
+  "jsonText": "{\"FoundationFoods\":[{\"foodClass\":\"FinalFood\",\"description\":\"Synthetic legacy compatibility food\",\"foodNutrients\":[{\"nutrient\":{\"id\":2048,\"name\":\"Synthetic energy\",\"unitName\":\"kcal\"},\"amount\":100.5,\"foodNutrientDerivation\":{\"code\":\"NC\",\"description\":\"Synthetic calculation\"}},{\"nutrient\":{\"id\":1003,\"name\":\"Synthetic protein\",\"unitName\":\"g\"},\"amount\":1.005},{\"nutrient\":{\"id\":1004,\"name\":\"Synthetic fat\",\"unitName\":\"g\"},\"amount\":0},{\"nutrient\":{\"id\":1005,\"name\":\"Synthetic carbohydrate\",\"unitName\":\"g\"},\"amount\":20}],\"foodPortions\":[],\"fdcId\":9000001,\"dataType\":\"Foundation\",\"publicationDate\":\"4/30/2026\",\"ndbNumber\":9000002}]}",
+  "mappingCanonical": "{\"basis\":\"per_100g\",\"conversion_policy\":\"none\",\"dataset_code\":\"usda_fdc_foundation\",\"energy_precedence\":[\"2048\",\"2047\"],\"excluded_energy_source_ids\":[\"1008\"],\"explicit_zero_policy\":\"preserve_unless_loq_or_trace\",\"mappings\":[{\"application_nutrient_code\":\"protein_g\",\"application_unit\":\"g\",\"policy\":\"retain_source_derivation\",\"source_name\":\"Protein\",\"source_nutrient_id\":\"1003\",\"source_unit\":\"g\"},{\"application_nutrient_code\":\"fat_g\",\"application_unit\":\"g\",\"policy\":\"retain_source_derivation\",\"source_name\":\"Total lipid (fat)\",\"source_nutrient_id\":\"1004\",\"source_unit\":\"g\"},{\"application_nutrient_code\":\"carbohydrates_g\",\"application_unit\":\"g\",\"policy\":\"preserve_by_difference_semantics\",\"source_name\":\"Carbohydrate, by difference\",\"source_nutrient_id\":\"1005\",\"source_unit\":\"g\"},{\"application_nutrient_code\":\"energy_kcal\",\"application_unit\":\"kcal\",\"policy\":\"preferred_energy_method\",\"source_name\":\"Energy (Atwater Specific Factors)\",\"source_nutrient_id\":\"2048\",\"source_unit\":\"kcal\"},{\"application_nutrient_code\":\"energy_kcal\",\"application_unit\":\"kcal\",\"policy\":\"fallback_energy_method\",\"source_name\":\"Energy (Atwater General Factors)\",\"source_nutrient_id\":\"2047\",\"source_unit\":\"kcal\"}],\"missing_value_policy\":\"preserve_unknown\",\"version_code\":\"usda-foundation-mvp-v1\"}",
+  "mappingHash": "a5dc96bfcb2bd8d499b0a11eac8f252e7aa63d4ae13d8a78ee9047477c2a0fb5",
+  "candidate": {
+    "candidate_contract_version": "foundation-normalized-candidate/v1",
+    "dataset_code": "usda_fdc_foundation",
+    "schema_contract_version": "usda-fdc-foundation-json/v1",
+    "mapping_version": "usda-foundation-mvp-v1",
+    "mapping_hash": "a5dc96bfcb2bd8d499b0a11eac8f252e7aa63d4ae13d8a78ee9047477c2a0fb5",
+    "source_row_key": "fdc:9000001",
+    "concept_key": "foundation:ndb:9000002",
+    "concept_identity_status": "source_supplied",
+    "upstream_version_key": "fdc:9000001",
+    "fdc_id": "9000001",
+    "ndb_number": "9000002",
+    "publication_date": "2026-04-30",
+    "data_type": "Foundation",
+    "food_class": "FinalFood",
+    "name": "Synthetic legacy compatibility food",
+    "locale": "en",
+    "food_type": "generic",
+    "brand": null,
+    "nutrient_basis": "per_100g",
+    "nutrients": {
+      "energy_kcal": {
+        "application_nutrient_code": "energy_kcal",
+        "source_nutrient_id": "2048",
+        "source_unit": "kcal",
+        "value": "100.5",
+        "semantic": "source_calculated",
+        "loq": null,
+        "derivation_code": "NC",
+        "derivation_description": "Synthetic calculation"
+      },
+      "protein_g": {
+        "application_nutrient_code": "protein_g",
+        "source_nutrient_id": "1003",
+        "source_unit": "g",
+        "value": "1.005",
+        "semantic": "source_reported",
+        "loq": null,
+        "derivation_code": null,
+        "derivation_description": null
+      },
+      "carbohydrates_g": {
+        "application_nutrient_code": "carbohydrates_g",
+        "source_nutrient_id": "1005",
+        "source_unit": "g",
+        "value": "20",
+        "semantic": "source_reported",
+        "loq": null,
+        "derivation_code": null,
+        "derivation_description": null
+      },
+      "fat_g": {
+        "application_nutrient_code": "fat_g",
+        "source_nutrient_id": "1004",
+        "source_unit": "g",
+        "value": "0",
+        "semantic": "explicit_zero",
+        "loq": null,
+        "derivation_code": null,
+        "derivation_description": null
+      }
+    },
+    "energy_evidence": [
+      {
+        "application_nutrient_code": "energy_kcal",
+        "source_nutrient_id": "2048",
+        "source_unit": "kcal",
+        "value": "100.5",
+        "semantic": "source_calculated",
+        "loq": null,
+        "derivation_code": "NC",
+        "derivation_description": "Synthetic calculation"
+      }
+    ],
+    "selected_energy_method": "atwater_specific_2048",
+    "portion_candidates": [],
+    "source_metadata": {
+      "scientific_name": null,
+      "category": null,
+      "is_historical_reference": null,
+      "input_food_count": 0,
+      "nutrient_conversion_factor_count": 0
+    },
+    "unsupported_nutrient_count": 0,
+    "warning_categories": [
+      "missing_portions"
+    ],
+    "content_fingerprint": "9c2a762de73b059ac03c3d2a84101692c80fac492573d1e1cb6d56c38d5aacae"
+  },
+  "report": {
+    "report_contract_version": "foundation-dry-run-report/v2",
+    "manifest_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "schema_contract_version": "usda-fdc-foundation-json/v1",
+    "schema_contract_hash": "20b1c07667e4b9d6322120d262830e3df9618f38bce6f40e58405034133c691f",
+    "importer_contract_version": "usda-foundation-importer/v2",
+    "nutrient_mapping_version": "usda-foundation-mvp-v1",
+    "nutrient_mapping_hash": "a5dc96bfcb2bd8d499b0a11eac8f252e7aa63d4ae13d8a78ee9047477c2a0fb5",
+    "reject_policy_version": "usda-foundation-zero-unreviewed-rejects/v1",
+    "accepted_record_set_fingerprint": "24541724ef570d26e25d01e6ac6e7cbd1fe5731c56dd2a206ac6908b6a1c5f49",
+    "rejected_record_set_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "warning_record_set_fingerprint": "af7f37808f9d74969ad3d371943d751c17272cd767e5f526ba7f03d5cea7d3f9",
+    "source_count": 1,
+    "accepted_count": 1,
+    "rejected_count": 0,
+    "warning_count": 1,
+    "reject_category_counts": {},
+    "warning_category_counts": {
+      "missing_portions": 1
+    },
+    "concept_identity_status_counts": {
+      "source_supplied": 1
+    },
+    "nutrient_coverage_counts": {
+      "carbohydrates_g": 1,
+      "energy_kcal": 1,
+      "fat_g": 1,
+      "protein_g": 1
+    },
+    "energy_method_counts": {
+      "atwater_specific_2048": 1
+    },
+    "explicit_zero_counts": {
+      "fat_g": 1
+    },
+    "trace_loq_counts": {},
+    "portion_counts": {
+      "records_with_portions": 0,
+      "total_portions": 0
+    },
+    "unsupported_nutrient_count": 0,
+    "duplicate_identity_counts": {
+      "concept": 0,
+      "version": 0
+    },
+    "trailing_null_collection_entry_count": 0,
+    "maximum_raw_record_bytes": 604,
+    "maximum_normalized_candidate_bytes": 2181,
+    "observed_schema_fingerprint": "a41410795f2fa9a2c5f755585b233269a959a0a857bac79f6429a8ebc158b6cb",
+    "report_fingerprint": "5af623042b389701e1b4f8586cbaaa5b96dfc57355893b370594b76c61647cd2"
+  },
+  "reportSerialization": "{\n  \"report_contract_version\": \"foundation-dry-run-report/v2\",\n  \"manifest_fingerprint\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"schema_contract_version\": \"usda-fdc-foundation-json/v1\",\n  \"schema_contract_hash\": \"20b1c07667e4b9d6322120d262830e3df9618f38bce6f40e58405034133c691f\",\n  \"importer_contract_version\": \"usda-foundation-importer/v2\",\n  \"nutrient_mapping_version\": \"usda-foundation-mvp-v1\",\n  \"nutrient_mapping_hash\": \"a5dc96bfcb2bd8d499b0a11eac8f252e7aa63d4ae13d8a78ee9047477c2a0fb5\",\n  \"reject_policy_version\": \"usda-foundation-zero-unreviewed-rejects/v1\",\n  \"accepted_record_set_fingerprint\": \"24541724ef570d26e25d01e6ac6e7cbd1fe5731c56dd2a206ac6908b6a1c5f49\",\n  \"rejected_record_set_fingerprint\": \"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\n  \"warning_record_set_fingerprint\": \"af7f37808f9d74969ad3d371943d751c17272cd767e5f526ba7f03d5cea7d3f9\",\n  \"source_count\": 1,\n  \"accepted_count\": 1,\n  \"rejected_count\": 0,\n  \"warning_count\": 1,\n  \"reject_category_counts\": {},\n  \"warning_category_counts\": {\n    \"missing_portions\": 1\n  },\n  \"concept_identity_status_counts\": {\n    \"source_supplied\": 1\n  },\n  \"nutrient_coverage_counts\": {\n    \"carbohydrates_g\": 1,\n    \"energy_kcal\": 1,\n    \"fat_g\": 1,\n    \"protein_g\": 1\n  },\n  \"energy_method_counts\": {\n    \"atwater_specific_2048\": 1\n  },\n  \"explicit_zero_counts\": {\n    \"fat_g\": 1\n  },\n  \"trace_loq_counts\": {},\n  \"portion_counts\": {\n    \"records_with_portions\": 0,\n    \"total_portions\": 0\n  },\n  \"unsupported_nutrient_count\": 0,\n  \"duplicate_identity_counts\": {\n    \"concept\": 0,\n    \"version\": 0\n  },\n  \"trailing_null_collection_entry_count\": 0,\n  \"maximum_raw_record_bytes\": 604,\n  \"maximum_normalized_candidate_bytes\": 2181,\n  \"observed_schema_fingerprint\": \"a41410795f2fa9a2c5f755585b233269a959a0a857bac79f6429a8ebc158b6cb\",\n  \"report_fingerprint\": \"5af623042b389701e1b4f8586cbaaa5b96dfc57355893b370594b76c61647cd2\"\n}\n"
+}

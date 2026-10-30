@@ -121,14 +121,14 @@ function recordFail(category: string, message: string): never {
   throw new FoundationValidationError(category, message, "record");
 }
 
-function positiveSafeIdentifier(value: unknown, category: string) {
+export function positiveSafeIdentifier(value: unknown, category: string) {
   if (typeof value !== "number" || !Number.isSafeInteger(value) || value <= 0) {
     recordFail(category, "Source identifier must be a positive safe integer.");
   }
   return String(value);
 }
 
-function boundedOptionalString(value: unknown, maximum: number) {
+export function boundedOptionalString(value: unknown, maximum: number) {
   if (value === undefined || value === null) return null;
   if (
     typeof value !== "string" ||
@@ -139,7 +139,7 @@ function boundedOptionalString(value: unknown, maximum: number) {
   return value.trim().length === 0 ? null : value;
 }
 
-function canonicalPublicationDate(value: unknown) {
+export function canonicalPublicationDate(value: unknown) {
   if (typeof value !== "string") {
     recordFail("invalid_publication_date", "Publication date must be text.");
   }
@@ -294,7 +294,7 @@ function validateSourceNutrients(foodNutrients: unknown[]) {
   }
 }
 
-function parsePortions(value: unknown): {
+export function parsePortions(value: unknown): {
   portions: FoundationPortionCandidate[];
   sourceSequenceRebased: boolean;
 } {

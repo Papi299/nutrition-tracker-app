@@ -1,9 +1,17 @@
 import { fingerprintJson, type JsonValue } from "./canonical-json.ts";
-import { foundationImporterContractVersion } from "./contract.ts";
+import { foundationImporterContractVersion, foundationReportContractVersion } from "./contract.ts";
 import type { FoundationDryRunResult } from "./dry-run.ts";
-import { foundationNutrientMappingVersion } from "./nutrient-mapping.ts";
+import { foundationNutrientMappingHash, foundationNutrientMappingVersion } from "./nutrient-mapping.ts";
+import { parseNormalizedFoundationCandidate } from "./normalization.ts";
 
 export function createFoundationStagingPlan(result: FoundationDryRunResult) {
+  if (result.report.report_contract_version !== foundationReportContractVersion ||
+    result.report.importer_contract_version !== foundationImporterContractVersion ||
+    result.report.nutrient_mapping_version !== foundationNutrientMappingVersion ||
+    result.report.nutrient_mapping_hash !== foundationNutrientMappingHash) {
+    throw new Error("The legacy staging plan accepts its original mapping and report only.");
+  }
+  for (const { candidate } of result.accepted) parseNormalizedFoundationCandidate(candidate);
   const logicalRunFingerprint = fingerprintJson({
     manifest_fingerprint: result.manifestFingerprint,
     importer_contract_version: foundationImporterContractVersion,
