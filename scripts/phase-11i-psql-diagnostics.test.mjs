@@ -132,6 +132,7 @@ for (const message of [
   `psql: error: ${authQueryTimeout}`,
   `psql: error: FATAL: ${authQueryTimeout}`,
   `psql:synthetic-file.sql:42: ERROR: ${authQueryTimeout}`,
+  `psql:"synthetic:file.sql":42: FATAL: ${authQueryTimeout}`,
   `psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: ${authQueryTimeout}`,
   `psql: error: connection to server at "synthetic-host" (192.0.2.10), port 5432 failed: FATAL: ${authQueryTimeout}`,
 ]) {
@@ -189,12 +190,27 @@ test("R2 masking an entire unknown primary cannot erase ambiguity", () => {
   assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
   assert.doesNotMatch(error.stack, /synthetic-private-primary/);
 });
+test("R2 normalized known wrapper cannot compensate for a masked unknown primary", () => {
+  const privatePrimary = "ERROR: synthetic-private-primary";
+  const error = failureError(`psql:"synthetic:file.sql":42: ERROR: server closed the connection unexpectedly\n${privatePrimary}`, { environment: { PGPASSWORD: privatePrimary } });
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+  assert.doesNotMatch(error.stack, /synthetic-|server closed/);
+});
+test("R2 an entirely masked located primary still vetoes classification", () => {
+  const privatePrimary = 'psql:"synthetic:file.sql":42: ERROR: synthetic-private-primary';
+  const error = failureError(`FATAL: ${authQueryTimeout}\n${privatePrimary}`, { environment: { PGPASSWORD: privatePrimary } });
+  assert.equal(error.category, "UNCLASSIFIED_FAILURE");
+  assert.equal(error.diagnosticState, "UNRECOGNIZED_DIAGNOSTIC");
+  assert.doesNotMatch(error.stack, /synthetic-|EAUTHQUERY|auth_query/);
+});
 test("R2 ancillary labels, statement echoes and rows do not become unknown primaries", () => {
   const ancillary = [
     "DETAIL: ERROR: synthetic-private-detail", "HINT: FATAL: synthetic-private-hint",
     "CONTEXT: PANIC: synthetic-private-context", "STATEMENT: (EUNKNOWN) synthetic-private-sql",
     "QUERY: select 'ERROR: synthetic-private-query';", "LINE 1: ERROR: synthetic-private-line",
     "psql:synthetic-file.sql:42: CONTEXT: ERROR: synthetic-private-context",
+    'psql:"synthetic:file.sql":42: CONTEXT: select \':2: ERROR: synthetic-private-context\'',
     "select 'synthetic-unlabelled-statement';", "synthetic-private-row", "(ROW) synthetic-private-row", "       ^",
   ];
   const error = failureError([`FATAL: ${authQueryTimeout}`, ...ancillary].join("\r\n"));

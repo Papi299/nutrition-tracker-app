@@ -71,7 +71,11 @@ const ANCILLARY_DIAGNOSTIC = /^(?:DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE\s+\d+
 
 function isPrimaryDiagnosticLine(rawLine) {
   const line = rawLine.trim().replace(/[\t ]+/g, " ");
-  const message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+  let message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+  if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
+  // Locate a file/line header even when a quoted filename contains a colon.
+  const located = line.match(/^psql:.*?:\d+:\s*((?:ERROR|FATAL|PANIC|DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE\s+\d+):.*)$/i);
+  if (located) message = located[1];
   if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
   return /^psql:(?:[^:\r\n]*:\d+:)?\s*error:/i.test(line) ||
     /^(?:ERROR|FATAL|PANIC):/i.test(message) ||
@@ -100,9 +104,15 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
   if (stderr == null) return "";
   if (typeof stderr !== "string") return null;
   if (!stderr.trim()) return "";
-  // Count only explicit primary headers, before masking can erase a header or
-  // collapse lines inside a supplied secret. No header text leaves this scope.
-  const primaryCount = stderr.split(/\r?\n/).filter(isPrimaryDiagnosticLine).length;
+  // Validate each primary independently: masking or a differently normalized
+  // wrapper must never let a recognized line compensate for an unknown one.
+  for (const line of stderr.split(/\r?\n/)) {
+    if (isPrimaryDiagnosticLine(line) && sanitizePsqlMessages(line, sensitiveValues) === null) return null;
+  }
+  return sanitizePsqlMessages(stderr, sensitiveValues);
+}
+
+function sanitizePsqlMessages(stderr, sensitiveValues) {
   let text = stderr;
   for (const value of sensitiveValues.filter((value) => typeof value === "string" && value.length)
     .sort((a, b) => b.length - a.length)) {
@@ -121,7 +131,7 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
     .replace(/(at \[REDACTED\] )\([^\r\n)]*\)(, port )/gi, "$1([REDACTED])$2");
 
   const messages = [];
-  let recognizedPrimaries = 0;
+  let unknownPrimary = false;
   for (const rawLine of text.split(/\r?\n/)) {
     const line = rawLine.trim().replace(/[\t ]+/g, " ");
     // Never forward PostgreSQL DETAIL/HINT/CONTEXT/LINE, query echoes, or rows.
@@ -131,13 +141,15 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
     if (connection) message = connection[2];
     const severity = message.match(/^(ERROR|FATAL|PANIC):\s*/i)?.[0] ?? "";
     message = message.slice(severity.length);
-    if (!SAFE_MESSAGE_PATTERNS.some((pattern) => pattern.test(message))) continue;
-    if (isPrimaryDiagnosticLine(line)) recognizedPrimaries++;
+    if (!SAFE_MESSAGE_PATTERNS.some((pattern) => pattern.test(message))) {
+      if (isPrimaryDiagnosticLine(line)) unknownPrimary = true;
+      continue;
+    }
     messages.push(`${connection?.[1] ?? ""}${severity}${message}`);
   }
   // Unknown primary errors veto partial classification before truncation;
   // unmarked rows and explicitly ancillary lines do not add primary headers.
-  if (!messages.length || primaryCount > recognizedPrimaries) return null;
+  if (!messages.length || unknownPrimary) return null;
   return messages.join("\n").slice(0, MAX_PSQL_DIAGNOSTIC_CHARACTERS);
 }
 

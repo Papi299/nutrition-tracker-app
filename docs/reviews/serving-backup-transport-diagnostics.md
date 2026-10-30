@@ -52,13 +52,14 @@ code prefix is not stripped generically: unknown codes, changed codes,
 different messages and appended content remain unrecognized. Both supported
 forms classify as `AUTHENTICATION_FAILURE` and abort without retry.
 
-R2 counts explicit PostgreSQL `ERROR`/`FATAL`/`PANIC`, psql error headers,
-and Supavisor-style `(E...)` primary headers before masking, then requires
-every such primary to be recognized. Detecting an unknown code as a header
+R2 isolates explicit PostgreSQL `ERROR`/`FATAL`/`PANIC`, psql error headers,
+and Supavisor-style `(E...)` primary headers before masking, then validates
+each primary independently before processing the combined diagnostic. Detecting an unknown code as a header
 does not accept it: only the exact reviewed timeout template is added to the
-allowlist. This
-preserves ambiguity even when a supplied secret masks an entire unknown
-primary. Any unknown primary vetoes the partial result before truncation:
+allowlist. This preserves ambiguity even when a supplied secret masks an
+entire unknown primary, or a quoted file wrapper normalizes differently;
+one recognized line cannot compensate for an unknown one. Any unknown
+primary vetoes the partial result before truncation:
 the existing fixed `UNCLASSIFIED_FAILURE` / `UNRECOGNIZED_DIAGNOSTIC` path
 is used, with no unknown text or new raw error property. Recognized messages
 with conflicting categories also remain unclassified.
