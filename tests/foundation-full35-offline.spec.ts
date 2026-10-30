@@ -105,7 +105,7 @@ test("F35-14: unchanged schema, raw-record bounds, exact numbers and trailing pa
 });
 
 test("pure Full35 modules have no database, network, environment or executor dependency", () => {
-  const modules = ["archive", "contract", "dry-run", "mapping", "normalization", "report"];
+  const modules = ["archive", "contract", "dry-run", "exclusion-reconciliation", "mapping", "normalization", "report"];
   for (const moduleName of modules) {
     const text = readFileSync(`ingestion/usda/foundation/full35/${moduleName}.ts`, "utf8");
     expect(text).not.toMatch(/(?:process\.env|fetch\(|createClient\(|node:child_process|node:fs|@supabase|promote-local|lifecycle\/execution)/);

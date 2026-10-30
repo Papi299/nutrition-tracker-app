@@ -11,6 +11,7 @@ four-nutrient contracts.
 | Importer | `usda-foundation-importer/v3` |
 | Candidate | `foundation-normalized-candidate/v2` |
 | Report | `foundation-dry-run-report/v3` |
+| Exclusion reconciliation | `foundation-full35-exclusion-reconciliation/v1` |
 
 The implemented mapping SHA-256 is
 `028f426a5107af052caf49b6ec3d0d145599a708a28541cc00d28fde04df5c7c`.
@@ -48,6 +49,37 @@ Reports always carry `executable: false` and either `offline_unapproved` or
 `blocked`. Neither state is ingestion approval. The legacy staging boundary
 rejects v3 reports and validates candidates with the original exact v1 parser;
 the original promotion and release-update executors are unchanged.
+
+### Historical exclusion reconciliation (IMPORTER-001A)
+
+`reconcileFoundationFull35Exclusions` consumes the immutable v3 report, its
+original offline inputs and the historical v1 allowance. It revalidates the
+ZIP/JSON/source and complete report, reconstructs the unchanged legacy
+normalization/report, and verifies the allowance against that legacy evidence.
+The fixed MAP-06 baseline pins the release UUID/identity, manifest/archive/JSON
+hashes, full and accepted raw sets, original allowance fingerprint, 363/353/10
+counts, ten exact FDC IDs and `negative_target_value` reason. There is no
+caller-selected allowance policy. Rejected raw hashes are rederived from the
+same verified archive and bound by the original allowance's rejected-set hash.
+Accepted membership must equal both the frozen identity set and legacy raw set.
+
+The result distinguishes exact historical exclusions (`exact_historical_exclusions_offline_unapproved`),
+unexpected/changed exclusions (`blocked_unexpected_exclusions`), and an exact
+pattern with unqualified source/allowance evidence (`blocked_unqualified_evidence`).
+Malformed source bytes, duplicate identities, or a tampered v3 report fail
+before a result is constructed. Zero, nine, eleven, replacement identities and
+changed reasons cannot satisfy the exact set. The source denominator remains
+363; rejected records never become accepted candidates. All original report
+counts, rejected evidence and v3 fingerprints remain unchanged.
+
+Every result is frozen, fingerprinted, `executable: false`, and grants no
+staging or Production authority. `parseFoundationFull35ExclusionReconciliation`
+reconstructs the entire result against its independent inputs, so a forged or
+freshly rehashed result fails. Historical allowance expiry is not renewed or
+evaluated as new execution authority. Synthetic tests can reproduce the exact
+ID/reason pattern but must remain unqualified: they cannot invent the pinned
+USDA bytes, raw hashes or original allowance. Official-source positive
+qualification remains a separate, explicitly authorized stage.
 
 ## Evidence and numerical rules
 
