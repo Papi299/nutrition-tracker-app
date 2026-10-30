@@ -2,6 +2,11 @@ import { spawnSync } from "node:child_process";
 import { assertRedactedEvidence } from "./phase-11i-recovery-contract.mjs";
 
 export const MAX_PSQL_DIAGNOSTIC_CHARACTERS = 2000;
+export const PSQL_FAILURE_CATEGORIES = Object.freeze([
+  "CONNECTION_ESTABLISHMENT_FAILURE", "CONNECTION_TERMINATED", "CONNECTION_TIMEOUT",
+  "TLS_FAILURE", "AUTHENTICATION_FAILURE", "POOLER_RESOURCE_LIMIT",
+  "CLIENT_PROCESS_FAILURE", "SQL_EXECUTION_FAILURE", "UNCLASSIFIED_FAILURE",
+]);
 export const PSQL_QUERY_STAGES = Object.freeze([
   "MIGRATION_LEDGER", "APPLICATION_TABLE_INVENTORY", "PRE_DUMP_TABLE_COUNTS",
   "OWNER_VALIDATION", "OWNER_ACTIVATION", "STORAGE_SCOPE", "VAULT_INVENTORY",
@@ -12,7 +17,19 @@ export const PSQL_QUERY_STAGES = Object.freeze([
 
 // Only fixed client/server message templates may leave stderr. Regex redaction
 // alone cannot distinguish arbitrary SQL, row values, or extension error text.
+// Pooler templates come from the upstream Supavisor error definitions; they do
+// not establish that any particular pooler error caused the observed failures.
+const ADDITIONAL_SAFE_CATEGORIES = [
+  ["TLS_FAILURE", /^(?:server does not support SSL, but SSL was required|SSL error: certificate verify failed)$/i],
+  ["AUTHENTICATION_FAILURE", /^(?:Tenant or user not found|auth_query secret check timed out)$/i],
+  ["AUTHENTICATION_FAILURE", /^\(EAUTHQUERY\) auth_query secret check timed out$/],
+  ["CONNECTION_TERMINATED", /^(?:DbHandler exited\. Check logs for more information|connection to database closed\. Check logs for more information)$/i],
+  ["CONNECTION_ESTABLISHMENT_FAILURE", /^failed to start proxy connection$/i],
+  ["CONNECTION_TIMEOUT", /^unable to check out connection from the pool after \d+ms in (?:Session|Transaction) mode$/i],
+  ["POOLER_RESOURCE_LIMIT", /^(?:max clients reached in session mode - max clients are limited to pool_size: \d+|max client connections reached, limit: \d+)$/i],
+];
 const SAFE_MESSAGE_PATTERNS = [
+  ...ADDITIONAL_SAFE_CATEGORIES.map(([, pattern]) => pattern),
   /^server closed the connection unexpectedly$/i,
   /^SSL connection has been closed unexpectedly$/i,
   /^connection to server was lost$/i,
@@ -33,10 +50,69 @@ const SAFE_MESSAGE_PATTERNS = [
   /^no pg_hba.conf entry for host \[REDACTED\], user \[REDACTED\], database \[REDACTED\], (?:SSL encryption|no encryption)$/i,
 ];
 
+// Classification consumes only an already-sanitized, guard-approved diagnostic.
+// These fixed labels are evidence for diagnosis, never authorization to retry.
+const CATEGORY_PATTERNS = [
+  ...ADDITIONAL_SAFE_CATEGORIES,
+  ["AUTHENTICATION_FAILURE", /^(?:(?:password|certificate|PAM|LDAP|GSSAPI) authentication failed for user \[REDACTED\]|no password supplied|no pg_hba.conf entry for host \[REDACTED\], user \[REDACTED\], database \[REDACTED\], (?:SSL encryption|no encryption))$/i],
+  ["SQL_EXECUTION_FAILURE", /^(?:permission denied for (?:schema|table|relation|database|sequence) \[REDACTED\]|relation \[REDACTED\] does not exist|syntax error at or near \[REDACTED\]|canceling statement due to (?:statement timeout|lock timeout|user request))$/i],
+  ["POOLER_RESOURCE_LIMIT", /^(?:sorry, too many clients already|remaining connection slots are reserved for non-replication superuser connections)$/i],
+  ["CONNECTION_TIMEOUT", /^(?:Connection timed out|timeout expired|could not connect to server: Connection timed out|(?:could not receive data from server|could not send data to server|SSL SYSCALL error): Connection timed out)$/i],
+  ["CONNECTION_TERMINATED", /^(?:server closed the connection unexpectedly|SSL connection has been closed unexpectedly|connection to server was lost|(?:could not receive data from server|could not send data to server|SSL SYSCALL error): (?:Connection reset by peer|Broken pipe|EOF detected)|terminating connection due to (?:administrator command|idle-in-transaction timeout|idle-session timeout))$/i],
+  ["CONNECTION_ESTABLISHMENT_FAILURE", /^(?:Connection refused|Network is unreachable|No route to host|could not connect to server: Connection refused|could not translate host name \[REDACTED\] to address: (?:Name or service not known|Temporary failure in name resolution|nodename nor servname provided, or not known)|the database system is (?:starting up|shutting down|in recovery mode))$/i],
+];
+
+function primaryMessage(line) {
+  return line.replace(/^connection to server at \[REDACTED\](?: \(\[REDACTED\]\))?, port \d{1,5} failed: /i, "")
+    .replace(/^(?:ERROR|FATAL|PANIC):\s*/i, "");
+}
+
+const ANCILLARY_DIAGNOSTIC = /^(?:DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE\s+\d+):/i;
+
+function isPrimaryDiagnosticLine(rawLine) {
+  const line = rawLine.trim().replace(/[\t ]+/g, " ");
+  let message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+  if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
+  // Locate a file/line header even when a quoted filename contains a colon.
+  const located = line.match(/^psql:.*?:\d+:\s*((?:ERROR|FATAL|PANIC|DETAIL|HINT|CONTEXT|STATEMENT|QUERY|LINE\s+\d+):.*)$/i);
+  if (located) message = located[1];
+  if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
+  return /^psql:(?:[^:\r\n]*:\d+:)?\s*error:/i.test(line) ||
+    /^(?:ERROR|FATAL|PANIC):/i.test(message) ||
+    /^\(E[A-Z0-9_]+\)\s/.test(message) ||
+    /^connection to server at .+, port \d{1,5} failed: (?:ERROR|FATAL|PANIC):/i.test(message);
+}
+
+function classifySafePsqlDiagnostic(diagnostic) {
+  const categories = new Set(diagnostic.split("\n").map((line) => {
+    const message = primaryMessage(line);
+    return CATEGORY_PATTERNS.find(([, pattern]) => pattern.test(message))?.[0] ?? "UNCLASSIFIED_FAILURE";
+  }));
+  return categories.size === 1 ? [...categories][0] : "UNCLASSIFIED_FAILURE";
+}
+
+class PsqlReadError extends Error {
+  constructor(stage, exit, category, diagnosticState) {
+    super(`psql failed at ${stage} (exit ${exit}); category=${category}; diagnostic=${diagnosticState}.`);
+    this.name = "PsqlReadError";
+    this.category = category;
+    this.diagnosticState = diagnosticState;
+  }
+}
+
 export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
   if (stderr == null) return "";
   if (typeof stderr !== "string") return null;
   if (!stderr.trim()) return "";
+  // Validate each primary independently: masking or a differently normalized
+  // wrapper must never let a recognized line compensate for an unknown one.
+  for (const line of stderr.split(/\r?\n/)) {
+    if (isPrimaryDiagnosticLine(line) && sanitizePsqlMessages(line, sensitiveValues) === null) return null;
+  }
+  return sanitizePsqlMessages(stderr, sensitiveValues);
+}
+
+function sanitizePsqlMessages(stderr, sensitiveValues) {
   let text = stderr;
   for (const value of sensitiveValues.filter((value) => typeof value === "string" && value.length)
     .sort((a, b) => b.length - a.length)) {
@@ -55,18 +131,25 @@ export function sanitizePsqlDiagnostic(stderr, sensitiveValues = []) {
     .replace(/(at \[REDACTED\] )\([^\r\n)]*\)(, port )/gi, "$1([REDACTED])$2");
 
   const messages = [];
+  let unknownPrimary = false;
   for (const rawLine of text.split(/\r?\n/)) {
     const line = rawLine.trim().replace(/[\t ]+/g, " ");
     // Never forward PostgreSQL DETAIL/HINT/CONTEXT/LINE, query echoes, or rows.
     let message = line.replace(/^psql:(?:[^:\r\n]*:\d+:)?\s*(?:error:\s*)?/i, "");
+    if (ANCILLARY_DIAGNOSTIC.test(message)) continue;
     const connection = message.match(/^(connection to server at \[REDACTED\](?: \(\[REDACTED\]\))?, port \d{1,5} failed: )(.+)$/i);
     if (connection) message = connection[2];
     const severity = message.match(/^(ERROR|FATAL|PANIC):\s*/i)?.[0] ?? "";
     message = message.slice(severity.length);
-    if (!SAFE_MESSAGE_PATTERNS.some((pattern) => pattern.test(message))) continue;
+    if (!SAFE_MESSAGE_PATTERNS.some((pattern) => pattern.test(message))) {
+      if (isPrimaryDiagnosticLine(line)) unknownPrimary = true;
+      continue;
+    }
     messages.push(`${connection?.[1] ?? ""}${severity}${message}`);
   }
-  if (!messages.length) return null;
+  // Unknown primary errors veto partial classification before truncation;
+  // unmarked rows and explicitly ancillary lines do not add primary headers.
+  if (!messages.length || unknownPrimary) return null;
   return messages.join("\n").slice(0, MAX_PSQL_DIAGNOSTIC_CHARACTERS);
 }
 
@@ -86,23 +169,35 @@ export function readPsqlRows({
     launchFailed = true;
     result = { status: null, stderr: null };
   }
-  if (result.status !== 0) {
+  if (result.status !== 0 || result.error || result.signal) {
     const safeStage = PSQL_QUERY_STAGES.includes(stage) ? stage : "QUERY_STAGE_UNAVAILABLE";
-    const exit = Number.isInteger(result.status) ? result.status : "unavailable";
-    const context = `psql failed at ${safeStage} (exit ${exit})`;
+    const exit = Number.isInteger(result.status) && result.status >= 0 && result.status <= 255 ? result.status : "unavailable";
+    const failure = (category, state) => new PsqlReadError(safeStage, exit, category, state);
+    if (launchFailed || result.error || result.signal || exit === "unavailable") {
+      throw failure("CLIENT_PROCESS_FAILURE", "CLIENT_PROCESS_FAILURE");
+    }
     let diagnostic;
     try {
-      if (launchFailed) throw new Error("Process launch failed.");
       diagnostic = sanitize(result.stderr, [environment?.PGPASSWORD, environment?.SUPABASE_ACCESS_TOKEN]);
-      if (typeof diagnostic !== "string") throw new Error("Unsupported diagnostic.");
-      // Guard before truncation, so a secret beyond the bound cannot evade it.
+    } catch {
+      throw failure("UNCLASSIFIED_FAILURE", "SANITIZER_FAILED");
+    }
+    if (diagnostic === null) {
+      throw failure("UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC");
+    }
+    if (typeof diagnostic !== "string") {
+      throw failure("UNCLASSIFIED_FAILURE", "INVALID_SANITIZER_OUTPUT");
+    }
+    try {
+      // Validate even injected sanitizer output before deriving a category.
       guard(diagnostic);
     } catch {
-      throw new Error(`${context}; diagnostic suppressed by redaction guard.`);
+      throw failure("UNCLASSIFIED_FAILURE", "REDACTION_GUARD_REJECTED");
     }
-    throw new Error(diagnostic
-      ? `${context}:\n${diagnostic}`.slice(0, MAX_PSQL_DIAGNOSTIC_CHARACTERS)
-      : `${context}; no stderr was returned.`);
+    // No diagnostic text, SQL, process result or environment is attached to the
+    // error. Even recognized safe templates become predefined labels only.
+    throw failure(diagnostic ? classifySafePsqlDiagnostic(diagnostic) : "UNCLASSIFIED_FAILURE",
+      diagnostic ? "SAFE_MESSAGE_RECOGNIZED" : "NO_DIAGNOSTIC");
   }
   const output = (result.stdout ?? "").trim();
   return output ? output.split(/\r?\n/).map((line) => line.split("\t")) : [];
