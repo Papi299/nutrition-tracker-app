@@ -3919,3 +3919,48 @@ recorded in [the integration report](nutrition-ux-redesign-003r2-integration.md)
 and the replacement Draft PR delivery report. Independent exact-head review is
 the next continuation point. Original #189 is preserved; merge, deployment,
 hosted Supabase, meal-specific Add, and Phase C remain outside this task.
+
+## 2026-10-30: DEC-041 — Conservative USDA Full35 specification scope
+
+Authority: Product Owner's supplied `NUTRITION-USDA-FULL35-SPEC-001` task,
+following accepted audit
+`NUTRITION-USDA-FDC-FULL-35-NUTRIENT-COVERAGE-AUDIT-001`.
+Codex records the instruction; independent exact-head specification review
+remains pending. This is Stage 1 documentation authority only, including one
+Draft PR. It authorizes no implementation, SQL/migration, ingestion/dry run,
+Production inspection/mutation, backup/key access, deployment or merge.
+
+Adopt the conservative specification scope: exact April 30, 2026 Foundation
+release, same 353 accepted food UUIDs and source-record versions, unchanged ten
+exclusions, original per-100-g basis, four existing core meanings and original
+source derivation. The 35-field inventory specifies 32 direct mappings and
+three withheld fields; expected later qualification is 1,199 unchanged rows
+plus 5,062 additions = 6,261, with value-level comparison required. These are
+expected outcomes, not newly executed data changes or a mapping registration.
+
+Added sugars and folate DFE stay unknown because this source lacks eligible
+values. Vitamin K stays unknown pending a separate form-specific specification;
+K1/K2/dihydro forms cannot be combined or relabeled generic K. Fiber uses 1079
+only; 2033 fallback is deferred. New/legacy energy methods, conversions,
+nutrient synthesis, historical backfill, other datasets and October 2026 source
+substitution are excluded. Existing English/Hebrew forms, RTL/LTR behavior,
+unknown/zero semantics, serving conversion, diary/reuse snapshots and reference
+contracts remain protected. A new public food-detail UI is optional future
+work, not a requirement of this expansion.
+
+Same-release reprojection must preserve the original mapping-v1 hashes and
+receipts, reuse source versions and append versioned interpretations/evidence,
+projection histories and independently approved receipts/heads. Exact future
+migration-history recovery qualification and synthetic encrypted restore are
+mandatory before any later Production migration. No earlier corrective or
+phase gate is waived. The original completed four-nutrient MVP remains accepted
+within its original scope.
+
+See [mapping and source custody](nutrition-usda-full35-mapping-spec.md),
+[reprojection design](nutrition-usda-full35-reprojection-spec.md),
+[security/history/recovery invariants](nutrition-usda-full35-security-history-recovery-spec.md)
+and [implementation acceptance matrix](nutrition-usda-full35-acceptance-matrix.md).
+After independent Stage 1 acceptance and a separate bounded authorization,
+the smallest implementation task is `NUTRITION-USDA-FULL35-IMPORTER-001`:
+versioned mapping/candidate/normalization/report support and pure tests only.
+No executor, database, app or Production work begins under that recommendation.
