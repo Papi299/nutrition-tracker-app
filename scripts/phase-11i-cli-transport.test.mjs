@@ -252,6 +252,7 @@ for (const stage of ["APPLICATION_TABLE_INVENTORY", "POST_DUMP_OWNER_VALIDATION"
     ['psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: (EAUTHQUERY) auth_query secret check timed out', "AUTHENTICATION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
     ["FATAL: (EUNKNOWN) auth_query secret check timed out", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
     ["ERROR: server closed the connection unexpectedly\nERROR: synthetic-unknown-primary", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
+    ["FATAL: (EAUTHQUERY) auth_query secret check timed out\n(EUNKNOWN) synthetic-unknown-primary", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
     ["FATAL: (EAUTHQUERY) auth_query secret check timed out\nDETAIL: ERROR: synthetic-private-detail\nSTATEMENT: select 'synthetic-private-sql';", "AUTHENTICATION_FAILURE", "SAFE_MESSAGE_RECOGNIZED"],
     ["ERROR: synthetic-unknown-owner-row 70.5", "UNCLASSIFIED_FAILURE", "UNRECOGNIZED_DIAGNOSTIC"],
   ]) {

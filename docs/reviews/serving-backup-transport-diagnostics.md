@@ -52,8 +52,11 @@ code prefix is not stripped generically: unknown codes, changed codes,
 different messages and appended content remain unrecognized. Both supported
 forms classify as `AUTHENTICATION_FAILURE` and abort without retry.
 
-R2 counts explicit PostgreSQL `ERROR`/`FATAL`/`PANIC` or psql error headers
-before masking, then requires every such primary to be recognized. This
+R2 counts explicit PostgreSQL `ERROR`/`FATAL`/`PANIC`, psql error headers,
+and Supavisor-style `(E...)` primary headers before masking, then requires
+every such primary to be recognized. Detecting an unknown code as a header
+does not accept it: only the exact reviewed timeout template is added to the
+allowlist. This
 preserves ambiguity even when a supplied secret masks an entire unknown
 primary. Any unknown primary vetoes the partial result before truncation:
 the existing fixed `UNCLASSIFIED_FAILURE` / `UNRECOGNIZED_DIAGNOSTIC` path

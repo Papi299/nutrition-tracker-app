@@ -161,6 +161,7 @@ for (const message of [
 for (const unknown of [
   "ERROR: synthetic-unknown-primary", "FATAL: synthetic-unknown-primary",
   "PANIC: synthetic-unknown-primary", "psql: error: synthetic-unknown-primary",
+  "(EUNKNOWN) synthetic-unknown-primary", "(EAUTHQUERY) synthetic-altered-primary",
   "psql:synthetic-file.sql:42: ERROR: synthetic-unknown-primary",
   'psql: error: connection to server at "synthetic-host", port 5432 failed: FATAL: synthetic-unknown-primary',
 ]) {
@@ -191,10 +192,10 @@ test("R2 masking an entire unknown primary cannot erase ambiguity", () => {
 test("R2 ancillary labels, statement echoes and rows do not become unknown primaries", () => {
   const ancillary = [
     "DETAIL: ERROR: synthetic-private-detail", "HINT: FATAL: synthetic-private-hint",
-    "CONTEXT: PANIC: synthetic-private-context", "STATEMENT: select 'synthetic-private-sql';",
+    "CONTEXT: PANIC: synthetic-private-context", "STATEMENT: (EUNKNOWN) synthetic-private-sql",
     "QUERY: select 'ERROR: synthetic-private-query';", "LINE 1: ERROR: synthetic-private-line",
     "psql:synthetic-file.sql:42: CONTEXT: ERROR: synthetic-private-context",
-    "select 'synthetic-unlabelled-statement';", "synthetic-private-row", "       ^",
+    "select 'synthetic-unlabelled-statement';", "synthetic-private-row", "(ROW) synthetic-private-row", "       ^",
   ];
   const error = failureError([`FATAL: ${authQueryTimeout}`, ...ancillary].join("\r\n"));
   assert.equal(error.category, "AUTHENTICATION_FAILURE");

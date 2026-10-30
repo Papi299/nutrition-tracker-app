@@ -75,6 +75,7 @@ function isPrimaryDiagnosticLine(rawLine) {
   if (ANCILLARY_DIAGNOSTIC.test(message)) return false;
   return /^psql:(?:[^:\r\n]*:\d+:)?\s*error:/i.test(line) ||
     /^(?:ERROR|FATAL|PANIC):/i.test(message) ||
+    /^\(E[A-Z0-9_]+\)\s/.test(message) ||
     /^connection to server at .+, port \d{1,5} failed: (?:ERROR|FATAL|PANIC):/i.test(message);
 }
 
