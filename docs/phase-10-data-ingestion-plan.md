@@ -1,5 +1,12 @@
 # Phase 10 Multi-Source Nutrition Data Ingestion Plan
 
+Full35 follow-on: [the October 2026 conservative specification](nutrition-usda-full35-mapping-spec.md)
+classifies all 35 existing application fields for a proposed same-release
+32-field direct expansion. Stage 1 is documentation-only and pending independent
+review under DEC-041; no implementation or Production operation is authorized.
+The completed four-nutrient MVP and historical phase acceptance below retain
+their original meaning.
+
 Status: Phases 10A through 10C are complete. Phase 10D.1 controlled Foundation
 promotion implementation/local rehearsal and Phase 10D.2 exact production
 promotion are complete. Overall Phase 10D is complete. Phase 10E.1 release
