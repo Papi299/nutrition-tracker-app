@@ -1,0 +1,212 @@
+{
+  "actual_uuid_inventory_committed": false,
+  "fresh_exact_head_ci_gate": "See final PR body and retained final delivery metadata; no previous-head check reuse.",
+  "identity_qualification": {
+    "accepted_raw_set_sha256": "95749cc4e604e3a94c6d07bf0bcf0c640f1688abadebcbfd5d157cf2c3b262d4",
+    "canonical_tuple_set_sha256": "0e0aab96514e875612ac7b629e6f56c759c2714d7a1034c4597fd3b4bb63f224",
+    "classification": "AUTHORITATIVE_EXISTING_PUBLIC_CATALOG_IDENTITIES",
+    "current_head": {
+      "dataset_id": "0890fd0c-0b19-4360-8088-6b1bd6be6000",
+      "environment": "production",
+      "fingerprint": "2195ba23c041f7ec5e6daba178501aa65320c6c85fa65604e9a496bba00c7e69",
+      "id": "2562de58-1c1c-4ce4-acca-3dd468cc045c",
+      "version": 1
+    },
+    "custody": {
+      "accepted_raw_set_hash": "95749cc4e604e3a94c6d07bf0bcf0c640f1688abadebcbfd5d157cf2c3b262d4",
+      "all_numeric_lexemes_exact": true,
+      "archive_bytes": 469303,
+      "archive_sha256": "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a",
+      "full_raw_set_hash": "c53100dd52fa09df408b4e9e7682f43192616689d0afaed7029e8c1b4344cf12",
+      "member_bytes": 6721650,
+      "member_sha256": "27d1fe3fd89edfbe528ed915da5619320e1d004d4594603a1b19bdb1511590cc",
+      "numeric_lexemes": 143328
+    },
+    "expected_versus_actual": {
+      "additional": 0,
+      "changed": 0,
+      "missing": 0
+    },
+    "fresh_drift_check_required_before_mutation": true,
+    "full_raw_set_sha256": "c53100dd52fa09df408b4e9e7682f43192616689d0afaed7029e8c1b4344cf12",
+    "historical_identity_qualified": true,
+    "immutable_original_projection_matches": 353,
+    "lock_timeout": "1s",
+    "negative_tests": [
+      {
+        "category": "frozen_identity_relationship_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "food_uuid_substitution"
+      },
+      {
+        "category": "frozen_identity_relationship_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "source_record_uuid_substitution"
+      },
+      {
+        "category": "frozen_identity_relationship_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "source_version_uuid_substitution"
+      },
+      {
+        "category": "source_raw_hash_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "original_raw_hash_changed"
+      },
+      {
+        "category": "accepted_membership_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "fdc_id_replaced"
+      },
+      {
+        "category": "duplicate_source_version_id",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "duplicate_source_version"
+      },
+      {
+        "category": "source_release_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "different_source_release"
+      },
+      {
+        "category": "cardinality_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "accepted_source_row_missing"
+      },
+      {
+        "category": "unexpected_dataset_head",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "unexpected_current_head"
+      },
+      {
+        "category": "original_projection_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "original_projection_link_changed"
+      },
+      {
+        "category": "public_concept_link_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "public_food_concept_link_changed"
+      },
+      {
+        "category": "public_scope_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "public_scope_changed"
+      },
+      {
+        "category": "candidate_identity_mismatch",
+        "nutrient_counts_unchanged": true,
+        "refused": true,
+        "test": "otherwise_identical_candidate_wrong_identity"
+      }
+    ],
+    "observed_at": "2026-10-31T07:06:58.432061+00:00",
+    "point_in_time_only": true,
+    "project_id": "hskfanrqwtqknzpquwhg",
+    "raw_hash_mismatches": 0,
+    "read_only": true,
+    "region": "eu-west-1",
+    "reverse_public_membership": 353,
+    "reverse_unlinked_public_members": 0,
+    "row_count": 353,
+    "source_concept_mismatches": 0,
+    "source_releases": 1,
+    "statement_timeout": "5s",
+    "unique_fdc_ids": 353,
+    "unique_food_ids": 353,
+    "unique_source_records": 353,
+    "unique_source_versions": 353
+  },
+  "mutation_performed": false,
+  "official_actual_identity_run": {
+    "accepted_count": 353,
+    "accepted_identity_set_hash": "5650b2c66cd6e769e19167c18f72088132d9468c3d6a4d2cbfdacd3e7fec9f97",
+    "additions_count": 5062,
+    "candidate_inventory_hash": "d09dcf57c2fcc2bf2484da8bf46db5235abc63124c8f763ac542adcd6f2d58a3",
+    "canonical_tuple_set_sha256": "0e0aab96514e875612ac7b629e6f56c759c2714d7a1034c4597fd3b4bb63f224",
+    "contextual_candidates_verified": 353,
+    "contextual_reconciliation_verified": true,
+    "contextual_report_verified": true,
+    "evidence_records": 6452,
+    "executable": false,
+    "historical_identity_qualified": true,
+    "identity_scope": "AUTHORITATIVE_EXISTING_PUBLIC_CATALOG_IDENTITIES",
+    "independent_energy_method_labels_verified": 353,
+    "independent_raw_record_paths_verified": 353,
+    "legacy_report_fingerprint": "d845d61308d411673dd04651a50bb437ae3f0c6429c4d79c5af5ac055f0d9b5f",
+    "maximum_raw_record_bytes": 87874,
+    "nutrient_counts_unchanged_in_negative": true,
+    "observed_schema_fingerprint": "cc5fe1770067d0dbc72983f46c4ce0ff1cee9c4a879d580b210a8005f11a7b66",
+    "positions_count": 12355,
+    "reconciliation_fingerprint": "a4f035ef475ae1bddc4f9f322481a51d88bc1a8d0372c1350769708561549965",
+    "reconciliation_status": "exact_historical_exclusions_offline_unapproved",
+    "rehashed_wrong_identity_candidate_refused": true,
+    "rejected_count": 10,
+    "report_fingerprint": "52747f3199a589d820fce5dffca64acd51ac0dcc038e1dd4b972b2ea2fb1cd64",
+    "source_count": 363
+  },
+  "scientific_comparison": {
+    "addition_mismatches": 0,
+    "additional_values": 5062,
+    "additions_sha256": "42e1a05dee6b0caedaa6019054499330d04c7df1a33aa6758309ba1293f78bfa",
+    "application_food_vectors": 353,
+    "application_positions": 37065,
+    "both_energy_method_evidence_verified": true,
+    "candidate_inventory_sha256": "d09dcf57c2fcc2bf2484da8bf46db5235abc63124c8f763ac542adcd6f2d58a3",
+    "complete_state_mismatches": 0,
+    "core_values": 1199,
+    "derivations": {
+      "A": 5018,
+      "AS": 330,
+      "NC": 1104
+    },
+    "duplicate_tuple_refused": true,
+    "energy_selection": {
+      "2047": 25,
+      "2048": 191
+    },
+    "evidence_mismatches": 0,
+    "evidence_records": 6452,
+    "evidence_sha256": "a11a179c846d80f88b0691206f264e057fc1ba7250e206aec18e9350aa29ebab",
+    "independently_rehashed_candidates": 353,
+    "max_fractional_precision": 3,
+    "maximum_source_value": "38700",
+    "microgram_factor": "1",
+    "missing": 6094,
+    "positions_sha256": "c4647a0be4b2168a174e1e7581cdd5266c713c84ea3677a9d5b5c30d1dd76400",
+    "present": 6261,
+    "same_count_wrong_value_detected": 1,
+    "semantics": {
+      "explicit_zero": 320,
+      "missing": 6094,
+      "source_calculated": 1178,
+      "source_reported": 4763
+    },
+    "source_lexeme_roundtrip": true,
+    "source_rounding": false,
+    "source_units": {
+      "g": 1671,
+      "kcal": 407,
+      "mg": 4059,
+      "\u00b5g": 315
+    },
+    "state_positions": 12355,
+    "trace_or_negative_accepted": 0,
+    "unknown_to_zero_detected": true,
+    "withheld": 1059
+  },
+  "task": "NUTRITION-USDA-FULL35-HISTORICAL-IDENTITY-EVIDENCE-001",
+  "unchanged_scientific_oracle": true
+}

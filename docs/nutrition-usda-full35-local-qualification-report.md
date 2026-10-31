@@ -1,5 +1,9 @@
 # USDA Full35 local qualification report
 
+Historical follow-up: the [identity qualification addendum](nutrition-usda-full35-historical-identity-report.md)
+closes this report's original UUID evidence gap using separately authorized
+read-only public catalog metadata. This report remains the source-only snapshot.
+
 Task `NUTRITION-USDA-FULL35-LOCAL-QUAL-001`. Source qualification date: October 31, 2026 (Asia/Jerusalem). Independent review remains required. No implementation or mapping correction was made.
 
 ## A. Executive verdict

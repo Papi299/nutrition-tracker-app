@@ -1,5 +1,9 @@
 # Full35 local source qualification
 
+Historical follow-up: the [actual-identity addendum](../nutrition-usda-full35-historical-identity-001/README.md)
+closes the original gap through separately authorized read-only public catalog
+metadata. This original synthetic-scope workflow remains a historical record.
+
 This read-only harness qualifies the already merged importer at main
 `1ead267a36af9638d8c480a75db5a2f5cc999497`, tree
 `3be7170bfbecc016119885cc04de327c966117c4`. It imports no database or provider
