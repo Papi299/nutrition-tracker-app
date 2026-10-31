@@ -1,0 +1,472 @@
+{
+  "addition_differences": [],
+  "addition_mismatches": 0,
+  "additional_values": 5062,
+  "additions_sha256": "42e1a05dee6b0caedaa6019054499330d04c7df1a33aa6758309ba1293f78bfa",
+  "application_food_vectors": 353,
+  "application_positions": 37065,
+  "both_energy_method_evidence_verified": true,
+  "candidate_inventory_sha256": "67a0a82c96d9c3ac2a91f69505d8a423c705fe39302e8f54166e6b11924e0934",
+  "complete_state_mismatches": 0,
+  "core_values": 1199,
+  "derivations": {
+    "A": 5018,
+    "AS": 330,
+    "NC": 1104
+  },
+  "differences": [],
+  "duplicate_tuple_refused": true,
+  "energy_selection": {
+    "2047": 25,
+    "2048": 191
+  },
+  "evidence_differences": [],
+  "evidence_mismatches": 0,
+  "evidence_records": 6452,
+  "evidence_sha256": "a11a179c846d80f88b0691206f264e057fc1ba7250e206aec18e9350aa29ebab",
+  "identity_scope": "authentic USDA source values; synthetic local UUID bindings; NOT historical UUID verification",
+  "independently_rehashed_candidates": 353,
+  "max_fractional_precision": 3,
+  "maximum_source_value": "38700",
+  "microgram_factor": "1",
+  "missing": 6094,
+  "positions_sha256": "c4647a0be4b2168a174e1e7581cdd5266c713c84ea3677a9d5b5c30d1dd76400",
+  "present": 6261,
+  "same_count_wrong_value_detected": 1,
+  "semantics": {
+    "explicit_zero": 320,
+    "missing": 6094,
+    "source_calculated": 1178,
+    "source_reported": 4763
+  },
+  "source_lexeme_roundtrip": true,
+  "source_rounding": false,
+  "source_units": {
+    "g": 1671,
+    "kcal": 407,
+    "mg": 4059,
+    "µg": 315
+  },
+  "state_positions": 12355,
+  "trace_or_negative_accepted": 0,
+  "unknown_to_zero_detected": true,
+  "withheld": 1059,
+  "task": "NUTRITION-USDA-FULL35-LOCAL-QUAL-001",
+  "verdict": "COMPLETE_WITH_EVIDENCE_GAPS",
+  "historical_identity_qualified": false,
+  "baseline_sha": "1ead267a36af9638d8c480a75db5a2f5cc999497",
+  "baseline_tree": "3be7170bfbecc016119885cc04de327c966117c4",
+  "missing_evidence": [
+    "authoritative 353-member FDC/source-record UUID/source-version UUID mapping",
+    "per-version historical raw hash/UUID binding; no Production query authorized"
+  ],
+  "original_manifest_fingerprint": "ad3a51cbb0b3c6bbafd98d8bd59d996e10ac8cc4d82f22d8695d3a2838a8c2b0",
+  "original_allowance_fingerprint": "bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a",
+  "legacy_mapping_hash": "a5dc96bfcb2bd8d499b0a11eac8f252e7aa63d4ae13d8a78ee9047477c2a0fb5",
+  "mapping_hash": "028f426a5107af052caf49b6ec3d0d145599a708a28541cc00d28fde04df5c7c",
+  "legacy_report_fingerprint": "d845d61308d411673dd04651a50bb437ae3f0c6429c4d79c5af5ac055f0d9b5f",
+  "core_report_status": "blocked",
+  "source_only_reconciliation_status": "exact_historical_exclusions_offline_unapproved",
+  "executable": false,
+  "synthetic_bindings_report_fingerprint": "10382b3b61eb8950e52fca42a5579cae77314c8a8e6f6be48445386881788a2f",
+  "synthetic_bindings_reconciliation_fingerprint": "bc6f30379768c01b6f48bb094ddb2d647b31f6bfa05d106678496bd158671fa7",
+  "synthetic_bindings_identity_set_hash": "15e8bf9e090fc3a4ab7790caa03d7fd496527af00b4c159ad4541d4e034dd8a8",
+  "maximum_candidate_bytes": 25870,
+  "maximum_raw_record_bytes": 87874,
+  "schema_contract_hash": "20b1c07667e4b9d6322120d262830e3df9618f38bce6f40e58405034133c691f",
+  "observed_schema_fingerprint": "cc5fe1770067d0dbc72983f46c4ce0ff1cee9c4a879d580b210a8005f11a7b66",
+  "historical_audit_artifact_digests": {
+    "mapping-matrix.csv": "aad4ccd3265a0e0e4b048b8b6402e41a90dd6de8844e15d7175bc358e2f7dd9e",
+    "coverage.csv": "79e742fa5c7c4db1fe55271f9d4b76aeffca3fe0ea2aa9e8663c72be90348b44",
+    "evidence/security.json": "cb936ff5e4edb42c84ecc724c758f42d6982812215c4be69e374564d3c158c64"
+  },
+  "source_custody": [
+    {
+      "name": "FoodData_Central_foundation_food_json_2026-04-30.zip",
+      "bytes": 469303,
+      "sha256": "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a",
+      "custody": "local external copy; no long-term Production-store qualification"
+    },
+    {
+      "name": "foundation-april-2026-production-reject-allowance.json",
+      "bytes": 1810,
+      "sha256": "cf16089ddf667ab4ce9324b01db70dfc83a67f52271d936206d5d0ea12742fc5",
+      "custody": "local external copy; no long-term Production-store qualification"
+    },
+    {
+      "name": "usda-nutrient-dictionary.json",
+      "bytes": 61580,
+      "sha256": "a4492db07aa30e992e88fccf27bb420b1d3b7e46c718e49ae64daa68df45a1f9",
+      "custody": "local external copy; no long-term Production-store qualification"
+    },
+    {
+      "name": "FoodData_Central_foundation_food_json_2026-04-30.json",
+      "bytes": 6721650,
+      "sha256": "27d1fe3fd89edfbe528ed915da5619320e1d004d4594603a1b19bdb1511590cc",
+      "custody": "local external copy; no long-term Production-store qualification"
+    },
+    {
+      "name": "foundation-april-2026-manifest.json",
+      "bytes": 1169,
+      "sha256": "bbfc5af1348ef2915202471bc08c55d49a605d6204a3b52c2294dc12eec280ee",
+      "custody": "local external copy; no long-term Production-store qualification"
+    }
+  ],
+  "negative_results": [
+    {
+      "label": "changed release UUID",
+      "result": "blocked_unqualified_evidence"
+    },
+    {
+      "error": "source_identity_mismatch",
+      "label": "changed archive digest"
+    },
+    {
+      "label": "altered accepted raw hash",
+      "result": "blocked_unexpected_exclusions"
+    },
+    {
+      "label": "missing accepted identity",
+      "result": "blocked_unexpected_exclusions"
+    },
+    {
+      "label": "invalid historical allowance",
+      "result": "blocked_unqualified_evidence"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "wrong rejection ID"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "changed rejection category"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "missing approved exclusion"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "extra unexpected rejection"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "altered rejected raw hash"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "tampered v3 report"
+    },
+    {
+      "error": "evidence_mismatch",
+      "label": "forged rehashed reconciliation"
+    },
+    {
+      "label": "altered accepted UUID vs frozen local identity inventory",
+      "result": "external_exact_set_comparison_rejects"
+    }
+  ],
+  "source_inspection": {
+    "accepted_records": 353,
+    "custody": {
+      "accepted_raw_set_hash": "95749cc4e604e3a94c6d07bf0bcf0c640f1688abadebcbfd5d157cf2c3b262d4",
+      "all_numeric_lexemes_exact": true,
+      "archive_bytes": 469303,
+      "archive_sha256": "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a",
+      "full_raw_set_hash": "c53100dd52fa09df408b4e9e7682f43192616689d0afaed7029e8c1b4344cf12",
+      "member_bytes": 6721650,
+      "member_sha256": "27d1fe3fd89edfbe528ed915da5619320e1d004d4594603a1b19bdb1511590cc",
+      "numeric_lexemes": 143328
+    },
+    "dictionary_sha256": "a4492db07aa30e992e88fccf27bb420b1d3b7e46c718e49ae64daa68df45a1f9",
+    "duplicate_fdc_ids": 0,
+    "excluded_alternatives": [
+      {
+        "code": "energy_kcal",
+        "excluded_id": 1008,
+        "records": 95,
+        "substituted_values": 0,
+        "with_numeric_amount": 95
+      },
+      {
+        "code": "energy_kcal",
+        "excluded_id": 1062,
+        "records": 95,
+        "substituted_values": 0,
+        "with_numeric_amount": 95
+      },
+      {
+        "code": "fiber_g",
+        "excluded_id": 2033,
+        "records": 34,
+        "substituted_values": 0,
+        "with_numeric_amount": 34
+      },
+      {
+        "code": "sugars_g",
+        "excluded_id": 2000,
+        "records": 5,
+        "substituted_values": 0,
+        "with_numeric_amount": 5
+      },
+      {
+        "code": "fat_g",
+        "excluded_id": 1085,
+        "records": 63,
+        "substituted_values": 0,
+        "with_numeric_amount": 63
+      },
+      {
+        "code": "trans_fat_g",
+        "excluded_id": 1329,
+        "records": 54,
+        "substituted_values": 0,
+        "with_numeric_amount": 54
+      },
+      {
+        "code": "trans_fat_g",
+        "excluded_id": 1330,
+        "records": 48,
+        "substituted_values": 0,
+        "with_numeric_amount": 48
+      },
+      {
+        "code": "trans_fat_g",
+        "excluded_id": 1331,
+        "records": 26,
+        "substituted_values": 0,
+        "with_numeric_amount": 26
+      },
+      {
+        "code": "vitamin_a_rae_ug",
+        "excluded_id": 1104,
+        "records": 0,
+        "substituted_values": 0,
+        "with_numeric_amount": 0
+      },
+      {
+        "code": "vitamin_a_rae_ug",
+        "excluded_id": 1105,
+        "records": 53,
+        "substituted_values": 0,
+        "with_numeric_amount": 53
+      },
+      {
+        "code": "vitamin_a_rae_ug",
+        "excluded_id": 2066,
+        "records": 27,
+        "substituted_values": 0,
+        "with_numeric_amount": 0
+      },
+      {
+        "code": "vitamin_d_ug",
+        "excluded_id": 1110,
+        "records": 52,
+        "substituted_values": 0,
+        "with_numeric_amount": 52
+      },
+      {
+        "code": "vitamin_d_ug",
+        "excluded_id": 1111,
+        "records": 47,
+        "substituted_values": 0,
+        "with_numeric_amount": 47
+      },
+      {
+        "code": "vitamin_d_ug",
+        "excluded_id": 1112,
+        "records": 41,
+        "substituted_values": 0,
+        "with_numeric_amount": 41
+      },
+      {
+        "code": "vitamin_d_ug",
+        "excluded_id": 1113,
+        "records": 15,
+        "substituted_values": 0,
+        "with_numeric_amount": 15
+      },
+      {
+        "code": "vitamin_e_mg",
+        "excluded_id": 1125,
+        "records": 59,
+        "substituted_values": 0,
+        "with_numeric_amount": 59
+      },
+      {
+        "code": "vitamin_e_mg",
+        "excluded_id": 1126,
+        "records": 59,
+        "substituted_values": 0,
+        "with_numeric_amount": 59
+      },
+      {
+        "code": "vitamin_e_mg",
+        "excluded_id": 1127,
+        "records": 59,
+        "substituted_values": 0,
+        "with_numeric_amount": 59
+      },
+      {
+        "code": "vitamin_k_ug",
+        "excluded_id": 1183,
+        "records": 60,
+        "substituted_values": 0,
+        "with_numeric_amount": 60
+      },
+      {
+        "code": "vitamin_k_ug",
+        "excluded_id": 1184,
+        "records": 65,
+        "substituted_values": 0,
+        "with_numeric_amount": 65
+      },
+      {
+        "code": "vitamin_k_ug",
+        "excluded_id": 1185,
+        "records": 75,
+        "substituted_values": 0,
+        "with_numeric_amount": 75
+      },
+      {
+        "code": "folate_dfe_ug",
+        "excluded_id": 1177,
+        "records": 123,
+        "substituted_values": 0,
+        "with_numeric_amount": 123
+      },
+      {
+        "code": "folate_dfe_ug",
+        "excluded_id": 1186,
+        "records": 0,
+        "substituted_values": 0,
+        "with_numeric_amount": 0
+      },
+      {
+        "code": "folate_dfe_ug",
+        "excluded_id": 1187,
+        "records": 0,
+        "substituted_values": 0,
+        "with_numeric_amount": 0
+      },
+      {
+        "code": "added_sugars_g",
+        "excluded_id": 1063,
+        "records": 136,
+        "substituted_values": 0,
+        "with_numeric_amount": 136
+      },
+      {
+        "code": "added_sugars_g",
+        "excluded_id": 2000,
+        "records": 5,
+        "substituted_values": 0,
+        "with_numeric_amount": 5
+      }
+    ],
+    "maximum_raw_record_bytes": 87874,
+    "no_serving_alias_created": true,
+    "observed_schema_fingerprint": "cc5fe1770067d0dbc72983f46c4ce0ff1cee9c4a879d580b210a8005f11a7b66",
+    "rejected_records": [
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727566",
+        "raw_hash": "06dc7e5736ab1c93c6aa86e29d017ad969cbcdafbf497844c329c4f80ecee343",
+        "source_id": "1005",
+        "value": "-0.475"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727567",
+        "raw_hash": "555a24d57a6480813382ef4a16872cc289680a4e37b6ea542210cb7e7fee6fbc",
+        "source_id": "1005",
+        "value": "-0.173"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727568",
+        "raw_hash": "c55fec3abb54850e8d232b5cfe053bc0a7be53c5e0095406e5185d344b42a550",
+        "source_id": "1005",
+        "value": "-0.459"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727569",
+        "raw_hash": "7565ac119911fd1490d50d80cfa5261be24aa60bbc2f5ac149ddd0e512328dca",
+        "source_id": "1005",
+        "value": "-0.428"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727570",
+        "raw_hash": "88fce36913b9de7f09efe3e6fc12822850cfd0f6f44b36070a6fcccd588a8a8f",
+        "source_id": "1005",
+        "value": "-0.251"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727571",
+        "raw_hash": "f99f1eb39121b9f90ada2fe074e61f261611b09c088e31c58353cc3b158471d7",
+        "source_id": "1005",
+        "value": "-0.150"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727575",
+        "raw_hash": "5caecce43b3c74993b7d516719b7a1bb1920d688b97387536969d7bb3947c23e",
+        "source_id": "1005",
+        "value": "-0.562"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2727576",
+        "raw_hash": "62f591dfc99c5211c6177efb98decadd7bf8b72e028ee7ed1b4d8ff7ea38a3eb",
+        "source_id": "1005",
+        "value": "-0.705"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2747656",
+        "raw_hash": "42a7bb6b119a3e4071f929ee153faeb9e12a14cb75b31c8cf07db4f076b1f057",
+        "source_id": "1005",
+        "value": "-0.060"
+      },
+      {
+        "category": "negative_target_value",
+        "fdc_id": "2747673",
+        "raw_hash": "53dde09f27e1c66326644df495623519d0b76782c7428ed05faf109e4e640f01",
+        "source_id": "1005",
+        "value": "-0.104"
+      }
+    ],
+    "source_less_than_footnotes": 0,
+    "source_loq_fields": 0,
+    "source_nutrient_items": 15193,
+    "source_portions_are_metadata_only": true,
+    "source_records": 363,
+    "trailing_nulls": 32,
+    "unexpected_warning_categories": [],
+    "warning_counts": {
+      "alternative_energy_methods_retained": 191,
+      "missing_direct_nutrients": 353,
+      "policy_withheld_nutrients": 353,
+      "source_portion_sequence_rebased": 58,
+      "unsupported_nutrients_retained_in_raw": 353
+    }
+  },
+  "tools": {
+    "node": "v26.5.1",
+    "python": "Python 3.15.2",
+    "npm": "11.17.0",
+    "git": "git version 2.54.0 (Apple Git-157)"
+  },
+  "local_validation": {
+    "focused_playwright": "162 passed, zero skipped, including all 353x35x3 authentic-source application positions",
+    "python_comparator": "6 passed",
+    "lint": "passed, zero warnings",
+    "typecheck": "passed",
+    "diff_check": "passed"
+  },
+  "approval_boundary": "No historical UUID authenticity claim, no new approval, no database, schema/migration, source registration, ingestion, reprojection, recovery, deploy or merge action; Draft review only.",
+  "exact_head_ci": "Recorded separately by GitHub and final delivery evidence; no prior-head result substituted."
+}
