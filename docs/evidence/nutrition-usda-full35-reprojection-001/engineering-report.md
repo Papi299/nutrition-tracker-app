@@ -202,14 +202,16 @@ current pointers before combined independent review or merge.
 Local development qualification: 22 governed database tests; 22 legacy lifecycle
 database regressions; 165 focused ingestion regressions; 582 pure unit tests
 (with one pre-existing optional authentic-source-vector skip); 301 recovery
-regressions; nine workflow-security regressions; lint/typecheck; generated
+regressions; nine workflow-security regressions; 203 deployment-contract regressions; lint/typecheck; generated
 local ingestion types; authentic offline SQL candidate comparison.
 
 The CI addition is unconditional and explicitly pinned by the existing closed
 workflow policy. New negative policy tests reject removing or replacing it;
 all old gates and recovery step ordering remain intact. The only legacy test
 adjustment requires all 23 old plus seven new immutable guards (30 total).
-No test or recovery gate was deleted or weakened.
+No test or recovery gate was deleted or weakened. The environment registry/runbook
+adds only the new local test variables and local Docker endpoint refusal check;
+application, Vercel and hosted environment configuration remain unchanged.
 
 The final Draft PR delivery record supplies exact head/tree, merge base,
 changed-file inventory, exact-head local qualification evidence and each
@@ -232,8 +234,8 @@ unmerged; no self-approval or protection bypass occurs.
 Recovery history 47 and combined release qualification remain unaccepted.
 Git/file review evidence is independently reviewed outside SQL, with installed
 schema and scope additionally revalidated inside SQL. Development failures
-(function creation order, versioned CHECK helper ACLs and FK-respecting stale
-fixtures) were corrected without relaxing existing constraints. Slow synthetic
+(function creation order, versioned CHECK helper ACLs, FK-respecting stale
+fixtures and local-only environment inventory documentation) were corrected without relaxing existing constraints. Slow synthetic
 qualification is intentionally serial for exact shared-state/race evidence.
 Any final-head failure beyond recovery is enumerated in the Draft PR delivery
 record and prevents a readiness claim.

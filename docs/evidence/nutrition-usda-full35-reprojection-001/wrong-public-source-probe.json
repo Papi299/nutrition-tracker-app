@@ -1,0 +1,8 @@
+{
+  "scope": "Synthetic disposable local version-1 dataset only",
+  "actor": "Actual restricted full35_operator_test LOGIN",
+  "attack": "Rehashed plan item with substituted public food source UUID",
+  "refused": true,
+  "postgres_error": "plan item substitutes a food or source identity",
+  "hosted_access": false
+}

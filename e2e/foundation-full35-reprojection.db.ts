@@ -183,6 +183,7 @@ test.describe.serial("Full35 governed local execution",()=>{
       p=>{p.operator_oid++;},p=>{p.operator_login=approver;},
       p=>{p.source_release_id=fixtureId(999990);},p=>{p.mapping_version_id=fixtureId(999991);},
       p=>{p.items[0].before.food_id=fixtureId(999705);},
+      p=>{p.items[0].before.food_row.source_id=fixtureId(999994);},
       p=>{p.items[0].candidate.record_identity.source_version_id=fixtureId(999992);},
       p=>{p.items[0].candidate.record_identity.source_record_id=fixtureId(999993);},
       p=>{p.items[0].candidate.record_identity.raw_content_sha256="f".repeat(64);},
