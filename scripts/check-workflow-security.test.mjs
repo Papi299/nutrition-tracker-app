@@ -72,6 +72,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
     ...[44, 45, 46].map(count => ci.replace(new RegExp(`^.*phase11i-migration${count}\\.json.*\\n`, "m"), "")),
     ci.replace("--serving-reference", "--nutrition-snapshots"),
+    ci.replace("      - name: Qualify isolated Full35 reprojection database\n        run: npm run test:full35-reprojection-local\n\n", ""),
+    ci.replace("run: npm run test:full35-reprojection-local", "run: echo skipped"),
   ];
   for (const mutation of mutations) {
     assert.notEqual(mutation, ci);

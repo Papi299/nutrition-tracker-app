@@ -46,7 +46,8 @@
     "types:ingestion": "node scripts/check-ingestion-types.mjs --write",
     "types:ingestion:check": "node scripts/check-ingestion-types.mjs",
     "supabase:status": "supabase status",
-    "supabase:version": "supabase --version"
+    "supabase:version": "supabase --version",
+    "test:full35-reprojection-local": "node scripts/run-full35-reprojection-local.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

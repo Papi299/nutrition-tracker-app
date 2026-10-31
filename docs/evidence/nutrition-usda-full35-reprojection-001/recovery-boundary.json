@@ -1,0 +1,10 @@
+{
+  "migration_count": 47,
+  "head": "20261031104559",
+  "accepted": false,
+  "unresolved_integration_blocker": true,
+  "errors": {
+    "ledger": "Source migration count mismatch.",
+    "boundary": "Source migration head mismatch: unsupported reviewed history."
+  }
+}

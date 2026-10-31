@@ -51,6 +51,7 @@ const ciSteps = [
   "Run pure unit tests",
   "Build production application and verify client secret boundary",
   "Install Playwright Phase 11D engines",
+  "Qualify isolated Full35 reprojection database",
   "Start local Supabase",
   "Verify hosted migration-role compatibility",
   "Replay migrations and seed locally",
@@ -190,6 +191,12 @@ function checkCiDispatchContract(workflow) {
     "          npx playwright install --with-deps chromium firefox webkit\n\n";
   if (steps.get("Install Playwright Phase 11D engines") !== browserInstall) {
     fail("ci.yml must retain the reviewed official Ubuntu archive and all browser engines/dependencies");
+  }
+
+  const full35Step = "      - name: Qualify isolated Full35 reprojection database\n" +
+    "        run: npm run test:full35-reprojection-local\n\n";
+  if (steps.get("Qualify isolated Full35 reprojection database") !== full35Step) {
+    fail("ci.yml must retain the exact isolated Full35 database qualification");
   }
 
   const allowedConditions = new Map([
