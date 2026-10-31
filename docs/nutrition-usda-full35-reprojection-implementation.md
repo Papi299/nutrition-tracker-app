@@ -77,7 +77,8 @@ grants no consumer or service-role administrative entry point.
 
 The implementation binds the reviewed Git commit/tree, ordered migration
 filenames/content hashes, installed database definition/ACL/RLS fingerprint,
-importer/parser/mapping/candidate/projection versions, source and exclusion
+importer/parser/mapping/candidate/projection versions, the accepted Production
+candidate inventory (including archive positions), source and exclusion
 qualification, before-image, approvals and recovery evidence requirements.
 PostgreSQL verifies installed migration ledger identities and recomputes the
 installed database fingerprint. Exact file hashes and Git provenance are

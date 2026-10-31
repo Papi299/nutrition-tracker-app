@@ -969,6 +969,23 @@ begin
     or (not compensate and (snapshot->'head'->>'id' is distinct from '2562de58-1c1c-4ce4-acca-3dd468cc045c'
       or snapshot->'head'->>'fingerprint' is distinct from '2195ba23c041f7ec5e6daba178501aa65320c6c85fa65604e9a496bba00c7e69'))
   ) then raise exception using errcode='23514',message='unapproved production source or dataset'; end if;
+  -- The accepted inventory also freezes archive positions, complete candidate
+  -- metadata and unselected method evidence. A raw hash alone cannot establish
+  -- a record's position in the original archive. Local fixtures keep synthetic
+  -- identities; Production must match the independently accepted PR #218 set.
+  if p_body->>'environment'='production' then
+    if (select ingestion.fingerprint_mapping_json_v1(pg_catalog.jsonb_agg(
+      pg_catalog.jsonb_build_object('fdc_id',candidate->>'fdc_id',
+        'raw_hash',candidate->'record_identity'->>'raw_content_sha256',
+        'candidate_hash',candidate->>'content_fingerprint','evidence_set_hash',candidate->>'evidence_set_hash',
+        'bytes',pg_catalog.octet_length(ingestion.canonicalize_mapping_json_v1(candidate)),
+        'selected_energy_method',candidate->'selected_energy_method','warning_categories',candidate->'warning_categories')
+        order by (candidate->>'fdc_id')::bigint))
+      from(select item->'candidate' candidate from pg_catalog.jsonb_array_elements(p_body->'items') item) inventory)
+      is distinct from 'd09dcf57c2fcc2bf2484da8bf46db5235abc63124c8f763ac542adcd6f2d58a3' then
+      raise exception using errcode='23514',message='accepted Production candidate inventory mismatch';
+    end if;
+  end if;
   if p_body->'implementation'->>'commit' is null or p_body->'implementation'->>'tree' is null
     or p_body->'recovery_requirements'->>'qualification_hash' is null
     or p_body->'implementation'->>'commit' !~ '^[a-f0-9]{40}$'

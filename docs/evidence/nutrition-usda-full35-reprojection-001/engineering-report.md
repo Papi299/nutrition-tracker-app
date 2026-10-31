@@ -89,8 +89,11 @@ registers no mapping. Only a synthetic local fixture registers v2 evidence.
 353 existing source versions are reused; no source version is added by the
 operation. Ten original exclusions are pinned with complete accepted rejection
 evidence. Production expectations additionally pin the accepted dataset,
-release, manifest/archive/member digests, original identity-set hash and first
-head. These are identification/preflight constraints, not remote operations.
+release, manifest/archive/member digests, original identity-set hash, first
+head and accepted candidate-inventory hash
+`d09dcf57c2fcc2bf2484da8bf46db5235abc63124c8f763ac542adcd6f2d58a3`.
+The inventory freezes every candidate byte count/hash, evidence hash, archive
+position, selected energy method and warning set. These are identification/preflight constraints, not remote operations.
 
 Actual baseline source versions have no normalized-candidate-hash column.
 Their `content_sha256` is the immutable raw hash. New interpretation/projection
