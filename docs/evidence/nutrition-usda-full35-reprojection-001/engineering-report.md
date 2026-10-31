@@ -205,14 +205,27 @@ current pointers before combined independent review or merge.
 Local development qualification: 22 governed database tests; 22 legacy lifecycle
 database regressions; 165 focused ingestion regressions; 582 pure unit tests
 (with one pre-existing optional authentic-source-vector skip); 301 recovery
-regressions; nine workflow-security regressions; 203 deployment-contract regressions; lint/typecheck; generated
-local ingestion types; authentic offline SQL candidate comparison.
+regressions; 29 legacy governance/importer API regressions; 19 authenticated
+promotion/alias API regressions; nine workflow-security regressions; 203
+deployment-contract regressions; lint/typecheck; generated local ingestion types;
+authentic offline SQL candidate comparison. The two browser-dependent promotion
+cases remain in the unchanged complete CI application suite.
 
 The CI addition is unconditional and explicitly pinned by the existing closed
 workflow policy. New negative policy tests reject removing or replacing it;
-all old gates and recovery step ordering remain intact. The only legacy test
-adjustment requires all 23 old plus seven new immutable guards (30 total).
-No test or recovery gate was deleted or weakened. The environment registry/runbook
+all old gates and recovery step ordering remain intact. Legacy inventory checks
+require all 23 old plus seven new immutable guards (30 total), all 41 old plus
+nine new RLS tables (50 total), the exact 18 old plus eight new operator RPCs
+(26 total), and the five old plus one scoped internal alias read policy. The
+alias policy is additionally checked for its exact SELECT role. All existing
+consumer and direct-write denials remain asserted.
+
+The initial full CI run on implementation head `7ab7b1d` passed the new database
+suite and all historical recovery drills, then reached its 50-minute job limit
+during the existing application suite. The fixed job budget is raised to 75
+minutes for the measured additional 20-minute serial Full35 suite; policy tests
+still reject either a smaller or larger unreviewed budget. No step, condition,
+test or recovery gate was deleted or weakened. The environment registry/runbook
 adds only the new local test variables and local Docker endpoint refusal check;
 application, Vercel and hosted environment configuration remain unchanged.
 
@@ -238,7 +251,8 @@ Recovery history 47 and combined release qualification remain unaccepted.
 Git/file review evidence is independently reviewed outside SQL, with installed
 schema and scope additionally revalidated inside SQL. Development failures
 (function creation order, versioned CHECK helper ACLs, FK-respecting stale
-fixtures and local-only environment inventory documentation) were corrected without relaxing existing constraints. Slow synthetic
+fixtures, local-only environment inventory documentation and legacy inventory
+expectations) were corrected without relaxing existing constraints. Slow synthetic
 qualification is intentionally serial for exact shared-state/race evidence.
 Any final-head failure beyond recovery is enumerated in the Draft PR delivery
 record and prevents a readiness claim.
