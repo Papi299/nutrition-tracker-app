@@ -179,7 +179,9 @@ export type Database = {
           id: string
           initial_promotion_receipt_id: string | null
           lifecycle_update_receipt_id: string | null
+          mapping_reprojection_receipt_id: string | null
           previous_head_id: string | null
+          projection_contract_version: string
           updated_at: string
         }
         Insert: {
@@ -191,7 +193,9 @@ export type Database = {
           id?: string
           initial_promotion_receipt_id?: string | null
           lifecycle_update_receipt_id?: string | null
+          mapping_reprojection_receipt_id?: string | null
           previous_head_id?: string | null
+          projection_contract_version?: string
           updated_at?: string
         }
         Update: {
@@ -203,7 +207,9 @@ export type Database = {
           id?: string
           initial_promotion_receipt_id?: string | null
           lifecycle_update_receipt_id?: string | null
+          mapping_reprojection_receipt_id?: string | null
           previous_head_id?: string | null
+          projection_contract_version?: string
           updated_at?: string
         }
         Relationships: [
@@ -236,6 +242,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "dataset_projection_heads_mapping_reprojection_receipt_id_d_fkey"
+            columns: [
+              "mapping_reprojection_receipt_id",
+              "dataset_id",
+              "environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
+            foreignKeyName: "dataset_projection_heads_mapping_reprojection_receipt_id_fkey"
+            columns: ["mapping_reprojection_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "dataset_projection_heads_previous_head_id_fkey"
             columns: ["previous_head_id"]
             isOneToOne: false
@@ -257,13 +281,17 @@ export type Database = {
           derivation_code: string | null
           derivation_description: string | null
           derivation_or_loq_category: string | null
+          evidence_body_v2: Json | null
+          evidence_hash_v2: string | null
           exact_conversion_factor: number | null
           food_nutrient_id: string
           id: string
+          mapping_reprojection_receipt_id: string | null
           mapping_version_id: string
           original_basis: string
           original_unit: string
           original_value: number | null
+          source_mapping_interpretation_id: string | null
           source_nutrient_id: string
           source_record_version_id: string
           source_semantic: string | null
@@ -274,13 +302,17 @@ export type Database = {
           derivation_code?: string | null
           derivation_description?: string | null
           derivation_or_loq_category?: string | null
+          evidence_body_v2?: Json | null
+          evidence_hash_v2?: string | null
           exact_conversion_factor?: number | null
           food_nutrient_id: string
           id?: string
+          mapping_reprojection_receipt_id?: string | null
           mapping_version_id: string
           original_basis: string
           original_unit: string
           original_value?: number | null
+          source_mapping_interpretation_id?: string | null
           source_nutrient_id: string
           source_record_version_id: string
           source_semantic?: string | null
@@ -291,13 +323,17 @@ export type Database = {
           derivation_code?: string | null
           derivation_description?: string | null
           derivation_or_loq_category?: string | null
+          evidence_body_v2?: Json | null
+          evidence_hash_v2?: string | null
           exact_conversion_factor?: number | null
           food_nutrient_id?: string
           id?: string
+          mapping_reprojection_receipt_id?: string | null
           mapping_version_id?: string
           original_basis?: string
           original_unit?: string
           original_value?: number | null
+          source_mapping_interpretation_id?: string | null
           source_nutrient_id?: string
           source_record_version_id?: string
           source_semantic?: string | null
@@ -305,11 +341,40 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "food_nutrient_evidence_mapping_reprojection_receipt_id_fkey"
+            columns: ["mapping_reprojection_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "food_nutrient_evidence_mapping_version_id_fkey"
             columns: ["mapping_version_id"]
             isOneToOne: false
             referencedRelation: "nutrient_mapping_versions"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_nutrient_evidence_source_mapping_interpretation_id_fkey"
+            columns: ["source_mapping_interpretation_id"]
+            isOneToOne: false
+            referencedRelation: "source_mapping_interpretations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_nutrient_evidence_source_mapping_interpretation_id_so_fkey"
+            columns: [
+              "source_mapping_interpretation_id",
+              "source_record_version_id",
+              "mapping_version_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "source_mapping_interpretations"
+            referencedColumns: [
+              "id",
+              "source_record_version_id",
+              "mapping_version_id",
+            ]
           },
           {
             foreignKeyName: "food_nutrient_evidence_source_record_version_id_fkey"
@@ -359,14 +424,18 @@ export type Database = {
       food_nutrient_projection_versions: {
         Row: {
           amount: number | null
+          application_unit: string | null
           basis: string | null
           created_at: string
           derivation_code: string | null
           derivation_description: string | null
+          evidence_hash: string | null
           food_projection_version_id: string
           id: string
+          missing_reason: string | null
           nutrient_code: string
           nutrient_id: string
+          projection_contract_version: string
           projection_hash: string
           projection_state: string
           source_nutrient_id: string | null
@@ -375,14 +444,18 @@ export type Database = {
         }
         Insert: {
           amount?: number | null
+          application_unit?: string | null
           basis?: string | null
           created_at?: string
           derivation_code?: string | null
           derivation_description?: string | null
+          evidence_hash?: string | null
           food_projection_version_id: string
           id?: string
+          missing_reason?: string | null
           nutrient_code: string
           nutrient_id: string
+          projection_contract_version?: string
           projection_hash: string
           projection_state: string
           source_nutrient_id?: string | null
@@ -391,14 +464,18 @@ export type Database = {
         }
         Update: {
           amount?: number | null
+          application_unit?: string | null
           basis?: string | null
           created_at?: string
           derivation_code?: string | null
           derivation_description?: string | null
+          evidence_hash?: string | null
           food_projection_version_id?: string
           id?: string
+          missing_reason?: string | null
           nutrient_code?: string
           nutrient_id?: string
+          projection_contract_version?: string
           projection_hash?: string
           projection_state?: string
           source_nutrient_id?: string | null
@@ -598,13 +675,18 @@ export type Database = {
           lifecycle_projection_hash: string
           lifecycle_update_receipt_id: string | null
           locale: string
+          mapping_reprojection_receipt_id: string | null
+          mapping_version_id: string | null
           name: string
           normalized_candidate_hash: string | null
           origin_type: string
           prior_food_projection_version_id: string | null
+          projection_body_v2: Json | null
+          projection_contract_version: string
           projection_hash: string
           serving_size: number | null
           serving_unit: string | null
+          source_mapping_interpretation_id: string | null
           source_metadata_hash: string | null
           source_record_id: string
           source_record_version_id: string
@@ -624,13 +706,18 @@ export type Database = {
           lifecycle_projection_hash?: string
           lifecycle_update_receipt_id?: string | null
           locale: string
+          mapping_reprojection_receipt_id?: string | null
+          mapping_version_id?: string | null
           name: string
           normalized_candidate_hash?: string | null
           origin_type: string
           prior_food_projection_version_id?: string | null
+          projection_body_v2?: Json | null
+          projection_contract_version?: string
           projection_hash: string
           serving_size?: number | null
           serving_unit?: string | null
+          source_mapping_interpretation_id?: string | null
           source_metadata_hash?: string | null
           source_record_id: string
           source_record_version_id: string
@@ -650,13 +737,18 @@ export type Database = {
           lifecycle_projection_hash?: string
           lifecycle_update_receipt_id?: string | null
           locale?: string
+          mapping_reprojection_receipt_id?: string | null
+          mapping_version_id?: string | null
           name?: string
           normalized_candidate_hash?: string | null
           origin_type?: string
           prior_food_projection_version_id?: string | null
+          projection_body_v2?: Json | null
+          projection_contract_version?: string
           projection_hash?: string
           serving_size?: number | null
           serving_unit?: string | null
+          source_mapping_interpretation_id?: string | null
           source_metadata_hash?: string | null
           source_record_id?: string
           source_record_version_id?: string
@@ -684,6 +776,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "food_projection_versions_mapping_reprojection_receipt_id_d_fkey"
+            columns: [
+              "mapping_reprojection_receipt_id",
+              "dataset_id",
+              "environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
+            foreignKeyName: "food_projection_versions_mapping_reprojection_receipt_id_fkey"
+            columns: ["mapping_reprojection_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "food_projection_versions_prior_food_projection_version_id_fkey"
             columns: ["prior_food_projection_version_id"]
             isOneToOne: false
@@ -696,6 +806,21 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "source_records"
             referencedColumns: ["id", "dataset_id"]
+          },
+          {
+            foreignKeyName: "food_projection_versions_source_mapping_interpretation_id__fkey"
+            columns: [
+              "source_mapping_interpretation_id",
+              "source_record_version_id",
+              "mapping_version_id",
+            ]
+            isOneToOne: false
+            referencedRelation: "source_mapping_interpretations"
+            referencedColumns: [
+              "id",
+              "source_record_version_id",
+              "mapping_version_id",
+            ]
           },
           {
             foreignKeyName: "food_projection_versions_source_record_id_fkey"
@@ -729,6 +854,9 @@ export type Database = {
           id: string
           initial_promotion_receipt_id: string | null
           lifecycle_update_receipt_id: string | null
+          mapping_dataset_id: string | null
+          mapping_environment: string | null
+          mapping_reprojection_receipt_id: string | null
           prior_event_id: string | null
           review_decision_fingerprint: string | null
           source_record_id: string
@@ -742,6 +870,9 @@ export type Database = {
           id?: string
           initial_promotion_receipt_id?: string | null
           lifecycle_update_receipt_id?: string | null
+          mapping_dataset_id?: string | null
+          mapping_environment?: string | null
+          mapping_reprojection_receipt_id?: string | null
           prior_event_id?: string | null
           review_decision_fingerprint?: string | null
           source_record_id: string
@@ -755,6 +886,9 @@ export type Database = {
           id?: string
           initial_promotion_receipt_id?: string | null
           lifecycle_update_receipt_id?: string | null
+          mapping_dataset_id?: string | null
+          mapping_environment?: string | null
+          mapping_reprojection_receipt_id?: string | null
           prior_event_id?: string | null
           review_decision_fingerprint?: string | null
           source_record_id?: string
@@ -776,6 +910,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "food_source_link_events_mapping_reprojection_receipt_id_fkey"
+            columns: ["mapping_reprojection_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_source_link_events_mapping_reprojection_receipt_id_ma_fkey"
+            columns: [
+              "mapping_reprojection_receipt_id",
+              "mapping_dataset_id",
+              "mapping_environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
             foreignKeyName: "food_source_link_events_prior_event_id_fkey"
             columns: ["prior_event_id"]
             isOneToOne: false
@@ -788,6 +940,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "source_records"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_source_link_events_source_record_id_mapping_dataset_i_fkey"
+            columns: ["source_record_id", "mapping_dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_records"
+            referencedColumns: ["id", "dataset_id"]
           },
           {
             foreignKeyName: "food_source_link_events_source_record_version_id_fkey"
@@ -1971,6 +2130,536 @@ export type Database = {
           },
         ]
       }
+      mapping_reprojection_approvals: {
+        Row: {
+          approval_body: Json
+          approval_hash: string
+          approved_at: string
+          approver_name: string
+          approver_oid: unknown
+          expires_at: string
+          id: string
+          plan_hash: string
+          plan_id: string
+          retry_token: string
+        }
+        Insert: {
+          approval_body: Json
+          approval_hash: string
+          approved_at: string
+          approver_name: string
+          approver_oid: unknown
+          expires_at: string
+          id?: string
+          plan_hash: string
+          plan_id: string
+          retry_token: string
+        }
+        Update: {
+          approval_body?: Json
+          approval_hash?: string
+          approved_at?: string
+          approver_name?: string
+          approver_oid?: unknown
+          expires_at?: string
+          id?: string
+          plan_hash?: string
+          plan_id?: string
+          retry_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_approvals_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: true
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_approvals_plan_id_plan_hash_fkey"
+            columns: ["plan_id", "plan_hash"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "plan_hash"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_approvals_plan_id_retry_token_fkey"
+            columns: ["plan_id", "retry_token"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "retry_token"]
+          },
+        ]
+      }
+      mapping_reprojection_events: {
+        Row: {
+          actor_oid: unknown
+          created_at: string
+          event_body: Json
+          event_hash: string
+          event_sequence: number
+          id: string
+          next_state: string
+          plan_id: string
+          prior_state: string | null
+        }
+        Insert: {
+          actor_oid: unknown
+          created_at?: string
+          event_body: Json
+          event_hash: string
+          event_sequence: number
+          id?: string
+          next_state: string
+          plan_id: string
+          prior_state?: string | null
+        }
+        Update: {
+          actor_oid?: unknown
+          created_at?: string
+          event_body?: Json
+          event_hash?: string
+          event_sequence?: number
+          id?: string
+          next_state?: string
+          plan_id?: string
+          prior_state?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_events_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_reprojection_execution_context: {
+        Row: {
+          approval_id: string
+          backend_pid: number
+          plan_id: string
+          transaction_id: unknown
+        }
+        Insert: {
+          approval_id: string
+          backend_pid: number
+          plan_id: string
+          transaction_id: unknown
+        }
+        Update: {
+          approval_id?: string
+          backend_pid?: number
+          plan_id?: string
+          transaction_id?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_execution_context_approval_id_fkey"
+            columns: ["approval_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_approvals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_execution_context_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_reprojection_inserted_rows: {
+        Row: {
+          amount: number
+          basis: string
+          food_id: string
+          nutrient_id: string
+          plan_id: string
+          plan_item_id: string
+          public_row_id: string
+          receipt_id: string
+          row_image: Json
+        }
+        Insert: {
+          amount: number
+          basis: string
+          food_id: string
+          nutrient_id: string
+          plan_id: string
+          plan_item_id: string
+          public_row_id: string
+          receipt_id: string
+          row_image: Json
+        }
+        Update: {
+          amount?: number
+          basis?: string
+          food_id?: string
+          nutrient_id?: string
+          plan_id?: string
+          plan_item_id?: string
+          public_row_id?: string
+          receipt_id?: string
+          row_image?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_inserted_rows_plan_item_id_fkey"
+            columns: ["plan_item_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plan_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_inserted_rows_plan_item_id_food_id_fkey"
+            columns: ["plan_item_id", "food_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plan_items"
+            referencedColumns: ["id", "food_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_inserted_rows_plan_item_id_plan_id_fkey"
+            columns: ["plan_item_id", "plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plan_items"
+            referencedColumns: ["id", "plan_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_inserted_rows_receipt_id_fkey"
+            columns: ["receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_inserted_rows_receipt_id_plan_id_fkey"
+            columns: ["receipt_id", "plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id", "plan_id"]
+          },
+        ]
+      }
+      mapping_reprojection_plan_items: {
+        Row: {
+          food_id: string
+          id: string
+          item_body: Json
+          item_hash: string
+          plan_id: string
+          prior_food_head_version: number
+          prior_projection_id: string
+          source_record_id: string
+          source_version_id: string
+        }
+        Insert: {
+          food_id: string
+          id?: string
+          item_body: Json
+          item_hash: string
+          plan_id: string
+          prior_food_head_version: number
+          prior_projection_id: string
+          source_record_id: string
+          source_version_id: string
+        }
+        Update: {
+          food_id?: string
+          id?: string
+          item_body?: Json
+          item_hash?: string
+          plan_id?: string
+          prior_food_head_version?: number
+          prior_projection_id?: string
+          source_record_id?: string
+          source_version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_plan_ite_source_version_id_source_rec_fkey"
+            columns: ["source_version_id", "source_record_id"]
+            isOneToOne: false
+            referencedRelation: "source_record_versions"
+            referencedColumns: ["id", "source_record_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plan_items_prior_projection_id_fkey"
+            columns: ["prior_projection_id"]
+            isOneToOne: false
+            referencedRelation: "food_projection_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plan_items_source_record_id_fkey"
+            columns: ["source_record_id"]
+            isOneToOne: false
+            referencedRelation: "source_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_reprojection_plans: {
+        Row: {
+          created_at: string
+          dataset_id: string
+          environment: string
+          id: string
+          mapping_version_id: string
+          operation_kind: string
+          operator_name: string
+          operator_oid: unknown
+          plan_body: Json
+          plan_hash: string
+          prior_head_hash: string
+          prior_head_id: string
+          prior_head_version: number
+          rejected_receipt_id: string | null
+          retry_token: string
+          source_release_id: string
+          state: string
+        }
+        Insert: {
+          created_at?: string
+          dataset_id: string
+          environment: string
+          id?: string
+          mapping_version_id: string
+          operation_kind: string
+          operator_name: string
+          operator_oid: unknown
+          plan_body: Json
+          plan_hash: string
+          prior_head_hash: string
+          prior_head_id: string
+          prior_head_version: number
+          rejected_receipt_id?: string | null
+          retry_token: string
+          source_release_id: string
+          state?: string
+        }
+        Update: {
+          created_at?: string
+          dataset_id?: string
+          environment?: string
+          id?: string
+          mapping_version_id?: string
+          operation_kind?: string
+          operator_name?: string
+          operator_oid?: unknown
+          plan_body?: Json
+          plan_hash?: string
+          prior_head_hash?: string
+          prior_head_id?: string
+          prior_head_version?: number
+          rejected_receipt_id?: string | null
+          retry_token?: string
+          source_release_id?: string
+          state?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_plans_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_mapping_version_id_fkey"
+            columns: ["mapping_version_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_version_evidence"
+            referencedColumns: ["mapping_version_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_prior_head_id_dataset_id_enviro_fkey"
+            columns: [
+              "prior_head_id",
+              "dataset_id",
+              "environment",
+              "prior_head_version",
+              "prior_head_hash",
+            ]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: [
+              "id",
+              "dataset_id",
+              "environment",
+              "head_version",
+              "dataset_projection_fingerprint",
+            ]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_rejected_receipt_id_fkey"
+            columns: ["rejected_receipt_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_receipts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_source_release_id_dataset_id_fkey"
+            columns: ["source_release_id", "dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id", "dataset_id"]
+          },
+        ]
+      }
+      mapping_reprojection_receipts: {
+        Row: {
+          approval_id: string
+          completed_at: string
+          dataset_id: string
+          environment: string
+          id: string
+          operator_oid: unknown
+          plan_id: string
+          prior_head_id: string
+          receipt_body: Json
+          receipt_hash: string
+          resulting_head_id: string
+          retry_token: string
+        }
+        Insert: {
+          approval_id: string
+          completed_at: string
+          dataset_id: string
+          environment: string
+          id?: string
+          operator_oid: unknown
+          plan_id: string
+          prior_head_id: string
+          receipt_body: Json
+          receipt_hash: string
+          resulting_head_id: string
+          retry_token: string
+        }
+        Update: {
+          approval_id?: string
+          completed_at?: string
+          dataset_id?: string
+          environment?: string
+          id?: string
+          operator_oid?: unknown
+          plan_id?: string
+          prior_head_id?: string
+          receipt_body?: Json
+          receipt_hash?: string
+          resulting_head_id?: string
+          retry_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_receipts_approval_id_plan_id_fkey"
+            columns: ["approval_id", "plan_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_approvals"
+            referencedColumns: ["id", "plan_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_approval_id_plan_id_retry_to_fkey"
+            columns: ["approval_id", "plan_id", "retry_token"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_approvals"
+            referencedColumns: ["id", "plan_id", "retry_token"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_plan_id_dataset_id_environme_fkey"
+            columns: ["plan_id", "dataset_id", "environment"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: true
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_prior_head_id_dataset_id_env_fkey"
+            columns: ["prior_head_id", "dataset_id", "environment"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_prior_head_id_fkey"
+            columns: ["prior_head_id"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_resulting_head_id_dataset_id_fkey"
+            columns: ["resulting_head_id", "dataset_id", "environment"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id", "dataset_id", "environment"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_resulting_head_id_fkey"
+            columns: ["resulting_head_id"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_version_evidence: {
+        Row: {
+          approval_reference: string
+          canonical_mapping: Json
+          created_at: string
+          mapping_hash: string
+          mapping_version_id: string
+          reviewed_commit: string
+        }
+        Insert: {
+          approval_reference: string
+          canonical_mapping: Json
+          created_at?: string
+          mapping_hash: string
+          mapping_version_id: string
+          reviewed_commit: string
+        }
+        Update: {
+          approval_reference?: string
+          canonical_mapping?: Json
+          created_at?: string
+          mapping_hash?: string
+          mapping_version_id?: string
+          reviewed_commit?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_version_evidence_mapping_version_id_fkey"
+            columns: ["mapping_version_id"]
+            isOneToOne: true
+            referencedRelation: "nutrient_mapping_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_version_evidence_mapping_version_id_mapping_hash_fkey"
+            columns: ["mapping_version_id", "mapping_hash"]
+            isOneToOne: true
+            referencedRelation: "nutrient_mapping_versions"
+            referencedColumns: ["id", "content_sha256"]
+          },
+        ]
+      }
       nutrient_mapping_versions: {
         Row: {
           approval_reference: string | null
@@ -2620,6 +3309,84 @@ export type Database = {
           },
         ]
       }
+      source_mapping_interpretations: {
+        Row: {
+          candidate_body: Json
+          candidate_contract_version: string
+          candidate_hash: string
+          created_at: string
+          evidence_set_hash: string
+          id: string
+          mapping_hash: string
+          mapping_version_id: string
+          provenance: Json
+          raw_record_hash: string
+          source_record_version_id: string
+          source_release_id: string
+        }
+        Insert: {
+          candidate_body: Json
+          candidate_contract_version: string
+          candidate_hash: string
+          created_at?: string
+          evidence_set_hash: string
+          id?: string
+          mapping_hash: string
+          mapping_version_id: string
+          provenance: Json
+          raw_record_hash: string
+          source_record_version_id: string
+          source_release_id: string
+        }
+        Update: {
+          candidate_body?: Json
+          candidate_contract_version?: string
+          candidate_hash?: string
+          created_at?: string
+          evidence_set_hash?: string
+          id?: string
+          mapping_hash?: string
+          mapping_version_id?: string
+          provenance?: Json
+          raw_record_hash?: string
+          source_record_version_id?: string
+          source_release_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_mapping_interpretation_mapping_version_id_mapping_h_fkey"
+            columns: ["mapping_version_id", "mapping_hash"]
+            isOneToOne: false
+            referencedRelation: "mapping_version_evidence"
+            referencedColumns: ["mapping_version_id", "mapping_hash"]
+          },
+          {
+            foreignKeyName: "source_mapping_interpretation_source_record_version_id_sou_fkey"
+            columns: [
+              "source_record_version_id",
+              "source_release_id",
+              "raw_record_hash",
+            ]
+            isOneToOne: false
+            referencedRelation: "source_record_versions"
+            referencedColumns: ["id", "source_release_id", "content_sha256"]
+          },
+          {
+            foreignKeyName: "source_mapping_interpretations_source_record_version_id_fkey"
+            columns: ["source_record_version_id"]
+            isOneToOne: false
+            referencedRelation: "source_record_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "source_mapping_interpretations_source_release_id_fkey"
+            columns: ["source_release_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       source_record_versions: {
         Row: {
           content_sha256: string
@@ -2959,12 +3726,44 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      append_mapping_event_v1: {
+        Args: { p_next: string; p_plan: string; p_prior: string }
+        Returns: undefined
+      }
+      approve_foundation_mapping_compensation_v1: {
+        Args: {
+          p_evidence: Json
+          p_expires_at: string
+          p_plan_hash: string
+          p_plan_id: string
+        }
+        Returns: string
+      }
+      approve_foundation_mapping_reprojection_v1: {
+        Args: {
+          p_evidence: Json
+          p_expires_at: string
+          p_plan_hash: string
+          p_plan_id: string
+        }
+        Returns: string
+      }
       approve_foundation_promotion: {
         Args: { p_approval: Json; p_validation_receipt_id: string }
         Returns: {
           approval_fingerprint: string
           promotion_approval_id: string
         }[]
+      }
+      approve_mapping_plan_internal_v1: {
+        Args: {
+          p_evidence: Json
+          p_expires_at: string
+          p_kind: string
+          p_plan_hash: string
+          p_plan_id: string
+        }
+        Returns: string
       }
       assert_exact_json_fields: {
         Args: { p_expected_keys: string[]; p_max_bytes: number; p_value: Json }
@@ -3019,6 +3818,7 @@ export type Database = {
         Returns: Json
       }
       canonicalize_json_v1: { Args: { p_value: Json }; Returns: string }
+      canonicalize_mapping_json_v1: { Args: { p_value: Json }; Returns: string }
       canonicalize_source_release_manifest_v1: {
         Args: { p_manifest: Json }
         Returns: string
@@ -3029,6 +3829,10 @@ export type Database = {
           deleted_candidates: number
           deleted_source_records: number
         }[]
+      }
+      close_foundation_mapping_plan_v1: {
+        Args: { p_outcome: string; p_plan_id: string }
+        Returns: undefined
       }
       create_foundation_lifecycle_run: {
         Args: {
@@ -3088,6 +3892,18 @@ export type Database = {
           resulting_dataset_projection_head_id: string
         }[]
       }
+      execute_foundation_mapping_compensation_v1: {
+        Args: { p_approval_id: string; p_retry_token: string }
+        Returns: Json
+      }
+      execute_foundation_mapping_reprojection_v1: {
+        Args: { p_approval_id: string; p_retry_token: string }
+        Returns: Json
+      }
+      execute_mapping_plan_internal_v1: {
+        Args: { p_approval_id: string; p_kind: string; p_retry_token: string }
+        Returns: Json
+      }
       fingerprint_foundation_final_projection_v1: {
         Args: {
           p_dataset_id: string
@@ -3098,6 +3914,12 @@ export type Database = {
         Returns: string
       }
       fingerprint_json_v1: { Args: { p_value: Json }; Returns: string }
+      fingerprint_mapping_database_contract_v1: { Args: never; Returns: string }
+      fingerprint_mapping_json_v1: { Args: { p_value: Json }; Returns: string }
+      fingerprint_mapping_projection_evidence_v1: {
+        Args: { p_projection: string }
+        Returns: string
+      }
       fingerprint_source_release_manifest_v1: {
         Args: { p_manifest: Json }
         Returns: string
@@ -3110,6 +3932,8 @@ export type Database = {
         }
         Returns: Json
       }
+      foundation_full35_mapping_body_v1: { Args: never; Returns: Json }
+      foundation_full35_rejected_set_v1: { Args: never; Returns: Json }
       foundation_lifecycle_candidate_projection_v1: {
         Args: { p_candidate: Json }
         Returns: Json
@@ -3150,6 +3974,18 @@ export type Database = {
           resulting_dataset_projection_head_id: string
         }[]
       }
+      get_foundation_mapping_reprojection_plan_v1: {
+        Args: { p_plan_id: string }
+        Returns: Json
+      }
+      get_foundation_mapping_reprojection_receipt_v1: {
+        Args: { p_approval_id: string }
+        Returns: Json
+      }
+      get_foundation_mapping_reprojection_scope_v1: {
+        Args: { p_environment: string }
+        Returns: Json
+      }
       jsonb_safe_count_object_has_exact_keys: {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
@@ -3162,6 +3998,62 @@ export type Database = {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
       }
+      mapping_actor_oid_v1: { Args: { p_authority: string }; Returns: unknown }
+      mapping_candidate_states_v1: {
+        Args: { p_candidate: Json; p_compensate: boolean }
+        Returns: Json
+      }
+      mapping_json_has_duplicate_keys_v1: {
+        Args: { p_value: Json }
+        Returns: boolean
+      }
+      mapping_json_input_v1: { Args: { p_input: Json }; Returns: Json }
+      mapping_lifecycle_hash_v2: { Args: { p_body: Json }; Returns: string }
+      mapping_plan_diff_v1: { Args: { p_body: Json }; Returns: Json }
+      mapping_projection_body_v2: {
+        Args: { p_projection_id: string }
+        Returns: Json
+      }
+      mapping_projection_state_body_v1: {
+        Args: {
+          p_state: Database["ingestion"]["Tables"]["food_nutrient_projection_versions"]["Row"]
+        }
+        Returns: Json
+      }
+      mapping_proposed_projection_v2: {
+        Args: {
+          p_candidate: Json
+          p_compensate: boolean
+          p_dataset: string
+          p_environment: string
+          p_food: Json
+          p_mapping: string
+        }
+        Returns: Json
+      }
+      mapping_public_mutation_authorized_v1: {
+        Args: {
+          p_amount: number
+          p_basis: string
+          p_delete: boolean
+          p_food: string
+          p_nutrient: string
+          p_row: string
+        }
+        Returns: boolean
+      }
+      mapping_require_keys_v1: {
+        Args: { p_keys: string[]; p_value: Json }
+        Returns: undefined
+      }
+      mapping_scope_snapshot_v1: {
+        Args: { p_dataset: string; p_environment: string }
+        Returns: Json
+      }
+      mapping_source_record_hash_v1: {
+        Args: { p_raw_text: string }
+        Returns: string
+      }
       prepare_foundation_lifecycle_execution_plan: {
         Args: { p_validation_receipt_id: string }
         Returns: {
@@ -3170,6 +4062,18 @@ export type Database = {
           execution_plan_id: string
           plan_fingerprint: string
         }[]
+      }
+      prepare_foundation_mapping_compensation_v1: {
+        Args: { p_plan: Json; p_retry_token: string }
+        Returns: string
+      }
+      prepare_foundation_mapping_reprojection_v1: {
+        Args: { p_plan: Json; p_retry_token: string }
+        Returns: string
+      }
+      prepare_mapping_plan_internal_v1: {
+        Args: { p_kind: string; p_plan: Json; p_retry_token: string }
+        Returns: string
       }
       promote_validated_foundation_run: {
         Args: { p_promotion_approval_id: string }
@@ -3324,6 +4228,15 @@ export type Database = {
           validation_state: string
         }[]
       }
+      validate_mapping_candidate_metadata_v1: {
+        Args: { p_candidate: Json; p_raw: Json }
+        Returns: undefined
+      }
+      validate_mapping_candidate_v1: {
+        Args: { p_candidate: Json; p_raw_text: string }
+        Returns: undefined
+      }
+      validate_mapping_plan_v1: { Args: { p_body: Json }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

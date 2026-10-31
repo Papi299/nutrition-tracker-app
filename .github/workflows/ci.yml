@@ -108,6 +108,9 @@ jobs:
           apt-config dump Acquire::Retries Acquire::http::Timeout Acquire::https::Timeout
           npx playwright install --with-deps chromium firefox webkit
 
+      - name: Qualify isolated Full35 reprojection database
+        run: npm run test:full35-reprojection-local
+
       - name: Start local Supabase
         id: supabase
         run: npx supabase start

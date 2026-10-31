@@ -1,0 +1,350 @@
+{
+  "scope": "Independent Python canonical-byte vectors only; abbreviated bodies are not executable plans.",
+  "vectors": [
+    {
+      "contract_version": "foundation-lifecycle-projection/v2",
+      "body": {
+        "contract_version": "foundation-lifecycle-projection/v2",
+        "dataset_id": "00000000-0000-4000-8000-000000000001",
+        "environment": "local",
+        "source_release_id": "00000000-0000-4000-8000-000000000002",
+        "mapping_version_id": "00000000-0000-4000-8000-000000000003",
+        "food_id": "00000000-0000-4000-8000-000000000004",
+        "source_record_id": "00000000-0000-4000-8000-000000000005",
+        "source_record_version_id": "00000000-0000-4000-8000-000000000006",
+        "mapping_hash": "a6375ee99716acf4635ba3c192f7578a85ad4b479d09174e7d80d01aa91443af",
+        "raw_record_hash": "d7439bee24773bcbfa2d0a97947ee36227b10d1022b1a55847e928965bb6bfde",
+        "candidate_hash": "dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7",
+        "evidence_set_hash": "ee8250fb76e094b34b471f13a73dbbe51d1ae142e9df59d7c0d31ec20f0a0a8e",
+        "prior_projection": {
+          "id": "00000000-0000-4000-8000-000000000007",
+          "contract_version": "foundation-lifecycle-projection/v1",
+          "projection_hash": "0a118eea79d421f5a19f37f1a7f70e5300ca51ded390f0e76b6b21314a60648d",
+          "lifecycle_projection_hash": "ef39a5bca9851ce7c78c54f58373d582fcb83296d7240d29b4d98fee526ea644"
+        },
+        "food_metadata": {
+          "name": "Synthetic תזונה µg",
+          "serving_size": null,
+          "serving_unit": null
+        },
+        "operation_kind": "reprojection",
+        "nutrient_states": [
+          {
+            "nutrient_code": "fiber_g",
+            "application_unit": "g",
+            "projection_state": "present",
+            "basis": "per_100g",
+            "amount": "0",
+            "source_semantic": "explicit_zero",
+            "source_nutrient_id": "1079",
+            "source_unit": "G",
+            "derivation_code": null,
+            "derivation_description": null,
+            "evidence_hash": "f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243"
+          },
+          {
+            "nutrient_code": "vitamin_d_ug",
+            "application_unit": "ug",
+            "projection_state": "missing",
+            "missing_reason": "policy_withheld"
+          }
+        ]
+      },
+      "canonical_bytes": "{\"candidate_hash\":\"dda18a0e21ae47c53b4309434cbc02ae8bf764fa83a6defbb719431242722aa7\",\"contract_version\":\"foundation-lifecycle-projection/v2\",\"dataset_id\":\"00000000-0000-4000-8000-000000000001\",\"environment\":\"local\",\"evidence_set_hash\":\"ee8250fb76e094b34b471f13a73dbbe51d1ae142e9df59d7c0d31ec20f0a0a8e\",\"food_id\":\"00000000-0000-4000-8000-000000000004\",\"food_metadata\":{\"name\":\"Synthetic תזונה µg\",\"serving_size\":null,\"serving_unit\":null},\"mapping_hash\":\"a6375ee99716acf4635ba3c192f7578a85ad4b479d09174e7d80d01aa91443af\",\"mapping_version_id\":\"00000000-0000-4000-8000-000000000003\",\"nutrient_states\":[{\"amount\":\"0\",\"application_unit\":\"g\",\"basis\":\"per_100g\",\"derivation_code\":null,\"derivation_description\":null,\"evidence_hash\":\"f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243\",\"nutrient_code\":\"fiber_g\",\"projection_state\":\"present\",\"source_nutrient_id\":\"1079\",\"source_semantic\":\"explicit_zero\",\"source_unit\":\"G\"},{\"application_unit\":\"ug\",\"missing_reason\":\"policy_withheld\",\"nutrient_code\":\"vitamin_d_ug\",\"projection_state\":\"missing\"}],\"operation_kind\":\"reprojection\",\"prior_projection\":{\"contract_version\":\"foundation-lifecycle-projection/v1\",\"id\":\"00000000-0000-4000-8000-000000000007\",\"lifecycle_projection_hash\":\"ef39a5bca9851ce7c78c54f58373d582fcb83296d7240d29b4d98fee526ea644\",\"projection_hash\":\"0a118eea79d421f5a19f37f1a7f70e5300ca51ded390f0e76b6b21314a60648d\"},\"raw_record_hash\":\"d7439bee24773bcbfa2d0a97947ee36227b10d1022b1a55847e928965bb6bfde\",\"source_record_id\":\"00000000-0000-4000-8000-000000000005\",\"source_record_version_id\":\"00000000-0000-4000-8000-000000000006\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\"}",
+      "sha256": "882ecb05b201c60dc7711edaf59257fee56424354e2c2fc9720e0e10eb7394ec"
+    },
+    {
+      "contract_version": "foundation-mapping-reprojection-diff/v1",
+      "body": {
+        "contract_version": "foundation-mapping-reprojection-diff/v1",
+        "before_hash": "6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb",
+        "public_tuple_set_hash": "efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7",
+        "core_tuple_set_hash": "0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c",
+        "metadata_preservation_hash": "45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f",
+        "prior_evidence_set_hash": "ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e",
+        "proposed_projection_set_hash": "cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210",
+        "proposed_evidence_set_hash": "f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f",
+        "accepted_record_set_hash": "13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d",
+        "proposed_dataset_fingerprint": "b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576",
+        "additions": [
+          {
+            "food_id": "00000000-0000-4000-8000-000000000004",
+            "state": {
+              "nutrient_code": "fiber_g",
+              "application_unit": "g",
+              "projection_state": "present",
+              "basis": "per_100g",
+              "amount": "0",
+              "source_semantic": "explicit_zero",
+              "source_nutrient_id": "1079",
+              "source_unit": "G",
+              "derivation_code": null,
+              "derivation_description": null,
+              "evidence_hash": "f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243"
+            }
+          }
+        ],
+        "additions_hash": "ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a"
+      },
+      "canonical_bytes": "{\"accepted_record_set_hash\":\"13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d\",\"additions\":[{\"food_id\":\"00000000-0000-4000-8000-000000000004\",\"state\":{\"amount\":\"0\",\"application_unit\":\"g\",\"basis\":\"per_100g\",\"derivation_code\":null,\"derivation_description\":null,\"evidence_hash\":\"f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243\",\"nutrient_code\":\"fiber_g\",\"projection_state\":\"present\",\"source_nutrient_id\":\"1079\",\"source_semantic\":\"explicit_zero\",\"source_unit\":\"G\"}}],\"additions_hash\":\"ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a\",\"before_hash\":\"6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb\",\"contract_version\":\"foundation-mapping-reprojection-diff/v1\",\"core_tuple_set_hash\":\"0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c\",\"metadata_preservation_hash\":\"45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f\",\"prior_evidence_set_hash\":\"ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e\",\"proposed_dataset_fingerprint\":\"b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576\",\"proposed_evidence_set_hash\":\"f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f\",\"proposed_projection_set_hash\":\"cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210\",\"public_tuple_set_hash\":\"efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7\"}",
+      "sha256": "15891d3e5af10ee945b342b731bb3eaaed74a58188967d9b20b3407d764fa472"
+    },
+    {
+      "contract_version": "foundation-mapping-reprojection-plan/v1",
+      "body": {
+        "contract_version": "foundation-mapping-reprojection-plan/v1",
+        "dataset_id": "00000000-0000-4000-8000-000000000001",
+        "environment": "local",
+        "source_release_id": "00000000-0000-4000-8000-000000000002",
+        "mapping_version_id": "00000000-0000-4000-8000-000000000003",
+        "operation_kind": "reprojection",
+        "operator_oid": 1001,
+        "operator_login": "synthetic_operator",
+        "approval_requirements": {
+          "approver_oid": 1002,
+          "not_before": "2026-10-31T00:00:00.000Z",
+          "expires_at": "2026-10-31T01:00:00.000Z"
+        },
+        "implementation": {
+          "commit": "1111111111111111111111111111111111111111",
+          "tree": "2222222222222222222222222222222222222222",
+          "database_contract_hash": "3549b0028b75d981cdda2e573e9cb49dedc200185876df299f912b79f69dabd8",
+          "migrations": [
+            {
+              "filename": "20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+              "version": "20261031104559",
+              "sha256": "8a6cead4385ed4394247b71692fb729b0563f8e1bd4818a8c6c82940e9e099ba"
+            }
+          ],
+          "contract_versions": {
+            "parser": "usda-fdc-foundation-json/v1",
+            "importer": "usda-foundation-importer/v3",
+            "candidate": "foundation-normalized-candidate/v2",
+            "mapping": "usda-foundation-full35-direct-v2",
+            "projection": "foundation-lifecycle-projection/v2"
+          }
+        },
+        "before_snapshot": {
+          "head": {
+            "id": "00000000-0000-4000-8000-000000000007",
+            "version": 1,
+            "fingerprint": "9f2e6d33a3717ee826353a404ba4618d1aeeb6879ad7936bce8ed5f46814924d",
+            "source_release_id": "00000000-0000-4000-8000-000000000002"
+          },
+          "foods": []
+        },
+        "qualification": {
+          "accepted_identity_set_hash": "13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d"
+        },
+        "recovery_requirements": {
+          "qualification_hash": "5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b",
+          "production_ready": false
+        },
+        "compensation_policy": "exact_inserted_rows_current_head_only/v1",
+        "rejected_receipt_id": null,
+        "items": [],
+        "counts": {
+          "foods": 353,
+          "source_versions_inserted": 0,
+          "core_rows_preserved": 1199,
+          "inserted_rows": 5062,
+          "deleted_rows": 0,
+          "present_states": 6261,
+          "missing_states": 6094,
+          "states": 12355
+        },
+        "diff": {
+          "contract_version": "foundation-mapping-reprojection-diff/v1",
+          "before_hash": "6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb",
+          "public_tuple_set_hash": "efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7",
+          "core_tuple_set_hash": "0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c",
+          "metadata_preservation_hash": "45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f",
+          "prior_evidence_set_hash": "ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e",
+          "proposed_projection_set_hash": "cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210",
+          "proposed_evidence_set_hash": "f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f",
+          "accepted_record_set_hash": "13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d",
+          "proposed_dataset_fingerprint": "b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576",
+          "additions": [
+            {
+              "food_id": "00000000-0000-4000-8000-000000000004",
+              "state": {
+                "nutrient_code": "fiber_g",
+                "application_unit": "g",
+                "projection_state": "present",
+                "basis": "per_100g",
+                "amount": "0",
+                "source_semantic": "explicit_zero",
+                "source_nutrient_id": "1079",
+                "source_unit": "G",
+                "derivation_code": null,
+                "derivation_description": null,
+                "evidence_hash": "f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243"
+              }
+            }
+          ],
+          "additions_hash": "ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a"
+        }
+      },
+      "canonical_bytes": "{\"approval_requirements\":{\"approver_oid\":1002,\"expires_at\":\"2026-10-31T01:00:00.000Z\",\"not_before\":\"2026-10-31T00:00:00.000Z\"},\"before_snapshot\":{\"foods\":[],\"head\":{\"fingerprint\":\"9f2e6d33a3717ee826353a404ba4618d1aeeb6879ad7936bce8ed5f46814924d\",\"id\":\"00000000-0000-4000-8000-000000000007\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\",\"version\":1}},\"compensation_policy\":\"exact_inserted_rows_current_head_only/v1\",\"contract_version\":\"foundation-mapping-reprojection-plan/v1\",\"counts\":{\"core_rows_preserved\":1199,\"deleted_rows\":0,\"foods\":353,\"inserted_rows\":5062,\"missing_states\":6094,\"present_states\":6261,\"source_versions_inserted\":0,\"states\":12355},\"dataset_id\":\"00000000-0000-4000-8000-000000000001\",\"diff\":{\"accepted_record_set_hash\":\"13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d\",\"additions\":[{\"food_id\":\"00000000-0000-4000-8000-000000000004\",\"state\":{\"amount\":\"0\",\"application_unit\":\"g\",\"basis\":\"per_100g\",\"derivation_code\":null,\"derivation_description\":null,\"evidence_hash\":\"f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243\",\"nutrient_code\":\"fiber_g\",\"projection_state\":\"present\",\"source_nutrient_id\":\"1079\",\"source_semantic\":\"explicit_zero\",\"source_unit\":\"G\"}}],\"additions_hash\":\"ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a\",\"before_hash\":\"6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb\",\"contract_version\":\"foundation-mapping-reprojection-diff/v1\",\"core_tuple_set_hash\":\"0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c\",\"metadata_preservation_hash\":\"45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f\",\"prior_evidence_set_hash\":\"ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e\",\"proposed_dataset_fingerprint\":\"b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576\",\"proposed_evidence_set_hash\":\"f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f\",\"proposed_projection_set_hash\":\"cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210\",\"public_tuple_set_hash\":\"efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7\"},\"environment\":\"local\",\"implementation\":{\"commit\":\"1111111111111111111111111111111111111111\",\"contract_versions\":{\"candidate\":\"foundation-normalized-candidate/v2\",\"importer\":\"usda-foundation-importer/v3\",\"mapping\":\"usda-foundation-full35-direct-v2\",\"parser\":\"usda-fdc-foundation-json/v1\",\"projection\":\"foundation-lifecycle-projection/v2\"},\"database_contract_hash\":\"3549b0028b75d981cdda2e573e9cb49dedc200185876df299f912b79f69dabd8\",\"migrations\":[{\"filename\":\"20261031104559_foundation_full35_mapping_reprojection_v1.sql\",\"sha256\":\"8a6cead4385ed4394247b71692fb729b0563f8e1bd4818a8c6c82940e9e099ba\",\"version\":\"20261031104559\"}],\"tree\":\"2222222222222222222222222222222222222222\"},\"items\":[],\"mapping_version_id\":\"00000000-0000-4000-8000-000000000003\",\"operation_kind\":\"reprojection\",\"operator_login\":\"synthetic_operator\",\"operator_oid\":1001,\"qualification\":{\"accepted_identity_set_hash\":\"13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d\"},\"recovery_requirements\":{\"production_ready\":false,\"qualification_hash\":\"5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b\"},\"rejected_receipt_id\":null,\"source_release_id\":\"00000000-0000-4000-8000-000000000002\"}",
+      "sha256": "1994ec25d21b1b7812e3d17ba31a2e5c39d2fe58b416732371b488741506a4a1"
+    },
+    {
+      "contract_version": "foundation-mapping-reprojection-approval/v1",
+      "body": {
+        "contract_version": "foundation-mapping-reprojection-approval/v1",
+        "dataset_id": "00000000-0000-4000-8000-000000000001",
+        "environment": "local",
+        "source_release_id": "00000000-0000-4000-8000-000000000002",
+        "mapping_version_id": "00000000-0000-4000-8000-000000000003",
+        "plan_hash": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+        "prior_head_id": "00000000-0000-4000-8000-000000000007",
+        "operator_oid": 1001,
+        "approver_oid": 1002,
+        "expires_at": "2026-10-31T01:00:00.000000Z",
+        "evidence": {
+          "independent_review_hash": "c97ace4c8fef2cee8fa0f3c9f52aab18dbd4f42438afe362ffb8f75ce4c04b84",
+          "recovery_evidence_hash": "5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b",
+          "approval_reference": "synthetic independent review"
+        }
+      },
+      "canonical_bytes": "{\"approver_oid\":1002,\"contract_version\":\"foundation-mapping-reprojection-approval/v1\",\"dataset_id\":\"00000000-0000-4000-8000-000000000001\",\"environment\":\"local\",\"evidence\":{\"approval_reference\":\"synthetic independent review\",\"independent_review_hash\":\"c97ace4c8fef2cee8fa0f3c9f52aab18dbd4f42438afe362ffb8f75ce4c04b84\",\"recovery_evidence_hash\":\"5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b\"},\"expires_at\":\"2026-10-31T01:00:00.000000Z\",\"mapping_version_id\":\"00000000-0000-4000-8000-000000000003\",\"operator_oid\":1001,\"plan_hash\":\"64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525\",\"prior_head_id\":\"00000000-0000-4000-8000-000000000007\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\"}",
+      "sha256": "83c06c530c0579e398b01a36b165355e81cfdf6371b1c0ce15c810bebfbf70da"
+    },
+    {
+      "contract_version": "foundation-mapping-reprojection-receipt/v1",
+      "body": {
+        "contract_version": "foundation-mapping-reprojection-receipt/v1",
+        "dataset_id": "00000000-0000-4000-8000-000000000001",
+        "environment": "local",
+        "source_release_id": "00000000-0000-4000-8000-000000000002",
+        "mapping_version_id": "00000000-0000-4000-8000-000000000003",
+        "receipt_id": "00000000-0000-4000-8000-000000000008",
+        "operation_kind": "reprojection",
+        "plan_id": "00000000-0000-4000-8000-000000000009",
+        "plan_hash": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+        "approval_id": "00000000-0000-4000-8000-000000000010",
+        "approval_hash": "9deb65b8788f41ff94a217842017db2f843954fc0eb46110835903908e5a265f",
+        "operator_oid": 1001,
+        "retry_token": "00000000-0000-4000-8000-000000000011",
+        "prior_head_id": "00000000-0000-4000-8000-000000000007",
+        "resulting_head_id": "00000000-0000-4000-8000-000000000012",
+        "resulting_head_version": 2,
+        "resulting_head_fingerprint": "b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576",
+        "counts": {
+          "foods": 353,
+          "source_versions_inserted": 0,
+          "core_rows_preserved": 1199,
+          "inserted_rows": 5062,
+          "deleted_rows": 0,
+          "present_states": 6261,
+          "missing_states": 6094,
+          "states": 12355
+        },
+        "rejected_receipt_id": null,
+        "public_row_identity_set_hash": "22a538c0a12799c7baa5f225a691606b1f271e66a438292fd1c12170b0a20ddc",
+        "completed_at": "2026-10-31T00:30:00.000000Z"
+      },
+      "canonical_bytes": "{\"approval_hash\":\"9deb65b8788f41ff94a217842017db2f843954fc0eb46110835903908e5a265f\",\"approval_id\":\"00000000-0000-4000-8000-000000000010\",\"completed_at\":\"2026-10-31T00:30:00.000000Z\",\"contract_version\":\"foundation-mapping-reprojection-receipt/v1\",\"counts\":{\"core_rows_preserved\":1199,\"deleted_rows\":0,\"foods\":353,\"inserted_rows\":5062,\"missing_states\":6094,\"present_states\":6261,\"source_versions_inserted\":0,\"states\":12355},\"dataset_id\":\"00000000-0000-4000-8000-000000000001\",\"environment\":\"local\",\"mapping_version_id\":\"00000000-0000-4000-8000-000000000003\",\"operation_kind\":\"reprojection\",\"operator_oid\":1001,\"plan_hash\":\"64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525\",\"plan_id\":\"00000000-0000-4000-8000-000000000009\",\"prior_head_id\":\"00000000-0000-4000-8000-000000000007\",\"public_row_identity_set_hash\":\"22a538c0a12799c7baa5f225a691606b1f271e66a438292fd1c12170b0a20ddc\",\"receipt_id\":\"00000000-0000-4000-8000-000000000008\",\"rejected_receipt_id\":null,\"resulting_head_fingerprint\":\"b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576\",\"resulting_head_id\":\"00000000-0000-4000-8000-000000000012\",\"resulting_head_version\":2,\"retry_token\":\"00000000-0000-4000-8000-000000000011\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\"}",
+      "sha256": "a19cb34dcdabd697457ad060b7fc2a9606c091080a6bf65239980f7be5eda75d"
+    },
+    {
+      "contract_version": "foundation-mapping-compensation/v1",
+      "body": {
+        "contract_version": "foundation-mapping-compensation/v1",
+        "dataset_id": "00000000-0000-4000-8000-000000000001",
+        "environment": "local",
+        "source_release_id": "00000000-0000-4000-8000-000000000002",
+        "mapping_version_id": "00000000-0000-4000-8000-000000000003",
+        "operation_kind": "compensation",
+        "operator_oid": 1001,
+        "operator_login": "synthetic_operator",
+        "approval_requirements": {
+          "approver_oid": 1002,
+          "not_before": "2026-10-31T00:00:00.000Z",
+          "expires_at": "2026-10-31T01:00:00.000Z"
+        },
+        "implementation": {
+          "commit": "1111111111111111111111111111111111111111",
+          "tree": "2222222222222222222222222222222222222222",
+          "database_contract_hash": "3549b0028b75d981cdda2e573e9cb49dedc200185876df299f912b79f69dabd8",
+          "migrations": [
+            {
+              "filename": "20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+              "version": "20261031104559",
+              "sha256": "8a6cead4385ed4394247b71692fb729b0563f8e1bd4818a8c6c82940e9e099ba"
+            }
+          ],
+          "contract_versions": {
+            "parser": "usda-fdc-foundation-json/v1",
+            "importer": "usda-foundation-importer/v3",
+            "candidate": "foundation-normalized-candidate/v2",
+            "mapping": "usda-foundation-full35-direct-v2",
+            "projection": "foundation-lifecycle-projection/v2"
+          }
+        },
+        "before_snapshot": {
+          "head": {
+            "id": "00000000-0000-4000-8000-000000000007",
+            "version": 1,
+            "fingerprint": "9f2e6d33a3717ee826353a404ba4618d1aeeb6879ad7936bce8ed5f46814924d",
+            "source_release_id": "00000000-0000-4000-8000-000000000002"
+          },
+          "foods": []
+        },
+        "qualification": {
+          "accepted_identity_set_hash": "13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d"
+        },
+        "recovery_requirements": {
+          "qualification_hash": "5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b",
+          "production_ready": false
+        },
+        "compensation_policy": "exact_inserted_rows_current_head_only/v1",
+        "rejected_receipt_id": "00000000-0000-4000-8000-000000000008",
+        "items": [],
+        "counts": {
+          "foods": 353,
+          "source_versions_inserted": 0,
+          "core_rows_preserved": 1199,
+          "inserted_rows": 5062,
+          "deleted_rows": 0,
+          "present_states": 6261,
+          "missing_states": 6094,
+          "states": 12355
+        },
+        "diff": {
+          "contract_version": "foundation-mapping-reprojection-diff/v1",
+          "before_hash": "6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb",
+          "public_tuple_set_hash": "efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7",
+          "core_tuple_set_hash": "0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c",
+          "metadata_preservation_hash": "45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f",
+          "prior_evidence_set_hash": "ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e",
+          "proposed_projection_set_hash": "cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210",
+          "proposed_evidence_set_hash": "f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f",
+          "accepted_record_set_hash": "13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d",
+          "proposed_dataset_fingerprint": "b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576",
+          "additions": [
+            {
+              "food_id": "00000000-0000-4000-8000-000000000004",
+              "state": {
+                "nutrient_code": "fiber_g",
+                "application_unit": "g",
+                "projection_state": "present",
+                "basis": "per_100g",
+                "amount": "0",
+                "source_semantic": "explicit_zero",
+                "source_nutrient_id": "1079",
+                "source_unit": "G",
+                "derivation_code": null,
+                "derivation_description": null,
+                "evidence_hash": "f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243"
+              }
+            }
+          ],
+          "additions_hash": "ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a"
+        }
+      },
+      "canonical_bytes": "{\"approval_requirements\":{\"approver_oid\":1002,\"expires_at\":\"2026-10-31T01:00:00.000Z\",\"not_before\":\"2026-10-31T00:00:00.000Z\"},\"before_snapshot\":{\"foods\":[],\"head\":{\"fingerprint\":\"9f2e6d33a3717ee826353a404ba4618d1aeeb6879ad7936bce8ed5f46814924d\",\"id\":\"00000000-0000-4000-8000-000000000007\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\",\"version\":1}},\"compensation_policy\":\"exact_inserted_rows_current_head_only/v1\",\"contract_version\":\"foundation-mapping-compensation/v1\",\"counts\":{\"core_rows_preserved\":1199,\"deleted_rows\":0,\"foods\":353,\"inserted_rows\":5062,\"missing_states\":6094,\"present_states\":6261,\"source_versions_inserted\":0,\"states\":12355},\"dataset_id\":\"00000000-0000-4000-8000-000000000001\",\"diff\":{\"accepted_record_set_hash\":\"13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d\",\"additions\":[{\"food_id\":\"00000000-0000-4000-8000-000000000004\",\"state\":{\"amount\":\"0\",\"application_unit\":\"g\",\"basis\":\"per_100g\",\"derivation_code\":null,\"derivation_description\":null,\"evidence_hash\":\"f9194e73f9e9459e3450ea10a179cdf77aafa695beecd3b9344a98d111622243\",\"nutrient_code\":\"fiber_g\",\"projection_state\":\"present\",\"source_nutrient_id\":\"1079\",\"source_semantic\":\"explicit_zero\",\"source_unit\":\"G\"}}],\"additions_hash\":\"ea32cae4a7df15489a854dc00b48b335f764f62d9132db100e03e65f957d975a\",\"before_hash\":\"6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb\",\"contract_version\":\"foundation-mapping-reprojection-diff/v1\",\"core_tuple_set_hash\":\"0d45f5fd462b8c70bffb10021ac1bcff3f58f29b1faf7568595095427d42812c\",\"metadata_preservation_hash\":\"45447b7afbd5e544f7d0f1df0fccd26014d9850130abd3f020b89ff96b82079f\",\"prior_evidence_set_hash\":\"ab3d85ba1579ed95fff26875b5ef7d2e9bbd50d83a9627b0f9b353dad89ea67e\",\"proposed_dataset_fingerprint\":\"b277fd623676a525c29b9eb155afc8c9010681814ceafb2d7627f47b9a232576\",\"proposed_evidence_set_hash\":\"f5eaeaf2549314a6b095c9d236caca4499f3aabeacf13e49d92cc459c204aa5f\",\"proposed_projection_set_hash\":\"cbe2e10cc174645f7e32aa64e8cac5f7470949351138eb8dade0dbea10b56210\",\"public_tuple_set_hash\":\"efa1f375d76194fa51a3556a97e641e61685f914d446979da50a551a4333ffd7\"},\"environment\":\"local\",\"implementation\":{\"commit\":\"1111111111111111111111111111111111111111\",\"contract_versions\":{\"candidate\":\"foundation-normalized-candidate/v2\",\"importer\":\"usda-foundation-importer/v3\",\"mapping\":\"usda-foundation-full35-direct-v2\",\"parser\":\"usda-fdc-foundation-json/v1\",\"projection\":\"foundation-lifecycle-projection/v2\"},\"database_contract_hash\":\"3549b0028b75d981cdda2e573e9cb49dedc200185876df299f912b79f69dabd8\",\"migrations\":[{\"filename\":\"20261031104559_foundation_full35_mapping_reprojection_v1.sql\",\"sha256\":\"8a6cead4385ed4394247b71692fb729b0563f8e1bd4818a8c6c82940e9e099ba\",\"version\":\"20261031104559\"}],\"tree\":\"2222222222222222222222222222222222222222\"},\"items\":[],\"mapping_version_id\":\"00000000-0000-4000-8000-000000000003\",\"operation_kind\":\"compensation\",\"operator_login\":\"synthetic_operator\",\"operator_oid\":1001,\"qualification\":{\"accepted_identity_set_hash\":\"13c7351360f0032d02f4aafa524e669afec7079584fd02a2a6f7171f5abf365d\"},\"recovery_requirements\":{\"production_ready\":false,\"qualification_hash\":\"5160ce6d4126c39adcd52b898c49c6259b4619ad66de90ea793a6ae8c59c185b\"},\"rejected_receipt_id\":\"00000000-0000-4000-8000-000000000008\",\"source_release_id\":\"00000000-0000-4000-8000-000000000002\"}",
+      "sha256": "60819eb60b1c6f666f88fa24fbab591773f724a4750a52d70d97ae6cdd8d6076"
+    }
+  ]
+}
