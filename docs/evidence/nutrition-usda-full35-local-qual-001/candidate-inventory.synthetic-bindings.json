@@ -1,0 +1,4840 @@
+[
+  {
+    "bytes": 24462,
+    "candidate_hash": "44aa1f78ba9331d0ced3f21641b99dbfd1fc866cb55cadb43a7136d9fe3968f9",
+    "evidence_set_hash": "e81eea990fd63e438e4dfca7f8bfe8b7f348a9ba2c7cf2c4fb78b4275befcb2f",
+    "fdc_id": "321358",
+    "raw_hash": "a0fa342a592e793de991d295b5d7839f727495a3923eef2108de91940d9724ab",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20332,
+    "candidate_hash": "ef887478cf61b5c30fac0097f6b645741ebf60533f7224a44928c4d14957bbd1",
+    "evidence_set_hash": "ef0e2e7ce9605799748915c914bf5bff971a4b6572f87806d8b2ba0e0ff88cc7",
+    "fdc_id": "321360",
+    "raw_hash": "b0956f7ae8536a36385ee93078ca4bbb87341e6040a7139f451825f876f40c3d",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16248,
+    "candidate_hash": "f1bc76470fd5da57fbc35998257f064332e938c4483f819ae3b107c6b8bce353",
+    "evidence_set_hash": "acbe490bc18481a33d0dbf1be3abe675212eb4830441edf2690de3bb40f7255c",
+    "fdc_id": "321611",
+    "raw_hash": "ab272498a5c6246216283c90bf51c71e1c698a015b008146d80275e10b7d6931",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 22827,
+    "candidate_hash": "7c5601fde9d8898e5e0fa2637e61f6a4b420e86e24f72e012e3e9f81335bea20",
+    "evidence_set_hash": "0214fae1481b53bedef33651a6a6629f0951494d4ea87fd14a27f82c2847f72c",
+    "fdc_id": "323121",
+    "raw_hash": "6a32eb4f18b185b2bea14a9c558ceb5ac8137604400e95d0e28a802951c94708",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24453,
+    "candidate_hash": "dbfe0ae02264c1e26f3ffd47df947755eecaee0466c06d083dd7b9e9df631ff4",
+    "evidence_set_hash": "5014e14b52929372985d179f637599ecfa3f923af99819a10727eb4cecb38e25",
+    "fdc_id": "323294",
+    "raw_hash": "9c8a0eebe8e1667e5721975fc9f95d97d1db1bf098e22ab0e3582c2994940912",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21158,
+    "candidate_hash": "8ed7023f10c97a8c6fd3ecd0fd70f7cb4c3b9ec4c91fd84b5f060638471a2cdd",
+    "evidence_set_hash": "18caa71aef3528de30a0940c216d9f87ffeb4291bd468d751a9ceaf289529156",
+    "fdc_id": "323505",
+    "raw_hash": "00789b6c0ed9ed4e38bf1ded1b98c8bd9298401447f0c8da3ae1a09b4f2fa715",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16734,
+    "candidate_hash": "eb6f42e7c3c90e7f3632f2159ba03118896b2636f818e94a5512dd246a0120c3",
+    "evidence_set_hash": "58669010dfdfb14f981c2f68d97e444a8aafc5231dab475d2514d9e1ee00eb85",
+    "fdc_id": "323604",
+    "raw_hash": "da616e27e4edcdf212b5cdbcd1d1760f67a81185127454f86a35cacaddc24943",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16398,
+    "candidate_hash": "44bffbe5704f5dbe0a333293328ecb02c1b1ff17897faa65a13b2a365381443b",
+    "evidence_set_hash": "20e17565df4f3668f569b182687c7f2c0cf944ed2e360a15248d46e1ea20a0cf",
+    "fdc_id": "323697",
+    "raw_hash": "6d17b5fad576e1038b2c99bf913b553cb79ebb281b7dcb9a5e8e6b15f0fac73f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16673,
+    "candidate_hash": "aba8e3260a491b1856a7a9f6456a0f15ee9da67a4f366e9bf5d1bb36fdfdc2c8",
+    "evidence_set_hash": "5570e15c1786928f74a735e65fdfc9c6368c08f17a1b57855306884b983c1d76",
+    "fdc_id": "323793",
+    "raw_hash": "5beb8b82ca19a6a021ea15e708ad3c52ed3a35931f35d3275e664f538c546ab4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23964,
+    "candidate_hash": "d149cfaac1eb7581d8b183875419c11c44dd514f30290c925de42b0be942be94",
+    "evidence_set_hash": "5841956323860e68c26b722edc3ed279a2259ca5ca65ed97c5ee73f427d6a649",
+    "fdc_id": "324317",
+    "raw_hash": "ec983e1a674ce4d17ac7abb0f856f7cb4b6669664ed86c4df495cc24b31af43b",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21165,
+    "candidate_hash": "dd1eb32aa3bea3632f1a59f8f0114a89372371ef1d54f3ec78d48073cc27a810",
+    "evidence_set_hash": "c6591b6090d11cac7f37299d06e177df0f542019c3007845735e6a01026bb63d",
+    "fdc_id": "324653",
+    "raw_hash": "842de8b9bff08dba4e41eecd51daead6c3cae927412b8b07c3aea760179e660a",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24479,
+    "candidate_hash": "39b857600ab3ee2e04c8e8881ced9bf4bd9fadbe32a1fdfa396b31746059f312",
+    "evidence_set_hash": "90752ed2266ec6075c72b325e7d58650321bf7d7dcbfcf36dd24af541fe5fc41",
+    "fdc_id": "325036",
+    "raw_hash": "2c9e3419c3ff98c9f1a538eeeff4e10295961b7055657140b97b70bd4f961dbd",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24467,
+    "candidate_hash": "0758c93fc3a6ec092bd8477581c69bbe4e6a927803df325d19f2e98cdaef3f40",
+    "evidence_set_hash": "a2d9aad5961cf2e70c24ef24e854986ffa3703210f1ebe5e4e01c31ce500f2a1",
+    "fdc_id": "325198",
+    "raw_hash": "508d038b534770a5ca8038056432c40a44796590941d3dd623a3326df1849afe",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20286,
+    "candidate_hash": "6cb079cd86fbb94569c55da3e849112a9d008e8f493a503c4731ff93aa343579",
+    "evidence_set_hash": "2b20bc3e1fa33afcb181eff545f617e817b814cfa5972b87d712a0be0af83ef0",
+    "fdc_id": "325287",
+    "raw_hash": "0b9ab3badde5c05b19e0009d5f9ae319928d1f3a86804d79bcfbbe43944e6e20",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 22630,
+    "candidate_hash": "aa5eaa912f7ae2ec36ebe19bc07d5656883dc3a6a8afc627e677fab1b2210b83",
+    "evidence_set_hash": "5b57a2ca31c5755e6bd9de788446801b582cc62be69fa5448873348f61143293",
+    "fdc_id": "325430",
+    "raw_hash": "14614d3985f3b140bec58345368df913a71334b7d0c1e0307f5b0af30d35d389",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24495,
+    "candidate_hash": "099cd5baede1ed6f669bf082275d7a70f562ed84dc1861658aad29caeec1da1e",
+    "evidence_set_hash": "80be26fe7f67ba16226348db98db3f4be11487ac8852e6bee4a1dc66dd7ccae8",
+    "fdc_id": "325524",
+    "raw_hash": "c12abd5c0f0b025db59733cf77aa254a6bf071cf7b3320d68394084af754d1c8",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20636,
+    "candidate_hash": "01fcab9d1158ea31bb42537c0339f10b8db4042fc1a05eaa4592ef85886ec0b1",
+    "evidence_set_hash": "11244e595cc4a4bc405d31f723ae1dc97463d92fb54060d4ad2d0f122e06094c",
+    "fdc_id": "326196",
+    "raw_hash": "a4f94e38f8d318cc0b0125255f62c6763bbcf47b13f2670bce386fb5ed88c902",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23910,
+    "candidate_hash": "7d075a4385f004abfbc6afcc7054aa15cae71e7c07e10e96735c76f35a9e7159",
+    "evidence_set_hash": "ae3cad53792efb6636632b6c6f53434217701d9fc4ffa7a54ec0c16d0a8687d6",
+    "fdc_id": "326698",
+    "raw_hash": "1bc3c1d5562fa6c7c1bc821fd756ab6f64ba030bf8f9ec3f8e5f7b3dd4c3e186",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21367,
+    "candidate_hash": "23de98c737dc534383e2ce34bc23122963a9f68285429c957ff63437d886ffb3",
+    "evidence_set_hash": "910c1909b5a0e6bbc4c4dd274cbea7ae4bcc68085633577585759281b7227ea7",
+    "fdc_id": "327046",
+    "raw_hash": "b746258637a0c5730e09aa5b851485ad5990e1c57ae5ab2b192f6378128cc1b9",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24520,
+    "candidate_hash": "c09ea650b10c84fe0f8c75a3dad94870359da3140e302831030904d8295771db",
+    "evidence_set_hash": "40c48dcdec1cc24ea8f36cf70b27c4dd86f0602509fbb2ead02f81f8c4bc3fee",
+    "fdc_id": "327357",
+    "raw_hash": "a9e6864916c92aa1ef78090a874d1db5cbe28c6c284b027fb4a68cf877a79665",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24215,
+    "candidate_hash": "ee3dad5b4431916d41a1121b8fa3b6d5bd825580a1e7c49508661b4e2c50e9a8",
+    "evidence_set_hash": "9a57addc94f62a2f5090332847d1d3743bc086a0dc81de93b696f60694228e34",
+    "fdc_id": "328637",
+    "raw_hash": "12eb0dc2ad7346ecbd824c8f66baa6d2652261a26ec3968ee8626e06598c33d7",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23939,
+    "candidate_hash": "ab2fc3156414a3cd4fac09c7a189f7a9b3b4133b463be25f3343511a93fc1d71",
+    "evidence_set_hash": "9229da2b370ba98df17c32903ec0851852ef1ffecb3d12c1fd7c1ab29d478021",
+    "fdc_id": "328841",
+    "raw_hash": "104c8b30b719d115f2704f3054acda21825e7e539731460893e3cef898a36919",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23908,
+    "candidate_hash": "2b34228743ba688d6b918176654e87e0c6f6e5330b5f979f9b04870759ad640f",
+    "evidence_set_hash": "86fbde1736b93e57787512af7fe78e24ab70d9a1fa52bec0d5ea32b09f5c5bb4",
+    "fdc_id": "329370",
+    "raw_hash": "cd836f8abee6ce1b0fc828e32d68018bf6ffd7988636002809826384338a4b98",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16988,
+    "candidate_hash": "0f2fba2d1683dc153b445bd0468135fdafa86b3c64cec82f8e120ce85de60fad",
+    "evidence_set_hash": "a002f993963aff09d59a6bdd3a8dd2cf4bb50d164d0ef9480b28e0b2292de9a9",
+    "fdc_id": "329490",
+    "raw_hash": "5dea27fb3487f5a242fc7b503e61f3123192c2aa5e83dfbe34b09a152c2f6ee6",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16450,
+    "candidate_hash": "fbe314b8506defa2c62769c40c49377d58696b8a3e3fc1828257d7d3aa8600df",
+    "evidence_set_hash": "2c421b81a03678374c7bb692653eab259f3ee148b75e517adbaac417e1bc1d76",
+    "fdc_id": "329596",
+    "raw_hash": "bc326cacbab9c3a64f36c61c1c85cb9c8ae1861d09c5bafec78688d358c8b7db",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16986,
+    "candidate_hash": "dfcbbb3c784cb6d9f709360ee43b22d3a96cd14f0d475c3aa2254af16510f3eb",
+    "evidence_set_hash": "6b146e2a7f48738787499fe33cc879073c8710469eda63977506c23c061f51c5",
+    "fdc_id": "329716",
+    "raw_hash": "620ca5bf444d07f85e9754ab4a82e7d80bb829e9d7bc3198b8b52ece34d5a7fa",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 25031,
+    "candidate_hash": "f12fb334987ef6038ec0232fb1da70cee2d3f857395c4b89bcb2c4ea71f173e8",
+    "evidence_set_hash": "fc5508e8f24e87cbef547b8dfd4302104253a0c26e9218c917f578138860f697",
+    "fdc_id": "330137",
+    "raw_hash": "4905b41ab7cc892669fdcceb3dfa6efa9c3f061a23c021a4636461966cebe415",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24485,
+    "candidate_hash": "6d6759cd803302343aa1da2cd101c9ca7fa6e9f2c41920b0bd16cfc91198d3b4",
+    "evidence_set_hash": "6133f96fc0861d36a49b0ccc948fcae741c7f73097f5d4f7e55734d086ea5f3b",
+    "fdc_id": "330415",
+    "raw_hash": "813fd5b9859d429bf6a3c41e7a62edcc0e648fdd25d5b9cff6c7ae57d96094e0",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18106,
+    "candidate_hash": "3f416f7fbbd59744bf5f2a2734d01816a5563b9e477d752a44719d7dc02b0b56",
+    "evidence_set_hash": "eda629897c6491198c7d3c2306f735d2d4ab6a514e09f0be203b42ab5bb000de",
+    "fdc_id": "330458",
+    "raw_hash": "7fcd4c9af354d3b65a07b887a971c9bf472dc49deb07ed19acc3a1badd451890",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24278,
+    "candidate_hash": "27542a9ee4f1a3ca54e1d2e1e5268d827fc802ecfe1370d0bafdc0e520741c0c",
+    "evidence_set_hash": "3b21928d80ed6e701bf70a256a69844bd7d79e4a833fe2bd3917308f37a6befa",
+    "fdc_id": "331897",
+    "raw_hash": "9d0e4881aceb3c65bf8c63822a820c793505e7117b7c493cefacac1100c4bcbb",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 22879,
+    "candidate_hash": "1de737fb4d9c6633d3059cca6bb785f3396caf05b099212739d8f462e4cef4d5",
+    "evidence_set_hash": "6cf87b594445d6ed204342fd995c548aaf1fe7f7925da4ee9a12e2b267ad5fe7",
+    "fdc_id": "331960",
+    "raw_hash": "5201dfa0fde3e5e4cd0499de4c9c03bac2543cbf125963e86d5842521801da81",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19004,
+    "candidate_hash": "23e00ff6ff3bd37ed33c85de82b4431a87c4cf924cd42a951c30c238ed9f84a8",
+    "evidence_set_hash": "da6503381ba456891ecab8ac09c1eb531dc1178efa0e91fa7be5f92d4abe8ae4",
+    "fdc_id": "332282",
+    "raw_hash": "07b0ebd2b92a834c6028b62a41ed9192a861c66c9a6bbb5263f7d360b32e2a2c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17977,
+    "candidate_hash": "92bf63ca04753902138d82feafe6ac7498aaa973dde931e7a7291cd7e57a645b",
+    "evidence_set_hash": "b01e1ae098096e91c8951416cf5481e02565f4c9ffb024006dc9d2029a778ea7",
+    "fdc_id": "332397",
+    "raw_hash": "9c0b99fa3ebadf87d31804b37d54a48e765b9ac583e50421a80b64f666b7663f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23899,
+    "candidate_hash": "ac7266613c17244c6f47d82002bf3108c91200480944311e7ec877cee3c29411",
+    "evidence_set_hash": "f2f7188b5eade9da2ddb70150bfdafbad1cff82ad06ee097d7f44b608542f6d6",
+    "fdc_id": "332791",
+    "raw_hash": "b5fffcec8c6dd85926fc6e03bae3663b64fe837941c41a4c015b98c099f40f18",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 22830,
+    "candidate_hash": "86713740f9d424fd654bd05de481995e1fb380ed4dd1bceaf7fd0510afe8638d",
+    "evidence_set_hash": "d54958721745ae61926bec07d01802555605fde2ad7ed5f1717ae962ce0a4704",
+    "fdc_id": "333008",
+    "raw_hash": "59213e4fbf8659f88a0ccce3b37bf05c9b155e2de046be58a4434e8c449c4d59",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16230,
+    "candidate_hash": "ac3207ce89b3526000d555a0934cea7b1625847a0ecffe517d4f711e3a73255d",
+    "evidence_set_hash": "531795c120e48b88e84f61b5e6f2c977abbff130f3fd631ae915caa3d8dc2920",
+    "fdc_id": "333281",
+    "raw_hash": "4aee215196fc757811a1dc99081efb37adda0290b0924d3ca9ed203d13583ac2",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23424,
+    "candidate_hash": "63d69430690e4100c4fe45199eb3fcd653e560a3151518810d0bc717969cdd81",
+    "evidence_set_hash": "bf2c691b7682ec24b5f28dcf171c3f9b59f2de6fa139caabc0249e9566aed2cd",
+    "fdc_id": "333374",
+    "raw_hash": "0d0f599360624ef6d7eafb6665349007e2290a7f289b5d1ee3d5750fc2b20bd1",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24526,
+    "candidate_hash": "f94a9934ddfd85b7776bcde7d8e90edcad27e4340ab0f992f0e90f7d0a13ed11",
+    "evidence_set_hash": "4af87a98b30e9cdeb275cf084b841ee546542a52f389fe4bd22ce068cc8aab68",
+    "fdc_id": "333476",
+    "raw_hash": "443aef506e90b4ff6c2e18c7ac8c66e613a42b315054cdc9878cc692bcb7232d",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23698,
+    "candidate_hash": "ce216f57f8bdcdec82980ec91198cf762bd0c7680960497b417c2e5379674469",
+    "evidence_set_hash": "1c191b05de5d400823d8098d7cacf7919ad9ca265ea3923395f4744b0bfca5a8",
+    "fdc_id": "334194",
+    "raw_hash": "61626bd715d763fe6c27f59586f1e8a07688d8c8f67069600eb32ab365c14142",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20126,
+    "candidate_hash": "6379c160144cbde56ece4b15ba2aead349c2c440824da89a8830a98e9af28d3b",
+    "evidence_set_hash": "d0484029be97ebd9dd07eb03ab35fb894a37f4751fe41b0fe3c33f568a4bc196",
+    "fdc_id": "334536",
+    "raw_hash": "f4a2695cdf38d5febfc99d3f9af6c6b22f4c4e59d1de189ebc157fdde8924c00",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24472,
+    "candidate_hash": "6f520669d9977cfc2486e3a3105db46c01a6df5def3e5050ebd050ed0f367419",
+    "evidence_set_hash": "e0c572be9f957cada9b02a696a3bfe19c93c59b49bb56848631c283851979593",
+    "fdc_id": "334628",
+    "raw_hash": "30f26315357d1be66881177c29c7445619acc191d338bff6f73cdb3449aca0b5",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23407,
+    "candidate_hash": "3114d521b8f69954978293af6967e87e8400f176df69c0d69186feb6f94d4f27",
+    "evidence_set_hash": "70a57fc6258d6896f61a06aacb0cfdccb64e8aa5d30b3b2e33d80f78ce53a97f",
+    "fdc_id": "334720",
+    "raw_hash": "c7fc7847e875bee3548ef5d81876b9dd62814a989386d63ae8f0d483ab2c2f47",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21237,
+    "candidate_hash": "5e0c0e553b28b9b690b76486c0e994a4f60117d4d421f9055191c482b26e53a7",
+    "evidence_set_hash": "24beccb19091f095f7df0a33bb4fc88d1b4e85696fa37e67e97f858849a3804a",
+    "fdc_id": "746758",
+    "raw_hash": "7e2a1dea0969388bfc115ae7fd4e0ab85dcb15615d6964b2f642afe45b56da2c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23373,
+    "candidate_hash": "c6385a1018d7b6b712d1c1d3adfb50e63a1711193c5556c20530b553152f68ab",
+    "evidence_set_hash": "13530de3cec2418f1cd6173403b10aca92e8deb7f19ec5bb073d2acdbe5abfcf",
+    "fdc_id": "746759",
+    "raw_hash": "f1464f9170e260a5a1c0d1ca9452ed51d588e60126bbe163d5b785e240370407",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21237,
+    "candidate_hash": "d0d7c73e3dd7d35caba8a9ccf0eb033b3d1486ed402dde57a354db1cba15ab66",
+    "evidence_set_hash": "86afdf5eea73ce8f2c124bd6f89da4fa18db14c061c590c66ed17e7857f8106a",
+    "fdc_id": "746760",
+    "raw_hash": "c862e4ab3da5e76910f9004c9721dc05d689624b3b549198fb380bdc9b6126e2",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23965,
+    "candidate_hash": "3b56adf2a8a0a5bf3c0fdf27d5e948097abb7049c1cd1d704b775931a9ef8678",
+    "evidence_set_hash": "76e4e75d28cf35662726f3342e687c2055610d158abb02824c75940102a76d32",
+    "fdc_id": "746761",
+    "raw_hash": "0b47e6e7e14f160c41325350da8de0fd1eda0a24e1f6808c3f545dae4630eb19",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21227,
+    "candidate_hash": "ceab752f7af9c797ef62f65ff48270553c3824494e4fc27c08c5a275f77ec8f1",
+    "evidence_set_hash": "b49fe69f8213fa45b0a3ed1234f47172c12d9d9533eb24c8452deb6378d94d63",
+    "fdc_id": "746762",
+    "raw_hash": "bf86db87b575c5170671df2309b8b46dfb36df82d5b80d227b6cc1800ef09fde",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21242,
+    "candidate_hash": "5cc7112678ae0bb73069408d712f92705ae136fcf80461e6c5e315fbf8ffdc11",
+    "evidence_set_hash": "03a8be4398be4254e48c5df1c961f04ba04e48686805580b6f23d8b5b0c62cae",
+    "fdc_id": "746763",
+    "raw_hash": "d4ac2cf9548d4e3193b3eb818a0f7dad56cc769c4e0c4beab47c2d87d47621d1",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21968,
+    "candidate_hash": "1e226b957f745850bfd1bbf57ecbbad907529bbda9c6881ffecbebca7b9a7aaf",
+    "evidence_set_hash": "c09383c20801abcb4ede21bd4f9623742141f176e69044cfc2c6b79d8b39d95f",
+    "fdc_id": "746764",
+    "raw_hash": "928f0e27722646e5b1a63b518433169087bf9260333ce3e1712e0afeecab4474",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 25044,
+    "candidate_hash": "0687ee2d167cdd69d2adbd44ef33fea5ccaaed7d1c4fecc69f0aefa2a401b8a2",
+    "evidence_set_hash": "00aac6c284d84eef14ab00f18d8525892d230d345a5d6a1dae24562fa42bf545",
+    "fdc_id": "746765",
+    "raw_hash": "518941f936695cc72e508367c1f33611f70c30485b1232f04b70b92d4a029c1e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23942,
+    "candidate_hash": "84195010f171cb0b91d1e0e3e5f8e4abd325f6b651fb82265fe9fc94b49132a2",
+    "evidence_set_hash": "db0927cda262a544710816ec7181ebef5d567491ad8e215597ac94a2205e2334",
+    "fdc_id": "746766",
+    "raw_hash": "e75cd404434aed8c365652301e794c8de547fc5786ccc55d79ba3f783259db05",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 25279,
+    "candidate_hash": "08f59717bafbbf5f832cbcfeb482a4accc9a8c48b73dfccf50a4e144b43aaadf",
+    "evidence_set_hash": "7b6db91c2a82d319adc4b26861bd27cfa1487cb1cbb7cb7936c1c275f0213115",
+    "fdc_id": "746767",
+    "raw_hash": "96fdd1d500b14f1f1918a9539a2f6d6bfada7334d35b67ff5482ea82543da7ed",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21952,
+    "candidate_hash": "89846919736b06e40097936e10b30e6b186b9b689c37cae46fa6cdea9deeedd2",
+    "evidence_set_hash": "c98168bcfa9152597f59a413b6698582acdc8df498efabde3b5042d4e0cd3d63",
+    "fdc_id": "746768",
+    "raw_hash": "8194e8bd51b7a24f5ca1d1cc2839c053db0080deecdacf9cf7aad1ce0958ffe3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21201,
+    "candidate_hash": "3467e37898015713b670f418f7ee02630e3cf3ffcaf8eea11afcb66322c3bc3e",
+    "evidence_set_hash": "87522aeeceb9628dd6292563ae6d9239f14afd7a8a6391d16137b05e59e8c026",
+    "fdc_id": "746769",
+    "raw_hash": "0d50617c22cbe00c86662cc8c9d0ede5c4041e7a7c4eea2c61412fc485bd8365",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23534,
+    "candidate_hash": "fb03426cccf446ffad8aa5d4f8bac54069822c4f97221cd55e464224e9d7cdd2",
+    "evidence_set_hash": "7e18ba2c5ddcb6065c90463ea02d7779f47b60c7ddc0138ce1ed3ef6eca48a39",
+    "fdc_id": "746770",
+    "raw_hash": "0bbaabba7171dd30b011664bef17b72ad9bae88a9a5cc35841a9ec1413096e7e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20876,
+    "candidate_hash": "04a9b86f852ca1fb178705e99791046d4e164ec92c28db6898757b04f536d13b",
+    "evidence_set_hash": "b178f07c24629fd7846129dcb6fc1d4d7a5f4881e6f8b25e6f1216ea9aa68e18",
+    "fdc_id": "746771",
+    "raw_hash": "160473f456539d795a962da51dc83aa429a8b4285b0d1619bafda6b0907f5877",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24723,
+    "candidate_hash": "a35c0a91f1ca946177722ec5ca2db5b355257f6503259ee54235f1ecbc08147f",
+    "evidence_set_hash": "39ea6b7f6b6b0200090a41eff713d670b304e049272e5c883732bbd2bd2adc59",
+    "fdc_id": "746772",
+    "raw_hash": "8d3ede58b07c8688e10ff29510f3bfc19ef97a7d3ecd0377ea2626febff28248",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21976,
+    "candidate_hash": "32e9de12d55217dc08fd11c617cea300ecccda8a7c272c7c3786f16882554fb3",
+    "evidence_set_hash": "45fbc159558b49071bfdb3040aef2565721a63558f069df023b4d94134d7100b",
+    "fdc_id": "746773",
+    "raw_hash": "2e4e15b26d588a24f6bad0a2158113a9c67ed783dcd0afb41edc432348cc8de4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 25870,
+    "candidate_hash": "c481d87d83fa247894360bbda1f38afb39dc470efc9f1302b1827bf2e0d179f5",
+    "evidence_set_hash": "c8c0937f73e153cc7ab6ce8b544ac49ab9cbeca776ce7236914bbfe63d58fbfc",
+    "fdc_id": "746774",
+    "raw_hash": "628c61439564ff9a1cd950383083894a0c6ca7ec76e9154666b38d18b9984eca",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 13661,
+    "candidate_hash": "ba3b0f72953d56b9f653ea4a57128d7a27276328c82d3477378a41d0da0ebeda",
+    "evidence_set_hash": "adf8cac4b8ed86c1d7120599b5ee939128cba47203bfe4f900d367723c58dd64",
+    "fdc_id": "746775",
+    "raw_hash": "818b064f541ead8771707ac19fbbf31e8526d3186a5d8f8fe9817d9c75a2206f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24723,
+    "candidate_hash": "c56a8f53e04ceff753c2b54503d285b651844cd04661784064111ef4e4adb4c6",
+    "evidence_set_hash": "aee17246406a8f1f698bc9e8f3985d158db4939bd2330026b01e601871efef68",
+    "fdc_id": "746776",
+    "raw_hash": "5e86287b5f8911af21f61c74908b5d85909bc1ab122e9980d771981b509345c7",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19733,
+    "candidate_hash": "bc388328b1728cc8bf84e6d3ce3447402d4622a524fbce2c513467a574bd3dca",
+    "evidence_set_hash": "a3aba79c8fb31c94ed56beeb4f711ee8496ddc6e9c8e025067c38d11aba966f4",
+    "fdc_id": "746777",
+    "raw_hash": "5fe7e2d6ebfd58f33b074da564e61f1dea3b491d4c2b16603fa64e672d682aed",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24735,
+    "candidate_hash": "a5f99ebe88506f8aa1cf4501d08b74389b44d98a7948ebdf8f1184cc2700784d",
+    "evidence_set_hash": "706751b125dc02c0e1938b74db96f988c0ff0e69053491a8c8f49b9c12c24005",
+    "fdc_id": "746778",
+    "raw_hash": "6749fc863a2970f5b5fad8f92e4b68af1e0430b208c67479ca3b32bd231c44e3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 25070,
+    "candidate_hash": "59d1e2d821a080d96c947dc39563b84bd3e956a99d50effe917b2e8326679dfd",
+    "evidence_set_hash": "c8231e7de30a80599679d558df13658dd59b5468565cb5d21257c2ccbc288dd7",
+    "fdc_id": "746779",
+    "raw_hash": "a35347e09261bf5d23c3250297028b5f7f3522aff7a0d1df7d531a637dad15ad",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24506,
+    "candidate_hash": "e9e9f327f4e422a177a0dc77cc6c52454e602aac99d8c0bd051960623538e825",
+    "evidence_set_hash": "f0673edda113c45c26fd61c0b73fe096aa781bf4a8fe17dcdddc7c7a67db2bdb",
+    "fdc_id": "746780",
+    "raw_hash": "d7027399228aeb624174d16c75259ea0c56c693b232eaf3a7394697acaf347b3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24540,
+    "candidate_hash": "f5f0cc7a9ef1ac651154e0095388f130318e2a5a3966e246475564ac0dac4de2",
+    "evidence_set_hash": "bbcaaca32ab6505ee7a4d69593031d1165b50efd9f11906082a265a38b232e7c",
+    "fdc_id": "746781",
+    "raw_hash": "02340387e671209e95e59fef57ef4ec0543331ffdf8ae8375b6ddea731ce1f60",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24719,
+    "candidate_hash": "912926c50c23f9b136e9d1832cba7fe6df90998c948c4586723d45309051a9b2",
+    "evidence_set_hash": "3fd0ee06f989a7db926811787de4188fc3a1ba4fa75c232766cb5c47d678e436",
+    "fdc_id": "746782",
+    "raw_hash": "d3d30302e55092918a9727edcde6f4b87cd65bf7bb37ee96cb7a6f3dae180854",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23693,
+    "candidate_hash": "7ab47f499db71691381fdf0efa31dc9c34bb84a74b9aad88c9d99d4dd525b774",
+    "evidence_set_hash": "fcc9766cb5c92a9e4f0e8734e62628523a05ac329819050c125180bcb1925d21",
+    "fdc_id": "746783",
+    "raw_hash": "0aa894b55c98b8be343831dc330081d4d1dbf5bcd10c8ab3c6062ac35df4f430",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16439,
+    "candidate_hash": "2c8bd0d65479294ee5b488d09ab359431e05fa233b6e52f7a6b83bb75a6c4f13",
+    "evidence_set_hash": "b0948614ac2679991be1f90cbdc3ccbbfcae828784e5c50a9522daec4fe121c8",
+    "fdc_id": "746784",
+    "raw_hash": "ef8551d1ed675be2d94fed271382c7ef24438f7fa5624c97e4adf316e4524f3e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23963,
+    "candidate_hash": "245754c575e9befa147909a65ed3635f7a3fe4ca09e83b7769df9a98ee66f074",
+    "evidence_set_hash": "8bbabd30b0f3a87e19889d28144181cd82b56f5c6ef4ed32a42879fec00f9896",
+    "fdc_id": "746785",
+    "raw_hash": "57d2e00a11cfb867a0e1cee7499bc7b40887467a2dbd4cfb7d8944eb20d48ed3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18470,
+    "candidate_hash": "1ad0763fe27f033eee759ce3a61c613d4f0471486941d71f5de18d2a97d4a2ee",
+    "evidence_set_hash": "5dfacd2dabe84116648cb6c481f12401223b3aec0de4d430b18e54ede3a98ee6",
+    "fdc_id": "746952",
+    "raw_hash": "2f9939fd4525fcdfc6973d1535b6bad6adb864c7c55d1e8c3af0eb9b6d04c278",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17876,
+    "candidate_hash": "e2123af8f851fe9d5f169e660b36b03703ae686b4ca100a2189c4f15ea8544f3",
+    "evidence_set_hash": "cda4dee16c0aa2cdb3ead3c3066457e7379456e5cbb6727ae7f15d59cd7fec7f",
+    "fdc_id": "747429",
+    "raw_hash": "b36e50f19fea68ed324b8857c215dc5076c8784ac45b1e9cb936995cfbc53a46",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14534,
+    "candidate_hash": "3bac80912dfb22b5984ea338d3347cabab41a658c93fb988885d0c219bb9c635",
+    "evidence_set_hash": "156101bc2a5f88087ed946b3ac9299d6361f3ff1720aa6ab21ee353856101583",
+    "fdc_id": "747430",
+    "raw_hash": "8530360bf59ac8766e3fb7f93db0d33a993d15ffdd64a8ae5e0d84a98b967378",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14525,
+    "candidate_hash": "cdd331d734e82762abc95aa216005300dfc1cb9ada6d6be5400bcba60503dff9",
+    "evidence_set_hash": "539a7740e1ea351edae34e50864ce0b7cf2c27da75608830bcfa50e697f63555",
+    "fdc_id": "747431",
+    "raw_hash": "7d5931cdecfa4f5ea3ef8dd3329082c0e01427adfc182347089db4e0f954e02c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14532,
+    "candidate_hash": "a66f73c8e580564c7576b0f7fbc98c9d80ebfa7cf3aec0fc2e83cf5f3e4a5900",
+    "evidence_set_hash": "fee547cee3b82357bf4b8e7002d84ad5d9592a2d65eb29c97da040968726eff6",
+    "fdc_id": "747432",
+    "raw_hash": "3e6eeb05ababa732d08550d8cf99402c967fd9281fdf26e9026834e2e0b3039b",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14527,
+    "candidate_hash": "62b36b5dd281bf9eefcf2d04f087de12b6d4a748b71749fafb3171ea2222f711",
+    "evidence_set_hash": "c5a2058bab305ec4d0476f6157a1505894bebb9ab698767a3b0defe0f0e5302a",
+    "fdc_id": "747433",
+    "raw_hash": "e2d8a876ac4d60661735d5dd00a9f4700ef37a1588bdaf63fb384be86c217eb9",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14523,
+    "candidate_hash": "5ad101b2a30df0d41a2af3421d336f6d7f7533f1da52d1e463e6d50736d46244",
+    "evidence_set_hash": "aab9a6be8c0278c9d88bb878d21918dad804c80335e0bb28eff0c7173855751f",
+    "fdc_id": "747434",
+    "raw_hash": "2a8963fd14774a0c368ee94ea2e2f6029e8a1dadf0fd03f6554d388a80bb905e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14533,
+    "candidate_hash": "3fd8d9b5399a29c45b885d8e975ecfdb2d0da5915d14bb95c6d14a4e6794fa50",
+    "evidence_set_hash": "69a8fd2ca61049714e11490c063d6baebf8462cce6e8d0800e8c60b445d09077",
+    "fdc_id": "747435",
+    "raw_hash": "95038d0ff2c26ec55408e6e040d4e013a44cdc7148859dde6ed7a1169ae0a264",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14531,
+    "candidate_hash": "6bf52f8bf59b3c4aa0178858717679f71ece74dd7ae84c4137ebfec615ae303c",
+    "evidence_set_hash": "50f6466beda97f21a509c9579aa498e996e58cbcc4015a41e26ceb5bca217fc4",
+    "fdc_id": "747436",
+    "raw_hash": "c061677f81c2df8a60355be383680ad2b6d9b590ff154b9ab690e18ac39c5ad7",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14535,
+    "candidate_hash": "d029f98216bd7fe9fc9baa5084443ff469861a270774b9cfcff02d357abe2fd1",
+    "evidence_set_hash": "b9c44881180c123a031e2abb605cd41ca0dc9cead8620b7168386eee26606e1d",
+    "fdc_id": "747437",
+    "raw_hash": "2d2d3d67d3b9444712404fbc65bb8ff59239b083982740520af156a0a90c91f5",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14536,
+    "candidate_hash": "f16d6fa82f4837db44638490383db6345781e2d27c1e0e998a7500c560af8bc6",
+    "evidence_set_hash": "a47561cc10cd205b61d1d33278e3ba623943fdde4f52c69557439daa77ad7654",
+    "fdc_id": "747438",
+    "raw_hash": "0d7b15723125babb33ec368127bcc97e95c48a3e6a2d118d604836099b1e14b4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14527,
+    "candidate_hash": "e418c3a65fc467feb95b129fd27720ba315e7f1be358dc34bea9875afb14ab9b",
+    "evidence_set_hash": "81003270c5b1b4092531315ad78b570d91be9b910a22706defceb4ad55ed5fd0",
+    "fdc_id": "747439",
+    "raw_hash": "1206a39cf5e29ca0cbe410ebad78910a6c132e0fcc8cc8a5c461005c6ccff20a",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14539,
+    "candidate_hash": "bbd27478e0d40ad1cd2fd2998b0de0ef0ffa592baf7921105e0285baf1e1fc93",
+    "evidence_set_hash": "e26928835a841a6d63642da7decb3a51175e547b82e22d3de5f56989cdec1da8",
+    "fdc_id": "747440",
+    "raw_hash": "8ee2be3db541b0a6d12277defaf63a2f5ceca8f736fd7de8afb27a4b2f53c812",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14530,
+    "candidate_hash": "1e7346cb77f4d3f1384623c078d52d6db6019e5045414256e2e4bb9c3982bc1a",
+    "evidence_set_hash": "ec59a42da297a629aebfa61a7b3fc83f22900782289b51b047dbcef820364dbf",
+    "fdc_id": "747441",
+    "raw_hash": "98384e786f3fc6d6f502ddfd1c3756c29774103d6e2220e54d9da647538808de",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14536,
+    "candidate_hash": "54273fef1e6b39980b38eb53293b44a652dc6ab646a3ac81b0061b6e7b39ebae",
+    "evidence_set_hash": "83be40cb71a1c031243c79537459fb468f198a6405ab878b3607b5641b9502e6",
+    "fdc_id": "747442",
+    "raw_hash": "ee5acc318d891d7612ae8b8d5958037f696ad18092208c5e8fb953050506faad",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14536,
+    "candidate_hash": "e4de9cb6cf9f8b85ca7428c2347bb65d5e4cea35d716280a9bd0d774eeb0d596",
+    "evidence_set_hash": "237e8bfa63fbe65cff6f771eed9342fbd4a221105c9773fc6cd0029d8a689877",
+    "fdc_id": "747443",
+    "raw_hash": "8b5316227d8a12f05f298898475441d43a626f2d848835b6f18e3bd8e40b4eda",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14531,
+    "candidate_hash": "f10065c2ac9adb0d53a6f93519a62d5267e410d64f2738704bd8461eebc11f61",
+    "evidence_set_hash": "3c402b90a4cfb56ccf5c94fc5b348566e7ffd4b0714cbacf5fe1cfbeae586423",
+    "fdc_id": "747444",
+    "raw_hash": "3f2d62ecbf11138f4b8b1f531a8a614b6e794ab54bf5ad2174a8d6d73de9e3e1",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14531,
+    "candidate_hash": "7d867f88100a136c03a8eac44b06ce7d9ae24af9f3bb4818ecb55ac8c8143e89",
+    "evidence_set_hash": "b084377ab2c261950cd7719ccc927efa0959cca98a4172da02205cef0a60dcc3",
+    "fdc_id": "747445",
+    "raw_hash": "7c04e8dff57c9db231b30aa94e1d88f848dc8d167ff344f5ad570613409d5e6f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14538,
+    "candidate_hash": "b2a6923b44956d006ee1af9545515e7a228f36fef7b67e7f22ac1ab24ef6bfaa",
+    "evidence_set_hash": "9b928419b6329dcf3d95d850abed098187362be9a8c08d3fd3d04effb2a5fa13",
+    "fdc_id": "747446",
+    "raw_hash": "27d4402d04a2e3efc05d2e822a54adc42ae44a33382aa70f8bff426dc275c42c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23423,
+    "candidate_hash": "c28c379bdcd5fe51e58857eaf3df1654b1ad019dfec0d1e75e75724a3e090661",
+    "evidence_set_hash": "2303e6b3d589d4e3fb1559fed98cd5bb6f22fecc2539812a8403add1173f045e",
+    "fdc_id": "747447",
+    "raw_hash": "cdedc71dd31faacff4f22bf054764c722d2bf72d6ba352a1b3f707533780a296",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15632,
+    "candidate_hash": "0849da2819b2abf61fc6481ee16b4f336ef0e2069d4c5e7bc6c60e382eeae558",
+    "evidence_set_hash": "2bbbb23be881a51d3030e0f38d61149c0744d47608301720d45279aebe9e5d3b",
+    "fdc_id": "747693",
+    "raw_hash": "67d33b740119c2c8b7ded573c1a1bb059016db0b63c2bb145f860f5f0cf5c869",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11907,
+    "candidate_hash": "67229747d2ed1a02fbef82ca988ccd79fdf3063ee99d75e72b3aa9480eccb7e9",
+    "evidence_set_hash": "acb1b203b6369e914297266c80ecc1fdbc553f6ee300efffa57323062992831a",
+    "fdc_id": "747997",
+    "raw_hash": "8f3b70c1b7be93f32e6634252e31d732d9decd33ed90c3f1f8818deaccb435ad",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 12160,
+    "candidate_hash": "fd25a89f73295a18b65566fedb045d61634feeea71c03a06993bb0882cc121d4",
+    "evidence_set_hash": "8da68f3e087d19f6c18c4c0af1335123c666329afd9833a754f2e49431a04623",
+    "fdc_id": "748236",
+    "raw_hash": "a493bbfeb3680c2813ba77e379bf434c5b1a0685fa7dbc8dceab24547393be0f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11120,
+    "candidate_hash": "5d55c76ea3874d376570ea45d3e53d62e8b2fc9f35b064c87570c0b19db01b6e",
+    "evidence_set_hash": "8734b4167960437131c05603cbabd2d7790e34cccae8009b375247216695c1ef",
+    "fdc_id": "748278",
+    "raw_hash": "36f5ca27d56df6958b864f15a5455b77dcb1f8670c688abf616aee239866c15e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11118,
+    "candidate_hash": "c853a9be492441bfa64118d375fca08960eca2f9ca24a0b48c05698f966c5448",
+    "evidence_set_hash": "967844dc810f4c711b5fbe344a4cb7592f47ab865075fe91006a41147929342a",
+    "fdc_id": "748323",
+    "raw_hash": "c508fbd3f79e53a95d12c8849e8f63412022f8c06b49d9e94ef855df3c67e40e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11121,
+    "candidate_hash": "d97de65d33786ea5f7a5c2c78cc1ebd316b7a8ddf62160c0f5faa4d3b20b63f5",
+    "evidence_set_hash": "6874f11eb888dbacea060e9bf042dd8f7fc77604512865b5e9992ebf8ad29ca5",
+    "fdc_id": "748366",
+    "raw_hash": "d75f5fd441263b0fac4aaf04c81d03ea9d41e5ab8158dd5fa4923830427ea8f3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 10577,
+    "candidate_hash": "6d20d7491839848acd7ae33aded35c363a08f4fa4a29f629a3539b78e1fc1bb9",
+    "evidence_set_hash": "195b4922badc56d424e6ad562ee649cf1492cb7c6cb160f0f7d64cc3a0d16c50",
+    "fdc_id": "748608",
+    "raw_hash": "101e2009c646c07ec1911e3fd93dcaab05f2d3a26588cae927471ea74b05191b",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 23877,
+    "candidate_hash": "6ce61994829c8895112092030f32bc2eb67b8acdb5dce34381c74a96482aaab3",
+    "evidence_set_hash": "a5f40ccb75388ef26b9e9e5da4aa9dc17153615c56ea6b6f9646bf49db37e401",
+    "fdc_id": "748967",
+    "raw_hash": "4581c2f7cfcc0de3e07a85f910150723f3162cdc12c2a155285c94562237bbdb",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17879,
+    "candidate_hash": "f531eca1265adc7260d09099504c46aeeb7911dc40ce12fd3b5ce099b36053c5",
+    "evidence_set_hash": "cebcfe65d76e8dc0fba132d68d1f9439d1dba21923944ffdb7a54d7ef692754a",
+    "fdc_id": "749420",
+    "raw_hash": "90926e0f9fedd25e6c655e9362d2f70ac49b023435b858adb893a71c96908b9c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 14495,
+    "candidate_hash": "56693ab84807ecb88e62cfbf4cad5a7a186aec4d345ab09da75bc33a0064fd30",
+    "evidence_set_hash": "f36b3cde97159b7d1d0cf2b9d5b48c807dfb3bda9f027f90f2cbf701353f9fca",
+    "fdc_id": "789828",
+    "raw_hash": "6cb002b750e45eca32bc2a265649e883d33d921c393891fcc8460dde89d8ec63",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18099,
+    "candidate_hash": "b9842958cc1c5ccf86011034354f15d032f8486fd85364e92e0afe936074c683",
+    "evidence_set_hash": "63e30c895e698d342a8cfccb08985fc4c7a62728344e2299a10b61d5416ed3e1",
+    "fdc_id": "789890",
+    "raw_hash": "131d4ec0d857cc2022020423510524a53da165789ac0a724a16a7c2baebecfa3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18098,
+    "candidate_hash": "0f259c0cbe7f7fd6ad8ea499c23a12ec4001eddaf33c244e84f52ad695b3a07f",
+    "evidence_set_hash": "37887760570fa64131399aead179b54276bff9775d0d04ed7f216656890dc878",
+    "fdc_id": "789951",
+    "raw_hash": "7d016730c2b042f1c2569440c9f2242a3db3af86a2b6956451e7727e1d957d39",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18624,
+    "candidate_hash": "567917f40f72c24c8cb1043c778247bbeef521eafa6369c029bc568c42e8cfe3",
+    "evidence_set_hash": "8643d60a193ff35e9cc4092d50b51ac4134f04b630626943ff5af34a6487fcb6",
+    "fdc_id": "790018",
+    "raw_hash": "621de9d72731a49013f49ea4d7159a6af796f86f32f789242396f29feb4be22f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18625,
+    "candidate_hash": "ba2c5a533c17260fbcfc7ac4570bfba35bac1637e6c79636b004a98937144e1d",
+    "evidence_set_hash": "3be06a23488eae1f3df584672efb4e5a1aa096f0052193c0aa43c093cc2f12c1",
+    "fdc_id": "790085",
+    "raw_hash": "5bd873b80effdc6048256e63994ee8556f9f5a63c9318a7a804cdb7c2a08c133",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18095,
+    "candidate_hash": "49affc6fceabb0f25892149aaf56896d55a9b4e9141d5366971d8ffa10d03d9f",
+    "evidence_set_hash": "36d719db01f7064b2d9bbb44bdca9a143ef9080d2d8ca0b07848a968aea71dad",
+    "fdc_id": "790146",
+    "raw_hash": "9d827c8febdf34de2839be700cb64da24a4970985b1932b8c8c331ced76c0a85",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18604,
+    "candidate_hash": "b7ad204a892e3301ce34c9f73a67c7bc8129c53b3876e093aedfc5e7a4c3b8a7",
+    "evidence_set_hash": "e9ea5ceb36c0a34aad841119b4bb882f10f4aef3a4e14655b2cd37ae8832d15c",
+    "fdc_id": "790214",
+    "raw_hash": "14c6b641b3593e377666bf5b729b0e2650d0f0d967a25982732e3a49c535e564",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19164,
+    "candidate_hash": "4bd124c76a538d9343712fb19efae1fd0549ca039fa3bc20bfee15c7a5ebdc1c",
+    "evidence_set_hash": "e44eb1bc0c524f3b799cf6e508407d6b1346fed80a9978a696f485d6ae2bd801",
+    "fdc_id": "790276",
+    "raw_hash": "3398b66d3311a0bb93e6a5ae210a1fe9c8910be17f1ee9112af6d0b7222a1857",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21098,
+    "candidate_hash": "c097b45023c35bc5ba88cdb63c40f0dfe015e01ea36322d9f0b446e980347ca8",
+    "evidence_set_hash": "3b608501522dcd3ebf8dd98e8571db520d526649327b48b400b8e655fcf2361f",
+    "fdc_id": "790508",
+    "raw_hash": "cd1a9fc3896dd980f60809d2b98659c8704dc6862909cb582f83d8508fb02ed9",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17882,
+    "candidate_hash": "16d96a6d959a7a3f7a61db8970417136b4ddd0c0750792ad15c0113f4cc3b8e4",
+    "evidence_set_hash": "58520012e76fb023c8408b0f30aa02ef97646736fb4fde1214136891f8b02363",
+    "fdc_id": "790577",
+    "raw_hash": "272c76ad63e0531ddc291200414912bf4cf3c16a3fd5074c55b9792e33f2a77f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17871,
+    "candidate_hash": "2826528040cadb8305fa1a935987a343f29ec781df19ea5acd036a5b1f3dd1a4",
+    "evidence_set_hash": "916d5107c9487bac2590b9bd4de0f6260a666f6ce0a1fab2c2b68c5f7c4deb3a",
+    "fdc_id": "790646",
+    "raw_hash": "35a7d9631e28b7f8dcda466657be1292327062fb721a2cc14ae40362017c680d",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 12168,
+    "candidate_hash": "b9039f73381cba18c8928028bd7e5631454d00aef65584afe2744ea55f8898be",
+    "evidence_set_hash": "47fe39a993100b60162ec82590784988886f2e57c1184f8898885dad3f053601",
+    "fdc_id": "1104647",
+    "raw_hash": "038118ffdfd0fb000384f6de88a8b5711eccde1bcb1eff1e8dd71b50e7a4b8c6",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18084,
+    "candidate_hash": "5753669b758b50a3ac71948b36d3126ea3c3dd078f05508e2c84289ab7dcaa86",
+    "evidence_set_hash": "d4d8db11c2cd1f9a00a09db184253197c817051436a62104d79918bc58cd0a15",
+    "fdc_id": "1104705",
+    "raw_hash": "2a387caa98dfc926bd73ff8c9e437421d90b9aec68cef8182c8c07f9480b5c7c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18084,
+    "candidate_hash": "40377f234edad8343e7ba0f6e2375c9f252d4b779183a5c63e13dbeb37926ab2",
+    "evidence_set_hash": "90f73f2c6e1f66ab3a8c01dbb29b9f4f831780d99b335c926ea4eb91181ef085",
+    "fdc_id": "1104766",
+    "raw_hash": "937fabf64d27500c39cd75267a86b522e005780a07b3e43805f1bc80cdedadab",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18070,
+    "candidate_hash": "8537e36f2a17a62af1b2c9ba9aac0edcba4b59bcfd27e186cd6a330ff7f8f921",
+    "evidence_set_hash": "61099a7523c220f8946123ecbd3f92d6c8217cb7475af770c4f17c846000c35f",
+    "fdc_id": "1104812",
+    "raw_hash": "eec1eec37bdc4569482fa3f31587797b36015f47fba9dd78f33a6c658807b757",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18060,
+    "candidate_hash": "97f425baec685e8ba1954a621f812e6ab0c3febfa1ba0694c7522deeda9eefeb",
+    "evidence_set_hash": "b5287e695eafdedc2f664e0e62e35ff90f9c72ab1ca56146ab056e91d637a6d4",
+    "fdc_id": "1104867",
+    "raw_hash": "0f07fa4e646de007588c30e8d4bd01904e136d6602f0883437c36df9d85c8c6a",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18083,
+    "candidate_hash": "a67a69acd5ef396f2aab333477231d2e9c4a9363bd7851a7e852c4329c337a76",
+    "evidence_set_hash": "9e20ca7b80f456fa8ebc6e72142d198d4d91198b7f9247b72e8468e2122d51af",
+    "fdc_id": "1104913",
+    "raw_hash": "5579796d330fd17e9a5c02e6ac6f471bfdc10189c6dd3270c5b882182415d4fc",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17008,
+    "candidate_hash": "7554e13980a708977d5be197bf6d0ce68aadedd41304902982b5f21d80e120b7",
+    "evidence_set_hash": "02ea5a569f02b9ce659578124a3f065aa528603697d9cfd01613b1c018d6c2e5",
+    "fdc_id": "1104962",
+    "raw_hash": "4d08326b6c3543ea9bd9a35c5d454bf80179f4f001f024b33edcb666c30ec230",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15209,
+    "candidate_hash": "3377d59a76a30998b90a22508d50a9629da2c7808c557bbba5366d78d7749d27",
+    "evidence_set_hash": "3b4c8dcf6613a6495b849531212f5e7088b2a2399102590a94f9658f40897dab",
+    "fdc_id": "1105073",
+    "raw_hash": "678838ad4ce991ef3686de9b935dd0ff45cdd8c6f1bb317734746c73a9c580e4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20588,
+    "candidate_hash": "62816b63380a7fd85aad4b3fe8447382fdc6a05fabeedbec4409a2009538b775",
+    "evidence_set_hash": "67594a53bae2f2cfdf7ace875d274359517687b7de0344441022a16692ab652c",
+    "fdc_id": "1105314",
+    "raw_hash": "8264a0b9f0a7c7aee0b53a8acb52949aa3788fcc8191543d4702620225bb0766",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "source_portion_sequence_rebased",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19782,
+    "candidate_hash": "f0a9f8849b17d1f583f155ba1f39b06170dbcd3e55df2f778bdb640d960826dd",
+    "evidence_set_hash": "1bebe9ea2b6c905b174c35d81ffb23822e974f1cd5af1b552d5c2d9586576214",
+    "fdc_id": "1750339",
+    "raw_hash": "c7b9cbf2e1fb09d4eac7b0239cdc2a5e703a23803246549cba4802227ab65527",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19799,
+    "candidate_hash": "4e339c75ffba438111cadece30094271a09d8c98ed2d99925807501b1acd6640",
+    "evidence_set_hash": "b8ddc4214ecee64e99a88e9eef1e89a22b19f402e786a6be4e3d998f8571366e",
+    "fdc_id": "1750340",
+    "raw_hash": "3dde280c484f32a42d76f7fd3577f6564fda83fe9e4ec8ee1b189ca6c3832c19",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19793,
+    "candidate_hash": "a8df61f8af118ba340e50da2d63198ac9620077f5efd8e015667f2807cd6b0b5",
+    "evidence_set_hash": "80765be80b03ec2fe8288f03f456a82529f5c0b9cd5f72073498e31b9195ffb6",
+    "fdc_id": "1750341",
+    "raw_hash": "61f9efe0d95caac98a6ebe333b22f7c37fe9d810787f67c9123ab6a25a1f91d1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19789,
+    "candidate_hash": "d3f4bc62185033b15ad036c4b0bf3c1137c6a8c03e41127883e3c077ba2459f0",
+    "evidence_set_hash": "c812620a90ccfce631db1e97c2ff9fa94ffaea1b685ae6be06deccd51db88271",
+    "fdc_id": "1750342",
+    "raw_hash": "aa51f1b59fc6705b2ac688ab4c65b126ce0c92c26cf54d48befea3d135a70cf3",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19781,
+    "candidate_hash": "f284d7e69eaaae0f2c8f2213093efed23570feb30deda6a5ae9250f27d41c88c",
+    "evidence_set_hash": "35cc8d99b31ad5e42e3e591e16793f8a6e170541e06ef9a19e66bb43aad382c3",
+    "fdc_id": "1750343",
+    "raw_hash": "928ee81875a3f85f2c44ed2f2b7b6b86b57e037f2e7340e1c2d90723010f7dd0",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11397,
+    "candidate_hash": "d90305f3497891761163564774097c392db2b249d36332151bffb651becb159c",
+    "evidence_set_hash": "6cbac8534735417525790f7707e49228029bf4936b2358f296b1237b07b1d28a",
+    "fdc_id": "1750348",
+    "raw_hash": "02ff3ddc4b7af3536d64ad57d4e03b251b9d0defc38f259a13100b0f4bc3f2a4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11404,
+    "candidate_hash": "81e5dc6f8cc7a5db42fbf7f90cdb96f76f715bc6665174d2b7767361bf81776b",
+    "evidence_set_hash": "2c4db699610ca2bf666c6c6c87bba7988e9510d09a15f366a66dbb6dd8121fb6",
+    "fdc_id": "1750349",
+    "raw_hash": "622a9bf41a31b5595e70c83e2b20baf576d9716665fcf9b0c45c5cc0f9deea3c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11396,
+    "candidate_hash": "d0f9d7d06b6228a535ddc77490a7bca17ed996a0b0de5ab7bfcfdaf16de5c7c9",
+    "evidence_set_hash": "7b40306dfcd1e8bd28c9a279e2e28e30c4978198e78530be98924e1d184b53e2",
+    "fdc_id": "1750350",
+    "raw_hash": "a4dbb62420994cdd702307bdc8b72645529612a9a9876e42015d241e5f007267",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 11413,
+    "candidate_hash": "2b97c41227f0a9e2298d8ca6a5445d3b9639bd44b5172a49c4f788219a9001f3",
+    "evidence_set_hash": "6cdf136c836878e97434b4026791b77583cb0d0778088abb7049b3f41036f1e7",
+    "fdc_id": "1750351",
+    "raw_hash": "ce2c8aaad26e250b03843e0e87af87e681c5663be142b49712c5044217712c2f",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20526,
+    "candidate_hash": "d6b6d8c26e7e31c887d5c8a658104cc1d237346aa838044ff316eaef42b9c70c",
+    "evidence_set_hash": "3b16eb3066a15e8205dda1fb0333810be083ed056cdce4ffab20a68cbbb6bb78",
+    "fdc_id": "1999626",
+    "raw_hash": "93e4ee1bc08be8a269e6de923b7e41784031a16f714baffedfcf59f6e2a9c143",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20519,
+    "candidate_hash": "1ecce0a0d001f84cad9293c2463d5f475a34cf9f25f108c824a9c0a87ed0154e",
+    "evidence_set_hash": "e1113c0c8e9fe3b9b43248df5ce71011ec1b2da96ba5cd8bd665adf88de49af7",
+    "fdc_id": "1999627",
+    "raw_hash": "7b842677abdfaa54c02d8b6b8350f01c1f48d0c6de10ce8ac077d1bd37b26270",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20540,
+    "candidate_hash": "070ea07f16d33b9c27b5e986ebc567ba5c3631e0d0988896854f20d1c19739c1",
+    "evidence_set_hash": "0095ef3b4640c6dcdb40f072d63fabb76285fe06637e14c172cea6bda48bd81e",
+    "fdc_id": "1999628",
+    "raw_hash": "f5e4722f27c6e9806efb5a7258fc1d442e0823c7c9b08411e243cc668046c4a6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20534,
+    "candidate_hash": "0802bc36f5e3112ff881b5594409cf505abea23b77e9a20f32124cce37ff051f",
+    "evidence_set_hash": "b47191bed99be917787e4f6a0ac33d24641f2699aa2177dd2abffc2ce327293e",
+    "fdc_id": "1999629",
+    "raw_hash": "e6799b8b42c0134bf40334051a1ac6aef1fd128e58c990f944f43d828801c0f5",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24556,
+    "candidate_hash": "d855a995e3cee3b8bb4c697ba9912f59f72daeab90e1c9ca1e65dce9649ec227",
+    "evidence_set_hash": "8d109a10357e72c5e6f41723c66997dd1fe02916e13f8aeeda64f4b8ef6cfcf3",
+    "fdc_id": "1999630",
+    "raw_hash": "00dab765e5a57dac22bb261f1edf14f935299886f47aa3e8db9361425eae8687",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 24491,
+    "candidate_hash": "5a7128f921450a443ed4cf8c40466680ed63226967490195109c9d8356aefcdd",
+    "evidence_set_hash": "256ef8b56d874fdad97af829fb7e3185285f1a434e12889e038a0459f0c731bf",
+    "fdc_id": "1999631",
+    "raw_hash": "66e4758f3e5f89b3f878215a86d429ebd822303b97b357cd1ce9b8820dced95a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20886,
+    "candidate_hash": "83984ab11631a943f93c672061c0fd1ed481a41020cf8ea0f4ddc0692a65960c",
+    "evidence_set_hash": "03f6299fe7a7e940bdaf55996d628b5149a78d134968a88869fb6a14d2b0e529",
+    "fdc_id": "1999632",
+    "raw_hash": "e3cd5afdfa154d87aa16f41df5ee94a9af93e2b66efe44e4ad8a0413898dcb7f",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20884,
+    "candidate_hash": "4b177bcacd9d902abb550069485d6497ab78f5a4e6077283cb0a57c9fb7fa385",
+    "evidence_set_hash": "63486874f99c2825493e340019ca566d72a0e1a4752a1a3965cffd0495652e50",
+    "fdc_id": "1999633",
+    "raw_hash": "19f84fbdf465ee72c85e8c6631b21005ae4eb510b27eb6038f0ddc86771c3d8f",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20870,
+    "candidate_hash": "31df12c56cc9c12efbc71b9d74bc01a93103a73856ab3e3a64574c38de8aff65",
+    "evidence_set_hash": "fe6144a7717f94d4d2731be17190d40383e2b11e2952da3fce3482a2880da479",
+    "fdc_id": "1999634",
+    "raw_hash": "8c511f8b89ea2c1b82556e9463af9d7ac4bed160d9fc94c5850713cf086101ce",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19753,
+    "candidate_hash": "3faeba1e39464415de01a72969ac16a6d38e1f360a661888f39bc0d1868ef9f6",
+    "evidence_set_hash": "265b0e4c7c22396789f40df3657c03b4b9daee1a701c14f6a844ae237cc35857",
+    "fdc_id": "2003586",
+    "raw_hash": "bf6ddeae018aa33f1c741efde63b72b375e065a6e9cdd28b2db52d167a283dd1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19755,
+    "candidate_hash": "a15c4a1a38402b2fb66710ea1843919ecb9cf47e573f1a7ee76954552f1f59b1",
+    "evidence_set_hash": "05126751febf852170ecc8dfeb1f88435fd2440edb5b2194d54a242a5d13363f",
+    "fdc_id": "2003587",
+    "raw_hash": "eb8f411b3aca0cd4a135e3219bc42d71f61536e529241510bb1c64c1c757f6cb",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19779,
+    "candidate_hash": "8d929516607c2461a72e42c28403776838a8460bbc9b7abfb744afae37ceed23",
+    "evidence_set_hash": "3dd5725e943a25cdd8ef15d99ad40b5f09e715085d73253b5312cc031984e5ab",
+    "fdc_id": "2003588",
+    "raw_hash": "b7e434bad06a510b9c03332512a0bf0a655c58bbca3456d20b7af4e0405ebad4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19765,
+    "candidate_hash": "7f18e7267e4e5f06aa24a3aa618990378322399f0f1632dde6e13d60db4201bd",
+    "evidence_set_hash": "52fd04e1ab661ff60814503f2b98acd59cc5735f6222ac6ee964d38d09506942",
+    "fdc_id": "2003589",
+    "raw_hash": "7cf7849c362b7ca83a36df6debb6a9785570c4626f7eeb4604f451df4d39022c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19000,
+    "candidate_hash": "26e21c406b74ff79581e1032b3a99f5ffaffc3240b19db237d9ae26c7cc30a20",
+    "evidence_set_hash": "a82625e61b251e3a0192bde59de3f6fea24005707bf868ec83aecafd8501412d",
+    "fdc_id": "2003590",
+    "raw_hash": "f41f6b0991453ae521dee2893517160cd36de25ef1d074c177f6a5d9edd2e746",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19013,
+    "candidate_hash": "5f0b90631006594e167cf83aca0d4f436280e6aa178a43e7a16abdb16f3ab7bd",
+    "evidence_set_hash": "196015bd8354239769129d09a026fa192fe1920e1b964d76998f3fbd72745e2c",
+    "fdc_id": "2003591",
+    "raw_hash": "7da466f140c64d7a72b5969a4db03ff40b2fa44d04b4602901275cb60962f708",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19018,
+    "candidate_hash": "1d5b64ecfbf5b799150bc2efdb6355248d3ba5580ba3cd430c29723f862406ac",
+    "evidence_set_hash": "aea435a101e1e3a675fdedf02d7fd2faf91156c226d8266a4858b34f418a6314",
+    "fdc_id": "2003592",
+    "raw_hash": "6cfbc42477e1df4dc8635753aaff088895b97888e04f13828c6589ebf156974d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19013,
+    "candidate_hash": "b978709c273e9209abbdaf39aa1595dad9585bf9b6d4dbe69d881818197e7fc0",
+    "evidence_set_hash": "c3b0fd77b2c40104a22eaaee681506565d7a174cd2e97475fddd9eb965b96e85",
+    "fdc_id": "2003593",
+    "raw_hash": "510f9f98fcf8b517ecfc7c07c345f15c89d11d226394acefe81ac0b8d91bec22",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18989,
+    "candidate_hash": "fedada72ea174b0dd340ae85481cf3df41e09337000eedcb3e5bc7b8b41d674d",
+    "evidence_set_hash": "e20f4d1c2d95b42874e36aaac713def30c3df98e62fc90bfbdd7b98ed4adc680",
+    "fdc_id": "2003594",
+    "raw_hash": "8477a3ec2dd7624fe1719022d3c54a6424ea47220f4a90166015816c0efb59c5",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19023,
+    "candidate_hash": "77f9a406cd6e28a3900372fef7e4b7f20b79db972494e527e15fe4bb78729b47",
+    "evidence_set_hash": "f615b2e14669c4ea8de76b5db89a469dd4b0bc7ec079197e5927d566f707c76d",
+    "fdc_id": "2003595",
+    "raw_hash": "c4eb126dd9abf34f1c041302b1447e566bdee058e3dec10ce11f115013ce75ce",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19029,
+    "candidate_hash": "069f4c76a56d6127d30218fd2c7c50814803ec26823415ca0ff642116e8841af",
+    "evidence_set_hash": "ec6b3ed1147bb1f641430a663eab704413d82d43bc5a4e64dcaf4157f251a7ec",
+    "fdc_id": "2003596",
+    "raw_hash": "1c178f92f5616e0e3ebd390b5961a47af711a6d88d98cc5f41afa7446ef06507",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19013,
+    "candidate_hash": "e73aa41c8e2dc535e253aa346fce310188b2d509b245a35c065ba6f1d79cd01b",
+    "evidence_set_hash": "85ff57a488a4690cca0af4875377951166d2f900db19a41e15409506289712ad",
+    "fdc_id": "2003597",
+    "raw_hash": "0daf126f7927f86c6bb26e89e323d2cbcf8d308abd2fc4cff237f8dddbcc1ab2",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20516,
+    "candidate_hash": "7162679941522ae4bfdb146523ab967255a4e6d58062d3987ebbf981bf158ca6",
+    "evidence_set_hash": "75922fefbf2ee03ee594afe2776507d417a2402cbd289068acba2018962c402a",
+    "fdc_id": "2003598",
+    "raw_hash": "b8f1807fb7e4f50d28ccaf9750311e7fbad098f628a76880ac6ff743fe9a1d4f",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20527,
+    "candidate_hash": "9684f2030d8cc5649b162645e42087a48b0059e9022611675affe3dce958c688",
+    "evidence_set_hash": "9062869c1abbb7a916e4ddfc01362ea1a3e7a4155fa65622c02d9194142c10fa",
+    "fdc_id": "2003599",
+    "raw_hash": "6806f5cb2e0085e6009c39f0c0934f5f621340f8d24b48e754dd13b67c297d49",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20503,
+    "candidate_hash": "cab8fe41e9240637898465163dc9d9c89b02d994133beb54db75d50f47f87dfc",
+    "evidence_set_hash": "7163affc8960f62de19c494503ef6709c321c52c282719b39d4e90eb74115a7a",
+    "fdc_id": "2003600",
+    "raw_hash": "550927c40469ab83ed330fc10b9e2c73ab4d673d870d48b651079e01cf858357",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20515,
+    "candidate_hash": "2ad129bb0b7bb86378fdef92522ecc6193946433f0486ad79137688cd7ca2765",
+    "evidence_set_hash": "77692a688b359b3554e4489c41487aa233892a4346fec01bf2115e31fce5c8de",
+    "fdc_id": "2003601",
+    "raw_hash": "2632ea7dbead5c254ed1d308b26f9a557d19a018c944de59ad9cf722dd1da7b4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20509,
+    "candidate_hash": "fb3782d5afcb251907012adadd8e29186c8f947efa2a30f8b5300cda938a1ab3",
+    "evidence_set_hash": "8ed3f8d96073e73842bcfc2cc07985db54f96947916d1213c6c66e1a3b9f7352",
+    "fdc_id": "2003602",
+    "raw_hash": "96ff233b03882f6972282a3305efd2c2c1f9b4bd93656549f17fe62d584fee5a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20531,
+    "candidate_hash": "12da12c32d5758f2ae946b53d904f7897289fc5035ae3e5ad22ee04b51679581",
+    "evidence_set_hash": "59607b3dccd5809e2a062e2569fbc392752bba007450c5e5cedb08ba824121b3",
+    "fdc_id": "2003603",
+    "raw_hash": "96bd40229d494d6096ac4274d4687addf4e207e48a7f89845ac63cc2feea3fa6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20492,
+    "candidate_hash": "3e10e933a3921e57fa71ac1ab81e90309afff4b65739ff709043b7171b67c7c2",
+    "evidence_set_hash": "dbd22a94313d5c270f9681d36bf91c17630e632d87dd8ba4a456a3d97a2b5b26",
+    "fdc_id": "2003604",
+    "raw_hash": "80f6a901a0428d987ca27b90c8ebfaaef9e357a34547f55eba853f9d587dc4d1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20053,
+    "candidate_hash": "69fc28b00d333926fa2500e66b88f5c6f16ccace3f106452d9ba7b45f944ad2c",
+    "evidence_set_hash": "007b3cd671115e49a08dd010aba98c7cf08aecddbf7759adf1aba3a3cd5d1c3d",
+    "fdc_id": "2257044",
+    "raw_hash": "326cf18bb3e5244c1c44fa7b8dc5bdaa9441c5f9d6056621072e4bc7818459e8",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19513,
+    "candidate_hash": "d14f79174c7411cf66862cc282d7a3dd4e3fb4f56336941377df90e3efffb83e",
+    "evidence_set_hash": "dd1473a78b1cd9e68a54318f081247cb14e3f32835efdb73945f272f85c72dbf",
+    "fdc_id": "2257045",
+    "raw_hash": "e688807a4a5e79f97e921b51ada9fbcf88c551d75be53fb66c080e569968af95",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20582,
+    "candidate_hash": "1412a0331aface2f3aa294e5fbbee1e08ea65d6deac715a3bb99baa034037390",
+    "evidence_set_hash": "aaab5bfa61281fd5a90d3740d6562c90d1ac167f98f2146f14461fd2a1df8e9d",
+    "fdc_id": "2257046",
+    "raw_hash": "47f20a82e61b97c39b0b2ef996bf8eeadf15ab88165cf199afde15d2c81f435b",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19769,
+    "candidate_hash": "92a468b67f24cf4d731bdbfd0a9fe72c1fff26a4115743d970885e6bf0a4fdfc",
+    "evidence_set_hash": "6e424e06df611ba68582c9d0d9f39d36701851aca7480296ad78717af13c03a6",
+    "fdc_id": "2258586",
+    "raw_hash": "be69a4008679e767d11f003a0df9621947017b228c8bd90c1b7110cf820a46bf",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19779,
+    "candidate_hash": "2306128226dcd7a5eddf3e9b47a531230dcb2d35f7278e97776a35c1c0f76152",
+    "evidence_set_hash": "085959369d3fc05c17764254034e80b7f3b03a20ba4cfa7c91fdc530d91f5261",
+    "fdc_id": "2258587",
+    "raw_hash": "e73c1ae1fdcc94c961025c7ced86087c8bf1defebc1eeb8529bd9cdcd0b6cba8",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20330,
+    "candidate_hash": "056f1cbca7d4b9429d97c5b8ecf10eb526392698b94682df74878dfa96d2401d",
+    "evidence_set_hash": "720cefe088cd62f020a3f97b94b0cb5efb271b932263f87176f3864dcf9e7380",
+    "fdc_id": "2258588",
+    "raw_hash": "ae9ab8dedfb5844d5f3f44e5314466a10ab6583501d5c9a133188849e43a5ac4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20333,
+    "candidate_hash": "d6adbfdbf9b0092a492cfd49a0964cdfde4c7a8e967f3b64fdef7796646f9232",
+    "evidence_set_hash": "244324dd260f8b9766f4d10926f804d9a3a56ea584e402f708a5bf2ed72553d6",
+    "fdc_id": "2258589",
+    "raw_hash": "656a700f6989ec89e5b4229656f88da19a004e5858db9c1db59c0bed6611c4a1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20324,
+    "candidate_hash": "0ce8f61509488c5946d3f33d930b467108dedad3f1538b1c87b5c891f2862e29",
+    "evidence_set_hash": "71774aedae9c600c523ed458bb1261467862c3cc3785f4a162eef1f273d60b7c",
+    "fdc_id": "2258590",
+    "raw_hash": "4f4eca400703a2a3dc16b3e55c4bb60536f814fbba7d249b3c1cf66759c54a67",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20345,
+    "candidate_hash": "61484e245f5305051db57c6b16bfe996df82e71c6c65856557d63ce69128f07a",
+    "evidence_set_hash": "83e69e6325ade23e3755ad1d3ce8dea0c2d1548699e8615ca63279434866d01c",
+    "fdc_id": "2258591",
+    "raw_hash": "78d1b17da018de0c79c7f429ffd04d5eee74a3f9f3599e656b8b751632b35f29",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20632,
+    "candidate_hash": "66c1c719ab10f5c7cc20b54c50da828fbf3f02b587f583579ad335a749b81fd3",
+    "evidence_set_hash": "ce4eec2e99687e2445df46b52f596fa2954e0d9bcfa75a05f5bb365f26598f6d",
+    "fdc_id": "2259792",
+    "raw_hash": "9b893dda413d0dc2443f3faa77c524ffef36a0401293f15e2b9e3834f7c3ce4c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21456,
+    "candidate_hash": "73f9b174f34322d4c3097fba7e5f1417e821e55a485a4b90a10856891598285c",
+    "evidence_set_hash": "386b2609f552ad4d8efd40ab73a74757e54871e50e691851b6509a09b742c8ab",
+    "fdc_id": "2259793",
+    "raw_hash": "9ecf8b106bfde00af4ef90091524705289bd06448e3d5c1114ba74ac4ab4a8a3",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21447,
+    "candidate_hash": "d8ca2dd03bc8bbee51b4a5a380fb3d830ca7f0819eb13ebf9bd93fa55ea8a28c",
+    "evidence_set_hash": "0d6488ce15c02402c1a0d2e68f9654efb793925f4c2cd340ddbdd1f078280213",
+    "fdc_id": "2259794",
+    "raw_hash": "5374642e7866726550cb8e303d8e4283087976c1f4ea43b5dcb11ccb6ac57a15",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21456,
+    "candidate_hash": "12d2ad74c3050862b0335790511914b4f7fe66b417aadd60a6496435eecd7e21",
+    "evidence_set_hash": "110a276df205d894d13d3d849f86014c769cc87ca7732bbcfc53df5657ffb6ad",
+    "fdc_id": "2259795",
+    "raw_hash": "dba2ef3673dccb8b913fb6275e89b460a521964527e6d9a3fc8161fcfab60597",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21453,
+    "candidate_hash": "c9124d27d9b0a1e97223b3be711477ea3d021c386c666d983f0e89975ac97074",
+    "evidence_set_hash": "0ff8d54750aa47e4b1455aa8b163aaa6806d694ff1894fd07634fc283f27dab3",
+    "fdc_id": "2259796",
+    "raw_hash": "791296a2d3c581510b168c5d77e1aea6811d6fc6d7e07f62718620b3e5e0cf50",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19747,
+    "candidate_hash": "4f3235266a78789a2fe5c48163f1ffb744353d378407a790d8e1a2ca7421de17",
+    "evidence_set_hash": "e4753ca112666276726e6e7ef9f25f491df402476514396dcadb5cc07b1d32d4",
+    "fdc_id": "2261420",
+    "raw_hash": "0e862f6a0b428f57871a36c298237d4fe6b2cca45eef35b98a0258e8dbc947f2",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19762,
+    "candidate_hash": "ea261970cf3ca29145e6e28ad35f0839ef0e1cfca8360739a681ca85f02a874b",
+    "evidence_set_hash": "014312d5c306eccd292f129c9b50467b7ad1cdc6abd9d9ba32e96ef8a0cf5e1a",
+    "fdc_id": "2261421",
+    "raw_hash": "b87af2734da3ac1afa5fdb7a27d0db191f66eee5ccdd550be7755c1a81524b60",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19768,
+    "candidate_hash": "c08248045c0d18db6e9dbd36f03dd06e99c87794d5b6d944b9ca4a667f2f4d21",
+    "evidence_set_hash": "2889d11eed82e735a457d1bccd4f1a9f055df9e814a470058a5def088784774d",
+    "fdc_id": "2261422",
+    "raw_hash": "56709c729ed62d55e81ddc06d44cf67661d77496f49d0444d67a5699567c3a84",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21207,
+    "candidate_hash": "869ed95c5f26b09a4bacc37f24a3569f8f01e63f54ed90d0784f16e4d3724cea",
+    "evidence_set_hash": "99873c8ad8ed8517ea94fde6033adec18d9e14e4ad7a0d1181238e16c3eaa8c2",
+    "fdc_id": "2262072",
+    "raw_hash": "98dc16e755f6213d43a337fe31a8b28f2217a419474d13d10a6c197aac4654dd",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21193,
+    "candidate_hash": "62379d40637b41fe211b435a6e15c6a179774dd141669f4a93e15e7305207ee3",
+    "evidence_set_hash": "ad8e622d5ebb867f1049d5c7dfda58bfd7c01bdc752ce5c06d59c2a369282e21",
+    "fdc_id": "2262073",
+    "raw_hash": "7cc0d0e098cdadd3b180564972bfc3b3a13880f774af94eb64a566819f2a6a94",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21209,
+    "candidate_hash": "7203da5ea604bf3ae37a225d7ebfaeac056baee5de4130d7032def0c5514afa5",
+    "evidence_set_hash": "e1d7e0d0fa2fa3cfe7ab8df499a558c3bc060f35eac0a8d7bd84fa116dbf7173",
+    "fdc_id": "2262074",
+    "raw_hash": "28dbe156a9b401fc128d01b8d0891edf0b256b8714fa523ea849aa2d86817782",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 21463,
+    "candidate_hash": "8baaade162d1bd0bfd5cd9277af9a17c7f15fe4739c0ec43924e50e8f562ce07",
+    "evidence_set_hash": "8647cf8754d6dbaefd92be84c2e3f063f6c972ed1b29f5d5d26f4e90428a7d1f",
+    "fdc_id": "2262075",
+    "raw_hash": "6901064bf1fc78c22747f9632e01b09dd84869f3e6c39bc9111b1d5d6353293e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20349,
+    "candidate_hash": "d982aedd265eec7b7d79ae01c8c4e1270569a1bb5456b74d7bceac91380458e3",
+    "evidence_set_hash": "4acad3a91225d7dc0f2f28f90547a622dd7927f826aad0b5df50b4814e71113b",
+    "fdc_id": "2346384",
+    "raw_hash": "512ff791a867e6e9d5245873fb31e43edc8c08b7076fa8a36d62509b03dee114",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20323,
+    "candidate_hash": "895fa0b4c27b5237800b4c1666db9c6be06422aff91d431f8200700ec8fc9d7d",
+    "evidence_set_hash": "85d0f976bcc3de8a7bb9fc96af4167b271f2f29dda4bf1f0dfc852a73a161f16",
+    "fdc_id": "2346385",
+    "raw_hash": "2defc5430a7986d16cf834f234ed5aa6a855cc09d4dc1b2c6cf63d8f5b59aa41",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20306,
+    "candidate_hash": "293039ee234b15e90ca0c59fa92e3d1e133ec35a77e2cd44f17ccdc495ac5b42",
+    "evidence_set_hash": "f9d9b9ce8de30da3c16cb76b02cf62505d22fd99f828212ab9961bca4a0603c4",
+    "fdc_id": "2346386",
+    "raw_hash": "4b737d1fc009e7fea4caa7e56835c93f949f79de125529ad9bfc9b569a8195dc",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20315,
+    "candidate_hash": "43c16d32235333b4c48d8d497985d0f2bbdabf9cc272f28d19f93fd4744b2627",
+    "evidence_set_hash": "43e7845b5c40db49de6aa82f9c6c79d763cd0e080692907af8c0c6d247525da9",
+    "fdc_id": "2346387",
+    "raw_hash": "7b28ce52fd66e5d4f3d5d02b6a67b880898dcb5ef3e8d6092e900379b61545b5",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18158,
+    "candidate_hash": "66fbcbfdae0e1a728e46863423777500f49be9161f136e82896e29d4c0a4279b",
+    "evidence_set_hash": "57bdaf270d4275759cbb67e09b1c4f68e6c91457dc04fd2c894ca665c1675379",
+    "fdc_id": "2346388",
+    "raw_hash": "551692e5b10b28e997073e1f8838f254a562f413d6f6a1991c1a57bc7660038f",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18161,
+    "candidate_hash": "a70ee2fd1a6f9e38d4f1f31467f11b9c25d9108fd8735c1e8b9457e37fcb9339",
+    "evidence_set_hash": "e82fc0e584ce81ae6eeba99887af93d8fce4f7f8b7a532c4ede0e6fb0ca8faef",
+    "fdc_id": "2346389",
+    "raw_hash": "bcfa138ddc9c94374fb41b07ec6d838ad795ba82925191e09a3e5d3742f32bf9",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18724,
+    "candidate_hash": "a579465c2a2d737414db94bd3acbce1efc6c017defeb75a20caec134c4c728e2",
+    "evidence_set_hash": "b1b0d09bde45877a227b20a566ab0131b9a4661a25c23cf5f7e52cce4a746e57",
+    "fdc_id": "2346390",
+    "raw_hash": "0ec79ea7cb44f48e6cca817c2f43291dd6cf63abd5ab35760e0cc3c962eef8d3",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18716,
+    "candidate_hash": "f6d76b611fbbe63badcdf2986b07af5979c32a48d8ab5a99b303aff202c67592",
+    "evidence_set_hash": "e0294b7087cb2ef664aecf477ef909a1f549c4a1114816bccb3cfea39a6983b5",
+    "fdc_id": "2346391",
+    "raw_hash": "2a6df764168606eca7451a20f84ca2ad3a440034154d90459cbf7312805217c6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18666,
+    "candidate_hash": "52336c7b2409ce3da4edf1c871b52ff5c40cdd922176df9b4218483f640ffdf3",
+    "evidence_set_hash": "a673fd91088d0cd1dbfc352fa280a52343a167f30756230f6e18e45b0824e426",
+    "fdc_id": "2346392",
+    "raw_hash": "3d2a7b75555b3897fb733f86c815ddba1a0ff2b536963f22e68f4a7b17a085ef",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20370,
+    "candidate_hash": "8555f94c792e410780c9bd7a992d1101848008177d91044ba364c6d32246f90f",
+    "evidence_set_hash": "996488da788bc27e02a87a446cbaed2a3ad6c2f16fe674411c05f9dbcca681b9",
+    "fdc_id": "2346393",
+    "raw_hash": "abeac9f708aa1abe52d9034129d73f2f5e3ac62d39a5e11038c0787b2c1b52f8",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20378,
+    "candidate_hash": "d6b7a2335db7293b98052a7a596418bfcf96df3e6735f836b774599b88289c00",
+    "evidence_set_hash": "21e641eb07b7e23513aaacbba7ffbecb0a89fdcc23943bcbe7b8ad395b848457",
+    "fdc_id": "2346394",
+    "raw_hash": "ade6bf6cb1696686ae645f20f170f8523909439e99076be0c132dd8beac6744a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 20382,
+    "candidate_hash": "975c3fb643349394a96f404c77263722212928bb191c778b876e7f6783c7b8c9",
+    "evidence_set_hash": "03969c0512f2eaab3500b3784f55c190d25c0ea989e01f67949681951fa83d0b",
+    "fdc_id": "2346395",
+    "raw_hash": "43ad255c4f6905e26d49528ab22526d5ac9030c3a4f5f06c0e3bfbd4166c10aa",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18699,
+    "candidate_hash": "5071ef98e6e46a09556031a1693a3b343681643e7898cbbd3850c02885ac66bc",
+    "evidence_set_hash": "105efe689b6a06aafbab254411f09d29cc6b2ba3bf84c0e666ced4f681c4dc86",
+    "fdc_id": "2346396",
+    "raw_hash": "d341cc1b9b02a750a30e56ee6556e380ab713ab16f3a9571de02b4a44a1d878d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18681,
+    "candidate_hash": "c9ff7852d3133141c68190040dd2ec4bcc4fb2331c2a09d67838032d20c27f36",
+    "evidence_set_hash": "f70ed95da7d9b2a220ae81b89fd52e95d55744cb8587fd54058c6a413d114b0f",
+    "fdc_id": "2346397",
+    "raw_hash": "312d0dd55b706969d79d9789260201f444a5a811d162025cefee8197fe84ce56",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19776,
+    "candidate_hash": "9811dd52f720207472ddcda90b752ad371f893a916f784ebda2958272f5d15fb",
+    "evidence_set_hash": "c5a69381be54a0060de5bbb991cee8b401f5d18c5e323d720474a55bfb59979d",
+    "fdc_id": "2346398",
+    "raw_hash": "fe493cf36abb4763fc7413872f2aceb41717cce4cc81f1dc62b69ac6bf93e61e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18173,
+    "candidate_hash": "8d2e9400699d800aaef9fd5452102dfb6394e24d6189092a27e29f7c123dc941",
+    "evidence_set_hash": "4ceb440f2402a87921c8b9f692eb9d2148ff5d32eaf51ec5bb33f2ad7028de09",
+    "fdc_id": "2346399",
+    "raw_hash": "b7e6f12984c4f9b3c718c5e591fa4b254839320f54bc01eb18f8a853772d955c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19226,
+    "candidate_hash": "0c6a270ffadd23d552ed08b98a07ea056f76e41f094744e95bf0c88ddca0750f",
+    "evidence_set_hash": "4f265d473a3179c1b38e3eb98f2708a4a383fe439704c02e979b2a95e82d8f47",
+    "fdc_id": "2346400",
+    "raw_hash": "19e71b62301e16ef87a040ab3f778761c915afd2ff8f59b05806cd12f1e54680",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19801,
+    "candidate_hash": "802703a1493b7a83084989736ffe2dd13ddb55ef6ca828148270b66fb334f33e",
+    "evidence_set_hash": "7b755d9b635fea695272d5be6bc1c771cdf3ce175d5e71a928a174e1d3ea64c2",
+    "fdc_id": "2346401",
+    "raw_hash": "5afa97de35d1370e80f3b9b8297dba849be639129abda6c6b5c674a91162ad60",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19808,
+    "candidate_hash": "46113b4b0517c36e752ad581268f18be556d87b84da288e224b176dd5fc4a2d6",
+    "evidence_set_hash": "a80e8cf4120eeb6c10610f4e24802a323b8cf8577c0c226b75c3e1856a87ce82",
+    "fdc_id": "2346402",
+    "raw_hash": "a401311e8b9b297da0eb6536bd73218df1ff73318241c2bfabc6ed2addfd3c6b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19797,
+    "candidate_hash": "e1cd19b75f58ec83171966e78838754cc8088bd82512b1d2a6c2f3d3209dd654",
+    "evidence_set_hash": "59487caf04d90d97da7093d57c4fcdd88b3731d414bec6078bac85fcae209e9e",
+    "fdc_id": "2346403",
+    "raw_hash": "8420db8eb9c34dd9f4d6d4e6a57cb80f74da43d3781f4d32ab82c61adbf93ff4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19811,
+    "candidate_hash": "92c8896d33d865e325bccad70b3511409906d2dc05273a165d3a6b6ba59a1260",
+    "evidence_set_hash": "f31c402fdbb6f5f2451669ea3adcafccc30c6f87db89ea9cfc87e75310a72fb4",
+    "fdc_id": "2346404",
+    "raw_hash": "f17f7aa7d29094586363222c60852274d53d091e23e3c20fe6388e91f9867ee7",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17584,
+    "candidate_hash": "cf6c77e7e66b5f18210976bb88f2e5c05e7faa113f6dd7a0c34e636405e160a4",
+    "evidence_set_hash": "0e28e43cc02fdfc7a93adf04ce6f394e898e70536bdcba06e6380af473e8192a",
+    "fdc_id": "2346405",
+    "raw_hash": "070070a607af07d36e2dedb43e23116ab6976ccbee7533e525bf7043f64fbb1b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16529,
+    "candidate_hash": "1c1563d2b9741f2c999936c6a96624ad35bf9c4f700d25e0de56feb3470872eb",
+    "evidence_set_hash": "0084dba3ad40aaf3f5926709ab21e531bf6a767a7797051482f1dce75a076dee",
+    "fdc_id": "2346406",
+    "raw_hash": "1c1dbef684bceacddb06922662e5ef153701d7d1b207fce47a530d2102fa010e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17632,
+    "candidate_hash": "ca5fdc74d3dfc853e6a94166e2bc4a7dcc7a6271904151a4f1739b255d932c44",
+    "evidence_set_hash": "e9e6142a0f94c458e4ee65d53586a755e736518b2a94c9f18b64d63f015eb966",
+    "fdc_id": "2346407",
+    "raw_hash": "3e3cb09a81aa2e7f703e41c96ebc3cade9857f10383ba9f5b1d7495b76874b50",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17624,
+    "candidate_hash": "f2929796d0aef8e66500af020dc59c10a5810e4378cac919eb66619a4f5132f8",
+    "evidence_set_hash": "8b91b8c2917f50299656bf307e4a4085613fcb23b1196102596457b27e4fe752",
+    "fdc_id": "2346408",
+    "raw_hash": "662ae0478258b1b5aadc2092c649ef5826b5acd5197ec61fbebbb9052577734b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17610,
+    "candidate_hash": "684e2cd7e13bf35b86c9b5dbbdc39c4b6d1cd69428824547adfdcb9c3bede929",
+    "evidence_set_hash": "83e5036f030886f6644fc480d2a7351bb968019fc2d768c5fab84dd36702c380",
+    "fdc_id": "2346409",
+    "raw_hash": "c669b6a194df842b57aef6ddb355f5fd4406e966c5f0ac987f53e3a7e6675e8c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17607,
+    "candidate_hash": "9d11fe414299c8a93d818387b431545cacad9525abd7362a6c02439b9453b7ee",
+    "evidence_set_hash": "cc9f20472a4dbfaa99bcd03b3a1fd67a7b5e40148c62c1764d041f38761b1bd3",
+    "fdc_id": "2346410",
+    "raw_hash": "18c393169f352987c8004a664b96199e88242a89d72da15309253be218f46c85",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17611,
+    "candidate_hash": "f8e40078124321f5a6f0e13d968a963378b90ed0116df061e940c1d7dcc44a96",
+    "evidence_set_hash": "526f22f38be6133c2c1305c8e7b59460ef7d0c3f3230908c20aeb5a221526463",
+    "fdc_id": "2346411",
+    "raw_hash": "f94e772177911cb0531ae92b3869521d7c1e0081d399686212857202ac4c18d1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17633,
+    "candidate_hash": "7f20b30d1cec00612742e478a83426dcddc9b2170d2c589193b026bd1801ed91",
+    "evidence_set_hash": "5faf804dcfef8f65138ec2a088636e3cff41cd17c8f029aae6345d69b5c5c7d5",
+    "fdc_id": "2346412",
+    "raw_hash": "2c2bb1d00a7eebb5bbefb7b0546696717f6e6e52fb89ad2079d993857c37490e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17635,
+    "candidate_hash": "55a821680d55a7abc2c366aad0e63787436e05a77d09bd37f857b5f8d143965a",
+    "evidence_set_hash": "16273b50edee04e396c8d2c2b0c7424cc883070faee02e38fc66a4336098d4d4",
+    "fdc_id": "2346413",
+    "raw_hash": "d65251cbefc5b5c4367ee1c4f236ad0f99de365f26f860ec5859510da1ef79e1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17656,
+    "candidate_hash": "75a33d52a6e1a4dc2ce2444f63a41e0475c021a1761943651a77e3901b77fcee",
+    "evidence_set_hash": "8c7b897ac5d3b5498a14c173c0aa7196cf7c7b28883cf7a0cf0d71a91f604344",
+    "fdc_id": "2346414",
+    "raw_hash": "623420fa51dea46d684d53dd411539d6fd6bafb98feac29296063467f9655b0e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19744,
+    "candidate_hash": "9eb881edc6667d534ed086f92e5a51c265ec6c335b0ae69abf63d48631eb4232",
+    "evidence_set_hash": "fc16332bdc198d2367da747a9f876790efedb739e5948777b0bfad725c3e2a44",
+    "fdc_id": "2512371",
+    "raw_hash": "f963e9945dbee3680d92020e98018d40ab8f830ff5a4c5af7b19cfbdd32e3c59",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19754,
+    "candidate_hash": "844251e8349868cd5a8a289b50dde47e5711b7d783cb408e13df1cdd1c32cf44",
+    "evidence_set_hash": "92d6c31fdeef5213a25a2c4a6aa8e303f2b329cbd1c6412ef4e771e805f541af",
+    "fdc_id": "2512372",
+    "raw_hash": "2dc959464366eea058a72ff30cb7844b40fbeecfc676d4b974d9eb9139a2dcee",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19747,
+    "candidate_hash": "ef85affb0213641f334265186a89bafa7e3cf1e017c262d50ef7872b717b2bfe",
+    "evidence_set_hash": "3f27107ca14d3aaf61b6bb65dbd5ca05b76f9cde8ae2d0335768b0a319d48789",
+    "fdc_id": "2512373",
+    "raw_hash": "b27bae5b154450d1a632dfe998a5b5565159403961863bbe9809778fa6ceae8d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19741,
+    "candidate_hash": "d089ee50ebd1fd6769fe98817426a003ee7d9e9fa970692bdc08650049f41900",
+    "evidence_set_hash": "3b4d8d5525ac03f3f5d0c1bec638b949a6f3a20923d37a18a587195d941ef51f",
+    "fdc_id": "2512374",
+    "raw_hash": "c4277123547c03c117493e488398fbb121f8f531b6964ccc558333f51f819b55",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19745,
+    "candidate_hash": "2c55fb210edbc63e205fbc62a0ac8ffd0b1f0acb470e7f83657fb825871f09d6",
+    "evidence_set_hash": "34e024ddd9f4ba623e9dbaba807c3f25ada22d0689ebdeb334c7e46f4c9b07a4",
+    "fdc_id": "2512375",
+    "raw_hash": "19ed59819c7eac3ef7b650dcf7a99269c34d053d7b4f7f55e034734b31481744",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19750,
+    "candidate_hash": "b9a54082b6290627b61da4dce79f4d838fb9b08de72d184a29ba65a8281ad081",
+    "evidence_set_hash": "28ec82b46f551e7d24b0a18ed75cd8e941d6cb0d5107428d6d959462a9d405db",
+    "fdc_id": "2512376",
+    "raw_hash": "da937d71ba6b70d1478bbaf77d9c7eaf1dfde4eb6acc6938230b7095ac4bc6a6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19767,
+    "candidate_hash": "73a1dba915b1de74347c3ed21da7d94d68e0a97276fdc6593aa8c12e6ae9bf4c",
+    "evidence_set_hash": "93c993cca39268b07bd6ed6a0f425b1d393d3c03df0436f1cf94ba0d56c374b3",
+    "fdc_id": "2512377",
+    "raw_hash": "f5f4859dc029375f2411f92bc71794a121611cc99e13da9361a28ea3ee938cee",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19478,
+    "candidate_hash": "518a55ed800ed27892964c8bd90a304d9711d89b59ae23540a222c2844e858fa",
+    "evidence_set_hash": "be6d2cf70064e58f52c567247cf0597576e37ecb8de5824d338fc2c44bb5061b",
+    "fdc_id": "2512378",
+    "raw_hash": "7ae9055553fe1b43a01260e61f445067258a317a6df491c6a765131234c901cb",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19471,
+    "candidate_hash": "b61ac8c69f47a1ce2bea6a513574a4854e8474fc24de58b34a32080d840d24b7",
+    "evidence_set_hash": "32bcd79373b32ef1130e1935398602adc0ab9396e16bcd54f064b3a13336d4e9",
+    "fdc_id": "2512379",
+    "raw_hash": "cd18dc2c75e69d06f2f13e5f86d348a98a347b6c996c111d720b769c029118b6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19772,
+    "candidate_hash": "8e6fd1bcaa356c0be96e0366ec9151b34f1151c9b3c1521de2d088d2cbb551fa",
+    "evidence_set_hash": "cdaf69f4406501166a0c9015adedf890718724429feb74b1977c293869bf3ece",
+    "fdc_id": "2512380",
+    "raw_hash": "7961666c24e890691b4a868219793c33c8d2fcdb7cf837cb105c5d5e57ab6b7a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19790,
+    "candidate_hash": "a536d5a095de8f371d4834bd022603f2b6fcabb85a9de593642f40e29346cb6c",
+    "evidence_set_hash": "fdfe8cad4f592d1ff300aff65338d72abab34f22b1b75635dc66eb27dc674d5d",
+    "fdc_id": "2512381",
+    "raw_hash": "9c5387f261f96d28df23154e07ec100b8b6263074e80145e3576b5984e6f339d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19310,
+    "candidate_hash": "140606e26008628c0a6e2e73667b0d8426c1ea8e8435a018af9ad77948a167a8",
+    "evidence_set_hash": "f80f61f738a504e523c9210dfda5b07c5201b18799e1bfb63e843875e4ab75fd",
+    "fdc_id": "2514743",
+    "raw_hash": "4aaa9ec195668a967f867658266f1f3809d106a249c5cea5fa706bd08df28be2",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19306,
+    "candidate_hash": "f9f4cdbfd696e587783e16ba2f4ae3ab6ad602b610bf8649440c8c0e9506eada",
+    "evidence_set_hash": "dad4f30bd10569094cad56200685c674ee0a91231841a186e3bc5b2db4732947",
+    "fdc_id": "2514744",
+    "raw_hash": "ba79764af0a533d137587f87d946bbfa58806fd0aec22c1eb618c7dc8c14993c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19281,
+    "candidate_hash": "d2b6efed769a2a586ccaad0991d60541627f60f98ea5431915706c404031bdf9",
+    "evidence_set_hash": "786c2dd45d4e5a6d53c8e4ef41d79e83e3a3808b251b96a418cb2d9f5eedc8d7",
+    "fdc_id": "2514745",
+    "raw_hash": "f29a8a83beabf06c79b4c6fcce143c5375575b393870ef74f1527593d0fca6ce",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19313,
+    "candidate_hash": "b474f7101504160dbcd02f6e88a54620caee41cab8acc5818a0ee369f537b6eb",
+    "evidence_set_hash": "551a72bf5da182a7fb807f9dfafd4aeff4baf49458ad3cf27d51f225507bd875",
+    "fdc_id": "2514746",
+    "raw_hash": "03d10841e8536a3206e6ba3dcad6737cdcb58e18003d42bae4b1b2bf6b4d41f8",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19316,
+    "candidate_hash": "f4973142115d4ba6bf004c250f5d2ce796a4105458b2c889059870ea0cf47dd8",
+    "evidence_set_hash": "e38475890908a0678d85a348a60a28481b932ed66702a8eb5a157af4569c2ccb",
+    "fdc_id": "2514747",
+    "raw_hash": "f0022f3d37cf615777236c50e8fc2b28933ceae25ef0146f0acbdf7207cda6b1",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17580,
+    "candidate_hash": "4aad40de0e85ebf631a43fd19831c62d30d38d6c172a326bbd0c783074e0d4d6",
+    "evidence_set_hash": "15195fd9156507a7072d96cc27452aadf163e6b568fa6dc21227e4ad7b8f8c34",
+    "fdc_id": "2515373",
+    "raw_hash": "276dc193aac23826d6ae20fa802cbaab3323b81545c1b1cd3fdffbe88ab05eb7",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17591,
+    "candidate_hash": "7a10e537d83f8de53e06e7d181d081eab8c8382e4922a2280f8de47faf155ad5",
+    "evidence_set_hash": "d602d512d59165c25aefb3c7555bca09b6eb6d5c5b845e1ebe9c9475d57becbe",
+    "fdc_id": "2515374",
+    "raw_hash": "d9dc0b5a3366f1157ce838635359be59f1cb93ee50cad77ff316b85ea5f05cf5",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17585,
+    "candidate_hash": "0d04b9cc0d27c78c5dc363a61ae02f6c1b680758e2d5b2bc241568ee4a61212c",
+    "evidence_set_hash": "90a0f187373d64d3e97f057be7c18ddf4201d0c1e88e52e436b40447a25ef828",
+    "fdc_id": "2515375",
+    "raw_hash": "6cf88ec89ad1ca2a3f7ae69be7554a1a0cdd3ca03e73b210b66f80ccc545387d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17593,
+    "candidate_hash": "305d60cc70b99bdfbcaf0272c03ebe47db1695ca9621c6d9bec8e172a71561bc",
+    "evidence_set_hash": "81a458607370bfa6ab5f6af3ee15815a012f7b426fe670d51a4907bf60e3028c",
+    "fdc_id": "2515376",
+    "raw_hash": "43d02a3cc25969848bef77f6708304c5e9a60b9dbc90add5d34587eac27f8b5b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19847,
+    "candidate_hash": "1dfe9495f3890da9eea57f3ba372777185d9e151783ee30838a8cf5b7c41098f",
+    "evidence_set_hash": "668f7a4eef2f19f7d658a898b41261a5d0eed7b152b2a7bb9080aa769d36ddbd",
+    "fdc_id": "2515377",
+    "raw_hash": "742488d60770f900d66f5a5c924803bae4bc752abfc3516a95bd21e5920f7d34",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17590,
+    "candidate_hash": "ad624a800e9fe90c52794d5fc7c3adc678340eab9294921e6ef6b25d5e6db706",
+    "evidence_set_hash": "f06cf6de2745d6936b53ddebe52d6bbb159cef206d53ba4f9f7f8e03c1af8059",
+    "fdc_id": "2515378",
+    "raw_hash": "c0e0454ee0cbeea64c2d0915007850131b4246786637e8f4dc3eecbf91a373cc",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17584,
+    "candidate_hash": "a4584d01901a1c3b53e40ba976564dea12d5e4e8cdd7beef5ae84fd128ce0040",
+    "evidence_set_hash": "9b65fd26f8633b50ededef3a1b7937a8e17db006d1aa6c918e7a229e99b42304",
+    "fdc_id": "2515379",
+    "raw_hash": "874019ee67491c84917f74644da056f1103413fdd47f99967db368dc8c1386d4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17598,
+    "candidate_hash": "b27ccd923bf8bd5eafbfb12c58b9877c79d069ccf30d44ca58730c2fee61bb92",
+    "evidence_set_hash": "412d9ded999ac824a511b89bbbe229b6e115d058b4ea0ea57775b330e003e70b",
+    "fdc_id": "2515380",
+    "raw_hash": "e3f35d869da3361896d9ebe781421bbbe5f46476de6333b0f2125731936c6592",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17597,
+    "candidate_hash": "faa684f59bb501a71204c895bb25b963a7048f22425955ef70c536107ef2e512",
+    "evidence_set_hash": "6ee2acad0e4c12d732a49ee1f18c7407e99219d0de5b85beb681f1c660e99453",
+    "fdc_id": "2515381",
+    "raw_hash": "0f0c35f5b9e8308b2f39503f31317d71b7f887b9347f0b05e5720561682c24f4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19294,
+    "candidate_hash": "7cc321f0808aba2e83710d6036834607141176a7c2a2ed381cc920070236ec50",
+    "evidence_set_hash": "6dd241bf51084435399946ef883f4187cce4a494682b4354d6654280bddf63c7",
+    "fdc_id": "2515382",
+    "raw_hash": "57784836c172de6c8bc568008326231dc834cbdd294ce40d332cfd1dd31098d4",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16506,
+    "candidate_hash": "285c8e6c1352b87cd236b10367c7e7090da4800e2b8778b3230455f0b37460f7",
+    "evidence_set_hash": "1b4777623cb39747289d53e2ea882686fd816bcb2689e014a2711f5f6a5e0529",
+    "fdc_id": "2644281",
+    "raw_hash": "1e1f418a091cc440adc963136990b39d1666671a1082d00ecac5ebb7f4e84585",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16541,
+    "candidate_hash": "656b40cecb95a6be04d02312262bd747ca52e30fcc7e7cdb7e4f4c0390b4640d",
+    "evidence_set_hash": "cd5be420885b982ddf6f41957aef7e6fedba04f0e3099e5014052b93757b859a",
+    "fdc_id": "2644282",
+    "raw_hash": "20ef4fe110881bf5c5fff67005b01a789b36c1aca97e6ba8858763b5697c70d3",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16498,
+    "candidate_hash": "e3b95d88b08912bc50c53481ab7ec2b53ad71f7cfe0744ddc99892fb2f96b496",
+    "evidence_set_hash": "288515184f4bc956e307672f01e9812c1a1f21cf411c7a1a625155c2bc65d5b9",
+    "fdc_id": "2644283",
+    "raw_hash": "ef96e8fc04c82e7a113866eccb0ece151bd6569b55e7120b922d86696af2815d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16515,
+    "candidate_hash": "37b08a1915fb064183b8d583b95967994dc29ce04de5bd138698c608a31bf1f4",
+    "evidence_set_hash": "ebb0664ad92211706c2605507f6ea0327b32126c2aa00611fe9b90aebfa595db",
+    "fdc_id": "2644284",
+    "raw_hash": "a9e37bfd72a5b2e14ca0715c954bcac5121a4c4ed94e10f73d359ea3b93f25f5",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16551,
+    "candidate_hash": "f464266aec7df1aee57d3826c64fa9abd657669e78610f53eda45ad6d602378e",
+    "evidence_set_hash": "daba3ca388ac5317e21ee2a1ea32ca80440ce85e669291202d4309f944edc636",
+    "fdc_id": "2644285",
+    "raw_hash": "adbffe9d1d55b5fd3f05729792c6e32a0f1119fa14cf2aaed9e5e034da424543",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16546,
+    "candidate_hash": "a6bd0e0c4f749c1494ceb1fd5f9c74679210ed5c79b9ed5a8f823483a0cc9684",
+    "evidence_set_hash": "86fe5cf0a1cb06498436881443aa3c61ee945f24a470a871de366c5eb441d57c",
+    "fdc_id": "2644286",
+    "raw_hash": "b922a2e096c457eec58844a7ecca7542692d1e4be52ccccba3b36b40bf009e7d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16560,
+    "candidate_hash": "e9c3162bb45fa24c67b0b1611618f79d37fcb3815803322b5946a86efb944979",
+    "evidence_set_hash": "4b6e54a60ea01f5d5d66a971935546096d3fb0fb847c23dfc960426e48a45a01",
+    "fdc_id": "2644287",
+    "raw_hash": "8281f50dbe0e5fbac9e4cdd2a3f53b03b05a9f6365f8759d8c4b5d2edc55c668",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16582,
+    "candidate_hash": "42c189f58623e81e06182df2fec77bae85947de4173c8493c3fc45e2376609af",
+    "evidence_set_hash": "7aae98a6398aa379c838551549e500bd93e8b8660fb8f1ab49b59aceaf762eea",
+    "fdc_id": "2644288",
+    "raw_hash": "58768804c0fccde5a82c825454c58b310b5e0ccf65d20166258d0aa35aebbf8b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16571,
+    "candidate_hash": "a4a61efd81c70223355c208a3ddb4d32b6f29b445bd730d4389ca20d5f6d7d42",
+    "evidence_set_hash": "5e640f49470ce216ad569bbe127142ecce0b07ce7f488d2c210f933221674c1e",
+    "fdc_id": "2644289",
+    "raw_hash": "156a7d3a27d83894f79573ebfcdee9430f6ad7c1b5a231df3a434131ec965e8f",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16578,
+    "candidate_hash": "833c30e067f899174fdac276ab8d3ee75c683ebfe7f70a3ee452a019463d98a1",
+    "evidence_set_hash": "7391bbae9596d8fa24e4821b14696c280136ff9fe0049543b60947e1b7a8b2d6",
+    "fdc_id": "2644290",
+    "raw_hash": "9b349b017b3deaca9365dd37cbdd2939eaa82e751f5e7ad95b084eef0164cb6a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16585,
+    "candidate_hash": "8fa542cb9e39994c18bddcdb6f67da77cdeeaad70cb796b0c7af198bfb2090ef",
+    "evidence_set_hash": "fe954ee4f281142570c32e18e25ffbc1529561abc5ab4a346fe62557190349c7",
+    "fdc_id": "2644291",
+    "raw_hash": "312279d566964932f852b0c0f49d9e3f3885e250d3920dde07dad68919a50fd0",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16557,
+    "candidate_hash": "b787d70d57889f4a28c40924d1ece45c4c849589f4b174e0a365da33547e4ded",
+    "evidence_set_hash": "354d41d5e56b51b7a789480f61fd4c0780d627606f041f78e0e58b58fdff4894",
+    "fdc_id": "2644292",
+    "raw_hash": "514e09c896caecc297f5a2f964bf246689e4fd38c2c62c2c9424d0104a49d3d0",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16551,
+    "candidate_hash": "1bba2ba504f0cbbf56a167d819a85d2aeb5d05d1d498e94cfb9a165f5dbe937e",
+    "evidence_set_hash": "1a3175da621dbf09778c1b3642cd1ffefd1df4aa622c48295a65b317da987548",
+    "fdc_id": "2644293",
+    "raw_hash": "26c55d7dc29f8045aca426cbef62c39b4f7c928589aeab524ad034e35999f1d6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16566,
+    "candidate_hash": "e5e5fd5156469ef60f98107cf13ac7d06170ca654623b88541afb946c173fec3",
+    "evidence_set_hash": "c70511197257cd100b9b3c6133bfeaed6e65225770b54f5e5b2584995e584812",
+    "fdc_id": "2644294",
+    "raw_hash": "da484771ac8d1583605c98553c9e38fe316bb1b5bf02b9e3e248fa5fa16010bf",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19291,
+    "candidate_hash": "7b1e4430509e9b2e920936906a69931932aaf95a8c26fd80dfb5c0fb797fc997",
+    "evidence_set_hash": "dc8bba5ba5144ccd6458e66aa15392f746a24d0016f4a407f79c313d8431ffac",
+    "fdc_id": "2646168",
+    "raw_hash": "b09328c4e21fe0915d9986e1d028c6ac886c2e603ccb817007c5c84d39dc54cc",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19321,
+    "candidate_hash": "0e87de37c22d174f5f01d3d9b58b3742df66b6bacd5f79e10e34991d66373ced",
+    "evidence_set_hash": "1a45d21d16bc011f1918fbdb9f3540486423020bb9279956343a38ad36f158d3",
+    "fdc_id": "2646169",
+    "raw_hash": "68c9ced0de528b4519f43069a1fbff8784e145ed566db1e56815347f4b0a9903",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19321,
+    "candidate_hash": "9081d6257dba1e6208e511a0eaaff266ae534e9d8cbd0cb4d1791871e1fc2744",
+    "evidence_set_hash": "374511fe23b4560fb7c2fb792d3ba9cbc276ae755dec11e6ffb0523a4db780c9",
+    "fdc_id": "2646170",
+    "raw_hash": "bfa5709cd528042a81ae01ddbcb2474579e1c9010a9bfa815c3e607bcf13c08b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19312,
+    "candidate_hash": "5d4c0ad553e4721984044391ac414e4609f15d4d69f615235d105ada688ae00d",
+    "evidence_set_hash": "0ff9e31631f913a5873478f6c1c6919622e9c018795fc41c7325dd8063abd16e",
+    "fdc_id": "2646171",
+    "raw_hash": "7a377574074967be80ea0b2f1a58fccb4440959529a86b3cb41bfd308aa55e52",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19308,
+    "candidate_hash": "a68570f4877c0fffa86e873ea14d34f0c412c4020ad7c73eb315a24d909b2539",
+    "evidence_set_hash": "16d930cfd5b0eb6611be2fed64e2cf4f82cd7cf54d97e779fa6aff418351f025",
+    "fdc_id": "2646172",
+    "raw_hash": "11dec909b36cce35d0e804dcc8b91d34d10674fa102ace9ee21adbef9e4954c0",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19335,
+    "candidate_hash": "4dc79bcd077d1bb9abcebc1bfb451859e093a98ab222e6deb69383191a3d1fcb",
+    "evidence_set_hash": "af3af49c6fac948090f01b334889b7ba4cea92ab3508cafbb595b1a817d3ad39",
+    "fdc_id": "2646173",
+    "raw_hash": "e6f7a3dc9f31923317f06c8a8f10e6938b2a814c1bd7dd5c783c5e94a0907795",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19307,
+    "candidate_hash": "1d8511286f7aea4eafe100506195f13de094992a9c9bd281d4f0c6ba56e1d782",
+    "evidence_set_hash": "3eddad67193d029ec4346b3d7f62415f3ccb6f3f52278ecdff1cb6ddf112dd60",
+    "fdc_id": "2646174",
+    "raw_hash": "c855ab550ad25a2a74dc6205d74817c8448c94955891caa15020a6c36bfd3c30",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19321,
+    "candidate_hash": "f10f2c3fc471043b85842852f190730f2943c3ab4bba8c431917683380c85096",
+    "evidence_set_hash": "e55465ee4fc0b46bc712f9aa0eef88beb50ac19a342e7b54a81a1c7e90d6e8f4",
+    "fdc_id": "2646175",
+    "raw_hash": "29bc43a22ddbed0ff57455f7b99f6ac89117be2486a0ee4ed71c8a629bb5a829",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17590,
+    "candidate_hash": "6f90aeca2b9ceff982a9f401f8b70ebae60d9da04484b39431b7c1559ead9aac",
+    "evidence_set_hash": "77d8317705e0036398b8af92f10de6f512942c1fe0aa7e861c385ccd3b6a6aa1",
+    "fdc_id": "2647437",
+    "raw_hash": "8f2459b1667b3e3aca9c3ae4fc101609cdf0cffdb2c47212a0cff99813cf03f3",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18720,
+    "candidate_hash": "9fa08937007e77b0e3f121f06866875ff6766f10edbb7a5960dc92272b61d8c6",
+    "evidence_set_hash": "7e05b29db69006829d79414685e25158e1b6972986aa7704f57bb44e3d816b53",
+    "fdc_id": "2647438",
+    "raw_hash": "a60d179fcb04cb794357894faf56450d99b5a512d3f3934b01f349fd1b1480de",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18787,
+    "candidate_hash": "46316d9eb74c2d6b51ae34213b585fc736115c35bcdd3f0e3d60298d5b3f2e6d",
+    "evidence_set_hash": "8726c07b1e93de9ef04c21dcffc40b86f5fa0912109cc86b885a9b372c2ad3f8",
+    "fdc_id": "2647439",
+    "raw_hash": "2cb8f29697b9314645dfdd1d5b76080e33b212100d1e4f72b8f4f295174f4aa8",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18717,
+    "candidate_hash": "d790c6bfc30f8a434e56c94cd1482edb47f8d90bdd21130e76166e1b718d8d87",
+    "evidence_set_hash": "2baafd5219b6cea988bd9c1e3b511f84eadd00e367175096253557dcbf37fdb6",
+    "fdc_id": "2647440",
+    "raw_hash": "0673f2cc12bf1190e9c9f533d190548fa75a2b3e80351be107ebe442ecf3c4dd",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18713,
+    "candidate_hash": "6dca278875e2e958ef80fc4a4fded0112e49e04712a5c26b4af76106fc878789",
+    "evidence_set_hash": "43e1d37ed196ed6f0eee6b224e7391f18127a665eee434af6fdc6365ab1e1b99",
+    "fdc_id": "2647441",
+    "raw_hash": "6b538ccdf5e32e6ca51a2af8b7a912d5ad7c871b2d44591131f5b1b64812bdbc",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18703,
+    "candidate_hash": "25f44884570a7f633a0e2509b05b4accb908fb04ddc58c8f43fe99d584af1e32",
+    "evidence_set_hash": "4466e54997a45f3f848c78922bcffcdc8c979474fb93009da689e90a5c6c0e92",
+    "fdc_id": "2647442",
+    "raw_hash": "7f5c104caa9111c773a7cb283df542c21d74db4b6c5764ad88ceee000cdfa291",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18713,
+    "candidate_hash": "b70d7cb1d8c4fd16a857cc84fc93ac425bfaf1bf1d57297003e97238adbd6d6c",
+    "evidence_set_hash": "eafacdf0f82c9deb0610c3a8a45e3ac347b02de7efdcc609bcc0f7c2332e2a14",
+    "fdc_id": "2647443",
+    "raw_hash": "2ef13d2c0cb06083826269e15282a57fa20fbcb3e69b445f4865412114279b4b",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19867,
+    "candidate_hash": "7df2104723c71fe056c0b42e486ad581e272e187c3f1fd150ecd81c9815edb7a",
+    "evidence_set_hash": "5b88386cc2231e4e080eceb8d1c564a5a071e42855cbf1f0474e6b146df03e72",
+    "fdc_id": "2684440",
+    "raw_hash": "640b53efc1c82476f05c54181a599b37488210f9d26ac89c71b207cf76f14db9",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19862,
+    "candidate_hash": "923cc4a666b6b121eb90d55383918776de859a17e4b5a146fc9fb541fe7c944b",
+    "evidence_set_hash": "d01aa6fd1a208ae80fb5dcb27266f3c90b384974be2c78173bd0649e7b0e467d",
+    "fdc_id": "2684441",
+    "raw_hash": "2ede6357d92e251d656907ebe745f5fe23e49755ecb5d694f8d4bcbc8deacdb2",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19846,
+    "candidate_hash": "98f49036ae70f4be90b48482a0dc276ceed94a02e2f9339d7a6515efb1efa02b",
+    "evidence_set_hash": "a3da552b3b51923a5aae02dc3abcd80ebf1773833046a07d444b18358dbf4cc9",
+    "fdc_id": "2684442",
+    "raw_hash": "c629f0536ad7ce7d7f6f5bc80aef5eac45eb16cdb8e072d37d8d324f3400a512",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18186,
+    "candidate_hash": "b7acead5d33c2610e7300307ab2a2dd9fec8b61fec020be0fbdd466ebd4071f3",
+    "evidence_set_hash": "eced8997a8406189a773a996e03b75c8d641a76cbdf5c27501b8026887cb9eb2",
+    "fdc_id": "2684443",
+    "raw_hash": "95a9d21fc4e63fa38502d8bf4d69c17b0407f1182c6434613c56ce69702a6320",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19866,
+    "candidate_hash": "298df82280ff1dfeb577227c5818233d1fb33dbea1bbab208fbfeadde56a24ca",
+    "evidence_set_hash": "37de0fd640c39eacb86611da319d2f9212b5a5bf532c8b5b72964a852eac3554",
+    "fdc_id": "2684444",
+    "raw_hash": "c581a8a36b924392ae5822fbadabc75191abf831ac309c7abbb2b89b4fadc587",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19835,
+    "candidate_hash": "048d6533a871b8a288420b66c05ce400a1470c1c4c9f772797d19d9634e917dc",
+    "evidence_set_hash": "d1a1edb9b67c13fe8ea17fa6f5db4bead128a4bc0fe30a21cf32209e342e69fc",
+    "fdc_id": "2684445",
+    "raw_hash": "421ca44e0d94ede1c70685584e8b095fd8c589c66886e02f54dc69f31a098b75",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18183,
+    "candidate_hash": "aaabb47d791eb9c455ccb15377a710ba8ba8193c8bb2efe5c1abdae35dc839b3",
+    "evidence_set_hash": "7dee6705b43e0b7c2ea7cf4382f3e891e6b84793951e0929006eef08aaea746d",
+    "fdc_id": "2684446",
+    "raw_hash": "82792311ab77c693c1c6c020087f6cb53ac23bbde39ec263897daa2e6713a0ef",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17657,
+    "candidate_hash": "39df12c9e799fdaf6628bfdff0b1aeebecadc39e861a4ec03d5779fd91304810",
+    "evidence_set_hash": "51a5ab3d94b5791f000ee81a96b3342ae6c5743960d86872a9f4892e8f74d3f3",
+    "fdc_id": "2685568",
+    "raw_hash": "02b21ce046c50863a32b8b8160ce0a7905651582168ff5ffac605b92a90bd6ff",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17648,
+    "candidate_hash": "ebe43b05eb1a63944ee76a219b487bd2a4786dd33179fe65e7e3c94ae7037992",
+    "evidence_set_hash": "2746fd0042764c6c7d3938355c61a0249ab30d9be9e621548924fa75e4897029",
+    "fdc_id": "2685569",
+    "raw_hash": "e46835395f66f4f485c9e75e2b07f695c53d27f8958dbaf37e0fe4f35799c8ba",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17636,
+    "candidate_hash": "82f89d006d51fb80072cb244481f71f4815f07aa740722b1903cd8645ba3c84e",
+    "evidence_set_hash": "9984c701f2b723a54a607272be6e21b68229e369ed608458f4d83b490d6ad740",
+    "fdc_id": "2685570",
+    "raw_hash": "fdd5390f454500f2a0a93e67a225342e6ca231a76aeeb650907c8e031473594c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17624,
+    "candidate_hash": "08cad69c707d0911ec81c6753a954a923110bd5250892356f7dcdcb1ee27cd38",
+    "evidence_set_hash": "0b3ee1a5549d4816dc8d50e8dcff971e8c996539237c588efb0cc6b07ada6486",
+    "fdc_id": "2685571",
+    "raw_hash": "d6235037b3cc923c84f777b84da7b28b1feba9dcf8fa81a99bf3f20ac91ca808",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17640,
+    "candidate_hash": "8d7772fb4933ad371dbbf9368786913c07f0431a0b57de3ee5127afeb0757fd2",
+    "evidence_set_hash": "d9ee99a2cb7b9ec328b6ce7fe396850d13c04f8455cd36241e4673e015c8bf18",
+    "fdc_id": "2685572",
+    "raw_hash": "3edd9639a8901a2c94258a60af7ac0e5ef155b74761becd4441ec42c79b58ef6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17634,
+    "candidate_hash": "a47024d98fe2b375822c16ddeda597d2cc52e2487451af684e45d3a73fe00d9a",
+    "evidence_set_hash": "096e305512e753ce03c87c19b069a855941a7511b3682deaf84b8c9753a3d50d",
+    "fdc_id": "2685573",
+    "raw_hash": "8977545cecb80360d191b97243ccade91c5b62a2247ba71219dfefd34ed81373",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17625,
+    "candidate_hash": "6961fe6da49b4189bfea271d491e9ea11714006643b17bbd39502dde1f00ab9d",
+    "evidence_set_hash": "0ee9fba6c8d857c05ceb44e0f3f9f461a85ad6c066c99562cf0dd673349652b2",
+    "fdc_id": "2685574",
+    "raw_hash": "82011655c2b1281314bcc71bec096852eb390576b18431f3185a8acf0b810d0d",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17633,
+    "candidate_hash": "e42ac5c6d63a16b65a56d5bf24d80f83a2cc2034e0a951f46c1abdf88a7f9399",
+    "evidence_set_hash": "6be7ff51492b225307e929c1a983fc7c529f5b03f085fbf28bbea3827ee4e477",
+    "fdc_id": "2685575",
+    "raw_hash": "0aed763248c81f5a5555eda5396a6ab77d0e931f9e62d95bfcadddc2b9ef2906",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18157,
+    "candidate_hash": "038805e753f827a4de0a3895b74c63120b43e90562101c6883444c2d3ea729ce",
+    "evidence_set_hash": "c68fb1f20e6419306751b3bda3018ae33c94719fbf2f959a4a2ed5cea5d3dded",
+    "fdc_id": "2685576",
+    "raw_hash": "3ab1267cbf8e25d979585bde2ae44a89e99cd75fb6c4df424d09bd4926daf015",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18162,
+    "candidate_hash": "2a3e10dc47a15e97726f372b6b2a6b1f918fd44d7acde02e8b74e1cb333ef946",
+    "evidence_set_hash": "27889f4fa3934c02debe439ac9197cadd54a4a16086e0814d985387584c19d8d",
+    "fdc_id": "2685577",
+    "raw_hash": "c1ac5b3db3fd6cb3624978ec35f9dd73758fdce6037d033206a3f211dbc948fe",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18223,
+    "candidate_hash": "67c84c8dbc816c15ebc2ebe9f9d9a18b22228a9dd7f75bbf6525317858392330",
+    "evidence_set_hash": "7a48a8f53bbf9acb59f08c9c3bee5320ad71fbfab255b2358724751de2d70502",
+    "fdc_id": "2685578",
+    "raw_hash": "0a4feefca1f3608a5fc6f5374bd3d4ead460955a9579b25a77f66b1cc8e31215",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18197,
+    "candidate_hash": "82aec167bf379621f444ce5ddcfbbcffde11b7900b654ef76ca2a8e19390e7c6",
+    "evidence_set_hash": "b582b173614b5cf6ba6836ce72c80e4e8f01d63cc39ae385c71a16bdd2a8e0d5",
+    "fdc_id": "2685579",
+    "raw_hash": "b84019e573c818d3a55f56492d689c849d2343e28ced07dfe188c9dc555ea258",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18198,
+    "candidate_hash": "70a8e601d46b6a3ad1fa80ad78fd1bfb381b01f49f39ac750404c7e3838bcb65",
+    "evidence_set_hash": "08db9c0f5ad116820ec0ff4cc0b9fb531eac5c412f1da625d9fb8219773bb503",
+    "fdc_id": "2685580",
+    "raw_hash": "3a6ae23f2739c9f9f5eed0bada8d24c739fd0d79752745794e0e0240e4745639",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18182,
+    "candidate_hash": "68b0ec3883d117ea4a123307eaefe242662a06b43cd3445dd4eb5127fbdcd933",
+    "evidence_set_hash": "ad8cb41d098fabb00e3acc0e82ec4a4dfb067cd68b78519eb2a59f27b414a290",
+    "fdc_id": "2685581",
+    "raw_hash": "c77ede16bf4c7ea2fc38c1cd9ec3ee009a10eb1ac2be88aaadb00007887a3863",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18182,
+    "candidate_hash": "ba4755c4fcf397aa42feec5e85cbf5e6c62ce7e2e72df8efbef49f91537c2e3f",
+    "evidence_set_hash": "10f682b1a3254e00db3e361f21728b2c9d631fd80fdc7188d84121cad47b4ca7",
+    "fdc_id": "2685582",
+    "raw_hash": "7ea7bfb18969af64112fd52df44510c4ea4b10b0111648e41654515a2ef58607",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18166,
+    "candidate_hash": "c6d820741223ba2bc77b3c6ef645404f4f69de3462ba786c6e92c0dbe0187351",
+    "evidence_set_hash": "882bddbae759e5930876d0d2bcaad8c26320d09fa5414e311c61847613eaf94c",
+    "fdc_id": "2710815",
+    "raw_hash": "1512ef1c67a331f7049930eaa75a91c4ef2642ae89e4ae50870698f10665ec71",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17613,
+    "candidate_hash": "f5424fe38d911252b5230fba14520368df899d0675e2b4624d8a8acc8a738837",
+    "evidence_set_hash": "03f1ac83903cf7f5239c60b1dec2035dcc9d06a5c9d10b42ab3564db958424c4",
+    "fdc_id": "2710816",
+    "raw_hash": "7bc2a38f760c3dfc649d24cc1f6ac0d8f5e5bdd35f494aa650e1b3ac52048565",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19238,
+    "candidate_hash": "a6621ae9a716659e1f22146c8007c93cf1c7f3d777567418969f2a5a524f1f39",
+    "evidence_set_hash": "4691e262c2325e1ca77ed26fc22800a2b4f25df855b74bfef67c82025bb0384c",
+    "fdc_id": "2710817",
+    "raw_hash": "62ab0342c5f4f0684409a620387cae0fb8a9c8dcee60f811611035716d2e2dfd",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19255,
+    "candidate_hash": "854101b3d3ce7e14ad1f36f015a0c92d6194c9c8be7054a5514898240147997a",
+    "evidence_set_hash": "74274754c6a0588da3ecd4afd1523df694771ed2f4b88e0cb319de7685679062",
+    "fdc_id": "2710818",
+    "raw_hash": "1160e3cc09958f9f55e771227a3348f591927b9e7e4c5a7040b7dcb1ac8fba09",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18108,
+    "candidate_hash": "df5b98371724b0e99f9686bfa48f76ac7a4f903cf92abcd57178b4d9d02fdda6",
+    "evidence_set_hash": "4eeb38975a181f0e0da3fd91b85bb9bbcff0d83ca921b81ea6813aa35a7689bd",
+    "fdc_id": "2710819",
+    "raw_hash": "33abd73ee09d2b0755b52ba8ad3df323401bb44de53ebeb5884666150c9de7bb",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18671,
+    "candidate_hash": "9d71b342a9aba0d76ca146b04cf5c720d6aef31440651b62daa31a841b84b5b7",
+    "evidence_set_hash": "8f52caba7a29716c2c1908a114d7f737ad31e95c39f7299d016a6a63cced0a4f",
+    "fdc_id": "2710820",
+    "raw_hash": "348db0b0884ff69ed79da60be9e026b4869cb7db22eee9d25dd8345338c72700",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18672,
+    "candidate_hash": "4eb4235602734578159a64a726bafd6954c1ef35f7515ff0524fd3353160b907",
+    "evidence_set_hash": "a1d1a56f295f92ed9eda4f950f0e8b8ff3f568726d709403eba97692ea8345fa",
+    "fdc_id": "2710821",
+    "raw_hash": "6f829d69f80032ca5abf964c17288d9c4a01873a8f8d0c7c7e5c462456b0060c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17634,
+    "candidate_hash": "5f95a347a2fd344941cf5a8159b0fbec5425449678a1c272932a53f1f7be9eaa",
+    "evidence_set_hash": "d4c41d8e885dff789d8ecadf68370c2c0a5db0a3b6d97c7bc6ea95105688924a",
+    "fdc_id": "2710822",
+    "raw_hash": "04cbae068782e1556857d2fa674db37ddae209f2e1df850884ae248826428b31",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19263,
+    "candidate_hash": "1da68dcfcc4269366ca8207d5c998cb431e7d8308e4497953982e1e339bb44e1",
+    "evidence_set_hash": "fe055585bfcbc909055bb798219ace4d2ae0c0a51b25012ee2c9e0cc2e5899f5",
+    "fdc_id": "2710823",
+    "raw_hash": "5b35f33da3fd0a1d3a26ea535391479954513fd63ff31e2fd4b2b3551d26a442",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17615,
+    "candidate_hash": "804644831665f881db53c73e234d7a8b1e19b8fac36d284caffe19e5c21c8319",
+    "evidence_set_hash": "72de6983aa135ea8de0ff3cac38d9225d056e625719cef7e204f20cca039a983",
+    "fdc_id": "2710824",
+    "raw_hash": "6a64bc6d05a54fe991980ecf0c23b9cfa1669cc7ebc9dc39c69e2715ee04fd8a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18673,
+    "candidate_hash": "928bd4cbc4387627fc3f984f3b8af8bd607d7a000ea09a75f9d8d56dbe49b2f2",
+    "evidence_set_hash": "789f76ededbe909b8428c7730032fc55753f308fe2e13843662b390b43406273",
+    "fdc_id": "2710825",
+    "raw_hash": "a22db2520c320a1aaed1bd14c328f3e03210ae68070521343dd30e4e9ad6c992",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19804,
+    "candidate_hash": "5bdf03c2d8b93c044812a6b75fdfcd21389e90175dcf684cd2c6fddac4378ea9",
+    "evidence_set_hash": "2136593d8d769b011cd6a337a2f65b4f7202a02e9644293d6cdbd9729b447fc1",
+    "fdc_id": "2710826",
+    "raw_hash": "d54046729e29ba6401a9dc8ec5e94aa6065916c62e2d4acf9c201ef093277c68",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18667,
+    "candidate_hash": "86986c0ac0b0cc746dc244e3eb31c93582aa74a9c6e90a16f85ba518f6a2b335",
+    "evidence_set_hash": "d109df1f3b7f67daae195c3b6bc7080698782635c36ce72492c973b27adb6099",
+    "fdc_id": "2710827",
+    "raw_hash": "65ebd29ed59338cf41b728d5709e097039570c02b389c1371d06d579b39727a0",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18675,
+    "candidate_hash": "7a44a250588e86b3cfc38828c48c4f8e5c389b3d1efc00745d3f216a3b093a5c",
+    "evidence_set_hash": "8cc26e845443004a35215f1b0e907f1509c8be030920e7de0f27a148d578875c",
+    "fdc_id": "2710828",
+    "raw_hash": "60b1b1e1cba99d82edd2408bf169b479ef714b6ec990b56d1d155e8e05b61b73",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18685,
+    "candidate_hash": "77397e1e5aad2fae835c343628fd88238919e60e1c9b9f7d9f4af144831c1035",
+    "evidence_set_hash": "398eac18d6c3d60dc0353ac3c42ca55df122ce9089f3a9d273c86286ba02f731",
+    "fdc_id": "2710829",
+    "raw_hash": "1646ad24e4670d4195f8ce4ef60827cd54b667eb12a1e96651072b9e50d8d291",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18680,
+    "candidate_hash": "3a3b8e748e187afe2a11530282d8a216656cf400d04903b16561a7346a10f6c5",
+    "evidence_set_hash": "695a73e2ad6dbc3a886269d5d0bf5980767bf63dbebe5d41229f4f69d40bd1aa",
+    "fdc_id": "2710830",
+    "raw_hash": "bae081cee9135e60e94d7a13f071dd250b2deb3fb194d098f56ecc308eb35f6e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18189,
+    "candidate_hash": "6d14edf457e6cb7be95de688f708d0901c890266e01a56a3599de95866a175d4",
+    "evidence_set_hash": "2459559594c3a2bcdd3caac8a8048b6b4e18280fbc37f645d30a2861f536c302",
+    "fdc_id": "2710831",
+    "raw_hash": "bf9a25410728196414bf36dc5863f4969592b2f77c7a930dfeaefbc2a4b68e3e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18156,
+    "candidate_hash": "8378ed877a433b7abc88a03efef7f9fdcc12b7ae505254fb47279c7242f59569",
+    "evidence_set_hash": "f9fa84445c31e08c35ddab30145a2d7ffecb28a3247c8c3a0d4485c58adfa8d5",
+    "fdc_id": "2710832",
+    "raw_hash": "80820102557c06202f61c1f97d40cefe0147e7c6cb96c5f4855c55a8cce0fa08",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18713,
+    "candidate_hash": "5cc2ec6ced5834e83d186e473ef259249218bc949d29e8e94faf324ce8cf5eb3",
+    "evidence_set_hash": "b2d047baef58f1233fe0d65d96449b4cf406dd448870da9596e0a31dec978c65",
+    "fdc_id": "2710833",
+    "raw_hash": "3502ea3d5389e381d9c1cf4620c2504b4c8897d66a639743f636a917862e528c",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18702,
+    "candidate_hash": "7abe8ba59b76c6b67e03fb5602d27bbfaea72e8c4e53dc89831c071fde4ae680",
+    "evidence_set_hash": "3a80a49123759dc35b4c50515236688fa57507ed57a9e03fc5f89a19eb00cd50",
+    "fdc_id": "2710834",
+    "raw_hash": "22c4e5974b7ece75f3f743f2db13a56504b2e54765c60e512f9b2b9a06508729",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18705,
+    "candidate_hash": "22e8453be346dd905bfef68ac30477c051afcf22f3840db590f22100240bc653",
+    "evidence_set_hash": "883550ee894d2aa523c777bdd027c5d00a239fdf963b4448b6f1400c04c7640b",
+    "fdc_id": "2710835",
+    "raw_hash": "f72b8be87e5ef3a1fbeb5e93e82c78640e98517177edf9bd11559157d3dc28fa",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18175,
+    "candidate_hash": "810ce451e569b6a4bbe3094a1eaaa95d9c0da52ce2df7b80c32daa35db2b3a94",
+    "evidence_set_hash": "0749ccfada6564d588dbac2f587a569845a3c957bfa6988930f325a088f08725",
+    "fdc_id": "2710836",
+    "raw_hash": "9d1bcebee50c774798406c138c6130ab96ba78f342983a90ed3a133d5e5f4a24",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18160,
+    "candidate_hash": "306ffe884e14b218596bcc28f6f72e8179673d304e111cfc773fc520b06b7f66",
+    "evidence_set_hash": "836dfc30a6733ea989dab1ce4517cc3128024ab872d527e9aa3f3b080382afd5",
+    "fdc_id": "2710837",
+    "raw_hash": "3edc1ec7fa08825d51749a93ca367a946a161c9adaa70c11cb4ea90e56628c0e",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18686,
+    "candidate_hash": "e910cd70a63bd640df2de6beb06ab1137564e67954aff9c4b92de335b947b27b",
+    "evidence_set_hash": "9858caa2f2c004f5eb4f7f4e8971f52cb0c1d405d5fc40fbb1192666c7f8b520",
+    "fdc_id": "2710838",
+    "raw_hash": "91e2200e5261c8155b75feb8970ce5db8fc0216c0739e4f103e72fae6d103902",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18692,
+    "candidate_hash": "8b71cb07625d150a57b28f80fca809e57fdf14c47aebaf371f86eac9de68fd92",
+    "evidence_set_hash": "446ba7de598321f4bc8a66c009f4c78f84b392a2ec9d081efe0dfaf6c9544362",
+    "fdc_id": "2710839",
+    "raw_hash": "cb9494547f55cfbfe1739b755e2114b8f8c23a2834b90d3c8ca174eb48fde613",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18696,
+    "candidate_hash": "65f87c59fd3d293c8ae3807299f7de2ed9c180fc58abf4fb4889d31432e29a54",
+    "evidence_set_hash": "b9f08b51fb6a529c8727ee4c1d7cd883fff379ef4e975338e2536fd65c95d1df",
+    "fdc_id": "2710840",
+    "raw_hash": "bb8e925255fe6f7241123a05f6068efcf4c83f883c939cf723e15720a65e3a2a",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18698,
+    "candidate_hash": "3f92b81347e839c5154b42eb5b260e737de8136d4d0f1ddcb71ed2c14282b1c6",
+    "evidence_set_hash": "6109a07d17e42d70fca492a1ed72d76bfa08d1e6be1c4eba4a11227f46526a92",
+    "fdc_id": "2710841",
+    "raw_hash": "3f1d368afe53c2e200be4202f4d25b0539d2d3bd037eb2ec4c32ea02a86cb614",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18686,
+    "candidate_hash": "840534b8e4ce0284d81b9da7c084d55995f8f0604ce3cbbea4bdeef30901d34c",
+    "evidence_set_hash": "56222f33824a59982e88434e9ba96f4d8c23470ee96c8fa5f2608125a1dc9b0d",
+    "fdc_id": "2710842",
+    "raw_hash": "98907ec16bb97d5e29b6695e9c033827427c1cc499aea5308a96650e5de40555",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19254,
+    "candidate_hash": "786456b2fb11d0cc5a0b980ba65482baab7fae36c76b8b8b919155e8204c4faf",
+    "evidence_set_hash": "18bd156b8d36497f13154e28544d1427090d935c978acc5d32ab5ec61a9e39c0",
+    "fdc_id": "2710843",
+    "raw_hash": "3d29d26723d0408054a042af6a10473f57a17a7a930bd354188c68d039b44cee",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17072,
+    "candidate_hash": "3eae66487b8253501863276d704ce322a3482d487f5cf703211bec4a35b98d22",
+    "evidence_set_hash": "29fe4f26ebacefcc39ca7b7e0c6d1fd55cda6616a36913f8cda2b02836379396",
+    "fdc_id": "2727572",
+    "raw_hash": "38d41c014d3066845ba17f0c455033351a05ddacde100f74b21e0db1efdede39",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17056,
+    "candidate_hash": "db7fe9055f943fbff335d818e562287caf46b44f4090faf8ff3a9b434ab7174f",
+    "evidence_set_hash": "f1579d45c383075f132002729706b3608170fd06692efffc6a71bb1fb554d454",
+    "fdc_id": "2727573",
+    "raw_hash": "edbeb34e97d816ecf2e361010aa858bb7f904ddf6a46bcbcfa4f6dd217ef99d6",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17054,
+    "candidate_hash": "9d5adfdb170e686d046b1b01a5e31d7cbe162fa352c63d4946377e688715d801",
+    "evidence_set_hash": "2d8fc2b8802c5d5cbc44558054c7b64a5659ab04bd76954f8151d9eaabdba47f",
+    "fdc_id": "2727574",
+    "raw_hash": "fa7b419412237bc572bcaff2bc8971d29f21bf28c5d5a136b66b76c8cb38ccc7",
+    "selected_energy_method": "atwater_specific_2048",
+    "warning_categories": [
+      "alternative_energy_methods_retained",
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15655,
+    "candidate_hash": "6e0faabe15dcc0f7bc87e7ed6410d16c1cefda5115ed5af1add2f0cb8ad34f6d",
+    "evidence_set_hash": "1bd15b5fea91489530ed2d37e08234a55cf56f53bc788ef4109e486a4ac5b179",
+    "fdc_id": "2727577",
+    "raw_hash": "ee9eccf700398395b0994d29a941969a615e02afc33ad025239c355a59e6fbab",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15960,
+    "candidate_hash": "8f163fd6904515f85362af1af60fd19a16b7e38d2dec38956d46b5bf1ddda72c",
+    "evidence_set_hash": "5ea8a5a271713630d823b68d115cd240a1e0b2d48a6311c2418ee3045e35679e",
+    "fdc_id": "2727578",
+    "raw_hash": "162530043cbc45d9ccdb04a0c38a9b3cbb8e8971efaba5b9b058741bf698406b",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16501,
+    "candidate_hash": "dfcb7411c6800f1da09a379deabf0984198c9ca6128dfd09e9c553993679cf49",
+    "evidence_set_hash": "f4b2af4a70ee075a00bd9204cf0279399eec108c583f8265fc3b64b158dbce3b",
+    "fdc_id": "2727579",
+    "raw_hash": "3654fc5b1fd7b7148f46e91286b3c74ea15fbe2dc53dd722b18a2be7803b7806",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15920,
+    "candidate_hash": "48a8d8b207972162da823f03be49a9e73c20c7d6ec6dad3d8c08b27661fd07de",
+    "evidence_set_hash": "25912b914e9fc0152b1721de193ea75a32f9db4008aa3d694d52cebcac837034",
+    "fdc_id": "2727580",
+    "raw_hash": "265b6ea5135551ef4487f5d8f4ca92cf45f4225a023bbfbd5ef7c568c9a07bed",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15920,
+    "candidate_hash": "08092c684f3dd703fcb12c946df671df8bf54ad057505dc0c74bb9c892b312a3",
+    "evidence_set_hash": "d7a9f143a4d8ddb860c416d79e4edcf1ab876d776ed0ed394bcf47fb2179fac3",
+    "fdc_id": "2727581",
+    "raw_hash": "e2b523cc16433fce999b4bb073d9197fab412a92dbf652c69fcc011e018e4aa4",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15942,
+    "candidate_hash": "ea5cd733a5d8d302da4aace448ad6002ca4fa6e27bc5057e4125b9894eb1473b",
+    "evidence_set_hash": "cb5b5c22b9de2e5b88fe5fca50a467f8a7402f030fddfd9ff9eacbea7454e2f5",
+    "fdc_id": "2727582",
+    "raw_hash": "3930d2353dc13f61f09b6cbda771895c91a32b074edc9af71e3a021fd38c8a6d",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15932,
+    "candidate_hash": "d0db1bed735b9e6e2a5e1683766ef7b7f1a47f985fab1af476bad857af38004e",
+    "evidence_set_hash": "222e4fade560cf9fef210e9e878d6d37df9efa6378b97d91c1170de18cfb3315",
+    "fdc_id": "2727583",
+    "raw_hash": "0fec4e5d202a3d943fa42a3abe0381cc051b48a8135c2c1e14acf951075761eb",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15938,
+    "candidate_hash": "2f160848e3bc1ba83be2d2391f5ac62d0bb3768d504242acd3ee3b4c4585cfd5",
+    "evidence_set_hash": "96b23b397b3a7a95c23789334e3fd9fad46bf9e5d3010ae7a88b7afb8383db0b",
+    "fdc_id": "2727584",
+    "raw_hash": "45b909be0a8952d14eebe862d44ecc1a4d3d4b1a9d928482f7a1c208dcc70175",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15414,
+    "candidate_hash": "41ff724282f7d0de5ccecfbed298e125969188913076d0f58dda6471214ef1c1",
+    "evidence_set_hash": "db30f3ba1d05512b1791c40a2e2317639c663eaa47d0727c278b0bc6235ea650",
+    "fdc_id": "2727585",
+    "raw_hash": "c1f73b5b6a13636d4092d616a153b94b47d2f4f8e3297973494d00428fff735c",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15940,
+    "candidate_hash": "7fcaf01625422f661104b3eef7d4b788dbfe8c5a5efe9d97ee1b8b8c1846b723",
+    "evidence_set_hash": "b033a71552a5ed6a6a8acc87311a4cb11334ebbc93bad3a69aec7ec429b36251",
+    "fdc_id": "2727586",
+    "raw_hash": "9b8de11182c6a52458a71273755881503c7385237bf63adc9d29a0772d40ece3",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15644,
+    "candidate_hash": "e288d162f5a5c1deca7e5a8fdde92b5f722b9f5948c758156d61d8e4129f6678",
+    "evidence_set_hash": "92f326d444981b64227635e0428ccd89ab09a0ded99fc0b1f3c005dbeeb62e4d",
+    "fdc_id": "2727587",
+    "raw_hash": "89f9447351545fee0a89034176ac2d8a7aac35ad3ceaecd57b444672d3b87ec1",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15104,
+    "candidate_hash": "58c42be0a38fd346362891b77b326960c88646fb4963986c01b8b4980214dba0",
+    "evidence_set_hash": "aef008d51433670830685f512d5dd068ddfe5c08e674cc2572e4665c235e0a7c",
+    "fdc_id": "2727588",
+    "raw_hash": "54df495747cf3b0b151ea01bf604d5f74accf4516dd4c64b7f84fa7be9fd3824",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15126,
+    "candidate_hash": "4591e0c966ed57645a517977492ff7635a111a785e8b12c3f050f72ae7f15328",
+    "evidence_set_hash": "d89e75f1cff04a3eb8490f7c1887464625ec78aefe3fbed6a764b3b142491530",
+    "fdc_id": "2727589",
+    "raw_hash": "a89ea6c567421d6de9c8155479e5d6991b7c547dd92b5b8c0984c32f0c6ecc74",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16813,
+    "candidate_hash": "e6f265d19f25a77e94c2f5b123341357e7c7e96dfec8014af0a08fd11a7ce7dc",
+    "evidence_set_hash": "9f9f44ebc350f212cc75b22ce646ca57930ced4e62c93f8d6720bfcfbd5aa3ef",
+    "fdc_id": "2747652",
+    "raw_hash": "aaf82e5982ab2bba119e2a72d28276625abffd30641c9542042a0401995fc838",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18436,
+    "candidate_hash": "2a6c2bd139e78d05c4345f51a96a64528dc0311279ebd4c58d8d88fd93eb4f3e",
+    "evidence_set_hash": "aa58c42c361f987baaaf316fb8aec274fd054349242ffb1b5a1e11d3606e4c62",
+    "fdc_id": "2747653",
+    "raw_hash": "8b1a51cf072ebf2be15151133ca9392970364976b4d88111f0c033901572e9fb",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16797,
+    "candidate_hash": "e0008edb4f233394d93e176adc21d29d4c17315c48b354a00a21072439b921c5",
+    "evidence_set_hash": "497d413e68c2c9435c91d1620b94736ef3df2d92db22254c517c84830dd836b8",
+    "fdc_id": "2747654",
+    "raw_hash": "b6b49b9406a9a7692d400a37e8cb396aa408f9f02f2113e2e1764fe2493b2189",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17329,
+    "candidate_hash": "cef3d77352b14d4c14e1534c2e01c47eed988887075a46e7771064536259d1a6",
+    "evidence_set_hash": "2cc9e78a304e7ac1f35f8ab9b913187ecef71f798ade6d181812d6b0710c3718",
+    "fdc_id": "2747655",
+    "raw_hash": "d1e19ee43d0ba75e76bd4e4a1170f51483610970c1fecafb23acfcf0c3175a80",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16806,
+    "candidate_hash": "8a88ac10a9cc52bf13e9da281af948e56e710b23d1ab56fcf46e671ac05725ea",
+    "evidence_set_hash": "5c11f2f4e81e559aa85e5dc262a6c1c7e20aa9b131ded316f4b24116b2d22282",
+    "fdc_id": "2747657",
+    "raw_hash": "3a725f9c4a63b91d7db77a0b6f6f5c577ad9092dbe724cf28197c4627e4bf604",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16785,
+    "candidate_hash": "4f0f0e5a571405112cbef15981972d2960b1356a718cffd901f90c20fd1eb523",
+    "evidence_set_hash": "4bf1d2eae372529788b9731d51bfe6fdbd68857a4e24191a689759289165cf57",
+    "fdc_id": "2747658",
+    "raw_hash": "d9259e6f6951718d52dc2fa33ab1ed47c7e61c9040448bf47858eff3341d790d",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17345,
+    "candidate_hash": "b87bb81740946d3a6ac1e831f5e113cec10820dcb93ddd5fe1d5063375e77334",
+    "evidence_set_hash": "a213cfe0d06ff3263b32cf6422358671695ed8275b408ba0c3aee98e20d2211c",
+    "fdc_id": "2747659",
+    "raw_hash": "b099f07d42c2855d7d3f14b48d5f22678fbe319e40163abedf0413aa100af1c0",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17915,
+    "candidate_hash": "00dca07177efa535e92076e11e5e472f862ad1c18b7b206a4122d035bd5bce3f",
+    "evidence_set_hash": "6c832c9008a05e90d1bef5cb692f870ebb29860636442057084e2ea36df38b56",
+    "fdc_id": "2747660",
+    "raw_hash": "123299719c1b3f442e03725cc2695d61fd5267b8b35b65de8833033d78fad62f",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17902,
+    "candidate_hash": "69e997faddad1de2977b0d5c4ee8cc8ec798042c18e9c7386a6b788cf9826a5e",
+    "evidence_set_hash": "40bcc723eb06249cc1ccd1b0a9be5f1dd16869a28b1f4b20da334e797d99524c",
+    "fdc_id": "2747661",
+    "raw_hash": "4af30dea6110af9a752c4aed0e5a8c14d91e141d7ac3a8bb90136936832b4d47",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 18431,
+    "candidate_hash": "44e6e5fe652d7475da42de5d1206148c1b245feac4733a349ce492bc08fcecda",
+    "evidence_set_hash": "4ebfe60b4dc4f6ff939f5262cc0a8cf936c8caa9d5f2afc9e1de2d42448c0025",
+    "fdc_id": "2747662",
+    "raw_hash": "bdb669829bd58e5ceda5672fd5d47f5fedca1c9c054aa486361ebb9b161ab228",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17901,
+    "candidate_hash": "05c1da14f6d33c22414a60b4dc96812a9a9b60b44f069de917f82851b3759396",
+    "evidence_set_hash": "a173b07b9d6db598b97f4a0883282e42681357d40467cce35b947e6013340b15",
+    "fdc_id": "2747663",
+    "raw_hash": "de6042c05c57d2d399cc2a285506d3ba11edbedc3c75caa98deed756ed3774c1",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17340,
+    "candidate_hash": "33b583809bdc53456693c1e7552a2b08d0403f6b43729661249e37bf0fd5c71a",
+    "evidence_set_hash": "a58208f015fd99608f75ad1354dcbf72673cf71b4e6bb7d80eb31ded00af9ca8",
+    "fdc_id": "2747664",
+    "raw_hash": "e2af58ca48422cc44718420d8e57803cde40b393782943e688c0127a84db92d3",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17342,
+    "candidate_hash": "34d1097c8e321ccbe5461f2c7b6baf1fc4aa0d373970dc38a3a56961ef301ed9",
+    "evidence_set_hash": "2fb7d6167257f9b918853d092bf4b38fe75aad641ef4dc5794dd82ba7e979588",
+    "fdc_id": "2747665",
+    "raw_hash": "1308ac9b3a95077f7eb0ad16b07ea5ee8a2d817ac3edb9e6a41e2d7bdf03f729",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16801,
+    "candidate_hash": "b1c1e0b5c6c36669b17161e93b4efc93e531185e0136d3b81a4e8150d5502fb3",
+    "evidence_set_hash": "7283de903e7284b9b137113240a2f8b295f7426a4bc8e16fa99b34d4a0e6776b",
+    "fdc_id": "2747666",
+    "raw_hash": "61783c84a6b24133485f1e2580ced11eafa1674cb8b253f1a795bb51e07916c6",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16799,
+    "candidate_hash": "37c4504dacd4a2c9f4c10bfe7234a6dc1fc2948895c4b13ab5476e8bd01f8e05",
+    "evidence_set_hash": "62f74ceb12e9e70167db3b82a76d763d40883388998a03e82b10c110b5f8c59f",
+    "fdc_id": "2747667",
+    "raw_hash": "18d2f34a2eef0774786f4514a1e996ee3e8d15f4abd90cfdb86404f2d1362053",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16775,
+    "candidate_hash": "7f33fd26201906d89bc580b2897a3696f2404597b074c43246fc7fdda8ac0e91",
+    "evidence_set_hash": "b6b22ed7642d93d78479013097cdad2ad517475c411a84e27b64f553e499b683",
+    "fdc_id": "2747668",
+    "raw_hash": "827316b7b4cf4f8a4f729e2f7b7682473ca3304d3802476f7ceb34e53be08221",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16793,
+    "candidate_hash": "1017e2adc0e4976eb4b1c7fd78c85bc5b063987c72940d6ce2e7075a76888950",
+    "evidence_set_hash": "ed4d7a139b606854941ef2286890eb897d9abe19a45f5ee2f5e9d54d7cf35d92",
+    "fdc_id": "2747669",
+    "raw_hash": "2678cb5041b74636f826456ee5da8f9b23baf0c3fd793025ead9809d638cb323",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16797,
+    "candidate_hash": "f5a2b45bda304166e2b58c8901aae1e1cf6f9609f5b89df5d344ff8e3ff72112",
+    "evidence_set_hash": "cec93d4b000f049bc69921a6925826fd750345a5e3ebb9b420a625cca7a6a3b8",
+    "fdc_id": "2747670",
+    "raw_hash": "f1f461e86d765a877f8aa513142f642844127252d75934894e6bc6e26f457ba3",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16803,
+    "candidate_hash": "75b568cfa54945c78b7f848a20aab7d6fe4ecd97212b213959d8801fe2292d5e",
+    "evidence_set_hash": "d1cfc66297ffa60267d24a85818e72969954a4f38891ed5953bb06897bf2351f",
+    "fdc_id": "2747671",
+    "raw_hash": "f4d9f774bea3ab7dbf9e058cf3a715ffcf4a2f51606a9be2534a83d81fedea90",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 16787,
+    "candidate_hash": "84b0f71f7e53a1e243147a6065f1dc874348b74ba4c8c505b482953f297baeb1",
+    "evidence_set_hash": "fb0c8f22817ec6cace23790eb04aa40ca4246f68c9177b64e326affa0b2d40df",
+    "fdc_id": "2747672",
+    "raw_hash": "82415eeb51dad8043856365fcc9e8fd70da7d4d108618d6a33650abfee5f5e66",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 17878,
+    "candidate_hash": "0df2b6ba842e30baddfafcd5cac4bfc38f5d3efe8c1358abbde2446e2fa268e0",
+    "evidence_set_hash": "462f5c2cbcdbcfb3716ac0d9c8fd7fea8c53ed89ed87b3d7d9c7baf27b462296",
+    "fdc_id": "2747674",
+    "raw_hash": "602315a80b5ae1cf18a424526032ee7b7de19978eed29649beb6b4be646b34e9",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 15110,
+    "candidate_hash": "24597b22bf57f27f8d72a640af5538acd86ec3f29682508fcaf9a0d4f2dafc32",
+    "evidence_set_hash": "cf1c77572cda42f51f946536c71fee0ad08c428f5cf71d48bf0fe00f4835220d",
+    "fdc_id": "2747675",
+    "raw_hash": "c7ca1bb80cd8d8f4ce3d477482dd030ad7b9a28a7c9acab21cdd0571cad3268e",
+    "selected_energy_method": null,
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  },
+  {
+    "bytes": 19513,
+    "candidate_hash": "fc65f2ef1b71124f9b542dad42a6fc26d2c8ece015cd4660e04dc9866b09a36c",
+    "evidence_set_hash": "345251e717100665fc64fa0ff5d64066e5ac5da280f788895c80d2d8005b9d3d",
+    "fdc_id": "2747676",
+    "raw_hash": "e77908882c9dfdf09ef24f51f336ae084c70fda4200cdaed2ea676145b9349d4",
+    "selected_energy_method": "atwater_general_2047",
+    "warning_categories": [
+      "missing_direct_nutrients",
+      "policy_withheld_nutrients",
+      "unsupported_nutrients_retained_in_raw"
+    ]
+  }
+]
