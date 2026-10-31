@@ -465,8 +465,18 @@
     "python_comparator": "6 passed",
     "lint": "passed, zero warnings",
     "typecheck": "passed",
-    "diff_check": "passed"
+    "diff_check": "passed",
+    "deployment_contract": "203 tests plus static repository contract passed after removing the undocumented test environment variable",
+    "final_focused_stats": {
+      "startTime": "2026-10-31T05:45:39.346Z",
+      "duration": 54725.626,
+      "expected": 162,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
   },
   "approval_boundary": "No historical UUID authenticity claim, no new approval, no database, schema/migration, source registration, ingestion, reprojection, recovery, deploy or merge action; Draft review only.",
-  "exact_head_ci": "Recorded separately by GitHub and final delivery evidence; no prior-head result substituted."
+  "exact_head_ci": "Recorded separately by GitHub and final delivery evidence; no prior-head result substituted.",
+  "ci_harness_correction": "First Draft CI rejected undocumented USDA_FULL35_APPLICATION_ORACLE; optional source test now reads a fixed ignored local fixture path. Deployment guard, importer, mappings and runtime unchanged."
 }

@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { nutrientCodesV1, nutrientManifestV1, parseNutrientReferenceValues, scaleNutrientAmount, type NutrientReferenceValuesV1 } from "@/lib/nutrition-snapshots";
 import { allNutrientFields, convertFoodQuantity, nutrientCodeForField, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
@@ -60,9 +60,9 @@ test("existing physical conversions and serving limitations preserve exact quant
 });
 
 test("optional local authentic-source vectors match independent Python Decimal scaling at 50/100/200 g", () => {
-  const path=process.env.USDA_FULL35_APPLICATION_ORACLE;
-  test.skip(!path,"Official source stays outside Git; supply USDA_FULL35_APPLICATION_ORACLE for the local source gate.");
-  const foods=JSON.parse(readFileSync(path!,"utf8")) as Record<string,{reference:NutrientReferenceValuesV1;scaled:Record<string,NutrientReferenceValuesV1>}>;
+  const path=".ingestion-workspace/full35-local-qual-001/application-oracle.json";
+  test.skip(!existsSync(path),"Official source stays outside Git; link the local application oracle as documented in the harness.");
+  const foods=JSON.parse(readFileSync(path,"utf8")) as Record<string,{reference:NutrientReferenceValuesV1;scaled:Record<string,NutrientReferenceValuesV1>}>;
   expect(Object.keys(foods)).toHaveLength(353);
   for(const food of Object.values(foods)) {
     expect(parseNutrientReferenceValues(food.reference)).toEqual({ok:true,data:food.reference});

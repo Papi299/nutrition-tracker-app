@@ -41,8 +41,10 @@ python3 scripts/nutrition-usda-full35-local-qual-001/compare.py \
 python3 scripts/nutrition-usda-full35-local-qual-001/source_inspection.py \
   --archive "$ARCHIVE" --dictionary "$DICTIONARY" --results "$RESULTS"
 python3 scripts/nutrition-usda-full35-local-qual-001/test_oracle.py
-USDA_FULL35_APPLICATION_ORACLE="$RESULTS/application-oracle.json" \
-  npx playwright test --config=playwright.unit.config.ts \
+mkdir -p .ingestion-workspace/full35-local-qual-001
+ln -s "$RESULTS/application-oracle.json" \
+  .ingestion-workspace/full35-local-qual-001/application-oracle.json
+npx playwright test --config=playwright.unit.config.ts \
   foundation-full35-local-qualification.spec.ts
 ```
 
