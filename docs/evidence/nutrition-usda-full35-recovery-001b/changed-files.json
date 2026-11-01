@@ -19,6 +19,8 @@
     "playwright.full35-recovery.config.ts",
     "scripts/check-workflow-security.mjs",
     "scripts/check-workflow-security.test.mjs",
+    "scripts/configure-ci-apt.mjs",
+    "scripts/configure-ci-apt.test.mjs",
     "scripts/full35-recovery-dump.mjs",
     "scripts/full35-recovery-dump.test.mjs",
     "scripts/full35-recovery-history.mjs",

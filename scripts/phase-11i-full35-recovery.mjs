@@ -121,7 +121,7 @@ export function full35ReviewedSchemaHash(rows) {
   const body = bytes.toString("utf8").split("create function ingestion.fingerprint_mapping_database_contract_v1()\n")[1]?.split("as $$\n")[1]?.split("$$;")[0];
   const dictionary = "    'dictionary',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('id',id,'code',code,'unit',unit) order by code collate \"C\") from public.nutrients),\n";
   if (!body?.includes(dictionary)) fail("Pinned Full35 schema query extraction failed.");
-  const catalog = rows(body.replace(dictionary,""))[0][0];
+  const catalog = rows(body.replace(dictionary,dictionary.replace("'id',id,","")))[0][0];
   const roles = rows(`select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object(
       'name',rolname,'login',rolcanlogin,'superuser',rolsuper,'bypassrls',rolbypassrls,'createdb',rolcreatedb,
       'createrole',rolcreaterole,'replication',rolreplication,'inherit',rolinherit,'connection_limit',rolconnlimit,

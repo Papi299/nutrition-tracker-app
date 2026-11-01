@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import {assertFreshFull35Marker,assertFull35Payload,assertFull35Rows,full35AtomicRestoreGuard,full35AtomicRejectionMessage} from "./phase-11i-full35-recovery.mjs";
+import {assertFreshFull35Marker,assertFull35Payload,assertFull35Rows,full35AtomicRestoreGuard,full35AtomicRejectionMessage,full35ReviewedSchemaHash} from "./phase-11i-full35-recovery.mjs";
 const source="00000000-0000-4000-8000-000000000001",target="00000000-0000-4000-8000-000000000002";
 test("fresh marker remains independent and stable",()=>assertFreshFull35Marker(source,target,target));
 for(const [label,args] of [["copied source marker",[source,source]],["changed target marker",[source,target,source]],["missing source marker",[null,target]],["missing target marker",[source,null]]])test(label+" fails",()=>assert.throws(()=>assertFreshFull35Marker(...args)));
@@ -13,3 +13,14 @@ test("atomic guard requires exact complete rows and preserves target epoch befor
 test("atomic guard rejects SQL-shaped table metadata",()=>assert.throws(()=>full35AtomicRestoreGuard({sourceClusterMarker:source,rowFingerprints:{"public.foods;commit":rows["public.foods"]}},target)));
 
 test("atomic rejection preserves guard identity without exposing SQL/private rows",()=>{assert.match(full35AtomicRejectionMessage("ERROR: Full35 complete persisted row fingerprint mismatch\nDETAIL: synthetic private row"),/row fingerprint mismatch/);assert.doesNotMatch(full35AtomicRejectionMessage("ERROR: syntax error\nDETAIL: private row"),/row fingerprint mismatch|private row|syntax error/);});
+
+test("portable reviewed schema fingerprint retains dictionary codes and units",()=>{
+  const fingerprint=(unit)=>full35ReviewedSchemaHash(query=>{
+    if(query.includes("'dictionary'")){
+      assert.match(query,/jsonb_build_object\('code',code,'unit',unit\)/);
+      return [[JSON.stringify({dictionary:[{code:"vitamin_k_ug",unit}]})]];
+    }
+    return [["{}"]];
+  });
+  assert.notEqual(fingerprint("ug"),fingerprint("g"));
+});

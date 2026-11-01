@@ -307,7 +307,7 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
       noMutationDenied("Q_"+group+"_binding",target,"select * from ingestion.mapping_actor_bindings",user);
       noMutationDenied("Q_"+group+"_private",target,"select * from private.mapping_actor_cluster_epoch",user);
     }
-    for(const [label,sql] of [["H16_consumer_permission","grant insert on ingestion.mapping_actor_bindings to authenticated"],["H17_role_attributes",`alter role ingestion_identity_definer bypassrls`],["H17_role_membership",`grant ingestion_identity_definer to ingestion_operator`],["H18_function_default_acl","alter default privileges for role ingestion_identity_definer grant execute on functions to public"]]) {
+    for(const [label,sql] of [["H16_consumer_permission","grant insert on ingestion.mapping_actor_bindings to authenticated"],["H17_role_attributes",`alter role ingestion_identity_definer bypassrls`],["H17_role_membership",`grant ingestion_identity_definer to ingestion_operator`],["H18_function_default_acl","alter default privileges for role ingestion_identity_definer grant execute on functions to public"],["N_dictionary_unit","update public.nutrients set unit='g' where code='vitamin_k_ug'"]]) {
       const before=full35TableFingerprints(rows(target)),baseline=full35ReviewedSchemaHash(rows(target));
       // DDL tampering is contained in an uncommitted transaction; all guards stay enabled.
       const observed=full35ReviewedSchemaHash((query:string)=>rows(target)(`begin;${sql};${query};rollback;`));expect(()=>assertFull35SchemaHash(baseline,observed)).toThrow(/fingerprint mismatch/);expect(full35TableFingerprints(rows(target))).toEqual(before);negatives[label]={result:"PASS",schemaFingerprintMismatchRefused:true,noUnauthorizedMutation:true};
@@ -329,7 +329,7 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
     const markerRequired={D01:["D01_source_private_marker_in_payload"],D02:["D02_source_equals_target_marker"],D03:["after_reprojection_copied_binding"],D04:["D04_same_numeric_oid"],D05:["after_reprojection_unverified_receipt"],D06:["D06_no_governor","D06_no_reviewer"],D07:["D07_stale_role_fingerprint"],D08:["D08_cross_environment","D08_cross_dataset"],D09:["D09_invalid_decision_hash"],D10:["D10_isolation_repeatable read","D10_isolation_serializable"]};
     const matrix=(requirements:Record<string,string[]>)=>Object.fromEntries(Object.entries(requirements).map(([id,cases])=>[id,{result:cases.every(name=>(negatives[name] as {result?:string})?.result==="PASS")?"PASS":"INCOMPLETE",cases}]));
     const recoveryMatrix=matrix(required),markerMatrix=matrix(markerRequired);
-    const result=(negatives.N_same_count_wrong_public_value as {result?:string})?.result==="PASS"&&checkpoints.length===3&&Object.values(recoveryMatrix).every(r=>r.result==="PASS")&&Object.values(markerMatrix).every(r=>r.result==="PASS")?"PASS":"INCOMPLETE";
+    const result=["N_same_count_wrong_public_value","N_dictionary_unit"].every(name=>(negatives[name] as {result?:string})?.result==="PASS")&&checkpoints.length===3&&Object.values(recoveryMatrix).every(r=>r.result==="PASS")&&Object.values(markerMatrix).every(r=>r.result==="PASS")?"PASS":"INCOMPLETE";
     writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({task:"NUTRITION-USDA-FULL35-RECOVERY-001B",result,
       exactMigration47Sha256:hash(readFileSync("supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")),checkpoints,negatives,recoveryMatrix,markerMatrix,productionAccess:false},null,2)+"\n",{mode:0o600});
   });
