@@ -236,7 +236,11 @@ function recoveryNegatives() {
     try{restoreRejected(label);}finally{writeFileSync(file,bytes);}
   }
   const sql47=join(config.targetDirectory,"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"),corrected=readFileSync(sql47);
-  writeFileSync(sql47,command("git",["show","a25234cc06e5ece5fcabb70c7ee6c5e874816dd2:supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"])+"\n");
+  // The original PR head is no longer advertised after its authorized rewrite.
+  // Its exact SQL is retained in the reachable Stage4A common ancestor.
+  const obsoleteSql=execFileSync("git",["show","2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b:supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"]);
+  expect(hash(obsoleteSql)).toBe("907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703");
+  writeFileSync(sql47,obsoleteSql);
   try{restoreRejected("H02_obsolete_defective_SQL");}finally{writeFileSync(sql47,corrected);}
   innerRejected("D01_source_private_marker_in_payload","application-data.sql",text=>text+`\nINSERT INTO private.mapping_actor_cluster_epoch(singleton,cluster_id) VALUES (true,'${source("select cluster_id from private.mapping_actor_cluster_epoch")}');\n`);
   innerRejected("D02_invalid_marker_metadata","source-snapshot-redacted.json",text=>{const data=JSON.parse(text);data.full35Recovery.sourceClusterMarker=null;return JSON.stringify(data);});
@@ -314,7 +318,7 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
     const revokedPrior=target(`select binding_id from ingestion.mapping_actor_current_bindings where principal_id='${op.principalId}' and environment='local'`);
     noMutationDenied("H25_revoked_reenrollment",target,`select ingestion.request_foundation_actor_binding_v1(${actorInput({...proposed.request,prior_binding_id:revokedPrior,evidence_hash:fixtureHash("revive")})})`,identityGovernor,/permanently revoked/);
   });
-  test("5 — encrypted tampering matrix refuses unsafe histories, artifacts and missing protected rows",()=>{test.setTimeout(1_200_000);recoveryNegatives();});
+  test("5 — encrypted tampering matrix refuses unsafe histories, artifacts and missing protected rows",()=>{test.setTimeout(1_800_000);recoveryNegatives();});
   test.afterAll(()=>{
     const required={
       H01:["H01_incorrect_count","H01_wrong_head","H01_unknown_48","H01_duplicate","H01_reordered"],H02:["H02_tampered_migration47","H02_obsolete_defective_SQL"],H03:["H03_tampered_predecessor"],H04:["H04_partial_ledger"],

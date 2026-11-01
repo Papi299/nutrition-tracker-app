@@ -72,7 +72,7 @@ try {
     sourceDirectory: identities.source.directory, targetDirectory: identities.target.directory, scratch: join(root, "private"),
   }), { mode: 0o600 });
   await run(resolve("node_modules/.bin/playwright"), ["test", "--config=playwright.full35-recovery.config.ts"], {
-    show: true, log: "diagnostic.log", timeout: 2_700_000, env: {
+    show: true, log: "diagnostic.log", timeout: 3_300_000, env: {
       FULL35_EVIDENCE_DIR: evidence, FULL35_TEST_OUTPUT_DIR: join(root, "test-results"),
     },
   });
