@@ -1,4 +1,4 @@
-import { assertFull35Payload, assertFull35SourceMetadata, full35AtomicRestoreGuard, full35ClusterMarker, full35ReviewedSchemaHash, assertFreshFull35Marker, validateRestoredFull35 } from "./phase-11i-full35-recovery.mjs";
+import { assertFull35Payload, assertFull35SourceMetadata, assertFull35SchemaHash, full35AtomicRejectionMessage, full35AtomicRestoreGuard, full35ClusterMarker, full35ReviewedSchemaHash, assertFreshFull35Marker, validateRestoredFull35 } from "./phase-11i-full35-recovery.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -92,13 +92,15 @@ function grantToRevoke(statement) {
 }
 
 function run(command, args, options = {}) {
+  const {full35Atomic = false, ...spawnOptions} = options;
   const result = spawnSync(command, args, {
     encoding: "utf8",
     maxBuffer: 128 * 1024 * 1024,
     timeout: 20 * 60 * 1_000,
-    ...options,
+    ...spawnOptions,
   });
   if (result.status !== 0) {
+    if(full35Atomic) fail(full35AtomicRejectionMessage(result.stderr ?? ""));
     fail(`${command} ${args[0] ?? ""} failed (exit ${result.status}).`);
   }
   return result.stdout ?? "";
@@ -244,7 +246,7 @@ export function restoreBackup({
   // Migration47's closed identity functions deliberately exclude postgres.
   const databaseUser = migrationBoundary.count === 47 ? "supabase_admin" : "postgres";
 
-  function database(sql) {
+  function database(sql, full35Atomic = false) {
     return run(
       "docker",
       [
@@ -265,7 +267,7 @@ export function restoreBackup({
         "-F",
         "\t",
       ],
-      { input: sql },
+      { input: sql, full35Atomic },
     ).trim();
   }
 
@@ -408,7 +410,10 @@ export function restoreBackup({
     };
     const freshMarker = migrationBoundary.count === 47 ? full35ClusterMarker(targetRows) : null;
     const reviewedContract = migrationBoundary.count === 47 ? full35ReviewedSchemaHash(targetRows) : null;
-    if (freshMarker) assertFreshFull35Marker(sourceSnapshot.full35Recovery.sourceClusterMarker,freshMarker);
+    if (freshMarker) {
+      assertFreshFull35Marker(sourceSnapshot.full35Recovery.sourceClusterMarker,freshMarker);
+      assertFull35SchemaHash(sourceSnapshot.full35Recovery.reviewedSchemaHash,reviewedContract);
+    }
     const localRolesPath = join(workRoot, "local-roles.sql");
     const localSchemaPath = join(workRoot, "local-application-schema.sql");
     runSupabase(["db", "dump", "--local", "--role-only", "--file", localRolesPath]);
@@ -524,7 +529,7 @@ export function restoreBackup({
         ${readFileSync(join(contentRoot,"application-data.sql"),"utf8")}
         reset session_replication_role;
         ${full35AtomicRestoreGuard(sourceSnapshot.full35Recovery,freshMarker)}
-        commit;`);
+        commit;`,true);
     } else {
     database(
       "set session_replication_role=replica; truncate table auth.identities,auth.mfa_factors,auth.webauthn_credentials,auth.users cascade; reset session_replication_role;",

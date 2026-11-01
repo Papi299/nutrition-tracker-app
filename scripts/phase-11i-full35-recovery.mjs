@@ -4,6 +4,13 @@ import { FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
 const identifier = /^(?:public|ingestion|auth)\.[a-z_]+$/;
 const uuid = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/;
+export function full35AtomicRejectionMessage(stderr) {
+  // Report only known guard labels. PostgreSQL DETAIL can contain private rows.
+  if (stderr.includes("Full35 complete persisted row fingerprint mismatch")) return "Full35 complete persisted row fingerprint mismatch; atomic data replay rolled back.";
+  if (stderr.includes("Full35 target marker changed during recovery")) return "Full35 target marker changed during recovery; atomic data replay rolled back.";
+  if (stderr.includes("Copied actor authorization unexpectedly active")) return "Copied actor authorization unexpectedly active; atomic data replay rolled back.";
+  return "Full35 atomic data replay failed outside the reviewed integrity guards.";
+}
 export function assertFull35SourceMetadata(value) {
   if (value?.schemaVersion !== "phase-11i-full35-recovery/v1" || !uuid.test(value?.sourceClusterMarker ?? "") ||
       !/^[a-f0-9]{64}$/.test(value?.installedContractHash ?? "") || !/^[a-f0-9]{64}$/.test(value?.reviewedSchemaHash ?? "") ||

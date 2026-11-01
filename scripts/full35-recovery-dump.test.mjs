@@ -1,0 +1,14 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {removeDumpRow,replaceDumpColumn} from "./full35-recovery-dump.mjs";
+const table="ingestion.food_projection_versions";
+const prefix='INSERT INTO "ingestion"."food_projection_versions" ("id", "projection_contract_version", "body") VALUES\n\t';
+const rows=["('one', 'v1', '{\"note\":\"O''Brien, (µg)\"}')","('two', 'v2', '{\"note\":\"second\"}')","('three', 'v2', NULL)"];
+const dump="-- actual column INSERT grouping\n"+prefix+rows.join(",\n\t")+";\nRESET ALL;\n";
+for(const [label,needle,index] of [["first","one",0],["middle","two",1],["last","three",2]])test("remove only "+label+" tuple from multiline grouped INSERT",()=>assert.equal(removeDumpRow(dump,table,needle),"-- actual column INSERT grouping\n"+prefix+rows.filter((_,i)=>i!==index).join(",\n\t")+";\nRESET ALL;\n"));
+test("single tuple removes the statement and retains surrounding commands",()=>assert.equal(removeDumpRow(prefix+rows[0]+";\nRESET ALL;",table),"\nRESET ALL;"));
+test("a later statement supplies the requested v2 tuple",()=>assert.equal(removeDumpRow(prefix+rows[0]+";\n"+prefix+rows[1]+";",table,"v2"),prefix+rows[0]+";\n"));
+test("replace a single value without altering other tuples or quote contents",()=>assert.equal(replaceDumpColumn(dump,table,"projection_contract_version",()=>"'wrong'","two"),dump.replace("('two', 'v2'","('two', 'wrong'")));
+test("zero and unknown remain separate SQL values",()=>{const sql='INSERT INTO "public"."food_nutrients" ("id", "amount") VALUES\n (\'one\', 0),\n (\'two\', NULL);';assert.equal(replaceDumpColumn(sql,"public.food_nutrients","amount",()=>"9.1234","one"),sql.replace("'one', 0","'one', 9.1234"));});
+test("escaped strings, nested expressions and embedded newlines cannot split tuples",()=>{const row=String.raw`('one', E'escaped \' (comma,)', jsonb_build_object('v', ARRAY[1,2]))`;const sql=prefix+row+",\n"+rows[2]+";";assert.equal(removeDumpRow(sql,table,"three"),prefix+row+";");});
+for(const operation of [()=>removeDumpRow(dump,table,"absent"),()=>replaceDumpColumn(dump,table,"absent",()=>"1"),()=>replaceDumpColumn(dump,table,"id",old=>old),()=>removeDumpRow("COPY x FROM stdin;",table)])test("unsupported or empty mutation cannot masquerade as a negative",()=>assert.throws(operation,/Synthetic dump adapter/));

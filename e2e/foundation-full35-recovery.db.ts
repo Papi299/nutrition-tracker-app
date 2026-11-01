@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
+import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
 import { full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker } from "../scripts/phase-11i-full35-recovery.mjs";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingPlan } from "../ingestion/usda/foundation/reprojection/contracts";
@@ -116,6 +117,20 @@ function independentOracle(q:ActorQuery) {
   const result=JSON.parse(command("python3",["scripts/nutrition-usda-full35-reprojection-001/database_oracle.py"],JSON.stringify(packet)));
   expect(result).toMatchObject({states:12355,present:6261,missing:6094,withheld:1059,source_method_records:6452,public_values:6261,same_count_wrong_value_refused:true});return result;
 }
+function independentDatasetRoots(q:ActorQuery) {
+  const packet=q(`select jsonb_build_object(
+    'heads',(select jsonb_agg(jsonb_build_object('id',h.id,'version',h.head_version,'fingerprint',h.dataset_projection_fingerprint,
+      'dataset_id',h.dataset_id,'environment',h.environment,'source_release_id',h.current_source_release_id,
+      'receipt_id',h.mapping_reprojection_receipt_id,'mapping_version_id',p.mapping_version_id) order by h.head_version)
+      from ingestion.dataset_projection_heads h left join ingestion.mapping_reprojection_receipts r on r.id=h.mapping_reprojection_receipt_id
+      left join ingestion.mapping_reprojection_plans p on p.id=r.plan_id),
+    'projections',(select jsonb_agg(jsonb_build_object('food_id',food_id,'projection_hash',projection_hash,
+      'lifecycle_projection_hash',lifecycle_projection_hash,'projection_contract_version',projection_contract_version,
+      'receipt_id',mapping_reprojection_receipt_id,'is_public',is_public,'is_archived',is_archived)) from ingestion.food_projection_versions),
+    'pointer',(select to_jsonb(c) from ingestion.dataset_projection_current_heads c))`);
+  const result=JSON.parse(command("python3",["scripts/nutrition-usda-full35-recovery-001b/verify_dataset_roots.py"],packet));
+  expect(result).toMatchObject({result:"PASS",current_pointer_verified:true,same_count_changed_projection_hash_refused:true});return result;
+}
 async function checkpoint(label:string,expectedHead:number) {
   process.stdout.write(`Capturing approved encrypted checkpoint ${label}.\n`);
   const backupRoot=join(config.scratch,label);mkdirSync(backupRoot,{mode:0o700});
@@ -144,6 +159,7 @@ async function checkpoint(label:string,expectedHead:number) {
     'heads',(select jsonb_agg(head_version order by head_version) from ingestion.dataset_projection_heads))`));
   expect(quantities).toEqual({public_foods:353,source_versions:353,nutrients:expectedHead===2?6261:1199,v2_projections:353*(expectedHead-1),v2_states:12355*(expectedHead-1),interpretations:expectedHead===1?0:353,receipts:expectedHead-1,heads:Array.from({length:expectedHead},(_,i)=>i+1)});
   const oracle=expectedHead>1?independentOracle(target):null;
+  const datasetRoots=independentDatasetRoots(target);expect(datasetRoots.heads).toHaveLength(expectedHead);
   const targetEpoch=target("select cluster_id from private.mapping_actor_cluster_epoch");expect(targetEpoch).not.toBe(sourceEpoch);
   const sourceRoles=JSON.parse(source(`select jsonb_object_agg(rolname,oid::bigint) from pg_roles where rolname in ('${operator}','${approver}')`));
   const targetRoles=JSON.parse(target(`select jsonb_object_agg(rolname,oid::bigint) from pg_roles where rolname in ('${operator}','${approver}')`));
@@ -163,7 +179,7 @@ async function checkpoint(label:string,expectedHead:number) {
   const after=full35TableFingerprints(rows(target));for(const name of Object.keys(before).filter(n=>!n.startsWith("ingestion.mapping_actor_")))expect(after[name]).toEqual(before[name]);
   if(expectedHead>1){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
   checkpoints.push({scenario:label,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
-    quantities,oracle,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
+    quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
     allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1,completedRetriesNoMutation:expectedHead>1,
     independentDecisions:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
       from ingestion.mapping_actor_current_bindings c join ingestion.mapping_actor_bindings b on b.id=c.binding_id join ingestion.mapping_actor_binding_requests r on r.id=b.request_id`))});
@@ -188,7 +204,7 @@ function recoveryNegatives() {
     }catch(e){error=String((e as Error).message);}finally{process.chdir(repository);writeFileSync(capture.manifestPath,manifestBytes);}
     expect(error).toMatch(/mismatch|forbidden|failed|reviewed|target|unsafe|count|ledger|fingerprint|schema/i);expect(existsSync(report)).toBe(false);
     if(!replay){expect(resets).toBe(0);expect(full35TableFingerprints(rows(target))).toEqual(before);}
-    else {expect(resets).toBe(1);expect(target("select count(*) from ingestion.mapping_reprojection_receipts")).toBe("0");expect(target("select count(*) from auth.users")).toBe("0");expect(target("select count(*) from ingestion.mapping_actor_current_bindings")).toBe("0");}
+    else {expect(error).toMatch(/Full35 complete persisted row fingerprint mismatch/);expect(resets).toBe(1);expect(target("select count(*) from ingestion.mapping_reprojection_receipts")).toBe("0");expect(target("select count(*) from auth.users")).toBe("0");expect(target("select count(*) from ingestion.mapping_actor_current_bindings")).toBe("0");}
     negatives[label]={result:"PASS",expectedRejection:error,noUnauthorizedMutation:true,targetResetCount:resets,failedReplayRolledBack:replay,elapsedMs:Date.now()-started};
     process.stdout.write(`Negative recovery case ${label} refused with no unauthorized mutation.\n`);
   }
@@ -226,9 +242,6 @@ function recoveryNegatives() {
   innerRejected("D02_invalid_marker_metadata","source-snapshot-redacted.json",text=>{const data=JSON.parse(text);data.full35Recovery.sourceClusterMarker=null;return JSON.stringify(data);});
   // A new dump with all outer/content digests recomputed still cannot omit any
   // protected row. These failures reach the real loader and roll back atomically.
-  function removeRow(text:string,table:string,needle="") {
-    let removed=false;const changed=text.split("\n").filter(line=>{if(!removed&&line.startsWith(`INSERT INTO "${table.replace(".",'"."')}"`)&&line.includes(needle)){expect(line.trimEnd().endsWith(";")).toBe(true);removed=true;return false;}return true;}).join("\n");expect(removed,table+" populated INSERT").toBe(true);return changed;
-  }
   for(const [label,table,needle] of [
     ["H09_missing_v2_projection","ingestion.food_projection_versions","foundation-lifecycle-projection/v2"],
     ["H10_missing_full35_state","ingestion.food_nutrient_projection_versions","foundation-lifecycle-projection/v2"],
@@ -238,30 +251,16 @@ function recoveryNegatives() {
     ["H15_inconsistent_dataset_pointer","ingestion.dataset_projection_current_heads",""],
     ["H20_lost_owner_snapshot","public.diary_entries",""],
     ["H21_invalid_compensation_provenance","ingestion.mapping_reprojection_inserted_rows",""],
-  ]) innerRejected(label,"application-data.sql",text=>removeRow(text,table,needle),true);
-  function replaceColumn(text:string,table:string,column:string,replace:(old:string)=>string,needle="") {
-    let changed=false;
-    const result=text.split("\n").map(line=>{
-      if(changed||!line.startsWith(`INSERT INTO "${table.replace(".",'"."')}"`)||!line.includes(needle))return line;
-      const match=line.match(/^(INSERT INTO .+? \(([^)]+)\) VALUES \()(.*)(\);)$/);expect(match,table+" complete INSERT").not.toBeNull();
-      const columns=match![2].split(", ").map(value=>value.replaceAll('"',''));
-      const values:string[]=[];let quoted=false,start=0;
-      for(let i=0;i<match![3].length;i++){const c=match![3][i];if(c==="'"){if(quoted&&match![3][i+1]==="'"){i++;continue;}quoted=!quoted;}
-        if(c===","&&!quoted){values.push(match![3].slice(start,i).trim());start=i+1;}}
-      values.push(match![3].slice(start).trim());expect(values.length).toBe(columns.length);
-      const index=columns.indexOf(column);expect(index).toBeGreaterThanOrEqual(0);const replacement=replace(values[index]);expect(replacement).not.toBe(values[index]);values[index]=replacement;changed=true;
-      return match![1]+values.join(", ")+match![4];
-    }).join("\n");expect(changed).toBe(true);return result;
-  }
-  innerRejected("H20_lost_private_custom_food","application-data.sql",text=>removeRow(text,"public.foods",fixtureId(999705)),true);
-  innerRejected("H20_lost_auth_identity","auth-durable-data.sql",text=>removeRow(text,"auth.identities"),true);
+  ]) innerRejected(label,"application-data.sql",text=>removeDumpRow(text,table,needle),true);
+  innerRejected("H20_lost_private_custom_food","application-data.sql",text=>removeDumpRow(text,"public.foods",fixtureId(999705)),true);
+  innerRejected("H20_lost_auth_identity","auth-durable-data.sql",text=>removeDumpRow(text,"auth.identities"),true);
   innerRejected("H19_forged_execution_context","application-data.sql",text=>text+`\ninsert into ingestion.mapping_reprojection_execution_context(backend_pid,transaction_id,plan_id,approval_id)
     select pg_backend_pid(),pg_current_xact_id(),plan_id,id from ingestion.mapping_reprojection_approvals order by id limit 1;\n`,true);
-  innerRejected("H11_incorrect_evidence_link","application-data.sql",text=>replaceColumn(text,"ingestion.food_nutrient_projection_evidence_links","food_nutrient_evidence_id",()=>`'${fixtureId(999888)}'`),true);
-  innerRejected("H12_incorrect_mapping_hash","application-data.sql",text=>replaceColumn(text,"ingestion.source_mapping_interpretations","mapping_hash",()=>`'${"f".repeat(64)}'`),true);
-  innerRejected("H15_incorrect_current_fingerprint","application-data.sql",text=>replaceColumn(text,"ingestion.dataset_projection_current_heads","current_projection_fingerprint",()=>`'${"f".repeat(64)}'`),true);
-  innerRejected("N_same_count_wrong_public_value","application-data.sql",text=>replaceColumn(text,"public.food_nutrients","amount",()=>"999999.1234"),true);
-  innerRejected("H21_incorrect_compensation_row_image","application-data.sql",text=>replaceColumn(text,"ingestion.mapping_reprojection_inserted_rows","row_image",old=>{
+  innerRejected("H11_incorrect_evidence_link","application-data.sql",text=>replaceDumpColumn(text,"ingestion.food_nutrient_projection_evidence_links","food_nutrient_evidence_id",()=>`'${fixtureId(999888)}'`),true);
+  innerRejected("H12_incorrect_mapping_hash","application-data.sql",text=>replaceDumpColumn(text,"ingestion.source_mapping_interpretations","mapping_hash",()=>`'${"f".repeat(64)}'`),true);
+  innerRejected("H15_incorrect_current_fingerprint","application-data.sql",text=>replaceDumpColumn(text,"ingestion.dataset_projection_current_heads","current_projection_fingerprint",()=>`'${"f".repeat(64)}'`),true);
+  innerRejected("N_same_count_wrong_public_value","application-data.sql",text=>replaceDumpColumn(text,"public.food_nutrients","amount",()=>"999999.1234"),true);
+  innerRejected("H21_incorrect_compensation_row_image","application-data.sql",text=>replaceDumpColumn(text,"ingestion.mapping_reprojection_inserted_rows","row_image",(old:string)=>{
     const row=JSON.parse(old.slice(1,-1).replaceAll("''","'"));row.amount="999999.1234";return "'"+JSON.stringify(row).replaceAll("'","''")+"'";
   }),true);
   writeFileSync(dataPath,dataBytes);writeFileSync(ledgerPath,ledgerBytes);rmSync(badRoot,{recursive:true});rmSync(tar);
