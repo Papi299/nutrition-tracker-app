@@ -265,6 +265,8 @@ create function ingestion.mapping_identity_controller_v1(p_authority text)
 returns oid language plpgsql stable set search_path='' as $$
 declare actor oid;
 begin
+  if pg_catalog.current_setting('transaction_isolation')<>'read committed' then
+    raise exception using errcode='42501',message='fresh read committed authorization transaction required';end if;
   select oid into strict actor from pg_catalog.pg_roles where rolname=session_user;
   if p_authority not in('governor','reviewer') or not ingestion.mapping_login_eligible_v1(actor,p_authority) then
     raise exception using errcode='42501',message='independent identity controller login required';end if;
@@ -430,9 +432,12 @@ create function ingestion.mapping_binding_by_id_v1(p_binding uuid,p_principal uu
 returns ingestion.mapping_actor_bindings language plpgsql security definer set search_path='' set timezone='UTC' as $$
 declare d ingestion.mapping_actor_bindings; principal ingestion.mapping_actor_principals;
 begin
+  -- Lock the live pointer: an older repeatable-read snapshot must serialize or
+  -- fail instead of retaining authority after rebinding or revocation.
   select b.* into strict d from ingestion.mapping_actor_bindings b join ingestion.mapping_actor_current_bindings c on c.binding_id=b.id
     where b.id=p_binding and b.principal_id=p_principal and b.dataset_id=p_dataset and b.environment=p_environment
-      and c.cluster_id=ingestion.mapping_identity_epoch_v1();
+      and c.cluster_id=ingestion.mapping_identity_epoch_v1()
+    for share of c;
   select * into strict principal from ingestion.mapping_actor_principals where id=d.principal_id;
   if d.action='revoke' or d.cluster_id<>ingestion.mapping_identity_epoch_v1()
     or exists(select from ingestion.mapping_actor_bindings where principal_id=d.principal_id and action='revoke')
@@ -452,6 +457,8 @@ create function ingestion.mapping_current_actor_v1(p_authority text,p_dataset uu
 returns ingestion.mapping_actor_bindings language plpgsql security definer set search_path='' set timezone='UTC' as $$
 declare actor oid; pointer ingestion.mapping_actor_current_bindings; d ingestion.mapping_actor_bindings;
 begin
+  if pg_catalog.current_setting('transaction_isolation')<>'read committed' then
+    raise exception using errcode='42501',message='fresh read committed authorization transaction required';end if;
   select oid into strict actor from pg_catalog.pg_roles where rolname=session_user;
   if p_authority not in('operator','approver') or not ingestion.mapping_login_eligible_v1(actor,p_authority) then
     raise exception using errcode='42501',message='trusted distinct bound login required';end if;

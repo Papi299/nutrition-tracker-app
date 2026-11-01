@@ -33,9 +33,9 @@
   ],
   "immutable_guards": 34,
   "ingestion_tables": 54,
-  "candidate_sql_sha256": "b420a2011b84de2db0408c968cdd142dd299391e0caeec8238f919d5ec66cf26",
+  "candidate_sql_sha256": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
   "ingestion_rls_tables": 54,
-  "schema_contract_hash": "3efc68e19871c52d7cc4a3f28d601523bd48538ffa3d0d38ddb8fd1a385fb012",
+  "schema_contract_hash": "2ca3a4a828bfda0d7138c597f2f27177ca44e30a06f7ea5b482654fc6a956733",
   "identity_definer_security_paths": [
     {
       "function": "ingestion.approve_foundation_actor_binding_v1(uuid,text)",

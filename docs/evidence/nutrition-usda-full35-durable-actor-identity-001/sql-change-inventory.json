@@ -1,6 +1,6 @@
 {
   "migration": "20261031104559_foundation_full35_mapping_reprojection_v1.sql",
-  "sqlSha256": "b420a2011b84de2db0408c968cdd142dd299391e0caeec8238f919d5ec66cf26",
+  "sqlSha256": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
   "supersededSqlSha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
   "functions": [
     {
@@ -31,7 +31,7 @@
     {
       "name": "ingestion.mapping_identity_controller_v1",
       "status": "added",
-      "sqlSha256": "af1ee3b45fcfbdae6da3cb8118d9d8199fe1d90e1a600359238cf9212542eafa"
+      "sqlSha256": "a4b4c6eb2715b8f8525f85eb956296d3343c838df97e2e52aecf7d78320482df"
     },
     {
       "name": "ingestion.request_foundation_actor_binding_v1",
@@ -51,12 +51,12 @@
     {
       "name": "ingestion.mapping_binding_by_id_v1",
       "status": "added",
-      "sqlSha256": "fcf77d937e885c50c5e451b6d7d7969962a7804a4d2b18bb4ad1f0b7c1e28748"
+      "sqlSha256": "860dab2f67f6515241320cfbe5a0b0deab7923fcad2b40ba8ea468521d439090"
     },
     {
       "name": "ingestion.mapping_current_actor_v1",
       "status": "added",
-      "sqlSha256": "3b131377ac00fba41295839ac8e5ea5ac1385c29bf3a969d9e4d7cabc8c28622"
+      "sqlSha256": "56971cb28442fd84a2278a8ca6950a5c1600f1c829e4c415d238fe1965174030"
     },
     {
       "name": "ingestion.lock_mapping_principals_v1",

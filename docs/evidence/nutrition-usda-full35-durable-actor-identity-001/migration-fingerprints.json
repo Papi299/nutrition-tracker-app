@@ -2,8 +2,8 @@
   "count": 47,
   "predecessorsByteIdentical": 46,
   "orderedFilenameSetSha256": "2aecccbc04539984a2cf05a88b69108b8a0e0637c2aaa609277d80bbee7fafe5",
-  "orderedInventorySha256": "3ee4a3ddc935577619d4a6f0412d7255cbb7b3165d4af7711406a75b032d3647",
-  "sqlSha256": "b420a2011b84de2db0408c968cdd142dd299391e0caeec8238f919d5ec66cf26",
+  "orderedInventorySha256": "30d1fc8f91a41c2eb925fa802df68378b7b1b8356938adc159df54701ae35ade",
+  "sqlSha256": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
   "inventoryEncoding": "UTF-8 JSON.stringify array of objects with keys filename,ordinal,predecessor,sha256,version; filenames joined by LF without trailing LF",
   "history47RecoveryQualified": false
 }

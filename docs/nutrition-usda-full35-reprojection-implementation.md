@@ -58,7 +58,7 @@ planning the version-aware evidence CHECK expression.
 ## Internal API
 
 These functions live only in the unexposed ingestion schema. The migration
-grants no consumer or service-role administrative entry point.
+grants no consumer or service-role administrative entry point. Run the new authority RPCs in fresh READ COMMITTED transactions; older REPEATABLE READ/SERIALIZABLE snapshots fail closed. Receipt reads acquire authorization locks and append no operation records.
 
 | Function | Arguments | Caller/result |
 |---|---|---|

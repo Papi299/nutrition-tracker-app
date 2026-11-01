@@ -284,7 +284,7 @@ test.describe.serial("Durable Full35 principal authority", () => {
     denied(target, `select ingestion.approve_foundation_actor_binding_v1('${proposal.requestId}','${fixtureHash("fake")}')`, identityGovernor);
     denied(target, retrySql("reprojection", originalApproval, originalToken), "full35_actor_unbound");negatives["17_missing_independent_evidence"] = "PASS";
   });
-  test("18 — changed catalog fingerprint and stale current pointer fail closed", () => {
+  test("18 — changed catalog, pointer and repeatable-read snapshots fail closed", async () => {
     target(`alter role ${operator} set application_name='unverified catalog change'`);
     try { denied(target, retrySql("reprojection", originalApproval, originalToken), operator); }
     finally { target(`alter role ${operator} reset application_name`); }
@@ -294,6 +294,23 @@ test.describe.serial("Durable Full35 principal authority", () => {
     const set = (row: typeof pointer) => target(`update ingestion.mapping_actor_current_bindings set binding_id='${row.binding_id}',cluster_id='${row.cluster_id}',
       login_oid=${row.login_oid},login_name='${row.login_name}',generation=${row.generation} where principal_id='${operatorPrincipal.principalId}'`);
     set(old);try { denied(target, retrySql("reprojection", originalApproval, originalToken), operator); } finally { set(pointer); }
+    const protectedBefore = fingerprint(target, false);
+    const stale = spawn("docker", ["exec", "-e", `PGPASSWORD=${password}`, "-i", config.target,
+      "psql", "-h", "127.0.0.1", "-U", operator, "-d", "postgres", "-X", "-qAt", "-v", "ON_ERROR_STOP=1"]);
+    let stderr = "";stale.stderr.on("data", c => stderr += c);
+    const exited = new Promise<number | null>((ok, fail) => { stale.on("error", fail);stale.on("close", ok); });
+    await new Promise<void>((ok, fail) => {
+      stale.on("error", fail);stale.stdout.on("data", c => { if (String(c).includes("SNAPSHOT_HELD")) ok(); });
+      stale.stdin.write("\\set VERBOSITY verbose\nbegin isolation level repeatable read;select pg_current_snapshot();\n\\echo SNAPSHOT_HELD\n");
+    });
+    let afterBinding: string;
+    try {
+      rebind(target);afterBinding = fingerprint(target);
+      stale.stdin.end(`select ingestion.get_foundation_mapping_reprojection_receipt_v1('${originalApproval}');commit;\n\\q\n`);
+      expect(await exited).not.toBe(0);expect(stderr).toMatch(/42501[\s\S]*fresh read committed authorization transaction required/i);
+      expect(fingerprint(target)).toBe(afterBinding);
+    } finally { if (!stale.stdin.destroyed) stale.stdin.end("rollback;\n\\q\n"); }
+    completedReads(target);expect(fingerprint(target, false)).toBe(protectedBefore);
     negatives["18_stale_binding"] = "PASS";
   });
   test("19 — concurrent conflicting continuity decisions serialize and only one wins", async () => {
