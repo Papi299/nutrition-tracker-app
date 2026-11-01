@@ -1,3 +1,4 @@
+import { captureFull35Recovery, assertFull35Rows, full35TableFingerprints, assertFull35Payload } from "./phase-11i-full35-recovery.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -165,13 +166,14 @@ export async function captureBackup({
     ).map(([version]) => version);
     const migrationBoundary = recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots, migrations.at(-1));
     assertMigrationHistory(migrations, migrationBoundary);
-    assertTrustedMigrationReplay(readdirSync("supabase/migrations"), migrationBoundary,
+    assertTrustedMigrationReplay(readdirSync("supabase/migrations").sort(), migrationBoundary,
       (name) => readFileSync(join("supabase/migrations", name)));
 
     const applicationTables = rows(
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
       "APPLICATION_TABLE_INVENTORY",
     );
+    const full35Recovery = migrationBoundary.count === 47 ? captureFull35Recovery((sql) => rows(sql, "FULL35_CAPTURE_VALIDATION")) : undefined;
     const tableCounts = exactTableCounts(applicationTables, "PRE_DUMP_TABLE_COUNTS");
     const ownerValidation = validateOwnerDatabase((sql) => rows(sql, "OWNER_VALIDATION"));
     const { authCounts, ownershipIntegrity } = ownerValidation;
@@ -274,6 +276,11 @@ export async function captureBackup({
       artifactPaths.auth,
     ]);
 
+    if (full35Recovery) {
+      assertFull35Payload(readFileSync(artifactPaths.data,"utf8"));
+      assertFull35Payload(readFileSync(artifactPaths.auth,"utf8"));
+    }
+
     // Linked CLI dumps may expire or replace the temporary login credential.
     await refreshSourceTransport();
 
@@ -291,7 +298,10 @@ export async function captureBackup({
       migrations, storage: { buckets: storageBuckets, objects: storageObjects },
       ownerValidation, accountActivationCount, sourceCaptureConsistency: "PASS",
     }, migrationBoundary);
+    if (full35Recovery) assertFull35Rows(full35Recovery.rowFingerprints,
+      full35TableFingerprints(sql => rows(sql,"POST_DUMP_FULL35_ROWS")));
     const sourceSnapshot = {
+      ...(full35Recovery ? {full35Recovery} : {}),
       sourceProjectRef: sourceIdentity.projectRef,
       sourceEnvironment: sourceIdentity.sourceEnvironment,
       projectRegion: project.region,
@@ -398,7 +408,7 @@ export async function captureBackup({
       recipientPath,
     ]);
     chmodSync(archivePath, 0o600);
-    const cmsDescription = run("openssl", [
+    const cmsDescription = full35Recovery ? null : run("openssl", [
       "cms",
       "-cmsout",
       "-print",
@@ -407,7 +417,11 @@ export async function captureBackup({
       "-in",
       archivePath,
     ]);
-    if (!cmsDescription.includes("id-smime-ct-authEnvelopedData")) {
+    const cmsHeader = readFileSync(archivePath).subarray(0, 2048);
+    const validCms = full35Recovery
+      ? cmsHeader.includes(Buffer.from("060b2a864886f70d0109100117","hex")) && cmsHeader.includes(Buffer.from("060960864801650304012e","hex"))
+      : cmsDescription.includes("id-smime-ct-authEnvelopedData");
+    if (!validCms) {
       fail("Encrypted archive is not CMS AuthEnvelopedData.");
     }
 

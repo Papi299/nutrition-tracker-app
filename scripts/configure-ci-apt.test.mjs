@@ -24,6 +24,19 @@ for (const codename of ["noble", "resolute"]) {
   });
 }
 
+for (const codename of ["noble", "resolute"]) {
+  for (const uri of ["http://azure.archive.ubuntu.com/ubuntu", "http://archive.ubuntu.com/ubuntu", "https://archive.ubuntu.com/ubuntu"]) {
+    test(`${codename}: exact official repository paths allow an omitted trailing slash: ${uri}`, () => {
+      const source = sources(codename, uri).replace("http://security.ubuntu.com/ubuntu/", "http://security.ubuntu.com/ubuntu");
+      const plan = planAptSources(source, null, codename);
+      const expected = uri.startsWith("http:") ? source.replace(uri, "https://archive.ubuntu.com/ubuntu/") : source;
+      assert.equal(plan.source, expected);
+      assert.equal(plan.mirrors, null);
+      assert.deepEqual(planAptSources(plan.source, null, codename), plan);
+    });
+  }
+}
+
 test("unknown layouts and signing, security-suite or fallback drift fail before mutation", () => {
   const source = sources("noble", "mirror+file:/etc/apt/apt-mirrors.txt");
   for (const [changedSource, changedMirrors, codename] of [
@@ -34,6 +47,8 @@ test("unknown layouts and signing, security-suite or fallback drift fail before 
     [source.replace("Types: deb", "Types: deb\nTypes: deb"), mirrors, "noble"],
     [source.replace("main restricted universe multiverse", "main"), mirrors, "noble"],
     [source.replace("mirror+file:/etc/apt/apt-mirrors.txt", "mirror+file:/tmp/other"), mirrors, "noble"],
+    [sources("noble", "https://archive.ubuntu.com/ubuntu-unreviewed"), null, "noble"],
+    [sources("noble", "https://archive.ubuntu.com.evil.example/ubuntu"), null, "noble"],
     [source, mirrors.replace("priority:1", "priority:0"), "noble"],
     [source, mirrors.replace("https://archive", "http://archive"), "noble"],
     [source, mirrors.replace("https://security.ubuntu.com/ubuntu/\tpriority:3\n", ""), "noble"],

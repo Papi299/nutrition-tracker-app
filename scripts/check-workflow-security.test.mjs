@@ -78,6 +78,13 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
     ...[44, 45, 46].map(count => ci.replace(new RegExp(`^.*phase11i-migration${count}\\.json.*\\n`, "m"), "")),
     ci.replace("--serving-reference", "--nutrition-snapshots"),
+    ...["npm run test:full35-recovery-local", "node scripts/run-full35-exact-head-codeql.mjs"].flatMap(command => [ci.replace(command,"echo skipped"),ci.replace(command,command+" || true")]),
+    ci.replace("    timeout-minutes: 50", "    timeout-minutes: 51"),
+    ci.replace("  full35_recovery:\n", "  full35_recovery:\n    if: false\n"),
+    ci.replace("language: [actions, javascript-typescript, python]", "language: [python]"),
+    ci.replace("ref: ${{ github.event.pull_request.head.sha || github.sha }}", "ref: main"),
+    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001]", "branches: [main]"),
+    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001]", "branches: [main, arbitrary]"),
     ci.replace("      - name: Qualify isolated Full35 reprojection database\n        run: npm run test:full35-reprojection-local\n\n", ""),
     ci.replace("run: npm run test:full35-reprojection-local", "run: echo skipped"),
   ];

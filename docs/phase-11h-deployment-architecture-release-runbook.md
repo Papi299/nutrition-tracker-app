@@ -459,6 +459,9 @@ rejects `sb_secret_`, service-role-shaped prefixes, and a JWT whose role is
   `DOCKER_HOST`, when set, is checked only to require a local Unix socket.
   These variables grant no hosted authority and are never application/browser
   configuration.
+- Exact-head recovery CodeQL: `CODEQL_CANDIDATE_SHA` binds the checked-out GitHub
+  source head and `CODEQL_LANGUAGE` comes from the closed three-language CI matrix.
+  They are CI provenance inputs, carry no credentials and grant no runtime authority.
 - Local migration-role/ingestion safety: `HOSTED_ROLE_SUPABASE_WORKDIR`,
   `DATABASE_URL`, `SUPABASE_DB_URL`, and `SUPABASE_URL`. Their historical
   names grant no hosted authority; non-loopback targets remain rejected.

@@ -14,9 +14,9 @@ const workflowExpectations = new Map([
       timeout: 75, // Existing budget plus the measured 20-minute Full35 transaction suite.
       node: 22,
       actions: new Map([
-        ["actions/checkout", 3],
-        ["actions/setup-node", 3],
-        ["actions/upload-artifact", 2],
+        ["actions/checkout", 5],
+        ["actions/setup-node", 5],
+        ["actions/upload-artifact", 4],
       ]),
     },
   ],
@@ -125,6 +125,68 @@ const reviewedActorIdentityJob = `
           npm run test:full35-durable-actor-local
 `;
 
+const reviewedRecoveryAndCodeqlJobs = `
+  full35_recovery:
+    name: Full35 approved encrypted recovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Check out recovery qualification
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - name: Set up recovery qualification Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify approved encrypted migration 47 recovery
+        run: |
+          npm ci
+          npm run test:full35-recovery-local
+      - name: Retain sanitized approved recovery evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: full35-approved-recovery-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: |
+            full35-recovery-evidence/context.json
+            full35-recovery-evidence/recovery-qualification.json
+            full35-recovery-evidence/cleanup.json
+          if-no-files-found: error
+          retention-days: 14
+
+  exact_head_codeql:
+    name: Full35 exact-head CodeQL (\${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [actions, javascript-typescript, python]
+    steps:
+      - name: Check out exact CodeQL candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: \${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up CodeQL Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+      - name: Analyze exact head with pinned CodeQL CLI
+        env:
+          CODEQL_CANDIDATE_SHA: \${{ github.event.pull_request.head.sha || github.sha }}
+          CODEQL_LANGUAGE: \${{ matrix.language }}
+        run: node scripts/run-full35-exact-head-codeql.mjs "$CODEQL_LANGUAGE"
+      - name: Retain exact-head CodeQL SARIF and provenance
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: full35-codeql-\${{ matrix.language }}-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: codeql-results/
+          if-no-files-found: error
+          retention-days: 14
+`;
+
 function checkCiDispatchContract(workflow) {
   if (!workflow.endsWith(reviewedAptCompatibilityJob)) {
     fail("ci.yml must retain the exact bounded Ubuntu 26.04 browser-only compatibility probe");
@@ -134,12 +196,14 @@ function checkCiDispatchContract(workflow) {
     fail("ci.yml must retain the exact unconditional bounded durable actor qualification job");
   }
   workflow = workflow.slice(0, -reviewedActorIdentityJob.length);
+  if (!workflow.endsWith(reviewedRecoveryAndCodeqlJobs)) fail("ci.yml must retain exact unconditional encrypted recovery and exact-head CodeQL jobs");
+  workflow = workflow.slice(0, -reviewedRecoveryAndCodeqlJobs.length);
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main, codex/nutrition-usda-full35-reprojection-001]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
-    fail("ci.yml must retain only main PR, main push, and manual dispatch triggers");
+    fail("ci.yml must retain only main/Stage 4A PR, main push, and manual dispatch triggers");
   }
   if (
     !workflow.includes(
