@@ -1,0 +1,275 @@
+{
+  "schemaVersion": "full35-recovery-schema-inventory/v1",
+  "status": "INSPECTED_NOT_RECOVERY_QUALIFIED",
+  "migration": "20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+  "sqlSha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+  "durableNewRelations": [
+    "ingestion.mapping_version_evidence",
+    "ingestion.source_mapping_interpretations",
+    "ingestion.mapping_reprojection_plans",
+    "ingestion.mapping_reprojection_plan_items",
+    "ingestion.mapping_reprojection_approvals",
+    "ingestion.mapping_reprojection_receipts",
+    "ingestion.mapping_reprojection_events",
+    "ingestion.mapping_reprojection_inserted_rows"
+  ],
+  "transientRelation": {
+    "name": "ingestion.mapping_reprojection_execution_context",
+    "requiredCaptureAndRestoreState": "EMPTY",
+    "reason": "Backend PID and xid8 are transaction-local authorization, not portable durable authority."
+  },
+  "extendedRelations": [
+    "ingestion.source_record_versions",
+    "ingestion.nutrient_mapping_versions",
+    "ingestion.mapping_reprojection_plans",
+    "ingestion.food_projection_versions",
+    "ingestion.food_nutrient_projection_versions",
+    "ingestion.food_nutrient_evidence",
+    "ingestion.dataset_projection_heads",
+    "ingestion.food_source_link_events"
+  ],
+  "newFunctions": [
+    [
+      "ingestion.canonicalize_mapping_json_v1",
+      "p_value jsonb)"
+    ],
+    [
+      "ingestion.fingerprint_mapping_json_v1",
+      "p_value jsonb)"
+    ],
+    [
+      "ingestion.foundation_full35_mapping_body_v1",
+      ")"
+    ],
+    [
+      "ingestion.mapping_projection_state_body_v1",
+      "p_state ingestion.food_nutrient_projection_versions)"
+    ],
+    [
+      "ingestion.validate_mapping_projection_state_v1",
+      ")"
+    ],
+    [
+      "ingestion.mapping_projection_body_v2",
+      "p_projection_id uuid)"
+    ],
+    [
+      "ingestion.mapping_lifecycle_hash_v2",
+      "p_body jsonb)"
+    ],
+    [
+      "ingestion.verify_mapping_projection_v2",
+      ")"
+    ],
+    [
+      "ingestion.mapping_json_has_duplicate_keys_v1",
+      "p_value json)"
+    ],
+    [
+      "ingestion.mapping_json_input_v1",
+      "p_input json)"
+    ],
+    [
+      "ingestion.mapping_source_record_hash_v1",
+      "p_raw_text text)"
+    ],
+    [
+      "ingestion.validate_mapping_candidate_v1",
+      "p_candidate jsonb,p_raw_text text)"
+    ],
+    [
+      "ingestion.validate_mapping_interpretation_v1",
+      ")"
+    ],
+    [
+      "ingestion.mapping_actor_oid_v1",
+      "p_authority text)"
+    ],
+    [
+      "ingestion.guard_mapping_plan_transition_v1",
+      ")"
+    ],
+    [
+      "ingestion.fingerprint_mapping_projection_evidence_v1",
+      "p_projection uuid)"
+    ],
+    [
+      "ingestion.mapping_scope_snapshot_v1",
+      "p_dataset uuid,p_environment text)"
+    ],
+    [
+      "ingestion.mapping_candidate_states_v1",
+      "p_candidate jsonb,p_compensate boolean)"
+    ],
+    [
+      "ingestion.mapping_proposed_projection_v2",
+      "p_food jsonb,p_candidate jsonb,p_dataset uuid,p_environment text,p_mapping uuid,p_compensate boolean)"
+    ],
+    [
+      "ingestion.mapping_plan_diff_v1",
+      "p_body jsonb)"
+    ],
+    [
+      "ingestion.validate_mapping_plan_v1",
+      "p_body jsonb)"
+    ],
+    [
+      "ingestion.append_mapping_event_v1",
+      "p_plan uuid,p_prior text,p_next text)"
+    ],
+    [
+      "ingestion.prepare_mapping_plan_internal_v1",
+      "p_plan jsonb,p_retry_token uuid,p_kind text)"
+    ],
+    [
+      "ingestion.prepare_foundation_mapping_reprojection_v1",
+      "p_plan json,p_retry_token uuid)"
+    ],
+    [
+      "ingestion.prepare_foundation_mapping_compensation_v1",
+      "p_plan json,p_retry_token uuid)"
+    ],
+    [
+      "ingestion.approve_mapping_plan_internal_v1",
+      "p_plan_id uuid,p_plan_hash text,p_expires_at timestamptz,p_evidence jsonb,p_kind text)"
+    ],
+    [
+      "ingestion.approve_foundation_mapping_reprojection_v1",
+      "p_plan_id uuid,p_plan_hash text,p_expires_at timestamptz,p_evidence json)"
+    ],
+    [
+      "ingestion.approve_foundation_mapping_compensation_v1",
+      "p_plan_id uuid,p_plan_hash text,p_expires_at timestamptz,p_evidence json)"
+    ],
+    [
+      "ingestion.mapping_public_mutation_authorized_v1",
+      "p_food uuid,p_nutrient uuid,p_amount numeric,p_basis text,p_row uuid,p_delete boolean)"
+    ],
+    [
+      "ingestion.guard_mapping_public_mutation_v1",
+      ")"
+    ],
+    [
+      "ingestion.execute_mapping_plan_internal_v1",
+      "p_approval_id uuid,p_retry_token uuid,p_kind text)"
+    ],
+    [
+      "ingestion.execute_foundation_mapping_reprojection_v1",
+      "p_approval_id uuid,p_retry_token uuid)"
+    ],
+    [
+      "ingestion.execute_foundation_mapping_compensation_v1",
+      "p_approval_id uuid,p_retry_token uuid)"
+    ],
+    [
+      "ingestion.get_foundation_mapping_reprojection_receipt_v1",
+      "p_approval_id uuid)"
+    ],
+    [
+      "ingestion.get_foundation_mapping_reprojection_plan_v1",
+      "p_plan_id uuid)"
+    ],
+    [
+      "ingestion.close_foundation_mapping_plan_v1",
+      "p_plan_id uuid,p_outcome text)"
+    ],
+    [
+      "ingestion.mapping_require_keys_v1",
+      "p_value jsonb,p_keys text[])"
+    ],
+    [
+      "ingestion.validate_mapping_registry_evidence_v1",
+      ")"
+    ],
+    [
+      "ingestion.validate_mapping_candidate_metadata_v1",
+      "p_candidate jsonb,p_raw jsonb)"
+    ],
+    [
+      "ingestion.foundation_full35_rejected_set_v1",
+      ")"
+    ],
+    [
+      "ingestion.get_foundation_mapping_reprojection_scope_v1",
+      "p_environment text)"
+    ],
+    [
+      "ingestion.fingerprint_mapping_database_contract_v1",
+      ")"
+    ]
+  ],
+  "explicitTriggers": [
+    "food_nutrient_projection_versions_contract",
+    "food_nutrient_projection_versions_initialize_lifecycle_hash",
+    "food_projection_versions_verify_lifecycle_hash",
+    "food_projection_versions_verify_mapping_v2",
+    "source_mapping_interpretations_validate",
+    "mapping_reprojection_plans_transition",
+    "food_nutrients_guard_mapping_mutation",
+    "mapping_version_evidence_validate"
+  ],
+  "explicitPolicies": [
+    [
+      "reprojection_advance",
+      "ingestion.food_projection_heads"
+    ],
+    [
+      "reprojection_advance",
+      "ingestion.dataset_projection_current_heads"
+    ],
+    [
+      "nutrients_reprojection_select",
+      "public.nutrients"
+    ],
+    [
+      "food_sources_reprojection_select",
+      "public.food_sources"
+    ],
+    [
+      "foods_reprojection_select",
+      "public.foods"
+    ],
+    [
+      "food_nutrients_reprojection_select",
+      "public.food_nutrients"
+    ],
+    [
+      "food_aliases_reprojection_select",
+      "public.food_aliases"
+    ],
+    [
+      "food_barcodes_reprojection_select",
+      "public.food_barcodes"
+    ],
+    [
+      "food_nutrients_reprojection_insert",
+      "public.food_nutrients"
+    ],
+    [
+      "food_nutrients_compensation_delete",
+      "public.food_nutrients"
+    ]
+  ],
+  "uniqueIndexes": [
+    "food_source_link_events_legacy_version_key",
+    "food_source_link_events_mapping_version_key",
+    "food_nutrient_evidence_legacy_lineage_key",
+    "food_nutrient_evidence_mapping_lineage_key"
+  ],
+  "dynamicHistoryGuards": "Migration loop applies append-only triggers to seven new durable relations; plans use the state-transition guard; execution context is transaction-owned.",
+  "role": "ingestion_reprojection_definer: NOLOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS",
+  "defaultPrivileges": "Revoke PUBLIC function EXECUTE for the definer; closed per-function ACLs, empty search_path, UTC on mutating SECURITY DEFINER functions.",
+  "diagnosticTreatment": "Replay every exact SQL file, restore all public/ingestion table rows, compare every complete row and the installed contract fingerprint. No new approved capture/restore inventory is enabled.",
+  "blockingImmutableOidFields": [
+    "mapping_reprojection_plans.operator_oid",
+    "mapping_reprojection_approvals.approver_oid",
+    "mapping_reprojection_receipts.operator_oid",
+    "mapping_reprojection_events.actor_oid",
+    "plan_body.operator_oid",
+    "plan_body.approval_requirements.approver_oid",
+    "approval_body.operator_oid",
+    "approval_body.approver_oid",
+    "receipt_body.operator_oid",
+    "event_body.actor_oid"
+  ]
+}

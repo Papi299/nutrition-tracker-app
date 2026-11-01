@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, codex/nutrition-usda-full35-reprojection-001]
   push:
     branches: [main]
   workflow_dispatch:
@@ -110,6 +110,10 @@ jobs:
 
       - name: Qualify isolated Full35 reprojection database
         run: npm run test:full35-reprojection-local
+
+      - name: Reproduce Full35 recovery identity blocker
+        timeout-minutes: 20
+        run: npm run test:full35-recovery-identity-local
 
       - name: Start local Supabase
         id: supabase

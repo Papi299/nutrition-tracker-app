@@ -52,6 +52,7 @@ const ciSteps = [
   "Build production application and verify client secret boundary",
   "Install Playwright Phase 11D engines",
   "Qualify isolated Full35 reprojection database",
+  "Reproduce Full35 recovery identity blocker",
   "Start local Supabase",
   "Verify hosted migration-role compatibility",
   "Replay migrations and seed locally",
@@ -137,9 +138,9 @@ function checkCiDispatchContract(workflow) {
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main, codex/nutrition-usda-full35-reprojection-001]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
-    fail("ci.yml must retain only main PR, main push, and manual dispatch triggers");
+    fail("ci.yml must retain only main/Stage 4A PR, main push, and manual dispatch triggers");
   }
   if (
     !workflow.includes(
@@ -222,6 +223,12 @@ function checkCiDispatchContract(workflow) {
     "        run: npm run test:full35-reprojection-local\n\n";
   if (steps.get("Qualify isolated Full35 reprojection database") !== full35Step) {
     fail("ci.yml must retain the exact isolated Full35 database qualification");
+  }
+
+  const recoveryIdentityStep = "      - name: Reproduce Full35 recovery identity blocker\n" +
+    "        timeout-minutes: 20\n        run: npm run test:full35-recovery-identity-local\n\n";
+  if (steps.get("Reproduce Full35 recovery identity blocker") !== recoveryIdentityStep) {
+    fail("ci.yml must retain the bounded synthetic recovery identity blocker reproduction");
   }
 
   const allowedConditions = new Map([
