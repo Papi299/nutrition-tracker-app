@@ -1,0 +1,766 @@
+{
+  "identities": {
+    "main": {
+      "commit": "cd61608d1c8668cd27128b1ef2710becd2057283",
+      "tree": "7525ea1ee2d0efcee9ffde87236c462c4303c624"
+    },
+    "stage4a": {
+      "commit": "86c419509ece24f309d7188e6de2d9e38d3d2f50",
+      "tree": "c0dab813688ff9005ccc3940641c7f88c91dedfa"
+    },
+    "stage4b": {
+      "commit": "5cac08e0415ab1c5a08d0304f0e55586049c6cdb",
+      "tree": "0f7da2f53cfb6345ee335d1bf80564f60cbf7b77"
+    }
+  },
+  "mergeBase": "86c419509ece24f309d7188e6de2d9e38d3d2f50",
+  "inventories": {
+    "stage4a": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "before": "d87ce41bf68fa0fe06d42bd91a68132a0c632810",
+        "after": "7cac501781ece1e01455b4cdc9ac991e7f455ddc"
+      },
+      {
+        "path": "deployment/phase-11h-contract.json",
+        "before": "bca03ab70d02eb1858e8eb4af66b2d97697d5bdc",
+        "after": "daeff9acf67bbfede3a0340609f4a972d4a542ad"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/engineering-report.md",
+        "before": null,
+        "after": "6deceba6adcdde4deb3b13356e98e4b76c4e175b"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/migration-fingerprints.json",
+        "before": null,
+        "after": "a3a7c3d3608a1636614bf4eec3371a845e765329"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/original-defect-reproduction.json",
+        "before": null,
+        "after": "d4e62e765bf65c3ecb7575df70cbebb661fb4659"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/schema-audit.json",
+        "before": null,
+        "after": "8309b2dfb08a8a90d66ebe5d38d069d0d167da5e"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/sql-change-inventory.json",
+        "before": null,
+        "after": "1105b129aef61fbc46bde86b0e9335c419fa64c4"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/engineering-report.md",
+        "before": null,
+        "after": "28b32bdaeb4b26b459d2b5b66d7268c68bbad1bb"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/migration-inventory.json",
+        "before": null,
+        "after": "9ced5a1ae41b3e84f2d666d2f8965be1935888ed"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/offline-source-validation.json",
+        "before": null,
+        "after": "6deb81e882b15c8f1576c06b35d77809f9af1238"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/recovery-boundary.json",
+        "before": null,
+        "after": "fafd238185d35a81d94430b9118b603d9375f428"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/schema-audit.json",
+        "before": null,
+        "after": "aaf35f4ae869aba53d215996e817df9224338fcf"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/wrong-public-source-probe.json",
+        "before": null,
+        "after": "5ec5812e82ab20d12a24a5e605b39a1498246995"
+      },
+      {
+        "path": "docs/nutrition-usda-full35-durable-actor-identity-design.md",
+        "before": null,
+        "after": "97ad9d4532fab1624cdab8446b961d4fa2b59e37"
+      },
+      {
+        "path": "docs/nutrition-usda-full35-reprojection-implementation.md",
+        "before": null,
+        "after": "8323ec75bab657e7a861af8750c7a673c78a05bd"
+      },
+      {
+        "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "before": "886aeff7420623e1dad1d7fe4990b3c9c8b0e87b",
+        "after": "a94cd13be7bc7e33dd267c235f620f2b38c30cef"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-actor-identity.ts",
+        "before": null,
+        "after": "1290cdfca5c13fdba99443444434ee048524e843"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-legacy-race.ts",
+        "before": null,
+        "after": "35d614e25b3d0272a54f70a23ef14416dd4f463e"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-reprojection.ts",
+        "before": null,
+        "after": "bdb1fc5143cad169e9252645bff59a5aea05d69b"
+      },
+      {
+        "path": "e2e/food-aliases.spec.ts",
+        "before": "3bc5a8c085835e665699cb712ebea596a4ed9dff",
+        "after": "a54c6e067732d670378399db4b9b469dfc04e3c8"
+      },
+      {
+        "path": "e2e/foundation-full35-durable-actor.db.ts",
+        "before": null,
+        "after": "fe5394f93b8c9d372f913edae885d920843beb56"
+      },
+      {
+        "path": "e2e/foundation-full35-reprojection-schema.db.ts",
+        "before": null,
+        "after": "9df90323a99fa21d11ab7e76986220ff16b8290a"
+      },
+      {
+        "path": "e2e/foundation-full35-reprojection.db.ts",
+        "before": null,
+        "after": "a2169a8cce2aa0615f72695d5c0f93be682e1cce"
+      },
+      {
+        "path": "e2e/foundation-ingestion.spec.ts",
+        "before": "8aa70158bf4b2280e2487b8ddf331f3e3b964be1",
+        "after": "522e739ffac852d31e3c0d39ef1fc1eab9c90e44"
+      },
+      {
+        "path": "e2e/foundation-lifecycle.spec.ts",
+        "before": "6607683460a2c73a73bb5d2641a14ef577dafa06",
+        "after": "8fc0c1c14487cefd9c0f3cefdd0a020eebd8ac17"
+      },
+      {
+        "path": "e2e/ingestion-governance.spec.ts",
+        "before": "1eb2f29e210d58e003833f22cd781a087b6a7b0c",
+        "after": "b836d35653d0aa8c6a5ed1b1fe1da21b295833f8"
+      },
+      {
+        "path": "ingestion/generated/database.types.ts",
+        "before": "9d0d6217a6742ba13f6390018f42f97afe965f24",
+        "after": "37f3ba1f6fd31a5bd076a4dfd9fdc20e4434e4fa"
+      },
+      {
+        "path": "ingestion/usda/foundation/reprojection/contracts.ts",
+        "before": null,
+        "after": "e001052649592db8e9038bf80fef539e4d4997a4"
+      },
+      {
+        "path": "package.json",
+        "before": "ab557182d9b8bf2e57a44e44f1b0a52f473924f8",
+        "after": "163a63683b181f25d7b51a77620f96848924d4ca"
+      },
+      {
+        "path": "playwright.full35-actor.config.ts",
+        "before": null,
+        "after": "9618313822657b181da697cf0632700265b51faf"
+      },
+      {
+        "path": "playwright.full35-database.config.ts",
+        "before": null,
+        "after": "21bd3ed294aee66143fd73e3406bded5be6d13c8"
+      },
+      {
+        "path": "scripts/check-workflow-security.mjs",
+        "before": "5acc5cf352e94cd37f9ff5c60559d75ad21dade7",
+        "after": "ede5f1750f773f2400a91fa5595b18d4d296ddd9"
+      },
+      {
+        "path": "scripts/check-workflow-security.test.mjs",
+        "before": "0cbaa4564154fe82d7f658bb43ac27495bac96eb",
+        "after": "f45915f21a30c345645f80374be79b12333d359c"
+      },
+      {
+        "path": "scripts/generate-full35-actor-goldens.py",
+        "before": null,
+        "after": "2aec5620c74af79116a3ced061e9a20095881d7c"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-reprojection-001/database_oracle.py",
+        "before": null,
+        "after": "19c8bad864638deb074c0eaa39a1d0f761c0a4f9"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-reprojection-001/qualify-offline-candidates.mjs",
+        "before": null,
+        "after": "eca2204bf1749091121149aaa770a94bda547173"
+      },
+      {
+        "path": "scripts/run-full35-durable-actor-local.mjs",
+        "before": null,
+        "after": "d649c1496aa3e78ded2f59d9e97ad4f5ff92651a"
+      },
+      {
+        "path": "scripts/run-full35-reprojection-local.mjs",
+        "before": null,
+        "after": "63349f1a95e296f7270768191d44992cec3f10fc"
+      },
+      {
+        "path": "supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+        "before": null,
+        "after": "75c23ebc88d92d359f68dbda0033cd35deedbaa3"
+      },
+      {
+        "path": "tests/fixtures/foundation-mapping-actor-v2.golden.json",
+        "before": null,
+        "after": "77dd8b37186683f025f0489b81275e92d805e7d4"
+      },
+      {
+        "path": "tests/fixtures/foundation-mapping-contracts-v1.golden.json",
+        "before": null,
+        "after": "99f1d116ec521f6c767034a0bacf41800b0f3d4b"
+      }
+    ],
+    "stage4b": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "before": "7cac501781ece1e01455b4cdc9ac991e7f455ddc",
+        "after": "fc0a41d5a54ff07eabb02728380275608f075df1"
+      },
+      {
+        "path": ".gitignore",
+        "before": "61166c983ccabb7fad38132d5f837820c9163dc4",
+        "after": "c9854182b472b1c733cc0397b9e33befbf55f9a4"
+      },
+      {
+        "path": "deployment/phase-11h-contract.json",
+        "before": "daeff9acf67bbfede3a0340609f4a972d4a542ad",
+        "after": "d35097089f383387506a9f3f9d674ce5d782d621"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/README.md",
+        "before": null,
+        "after": "f2739a530552cd84c18a979144197965615af1a0"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/actor-identity-blocker.json",
+        "before": null,
+        "after": "8ee2bdd5b6674201530bc62fdcdbfce7c85e63fe"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/engineering-report.md",
+        "before": null,
+        "after": "b37b1bc37a1958b41147d79b31819feed9bdd9a9"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/schema-inventory.json",
+        "before": null,
+        "after": "e7f2010648f5cbf7e15f14f0f7fbd8dc03285723"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/changed-files.json",
+        "before": null,
+        "after": "50b46734e689173bc997986af5cf8f86b509fde3"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/engineering-report.md",
+        "before": null,
+        "after": "4a8c1bdd326a63a60d7970132130fb312939bce5"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/migration-inventory.json",
+        "before": null,
+        "after": "9ced5a1ae41b3e84f2d666d2f8965be1935888ed"
+      },
+      {
+        "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "before": "a94cd13be7bc7e33dd267c235f620f2b38c30cef",
+        "after": "e579a90d9bba6d678b1b7ef8698d5ca80c2f006b"
+      },
+      {
+        "path": "e2e/foundation-full35-recovery-identity.db.ts.historical",
+        "before": null,
+        "after": "ccda9f2f5721d8fc9261079cbba7d0464de098e9"
+      },
+      {
+        "path": "e2e/foundation-full35-recovery.db.ts",
+        "before": null,
+        "after": "281c8868dade7d54e66db1668d22752cc7c61d3a"
+      },
+      {
+        "path": "package.json",
+        "before": "163a63683b181f25d7b51a77620f96848924d4ca",
+        "after": "7a57f98a30cab36c5053e04cb8d3e7be4e478a3b"
+      },
+      {
+        "path": "playwright.full35-recovery-diagnostic.config.ts",
+        "before": null,
+        "after": "f99d88f92357a072c5b12ca213641095bbd4108d"
+      },
+      {
+        "path": "playwright.full35-recovery.config.ts",
+        "before": null,
+        "after": "7cc0140d7dc9efcf62297a8169e326e1a266f301"
+      },
+      {
+        "path": "scripts/check-workflow-security.mjs",
+        "before": "ede5f1750f773f2400a91fa5595b18d4d296ddd9",
+        "after": "730e0670e514105d7558c36aea9c5bd75bec63f5"
+      },
+      {
+        "path": "scripts/check-workflow-security.test.mjs",
+        "before": "f45915f21a30c345645f80374be79b12333d359c",
+        "after": "97067f49e60cd8220f2e56c93e268c32e467f07a"
+      },
+      {
+        "path": "scripts/configure-ci-apt.mjs",
+        "before": "3c422aeb82bd926922bade41bb85e2f6f1ed4a44",
+        "after": "4a4afbdfb66a07a4ba2156fbad354b1754267eb4"
+      },
+      {
+        "path": "scripts/configure-ci-apt.test.mjs",
+        "before": "fe7fa011e6ada743f8c79f28c78f987f2fada3a9",
+        "after": "ee28af2bfe9a62d62bca68b64dee02c69123abc6"
+      },
+      {
+        "path": "scripts/full35-recovery-dump.mjs",
+        "before": null,
+        "after": "8dff7e30792dfd0d8e8801738800cc0d6d304a43"
+      },
+      {
+        "path": "scripts/full35-recovery-dump.test.mjs",
+        "before": null,
+        "after": "75424d7b55d7074c8769f928d6a6cf77c21628f6"
+      },
+      {
+        "path": "scripts/full35-recovery-history.mjs",
+        "before": null,
+        "after": "c6ed4c0428b32c8707d2c1447507bfdc5d1b7689"
+      },
+      {
+        "path": "scripts/full35-recovery-history.test.mjs",
+        "before": null,
+        "after": "cc8b9009235aec928b906cbe5e24aac111297abd"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-recovery-001b/verify_dataset_roots.py",
+        "before": null,
+        "after": "ec00ba4eb9f195f97486b37170820e0ca88984c0"
+      },
+      {
+        "path": "scripts/phase-11i-backup-pipeline.mjs",
+        "before": "af7654020af220f05c8d362ce334201e204386a9",
+        "after": "d5b1e933688ad11cb25e94645e34250fccec67db"
+      },
+      {
+        "path": "scripts/phase-11i-full35-recovery.mjs",
+        "before": null,
+        "after": "c3229a4120672cea4772d21288b1788a49c173ea"
+      },
+      {
+        "path": "scripts/phase-11i-full35-recovery.test.mjs",
+        "before": null,
+        "after": "3060ab982bee9507da3d04bf53774640eea1ca78"
+      },
+      {
+        "path": "scripts/phase-11i-recovery-contract.mjs",
+        "before": "dac221b727329dbd60ebcff15c70fa4bfc8441ff",
+        "after": "a6a4c5fc4c467e51d3a4c37353575ca565bb2560"
+      },
+      {
+        "path": "scripts/phase-11i-recovery-contract.test.mjs",
+        "before": "34d2831f282e7ce7057963177092ad099e168e1f",
+        "after": "62799e7c12f3306bb94881dd63cd8d4085336569"
+      },
+      {
+        "path": "scripts/phase-11i-restore-pipeline.mjs",
+        "before": "78f575127e3b8eb982d48f39029f10319f65eba8",
+        "after": "f482f600a48ccd3371e455c6104262c43b0691fc"
+      },
+      {
+        "path": "scripts/run-full35-exact-head-codeql.mjs",
+        "before": null,
+        "after": "7c8cc6b30dd5bd6e8c193d69c3df1f8667863f59"
+      },
+      {
+        "path": "scripts/run-full35-recovery-identity-local.mjs",
+        "before": null,
+        "after": "67d8547cc41a5c40ce1ebd0c5cf54baf717b3959"
+      },
+      {
+        "path": "scripts/run-full35-recovery-local.mjs",
+        "before": null,
+        "after": "840eed17e524f774cfd8c08ad3ef16fb5a89ece3"
+      },
+      {
+        "path": "scripts/verify-full35-recovery-artifact-local.mjs",
+        "before": null,
+        "after": "e6141d18d7e4dd4345f9b4971c891c120f296d45"
+      },
+      {
+        "path": "scripts/verify-phase-11i-github-artifact.mjs",
+        "before": "94ddadf628a469a4fa63dbca5abdec09e7210852",
+        "after": "9ff4ada2ad5d1ca39bdeb0656d12ca43970d6e46"
+      }
+    ],
+    "combined": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "before": "d87ce41bf68fa0fe06d42bd91a68132a0c632810",
+        "after": "fc0a41d5a54ff07eabb02728380275608f075df1"
+      },
+      {
+        "path": ".gitignore",
+        "before": "61166c983ccabb7fad38132d5f837820c9163dc4",
+        "after": "c9854182b472b1c733cc0397b9e33befbf55f9a4"
+      },
+      {
+        "path": "deployment/phase-11h-contract.json",
+        "before": "bca03ab70d02eb1858e8eb4af66b2d97697d5bdc",
+        "after": "d35097089f383387506a9f3f9d674ce5d782d621"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/engineering-report.md",
+        "before": null,
+        "after": "6deceba6adcdde4deb3b13356e98e4b76c4e175b"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/migration-fingerprints.json",
+        "before": null,
+        "after": "a3a7c3d3608a1636614bf4eec3371a845e765329"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/original-defect-reproduction.json",
+        "before": null,
+        "after": "d4e62e765bf65c3ecb7575df70cbebb661fb4659"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/schema-audit.json",
+        "before": null,
+        "after": "8309b2dfb08a8a90d66ebe5d38d069d0d167da5e"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-durable-actor-identity-001/sql-change-inventory.json",
+        "before": null,
+        "after": "1105b129aef61fbc46bde86b0e9335c419fa64c4"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/README.md",
+        "before": null,
+        "after": "f2739a530552cd84c18a979144197965615af1a0"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/actor-identity-blocker.json",
+        "before": null,
+        "after": "8ee2bdd5b6674201530bc62fdcdbfce7c85e63fe"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/engineering-report.md",
+        "before": null,
+        "after": "b37b1bc37a1958b41147d79b31819feed9bdd9a9"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001/schema-inventory.json",
+        "before": null,
+        "after": "e7f2010648f5cbf7e15f14f0f7fbd8dc03285723"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/changed-files.json",
+        "before": null,
+        "after": "50b46734e689173bc997986af5cf8f86b509fde3"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/engineering-report.md",
+        "before": null,
+        "after": "4a8c1bdd326a63a60d7970132130fb312939bce5"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-recovery-001b/migration-inventory.json",
+        "before": null,
+        "after": "9ced5a1ae41b3e84f2d666d2f8965be1935888ed"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/engineering-report.md",
+        "before": null,
+        "after": "28b32bdaeb4b26b459d2b5b66d7268c68bbad1bb"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/migration-inventory.json",
+        "before": null,
+        "after": "9ced5a1ae41b3e84f2d666d2f8965be1935888ed"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/offline-source-validation.json",
+        "before": null,
+        "after": "6deb81e882b15c8f1576c06b35d77809f9af1238"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/recovery-boundary.json",
+        "before": null,
+        "after": "fafd238185d35a81d94430b9118b603d9375f428"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/schema-audit.json",
+        "before": null,
+        "after": "aaf35f4ae869aba53d215996e817df9224338fcf"
+      },
+      {
+        "path": "docs/evidence/nutrition-usda-full35-reprojection-001/wrong-public-source-probe.json",
+        "before": null,
+        "after": "5ec5812e82ab20d12a24a5e605b39a1498246995"
+      },
+      {
+        "path": "docs/nutrition-usda-full35-durable-actor-identity-design.md",
+        "before": null,
+        "after": "97ad9d4532fab1624cdab8446b961d4fa2b59e37"
+      },
+      {
+        "path": "docs/nutrition-usda-full35-reprojection-implementation.md",
+        "before": null,
+        "after": "8323ec75bab657e7a861af8750c7a673c78a05bd"
+      },
+      {
+        "path": "docs/phase-11h-deployment-architecture-release-runbook.md",
+        "before": "886aeff7420623e1dad1d7fe4990b3c9c8b0e87b",
+        "after": "e579a90d9bba6d678b1b7ef8698d5ca80c2f006b"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-actor-identity.ts",
+        "before": null,
+        "after": "1290cdfca5c13fdba99443444434ee048524e843"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-legacy-race.ts",
+        "before": null,
+        "after": "35d614e25b3d0272a54f70a23ef14416dd4f463e"
+      },
+      {
+        "path": "e2e/fixtures/foundation-full35-reprojection.ts",
+        "before": null,
+        "after": "bdb1fc5143cad169e9252645bff59a5aea05d69b"
+      },
+      {
+        "path": "e2e/food-aliases.spec.ts",
+        "before": "3bc5a8c085835e665699cb712ebea596a4ed9dff",
+        "after": "a54c6e067732d670378399db4b9b469dfc04e3c8"
+      },
+      {
+        "path": "e2e/foundation-full35-durable-actor.db.ts",
+        "before": null,
+        "after": "fe5394f93b8c9d372f913edae885d920843beb56"
+      },
+      {
+        "path": "e2e/foundation-full35-recovery-identity.db.ts.historical",
+        "before": null,
+        "after": "ccda9f2f5721d8fc9261079cbba7d0464de098e9"
+      },
+      {
+        "path": "e2e/foundation-full35-recovery.db.ts",
+        "before": null,
+        "after": "281c8868dade7d54e66db1668d22752cc7c61d3a"
+      },
+      {
+        "path": "e2e/foundation-full35-reprojection-schema.db.ts",
+        "before": null,
+        "after": "9df90323a99fa21d11ab7e76986220ff16b8290a"
+      },
+      {
+        "path": "e2e/foundation-full35-reprojection.db.ts",
+        "before": null,
+        "after": "a2169a8cce2aa0615f72695d5c0f93be682e1cce"
+      },
+      {
+        "path": "e2e/foundation-ingestion.spec.ts",
+        "before": "8aa70158bf4b2280e2487b8ddf331f3e3b964be1",
+        "after": "522e739ffac852d31e3c0d39ef1fc1eab9c90e44"
+      },
+      {
+        "path": "e2e/foundation-lifecycle.spec.ts",
+        "before": "6607683460a2c73a73bb5d2641a14ef577dafa06",
+        "after": "8fc0c1c14487cefd9c0f3cefdd0a020eebd8ac17"
+      },
+      {
+        "path": "e2e/ingestion-governance.spec.ts",
+        "before": "1eb2f29e210d58e003833f22cd781a087b6a7b0c",
+        "after": "b836d35653d0aa8c6a5ed1b1fe1da21b295833f8"
+      },
+      {
+        "path": "ingestion/generated/database.types.ts",
+        "before": "9d0d6217a6742ba13f6390018f42f97afe965f24",
+        "after": "37f3ba1f6fd31a5bd076a4dfd9fdc20e4434e4fa"
+      },
+      {
+        "path": "ingestion/usda/foundation/reprojection/contracts.ts",
+        "before": null,
+        "after": "e001052649592db8e9038bf80fef539e4d4997a4"
+      },
+      {
+        "path": "package.json",
+        "before": "ab557182d9b8bf2e57a44e44f1b0a52f473924f8",
+        "after": "7a57f98a30cab36c5053e04cb8d3e7be4e478a3b"
+      },
+      {
+        "path": "playwright.full35-actor.config.ts",
+        "before": null,
+        "after": "9618313822657b181da697cf0632700265b51faf"
+      },
+      {
+        "path": "playwright.full35-database.config.ts",
+        "before": null,
+        "after": "21bd3ed294aee66143fd73e3406bded5be6d13c8"
+      },
+      {
+        "path": "playwright.full35-recovery-diagnostic.config.ts",
+        "before": null,
+        "after": "f99d88f92357a072c5b12ca213641095bbd4108d"
+      },
+      {
+        "path": "playwright.full35-recovery.config.ts",
+        "before": null,
+        "after": "7cc0140d7dc9efcf62297a8169e326e1a266f301"
+      },
+      {
+        "path": "scripts/check-workflow-security.mjs",
+        "before": "5acc5cf352e94cd37f9ff5c60559d75ad21dade7",
+        "after": "730e0670e514105d7558c36aea9c5bd75bec63f5"
+      },
+      {
+        "path": "scripts/check-workflow-security.test.mjs",
+        "before": "0cbaa4564154fe82d7f658bb43ac27495bac96eb",
+        "after": "97067f49e60cd8220f2e56c93e268c32e467f07a"
+      },
+      {
+        "path": "scripts/configure-ci-apt.mjs",
+        "before": "3c422aeb82bd926922bade41bb85e2f6f1ed4a44",
+        "after": "4a4afbdfb66a07a4ba2156fbad354b1754267eb4"
+      },
+      {
+        "path": "scripts/configure-ci-apt.test.mjs",
+        "before": "fe7fa011e6ada743f8c79f28c78f987f2fada3a9",
+        "after": "ee28af2bfe9a62d62bca68b64dee02c69123abc6"
+      },
+      {
+        "path": "scripts/full35-recovery-dump.mjs",
+        "before": null,
+        "after": "8dff7e30792dfd0d8e8801738800cc0d6d304a43"
+      },
+      {
+        "path": "scripts/full35-recovery-dump.test.mjs",
+        "before": null,
+        "after": "75424d7b55d7074c8769f928d6a6cf77c21628f6"
+      },
+      {
+        "path": "scripts/full35-recovery-history.mjs",
+        "before": null,
+        "after": "c6ed4c0428b32c8707d2c1447507bfdc5d1b7689"
+      },
+      {
+        "path": "scripts/full35-recovery-history.test.mjs",
+        "before": null,
+        "after": "cc8b9009235aec928b906cbe5e24aac111297abd"
+      },
+      {
+        "path": "scripts/generate-full35-actor-goldens.py",
+        "before": null,
+        "after": "2aec5620c74af79116a3ced061e9a20095881d7c"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-recovery-001b/verify_dataset_roots.py",
+        "before": null,
+        "after": "ec00ba4eb9f195f97486b37170820e0ca88984c0"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-reprojection-001/database_oracle.py",
+        "before": null,
+        "after": "19c8bad864638deb074c0eaa39a1d0f761c0a4f9"
+      },
+      {
+        "path": "scripts/nutrition-usda-full35-reprojection-001/qualify-offline-candidates.mjs",
+        "before": null,
+        "after": "eca2204bf1749091121149aaa770a94bda547173"
+      },
+      {
+        "path": "scripts/phase-11i-backup-pipeline.mjs",
+        "before": "af7654020af220f05c8d362ce334201e204386a9",
+        "after": "d5b1e933688ad11cb25e94645e34250fccec67db"
+      },
+      {
+        "path": "scripts/phase-11i-full35-recovery.mjs",
+        "before": null,
+        "after": "c3229a4120672cea4772d21288b1788a49c173ea"
+      },
+      {
+        "path": "scripts/phase-11i-full35-recovery.test.mjs",
+        "before": null,
+        "after": "3060ab982bee9507da3d04bf53774640eea1ca78"
+      },
+      {
+        "path": "scripts/phase-11i-recovery-contract.mjs",
+        "before": "dac221b727329dbd60ebcff15c70fa4bfc8441ff",
+        "after": "a6a4c5fc4c467e51d3a4c37353575ca565bb2560"
+      },
+      {
+        "path": "scripts/phase-11i-recovery-contract.test.mjs",
+        "before": "34d2831f282e7ce7057963177092ad099e168e1f",
+        "after": "62799e7c12f3306bb94881dd63cd8d4085336569"
+      },
+      {
+        "path": "scripts/phase-11i-restore-pipeline.mjs",
+        "before": "78f575127e3b8eb982d48f39029f10319f65eba8",
+        "after": "f482f600a48ccd3371e455c6104262c43b0691fc"
+      },
+      {
+        "path": "scripts/run-full35-durable-actor-local.mjs",
+        "before": null,
+        "after": "d649c1496aa3e78ded2f59d9e97ad4f5ff92651a"
+      },
+      {
+        "path": "scripts/run-full35-exact-head-codeql.mjs",
+        "before": null,
+        "after": "7c8cc6b30dd5bd6e8c193d69c3df1f8667863f59"
+      },
+      {
+        "path": "scripts/run-full35-recovery-identity-local.mjs",
+        "before": null,
+        "after": "67d8547cc41a5c40ce1ebd0c5cf54baf717b3959"
+      },
+      {
+        "path": "scripts/run-full35-recovery-local.mjs",
+        "before": null,
+        "after": "840eed17e524f774cfd8c08ad3ef16fb5a89ece3"
+      },
+      {
+        "path": "scripts/run-full35-reprojection-local.mjs",
+        "before": null,
+        "after": "63349f1a95e296f7270768191d44992cec3f10fc"
+      },
+      {
+        "path": "scripts/verify-full35-recovery-artifact-local.mjs",
+        "before": null,
+        "after": "e6141d18d7e4dd4345f9b4971c891c120f296d45"
+      },
+      {
+        "path": "scripts/verify-phase-11i-github-artifact.mjs",
+        "before": "94ddadf628a469a4fa63dbca5abdec09e7210852",
+        "after": "9ff4ada2ad5d1ca39bdeb0656d12ca43970d6e46"
+      },
+      {
+        "path": "supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+        "before": null,
+        "after": "75c23ebc88d92d359f68dbda0033cd35deedbaa3"
+      },
+      {
+        "path": "tests/fixtures/foundation-mapping-actor-v2.golden.json",
+        "before": null,
+        "after": "77dd8b37186683f025f0489b81275e92d805e7d4"
+      },
+      {
+        "path": "tests/fixtures/foundation-mapping-contracts-v1.golden.json",
+        "before": null,
+        "after": "99f1d116ec521f6c767034a0bacf41800b0f3d4b"
+      }
+    ]
+  },
+  "composition": "PASS"
+}

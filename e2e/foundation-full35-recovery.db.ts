@@ -240,9 +240,8 @@ function recoveryNegatives() {
     try{restoreRejected(label);}finally{writeFileSync(file,bytes);}
   }
   const sql47=join(config.targetDirectory,"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"),corrected=readFileSync(sql47);
-  // The original PR head is no longer advertised after its authorized rewrite.
-  // Its exact SQL is retained in the reachable Stage4A common ancestor.
-  const obsoleteSql=execFileSync("git",["show","2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b:supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"]);
+  // Immutable defect bytes remain available after squash and branch deletion.
+  const obsoleteSql=readFileSync("docs/evidence/nutrition-usda-full35-combined-integration-001/defective-migration47.sql.historical");
   expect(hash(obsoleteSql)).toBe("907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703");
   writeFileSync(sql47,obsoleteSql);
   try{restoreRejected("H02_obsolete_defective_SQL");}finally{writeFileSync(sql47,corrected);}

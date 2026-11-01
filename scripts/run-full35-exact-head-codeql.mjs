@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { resolveReviewedCodeqlBaseline } from "./full35-integration-source.mjs";
 
 // CLI analysis avoids changing default setup or uploading duplicate CodeQL
 // alerts. The complete exact-head SARIF is a mandatory retained CI artifact.
@@ -18,6 +19,7 @@ assert.match(process.env.CODEQL_CANDIDATE_SHA??"",/^[a-f0-9]{40}$/);
 function run(command,args){return execFileSync(command,args,{encoding:"utf8",maxBuffer:32*1024*1024,stdio:["ignore","pipe","inherit"]}).trim();}
 const head=run("git",["rev-parse","HEAD"]),tree=run("git",["rev-parse","HEAD^{tree}"]);
 assert.equal(head,process.env.CODEQL_CANDIDATE_SHA,"Analysis must check out the exact PR source head.");
+const baselineSource=resolveReviewedCodeqlBaseline();
 const root=join(process.env.RUNNER_TEMP,"full35-codeql-"+language);mkdirSync(root,{mode:0o700});
 const archive=join(root,"bundle.tar.zst");
 run("curl",["--fail","--location","--proto","=https","--tlsv1.2","--retry","3","--output",archive,
@@ -39,10 +41,9 @@ for(const analysis of result.runs){assert.equal(analysis.tool?.driver?.name,"Cod
 // CLI scan has no server-side dismissal state, so compare any findings with a
 // fresh scan of the pinned accepted dependency. Only byte-unchanged files can
 // inherit a finding; changed files and new findings fail closed.
-const base="86c419509ece24f309d7188e6de2d9e38d3d2f50";
+const base=baselineSource.commit;
 let baselineFindings=0,newOrChangedFindings=findings;
 if(findings){
-  assert.equal(run("git",["merge-base",head,base]),base);
   const baselineRoot=join(root,"accepted-base"),baselineDb=join(root,"baseline-database"),baselineSarif=join(output,language+"-base.sarif");
   run("git",["worktree","add","--detach",baselineRoot,base]);
   run(codeql,["database","create",baselineDb,`--language=${language}`,`--source-root=${baselineRoot}`,"--threads=2"]);
@@ -68,6 +69,6 @@ if(findings){
 }
 const evidence={schemaVersion:"full35-exact-head-codeql/v1",head,tree,language,codeqlVersion:version.version,
   bundleSha256:bundle.sha256,suite:`${bundle.suite}-code-scanning.qls`,sarifSha256:createHash("sha256").update(readFileSync(sarif)).digest("hex"),findings,baselineFindings,newOrChangedFindings,
-  acceptedDependency:base,baselineAllowance:"exact fresh finding match in byte-unchanged files only; both SARIF files retained",defaultSetupUnchanged:true,codeScanningUpload:false,result:newOrChangedFindings===0?"PASS":"FAIL"};
+  acceptedDependency:base,acceptedDependencyTree:baselineSource.tree,acceptedSourceBundleSha256:baselineSource.bundleSha256,baselineAllowance:"exact fresh finding match in byte-unchanged files only; both SARIF files retained",defaultSetupUnchanged:true,codeScanningUpload:false,result:newOrChangedFindings===0?"PASS":"FAIL"};
 writeFileSync(join(output,language+".json"),JSON.stringify(evidence,null,2)+"\n");
 console.log(JSON.stringify(evidence));assert.equal(newOrChangedFindings,0,"New or changed CodeQL findings require review and correction.");
