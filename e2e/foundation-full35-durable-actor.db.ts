@@ -305,26 +305,40 @@ test.describe.serial("Durable Full35 principal authority", () => {
       const reviewed = JSON.parse(target(`select ingestion.get_foundation_actor_binding_request_v1('${p.requestId}')`, identityReviewer));
       return `select ingestion.approve_foundation_actor_binding_v1('${p.requestId}','${reviewed.body_hash}')`;
     });
-    const blocker = spawn("docker", ["exec", "-i", config.target, "psql", "-U", "supabase_admin", "-d", "postgres", "-X", "-qAt", "-v", "ON_ERROR_STOP=1"]);
-    await new Promise<void>((ok, fail) => {
-      blocker.on("error", fail);blocker.stdout.on("data", c => { if (String(c).includes("HELD")) ok(); });
-      blocker.stdin.write(`begin;select id from ingestion.mapping_actor_principals where id='${operatorPrincipal.principalId}' for update;\n\\echo HELD\n`);
-    });
-    const asyncSql = (sql: string, label: string) => new Promise<{code: number | null; stderr: string}>(ok => {
+    const asyncSql = (sql: string, label: string, user = identityReviewer) => new Promise<{code: number | null; stdout: string; stderr: string}>((ok, fail) => {
       const child = spawn("docker", ["exec", "-e", `PGPASSWORD=${password}`, "-e", `PGAPPNAME=${label}`, "-i", config.target,
-        "psql", "-h", "127.0.0.1", "-U", identityReviewer, "-d", "postgres", "-X", "-qAt", "-v", "ON_ERROR_STOP=1"]);
-      let stderr = "";child.stderr.on("data", c => stderr += c);child.on("close", code => ok({ code, stderr }));child.stdin.end(sql);
+        "psql", "-h", "127.0.0.1", "-U", user, "-d", "postgres", "-X", "-qAt", "-v", "ON_ERROR_STOP=1"]);
+      let stdout = "", stderr = "";child.on("error", fail);child.stdout.on("data", c => stdout += c);
+      child.stderr.on("data", c => stderr += c);child.on("close", code => ok({ code, stdout: stdout.trim(), stderr }));child.stdin.end(sql);
     });
-    const before = fingerprint(target, false);
-    const attempts = sqls.map((sql, index) => asyncSql(sql, `actor-conflict-${index}`));
-    try {
-      let waiting = false;
+    const hold = async (sql: string) => {
+      const child = spawn("docker", ["exec", "-i", config.target, "psql", "-U", "supabase_admin", "-d", "postgres", "-X", "-qAt", "-v", "ON_ERROR_STOP=1"]);
+      await new Promise<void>((ok, fail) => {
+        child.on("error", fail);child.stdout.on("data", c => { if (String(c).includes("HELD")) ok(); });
+        child.stdin.write(`begin;${sql};\n\\echo HELD\n`);
+      });
+      return child;
+    };
+    const waitForBoth = async (label: string) => {
       for (let n = 0; n < 60; n++) {
-        waiting = target("select count(*) from pg_stat_activity where application_name in ('actor-conflict-0','actor-conflict-1') and wait_event_type='Lock'") === "2";
-        if (waiting) break;await new Promise(ok => setTimeout(ok, 100));
+        if (target(`select count(*) from pg_stat_activity where application_name in ('${label}-0','${label}-1') and wait_event_type='Lock'`) === "2") return;
+        await new Promise(ok => setTimeout(ok, 100));
       }
-      expect(waiting).toBe(true);
-    } finally { blocker.stdin.end("commit;\n\\q\n"); }
+      throw new Error("Both actual authority sessions must contend on the expected lock.");
+    };
+    const before = fingerprint(target, false);
+    const duplicateInput = { ...proposals[0].request, evidence_hash: fixtureHash("concurrent identical proposal"), approval_reference: "synthetic concurrent identical proposal" };
+    const proposalBarrier = await hold(`select pg_advisory_xact_lock(hashtextextended('foundation-actor-subject:${operatorPrincipal.subjectHash}',0))`);
+    const duplicateAttempts = [0, 1].map(i => asyncSql(`select ingestion.request_foundation_actor_binding_v1(${actorInput(duplicateInput)})`, `actor-proposal-${i}`, identityGovernor));
+    try { await waitForBoth("actor-proposal"); } finally { proposalBarrier.stdin.end("commit;\n\\q\n"); }
+    const duplicates = await Promise.all(duplicateAttempts);
+    for (const result of duplicates) expect(result.code, result.stderr).toBe(0);
+    expect(duplicates[0].stdout).toBe(duplicates[1].stdout);
+    expect(target(`select count(*) from ingestion.mapping_actor_binding_requests where evidence_hash='${duplicateInput.evidence_hash}'`)).toBe("1");
+    expect(fingerprint(target, false)).toBe(before);
+    const blocker = await hold(`select id from ingestion.mapping_actor_principals where id='${operatorPrincipal.principalId}' for update`);
+    const attempts = sqls.map((sql, index) => asyncSql(sql, `actor-conflict-${index}`));
+    try { await waitForBoth("actor-conflict"); } finally { blocker.stdin.end("commit;\n\\q\n"); }
     const results = await Promise.all(attempts);
     expect(results.filter(r => r.code === 0)).toHaveLength(1);expect(results.filter(r => r.code !== 0)[0].stderr).toMatch(/stale binding decision/);
     const winner = target(`select login_name from ingestion.mapping_actor_current_bindings where principal_id='${operatorPrincipal.principalId}'`);

@@ -290,6 +290,9 @@ begin
     or (input->>'expires_at')::timestamptz>pg_catalog.clock_timestamp()+interval '24 hours'
     or (input->>'not_before')::timestamptz>=(input->>'expires_at')::timestamptz then
     raise exception using errcode='42501',message='exact independent binding evidence and scope required';end if;
+  -- Serialize identical proposal retries as well as final decisions. Otherwise
+  -- two concurrent requests could mint different IDs before either is visible.
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended('foundation-actor-subject:'||(input->>'subject_hash'),0));
   if input->>'action'='enroll' then
     if input->>'principal_id' is not null or input->>'prior_binding_id' is not null then
       raise exception using errcode='42501',message='enrollment identity is server generated';end if;

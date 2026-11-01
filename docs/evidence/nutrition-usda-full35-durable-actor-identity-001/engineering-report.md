@@ -36,7 +36,7 @@ Completed execution retries locate the committed result only after validating th
 
 A trusted existing administrator must explicitly provision two distinct restricted LOGIN custodians in the new governor/reviewer groups; the migration provisions no members. The governor submits exact independently checked external continuity evidence by canonical commitment/reference. The reviewer inspects the bounded request/history/live-catalog view and approves its exact hash through a separate authenticated session. SQL verifies both actual sessions, current role attributes and memberships, source proposal continuity, cluster marker, time window and expected prior binding. The evidence hash alone is never authority.
 
-Activation appends an immutable decision and advances its scoped pointer. Subject/login advisory locks, principal row locks, scoped unique constraints and prior-generation comparison serialize conflicting decisions. Operations take principal share locks so binding changes cannot race authorization. Exact request and decision retries return the same IDs. Role rename/recreation, stale fingerprints, missing evidence, copied requests and revoked principals fail closed. This is a narrow authorization API with no role/password/general-SQL management capability.
+Activation appends an immutable decision and advances its scoped pointer. Subject/login advisory locks, principal row locks, scoped unique constraints and prior-generation comparison serialize conflicting decisions. Operations take principal share locks so binding changes cannot race authorization. Exact request and decision retries return the same IDs. Concurrent identical proposals also serialize on the subject lock and return one proposal ID without duplicate audit rows. Role rename/recreation, stale fingerprints, missing evidence, copied requests and revoked principals fail closed. This is a narrow authorization API with no role/password/general-SQL management capability.
 
 The diagnostic uses fresh DDL and separate actual restricted logins. Standard CLI logical bulk replay restores durable public/ingestion/Auth data; it does not copy private operational authorization context. All attack and operation checks run with RLS, immutable triggers and foreign keys active. Future Stage 4B must explicitly enforce the fresh-marker rule in its complete approved transport; no such qualification is inferred here.
 
@@ -44,7 +44,7 @@ The diagnostic uses fresh DDL and separate actual restricted logins. Standard CL
 
 Filename/version unchanged: `20261031104559_foundation_full35_mapping_reprojection_v1.sql` / `20261031104559`.
 
-- Corrected SQL SHA-256: `c6cda3feb988a61996fa690689f69c0272befca176fe621ac3f80f44b4a4a386`.
+- Corrected SQL SHA-256: `b420a2011b84de2db0408c968cdd142dd299391e0caeec8238f919d5ec66cf26`.
 - Superseded defective SHA-256: `907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703`.
 - All 46 predecessors remain byte-identical to accepted main; all 47 ordered filenames/versions retain their order.
 - The [Stage 4A inventory](../nutrition-usda-full35-reprojection-001/migration-inventory.json) pins every exact digest.
@@ -114,7 +114,7 @@ Only existing Draft PR219 is updated. Fresh exact-head Validate, the separate bo
 
 ## M. PR dependency status
 
-PR220 remains at `a25234cc06e5ece5fcabb70c7ee6c5e874816dd2`, one child of the original Stage 4A head `2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b`. Corrected PR219 advances independently from that original common ancestor. PR220 still contains/pins defective SQL `907f2b14...`; its previous expected-failure diagnostic does not qualify corrected SQL `c6cda3fe...`. The final record reports exact divergence from the new head. Both PRs remain Draft and unmerged.
+PR220 remains at `a25234cc06e5ece5fcabb70c7ee6c5e874816dd2`, one child of the original Stage 4A head `2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b`. Corrected PR219 advances independently from that original common ancestor. PR220 still contains/pins defective SQL `907f2b14...`; its previous expected-failure diagnostic does not qualify corrected SQL `b420a201...`. The final record reports exact divergence from the new head. Both PRs remain Draft and unmerged.
 
 ## N. Production safety
 
