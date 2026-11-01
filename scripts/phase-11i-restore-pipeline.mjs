@@ -1,3 +1,4 @@
+import { assertFull35Payload, assertFull35SourceMetadata, full35AtomicRestoreGuard, full35ClusterMarker, full35ReviewedSchemaHash, assertFreshFull35Marker, validateRestoredFull35 } from "./phase-11i-full35-recovery.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -239,6 +240,9 @@ export function restoreBackup({
     fail("Local project_id must be phase-11i-recovery-isolated for recovery execution.");
   }
   const databaseContainer = `supabase_db_${projectId}`;
+  // This executor is confined to the fixed disposable local restore target.
+  // Migration47's closed identity functions deliberately exclude postgres.
+  const databaseUser = migrationBoundary.count === 47 ? "supabase_admin" : "postgres";
 
   function database(sql) {
     return run(
@@ -249,7 +253,7 @@ export function restoreBackup({
         databaseContainer,
         "psql",
         "-U",
-        "postgres",
+        databaseUser,
         "-d",
         "postgres",
         "-X",
@@ -274,7 +278,7 @@ export function restoreBackup({
         databaseContainer,
         "psql",
         "-U",
-        "postgres",
+        databaseUser,
         "-d",
         "postgres",
         "-X",
@@ -388,10 +392,23 @@ export function restoreBackup({
       fail("Backup migration metadata disagrees with the reviewed ledger.");
     }
 
-    assertTrustedMigrationReplay(readdirSync("supabase/migrations"), migrationBoundary,
+    if (migrationBoundary.count === 47) {
+      if (!sourceSnapshot.full35Recovery) fail("Full35 recovery metadata required.");
+      assertFull35SourceMetadata(sourceSnapshot.full35Recovery);
+      assertFull35Payload(readFileSync(join(contentRoot,"application-data.sql"),"utf8"));
+      assertFull35Payload(readFileSync(join(contentRoot,"auth-durable-data.sql"),"utf8"));
+    }
+    assertTrustedMigrationReplay(readdirSync("supabase/migrations").sort(), migrationBoundary,
       (name) => readFileSync(join("supabase/migrations", name)));
     runSupabase(["db", "reset", "--local", "--version", migrationBoundary.head]);
 
+    const targetRows = sql => {
+      const output = database(sql);
+      return output ? output.split(/\r?\n/).map(line => line.split("\t")) : [];
+    };
+    const freshMarker = migrationBoundary.count === 47 ? full35ClusterMarker(targetRows) : null;
+    const reviewedContract = migrationBoundary.count === 47 ? full35ReviewedSchemaHash(targetRows) : null;
+    if (freshMarker) assertFreshFull35Marker(sourceSnapshot.full35Recovery.sourceClusterMarker,freshMarker);
     const localRolesPath = join(workRoot, "local-roles.sql");
     const localSchemaPath = join(workRoot, "local-application-schema.sql");
     runSupabase(["db", "dump", "--local", "--role-only", "--file", localRolesPath]);
@@ -438,6 +455,9 @@ export function restoreBackup({
       fail("Source and migration-replayed application structures differ.");
     }
 
+    if (migrationBoundary.count === 47 && (sourceOnlySchema.length || localOnlySchema.length)) {
+      fail("Full35 source schema or ACL differs from reviewed target migration.");
+    }
     const compatibilitySql = [
       ...localOnlySchema.filter((line) => line.startsWith("GRANT ")).map(grantToRevoke),
       ...localOnlySchema
@@ -489,6 +509,23 @@ export function restoreBackup({
       safeIdentifier(table);
       return `"${schema}"."${table}"`;
     });
+    if (migrationBoundary.count === 47) {
+      // The reviewed dump loader uses replica mode only while loading data.
+      // Whole-row equality and the untouched target marker must pass before
+      // committing any restored Auth/application row. A failed payload rolls back.
+      database(`begin;
+        set local session_replication_role=replica;
+        truncate table auth.identities,auth.mfa_factors,auth.webauthn_credentials,auth.users cascade;
+        reset session_replication_role;
+        ${readFileSync(join(contentRoot,"auth-durable-data.sql"),"utf8")}
+        set local session_replication_role=replica;
+        truncate table ${sourceTables.join(",")} restart identity cascade;
+        reset session_replication_role;
+        ${readFileSync(join(contentRoot,"application-data.sql"),"utf8")}
+        reset session_replication_role;
+        ${full35AtomicRestoreGuard(sourceSnapshot.full35Recovery,freshMarker)}
+        commit;`);
+    } else {
     database(
       "set session_replication_role=replica; truncate table auth.identities,auth.mfa_factors,auth.webauthn_credentials,auth.users cascade; reset session_replication_role;",
     );
@@ -497,6 +534,8 @@ export function restoreBackup({
       `set session_replication_role=replica; truncate table ${sourceTables.join(",")} restart identity cascade; reset session_replication_role;`,
     );
     databaseFile(join(contentRoot, "application-data.sql"));
+
+    }
 
     const restoredMigrations = database(
       "select version from supabase_migrations.schema_migrations order by version;",
@@ -593,9 +632,12 @@ export function restoreBackup({
         return output ? output.split(/\r?\n/).map((line) => line.split("\t")) : [];
       }).ownershipIntegrity;
     }
+    const full35Recovery = migrationBoundary.count === 47
+      ? validateRestoredFull35(targetRows,sourceSnapshot.full35Recovery,freshMarker,reviewedContract) : undefined;
     const recoveryRestoredAt = new Date().toISOString();
     const report = {
       schemaVersion: "phase-11i-restore-report/v1",
+      ...(full35Recovery ? {full35Recovery} : {}),
       backupId: manifest.backupId,
       sourceCommit: manifest.sourceCommit,
       sourceTree: manifest.sourceTree,

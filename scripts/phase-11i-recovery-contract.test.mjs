@@ -236,10 +236,10 @@ for (const count of [44, 45, 46]) {
     }
   });
 }
-test("migration 46 cannot be omitted, forged by count, or extended to 47", () => {
+test("migration 46 cannot be omitted, forged by count, or extended to an unreviewed head", () => {
   const boundary = recoveryMigrationBoundary(undefined, false, "20261029083108");
   assert.throws(() => assertMigrationHistory(allRepositoryMigrationVersions.slice(0, 45), boundary), /count mismatch/);
-  assert.throws(() => assertMigrationHistory([...allRepositoryMigrationVersions, "20261030000000"]), /count mismatch/);
+  assert.throws(() => assertMigrationHistory([...allRepositoryMigrationVersions, "20261030000000"]), /(?:count|head) mismatch/);
   assert.throws(() => recoveryMigrationBoundary(undefined, false, "20261030000000"), /unsupported reviewed history/);
 });
 

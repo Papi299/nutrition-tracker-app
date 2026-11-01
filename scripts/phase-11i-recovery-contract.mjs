@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
+import { assertReviewedFull35Files, FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
 export const TASK_ID = "PHASE-11I-RECOVERY-QUALIFICATION-001";
 export const PRODUCTION_PROJECT_REF = "hskfanrqwtqknzpquwhg";
@@ -116,6 +117,7 @@ export function assertEncryptedDurableOutput(outputPath) {
 
 export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = Object.freeze({ count: 45, head: "20261024083339" });
 export const SERVING_MIGRATION_BOUNDARY = Object.freeze({ count: 46, head: "20261029083108" });
+export const FULL35_MIGRATION_BOUNDARY = Object.freeze({ count: 47, head: FULL35_REVIEWED_HISTORY.head });
 const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
 
 // Closed release allow-list: adding a file or changing a manifest cannot extend it.
@@ -134,6 +136,7 @@ const migration44Versions = Object.freeze([
 ]);
 const migration45Versions = Object.freeze([...migration44Versions, "20261024083339"]);
 const migration46Versions = Object.freeze([...migration45Versions, "20261029083108"]);
+const migration47Versions = Object.freeze([...migration46Versions, FULL35_REVIEWED_HISTORY.head]);
 
 export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false, head = EXPECTED_MIGRATION_HEAD) {
   if (localNutritionSnapshots !== false && (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
@@ -144,12 +147,13 @@ export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshot
   if (head === productionMigrationBoundary.head) return productionMigrationBoundary;
   if (head === NUTRITION_LOCAL_MIGRATION_BOUNDARY.head) return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
   if (head === SERVING_MIGRATION_BOUNDARY.head) return SERVING_MIGRATION_BOUNDARY;
+  if (head === FULL35_MIGRATION_BOUNDARY.head) return FULL35_MIGRATION_BOUNDARY;
   fail("Source migration head mismatch: unsupported reviewed history.");
 }
 
 export function assertMigrationHistory(versions, boundary) {
   if (!boundary) {
-    if (!Array.isArray(versions) || ![44, 45, 46].includes(versions.length)) fail("Source migration count mismatch.");
+    if (!Array.isArray(versions) || ![44, 45, 46, 47].includes(versions.length)) fail("Source migration count mismatch.");
     boundary = recoveryMigrationBoundary(undefined, false, versions.at(-1));
   }
   const reviewed = recoveryMigrationBoundary(undefined, false, boundary.head);
@@ -166,7 +170,7 @@ export function assertMigrationHistory(versions, boundary) {
   if ([...versions].sort().some((version, index) => version !== versions[index])) {
     fail("Source migration ledger is not ordered.");
   }
-  const expected = boundary.count === 44 ? migration44Versions : boundary.count === 45 ? migration45Versions : migration46Versions;
+  const expected = boundary.count === 44 ? migration44Versions : boundary.count === 45 ? migration45Versions : boundary.count === 46 ? migration46Versions : migration47Versions;
   if (versions.some((version, index) => version !== expected[index])) {
     fail("Source migration ledger differs from the exact reviewed history.");
   }
@@ -175,19 +179,24 @@ export function assertMigrationHistory(versions, boundary) {
 // Pin the ordered filenames as well as versions; later repository files cannot
 // extend a historical replay. SQL pins are cumulative through the chosen head.
 export function assertTrustedMigrationReplay(files, boundary, readMigration) {
+  if (boundary.count === 47) {
+    const sqlFiles = files.filter(name => name.endsWith(".sql"));
+    assertReviewedFull35Files(sqlFiles, readMigration);
+  }
   const selected = files.filter((name) => /^\d{14}_.+\.sql$/.test(name) && name.slice(0, 14) <= boundary.head).sort();
   assertMigrationHistory(selected.map((name) => name.slice(0, 14)), boundary);
   const filenameHashes = {
     44: "bb7862f8d8972a229bba057a5b9dc6cd74423fcd1e5d4cc0c9156d764c257f80",
     45: "5e54e686f7d162fd46d1ccbe38dbea643b34e7525800b6eb4357d6368c54cb13",
     46: "3d3832d6a5a045516ef6e5466172eaa4e2982d09a98154d09bf27b29b6fc32f8",
+    47: FULL35_REVIEWED_HISTORY.orderedFilenameSetSha256,
   };
   assertHash(selected.join("\n"), filenameHashes[boundary.count], "reviewed migration filenames");
   if (boundary.count >= 45) {
     assertHash(readMigration("20261024083339_consumed_nutrition_snapshots_v1.sql"),
       "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc", "reviewed migration 45 SQL");
   }
-  if (boundary.count === 46) {
+  if (boundary.count >= 46) {
     assertHash(readMigration("20261029083108_diary_serving_reference_v2.sql"),
       "600d00cb4cf4d2d59676de8681cf490622f9f160883c6c002aa3bc35d4e6557e", "reviewed migration 46 SQL");
   }

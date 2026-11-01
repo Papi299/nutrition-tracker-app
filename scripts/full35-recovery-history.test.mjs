@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
-import { assertMigrationHistory, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
+import { assertMigrationHistory, assertTrustedMigrationReplay, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 import { assertReviewedFull35Files, FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
 const files = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
@@ -23,10 +23,13 @@ for (const index of [0, 43, 44, 45, 46]) test(`unreviewed SQL edit at ordinal ${
   assert.throws(() => assertReviewedFull35Files(files, name => name === files[index]
     ? Buffer.concat([readMigration(name), Buffer.from("\n-- tamper\n")]) : readMigration(name)), /SQL checksum/);
 });
-test("reviewed identity does not falsely authorize unqualified history 47", () => {
-  assert.equal(FULL35_REVIEWED_HISTORY.recoveryQualified, false);
-  assert.throws(() => assertMigrationHistory(files.map(name => name.slice(0, 14))), /count mismatch/);
-  assert.throws(() => recoveryMigrationBoundary(undefined, false, FULL35_REVIEWED_HISTORY.head), /unsupported reviewed history/);
+test("only exact corrected history 47 is an approved replay boundary", () => {
+  const boundary = recoveryMigrationBoundary(undefined, false, FULL35_REVIEWED_HISTORY.head);
+  assert.deepEqual(boundary, {count:47,head:"20261031104559"});
+  assertMigrationHistory(files.map(name => name.slice(0, 14)), boundary);
+  assert.deepEqual(assertTrustedMigrationReplay(files,boundary,readMigration), files);
+  assert.throws(() => assertTrustedMigrationReplay([...files,"20261101000000_unknown.sql"],boundary,readMigration));
+  assert.throws(() => assertMigrationHistory([...files.slice(0,46).map(name=>name.slice(0,14)),"20261031104560"]));
 });
 for (const count of [44, 45, 46]) test(`original reviewed history ${count} remains accepted`, () => {
   assertMigrationHistory(files.slice(0, count).map(name => name.slice(0, 14)));

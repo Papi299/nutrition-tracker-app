@@ -138,6 +138,14 @@ export function verifyGitHubArtifact({
     fail("Encrypted archive byte count mismatch.");
   }
 
+  if (migrationBoundary.count === 47) {
+    // Validate the CMS encoding without rendering the entire populated ciphertext
+    // as hexadecimal output. Full decryption/authentication remains mandatory in
+    // the capture/restore qualification with its ephemeral private recipient.
+    const cms=spawnSync("openssl",["cms","-cmsout","-noout","-inform","DER","-in",archivePath],{encoding:"utf8",timeout:60_000});
+    const header=archiveBytes.subarray(0,2048);
+    if(cms.status!==0||!header.includes(Buffer.from("060b2a864886f70d0109100117","hex"))||!header.includes(Buffer.from("060960864801650304012e","hex")))fail("Archive is not reviewed CMS AuthEnvelopedData/AES-256-GCM.");
+  } else {
   const cms = spawnSync(
     "openssl",
     ["cms", "-cmsout", "-print", "-inform", "DER", "-in", archivePath],
@@ -145,6 +153,8 @@ export function verifyGitHubArtifact({
   );
   if (cms.status !== 0 || !cms.stdout.includes("id-smime-ct-authEnvelopedData")) {
     fail("Archive is not CMS AuthEnvelopedData.");
+  }
+
   }
 
   return {

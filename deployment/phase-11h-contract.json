@@ -1233,6 +1233,28 @@
       "rotation": "Per local qualification run.",
       "browserExposure": "forbidden",
       "vaultMatch": null
+    },
+    {
+      "name": "CODEQL_CANDIDATE_SHA",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Pins the source commit scanned by the isolated recovery CodeQL job.",
+      "sourceBoundary": "GitHub pull_request.head.sha or github.sha; verified against checked-out HEAD before analysis.",
+      "rotation": "Per CI run; no credential.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "CODEQL_LANGUAGE",
+      "visibility": "CI only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Selects one mandatory language for the exact-head recovery CodeQL matrix.",
+      "sourceBoundary": "Closed CI matrix: actions, javascript-typescript, python; no caller-controlled workflow input.",
+      "rotation": "Per CI run; no credential.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
     }
   ],
   "databaseSecrets": [
