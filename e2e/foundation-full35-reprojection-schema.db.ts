@@ -72,10 +72,12 @@ test("actual PostgreSQL numeric typmods preserve four decimals, zero, null and o
 });
 
 
-test("six versioned contract domains match independent Python byte and hash goldens", () => {
+test("historical and durable authority domains match independent Python byte and hash goldens", () => {
   const golden = JSON.parse(readFileSync("tests/fixtures/foundation-mapping-contracts-v1.golden.json", "utf8"));
   expect(golden.vectors).toHaveLength(6);
-  for (const vector of golden.vectors) {
+  const actor = JSON.parse(readFileSync("tests/fixtures/foundation-mapping-actor-v2.golden.json", "utf8"));
+  expect(actor.vectors).toHaveLength(9);
+  for (const vector of [...golden.vectors, ...actor.vectors]) {
     expect(canonicalizeJson(vector.body)).toBe(vector.canonical_bytes);
     expect(fingerprintJson(vector.body)).toBe(vector.sha256);
     expect(query(`select ingestion.canonicalize_mapping_json_v1(${sqlJson(vector.body)});`)).toBe(vector.canonical_bytes);

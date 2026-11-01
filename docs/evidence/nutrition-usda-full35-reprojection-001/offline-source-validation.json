@@ -11,5 +11,6 @@
   "migration_sha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
   "read_only": true,
   "hosted_access": false,
-  "production_identity_inventory_imported": false
+  "production_identity_inventory_imported": false,
+  "authority_correction_status": "HISTORICAL_BEFORE_IMAGE_SUPERSEDED; retain original SQL identity for audit; corrected SQL requires fresh validation"
 }

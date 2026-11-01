@@ -14,8 +14,8 @@ const workflowExpectations = new Map([
       timeout: 75, // Existing budget plus the measured 20-minute Full35 transaction suite.
       node: 22,
       actions: new Map([
-        ["actions/checkout", 2],
-        ["actions/setup-node", 2],
+        ["actions/checkout", 3],
+        ["actions/setup-node", 3],
         ["actions/upload-artifact", 2],
       ]),
     },
@@ -104,11 +104,36 @@ const reviewedAptCompatibilityJob = `
           npx supabase --version
 `;
 
+const reviewedActorIdentityJob = `
+  actor_identity:
+    name: Full35 durable actor identity
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out actor qualification
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - name: Set up actor qualification Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify isolated durable actor continuity
+        run: |
+          npm ci
+          npm run test:full35-durable-actor-local
+`;
+
 function checkCiDispatchContract(workflow) {
   if (!workflow.endsWith(reviewedAptCompatibilityJob)) {
     fail("ci.yml must retain the exact bounded Ubuntu 26.04 browser-only compatibility probe");
   }
   workflow = workflow.slice(0, -reviewedAptCompatibilityJob.length);
+  if (!workflow.endsWith(reviewedActorIdentityJob)) {
+    fail("ci.yml must retain the exact unconditional bounded durable actor qualification job");
+  }
+  workflow = workflow.slice(0, -reviewedActorIdentityJob.length);
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==

@@ -1,3 +1,5 @@
+> Historical Stage 4A before-image. The authority model and migration digest below are superseded by [the durable actor correction](../nutrition-usda-full35-durable-actor-identity-001/engineering-report.md). Scientific outcomes remain audit evidence; this report does not qualify the corrected SQL.
+
 # NUTRITION-USDA-FULL35-REPROJECTION-001 engineering report
 
 ## A. Executive verdict

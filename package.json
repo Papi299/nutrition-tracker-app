@@ -47,7 +47,8 @@
     "types:ingestion:check": "node scripts/check-ingestion-types.mjs",
     "supabase:status": "supabase status",
     "supabase:version": "supabase --version",
-    "test:full35-reprojection-local": "node scripts/run-full35-reprojection-local.mjs"
+    "test:full35-reprojection-local": "node scripts/run-full35-reprojection-local.mjs",
+    "test:full35-durable-actor-local": "node scripts/run-full35-durable-actor-local.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

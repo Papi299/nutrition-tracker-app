@@ -1,0 +1,173 @@
+{
+  "migration": "20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+  "sqlSha256": "c6cda3feb988a61996fa690689f69c0272befca176fe621ac3f80f44b4a4a386",
+  "supersededSqlSha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+  "functions": [
+    {
+      "name": "ingestion.guard_mapping_identity_record_v1",
+      "status": "added",
+      "sqlSha256": "68372efbb25c7905c204431c716e8658b86a4ad8d7f449fdac997df360fd87c6"
+    },
+    {
+      "name": "ingestion.guard_mapping_cluster_epoch_v1",
+      "status": "added",
+      "sqlSha256": "385e44b2dffda0298a5338dea2e7e2b53b7c7418ce6d8fac0b79d407b4e4dedd"
+    },
+    {
+      "name": "ingestion.mapping_identity_epoch_v1",
+      "status": "added",
+      "sqlSha256": "dbb1f343b06673d694427be5a53ccc06d88bb893d720f69b67bb558a8b851b34"
+    },
+    {
+      "name": "ingestion.mapping_login_fingerprint_v1",
+      "status": "added",
+      "sqlSha256": "033b57aa8ced52c2c72edf45c270e81398d1c7c50c95ec5743d9325e6537a9eb"
+    },
+    {
+      "name": "ingestion.mapping_login_eligible_v1",
+      "status": "added",
+      "sqlSha256": "16586a07d1ad21ed1dc88c255bb5619b940aceba17a2308223bd3771be823028"
+    },
+    {
+      "name": "ingestion.mapping_identity_controller_v1",
+      "status": "added",
+      "sqlSha256": "af1ee3b45fcfbdae6da3cb8118d9d8199fe1d90e1a600359238cf9212542eafa"
+    },
+    {
+      "name": "ingestion.request_foundation_actor_binding_v1",
+      "status": "added",
+      "sqlSha256": "bb87539d406eb872a12c93584ab32e4919ee07272082027f53883d31dade5071"
+    },
+    {
+      "name": "ingestion.get_foundation_actor_binding_request_v1",
+      "status": "added",
+      "sqlSha256": "7cb6a5ed2bdcc481be1262faad5dfc7338dde53c5cc9e2854ca18acbaf19320c"
+    },
+    {
+      "name": "ingestion.approve_foundation_actor_binding_v1",
+      "status": "added",
+      "sqlSha256": "82606e15d50bcda6f1a4f92d3a9cdd6c2d2517f2b42c047dba0a8a751b8ee6c2"
+    },
+    {
+      "name": "ingestion.mapping_binding_by_id_v1",
+      "status": "added",
+      "sqlSha256": "fcf77d937e885c50c5e451b6d7d7969962a7804a4d2b18bb4ad1f0b7c1e28748"
+    },
+    {
+      "name": "ingestion.mapping_current_actor_v1",
+      "status": "added",
+      "sqlSha256": "3b131377ac00fba41295839ac8e5ea5ac1385c29bf3a969d9e4d7cabc8c28622"
+    },
+    {
+      "name": "ingestion.lock_mapping_principals_v1",
+      "status": "added",
+      "sqlSha256": "bb6363d7432a439e157cfaa5ec783e6c1e3df136c633bad124395a7446208b0d"
+    },
+    {
+      "name": "ingestion.mapping_actor_scope_v1",
+      "status": "added",
+      "sqlSha256": "013203e4387e47f6b783d8bc4e1f5de3985acfbfecf808587564b6ec7be956b8"
+    },
+    {
+      "name": "ingestion.mapping_actor_oid_v1",
+      "status": "changed",
+      "sqlSha256": "00d57f5cfab96c1c032fea84bdf0af072a6f496edeb2783cb30602f8e36dd448"
+    },
+    {
+      "name": "ingestion.validate_mapping_actor_authority_v1",
+      "status": "added",
+      "sqlSha256": "1ce896f88b4f9d5f329dd9a7898383b9735bbfefd27245fb3fb704011328729e"
+    },
+    {
+      "name": "ingestion.validate_mapping_plan_v1",
+      "status": "changed",
+      "sqlSha256": "5ec913b2f68a535a2d63befec23915efd680152445d3ad025e5316b1bae1e042"
+    },
+    {
+      "name": "ingestion.append_mapping_event_v1",
+      "status": "changed",
+      "sqlSha256": "dbafb967878267cd3400bd229d68ec6fe98a21d5c22b0f0036619cfbef6af379"
+    },
+    {
+      "name": "ingestion.prepare_mapping_plan_internal_v1",
+      "status": "changed",
+      "sqlSha256": "87e03d65251029c83b3765d44039c008617771ddab3c6a7db9a0bc0d51a6e42c"
+    },
+    {
+      "name": "ingestion.approve_mapping_plan_internal_v1",
+      "status": "changed",
+      "sqlSha256": "181549366246fd2d74b35f67588cc29ae83b762c9922825322b5105b446c71b0"
+    },
+    {
+      "name": "ingestion.execute_mapping_plan_internal_v1",
+      "status": "changed",
+      "sqlSha256": "17fb096d687fa71978b4ce226b0fb4b809fe7e9b67544c7694840642a81c406e"
+    },
+    {
+      "name": "ingestion.get_foundation_mapping_reprojection_receipt_v1",
+      "status": "changed",
+      "sqlSha256": "3d95015c09329072fb0dda683f402fb539db4388398f2dc0630159b34a9bb9b5"
+    },
+    {
+      "name": "ingestion.get_foundation_mapping_reprojection_plan_v1",
+      "status": "changed",
+      "sqlSha256": "58d56042339b0bb249cd2aa16c11bcd168da473d2a12218a0bb40f9ea1a6bd51"
+    },
+    {
+      "name": "ingestion.close_foundation_mapping_plan_v1",
+      "status": "changed",
+      "sqlSha256": "7855c319d9d2122df87eab7a452e2d561fff0ed754a37d55607de32f140b8b7c"
+    },
+    {
+      "name": "ingestion.get_foundation_mapping_reprojection_scope_v1",
+      "status": "changed",
+      "sqlSha256": "d90140061539253b7bd8974fd88e174b0df516fbcaf674bdf8a2f50e272ae2a2"
+    },
+    {
+      "name": "ingestion.fingerprint_mapping_database_contract_v1",
+      "status": "changed",
+      "sqlSha256": "96ea199c48f7d5cdfe6c988bd9c9f89e4f18fed0637e43e23c435cff3f91b6dd"
+    }
+  ],
+  "newRelations": [
+    "ingestion.mapping_actor_principals",
+    "ingestion.mapping_actor_binding_requests",
+    "ingestion.mapping_actor_bindings",
+    "ingestion.mapping_actor_current_bindings",
+    "private.mapping_actor_cluster_epoch"
+  ],
+  "changedRelations": [
+    "ingestion.mapping_reprojection_plans",
+    "ingestion.mapping_reprojection_approvals",
+    "ingestion.mapping_reprojection_receipts",
+    "ingestion.mapping_reprojection_events"
+  ],
+  "roles": [
+    "ingestion_identity_definer",
+    "ingestion_identity_governor",
+    "ingestion_identity_reviewer"
+  ],
+  "constraints": [
+    "Immutable row/body/hash equality guards on all three identity evidence relations",
+    "Unique verified subject and immutable principal authority",
+    "Unique request/decision identity, scoped generations and prior-binding chain",
+    "Current pointer composite FK includes principal/dataset/environment/cluster/login OID/name/generation; unique active login per cluster/scope",
+    "Plan authority version, distinct principals, exact typed binding/principal/body correspondence",
+    "Approval composite FK matches planned independent approver principal/binding",
+    "Receipt operator-principal FK and durable-principal/retry uniqueness",
+    "Event actor-principal/binding FK; original audit OID retained",
+    "Private marker immutable singleton with fresh per-installation UUID"
+  ],
+  "grants": [
+    "Identity definer owns only new registry/private marker and identity RPCs, RLS enabled; no food or private nutrition DML",
+    "Reprojection definer gains SELECT on identity tables and exact current-binding helpers; no registry DML",
+    "Governor receives request and review-view EXECUTE only; reviewer receives exact decision and review-view EXECUTE only",
+    "All consumer/operator/approver/controller direct registry DML and private-marker access denied",
+    "Public/consumer EXECUTE revoked for every new function; identity definer default function ACL closed",
+    "Existing operation entry-point grants unchanged; scope response adds verified binding metadata",
+    "Source dataset SELECT(id,code) for identity definer under Foundation-only SELECT RLS",
+    "Temporary schema CREATE and definer memberships revoked at migration end"
+  ],
+  "originalScientificDomainsUnchanged": true,
+  "approvedRecoveryAllowlistChanged": false
+}

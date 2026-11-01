@@ -98,6 +98,392 @@ create table ingestion.source_mapping_interpretations (
   check(ingestion.fingerprint_mapping_json_v1(candidate_body->'nutrient_evidence')=evidence_set_hash)
 );
 
+-- Durable identity is separate from cluster-local authenticated login identity.
+do $$
+begin
+  if exists(select from pg_catalog.pg_roles where rolname in
+    ('ingestion_identity_definer','ingestion_identity_governor','ingestion_identity_reviewer')) then
+    raise exception 'unexpected pre-existing identity authority role';
+  end if;
+  create role ingestion_identity_definer nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;
+  create role ingestion_identity_governor nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;
+  create role ingestion_identity_reviewer nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;
+end;
+$$;
+grant ingestion_identity_definer to postgres;
+grant usage,create on schema ingestion,private to ingestion_identity_definer;
+grant usage on schema ingestion to ingestion_identity_governor,ingestion_identity_reviewer;
+alter default privileges for role ingestion_identity_definer revoke execute on functions from public;
+
+-- This operational marker is deliberately outside public/ingestion dump scope.
+-- A fresh logical target replays this DDL and retains its own marker. Never copy
+-- this row as portable backup data or treat copied bindings as live authority.
+create table private.mapping_actor_cluster_epoch (
+  singleton boolean primary key default true check(singleton),
+  cluster_id uuid not null unique default pg_catalog.gen_random_uuid(),
+  created_at timestamptz not null default pg_catalog.now()
+);
+insert into private.mapping_actor_cluster_epoch(singleton) values(true);
+
+create table ingestion.mapping_actor_principals (
+  id uuid primary key,
+  contract_version text not null check(contract_version='foundation-actor-principal/v1'),
+  subject_hash text not null unique check(subject_hash ~ '^[a-f0-9]{64}$' and subject_hash<>repeat('0',64)),
+  authority text not null check(authority in('operator','approver')),
+  enrollment_request_id uuid not null unique,
+  created_at timestamptz not null,
+  body jsonb not null,body_hash text not null unique check(body_hash=ingestion.fingerprint_mapping_json_v1(body)),
+  unique(id,authority)
+);
+create table ingestion.mapping_actor_binding_requests (
+  id uuid primary key,
+  contract_version text not null check(contract_version='foundation-actor-binding-request/v1'),
+  action text not null check(action in('enroll','rebind','revoke')),
+  principal_id uuid not null,
+  subject_hash text not null check(subject_hash ~ '^[a-f0-9]{64}$' and subject_hash<>repeat('0',64)),
+  authority text not null check(authority in('operator','approver')),
+  dataset_id uuid not null references ingestion.source_datasets(id),
+  environment text not null check(environment in('local','production')),
+  cluster_id uuid not null,
+  login_oid oid not null,login_name text not null,login_fingerprint text not null,
+  prior_binding_id uuid null,
+  requester_oid oid not null,requester_name text not null,requester_fingerprint text not null,
+  evidence_hash text not null check(evidence_hash ~ '^[a-f0-9]{64}$' and evidence_hash<>repeat('0',64)),
+  approval_reference text not null check(length(approval_reference) between 1 and 200),
+  requested_at timestamptz not null,not_before timestamptz not null,expires_at timestamptz not null,
+  body jsonb not null,body_hash text not null unique check(body_hash=ingestion.fingerprint_mapping_json_v1(body)),
+  check(expires_at>not_before and expires_at>requested_at),
+  check((action='enroll')=(prior_binding_id is null))
+);
+alter table ingestion.mapping_actor_principals add foreign key(enrollment_request_id)
+  references ingestion.mapping_actor_binding_requests(id);
+create table ingestion.mapping_actor_bindings (
+  id uuid primary key,
+  contract_version text not null check(contract_version='foundation-actor-binding-decision/v1'),
+  request_id uuid not null unique references ingestion.mapping_actor_binding_requests(id),
+  principal_id uuid not null references ingestion.mapping_actor_principals(id),
+  dataset_id uuid not null references ingestion.source_datasets(id),
+  environment text not null check(environment in('local','production')),
+  cluster_id uuid not null,action text not null check(action in('enroll','rebind','revoke')),
+  generation bigint not null check(generation>0),prior_binding_id uuid null,
+  login_oid oid not null,login_name text not null,login_fingerprint text not null,
+  requester_oid oid not null,requester_name text not null,
+  reviewer_oid oid not null,reviewer_name text not null,
+  evidence_hash text not null,approval_reference text not null,request_hash text not null,
+  decided_at timestamptz not null,
+  body jsonb not null,body_hash text not null unique check(body_hash=ingestion.fingerprint_mapping_json_v1(body)),
+  check(requester_oid<>reviewer_oid and requester_name<>reviewer_name),
+  unique(principal_id,dataset_id,environment,generation),
+  unique(id,principal_id),unique(id,principal_id,dataset_id,environment),
+  unique(id,principal_id,dataset_id,environment,cluster_id,login_oid,login_name,generation),
+  foreign key(prior_binding_id,principal_id,dataset_id,environment)
+    references ingestion.mapping_actor_bindings(id,principal_id,dataset_id,environment)
+);
+alter table ingestion.mapping_actor_binding_requests add foreign key(prior_binding_id)
+  references ingestion.mapping_actor_bindings(id);
+create table ingestion.mapping_actor_current_bindings (
+  principal_id uuid not null references ingestion.mapping_actor_principals(id),
+  dataset_id uuid not null,environment text not null,
+  binding_id uuid not null,cluster_id uuid not null,login_oid oid not null,login_name text not null,generation bigint not null,
+  primary key(principal_id,dataset_id,environment),
+  unique(cluster_id,dataset_id,environment,login_oid),unique(cluster_id,dataset_id,environment,login_name),
+  foreign key(binding_id,principal_id,dataset_id,environment,cluster_id,login_oid,login_name,generation)
+    references ingestion.mapping_actor_bindings(id,principal_id,dataset_id,environment,cluster_id,login_oid,login_name,generation)
+);
+
+create function ingestion.guard_mapping_identity_record_v1()
+returns trigger language plpgsql set search_path='' set timezone='UTC' as $$
+begin
+  if tg_op<>'INSERT' then raise exception using errcode='55000',message='immutable actor identity evidence';end if;
+  if new.body is distinct from pg_catalog.to_jsonb(new)-array['body','body_hash']
+    or new.body_hash is distinct from ingestion.fingerprint_mapping_json_v1(new.body) then
+    raise exception using errcode='23514',message='actor identity body or fingerprint mismatch';end if;
+  return new;
+end;
+$$;
+create function ingestion.guard_mapping_cluster_epoch_v1()
+returns trigger language plpgsql set search_path='' as $$
+begin raise exception using errcode='55000',message='immutable local cluster authorization marker';end;
+$$;
+create trigger mapping_cluster_epoch_immutable before insert or update or delete on private.mapping_actor_cluster_epoch
+  for each row execute function ingestion.guard_mapping_cluster_epoch_v1();
+
+do $$
+declare name text;
+begin
+  foreach name in array array['mapping_actor_principals','mapping_actor_binding_requests','mapping_actor_bindings','mapping_actor_current_bindings'] loop
+    execute format('alter table ingestion.%I owner to ingestion_identity_definer',name);
+    execute format('alter table ingestion.%I enable row level security',name);
+    execute format('revoke all on ingestion.%I from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_identity_governor,ingestion_identity_reviewer',name);
+    execute format('create policy identity_control on ingestion.%I for all to ingestion_identity_definer using(true) with check(true)',name);
+    execute format('grant select on ingestion.%I to ingestion_reprojection_definer',name);
+    execute format('create policy identity_read on ingestion.%I for select to ingestion_reprojection_definer using(true)',name);
+    if name<>'mapping_actor_current_bindings' then
+      execute format('create trigger %I before insert or update or delete on ingestion.%I for each row execute function ingestion.guard_mapping_identity_record_v1()',name||'_immutable',name);
+    end if;
+  end loop;
+end;
+$$;
+alter table private.mapping_actor_cluster_epoch owner to ingestion_identity_definer;
+alter table private.mapping_actor_cluster_epoch enable row level security;
+revoke all on private.mapping_actor_cluster_epoch from public,anon,authenticated,authenticator,service_role,
+  ingestion_operator,ingestion_approver,ingestion_reprojection_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+create policy identity_epoch_read on private.mapping_actor_cluster_epoch for select to ingestion_identity_definer using(true);
+
+grant select(id,code) on ingestion.source_datasets to ingestion_identity_definer;
+create policy identity_dataset_read on ingestion.source_datasets for select to ingestion_identity_definer using(code='usda_fdc_foundation');
+
+create function ingestion.mapping_identity_epoch_v1()
+returns uuid language sql stable security definer set search_path='' set timezone='UTC' as $$
+  select cluster_id from private.mapping_actor_cluster_epoch where singleton;
+$$;
+create function ingestion.mapping_login_fingerprint_v1(p_oid oid)
+returns text language sql stable set search_path='' set timezone='UTC' as $$
+  select ingestion.fingerprint_mapping_json_v1(pg_catalog.jsonb_build_object(
+    'contract_version','foundation-actor-login-catalog/v1','oid',r.oid::bigint,'name',r.rolname,
+    'login',r.rolcanlogin,'superuser',r.rolsuper,'bypassrls',r.rolbypassrls,'createdb',r.rolcreatedb,
+    'createrole',r.rolcreaterole,'replication',r.rolreplication,'inherit',r.rolinherit,'connection_limit',r.rolconnlimit,
+    'valid_until',r.rolvaliduntil::text,'settings',r.rolconfig,
+    'memberships',(select pg_catalog.jsonb_agg(m.rolname order by m.rolname collate "C") from pg_catalog.pg_roles m
+      where pg_catalog.pg_has_role(r.oid,m.oid,'member')))) from pg_catalog.pg_roles r where r.oid=p_oid;
+$$;
+create function ingestion.mapping_login_eligible_v1(p_oid oid,p_authority text)
+returns boolean language sql stable set search_path='' as $$
+  select coalesce((select r.rolcanlogin and not(r.rolsuper or r.rolbypassrls or r.rolcreatedb or r.rolcreaterole or r.rolreplication)
+    and p_authority in('operator','approver','governor','reviewer')
+    and pg_catalog.pg_has_role(r.oid,case p_authority when 'operator' then 'ingestion_operator'
+      when 'approver' then 'ingestion_approver' when 'governor' then 'ingestion_identity_governor' else 'ingestion_identity_reviewer' end,'member')
+    and not exists(select from pg_catalog.pg_roles forbidden where forbidden.rolname in
+      ('anon','authenticated','authenticator','service_role','ingestion_operator','ingestion_approver','ingestion_identity_governor','ingestion_identity_reviewer',
+       'ingestion_identity_definer','ingestion_reprojection_definer','ingestion_definer','ingestion_promotion_definer','ingestion_lifecycle_definer')
+      and forbidden.rolname<>case p_authority when 'operator' then 'ingestion_operator' when 'approver' then 'ingestion_approver'
+        when 'governor' then 'ingestion_identity_governor' else 'ingestion_identity_reviewer' end
+      and pg_catalog.pg_has_role(r.oid,forbidden.oid,'member'))
+    from pg_catalog.pg_roles r where r.oid=p_oid),false);
+$$;
+create function ingestion.mapping_identity_controller_v1(p_authority text)
+returns oid language plpgsql stable set search_path='' as $$
+declare actor oid;
+begin
+  select oid into strict actor from pg_catalog.pg_roles where rolname=session_user;
+  if p_authority not in('governor','reviewer') or not ingestion.mapping_login_eligible_v1(actor,p_authority) then
+    raise exception using errcode='42501',message='independent identity controller login required';end if;
+  return actor;
+end;
+$$;
+
+create function ingestion.request_foundation_actor_binding_v1(p_input json)
+returns uuid language plpgsql security definer set search_path='' set timezone='UTC' as $$
+declare actor oid; input jsonb; r ingestion.mapping_actor_binding_requests; principal ingestion.mapping_actor_principals;
+  prior ingestion.mapping_actor_current_bindings; login pg_catalog.pg_roles; existing uuid;
+begin
+  actor:=ingestion.mapping_identity_controller_v1('governor');
+  input:=ingestion.mapping_json_input_v1(p_input);
+  perform ingestion.mapping_require_keys_v1(input,array['action','principal_id','subject_hash','authority','dataset_id','environment',
+    'login_name','prior_binding_id','evidence_hash','approval_reference','not_before','expires_at']);
+  if pg_catalog.octet_length(input::text)>8192 or input->>'action' not in('enroll','rebind','revoke')
+    or input->>'environment' not in('local','production') or input->>'authority' not in('operator','approver')
+    or input->>'subject_hash' is null or input->>'subject_hash' !~ '^[a-f0-9]{64}$' or input->>'subject_hash'=repeat('0',64)
+    or input->>'evidence_hash' is null or input->>'evidence_hash' !~ '^[a-f0-9]{64}$' or input->>'evidence_hash'=repeat('0',64)
+    or not exists(select from ingestion.source_datasets where id=(input->>'dataset_id')::uuid and code='usda_fdc_foundation')
+    or (input->>'expires_at')::timestamptz<=pg_catalog.clock_timestamp()
+    or (input->>'expires_at')::timestamptz>pg_catalog.clock_timestamp()+interval '24 hours'
+    or (input->>'not_before')::timestamptz>=(input->>'expires_at')::timestamptz then
+    raise exception using errcode='42501',message='exact independent binding evidence and scope required';end if;
+  if input->>'action'='enroll' then
+    if input->>'principal_id' is not null or input->>'prior_binding_id' is not null then
+      raise exception using errcode='42501',message='enrollment identity is server generated';end if;
+    -- Stable request identity permits enrollment retries without caller-chosen IDs.
+    select id into existing from ingestion.mapping_actor_binding_requests q where q.action='enroll'
+      and q.cluster_id=ingestion.mapping_identity_epoch_v1() and q.requester_oid=actor and q.requester_name=session_user
+      and q.subject_hash=input->>'subject_hash' and q.dataset_id=(input->>'dataset_id')::uuid and q.environment=input->>'environment'
+      and q.body->>'approval_reference'=input->>'approval_reference' and q.evidence_hash=input->>'evidence_hash'
+      and q.login_name=input->>'login_name' and q.authority=input->>'authority'
+      and q.not_before=(input->>'not_before')::timestamptz and q.expires_at=(input->>'expires_at')::timestamptz
+      and q.requester_fingerprint=ingestion.mapping_login_fingerprint_v1(actor)
+      and q.login_fingerprint=ingestion.mapping_login_fingerprint_v1((select oid from pg_catalog.pg_roles where rolname=input->>'login_name'));
+    if found then return existing;end if;
+    r.principal_id:=pg_catalog.gen_random_uuid();
+  else
+    select * into strict principal from ingestion.mapping_actor_principals where id=(input->>'principal_id')::uuid;
+    if principal.subject_hash<>input->>'subject_hash' or principal.authority<>input->>'authority' then
+      raise exception using errcode='42501',message='principal continuity differs';end if;
+    select * into strict prior from ingestion.mapping_actor_current_bindings where principal_id=principal.id
+      and dataset_id=(input->>'dataset_id')::uuid and environment=input->>'environment';
+    if prior.binding_id is distinct from (input->>'prior_binding_id')::uuid then
+      raise exception using errcode='55000',message='stale binding proposal';end if;
+    r.principal_id:=principal.id;r.prior_binding_id:=prior.binding_id;
+  end if;
+  if exists(select from ingestion.mapping_actor_bindings where principal_id=r.principal_id and action='revoke') then
+    raise exception using errcode='42501',message='principal permanently revoked';end if;
+  if input->>'action'='revoke' then
+    r.login_oid:=prior.login_oid;r.login_name:=prior.login_name;
+    select login_fingerprint into r.login_fingerprint from ingestion.mapping_actor_bindings where id=prior.binding_id;
+    if input->>'login_name' is distinct from prior.login_name then raise exception 'revocation login differs';end if;
+  else
+    select * into strict login from pg_catalog.pg_roles where rolname=input->>'login_name';
+    if not ingestion.mapping_login_eligible_v1(login.oid,input->>'authority') or login.oid=actor then
+      raise exception using errcode='42501',message='eligible distinct bound login required';end if;
+    r.login_oid:=login.oid;r.login_name:=login.rolname;r.login_fingerprint:=ingestion.mapping_login_fingerprint_v1(login.oid);
+  end if;
+  r.id:=pg_catalog.gen_random_uuid();r.contract_version:='foundation-actor-binding-request/v1';r.action:=input->>'action';
+  r.subject_hash:=input->>'subject_hash';r.authority:=input->>'authority';r.dataset_id:=(input->>'dataset_id')::uuid;
+  r.environment:=input->>'environment';r.cluster_id:=ingestion.mapping_identity_epoch_v1();
+  r.requester_oid:=actor;r.requester_name:=session_user;r.requester_fingerprint:=ingestion.mapping_login_fingerprint_v1(actor);
+  r.evidence_hash:=input->>'evidence_hash';r.approval_reference:=input->>'approval_reference';
+  r.requested_at:=pg_catalog.clock_timestamp();r.not_before:=(input->>'not_before')::timestamptz;r.expires_at:=(input->>'expires_at')::timestamptz;
+  r.body:=pg_catalog.to_jsonb(r)-array['body','body_hash'];r.body_hash:=ingestion.fingerprint_mapping_json_v1(r.body);
+  if r.action<>'enroll' then
+    select id into existing from ingestion.mapping_actor_binding_requests where
+      body-array['id','requested_at']=r.body-array['id','requested_at'];
+    if found then return existing;end if;
+  end if;
+  insert into ingestion.mapping_actor_binding_requests select r.*;
+  return r.id;
+end;
+$$;
+
+create function ingestion.get_foundation_actor_binding_request_v1(p_request uuid)
+returns jsonb language plpgsql security definer set search_path='' set timezone='UTC' as $$
+declare actor oid; authority text; r ingestion.mapping_actor_binding_requests; prior ingestion.mapping_actor_bindings; live jsonb;
+begin
+  authority:=case when pg_catalog.pg_has_role(session_user,'ingestion_identity_governor','member') then 'governor' else 'reviewer' end;
+  actor:=ingestion.mapping_identity_controller_v1(authority);
+  select * into strict r from ingestion.mapping_actor_binding_requests where id=p_request;
+  if r.cluster_id<>ingestion.mapping_identity_epoch_v1() or (authority='governor' and (r.requester_oid<>actor or r.requester_name<>session_user)) then
+    raise exception using errcode='42501',message='current independently governed request required';end if;
+  if r.prior_binding_id is not null then select * into strict prior from ingestion.mapping_actor_bindings where id=r.prior_binding_id;end if;
+  select pg_catalog.jsonb_build_object('oid',oid::bigint,'name',rolname,'login',rolcanlogin,'superuser',rolsuper,'bypassrls',rolbypassrls,
+    'createdb',rolcreatedb,'createrole',rolcreaterole,'replication',rolreplication,'inherit',rolinherit,'settings',rolconfig,
+    'fingerprint',ingestion.mapping_login_fingerprint_v1(oid),'memberships',(select pg_catalog.jsonb_agg(m.rolname order by m.rolname collate "C")
+      from pg_catalog.pg_roles m where pg_catalog.pg_has_role(r.login_oid,m.oid,'member')))
+    into live from pg_catalog.pg_roles where oid=r.login_oid;
+  return pg_catalog.jsonb_build_object('request_id',r.id,'body',r.body,'body_hash',r.body_hash,
+    'prior_binding_body',prior.body,'prior_binding_hash',prior.body_hash,'current_login',live,
+    'decision_id',(select id from ingestion.mapping_actor_bindings where request_id=r.id));
+end;
+$$;
+
+
+create function ingestion.approve_foundation_actor_binding_v1(p_request uuid,p_hash text)
+returns uuid language plpgsql security definer set search_path='' set timezone='UTC' as $$
+declare actor oid; r ingestion.mapping_actor_binding_requests; principal ingestion.mapping_actor_principals;
+  prior ingestion.mapping_actor_current_bindings; d ingestion.mapping_actor_bindings; existing ingestion.mapping_actor_bindings;
+begin
+  actor:=ingestion.mapping_identity_controller_v1('reviewer');
+  select * into strict r from ingestion.mapping_actor_binding_requests where id=p_request;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended('foundation-actor-subject:'||r.subject_hash,0));
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended('foundation-actor-login:'||r.cluster_id::text||':'||r.login_oid::text,0));
+  if r.cluster_id<>ingestion.mapping_identity_epoch_v1() or r.requester_oid=actor or r.login_oid=actor
+    or r.requester_name=session_user or r.body_hash is distinct from p_hash
+    or r.body is distinct from pg_catalog.to_jsonb(r)-array['body','body_hash']
+    or r.body_hash<>ingestion.fingerprint_mapping_json_v1(r.body)
+    or not ingestion.mapping_login_eligible_v1(r.requester_oid,'governor')
+    or not exists(select from pg_catalog.pg_roles where oid=r.requester_oid and rolname=r.requester_name)
+    or r.requester_fingerprint is distinct from ingestion.mapping_login_fingerprint_v1(r.requester_oid) then
+    raise exception using errcode='42501',message='independent exact binding decision required';end if;
+  select * into existing from ingestion.mapping_actor_bindings where request_id=r.id;
+  if found then
+    if existing.reviewer_oid<>actor or existing.reviewer_name<>session_user then raise exception 'binding decision retry differs';end if;
+    return existing.id;
+  end if;
+  if pg_catalog.clock_timestamp()<r.not_before or pg_catalog.clock_timestamp()>=r.expires_at then
+    raise exception using errcode='42501',message='binding proposal expired or not yet valid';end if;
+  if r.action='enroll' then
+    principal.id:=r.principal_id;principal.contract_version:='foundation-actor-principal/v1';principal.subject_hash:=r.subject_hash;
+    principal.authority:=r.authority;principal.enrollment_request_id:=r.id;principal.created_at:=pg_catalog.clock_timestamp();
+    principal.body:=pg_catalog.to_jsonb(principal)-array['body','body_hash'];principal.body_hash:=ingestion.fingerprint_mapping_json_v1(principal.body);
+    insert into ingestion.mapping_actor_principals select principal.*;
+  end if;
+  select * into strict principal from ingestion.mapping_actor_principals where id=r.principal_id for update;
+  if principal.subject_hash<>r.subject_hash or principal.authority<>r.authority
+    or principal.body is distinct from pg_catalog.to_jsonb(principal)-array['body','body_hash']
+    or exists(select from ingestion.mapping_actor_bindings where principal_id=principal.id and action='revoke') then
+    raise exception using errcode='42501',message='principal identity revoked or mismatched';end if;
+  select * into prior from ingestion.mapping_actor_current_bindings where principal_id=r.principal_id
+    and dataset_id=r.dataset_id and environment=r.environment for update;
+  if prior.binding_id is distinct from r.prior_binding_id then raise exception using errcode='55000',message='stale binding decision';end if;
+  if r.action<>'revoke' and (not ingestion.mapping_login_eligible_v1(r.login_oid,r.authority)
+    or not exists(select from pg_catalog.pg_roles where oid=r.login_oid and rolname=r.login_name)
+    or r.login_fingerprint is distinct from ingestion.mapping_login_fingerprint_v1(r.login_oid)) then
+    raise exception using errcode='42501',message='binding login changed since independent proposal';end if;
+  d.id:=pg_catalog.gen_random_uuid();d.contract_version:='foundation-actor-binding-decision/v1';d.request_id:=r.id;
+  d.principal_id:=r.principal_id;d.dataset_id:=r.dataset_id;d.environment:=r.environment;d.cluster_id:=r.cluster_id;
+  d.action:=r.action;d.generation:=coalesce(prior.generation,0)+1;d.prior_binding_id:=r.prior_binding_id;
+  d.login_oid:=r.login_oid;d.login_name:=r.login_name;d.login_fingerprint:=r.login_fingerprint;
+  d.requester_oid:=r.requester_oid;d.requester_name:=r.requester_name;d.reviewer_oid:=actor;d.reviewer_name:=session_user;
+  d.evidence_hash:=r.evidence_hash;d.approval_reference:=r.approval_reference;d.request_hash:=r.body_hash;d.decided_at:=pg_catalog.clock_timestamp();
+  d.body:=pg_catalog.to_jsonb(d)-array['body','body_hash'];d.body_hash:=ingestion.fingerprint_mapping_json_v1(d.body);
+  insert into ingestion.mapping_actor_bindings select d.*;
+  insert into ingestion.mapping_actor_current_bindings(principal_id,dataset_id,environment,binding_id,cluster_id,login_oid,login_name,generation)
+    values(d.principal_id,d.dataset_id,d.environment,d.id,d.cluster_id,d.login_oid,d.login_name,d.generation)
+    on conflict(principal_id,dataset_id,environment) do update set binding_id=excluded.binding_id,cluster_id=excluded.cluster_id,
+      login_oid=excluded.login_oid,login_name=excluded.login_name,generation=excluded.generation;
+  return d.id;
+end;
+$$;
+
+create function ingestion.mapping_binding_by_id_v1(p_binding uuid,p_principal uuid,p_dataset uuid,p_environment text)
+returns ingestion.mapping_actor_bindings language plpgsql security definer set search_path='' set timezone='UTC' as $$
+declare d ingestion.mapping_actor_bindings; principal ingestion.mapping_actor_principals;
+begin
+  select b.* into strict d from ingestion.mapping_actor_bindings b join ingestion.mapping_actor_current_bindings c on c.binding_id=b.id
+    where b.id=p_binding and b.principal_id=p_principal and b.dataset_id=p_dataset and b.environment=p_environment
+      and c.cluster_id=ingestion.mapping_identity_epoch_v1();
+  select * into strict principal from ingestion.mapping_actor_principals where id=d.principal_id;
+  if d.action='revoke' or d.cluster_id<>ingestion.mapping_identity_epoch_v1()
+    or exists(select from ingestion.mapping_actor_bindings where principal_id=d.principal_id and action='revoke')
+    or d.generation<>(select max(generation) from ingestion.mapping_actor_bindings where principal_id=d.principal_id and dataset_id=d.dataset_id and environment=d.environment)
+    or d.body is distinct from pg_catalog.to_jsonb(d)-array['body','body_hash'] or d.body_hash<>ingestion.fingerprint_mapping_json_v1(d.body)
+    or principal.body is distinct from pg_catalog.to_jsonb(principal)-array['body','body_hash']
+    or principal.body_hash<>ingestion.fingerprint_mapping_json_v1(principal.body)
+    or not ingestion.mapping_login_eligible_v1(d.login_oid,principal.authority)
+    or not exists(select from pg_catalog.pg_roles where oid=d.login_oid and rolname=d.login_name)
+    or d.login_fingerprint is distinct from ingestion.mapping_login_fingerprint_v1(d.login_oid) then
+    raise exception using errcode='42501',message='unverified stale or revoked actor binding';end if;
+  return d;
+exception when no_data_found then raise exception using errcode='42501',message='verified current actor binding required';
+end;
+$$;
+create function ingestion.mapping_current_actor_v1(p_authority text,p_dataset uuid,p_environment text)
+returns ingestion.mapping_actor_bindings language plpgsql security definer set search_path='' set timezone='UTC' as $$
+declare actor oid; pointer ingestion.mapping_actor_current_bindings; d ingestion.mapping_actor_bindings;
+begin
+  select oid into strict actor from pg_catalog.pg_roles where rolname=session_user;
+  if p_authority not in('operator','approver') or not ingestion.mapping_login_eligible_v1(actor,p_authority) then
+    raise exception using errcode='42501',message='trusted distinct bound login required';end if;
+  select c.* into strict pointer from ingestion.mapping_actor_current_bindings c join ingestion.mapping_actor_principals p on p.id=c.principal_id
+    where c.dataset_id=p_dataset and c.environment=p_environment and c.cluster_id=ingestion.mapping_identity_epoch_v1()
+      and c.login_oid=actor and c.login_name=session_user and p.authority=p_authority;
+  d:=ingestion.mapping_binding_by_id_v1(pointer.binding_id,pointer.principal_id,p_dataset,p_environment);
+  return d;
+exception when no_data_found then raise exception using errcode='42501',message='verified current actor binding required';
+end;
+$$;
+create function ingestion.lock_mapping_principals_v1(p_principals uuid[])
+returns void language plpgsql security definer set search_path='' set timezone='UTC' as $$
+begin
+  perform 1 from ingestion.mapping_actor_principals where id=any(p_principals) order by id for share;
+end;
+$$;
+create function ingestion.mapping_actor_scope_v1(p_dataset uuid,p_environment text)
+returns jsonb language plpgsql set search_path='' set timezone='UTC' as $$
+declare actor ingestion.mapping_actor_bindings; approvers jsonb;
+begin
+  actor:=ingestion.mapping_current_actor_v1('operator',p_dataset,p_environment);
+  select coalesce(pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('principal_id',b.principal_id,'binding_id',b.id,'binding_hash',b.body_hash,
+    'login_oid',b.login_oid::bigint,'login_name',b.login_name) order by b.principal_id),'[]') into approvers
+    from ingestion.mapping_actor_current_bindings c join ingestion.mapping_actor_bindings b on b.id=c.binding_id
+    join ingestion.mapping_actor_principals p on p.id=b.principal_id
+    where c.dataset_id=p_dataset and c.environment=p_environment and c.cluster_id=ingestion.mapping_identity_epoch_v1()
+      and p.authority='approver' and not exists(select from ingestion.mapping_actor_bindings revoked where revoked.principal_id=p.id and revoked.action='revoke')
+      and ingestion.mapping_login_eligible_v1(b.login_oid,'approver') and b.login_fingerprint=ingestion.mapping_login_fingerprint_v1(b.login_oid);
+  return pg_catalog.jsonb_build_object('contract_version','foundation-mapping-actor-authority/v1','cluster_id',actor.cluster_id,
+    'operator_principal_id',actor.principal_id,'operator_binding_id',actor.id,'operator_binding_hash',actor.body_hash,'approvers',approvers);
+end;
+$$;
+
+
 create table ingestion.mapping_reprojection_plans (
   id uuid primary key default pg_catalog.gen_random_uuid(),
   operation_kind text not null check(operation_kind in ('reprojection','compensation')),
@@ -110,6 +496,12 @@ create table ingestion.mapping_reprojection_plans (
   prior_head_hash text not null check(prior_head_hash ~ '^[a-f0-9]{64}$'),
   operator_oid oid not null,
   operator_name text not null,
+  authority_contract_version text not null default 'foundation-mapping-actor-authority/v1' check(authority_contract_version='foundation-mapping-actor-authority/v1'),
+  operator_principal_id uuid not null references ingestion.mapping_actor_principals(id),
+  operator_binding_id uuid not null,
+  approver_principal_id uuid not null references ingestion.mapping_actor_principals(id),
+  approver_binding_id uuid not null,
+  origin_cluster_id uuid not null,
   retry_token uuid not null,
   plan_body jsonb not null check(pg_catalog.octet_length(plan_body::text)<=33554432),
   plan_hash text not null unique check(plan_hash=ingestion.fingerprint_mapping_json_v1(plan_body)),
@@ -119,7 +511,17 @@ create table ingestion.mapping_reprojection_plans (
   foreign key(source_release_id,dataset_id) references ingestion.source_releases(id,dataset_id),
   foreign key(prior_head_id,dataset_id,environment,prior_head_version,prior_head_hash)
     references ingestion.dataset_projection_heads(id,dataset_id,environment,head_version,dataset_projection_fingerprint),
-  unique(id,dataset_id,environment),unique(id,plan_hash),unique(id,retry_token),unique(operator_oid,retry_token),
+  unique(id,dataset_id,environment),unique(id,plan_hash),unique(id,retry_token),unique(operator_principal_id,retry_token),
+  unique(id,operator_principal_id),unique(id,approver_principal_id,approver_binding_id),
+  foreign key(operator_binding_id,operator_principal_id,dataset_id,environment) references ingestion.mapping_actor_bindings(id,principal_id,dataset_id,environment),
+  foreign key(approver_binding_id,approver_principal_id,dataset_id,environment) references ingestion.mapping_actor_bindings(id,principal_id,dataset_id,environment),
+  check(operator_principal_id<>approver_principal_id),
+  check(plan_body->'actor_authority'->>'contract_version'=authority_contract_version
+    and (plan_body->'actor_authority'->>'operator_principal_id')::uuid=operator_principal_id
+    and (plan_body->'actor_authority'->>'operator_binding_id')::uuid=operator_binding_id
+    and (plan_body->'actor_authority'->>'approver_principal_id')::uuid=approver_principal_id
+    and (plan_body->'actor_authority'->>'approver_binding_id')::uuid=approver_binding_id
+    and (plan_body->'actor_authority'->>'cluster_id')::uuid=origin_cluster_id),
   check((operation_kind='compensation')=(rejected_receipt_id is not null))
 );
 create table ingestion.mapping_reprojection_plan_items (
@@ -142,6 +544,10 @@ create table ingestion.mapping_reprojection_approvals (
   retry_token uuid not null,
   approver_oid oid not null,
   approver_name text not null,
+  authority_contract_version text not null default 'foundation-mapping-actor-authority/v1' check(authority_contract_version='foundation-mapping-actor-authority/v1'),
+  approver_principal_id uuid not null,
+  approver_binding_id uuid not null,
+  foreign key(plan_id,approver_principal_id,approver_binding_id) references ingestion.mapping_reprojection_plans(id,approver_principal_id,approver_binding_id),
   approved_at timestamptz not null,
   expires_at timestamptz not null check(expires_at>approved_at),
   approval_body jsonb not null,
@@ -156,6 +562,9 @@ create table ingestion.mapping_reprojection_receipts (
   plan_id uuid not null unique references ingestion.mapping_reprojection_plans(id),
   approval_id uuid not null unique,
   operator_oid oid not null,
+  authority_contract_version text not null default 'foundation-mapping-actor-authority/v1' check(authority_contract_version='foundation-mapping-actor-authority/v1'),
+  operator_principal_id uuid not null,
+  foreign key(plan_id,operator_principal_id) references ingestion.mapping_reprojection_plans(id,operator_principal_id),
   retry_token uuid not null,
   prior_head_id uuid not null references ingestion.dataset_projection_heads(id),
   resulting_head_id uuid not null references ingestion.dataset_projection_heads(id) deferrable initially deferred,
@@ -164,7 +573,7 @@ create table ingestion.mapping_reprojection_receipts (
   completed_at timestamptz not null,
   foreign key(approval_id,plan_id) references ingestion.mapping_reprojection_approvals(id,plan_id),
   foreign key(approval_id,plan_id,retry_token) references ingestion.mapping_reprojection_approvals(id,plan_id,retry_token),
-  unique(operator_oid,retry_token),unique(id,dataset_id,environment),unique(id,plan_id),
+  unique(operator_principal_id,retry_token),unique(id,dataset_id,environment),unique(id,plan_id),
   foreign key(plan_id,dataset_id,environment) references ingestion.mapping_reprojection_plans(id,dataset_id,environment),
   foreign key(prior_head_id,dataset_id,environment) references ingestion.dataset_projection_heads(id,dataset_id,environment),
   foreign key(resulting_head_id,dataset_id,environment) references ingestion.dataset_projection_heads(id,dataset_id,environment) deferrable initially deferred
@@ -176,6 +585,9 @@ create table ingestion.mapping_reprojection_events (
   event_sequence integer not null check(event_sequence>0),
   plan_id uuid not null references ingestion.mapping_reprojection_plans(id),
   actor_oid oid not null,
+  actor_principal_id uuid not null references ingestion.mapping_actor_principals(id),
+  actor_binding_id uuid not null,
+  foreign key(actor_binding_id,actor_principal_id) references ingestion.mapping_actor_bindings(id,principal_id),
   prior_state text null,
   next_state text not null,
   event_body jsonb not null,
@@ -639,7 +1051,8 @@ begin
     or not pg_catalog.pg_has_role(actor.oid,p_authority,'member')
     or pg_catalog.pg_has_role(actor.oid,case when p_authority='ingestion_operator'
         then 'ingestion_approver' else 'ingestion_operator' end,'member')
-    or pg_catalog.pg_has_role(actor.oid,'ingestion_reprojection_definer','member') then
+    or pg_catalog.pg_has_role(actor.oid,'ingestion_reprojection_definer','member')
+    or not ingestion.mapping_login_eligible_v1(actor.oid,case when p_authority='ingestion_operator' then 'operator' else 'approver' end) then
     raise exception using errcode='42501',message='trusted distinct login authority required';
   end if;
   return actor.oid;
@@ -879,6 +1292,29 @@ returns jsonb language sql immutable set search_path='' as $$
       cross join lateral pg_catalog.jsonb_array_elements(item->'additions') with ordinality a(a,ordinality))));
 $$;
 
+create function ingestion.validate_mapping_actor_authority_v1(p_plan jsonb)
+returns void language plpgsql set search_path='' as $$
+declare a jsonb:=p_plan->'actor_authority'; op ingestion.mapping_actor_bindings; app ingestion.mapping_actor_bindings;
+begin
+  perform ingestion.mapping_require_keys_v1(a,array['contract_version','cluster_id','operator_principal_id','operator_binding_id','operator_binding_hash',
+    'approver_principal_id','approver_binding_id','approver_binding_hash']);
+  if a->>'contract_version' is distinct from 'foundation-mapping-actor-authority/v1'
+    or (a->>'cluster_id')::uuid is distinct from ingestion.mapping_identity_epoch_v1() then
+    raise exception using errcode='42501',message='pending operation binding is stale';end if;
+  op:=ingestion.mapping_binding_by_id_v1((a->>'operator_binding_id')::uuid,(a->>'operator_principal_id')::uuid,
+    (p_plan->>'dataset_id')::uuid,p_plan->>'environment');
+  app:=ingestion.mapping_binding_by_id_v1((a->>'approver_binding_id')::uuid,(a->>'approver_principal_id')::uuid,
+    (p_plan->>'dataset_id')::uuid,p_plan->>'environment');
+  if op.principal_id=app.principal_id or a->>'operator_binding_hash' is distinct from op.body_hash
+    or a->>'approver_binding_hash' is distinct from app.body_hash
+    or op.login_oid is distinct from (p_plan->>'operator_oid')::oid or op.login_name is distinct from p_plan->>'operator_login'
+    or app.login_oid is distinct from (p_plan->'approval_requirements'->>'approver_oid')::oid
+    or not exists(select from ingestion.mapping_actor_principals where id=op.principal_id and authority='operator')
+    or not exists(select from ingestion.mapping_actor_principals where id=app.principal_id and authority='approver') then
+    raise exception using errcode='42501',message='durable operator and independent approver binding mismatch';end if;
+end;
+$$;
+
 create function ingestion.validate_mapping_plan_v1(p_body jsonb)
 returns void language plpgsql set search_path='' as $$
 declare snapshot jsonb; food jsonb; item jsonb; candidate jsonb; state jsonb; before_state jsonb;
@@ -890,15 +1326,15 @@ declare snapshot jsonb; food jsonb; item jsonb; candidate jsonb; state jsonb; be
 begin
   -- Exact envelopes prevent unnoticed optional authority fields.
   if (select array_agg(key order by key) from pg_catalog.jsonb_object_keys(p_body) key) is distinct from
-    array['approval_requirements','before_snapshot','compensation_policy','contract_version','counts','dataset_id','diff','environment',
+    array['actor_authority','approval_requirements','before_snapshot','compensation_policy','contract_version','counts','dataset_id','diff','environment',
       'implementation','items','mapping_version_id','operation_kind','operator_login','operator_oid',
       'qualification','recovery_requirements','rejected_receipt_id','source_release_id']::text[] then
     raise exception using errcode='22023',message='mapping plan fields must be exact';
   end if;
   compensate := p_body->>'operation_kind'='compensation';
   if p_body->>'operation_kind' not in('reprojection','compensation')
-    or p_body->>'contract_version' is distinct from (case when compensate then 'foundation-mapping-compensation/v1'
-      else 'foundation-mapping-reprojection-plan/v1' end)
+    or p_body->>'contract_version' is distinct from (case when compensate then 'foundation-mapping-compensation/v2'
+      else 'foundation-mapping-reprojection-plan/v2' end)
     or p_body->>'environment' not in('local','production')
     or pg_catalog.octet_length(p_body::text)>33554432 then
     raise exception using errcode='22023',message='unsupported mapping plan';
@@ -912,6 +1348,7 @@ begin
     or pg_catalog.jsonb_typeof(p_body->'recovery_requirements'->'production_ready') is distinct from 'boolean'
     or (p_body->>'environment'='production' and p_body->'recovery_requirements'->'production_ready'<>'true'::jsonb) then
     raise exception using errcode='23514',message='exact source qualification and recovery evidence required';end if;
+  perform ingestion.validate_mapping_actor_authority_v1(p_body);
   perform ingestion.mapping_require_keys_v1(p_body->'approval_requirements',array['approver_oid','not_before','expires_at']);
   if (p_body->'approval_requirements'->>'expires_at')::timestamptz<=pg_catalog.clock_timestamp()
     or (p_body->'approval_requirements'->>'not_before')::timestamptz >= (p_body->'approval_requirements'->>'expires_at')::timestamptz
@@ -1106,44 +1543,53 @@ end;
 $$;
 
 create function ingestion.append_mapping_event_v1(p_plan uuid,p_prior text,p_next text)
-returns void language sql set search_path='' as $$
-  insert into ingestion.mapping_reprojection_events(plan_id,event_sequence,actor_oid,prior_state,next_state,event_body,event_hash)
-  select p_plan,(b->>'event_sequence')::integer,(select oid from pg_catalog.pg_roles where rolname=session_user),p_prior,p_next,b,
-    ingestion.fingerprint_mapping_json_v1(b) from(select pg_catalog.jsonb_build_object(
-      'contract_version','foundation-mapping-governance-event/v1','plan_id',p_plan,'prior_state',p_prior,
-      'next_state',p_next,'event_sequence',(select coalesce(max(event_sequence),0)+1 from ingestion.mapping_reprojection_events where plan_id=p_plan),'actor_oid',(select oid::bigint from pg_catalog.pg_roles where rolname=session_user)) b) s;
+returns void language plpgsql set search_path='' set timezone='UTC' as $$
+declare plan ingestion.mapping_reprojection_plans; actor ingestion.mapping_actor_bindings; b jsonb;
+begin
+  select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan;
+  actor:=ingestion.mapping_current_actor_v1(case when pg_catalog.pg_has_role(session_user,'ingestion_approver','member') then 'approver' else 'operator' end,
+    plan.dataset_id,plan.environment);
+  b:=pg_catalog.jsonb_build_object('contract_version','foundation-mapping-governance-event/v2','plan_id',p_plan,'prior_state',p_prior,
+    'next_state',p_next,'event_sequence',(select coalesce(max(event_sequence),0)+1 from ingestion.mapping_reprojection_events where plan_id=p_plan),
+    'actor_oid',actor.login_oid::bigint,'actor_principal_id',actor.principal_id,'actor_binding_id',actor.id,'actor_binding_hash',actor.body_hash);
+  insert into ingestion.mapping_reprojection_events(plan_id,event_sequence,actor_oid,actor_principal_id,actor_binding_id,prior_state,next_state,event_body,event_hash)
+    values(p_plan,(b->>'event_sequence')::integer,actor.login_oid,actor.principal_id,actor.id,p_prior,p_next,b,ingestion.fingerprint_mapping_json_v1(b));
+end;
 $$;
 create function ingestion.prepare_mapping_plan_internal_v1(p_plan jsonb,p_retry_token uuid,p_kind text)
 returns uuid language plpgsql set search_path='' as $$
-declare actor oid; plan_id uuid; item jsonb; hash text; existing ingestion.mapping_reprojection_plans;
+declare actor oid; binding ingestion.mapping_actor_bindings; plan_id uuid; item jsonb; hash text; existing ingestion.mapping_reprojection_plans; a jsonb;
 begin
-  actor:=ingestion.mapping_actor_oid_v1('ingestion_operator');
+  actor:=ingestion.mapping_actor_oid_v1('ingestion_operator');a:=p_plan->'actor_authority';
   if p_retry_token is null then raise exception using errcode='22023',message='plan retry identity required';end if;
-  if p_plan->>'operation_kind' is distinct from p_kind
-    or (p_plan->>'operator_oid')::oid is distinct from actor
-    or p_plan->>'operator_login' is distinct from session_user then
-    raise exception using errcode='42501',message='plan operator identity mismatch';
-  end if;
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(
     'nutrition-tracker:foundation-dataset-lifecycle:'||(p_plan->>'dataset_id'),0));
+  perform ingestion.lock_mapping_principals_v1(array[(a->>'operator_principal_id')::uuid,(a->>'approver_principal_id')::uuid]);
+  binding:=ingestion.mapping_current_actor_v1('operator',(p_plan->>'dataset_id')::uuid,p_plan->>'environment');
+  if p_plan->>'operation_kind' is distinct from p_kind or (p_plan->>'operator_oid')::oid is distinct from actor
+    or p_plan->>'operator_login' is distinct from session_user or binding.principal_id is distinct from (a->>'operator_principal_id')::uuid
+    or binding.id is distinct from (a->>'operator_binding_id')::uuid then
+    raise exception using errcode='42501',message='plan operator identity mismatch';end if;
+  perform ingestion.validate_mapping_actor_authority_v1(p_plan);
   hash:=ingestion.fingerprint_mapping_json_v1(p_plan);
   select * into existing from ingestion.mapping_reprojection_plans where plan_hash=hash;
   if found then
-    if existing.operator_oid<>actor or existing.plan_body<>p_plan or existing.retry_token<>p_retry_token then raise exception 'conflicting plan retry'; end if;
+    if existing.operator_principal_id<>binding.principal_id or existing.operator_binding_id<>binding.id
+      or existing.plan_body<>p_plan or existing.retry_token<>p_retry_token then raise exception 'conflicting plan retry';end if;
     return existing.id;
   end if;
   perform ingestion.validate_mapping_plan_v1(p_plan);
-  insert into ingestion.mapping_reprojection_plans(operation_kind,dataset_id,environment,source_release_id,
-    mapping_version_id,prior_head_id,prior_head_version,prior_head_hash,operator_oid,operator_name,
-    plan_body,plan_hash,rejected_receipt_id,retry_token)
-  values(p_kind,(p_plan->>'dataset_id')::uuid,p_plan->>'environment',(p_plan->>'source_release_id')::uuid,
-    (p_plan->>'mapping_version_id')::uuid,(p_plan->'before_snapshot'->'head'->>'id')::uuid,
-    (p_plan->'before_snapshot'->'head'->>'version')::bigint,p_plan->'before_snapshot'->'head'->>'fingerprint',
-    actor,session_user,p_plan,hash,(p_plan->>'rejected_receipt_id')::uuid,p_retry_token) returning id into plan_id;
+  insert into ingestion.mapping_reprojection_plans(operation_kind,dataset_id,environment,source_release_id,mapping_version_id,
+    prior_head_id,prior_head_version,prior_head_hash,operator_oid,operator_name,operator_principal_id,operator_binding_id,
+    approver_principal_id,approver_binding_id,origin_cluster_id,plan_body,plan_hash,rejected_receipt_id,retry_token)
+  values(p_kind,(p_plan->>'dataset_id')::uuid,p_plan->>'environment',(p_plan->>'source_release_id')::uuid,(p_plan->>'mapping_version_id')::uuid,
+    (p_plan->'before_snapshot'->'head'->>'id')::uuid,(p_plan->'before_snapshot'->'head'->>'version')::bigint,
+    p_plan->'before_snapshot'->'head'->>'fingerprint',actor,session_user,binding.principal_id,binding.id,
+    (a->>'approver_principal_id')::uuid,(a->>'approver_binding_id')::uuid,binding.cluster_id,
+    p_plan,hash,(p_plan->>'rejected_receipt_id')::uuid,p_retry_token) returning id into plan_id;
   perform ingestion.append_mapping_event_v1(plan_id,null,'prepared');
   for item in select value from pg_catalog.jsonb_array_elements(p_plan->'items') loop
-    insert into ingestion.mapping_reprojection_plan_items(plan_id,food_id,source_record_id,source_version_id,
-      prior_projection_id,prior_food_head_version,item_body,item_hash)
+    insert into ingestion.mapping_reprojection_plan_items(plan_id,food_id,source_record_id,source_version_id,prior_projection_id,prior_food_head_version,item_body,item_hash)
     values(plan_id,(item->'before'->>'food_id')::uuid,(item->'before'->>'source_record_id')::uuid,
       (item->'before'->>'source_version_id')::uuid,(item->'before'->>'prior_projection_id')::uuid,
       (item->'before'->>'food_head_version')::bigint,item,ingestion.fingerprint_mapping_json_v1(item));
@@ -1164,15 +1610,17 @@ $$;
 
 create function ingestion.approve_mapping_plan_internal_v1(p_plan_id uuid,p_plan_hash text,p_expires_at timestamptz,p_evidence jsonb,p_kind text)
 returns uuid language plpgsql set search_path='' as $$
-declare actor oid; plan ingestion.mapping_reprojection_plans; approval_id uuid; body jsonb;
+declare actor oid; binding ingestion.mapping_actor_bindings; plan ingestion.mapping_reprojection_plans; approval_id uuid; body jsonb;
 begin
   actor:=ingestion.mapping_actor_oid_v1('ingestion_approver');
   select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan_id;
-  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(
-    'nutrition-tracker:foundation-dataset-lifecycle:'||plan.dataset_id::text,0));
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended('nutrition-tracker:foundation-dataset-lifecycle:'||plan.dataset_id::text,0));
+  perform ingestion.lock_mapping_principals_v1(array[plan.operator_principal_id,plan.approver_principal_id]);
+  binding:=ingestion.mapping_current_actor_v1('approver',plan.dataset_id,plan.environment);
   perform 1 from ingestion.dataset_projection_current_heads where dataset_id=plan.dataset_id and environment=plan.environment for update;
   select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan_id for update;
-  if plan.operation_kind<>p_kind or plan.state<>'validated' or plan.operator_oid=actor
+  if plan.operation_kind<>p_kind or plan.state<>'validated' or plan.operator_principal_id=binding.principal_id
+    or plan.approver_principal_id<>binding.principal_id or plan.approver_binding_id<>binding.id or plan.origin_cluster_id<>binding.cluster_id
     or plan.plan_hash is distinct from p_plan_hash or plan.plan_hash<>ingestion.fingerprint_mapping_json_v1(plan.plan_body)
     or actor is distinct from (plan.plan_body->'approval_requirements'->>'approver_oid')::oid
     or p_expires_at is distinct from (plan.plan_body->'approval_requirements'->>'expires_at')::timestamptz
@@ -1183,18 +1631,18 @@ begin
     or p_evidence->>'recovery_evidence_hash' is distinct from plan.plan_body->'recovery_requirements'->>'qualification_hash'
     or p_evidence->>'recovery_evidence_hash' is null or p_evidence->>'recovery_evidence_hash' !~ '^[a-f0-9]{64}$'
     or p_evidence->>'approval_reference' is null or pg_catalog.length(p_evidence->>'approval_reference') not between 1 and 200 then
-    raise exception using errcode='42501',message='independent exact-plan approval required';
-  end if;
+    raise exception using errcode='42501',message='independent exact-plan approval required';end if;
   perform ingestion.validate_mapping_plan_v1(plan.plan_body);
   perform ingestion.mapping_require_keys_v1(p_evidence,array['independent_review_hash','recovery_evidence_hash','approval_reference']);
   body:=pg_catalog.jsonb_build_object('contract_version',case when p_kind='compensation'
-      then 'foundation-mapping-compensation/v1' else 'foundation-mapping-reprojection-approval/v1' end,
-    'plan_hash',plan.plan_hash,'dataset_id',plan.dataset_id,'environment',plan.environment,
-    'source_release_id',plan.source_release_id,'mapping_version_id',plan.mapping_version_id,
-    'prior_head_id',plan.prior_head_id,'operator_oid',plan.operator_oid::bigint,'approver_oid',actor::bigint,
+    then 'foundation-mapping-compensation/v2' else 'foundation-mapping-reprojection-approval/v2' end,
+    'plan_hash',plan.plan_hash,'dataset_id',plan.dataset_id,'environment',plan.environment,'source_release_id',plan.source_release_id,
+    'mapping_version_id',plan.mapping_version_id,'prior_head_id',plan.prior_head_id,'operator_oid',plan.operator_oid::bigint,
+    'approver_oid',actor::bigint,'actor_authority',plan.plan_body->'actor_authority',
     'expires_at',pg_catalog.to_char(p_expires_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),'evidence',p_evidence);
-  insert into ingestion.mapping_reprojection_approvals(plan_id,plan_hash,retry_token,approver_oid,approver_name,approved_at,
-    expires_at,approval_body,approval_hash) values(plan.id,plan.plan_hash,plan.retry_token,actor,session_user,
+  insert into ingestion.mapping_reprojection_approvals(plan_id,plan_hash,retry_token,approver_oid,approver_name,approver_principal_id,
+    approver_binding_id,approved_at,expires_at,approval_body,approval_hash)
+    values(plan.id,plan.plan_hash,plan.retry_token,actor,session_user,binding.principal_id,binding.id,
     pg_catalog.clock_timestamp(),p_expires_at,body,ingestion.fingerprint_mapping_json_v1(body)) returning id into approval_id;
   update ingestion.mapping_reprojection_plans set state='approved' where id=plan.id;
   perform ingestion.append_mapping_event_v1(plan.id,'validated','approved');
@@ -1255,7 +1703,7 @@ create policy food_nutrients_compensation_delete on public.food_nutrients for de
 
 create function ingestion.execute_mapping_plan_internal_v1(p_approval_id uuid,p_retry_token uuid,p_kind text)
 returns jsonb language plpgsql set search_path='' as $$
-declare actor oid; plan ingestion.mapping_reprojection_plans; approval ingestion.mapping_reprojection_approvals;
+declare actor oid; binding ingestion.mapping_actor_bindings; approver_binding ingestion.mapping_actor_bindings; plan ingestion.mapping_reprojection_plans; approval ingestion.mapping_reprojection_approvals;
   receipt ingestion.mapping_reprojection_receipts; item ingestion.mapping_reprojection_plan_items;
   pointer ingestion.dataset_projection_current_heads; prior ingestion.food_projection_versions;
   interpretation ingestion.source_mapping_interpretations; candidate jsonb; body jsonb; state jsonb; evidence jsonb;
@@ -1273,14 +1721,10 @@ begin
   select * into strict plan from ingestion.mapping_reprojection_plans where id=approval.plan_id;
   if p_retry_token<>plan.retry_token or p_retry_token<>approval.retry_token then
     raise exception using errcode='23505',message='retry identity differs from approved operation';end if;
-  if plan.operation_kind<>p_kind or plan.operator_oid<>actor or plan.operator_name<>session_user
-    or approval.approver_oid=actor or approval.plan_hash<>plan.plan_hash
-    or plan.plan_hash<>ingestion.fingerprint_mapping_json_v1(plan.plan_body)
-    or approval.approval_hash<>ingestion.fingerprint_mapping_json_v1(approval.approval_body)
-    or not pg_catalog.pg_has_role(approval.approver_oid,'ingestion_approver','member')
-    or pg_catalog.pg_has_role(approval.approver_oid,'ingestion_operator','member') then
-    raise exception using errcode='42501',message='execution actor or approval scope mismatch';
-  end if;
+  if plan.operation_kind<>p_kind or plan.plan_hash<>ingestion.fingerprint_mapping_json_v1(plan.plan_body)
+    or approval.plan_hash<>plan.plan_hash or approval.approval_hash<>ingestion.fingerprint_mapping_json_v1(approval.approval_body)
+    or approval.approval_body->'actor_authority' is distinct from plan.plan_body->'actor_authority' then
+    raise exception using errcode='42501',message='execution approval scope mismatch';end if;
   -- Shared with lifecycle, and also with the historical promotion key. Both
   -- namespaces are taken in this order. Environment is deliberately not added
   -- to the historical dataset key, which serializes environments more strictly.
@@ -1288,13 +1732,25 @@ begin
     'nutrition-tracker:foundation-dataset-lifecycle:'||plan.dataset_id::text,0));
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(
     'nutrition-tracker:foundation-promotion:'||plan.source_release_id::text,0));
+  -- A concurrent identical execution may have committed while this session
+  -- waited. Refresh mutable state under the dataset locks before retry lookup.
+  select * into strict plan from ingestion.mapping_reprojection_plans where id=approval.plan_id;
+  perform ingestion.lock_mapping_principals_v1(array[plan.operator_principal_id,plan.approver_principal_id]);
+  binding:=ingestion.mapping_current_actor_v1('operator',plan.dataset_id,plan.environment);
+  if binding.principal_id<>plan.operator_principal_id then raise exception using errcode='42501',message='execution principal mismatch';end if;
   select * into receipt from ingestion.mapping_reprojection_receipts where approval_id=approval.id;
   if found then
-    if receipt.operator_oid<>actor or receipt.retry_token<>p_retry_token or receipt.plan_id<>plan.id then
-      raise exception using errcode='23505',message='retry identity differs from committed operation';
-    end if;
+    if receipt.operator_principal_id<>binding.principal_id or receipt.retry_token<>p_retry_token or receipt.plan_id<>plan.id
+      or plan.state<>'completed' or receipt.receipt_hash<>ingestion.fingerprint_mapping_json_v1(receipt.receipt_body) then
+      raise exception using errcode='23505',message='retry identity differs from committed operation';end if;
     return receipt.receipt_body;
   end if;
+  if plan.origin_cluster_id<>binding.cluster_id or plan.operator_binding_id<>binding.id or plan.operator_oid<>actor or plan.operator_name<>session_user then
+    raise exception using errcode='42501',message='pending operation binding is stale';end if;
+  approver_binding:=ingestion.mapping_binding_by_id_v1(plan.approver_binding_id,plan.approver_principal_id,plan.dataset_id,plan.environment);
+  if approval.approver_binding_id<>approver_binding.id or approval.approver_principal_id<>approver_binding.principal_id
+    or approval.approver_oid<>approver_binding.login_oid or plan.operator_principal_id=approval.approver_principal_id then
+    raise exception using errcode='42501',message='pending approval binding mismatch';end if;
   select * into strict pointer from ingestion.dataset_projection_current_heads
     where dataset_id=plan.dataset_id and environment=plan.environment for update;
   select * into strict plan from ingestion.mapping_reprojection_plans where id=plan.id for update;
@@ -1435,9 +1891,10 @@ begin
   if approval.expires_at<=pg_catalog.clock_timestamp() then raise exception using errcode='55000',message='approval expired during execution';end if;
   completed_at:=pg_catalog.clock_timestamp();
   receipt_body:=pg_catalog.jsonb_build_object('contract_version',case when p_kind='compensation'
-      then 'foundation-mapping-compensation/v1' else 'foundation-mapping-reprojection-receipt/v1' end,
+      then 'foundation-mapping-compensation/v2' else 'foundation-mapping-reprojection-receipt/v2' end,
     'receipt_id',operation_receipt_id,'operation_kind',p_kind,'plan_id',plan.id,'plan_hash',plan.plan_hash,
     'approval_id',approval.id,'approval_hash',approval.approval_hash,'operator_oid',actor::bigint,'retry_token',p_retry_token,
+    'actor_authority',plan.plan_body->'actor_authority',
     'dataset_id',plan.dataset_id,'environment',plan.environment,'source_release_id',plan.source_release_id,
     'prior_head_id',plan.prior_head_id,'resulting_head_id',head_id,'resulting_head_version',plan.prior_head_version+1,
     'resulting_head_fingerprint',head_hash,'counts',plan.plan_body->'counts','rejected_receipt_id',plan.rejected_receipt_id,
@@ -1445,9 +1902,9 @@ begin
       (r.row_image-'amount')||pg_catalog.jsonb_build_object('amount',pg_catalog.trim_scale(r.amount)::text) order by r.public_row_id::text collate "C"),'[]'))
       from ingestion.mapping_reprojection_inserted_rows r where r.receipt_id=case when p_kind='compensation' then plan.rejected_receipt_id else operation_receipt_id end),
     'completed_at',pg_catalog.to_char(completed_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'));
-  insert into ingestion.mapping_reprojection_receipts(id,dataset_id,environment,plan_id,approval_id,operator_oid,retry_token,
+  insert into ingestion.mapping_reprojection_receipts(id,dataset_id,environment,plan_id,approval_id,operator_oid,operator_principal_id,retry_token,
     prior_head_id,resulting_head_id,receipt_body,receipt_hash,completed_at)
-  values(operation_receipt_id,plan.dataset_id,plan.environment,plan.id,approval.id,actor,p_retry_token,plan.prior_head_id,head_id,receipt_body,
+  values(operation_receipt_id,plan.dataset_id,plan.environment,plan.id,approval.id,actor,plan.operator_principal_id,p_retry_token,plan.prior_head_id,head_id,receipt_body,
     ingestion.fingerprint_mapping_json_v1(receipt_body),completed_at);
   update ingestion.dataset_projection_current_heads set current_dataset_projection_head_id=head_id,
     current_head_version=plan.prior_head_version+1,current_projection_fingerprint=head_hash,updated_at=completed_at
@@ -1503,44 +1960,45 @@ $$;
 
 create function ingestion.get_foundation_mapping_reprojection_receipt_v1(p_approval_id uuid)
 returns jsonb language plpgsql security definer set search_path='' set timezone='UTC' as $$
-declare actor oid; plan ingestion.mapping_reprojection_plans; receipt ingestion.mapping_reprojection_receipts;
+declare actor ingestion.mapping_actor_bindings; plan ingestion.mapping_reprojection_plans; receipt ingestion.mapping_reprojection_receipts;
 begin
-  actor:=ingestion.mapping_actor_oid_v1('ingestion_operator');
-  select * into strict plan from ingestion.mapping_reprojection_plans where id=(
-    select plan_id from ingestion.mapping_reprojection_approvals where id=p_approval_id);
-  if plan.operator_oid<>actor then raise exception using errcode='42501',message='receipt actor mismatch'; end if;
+  perform ingestion.mapping_actor_oid_v1('ingestion_operator');
+  select * into strict plan from ingestion.mapping_reprojection_plans where id=(select plan_id from ingestion.mapping_reprojection_approvals where id=p_approval_id);
+  perform ingestion.lock_mapping_principals_v1(array[plan.operator_principal_id]);
+  actor:=ingestion.mapping_current_actor_v1('operator',plan.dataset_id,plan.environment);
+  if plan.operator_principal_id<>actor.principal_id then raise exception using errcode='42501',message='receipt principal mismatch';end if;
   select * into receipt from ingestion.mapping_reprojection_receipts where approval_id=p_approval_id;
+  if found and (plan.state<>'completed' or receipt.operator_principal_id<>actor.principal_id or receipt.plan_id<>plan.id
+    or receipt.receipt_hash<>ingestion.fingerprint_mapping_json_v1(receipt.receipt_body)) then raise exception 'completed receipt integrity mismatch';end if;
   return receipt.receipt_body;
 end;
 $$;
 create function ingestion.get_foundation_mapping_reprojection_plan_v1(p_plan_id uuid)
 returns jsonb language plpgsql security definer set search_path='' set timezone='UTC' as $$
-declare actor oid; plan ingestion.mapping_reprojection_plans;
+declare actor ingestion.mapping_actor_bindings; plan ingestion.mapping_reprojection_plans; authority text;
 begin
-  if pg_catalog.pg_has_role(session_user,'ingestion_approver','member') then
-    actor:=ingestion.mapping_actor_oid_v1('ingestion_approver');
-  else actor:=ingestion.mapping_actor_oid_v1('ingestion_operator'); end if;
+  authority:=case when pg_catalog.pg_has_role(session_user,'ingestion_approver','member') then 'approver' else 'operator' end;
+  perform ingestion.mapping_actor_oid_v1('ingestion_'||authority);
   select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan_id;
-  if plan.operator_oid<>actor and not pg_catalog.pg_has_role(actor,'ingestion_approver','member') then
-    raise exception using errcode='42501',message='plan actor mismatch';
-  end if;
+  actor:=ingestion.mapping_current_actor_v1(authority,plan.dataset_id,plan.environment);
+  if authority='operator' and plan.operator_principal_id<>actor.principal_id then raise exception using errcode='42501',message='plan principal mismatch';end if;
   return pg_catalog.jsonb_build_object('plan_id',plan.id,'plan_hash',plan.plan_hash,'retry_token',plan.retry_token,'state',plan.state,'plan',plan.plan_body);
 end;
 $$;
 create function ingestion.close_foundation_mapping_plan_v1(p_plan_id uuid,p_outcome text)
 returns void language plpgsql security definer set search_path='' set timezone='UTC' as $$
-declare actor oid; plan ingestion.mapping_reprojection_plans;
+declare actor ingestion.mapping_actor_bindings; plan ingestion.mapping_reprojection_plans;
 begin
-  if p_outcome='rejected' then actor:=ingestion.mapping_actor_oid_v1('ingestion_approver');
-  else actor:=ingestion.mapping_actor_oid_v1('ingestion_operator'); end if;
+  perform ingestion.mapping_actor_oid_v1(case when p_outcome='rejected' then 'ingestion_approver' else 'ingestion_operator' end);
+  select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan_id;
+  perform ingestion.lock_mapping_principals_v1(array[plan.operator_principal_id,plan.approver_principal_id]);
+  actor:=ingestion.mapping_current_actor_v1(case when p_outcome='rejected' then 'approver' else 'operator' end,plan.dataset_id,plan.environment);
   select * into strict plan from ingestion.mapping_reprojection_plans where id=p_plan_id for update;
-  if plan.state not in('prepared','validated','approved') or p_outcome not in('rejected','expired','abandoned')
-    or (p_outcome<>'rejected' and plan.operator_oid<>actor)
+  if plan.origin_cluster_id<>actor.cluster_id or actor.id<>(case when p_outcome='rejected' then plan.approver_binding_id else plan.operator_binding_id end)
+    or plan.state not in('prepared','validated','approved') or p_outcome not in('rejected','expired','abandoned')
     or (p_outcome='expired' and (plan.plan_body->'approval_requirements'->>'expires_at')::timestamptz>pg_catalog.clock_timestamp())
-    or (p_outcome='expired' and exists(select from ingestion.mapping_reprojection_approvals where plan_id=plan.id
-      and expires_at>pg_catalog.clock_timestamp())) then
-    raise exception using errcode='42501',message='invalid pre-execution outcome';
-  end if;
+    or (p_outcome='expired' and exists(select from ingestion.mapping_reprojection_approvals where plan_id=plan.id and expires_at>pg_catalog.clock_timestamp())) then
+    raise exception using errcode='42501',message='invalid pre-execution outcome or stale binding';end if;
   update ingestion.mapping_reprojection_plans set state=p_outcome where id=plan.id;
   perform ingestion.append_mapping_event_v1(plan.id,plan.state,p_outcome);
 end;
@@ -1664,7 +2122,8 @@ begin
     into strict mapping from ingestion.nutrient_mapping_versions m join ingestion.mapping_version_evidence e on e.mapping_version_id=m.id
     where m.dataset_id=dataset and m.version_code='usda-foundation-full35-direct-v2' and m.approval_status='approved';
   return pg_catalog.jsonb_build_object('before_snapshot',snapshot,'before_hash',ingestion.fingerprint_mapping_json_v1(snapshot),'mapping',mapping,
-    'database_contract_hash',ingestion.fingerprint_mapping_database_contract_v1());
+    'database_contract_hash',ingestion.fingerprint_mapping_database_contract_v1(),
+    'actor_authority',ingestion.mapping_actor_scope_v1(dataset,p_environment));
 end;
 $$;
 
@@ -1677,14 +2136,15 @@ returns text language sql stable set search_path='' as $$
       'definition',pg_catalog.pg_get_functiondef(p.oid),'acl',p.proacl::text)
       order by p.oid::regprocedure::text collate "C") from pg_catalog.pg_proc p
       join pg_catalog.pg_namespace n on n.oid=p.pronamespace
-      where (n.nspname in('public','private') and p.prokind<>'a') or (n.nspname='ingestion' and (p.proowner='ingestion_reprojection_definer'::regrole
+      where (n.nspname in('public','private') and p.prokind<>'a') or (n.nspname='ingestion' and (p.proowner in('ingestion_reprojection_definer'::regrole,'ingestion_identity_definer'::regrole)
         or p.proname in('canonicalize_json_v1','fingerprint_json_v1','promote_validated_foundation_run','execute_foundation_lifecycle_update')))),
     'dictionary',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('id',id,'code',code,'unit',unit) order by code collate "C") from public.nutrients),
     'roles',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('name',rolname,'login',rolcanlogin,
       'superuser',rolsuper,'bypassrls',rolbypassrls,'createdb',rolcreatedb,'createrole',rolcreaterole,
       'replication',rolreplication,'inherit',rolinherit) order by rolname collate "C")
       from pg_catalog.pg_roles where rolname in('ingestion_reprojection_definer','ingestion_operator','ingestion_approver',
-        'ingestion_promotion_definer','ingestion_lifecycle_definer','ingestion_definer')),
+        'ingestion_promotion_definer','ingestion_lifecycle_definer','ingestion_definer',
+        'ingestion_identity_definer','ingestion_identity_governor','ingestion_identity_reviewer')),
     'relations',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object(
       'relation',n.nspname||'.'||c.relname,'owner',pg_catalog.pg_get_userbyid(c.relowner),
       'rls',c.relrowsecurity,'force_rls',c.relforcerowsecurity,'acl',c.relacl::text,
@@ -1710,12 +2170,12 @@ returns text language sql stable set search_path='' as $$
         join pg_catalog.pg_namespace fn on fn.oid=f.pronamespace
         where t.tgrelid=c.oid and not t.tgisinternal and fn.nspname in('ingestion','public','private'))
       ) order by n.nspname collate "C",c.relname collate "C") from pg_catalog.pg_class c
-      join pg_catalog.pg_namespace n on n.oid=c.relnamespace where n.nspname in('public','ingestion') and c.relkind='r'),
+      join pg_catalog.pg_namespace n on n.oid=c.relnamespace where (n.nspname in('public','ingestion') or (n.nspname='private' and c.relname='mapping_actor_cluster_epoch')) and c.relkind='r'),
     'default_acls',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('owner',pg_catalog.pg_get_userbyid(d.defaclrole),
       'schema',n.nspname,'kind',d.defaclobjtype::text,'acl',d.defaclacl::text)
       order by pg_catalog.pg_get_userbyid(d.defaclrole) collate "C",n.nspname collate "C",d.defaclobjtype)
       from pg_catalog.pg_default_acl d left join pg_catalog.pg_namespace n on n.oid=d.defaclnamespace
-      where n.nspname in('public','ingestion') or (d.defaclnamespace=0 and d.defaclrole='ingestion_reprojection_definer'::regrole))));
+      where n.nspname in('public','ingestion') or (d.defaclnamespace=0 and d.defaclrole in('ingestion_reprojection_definer'::regrole,'ingestion_identity_definer'::regrole)))));
 $$;
 
 
@@ -1816,7 +2276,6 @@ grant execute on function ingestion.fingerprint_json_v1(jsonb),ingestion.canonic
   to ingestion_reprojection_definer;
 grant execute on function ingestion.canonicalize_mapping_json_v1(jsonb),ingestion.fingerprint_mapping_json_v1(jsonb)
   to postgres,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer;
-revoke create on schema ingestion from ingestion_reprojection_definer;
 
 
 grant execute on function ingestion.get_foundation_mapping_reprojection_scope_v1(text),
@@ -1829,4 +2288,48 @@ grant execute on function ingestion.approve_foundation_mapping_reprojection_v1(u
   ingestion.approve_foundation_mapping_compensation_v1(uuid,text,timestamptz,json) to ingestion_approver;
 grant execute on function ingestion.get_foundation_mapping_reprojection_plan_v1(uuid),
   ingestion.close_foundation_mapping_plan_v1(uuid,text) to ingestion_operator,ingestion_approver;
+
+-- BEGIN DURABLE ACTOR CLOSED ACLS
+alter function ingestion.get_foundation_actor_binding_request_v1(uuid) owner to ingestion_identity_definer;
+revoke all on function ingestion.get_foundation_actor_binding_request_v1(uuid) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer;
+grant execute on function ingestion.get_foundation_actor_binding_request_v1(uuid) to ingestion_identity_governor,ingestion_identity_reviewer;
+
+alter function ingestion.guard_mapping_identity_record_v1() owner to ingestion_identity_definer;
+revoke all on function ingestion.guard_mapping_identity_record_v1() from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.guard_mapping_cluster_epoch_v1() owner to ingestion_identity_definer;
+revoke all on function ingestion.guard_mapping_cluster_epoch_v1() from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_identity_epoch_v1() owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_identity_epoch_v1() from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_login_fingerprint_v1(oid) owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_login_fingerprint_v1(oid) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_login_eligible_v1(oid,text) owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_login_eligible_v1(oid,text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_identity_controller_v1(text) owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_identity_controller_v1(text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.request_foundation_actor_binding_v1(json) owner to ingestion_identity_definer;
+revoke all on function ingestion.request_foundation_actor_binding_v1(json) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.approve_foundation_actor_binding_v1(uuid,text) owner to ingestion_identity_definer;
+revoke all on function ingestion.approve_foundation_actor_binding_v1(uuid,text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_binding_by_id_v1(uuid,uuid,uuid,text) owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_binding_by_id_v1(uuid,uuid,uuid,text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_current_actor_v1(text,uuid,text) owner to ingestion_identity_definer;
+revoke all on function ingestion.mapping_current_actor_v1(text,uuid,text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.lock_mapping_principals_v1(uuid[]) owner to ingestion_identity_definer;
+revoke all on function ingestion.lock_mapping_principals_v1(uuid[]) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.mapping_actor_scope_v1(uuid,text) owner to ingestion_reprojection_definer;
+revoke all on function ingestion.mapping_actor_scope_v1(uuid,text) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+alter function ingestion.validate_mapping_actor_authority_v1(jsonb) owner to ingestion_reprojection_definer;
+revoke all on function ingestion.validate_mapping_actor_authority_v1(jsonb) from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,ingestion_definer,ingestion_promotion_definer,ingestion_lifecycle_definer,ingestion_identity_governor,ingestion_identity_reviewer;
+grant execute on function ingestion.canonicalize_mapping_json_v1(jsonb),ingestion.fingerprint_mapping_json_v1(jsonb),
+  ingestion.mapping_json_input_v1(json),ingestion.mapping_json_has_duplicate_keys_v1(json),ingestion.mapping_require_keys_v1(jsonb,text[]) to ingestion_identity_definer;
+grant execute on function ingestion.guard_mapping_identity_record_v1(),ingestion.mapping_identity_epoch_v1(),
+  ingestion.mapping_login_fingerprint_v1(oid),ingestion.mapping_login_eligible_v1(oid,text),
+  ingestion.mapping_binding_by_id_v1(uuid,uuid,uuid,text),ingestion.mapping_current_actor_v1(text,uuid,text),
+  ingestion.lock_mapping_principals_v1(uuid[]) to ingestion_reprojection_definer;
+grant execute on function ingestion.request_foundation_actor_binding_v1(json) to ingestion_identity_governor;
+grant execute on function ingestion.approve_foundation_actor_binding_v1(uuid,text) to ingestion_identity_reviewer;
+revoke create on schema ingestion,private from ingestion_identity_definer;
+revoke ingestion_identity_definer from postgres;
+
+revoke create on schema ingestion from ingestion_reprojection_definer;
 revoke ingestion_reprojection_definer,ingestion_lifecycle_definer,ingestion_definer from postgres;

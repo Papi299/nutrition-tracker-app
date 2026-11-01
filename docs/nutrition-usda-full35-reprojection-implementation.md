@@ -9,10 +9,10 @@ qualification, deployment and merge require later authorization.
 
 `ingestion/usda/foundation/reprojection/contracts.ts` builds deterministic
 `foundation-lifecycle-projection/v2`, `foundation-mapping-reprojection-diff/v1`,
-`foundation-mapping-reprojection-plan/v1` and
-`foundation-mapping-compensation/v1` bodies. Approval and receipt shapes use
-`foundation-mapping-reprojection-approval/v1` and
-`foundation-mapping-reprojection-receipt/v1`; compensation approvals/receipts
+`foundation-mapping-reprojection-plan/v2` and
+`foundation-mapping-compensation/v2` bodies. Approval and receipt shapes use
+`foundation-mapping-reprojection-approval/v2` and
+`foundation-mapping-reprojection-receipt/v2`; compensation approvals/receipts
 carry the compensation identity and an explicit operation kind where applicable.
 
 Amounts are canonical decimal strings. Objects use recursive UTF-8/C key order;
@@ -37,13 +37,11 @@ The six independent Python-generated canonical-byte vectors in
 vectors, with abbreviated non-executable bodies. Live database qualification
 separately tests complete 353-item executable plans and SQL/TypeScript parity.
 
-The trusted operator and approver are distinct database LOGIN roles, each a
-member of only its corresponding ingestion authority. Resolution uses the
-actual `session_user` OID, current role attributes and membership. Role labels,
-`SET ROLE`, JWT text, arbitrary actor parameters, search-path objects and GUCs
-do not confer executor authority. Membership in both authorities or the definer
-role is rejected. Actor OIDs, exact login, planned approver, approval window and
-retry UUID are bound to immutable records and typed foreign keys.
+The trusted operator and approver are distinct durable principals with separately governed bindings to actual database LOGIN sessions. Each principal has one immutable authority and a unique verified subject commitment. Preparation/approval/new execution binds the exact cluster marker and current binding IDs/hashes, alongside original OIDs and names retained as audit. Completed retries and receipt reads require the original durable operator through a currently verified binding and return the immutable result without writes. They do not transfer pending execution authority.
+
+[The durable actor design](nutrition-usda-full35-durable-actor-identity-design.md) specifies the two independent governor/reviewer sessions, evidence commitments, permanent revocation, freshness, serialization and private operational marker. The migration grants no controller members. Real continuity evidence must be independently verified outside Git. A copied login name, GUC, JWT, SET ROLE or numeric OID never establishes a principal. The private cluster marker must remain fresh after logical restore; it is excluded from portable application data. Full recovery qualification is a separate gate.
+
+Nine additional independent Python canonical vectors in `tests/fixtures/foundation-mapping-actor-v2.golden.json` cover unreleased authority v2 and the new identity records. Run `python3 scripts/generate-full35-actor-goldens.py` to regenerate them. The original six vectors remain byte-identical historical serializer evidence; no deployed receipt compatibility is claimed.
 
 The new `ingestion_reprojection_definer` is NOLOGIN, NOINHERIT, NOSUPERUSER,
 NOBYPASSRLS, NOCREATEDB, NOCREATEROLE and NOREPLICATION. It has no private user
@@ -64,6 +62,9 @@ grants no consumer or service-role administrative entry point.
 
 | Function | Arguments | Caller/result |
 |---|---|---|
+| `request_foundation_actor_binding_v1` | canonical exact evidence/scope `json` | Governor LOGIN; immutable proposal UUID, no activation |
+| `get_foundation_actor_binding_request_v1` | proposal `uuid` | Governor/reviewer LOGIN; exact request, historical binding and live catalog review |
+| `approve_foundation_actor_binding_v1` | proposal `uuid`, exact request hash `text` | Distinct reviewer LOGIN; immutable decision UUID and guarded pointer advancement |
 | `get_foundation_mapping_reprojection_scope_v1` | environment `text` | Operator; bounded public/source before-image, mapping, installed-schema fingerprint |
 | `prepare_foundation_mapping_reprojection_v1` | canonical plan `json`, retry `uuid` | Operator; immutable validated plan UUID |
 | `prepare_foundation_mapping_compensation_v1` | canonical plan `json`, retry `uuid` | Operator; separately validated compensation plan UUID |
@@ -181,3 +182,5 @@ A failing new-history CI gate is an unresolved integration blocker. Local SQL
 success does not confer release, migration, mapping-registration or merge
 approval. This implementation must remain in an unmerged Draft PR pending
 independent implementation and subsequent recovery review.
+
+Run `npm run test:full35-durable-actor-local` for the separate three-cluster principal qualification and all twenty required security cases. This command does not accept connection options or authorize migration-47 recovery. Both Draft PRs remain unmerged.

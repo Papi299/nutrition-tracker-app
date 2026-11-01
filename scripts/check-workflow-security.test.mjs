@@ -55,6 +55,12 @@ test("CI workflow security policy accepts the reviewed dispatch contract", () =>
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
+    ci.replace("  actor_identity:", "  other_actor_job:"),
+    ci.replace("    name: Full35 durable actor identity\n", "    name: Full35 durable actor identity\n    if: false\n"),
+    ci.replace("    timeout-minutes: 25\n", "    timeout-minutes: 24\n"),
+    ci.replace("    timeout-minutes: 25\n", "    timeout-minutes: 26\n"),
+    ci.replace("npm run test:full35-durable-actor-local", "npm run test:full35-durable-actor-local || true"),
+    ci.replace("npm run test:full35-durable-actor-local", "echo skipped"),
     ci.replace("  workflow_dispatch:\n", ""),
     ci.replace("  workflow_dispatch:\n", "  workflow_dispatch:\n  schedule:\n"),
     ci.replace('"refs/heads/main"', '"refs/heads/feature"'),

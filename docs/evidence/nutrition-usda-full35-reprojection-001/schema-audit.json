@@ -1,1 +1,420 @@
-{"role": {"name": "ingestion_reprojection_definer", "login": false, "inherit": false, "createdb": false, "bypassrls": false, "superuser": false, "createrole": false, "replication": false}, "functions": [{"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.append_mapping_event_v1(uuid,text,text)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.approve_foundation_mapping_compensation_v1(uuid,text,timestamp with time zone,json)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.approve_foundation_mapping_reprojection_v1(uuid,text,timestamp with time zone,json)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.approve_mapping_plan_internal_v1(uuid,text,timestamp with time zone,jsonb,text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.canonicalize_mapping_json_v1(jsonb)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.close_foundation_mapping_plan_v1(uuid,text)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.execute_foundation_mapping_compensation_v1(uuid,uuid)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.execute_foundation_mapping_reprojection_v1(uuid,uuid)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.execute_mapping_plan_internal_v1(uuid,uuid,text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.fingerprint_mapping_database_contract_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.fingerprint_mapping_json_v1(jsonb)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.fingerprint_mapping_projection_evidence_v1(uuid)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.foundation_full35_mapping_body_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.foundation_full35_rejected_set_v1()", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.get_foundation_mapping_reprojection_plan_v1(uuid)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.get_foundation_mapping_reprojection_receipt_v1(uuid)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.get_foundation_mapping_reprojection_scope_v1(text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.guard_mapping_plan_transition_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.guard_mapping_public_mutation_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_actor_oid_v1(text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_candidate_states_v1(jsonb,boolean)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_json_has_duplicate_keys_v1(json)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_json_input_v1(json)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_lifecycle_hash_v2(jsonb)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_plan_diff_v1(jsonb)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_projection_body_v2(uuid)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_projection_state_body_v1(ingestion.food_nutrient_projection_versions)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_proposed_projection_v2(jsonb,jsonb,uuid,text,uuid,boolean)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_public_mutation_authorized_v1(uuid,uuid,numeric,text,uuid,boolean)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_require_keys_v1(jsonb,text[])", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_scope_snapshot_v1(uuid,text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.mapping_source_record_hash_v1(text)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.prepare_foundation_mapping_compensation_v1(json,uuid)", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.prepare_foundation_mapping_reprojection_v1(json,uuid)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.prepare_mapping_plan_internal_v1(jsonb,uuid,text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_candidate_metadata_v1(jsonb,jsonb)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_candidate_v1(jsonb,text)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_interpretation_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_plan_v1(jsonb)", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_projection_state_v1()", "consumer_execute": false}, {"definer": false, "settings": ["search_path=\"\""], "signature": "ingestion.validate_mapping_registry_evidence_v1()", "consumer_execute": false}, {"definer": true, "settings": ["search_path=\"\"", "TimeZone=UTC"], "signature": "ingestion.verify_mapping_projection_v2()", "consumer_execute": false}], "new_tables": [{"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_approvals"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_events"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ard/postgres}", "rls": true, "name": "mapping_reprojection_execution_context"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_inserted_rows"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_plan_items"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_plans"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "mapping_reprojection_receipts"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=r/postgres}", "rls": true, "name": "mapping_version_evidence"}, {"acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}", "rls": true, "name": "source_mapping_interpretations"}], "migration_head": "20261031104559", "migration_count": 47, "postgres_version": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit", "default_function_acl": "{ingestion_reprojection_definer=X/ingestion_reprojection_definer}", "private_table_grants": 0, "source_unique_constraints": ["source_record_versions_id_record_key", "source_record_versions_mapping_raw_key", "source_record_versions_record_release_key", "source_record_versions_release_upstream_key"]}
+{
+  "role": {
+    "name": "ingestion_reprojection_definer",
+    "login": false,
+    "inherit": false,
+    "createdb": false,
+    "bypassrls": false,
+    "superuser": false,
+    "createrole": false,
+    "replication": false
+  },
+  "functions": [
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.append_mapping_event_v1(uuid,text,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.approve_foundation_mapping_compensation_v1(uuid,text,timestamp with time zone,json)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.approve_foundation_mapping_reprojection_v1(uuid,text,timestamp with time zone,json)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.approve_mapping_plan_internal_v1(uuid,text,timestamp with time zone,jsonb,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.canonicalize_mapping_json_v1(jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.close_foundation_mapping_plan_v1(uuid,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.execute_foundation_mapping_compensation_v1(uuid,uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.execute_foundation_mapping_reprojection_v1(uuid,uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.execute_mapping_plan_internal_v1(uuid,uuid,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.fingerprint_mapping_database_contract_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.fingerprint_mapping_json_v1(jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.fingerprint_mapping_projection_evidence_v1(uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.foundation_full35_mapping_body_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.foundation_full35_rejected_set_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.get_foundation_mapping_reprojection_plan_v1(uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.get_foundation_mapping_reprojection_receipt_v1(uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.get_foundation_mapping_reprojection_scope_v1(text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.guard_mapping_plan_transition_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.guard_mapping_public_mutation_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_actor_oid_v1(text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_candidate_states_v1(jsonb,boolean)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_json_has_duplicate_keys_v1(json)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_json_input_v1(json)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_lifecycle_hash_v2(jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_plan_diff_v1(jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_projection_body_v2(uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_projection_state_body_v1(ingestion.food_nutrient_projection_versions)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_proposed_projection_v2(jsonb,jsonb,uuid,text,uuid,boolean)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_public_mutation_authorized_v1(uuid,uuid,numeric,text,uuid,boolean)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_require_keys_v1(jsonb,text[])",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_scope_snapshot_v1(uuid,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.mapping_source_record_hash_v1(text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.prepare_foundation_mapping_compensation_v1(json,uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.prepare_foundation_mapping_reprojection_v1(json,uuid)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.prepare_mapping_plan_internal_v1(jsonb,uuid,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_candidate_metadata_v1(jsonb,jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_candidate_v1(jsonb,text)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_interpretation_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_plan_v1(jsonb)",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_projection_state_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": false,
+      "settings": [
+        "search_path=\"\""
+      ],
+      "signature": "ingestion.validate_mapping_registry_evidence_v1()",
+      "consumer_execute": false
+    },
+    {
+      "definer": true,
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "signature": "ingestion.verify_mapping_projection_v2()",
+      "consumer_execute": false
+    }
+  ],
+  "new_tables": [
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_approvals"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_events"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ard/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_execution_context"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_inserted_rows"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_plan_items"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_plans"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "mapping_reprojection_receipts"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=r/postgres}",
+      "rls": true,
+      "name": "mapping_version_evidence"
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,ingestion_reprojection_definer=ar/postgres}",
+      "rls": true,
+      "name": "source_mapping_interpretations"
+    }
+  ],
+  "migration_head": "20261031104559",
+  "migration_count": 47,
+  "postgres_version": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+  "default_function_acl": "{ingestion_reprojection_definer=X/ingestion_reprojection_definer}",
+  "private_table_grants": 0,
+  "source_unique_constraints": [
+    "source_record_versions_id_record_key",
+    "source_record_versions_mapping_raw_key",
+    "source_record_versions_record_release_key",
+    "source_record_versions_release_upstream_key"
+  ],
+  "authority_correction_status": "HISTORICAL_BEFORE_IMAGE_SUPERSEDED; see ../nutrition-usda-full35-durable-actor-identity-001/sql-change-inventory.json"
+}

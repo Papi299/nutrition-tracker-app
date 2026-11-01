@@ -238,6 +238,25 @@ jobs:
         if: ${{ always() && (steps.supabase.outcome == 'success' || steps.supabase.outcome == 'failure') }}
         run: npx supabase stop --no-backup
 
+  actor_identity:
+    name: Full35 durable actor identity
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out actor qualification
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - name: Set up actor qualification Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify isolated durable actor continuity
+        run: |
+          npm ci
+          npm run test:full35-durable-actor-local
+
   apt_ubuntu26:
     name: Ubuntu 26.04 browser provisioning
     runs-on: ubuntu-26.04

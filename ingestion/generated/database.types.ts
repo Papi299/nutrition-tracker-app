@@ -2130,13 +2130,333 @@ export type Database = {
           },
         ]
       }
+      mapping_actor_binding_requests: {
+        Row: {
+          action: string
+          approval_reference: string
+          authority: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          environment: string
+          evidence_hash: string
+          expires_at: string
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          not_before: string
+          principal_id: string
+          prior_binding_id: string | null
+          requested_at: string
+          requester_fingerprint: string
+          requester_name: string
+          requester_oid: unknown
+          subject_hash: string
+        }
+        Insert: {
+          action: string
+          approval_reference: string
+          authority: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          environment: string
+          evidence_hash: string
+          expires_at: string
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          not_before: string
+          principal_id: string
+          prior_binding_id?: string | null
+          requested_at: string
+          requester_fingerprint: string
+          requester_name: string
+          requester_oid: unknown
+          subject_hash: string
+        }
+        Update: {
+          action?: string
+          approval_reference?: string
+          authority?: string
+          body?: Json
+          body_hash?: string
+          cluster_id?: string
+          contract_version?: string
+          dataset_id?: string
+          environment?: string
+          evidence_hash?: string
+          expires_at?: string
+          id?: string
+          login_fingerprint?: string
+          login_name?: string
+          login_oid?: unknown
+          not_before?: string
+          principal_id?: string
+          prior_binding_id?: string | null
+          requested_at?: string
+          requester_fingerprint?: string
+          requester_name?: string
+          requester_oid?: unknown
+          subject_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_actor_binding_requests_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_actor_binding_requests_prior_binding_id_fkey"
+            columns: ["prior_binding_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_actor_bindings: {
+        Row: {
+          action: string
+          approval_reference: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          decided_at: string
+          environment: string
+          evidence_hash: string
+          generation: number
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+          prior_binding_id: string | null
+          request_hash: string
+          request_id: string
+          requester_name: string
+          requester_oid: unknown
+          reviewer_name: string
+          reviewer_oid: unknown
+        }
+        Insert: {
+          action: string
+          approval_reference: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          decided_at: string
+          environment: string
+          evidence_hash: string
+          generation: number
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+          prior_binding_id?: string | null
+          request_hash: string
+          request_id: string
+          requester_name: string
+          requester_oid: unknown
+          reviewer_name: string
+          reviewer_oid: unknown
+        }
+        Update: {
+          action?: string
+          approval_reference?: string
+          body?: Json
+          body_hash?: string
+          cluster_id?: string
+          contract_version?: string
+          dataset_id?: string
+          decided_at?: string
+          environment?: string
+          evidence_hash?: string
+          generation?: number
+          id?: string
+          login_fingerprint?: string
+          login_name?: string
+          login_oid?: unknown
+          principal_id?: string
+          prior_binding_id?: string | null
+          request_hash?: string
+          request_id?: string
+          requester_name?: string
+          requester_oid?: unknown
+          reviewer_name?: string
+          reviewer_oid?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_actor_bindings_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_actor_bindings_principal_id_fkey"
+            columns: ["principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_principals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_actor_bindings_prior_binding_id_principal_id_datas_fkey"
+            columns: [
+              "prior_binding_id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: [
+              "id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+            ]
+          },
+          {
+            foreignKeyName: "mapping_actor_bindings_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: true
+            referencedRelation: "mapping_actor_binding_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_actor_current_bindings: {
+        Row: {
+          binding_id: string
+          cluster_id: string
+          dataset_id: string
+          environment: string
+          generation: number
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+        }
+        Insert: {
+          binding_id: string
+          cluster_id: string
+          dataset_id: string
+          environment: string
+          generation: number
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+        }
+        Update: {
+          binding_id?: string
+          cluster_id?: string
+          dataset_id?: string
+          environment?: string
+          generation?: number
+          login_name?: string
+          login_oid?: unknown
+          principal_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_actor_current_binding_binding_id_principal_id_data_fkey"
+            columns: [
+              "binding_id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+              "cluster_id",
+              "login_oid",
+              "login_name",
+              "generation",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: [
+              "id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+              "cluster_id",
+              "login_oid",
+              "login_name",
+              "generation",
+            ]
+          },
+          {
+            foreignKeyName: "mapping_actor_current_bindings_principal_id_fkey"
+            columns: ["principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_principals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_actor_principals: {
+        Row: {
+          authority: string
+          body: Json
+          body_hash: string
+          contract_version: string
+          created_at: string
+          enrollment_request_id: string
+          id: string
+          subject_hash: string
+        }
+        Insert: {
+          authority: string
+          body: Json
+          body_hash: string
+          contract_version: string
+          created_at: string
+          enrollment_request_id: string
+          id: string
+          subject_hash: string
+        }
+        Update: {
+          authority?: string
+          body?: Json
+          body_hash?: string
+          contract_version?: string
+          created_at?: string
+          enrollment_request_id?: string
+          id?: string
+          subject_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_actor_principals_enrollment_request_id_fkey"
+            columns: ["enrollment_request_id"]
+            isOneToOne: true
+            referencedRelation: "mapping_actor_binding_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mapping_reprojection_approvals: {
         Row: {
           approval_body: Json
           approval_hash: string
           approved_at: string
+          approver_binding_id: string
           approver_name: string
           approver_oid: unknown
+          approver_principal_id: string
+          authority_contract_version: string
           expires_at: string
           id: string
           plan_hash: string
@@ -2147,8 +2467,11 @@ export type Database = {
           approval_body: Json
           approval_hash: string
           approved_at: string
+          approver_binding_id: string
           approver_name: string
           approver_oid: unknown
+          approver_principal_id: string
+          authority_contract_version?: string
           expires_at: string
           id?: string
           plan_hash: string
@@ -2159,8 +2482,11 @@ export type Database = {
           approval_body?: Json
           approval_hash?: string
           approved_at?: string
+          approver_binding_id?: string
           approver_name?: string
           approver_oid?: unknown
+          approver_principal_id?: string
+          authority_contract_version?: string
           expires_at?: string
           id?: string
           plan_hash?: string
@@ -2168,6 +2494,17 @@ export type Database = {
           retry_token?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_approval_plan_id_approver_principal_i_fkey"
+            columns: ["plan_id", "approver_principal_id", "approver_binding_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: [
+              "id",
+              "approver_principal_id",
+              "approver_binding_id",
+            ]
+          },
           {
             foreignKeyName: "mapping_reprojection_approvals_plan_id_fkey"
             columns: ["plan_id"]
@@ -2193,7 +2530,9 @@ export type Database = {
       }
       mapping_reprojection_events: {
         Row: {
+          actor_binding_id: string
           actor_oid: unknown
+          actor_principal_id: string
           created_at: string
           event_body: Json
           event_hash: string
@@ -2204,7 +2543,9 @@ export type Database = {
           prior_state: string | null
         }
         Insert: {
+          actor_binding_id: string
           actor_oid: unknown
+          actor_principal_id: string
           created_at?: string
           event_body: Json
           event_hash: string
@@ -2215,7 +2556,9 @@ export type Database = {
           prior_state?: string | null
         }
         Update: {
+          actor_binding_id?: string
           actor_oid?: unknown
+          actor_principal_id?: string
           created_at?: string
           event_body?: Json
           event_hash?: string
@@ -2226,6 +2569,20 @@ export type Database = {
           prior_state?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_events_actor_binding_id_actor_princip_fkey"
+            columns: ["actor_binding_id", "actor_principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: ["id", "principal_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_events_actor_principal_id_fkey"
+            columns: ["actor_principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_principals"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "mapping_reprojection_events_plan_id_fkey"
             columns: ["plan_id"]
@@ -2410,14 +2767,20 @@ export type Database = {
       }
       mapping_reprojection_plans: {
         Row: {
+          approver_binding_id: string
+          approver_principal_id: string
+          authority_contract_version: string
           created_at: string
           dataset_id: string
           environment: string
           id: string
           mapping_version_id: string
           operation_kind: string
+          operator_binding_id: string
           operator_name: string
           operator_oid: unknown
+          operator_principal_id: string
+          origin_cluster_id: string
           plan_body: Json
           plan_hash: string
           prior_head_hash: string
@@ -2429,14 +2792,20 @@ export type Database = {
           state: string
         }
         Insert: {
+          approver_binding_id: string
+          approver_principal_id: string
+          authority_contract_version?: string
           created_at?: string
           dataset_id: string
           environment: string
           id?: string
           mapping_version_id: string
           operation_kind: string
+          operator_binding_id: string
           operator_name: string
           operator_oid: unknown
+          operator_principal_id: string
+          origin_cluster_id: string
           plan_body: Json
           plan_hash: string
           prior_head_hash: string
@@ -2448,14 +2817,20 @@ export type Database = {
           state?: string
         }
         Update: {
+          approver_binding_id?: string
+          approver_principal_id?: string
+          authority_contract_version?: string
           created_at?: string
           dataset_id?: string
           environment?: string
           id?: string
           mapping_version_id?: string
           operation_kind?: string
+          operator_binding_id?: string
           operator_name?: string
           operator_oid?: unknown
+          operator_principal_id?: string
+          origin_cluster_id?: string
           plan_body?: Json
           plan_hash?: string
           prior_head_hash?: string
@@ -2467,6 +2842,30 @@ export type Database = {
           state?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "mapping_reprojection_plans_approver_binding_id_approver_pr_fkey"
+            columns: [
+              "approver_binding_id",
+              "approver_principal_id",
+              "dataset_id",
+              "environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: [
+              "id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+            ]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_approver_principal_id_fkey"
+            columns: ["approver_principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_principals"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "mapping_reprojection_plans_dataset_id_fkey"
             columns: ["dataset_id"]
@@ -2480,6 +2879,30 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mapping_version_evidence"
             referencedColumns: ["mapping_version_id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_operator_binding_id_operator_pr_fkey"
+            columns: [
+              "operator_binding_id",
+              "operator_principal_id",
+              "dataset_id",
+              "environment",
+            ]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_bindings"
+            referencedColumns: [
+              "id",
+              "principal_id",
+              "dataset_id",
+              "environment",
+            ]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_plans_operator_principal_id_fkey"
+            columns: ["operator_principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_actor_principals"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "mapping_reprojection_plans_prior_head_id_dataset_id_enviro_fkey"
@@ -2519,11 +2942,13 @@ export type Database = {
       mapping_reprojection_receipts: {
         Row: {
           approval_id: string
+          authority_contract_version: string
           completed_at: string
           dataset_id: string
           environment: string
           id: string
           operator_oid: unknown
+          operator_principal_id: string
           plan_id: string
           prior_head_id: string
           receipt_body: Json
@@ -2533,11 +2958,13 @@ export type Database = {
         }
         Insert: {
           approval_id: string
+          authority_contract_version?: string
           completed_at: string
           dataset_id: string
           environment: string
           id?: string
           operator_oid: unknown
+          operator_principal_id: string
           plan_id: string
           prior_head_id: string
           receipt_body: Json
@@ -2547,11 +2974,13 @@ export type Database = {
         }
         Update: {
           approval_id?: string
+          authority_contract_version?: string
           completed_at?: string
           dataset_id?: string
           environment?: string
           id?: string
           operator_oid?: unknown
+          operator_principal_id?: string
           plan_id?: string
           prior_head_id?: string
           receipt_body?: Json
@@ -2587,6 +3016,13 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "mapping_reprojection_plans"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_plan_id_operator_principal_i_fkey"
+            columns: ["plan_id", "operator_principal_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "operator_principal_id"]
           },
           {
             foreignKeyName: "mapping_reprojection_receipts_prior_head_id_dataset_id_env_fkey"
@@ -3730,6 +4166,10 @@ export type Database = {
         Args: { p_next: string; p_plan: string; p_prior: string }
         Returns: undefined
       }
+      approve_foundation_actor_binding_v1: {
+        Args: { p_hash: string; p_request: string }
+        Returns: string
+      }
       approve_foundation_mapping_compensation_v1: {
         Args: {
           p_evidence: Json
@@ -3953,6 +4393,10 @@ export type Database = {
           receipt_fingerprint: string
         }[]
       }
+      get_foundation_actor_binding_request_v1: {
+        Args: { p_request: string }
+        Returns: Json
+      }
       get_foundation_lifecycle_head: {
         Args: { p_environment: string }
         Returns: {
@@ -3998,17 +4442,111 @@ export type Database = {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
       }
+      lock_mapping_principals_v1: {
+        Args: { p_principals: string[] }
+        Returns: undefined
+      }
       mapping_actor_oid_v1: { Args: { p_authority: string }; Returns: unknown }
+      mapping_actor_scope_v1: {
+        Args: { p_dataset: string; p_environment: string }
+        Returns: Json
+      }
+      mapping_binding_by_id_v1: {
+        Args: {
+          p_binding: string
+          p_dataset: string
+          p_environment: string
+          p_principal: string
+        }
+        Returns: {
+          action: string
+          approval_reference: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          decided_at: string
+          environment: string
+          evidence_hash: string
+          generation: number
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+          prior_binding_id: string | null
+          request_hash: string
+          request_id: string
+          requester_name: string
+          requester_oid: unknown
+          reviewer_name: string
+          reviewer_oid: unknown
+        }
+        SetofOptions: {
+          from: "*"
+          to: "mapping_actor_bindings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       mapping_candidate_states_v1: {
         Args: { p_candidate: Json; p_compensate: boolean }
         Returns: Json
       }
+      mapping_current_actor_v1: {
+        Args: { p_authority: string; p_dataset: string; p_environment: string }
+        Returns: {
+          action: string
+          approval_reference: string
+          body: Json
+          body_hash: string
+          cluster_id: string
+          contract_version: string
+          dataset_id: string
+          decided_at: string
+          environment: string
+          evidence_hash: string
+          generation: number
+          id: string
+          login_fingerprint: string
+          login_name: string
+          login_oid: unknown
+          principal_id: string
+          prior_binding_id: string | null
+          request_hash: string
+          request_id: string
+          requester_name: string
+          requester_oid: unknown
+          reviewer_name: string
+          reviewer_oid: unknown
+        }
+        SetofOptions: {
+          from: "*"
+          to: "mapping_actor_bindings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      mapping_identity_controller_v1: {
+        Args: { p_authority: string }
+        Returns: unknown
+      }
+      mapping_identity_epoch_v1: { Args: never; Returns: string }
       mapping_json_has_duplicate_keys_v1: {
         Args: { p_value: Json }
         Returns: boolean
       }
       mapping_json_input_v1: { Args: { p_input: Json }; Returns: Json }
       mapping_lifecycle_hash_v2: { Args: { p_body: Json }; Returns: string }
+      mapping_login_eligible_v1: {
+        Args: { p_authority: string; p_oid: unknown }
+        Returns: boolean
+      }
+      mapping_login_fingerprint_v1: {
+        Args: { p_oid: unknown }
+        Returns: string
+      }
       mapping_plan_diff_v1: { Args: { p_body: Json }; Returns: Json }
       mapping_projection_body_v2: {
         Args: { p_projection_id: string }
@@ -4135,6 +4673,10 @@ export type Database = {
         Returns: string
       }
       register_source_release: { Args: { p_manifest: Json }; Returns: string }
+      request_foundation_actor_binding_v1: {
+        Args: { p_input: Json }
+        Returns: string
+      }
       reserve_foundation_application_food_identity_v1: {
         Args: {
           p_concept_key: string
@@ -4227,6 +4769,10 @@ export type Database = {
           validation_receipt_id: string
           validation_state: string
         }[]
+      }
+      validate_mapping_actor_authority_v1: {
+        Args: { p_plan: Json }
+        Returns: undefined
       }
       validate_mapping_candidate_metadata_v1: {
         Args: { p_candidate: Json; p_raw: Json }

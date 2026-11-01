@@ -6,10 +6,11 @@ import type { ParsedFoundationRecord } from "../parser.ts";
 export const reprojectionContracts = Object.freeze({
   projection: "foundation-lifecycle-projection/v2",
   diff: "foundation-mapping-reprojection-diff/v1",
-  plan: "foundation-mapping-reprojection-plan/v1",
-  approval: "foundation-mapping-reprojection-approval/v1",
-  receipt: "foundation-mapping-reprojection-receipt/v1",
-  compensation: "foundation-mapping-compensation/v1",
+  plan: "foundation-mapping-reprojection-plan/v2",
+  approval: "foundation-mapping-reprojection-approval/v2",
+  receipt: "foundation-mapping-reprojection-receipt/v2",
+  compensation: "foundation-mapping-compensation/v2",
+  authority: "foundation-mapping-actor-authority/v1",
 } as const);
 type ObjectValue = { [key: string]: JsonValue };
 export type MappingScopeFood = ObjectValue & {
@@ -32,11 +33,27 @@ export type MappingPlanItem = {
   projection_body: ObjectValue; projection_hash: string; lifecycle_hash: string;
   additions: {food_id: string; state: MappingPresentState}[];
 };
+export type MappingActorAuthority = {
+  contract_version: typeof reprojectionContracts.authority; cluster_id: string;
+  operator_principal_id: string; operator_binding_id: string; operator_binding_hash: string;
+  approver_principal_id: string; approver_binding_id: string; approver_binding_hash: string;
+};
+export type MappingActorScope = Omit<MappingActorAuthority, "approver_principal_id" | "approver_binding_id" | "approver_binding_hash"> & {
+  approvers: {principal_id: string; binding_id: string; binding_hash: string; login_oid: number; login_name: string}[];
+};
+export function selectMappingActorAuthority(scope: MappingActorScope, approverLogin: string): MappingActorAuthority {
+  const {approvers, ...operator} = scope;
+  const matches = approvers.filter(a => a.login_name === approverLogin);
+  if (matches.length !== 1 || matches[0].principal_id === scope.operator_principal_id) throw new Error("Distinct verified approver binding required.");
+  return {...operator, approver_principal_id: matches[0].principal_id,
+    approver_binding_id: matches[0].binding_id, approver_binding_hash: matches[0].binding_hash};
+}
 export type MappingPlan = {
   contract_version: string; operation_kind: "reprojection" | "compensation";
   dataset_id: string; environment: "local" | "production"; source_release_id: string;
   mapping_version_id: string; before_snapshot: MappingScopeSnapshot;
   operator_oid: number; operator_login: string;
+  actor_authority: MappingActorAuthority;
   approval_requirements: {approver_oid: number; not_before: string; expires_at: string};
   implementation: {commit: string; tree: string; database_contract_hash: string; migrations: {filename: string; version: string; sha256: string}[]; contract_versions: ObjectValue};
   qualification: ObjectValue; recovery_requirements: ObjectValue;
@@ -160,6 +177,7 @@ export type MappingApproval = ObjectValue & {
   plan_hash: string; dataset_id: string; environment: "local" | "production";
   source_release_id: string; mapping_version_id: string; prior_head_id: string;
   operator_oid: number; approver_oid: number; expires_at: string;
+  actor_authority: MappingActorAuthority;
   evidence: {independent_review_hash: string; recovery_evidence_hash: string; approval_reference: string};
 };
 export type MappingReceipt = ObjectValue & {
@@ -167,6 +185,7 @@ export type MappingReceipt = ObjectValue & {
   receipt_id: string; operation_kind: "reprojection" | "compensation";
   plan_id: string; plan_hash: string; approval_id: string; approval_hash: string;
   operator_oid: number; retry_token: string; dataset_id: string; environment: "local" | "production";
+  actor_authority: MappingActorAuthority;
   source_release_id: string; prior_head_id: string; resulting_head_id: string;
   resulting_head_version: number; resulting_head_fingerprint: string; counts: ObjectValue;
   rejected_receipt_id: string | null; public_row_identity_set_hash: string; completed_at: string;

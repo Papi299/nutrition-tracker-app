@@ -2,9 +2,11 @@ import { execFileSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
-import { buildMappingPlan, fingerprintMappingPlan, type MappingScopeSnapshot, type MappingPlan } from "@/ingestion/usda/foundation/reprojection/contracts";
+import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingScopeSnapshot, type MappingPlan } from "@/ingestion/usda/foundation/reprojection/contracts";
 import { canonicalizeJson, type JsonValue } from "@/ingestion/usda/foundation/canonical-json";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
+
+import { installIdentityControllers, bindActor } from "./fixtures/foundation-full35-actor-identity";
 
 import { prepareLegacyRace } from "./fixtures/foundation-full35-legacy-race";
 
@@ -28,6 +30,7 @@ function scope() {return json<MappingScopeSnapshot>(`select ingestion.get_founda
 function makePlan(compensate=false):MappingPlan {
   return buildMappingPlan({operation_kind:compensate?"compensation":"reprojection",dataset_id:fixture.datasetId,environment:"local",
     source_release_id:fixture.releaseId,mapping_version_id:mappingId,before_snapshot:scope(),
+    actor_authority:selectMappingActorAuthority(json<MappingActorScope>("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')->'actor_authority'",operator),approver),
     approval_requirements:{approver_oid:Number(query(`select oid from pg_roles where rolname='${approver}';`)),
       not_before:new Date(Date.now()-60000).toISOString(),expires_at:new Date(Date.now()+3600000).toISOString()},
     operator_oid:Number(query(`select oid from pg_roles where rolname='${operator}';`)),operator_login:operator,
@@ -64,7 +67,11 @@ function executionFingerprint() {return query(`select md5(jsonb_build_object(
   'dataset_heads',(select jsonb_agg(to_jsonb(x) order by id) from ingestion.dataset_projection_heads x),
   'source_events',(select jsonb_agg(to_jsonb(x) order by id) from ingestion.food_source_link_events x),
   'inserted_rows',(select jsonb_agg(to_jsonb(x) order by public_row_id) from ingestion.mapping_reprojection_inserted_rows x),
-  'context',(select jsonb_agg(to_jsonb(x)) from ingestion.mapping_reprojection_execution_context x)
+  'context',(select jsonb_agg(to_jsonb(x)) from ingestion.mapping_reprojection_execution_context x),
+  'principals',(select jsonb_agg(to_jsonb(x) order by id) from ingestion.mapping_actor_principals x),
+  'binding_requests',(select jsonb_agg(to_jsonb(x) order by id) from ingestion.mapping_actor_binding_requests x),
+  'bindings',(select jsonb_agg(to_jsonb(x) order by id) from ingestion.mapping_actor_bindings x),
+  'current_bindings',(select jsonb_agg(to_jsonb(x) order by principal_id) from ingestion.mapping_actor_current_bindings x)
 )::text);`);}
 function privateFingerprint() {return query(`select md5(jsonb_build_object(
   'profiles',(select jsonb_agg(to_jsonb(x) order by id) from public.profiles x),
@@ -150,6 +157,8 @@ test.describe.serial("Full35 governed local execution",()=>{
     query(`drop role if exists full35_dual_test; drop role if exists full35_renamed_test; drop role if exists ${operator}; drop role if exists ${approver}; create role ${operator} login password '${password}'; create role ${approver} login password '${password}';
       grant ingestion_operator to ${operator}; grant ingestion_approver to ${approver};`);
     fixture=installSyntheticBaseline(query);
+    installIdentityControllers(query,password);
+    bindActor(query,fixture.datasetId,operator,"operator");bindActor(query,fixture.datasetId,approver,"approver");
     frozenPrivate=privateFingerprint();frozenLegacy=legacyFingerprint();
   });
   test("353 synthetic identities and original 1199 core rows form an exact version-1 baseline",()=>{
