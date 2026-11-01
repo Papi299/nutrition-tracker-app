@@ -1,0 +1,90 @@
+{
+  "identity_roles": [
+    {
+      "name": "ingestion_identity_definer",
+      "login": false,
+      "inherit": false,
+      "createdb": false,
+      "bypassrls": false,
+      "superuser": false,
+      "createrole": false,
+      "replication": false
+    },
+    {
+      "name": "ingestion_identity_governor",
+      "login": false,
+      "inherit": false,
+      "createdb": false,
+      "bypassrls": false,
+      "superuser": false,
+      "createrole": false,
+      "replication": false
+    },
+    {
+      "name": "ingestion_identity_reviewer",
+      "login": false,
+      "inherit": false,
+      "createdb": false,
+      "bypassrls": false,
+      "superuser": false,
+      "createrole": false,
+      "replication": false
+    }
+  ],
+  "immutable_guards": 34,
+  "ingestion_tables": 54,
+  "candidate_sql_sha256": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
+  "ingestion_rls_tables": 54,
+  "schema_contract_hash": "2ca3a4a828bfda0d7138c597f2f27177ca44e30a06f7ea5b482654fc6a956733",
+  "identity_definer_security_paths": [
+    {
+      "function": "ingestion.approve_foundation_actor_binding_v1(uuid,text)",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.get_foundation_actor_binding_request_v1(uuid)",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.lock_mapping_principals_v1(uuid[])",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.mapping_binding_by_id_v1(uuid,uuid,uuid,text)",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.mapping_current_actor_v1(text,uuid,text)",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.mapping_identity_epoch_v1()",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "function": "ingestion.request_foundation_actor_binding_v1(json)",
+      "settings": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    }
+  ]
+}

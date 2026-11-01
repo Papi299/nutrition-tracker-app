@@ -55,6 +55,12 @@ test("CI workflow security policy accepts the reviewed dispatch contract", () =>
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
+    ci.replace("  actor_identity:", "  other_actor_job:"),
+    ci.replace("    name: Full35 durable actor identity\n", "    name: Full35 durable actor identity\n    if: false\n"),
+    ci.replace("    timeout-minutes: 25\n", "    timeout-minutes: 24\n"),
+    ci.replace("    timeout-minutes: 25\n", "    timeout-minutes: 26\n"),
+    ci.replace("npm run test:full35-durable-actor-local", "npm run test:full35-durable-actor-local || true"),
+    ci.replace("npm run test:full35-durable-actor-local", "echo skipped"),
     ci.replace("  workflow_dispatch:\n", ""),
     ci.replace("  workflow_dispatch:\n", "  workflow_dispatch:\n  schedule:\n"),
     ci.replace('"refs/heads/main"', '"refs/heads/feature"'),
@@ -62,8 +68,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("      - name: Lint\n", "      - name: Lint\n        if: github.event_name != 'workflow_dispatch'\n"),
     ci.replace("      - name: Type check\n        run: npm run typecheck\n\n", ""),
     ci.replace("  contents: read\n", "  contents: write\n"),
-    ci.replace("    timeout-minutes: 50\n", "    timeout-minutes: 40\n"),
-    ci.replace("    timeout-minutes: 50\n", "    timeout-minutes: 51\n"),
+    ci.replace("    timeout-minutes: 75\n", "    timeout-minutes: 74\n"),
+    ci.replace("    timeout-minutes: 75\n", "    timeout-minutes: 76\n"),
     ci.replace("scripts/configure-ci-apt.mjs", "scripts/unreviewed-apt.mjs"),
     ci.replace("runs-on: ubuntu-26.04", "runs-on: ubuntu-latest"),
     ci.replace("    timeout-minutes: 20\n    steps:", "    timeout-minutes: 40\n    steps:"),
@@ -72,6 +78,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace('git diff --check "$base..$CI_HEAD_SHA"', 'echo "skipped"'),
     ...[44, 45, 46].map(count => ci.replace(new RegExp(`^.*phase11i-migration${count}\\.json.*\\n`, "m"), "")),
     ci.replace("--serving-reference", "--nutrition-snapshots"),
+    ci.replace("      - name: Qualify isolated Full35 reprojection database\n        run: npm run test:full35-reprojection-local\n\n", ""),
+    ci.replace("run: npm run test:full35-reprojection-local", "run: echo skipped"),
   ];
   for (const mutation of mutations) {
     assert.notEqual(mutation, ci);

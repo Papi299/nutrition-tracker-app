@@ -478,6 +478,7 @@ test.describe.serial("Phase 10C Foundation offline staging", () => {
         has_table_privilege('ingestion_definer', 'public.food_aliases', 'INSERT,UPDATE,DELETE'),
         has_table_privilege('ingestion_definer', 'public.food_barcodes', 'INSERT,UPDATE,DELETE'));
     `);
-    expect(privileges).toBe("18|0|f|f|f|f|f|f");
+    // The original 18 plus eight governed mapping RPCs grant no direct table DML.
+    expect(privileges).toBe("26|0|f|f|f|f|f|f");
   });
 });

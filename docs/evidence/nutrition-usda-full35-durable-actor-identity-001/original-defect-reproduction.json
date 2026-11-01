@@ -1,0 +1,197 @@
+{
+  "task": "NUTRITION-USDA-FULL35-RECOVERY-001",
+  "status": "USDA_FULL35_RECOVERY_001_BLOCKED",
+  "diagnosticAssertions": "PASS",
+  "recoveryQualification": "FAIL",
+  "approvedPipelineHistory47Accepted": false,
+  "exactMigration47Sha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+  "orderedFilenameSetSha256": "2aecccbc04539984a2cf05a88b69108b8a0e0637c2aaa609277d80bbee7fafe5",
+  "sourceRoles": [
+    {
+      "oid": 21017,
+      "name": "full35_recovery_approver",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "inherit": true,
+      "approver": true,
+      "createdb": false,
+      "operator": false,
+      "createrole": false,
+      "replication": false,
+      "connection_limit": -1,
+      "reprojection_definer": false
+    },
+    {
+      "oid": 21016,
+      "name": "full35_recovery_operator",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "inherit": true,
+      "approver": false,
+      "createdb": false,
+      "operator": true,
+      "createrole": false,
+      "replication": false,
+      "connection_limit": -1,
+      "reprojection_definer": false
+    }
+  ],
+  "restoredRoles": [
+    {
+      "oid": 21045,
+      "name": "full35_recovery_approver",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "inherit": true,
+      "approver": true,
+      "createdb": false,
+      "operator": false,
+      "createrole": false,
+      "replication": false,
+      "connection_limit": -1,
+      "reprojection_definer": false
+    },
+    {
+      "oid": 21044,
+      "name": "full35_recovery_operator",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "inherit": true,
+      "approver": false,
+      "createdb": false,
+      "operator": true,
+      "createrole": false,
+      "replication": false,
+      "connection_limit": -1,
+      "reprojection_definer": false
+    }
+  ],
+  "outcomes": [
+    {
+      "checkpoint": "before_reprojection",
+      "counts": {
+        "head": 1,
+        "foods": 353,
+        "values": 1199,
+        "context": 0,
+        "sources": 353,
+        "receipts": 0
+      },
+      "history": {
+        "heads": [
+          1
+        ],
+        "v2_states": 0,
+        "v2_projections": 0,
+        "interpretations": 0
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "f7564edeacdbee8d3496185a7a916526a10f8580567f1a817315dc90e180c241",
+      "plaintextArchiveSha256": "e72943e139d97ab1714c0d0893e1b7728d43aeb0db282b8c93bc70c89e881242",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": []
+    },
+    {
+      "checkpoint": "after_reprojection",
+      "counts": {
+        "head": 2,
+        "foods": 353,
+        "values": 6261,
+        "context": 0,
+        "sources": 353,
+        "receipts": 1
+      },
+      "history": {
+        "heads": [
+          1,
+          2
+        ],
+        "v2_states": 12355,
+        "v2_projections": 353,
+        "interpretations": 353
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "f1aed9b69a09f7b823d0d647c59f4c549a1a1859f3beef9a591e87181f249bf3",
+      "plaintextArchiveSha256": "6e1387a8ca80ca70ad054fb039759c73ab02835af5dc5b352fe63139798adf3e",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": [
+        {
+          "operation": "reprojection",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        }
+      ]
+    },
+    {
+      "checkpoint": "after_compensation",
+      "counts": {
+        "head": 3,
+        "foods": 353,
+        "values": 1199,
+        "context": 0,
+        "sources": 353,
+        "receipts": 2
+      },
+      "history": {
+        "heads": [
+          1,
+          2,
+          3
+        ],
+        "v2_states": 24710,
+        "v2_projections": 706,
+        "interpretations": 353
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "d4209180e60c0698a5de349ce5e586742b1a679ff7cd26e23457b25f000eaa2a",
+      "plaintextArchiveSha256": "67b13f0d865d7757b204f0bba8d207362889bff0aceec6ec4b427dd49cb74d5f",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": [
+        {
+          "operation": "reprojection",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        },
+        {
+          "operation": "compensation",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        }
+      ]
+    }
+  ],
+  "limitation": "Diagnostic CMS envelope and data replay; the approved pipeline remains closed to history 47. This is not recovery qualification.",
+  "privateKeyAndPlaintextRemovedByFinally": true,
+  "productionAccess": false,
+  "correctionProvenance": {
+    "supersededMigrationSha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+    "sourceCommit": "2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b",
+    "diagnosticCommit": "a25234cc06e5ece5fcabb70c7ee6c5e874816dd2",
+    "freshReproductionExitStatus": 0,
+    "freshReproductionMinutes": 5.4,
+    "originalReceiptLookupAlsoRefused": true,
+    "status": "SUPERSEDED_DEFECTIVE_CANDIDATE_BEFORE_IMAGE"
+  }
+}
