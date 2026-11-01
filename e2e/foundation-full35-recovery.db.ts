@@ -210,7 +210,11 @@ function recoveryNegatives() {
   }
   function innerRejected(label:string,filename:string,mutate:(value:string)=>string,replay=false,updateDigest=true) {
     const file=join(badRoot,filename),originalBytes=readFileSync(file),content=JSON.parse(contentBytes.toString("utf8")),changed=structuredClone(manifest);
-    const mutated=mutate(originalBytes.toString("utf8"));expect(mutated).not.toBe(originalBytes.toString("utf8"));writeFileSync(file,mutated);
+    const mutated=mutate(originalBytes.toString("utf8"));
+    // Playwright retains expected arguments in step metadata. Keep each large
+    // plaintext dump out of that history and compare the complete bytes here.
+    assert.ok(mutated!==originalBytes.toString("utf8"),"Synthetic tampering must change dump bytes.");
+    writeFileSync(file,mutated);
     if(updateDigest){const artifact=content.artifacts.find((a:{filename:string})=>a.filename===filename);artifact.sha256=hash(readFileSync(file));artifact.bytes=readFileSync(file).length;}
     writeFileSync(contentPath,JSON.stringify(content));changed.contentManifestSha256=hash(readFileSync(contentPath));command("tar",["-cf",tar,"-C",badRoot,"."]);changed.plaintextArchiveSha256=hash(readFileSync(tar));
     command("openssl",["cms","-encrypt","-binary","-aes-256-gcm","-outform","DER","-in",tar,"-out",capture.archivePath,cert]);changed.encryptedArchiveSha256=hash(readFileSync(capture.archivePath));writeFileSync(capture.manifestPath,JSON.stringify(changed));
