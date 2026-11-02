@@ -1,0 +1,92 @@
+{
+  "scope": "Local development proof; final-head clean CI remains authoritative",
+  "result": "PASS",
+  "codeComparisonCommit": "c60b10b9ea225e94c3e4eeae5ff778744b5d55cf",
+  "executedCriticalFilesMatchCommittedBytes": [
+    {
+      "file": "app/[locale]/(app)/today/create-submission.ts",
+      "sha256": "d208680c32bac616a64ece8e3eeda64f35c5a9f0c2ba1bdef55ab3164f9f1af6"
+    },
+    {
+      "file": "lib/diary-entries/mutations.ts",
+      "sha256": "6ef64c53991edf54e2b0d5ecef318de3eef4cdac30c525f13077363be62f6610"
+    },
+    {
+      "file": "lib/supabase/database.types.ts",
+      "sha256": "4a30bde97813a7a211684856d0da7c8ef4a0f2b75bda6255c5d50f37ffb6d243"
+    },
+    {
+      "file": "supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql",
+      "sha256": "e7da0ad122140346bc1e3d96bcb5733bc9558d6e2094cecb31a8b98a4cfb1494"
+    },
+    {
+      "file": "e2e/full35-atomicity.app.ts",
+      "sha256": "a57b85ff47264eb31e270145960f647ac551120a503042cc4802b1ed1bcbab21"
+    },
+    {
+      "file": "e2e/fixtures/full35-app-transition.ts",
+      "sha256": "2ed4f5583389aa47b4217fba72000095d1a110786a5af24eb6feb3cb88a11c98"
+    },
+    {
+      "file": "scripts/diagnostics/atomicity-control.mjs",
+      "sha256": "792aa00f83e177dd8126714bf8cd89ca6f8765b48c6a2efbd57b2452689801ce"
+    },
+    {
+      "file": "scripts/diagnostics/atomicity-fetch-preload.mjs",
+      "sha256": "16dea0852054f5b0878a86153dd5ac13254a9a07eeeceb98ddf0dc3378dd373e"
+    },
+    {
+      "file": "playwright.atomicity.config.ts",
+      "sha256": "0dc2df288c8c2cf704b728dd9de4b308c2b5d52770baf4944617ef5ed0dd857f"
+    },
+    {
+      "file": "scripts/run-full35-atomicity-local.mjs",
+      "sha256": "907504051ee603bb77ed41e6c7819b2ad57ed76c857c7790d9670afc00ce1243"
+    }
+  ],
+  "orders": {
+    "writer-first": {
+      "result": "PASS",
+      "referenceReadAt": "2026-11-02T19:01:28.319Z",
+      "barrierAt": "2026-11-02T19:01:28.322Z",
+      "writerCommitAcknowledgedAt": "2026-11-02T19:03:51.984483+00:00",
+      "diaryRPCStartedAt": "2026-11-02T19:03:52.193Z",
+      "referenceA": "8b0cf8aa52e5fc37c951b9b41ed19d588b291e8c377e1be2bf96d4cfc7ede7e4",
+      "referenceB": "0c7f18625a1839aa1b5aee03703a09a60a1696f95957b25b2a90f109da514667",
+      "postWaitReference": "8b0cf8aa52e5fc37c951b9b41ed19d588b291e8c377e1be2bf96d4cfc7ede7e4",
+      "zeroStaleRowsAndReceipts": true,
+      "independentDecimalCases": 245,
+      "referencePositions": 105,
+      "sameKeyOneReceipt": true,
+      "twoDistinctKeysSharedDataset": true,
+      "timeoutSQLSTATE": "57014",
+      "deadlockSQLSTATE": "40P01",
+      "historicalRetryUnchanged": true,
+      "cleanup": {
+        "project": "full35-atomicity-0575cd8d7d3f",
+        "stopped": true,
+        "qualificationPassed": true,
+        "hostedOperations": false
+      }
+    },
+    "diary-first": {
+      "result": "PASS",
+      "reprojectionAndCompensationWaited": true,
+      "validASnapshotCommittedBeforeB": true,
+      "independentDecimalCases": 245,
+      "referencePositions": 105,
+      "sameKeyOneReceipt": true,
+      "twoDistinctKeysSharedDataset": true,
+      "timeoutSQLSTATE": "57014",
+      "deadlockSQLSTATE": "40P01",
+      "historicalRetryUnchanged": true,
+      "cleanup": {
+        "project": "full35-atomicity-4ca960efcd2e",
+        "stopped": true,
+        "qualificationPassed": true,
+        "hostedOperations": false
+      }
+    }
+  },
+  "productionAccess": false
+}

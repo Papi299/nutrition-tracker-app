@@ -1,0 +1,85 @@
+{
+  "scope": "Sanitized local development evidence; final clean CI artifacts identified in PR delivery record",
+  "files": [
+    {
+      "file": "diary-first/atomicity-observations.json",
+      "bytes": 415000,
+      "sha256": "a07dc0a05d96dce038e9c606d1241a39490d536a71384dca555db65806d72759"
+    },
+    {
+      "file": "diary-first/cleanup.json",
+      "bytes": 111,
+      "sha256": "719b431e855053de6af2fa398ff81e1af1f8e326b2efe32c83894ca2ba90e293"
+    },
+    {
+      "file": "diary-first/installed-architecture.json",
+      "bytes": 918351,
+      "sha256": "688f0c343c0f7b2a9f6a9b6d7adafd5d888a36adf9d68037401511caed420344"
+    },
+    {
+      "file": "diary-first/lock-evidence.json",
+      "bytes": 268980,
+      "sha256": "bebab9e9274316a4c9a31699bf0afd559f8e4ae509746d6beda6ca073bc10150"
+    },
+    {
+      "file": "diary-first/qualification.json",
+      "bytes": 307,
+      "sha256": "8fbdae3c8e514968296709785583ff0a213ff0f8ad137d4a812fdf336c20ae75"
+    },
+    {
+      "file": "diary-first/source.json",
+      "bytes": 453,
+      "sha256": "6ecb7886f92504bf77b97234ce374c940b9c35cd0c16c172f3aaec4e4c931990"
+    },
+    {
+      "file": "engineering-report.md",
+      "bytes": 28173,
+      "sha256": "2cdacb7c8aa965b2dbb3e55cc22e2a3b9f21a4fb7378f8b239c2ac3021f7fae8"
+    },
+    {
+      "file": "local-atomicity-verification.json",
+      "bytes": 3411,
+      "sha256": "417a7ba7ca305ea1b6993b05acaa5752a846e0e4ae7069335630acdfb562bffd"
+    },
+    {
+      "file": "migration-inventory.json",
+      "bytes": 12794,
+      "sha256": "f11a8230caf4bb4c19d6056d368bb27562215b30eea0b9a8f4418c216701bce1"
+    },
+    {
+      "file": "writer-first/atomicity-browser.png",
+      "bytes": 332851,
+      "sha256": "56061a14428abb198a329b2c69d4077eb614323ceedf3a34b982a1f83f8738ea"
+    },
+    {
+      "file": "writer-first/atomicity-observations.json",
+      "bytes": 479664,
+      "sha256": "21b7ea06d7afcf5a7b193b80e7cde3290da14611391e59d54216c514bc6234d6"
+    },
+    {
+      "file": "writer-first/cleanup.json",
+      "bytes": 111,
+      "sha256": "6a7b7950625eeb07b42f64ad739606259f4cb3daae6f58a38eb3d5c3e9008d86"
+    },
+    {
+      "file": "writer-first/installed-architecture.json",
+      "bytes": 918351,
+      "sha256": "688f0c343c0f7b2a9f6a9b6d7adafd5d888a36adf9d68037401511caed420344"
+    },
+    {
+      "file": "writer-first/lock-evidence.json",
+      "bytes": 651832,
+      "sha256": "7aa5d453db7933efb2c153d3628991d9f8f81ea34ef33d3b463e2de67acade6a"
+    },
+    {
+      "file": "writer-first/qualification.json",
+      "bytes": 307,
+      "sha256": "1e2ac1e195ab89dfd497edb6ca7ab91ced9a8a73bc6d5cf4207824c9f15b7f54"
+    },
+    {
+      "file": "writer-first/source.json",
+      "bytes": 453,
+      "sha256": "65618fe8f1f0d55c2853d16144adc856adc18bb8b4eb8df14aad2a92e942c206"
+    }
+  ]
+}
