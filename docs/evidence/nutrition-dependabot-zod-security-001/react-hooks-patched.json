@@ -1,0 +1,215 @@
+{
+  "node": "v22.23.4",
+  "zod": "4.6.7",
+  "hooks": "7.1.1",
+  "pluginMetadataVersion": "7.0.0",
+  "configuredRules": {
+    "react-hooks/rules-of-hooks": [
+      2
+    ],
+    "react-hooks/exhaustive-deps": [
+      1
+    ],
+    "react-hooks/static-components": [
+      2
+    ],
+    "react-hooks/use-memo": [
+      2
+    ],
+    "react-hooks/preserve-manual-memoization": [
+      2
+    ],
+    "react-hooks/incompatible-library": [
+      1
+    ],
+    "react-hooks/immutability": [
+      2
+    ],
+    "react-hooks/globals": [
+      2
+    ],
+    "react-hooks/refs": [
+      2
+    ],
+    "react-hooks/set-state-in-effect": [
+      2
+    ],
+    "react-hooks/error-boundaries": [
+      2
+    ],
+    "react-hooks/purity": [
+      2
+    ],
+    "react-hooks/set-state-in-render": [
+      2
+    ],
+    "react-hooks/unsupported-syntax": [
+      1
+    ],
+    "react-hooks/config": [
+      2
+    ],
+    "react-hooks/gating": [
+      2
+    ]
+  },
+  "cases": [
+    {
+      "name": "legitimate-component",
+      "messages": []
+    },
+    {
+      "name": "conditional-hook",
+      "messages": [
+        {
+          "ruleId": "react-hooks/rules-of-hooks",
+          "severity": 2,
+          "message": "React Hook \"useState\" is called conditionally. React Hooks must be called in the exact same order in every component render.",
+          "line": 3,
+          "column": 50,
+          "endLine": 3,
+          "endColumn": 58
+        }
+      ]
+    },
+    {
+      "name": "missing-effect-dependency",
+      "messages": [
+        {
+          "ruleId": "react-hooks/exhaustive-deps",
+          "severity": 1,
+          "message": "React Hook useEffect has a missing dependency: 'value'. Either include it or remove the dependency array.",
+          "line": 3,
+          "column": 72,
+          "endLine": 3,
+          "endColumn": 74
+        }
+      ]
+    },
+    {
+      "name": "prop-mutation",
+      "messages": [
+        {
+          "ruleId": "react-hooks/immutability",
+          "severity": 2,
+          "message": "Error: This value cannot be modified\n\nModifying component props or hook arguments is not allowed. Consider using a local variable instead.\n\n  1 | \"use client\";\n> 2 | export function Example({item}) { item.value=1; return <span>{item.value}</span>; }\n    |                                   ^^^^ value cannot be modified",
+          "line": 2,
+          "column": 35,
+          "endLine": 2,
+          "endColumn": 39
+        }
+      ]
+    },
+    {
+      "name": "impure-render",
+      "messages": [
+        {
+          "ruleId": "react-hooks/purity",
+          "severity": 2,
+          "message": "Error: Cannot call impure function during render\n\n`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).\n\n  1 | \"use client\";\n> 2 | export function Example(){return <span>{Date.now()}</span>;}\n    |                                         ^^^^^^^^^^ Cannot call impure function",
+          "line": 2,
+          "column": 41,
+          "endLine": 2,
+          "endColumn": 51
+        }
+      ]
+    },
+    {
+      "name": "ref-read-in-render",
+      "messages": [
+        {
+          "ruleId": "react-hooks/refs",
+          "severity": 2,
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n  1 | \"use client\";\n  2 | import {useRef} from \"react\";\n> 3 | export function Example(){const ref=useRef(0); return <span>{ref.current}</span>;}\n    |                                                              ^^^^^^^^^^^ Cannot access ref value during render",
+          "line": 3,
+          "column": 62,
+          "endLine": 3,
+          "endColumn": 73
+        }
+      ]
+    },
+    {
+      "name": "unconditional-state-update",
+      "messages": [
+        {
+          "ruleId": "react-hooks/set-state-in-render",
+          "severity": 2,
+          "message": "Error: Cannot call setState during render\n\nCalling setState during render may trigger an infinite loop.\n* To reset state when other state/props change, store the previous value in state and update conditionally: https://react.dev/reference/react/useState#storing-information-from-previous-renders\n* To derive data from other state/props, compute the derived data during render without using state.\n\n  1 | \"use client\";\n  2 | import {useState} from \"react\";\n> 3 | export function Example(){const [value,setValue]=useState(0); setValue(1); return <span>{value}</span>;}\n    |                                                               ^^^^^^^^ Found setState() in render",
+          "line": 3,
+          "column": 63,
+          "endLine": 3,
+          "endColumn": 71
+        }
+      ]
+    },
+    {
+      "name": "target",
+      "messages": []
+    },
+    {
+      "name": "environment",
+      "messages": []
+    },
+    {
+      "name": "external-gating",
+      "messages": []
+    },
+    {
+      "name": "dynamic-gating",
+      "messages": []
+    },
+    {
+      "name": "custom-opt-outs",
+      "messages": []
+    },
+    {
+      "name": "invalid-target",
+      "expectedConfigurationError": {
+        "name": "ReactCompilerError",
+        "message": "Error: Not a valid target. Validation error: Invalid input: expected \"17\" or Invalid input: expected \"18\" or Invalid input: expected \"19\" or Invalid input: expected object, received string."
+      }
+    },
+    {
+      "name": "invalid-environment",
+      "expectedConfigurationError": {
+        "name": "ReactCompilerError",
+        "message": "Error: Error in validating environment config. This is an advanced setting and not meant to be used directly. [\n  {\n    \"expected\": \"boolean\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"validateNoVoidUseMemo\"\n    ],\n    \"message\": \"Invalid input: expected boolean, received string\"\n  }\n]."
+      }
+    },
+    {
+      "name": "invalid-external-gating",
+      "expectedConfigurationError": {
+        "name": "ReactCompilerError",
+        "message": "Error: Could not parse external function. Update React Compiler config to fix the error. Validation error: Invalid input: expected string, received number at \"source\"; Invalid input: expected string, received undefined at \"importSpecifierName\"."
+      }
+    },
+    {
+      "name": "invalid-dynamic-gating",
+      "expectedConfigurationError": {
+        "name": "ReactCompilerError",
+        "message": "Error: Could not parse dynamic gating. Update React Compiler config to fix the error. Validation error: Invalid input: expected string, received number at \"source\"."
+      }
+    },
+    {
+      "name": "invalid-custom-opt-outs",
+      "expectedConfigurationError": {
+        "name": "ReactCompilerError",
+        "message": "Error: Could not parse custom opt out directives. Update React Compiler config to fix the error. Validation error: Invalid input: expected string, received number at index 0."
+      }
+    },
+    {
+      "name": "invalid-eslint-option-schema",
+      "rejected": true
+    }
+  ],
+  "exercisedFunctions": {
+    "parseEnvironmentConfig": 60,
+    "validateEnvironmentConfig": 27,
+    "parsePluginOptions": 59,
+    "parseTargetConfig": 29,
+    "tryParseExternalFunction": 3,
+    "runReactCompilerImpl": 32
+  },
+  "zodErrorFormatterCalls": 4,
+  "result": "PASS"
+}

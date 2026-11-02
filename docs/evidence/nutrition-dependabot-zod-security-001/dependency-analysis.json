@@ -1,0 +1,106 @@
+{
+  "baseline": {
+    "sha": "de9c6dc15a69ba08cedbbc1f22624418b0df9ec7",
+    "tree": "3dc007d9e825b3fe451c3b31c32eb8b82fabf34c"
+  },
+  "node": "v22.23.4",
+  "npm": "10.9.9",
+  "dependencies": [
+    {
+      "path": "node_modules/eslint-plugin-react-hooks",
+      "kind": "dependencies",
+      "range": "^3.25.0 || ^4.0.0",
+      "satisfied": true
+    },
+    {
+      "path": "node_modules/zod-validation-error",
+      "kind": "peerDependencies",
+      "range": "^3.25.0 || ^4.0.0",
+      "satisfied": true
+    }
+  ],
+  "zodPaths": [
+    "node_modules/zod"
+  ],
+  "zod": {
+    "version": "4.6.7",
+    "resolved": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz",
+    "integrity": "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==",
+    "dev": true,
+    "license": "MIT",
+    "funding": {
+      "url": "https://github.com/sponsors/colinhacks"
+    }
+  },
+  "minimatch": [
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
+      "version": "10.2.5",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.5.tgz",
+      "integrity": "sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==",
+      "dev": true,
+      "license": "BlueOak-1.0.0",
+      "dependencies": {
+        "brace-expansion": "^5.0.5"
+      },
+      "engines": {
+        "node": "18 || 20 || >=22"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/isaacs"
+      }
+    },
+    {
+      "path": "node_modules/minimatch",
+      "version": "3.1.5",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.5.tgz",
+      "integrity": "sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "brace-expansion": "^1.1.7"
+      },
+      "engines": {
+        "node": "*"
+      }
+    }
+  ],
+  "minimatchConsumers": [
+    {
+      "path": "node_modules/@eslint/config-array",
+      "version": "0.21.2",
+      "range": "^3.1.5"
+    },
+    {
+      "path": "node_modules/@eslint/eslintrc",
+      "version": "3.3.5",
+      "range": "^3.1.5"
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree",
+      "version": "8.59.1",
+      "range": "^10.2.2"
+    },
+    {
+      "path": "node_modules/eslint",
+      "version": "9.39.4",
+      "range": "^3.1.5"
+    },
+    {
+      "path": "node_modules/eslint-plugin-import",
+      "version": "2.32.0",
+      "range": "^3.1.2"
+    },
+    {
+      "path": "node_modules/eslint-plugin-jsx-a11y",
+      "version": "6.10.2",
+      "range": "^3.1.2"
+    },
+    {
+      "path": "node_modules/eslint-plugin-react",
+      "version": "7.37.5",
+      "range": "^3.1.2"
+    }
+  ],
+  "nonZodLockEntriesUnchanged": true
+}
