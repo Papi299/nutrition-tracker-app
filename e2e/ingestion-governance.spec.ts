@@ -103,7 +103,8 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       where n.nspname = 'ingestion' and c.relkind = 'r' and c.relrowsecurity;
     `);
-    expect(tableCount).toBe("41\n41");
+    // Require every original table and all thirteen new governed relations to retain RLS.
+    expect(tableCount).toBe("54\n54");
     expect(supabaseConfig).toContain('schemas = ["public", "graphql_public"]');
     expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*ingestion/);
   });
@@ -165,11 +166,16 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
     `);
     expect(privileges).toBe(
       "begin_import_run,bootstrap_foundation_lifecycle_baseline," +
-        "cleanup_expired_staging,create_foundation_lifecycle_run," +
+        "cleanup_expired_staging,close_foundation_mapping_plan_v1," +
+        "create_foundation_lifecycle_run," +
         "execute_foundation_lifecycle_update," +
+        "execute_foundation_mapping_compensation_v1,execute_foundation_mapping_reprojection_v1," +
         "get_completed_foundation_promotion_receipt," +
         "get_foundation_lifecycle_head,get_foundation_lifecycle_update_receipt," +
+        "get_foundation_mapping_reprojection_plan_v1,get_foundation_mapping_reprojection_receipt_v1," +
+        "get_foundation_mapping_reprojection_scope_v1," +
         "prepare_foundation_lifecycle_execution_plan," +
+        "prepare_foundation_mapping_compensation_v1,prepare_foundation_mapping_reprojection_v1," +
         "promote_validated_foundation_run,record_import_run_item," +
         "register_foundation_release_diff_report,register_source_release," +
         "stage_candidate,stage_source_record,transition_import_run," +

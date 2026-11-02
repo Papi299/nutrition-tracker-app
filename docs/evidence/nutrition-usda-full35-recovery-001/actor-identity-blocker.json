@@ -1,0 +1,177 @@
+{
+  "task": "NUTRITION-USDA-FULL35-RECOVERY-001",
+  "status": "USDA_FULL35_RECOVERY_001_BLOCKED",
+  "diagnosticAssertions": "PASS",
+  "recoveryQualification": "FAIL",
+  "approvedPipelineHistory47Accepted": false,
+  "exactMigration47Sha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+  "orderedFilenameSetSha256": "2aecccbc04539984a2cf05a88b69108b8a0e0637c2aaa609277d80bbee7fafe5",
+  "sourceRoles": [
+    {
+      "oid": 21017,
+      "name": "full35_recovery_approver",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "approver": true,
+      "operator": false
+    },
+    {
+      "oid": 21016,
+      "name": "full35_recovery_operator",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "approver": false,
+      "operator": true
+    }
+  ],
+  "restoredRoles": [
+    {
+      "oid": 21045,
+      "name": "full35_recovery_approver",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "approver": true,
+      "operator": false
+    },
+    {
+      "oid": 21044,
+      "name": "full35_recovery_operator",
+      "login": true,
+      "super": false,
+      "bypass": false,
+      "approver": false,
+      "operator": true
+    }
+  ],
+  "outcomes": [
+    {
+      "checkpoint": "before_reprojection",
+      "counts": {
+        "head": 1,
+        "foods": 353,
+        "values": 1199,
+        "context": 0,
+        "sources": 353,
+        "receipts": 0
+      },
+      "history": {
+        "heads": [
+          1
+        ],
+        "v2_states": 0,
+        "v2_projections": 0,
+        "interpretations": 0
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "cfb6c88560c0cb8c0a8c0bcbab65f6e0bfd0ea5bf39949e5678c967ad5aa307f",
+      "plaintextArchiveSha256": "c3ebb18b4e89e6b5e37bf0ef17d04c2c162f2beef3e1876e18f70c5ceced57b2",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": []
+    },
+    {
+      "checkpoint": "after_reprojection",
+      "counts": {
+        "head": 2,
+        "foods": 353,
+        "values": 6261,
+        "context": 0,
+        "sources": 353,
+        "receipts": 1
+      },
+      "history": {
+        "heads": [
+          1,
+          2
+        ],
+        "v2_states": 12355,
+        "v2_projections": 353,
+        "interpretations": 353
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "de2322769b0dc54eee884180f46392a1146983ca9793113579d2f619522e4c07",
+      "plaintextArchiveSha256": "5dd89b35c4c277bb1bca3bd88832676bcf1f6ca2b69cc7daeead13e52d13e5d7",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": [
+        {
+          "operation": "reprojection",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        }
+      ]
+    },
+    {
+      "checkpoint": "after_compensation",
+      "counts": {
+        "head": 3,
+        "foods": 353,
+        "values": 1199,
+        "context": 0,
+        "sources": 353,
+        "receipts": 2
+      },
+      "history": {
+        "heads": [
+          1,
+          2,
+          3
+        ],
+        "v2_states": 24710,
+        "v2_projections": 706,
+        "interpretations": 353
+      },
+      "historicalProjectionHashesRecomputed": true,
+      "completeApplicationAndIngestionTablesEqual": 70,
+      "installedSchemaContractHashEqual": true,
+      "privateSnapshotHashEqual": true,
+      "encryptedArchiveSha256": "f61fc4bef5f1856f695d0ad21fe14d85915d4be1f3f37071655cfb4b450b84cd",
+      "plaintextArchiveSha256": "e4b662188d8f19e07e6301c8bb6157e7793902dcb532fa081966f1079c2a4d78",
+      "decryptDigestEqual": true,
+      "roleNamesAttributesAndMembershipsEqual": true,
+      "sourceAndRestoredRetries": [
+        {
+          "operation": "reprojection",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        },
+        {
+          "operation": "compensation",
+          "sourceRetry": "ORIGINAL_RECEIPT",
+          "restoredRetry": "REFUSED",
+          "sqlstate": "42501",
+          "reason": "execution actor or approval scope mismatch"
+        }
+      ]
+    }
+  ],
+  "limitation": "Diagnostic CMS envelope and data replay; the approved pipeline remains closed to history 47. This is not recovery qualification.",
+  "privateKeyAndPlaintextRemovedByFinally": true,
+  "productionAccess": false,
+  "provenance": {
+    "kind": "precommit-local-diagnostic",
+    "baseCommit": "2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b",
+    "baseTree": "18151e10a3fef90c114b5813e07a31e3d507153b",
+    "cli": "2.116.0\nA new version of Supabase CLI is available: v2.122.0 (currently installed v2.116.0)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli",
+    "node": "v26.5.1",
+    "localSource": "full35-recovery-source-d27db0adda19",
+    "localTarget": "full35-recovery-target-e4532b5d6866",
+    "exitStatus": 0,
+    "testCount": 1,
+    "testRuntimeMinutes": 5.5,
+    "exactFinalHeadEvidence": "Recorded separately in the final PR body after exact-head replay/CI."
+  }
+}

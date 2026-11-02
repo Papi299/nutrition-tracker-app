@@ -1,0 +1,32 @@
+{
+  "commit": "baf45e8a3e5fbbb738f1cbf1ddfa5065b1e83137",
+  "expectedTree": "0f7da2f53cfb6345ee335d1bf80564f60cbf7b77",
+  "expectedSoleParent": "cd61608d1c8668cd27128b1ef2710becd2057283",
+  "results": {
+    "parent": {
+      "exit": 0,
+      "stdout": "baf45e8a3e5fbbb738f1cbf1ddfa5065b1e83137 cd61608d1c8668cd27128b1ef2710becd2057283\n",
+      "stderr": ""
+    },
+    "tree": {
+      "exit": 0,
+      "stdout": "0f7da2f53cfb6345ee335d1bf80564f60cbf7b77\n",
+      "stderr": ""
+    },
+    "acceptedBaseMissing": {
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Not a valid object name 86c419509ece24f309d7188e6de2d9e38d3d2f50^{commit}\n"
+    },
+    "baselineAncestorRequirement": {
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Not a valid commit name 86c419509ece24f309d7188e6de2d9e38d3d2f50\n"
+    },
+    "historicalSqlLookup": {
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: path 'supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql' exists on disk, but not in '2a5e8ea95dccfa59a0122fd9f84456eb72c77e9b'\n"
+    }
+  }
+}

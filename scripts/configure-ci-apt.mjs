@@ -31,8 +31,10 @@ export function planAptSources(source, mirrors, codename) {
       assert.ok([codename, `${codename}-updates`, `${codename}-backports`, `${codename}-security`].includes(suite), "Unexpected suite");
       suites.add(suite);
     }
-    const uri = fields.get("URIs");
-    assert.ok([indirect, azure, official, "http://archive.ubuntu.com/ubuntu/", "http://security.ubuntu.com/ubuntu/", security].includes(uri), "Unexpected Ubuntu source URI");
+    const originalUri = fields.get("URIs");
+    // A trailing slash does not change these exact Ubuntu repository paths.
+    const uri = originalUri === indirect ? originalUri : originalUri.replace(/\/?$/, "/");
+    assert.ok([indirect, azure, official, "http://archive.ubuntu.com/ubuntu/", "http://security.ubuntu.com/ubuntu/", security].includes(uri), `Unexpected Ubuntu source URI: ${originalUri}`);
     usesMirror ||= uri === indirect;
     changes += [azure, "http://archive.ubuntu.com/ubuntu/"].includes(uri) ? 1 : 0;
   }
@@ -42,9 +44,9 @@ export function planAptSources(source, mirrors, codename) {
     assert.ok(mirrors === originalMirrors || mirrors === preferredMirrors, "Unexpected provider mirror list; no changes applied");
     return { source, mirrors: preferredMirrors, mechanism: "mirror+file; official priority 1, Azure fallback 2, security fallback 3" };
   }
-  assert.ok(changes > 0 || /^URIs: https:\/\/archive\.ubuntu\.com\/ubuntu\/$/m.test(source), "No recognized archive source");
+  assert.ok(changes > 0 || /^URIs: https:\/\/archive\.ubuntu\.com\/ubuntu\/?$/m.test(source), "No recognized archive source");
   return {
-    source: source.replace(/^URIs: http:\/\/(?:azure\.archive|archive)\.ubuntu\.com\/ubuntu\/$/gm, `URIs: ${official}`),
+    source: source.replace(/^URIs: http:\/\/(?:azure\.archive|archive)\.ubuntu\.com\/ubuntu\/?$/gm, `URIs: ${official}`),
     mirrors,
     mechanism: "direct deb822 URI; separate security URI unchanged",
   };

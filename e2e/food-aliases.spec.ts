@@ -448,7 +448,18 @@ test.describe.serial("food alias and search-readiness foundation", () => {
         where schemaname = 'public'
           and tablename = 'food_aliases';
       `),
-    ).toBe("5");
+    ).toBe("6"); // Five existing policies plus the scoped internal read policy.
+    expect(
+      queryLocalDatabase(`
+        select count(*)
+        from pg_policies
+        where schemaname = 'public'
+          and tablename = 'food_aliases'
+          and policyname = 'food_aliases_reprojection_select'
+          and cmd = 'SELECT'
+          and roles = array['ingestion_reprojection_definer']::name[];
+      `),
+    ).toBe("1");
     expect(
       queryLocalDatabase(`
         select string_agg(privilege_type, ',' order by privilege_type)

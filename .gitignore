@@ -52,3 +52,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Isolated CI qualification artifacts
+/full35-recovery-evidence/
+/codeql-results/

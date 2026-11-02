@@ -1,0 +1,16 @@
+{
+  "scope": "Authentic approved source; synthetic local UUID bindings; read-only SQL candidate validation",
+  "records": 353,
+  "present": 6261,
+  "source_method_records": 6452,
+  "all_raw_candidates_equal": true,
+  "candidate_inventory_hash": "b21e6c9c14d719ca675944f054da400138484000aff0b4713977325f3e1911d3",
+  "inventory_sql_typescript_equal": true,
+  "archive_sha256": "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a",
+  "json_sha256": "27d1fe3fd89edfbe528ed915da5619320e1d004d4594603a1b19bdb1511590cc",
+  "migration_sha256": "907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703",
+  "read_only": true,
+  "hosted_access": false,
+  "production_identity_inventory_imported": false,
+  "authority_correction_status": "HISTORICAL_BEFORE_IMAGE_SUPERSEDED; retain original SQL identity for audit; corrected SQL requires fresh validation"
+}

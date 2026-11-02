@@ -1,0 +1,26 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {assertFreshFull35Marker,assertFull35Payload,assertFull35Rows,full35AtomicRestoreGuard,full35AtomicRejectionMessage,full35ReviewedSchemaHash} from "./phase-11i-full35-recovery.mjs";
+const source="00000000-0000-4000-8000-000000000001",target="00000000-0000-4000-8000-000000000002";
+test("fresh marker remains independent and stable",()=>assertFreshFull35Marker(source,target,target));
+for(const [label,args] of [["copied source marker",[source,source]],["changed target marker",[source,target,source]],["missing source marker",[null,target]],["missing target marker",[source,null]]])test(label+" fails",()=>assert.throws(()=>assertFreshFull35Marker(...args)));
+for(const sql of ['INSERT INTO private.mapping_actor_cluster_epoch VALUES (true);','INSERT INTO "private"."mapping_actor_cluster_epoch" VALUES (true);','-- mapping_actor_cluster_epoch','COMMIT;','BEGIN;','ROLLBACK;'])test("unsafe operational payload is refused: "+sql,()=>assert.throws(()=>assertFull35Payload(sql)));
+test("application data payload retains its reviewed normal loader settings",()=>assertFull35Payload('SET session_replication_role=replica;\nINSERT INTO public.foods VALUES (1);\nSET session_replication_role=origin;'));
+const rows={"public.foods":{count:353,sha256:"a".repeat(64)}};
+test("whole-row fingerprint equality preserves zero/null, versions and timestamps",()=>assertFull35Rows(rows,structuredClone(rows)));
+for(const bad of [{}, {...rows,"public.foods":{count:353,sha256:"b".repeat(64)}}, {...rows,"public.foods":{count:352,sha256:"a".repeat(64)}}])test("same count hash changes or missing rows fail",()=>assert.throws(()=>assertFull35Rows(rows,bad)));
+test("atomic guard requires exact complete rows and preserves target epoch before commit",()=>{const guard=full35AtomicRestoreGuard({sourceClusterMarker:source,rowFingerprints:rows},target);assert.match(guard,/complete persisted row fingerprint mismatch/);assert.match(guard,/target marker changed/);assert.match(guard,/Copied actor authorization/);});
+test("atomic guard rejects SQL-shaped table metadata",()=>assert.throws(()=>full35AtomicRestoreGuard({sourceClusterMarker:source,rowFingerprints:{"public.foods;commit":rows["public.foods"]}},target)));
+
+test("atomic rejection preserves guard identity without exposing SQL/private rows",()=>{assert.match(full35AtomicRejectionMessage("ERROR: Full35 complete persisted row fingerprint mismatch\nDETAIL: synthetic private row"),/row fingerprint mismatch/);assert.doesNotMatch(full35AtomicRejectionMessage("ERROR: syntax error\nDETAIL: private row"),/row fingerprint mismatch|private row|syntax error/);});
+
+test("portable reviewed schema fingerprint retains dictionary codes and units",()=>{
+  const fingerprint=(unit)=>full35ReviewedSchemaHash(query=>{
+    if(query.includes("'dictionary'")){
+      assert.match(query,/jsonb_build_object\('code',code,'unit',unit\)/);
+      return [[JSON.stringify({dictionary:[{code:"vitamin_k_ug",unit}]})]];
+    }
+    return [["{}"]];
+  });
+  assert.notEqual(fingerprint("ug"),fingerprint("g"));
+});
