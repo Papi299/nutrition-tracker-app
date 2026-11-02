@@ -204,6 +204,12 @@ runs are not qualification passes; the 55-test set was rerun in full with no
 skips. A standalone ingestion-type check initially lacked its local runtime;
 the disposable runner now performs it against its own freshly migrated project.
 
+The first CI attempt failed the existing main-only-source test during temporary
+Git directory teardown (`ENOTEMPTY`), after its source assertions. Automatic
+Git maintenance is disabled only in that test's disposable repository to prevent
+background fetch maintenance racing cleanup. Source/hash/ref assertions and
+all workflow gates remain unchanged; fresh exact-head CI is required.
+
 Final gates run on the delivered head: existing Validate, encrypted47 recovery,
 durable actor identity, Ubuntu browser provisioning, every applicable CodeQL
 language and the new isolated application job. The new job checks out and
