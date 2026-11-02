@@ -14,9 +14,9 @@ const workflowExpectations = new Map([
       timeout: 75, // Existing budget plus the measured 20-minute Full35 transaction suite.
       node: 22,
       actions: new Map([
-        ["actions/checkout", 6],
-        ["actions/setup-node", 6],
-        ["actions/upload-artifact", 5],
+        ["actions/checkout", 8],
+        ["actions/setup-node", 8],
+        ["actions/upload-artifact", 7],
       ]),
     },
   ],
@@ -63,6 +63,74 @@ const ciSteps = [
   "Upload Playwright failure artifacts",
   "Stop local Supabase",
 ];
+
+const reviewedAtomicDiaryJobs = `
+  atomic_diary:
+    name: Atomic diary persistence (\${{ matrix.order }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        order: [writer-first, diary-first]
+    steps:
+      - name: Check out exact atomic diary head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: \${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up atomic diary Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify deterministic atomic serialization and compatibility
+        env:
+          FULL35_ATOMICITY_SCENARIO: \${{ matrix.order }}
+          EXPECTED_HEAD: \${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          npm ci
+          sudo "$(command -v node)" scripts/configure-ci-apt.mjs
+          npx playwright install --with-deps chromium
+          npm run test:atomic-diary-local
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+      - name: Retain sanitized atomic diary evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: atomic-diary-\${{ matrix.order }}-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: full35-app-evidence/
+          if-no-files-found: error
+          retention-days: 14
+
+  atomic_diary_recovery:
+    name: Atomic diary exact-history encrypted recovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out exact atomic recovery head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: \${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up atomic recovery Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify encrypted migration 48 recovery and restored races
+        run: |
+          npm ci
+          npm run test:atomic-diary-recovery-local
+      - name: Retain sanitized atomic recovery evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: atomic-diary-recovery-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: atomic-diary-recovery-evidence/
+          if-no-files-found: error
+          retention-days: 14
+`;
 
 const reviewedAptCompatibilityJob = `
   apt_ubuntu26:
@@ -226,6 +294,8 @@ const reviewedApplicationJob = `
 `;
 
 function checkCiDispatchContract(workflow) {
+  if (!workflow.endsWith(reviewedAtomicDiaryJobs)) fail("ci.yml must retain exact unconditional atomic diary and encrypted history gates");
+  workflow = workflow.slice(0,-reviewedAtomicDiaryJobs.length);
   if (!workflow.endsWith(reviewedApplicationJob)) fail("ci.yml must retain the exact unconditional isolated application qualification and exact-head gate");
   workflow = workflow.slice(0, -reviewedApplicationJob.length);
   if (!workflow.endsWith(reviewedAptCompatibilityJob)) {
@@ -241,7 +311,7 @@ function checkCiDispatchContract(workflow) {
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main, codex/nutrition-usda-full35-reprojection-001]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
     fail("ci.yml must retain only main/Stage 4A PR, main push, and manual dispatch triggers");
   }

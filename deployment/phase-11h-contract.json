@@ -784,6 +784,39 @@
       "vaultMatch": null
     },
     {
+      "name": "FULL35_ATOMICITY_CONTROL",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Loopback-only external test barrier controller; no application build hook.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_ATOMICITY_SCENARIO",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Closed writer-first or diary-first matrix for disposable local atomicity qualification.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_ATOMIC_DIARY_RECOVERY",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Selects the exact pinned migration48 encrypted local qualification, preserving legacy47 qualification.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "FULL35_LOCAL_DATABASE_CONTAINER",
       "visibility": "local test only",
       "requiredEnvironments": [],

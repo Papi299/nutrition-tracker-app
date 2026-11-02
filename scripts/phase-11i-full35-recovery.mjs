@@ -129,7 +129,12 @@ export function full35ReviewedSchemaHash(rows) {
     'memberships',(select jsonb_agg(jsonb_build_object('member',m.rolname,'role',r.rolname,'grantor',g.rolname,
       'admin',a.admin_option,'inherit',a.inherit_option,'set',a.set_option)
       order by m.rolname collate "C",r.rolname collate "C",g.rolname collate "C")
-      from pg_auth_members a join pg_roles m on m.oid=a.member join pg_roles r on r.oid=a.roleid join pg_roles g on g.oid=a.grantor))`)[0][0];
+      from pg_auth_members a join pg_roles m on m.oid=a.member join pg_roles r on r.oid=a.roleid join pg_roles g on g.oid=a.grantor))::jsonb
+    ||case when exists(select from pg_roles where rolname='diary_dataset_reader') then jsonb_build_object(
+      'atomicDefaults',(select jsonb_agg(jsonb_build_object('owner',pg_get_userbyid(d.defaclrole),'schema',n.nspname,
+        'kind',d.defaclobjtype,'acl',d.defaclacl::text) order by pg_get_userbyid(d.defaclrole) collate "C",n.nspname collate "C",d.defaclobjtype)
+        from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
+        where pg_get_userbyid(d.defaclrole)='diary_dataset_reader'))::jsonb else '{}'::jsonb end`)[0][0];
   return sha256(canonicalize({catalog,roles:JSON.parse(roles)}));
 }
 export function validateRestoredFull35(rows, source, freshMarker, reviewedContract) {

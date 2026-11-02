@@ -56,6 +56,11 @@ test("CI workflow security policy accepts the reviewed dispatch contract", () =>
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
+    ci.replace("  atomic_diary:","  atomic_diary_renamed:"),
+    ci.replace("order: [writer-first, diary-first]","order: [writer-first]"),
+    ci.replace("npm run test:atomic-diary-recovery-local","echo skipped"),
+    ci.replace("npm run test:atomic-diary-local","npm run test:atomic-diary-local || true"),
+    ci.replace("    name: Atomic diary exact-history encrypted recovery\n","    name: Atomic diary exact-history encrypted recovery\n    if: false\n"),
     ci.replace("  full35_application:", "  other_application_job:"),
     ci.replace("    name: Full35 application qualification\n", "    name: Full35 application qualification\n    if: false\n"),
     ci.replace("node scripts/run-full35-app-local.mjs", "node scripts/run-full35-app-local.mjs || true"),
@@ -88,8 +93,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("  full35_recovery:\n", "  full35_recovery:\n    if: false\n"),
     ci.replace("language: [actions, javascript-typescript, python]", "language: [python]"),
     ci.replace("ref: ${{ github.event.pull_request.head.sha || github.sha }}", "ref: main"),
-    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001]", "branches: [main]"),
-    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001]", "branches: [main, arbitrary]"),
+    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]", "branches: [main]"),
+    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]", "branches: [main, arbitrary]"),
     ci.replace("      - name: Qualify isolated Full35 reprojection database\n        run: npm run test:full35-reprojection-local\n\n", ""),
     ci.replace("run: npm run test:full35-reprojection-local", "run: echo skipped"),
   ];

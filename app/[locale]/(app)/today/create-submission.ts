@@ -89,6 +89,8 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const automaticFields = allNutrientFields.filter(field => values[`automatic_${field}`] === "1");
   let reviewRequired = false;
   const servingIntent = readTextField(formData, "serving_intent");
+  const referenceDependent = automaticFields.length > 0 || Boolean(servingIntent) ||
+    Boolean(values.quantity_unit && values.quantity_unit !== values.serving_unit);
   if (servingIntent && servingIntent !== "reset_catalog_serving") return fail({ form: "invalid_input" });
   let referenceChangedSinceRender = false;
   if (context && context.reference.food_id === values.food_id &&
@@ -186,6 +188,13 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   // Native and tampered previews must be reviewed before any row or receipt is
   // written. JavaScript's matching previews reach persistence in one request.
   if (reviewRequired) return fail({ form: "nutrition_review_required" });
-  const result = await createDiaryEntryForCurrentUser(input, values.idempotency_key!);
+  const result = await createDiaryEntryForCurrentUser(input, values.idempotency_key!,
+    referenceDependent && context && context.reference.food_id === values.food_id
+      ? { fingerprint: context.reference.reference_fingerprint, automaticFields }
+      : undefined);
+  if (!result.ok && result.fieldErrors?.form === "reference_changed") {
+    for (const field of allNutrientFields) values[`automatic_${field}`] = "";
+    if (result.referenceFingerprint) values.reference_fingerprint = result.referenceFingerprint;
+  }
   return { result, values };
 }
