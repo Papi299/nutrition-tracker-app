@@ -114,8 +114,11 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
     if (completed.error) return { result: { ok: false as const, code: "database_error" as const }, values };
     if (!completed.data) {
       const current = await getReadableFoodDiaryPrefill(context.reference.food_id);
-      if (current.status === "database_error") return { result: { ok: false as const, code: "database_error" as const }, values };
-      if (current.status !== "ready") return fail({ form: "missing_reference" });
+      // A linked food that became unreadable still uses the existing save
+      // failure response; no automatic value or receipt can be persisted.
+      if (current.status !== "ready") return {
+        result: { ok: false as const, code: current.status === "unauthenticated" ? "unauthenticated" as const : "database_error" as const }, values,
+      };
       referenceChangedSinceRender = context.reference.reference_fingerprint !== current.data.reference_fingerprint;
       context = { ownerId: context.ownerId, reference: current.data };
     }

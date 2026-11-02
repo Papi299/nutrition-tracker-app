@@ -123,8 +123,10 @@ additional scalar; catalog serving metadata stays unchanged. This is the
 existing extension-only reference contract, not a SQL correction.
 
 The writer executes the approved reprojection inside an actual uncommitted
-transaction and pauses. An authenticated reader sees complete A. After commit
-it sees complete B. No mixed vector is accepted.
+transaction and pauses. An authenticated reference query starts before commit
+and remains active after commit, verified through real backend wait states. It
+returns complete A under its original statement snapshot; a fresh query returns
+complete B. No mixed vector is accepted.
 
 Valid A drafts submitted after B commit return `reference_changed`, with no
 diary row or receipt. Manual fiber `7` survives; all 35 displayed numbers and
@@ -186,6 +188,9 @@ entire normalized request, so a changed retry cannot create or overwrite data.
 The existing native invalid-field review test exposed an error-order regression
 during development; ordinary non-nutrition field errors retain precedence. No
 existing test was deleted, suppressed or changed to accept this regression.
+The full CI suite also caught a changed error response for a linked food archived
+after prefill. Unreadable references retain the existing generic save failure
+(or expired-session response), without creating a diary row or receipt.
 
 ## R–T. Validation, delivery and final source identity
 

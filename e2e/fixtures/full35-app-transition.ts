@@ -39,6 +39,26 @@ export function installApplicationTransition() {
       child.stdin.end(sql);
     });
   }
+  const visibilityLock = "73535001";
+  async function holdReferenceReader() {
+    const child = spawn("docker", args("supabase_admin"));
+    let output = "", error = "", ready = false;
+    const closed = new Promise<number | null>(ok => child.once("close", ok));
+    await new Promise<void>((ok, fail) => {
+      child.stdout.on("data", data => {
+        output += data;
+        if (!ready && output.includes("stage5_reader_barrier_ready")) { ready = true; ok(); }
+      });
+      child.stderr.on("data", data => error += data);
+      child.once("error", fail);
+      child.once("close", () => { if (!ready) fail(new Error(`Local reader barrier failed: ${error}`)); });
+      child.stdin.write(`select pg_advisory_lock(${visibilityLock});select 'stage5_reader_barrier_ready';\n`);
+    });
+    return async () => {
+      child.stdin.end(`select pg_advisory_unlock(${visibilityLock});\n\\q\n`);
+      if (await closed !== 0) throw new Error(`Local reader barrier cleanup failed: ${error}`);
+    };
+  }
   const json = <T>(sql: string, user?: string): T => JSON.parse(query(sql, user));
   query(`create role ${operator} login password '${password}';create role ${approver} login password '${password}';
     create role ${consumer} login password '${password}';grant authenticated to ${consumer};
@@ -105,7 +125,7 @@ export function installApplicationTransition() {
   const approvalId = query(`select ingestion.approve_foundation_mapping_reprojection_v1('${planId}','${fingerprintMappingPlan(plan)}',
     '${plan.approval_requirements.expires_at}'::timestamptz,${canonical({ independent_review_hash: fixtureHash("synthetic independent app qualification"),
       recovery_evidence_hash: plan.recovery_requirements.qualification_hash, approval_reference: "synthetic-independent-stage5" })})`, approver);
-  return { query, asyncQuery, json, fixture, plan, planId, approvalId, token, operator, approver, consumer,
+  return { query, asyncQuery, holdReferenceReader, visibilityLock, json, fixture, plan, planId, approvalId, token, operator, approver, consumer,
     sourceMode: archivePath ? "verified official source values; synthetic local identity/release/governance" : "deterministic synthetic source values and identities",
     execution: `select ingestion.execute_foundation_mapping_reprojection_v1('${approvalId}','${token}');` };
 }

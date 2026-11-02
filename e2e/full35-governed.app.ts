@@ -146,10 +146,25 @@ test("F35-32–39 governed 353-food enrichment preserves application history, re
     const exportBefore = await download(exportContext.page);
     const frozen = persisted();
     await test.step("F35-32: actual uncommitted writer, coherent overlap read and complete enrichment", async () => {
-      const execution = transition.asyncQuery(`set application_name='full35_app_visibility';begin;${transition.execution}select pg_sleep(8);commit;`);
-      await expect.poll(() => query("select count(*) from pg_stat_activity where application_name='full35_app_visibility' and wait_event='PgSleep'"), { timeout: 120_000 }).toBe("1");
-      const overlap = references(2); expect(overlap).toEqual(beforeV2);
-      await execution;
+      const releaseReader = await transition.holdReferenceReader();
+      let released = false;
+      try {
+        const execution = transition.asyncQuery(`set application_name='full35_app_visibility';begin;${transition.execution}select pg_sleep(8);commit;`);
+        await expect.poll(() => query("select count(*) from pg_stat_activity where application_name='full35_app_visibility' and wait_event='PgSleep'"), { timeout: 120_000 }).toBe("1");
+        const overlapRead = transition.asyncQuery(`set application_name='full35_app_visibility_reader';begin;set local role authenticated;
+          set local request.jwt.claim.sub='${owner}';
+          with gate as materialized(select clock_timestamp() opened_at,pg_advisory_xact_lock(${transition.visibilityLock}))
+          select jsonb_agg(to_jsonb(r) order by r.food_id) from gate cross join public.foods f
+          cross join lateral public.get_readable_food_nutrition_reference_v2(case when gate.opened_at is not null then f.id else null end) r
+          where f.id in (${sourceIds.map(id => `'${id}'`).join(",")});commit;`, "supabase_admin");
+        const readerWaiting = () => query("select count(*) from pg_stat_activity where application_name='full35_app_visibility_reader' and wait_event_type='Lock' and wait_event='advisory'");
+        await expect.poll(readerWaiting, { timeout: 5_000 }).toBe("1");
+        await execution;
+        expect(readerWaiting()).toBe("1");
+        await releaseReader(); released = true;
+        const overlap = JSON.parse(await overlapRead); expect(overlap).toEqual(beforeV2);
+      } finally { if (!released) await releaseReader(); }
+      evidence.referenceReadSpannedCommit = true;
       const afterV1 = references(1), afterV2 = references(2);
       expect(identities()).toBe(originalIdentities); expect(persisted()).toBe(frozen);
       await test.info().attach("353-identity-comparison", { body: Buffer.from(JSON.stringify({ scope: transition.sourceMode,
