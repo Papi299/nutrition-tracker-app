@@ -459,6 +459,12 @@ rejects `sb_secret_`, service-role-shaped prefixes, and a JWT whose role is
   `DOCKER_HOST`, when set, is checked only to require a local Unix socket.
   These variables grant no hosted authority and are never application/browser
   configuration.
+- Isolated Full35 application qualification: `FULL35_APP_SOURCE_COMMIT` and
+  `FULL35_APP_SOURCE_TREE` record the source worktree copied into a disposable
+  runtime. `FULL35_APPROVED_SOURCE_ARCHIVE` is an outside-Git file path whose
+  exact approved archive/member hashes are checked before parsing. It is
+  optional for synthetic local runs and mandatory in the Stage5 CI job.
+  These inputs contain no hosted credentials and change no hosted environment.
 - Exact-head recovery CodeQL: `CODEQL_CANDIDATE_SHA` binds the checked-out GitHub
   source head and `CODEQL_LANGUAGE` comes from the closed three-language CI matrix.
   They are CI provenance inputs, carry no credentials and grant no runtime authority.

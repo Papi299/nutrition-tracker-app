@@ -1,0 +1,109 @@
+{
+  "expected": {
+    "diary": [],
+    "receipts": []
+  },
+  "observed": {
+    "diary": [
+      {
+        "serving_quantity": 200,
+        "calories": 400,
+        "protein_g": 40,
+        "carbohydrates_g": 40,
+        "fat_g": 10,
+        "additional_nutrient_snapshot": {
+          "values": {
+            "fiber_g": null,
+            "iron_mg": null,
+            "zinc_mg": null,
+            "sugars_g": null,
+            "copper_mg": null,
+            "niacin_mg": null,
+            "sodium_mg": null,
+            "calcium_mg": null,
+            "choline_mg": null,
+            "thiamin_mg": null,
+            "selenium_ug": null,
+            "trans_fat_g": null,
+            "magnesium_mg": null,
+            "manganese_mg": null,
+            "potassium_mg": null,
+            "vitamin_c_mg": null,
+            "vitamin_d_ug": null,
+            "vitamin_e_mg": null,
+            "vitamin_k_ug": null,
+            "folate_dfe_ug": null,
+            "phosphorus_mg": null,
+            "riboflavin_mg": null,
+            "vitamin_b6_mg": null,
+            "added_sugars_g": null,
+            "cholesterol_mg": null,
+            "vitamin_b12_ug": null,
+            "saturated_fat_g": null,
+            "vitamin_a_rae_ug": null,
+            "pantothenic_acid_mg": null,
+            "monounsaturated_fat_g": null,
+            "polyunsaturated_fat_g": null
+          },
+          "version": 1
+        }
+      }
+    ],
+    "receipts": [
+      {
+        "request_payload": {
+          "fat_g": 10,
+          "notes": null,
+          "food_id": "6dd3f274-70eb-49c9-9e1c-0f0af78a6c6e",
+          "calories": 400,
+          "food_name": "Synthetic enrichment race",
+          "meal_type": "breakfast",
+          "protein_g": 40,
+          "brand_name": "Synthetic",
+          "entry_date": "2026-11-02",
+          "serving_unit": "g",
+          "carbohydrates_g": 40,
+          "contract_version": 2,
+          "serving_quantity": 200,
+          "additional_nutrient_snapshot": {
+            "values": {
+              "fiber_g": null,
+              "iron_mg": null,
+              "zinc_mg": null,
+              "sugars_g": null,
+              "copper_mg": null,
+              "niacin_mg": null,
+              "sodium_mg": null,
+              "calcium_mg": null,
+              "choline_mg": null,
+              "thiamin_mg": null,
+              "selenium_ug": null,
+              "trans_fat_g": null,
+              "magnesium_mg": null,
+              "manganese_mg": null,
+              "potassium_mg": null,
+              "vitamin_c_mg": null,
+              "vitamin_d_ug": null,
+              "vitamin_e_mg": null,
+              "vitamin_k_ug": null,
+              "folate_dfe_ug": null,
+              "phosphorus_mg": null,
+              "riboflavin_mg": null,
+              "vitamin_b6_mg": null,
+              "added_sugars_g": null,
+              "cholesterol_mg": null,
+              "vitamin_b12_ug": null,
+              "saturated_fat_g": null,
+              "vitamin_a_rae_ug": null,
+              "pantothenic_acid_mg": null,
+              "monounsaturated_fat_g": null,
+              "polyunsaturated_fat_g": null
+            },
+            "version": 1
+          }
+        }
+      }
+    ]
+  },
+  "referenceChanged": false
+}
