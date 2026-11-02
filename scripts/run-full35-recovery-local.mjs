@@ -67,7 +67,7 @@ try {
   writeFileSync(join(evidence, "context.json"), JSON.stringify({
     commit: await run("git", ["rev-parse", "HEAD"]), tree: await run("git", ["rev-parse", "HEAD^{tree}"]),
     cli: cliVersion, node: process.version, identities,
-    candidateSqlSha256: createHash("sha256").update(readFileSync("supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")).digest("hex"),
+    candidateSqlSha256: createHash("sha256").update(readFileSync(atomicDiary?"supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql":"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")).digest("hex"),
     workingTreeStatus: await run("git",["status","--porcelain"]),
   }, null, 2) + "\n", { mode: 0o600 });
   writeFileSync(join(evidence, "diagnostic-input.json"), JSON.stringify({

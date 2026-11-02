@@ -33,8 +33,8 @@
     },
     {
       "file": "engineering-report.md",
-      "bytes": 28173,
-      "sha256": "2cdacb7c8aa965b2dbb3e55cc22e2a3b9f21a4fb7378f8b239c2ac3021f7fae8"
+      "bytes": 28410,
+      "sha256": "02d8fb283a4b14f81d161e370128dc9d020f645f968e50f5fd17e3887c909c38"
     },
     {
       "file": "local-atomicity-verification.json",

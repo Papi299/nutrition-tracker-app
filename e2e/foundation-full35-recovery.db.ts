@@ -444,7 +444,7 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
     const matrix=(requirements:Record<string,string[]>)=>Object.fromEntries(Object.entries(requirements).map(([id,cases])=>[id,{result:cases.every(name=>(negatives[name] as {result?:string})?.result==="PASS")?"PASS":"INCOMPLETE",cases}]));
     const recoveryMatrix=matrix(required),markerMatrix=matrix(markerRequired);
     const result=["N_same_count_wrong_public_value","N_dictionary_unit"].every(name=>(negatives[name] as {result?:string})?.result==="PASS")&&checkpoints.length===3&&Object.values(recoveryMatrix).every(r=>r.result==="PASS")&&Object.values(markerMatrix).every(r=>r.result==="PASS")?"PASS":"INCOMPLETE";
-    writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({task:"NUTRITION-USDA-FULL35-RECOVERY-001B",result,
+    writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({task:atomicDiary?"NUTRITION-USDA-FULL35-APP-ATOMIC-PERSISTENCE-002":"NUTRITION-USDA-FULL35-RECOVERY-001B",result,
       atomicDiary:atomicDiary?{result:checkpoints.length===3&&(checkpoints[0].atomicRace as {result?:string})?.result==="PASS"&&atomicCases.every(n=>(negatives[n] as {result?:string})?.result==="PASS")?"PASS":"INCOMPLETE",cases:atomicCases,historyHead,exactSQLSha256:hash(readFileSync("supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql")),completedOwnerRetry:true}:undefined,
       exactMigration47Sha256:hash(readFileSync("supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")),checkpoints,negatives,recoveryMatrix,markerMatrix,productionAccess:false},null,2)+"\n",{mode:0o600});
   });

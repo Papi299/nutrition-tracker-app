@@ -192,7 +192,7 @@ The stacked PR may not receive default-setup main-protected CodeQL checks. Its i
 
 [#224](https://github.com/Papi299/nutrition-tracker-app/pull/224) is stacked on `codex/nutrition-usda-full35-app-qual-001`, exact base f0. Its delta is one forward migration, minimal application routing/types, necessary test/CI/recovery support and sanitized evidence. All scientific mappings, original source versions, accepted migrations, dependency versions and hosted settings remain intact. The final PR description supplies the exact correction head/tree, cumulative tree versus main, final checks and artifact digests. No branch-protection change is part of the correction.
 
-Development failures are retained separately from successful qualification: initial TypeScript narrowing, the Auth-schema ACL assumption, optional success-metadata comparison, an inherited synchronous governed-retry test-controller wait, and a malformed tamper-test parameter name were corrected. No failing assertion was removed to make the race pass, and no required case was skipped.
+Development failures are retained separately from successful qualification: initial TypeScript narrowing, the Auth-schema ACL assumption, optional success-metadata comparison, an inherited synchronous governed-retry test-controller wait, a malformed tamper-test parameter name, and an inherited hardcoded migration-count evidence label were corrected. The Stage5 count now comes from the installed ledger and is compared with the approved plan inventory; the recovery context names the selected history's actual candidate SQL digest. No failing assertion was removed to make the race pass, and no required case was skipped.
 
 ## V. Hosted boundaries
 
