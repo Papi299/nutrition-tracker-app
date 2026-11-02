@@ -1,0 +1,812 @@
+{
+  "baseline": {
+    "sha": "de9c6dc15a69ba08cedbbc1f22624418b0df9ec7",
+    "tree": "3dc007d9e825b3fe451c3b31c32eb8b82fabf34c"
+  },
+  "candidateZod": "4.6.7",
+  "advisory": {
+    "ghsa_id": "GHSA-mrhx-c7xc-m3w5",
+    "cve_id": "CVE-2023-54404",
+    "url": "https://api.github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+    "html_url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+    "summary": "Zod can exhaust memory while validating oversized constrained collections",
+    "description": "Zod schema-validation library through 4.6.5 contains an uncontrolled resource consumption vulnerability that allows attackers to exhaust memory by submitting a large array to an application using an array schema without a length constraint. Attackers can exploit the handleArrayResult parse logic in $ZodArray, which accumulates every validation issue for each failing element with no cap or early termination, causing the process to allocate excessive issue objects and crash due to out-of-memory conditions.",
+    "type": "reviewed",
+    "severity": "high",
+    "repository_advisory_url": null,
+    "source_code_location": "https://github.com/colinhacks/zod",
+    "identifiers": [
+      {
+        "value": "GHSA-mrhx-c7xc-m3w5",
+        "type": "GHSA"
+      },
+      {
+        "value": "CVE-2023-54404",
+        "type": "CVE"
+      }
+    ],
+    "references": [
+      "https://nvd.nist.gov/vuln/detail/CVE-2023-54404",
+      "https://github.com/colinhacks/zod/issues/1872",
+      "https://github.com/colinhacks/zod/pull/6475",
+      "https://www.vulncheck.com/advisories/zod-uncontrolled-resource-consumption-via-array-validation",
+      "https://github.com/colinhacks/zod/pull/6652",
+      "https://github.com/colinhacks/zod/commit/a0ebf970f2d752e5f58527cd2942ff48be4f46bd",
+      "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+    ],
+    "published_at": "2026-10-01T18:32:46Z",
+    "updated_at": "2026-10-23T18:26:52Z",
+    "github_reviewed_at": "2026-10-23T18:26:50Z",
+    "nvd_published_at": "2026-10-01T18:17:11Z",
+    "withdrawn_at": null,
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "zod"
+        },
+        "vulnerable_version_range": "< 4.6.6",
+        "first_patched_version": "4.6.6",
+        "vulnerable_functions": []
+      }
+    ],
+    "cvss_severities": {
+      "cvss_v3": {
+        "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "score": 7.5
+      },
+      "cvss_v4": {
+        "vector_string": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+        "score": 8.2
+      }
+    },
+    "cwes": [
+      {
+        "cwe_id": "CWE-770",
+        "name": "Allocation of Resources Without Limits or Throttling"
+      }
+    ],
+    "credits": [
+      {
+        "user": {
+          "login": "MohamedEslam04",
+          "id": 60846785,
+          "node_id": "MDQ6VXNlcjYwODQ2Nzg1",
+          "avatar_url": "https://avatars.githubusercontent.com/u/60846785?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/MohamedEslam04",
+          "html_url": "https://github.com/MohamedEslam04",
+          "followers_url": "https://api.github.com/users/MohamedEslam04/followers",
+          "following_url": "https://api.github.com/users/MohamedEslam04/following{/other_user}",
+          "gists_url": "https://api.github.com/users/MohamedEslam04/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/MohamedEslam04/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/MohamedEslam04/subscriptions",
+          "organizations_url": "https://api.github.com/users/MohamedEslam04/orgs",
+          "repos_url": "https://api.github.com/users/MohamedEslam04/repos",
+          "events_url": "https://api.github.com/users/MohamedEslam04/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/MohamedEslam04/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "type": "analyst"
+      }
+    ],
+    "comments": 0,
+    "cvss": {
+      "vector_string": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "score": 7.5
+    },
+    "epss": {
+      "percentage": 0.00346,
+      "percentile": 0.27885
+    }
+  },
+  "registryZod": {
+    "version": "4.6.7",
+    "dist": {
+      "shasum": "e806cf64a7f4e37635ce9f2f52c04c3766f75e5b",
+      "tarball": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz",
+      "integrity": "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==",
+      "fileCount": 840,
+      "unpackedSize": 6148944,
+      "attestations": {
+        "url": "https://registry.npmjs.org/-/npm/v1/attestations/zod@4.6.7",
+        "provenance": {
+          "predicateType": "https://slsa.dev/provenance/v1"
+        }
+      },
+      "signatures": [
+        {
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+          "sig": "MEUCIQCwQ7Os025hoW1C24cDvgD4t5gynQpYlWHx1ok/Bke33AIgPP2J7w4z9B/fqA62pHpEBvjlB5ScCMm3c0adt03XQlY="
+        }
+      ]
+    }
+  },
+  "parent": {
+    "dependencies": {
+      "zod": "^3.25.0 || ^4.0.0",
+      "@babel/core": "^7.24.4",
+      "@babel/parser": "^7.24.4",
+      "hermes-parser": "^0.25.1",
+      "zod-validation-error": "^3.5.0 || ^4.0.0"
+    },
+    "peerDependencies": {
+      "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0 || ^10.0.0"
+    }
+  },
+  "manifestUnchanged": true,
+  "allOtherLockEntriesUnchanged": true,
+  "initialNpmUpdateNoise": {
+    "libcMetadataRemovedFrom20UnchangedPlatformPackages": true,
+    "fseventsDevMarkerAdded": true,
+    "disposition": "Discarded all unrelated metadata rewrites; retain only the registry-resolved Zod record."
+  },
+  "auditComparison": {
+    "before": {
+      "moderate": 16,
+      "high": 1,
+      "critical": 0
+    },
+    "after": {
+      "moderate": 16,
+      "high": 0,
+      "critical": 0
+    },
+    "unchangedAdvisoryFields": [
+      "severity",
+      "isDirect",
+      "via",
+      "range",
+      "nodes"
+    ],
+    "auditResolverMetadataDifferences": [
+      "effects",
+      "fixAvailable"
+    ],
+    "note": "Npm propagation/fix suggestions differ; no audit recommendations or suppressions applied."
+  },
+  "migrations": [
+    {
+      "path": "supabase/migrations/20260429163444_create_profiles_and_nutrition_targets.sql",
+      "sha256": "de6d618d1b4c1df64506b41e526ba0453dbba32df48ee928497909c1834993fb",
+      "gitBlob": "de4f16ca18d9ea35cf9615f24a18e16462375f34"
+    },
+    {
+      "path": "supabase/migrations/20260626185634_grant_authenticated_profile_target_privileges.sql",
+      "sha256": "9f0cc6378c45ed356cc6bcfbda75ee687e0acf373eaf11f594e92710b7a049d6",
+      "gitBlob": "a84adcb0e419a1e69c0c79ae08816dbd896773ba"
+    },
+    {
+      "path": "supabase/migrations/20260630193832_create_diary_entries.sql",
+      "sha256": "4e754c7e1d0f89cb5b3bf8a0495eb3805a4b406031129c30870866d51a3586b4",
+      "gitBlob": "ca38134a712c40b15bc5a61c7fc8107afbc739df"
+    },
+    {
+      "path": "supabase/migrations/20260630201904_harden_public_table_privileges.sql",
+      "sha256": "7208e811df4387aae97be5a9b54e01b8a0ca7b7196af76a182a73fb74728aac7",
+      "gitBlob": "64653d7ed1261e29acb8e30a99f473f567f2cc13"
+    },
+    {
+      "path": "supabase/migrations/20260704142707_create_nutrition_domain_schema_foundation.sql",
+      "sha256": "931839a941c0ec5621c36547107219c97ef9ee15e4d3b6c1eb8b2f84658e736e",
+      "gitBlob": "346b67b254247e86b67184c8199cba0e557c42de"
+    },
+    {
+      "path": "supabase/migrations/20260705061118_add_diary_food_linking_rules.sql",
+      "sha256": "1db5efe05a6d03a2183bb5a1dc132df66c93084a34492abdae36e046a6f78f74",
+      "gitBlob": "8833c6bede96fdfd36ecdd865f0fadc4b9a36c06"
+    },
+    {
+      "path": "supabase/migrations/20260711071000_persist_setup_atomically.sql",
+      "sha256": "b8b1571bc47ab020ac503b26c6199ac01c447f88c6e83c3c06c3aacc2daa55bd",
+      "gitBlob": "ff33546308d3339fa9f2f9b55641f0cb3dca2299"
+    },
+    {
+      "path": "supabase/migrations/20260714090000_create_food_alias_search_foundation.sql",
+      "sha256": "553d5be3ee1f3bf99ca6847466f2e5ebd1a61d0778e17473ccaa2a7c6af2abc6",
+      "gitBlob": "c2419d8f35e77fb8e1e8708a42d4ea1612a695ee"
+    },
+    {
+      "path": "supabase/migrations/20260714100000_search_readable_foods.sql",
+      "sha256": "894a73e8aa4330575e4b07d541b82c9a414b37493451075a971fd5db78c47e37",
+      "gitBlob": "336f5e246741df84e22d889eb132f2f18ca9e538"
+    },
+    {
+      "path": "supabase/migrations/20260714110000_get_readable_food_diary_prefill.sql",
+      "sha256": "bc41813c745a455cfbdaf14d4c6c75bfc115031762e98d728dcbd214f848652e",
+      "gitBlob": "d4c0124b5948e61fdfc2d5b3767a1cd498f34182"
+    },
+    {
+      "path": "supabase/migrations/20260714120000_custom_food_persistence_foundation.sql",
+      "sha256": "4cc4a8ef3053326446aaffd1503173aba012dba877988cca0f4b2e5c0f540932",
+      "gitBlob": "e8749887eabd2d4e394ad7552efb85b84d3ca6ba"
+    },
+    {
+      "path": "supabase/migrations/20260714130000_persist_custom_food_nutrient_basis.sql",
+      "sha256": "48f472fc7869d4dd02c77769c17c2eca68db9e07985de1df134d02439217b6d8",
+      "gitBlob": "0b66112dc12e290b8378e0496f38851c854a931c"
+    },
+    {
+      "path": "supabase/migrations/20260714140000_enforce_custom_food_nutrient_basis.sql",
+      "sha256": "875b6155862c200fb4a3d1ca0a3034db06e615cd9f39bbb6cbc4392fc9f8b1f6",
+      "gitBlob": "bb8a69d4b3c62646a64bfc1ce7514e3a829891f2"
+    },
+    {
+      "path": "supabase/migrations/20260714150000_get_owned_custom_food_editor.sql",
+      "sha256": "aaa2ab9d16a53459e09c5827305238f0e17db18817a629f54cce46d9bb8731aa",
+      "gitBlob": "652ff0f167c81c0ff19a792e5221f4aa97e1ca5b"
+    },
+    {
+      "path": "supabase/migrations/20260716100000_add_food_favorites_and_reusable_foods.sql",
+      "sha256": "3d1b8ec9e07e29a0ec1930fba2d5987ef65a2958ff4fdf71a55136edceae7967",
+      "gitBlob": "5432dd2620859c8655b19cfa67e9f5f86c54529f"
+    },
+    {
+      "path": "supabase/migrations/20260716110000_create_saved_meal_persistence_foundation.sql",
+      "sha256": "e4697c789052c6477521bcab1bf7f8dcc5a0d4ee08bcf2d0662393d10f3666f0",
+      "gitBlob": "75df4de019ab0d75c4f76779bb156a10a00a657f"
+    },
+    {
+      "path": "supabase/migrations/20260716120000_get_owned_saved_meal_editor.sql",
+      "sha256": "bfe58522f807201cea490f0973012a15c52433b15c0f57ca496e0d61d7e958a9",
+      "gitBlob": "f3de2f99893941184e5c3fc3b819328734aff6d8"
+    },
+    {
+      "path": "supabase/migrations/20260716130000_log_saved_meal_to_diary.sql",
+      "sha256": "dfac6dd449ffef77d51768d03e693f3fdc40fc19dd8bc584916e93aa637e40f9",
+      "gitBlob": "317cda9d01f794fdcc11d97a6feb3bce2fc34a1e"
+    },
+    {
+      "path": "supabase/migrations/20260717100000_create_recipe_persistence_foundation.sql",
+      "sha256": "63422b57835708a48b58caf57698e07b4f4af7eb3b5e8ae73514584c1fa479c6",
+      "gitBlob": "72934ced9913a5e9ee2fa36faec3c918b716562f"
+    },
+    {
+      "path": "supabase/migrations/20260717110000_get_owned_recipe_editor.sql",
+      "sha256": "3f2d2ba6ddab7213bbb298c4613a51c02d0992094af1e219598fec1aab6cffdd",
+      "gitBlob": "30f89bc077a2dc41efc1bc6b8c435f837323bd0d"
+    },
+    {
+      "path": "supabase/migrations/20260717120000_recipe_use_contract_foundation.sql",
+      "sha256": "ad1c34a31e83ce7507f65db2d351fbe9097e6dd3965c5eeafd3688905c62a71a",
+      "gitBlob": "4d3c7beb3adfe3285a54bd581e354d028b26e83a"
+    },
+    {
+      "path": "supabase/migrations/20260717130000_log_recipe_to_diary.sql",
+      "sha256": "265ac26c764405c549bc4c9d5a9bc75fb4d911ca86f1c16cae81be7554f1ab11",
+      "gitBlob": "2e5ffe95eeefd1d75beef8972cd754a6aa48561b"
+    },
+    {
+      "path": "supabase/migrations/20260717140000_create_barcode_identity_local_lookup.sql",
+      "sha256": "f79a25444cd015aeacfd6d0ded802643770e9951ba2112866ddd6d94a87e9758",
+      "gitBlob": "85e32fbfddd0d2c027625b9d0b436ca1be35125d"
+    },
+    {
+      "path": "supabase/migrations/20260717150000_create_custom_food_barcode_handoff.sql",
+      "sha256": "a5fcdb367755563c9b7f4e875211a6837e4df90344d244f50b50d593b9f33554",
+      "gitBlob": "e5711bd67069d159aa891026c440d210dd342609"
+    },
+    {
+      "path": "supabase/migrations/20260718100000_create_ingestion_governance_foundation.sql",
+      "sha256": "42e12af612d970cf71b9656581a60f9bc6562958b959236f9a1b332345ab75a2",
+      "gitBlob": "53ee1314de6bed452582779a43155428159fd096"
+    },
+    {
+      "path": "supabase/migrations/20260718120000_add_foundation_parser_contracts.sql",
+      "sha256": "fafab05f56b3b9d95c7dcc2aa2ab0e21f34c9b5b524b9d00fedfc036e99ed569",
+      "gitBlob": "081362516dabb5260aa8464a8ee84c95a4b75476"
+    },
+    {
+      "path": "supabase/migrations/20260718140000_create_foundation_promotion_boundary.sql",
+      "sha256": "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9",
+      "gitBlob": "63fd8ab247efec50107e4b44e5cc3fc4ff67f798"
+    },
+    {
+      "path": "supabase/migrations/20260718150000_allow_phase_10e_terminal_run_classification.sql",
+      "sha256": "8f994738d401a018ac21f2d1229cab43eccaa6cf19e5a0dfb4cfec3a3f01fecd",
+      "gitBlob": "9c54c2e7e140da9db7b821f3f8b975d5bc459ab4"
+    },
+    {
+      "path": "supabase/migrations/20260719080000_create_foundation_lifecycle_foundation.sql",
+      "sha256": "53a5f697c8453d5f386e58eb2ec60b99463a641bbacf41088f27decf006f7bb2",
+      "gitBlob": "bc1eafcb24a8e8d9c5d3300727e226c22ff71fa4"
+    },
+    {
+      "path": "supabase/migrations/20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+      "sha256": "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec",
+      "gitBlob": "301119728e7484120cbdaae65b535593b8ae126c"
+    },
+    {
+      "path": "supabase/migrations/20260719160000_execute_foundation_lifecycle_updates.sql",
+      "sha256": "1aca06911972763b613dc93f44e5ae6ee9a5472db4e93cdaa0a00c8da79ff173",
+      "gitBlob": "8a8f4eeebc0afc7dd8956f027cfc69592eb025c9"
+    },
+    {
+      "path": "supabase/migrations/20260721100000_restore_strict_terminal_run_immutability.sql",
+      "sha256": "22eb5ec118035a19ae0b28a8345391dc64e95a4bf2e39c3bad80d4417cddf7ed",
+      "gitBlob": "fd40786817bc33a75f1c9788fe2eb07f687201f0"
+    },
+    {
+      "path": "supabase/migrations/20260721110000_remove_remote_rls_auto_enable.sql",
+      "sha256": "1c35133335fde1b85b7705fafa4da55a9b7fe85859e4b591d15e8e1c8cb9a676",
+      "gitBlob": "027e8eaf32ee6cc10516ef4c7ba49b8845fd113b"
+    },
+    {
+      "path": "supabase/migrations/20260801141841_phase_11c2a_diary_mutation_correctness.sql",
+      "sha256": "96c8d645ba0f9596c1f00d8f51c9e56749c5165145298826fd438aa0d1dae9c5",
+      "gitBlob": "1a1493022d04c351cf0c1916f9f7ba244af40ac0"
+    },
+    {
+      "path": "supabase/migrations/20260801190220_reject_unreadable_linked_diary_creates.sql",
+      "sha256": "0edd4381368694bf872e1d86ea5a18160dd858b000d5f6503223c8ef709cfa84",
+      "gitBlob": "d42ff8264f14d6b53c8f1866f1767adf68f72966"
+    },
+    {
+      "path": "supabase/migrations/20260808093826_cj019_custom_food_edit_concurrency.sql",
+      "sha256": "1513fe25ab01d20176ac88730ac8476556f46de481785146706b9e418f8a116c",
+      "gitBlob": "2f6353e37c4803ed863f3acffe55d0a2ea064b4b"
+    },
+    {
+      "path": "supabase/migrations/20260810175638_cj022_saved_meal_edit_concurrency.sql",
+      "sha256": "e3b795c06c85637a535e23f58598b4c2a9bd7e4a8515d232b6a95d1a086e3fd9",
+      "gitBlob": "81f080216cfa91c623467ef5a9600413b6abb9e6"
+    },
+    {
+      "path": "supabase/migrations/20260811142805_cj025_recipe_edit_concurrency.sql",
+      "sha256": "603ac96c204010b2b97469ba808e77ceeeae873470eb2add9bdf0e60f7dd469d",
+      "gitBlob": "a92b3b798ab8833afa5e93289c0da746fff780ba"
+    },
+    {
+      "path": "supabase/migrations/20260812194829_cj018_custom_food_creation_idempotency.sql",
+      "sha256": "7302c7b6af543eb2ef92814a1a342de69bc6a13e74f22346de6e12540b7e1b66",
+      "gitBlob": "7c4d072cccfae5bea31ac6c99aab89d10e417d2a"
+    },
+    {
+      "path": "supabase/migrations/20260827070838_create_invited_account_activation.sql",
+      "sha256": "3dccc6fef3527ed2400358c6ceae730bc13c535323343559d95cf3131f467770",
+      "gitBlob": "ebd3139ff119d14fe89311e24ee9740e95d74bbd"
+    },
+    {
+      "path": "supabase/migrations/20260827110552_enforce_account_activation_authorization.sql",
+      "sha256": "2930cb32fa010660c9d386eb301ca157a12690dfdc232c114ad171832ead0665",
+      "gitBlob": "82d626c27fa4d5545124a731d74845c54af38994"
+    },
+    {
+      "path": "supabase/migrations/20260829030137_implement_account_closure_lifecycle.sql",
+      "sha256": "35186b726ffa8efc2c0c549fa37c240d6146cc783bd1c20d07b5af25002b6312",
+      "gitBlob": "db49cc00417d1e19642cb33a6c0676e041daec53"
+    },
+    {
+      "path": "supabase/migrations/20260830143000_cache_search_account_access_policy.sql",
+      "sha256": "d87abf0653b05858e23c7b6c1b6a713073d418ab6ae2a2efb68563b83453e33b",
+      "gitBlob": "d6c3d29c964366dbbc582416e8951cc3c432354a"
+    },
+    {
+      "path": "supabase/migrations/20260927170418_harden_account_closure_mac_comparison.sql",
+      "sha256": "3bd721b02b4f996a4abefe624361fd581fae71e190246fafd9234b3ccd8d11f3",
+      "gitBlob": "a2c4eecf4a7f6594304b39644a4082a56253ad58"
+    },
+    {
+      "path": "supabase/migrations/20261024083339_consumed_nutrition_snapshots_v1.sql",
+      "sha256": "d77cb58ae09a057892842fdc7fe0f6694be1948aafaf67ff2ee2d0f5d976dfbc",
+      "gitBlob": "f186d7fa934c2b6acf3b6d2661937030fcd662e9"
+    },
+    {
+      "path": "supabase/migrations/20261029083108_diary_serving_reference_v2.sql",
+      "sha256": "600d00cb4cf4d2d59676de8681cf490622f9f160883c6c002aa3bc35d4e6557e",
+      "gitBlob": "60863727b5df9cd70c94a7362aba28b5a3e91d4a"
+    },
+    {
+      "path": "supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql",
+      "sha256": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
+      "gitBlob": "75c23ebc88d92d359f68dbda0033cd35deedbaa3"
+    }
+  ],
+  "preflight": {
+    "main": {
+      "sha": "de9c6dc15a69ba08cedbbc1f22624418b0df9ec7",
+      "tree": "3dc007d9e825b3fe451c3b31c32eb8b82fabf34c"
+    },
+    "openDrafts": [
+      {
+        "base": "codex/nutrition-usda-full35-reprojection-001",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/220",
+        "head": "5cac08e0415ab1c5a08d0304f0e55586049c6cdb",
+        "number": 220,
+        "title": "feat(recovery): qualify corrected Full35 migration-47 encrypted restore"
+      },
+      {
+        "base": "main",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/219",
+        "head": "86c419509ece24f309d7188e6de2d9e38d3d2f50",
+        "number": 219,
+        "title": "feat(ingestion): govern Full35 same-release reprojection and compensation"
+      },
+      {
+        "base": "codex/nutrition-002l-b1e-auth197",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/212",
+        "head": "67051d27ef6856a59804cdefa24574edb427cabd",
+        "number": 212,
+        "title": "002L-B1G: validate recovery passwords before consuming recovery tokens"
+      },
+      {
+        "base": "codex/nutrition-002k-backup-integration",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/211",
+        "head": "fd85bce0f9d5786e788475ff18772b7b1c0478a2",
+        "number": 211,
+        "title": "002L-B1E: adopt GoTrue v2.197.0 and recovery regressions"
+      },
+      {
+        "base": "codex/nutrition-002i-hosted-role",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/210",
+        "head": "c36ff9a5a444b4f9eef3e213093aa46174e48918",
+        "number": 210,
+        "title": "002K: qualify bounded backup integration locally"
+      },
+      {
+        "base": "codex/nutrition-002g-minimum-recovery",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/209",
+        "head": "0b11fb4e01adba1e5d2b7d32e406ed582c7dc731",
+        "number": 209,
+        "title": "002I: qualify recovery under hosted-role privileges"
+      },
+      {
+        "base": "main",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/208",
+        "head": "8fbfb542682e1b635c7fedd3b2bf606729516d45",
+        "number": 208,
+        "title": "002G: qualify minimum encrypted recovery for migrations 44 and 45"
+      },
+      {
+        "base": "codex/nutrition-002e1-auth-compatibility",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/207",
+        "head": "452ae6f87a7fbb825d212ac9e710a043f4c57110",
+        "number": 207,
+        "title": "002E2: qualify Auth scope and expose pending recovery authority blocker"
+      },
+      {
+        "base": "codex/nutrition-002e-application-recovery",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/206",
+        "head": "696ffbf22a7eaf76a00c3b53153b09f048c7f75e",
+        "number": 206,
+        "title": "002E1: qualify real local Auth bootstrap and bounded credential recovery"
+      },
+      {
+        "base": "codex/nutrition-002c1b-ddl-stability",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/205",
+        "head": "18cbb050244fc14ae9f0cc2def46e21e1072b779",
+        "number": 205,
+        "title": "002E: define application recovery contract and expose Auth bootstrap blockers"
+      },
+      {
+        "base": "codex/nutrition-002c1a-snapshot-catalog",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/204",
+        "head": "e568edbd438770ddef9f4e52e1e535dbc9f4a536",
+        "number": 204,
+        "title": "002C1B: qualify DDL coordination and reject unsafe defaults"
+      },
+      {
+        "base": "codex/nutrition-002c1-fidelity",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/203",
+        "head": "a0e7440088ee2d9cd9eccd4706cdf9ecd07e6a8f",
+        "number": 203,
+        "title": "002C1A: snapshot reader and native dump DDL counterexamples"
+      },
+      {
+        "base": "codex/nutrition-002c-hybrid",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/202",
+        "head": "ac1ad3c607535c21dc1ee1ac9b5f462ad07705c4",
+        "number": 202,
+        "title": "002C1: logical catalog and fresh overlay qualification"
+      },
+      {
+        "base": "codex/nutrition-002a-recovery",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/201",
+        "head": "7201879935903e846dab5e2adef6d86beea0d597",
+        "number": 201,
+        "title": "002C: local coherent capture and durable admission reference"
+      },
+      {
+        "base": "main",
+        "draft": true,
+        "files_url": "https://api.github.com/repos/Papi299/nutrition-tracker-app/pulls/200",
+        "head": "f969a52e297a3de5453e2bee1904eec552d43c63",
+        "number": 200,
+        "title": "fix(recovery): guard migration-45 recovery and retain the migration-44 capsule"
+      }
+    ],
+    "openPrDependencyPaths": [
+      {
+        "number": 220,
+        "dependencyFiles": [
+          "package.json"
+        ]
+      },
+      {
+        "number": 219,
+        "dependencyFiles": [
+          "package.json"
+        ]
+      },
+      {
+        "number": 212,
+        "dependencyFiles": []
+      },
+      {
+        "number": 211,
+        "dependencyFiles": []
+      },
+      {
+        "number": 210,
+        "dependencyFiles": []
+      },
+      {
+        "number": 209,
+        "dependencyFiles": []
+      },
+      {
+        "number": 208,
+        "dependencyFiles": []
+      },
+      {
+        "number": 207,
+        "dependencyFiles": []
+      },
+      {
+        "number": 206,
+        "dependencyFiles": []
+      },
+      {
+        "number": 205,
+        "dependencyFiles": []
+      },
+      {
+        "number": 204,
+        "dependencyFiles": []
+      },
+      {
+        "number": 203,
+        "dependencyFiles": []
+      },
+      {
+        "number": 202,
+        "dependencyFiles": []
+      },
+      {
+        "number": 201,
+        "dependencyFiles": []
+      },
+      {
+        "number": 200,
+        "dependencyFiles": [
+          "package.json"
+        ]
+      }
+    ],
+    "worktreeDependencyState": [
+      {
+        "path": "/Users/maor/Documents/Codex/2026-04-28/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/private/tmp/ci-193-r01-remediation-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-dependabot-minimatch-remediation-001/worktree",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/private/tmp/nutrition-dependabot-zod-security-001/worktree",
+        "present": true,
+        "dependencyWorkingChanges": "M package-lock.json",
+        "exitCode": 0
+      },
+      {
+        "path": "/private/tmp/nutrition-phaseb-production-005/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-combined-integration-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-importer-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-local-qual-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-recovery-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-reprojection-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-usda-full35-spec-001/worktree",
+        "present": false
+      },
+      {
+        "path": "/private/tmp/nutrition-ux-003r2/worktree",
+        "present": false
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002a-recovery/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002c-hybrid/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002c1-fidelity/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002c1a-snapshot/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002c1b-ddl-stability/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002e-application-recovery/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002e1-auth-compatibility/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002e2-auth-scope-recovery/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002g-minimum-recovery/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002i-hosted-role/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002k-backup-integration/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002l-b1e-auth197/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-002l-b1g-recovery-validation/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/nutrition-ux-redesign-003/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/preview-p0-isolation/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/security-next-advisories/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase1-design-foundation/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase2-responsive-navigation/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase3-today-dashboard/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase4-food-discovery/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase5b-library-management-ux/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase5c-saved-meal-forms-review/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase5d-recipe-forms-review/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui-phase5e-profile-account-secondary-ux/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      },
+      {
+        "path": "/Users/maor/.codex/worktrees/ui5-router-sync/github-plugin-github-openai-curated-you",
+        "present": true,
+        "dependencyWorkingChanges": "",
+        "exitCode": 0
+      }
+    ],
+    "concurrentZodCorrectionFound": false,
+    "historicalMinimatchInvestigation": "BLOCKED; separate local branch retained unchanged",
+    "originalCheckoutPreserved": true
+  }
+}
