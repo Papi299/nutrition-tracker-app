@@ -3,8 +3,8 @@
   "files": [
     {
       "file": "diary-first/atomicity-observations.json",
-      "bytes": 415000,
-      "sha256": "a07dc0a05d96dce038e9c606d1241a39490d536a71384dca555db65806d72759"
+      "bytes": 214378,
+      "sha256": "53f46e18f6d542e732da864f0dca0ed23cf59ceb4799fa629dcc426aa0e73ef9"
     },
     {
       "file": "diary-first/cleanup.json",
@@ -13,13 +13,13 @@
     },
     {
       "file": "diary-first/installed-architecture.json",
-      "bytes": 918351,
-      "sha256": "688f0c343c0f7b2a9f6a9b6d7adafd5d888a36adf9d68037401511caed420344"
+      "bytes": 808386,
+      "sha256": "f4baf5222bff803a191bf343c66eddfe969356a8edc91d588323c63e53b4a912"
     },
     {
       "file": "diary-first/lock-evidence.json",
-      "bytes": 268980,
-      "sha256": "bebab9e9274316a4c9a31699bf0afd559f8e4ae509746d6beda6ca073bc10150"
+      "bytes": 164074,
+      "sha256": "03e77296ae61bda3207097a7f0b77b6cac0b2b49bcb382e42eeff7ed094efaab"
     },
     {
       "file": "diary-first/qualification.json",
@@ -53,8 +53,8 @@
     },
     {
       "file": "writer-first/atomicity-observations.json",
-      "bytes": 479664,
-      "sha256": "21b7ea06d7afcf5a7b193b80e7cde3290da14611391e59d54216c514bc6234d6"
+      "bytes": 247378,
+      "sha256": "4e14b137663c15d6c6d7b5c6ed7ffab63377f830a22180516b8bf7b9062c9024"
     },
     {
       "file": "writer-first/cleanup.json",
@@ -63,13 +63,13 @@
     },
     {
       "file": "writer-first/installed-architecture.json",
-      "bytes": 918351,
-      "sha256": "688f0c343c0f7b2a9f6a9b6d7adafd5d888a36adf9d68037401511caed420344"
+      "bytes": 808386,
+      "sha256": "f4baf5222bff803a191bf343c66eddfe969356a8edc91d588323c63e53b4a912"
     },
     {
       "file": "writer-first/lock-evidence.json",
-      "bytes": 651832,
-      "sha256": "7aa5d453db7933efb2c153d3628991d9f8f81ea34ef33d3b463e2de67acade6a"
+      "bytes": 403736,
+      "sha256": "9871639e820f1a6c1ee8c34820ae931768f026b1ff526d257afa658335206dac"
     },
     {
       "file": "writer-first/qualification.json",
