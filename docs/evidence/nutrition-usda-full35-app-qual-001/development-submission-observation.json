@@ -1,0 +1,11 @@
+{
+  "expected": {
+    "diary": [],
+    "receipts": []
+  },
+  "observed": {
+    "diary": [],
+    "receipts": []
+  },
+  "referenceChanged": true
+}

@@ -1,0 +1,112 @@
+{
+  "install": {
+    "command": "npm ci --cache <task-local-cache>",
+    "outcome": "PASS; unchanged lockfile; existing 16 moderate development advisories remain"
+  },
+  "dependencyPolicy": {
+    "command": "npm run security:dependencies",
+    "outcome": "PASS; zero production advisories"
+  },
+  "unit": {
+    "command": "npm run test:date",
+    "passed": 876,
+    "failed": 0,
+    "skipped": 0,
+    "note": "Existing authentic-source input supplied outside Git"
+  },
+  "newNumerical": {
+    "command": "npx playwright test --config=playwright.unit.config.ts full35-app-scaling.spec.ts --reporter=line",
+    "passed": 292,
+    "failed": 0,
+    "skipped": 0
+  },
+  "workflow": {
+    "command": "npm run security:workflow",
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0
+  },
+  "deployment": {
+    "command": "npm run test:deployment-contract",
+    "passed": 203,
+    "failed": 0,
+    "skipped": 0
+  },
+  "recoveryContract": {
+    "command": "npm run test:recovery-contract",
+    "passed": 350,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browserCompatibility": {
+    "command": "node scripts/run-full35-app-local.mjs e2e/nutrition-diary-all-nutrients.spec.ts e2e/diary-serving-conversion.spec.ts e2e/nutrition-reuse-all-nutrients.spec.ts e2e/nutrition-snapshot-database.spec.ts e2e/account-export.spec.ts",
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0
+  },
+  "newBrowser": {
+    "command": "FULL35_APPROVED_SOURCE_ARCHIVE=<verified outside-Git archive> node scripts/run-full35-app-local.mjs",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "context": {
+      "commit": "c34b85f9646ffe5fb82ff9a295eb48f196decb69",
+      "tree": "ac8a4b5485be3aec10d391955cc9b575801cc548",
+      "workingTreeClean": false,
+      "versions": {
+        "node": "v26.5.1",
+        "npm": "11.17.0",
+        "supabase": "2.116.0",
+        "playwright": "Version 1.61.1",
+        "python": "Python 3.15.2",
+        "docker": "29.9.2",
+        "postgres": "17.6"
+      },
+      "scope": "disposable synthetic local application only",
+      "project": "full35-app-9fdcb9d293d1"
+    }
+  },
+  "types": {
+    "command": "npm run types:ingestion:check",
+    "outcome": "PASS inside the newly migrated disposable runtime"
+  },
+  "buildLintTypes": {
+    "commands": [
+      "npm run build",
+      "npm run lint",
+      "npm run typecheck"
+    ],
+    "outcome": "PASS"
+  },
+  "superseded": [
+    {
+      "outcome": "Setup/build failures before browser assertions",
+      "causes": [
+        "Missing explicit local build values",
+        "Copied module symlinks escaping root",
+        "Temporary TypeScript errors"
+      ]
+    },
+    {
+      "outcome": "1 failed intended stale-reference assertion",
+      "retained": "before-image.json and defect screenshots",
+      "source": "required main"
+    },
+    {
+      "outcome": "1 governed test failed",
+      "cause": "Test incorrectly assumed derived basis could not become coherent for nine originally coreless foods; catalog metadata invariant preserved"
+    },
+    {
+      "outcome": "1 focused test failed; governed test passed",
+      "cause": "Replay omitted Next-Action header; corrected test transport"
+    },
+    {
+      "outcome": "51 passed, 1 failed, 3 not run",
+      "cause": "Native field-error precedence regression; implementation corrected and all 55 rerun successfully"
+    },
+    {
+      "outcome": "Standalone ingestion types command failed outside configured runtime",
+      "resolution": "Runner verifies types against its own fresh local project"
+    }
+  ]
+}

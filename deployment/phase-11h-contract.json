@@ -795,6 +795,39 @@
       "vaultMatch": null
     },
     {
+      "name": "FULL35_APPROVED_SOURCE_ARCHIVE",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Optional local path to the exact approved April archive for source-value application qualification; mandatory in the Stage5 CI job.",
+      "sourceBoundary": "Outside Git; archive and member hashes are checked before parsing. No hosted database or credentials.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_APP_SOURCE_COMMIT",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Records the source commit when the application runner copies code into its disposable runtime directory.",
+      "sourceBoundary": "Derived from the source Git worktree; provenance only, never database or runtime authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_APP_SOURCE_TREE",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Records the matching source tree for the isolated application qualification plan and evidence.",
+      "sourceBoundary": "Derived from the source Git worktree; no hosted configuration or approval authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "FULL35_EVIDENCE_DIR",
       "visibility": "local test only",
       "requiredEnvironments": [],

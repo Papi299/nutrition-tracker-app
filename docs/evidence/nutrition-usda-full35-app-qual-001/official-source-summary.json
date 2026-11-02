@@ -1,0 +1,24 @@
+{
+  "custody": {
+    "accepted_raw_set_hash": "95749cc4e604e3a94c6d07bf0bcf0c640f1688abadebcbfd5d157cf2c3b262d4",
+    "all_numeric_lexemes_exact": true,
+    "archive_bytes": 469303,
+    "archive_sha256": "186e988ec542e913f51ef62b86a47758e8cdd0d1dc3889e7b055581f3c09c77a",
+    "full_raw_set_hash": "c53100dd52fa09df408b4e9e7682f43192616689d0afaed7029e8c1b4344cf12",
+    "member_bytes": 6721650,
+    "member_sha256": "27d1fe3fd89edfbe528ed915da5619320e1d004d4594603a1b19bdb1511590cc",
+    "numeric_lexemes": 143328
+  },
+  "positions_sha256": "c4647a0be4b2168a174e1e7581cdd5266c713c84ea3677a9d5b5c30d1dd76400",
+  "additions_sha256": "42e1a05dee6b0caedaa6019054499330d04c7df1a33aa6758309ba1293f78bfa",
+  "matrix_sha256": "9f23d5a8427fa1049bf363deb5077c950b3da1a5108e4da79379c6406591da91",
+  "historical_uuid_verification": "not_established_by_source_oracle",
+  "positions": 12355,
+  "present": 6261,
+  "missing": 6094,
+  "withheld": 1059,
+  "original_rows": 1199,
+  "added_rows": 5062,
+  "foods": 353,
+  "identity_scope": "All database food/source/version UUIDs are synthetic local fixtures. No Production identity inventory was obtained or committed."
+}

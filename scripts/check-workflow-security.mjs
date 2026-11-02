@@ -14,9 +14,9 @@ const workflowExpectations = new Map([
       timeout: 75, // Existing budget plus the measured 20-minute Full35 transaction suite.
       node: 22,
       actions: new Map([
-        ["actions/checkout", 5],
-        ["actions/setup-node", 5],
-        ["actions/upload-artifact", 4],
+        ["actions/checkout", 6],
+        ["actions/setup-node", 6],
+        ["actions/upload-artifact", 5],
       ]),
     },
   ],
@@ -187,7 +187,47 @@ const reviewedRecoveryAndCodeqlJobs = `
           retention-days: 14
 `;
 
+const reviewedApplicationJob = `
+  full35_application:
+    name: Full35 application qualification
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact application head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: \${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up application qualification Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Qualify isolated Full35 application behavior
+        env:
+          EXPECTED_HEAD: \${{ github.event.pull_request.head.sha || github.sha }}
+          FULL35_APPROVED_SOURCE_ARCHIVE: \${{ runner.temp }}/full35-accepted-source.zip
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          npm ci
+          sudo "$(command -v node)" scripts/configure-ci-apt.mjs
+          npx playwright install --with-deps chromium
+          curl --fail --location --retry 3 --max-time 60 --output "$FULL35_APPROVED_SOURCE_ARCHIVE" https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_json_2026-04-30.zip
+          node scripts/run-full35-app-local.mjs
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+      - name: Retain sanitized application qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: full35-application-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: full35-app-evidence/
+          if-no-files-found: error
+          retention-days: 14
+`;
+
 function checkCiDispatchContract(workflow) {
+  if (!workflow.endsWith(reviewedApplicationJob)) fail("ci.yml must retain the exact unconditional isolated application qualification and exact-head gate");
+  workflow = workflow.slice(0, -reviewedApplicationJob.length);
   if (!workflow.endsWith(reviewedAptCompatibilityJob)) {
     fail("ci.yml must retain the exact bounded Ubuntu 26.04 browser-only compatibility probe");
   }

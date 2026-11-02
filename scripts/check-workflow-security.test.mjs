@@ -56,6 +56,10 @@ test("CI workflow security policy accepts the reviewed dispatch contract", () =>
 
 test("CI workflow security policy rejects broadened triggers, permissions, and skipped gates", () => {
   const mutations = [
+    ci.replace("  full35_application:", "  other_application_job:"),
+    ci.replace("    name: Full35 application qualification\n", "    name: Full35 application qualification\n    if: false\n"),
+    ci.replace("node scripts/run-full35-app-local.mjs", "node scripts/run-full35-app-local.mjs || true"),
+    ci.replace('test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"', 'echo skipped'),
     ci.replace("  actor_identity:", "  other_actor_job:"),
     ci.replace("    name: Full35 durable actor identity\n", "    name: Full35 durable actor identity\n    if: false\n"),
     ci.replace("    timeout-minutes: 25\n", "    timeout-minutes: 24\n"),

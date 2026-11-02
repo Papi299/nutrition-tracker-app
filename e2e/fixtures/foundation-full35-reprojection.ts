@@ -51,8 +51,7 @@ export function syntheticReprojectionRecords() {
   return {archive,identities,legacy:archive.records.map(r=>normalizeFoundationRecord(r))};
 }
 
-export function installSyntheticBaseline(query:(sql:string)=>string) {
-  const fixture=syntheticReprojectionRecords();
+export function installSyntheticBaseline(query:(sql:string)=>string, fixture=syntheticReprojectionRecords()) {
   const manifest={contract_version:"source-release-manifest/v1",source_code:"usda",dataset_code:"usda_fdc_foundation",
     distributor_code:"usda_fdc_direct",transformation_code:null,original_release_identifier:"synthetic-full35-reprojection-001",
     transformation_release_identifier:null,publication_date:"2026-04-30",acquisition_method:"official_bulk_download",

@@ -1,6 +1,9 @@
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
+import { getReadableFoodDiaryPrefill } from "@/lib/food-selection/prefill";
+import { isUuid } from "@/lib/food-selection/query";
+import { createServerClient } from "@/lib/supabase";
 import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   additionalNutrientCodesV1, normalizeNutrientAmount,
@@ -87,10 +90,43 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   let reviewRequired = false;
   const servingIntent = readTextField(formData, "serving_intent");
   if (servingIntent && servingIntent !== "reset_catalog_serving") return fail({ form: "invalid_input" });
+  let referenceChangedSinceRender = false;
+  if (context && context.reference.food_id === values.food_id &&
+    (automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit)) {
+    // Preserve ordinary field-error precedence and the submitted numbers on
+    // invalid native forms. Nutrition/quantity validation still follows the
+    // authorized reference conversion and final normalization below.
+    const basic = validateDiaryEntryCreateInput(readCreateInput(values));
+    if (!basic.ok) {
+      const fields = new Set(["brand_name", "entry_date", "food_id", "food_name", "meal_type", "notes"]);
+      const errors = Object.fromEntries(Object.entries(basic.fieldErrors ?? {}).filter(([field]) => fields.has(field)));
+      if (Object.keys(errors).length) return fail(errors);
+    }
+    // The encrypted closure binds the owner and selection, but its catalog
+    // values were captured at render. New writes must review the current read.
+    // Completed requests instead retain their original interpretation; the RPC
+    // still compares the entire normalized payload before returning a receipt.
+    const supabase = await createServerClient();
+    const completed = isUuid(values.idempotency_key ?? "")
+      ? await supabase.from("manual_diary_entry_requests").select("id")
+        .eq("user_id", auth.data).eq("idempotency_key", values.idempotency_key!).maybeSingle()
+      : { data: null, error: null };
+    if (completed.error) return { result: { ok: false as const, code: "database_error" as const }, values };
+    if (!completed.data) {
+      const current = await getReadableFoodDiaryPrefill(context.reference.food_id);
+      // A linked food that became unreadable still uses the existing save
+      // failure response; no automatic value or receipt can be persisted.
+      if (current.status !== "ready") return {
+        result: { ok: false as const, code: current.status === "unauthenticated" ? "unauthenticated" as const : "database_error" as const }, values,
+      };
+      referenceChangedSinceRender = context.reference.reference_fingerprint !== current.data.reference_fingerprint;
+      context = { ownerId: context.ownerId, reference: current.data };
+    }
+  }
   if (context && context.reference.food_id === values.food_id) {
     // A changed reference must be reviewed before using even its unit conversion.
     if ((automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit) &&
-      values.reference_fingerprint !== context.reference.reference_fingerprint) {
+      (referenceChangedSinceRender || values.reference_fingerprint !== context.reference.reference_fingerprint)) {
       for (const field of allNutrientFields) values[`automatic_${field}`] = "";
       values.reference_fingerprint = context.reference.reference_fingerprint;
       return fail({ form: "reference_changed" });

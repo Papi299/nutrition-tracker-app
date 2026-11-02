@@ -1,0 +1,96 @@
+{
+  "sourceMode": "verified official source values; synthetic local identity/release/governance",
+  "migrationCount": 47,
+  "originalMealLog": {
+    "args": {
+      "p_saved_meal_id": "330b5273-cc25-4450-9acc-5e5a5bc85ef4",
+      "p_expected_updated_at": "2026-11-02T12:59:45.202031+00:00",
+      "p_entry_date": "2026-10-02",
+      "p_meal_type": "lunch",
+      "p_idempotency_key": "274ec2eb-2f35-4a45-bdde-9fe5be0905d6"
+    },
+    "response": [
+      {
+        "result_status": "success",
+        "diary_run_id": "d34a37e0-5633-44ba-8349-872610a8797c",
+        "item_count": 1
+      }
+    ]
+  },
+  "originalRecipeLog": {
+    "args": {
+      "p_recipe_id": "653ce0ad-38c7-4c65-9621-47d608aecf23",
+      "p_expected_updated_at": "2026-11-02T12:59:45.213676+00:00",
+      "p_requested_servings": 1,
+      "p_entry_date": "2026-10-02",
+      "p_meal_type": "dinner",
+      "p_idempotency_key": "64d94a93-616b-4b37-b509-b409b7f917b8"
+    },
+    "response": [
+      {
+        "result_status": "success",
+        "diary_run_id": "30b54886-bd90-432c-8436-65e44fed275b",
+        "created_entry_count": 1
+      }
+    ]
+  },
+  "entryResponse": {
+    "result_status": "success",
+    "diary_entry_id": "ea94a78f-cfe3-49ca-8e41-c03f094e756e",
+    "completed_at": "2026-11-02T12:59:45.187173+00:00"
+  },
+  "mealId": "330b5273-cc25-4450-9acc-5e5a5bc85ef4",
+  "recipeId": "653ce0ad-38c7-4c65-9621-47d608aecf23",
+  "counts": {
+    "head": 2,
+    "missing": 6094,
+    "present": 6261,
+    "withheld": 1059,
+    "v2_states": 12355,
+    "food_count": 353,
+    "public_rows": 6261,
+    "v2_projections": 353,
+    "source_versions": 353
+  },
+  "frozenHistorySha256": "bb1a3aee4665b30a490b38bed6bc1bf85064c31fa7d2e825aa14f06d83d9ca3e",
+  "originalNutrientRows": 1199,
+  "exactAccountExportPreserved": true,
+  "ownerIsolation": true,
+  "fresh200gAll35": {
+    "fat_g": "0.42",
+    "fiber_g": "4.08",
+    "iron_mg": "0",
+    "zinc_mg": "0.04",
+    "sugars_g": "24.4",
+    "copper_mg": "0.048",
+    "niacin_mg": "0.18",
+    "protein_g": "0.38",
+    "sodium_mg": "0",
+    "calcium_mg": "9.32",
+    "choline_mg": null,
+    "thiamin_mg": "0.018",
+    "energy_kcal": "111",
+    "selenium_ug": null,
+    "trans_fat_g": null,
+    "magnesium_mg": "9.4",
+    "manganese_mg": "0.058",
+    "potassium_mg": "190.6",
+    "vitamin_c_mg": null,
+    "vitamin_d_ug": null,
+    "vitamin_e_mg": null,
+    "vitamin_k_ug": null,
+    "folate_dfe_ug": null,
+    "phosphorus_mg": "18.36",
+    "riboflavin_mg": "0.132",
+    "vitamin_b6_mg": "0.042",
+    "added_sugars_g": null,
+    "cholesterol_mg": null,
+    "vitamin_b12_ug": null,
+    "carbohydrates_g": "29.6",
+    "saturated_fat_g": null,
+    "vitamin_a_rae_ug": null,
+    "pantothenic_acid_mg": null,
+    "monounsaturated_fat_g": null,
+    "polyunsaturated_fat_g": null
+  }
+}

@@ -16,6 +16,11 @@ test("accepted source survives a main-only squash with no feature objects or rem
   const isolated = mkdtempSync(join(tmpdir(), "full35-squash-source-"));
   try {
     git(isolated, ["init", "-q"]);
+    // Bundle/fetch maintenance can outlive the assertions and race teardown.
+    // Keep maintenance inside this disposable fixture synchronous/disabled;
+    // every source, ancestry, hash and unchanged-ref assertion still executes.
+    git(isolated, ["config", "gc.auto", "0"]);
+    git(isolated, ["config", "maintenance.auto", "false"]);
     git(isolated, ["fetch", "--no-tags", repository, pin.acceptedMain]);
     const tree = text(repository, "rev-parse", "HEAD^{tree}");
     const pack = git(repository, ["pack-objects", "--stdout", "--revs"], { input: `${tree}\n^${pin.acceptedMain}^{tree}\n`, maxBuffer: 32 * 1024 * 1024 });
