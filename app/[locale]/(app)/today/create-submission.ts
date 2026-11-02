@@ -41,7 +41,7 @@ export function readInputField(formData: FormData, field: DiaryEntryFieldName) {
 export function readCreateValues(formData: FormData): DiaryEntryFieldValues {
   const values: DiaryEntryFieldValues = {};
   for (const field of [...diaryEntryCreateInputFields, ...additionalNutrientCodesV1,
-    "reference_fingerprint", "additional_nutrients_captured", "quantity_unit"] as const) {
+    "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "quantity_reference_fingerprint"] as const) {
     values[field] = readInputField(formData, field);
   }
   for (const field of allNutrientFields) {
@@ -70,7 +70,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const uniqueFields = new Set<DiaryEntryFieldName>([
     ...diaryEntryCreateInputFields, ...allNutrientFields,
     ...allNutrientFields.map(field => `automatic_${field}` as const),
-    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "serving_intent",
+    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "quantity_reference_fingerprint", "serving_intent",
   ]);
   for (const field of uniqueFields) {
     const entries = formData.getAll(field);
@@ -89,12 +89,14 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const automaticFields = allNutrientFields.filter(field => values[`automatic_${field}`] === "1");
   let reviewRequired = false;
   const servingIntent = readTextField(formData, "serving_intent");
-  const referenceDependent = automaticFields.length > 0 || Boolean(servingIntent) ||
+  const referenceDependent = automaticFields.length > 0 || Boolean(servingIntent) || Boolean(values.quantity_reference_fingerprint) ||
     Boolean(values.quantity_unit && values.quantity_unit !== values.serving_unit);
+  if (values.quantity_reference_fingerprint && !/^[a-f0-9]{64}$/.test(values.quantity_reference_fingerprint)) return fail({ form: "invalid_input" });
+  if (values.quantity_reference_fingerprint && (!context || context.reference.food_id !== values.food_id)) return fail({ form: "missing_reference" });
   if (servingIntent && servingIntent !== "reset_catalog_serving") return fail({ form: "invalid_input" });
   let referenceChangedSinceRender = false;
   if (context && context.reference.food_id === values.food_id &&
-    (automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit)) {
+    referenceDependent) {
     // Preserve ordinary field-error precedence and the submitted numbers on
     // invalid native forms. Nutrition/quantity validation still follows the
     // authorized reference conversion and final normalization below.
@@ -127,10 +129,12 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   }
   if (context && context.reference.food_id === values.food_id) {
     // A changed reference must be reviewed before using even its unit conversion.
-    if ((automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit) &&
-      (referenceChangedSinceRender || values.reference_fingerprint !== context.reference.reference_fingerprint)) {
+    if (referenceDependent &&
+      (referenceChangedSinceRender || values.reference_fingerprint !== context.reference.reference_fingerprint ||
+        Boolean(values.quantity_reference_fingerprint && values.quantity_reference_fingerprint !== context.reference.reference_fingerprint))) {
       for (const field of allNutrientFields) values[`automatic_${field}`] = "";
       values.reference_fingerprint = context.reference.reference_fingerprint;
+      values.quantity_reference_fingerprint = "";
       return fail({ form: "reference_changed" });
     }
     if (servingIntent) {
@@ -138,6 +142,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
       values.serving_quantity = "1";
       values.serving_unit = "serving";
       values.quantity_unit = "serving";
+      values.quantity_reference_fingerprint = context.reference.reference_fingerprint;
       reviewRequired = true;
     } else if (values.quantity_unit && values.quantity_unit !== values.serving_unit) {
       const converted = convertFoodQuantity(context.reference, values.serving_quantity, values.quantity_unit, values.serving_unit);
@@ -145,7 +150,13 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
         if (automaticFields.length > 0 || converted.code !== "incompatible_unit") return fail({ [converted.field]: converted.code });
         // Explicit manual snapshots can use arbitrary portion labels. There is
         // no inferred conversion; native users review the retained amount.
-      } else values.serving_quantity = converted.quantity;
+        values.quantity_reference_fingerprint = "";
+      } else {
+        values.serving_quantity = converted.quantity;
+        if ([values.quantity_unit, values.serving_unit].some(unit => unit?.toLowerCase() === "serving")) {
+          values.quantity_reference_fingerprint = context.reference.reference_fingerprint;
+        }
+      }
       values.quantity_unit = values.serving_unit;
       reviewRequired = true;
     }
@@ -194,6 +205,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
       : undefined);
   if (!result.ok && result.fieldErrors?.form === "reference_changed") {
     for (const field of allNutrientFields) values[`automatic_${field}`] = "";
+    values.quantity_reference_fingerprint = "";
     if (result.referenceFingerprint) values.reference_fingerprint = result.referenceFingerprint;
   }
   return { result, values };

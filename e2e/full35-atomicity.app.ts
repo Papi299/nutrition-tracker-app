@@ -338,6 +338,72 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     const customArgs={...automaticArgs,p_idempotency_key:randomUUID(),p_food_id:customId,p_reference_fingerprint:customRef.reference_fingerprint,
       p_protein_g:0,p_additional_nutrients:{version:1,values:additionalNutrientCodesV1.map(code=>({code,amount:null}))}};
     const customWrite=await client.rpc("create_reference_diary_entry_v1",customArgs).single();expect(customWrite.data?.result_status).toBe("success");
+    // A literal custom unit named "serving" is not a physical catalog alias.
+    // Its 1/3 ratio exercises independent SQL and JS recurring-decimal rounding.
+    const portionNutrients=[{code:"energy_kcal",amount:100.5},{code:"protein_g",amount:0.1234},
+      {code:"carbohydrates_g",amount:1.2345},{code:"fat_g",amount:0.0001},{code:"fiber_g",amount:0.0001}];
+    const literal=await client.rpc("create_custom_food",{p_aliases:[],p_brand_name:"",p_idempotency_key:randomUUID(),
+      p_locale:"en",p_name:"Synthetic literal serving",p_nutrient_basis:"per_serving",p_serving_quantity:3,p_serving_unit:"serving",
+      p_nutrients:portionNutrients}).single();expect(literal.error).toBeNull();
+    const literalRef=(await client.rpc("get_readable_food_nutrition_reference_v2",{p_food_id:literal.data!.food_id}).single()).data!;
+    const literalParsed=parseFoodNutritionReferenceV2(literalRef,literal.data!.food_id);if(!literalParsed)throw new Error("Literal reference absent");
+    const literalScaled=scaleAllFoodNutrients(literalParsed,"1","serving");if(!literalScaled.ok)throw new Error("Literal unit scaling failed");
+    expect(literalScaled.values).toMatchObject({calories:"34",protein_g:"0.04",carbohydrates_g:"0.41",fat_g:"0",fiber_g:"0"});
+    const literalWrite=await client.rpc("create_reference_diary_entry_v1",{...automaticArgs,p_idempotency_key:randomUUID(),
+      p_food_id:literal.data!.food_id,p_reference_fingerprint:literalRef.reference_fingerprint,p_serving_quantity:1,p_serving_unit:"serving",
+      p_calories:34,p_protein_g:0.04,p_carbohydrates_g:0.41,p_fat_g:0,
+      p_additional_nutrients:{version:1,values:additionalNutrientCodesV1.map(code=>({code,amount:literalScaled.values[code]===""?null:Number(literalScaled.values[code])}))}}).single();
+    expect(literalWrite.error).toBeNull();expect(literalWrite.data?.result_status).toBe("success");
+    evidence.literalServing={ratio:"1/3",expected:literalScaled.values,result:literalWrite.data};
+
+    // Even with all 35 fields manual, a quantity converted from a catalog
+    // serving retains its dependency through draft reload and the native review.
+    const physical=await client.rpc("create_custom_food",{p_aliases:[],p_brand_name:"",p_idempotency_key:randomUUID(),
+      p_locale:"en",p_name:"Synthetic physical serving",p_nutrient_basis:"per_serving",p_serving_quantity:50,p_serving_unit:"g",
+      p_nutrients:portionNutrients}).single();expect(physical.error).toBeNull();const physicalId=physical.data!.food_id;
+    await page.goto(`/en/today?date=2026-11-10&foodId=${physicalId}`);
+    for(const detail of await form.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
+    for(const field of allNutrientFields)await form.locator(`[name="automatic_${field}"]`).uncheck();
+    await form.locator('[name="calories"]').fill("321");
+    await form.locator('[name="serving_unit"]').fill("g");
+    await expect(form.locator('[name="serving_quantity"]')).toHaveValue("50");
+    const physicalFingerprint=await form.locator('[name="reference_fingerprint"]').inputValue();
+    await expect(form.locator('[name="quantity_reference_fingerprint"]')).toHaveValue(physicalFingerprint);
+    await page.reload();await expect(form.locator('input[name^="automatic_"]:checked')).toHaveCount(0);
+    await expect(form.locator('[name="quantity_reference_fingerprint"]')).toHaveValue(physicalFingerprint);
+    const conversionKey=await form.locator('[name="idempotency_key"]').inputValue();
+    const conversionBefore=counts();await controlCall("/arm");await click();
+    await expect.poll(async()=>(await controlCall("/status")).held).toBe(true);
+    const conversionStatus=await controlCall("/status");
+    const conversionEvent=conversionStatus.events.at(-1);expect(conversionEvent.rpc).toBe("/rest/v1/rpc/create_reference_diary_entry_v1");
+    expect(conversionEvent.args.p_automatic_fields).toEqual([]);
+    const editRevision=(await client.from("foods").select("custom_food_edit_revision").eq("id",physicalId).single()).data!.custom_food_edit_revision!;
+    const edited=await client.rpc("persist_custom_food",{p_food_id:physicalId,p_expected_edit_revision:editRevision,p_aliases:[],p_brand_name:"",
+      p_locale:"en",p_name:"Synthetic physical serving",p_nutrient_basis:"per_serving",p_serving_quantity:60,p_serving_unit:"g",p_nutrients:portionNutrients}).single();
+    expect(edited.error).toBeNull();await controlCall("/release");
+    await expect(page.getByTestId("nutrition-reference-changed")).toBeVisible();
+    expect(counts()).toEqual(conversionBefore);await expect(form.locator('[name="calories"]')).toHaveValue("321");
+    expect((await client.from("manual_diary_entry_requests").select("id").eq("idempotency_key",conversionKey)).data).toEqual([]);
+    const nativeContext=await browser.newContext({javaScriptEnabled:false,storageState:await context.storageState()});
+    const nativePage=await nativeContext.newPage();await nativePage.goto(`/en/today?date=2026-11-11&foodId=${physicalId}`);
+    const nativeForm=nativePage.getByTestId("manual-diary-entry-form");
+    for(const detail of await nativeForm.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
+    for(const field of allNutrientFields)await nativeForm.locator(`[name="automatic_${field}"]`).uncheck();
+    await nativeForm.locator('[name="calories"]').fill("123");await nativeForm.locator('[name="serving_unit"]').fill("g");
+    const nativeSubmit=nativeForm.getByRole("button",{name:"Add entry",exact:true});await nativeSubmit.click();
+    await expect(nativePage.getByTestId("nutrition-review-required")).toBeVisible();
+    await expect(nativeForm.locator('[name="serving_quantity"]')).toHaveValue("60");
+    await expect(nativeForm.locator('[name="quantity_reference_fingerprint"]')).toHaveValue(/[a-f0-9]{64}/);
+    await controlCall("/arm");const nativeSubmission=nativeSubmit.click();
+    await expect.poll(async()=>(await controlCall("/status")).held).toBe(true);
+    const nativeEvent=(await controlCall("/status")).events.at(-1);expect(nativeEvent.rpc).toBe("/rest/v1/rpc/create_reference_diary_entry_v1");
+    expect(nativeEvent.args.p_automatic_fields).toEqual([]);await controlCall("/release");await nativeSubmission;
+    await expect(nativeForm).toContainText("Entry added.");
+    expect((await client.from("diary_entries").select("serving_quantity,serving_unit,calories").eq("entry_date","2026-11-11").single()).data)
+      .toMatchObject({serving_quantity:60,serving_unit:"g",calories:123});
+    await nativeContext.close();
+    evidence.manualServingConversion={javascriptAtomic:true,draftDependencyRetained:true,postReadEditRefused:true,noFailedReceipt:true,
+      manualCaloriesPreserved:321,nativeReviewAtomic:true,nativeQuantity:60,nativeManualCalories:123};
     await page.goto(`/en/today?date=2026-11-09&foodId=${customId}`);
     const archiveKey=await form.locator('[name="idempotency_key"]').inputValue();
     expect((await client.rpc("set_custom_food_archived",{p_food_id:customId,p_is_archived:true})).error).toBeNull();
@@ -355,6 +421,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     query(`insert into public.foods(id,food_type,name,locale,data_quality,is_public,source_id)
       values('${otherPublic}','generic','Synthetic non-USDA reference','en','verified',true,(select id from public.food_sources where code='manual')),
       ('${withoutBasis}','generic','Synthetic basis-less reference','en','verified',true,(select id from public.food_sources where code='manual'));
+      update public.foods set serving_size=100,serving_unit='g' where id='${withoutBasis}';
       insert into public.food_nutrients(food_id,nutrient_id,amount,basis)
       select '${otherPublic}',id,case code when 'energy_kcal' then 200 when 'fat_g' then 5 else 20 end,'per_100g'
       from public.nutrients where code in('energy_kcal','protein_g','carbohydrates_g','fat_g');`);
@@ -365,8 +432,12 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     await controller.send(`select pg_advisory_unlock(hashtextextended('nutrition-tracker:foundation-dataset-lifecycle:${plan.dataset_id}',0));`);
     expect(unrelated.error).toBeNull();expect(unrelated.data?.result_status).toBe("success");
     const emptyRef=(await client.rpc("get_readable_food_nutrition_reference_v2",{p_food_id:withoutBasis}).single()).data!;
-    const noBasis=await client.rpc("create_reference_diary_entry_v1",{...automaticArgs,p_idempotency_key:randomUUID(),p_food_id:withoutBasis,p_reference_fingerprint:emptyRef.reference_fingerprint}).single();
-    expect(noBasis.error?.code).toBe("22023");
+    expect(emptyRef.nutrient_basis).toBeNull();expect(emptyRef.serving_quantity).toBe(100);
+    const noBasisBefore=counts();
+    const noBasis=await client.rpc("create_reference_diary_entry_v1",{...automaticArgs,p_idempotency_key:randomUUID(),p_food_id:withoutBasis,p_reference_fingerprint:emptyRef.reference_fingerprint,
+      p_calories:null as unknown as number,p_protein_g:null as unknown as number,p_carbohydrates_g:null as unknown as number,p_fat_g:null as unknown as number,
+      p_additional_nutrients:{version:1,values:additionalNutrientCodesV1.map(code=>({code,amount:null}))}}).single();
+    expect(noBasis.error?.code).toBe("22023");expect(counts()).toEqual(noBasisBefore);
     evidence.sourceClassification={nonUSDANotBlockedByFull35:true,withoutBasisRefused:true};
     const zero=await client.rpc("create_reference_diary_entry_v1",{...automaticArgs,p_idempotency_key:randomUUID(),p_serving_quantity:0,
       p_calories:0,p_protein_g:0,p_carbohydrates_g:0,p_fat_g:0,p_additional_nutrients:{version:1,values:additionalNutrientCodesV1.map(code=>({code,amount:(b.nutrients as Record<string,unknown>)[code]===null?null:0}))}}).single();

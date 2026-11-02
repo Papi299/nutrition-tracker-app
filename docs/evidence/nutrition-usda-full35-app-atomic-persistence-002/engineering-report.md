@@ -99,7 +99,7 @@ Production timeouts are unchanged. An authenticated request held behind the excl
 
 All definitions, units, precisions and maxima come from the unchanged frozen 35-key manifest. SQL uses the authorized raw reference, final consumed quantity, compatible physical/unit or verified catalog-serving ratio and the explicit automatic mask. It compares only declared automatic fields against the normalized request; manual fields retain their explicit values.
 
-The arithmetic forms an exact finite-decimal numerator/denominator, uses `div` and `mod` for half-up rounding, and divides the resulting integer units by the manifest scale. There is no binary float or prematurely rounded quotient. Independent checked-in Python Decimal vectors cover 245 SQL comparisons, alongside all 35 fields at 50/100/200 g and the existing official-source application oracle. Bounds, quantity precision, missing bases and unsupported conversions refuse before INSERT.
+The arithmetic forms an exact finite-decimal numerator/denominator, uses `div` and `mod` for half-up rounding, and divides the resulting integer units by the manifest scale. There is no binary float or prematurely rounded quotient. Independent checked-in Python Decimal vectors cover 245 SQL comparisons, alongside all 35 fields at 50/100/200 g and the existing official-source application oracle. Bounds, quantity precision, missing bases (including a NULL basis with valid 100-g catalog metadata) and unsupported conversions refuse before INSERT. An exact custom per-serving unit named `serving` retains its literal ratio when no physical alias exists; an independently checked 1/3 case proves recurring-decimal rounding for core and additional fields.
 
 Unknowns remain null; explicit zeros remain zero, including zero quantity applied only to known source amounts. Added sugars, folate DFE and generic vitamin K stay unknown when the authorized reference withholds them. No source mapping, scientific derivation, unit definition or serving feature changes.
 
@@ -111,7 +111,7 @@ The automatic mask is an instruction for validating new reference-dependent fiel
 
 The exact original normalized v1 or v2 JSON payload is used, including the captured-v2 contract marker only when appropriate. Fingerprints and masks are concurrency/validation inputs for new writes, not retrospective additions to historical receipt payloads. A completed receipt returns before live freshness checks, even if its former food/reference is now unavailable. Changed canonical nutrient/text/quantity payloads using the key conflict without rewriting anything.
 
-Both original APIs remain available for intentional manual submissions. The only application call site supplies the new reference option for every automatic/reference-dependent submission, including uncaptured v1-style core automatic requests. There is no fallback to a manual RPC when the new RPC is missing/fails. Reference-dependent unit conversion is reviewed before persistence under the established native-form contract; new automatic/alias writes use the atomic reference path. Final explicit all-manual numbers keep their existing manual interpretation.
+Both original APIs remain available for intentional manual submissions. The only application call site supplies the new reference option for every automatic/reference-dependent submission, including uncaptured v1-style core automatic requests. There is no fallback to a manual RPC when the new RPC is missing/fails. Reference-dependent unit conversion is reviewed before persistence under the established native-form contract; new automatic/alias writes use the atomic reference path. A hidden quantity-reference fingerprint retains catalog-dependent serving conversion through JavaScript conversion, draft reload and native review, even when all nutrient fields are manual; these writes use the atomic RPC with an empty automatic mask. Directly entered physical quantities clear that dependency. Legacy drafts without the marker keep their existing manual interpretation. A restricted-owner custom edit after the app freshness read is rejected without losing the manual calorie override.
 
 Tests exercise completed A replay under B with original ID/timestamp/full row/receipt, changed-note conflict, identical concurrent keys, conflicting same-key payloads, two different keys, original manual v1/v2, and restored original-manual receipts replayed through the new wrapper.
 
@@ -155,9 +155,9 @@ CLI 2.116.0 generated `20261102181943_atomic_food_diary_persistence_v1.sql` afte
 
 | Pin | Value |
 |---|---|
-| Migration48 SQL SHA-256 | `e7da0ad122140346bc1e3d96bcb5733bc9558d6e2094cecb31a8b98a4cfb1494` |
+| Migration48 SQL SHA-256 | `f94401b3977e49744c983b3b49fe24fafc581a4dc1c57b71a95245e939c60766` |
 | Ordered filename-set SHA-256 | `661d5444fdc94ce526b03fd285b05ae67e5f1de32ab1e3ace812f2639cdf36bd` |
-| Complete ordered inventory SHA-256 | `3357e7172b86b10487d5784715c5b6ec76b24d361e6ea6a083b9cca9ef2cb25c` |
+| Complete ordered inventory SHA-256 | `4bd4dba279ddc8b2a5f64a8ff62ba1b0074fb5ffda4507a3a01efd13301bb563` |
 | Preserved migration47 SHA-256 | `086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af` |
 
 [migration-inventory.json](migration-inventory.json) pins every filename, ordinal, predecessor, version and SQL digest. Fresh disposable PostgreSQL17 replay applies all 48. Actual generated public types, installed function definitions, role flags, policies/ACLs and lock snapshots are retained in qualification artifacts. Local security advisors reported no issues. No diary schema/history rewrite is introduced.
@@ -192,7 +192,7 @@ The stacked PR may not receive default-setup main-protected CodeQL checks. Its i
 
 [#224](https://github.com/Papi299/nutrition-tracker-app/pull/224) is stacked on `codex/nutrition-usda-full35-app-qual-001`, exact base f0. Its delta is one forward migration, minimal application routing/types, necessary test/CI/recovery support and sanitized evidence. All scientific mappings, original source versions, accepted migrations, dependency versions and hosted settings remain intact. The final PR description supplies the exact correction head/tree, cumulative tree versus main, final checks and artifact digests. No branch-protection change is part of the correction.
 
-Development failures are retained separately from successful qualification: initial TypeScript narrowing, the Auth-schema ACL assumption, optional success-metadata comparison, an inherited synchronous governed-retry test-controller wait, a malformed tamper-test parameter name, and an inherited hardcoded migration-count evidence label were corrected. The Stage5 count now comes from the installed ledger and is compared with the approved plan inventory; the recovery context names the selected history's actual candidate SQL digest. No failing assertion was removed to make the race pass, and no required case was skipped.
+Development failures are retained separately from successful qualification: initial TypeScript narrowing, the Auth-schema ACL assumption, optional success-metadata comparison, an inherited synchronous governed-retry test-controller wait, a malformed tamper-test parameter name, an inherited hardcoded migration-count evidence label, SQL NULL-basis and literal-serving edge cases, and a manual-only serving-conversion routing gap were corrected. The Stage5 count now comes from the installed ledger and is compared with the approved plan inventory; the recovery context names the selected history's actual candidate SQL digest. No failing assertion was removed to make the race pass, and no required case was skipped.
 
 ## V. Hosted boundaries
 
@@ -209,3 +209,5 @@ Browser evidence is emulation, with local synthetic authority and owner data. Ar
 ## X. Future combined integration candidate
 
 After independent review, prepare one separately authorized main-target candidate containing Stage5 plus this correction, with the reviewed cumulative source tree and full final-head qualification. Do not merge Stage5 alone and schedule its correction later. Keep #223 and #224 unmerged until that combined integration decision is explicitly authorized.
+
+The retained checked-in development artifacts describe the earlier e7da0ad SQL candidate. They remain diagnostic provenance only. The final candidate uses the migration digest in section P and must independently pass both atomic orders, exact-history encrypted recovery and full final-head CI.

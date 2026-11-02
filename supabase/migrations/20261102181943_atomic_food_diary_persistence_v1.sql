@@ -109,7 +109,7 @@ declare
   v_payload jsonb; v_additional jsonb; v_dataset uuid; v_reference record;
   v_definition jsonb; v_field text; v_code text; v_expected numeric; v_actual numeric;
   v_from numeric; v_to numeric; v_from_dimension text; v_to_dimension text; v_unit text;
-  v_result record;
+  v_result record; v_catalog_alias boolean:=false;
 begin
   if v_user_id is null or not public.is_current_account_activated() then
     raise insufficient_privilege using message='account_activation_required';
@@ -253,7 +253,8 @@ begin
 
   if cardinality(p_automatic_fields)>0 then
     if p_serving_quantity is null or p_serving_quantity<>v_serving_quantity
-      or v_reference.serving_quantity is null or v_reference.serving_quantity<=0
+      or v_reference.serving_quantity is null or v_reference.serving_quantity::text in('NaN','Infinity','-Infinity')
+      or v_reference.serving_quantity<=0 or v_reference.nutrient_basis is null
       or v_reference.nutrient_basis not in('per_100g','per_100ml','per_serving')
       or (v_reference.nutrient_basis='per_100g' and
         (v_reference.serving_quantity<>100 or lower(btrim(v_reference.serving_unit))<>'g'))
@@ -263,16 +264,17 @@ begin
     end if;
     v_unit:=lower(v_serving_unit);
     if v_unit='serving' then
-      if v_reference.catalog_serving_quantity is null or v_reference.catalog_serving_quantity<=0
-        or v_reference.catalog_serving_quantity<>round(v_reference.catalog_serving_quantity,3)
-        or v_reference.catalog_serving_quantity>9999999.999
-        or lower(btrim(v_reference.catalog_serving_unit)) not in('g','kg','mg','ml','l')
-        or (v_reference.nutrient_basis='per_serving' and
-          (v_reference.catalog_serving_quantity<>v_reference.serving_quantity
-           or btrim(v_reference.catalog_serving_unit)<>btrim(v_reference.serving_unit))) then
-        raise invalid_parameter_value using message='Unverified catalog serving.';
-      end if;
-      v_unit:=lower(btrim(v_reference.catalog_serving_unit));
+      v_catalog_alias:=coalesce(v_reference.catalog_serving_quantity>0
+        and v_reference.catalog_serving_quantity=round(v_reference.catalog_serving_quantity,3)
+        and v_reference.catalog_serving_quantity<=9999999.999
+        and lower(btrim(v_reference.catalog_serving_unit)) in('g','kg','mg','ml','l')
+        and (v_reference.nutrient_basis<>'per_serving' or
+          (v_reference.catalog_serving_quantity=v_reference.serving_quantity
+           and btrim(v_reference.catalog_serving_unit)=btrim(v_reference.serving_unit))),false);
+      -- Without a verified physical alias, retain the original literal unit.
+      -- An exact custom per-serving unit named "serving" is still legitimate;
+      -- it does not imply a physical conversion or catalog portion.
+      if v_catalog_alias then v_unit:=lower(btrim(v_reference.catalog_serving_unit)); end if;
     end if;
     v_from:=case v_unit when 'kg' then 1000000 when 'g' then 1000 when 'mg' then 1 when 'l' then 1000000 when 'ml' then 1000 end;
     v_from_dimension:=case when v_unit in('g','kg','mg') then 'mass' when v_unit in('ml','l') then 'volume' end;
@@ -280,7 +282,7 @@ begin
     v_to:=case v_unit when 'kg' then 1000000 when 'g' then 1000 when 'mg' then 1 when 'l' then 1000000 when 'ml' then 1000 end;
     v_to_dimension:=case when v_unit in('g','kg','mg') then 'mass' when v_unit in('ml','l') then 'volume' end;
     if v_from is not null and v_to is not null and v_from_dimension=v_to_dimension then
-      if lower(v_serving_unit)='serving' then v_from:=v_from*v_reference.catalog_serving_quantity; end if;
+      if v_catalog_alias then v_from:=v_from*v_reference.catalog_serving_quantity; end if;
     elsif v_from is null and v_to is null and v_serving_unit=btrim(v_reference.serving_unit)
       and v_reference.nutrient_basis='per_serving' then v_from:=1;v_to:=1;
     else raise invalid_parameter_value using message='Incompatible reference unit.'; end if;

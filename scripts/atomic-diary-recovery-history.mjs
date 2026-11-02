@@ -8,9 +8,9 @@ export const ATOMIC_DIARY_REVIEWED_HISTORY = Object.freeze({
   "count": 48,
   "head": "20261102181943",
   "filename": "20261102181943_atomic_food_diary_persistence_v1.sql",
-  "sqlSha256": "e7da0ad122140346bc1e3d96bcb5733bc9558d6e2094cecb31a8b98a4cfb1494",
+  "sqlSha256": "f94401b3977e49744c983b3b49fe24fafc581a4dc1c57b71a95245e939c60766",
   "orderedFilenameSetSha256": "661d5444fdc94ce526b03fd285b05ae67e5f1de32ab1e3ace812f2639cdf36bd",
-  "orderedInventorySha256": "3357e7172b86b10487d5784715c5b6ec76b24d361e6ea6a083b9cca9ef2cb25c"
+  "orderedInventorySha256": "4bd4dba279ddc8b2a5f64a8ff62ba1b0074fb5ffda4507a3a01efd13301bb563"
 });
 export function assertReviewedAtomicDiaryFiles(files, readMigration) {
   const canonical=reviewed.migrations.map(({filename,ordinal,predecessor,sha256,version})=>({filename,ordinal,predecessor,sha256,version}));

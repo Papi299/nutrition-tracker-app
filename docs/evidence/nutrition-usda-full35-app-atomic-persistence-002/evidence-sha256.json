@@ -33,8 +33,8 @@
     },
     {
       "file": "engineering-report.md",
-      "bytes": 28410,
-      "sha256": "02d8fb283a4b14f81d161e370128dc9d020f645f968e50f5fd17e3887c909c38"
+      "bytes": 29490,
+      "sha256": "17ea69708fefb35b1dc0ab19a98b52c13e99bd9ebabb8ed0bc58dda63019058e"
     },
     {
       "file": "local-atomicity-verification.json",
@@ -44,7 +44,7 @@
     {
       "file": "migration-inventory.json",
       "bytes": 12794,
-      "sha256": "f11a8230caf4bb4c19d6056d368bb27562215b30eea0b9a8f4418c216701bce1"
+      "sha256": "a3a47d4105740934b683b90113aede677b3235b5618d74d6e3c2b4338b7bf05c"
     },
     {
       "file": "writer-first/atomicity-browser.png",
