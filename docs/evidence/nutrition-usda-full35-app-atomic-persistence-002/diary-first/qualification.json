@@ -1,0 +1,17 @@
+{
+  "scope": "synthetic local owners and identities only",
+  "stats": {
+    "startTime": "2026-11-02T18:52:46.072Z",
+    "duration": 223607.397,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "results": [
+    {
+      "status": "passed",
+      "duration": 221996
+    }
+  ]
+}

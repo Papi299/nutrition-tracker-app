@@ -37,7 +37,9 @@ test("F35-32–39 governed 353-food enrichment preserves application history, re
   await provisionActivatedLocalUser(other, { email: `full35-governed-b-${randomUUID()}@example.test`, password });
   const owner = user.data.user!.id;
   const contexts: BrowserContext[] = [];
-  const evidence: Record<string, unknown> = { sourceMode: transition.sourceMode, migrationCount: 47 };
+  const migrationCount=Number(query("select count(*) from supabase_migrations.schema_migrations"));
+  expect(migrationCount).toBe(transition.plan.implementation.migrations.length);
+  const evidence: Record<string, unknown> = { sourceMode: transition.sourceMode, migrationCount };
   const sourceIds = plan.items.map(item => item.before.food_id);
   const officialOracle = process.env.FULL35_APPROVED_SOURCE_ARCHIVE
     ? JSON.parse(readFileSync(".ingestion-workspace/full35-local-qual-001/application-oracle.json", "utf8")) as Record<string, { reference: Record<string, string | null> }>

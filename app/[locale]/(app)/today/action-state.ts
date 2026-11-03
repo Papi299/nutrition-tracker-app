@@ -17,6 +17,7 @@ export type DiaryEntryFieldName =
   | "additional_nutrients_captured"
   | "additional_nutrient_snapshot"
   | "reference_fingerprint"
+  | "quantity_reference_fingerprint"
   | "quantity_unit"
   | "serving_intent"
   | "automatic_calories"

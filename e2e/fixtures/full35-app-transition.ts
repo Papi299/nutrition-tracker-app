@@ -7,9 +7,10 @@ import { normalizeFoundationRecord } from "@/ingestion/usda/foundation/normaliza
 import { extractFoundationFull35Json } from "@/ingestion/usda/foundation/full35/archive";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingScopeSnapshot } from "@/ingestion/usda/foundation/reprojection/contracts";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId, excludedIds, syntheticReprojectionRecords } from "./foundation-full35-reprojection";
+import { assertReviewedAtomicDiaryFiles } from "../../scripts/atomic-diary-recovery-history.mjs";
 import { bindActor, installIdentityControllers } from "./foundation-full35-actor-identity";
 
-export function installApplicationTransition() {
+export function installApplicationTransition(syntheticRecords = syntheticReprojectionRecords()) {
   if (process.env.DATE_E2E_LOCAL_SUPABASE !== "1" ||
     !["127.0.0.1", "localhost"].includes(new URL(process.env.LOCAL_SUPABASE_URL ?? "https://invalid").hostname)) {
     throw new Error("An explicit disposable local application environment is required.");
@@ -25,7 +26,7 @@ export function installApplicationTransition() {
   }
   function query(sql: string, user = "supabase_admin") {
     try {
-      return execFileSync("docker", args(user), { input: sql, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["pipe", "pipe", "pipe"] }).trim();
+      return execFileSync("docker", args(user), { input: sql, encoding: "utf8", timeout: 180_000, maxBuffer: 64 * 1024 * 1024, stdio: ["pipe", "pipe", "pipe"] }).trim();
     } catch (error) {
       // Keep generated LOGIN credentials out of command-line diagnostics.
       throw new Error(`Local qualification SQL failed: ${String((error as { stderr?: unknown }).stderr ?? "unknown error").slice(-1800)}`);
@@ -33,7 +34,7 @@ export function installApplicationTransition() {
   }
   function asyncQuery(sql: string, user = operator) {
     return new Promise<string>((ok, fail) => {
-      const child = spawn("docker", args(user)); let output = "", error = "";
+      const child = spawn("docker", args(user), { timeout: 180_000 }); let output = "", error = "";
       child.stdout.on("data", data => output += data); child.stderr.on("data", data => error += data);
       child.on("error", fail); child.on("close", code => code === 0 ? ok(output.trim()) : fail(new Error(error)));
       child.stdin.end(sql);
@@ -79,7 +80,7 @@ export function installApplicationTransition() {
       execute function full35_app_fixture.reference_revision('2026-11-01T00:00:00Z');
     create trigger zz_full35_nutrient_revision before insert on public.food_nutrients for each row
       execute function full35_app_fixture.reference_revision('2026-11-01T00:00:00Z');commit;`);
-  let records = syntheticReprojectionRecords();
+  let records = syntheticRecords;
   const archivePath = process.env.FULL35_APPROVED_SOURCE_ARCHIVE;
   if (archivePath) {
     const bytes = readFileSync(archivePath);
@@ -102,7 +103,8 @@ export function installApplicationTransition() {
   const scope = json<MappingScopeSnapshot>("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')->'before_snapshot'", operator);
   const migrations = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort().map(filename => ({ filename,
     version: filename.split("_")[0], sha256: createHash("sha256").update(readFileSync(`supabase/migrations/${filename}`)).digest("hex") }));
-  if (migrations.length !== 47 || migrations[46].sha256 !== "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af") throw new Error("Migration identity drift.");
+  if (![47, 48].includes(migrations.length) || migrations[46].sha256 !== "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af") throw new Error("Migration identity drift.");
+  if(migrations.length===48) assertReviewedAtomicDiaryFiles(migrations.map(m=>m.filename), (name:string)=>readFileSync(`supabase/migrations/${name}`));
   const plan = buildMappingPlan({ operation_kind: "reprojection", dataset_id: fixture.datasetId, environment: "local",
     source_release_id: fixture.releaseId, mapping_version_id: mappingId, before_snapshot: scope,
     actor_authority: selectMappingActorAuthority(json<MappingActorScope>("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')->'actor_authority'", operator), approver),
@@ -125,7 +127,21 @@ export function installApplicationTransition() {
   const approvalId = query(`select ingestion.approve_foundation_mapping_reprojection_v1('${planId}','${fingerprintMappingPlan(plan)}',
     '${plan.approval_requirements.expires_at}'::timestamptz,${canonical({ independent_review_hash: fixtureHash("synthetic independent app qualification"),
       recovery_evidence_hash: plan.recovery_requirements.qualification_hash, approval_reference: "synthetic-independent-stage5" })})`, approver);
+  function prepareCompensation(rejectedReceiptId: string) {
+    const current = json<{ before_snapshot: MappingScopeSnapshot; actor_authority: MappingActorScope; database_contract_hash: string }>(
+      "select ingestion.get_foundation_mapping_reprojection_scope_v1('local')", operator);
+    const compensation = buildMappingPlan({ ...plan, operation_kind: "compensation", rejected_receipt_id: rejectedReceiptId,
+      before_snapshot: current.before_snapshot,
+      actor_authority: selectMappingActorAuthority(current.actor_authority, approver),
+      implementation: { ...plan.implementation, database_contract_hash: current.database_contract_hash }, records: fixture.records });
+    const retry = fixtureId(998801);
+    const id = query(`select ingestion.prepare_foundation_mapping_compensation_v1(${canonical(compensation)},'${retry}')`, operator);
+    const approval = query(`select ingestion.approve_foundation_mapping_compensation_v1('${id}','${fingerprintMappingPlan(compensation)}',
+      '${compensation.approval_requirements.expires_at}',${canonical({ independent_review_hash: fixtureHash("independent atomic compensation"),
+        recovery_evidence_hash: compensation.recovery_requirements.qualification_hash, approval_reference: "synthetic-independent-compensation" })})`, approver);
+    return { plan: compensation, execution: `select ingestion.execute_foundation_mapping_compensation_v1('${approval}','${retry}');` };
+  }
   return { query, asyncQuery, holdReferenceReader, visibilityLock, json, fixture, plan, planId, approvalId, token, operator, approver, consumer,
     sourceMode: archivePath ? "verified official source values; synthetic local identity/release/governance" : "deterministic synthetic source values and identities",
-    execution: `select ingestion.execute_foundation_mapping_reprojection_v1('${approvalId}','${token}');` };
+    prepareCompensation, execution: `select ingestion.execute_foundation_mapping_reprojection_v1('${approvalId}','${token}');` };
 }

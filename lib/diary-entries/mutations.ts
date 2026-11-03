@@ -2,6 +2,7 @@ import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
 import { additionalSnapshotToRequest, parseAdditionalNutrientSnapshot } from "@/lib/nutrition-snapshots";
+import type { AllNutrientField } from "@/lib/food-selection/nutrient-scaling";
 import type {
   DataErrorCode,
   DataResult,
@@ -33,6 +34,7 @@ export type CreatedManualDiaryEntry = {
 export type DiaryEntryMutationError = {
   code: DataErrorCode | "conflict";
   fieldErrors?: Record<string, string>;
+  referenceFingerprint?: string;
   ok: false;
 };
 
@@ -43,6 +45,7 @@ export type DiaryEntryMutationResult<T> =
 export async function createDiaryEntryForCurrentUser(
   input: DiaryEntryCreateInput,
   idempotencyKey: string,
+  reference?: { fingerprint: string; automaticFields: readonly AllNutrientField[] },
 ): Promise<DiaryEntryMutationResult<CreatedManualDiaryEntry>> {
   const userIdResult = await getAuthenticatedUserId();
 
@@ -83,7 +86,15 @@ export async function createDiaryEntryForCurrentUser(
   const captured = additional !== undefined;
   const snapshot = captured ? parseAdditionalNutrientSnapshot(additional) : null;
   if (snapshot && !snapshot.ok) return { code: "database_error", ok: false };
-  const response = captured && snapshot?.ok
+  const response = reference
+    ? supabase.rpc("create_reference_diary_entry_v1", {
+        ...args,
+        p_captured: captured,
+        p_additional_nutrients: snapshot?.ok ? additionalSnapshotToRequest(snapshot.data) : null,
+        p_reference_fingerprint: reference.fingerprint,
+        p_automatic_fields: [...reference.automaticFields],
+      } as Database["public"]["Functions"]["create_reference_diary_entry_v1"]["Args"])
+    : captured && snapshot?.ok
     ? supabase.rpc("create_manual_diary_entry_v2", {
         ...args, p_additional_nutrients: additionalSnapshotToRequest(snapshot.data),
       } as Database["public"]["Functions"]["create_manual_diary_entry_v2"]["Args"])
@@ -105,6 +116,15 @@ export async function createDiaryEntryForCurrentUser(
 
   if (error || !data) {
     return { code: "database_error", ok: false };
+  }
+
+  if (data.result_status === "reference_changed" || data.result_status === "nutrition_review_required") {
+    return {
+      code: "validation_error", ok: false,
+      fieldErrors: { form: data.result_status },
+      referenceFingerprint: "reference_fingerprint" in data && typeof data.reference_fingerprint === "string"
+        ? data.reference_fingerprint : undefined,
+    };
   }
 
   if (data.result_status === "idempotency_conflict") {

@@ -1,0 +1,16 @@
+{
+  "commit": "f0c0af6f9e405404da8c2fd916791efa0e4ca6e5",
+  "tree": "b20ae668294979a111403ed2cfa1f9241419e44b",
+  "workingTreeClean": false,
+  "versions": {
+    "node": "v26.5.1",
+    "npm": "11.17.0",
+    "supabase": "2.116.0",
+    "playwright": "Version 1.61.1",
+    "python": "Python 3.15.2",
+    "docker": "29.9.2",
+    "postgres": "17.6"
+  },
+  "scope": "disposable synthetic local application only",
+  "project": "full35-atomicity-4ca960efcd2e"
+}

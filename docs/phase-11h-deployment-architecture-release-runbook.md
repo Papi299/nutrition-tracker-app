@@ -465,6 +465,11 @@ rejects `sb_secret_`, service-role-shaped prefixes, and a JWT whose role is
   exact approved archive/member hashes are checked before parsing. It is
   optional for synthetic local runs and mandatory in the Stage5 CI job.
   These inputs contain no hosted credentials and change no hosted environment.
+- Atomic diary qualification: `FULL35_ATOMICITY_CONTROL` is a loopback-only
+  external test controller; `FULL35_ATOMICITY_SCENARIO` selects writer-first or
+  diary-first. `FULL35_ATOMIC_DIARY_RECOVERY` selects only the exact pinned
+  migration48 encrypted recovery fixture. They grant no hosted authority, are
+  absent from application builds, and do not change hosted settings.
 - Exact-head recovery CodeQL: `CODEQL_CANDIDATE_SHA` binds the checked-out GitHub
   source head and `CODEQL_LANGUAGE` comes from the closed three-language CI matrix.
   They are CI provenance inputs, carry no credentials and grant no runtime authority.
