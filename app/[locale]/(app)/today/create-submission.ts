@@ -1,6 +1,9 @@
 import "server-only";
 
 import { getAuthenticatedUserId } from "@/lib/data/auth";
+import { getReadableFoodDiaryPrefill } from "@/lib/food-selection/prefill";
+import { isUuid } from "@/lib/food-selection/query";
+import { createServerClient } from "@/lib/supabase";
 import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   additionalNutrientCodesV1, normalizeNutrientAmount,
@@ -38,7 +41,7 @@ export function readInputField(formData: FormData, field: DiaryEntryFieldName) {
 export function readCreateValues(formData: FormData): DiaryEntryFieldValues {
   const values: DiaryEntryFieldValues = {};
   for (const field of [...diaryEntryCreateInputFields, ...additionalNutrientCodesV1,
-    "reference_fingerprint", "additional_nutrients_captured", "quantity_unit"] as const) {
+    "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "quantity_reference_fingerprint"] as const) {
     values[field] = readInputField(formData, field);
   }
   for (const field of allNutrientFields) {
@@ -67,7 +70,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const uniqueFields = new Set<DiaryEntryFieldName>([
     ...diaryEntryCreateInputFields, ...allNutrientFields,
     ...allNutrientFields.map(field => `automatic_${field}` as const),
-    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "serving_intent",
+    "idempotency_key", "reference_fingerprint", "additional_nutrients_captured", "quantity_unit", "quantity_reference_fingerprint", "serving_intent",
   ]);
   for (const field of uniqueFields) {
     const entries = formData.getAll(field);
@@ -86,13 +89,52 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const automaticFields = allNutrientFields.filter(field => values[`automatic_${field}`] === "1");
   let reviewRequired = false;
   const servingIntent = readTextField(formData, "serving_intent");
+  const referenceDependent = automaticFields.length > 0 || Boolean(servingIntent) || Boolean(values.quantity_reference_fingerprint) ||
+    Boolean(values.quantity_unit && values.quantity_unit !== values.serving_unit);
+  if (values.quantity_reference_fingerprint && !/^[a-f0-9]{64}$/.test(values.quantity_reference_fingerprint)) return fail({ form: "invalid_input" });
+  if (values.quantity_reference_fingerprint && (!context || context.reference.food_id !== values.food_id)) return fail({ form: "missing_reference" });
   if (servingIntent && servingIntent !== "reset_catalog_serving") return fail({ form: "invalid_input" });
+  let referenceChangedSinceRender = false;
+  if (context && context.reference.food_id === values.food_id &&
+    referenceDependent) {
+    // Preserve ordinary field-error precedence and the submitted numbers on
+    // invalid native forms. Nutrition/quantity validation still follows the
+    // authorized reference conversion and final normalization below.
+    const basic = validateDiaryEntryCreateInput(readCreateInput(values));
+    if (!basic.ok) {
+      const fields = new Set(["brand_name", "entry_date", "food_id", "food_name", "meal_type", "notes"]);
+      const errors = Object.fromEntries(Object.entries(basic.fieldErrors ?? {}).filter(([field]) => fields.has(field)));
+      if (Object.keys(errors).length) return fail(errors);
+    }
+    // The encrypted closure binds the owner and selection, but its catalog
+    // values were captured at render. New writes must review the current read.
+    // Completed requests instead retain their original interpretation; the RPC
+    // still compares the entire normalized payload before returning a receipt.
+    const supabase = await createServerClient();
+    const completed = isUuid(values.idempotency_key ?? "")
+      ? await supabase.from("manual_diary_entry_requests").select("id")
+        .eq("user_id", auth.data).eq("idempotency_key", values.idempotency_key!).maybeSingle()
+      : { data: null, error: null };
+    if (completed.error) return { result: { ok: false as const, code: "database_error" as const }, values };
+    if (!completed.data) {
+      const current = await getReadableFoodDiaryPrefill(context.reference.food_id);
+      // A linked food that became unreadable still uses the existing save
+      // failure response; no automatic value or receipt can be persisted.
+      if (current.status !== "ready") return {
+        result: { ok: false as const, code: current.status === "unauthenticated" ? "unauthenticated" as const : "database_error" as const }, values,
+      };
+      referenceChangedSinceRender = context.reference.reference_fingerprint !== current.data.reference_fingerprint;
+      context = { ownerId: context.ownerId, reference: current.data };
+    }
+  }
   if (context && context.reference.food_id === values.food_id) {
     // A changed reference must be reviewed before using even its unit conversion.
-    if ((automaticFields.length > 0 || servingIntent || values.quantity_unit !== values.serving_unit) &&
-      values.reference_fingerprint !== context.reference.reference_fingerprint) {
+    if (referenceDependent &&
+      (referenceChangedSinceRender || values.reference_fingerprint !== context.reference.reference_fingerprint ||
+        Boolean(values.quantity_reference_fingerprint && values.quantity_reference_fingerprint !== context.reference.reference_fingerprint))) {
       for (const field of allNutrientFields) values[`automatic_${field}`] = "";
       values.reference_fingerprint = context.reference.reference_fingerprint;
+      values.quantity_reference_fingerprint = "";
       return fail({ form: "reference_changed" });
     }
     if (servingIntent) {
@@ -100,6 +142,7 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
       values.serving_quantity = "1";
       values.serving_unit = "serving";
       values.quantity_unit = "serving";
+      values.quantity_reference_fingerprint = context.reference.reference_fingerprint;
       reviewRequired = true;
     } else if (values.quantity_unit && values.quantity_unit !== values.serving_unit) {
       const converted = convertFoodQuantity(context.reference, values.serving_quantity, values.quantity_unit, values.serving_unit);
@@ -107,7 +150,13 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
         if (automaticFields.length > 0 || converted.code !== "incompatible_unit") return fail({ [converted.field]: converted.code });
         // Explicit manual snapshots can use arbitrary portion labels. There is
         // no inferred conversion; native users review the retained amount.
-      } else values.serving_quantity = converted.quantity;
+        values.quantity_reference_fingerprint = "";
+      } else {
+        values.serving_quantity = converted.quantity;
+        if ([values.quantity_unit, values.serving_unit].some(unit => unit?.toLowerCase() === "serving")) {
+          values.quantity_reference_fingerprint = context.reference.reference_fingerprint;
+        }
+      }
       values.quantity_unit = values.serving_unit;
       reviewRequired = true;
     }
@@ -150,6 +199,14 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   // Native and tampered previews must be reviewed before any row or receipt is
   // written. JavaScript's matching previews reach persistence in one request.
   if (reviewRequired) return fail({ form: "nutrition_review_required" });
-  const result = await createDiaryEntryForCurrentUser(input, values.idempotency_key!);
+  const result = await createDiaryEntryForCurrentUser(input, values.idempotency_key!,
+    referenceDependent && context && context.reference.food_id === values.food_id
+      ? { fingerprint: context.reference.reference_fingerprint, automaticFields }
+      : undefined);
+  if (!result.ok && result.fieldErrors?.form === "reference_changed") {
+    for (const field of allNutrientFields) values[`automatic_${field}`] = "";
+    values.quantity_reference_fingerprint = "";
+    if (result.referenceFingerprint) values.reference_fingerprint = result.referenceFingerprint;
+  }
   return { result, values };
 }

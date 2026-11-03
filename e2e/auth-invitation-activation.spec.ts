@@ -50,6 +50,8 @@ const intentionallyLifecycleTables = [
   "nutrients",
 ] as const;
 const accountAccessRequiredRpcs = [
+  "private.diary_governed_dataset_v1(uuid)|DEFINER",
+  "public.create_reference_diary_entry_v1(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, boolean, jsonb, text, text[])|INVOKER",
   "public.create_manual_diary_entry_v2(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, jsonb)|INVOKER",
   "public.update_manual_diary_entry_v2(uuid, bigint, jsonb)|INVOKER",
   "public.get_owned_recipe_editor_v2(uuid)|INVOKER",
@@ -92,6 +94,7 @@ const accountAccessRequiredRpcs = [
 ] as const;
 const intentionallyLifecycleRpcs = [
   // Pure frozen metadata/validators reveal no account or catalog state.
+  "private.diary_scaled_amount_v1(numeric, numeric, numeric, numeric, numeric, integer, numeric)|INVOKER",
   "public.nutrient_snapshot_manifest_v1()|INVOKER",
   "private.is_valid_additional_nutrient_snapshot_v1(jsonb)|INVOKER",
   "private.normalize_additional_nutrient_request_v1(jsonb)|INVOKER",
@@ -601,6 +604,27 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
         `),
       ).toThrow(/account_access_required/);
     }
+
+    // The new resolver and persistence entrypoint gate activation before even
+    // validating a payload. The arithmetic helper is pure and exposes no state.
+    for (const referenceInvocation of [
+      "select private.diary_governed_dataset_v1(null);",
+      "select * from public.create_reference_diary_entry_v1(null,null,null,null,null,null,null,null,null,null,null,null,null,true,null,repeat('0',64),array[]::text[]);",
+    ]) {
+      expect(() => queryLocalAuthFixture(`
+        select set_config('request.jwt.claim.sub', ${sqlString(invitation.userId)}, false);
+        set role authenticated;
+        ${referenceInvocation}
+      `)).toThrow(/account_activation_required/);
+    }
+    expect(queryLocalAuthFixture(`
+      set role authenticated;
+      select private.diary_scaled_amount_v1(1,50,1,1,100,2,999999.99);
+    `)).toMatch(/0.5[0]*$/);
+    expect(queryLocalAuthFixture(`
+      select count(*) from public.diary_entries where user_id='${invitation.userId}';
+      select count(*) from public.manual_diary_entry_requests where user_id='${invitation.userId}';
+    `)).toBe("0\n0");
 
     await completeActivationForm(page, "en");
     await expect(page).toHaveURL(/\/en\/today(?:\?|$)/);

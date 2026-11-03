@@ -1,0 +1,1662 @@
+{
+  "contract": "synthetic-application-scaling-only/v1",
+  "codes": [
+    "energy_kcal",
+    "protein_g",
+    "carbohydrates_g",
+    "fat_g",
+    "fiber_g",
+    "sugars_g",
+    "added_sugars_g",
+    "saturated_fat_g",
+    "monounsaturated_fat_g",
+    "polyunsaturated_fat_g",
+    "trans_fat_g",
+    "cholesterol_mg",
+    "sodium_mg",
+    "potassium_mg",
+    "calcium_mg",
+    "iron_mg",
+    "magnesium_mg",
+    "phosphorus_mg",
+    "zinc_mg",
+    "copper_mg",
+    "manganese_mg",
+    "selenium_ug",
+    "vitamin_a_rae_ug",
+    "vitamin_c_mg",
+    "vitamin_d_ug",
+    "vitamin_e_mg",
+    "vitamin_k_ug",
+    "thiamin_mg",
+    "riboflavin_mg",
+    "niacin_mg",
+    "pantothenic_acid_mg",
+    "vitamin_b6_mg",
+    "folate_dfe_ug",
+    "vitamin_b12_ug",
+    "choline_mg"
+  ],
+  "cases": [
+    {
+      "code": "energy_kcal",
+      "amount": "100.5",
+      "quantity": "50",
+      "expected": "50"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "100.5",
+      "quantity": "100",
+      "expected": "101"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "100.5",
+      "quantity": "200",
+      "expected": "201"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "1.1234",
+      "quantity": "50",
+      "expected": "1"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "1.1234",
+      "quantity": "100",
+      "expected": "1"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "1.1234",
+      "quantity": "200",
+      "expected": "2"
+    },
+    {
+      "code": "energy_kcal",
+      "amount": "2147483647",
+      "quantity": "100",
+      "expected": "2147483647"
+    },
+    {
+      "code": "protein_g",
+      "amount": "1.005",
+      "quantity": "50",
+      "expected": "0.5"
+    },
+    {
+      "code": "protein_g",
+      "amount": "1.005",
+      "quantity": "100",
+      "expected": "1.01"
+    },
+    {
+      "code": "protein_g",
+      "amount": "1.005",
+      "quantity": "200",
+      "expected": "2.01"
+    },
+    {
+      "code": "protein_g",
+      "amount": "2.1234",
+      "quantity": "50",
+      "expected": "1.06"
+    },
+    {
+      "code": "protein_g",
+      "amount": "2.1234",
+      "quantity": "100",
+      "expected": "2.12"
+    },
+    {
+      "code": "protein_g",
+      "amount": "2.1234",
+      "quantity": "200",
+      "expected": "4.25"
+    },
+    {
+      "code": "protein_g",
+      "amount": "999999.99",
+      "quantity": "100",
+      "expected": "999999.99"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "1.005",
+      "quantity": "50",
+      "expected": "0.5"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "1.005",
+      "quantity": "100",
+      "expected": "1.01"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "1.005",
+      "quantity": "200",
+      "expected": "2.01"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "3.1234",
+      "quantity": "50",
+      "expected": "1.56"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "3.1234",
+      "quantity": "100",
+      "expected": "3.12"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "3.1234",
+      "quantity": "200",
+      "expected": "6.25"
+    },
+    {
+      "code": "carbohydrates_g",
+      "amount": "999999.99",
+      "quantity": "100",
+      "expected": "999999.99"
+    },
+    {
+      "code": "fat_g",
+      "amount": "1.005",
+      "quantity": "50",
+      "expected": "0.5"
+    },
+    {
+      "code": "fat_g",
+      "amount": "1.005",
+      "quantity": "100",
+      "expected": "1.01"
+    },
+    {
+      "code": "fat_g",
+      "amount": "1.005",
+      "quantity": "200",
+      "expected": "2.01"
+    },
+    {
+      "code": "fat_g",
+      "amount": "4.1234",
+      "quantity": "50",
+      "expected": "2.06"
+    },
+    {
+      "code": "fat_g",
+      "amount": "4.1234",
+      "quantity": "100",
+      "expected": "4.12"
+    },
+    {
+      "code": "fat_g",
+      "amount": "4.1234",
+      "quantity": "200",
+      "expected": "8.25"
+    },
+    {
+      "code": "fat_g",
+      "amount": "999999.99",
+      "quantity": "100",
+      "expected": "999999.99"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "5.1234",
+      "quantity": "50",
+      "expected": "2.5617"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "5.1234",
+      "quantity": "100",
+      "expected": "5.1234"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "5.1234",
+      "quantity": "200",
+      "expected": "10.2468"
+    },
+    {
+      "code": "fiber_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "6.1234",
+      "quantity": "50",
+      "expected": "3.0617"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "6.1234",
+      "quantity": "100",
+      "expected": "6.1234"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "6.1234",
+      "quantity": "200",
+      "expected": "12.2468"
+    },
+    {
+      "code": "sugars_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "7.1234",
+      "quantity": "50",
+      "expected": "3.5617"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "7.1234",
+      "quantity": "100",
+      "expected": "7.1234"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "7.1234",
+      "quantity": "200",
+      "expected": "14.2468"
+    },
+    {
+      "code": "added_sugars_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "8.1234",
+      "quantity": "50",
+      "expected": "4.0617"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "8.1234",
+      "quantity": "100",
+      "expected": "8.1234"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "8.1234",
+      "quantity": "200",
+      "expected": "16.2468"
+    },
+    {
+      "code": "saturated_fat_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "9.1234",
+      "quantity": "50",
+      "expected": "4.5617"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "9.1234",
+      "quantity": "100",
+      "expected": "9.1234"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "9.1234",
+      "quantity": "200",
+      "expected": "18.2468"
+    },
+    {
+      "code": "monounsaturated_fat_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "10.1234",
+      "quantity": "50",
+      "expected": "5.0617"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "10.1234",
+      "quantity": "100",
+      "expected": "10.1234"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "10.1234",
+      "quantity": "200",
+      "expected": "20.2468"
+    },
+    {
+      "code": "polyunsaturated_fat_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "11.1234",
+      "quantity": "50",
+      "expected": "5.5617"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "11.1234",
+      "quantity": "100",
+      "expected": "11.1234"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "11.1234",
+      "quantity": "200",
+      "expected": "22.2468"
+    },
+    {
+      "code": "trans_fat_g",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "12.1234",
+      "quantity": "50",
+      "expected": "6.0617"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "12.1234",
+      "quantity": "100",
+      "expected": "12.1234"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "12.1234",
+      "quantity": "200",
+      "expected": "24.2468"
+    },
+    {
+      "code": "cholesterol_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "13.1234",
+      "quantity": "50",
+      "expected": "6.5617"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "13.1234",
+      "quantity": "100",
+      "expected": "13.1234"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "13.1234",
+      "quantity": "200",
+      "expected": "26.2468"
+    },
+    {
+      "code": "sodium_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "14.1234",
+      "quantity": "50",
+      "expected": "7.0617"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "14.1234",
+      "quantity": "100",
+      "expected": "14.1234"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "14.1234",
+      "quantity": "200",
+      "expected": "28.2468"
+    },
+    {
+      "code": "potassium_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "15.1234",
+      "quantity": "50",
+      "expected": "7.5617"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "15.1234",
+      "quantity": "100",
+      "expected": "15.1234"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "15.1234",
+      "quantity": "200",
+      "expected": "30.2468"
+    },
+    {
+      "code": "calcium_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "16.1234",
+      "quantity": "50",
+      "expected": "8.0617"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "16.1234",
+      "quantity": "100",
+      "expected": "16.1234"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "16.1234",
+      "quantity": "200",
+      "expected": "32.2468"
+    },
+    {
+      "code": "iron_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "17.1234",
+      "quantity": "50",
+      "expected": "8.5617"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "17.1234",
+      "quantity": "100",
+      "expected": "17.1234"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "17.1234",
+      "quantity": "200",
+      "expected": "34.2468"
+    },
+    {
+      "code": "magnesium_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "18.1234",
+      "quantity": "50",
+      "expected": "9.0617"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "18.1234",
+      "quantity": "100",
+      "expected": "18.1234"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "18.1234",
+      "quantity": "200",
+      "expected": "36.2468"
+    },
+    {
+      "code": "phosphorus_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "19.1234",
+      "quantity": "50",
+      "expected": "9.5617"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "19.1234",
+      "quantity": "100",
+      "expected": "19.1234"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "19.1234",
+      "quantity": "200",
+      "expected": "38.2468"
+    },
+    {
+      "code": "zinc_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "20.1234",
+      "quantity": "50",
+      "expected": "10.0617"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "20.1234",
+      "quantity": "100",
+      "expected": "20.1234"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "20.1234",
+      "quantity": "200",
+      "expected": "40.2468"
+    },
+    {
+      "code": "copper_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "21.1234",
+      "quantity": "50",
+      "expected": "10.5617"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "21.1234",
+      "quantity": "100",
+      "expected": "21.1234"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "21.1234",
+      "quantity": "200",
+      "expected": "42.2468"
+    },
+    {
+      "code": "manganese_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "22.1234",
+      "quantity": "50",
+      "expected": "11.0617"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "22.1234",
+      "quantity": "100",
+      "expected": "22.1234"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "22.1234",
+      "quantity": "200",
+      "expected": "44.2468"
+    },
+    {
+      "code": "selenium_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "23.1234",
+      "quantity": "50",
+      "expected": "11.5617"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "23.1234",
+      "quantity": "100",
+      "expected": "23.1234"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "23.1234",
+      "quantity": "200",
+      "expected": "46.2468"
+    },
+    {
+      "code": "vitamin_a_rae_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "24.1234",
+      "quantity": "50",
+      "expected": "12.0617"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "24.1234",
+      "quantity": "100",
+      "expected": "24.1234"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "24.1234",
+      "quantity": "200",
+      "expected": "48.2468"
+    },
+    {
+      "code": "vitamin_c_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "25.1234",
+      "quantity": "50",
+      "expected": "12.5617"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "25.1234",
+      "quantity": "100",
+      "expected": "25.1234"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "25.1234",
+      "quantity": "200",
+      "expected": "50.2468"
+    },
+    {
+      "code": "vitamin_d_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "26.1234",
+      "quantity": "50",
+      "expected": "13.0617"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "26.1234",
+      "quantity": "100",
+      "expected": "26.1234"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "26.1234",
+      "quantity": "200",
+      "expected": "52.2468"
+    },
+    {
+      "code": "vitamin_e_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "27.1234",
+      "quantity": "50",
+      "expected": "13.5617"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "27.1234",
+      "quantity": "100",
+      "expected": "27.1234"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "27.1234",
+      "quantity": "200",
+      "expected": "54.2468"
+    },
+    {
+      "code": "vitamin_k_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "28.1234",
+      "quantity": "50",
+      "expected": "14.0617"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "28.1234",
+      "quantity": "100",
+      "expected": "28.1234"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "28.1234",
+      "quantity": "200",
+      "expected": "56.2468"
+    },
+    {
+      "code": "thiamin_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "29.1234",
+      "quantity": "50",
+      "expected": "14.5617"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "29.1234",
+      "quantity": "100",
+      "expected": "29.1234"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "29.1234",
+      "quantity": "200",
+      "expected": "58.2468"
+    },
+    {
+      "code": "riboflavin_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "30.1234",
+      "quantity": "50",
+      "expected": "15.0617"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "30.1234",
+      "quantity": "100",
+      "expected": "30.1234"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "30.1234",
+      "quantity": "200",
+      "expected": "60.2468"
+    },
+    {
+      "code": "niacin_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "31.1234",
+      "quantity": "50",
+      "expected": "15.5617"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "31.1234",
+      "quantity": "100",
+      "expected": "31.1234"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "31.1234",
+      "quantity": "200",
+      "expected": "62.2468"
+    },
+    {
+      "code": "pantothenic_acid_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "32.1234",
+      "quantity": "50",
+      "expected": "16.0617"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "32.1234",
+      "quantity": "100",
+      "expected": "32.1234"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "32.1234",
+      "quantity": "200",
+      "expected": "64.2468"
+    },
+    {
+      "code": "vitamin_b6_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "33.1234",
+      "quantity": "50",
+      "expected": "16.5617"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "33.1234",
+      "quantity": "100",
+      "expected": "33.1234"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "33.1234",
+      "quantity": "200",
+      "expected": "66.2468"
+    },
+    {
+      "code": "folate_dfe_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "34.1234",
+      "quantity": "50",
+      "expected": "17.0617"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "34.1234",
+      "quantity": "100",
+      "expected": "34.1234"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "34.1234",
+      "quantity": "200",
+      "expected": "68.2468"
+    },
+    {
+      "code": "vitamin_b12_ug",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "0.1234",
+      "quantity": "50",
+      "expected": "0.0617"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "0.1234",
+      "quantity": "100",
+      "expected": "0.1234"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "0.1234",
+      "quantity": "200",
+      "expected": "0.2468"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "35.1234",
+      "quantity": "50",
+      "expected": "17.5617"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "35.1234",
+      "quantity": "100",
+      "expected": "35.1234"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "35.1234",
+      "quantity": "200",
+      "expected": "70.2468"
+    },
+    {
+      "code": "choline_mg",
+      "amount": "9999999999.9999",
+      "quantity": "100",
+      "expected": "9999999999.9999"
+    }
+  ],
+  "sourcePolicyProfile": {
+    "energy_kcal": "100.5",
+    "protein_g": "1.005",
+    "carbohydrates_g": "1.005",
+    "fat_g": "1.005",
+    "fiber_g": "5.1234",
+    "sugars_g": "6.1234",
+    "added_sugars_g": null,
+    "saturated_fat_g": "8.1234",
+    "monounsaturated_fat_g": "9.1234",
+    "polyunsaturated_fat_g": "10.1234",
+    "trans_fat_g": "11.1234",
+    "cholesterol_mg": "12.1234",
+    "sodium_mg": "13.1234",
+    "potassium_mg": "14.1234",
+    "calcium_mg": "15.1234",
+    "iron_mg": "16.1234",
+    "magnesium_mg": "17.1234",
+    "phosphorus_mg": "18.1234",
+    "zinc_mg": "19.1234",
+    "copper_mg": "20.1234",
+    "manganese_mg": "21.1234",
+    "selenium_ug": "22.1234",
+    "vitamin_a_rae_ug": "23.1234",
+    "vitamin_c_mg": "24.1234",
+    "vitamin_d_ug": "25.1234",
+    "vitamin_e_mg": "26.1234",
+    "vitamin_k_ug": null,
+    "thiamin_mg": "28.1234",
+    "riboflavin_mg": "29.1234",
+    "niacin_mg": "30.1234",
+    "pantothenic_acid_mg": "31.1234",
+    "vitamin_b6_mg": "32.1234",
+    "folate_dfe_ug": null,
+    "vitamin_b12_ug": "34.1234",
+    "choline_mg": "35.1234"
+  },
+  "profileExpected": {
+    "50": {
+      "energy_kcal": "50",
+      "protein_g": "0.5",
+      "carbohydrates_g": "0.5",
+      "fat_g": "0.5",
+      "fiber_g": "2.5617",
+      "sugars_g": "3.0617",
+      "added_sugars_g": null,
+      "saturated_fat_g": "4.0617",
+      "monounsaturated_fat_g": "4.5617",
+      "polyunsaturated_fat_g": "5.0617",
+      "trans_fat_g": "5.5617",
+      "cholesterol_mg": "6.0617",
+      "sodium_mg": "6.5617",
+      "potassium_mg": "7.0617",
+      "calcium_mg": "7.5617",
+      "iron_mg": "8.0617",
+      "magnesium_mg": "8.5617",
+      "phosphorus_mg": "9.0617",
+      "zinc_mg": "9.5617",
+      "copper_mg": "10.0617",
+      "manganese_mg": "10.5617",
+      "selenium_ug": "11.0617",
+      "vitamin_a_rae_ug": "11.5617",
+      "vitamin_c_mg": "12.0617",
+      "vitamin_d_ug": "12.5617",
+      "vitamin_e_mg": "13.0617",
+      "vitamin_k_ug": null,
+      "thiamin_mg": "14.0617",
+      "riboflavin_mg": "14.5617",
+      "niacin_mg": "15.0617",
+      "pantothenic_acid_mg": "15.5617",
+      "vitamin_b6_mg": "16.0617",
+      "folate_dfe_ug": null,
+      "vitamin_b12_ug": "17.0617",
+      "choline_mg": "17.5617"
+    },
+    "100": {
+      "energy_kcal": "101",
+      "protein_g": "1.01",
+      "carbohydrates_g": "1.01",
+      "fat_g": "1.01",
+      "fiber_g": "5.1234",
+      "sugars_g": "6.1234",
+      "added_sugars_g": null,
+      "saturated_fat_g": "8.1234",
+      "monounsaturated_fat_g": "9.1234",
+      "polyunsaturated_fat_g": "10.1234",
+      "trans_fat_g": "11.1234",
+      "cholesterol_mg": "12.1234",
+      "sodium_mg": "13.1234",
+      "potassium_mg": "14.1234",
+      "calcium_mg": "15.1234",
+      "iron_mg": "16.1234",
+      "magnesium_mg": "17.1234",
+      "phosphorus_mg": "18.1234",
+      "zinc_mg": "19.1234",
+      "copper_mg": "20.1234",
+      "manganese_mg": "21.1234",
+      "selenium_ug": "22.1234",
+      "vitamin_a_rae_ug": "23.1234",
+      "vitamin_c_mg": "24.1234",
+      "vitamin_d_ug": "25.1234",
+      "vitamin_e_mg": "26.1234",
+      "vitamin_k_ug": null,
+      "thiamin_mg": "28.1234",
+      "riboflavin_mg": "29.1234",
+      "niacin_mg": "30.1234",
+      "pantothenic_acid_mg": "31.1234",
+      "vitamin_b6_mg": "32.1234",
+      "folate_dfe_ug": null,
+      "vitamin_b12_ug": "34.1234",
+      "choline_mg": "35.1234"
+    },
+    "200": {
+      "energy_kcal": "201",
+      "protein_g": "2.01",
+      "carbohydrates_g": "2.01",
+      "fat_g": "2.01",
+      "fiber_g": "10.2468",
+      "sugars_g": "12.2468",
+      "added_sugars_g": null,
+      "saturated_fat_g": "16.2468",
+      "monounsaturated_fat_g": "18.2468",
+      "polyunsaturated_fat_g": "20.2468",
+      "trans_fat_g": "22.2468",
+      "cholesterol_mg": "24.2468",
+      "sodium_mg": "26.2468",
+      "potassium_mg": "28.2468",
+      "calcium_mg": "30.2468",
+      "iron_mg": "32.2468",
+      "magnesium_mg": "34.2468",
+      "phosphorus_mg": "36.2468",
+      "zinc_mg": "38.2468",
+      "copper_mg": "40.2468",
+      "manganese_mg": "42.2468",
+      "selenium_ug": "44.2468",
+      "vitamin_a_rae_ug": "46.2468",
+      "vitamin_c_mg": "48.2468",
+      "vitamin_d_ug": "50.2468",
+      "vitamin_e_mg": "52.2468",
+      "vitamin_k_ug": null,
+      "thiamin_mg": "56.2468",
+      "riboflavin_mg": "58.2468",
+      "niacin_mg": "60.2468",
+      "pantothenic_acid_mg": "62.2468",
+      "vitamin_b6_mg": "64.2468",
+      "folate_dfe_ug": null,
+      "vitamin_b12_ug": "68.2468",
+      "choline_mg": "70.2468"
+    }
+  }
+}

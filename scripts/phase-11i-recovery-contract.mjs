@@ -1,3 +1,4 @@
+import { ATOMIC_DIARY_REVIEWED_HISTORY, assertReviewedAtomicDiaryFiles } from "./atomic-diary-recovery-history.mjs";
 import { createHash } from "node:crypto";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 import { assertReviewedFull35Files, FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
@@ -118,6 +119,7 @@ export function assertEncryptedDurableOutput(outputPath) {
 export const NUTRITION_LOCAL_MIGRATION_BOUNDARY = Object.freeze({ count: 45, head: "20261024083339" });
 export const SERVING_MIGRATION_BOUNDARY = Object.freeze({ count: 46, head: "20261029083108" });
 export const FULL35_MIGRATION_BOUNDARY = Object.freeze({ count: 47, head: FULL35_REVIEWED_HISTORY.head });
+export const ATOMIC_DIARY_MIGRATION_BOUNDARY = Object.freeze({ count: 48, head: ATOMIC_DIARY_REVIEWED_HISTORY.head });
 const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
 
 // Closed release allow-list: adding a file or changing a manifest cannot extend it.
@@ -138,6 +140,8 @@ const migration45Versions = Object.freeze([...migration44Versions, "202610240833
 const migration46Versions = Object.freeze([...migration45Versions, "20261029083108"]);
 const migration47Versions = Object.freeze([...migration46Versions, FULL35_REVIEWED_HISTORY.head]);
 
+const migration48Versions = Object.freeze([...migration47Versions, ATOMIC_DIARY_REVIEWED_HISTORY.head]);
+
 export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false, head = EXPECTED_MIGRATION_HEAD) {
   if (localNutritionSnapshots !== false && (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
       sourceIdentity?.projectRef !== "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE")) {
@@ -148,12 +152,13 @@ export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshot
   if (head === NUTRITION_LOCAL_MIGRATION_BOUNDARY.head) return NUTRITION_LOCAL_MIGRATION_BOUNDARY;
   if (head === SERVING_MIGRATION_BOUNDARY.head) return SERVING_MIGRATION_BOUNDARY;
   if (head === FULL35_MIGRATION_BOUNDARY.head) return FULL35_MIGRATION_BOUNDARY;
+  if (head === ATOMIC_DIARY_MIGRATION_BOUNDARY.head) return ATOMIC_DIARY_MIGRATION_BOUNDARY;
   fail("Source migration head mismatch: unsupported reviewed history.");
 }
 
 export function assertMigrationHistory(versions, boundary) {
   if (!boundary) {
-    if (!Array.isArray(versions) || ![44, 45, 46, 47].includes(versions.length)) fail("Source migration count mismatch.");
+    if (!Array.isArray(versions) || ![44, 45, 46, 47, 48].includes(versions.length)) fail("Source migration count mismatch.");
     boundary = recoveryMigrationBoundary(undefined, false, versions.at(-1));
   }
   const reviewed = recoveryMigrationBoundary(undefined, false, boundary.head);
@@ -170,7 +175,7 @@ export function assertMigrationHistory(versions, boundary) {
   if ([...versions].sort().some((version, index) => version !== versions[index])) {
     fail("Source migration ledger is not ordered.");
   }
-  const expected = boundary.count === 44 ? migration44Versions : boundary.count === 45 ? migration45Versions : boundary.count === 46 ? migration46Versions : migration47Versions;
+  const expected = boundary.count === 44 ? migration44Versions : boundary.count === 45 ? migration45Versions : boundary.count === 46 ? migration46Versions : boundary.count === 47 ? migration47Versions : migration48Versions;
   if (versions.some((version, index) => version !== expected[index])) {
     fail("Source migration ledger differs from the exact reviewed history.");
   }
@@ -181,8 +186,12 @@ export function assertMigrationHistory(versions, boundary) {
 export function assertTrustedMigrationReplay(files, boundary, readMigration) {
   if (boundary.count === 47) {
     const sqlFiles = files.filter(name => name.endsWith(".sql"));
-    assertReviewedFull35Files(sqlFiles, readMigration);
+    // A reviewed successor in this checkout does not change the historical
+    // replay boundary. Unknown files still cannot extend the closed history.
+    if (sqlFiles.length !== 47) assertReviewedAtomicDiaryFiles(sqlFiles, readMigration);
+    assertReviewedFull35Files(sqlFiles.filter(name => name.slice(0,14)<=boundary.head), readMigration);
   }
+  if (boundary.count === 48) assertReviewedAtomicDiaryFiles(files.filter(name=>name.endsWith(".sql")),readMigration);
   const selected = files.filter((name) => /^\d{14}_.+\.sql$/.test(name) && name.slice(0, 14) <= boundary.head).sort();
   assertMigrationHistory(selected.map((name) => name.slice(0, 14)), boundary);
   const filenameHashes = {
@@ -190,6 +199,7 @@ export function assertTrustedMigrationReplay(files, boundary, readMigration) {
     45: "5e54e686f7d162fd46d1ccbe38dbea643b34e7525800b6eb4357d6368c54cb13",
     46: "3d3832d6a5a045516ef6e5466172eaa4e2982d09a98154d09bf27b29b6fc32f8",
     47: FULL35_REVIEWED_HISTORY.orderedFilenameSetSha256,
+    48: ATOMIC_DIARY_REVIEWED_HISTORY.orderedFilenameSetSha256,
   };
   assertHash(selected.join("\n"), filenameHashes[boundary.count], "reviewed migration filenames");
   if (boundary.count >= 45) {

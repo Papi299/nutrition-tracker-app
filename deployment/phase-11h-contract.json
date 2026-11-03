@@ -784,6 +784,39 @@
       "vaultMatch": null
     },
     {
+      "name": "FULL35_ATOMICITY_CONTROL",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Loopback-only external test barrier controller; no application build hook.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_ATOMICITY_SCENARIO",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Closed writer-first or diary-first matrix for disposable local atomicity qualification.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_ATOMIC_DIARY_RECOVERY",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Selects the exact pinned migration48 encrypted local qualification, preserving legacy47 qualification.",
+      "sourceBoundary": "Disposable local test runner only; no hosted credentials or database authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
       "name": "FULL35_LOCAL_DATABASE_CONTAINER",
       "visibility": "local test only",
       "requiredEnvironments": [],
@@ -791,6 +824,39 @@
       "purpose": "Identifies only the disposable local Docker database for Full35 restricted-role tests.",
       "sourceBoundary": "Fresh random local-only qualification runner project; no database URL or hosted project.",
       "rotation": "Per local test run; no hosted credentials.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_APPROVED_SOURCE_ARCHIVE",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Optional local path to the exact approved April archive for source-value application qualification; mandatory in the Stage5 CI job.",
+      "sourceBoundary": "Outside Git; archive and member hashes are checked before parsing. No hosted database or credentials.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_APP_SOURCE_COMMIT",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Records the source commit when the application runner copies code into its disposable runtime directory.",
+      "sourceBoundary": "Derived from the source Git worktree; provenance only, never database or runtime authority.",
+      "rotation": "Per isolated qualification run.",
+      "browserExposure": "forbidden",
+      "vaultMatch": null
+    },
+    {
+      "name": "FULL35_APP_SOURCE_TREE",
+      "visibility": "local test only",
+      "requiredEnvironments": [],
+      "ownerCategory": "test harness",
+      "purpose": "Records the matching source tree for the isolated application qualification plan and evidence.",
+      "sourceBoundary": "Derived from the source Git worktree; no hosted configuration or approval authority.",
+      "rotation": "Per isolated qualification run.",
       "browserExposure": "forbidden",
       "vaultMatch": null
     },

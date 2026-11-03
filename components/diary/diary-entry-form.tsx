@@ -38,7 +38,7 @@ type MealTypeOption = {
 
 type VisibleFieldName = Exclude<
   DiaryEntryFieldName,
-  "quantity_unit" | "serving_intent" | "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
+  "quantity_reference_fingerprint" | "quantity_unit" | "serving_intent" | "expected_version" | "food_id" | "id" | "idempotency_key" | `automatic_${string}` | AdditionalNutrientCode | "reference_fingerprint" | "additional_nutrients_captured" | "additional_nutrient_snapshot"
 >;
 
 type FieldLabels = Record<VisibleFieldName, string>;
@@ -58,6 +58,7 @@ const persistedDraftFieldNames = [
   ...additionalNutrientCodesV1,
   ...allNutrientFields.map(field => `automatic_${field}` as const),
   "reference_fingerprint",
+  "quantity_reference_fingerprint",
   "quantity_unit",
   "additional_nutrients_captured",
   "brand_name",
@@ -140,6 +141,7 @@ function parsePersistedDraft(rawValue: string | null) {
 
     const values = pickPersistedValues(parsed.values);
     values.quantity_unit ??= values.serving_unit ?? "";
+    values.quantity_reference_fingerprint ??= "";
     // Older drafts have intentional snapshot values but no mode provenance.
     // Preserve them as manual rather than guessing from numerical equality.
     for (const field of allNutrientFields) {
@@ -348,13 +350,15 @@ export function DiaryEntryForm({
     },
     permalink,
   );
-  const [initialValues] = useState(() =>
-    pickPersistedValues(
-      state.status === "success"
-        ? (initialState.values ?? {})
-        : (state.values ?? initialState.values ?? {}),
-    ),
-  );
+  const [initialValues] = useState(() => {
+    const values = pickPersistedValues(state.status === "success"
+      ? (initialState.values ?? {}) : (state.values ?? initialState.values ?? {}));
+    values.quantity_reference_fingerprint ??= reference && verifiedCatalogServing(reference) &&
+      values.serving_unit?.trim().toLowerCase() === "serving"
+      ? (values.reference_fingerprint ?? reference.reference_fingerprint) : "";
+    return values;
+  });
+  const [quantityReferenceFingerprint, setQuantityReferenceFingerprint] = useState(initialValues.quantity_reference_fingerprint ?? "");
   const [quantityUnit, setQuantityUnit] = useState(initialValues.quantity_unit ?? initialValues.serving_unit ?? "");
   const storageKey = `${draftStoragePrefix}${encodeURIComponent(draftScope)}`;
   const referenceKey = reference?.reference_fingerprint ?? "manual";
@@ -397,6 +401,7 @@ export function DiaryEntryForm({
     if (storedDraft && changedReference) {
       for (const field of allNutrientFields) storedDraft.values[`automatic_${field}`] = "";
       storedDraft.values.reference_fingerprint = reference?.reference_fingerprint ?? "";
+      storedDraft.values.quantity_reference_fingerprint = "";
     }
 
     if (!storedDraft) {
@@ -415,6 +420,7 @@ export function DiaryEntryForm({
 
       if (storedDraft) {
         setQuantityUnit(storedDraft.values.quantity_unit ?? storedDraft.values.serving_unit ?? "");
+        setQuantityReferenceFingerprint(storedDraft.values.quantity_reference_fingerprint ?? "");
         setDraft((current) => ({
           idempotencyKey: storedDraft.idempotencyKey,
           revision: current.revision + 1,
@@ -463,6 +469,7 @@ export function DiaryEntryForm({
       persistDraft(storageKey, nextDraft);
       queueMicrotask(() => {
         setQuantityUnit(nextDraft.values.quantity_unit ?? nextDraft.values.serving_unit ?? "");
+        setQuantityReferenceFingerprint(nextDraft.values.quantity_reference_fingerprint ?? "");
         setDraft((current) => ({
           ...nextDraft,
           revision: current.revision + 1,
@@ -484,6 +491,7 @@ export function DiaryEntryForm({
     persistDraft(storageKey, retainedDraft);
     queueMicrotask(() => {
       setQuantityUnit(retainedDraft.values.quantity_unit ?? retainedDraft.values.serving_unit ?? "");
+      setQuantityReferenceFingerprint(retainedDraft.values.quantity_reference_fingerprint ?? "");
       setDraft((current) => ({
         ...retainedDraft,
         revision: current.revision + 1,
@@ -529,6 +537,12 @@ export function DiaryEntryForm({
     }
   }
 
+  function markQuantityReference(form: HTMLFormElement, fingerprint: string) {
+    const marker = form.elements.namedItem("quantity_reference_fingerprint");
+    if (marker instanceof HTMLInputElement) marker.value = fingerprint;
+    setQuantityReferenceFingerprint(fingerprint);
+  }
+
   function handleFormEvent(event: FormEvent<HTMLFormElement>) {
     const form = event.currentTarget;
     const target = event.target;
@@ -553,6 +567,9 @@ export function DiaryEntryForm({
         if (quantity instanceof HTMLInputElement && previous instanceof HTMLInputElement) {
           const converted = convertFoodQuantity(reference, quantity.value, previous.value, target.value);
           if (converted.ok) {
+            if (previous.value !== target.value && [previous.value, target.value].some(unit => unit.toLowerCase() === "serving")) {
+              markQuantityReference(form, reference.reference_fingerprint);
+            }
             quantity.value = converted.quantity;
             previous.value = target.value;
             setQuantityUnit(target.value);
@@ -560,6 +577,7 @@ export function DiaryEntryForm({
             const currentValues = readFormValues(form);
             const automatic = allNutrientFields.some(field => currentValues[`automatic_${field}`] === "1");
             if (!automatic && converted.code === "incompatible_unit") {
+              markQuantityReference(form, "");
               previous.value = target.value;
               setQuantityUnit(target.value);
             }
@@ -575,6 +593,7 @@ export function DiaryEntryForm({
         if (currentUnit instanceof HTMLInputElement && previous instanceof HTMLInputElement) {
           previous.value = currentUnit.value;
           setQuantityUnit(currentUnit.value);
+          markQuantityReference(form, currentUnit.value.toLowerCase() === "serving" && serving ? reference.reference_fingerprint : "");
         }
       }
       if (target.name === "serving_quantity" || target.name === "serving_unit" || target.name.startsWith("automatic_")) {
@@ -600,6 +619,7 @@ export function DiaryEntryForm({
       if (input instanceof HTMLInputElement) input.value = value;
     }
     setQuantityUnit("serving");
+    markQuantityReference(form, reference.reference_fingerprint);
     // Reset only the amount. Manual values (including former automatic values
     // retained after reference drift) stay manual until individually selected.
     setIncompatibleDraft(false);
@@ -627,6 +647,7 @@ export function DiaryEntryForm({
     };
     persistDraft(storageKey, nextDraft);
     setQuantityUnit(nextDraft.values.quantity_unit ?? nextDraft.values.serving_unit ?? "");
+    setQuantityReferenceFingerprint(nextDraft.values.quantity_reference_fingerprint ?? "");
     setDraft((current) => ({
       ...nextDraft,
       revision: current.revision + 1,
@@ -650,6 +671,7 @@ export function DiaryEntryForm({
       {/* Enter saves/reviews the entry; it must not invoke the earlier reset control. */}
       <button aria-hidden="true" disabled={isPending} hidden tabIndex={-1} type="submit" />
       <input name="quantity_unit" type="hidden" value={quantityUnit} />
+      <input name="quantity_reference_fingerprint" type="hidden" value={quantityReferenceFingerprint} />
       <input name="additional_nutrients_captured" type="hidden" value="1" />
       <input name="reference_fingerprint" type="hidden" defaultValue={values.reference_fingerprint ?? reference?.reference_fingerprint ?? ""} />
       <input

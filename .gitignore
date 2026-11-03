@@ -55,4 +55,6 @@ next-env.d.ts
 
 # Isolated CI qualification artifacts
 /full35-recovery-evidence/
+/atomic-diary-recovery-evidence/
 /codeql-results/
+/full35-app-evidence/

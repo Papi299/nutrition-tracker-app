@@ -173,7 +173,7 @@ export async function captureBackup({
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
       "APPLICATION_TABLE_INVENTORY",
     );
-    const full35Recovery = migrationBoundary.count === 47 ? captureFull35Recovery((sql) => rows(sql, "FULL35_CAPTURE_VALIDATION")) : undefined;
+    const full35Recovery = [47, 48].includes(migrationBoundary.count) ? captureFull35Recovery((sql) => rows(sql, "FULL35_CAPTURE_VALIDATION")) : undefined;
     const tableCounts = exactTableCounts(applicationTables, "PRE_DUMP_TABLE_COUNTS");
     const ownerValidation = validateOwnerDatabase((sql) => rows(sql, "OWNER_VALIDATION"));
     const { authCounts, ownershipIntegrity } = ownerValidation;

@@ -1,0 +1,90 @@
+{
+  "source": "Required main plus uncommitted task changes; final exact-head evidence belongs to CI and delivery receipt",
+  "scope": "Synthetic local UUIDs/owners; exact verified April USDA source amounts; fixed A/B reference revision timestamps",
+  "context": {
+    "commit": "c34b85f9646ffe5fb82ff9a295eb48f196decb69",
+    "tree": "ac8a4b5485be3aec10d391955cc9b575801cc548",
+    "workingTreeClean": false,
+    "versions": {
+      "node": "v26.5.1",
+      "npm": "11.17.0",
+      "supabase": "2.116.0",
+      "playwright": "Version 1.61.1",
+      "python": "Python 3.15.2",
+      "docker": "29.9.2",
+      "postgres": "17.6"
+    },
+    "scope": "disposable synthetic local application only",
+    "project": "full35-app-9fdcb9d293d1"
+  },
+  "files": {
+    "qualification.json": {
+      "bytes": 368,
+      "sha256": "a1e3970111d1a0ebe3a57c0f10db63154090976a865c359212c94bd932f1b72e"
+    },
+    "en-original-reference.png": {
+      "bytes": 322017,
+      "sha256": "2b49277841cce5b4e7d137f95073c266e15cd3e8d405758a2afe97aa01dcb861"
+    },
+    "en-stale-review-axe.json": {
+      "bytes": 797,
+      "sha256": "647c458595bd806c3dae3e7399376ed94e9b833a09d85510565c8646bd6f96a9"
+    },
+    "source.json": {
+      "bytes": 447,
+      "sha256": "47a3277759f3a720c6237a96c5ac542d4b2ba48ebead960c1d81a020b6bc6557"
+    },
+    "he-stale-review.png": {
+      "bytes": 409767,
+      "sha256": "50fa80fb74a5370c27f5c0856e0e8ed56884ac93d1aa5aeb1ad01aaadce13647"
+    },
+    "stage5-results.json": {
+      "bytes": 2783,
+      "sha256": "89ada46d799f41fca4eb2b83979ca43a3c8a7d3ec009f9c3140999143f080db6"
+    },
+    "before-first-submit.png": {
+      "bytes": 318985,
+      "sha256": "7547b0a7c0df07fb3ab76d5ebef6f54792da23b04b3299aa4e062fc01b82c823"
+    },
+    "353-before-after-references.json": {
+      "bytes": 2582492,
+      "sha256": "bfd8eebfd5c6603d0613d1988eafc3e1af6ef9af2af877b6d73bbbb944e87dce"
+    },
+    "submission-observation.json": {
+      "bytes": 144,
+      "sha256": "630d32742e15419105d744c4d142db08860d755d57436c6fd8d9e6735b5edafa"
+    },
+    "cleanup.json": {
+      "bytes": 105,
+      "sha256": "925ea15be3cdce53f9014d4a7b1fa78eafc44eb3283798a0f918bc068ebde3c7"
+    },
+    "en-stale-review.png": {
+      "bytes": 504744,
+      "sha256": "62ca38b334a82d8862698c5a96bcd375306d73bd2681897f93594f1037599aea"
+    },
+    "he-stale-review-axe.json": {
+      "bytes": 792,
+      "sha256": "dfd70d313d0fd9f4df7d9ad2fb9ff8ca986edbd9d4f64104b12fd1d2fb4d68b6"
+    },
+    "353-identity-comparison.json": {
+      "bytes": 1718371,
+      "sha256": "8ebb3a6183b87d5ffc8530c71fc2e455ab75d286fb3235222dc82eee450c0807"
+    },
+    "he-original-reference.png": {
+      "bytes": 404923,
+      "sha256": "137aef7479b0f5f5f09652f16405b932cdbd6f67383a069f8f8f49c146ca21f4"
+    },
+    "after-first-submit.png": {
+      "bytes": 330959,
+      "sha256": "e4b59b668df59b188034f236bd797606d407ff44b509251e80179f56f093f7df"
+    },
+    "200g-full-flow.json": {
+      "bytes": 2697,
+      "sha256": "2dcee2d19358f2ae30b2864c7f967052686200ad6fb94f1733864292ba127b2c"
+    },
+    "en-enriched-reference.png": {
+      "bytes": 505853,
+      "sha256": "dc8a466dceab16af266438c09513246b20dd1be27e5c0c7b4c33cd6794dc5357"
+    }
+  }
+}

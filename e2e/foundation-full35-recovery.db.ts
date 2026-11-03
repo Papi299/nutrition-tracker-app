@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { chmodSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -13,6 +13,8 @@ import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, 
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
+const atomicDiary=process.env.FULL35_ATOMIC_DIARY_RECOVERY==="1";
+const historyHead=atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -51,6 +53,7 @@ function installRoles(q:ActorQuery,padding=false) {
   if(!padding) q("do $$ begin for i in 1..64 loop if not exists(select from pg_roles where rolname='full35_recovery_padding_'||i) then execute format('create role full35_recovery_padding_%s nologin',i);end if;end loop;end $$");
 }
 function initializeSource() {
+  for(const key of Object.keys(atomicPayloads)){delete atomicPayloads[key];delete atomicResults[key];delete atomicKeys[key];}
   fixture=installSyntheticBaseline(source);
   // Extend the hand-authored fixture with completed durable owner metadata.
   // No Production identity or credential is used.
@@ -61,25 +64,63 @@ function initializeSource() {
     select vault.create_secret('${hash("synthetic capability")}','account_closure_capability_v1');`);
   op=bindActor(source,fixture.datasetId,operator,"operator");app=bindActor(source,fixture.datasetId,approver,"approver");
   core=source("select to_jsonb(t)::text from public.food_nutrients t order by id");
+  if(atomicDiary) {
+    createAtomicOwnerEntry("before",source);
+    for(const version of [1,2]){
+      const key=fixtureId(999870+version),food=source("select id from public.foods where is_public order by id limit 1");
+      const originalArgs=`'${key}','2026-10-31','lunch','${food}','Synthetic historical manual receipt',null,200,'g',321,0,null,1,null`;
+      const additional=`jsonb_build_object('version',1,'values',(select jsonb_agg(jsonb_build_object('code',d->>'code','amount',null)) from jsonb_array_elements(public.nutrient_snapshot_manifest_v1()) d where d->>'coreField' is null))`;
+      const originalCall=version===1?`public.create_manual_diary_entry(${originalArgs})`:`public.create_manual_diary_entry_v2(${originalArgs},${additional})`;
+      const result=source(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';select row_to_json(r) from ${originalCall} r;commit;`);
+      atomicPayloads[`legacy${version}`]=`select row_to_json(r) from public.create_reference_diary_entry_v1(${originalArgs},${version===2},${version===2?additional:"null"},'${"f".repeat(64)}',array['calories']) r;`;
+      atomicResults[`legacy${version}`]=result;
+    }
+  }
   frozen=Object.fromEntries(Object.entries(full35TableFingerprints(rows(source))).filter(([name])=>name.startsWith("auth.")||
     ["public.profiles","public.food_favorites","public.diary_entries","public.saved_meals","public.saved_meal_items","public.recipes","public.recipe_ingredients","public.nutrition_targets","public.account_activations","public.manual_diary_entry_requests"].includes(name)));
 }
-function makePlan(compensate=false):MappingPlan {
-  const scope=JSON.parse(source("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')",operator));
+const owner=fixtureId(999700);
+const atomicKeys:Record<string,string>={};
+const atomicPayloads:Record<string,string>={};
+const atomicResults:Record<string,string>={};
+function createAtomicOwnerEntry(label:string,q:ActorQuery) {
+  const food=q("select id from public.foods where is_public order by id limit 1");
+  const ref=JSON.parse(q(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';select row_to_json(r) from public.get_readable_food_nutrition_reference_v2('${food}') r;commit;`));
+  const key=fixtureId(label==="before"?999860:999861);atomicKeys[label]=key;
+  const args=`'${key}','2026-11-01','lunch','${food}','Synthetic recovery atomic snapshot',null,100,'g',
+    ${ref.nutrients.energy_kcal===null?"null":Math.round(Number(ref.nutrients.energy_kcal))},${ref.nutrients.protein_g??"null"},${ref.nutrients.carbohydrates_g??"null"},${ref.nutrients.fat_g??"null"},null,
+    true,(select jsonb_build_object('version',1,'values',jsonb_agg(jsonb_build_object('code',d->>'code','amount',
+      case when '${label}'='before' and d->>'code'='fiber_g' then '7'::jsonb else to_jsonb(('${JSON.stringify(ref.nutrients)}'::jsonb->> (d->>'code'))::numeric) end)))
+      from jsonb_array_elements(public.nutrient_snapshot_manifest_v1()) d where d->>'coreField' is null),
+    '${ref.reference_fingerprint}',${label==='before'?"array['calories','protein_g','carbohydrates_g','fat_g']::text[]":"(select array_agg(coalesce(d->>'coreField',d->>'code')) from jsonb_array_elements(public.nutrient_snapshot_manifest_v1()) d)"}`;
+  atomicPayloads[label]=`select row_to_json(r) from public.create_reference_diary_entry_v1(${args}) r;`;
+  atomicResults[label]=q(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';${atomicPayloads[label]}commit;`);
+  expect(JSON.parse(atomicResults[label]).result_status).toBe("success");
+}
+function exactAtomicOwnerRetry(q:ActorQuery) {
+  for(const label of Object.keys(atomicPayloads)) {
+    const before=full35TableFingerprints(rows(q));
+    const actual=q(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';${atomicPayloads[label]}commit;`);
+    for(const field of ["result_status","diary_entry_id","completed_at"]) expect(JSON.parse(actual)[field]).toBe(JSON.parse(atomicResults[label])[field]);
+    expect(full35TableFingerprints(rows(q))).toEqual(before);
+  }
+}
+function makePlan(compensate=false,q:ActorQuery=source):MappingPlan {
+  const scope=JSON.parse(q("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')",operator));
   return buildMappingPlan({operation_kind:compensate?"compensation":"reprojection",dataset_id:fixture.datasetId,environment:"local",
     source_release_id:fixture.releaseId,mapping_version_id:mappingId,before_snapshot:scope.before_snapshot,
     actor_authority:selectMappingActorAuthority(scope.actor_authority as MappingActorScope,approver),
-    operator_oid:Number(source(`select oid from pg_roles where rolname='${operator}'`)),operator_login:operator,
-    approval_requirements:{approver_oid:Number(source(`select oid from pg_roles where rolname='${approver}'`)),not_before:new Date(Date.now()-60000).toISOString(),expires_at:new Date(Date.now()+7200000).toISOString()},
+    operator_oid:Number(q(`select oid from pg_roles where rolname='${operator}'`)),operator_login:operator,
+    approval_requirements:{approver_oid:Number(q(`select oid from pg_roles where rolname='${approver}'`)),not_before:new Date(Date.now()-60000).toISOString(),expires_at:new Date(Date.now()+7200000).toISOString()},
     implementation:{database_contract_hash:scope.database_contract_hash,commit:command("git",["rev-parse","HEAD"]),tree:command("git",["rev-parse","HEAD^{tree}"]),
-      migrations:readdirSync("supabase/migrations").filter(n=>n.endsWith(".sql")).sort().map(filename=>({filename,version:filename.slice(0,14),sha256:hash(readFileSync(`supabase/migrations/${filename}`))})),
+      migrations:readdirSync("supabase/migrations").filter(n=>n.endsWith(".sql")&&n.slice(0,14)<=historyHead).sort().map(filename=>({filename,version:filename.slice(0,14),sha256:hash(readFileSync(`supabase/migrations/${filename}`))})),
       contract_versions:{parser:"usda-fdc-foundation-json/v1",importer:"usda-foundation-importer/v3",candidate:"foundation-normalized-candidate/v2",mapping:"usda-foundation-full35-direct-v2",projection:"foundation-lifecycle-projection/v2"}},
     qualification:{...fixture.source,historical_allowance_fingerprint:"bdfc95e5009a8d5c5a5bbf82b24dff1a4e8c3decd7bee4406286c543e661ad4a",rejected:JSON.parse(readFileSync("docs/evidence/nutrition-usda-full35-local-qual-001/qualification.json","utf8")).source_inspection.rejected_records,source_qualification_hash:fixtureHash("recovery independent oracle")},
     recovery_requirements:{qualification_hash:fixtureHash("local encrypted recovery engineering"),production_ready:false},rejected_receipt_id:compensate?JSON.parse(original).receipt_id:null,records:fixture.records});
 }
-function approve(plan:MappingPlan,token:string) {
-  const id=source(`select ingestion.prepare_foundation_mapping_${plan.operation_kind}_v1(${actorInput(plan)},'${token}')`,operator);
-  return source(`select ingestion.approve_foundation_mapping_${plan.operation_kind}_v1('${id}','${fingerprintMappingPlan(plan)}','${plan.approval_requirements.expires_at}',${actorInput({independent_review_hash:fixtureHash("independent operation approval"),recovery_evidence_hash:plan.recovery_requirements.qualification_hash,approval_reference:"synthetic local independent reviewer"})})`,approver);
+function approve(plan:MappingPlan,token:string,q:ActorQuery=source) {
+  const id=q(`select ingestion.prepare_foundation_mapping_${plan.operation_kind}_v1(${actorInput(plan)},'${token}')`,operator);
+  return q(`select ingestion.approve_foundation_mapping_${plan.operation_kind}_v1('${id}','${fingerprintMappingPlan(plan)}','${plan.approval_requirements.expires_at}',${actorInput({independent_review_hash:fixtureHash("independent operation approval"),recovery_evidence_hash:plan.recovery_requirements.qualification_hash,approval_reference:"synthetic local independent reviewer"})})`,approver);
 }
 const retry=(kind:string,approval:string,token:string)=>`select ingestion.execute_foundation_mapping_${kind}_v1('${approval}','${token}')`;
 function noMutationDenied(label:string,q:ActorQuery,sql:string,user:string,pattern=/binding|principal|identity|permission denied|42501|stale|read committed/i) {
@@ -131,6 +172,37 @@ function independentDatasetRoots(q:ActorQuery) {
   const result=JSON.parse(command("python3",["scripts/nutrition-usda-full35-recovery-001b/verify_dataset_roots.py"],packet));
   expect(result).toMatchObject({result:"PASS",current_pointer_verified:true,same_count_changed_projection_hash_refused:true});return result;
 }
+async function restoredAtomicRace() {
+  const proposal=makePlan(false,target), token=fixtureId(999862), approval=approve(proposal,token,target);
+  function launch(sql:string,user:string,keep=false) {
+    const child=spawn("docker",["exec","-i","-e",`PGPASSWORD=${password}`,config.target,"psql",
+      ...(user==="supabase_admin"?[]:["-h","127.0.0.1"]),"-U",user,"-d","postgres","-X","-qAt","-v","ON_ERROR_STOP=1"]);
+    let output="",error="";child.stdout.on("data",b=>output+=b);child.stderr.on("data",b=>error+=b);
+    const done=new Promise<string>((ok,fail)=>{child.on("error",fail);child.on("close",code=>code===0?ok(output.trim()):fail(new Error(error)));});
+    if(keep)child.stdin.write(sql);else child.stdin.end(sql);
+    return {child,done,output:()=>output};
+  }
+  const controller=launch("select pg_advisory_lock(90048);\\echo atomic_recovery_ready\n","supabase_admin",true);
+  await expect.poll(()=>controller.output().includes("atomic_recovery_ready")).toBe(true);
+  let released=false;
+  try {
+    const writer=launch(`set application_name='restored_atomic_writer';begin;${retry("reprojection",approval,token)};select pg_advisory_xact_lock(90048);commit;`,operator);
+    await expect.poll(()=>Number(target("select count(*) from pg_stat_activity where application_name='restored_atomic_writer' and wait_event='advisory'")),{timeout:90000}).toBe(1);
+    const before=target(`select count(*) from public.manual_diary_entry_requests where user_id='${owner}'`);
+    const attempt=atomicPayloads.before.replaceAll(atomicKeys.before,fixtureId(999863));
+    const diary=launch(`set application_name='restored_atomic_diary';begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';${attempt}commit;`,"full35_recovery_authenticated");
+    await expect.poll(()=>Number(target("select count(*) from pg_stat_activity where application_name='restored_atomic_diary' and wait_event='advisory'"))).toBe(1);
+    const locks=JSON.parse(target(`select jsonb_agg(jsonb_build_object('application',application_name,'wait',wait_event,'blockers',pg_blocking_pids(pid))) from pg_stat_activity where application_name in('restored_atomic_diary','restored_atomic_writer')`));
+    controller.child.stdin.end("select pg_advisory_unlock(90048);\\q\n");await controller.done;released=true;
+    await writer.done;const result=JSON.parse(await diary.done);expect(result.result_status).toBe("reference_changed");
+    expect(target(`select count(*) from public.manual_diary_entry_requests where user_id='${owner}'`)).toBe(before);
+    const current=target(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';select reference_fingerprint from public.get_readable_food_nutrition_reference_v2('${proposal.items[0].before.food_id}');commit;`);
+    expect(result.reference_fingerprint).toBe(current);
+    exactAtomicOwnerRetry(target);
+    return {result:"PASS",writerCommitted:true,diaryWaitedForWriter:true,currentFingerprintAfterWait:true,noNewReceipt:true,completedOriginalRetry:true,locks};
+  }finally{if(!released){controller.child.stdin.end("select pg_advisory_unlock(90048);\\q\n");await controller.done;}}
+}
+
 async function checkpoint(label:string,expectedHead:number) {
   process.stdout.write(`Capturing approved encrypted checkpoint ${label}.\n`);
   const backupRoot=join(config.scratch,label);mkdirSync(backupRoot,{mode:0o700});
@@ -170,6 +242,7 @@ async function checkpoint(label:string,expectedHead:number) {
     noMutationDenied("D04_same_numeric_oid",target,"select ingestion.get_foundation_mapping_reprojection_scope_v1('local')",name);
     target(`revoke ingestion_operator from ${name};alter role ${name} nologin`);
   }
+  if(atomicDiary)exactAtomicOwnerRetry(target);
   const actual=full35TableFingerprints(rows(target));for(const [name,state] of Object.entries(frozen))expect(actual[name]).toEqual(state);
   expect(target("select current_head_version from ingestion.dataset_projection_current_heads")).toBe(String(expectedHead));
   if(expectedHead>1){noMutationDenied(`${label}_unverified_receipt`,target,`select ingestion.get_foundation_mapping_reprojection_receipt_v1('${originalApproval}')`,operator);
@@ -178,7 +251,8 @@ async function checkpoint(label:string,expectedHead:number) {
   bindActor(target,fixture.datasetId,operator,"operator",op);bindActor(target,fixture.datasetId,approver,"approver",app);
   const after=full35TableFingerprints(rows(target));for(const name of Object.keys(before).filter(n=>!n.startsWith("ingestion.mapping_actor_")))expect(after[name]).toEqual(before[name]);
   if(expectedHead>1){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
-  checkpoints.push({scenario:label,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
+  const atomicRace=atomicDiary&&expectedHead===1?await restoredAtomicRace():undefined;
+  checkpoints.push({scenario:label,atomicRace,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
     allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1,completedRetriesNoMutation:expectedHead>1,
     independentDecisions:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
@@ -193,17 +267,18 @@ function recoveryNegatives() {
   command("tar",["-xf",tar,"-C",badRoot]);
   const contentPath=join(badRoot,"backup-content-manifest.json"),contentBytes=readFileSync(contentPath),dataPath=join(badRoot,"application-data.sql"),dataBytes=readFileSync(dataPath);
   const ledgerPath=join(badRoot,"migration-ledger.json"),ledgerBytes=readFileSync(ledgerPath);
-  function restoreRejected(label:string,changeManifest?:(m:typeof manifest)=>void,overrides:Record<string,unknown>={},replay=false) {
+  function restoreRejected(label:string,changeManifest?:(m:typeof manifest)=>void,overrides:Record<string,unknown>={},replay=false,postResetSql?:string) {
     const started=Date.now(),before=full35TableFingerprints(rows(target));let resets=0,error="";
     const changed=JSON.parse(readFileSync(capture.manifestPath,"utf8"));changeManifest?.(changed);writeFileSync(capture.manifestPath,JSON.stringify(changed));
     const report=join(config.scratch,"negative-restore.json");expect(existsSync(report)).toBe(false);
     try{process.chdir(config.targetDirectory);
       restoreBackup({archiveInput:capture.archivePath,manifestInput:capture.manifestPath,recipientInput:cert,privateKeyInput:key,reportInput:report,targetIdentity:RECOVERY_TARGET,
         assertSourceIdentity:assertSource,assertArtifactIdentity:assertArtifact,assertRecipient:(actual:string)=>assert.equal(actual,recipient),localNutritionSnapshots:false,
-        runSupabase:(args:string[])=>{if(args[0]==="db"&&args[1]==="reset")resets++;const value=targetCli(args);if(args[0]==="db"&&args[1]==="reset")installRoles(target,true);return value;},...overrides});
+        runSupabase:(args:string[])=>{if(args[0]==="db"&&args[1]==="reset")resets++;const value=targetCli(args);if(args[0]==="db"&&args[1]==="reset"){installRoles(target,true);if(postResetSql)target(postResetSql);}return value;},...overrides});
     }catch(e){error=String((e as Error).message);}finally{process.chdir(repository);writeFileSync(capture.manifestPath,manifestBytes);}
     expect(error).toMatch(/mismatch|forbidden|failed|reviewed|target|unsafe|count|ledger|fingerprint|schema/i);expect(existsSync(report)).toBe(false);
-    if(!replay){expect(resets).toBe(0);expect(full35TableFingerprints(rows(target))).toEqual(before);}
+    if(postResetSql){expect(resets).toBe(1);expect(error).toMatch(/schema|fingerprint mismatch/);expect(target("select count(*) from auth.users")).toBe("0");expect(target("select count(*) from ingestion.mapping_reprojection_receipts")).toBe("0");}
+    else if(!replay){expect(resets).toBe(0);expect(full35TableFingerprints(rows(target))).toEqual(before);}
     else {expect(error).toMatch(/Full35 complete persisted row fingerprint mismatch/);expect(resets).toBe(1);expect(target("select count(*) from ingestion.mapping_reprojection_receipts")).toBe("0");expect(target("select count(*) from auth.users")).toBe("0");expect(target("select count(*) from ingestion.mapping_actor_current_bindings")).toBe("0");}
     negatives[label]={result:"PASS",expectedRejection:error,noUnauthorizedMutation:true,targetResetCount:resets,failedReplayRolledBack:replay,elapsedMs:Date.now()-started};
     process.stdout.write(`Negative recovery case ${label} refused with no unauthorized mutation.\n`);
@@ -235,6 +310,10 @@ function recoveryNegatives() {
     ["H01_duplicate",(v:string[])=>{v[10]=v[9];}],
     ["H01_reordered",(v:string[])=>{[v[10],v[11]]=[v[11],v[10]];}],
   ] as const) innerRejected(label,"migration-ledger.json",text=>{const data=JSON.parse(text);change(data.versions);return JSON.stringify(data);});
+  if(atomicDiary){
+    innerRejected("A48_unknown_49","migration-ledger.json",text=>{const data=JSON.parse(text);data.versions.push("20270101000000");return JSON.stringify(data);});
+    innerRejected("A48_wrong_version","migration-ledger.json",text=>{const data=JSON.parse(text);data.versions[47]="20261102181944";return JSON.stringify(data);});
+  }
   for(const [label,index] of [["H03_tampered_predecessor",0],["H02_tampered_migration47",46]] as const) {
     const file=join(config.targetDirectory,"supabase/migrations",readdirSync("supabase/migrations").filter(n=>n.endsWith(".sql")).sort()[index]),bytes=readFileSync(file);writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n-- tamper\n")]));
     try{restoreRejected(label);}finally{writeFileSync(file,bytes);}
@@ -245,6 +324,18 @@ function recoveryNegatives() {
   expect(hash(obsoleteSql)).toBe("907f2b14e3baa485f1b9e92e6c3f601cc0f434945c48fbef9b0c823b781b1703");
   writeFileSync(sql47,obsoleteSql);
   try{restoreRejected("H02_obsolete_defective_SQL");}finally{writeFileSync(sql47,corrected);}
+  if(atomicDiary){
+    const signature="public.create_reference_diary_entry_v1(uuid,date,text,uuid,text,text,numeric,text,integer,numeric,numeric,numeric,text,boolean,jsonb,text,text[])";
+    for(const [label,sql] of [
+      ["A48_restore_wrong_body","create or replace function private.diary_governed_dataset_v1(p_food_id uuid) returns uuid language sql stable security definer set search_path='' as 'select null::uuid'"],
+      ["A48_restore_wrong_ACL",`grant execute on function ${signature} to anon`],
+      ["A48_restore_security_definer",`alter function ${signature} security definer`],
+    ]) restoreRejected(label,undefined,{},false,sql);
+    const sql48=join(config.targetDirectory,"supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql"),bytes=readFileSync(sql48);
+    writeFileSync(sql48,Buffer.concat([bytes,Buffer.from("\n-- wrong atomic body\n")]));
+    try{restoreRejected("A48_wrong_SQL_hash");}finally{writeFileSync(sql48,bytes);}
+    innerRejected("A48_missing_diary_receipt","application-data.sql",text=>removeDumpRow(text,"public.manual_diary_entry_requests"),true);
+  }
   innerRejected("D01_source_private_marker_in_payload","application-data.sql",text=>text+`\nINSERT INTO private.mapping_actor_cluster_epoch(singleton,cluster_id) VALUES (true,'${source("select cluster_id from private.mapping_actor_cluster_epoch")}');\n`);
   innerRejected("D02_invalid_marker_metadata","source-snapshot-redacted.json",text=>{const data=JSON.parse(text);data.full35Recovery.sourceClusterMarker=null;return JSON.stringify(data);});
   // A new dump with all outer/content digests recomputed still cannot omit any
@@ -280,13 +371,16 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
   test("1 — before reprojection: exact populated encrypted restore and independent authorization",async()=>{await checkpoint("before_reprojection",1);});
   test("2 — after reprojection: all values and immutable completed reads survive approved encrypted restore",async()=>{
     originalPlan=makePlan();originalApproval=approve(originalPlan,originalToken);original=source(retry("reprojection",originalApproval,originalToken),operator);
+    if(atomicDiary){createAtomicOwnerEntry("after",source);const current=full35TableFingerprints(rows(source));for(const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name]=current[name];}
     pendingApproval=approve(makePlan(true),pendingToken);await checkpoint("after_reprojection",2);
   });
   test("3 — fresh separate compensated source: forward head 3 and both immutable receipts survive",async()=>{
-    sourceCli(["db","reset","--local","--version","20261031104559"]);installRoles(source);initializeSource();
+    sourceCli(["db","reset","--local","--version",historyHead]);installRoles(source);initializeSource();
     originalPlan=makePlan();originalApproval=approve(originalPlan,originalToken);original=source(retry("reprojection",originalApproval,originalToken),operator);
     pendingApproval=approve(makePlan(true),pendingToken);const approval=approve(makePlan(true),compensationToken);
+    if(atomicDiary)createAtomicOwnerEntry("after",source);
     compensation=source(retry("compensation",approval,compensationToken),operator);expect(source("select to_jsonb(t)::text from public.food_nutrients t order by id")).toBe(core);
+    if(atomicDiary){const current=full35TableFingerprints(rows(source));for(const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name]=current[name];}
     await checkpoint("after_compensation",3);
   });
   test("4 — restored actor negatives preserve every operation and owner row",()=>{
@@ -315,6 +409,20 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
       // DDL tampering is contained in an uncommitted transaction; all guards stay enabled.
       const observed=full35ReviewedSchemaHash((query:string)=>rows(target)(`begin;${sql};${query};rollback;`));expect(()=>assertFull35SchemaHash(baseline,observed)).toThrow(/fingerprint mismatch/);expect(full35TableFingerprints(rows(target))).toEqual(before);negatives[label]={result:"PASS",schemaFingerprintMismatchRefused:true,noUnauthorizedMutation:true};
     }
+    if(atomicDiary){
+      const signature="public.create_reference_diary_entry_v1(uuid,date,text,uuid,text,text,numeric,text,integer,numeric,numeric,numeric,text,boolean,jsonb,text,text[])";
+      for(const [label,sql] of [
+        ["A48_security_definer",`alter function ${signature} security definer`],
+        ["A48_function_ACL",`grant execute on function ${signature} to anon`],
+        ["A48_function_body",`create or replace function private.diary_governed_dataset_v1(p_food_id uuid) returns uuid language sql stable security definer set search_path='' as 'select null::uuid'`],
+        ["A48_role_authority","alter role diary_dataset_reader bypassrls"],
+        ["A48_role_default_ACL","alter default privileges for role diary_dataset_reader grant execute on functions to public"],
+      ]){
+        const baseline=full35ReviewedSchemaHash(rows(target));
+        const observed=full35ReviewedSchemaHash((query:string)=>rows(target)(`begin;${sql};${query};rollback;`));
+        expect(()=>assertFull35SchemaHash(baseline,observed)).toThrow(/fingerprint mismatch/);negatives[label]={result:"PASS",noUnauthorizedMutation:true};
+      }
+    }
     noMutationDenied("H19_marker_mutation",target,"update private.mapping_actor_cluster_epoch set cluster_id=gen_random_uuid()","supabase_admin",/immutable/);
     const revoke=proposeActorBinding(target,fixture.datasetId,operator,"operator",{principal:op,action:"revoke"});approveActorBinding(target,revoke);
     noMutationDenied("H25_revoked_principal",target,read,operator);
@@ -323,6 +431,9 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
   });
   test("5 — encrypted tampering matrix refuses unsafe histories, artifacts and missing protected rows",()=>{test.setTimeout(1_800_000);recoveryNegatives();});
   test.afterAll(()=>{
+    const atomicCases=["A48_wrong_SQL_hash","A48_missing_diary_receipt","A48_unknown_49","A48_wrong_version",
+      "A48_security_definer","A48_function_ACL","A48_function_body","A48_role_authority","A48_role_default_ACL",
+      "A48_restore_wrong_body","A48_restore_wrong_ACL","A48_restore_security_definer"];
     const required={
       H01:["H01_incorrect_count","H01_wrong_head","H01_unknown_48","H01_duplicate","H01_reordered"],H02:["H02_tampered_migration47","H02_obsolete_defective_SQL"],H03:["H03_tampered_predecessor"],H04:["H04_partial_ledger"],
       H05:["H05_wrong_recipient"],H06:["H06_wrong_source","H06_wrong_target","H06_nonlocal_target"],H07:["H07_ciphertext_digest","H07_ciphertext_authentication"],H08:["H08_artifact_digest"],
@@ -333,7 +444,8 @@ test.describe.serial("Approved encrypted Full35 recovery",()=>{
     const matrix=(requirements:Record<string,string[]>)=>Object.fromEntries(Object.entries(requirements).map(([id,cases])=>[id,{result:cases.every(name=>(negatives[name] as {result?:string})?.result==="PASS")?"PASS":"INCOMPLETE",cases}]));
     const recoveryMatrix=matrix(required),markerMatrix=matrix(markerRequired);
     const result=["N_same_count_wrong_public_value","N_dictionary_unit"].every(name=>(negatives[name] as {result?:string})?.result==="PASS")&&checkpoints.length===3&&Object.values(recoveryMatrix).every(r=>r.result==="PASS")&&Object.values(markerMatrix).every(r=>r.result==="PASS")?"PASS":"INCOMPLETE";
-    writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({task:"NUTRITION-USDA-FULL35-RECOVERY-001B",result,
+    writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({task:atomicDiary?"NUTRITION-USDA-FULL35-APP-ATOMIC-PERSISTENCE-002":"NUTRITION-USDA-FULL35-RECOVERY-001B",result,
+      atomicDiary:atomicDiary?{result:checkpoints.length===3&&(checkpoints[0].atomicRace as {result?:string})?.result==="PASS"&&atomicCases.every(n=>(negatives[n] as {result?:string})?.result==="PASS")?"PASS":"INCOMPLETE",cases:atomicCases,historyHead,exactSQLSha256:hash(readFileSync("supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql")),completedOwnerRetry:true}:undefined,
       exactMigration47Sha256:hash(readFileSync("supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")),checkpoints,negatives,recoveryMatrix,markerMatrix,productionAccess:false},null,2)+"\n",{mode:0o600});
   });
 });

@@ -1004,6 +1004,33 @@ export type Database = {
           result_status: string
         }[]
       }
+      create_reference_diary_entry_v1: {
+        Args: {
+          p_additional_nutrients: Json
+          p_automatic_fields: string[]
+          p_brand_name: string
+          p_calories: number
+          p_captured: boolean
+          p_carbohydrates_g: number
+          p_entry_date: string
+          p_fat_g: number
+          p_food_id: string
+          p_food_name: string
+          p_idempotency_key: string
+          p_meal_type: string
+          p_notes: string
+          p_protein_g: number
+          p_reference_fingerprint: string
+          p_serving_quantity: number
+          p_serving_unit: string
+        }
+        Returns: {
+          completed_at: string
+          diary_entry_id: string
+          reference_fingerprint: string
+          result_status: string
+        }[]
+      }
       current_account_access_state: { Args: never; Returns: string }
       get_owned_custom_food_editor: {
         Args: { p_food_id: string }
@@ -1196,9 +1223,9 @@ export type Database = {
       get_readable_food_nutrition_reference_v2: {
         Args: { p_food_id: string }
         Returns: {
+          brand_name: string
           catalog_serving_quantity: number
           catalog_serving_unit: string
-          brand_name: string
           data_quality: string
           food_id: string
           food_type: string
