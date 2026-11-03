@@ -42,10 +42,17 @@ physical-device emulation or historical hosted observations into current facts.
 
 The separate Dependabot update run
 [41629668256](https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629668256)
-failed at `Run Dependabot`. Its cause is unreviewed here. It is not the required
-Validate check or a failed CodeQL analysis, and it is not reported as PASS.
-Fresh dependency/security gates and an explained disposition are required in
-the later release review; this packet does not claim that every main check is green.
+failed at `Run Dependabot`. Read-only job-log review attributes it to a blocked
+security-update resolution: the available update path still selected minimatch
+3.1.5 despite a patched upstream major. GitHub alert #9 is open, moderate,
+development-scope [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+The unchanged lockfile has dev-only minimatch 3.1.5 and 10.2.5. The established
+`check-production-advisories.mjs` gate audits with `--omit=dev` and blocks
+critical/high Production findings; its PASS does not close this tooling alert.
+This is not the required Validate check or a failed CodeQL analysis, and it is
+not reported as PASS. Release review must freshly disposition the tooling risk
+and dependency gate; any remediation needs a separate authorized source task.
+No dependency/security-policy change or alert dismissal is included here.
 
 Release is blocked by missing evidence and one demonstrated system limitation:
 

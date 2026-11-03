@@ -979,7 +979,7 @@
     "run": 41629668256,
     "check": "Dependabot",
     "classification": "NON_REQUIRED_DEPENDENCY_UPDATE_AUTOMATION_FAILURE",
-    "disposition": "Not a CI or CodeQL success; cause unreviewed, owner follow-up and fresh dependency gate required. Does not grant release readiness."
+    "disposition": "Read-only job-log review: security update cannot resolve a compatible patched minimatch; available update path still resolves to 3.1.5. Separate tooling risk/owner review required; no dependency change or dismissal in planning."
   },
   "backup_metadata_only": {
     "run": 41591922456,
@@ -1069,5 +1069,24 @@
   "hosted_supabase_access": false,
   "production_mutations": false,
   "raw_backups_downloaded": false,
-  "production_execution_authorized": false
+  "production_execution_authorized": false,
+  "dependency_alert_follow_up": {
+    "classification": "READ_ONLY_GITHUB_ALERT_METADATA_AND_JOB_LOG_REVIEW",
+    "number": 9,
+    "state": "open",
+    "package": "minimatch",
+    "scope": "development",
+    "severity": "moderate",
+    "ghsa": "GHSA-g3hv-75wg-m249",
+    "created_at": "2026-11-02T04:12:08Z",
+    "affected": "<11.0.1",
+    "first_patched": "11.0.1",
+    "locked_dev_versions": [
+      "3.1.5",
+      "10.2.5"
+    ],
+    "existing_policy": "Production npm audit omits dev dependencies; critical/high Production findings block. This tooling alert remains open independently.",
+    "source_changed": false,
+    "alert_dismissed": false
+  }
 }

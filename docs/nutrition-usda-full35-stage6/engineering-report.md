@@ -168,6 +168,10 @@ the independent Decimal fixture passed **245 vectors**. API signatures/versions
 and boundaries were reviewed against accepted SQL/source. No full hosted
 workflow was dispatched. Actual main CI 41629488207 and default CodeQL
 41629487409 passed; the separate failed Dependabot run is explicitly retained.
+Read-only follow-up explains its blocked update resolution and open moderate
+development-only minimatch alert #9 (GHSA-g3hv-75wg-m249). The existing Production
+advisory gate omits dev dependencies; its PASS is not closure of that alert.
+No dependency change or alert dismissal is authorized by this task.
 New documentation-PR checks must be reported separately, never borrowed from main.
 
 ## T. No Production operations
