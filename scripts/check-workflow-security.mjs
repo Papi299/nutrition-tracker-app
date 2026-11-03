@@ -11,7 +11,7 @@ const workflowExpectations = new Map([
   [
     "ci.yml",
     {
-      timeout: 75, // Existing budget plus the measured 20-minute Full35 transaction suite.
+      timeout: 90, // Measured 70 minutes precede the remaining full engine/accessibility gate.
       node: 22,
       actions: new Map([
         ["actions/checkout", 8],
@@ -324,7 +324,7 @@ function checkCiDispatchContract(workflow) {
   }
   const jobHeader = workflow.match(/^jobs:\n  validate:\n([\s\S]*?)^    steps:/m)?.[1];
   if (
-    jobHeader !== "    name: Validate\n    runs-on: ubuntu-latest\n    timeout-minutes: 75\n\n" ||
+    jobHeader !== "    name: Validate\n    runs-on: ubuntu-latest\n    timeout-minutes: 90\n\n" ||
     (workflow.slice(workflow.indexOf("jobs:\n")).match(/^  [a-z][\w-]*:$/gm) ?? [])
       .map((line) => line.trim()).join() !== "validate:"
   ) {
