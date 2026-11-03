@@ -1,0 +1,1073 @@
+{
+  "task": "NUTRITION-USDA-FULL35-PROD-PLAN-001",
+  "classification": "SANITIZED_READ_ONLY_REPOSITORY_AND_VERCEL_METADATA",
+  "observed_at_utc": "2026-11-03 16:45:46 UTC",
+  "repository": "Papi299/nutrition-tracker-app",
+  "source": {
+    "commit": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+    "tree": "a16d236e7284675c2a9a7c128a6919313e8dc966",
+    "parents": [
+      "c34b85f9646ffe5fb82ff9a295eb48f196decb69"
+    ],
+    "signature_verified": true,
+    "source_drift_observed": false
+  },
+  "stage5": {
+    "pr": 225,
+    "merged": true,
+    "merged_by": "Papi299",
+    "merged_at": "2026-11-03T11:40:55Z",
+    "merge_commit": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+    "method": "single-parent squash; source tree equals reviewed cumulative tree",
+    "head": "2044396a1844cef1437155889b62cafaa6310841",
+    "historical_prs": [
+      {
+        "number": 223,
+        "state": "open",
+        "draft": true,
+        "merged": false,
+        "head": "f0c0af6f9e405404da8c2fd916791efa0e4ca6e5"
+      },
+      {
+        "number": 224,
+        "state": "open",
+        "draft": true,
+        "merged": false,
+        "head": "2044396a1844cef1437155889b62cafaa6310841"
+      }
+    ]
+  },
+  "governance": {
+    "ruleset": {
+      "id": 24075217,
+      "name": "main-dec029",
+      "target": "branch",
+      "source_type": "Repository",
+      "source": "Papi299/nutrition-tracker-app",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "refs/heads/main"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": false,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": false,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "Validate",
+                "integration_id": 15368
+              }
+            ]
+          }
+        },
+        {
+          "type": "required_linear_history"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "deletion"
+        }
+      ],
+      "node_id": "RRS_lACqUmVwb3NpdG9yec5I7TlPzgFvW9E",
+      "created_at": "2026-09-27T17:17:35.991+03:00",
+      "updated_at": "2026-09-27T17:18:37.067+03:00",
+      "bypass_actors": [],
+      "current_user_can_bypass": "never",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/Papi299/nutrition-tracker-app/rulesets/24075217"
+        },
+        "html": {
+          "href": "https://github.com/Papi299/nutrition-tracker-app/rules/24075217"
+        }
+      }
+    },
+    "repository_merge_policy": {
+      "squash": true,
+      "merge": false,
+      "rebase": false,
+      "auto_merge": false
+    },
+    "classic_protection_read": "GitHub integration returned 403; no administrative access was attempted"
+  },
+  "main_checks": [
+    {
+      "name": "Dependabot",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629668256/job/125895727710"
+    },
+    {
+      "name": "Analyze (python)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895117060"
+    },
+    {
+      "name": "Analyze (actions)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895116980"
+    },
+    {
+      "name": "Analyze (javascript-typescript)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895116644"
+    },
+    {
+      "name": "Full35 exact-head CodeQL (actions)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112944"
+    },
+    {
+      "name": "Full35 application qualification",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112858"
+    },
+    {
+      "name": "Atomic diary persistence (writer-first)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112829"
+    },
+    {
+      "name": "Full35 durable actor identity",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112819"
+    },
+    {
+      "name": "Full35 exact-head CodeQL (javascript-typescript)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112803"
+    },
+    {
+      "name": "Full35 exact-head CodeQL (python)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112790"
+    },
+    {
+      "name": "Full35 approved encrypted recovery",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112728"
+    },
+    {
+      "name": "Ubuntu 26.04 browser provisioning",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112689"
+    },
+    {
+      "name": "Atomic diary exact-history encrypted recovery",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112619"
+    },
+    {
+      "name": "Atomic diary persistence (diary-first)",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112574"
+    },
+    {
+      "name": "Validate",
+      "head_sha": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112443"
+    }
+  ],
+  "main_ci": {
+    "id": 41629488207,
+    "head": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+    "event": "push",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 125895112443,
+        "name": "Validate",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112443",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out repository",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Require main for manual dispatch",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Set up Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install dependencies from lockfile",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify workflow supply-chain policy",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Enforce production dependency advisory policy",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check repository hygiene",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Lint",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Type check",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Phase 11H deployment and environment contract",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Phase 11I recovery safety contract",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify security policy regressions",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Phase 11 critical-journey evidence map",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Phase 11G2 performance harness and evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run pure unit tests",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build production application and verify client secret boundary",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install Playwright Phase 11D engines",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify isolated Full35 reprojection database",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Start local Supabase",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify hosted migration-role compatibility",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Replay migrations and seed locally",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify internal ingestion types",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run local-only Playwright suite",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run Phase 11D engine, viewport, and accessibility suite",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Phase 11D evidence files",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Upload Phase 11D evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Upload Playwright failure artifacts",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Stop local Supabase",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out repository",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112574,
+        "name": "Atomic diary persistence (diary-first)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112574",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact atomic diary head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up atomic diary Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify deterministic atomic serialization and compatibility",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain sanitized atomic diary evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up atomic diary Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact atomic diary head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112619,
+        "name": "Atomic diary exact-history encrypted recovery",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112619",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact atomic recovery head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up atomic recovery Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify encrypted migration 48 recovery and restored races",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain sanitized atomic recovery evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up atomic recovery Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact atomic recovery head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112689,
+        "name": "Ubuntu 26.04 browser provisioning",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112689",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out compatibility probe",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up compatibility Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify Ubuntu 26.04 browser prerequisites",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up compatibility Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out compatibility probe",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112728,
+        "name": "Full35 approved encrypted recovery",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112728",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out recovery qualification",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up recovery qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify approved encrypted migration 47 recovery",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain sanitized approved recovery evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up recovery qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out recovery qualification",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112790,
+        "name": "Full35 exact-head CodeQL (python)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112790",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze exact head with pinned CodeQL CLI",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain exact-head CodeQL SARIF and provenance",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112803,
+        "name": "Full35 exact-head CodeQL (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112803",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze exact head with pinned CodeQL CLI",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain exact-head CodeQL SARIF and provenance",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112819,
+        "name": "Full35 durable actor identity",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112819",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out actor qualification",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up actor qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify isolated durable actor continuity",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up actor qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out actor qualification",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112829,
+        "name": "Atomic diary persistence (writer-first)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112829",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact atomic diary head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up atomic diary Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify deterministic atomic serialization and compatibility",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain sanitized atomic diary evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up atomic diary Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact atomic diary head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112858,
+        "name": "Full35 application qualification",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112858",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact application head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up application qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Qualify isolated Full35 application behavior",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain sanitized application qualification evidence",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up application qualification Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact application head",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 125895112944,
+        "name": "Full35 exact-head CodeQL (actions)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629488207/job/125895112944",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Analyze exact head with pinned CodeQL CLI",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Retain exact-head CodeQL SARIF and provenance",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Set up CodeQL Node.js",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Check out exact CodeQL candidate",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "main_default_codeql": {
+    "id": 41629487409,
+    "head": "440b72d7cfb8bbad925c3fe6064551ada74630ae",
+    "event": "dynamic",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 125895116644,
+        "name": "Analyze (javascript-typescript)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895116644"
+      },
+      {
+        "id": 125895116980,
+        "name": "Analyze (actions)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895116980"
+      },
+      {
+        "id": 125895117060,
+        "name": "Analyze (python)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Papi299/nutrition-tracker-app/actions/runs/41629487409/job/125895117060"
+      }
+    ]
+  },
+  "main_ci_artifact_metadata": [
+    {
+      "id": 13232625202,
+      "name": "phase-11d-evidence-41629488207-1",
+      "digest": "sha256:048e0e20a469e45f5ed373a77733b861a67659383872d423b5b8d7ada2b57124",
+      "expired": false,
+      "expires_at": "2026-11-17T12:51:47Z"
+    },
+    {
+      "id": 13230146874,
+      "name": "full35-approved-recovery-41629488207-1",
+      "digest": "sha256:a606be4dcc4bb94bb28e02f4e325b3212db2ff394fc078d57ef3423dc4142d92",
+      "expired": false,
+      "expires_at": "2026-11-17T12:18:30Z"
+    },
+    {
+      "id": 13229022543,
+      "name": "atomic-diary-recovery-41629488207-1",
+      "digest": "sha256:e016d308e446076e5e17f418f1d03e4417df785536301580bc01b0d0bf5b0f21",
+      "expired": false,
+      "expires_at": "2026-11-17T12:13:39Z"
+    },
+    {
+      "id": 13228675715,
+      "name": "atomic-diary-writer-first-41629488207-1",
+      "digest": "sha256:03d1135a9b4aceb1384a1e8106d7d2dc06c9ce56780dc65e4bc4fe8b2a05a53f",
+      "expired": false,
+      "expires_at": "2026-11-17T11:51:35Z"
+    },
+    {
+      "id": 13228196782,
+      "name": "full35-application-41629488207-1",
+      "digest": "sha256:1fdb7723b1a1394895607fc387a9a5502adfdee0800898af732a7796fec92da1",
+      "expired": false,
+      "expires_at": "2026-11-17T11:48:56Z"
+    },
+    {
+      "id": 13227691144,
+      "name": "full35-codeql-actions-41629488207-1",
+      "digest": "sha256:28074ce227dd3740db15e4be085fe36072710f2c4537a24531a1ffdcc72b87c5",
+      "expired": false,
+      "expires_at": "2026-11-17T11:41:21Z"
+    },
+    {
+      "id": 13227553161,
+      "name": "atomic-diary-diary-first-41629488207-1",
+      "digest": "sha256:2e5d457c70bba4b1ff8be97b73a7ffea399824a6ab374fbc6c0496617bd5ef70",
+      "expired": false,
+      "expires_at": "2026-11-17T11:49:39Z"
+    },
+    {
+      "id": 13227349059,
+      "name": "full35-codeql-javascript-typescript-41629488207-1",
+      "digest": "sha256:a968b13517cf1a8422c64ea4b8a19d9a753edb5e815b051685fecc654eb75602",
+      "expired": false,
+      "expires_at": "2026-11-17T11:44:12Z"
+    },
+    {
+      "id": 13226713980,
+      "name": "full35-codeql-python-41629488207-1",
+      "digest": "sha256:be2cdda1569b1d5610d203ea9125312e43ccc4018c3eb7b87f5c5498a5fcce31",
+      "expired": false,
+      "expires_at": "2026-11-17T11:41:30Z"
+    }
+  ],
+  "artifact_content_review": "No main-run artifacts downloaded in this planning task; GitHub metadata and job/step conclusions verified. Historical accepted evidence is separately referenced.",
+  "separate_failed_check": {
+    "run": 41629668256,
+    "check": "Dependabot",
+    "classification": "NON_REQUIRED_DEPENDENCY_UPDATE_AUTOMATION_FAILURE",
+    "disposition": "Not a CI or CodeQL success; cause unreviewed, owner follow-up and fresh dependency gate required. Does not grant release readiness."
+  },
+  "backup_metadata_only": {
+    "run": 41591922456,
+    "head": "c34b85f9646ffe5fb82ff9a295eb48f196decb69",
+    "event": "schedule",
+    "conclusion": "success",
+    "classification": "PREVIOUSLY_OBSERVED_WORKFLOW_STATUS_NOT_CURRENT_RECOVERY_PROOF",
+    "dispatched": false,
+    "contents_accessed": false
+  },
+  "vercel": {
+    "project": {
+      "id": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "name": "nutrition-tracker-app",
+      "framework": "nextjs",
+      "accountId": "team_s9dzc3uaGVF7b1NSTxQh3kNm",
+      "createdAt": 1789570727258,
+      "updatedAt": 1793351671618,
+      "nodeVersion": "24.x",
+      "live": false,
+      "latestDeployment": {
+        "id": "dpl_944JPQa35xr3PEvYuTbiy916kMDH",
+        "url": "nutrition-tracker-8vfvsetsb-peachys-projects-4596e52a.vercel.app",
+        "createdAt": 1793289330173,
+        "readyState": "READY",
+        "target": "production"
+      },
+      "domains": [
+        "nutrition-tracker-app-peachys-projects-4596e52a.vercel.app"
+      ],
+      "passwordProtection": {
+        "enabled": false,
+        "deploymentType": null
+      },
+      "ssoProtection": {
+        "enabled": true,
+        "deploymentType": "all"
+      },
+      "trustedIps": {
+        "enabled": false,
+        "deploymentType": null,
+        "addresses": [],
+        "protectionMode": null
+      }
+    },
+    "canonical_domain": {
+      "name": "nutrition-tracker-app-xi.vercel.app",
+      "apexName": "vercel.app",
+      "projectId": "prj_9iwnIKu9TvjssO4xFrq1RdhYgLQd",
+      "redirect": null,
+      "gitBranch": null,
+      "customEnvironmentId": null,
+      "updatedAt": 1789570727258,
+      "createdAt": 1789570727258,
+      "verified": true
+    },
+    "latest_production_deployment": {
+      "id": "dpl_944JPQa35xr3PEvYuTbiy916kMDH",
+      "name": "nutrition-tracker-app",
+      "url": "nutrition-tracker-8vfvsetsb-peachys-projects-4596e52a.vercel.app",
+      "created": 1793289330173,
+      "state": "READY",
+      "target": "production",
+      "creator": {
+        "uid": "lW5YX5ArK7CaRIcKAgc8bdF4",
+        "username": "maor29994ps5-9621"
+      },
+      "meta": {
+        "githubCommitRef": "main",
+        "githubCommitSha": "04659e529821a1d8e5614342ed49519a8549a809",
+        "githubCommitMessage": "fix(diary): convert verified catalog servings with qualified migration-46 recovery (#214)",
+        "githubRepo": "nutrition-tracker-app",
+        "githubOrg": "Papi299"
+      },
+      "inspectorUrl": "https://vercel.com/peachys-projects-4596e52a/nutrition-tracker-app/944JPQa35xr3PEvYuTbiy916kMDH",
+      "isRollbackCandidate": true
+    },
+    "limitations": [
+      "No authoritative targets.production field returned by project tool",
+      "No live canonical alias destination returned by domain tool",
+      "No complete historical deployment/access/bypass inventory obtained",
+      "No environment values, runtime, application owner session, or database inspected"
+    ],
+    "current_production_target": "UNVERIFIED",
+    "git_deployment_disabled": "Verified in pinned repository vercel.json; provider-effective setting must be reverified"
+  },
+  "hosted_supabase_access": false,
+  "production_mutations": false,
+  "raw_backups_downloaded": false,
+  "production_execution_authorized": false
+}
