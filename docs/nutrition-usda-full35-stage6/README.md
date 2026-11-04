@@ -1,5 +1,7 @@
 # USDA Full35 Stage 6 Production release packet
 
+**Proposed phased amendment (task 003, not yet approved):** [Strategy B](phased-release-amendment.md) separates compatible schema/atomic-application delivery from enrichment. Read the separate [owner recovery decision](phased-recovery-decision.md), [actual CLI prefix qualification](migration-prefix-qualification.md), [available B2 comparison](b2-equivalence.md) and [task report](phased-enablement-report.md). This overlay has no Production authority and supersedes no historical gate until independently accepted.
+
 Task: `NUTRITION-USDA-FULL35-PROD-PLAN-001`. Prepared 2026-11-03.
 Status: **planning packet for independent review; Production release BLOCKED**.
 F35-45 is the planning requirement. F35-46 is a future execution verification

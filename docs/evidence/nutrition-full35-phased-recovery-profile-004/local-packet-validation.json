@@ -1,0 +1,266 @@
+{
+  "scope": "LOCAL_CATALOG_PACKET_VALIDATION_ONLY",
+  "recoveryQualified": false,
+  "profileReconstructed": false,
+  "imageId": "sha256:28f0e16a019e648089fc1a6d333549a55548f6019c15ae4bd7cd58b989027518",
+  "authDdlImageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+  "network": "none",
+  "boundaries": [
+    {
+      "history": 46,
+      "result": "PASS_PACKET_ONLY",
+      "elapsedSeconds": 0.905,
+      "sameReadOnlySnapshot": true,
+      "schemaDumpUnchanged": true,
+      "ledgerVerified": true,
+      "queries": [
+        {
+          "id": "R01",
+          "outputBytes": 15291,
+          "groups": {
+            "roles": 34,
+            "memberships": 26
+          }
+        },
+        {
+          "id": "R02",
+          "outputBytes": 343336,
+          "groups": {
+            "schemas": 4,
+            "database": 1,
+            "relations": 85,
+            "column_grants": 175,
+            "default_grants": 9,
+            "function_grants": 135,
+            "parameter_grants": 0
+          }
+        },
+        {
+          "id": "R03",
+          "outputBytes": 5586,
+          "groups": {
+            "server_settings": 17,
+            "database_formatting": 1,
+            "database_role_settings": 8
+          }
+        },
+        {
+          "id": "R04",
+          "outputBytes": 606713,
+          "groups": {
+            "columns": 993,
+            "indexes": 275,
+            "relations": 85,
+            "sequences": 1,
+            "inheritance": 0
+          }
+        },
+        {
+          "id": "R05",
+          "outputBytes": 461930,
+          "groups": {
+            "rls": 84,
+            "policies": 212,
+            "triggers": 90,
+            "functions": 135,
+            "constraints": 766
+          }
+        },
+        {
+          "id": "R06",
+          "outputBytes": 419837,
+          "groups": {
+            "roles": 11,
+            "tables": 924,
+            "schemas": 44,
+            "functions": 1485,
+            "role_reachability": 374
+          }
+        },
+        {
+          "id": "R07",
+          "outputBytes": 10492,
+          "groups": {
+            "ledger": 46,
+            "dictionary": 35,
+            "extensions": 6
+          }
+        }
+      ]
+    },
+    {
+      "history": 47,
+      "result": "PASS_PACKET_ONLY",
+      "elapsedSeconds": 1.104,
+      "sameReadOnlySnapshot": true,
+      "schemaDumpUnchanged": true,
+      "ledgerVerified": true,
+      "queries": [
+        {
+          "id": "R01",
+          "outputBytes": 17127,
+          "groups": {
+            "roles": 38,
+            "memberships": 30
+          }
+        },
+        {
+          "id": "R02",
+          "outputBytes": 404176,
+          "groups": {
+            "schemas": 4,
+            "database": 1,
+            "relations": 99,
+            "column_grants": 185,
+            "default_grants": 11,
+            "function_grants": 191,
+            "parameter_grants": 0
+          }
+        },
+        {
+          "id": "R03",
+          "outputBytes": 5586,
+          "groups": {
+            "server_settings": 17,
+            "database_formatting": 1,
+            "database_role_settings": 8
+          }
+        },
+        {
+          "id": "R04",
+          "outputBytes": 725127,
+          "groups": {
+            "columns": 1177,
+            "indexes": 333,
+            "relations": 99,
+            "sequences": 1,
+            "inheritance": 0
+          }
+        },
+        {
+          "id": "R05",
+          "outputBytes": 588190,
+          "groups": {
+            "rls": 98,
+            "policies": 264,
+            "triggers": 107,
+            "functions": 191,
+            "constraints": 948
+          }
+        },
+        {
+          "id": "R06",
+          "outputBytes": 753268,
+          "groups": {
+            "roles": 15,
+            "tables": 1470,
+            "schemas": 60,
+            "functions": 2865,
+            "role_reachability": 570
+          }
+        },
+        {
+          "id": "R07",
+          "outputBytes": 10681,
+          "groups": {
+            "ledger": 47,
+            "dictionary": 35,
+            "extensions": 6
+          }
+        }
+      ]
+    },
+    {
+      "history": 48,
+      "result": "PASS_PACKET_ONLY",
+      "elapsedSeconds": 1.114,
+      "sameReadOnlySnapshot": true,
+      "schemaDumpUnchanged": true,
+      "ledgerVerified": true,
+      "queries": [
+        {
+          "id": "R01",
+          "outputBytes": 17696,
+          "groups": {
+            "roles": 39,
+            "memberships": 32
+          }
+        },
+        {
+          "id": "R02",
+          "outputBytes": 409690,
+          "groups": {
+            "schemas": 4,
+            "database": 1,
+            "relations": 99,
+            "column_grants": 186,
+            "default_grants": 12,
+            "function_grants": 195,
+            "parameter_grants": 0
+          }
+        },
+        {
+          "id": "R03",
+          "outputBytes": 5586,
+          "groups": {
+            "server_settings": 17,
+            "database_formatting": 1,
+            "database_role_settings": 8
+          }
+        },
+        {
+          "id": "R04",
+          "outputBytes": 725127,
+          "groups": {
+            "columns": 1177,
+            "indexes": 333,
+            "relations": 99,
+            "sequences": 1,
+            "inheritance": 0
+          }
+        },
+        {
+          "id": "R05",
+          "outputBytes": 592806,
+          "groups": {
+            "rls": 98,
+            "policies": 269,
+            "triggers": 107,
+            "functions": 195,
+            "constraints": 948
+          }
+        },
+        {
+          "id": "R06",
+          "outputBytes": 822246,
+          "groups": {
+            "roles": 16,
+            "tables": 1568,
+            "schemas": 64,
+            "functions": 3120,
+            "role_reachability": 624
+          }
+        },
+        {
+          "id": "R07",
+          "outputBytes": 10861,
+          "groups": {
+            "ledger": 48,
+            "dictionary": 35,
+            "extensions": 6
+          }
+        }
+      ]
+    }
+  ],
+  "nonce": "71a00071-cec0-4458-9cb9-195243041f30",
+  "packetSha256": "a3e4bf01b249bec62daca85ac2d3549f3e82f1ab04c10786360195071b140964",
+  "packetNegatives": {
+    "unknownSettingValueRedacted": true,
+    "nonstandardRoleNameRedacted": true,
+    "byteOverflowExplicitAndPayloadWithheld": true,
+    "rowOverflowExplicitAndRowsWithheld": true
+  },
+  "result": "PASS_CATALOG_PACKET_ONLY",
+  "containerRemoved": true
+}

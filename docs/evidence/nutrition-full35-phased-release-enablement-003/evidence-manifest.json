@@ -1,0 +1,19 @@
+{
+  "algorithm": "SHA-256",
+  "files": {
+    "b2-comparison.json": "c600d6b78940e4f7aa7c3c3e790da22d92d0d9d628d8162a8dcdaa4eda2c0754",
+    "cli-qualification.json": "5d99818de791243a30278f9d552d9c05f1e8e4b043b0a4e79ed335a7909529f6",
+    "local-46.json.gz": "0815c303bb3c3f118b28ecc6e6f13b102c3cc83fde972d5f694cf7d540aaab00",
+    "local-47.json.gz": "88bed23b756a7837db67085672bf1406dfb19d39b8f072b05ac7ab7ffb5b4257",
+    "local-48.json.gz": "6b62bb96acbc9f6bd174468db93c3d3b9f4105d88e87dc5a092731048986adf0",
+    "prefix-46.json": "60a182d7ea3863ec6815a46b0da169348cb10ce9de30434e57ae38aafb758a03",
+    "prefix-47.json": "e6af5b079197c9bcb29cfe10644f985067077e530c5af498ca25532fbe9853be",
+    "prefix-48.json": "3864d4767e32a26d76e443f54bc069446267386a6921ebe54d897f943f84d5ff",
+    "previous-evidence-verification.json": "f2a74cd3441b9921f844fe4e7799c682ba8a9055d8e67b7a25980174dea6781f",
+    "qualification-002.zip": "f59c7bdc357efa3032ed296bcfd31c95a97ed7cde5e52ce94f0210ab92592e4a",
+    "reused-evidence.json": "50f6451bae30243e2ed4cea2021b94a7a112cff5be0e25b353fa84eb5650b530",
+    "source-observations.json": "cb48b2edb509cd18949ef85153c7c74efa3e3748d25c46a6b48ddafc81276579",
+    "stage6b-sanitized.zip": "760a37bb9f1b62420e4f5aad7a02c7f1da99b6d930380abab5bf9f19cf12be09",
+    "validation.json": "185f794b6747b02dac1bbb2d52506894f043831bfa6173a7fcddd5081dad56b7"
+  }
+}

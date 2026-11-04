@@ -1,5 +1,7 @@
 # Future release procedure and fail-closed gates
 
+**Proposed sequencing amendment:** [DEC-042 / Strategy B](phased-release-amendment.md) is an explicit review proposal for Milestone A (47/48 plus atomic application) and Milestone B (enrichment). The original G2–G13 sequence below remains authoritative until that exact amendment and its separate [owner recovery-policy decision](strategy-b-owner-decision.json) are approved. No operation is authorized by this pointer.
+
 All operations below are **proposed and unexecuted**. Read with the
 [packet assessment](README.md), [source oracle](source-custody-and-oracle.md)
 and [acceptance contract](acceptance-and-next-tasks.md). Production is blocked.

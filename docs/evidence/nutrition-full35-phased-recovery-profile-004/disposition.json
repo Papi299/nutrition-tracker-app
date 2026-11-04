@@ -1,0 +1,27 @@
+{
+  "result": "TARGETED_HOSTED_EVIDENCE_REQUIRED",
+  "primaryProblemClass": 1,
+  "secondaryBootstrapGap": 2,
+  "profileReconstructed": false,
+  "encryptedRecovery46": "UNQUALIFIED_NOT_RUN",
+  "encryptedRecovery47": "UNQUALIFIED_NOT_RUN",
+  "encryptedRecovery48": "UNQUALIFIED_NOT_RUN",
+  "retainedAclNarrativeCorrection": {
+    "public.prevent_diary_provenance_changes()": "NULL-versus-explicit ACL; retained API execution equal; unresolved raw/grant-path difference",
+    "public.set_updated_at()": "NULL-versus-explicit ACL; retained API execution equal; unresolved raw/grant-path difference",
+    "orderOnlyRetainedFunctionDifferences": 0,
+    "oldMachineEvidenceModified": false
+  },
+  "requiredUnobservedInputs": [
+    "Complete cluster role identities and all fingerprinted nonsecret attributes including connlimit/validuntil/ordered config",
+    "Complete membership graph with stable grantor identity and admin/inherit/set options",
+    "Global creator defaults and effective grants through role/owner paths",
+    "Independent index definitions/validity and routine inventory beyond prior query filters",
+    "Stable role/database configuration bindings",
+    "Remaining table/column/view/sequence metadata and fresh cutoff hashes"
+  ],
+  "packetExecutedHosted": false,
+  "noRecoveryValidatorChanged": true,
+  "ownerDecisionSigned": false,
+  "dec042Accepted": false
+}

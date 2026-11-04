@@ -1,0 +1,676 @@
+{
+  "scope": "LocalSynthetic, network-none; no linked project",
+  "source": {
+    "commit": "d5399ca52d8ac739ec6b3cb6a66b4fded3a4d43f",
+    "tree": "4fb74d22012677fbd1ca5534a11a953e5d79387d"
+  },
+  "runNonce": "97726b7f-1402-49a1-9858-3893ede17961",
+  "boundaries": [
+    {
+      "history": 46,
+      "schemaFingerprint": "e3238f4ea27ede42a7be183a9822c50ce4270fee7c1d9be56d30b7bc6f7fad05",
+      "independentReferenceFingerprint": "e3238f4ea27ede42a7be183a9822c50ce4270fee7c1d9be56d30b7bc6f7fad05",
+      "exactLedger": [
+        {
+          "name": "create_profiles_and_nutrition_targets",
+          "version": "20260429163444"
+        },
+        {
+          "name": "grant_authenticated_profile_target_privileges",
+          "version": "20260626185634"
+        },
+        {
+          "name": "create_diary_entries",
+          "version": "20260630193832"
+        },
+        {
+          "name": "harden_public_table_privileges",
+          "version": "20260630201904"
+        },
+        {
+          "name": "create_nutrition_domain_schema_foundation",
+          "version": "20260704142707"
+        },
+        {
+          "name": "add_diary_food_linking_rules",
+          "version": "20260705061118"
+        },
+        {
+          "name": "persist_setup_atomically",
+          "version": "20260711071000"
+        },
+        {
+          "name": "create_food_alias_search_foundation",
+          "version": "20260714090000"
+        },
+        {
+          "name": "search_readable_foods",
+          "version": "20260714100000"
+        },
+        {
+          "name": "get_readable_food_diary_prefill",
+          "version": "20260714110000"
+        },
+        {
+          "name": "custom_food_persistence_foundation",
+          "version": "20260714120000"
+        },
+        {
+          "name": "persist_custom_food_nutrient_basis",
+          "version": "20260714130000"
+        },
+        {
+          "name": "enforce_custom_food_nutrient_basis",
+          "version": "20260714140000"
+        },
+        {
+          "name": "get_owned_custom_food_editor",
+          "version": "20260714150000"
+        },
+        {
+          "name": "add_food_favorites_and_reusable_foods",
+          "version": "20260716100000"
+        },
+        {
+          "name": "create_saved_meal_persistence_foundation",
+          "version": "20260716110000"
+        },
+        {
+          "name": "get_owned_saved_meal_editor",
+          "version": "20260716120000"
+        },
+        {
+          "name": "log_saved_meal_to_diary",
+          "version": "20260716130000"
+        },
+        {
+          "name": "create_recipe_persistence_foundation",
+          "version": "20260717100000"
+        },
+        {
+          "name": "get_owned_recipe_editor",
+          "version": "20260717110000"
+        },
+        {
+          "name": "recipe_use_contract_foundation",
+          "version": "20260717120000"
+        },
+        {
+          "name": "log_recipe_to_diary",
+          "version": "20260717130000"
+        },
+        {
+          "name": "create_barcode_identity_local_lookup",
+          "version": "20260717140000"
+        },
+        {
+          "name": "create_custom_food_barcode_handoff",
+          "version": "20260717150000"
+        },
+        {
+          "name": "create_ingestion_governance_foundation",
+          "version": "20260718100000"
+        },
+        {
+          "name": "add_foundation_parser_contracts",
+          "version": "20260718120000"
+        },
+        {
+          "name": "create_foundation_promotion_boundary",
+          "version": "20260718140000"
+        },
+        {
+          "name": "allow_phase_10e_terminal_run_classification",
+          "version": "20260718150000"
+        },
+        {
+          "name": "create_foundation_lifecycle_foundation",
+          "version": "20260719080000"
+        },
+        {
+          "name": "harden_foundation_lifecycle_diff_validation",
+          "version": "20260719120000"
+        },
+        {
+          "name": "execute_foundation_lifecycle_updates",
+          "version": "20260719160000"
+        },
+        {
+          "name": "restore_strict_terminal_run_immutability",
+          "version": "20260721100000"
+        },
+        {
+          "name": "remove_remote_rls_auto_enable",
+          "version": "20260721110000"
+        },
+        {
+          "name": "phase_11c2a_diary_mutation_correctness",
+          "version": "20260801141841"
+        },
+        {
+          "name": "reject_unreadable_linked_diary_creates",
+          "version": "20260801190220"
+        },
+        {
+          "name": "cj019_custom_food_edit_concurrency",
+          "version": "20260808093826"
+        },
+        {
+          "name": "cj022_saved_meal_edit_concurrency",
+          "version": "20260810175638"
+        },
+        {
+          "name": "cj025_recipe_edit_concurrency",
+          "version": "20260811142805"
+        },
+        {
+          "name": "cj018_custom_food_creation_idempotency",
+          "version": "20260812194829"
+        },
+        {
+          "name": "create_invited_account_activation",
+          "version": "20260827070838"
+        },
+        {
+          "name": "enforce_account_activation_authorization",
+          "version": "20260827110552"
+        },
+        {
+          "name": "implement_account_closure_lifecycle",
+          "version": "20260829030137"
+        },
+        {
+          "name": "cache_search_account_access_policy",
+          "version": "20260830143000"
+        },
+        {
+          "name": "harden_account_closure_mac_comparison",
+          "version": "20260927170418"
+        },
+        {
+          "name": "consumed_nutrition_snapshots_v1",
+          "version": "20261024083339"
+        },
+        {
+          "name": "diary_serving_reference_v2",
+          "version": "20261029083108"
+        }
+      ],
+      "dryRunOutput": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20260429163444_create_profiles_and_nutrition_targets.sql\n • 20260626185634_grant_authenticated_profile_target_privileges.sql\n • 20260630193832_create_diary_entries.sql\n • 20260630201904_harden_public_table_privileges.sql\n • 20260704142707_create_nutrition_domain_schema_foundation.sql\n • 20260705061118_add_diary_food_linking_rules.sql\n • 20260711071000_persist_setup_atomically.sql\n • 20260714090000_create_food_alias_search_foundation.sql\n • 20260714100000_search_readable_foods.sql\n • 20260714110000_get_readable_food_diary_prefill.sql\n • 20260714120000_custom_food_persistence_foundation.sql\n • 20260714130000_persist_custom_food_nutrient_basis.sql\n • 20260714140000_enforce_custom_food_nutrient_basis.sql\n • 20260714150000_get_owned_custom_food_editor.sql\n • 20260716100000_add_food_favorites_and_reusable_foods.sql\n • 20260716110000_create_saved_meal_persistence_foundation.sql\n • 20260716120000_get_owned_saved_meal_editor.sql\n • 20260716130000_log_saved_meal_to_diary.sql\n • 20260717100000_create_recipe_persistence_foundation.sql\n • 20260717110000_get_owned_recipe_editor.sql\n • 20260717120000_recipe_use_contract_foundation.sql\n • 20260717130000_log_recipe_to_diary.sql\n • 20260717140000_create_barcode_identity_local_lookup.sql\n • 20260717150000_create_custom_food_barcode_handoff.sql\n • 20260718100000_create_ingestion_governance_foundation.sql\n • 20260718120000_add_foundation_parser_contracts.sql\n • 20260718140000_create_foundation_promotion_boundary.sql\n • 20260718150000_allow_phase_10e_terminal_run_classification.sql\n • 20260719080000_create_foundation_lifecycle_foundation.sql\n • 20260719120000_harden_foundation_lifecycle_diff_validation.sql\n • 20260719160000_execute_foundation_lifecycle_updates.sql\n • 20260721100000_restore_strict_terminal_run_immutability.sql\n • 20260721110000_remove_remote_rls_auto_enable.sql\n • 20260801141841_phase_11c2a_diary_mutation_correctness.sql\n • 20260801190220_reject_unreadable_linked_diary_creates.sql\n • 20260808093826_cj019_custom_food_edit_concurrency.sql\n • 20260810175638_cj022_saved_meal_edit_concurrency.sql\n • 20260811142805_cj025_recipe_edit_concurrency.sql\n • 20260812194829_cj018_custom_food_creation_idempotency.sql\n • 20260827070838_create_invited_account_activation.sql\n • 20260827110552_enforce_account_activation_authorization.sql\n • 20260829030137_implement_account_closure_lifecycle.sql\n • 20260830143000_cache_search_account_access_policy.sql\n • 20260927170418_harden_account_closure_mac_comparison.sql\n • 20261024083339_consumed_nutrition_snapshots_v1.sql\n • 20261029083108_diary_serving_reference_v2.sql\n",
+      "applyOutput": "Local database is up to date.\n",
+      "originalRowsUnchanged": false,
+      "publicFoods": 353,
+      "publicScalars": 1199,
+      "mappingV2Present": false
+    },
+    {
+      "history": 47,
+      "schemaFingerprint": "cf2900eb71238d2d66d4cf7369ef77f4bf4c1c78061d2a1c53f0aee526f57e52",
+      "independentReferenceFingerprint": "cf2900eb71238d2d66d4cf7369ef77f4bf4c1c78061d2a1c53f0aee526f57e52",
+      "exactLedger": [
+        {
+          "name": "create_profiles_and_nutrition_targets",
+          "version": "20260429163444"
+        },
+        {
+          "name": "grant_authenticated_profile_target_privileges",
+          "version": "20260626185634"
+        },
+        {
+          "name": "create_diary_entries",
+          "version": "20260630193832"
+        },
+        {
+          "name": "harden_public_table_privileges",
+          "version": "20260630201904"
+        },
+        {
+          "name": "create_nutrition_domain_schema_foundation",
+          "version": "20260704142707"
+        },
+        {
+          "name": "add_diary_food_linking_rules",
+          "version": "20260705061118"
+        },
+        {
+          "name": "persist_setup_atomically",
+          "version": "20260711071000"
+        },
+        {
+          "name": "create_food_alias_search_foundation",
+          "version": "20260714090000"
+        },
+        {
+          "name": "search_readable_foods",
+          "version": "20260714100000"
+        },
+        {
+          "name": "get_readable_food_diary_prefill",
+          "version": "20260714110000"
+        },
+        {
+          "name": "custom_food_persistence_foundation",
+          "version": "20260714120000"
+        },
+        {
+          "name": "persist_custom_food_nutrient_basis",
+          "version": "20260714130000"
+        },
+        {
+          "name": "enforce_custom_food_nutrient_basis",
+          "version": "20260714140000"
+        },
+        {
+          "name": "get_owned_custom_food_editor",
+          "version": "20260714150000"
+        },
+        {
+          "name": "add_food_favorites_and_reusable_foods",
+          "version": "20260716100000"
+        },
+        {
+          "name": "create_saved_meal_persistence_foundation",
+          "version": "20260716110000"
+        },
+        {
+          "name": "get_owned_saved_meal_editor",
+          "version": "20260716120000"
+        },
+        {
+          "name": "log_saved_meal_to_diary",
+          "version": "20260716130000"
+        },
+        {
+          "name": "create_recipe_persistence_foundation",
+          "version": "20260717100000"
+        },
+        {
+          "name": "get_owned_recipe_editor",
+          "version": "20260717110000"
+        },
+        {
+          "name": "recipe_use_contract_foundation",
+          "version": "20260717120000"
+        },
+        {
+          "name": "log_recipe_to_diary",
+          "version": "20260717130000"
+        },
+        {
+          "name": "create_barcode_identity_local_lookup",
+          "version": "20260717140000"
+        },
+        {
+          "name": "create_custom_food_barcode_handoff",
+          "version": "20260717150000"
+        },
+        {
+          "name": "create_ingestion_governance_foundation",
+          "version": "20260718100000"
+        },
+        {
+          "name": "add_foundation_parser_contracts",
+          "version": "20260718120000"
+        },
+        {
+          "name": "create_foundation_promotion_boundary",
+          "version": "20260718140000"
+        },
+        {
+          "name": "allow_phase_10e_terminal_run_classification",
+          "version": "20260718150000"
+        },
+        {
+          "name": "create_foundation_lifecycle_foundation",
+          "version": "20260719080000"
+        },
+        {
+          "name": "harden_foundation_lifecycle_diff_validation",
+          "version": "20260719120000"
+        },
+        {
+          "name": "execute_foundation_lifecycle_updates",
+          "version": "20260719160000"
+        },
+        {
+          "name": "restore_strict_terminal_run_immutability",
+          "version": "20260721100000"
+        },
+        {
+          "name": "remove_remote_rls_auto_enable",
+          "version": "20260721110000"
+        },
+        {
+          "name": "phase_11c2a_diary_mutation_correctness",
+          "version": "20260801141841"
+        },
+        {
+          "name": "reject_unreadable_linked_diary_creates",
+          "version": "20260801190220"
+        },
+        {
+          "name": "cj019_custom_food_edit_concurrency",
+          "version": "20260808093826"
+        },
+        {
+          "name": "cj022_saved_meal_edit_concurrency",
+          "version": "20260810175638"
+        },
+        {
+          "name": "cj025_recipe_edit_concurrency",
+          "version": "20260811142805"
+        },
+        {
+          "name": "cj018_custom_food_creation_idempotency",
+          "version": "20260812194829"
+        },
+        {
+          "name": "create_invited_account_activation",
+          "version": "20260827070838"
+        },
+        {
+          "name": "enforce_account_activation_authorization",
+          "version": "20260827110552"
+        },
+        {
+          "name": "implement_account_closure_lifecycle",
+          "version": "20260829030137"
+        },
+        {
+          "name": "cache_search_account_access_policy",
+          "version": "20260830143000"
+        },
+        {
+          "name": "harden_account_closure_mac_comparison",
+          "version": "20260927170418"
+        },
+        {
+          "name": "consumed_nutrition_snapshots_v1",
+          "version": "20261024083339"
+        },
+        {
+          "name": "diary_serving_reference_v2",
+          "version": "20261029083108"
+        },
+        {
+          "name": "foundation_full35_mapping_reprojection_v1",
+          "version": "20261031104559"
+        }
+      ],
+      "dryRunOutput": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261031104559_foundation_full35_mapping_reprojection_v1.sql\n",
+      "applyOutput": "Local database is up to date.\n",
+      "originalRowsUnchanged": true,
+      "publicFoods": 353,
+      "publicScalars": 1199,
+      "mappingV2Present": false
+    },
+    {
+      "history": 48,
+      "schemaFingerprint": "a71a6bfd0bd3d1c7a3d5bb2b726389ac04a4d5460bcd2a230932a352a816fcf7",
+      "independentReferenceFingerprint": "a71a6bfd0bd3d1c7a3d5bb2b726389ac04a4d5460bcd2a230932a352a816fcf7",
+      "exactLedger": [
+        {
+          "name": "create_profiles_and_nutrition_targets",
+          "version": "20260429163444"
+        },
+        {
+          "name": "grant_authenticated_profile_target_privileges",
+          "version": "20260626185634"
+        },
+        {
+          "name": "create_diary_entries",
+          "version": "20260630193832"
+        },
+        {
+          "name": "harden_public_table_privileges",
+          "version": "20260630201904"
+        },
+        {
+          "name": "create_nutrition_domain_schema_foundation",
+          "version": "20260704142707"
+        },
+        {
+          "name": "add_diary_food_linking_rules",
+          "version": "20260705061118"
+        },
+        {
+          "name": "persist_setup_atomically",
+          "version": "20260711071000"
+        },
+        {
+          "name": "create_food_alias_search_foundation",
+          "version": "20260714090000"
+        },
+        {
+          "name": "search_readable_foods",
+          "version": "20260714100000"
+        },
+        {
+          "name": "get_readable_food_diary_prefill",
+          "version": "20260714110000"
+        },
+        {
+          "name": "custom_food_persistence_foundation",
+          "version": "20260714120000"
+        },
+        {
+          "name": "persist_custom_food_nutrient_basis",
+          "version": "20260714130000"
+        },
+        {
+          "name": "enforce_custom_food_nutrient_basis",
+          "version": "20260714140000"
+        },
+        {
+          "name": "get_owned_custom_food_editor",
+          "version": "20260714150000"
+        },
+        {
+          "name": "add_food_favorites_and_reusable_foods",
+          "version": "20260716100000"
+        },
+        {
+          "name": "create_saved_meal_persistence_foundation",
+          "version": "20260716110000"
+        },
+        {
+          "name": "get_owned_saved_meal_editor",
+          "version": "20260716120000"
+        },
+        {
+          "name": "log_saved_meal_to_diary",
+          "version": "20260716130000"
+        },
+        {
+          "name": "create_recipe_persistence_foundation",
+          "version": "20260717100000"
+        },
+        {
+          "name": "get_owned_recipe_editor",
+          "version": "20260717110000"
+        },
+        {
+          "name": "recipe_use_contract_foundation",
+          "version": "20260717120000"
+        },
+        {
+          "name": "log_recipe_to_diary",
+          "version": "20260717130000"
+        },
+        {
+          "name": "create_barcode_identity_local_lookup",
+          "version": "20260717140000"
+        },
+        {
+          "name": "create_custom_food_barcode_handoff",
+          "version": "20260717150000"
+        },
+        {
+          "name": "create_ingestion_governance_foundation",
+          "version": "20260718100000"
+        },
+        {
+          "name": "add_foundation_parser_contracts",
+          "version": "20260718120000"
+        },
+        {
+          "name": "create_foundation_promotion_boundary",
+          "version": "20260718140000"
+        },
+        {
+          "name": "allow_phase_10e_terminal_run_classification",
+          "version": "20260718150000"
+        },
+        {
+          "name": "create_foundation_lifecycle_foundation",
+          "version": "20260719080000"
+        },
+        {
+          "name": "harden_foundation_lifecycle_diff_validation",
+          "version": "20260719120000"
+        },
+        {
+          "name": "execute_foundation_lifecycle_updates",
+          "version": "20260719160000"
+        },
+        {
+          "name": "restore_strict_terminal_run_immutability",
+          "version": "20260721100000"
+        },
+        {
+          "name": "remove_remote_rls_auto_enable",
+          "version": "20260721110000"
+        },
+        {
+          "name": "phase_11c2a_diary_mutation_correctness",
+          "version": "20260801141841"
+        },
+        {
+          "name": "reject_unreadable_linked_diary_creates",
+          "version": "20260801190220"
+        },
+        {
+          "name": "cj019_custom_food_edit_concurrency",
+          "version": "20260808093826"
+        },
+        {
+          "name": "cj022_saved_meal_edit_concurrency",
+          "version": "20260810175638"
+        },
+        {
+          "name": "cj025_recipe_edit_concurrency",
+          "version": "20260811142805"
+        },
+        {
+          "name": "cj018_custom_food_creation_idempotency",
+          "version": "20260812194829"
+        },
+        {
+          "name": "create_invited_account_activation",
+          "version": "20260827070838"
+        },
+        {
+          "name": "enforce_account_activation_authorization",
+          "version": "20260827110552"
+        },
+        {
+          "name": "implement_account_closure_lifecycle",
+          "version": "20260829030137"
+        },
+        {
+          "name": "cache_search_account_access_policy",
+          "version": "20260830143000"
+        },
+        {
+          "name": "harden_account_closure_mac_comparison",
+          "version": "20260927170418"
+        },
+        {
+          "name": "consumed_nutrition_snapshots_v1",
+          "version": "20261024083339"
+        },
+        {
+          "name": "diary_serving_reference_v2",
+          "version": "20261029083108"
+        },
+        {
+          "name": "foundation_full35_mapping_reprojection_v1",
+          "version": "20261031104559"
+        },
+        {
+          "name": "atomic_food_diary_persistence_v1",
+          "version": "20261102181943"
+        }
+      ],
+      "dryRunOutput": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261102181943_atomic_food_diary_persistence_v1.sql\n",
+      "applyOutput": "Local database is up to date.\n",
+      "originalRowsUnchanged": true,
+      "publicFoods": 353,
+      "publicScalars": 1199,
+      "mappingV2Present": false
+    }
+  ],
+  "negativeGuards": [
+    "installed object drift rejected",
+    "same-count owner row mutation rejected and rolled back"
+  ],
+  "cliRuntime": {
+    "image": "sha256:528ec49c3c32561908b07ee91bced7f8456f3b688164e341eaa422441767a0bd",
+    "entrypoint": "tail; no Storage service started",
+    "network": "same isolated namespace as nutrition-phased-003-cli"
+  },
+  "cli": {
+    "version": "2.116.0",
+    "supabaseSha256": "f7343ccd59c919bae0395372f731f37b6e1737f2e400bc8de53c9e004479b86f",
+    "supabaseGoSha256": "773b3034e07cfeec9612cec30d47e5aa946f52592e1389b7592c1331a2cd804d",
+    "connection": "fixed container loopback only",
+    "platformPackage": "@supabase/cli-linux-arm64-musl@2.116.0",
+    "lockfileIntegrityVerified": true
+  },
+  "cliHelp": {
+    "migration up": "DESCRIPTION\n  Apply pending migrations to local database.\n\nUSAGE\n  supabase migration up [flags]\n\nFLAGS\n  --include-all           Include all migrations not found on remote history table.\n  --db-url string         Applies migrations to the database specified by the connection string (must be percent-encoded).\n  --linked                Applies pending migrations to the linked project.\n  --local                 Applies pending migrations to the local database.\n  --project-ref string    Project ref of the Supabase project.\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --output-format choice                                              Output format: text (default), json, or stream-json (NDJSON) (choices: text, json, stream-json)\n  --output, -o choice                                                 output format of status variables (choices: env, pretty, json, toml, yaml, table, csv)\n  --profile string                                                    use a specific profile for connecting to Supabase API\n  --debug                                                             output debug logs to stderr\n  --workdir string                                                    path to a Supabase project directory\n  --experimental                                                      enable experimental features\n  --network-id string                                                 use the specified docker network instead of a generated one\n  --yes                                                               answer yes to all prompts\n  --dns-resolver choice                                               lookup domain names using the specified resolver (choices: native, https)\n  --create-ticket                                                     create a support ticket for any CLI error\n  --agent choice                                                      Override agent detection: yes, no, or auto (default auto) (choices: auto, yes, no)\n",
+    "db push": "DESCRIPTION\n  Push new migrations to the remote database. Vault secrets from config.toml are updated before migrations unless --skip-vault is set.\n\nUSAGE\n  supabase db push [flags]\n\nFLAGS\n  --include-all            Include all migrations not found on remote history table.\n  --include-roles          Include custom roles from supabase/roles.sql.\n  --include-seed           Include seed data from your config.\n  --skip-vault             Skip updating vault secrets from config.toml.\n  --dry-run                Print the migrations that would be applied, but don't actually apply them.\n  --db-url string          Pushes to the database specified by the connection string (must be percent-encoded).\n  --linked                 Pushes to the linked project.\n  --local                  Pushes to the local database.\n  --project-ref string     Project ref of the Supabase project.\n  --password, -p string    Password to your remote Postgres database.\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --output-format choice                                              Output format: text (default), json, or stream-json (NDJSON) (choices: text, json, stream-json)\n  --output, -o choice                                                 output format of status variables (choices: env, pretty, json, toml, yaml, table, csv)\n  --profile string                                                    use a specific profile for connecting to Supabase API\n  --debug                                                             output debug logs to stderr\n  --workdir string                                                    path to a Supabase project directory\n  --experimental                                                      enable experimental features\n  --network-id string                                                 use the specified docker network instead of a generated one\n  --yes                                                               answer yes to all prompts\n  --dns-resolver choice                                               lookup domain names using the specified resolver (choices: native, https)\n  --create-ticket                                                     create a support ticket for any CLI error\n  --agent choice                                                      Override agent detection: yes, no, or auto (default auto) (choices: auto, yes, no)\n"
+  },
+  "atomicAuthority": {
+    "rpc": {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "args": "p_idempotency_key uuid, p_entry_date date, p_meal_type text, p_food_id uuid, p_food_name text, p_brand_name text, p_serving_quantity numeric, p_serving_unit text, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric, p_notes text, p_captured boolean, p_additional_nutrients jsonb, p_reference_fingerprint text, p_automatic_fields text[]",
+      "name": "create_reference_diary_entry_v1",
+      "owner": "postgres",
+      "result": "TABLE(result_status text, diary_entry_id uuid, completed_at timestamp with time zone, reference_fingerprint text)",
+      "schema": "public",
+      "language": "plpgsql",
+      "parallel": "u",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "volatility": "v",
+      "body_sha256": "669ee2fac2770bc3bf25afb386df2db81b4541a66b5633c9789170d6874bd46f",
+      "anon_execute": false,
+      "security_definer": false,
+      "definition_sha256": "bb769306d8687aa9f291e7677a46a775e948663f786fc8d6431c81cefc57205d",
+      "service_role_execute": false,
+      "authenticated_execute": true
+    },
+    "readerRole": {
+      "name": "diary_dataset_reader",
+      "login": false,
+      "inherit": false,
+      "createdb": false,
+      "bypassrls": false,
+      "superuser": false,
+      "createrole": false,
+      "replication": false,
+      "member_count": 2
+    },
+    "forbiddenAuthority": {
+      "dmlRelations": [],
+      "createSchemas": [],
+      "authSchemaUsage": false,
+      "operationMemberships": [],
+      "authReadableRelations": [],
+      "ingestionExecutableFunctions": []
+    }
+  },
+  "result": "PASS"
+}
