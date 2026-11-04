@@ -3964,3 +3964,36 @@ After independent Stage 1 acceptance and a separate bounded authorization,
 the smallest implementation task is `NUTRITION-USDA-FULL35-IMPORTER-001`:
 versioned mapping/candidate/normalization/report support and pure tests only.
 No executor, database, app or Production work begins under that recommendation.
+
+
+## 2026-11-04: DEC-042 proposed — phased Full35 schema/application release
+
+Status: **PROPOSED; separate Product Owner recovery-risk and independent
+engineering/recovery acceptance PENDING**. Recorded by Codex under the user's
+`NUTRITION-FULL35-PHASED-RELEASE-ENABLEMENT-003` task. That task authorizes local
+qualification and one Draft PR; it does not approve this policy tradeoff, a
+source merge, hosted access, backup, migration, build, promotion or enrichment.
+
+Propose Strategy B: original 46 recovery checkpoint → separately committed and
+verified unchanged 47 → qualifying CP47 → separately committed and verified
+unchanged 48 → CP1-48 → exact-source atomic-application build/acceptance and
+separately authorized promotion, retaining the original Foundation references.
+Use enforceable capture cutoffs and permit compatible owner activity between
+checkpoints only under the expressly accepted bounded-RPO decision. Preserve
+RPO ≤24h / RTO ≤8h; a consistent backup does not promise zero data loss after
+later commits. A zero-loss requirement keeps this variant blocked until a
+compatible durable exclusion/reconciliation procedure is qualified.
+
+Permanent B1 exclusion and full unsafe-writer drain remain mandatory before
+Full35 enrichment, reprojection, compensation or any other release-driven
+reference change. All source custody, registry, independent actor/plan/approval,
+CP1-E/complete before-image, historical nonmutation, CP2 and final-resumption
+gates remain. No history-46 security bootstrap is proposed for Milestone A.
+
+Original decisions and G2–G13 are not silently rewritten. See the explicit
+[gate delta](nutrition-usda-full35-stage6/phased-release-amendment.md),
+[pending attributable owner decision](nutrition-usda-full35-stage6/strategy-b-owner-decision.json),
+[recovery-policy record](nutrition-usda-full35-stage6/phased-recovery-decision.md)
+and [B2 profile/recovery applicability gate](nutrition-usda-full35-stage6/b2-equivalence.md).
+The last gate preserves the retained hosted restrictions; broader local grants
+must never be copied into Production or normalized away to force recovery PASS.

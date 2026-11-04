@@ -1,5 +1,7 @@
 # Acceptance matrices, governance dependencies and next tasks
 
+**Pending Strategy B overlay:** [Milestone A checklist](atomic-application-milestone.md) preserves PRE-01–PRE-10/PRE-12 and explicitly moves full PRE-11 permanent legacy exclusion to the earliest mandatory pre-reference-change Milestone B gate, only after [amendment](phased-release-amendment.md) acceptance. Known legacy exposure is not marked PASS. All existing mutation/device/authority requirements remain.
+
 All hosted tests below are **NOT EXECUTED**. Each evidence row must record exact
 source/tree/build, schema/catalog head, UTC, actor, environment, permitted write
 scope, expected/actual result and retained sanitized reference. No browser

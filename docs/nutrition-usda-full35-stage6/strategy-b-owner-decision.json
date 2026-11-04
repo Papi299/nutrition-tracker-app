@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "full35-strategy-b-decision/v1",
+  "decisionId": "DEC-042-PROPOSED",
+  "task": "NUTRITION-FULL35-PHASED-RELEASE-ENABLEMENT-003",
+  "recordedBy": "Codex, execution agent",
+  "preparationAuthority": "User task authorizes local qualification and one Draft PR only",
+  "status": "PENDING_SEPARATE_OWNER_AND_INDEPENDENT_APPROVAL",
+  "productOwner": {
+    "authority": "Maor Pichhadze",
+    "decision": null,
+    "attributableReference": null,
+    "approvedAtUtc": null,
+    "approvedPacketSha256": null
+  },
+  "independentEngineeringReview": {
+    "status": "PENDING",
+    "reviewer": "Independent non-executing reviewer",
+    "reference": null
+  },
+  "recoveryReview": {
+    "status": "PENDING",
+    "reference": null
+  },
+  "recoveryDecision": {
+    "rpoMaximumHours": 24,
+    "rtoMaximumHours": 8,
+    "capturePauseRequired": true,
+    "acceptPostCaptureLossWithinRpo": null,
+    "zeroLossRequired": null,
+    "durableExclusionOrReconciliationQualification": null,
+    "acceptUnchangedLegacyExposureDuringMilestoneA": null
+  },
+  "productionOperationsAuthorized": false,
+  "enrichmentAuthorized": false
+}

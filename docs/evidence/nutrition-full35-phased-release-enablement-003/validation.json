@@ -1,0 +1,70 @@
+{
+  "scope": "Local engineering qualification only; no hosted action",
+  "result": "PASS",
+  "checks": [
+    {
+      "command": "node --test scripts/full35-phased-prefix.test.mjs scripts/full35-phased-b2.test.mjs",
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "command": "npm run test:recovery-contract",
+      "passed": 383,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "python3 -m py_compile scripts/qualify-full35-phased-prefix-local.py scripts/compare-full35-phased-b2.py",
+      "exitCode": 0
+    },
+    {
+      "command": "python3 scripts/qualify-full35-phased-prefix-local.py --source CLEAN_ACCEPTED_SOURCE --cli-directory VERIFIED_MUSL_BIN --cli-archive LOCKFILE_ARCHIVE",
+      "exitCode": 0,
+      "boundaries": [
+        46,
+        47,
+        48
+      ],
+      "effectiveReaderAuthority": "PASS",
+      "negativeChecks": 2
+    },
+    {
+      "command": "python3 scripts/compare-full35-phased-b2.py --archive RETAINED_STAGE6B --local CLI_LOCAL_46 --output b2-comparison.json",
+      "exitCode": 0,
+      "classification": "Complete available comparison; B2 remains open"
+    }
+  ],
+  "sourceFileSha256": {
+    "scripts/full35-phased-prefix.mjs": "78d98139d86aaa8fda54ba1fcc505edc94142914f9a83417d34fa6f0c6c8a050",
+    "scripts/full35-phased-prefix.test.mjs": "de733213e55ee9c9d8582f10b6bbf36803eb8b740adf5cf4d6f2ce0973a57ba0",
+    "scripts/qualify-full35-phased-prefix-local.py": "4c5e80b30b9fc6d3357660a2acbe41d133d6c7cd4ab3fd962ee91c8a3fb80abc",
+    "scripts/compare-full35-phased-b2.py": "731c2dae39d7d35b2559cb06613f516a1af798a154a3bebe44a181984a9c0b16",
+    "scripts/full35-phased-b2.test.mjs": "6eaa71d7dbed0e547d2f8aeab1dbf1f9453802045f787625177ddaddd489536c"
+  },
+  "reusedWithoutBroadRerun": {
+    "databaseObservations": 52,
+    "applicationProbes": 7,
+    "readerLockOrders": 2,
+    "encryptedHistoryRestores": [
+      46,
+      47,
+      48
+    ]
+  },
+  "runtimeCleanup": {
+    "taskContainersRemoved": true,
+    "taskTemporaryInputsRemoved": true,
+    "nutritionJ3InitialState": "Stopped",
+    "nutritionJ3RestoredState": "Stopped",
+    "unrelatedRuntimeAndVolumes": "preserved"
+  },
+  "githubFinalHeadChecks": "Recorded with delivered Draft PR; never inferred from PR227"
+}

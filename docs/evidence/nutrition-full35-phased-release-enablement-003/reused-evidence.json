@@ -1,0 +1,22 @@
+[
+  {
+    "task": "nutrition-full35-b1-002",
+    "archive": "qualification-002.zip",
+    "archiveSha256": "f59c7bdc357efa3032ed296bcfd31c95a97ed7cde5e52ce94f0210ab92592e4a",
+    "verifiedSourceFiles": 35,
+    "allSourceFileHashesMatched": true,
+    "originalManifestSha256": "de461dd3fb340b9f5f5c1dfb282602ea51527c32840405bd2a4d462d41d69a36",
+    "sourceCommit": "d5399ca52d8ac739ec6b3cb6a66b4fded3a4d43f",
+    "classification": "Reused local qualification"
+  },
+  {
+    "task": "nutrition-full35-preflight-6b",
+    "archive": "stage6b-sanitized.zip",
+    "archiveSha256": "760a37bb9f1b62420e4f5aad7a02c7f1da99b6d930380abab5bf9f19cf12be09",
+    "verifiedSourceFiles": 10,
+    "allSourceFileHashesMatched": true,
+    "originalManifestSha256": "6264755136f57bc4fd810b707025341e6236340aad010ad8ee9ee78972eb662d",
+    "sourceCommit": "d5399ca52d8ac739ec6b3cb6a66b4fded3a4d43f",
+    "classification": "Dated read-only sanitized hosted observation; not refreshed"
+  }
+]

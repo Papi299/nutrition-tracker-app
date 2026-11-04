@@ -1,0 +1,1848 @@
+{
+  "scope": "Retained Stage 6B metadata versus exact local 46 replay; no hosted query",
+  "result": "B2_REMAINS_OPEN_TARGETED_OBSERVATIONS",
+  "groups": {
+    "relations": {
+      "hostedObjects": 15,
+      "localObjects": 15,
+      "exactObjects": 15,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "ledger_columns": {
+      "hostedObjects": 3,
+      "localObjects": 3,
+      "exactObjects": 3,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "selected_columns": {
+      "hostedObjects": 181,
+      "localObjects": 181,
+      "exactObjects": 181,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "extensions": {
+      "hostedObjects": 6,
+      "localObjects": 6,
+      "exactObjects": 6,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "tables": {
+      "hostedObjects": 61,
+      "localObjects": 61,
+      "exactObjects": 43,
+      "differences": [
+        {
+          "identity": [
+            "public",
+            "custom_food_creation_requests"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "diary_entries"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=rd/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=rd/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "food_aliases"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=arwd/postgres,ingestion_lifecycle_definer=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=arwd/postgres,ingestion_lifecycle_definer=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "food_barcodes"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,ingestion_lifecycle_definer=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,ingestion_lifecycle_definer=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "food_favorites"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=ard/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=ard/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "food_nutrients"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=arwd/postgres,ingestion_lifecycle_definer=d/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=arwd/postgres,ingestion_lifecycle_definer=d/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "food_sources"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "foods"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=arwd/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=arwd/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "manual_diary_entry_requests"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "nutrients"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "nutrition_targets"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=arw/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=arw/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "profiles"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=arw/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=arw/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "recipe_diary_runs"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "recipe_ingredients"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=rd/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=rd/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "recipes"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "saved_meal_diary_runs"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "saved_meal_items"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=rd/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=rd/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "saved_meals"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres,authenticated=r/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,authenticated=r/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        }
+      ],
+      "status": "REVIEW_REQUIRED"
+    },
+    "functions": {
+      "hostedObjects": 131,
+      "localObjects": 131,
+      "exactObjects": 80,
+      "differences": [
+        {
+          "identity": [
+            "public",
+            "advance_custom_food_edit_revision_from_child",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "advance_custom_food_edit_revision_from_child",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_custom_food",
+            "p_idempotency_key uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_custom_food",
+            "p_idempotency_key uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_manual_diary_entry",
+            "p_idempotency_key uuid, p_entry_date date, p_meal_type text, p_food_id uuid, p_food_name text, p_brand_name text, p_serving_quantity numeric, p_serving_unit text, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric, p_notes text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_manual_diary_entry",
+            "p_idempotency_key uuid, p_entry_date date, p_meal_type text, p_food_id uuid, p_food_name text, p_brand_name text, p_serving_quantity numeric, p_serving_unit text, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric, p_notes text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_manual_diary_entry_v2",
+            "p_idempotency_key uuid, p_entry_date date, p_meal_type text, p_food_id uuid, p_food_name text, p_brand_name text, p_serving_quantity numeric, p_serving_unit text, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric, p_notes text, p_additional_nutrients jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "create_manual_diary_entry_v2",
+            "p_idempotency_key uuid, p_entry_date date, p_meal_type text, p_food_id uuid, p_food_name text, p_brand_name text, p_serving_quantity numeric, p_serving_unit text, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric, p_notes text, p_additional_nutrients jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "derive_food_barcode_scope",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "derive_food_barcode_scope",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_custom_food_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_custom_food_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_ingredient_collection",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_ingredient_collection",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_ingredient_versioned_edit",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_recipe_ingredient_versioned_edit",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_saved_meal_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_saved_meal_edit_revision",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_saved_meal_item_versioned_edit",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "enforce_saved_meal_item_versioned_edit",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_custom_food_editor",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_custom_food_editor",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_editor",
+            "p_recipe_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_editor",
+            "p_recipe_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_editor_v2",
+            "p_recipe_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_editor_v2",
+            "p_recipe_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_use_contract",
+            "p_recipe_id uuid, p_requested_servings numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_use_contract",
+            "p_recipe_id uuid, p_requested_servings numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_use_contract_v2",
+            "p_recipe_id uuid, p_requested_servings numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_recipe_use_contract_v2",
+            "p_recipe_id uuid, p_requested_servings numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_saved_meal_editor",
+            "p_saved_meal_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_saved_meal_editor",
+            "p_saved_meal_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_saved_meal_editor_v2",
+            "p_saved_meal_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_owned_saved_meal_editor_v2",
+            "p_saved_meal_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_diary_prefill",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_diary_prefill",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_nutrition_reference_v1",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_nutrition_reference_v1",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_nutrition_reference_v2",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_readable_food_nutrition_reference_v2",
+            "p_food_id uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_reusable_foods",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "get_reusable_foods",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "increment_diary_entry_version",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "increment_diary_entry_version",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "is_valid_canonical_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "is_valid_canonical_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "is_valid_food_canonical_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "is_valid_food_canonical_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_recipe_to_diary",
+            "p_recipe_id uuid, p_expected_updated_at timestamp with time zone, p_requested_servings numeric, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_recipe_to_diary",
+            "p_recipe_id uuid, p_expected_updated_at timestamp with time zone, p_requested_servings numeric, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_recipe_to_diary_v2",
+            "p_recipe_id uuid, p_expected_updated_at timestamp with time zone, p_requested_servings numeric, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_recipe_to_diary_v2",
+            "p_recipe_id uuid, p_expected_updated_at timestamp with time zone, p_requested_servings numeric, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_saved_meal_to_diary",
+            "p_saved_meal_id uuid, p_expected_updated_at timestamp with time zone, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_saved_meal_to_diary",
+            "p_saved_meal_id uuid, p_expected_updated_at timestamp with time zone, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_saved_meal_to_diary_v2",
+            "p_saved_meal_id uuid, p_expected_updated_at timestamp with time zone, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "log_saved_meal_to_diary_v2",
+            "p_saved_meal_id uuid, p_expected_updated_at timestamp with time zone, p_entry_date date, p_meal_type text, p_idempotency_key uuid"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "lookup_readable_food_by_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "lookup_readable_food_by_gtin",
+            "p_gtin text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "normalize_food_search_text",
+            "value text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres,ingestion_promotion_definer=X/postgres,ingestion_lifecycle_definer=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres,ingestion_promotion_definer=X/postgres,ingestion_lifecycle_definer=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "normalize_food_search_text",
+            "value text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "nutrient_snapshot_manifest_v1",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "nutrient_snapshot_manifest_v1",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food",
+            "p_food_id uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food",
+            "p_food_id uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food",
+            "p_food_id uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food",
+            "p_food_id uuid, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food_with_barcode",
+            "p_gtin text, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_custom_food_with_barcode",
+            "p_gtin text, p_name text, p_brand_name text, p_locale text, p_nutrient_basis text, p_serving_quantity numeric, p_serving_unit text, p_nutrients jsonb, p_aliases jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe_v2",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_recipe_v2",
+            "p_recipe_id uuid, p_name text, p_locale text, p_yield_servings numeric, p_ingredients jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal_v2",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_saved_meal_v2",
+            "p_saved_meal_id uuid, p_name text, p_locale text, p_items jsonb, p_expected_edit_revision bigint"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_setup",
+            "p_display_name text, p_preferred_language text, p_effective_from date, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "persist_setup",
+            "p_display_name text, p_preferred_language text, p_effective_from date, p_calories integer, p_protein_g numeric, p_carbohydrates_g numeric, p_fat_g numeric"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "prevent_diary_provenance_changes",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": null,
+          "local": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "UNRESOLVED_OBJECT_DIFFERENCE"
+        },
+        {
+          "identity": [
+            "public",
+            "search_readable_foods",
+            "p_query text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "search_readable_foods",
+            "p_query text"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_custom_food_archived",
+            "p_food_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_custom_food_archived",
+            "p_food_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_food_favorite",
+            "p_food_id uuid, p_is_favorite boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_food_favorite",
+            "p_food_id uuid, p_is_favorite boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_recipe_archived",
+            "p_recipe_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_recipe_archived",
+            "p_recipe_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_saved_meal_archived",
+            "p_saved_meal_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_saved_meal_archived",
+            "p_saved_meal_id uuid, p_is_archived boolean"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "set_updated_at",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": null,
+          "local": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "UNRESOLVED_OBJECT_DIFFERENCE"
+        },
+        {
+          "identity": [
+            "public",
+            "touch_recipe_from_ingredient_change",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "touch_recipe_from_ingredient_change",
+            ""
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "update_manual_diary_entry_v2",
+            "p_id uuid, p_expected_version bigint, p_patch jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres,authenticated=X/postgres}",
+          "local": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}",
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "update_manual_diary_entry_v2",
+            "p_id uuid, p_expected_version bigint, p_patch jsonb"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "service_role_execute",
+          "hosted": false,
+          "local": true,
+          "classification": "HOSTED_STRICTER_SERVICE_ROLE_EXECUTION_PRESERVE_HOSTED_POLICY"
+        }
+      ],
+      "status": "REVIEW_REQUIRED"
+    },
+    "roles": {
+      "hostedObjects": 9,
+      "localObjects": 9,
+      "exactObjects": 9,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "default_acls": {
+      "hostedObjects": 6,
+      "localObjects": 6,
+      "exactObjects": 3,
+      "differences": [
+        {
+          "identity": [
+            "public",
+            "postgres",
+            "S"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=rwU/postgres,anon=w/postgres,authenticated=w/postgres,service_role=w/postgres}",
+          "local": "{postgres=rwU/postgres,anon=rwU/postgres,authenticated=rwU/postgres,service_role=rwU/postgres}",
+          "classification": "HOSTED_STRICTER_DEFAULT_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "postgres",
+            "f"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=X/postgres}",
+          "local": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "classification": "HOSTED_STRICTER_DEFAULT_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        },
+        {
+          "identity": [
+            "public",
+            "postgres",
+            "r"
+          ],
+          "kind": "FIELD_DIFFERENCE",
+          "field": "acl",
+          "hosted": "{postgres=arwdDxtm/postgres,service_role=Dxtm/postgres}",
+          "local": "{postgres=arwdDxtm/postgres,anon=arwd/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+          "classification": "HOSTED_STRICTER_DEFAULT_PRIVILEGES_PRESERVE_HOSTED_POLICY"
+        }
+      ],
+      "status": "REVIEW_REQUIRED"
+    },
+    "schemas": {
+      "hostedObjects": 3,
+      "localObjects": 3,
+      "exactObjects": 3,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "policies": {
+      "hostedObjects": 212,
+      "localObjects": 212,
+      "exactObjects": 212,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "triggers": {
+      "hostedObjects": 90,
+      "localObjects": 90,
+      "exactObjects": 90,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "expected_role_memberships": {
+      "hostedObjects": 5,
+      "localObjects": 5,
+      "exactObjects": 5,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "columns_and_defaults": {
+      "hostedObjects": 753,
+      "localObjects": 753,
+      "exactObjects": 753,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "constraints": {
+      "hostedObjects": 672,
+      "localObjects": 672,
+      "exactObjects": 672,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "relevant_constraint_text": {
+      "hostedObjects": 24,
+      "localObjects": 24,
+      "exactObjects": 24,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "grant_paths": {
+      "hosted": [
+        {
+          "role": "ingestion_approver",
+          "set_option": false,
+          "admin_option": true,
+          "member_class": "postgres",
+          "inherit_option": false
+        },
+        {
+          "role": "ingestion_definer",
+          "set_option": false,
+          "admin_option": true,
+          "member_class": "postgres",
+          "inherit_option": false
+        },
+        {
+          "role": "ingestion_lifecycle_definer",
+          "set_option": false,
+          "admin_option": true,
+          "member_class": "postgres",
+          "inherit_option": false
+        },
+        {
+          "role": "ingestion_operator",
+          "set_option": false,
+          "admin_option": true,
+          "member_class": "postgres",
+          "inherit_option": false
+        },
+        {
+          "role": "ingestion_promotion_definer",
+          "set_option": false,
+          "admin_option": true,
+          "member_class": "postgres",
+          "inherit_option": false
+        }
+      ],
+      "local": [
+        {
+          "admin_option": true,
+          "inherit_option": false,
+          "member_class": "postgres",
+          "role": "ingestion_approver",
+          "set_option": false
+        },
+        {
+          "admin_option": true,
+          "inherit_option": false,
+          "member_class": "postgres",
+          "role": "ingestion_definer",
+          "set_option": false
+        },
+        {
+          "admin_option": true,
+          "inherit_option": false,
+          "member_class": "postgres",
+          "role": "ingestion_lifecycle_definer",
+          "set_option": false
+        },
+        {
+          "admin_option": true,
+          "inherit_option": false,
+          "member_class": "postgres",
+          "role": "ingestion_operator",
+          "set_option": false
+        },
+        {
+          "admin_option": true,
+          "inherit_option": false,
+          "member_class": "postgres",
+          "role": "ingestion_promotion_definer",
+          "set_option": false
+        }
+      ],
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "settings": {
+      "hosted": {
+        "lock_timeout": {
+          "unit": "ms",
+          "source": "session",
+          "setting": "1000"
+        },
+        "server_version": {
+          "unit": null,
+          "source": "default",
+          "setting": "17.6"
+        },
+        "max_connections": {
+          "unit": null,
+          "source": "configuration file",
+          "setting": "60"
+        },
+        "statement_timeout": {
+          "unit": "ms",
+          "source": "session",
+          "setting": "5000"
+        },
+        "transaction_timeout": {
+          "unit": "ms",
+          "source": "default",
+          "setting": "0"
+        },
+        "max_prepared_transactions": {
+          "unit": null,
+          "source": "default",
+          "setting": "0"
+        },
+        "default_transaction_isolation": {
+          "unit": null,
+          "source": "default",
+          "setting": "read committed"
+        },
+        "default_transaction_read_only": {
+          "unit": null,
+          "source": "default",
+          "setting": "off"
+        },
+        "idle_in_transaction_session_timeout": {
+          "unit": "ms",
+          "source": "default",
+          "setting": "0"
+        }
+      },
+      "local": {
+        "default_transaction_isolation": {
+          "setting": "read committed",
+          "source": "default",
+          "unit": null
+        },
+        "default_transaction_read_only": {
+          "setting": "off",
+          "source": "default",
+          "unit": null
+        },
+        "idle_in_transaction_session_timeout": {
+          "setting": "0",
+          "source": "default",
+          "unit": "ms"
+        },
+        "lock_timeout": {
+          "setting": "1000",
+          "source": "session",
+          "unit": "ms"
+        },
+        "max_connections": {
+          "setting": "100",
+          "source": "default",
+          "unit": null
+        },
+        "max_prepared_transactions": {
+          "setting": "0",
+          "source": "default",
+          "unit": null
+        },
+        "server_version": {
+          "setting": "17.6",
+          "source": "default",
+          "unit": null
+        },
+        "statement_timeout": {
+          "setting": "5000",
+          "source": "session",
+          "unit": "ms"
+        },
+        "transaction_timeout": {
+          "setting": "0",
+          "source": "default",
+          "unit": "ms"
+        }
+      },
+      "differences": [
+        {
+          "setting": "max_connections",
+          "field": "setting",
+          "hosted": "60",
+          "local": "100",
+          "classification": "PROVIDER_CONFIGURATION_REQUIRES_BUDGET_REVIEW"
+        },
+        {
+          "setting": "max_connections",
+          "field": "source",
+          "hosted": "configuration file",
+          "local": "default",
+          "classification": "PROVIDER_CONFIGURATION_REQUIRES_BUDGET_REVIEW"
+        }
+      ],
+      "status": "REVIEW_REQUIRED"
+    },
+    "role_timeout_settings": {
+      "hostedObjects": 4,
+      "localObjects": 4,
+      "exactObjects": 4,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    },
+    "database_timeout_settings": {
+      "hosted": [
+        {
+          "setting": "statement_timeout=3s",
+          "role_oid": "16484"
+        },
+        {
+          "setting": "statement_timeout=8s",
+          "role_oid": "16485"
+        },
+        {
+          "setting": "idle_in_transaction_session_timeout=60000",
+          "role_oid": "16545"
+        },
+        {
+          "setting": "statement_timeout=8s",
+          "role_oid": "16487"
+        },
+        {
+          "setting": "lock_timeout=8s",
+          "role_oid": "16487"
+        },
+        {
+          "setting": "statement_timeout=0",
+          "role_oid": "10"
+        }
+      ],
+      "local": [
+        {
+          "role_oid": "16443",
+          "setting": "statement_timeout=3s"
+        },
+        {
+          "role_oid": "16444",
+          "setting": "statement_timeout=8s"
+        },
+        {
+          "role_oid": "16504",
+          "setting": "idle_in_transaction_session_timeout=60000"
+        },
+        {
+          "role_oid": "16446",
+          "setting": "statement_timeout=8s"
+        },
+        {
+          "role_oid": "16446",
+          "setting": "lock_timeout=8s"
+        }
+      ],
+      "status": "UNCOMPARABLE_WITHOUT_STABLE_PRINCIPAL_BINDINGS",
+      "differences": [
+        {
+          "classification": "CROSS_CLUSTER_ROLE_OIDS_NOT_PORTABLE",
+          "statement": "All retained rows require stable role/database binding before semantic comparison; no mismatch waiver or guessed identity."
+        }
+      ]
+    },
+    "migration_statements": {
+      "hostedObjects": 46,
+      "localObjects": 46,
+      "exactObjects": 46,
+      "differences": [],
+      "status": "MATCH_RETAINED_FIELDS"
+    }
+  },
+  "missingObservations": [
+    {
+      "id": "B2-INDEX-VIEW",
+      "missing": "Index definitions/validity/predicates/expressions and view/materialized-view definitions, owners, options and ACLs were not captured. Constraint-backed index identity alone does not cover independent indexes."
+    },
+    {
+      "id": "B2-COLUMN-DETAIL",
+      "missing": "Column collation, identity/generated attributes, storage/compression and attribute order were not all retained. Defaults are hashes; differing hashes require canonical expressions."
+    },
+    {
+      "id": "B2-TABLE-DETAIL",
+      "missing": "Full table persistence/partition/inheritance/options and sequence definitions/ownership were not retained."
+    },
+    {
+      "id": "B2-ROLE-EDGES",
+      "missing": "Only five expected ingestion membership paths and aggregate counts were retained. Full member/grantor identities and every relevant transitive membership edge need stable sanitized identifiers plus admin/inherit/set options; no login passwords."
+    },
+    {
+      "id": "B2-ACL-EFFECTIVE",
+      "missing": "Stored table/column/default ACLs are retained; complete effective mutation privileges through all inherited roles and global default ACL owner/schema scope require the full membership graph and canonical grant expansion."
+    },
+    {
+      "id": "B2-FRESHNESS",
+      "missing": "All retained hosted observations are dated. Refresh exact baseline/objects and bounded relevant configuration at the future authorized release preflight; no owner data is needed."
+    }
+  ],
+  "runtimeObservationsExcluded": [
+    "observed_at",
+    "activity",
+    "locks",
+    "inspection statement/lock timeout overrides",
+    "synthetic versus real dataset identities/rows"
+  ],
+  "statement": "A match covers only retained fields. All differences remain review items; provider labels do not waive a security or recovery gate.",
+  "inputs": {
+    "archiveSha256": "760a37bb9f1b62420e4f5aad7a02c7f1da99b6d930380abab5bf9f19cf12be09",
+    "localSha256": "0815c303bb3c3f118b28ecc6e6f13b102c3cc83fde972d5f694cf7d540aaab00"
+  }
+}
