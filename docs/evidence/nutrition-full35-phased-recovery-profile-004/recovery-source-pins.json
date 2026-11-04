@@ -10,5 +10,5 @@
   "scripts/verify-phase-11i-github-artifact.mjs": "2659566c7a577e05216b33efe6df07f28ef95c1ab3cc327c1c58cc270087adda",
   "supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
   "supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql": "f94401b3977e49744c983b3b49fe24fafc581a4dc1c57b71a95245e939c60766",
-  "scripts/validate-full35-recovery-profile-packet-local.py": "91e0858fd2cbd64856c9a269bc36d7cb7fe9ee602df07e0755e927069eab41b1"
+  "scripts/validate-full35-recovery-profile-packet-local.py": "4b6c3bd9a8c67c3c03928d850c87b1e118d9b64ab55e8b688134582240c6e62b"
 }

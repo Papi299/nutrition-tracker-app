@@ -9,7 +9,7 @@
     {
       "history": 46,
       "result": "PASS_PACKET_ONLY",
-      "elapsedSeconds": 0.912,
+      "elapsedSeconds": 0.905,
       "sameReadOnlySnapshot": true,
       "schemaDumpUnchanged": true,
       "ledgerVerified": true,
@@ -37,9 +37,10 @@
         },
         {
           "id": "R03",
-          "outputBytes": 4440,
+          "outputBytes": 5586,
           "groups": {
-            "server_settings": 12,
+            "server_settings": 17,
+            "database_formatting": 1,
             "database_role_settings": 8
           }
         },
@@ -118,9 +119,10 @@
         },
         {
           "id": "R03",
-          "outputBytes": 4440,
+          "outputBytes": 5586,
           "groups": {
-            "server_settings": 12,
+            "server_settings": 17,
+            "database_formatting": 1,
             "database_role_settings": 8
           }
         },
@@ -171,7 +173,7 @@
     {
       "history": 48,
       "result": "PASS_PACKET_ONLY",
-      "elapsedSeconds": 1.111,
+      "elapsedSeconds": 1.114,
       "sameReadOnlySnapshot": true,
       "schemaDumpUnchanged": true,
       "ledgerVerified": true,
@@ -199,9 +201,10 @@
         },
         {
           "id": "R03",
-          "outputBytes": 4440,
+          "outputBytes": 5586,
           "groups": {
-            "server_settings": 12,
+            "server_settings": 17,
+            "database_formatting": 1,
             "database_role_settings": 8
           }
         },
@@ -250,7 +253,8 @@
       ]
     }
   ],
-  "nonce": "d7df8f48-5951-4b0f-8614-f348e53850bf",
+  "nonce": "71a00071-cec0-4458-9cb9-195243041f30",
+  "packetSha256": "a3e4bf01b249bec62daca85ac2d3549f3e82f1ab04c10786360195071b140964",
   "packetNegatives": {
     "unknownSettingValueRedacted": true,
     "nonstandardRoleNameRedacted": true,

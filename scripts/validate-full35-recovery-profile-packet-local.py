@@ -68,6 +68,7 @@ try:
       '-e','API_EXTERNAL_URL=http://127.0.0.1',AUTH,'auth','migrate')
     db('create schema supabase_migrations;create table supabase_migrations.schema_migrations(version text primary key,statements text[],name text);')
     packet=(REPO/'docs/nutrition-usda-full35-stage6/recovery-profile-read-only-packet.sql').read_text()
+    report['packetSha256']=hashlib.sha256(packet.encode()).hexdigest()
     for index,(path,entry) in enumerate(zip(paths,inventory),1):
         assert path.name==entry['filename'] and hashlib.sha256(path.read_bytes()).hexdigest()==entry['sha256']
         sql=path.read_text();version,name=path.stem.split('_',1)

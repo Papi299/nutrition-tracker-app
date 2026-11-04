@@ -1,6 +1,6 @@
 {
   "scope": "Task 004 local checks only; no faithful Production profile encrypted recovery",
-  "recordedAt": "2026-11-04T19:03:00.445862+00:00",
+  "recordedAt": "2026-11-04T19:11:54.298327+00:00",
   "recoveryContractTests": {
     "pass": 385,
     "fail": 0,
@@ -27,5 +27,7 @@
     "48": "UNQUALIFIED_NOT_RUN"
   },
   "ci": "REQUIRED_ON_FINAL_HEAD_SEPARATE_DELIVERY_RECORD",
-  "runtimeCleanup": "Task container removed; Docker/VM returned to initial Stopped state"
+  "runtimeCleanup": "Task container removed; Docker/VM returned to initial Stopped state",
+  "sessionFormattingMetadata": "PASS date/time/encoding/current-database collation and inspection overrides observed",
+  "packetSha256": "a3e4bf01b249bec62daca85ac2d3549f3e82f1ab04c10786360195071b140964"
 }
