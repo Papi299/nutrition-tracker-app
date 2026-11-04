@@ -1,0 +1,38 @@
+{
+  "status": "PROPOSED_NOT_EXECUTED_HOSTED",
+  "project": {
+    "ref": "hskfanrqwtqknzpquwhg",
+    "name": "Nutrition Tracker App",
+    "environment": "Production",
+    "region": "eu-west-1"
+  },
+  "queryIds": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07"
+  ],
+  "maxOutputBytesPerQuery": 2097152,
+  "transaction": "REPEATABLE READ READ ONLY",
+  "statementTimeout": "5s",
+  "lockTimeout": "1s",
+  "tablePrivilegeMask": [
+    "SELECT",
+    "INSERT",
+    "UPDATE",
+    "DELETE",
+    "TRUNCATE",
+    "REFERENCES",
+    "TRIGGER",
+    "MAINTAIN"
+  ],
+  "anyColumnPrivilegeMask": [
+    "SELECT",
+    "INSERT",
+    "UPDATE",
+    "REFERENCES"
+  ]
+}

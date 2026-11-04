@@ -1,0 +1,14 @@
+{
+  "scripts/phase-11i-full35-recovery.mjs": "957dfa2079adfab50ef86976958a8935c61e7191a4aac7083ec48fbcefc8a2e1",
+  "scripts/full35-recovery-history.mjs": "78b29b65d14271e01832f20e0442b7d25a30d279ac60b6a0243e3a7687701b77",
+  "scripts/atomic-diary-recovery-history.mjs": "e2682728b819d7dc54441f99b6a447ff6bf599d7e4278f8c94f1cb7220b81827",
+  "scripts/full35-recovery-dump.mjs": "1080ddb370ed4beaed79eef7ae6578df8ce9e7ad29944104efaee2f45eef264d",
+  "scripts/phase-11i-backup-pipeline.mjs": "2a24bbbe74db89ab6d44f585f0385e7d02dee868e53650aa12d8c7b66fdd9e59",
+  "scripts/phase-11i-restore-pipeline.mjs": "92e7e0810cc2820db6d3671a1b35956103feebf3020a7b03011983cd29e31398",
+  "scripts/phase-11i-recovery-contract.mjs": "1a1ab345d41dac5f6cb880d6e63d5835db235b1590a830c0d61cda8c33b40cf2",
+  "scripts/phase-11i-owner-validation.mjs": "31befbe8d1f5e02acd0be2b4911fee04aa10af928b8cf3993867ce502f9bc63f",
+  "scripts/verify-phase-11i-github-artifact.mjs": "2659566c7a577e05216b33efe6df07f28ef95c1ab3cc327c1c58cc270087adda",
+  "supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql": "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af",
+  "supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql": "f94401b3977e49744c983b3b49fe24fafc581a4dc1c57b71a95245e939c60766",
+  "scripts/validate-full35-recovery-profile-packet-local.py": "91e0858fd2cbd64856c9a269bc36d7cb7fe9ee602df07e0755e927069eab41b1"
+}

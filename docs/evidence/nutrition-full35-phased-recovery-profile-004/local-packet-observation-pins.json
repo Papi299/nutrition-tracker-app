@@ -1,0 +1,8 @@
+{
+  "scope": "External synthetic catalog observations from the committed runner; not Production profile",
+  "files": {
+    "local-packet-48.json.gz": "cbaada807fba86e4bdaed4478880fa355abcd550d4c86791ee04934173532f08",
+    "local-packet-47.json.gz": "fd160d27fb4a5b5ce3c5bf7f62912e190c7512abfc031d3e6b318ff8bc89ffa9",
+    "local-packet-46.json.gz": "14b96ff41aedfcdd776e885df0596d1daf022b6e7f1fd51f30c50da79a1cf1a4"
+  }
+}

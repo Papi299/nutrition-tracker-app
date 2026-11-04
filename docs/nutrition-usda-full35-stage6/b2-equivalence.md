@@ -5,6 +5,11 @@ privilege-profile disposition required.** This completes the comparison possible
 from retained sanitized Stage 6B metadata; it does not turn missing fields or
 dated evidence into complete current schema equivalence.
 
+[Task 004's recovery-profile finding](phased-recovery-profile-004.md) traces the
+actual hash dependencies and supplies a proposed, locally checked catalog packet.
+Missing cluster role/membership/configuration evidence still blocks faithful
+46/47/48 encrypted qualification; no hosted query was executed.
+
 Inputs: the integrity-verified [Stage 6B archive](../evidence/nutrition-full35-phased-release-enablement-003/stage6b-sanitized.zip),
 queries Q01–Q03 and Q05–Q07, and the new CLI-reconstructed original 46 snapshot.
 Q04's real Foundation identities/raw hashes remain their dated preflight proof;
@@ -39,8 +44,13 @@ local 47/48 schema replay also matches the actual CLI result at each boundary.
    RLS and authenticated table/column privileges match. Preserve the hosted
    restrictions; never copy the broader local grants into Production.
 2. **51 public function ACL strings:** 49 have additional local service-role
-   EXECUTE; hosted denies it. Two are effective ACL ordering differences only.
-   The comparator expands simple ACL entries to distinguish ordering from scope.
+   EXECUTE; hosted denies it. The other two are `NULL` stored ACLs versus
+   explicit local grants for `prevent_diary_provenance_changes()` and
+   `set_updated_at()`, not ordering differences. Their retained anon,
+   authenticated and service-role execution checks match, but implicit PUBLIC
+   execution and redundant named grants have different grant/revocation paths.
+   The comparator correctly retains both as `UNRESOLVED_OBJECT_DIFFERENCE`.
+   It expands simple explicit ACL entries to distinguish ordering from scope.
    It still retains raw strings: the accepted recovery fingerprint includes raw
    ACL representation, so semantic equivalence alone does not establish an exact
    recovery-profile match.
@@ -71,7 +81,7 @@ requested; only a fresh hash verification at the eventual cutoff is needed.
 and default ACLs; history 47/48 restoration requires equality before data replay
 and refuses the legacy 44–46 ACL compatibility transform. Therefore stock-image
 encrypted recovery PASS cannot be transferred automatically to the retained
-stricter hosted profile. Even ACL-order differences need faithful handling under
+stricter hosted profile. Raw ACL representation differences need faithful handling under
 the existing exact fingerprint contract.
 
 Before authorizing 47, establish and independently qualify the **source-faithful

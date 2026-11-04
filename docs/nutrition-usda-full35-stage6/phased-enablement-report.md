@@ -113,7 +113,8 @@ every retained field, not counts: 46 source/ledger statement fingerprints,
 753 columns/defaults, 672 constraints, 131 function definitions/signatures,
 212 policies, 90 triggers, retained roles/membership paths and extensions match.
 All 61 table identities/owners/RLS match. Differences are 18 table ACLs, 51
-function ACL strings (49 extra local service EXECUTE; two ordering-only), three
+function ACL strings (49 extra local service EXECUTE; two NULL-versus-explicit
+ACL representations, corrected by task 004), three
 default ACLs and max-connection configuration. Role timeout rows match unordered;
 opaque database-setting role OIDs require stable bindings.
 

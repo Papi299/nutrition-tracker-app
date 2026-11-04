@@ -1,0 +1,21 @@
+{
+  "repository": "Papi299/nutrition-tracker-app",
+  "phase": "STARTING_IDENTITIES_NO_DRIFT",
+  "main": {
+    "sha": "d5399ca52d8ac739ec6b3cb6a66b4fded3a4d43f",
+    "tree": "4fb74d22012677fbd1ca5534a11a953e5d79387d",
+    "comparisonStatus": "identical"
+  },
+  "pr": {
+    "number": 228,
+    "url": "https://github.com/Papi299/nutrition-tracker-app/pull/228",
+    "head": "43cd452544d7a3608cc22f24f33742691c883d5f",
+    "tree": "14bccf3323c7d7fc6e35f40fcf72c3d6934fe5e8",
+    "base": "d5399ca52d8ac739ec6b3cb6a66b4fded3a4d43f",
+    "branch": "codex/nutrition-full35-phased-release-enablement-003",
+    "draft": true,
+    "state": "open",
+    "merged": false
+  },
+  "treeVerification": "Clean local Git objects match exact GitHub-verified commits; trees resolved locally."
+}

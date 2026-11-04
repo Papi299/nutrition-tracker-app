@@ -1,0 +1,31 @@
+{
+  "scope": "Task 004 local checks only; no faithful Production profile encrypted recovery",
+  "recordedAt": "2026-11-04T19:03:00.445862+00:00",
+  "recoveryContractTests": {
+    "pass": 385,
+    "fail": 0,
+    "skip": 0
+  },
+  "focusedB2Tests": {
+    "pass": 3,
+    "newRegressionTests": 2
+  },
+  "lint": "PASS",
+  "pythonSyntax": "PASS",
+  "newDocumentationLinks": "PASS",
+  "original003EvidenceUnchanged": "PASS",
+  "original48MigrationBytes": "PASS",
+  "localPacketHistories": [
+    46,
+    47,
+    48
+  ],
+  "localPacketPrivacyAndLimitNegatives": 4,
+  "encryptedProfileHistories": {
+    "46": "UNQUALIFIED_NOT_RUN",
+    "47": "UNQUALIFIED_NOT_RUN",
+    "48": "UNQUALIFIED_NOT_RUN"
+  },
+  "ci": "REQUIRED_ON_FINAL_HEAD_SEPARATE_DELIVERY_RECORD",
+  "runtimeCleanup": "Task container removed; Docker/VM returned to initial Stopped state"
+}
