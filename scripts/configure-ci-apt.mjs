@@ -10,7 +10,7 @@ const indirect = "mirror+file:/etc/apt/apt-mirrors.txt";
 const originalMirrors = `${azure}\tpriority:1\n${official}\tpriority:2\n${security}\tpriority:3\n`;
 const preferredMirrors = `${azure}\tpriority:2\n${official}\tpriority:1\n${security}\tpriority:3\n`;
 
-// Report only reviewed tokens; unknown URLs, metadata and comments may contain secrets.
+// Retain public mirror origins for review, never credentials, query values or unknown paths.
 export function describeAptMirrors(mirrors) {
   if (typeof mirrors !== "string") return { present: false };
   const lines = mirrors.split("\n");
@@ -23,11 +23,31 @@ export function describeAptMirrors(mirrors) {
     lineCount: lines.length,
     lines: lines.slice(0, 20).map((line, index) => {
       const match = line.match(/^(\S+)\t(priority:[123])\r?$/);
+      let origin = "UNREVIEWED";
+      let ubuntuPath = false;
+      let credentials = false;
+      let query = false;
+      let fragment = false;
+      if (match) {
+        try {
+          const url = new URL(match[1]);
+          if (["http:", "https:"].includes(url.protocol)) origin = url.origin;
+          ubuntuPath = url.pathname === "/ubuntu/";
+          credentials = Boolean(url.username || url.password);
+          query = Boolean(url.search);
+          fragment = Boolean(url.hash);
+        } catch { /* Malformed origins remain redacted. */ }
+      }
       return {
         line: index + 1,
         blank: line.trim() === "",
         uri: match && [azure, official, security].includes(match[1]) ? match[1] : "UNREVIEWED",
         priority: match ? match[2] : "UNREVIEWED",
+        origin,
+        ubuntuPath,
+        credentials,
+        query,
+        fragment,
         tabs: (line.match(/\t/g) ?? []).length,
         spaces: (line.match(/ /g) ?? []).length,
       };
