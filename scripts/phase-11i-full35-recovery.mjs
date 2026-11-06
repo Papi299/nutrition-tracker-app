@@ -105,14 +105,14 @@ export function validateFull35Integrity(rows) {
   if (violations.length !== 11 || violations.some(([, count]) => count !== "0")) fail("Full35 projection, receipt, authority or security integrity violation.");
   return Object.fromEntries(violations.map(([name]) => [name,"PASS"]));
 }
-export function captureFull35Recovery(rows) {
+export function captureFull35Recovery(rows, includeWriterBarrier = false) {
   const integrity = validateFull35Integrity(rows);
   return {schemaVersion:"phase-11i-full35-recovery/v1",sourceClusterMarker:full35ClusterMarker(rows),
     installedContractHash:rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0],
-    reviewedSchemaHash:full35ReviewedSchemaHash(rows),
+    reviewedSchemaHash:full35ReviewedSchemaHash(rows, includeWriterBarrier),
     rowFingerprints:full35TableFingerprints(rows),integrity};
 }
-export function full35ReviewedSchemaHash(rows) {
+export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false) {
   const bytes = readFileSync(`supabase/migrations/${FULL35_REVIEWED_HISTORY.filename}`);
   if (sha256(bytes) !== FULL35_REVIEWED_HISTORY.sqlSha256) fail("Reviewed Full35 SQL required for schema verification.");
   // Use the exact reviewed catalog query, excluding only dictionary row IDs.
@@ -135,13 +135,26 @@ export function full35ReviewedSchemaHash(rows) {
         'kind',d.defaclobjtype,'acl',d.defaclacl::text) order by pg_get_userbyid(d.defaclrole) collate "C",n.nspname collate "C",d.defaclobjtype)
         from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
         where pg_get_userbyid(d.defaclrole)='diary_dataset_reader'))::jsonb else '{}'::jsonb end`)[0][0];
-  return sha256(canonicalize({catalog,roles:JSON.parse(roles)}));
+  const snapshot = { catalog, roles: JSON.parse(roles) };
+  if (includeWriterBarrier) {
+    // The existing catalog hash includes the functions, table ACLs, policies
+    // and triggers. Also pin the non-exposed writer schema ACL and any
+    // defaults for its owner. Keep old archive hashes byte-for-byte stable.
+    snapshot.writerBarrier = JSON.parse(rows(`select jsonb_build_object(
+      'privateSchema', (select jsonb_build_object('owner',pg_get_userbyid(nspowner),'acl',nspacl::text)
+        from pg_namespace where nspname='private'),
+      'writerDefaults', (select jsonb_agg(jsonb_build_object('schema',n.nspname,'kind',d.defaclobjtype,'acl',d.defaclacl::text)
+        order by n.nspname collate "C",d.defaclobjtype)
+        from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
+        where d.defaclrole='diary_reference_writer'::regrole))`)[0][0]);
+  }
+  return sha256(canonicalize(snapshot));
 }
-export function validateRestoredFull35(rows, source, freshMarker, reviewedContract) {
+export function validateRestoredFull35(rows, source, freshMarker, reviewedContract, includeWriterBarrier = false) {
   assertFull35SourceMetadata(source);
   assertFreshFull35Marker(source.sourceClusterMarker,freshMarker,full35ClusterMarker(rows));
   const contract = rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0];
-  assertFull35SchemaHash(reviewedContract,full35ReviewedSchemaHash(rows));
+  assertFull35SchemaHash(reviewedContract,full35ReviewedSchemaHash(rows, includeWriterBarrier));
   assertFull35SchemaHash(source.reviewedSchemaHash,reviewedContract);
   if (contract !== source.installedContractHash) fail("Full35 installed contract differs from reviewed target migration.");
   assertFull35Rows(source.rowFingerprints,full35TableFingerprints(rows));

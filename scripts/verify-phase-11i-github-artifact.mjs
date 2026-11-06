@@ -17,6 +17,7 @@ import {
   assertRecipientCertificateFingerprint,
   assertRedactedEvidence,
   recoveryMigrationBoundary,
+  FULL35_MIGRATION_BOUNDARY,
   sha256,
 } from "./phase-11i-recovery-contract.mjs";
 
@@ -138,7 +139,7 @@ export function verifyGitHubArtifact({
     fail("Encrypted archive byte count mismatch.");
   }
 
-  if ([47, 48].includes(migrationBoundary.count)) {
+  if (migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count) {
     // Validate the CMS encoding without rendering the entire populated ciphertext
     // as hexadecimal output. Full decryption/authentication remains mandatory in
     // the capture/restore qualification with its ephemeral private recipient.

@@ -257,7 +257,12 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
       p_food_name: "Synthetic explicit manual snapshot", p_brand_name: "", p_serving_quantity: 200, p_serving_unit: "g",
       p_calories: 321, p_protein_g: 0, p_carbohydrates_g: null as unknown as number, p_fat_g: 1, p_notes: "",
       p_additional_nutrients: { version: 1, values: additionalNutrientCodesV1.map(code => ({ code, amount: code === "fiber_g" ? 9 : null })) } };
-    const manual = await client.rpc("create_manual_diary_entry_v2", args).single(); expect(manual.error).toBeNull(); expect(manual.data!.result_status).toBe("success");
+    const beforeLegacy = counts();
+    expect((await client.rpc("create_manual_diary_entry_v2", args).single()).error?.code).toBe("42501");
+    expect(counts()).toEqual(beforeLegacy);
+    const manual = await client.rpc("create_reference_diary_entry_v1", {...args, p_captured:true,
+      p_reference_fingerprint:b.reference_fingerprint,p_automatic_fields:[]}).single();
+    expect(manual.error).toBeNull(); expect(manual.data!.result_status).toBe("success");
     evidence.manual = { result: manual.data, row: (await client.from("diary_entries").select("*").eq("id", manual.data!.diary_entry_id!).single()).data };
     const rejected: Record<string, unknown> = {};
     for (const [kind, id] of [["archived", randomUUID()], ["deleted", randomUUID()], ["crossOwner", fixtureId(999705)]] as const) {
@@ -316,7 +321,10 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     // The uncaptured legacy automatic path still goes through the atomic RPC;
     // the original v1 manual API also retains its independent manual contract.
     const manualV1Args=Object.fromEntries(Object.entries(args).filter(([key])=>key!=="p_additional_nutrients")) as Omit<typeof args,"p_additional_nutrients">;
-    const manualV1=await client.rpc("create_manual_diary_entry",{...manualV1Args,p_idempotency_key:randomUUID()}).single();
+    const beforeLegacyV1=counts();
+    const blockedV1=await client.rpc("create_manual_diary_entry",{...manualV1Args,p_idempotency_key:randomUUID()}).single();
+    expect(blockedV1.error?.code).toBe("42501");expect(counts()).toEqual(beforeLegacyV1);
+    const manualV1=await client.rpc("create_manual_diary_entry",{...manualV1Args,p_food_id:null as unknown as string,p_idempotency_key:randomUUID()}).single();
     expect(manualV1.data?.result_status).toBe("success");
     const automaticV1=await client.rpc("create_reference_diary_entry_v1",{...automaticArgs,p_idempotency_key:randomUUID(),
       p_captured:false,p_additional_nutrients:null,p_automatic_fields:["calories","protein_g","carbohydrates_g","fat_g"]}).single();
@@ -327,7 +335,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
       await form.locator(`[name="${name}"]`).evaluateAll(nodes=>nodes.forEach(node=>node.remove()));
     await click();await expect(form).toContainText("Entry added.");
     expect((await client.from("diary_entries").select("additional_nutrient_snapshot").eq("entry_date","2026-11-08").single()).data?.additional_nutrient_snapshot).toBeNull();
-    evidence.legacy={manualV1:manualV1.data,automaticV1:automaticV1.data,browserUncaptured:true};
+    evidence.legacy={blockedLinkedV1:true,blockedLinkedV2:true,manualV1:manualV1.data,automaticV1:automaticV1.data,browserUncaptured:true};
     // Own custom and non-USDA sources acquire no Full35 dataset authority.
     const custom=await client.rpc("create_custom_food",{p_aliases:[],p_brand_name:"",p_idempotency_key:randomUUID(),
       p_locale:"en",p_name:"Synthetic atomic custom reference",p_nutrient_basis:"per_100g",p_serving_quantity:100,p_serving_unit:"g",

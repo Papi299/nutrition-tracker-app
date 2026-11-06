@@ -7,14 +7,16 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
+import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
 import { full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker } from "../scripts/phase-11i-full35-recovery.mjs";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingPlan } from "../ingestion/usda/foundation/reprojection/contracts";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const atomicDiary=process.env.FULL35_ATOMIC_DIARY_RECOVERY==="1";
-const historyHead=atomicDiary?"20261102181943":"20261031104559";
+const writerBarrier = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
+const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
+const historyHead=writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -236,7 +238,7 @@ async function checkpoint(label:string,expectedHead:number) {
   const sourceRoles=JSON.parse(source(`select jsonb_object_agg(rolname,oid::bigint) from pg_roles where rolname in ('${operator}','${approver}')`));
   const targetRoles=JSON.parse(target(`select jsonb_object_agg(rolname,oid::bigint) from pg_roles where rolname in ('${operator}','${approver}')`));
   expect(targetRoles[operator]).not.toBe(sourceRoles[operator]);
-  if(expectedHead===1){
+  if(expectedHead===1 && !writerBarrier){
     const name=target(`select rolname from pg_roles where oid='${sourceRoles[operator]}'::oid`);expect(name).toMatch(/^full35_recovery_padding_\d+$/);
     target(`alter role ${name} login password '${password}';grant ingestion_operator to ${name}`);
     noMutationDenied("D04_same_numeric_oid",target,"select ingestion.get_foundation_mapping_reprojection_scope_v1('local')",name);
@@ -251,8 +253,9 @@ async function checkpoint(label:string,expectedHead:number) {
   bindActor(target,fixture.datasetId,operator,"operator",op);bindActor(target,fixture.datasetId,approver,"approver",app);
   const after=full35TableFingerprints(rows(target));for(const name of Object.keys(before).filter(n=>!n.startsWith("ingestion.mapping_actor_")))expect(after[name]).toEqual(before[name]);
   if(expectedHead>1){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
+  const barrierAdmission = writerBarrier ? verifyWriterBarrier(target) : undefined;
   const atomicRace=atomicDiary&&expectedHead===1?await restoredAtomicRace():undefined;
-  checkpoints.push({scenario:label,atomicRace,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
+  checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
     allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1,completedRetriesNoMutation:expectedHead>1,
     independentDecisions:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
@@ -363,6 +366,160 @@ function recoveryNegatives() {
   }),true);
   writeFileSync(dataPath,dataBytes);writeFileSync(ledgerPath,ledgerBytes);rmSync(badRoot,{recursive:true});rmSync(tar);
 }
+
+function ownerTransaction(sql: string) {
+  return `begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';${sql} commit;`;
+}
+function barrierArgs(q: ActorQuery, id: number, foodId?: string | null, calories = 0) {
+  const food = foodId === undefined ? q("select id from public.foods where is_public order by id limit 1") : foodId;
+  return `'${fixtureId(id)}','2026-11-06','lunch',${food ? `'${food}'` : "null"},'Synthetic barrier diary',null,100,'g',${calories},0,null,0,null`;
+}
+function verifyWriterBarrier(q: ActorQuery) {
+  const food = q("select id from public.foods where is_public order by id limit 1");
+  const request = barrierArgs(q, 999880, food);
+  for (const [label, sql] of [
+    ["legacy_v1", `select * from public.create_manual_diary_entry(${request});`],
+    ["legacy_v2", `select * from public.create_manual_diary_entry_v2(${request},null);`],
+    ["direct_insert", `insert into public.diary_entries(user_id,food_id,food_name,entry_date,meal_type)
+      values('${owner}','${food}','Synthetic bypass','2026-11-06','lunch');`],
+  ]) noMutationDenied(label,q,ownerTransaction(sql),"full35_recovery_authenticated",/42501.*row-level security/);
+  noMutationDenied("role_switch",q,"set role diary_reference_writer;","full35_recovery_authenticated",/42501.*permission denied/);
+  const signature = "create_reference_diary_entry_v1(uuid,date,text,uuid,text,text,numeric,text,integer,numeric,numeric,numeric,text,boolean,jsonb,text,text[])";
+  const privilegeChecks = JSON.parse(q(`select jsonb_build_object(
+    'restrictedRole',(select not rolcanlogin and not rolbypassrls and not rolsuper and not rolcreaterole
+      from pg_roles where rolname='diary_reference_writer'),
+    'noIngestionWrite',not has_any_column_privilege('diary_reference_writer','ingestion.source_records','UPDATE'),
+    'privateAuth',not has_any_column_privilege('diary_reference_writer','auth.users','SELECT'),
+    'privateSchemaNoCreate',not has_schema_privilege('diary_reference_writer','private','CREATE'),
+    'noApiRoleSwitch',not pg_has_role('authenticator','diary_reference_writer','MEMBER'),
+    'noAnonymousRpc',not has_function_privilege('anon','public.${signature}','EXECUTE'),
+    'noServiceRpc',not has_function_privilege('service_role','private.${signature}','EXECUTE'),
+    'privateDefiner',(select prosecdef and pg_get_userbyid(proowner)='diary_reference_writer'
+      from pg_proc where oid='private.${signature}'::regprocedure),
+    'publicInvoker',(select not prosecdef from pg_proc where oid='public.${signature}'::regprocedure))`));
+  expect(privilegeChecks).toEqual({restrictedRole:true,noIngestionWrite:true,privateAuth:true,privateSchemaNoCreate:true,
+    noApiRoleSwitch:true,noAnonymousRpc:true,noServiceRpc:true,privateDefiner:true,publicInvoker:true});
+  // The writer inherits existing custom-food ACLs. The normal RLS and
+  // governed mutation guard must still prevent edits to this Foundation food.
+  const beforeCatalog = full35TableFingerprints(rows(q))["public.food_nutrients"];
+  expect(q(`begin;set local role diary_reference_writer;set local request.jwt.claim.sub='${owner}';
+    with changed as (update public.food_nutrients set amount=0 where food_id='${food}' returning 1)
+    select count(*) from changed;rollback;`)).toBe("0");
+  expect(full35TableFingerprints(rows(q))["public.food_nutrients"]).toEqual(beforeCatalog);
+  const reference = JSON.parse(q(ownerTransaction(`select row_to_json(r) from public.get_readable_food_nutrition_reference_v2('${food}') r;`)));
+  const fingerprint = reference.reference_fingerprint;
+  const automaticArgs = barrierArgs(q,999882,food,Math.round(Number(reference.nutrients.energy_kcal)));
+  expect(q(ownerTransaction(`select result_status from public.create_reference_diary_entry_v1(
+    ${automaticArgs},false,null,'${fingerprint}',array['calories']);`),"full35_recovery_authenticated")).toBe("success");
+  const linked = ownerTransaction(`select row_to_json(r) from public.create_reference_diary_entry_v1(${request},false,null,'${fingerprint}',array[]::text[]) r;`);
+  const snapshot = JSON.parse(q(linked,"full35_recovery_authenticated"));
+  expect(snapshot.result_status).toBe("success");
+  expect(q(`select calories from public.diary_entries where id='${snapshot.diary_entry_id}'`)).toBe("0");
+  const beforeRetry = full35TableFingerprints(rows(q));
+  expect(JSON.parse(q(linked,"full35_recovery_authenticated"))).toEqual(snapshot);
+  expect(full35TableFingerprints(rows(q))).toEqual(beforeRetry);
+  expect(q(ownerTransaction(`select result_status from public.create_manual_diary_entry(${barrierArgs(q, 999881, null)});`),
+    "full35_recovery_authenticated")).toBe("success");
+  return {legacyV1Denied:true,legacyV2Denied:true,directDenied:true,noPartialReceipt:true,roleIsolation:true,
+    validAtomic:true,linkedManualZero:true,unlinkedManual:true,exactRetry:true};
+}
+async function migrateWriterBarrier() {
+  const pin = FOUNDATION_WRITER_BARRIER_HISTORY;
+  const migration = readFileSync(join(repository,"supabase/migrations",pin.filename),"utf8");
+  const before = full35TableFingerprints(rows(source));
+  const beforeSchema = full35ReviewedSchemaHash(rows(source));
+  const history = () => source(`select jsonb_build_object(
+    'entries',(select jsonb_agg(to_jsonb(d) order by d.id) from public.diary_entries d where not exists(
+      select from public.manual_diary_entry_requests r where r.idempotency_key='${fixtureId(999878)}'
+      and r.completed_diary_entry_id=d.id)),
+    'receipts',(select jsonb_agg(to_jsonb(r) order by r.id) from public.manual_diary_entry_requests r
+      where r.idempotency_key<>'${fixtureId(999878)}'))`);
+  const originalHistory = history();
+  const originalLedger = source("select version from supabase_migrations.schema_migrations order by version");
+  expect(originalLedger.split("\n")).toHaveLength(48);
+  const install = `${migration}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${pin.head}','${pin.filename.slice(15,-4)}',array[]::text[]);`;
+  const failed = `begin;set local lock_timeout='5s';${install} select 1/0;commit;`;
+  expect(() => source(failed,"postgres")).toThrow();
+  expect(source("select version from supabase_migrations.schema_migrations order by version")).toBe(originalLedger);
+  expect(full35ReviewedSchemaHash(rows(source))).toBe(beforeSchema);
+  expect(full35TableFingerprints(rows(source))).toEqual(before);
+  expect(source("select to_regrole('diary_reference_writer') is null")).toBe("t");
+
+  // Hold an actual admitted old transaction, then queue migration and another
+  // legacy insert. Check lock dependencies before releasing the first writer.
+  const launch = (sql: string, user: string, keep = false) => {
+    const child = spawn("docker",["exec","-i",config.source,"psql","-U",user,"-d","postgres","-X","-qAt","-v","ON_ERROR_STOP=1"],
+      { timeout: 15_000 });
+    let output = "", stderr = "";
+    child.stdout.on("data", chunk => output += chunk);
+    child.stderr.on("data", chunk => stderr += chunk);
+    const done = new Promise<{code: number | null; stderr: string}>((resolve,reject) => {
+      child.on("error",reject);child.on("close",code => resolve({code,stderr}));
+    });
+    if (keep) child.stdin.write(sql); else child.stdin.end(sql);
+    return {child,done,output:() => output};
+  };
+  const admitted = launch(`set application_name='barrier_admitted';
+    ${ownerTransaction(`select result_status from public.create_manual_diary_entry(${barrierArgs(source,999878)});`).replace(/commit;$/, "")}
+    \\echo barrier_ready
+    `,"supabase_admin",true);
+  const sessions = [admitted];
+  const blockedBy = (blocked: string, blocker: string) => source(`select exists(select from pg_stat_activity a,pg_stat_activity b
+    where a.application_name='${blocked}' and b.application_name='${blocker}' and b.pid=any(pg_blocking_pids(a.pid)))`);
+  try {
+    await expect.poll(() => admitted.output().includes("success") && admitted.output().includes("barrier_ready")).toBe(true);
+    const barrier = launch(`set application_name='barrier_install';begin;set local lock_timeout='5s';${install}commit;`,"postgres");
+    sessions.push(barrier);
+    await expect.poll(() => blockedBy("barrier_install","barrier_admitted"),{timeout:3_000}).toBe("t");
+    const queued = launch(`set application_name='barrier_queued';${ownerTransaction(
+      `select result_status from public.create_manual_diary_entry(${barrierArgs(source,999879)});`)}`,"supabase_admin");
+    sessions.push(queued);
+    await expect.poll(() => blockedBy("barrier_queued","barrier_install"),{timeout:3_000}).toBe("t");
+    admitted.child.stdin.end("commit;\n");
+    expect((await admitted.done).code).toBe(0);
+    expect(await barrier.done).toEqual({code:0,stderr:""});
+    expect((await queued.done).stderr).toMatch(/row-level security policy/);
+  } finally {
+    for (const session of sessions) if (session.child.exitCode === null) session.child.kill();
+    await Promise.all(sessions.map(session => session.done));
+  }
+  expect(source("select version from supabase_migrations.schema_migrations order by version")).toBe(`${originalLedger}\n${pin.head}`);
+  const after = full35TableFingerprints(rows(source));
+  expect(after["public.diary_entries"].count).toBe(before["public.diary_entries"].count+1);
+  expect(after["public.manual_diary_entry_requests"].count).toBe(before["public.manual_diary_entry_requests"].count+1);
+  for (const name of Object.keys(before).filter(n => !["public.diary_entries","public.manual_diary_entry_requests"].includes(n))) {
+    expect(after[name]).toEqual(before[name]);
+  }
+  expect(history()).toBe(originalHistory);
+  return {admittedCommitted:true,queuedRejected:true,failedMigrationRolledBack:true,catalogAndAuthPreserved:true,
+    preexistingEntriesAndReceiptsUnchanged:true};
+}
+
+test("Foundation writer barrier drains, persists and survives encrypted history-49 recovery", async () => {
+  mkdirSync(config.scratch,{recursive:true,mode:0o700});
+  installRoles(source);
+  command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Recovery Qualification"]);
+  chmodSync(key,0o600);
+  recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
+  initializeSource();
+  const activation = await migrateWriterBarrier();
+  exactAtomicOwnerRetry(source);
+  const admission = verifyWriterBarrier(source);
+  const baseline = full35ReviewedSchemaHash(rows(source), true);
+  for (const sql of ["drop policy foundation_manual_diary_requires_reference on public.diary_entries",
+    "alter role diary_reference_writer bypassrls","grant diary_reference_writer to authenticator",
+    "grant create on schema private to diary_reference_writer",
+    "alter default privileges for role diary_reference_writer revoke execute on functions from public",
+    "alter table public.diary_entries disable trigger diary_entries_increment_version"]) {
+    const observed = full35ReviewedSchemaHash((query: string) => rows(source)(`begin;${sql};${query};rollback;`), true);
+    expect(() => assertFull35SchemaHash(baseline,observed)).toThrow(/fingerprint mismatch/);
+  }
+  await checkpoint("writer_barrier_49",1);
+  writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({result:"PASS",migrationHead:historyHead,
+    activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
+});
 
 test.describe.serial("Approved encrypted Full35 recovery",()=>{
   test.beforeAll(()=>{mkdirSync(config.scratch,{recursive:true,mode:0o700});installRoles(source);

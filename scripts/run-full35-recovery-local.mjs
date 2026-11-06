@@ -4,11 +4,19 @@ import { createHash, randomBytes } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { assertRedactedEvidence } from "./phase-11i-recovery-contract.mjs";
+import { assertRedactedEvidence, assertTrustedMigrationReplay } from "./phase-11i-recovery-contract.mjs";
+import { FOUNDATION_WRITER_BARRIER_HISTORY } from "./foundation-writer-barrier-history.mjs";
+import { ATOMIC_DIARY_REVIEWED_HISTORY } from "./atomic-diary-recovery-history.mjs";
+import { FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
-// Approved encrypted migration-47 qualification. Local Docker only; no connection options.
-const atomicDiary=process.argv[2]==="--atomic-diary";
-if (process.argv.length !== (atomicDiary?3:2)) throw new Error("This local-only diagnostic accepts no connection options.");
+// Local Docker only. The history-49 case seeds a history-48 source first.
+const writerBarrier = process.argv[2] === "--writer-barrier";
+const atomicDiary = process.argv[2] === "--atomic-diary";
+if (process.argv.length !== (writerBarrier || atomicDiary ? 3 : 2)) throw new Error("This local-only diagnostic accepts no connection options.");
+const history = writerBarrier ? FOUNDATION_WRITER_BARRIER_HISTORY : atomicDiary ? ATOMIC_DIARY_REVIEWED_HISTORY : FULL35_REVIEWED_HISTORY;
+const readMigration = name => readFileSync(join("supabase/migrations", name));
+const migrations = assertTrustedMigrationReplay(readdirSync("supabase/migrations").sort(), history, readMigration);
+const evidenceName = writerBarrier ? "writer-barrier-recovery-evidence" : atomicDiary ? "atomic-diary-recovery-evidence" : "full35-recovery-evidence";
 const repository = process.cwd();
 const root = mkdtempSync(join(tmpdir(), "full35-recovery-qualified-"));
 const evidence = join(root, "evidence");
@@ -57,31 +65,42 @@ try {
     for (const old of [54320, 54321, 54322, 54323, 54324, 54327, 54329]) config = config.replaceAll(`= ${old}`, `= ${await unusedPort()}`);
     writeFileSync(join(directory, "supabase/config.toml"), config);
     mkdirSync(join(directory,"supabase/migrations"));
-    for(const file of readdirSync("supabase/migrations").filter(n=>n.endsWith(".sql")).sort().slice(0,atomicDiary?48:47)) cpSync(join("supabase/migrations",file),join(directory,"supabase/migrations",file));
+    for (const file of migrations) {
+      if (!writerBarrier || file !== history.filename) cpSync(join("supabase/migrations", file), join(directory,"supabase/migrations",file));
+    }
     cpSync("supabase/templates", join(directory, "supabase/templates"), { recursive: true });
     identities[side] = { project, directory, container: `supabase_db_${project}` };
     started.push({ project, directory });
     process.stdout.write(`Starting disposable local ${side} database ${project}.\n`);
     await run(cli, ["db", "start", "--workdir", directory], { log: `${side}-replay.log` });
+    if (writerBarrier) cpSync(join("supabase/migrations", history.filename), join(directory, "supabase/migrations", history.filename));
   }
   writeFileSync(join(evidence, "context.json"), JSON.stringify({
     commit: await run("git", ["rev-parse", "HEAD"]), tree: await run("git", ["rev-parse", "HEAD^{tree}"]),
     cli: cliVersion, node: process.version, identities,
-    candidateSqlSha256: createHash("sha256").update(readFileSync(atomicDiary?"supabase/migrations/20261102181943_atomic_food_diary_persistence_v1.sql":"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql")).digest("hex"),
+    candidateSqlSha256: createHash("sha256").update(readMigration(history.filename)).digest("hex"),
     workingTreeStatus: await run("git",["status","--porcelain"]),
   }, null, 2) + "\n", { mode: 0o600 });
   writeFileSync(join(evidence, "diagnostic-input.json"), JSON.stringify({
     source: identities.source.container, target: identities.target.container,
     sourceDirectory: identities.source.directory, targetDirectory: identities.target.directory, scratch: join(root, "private"),
   }), { mode: 0o600 });
-  await run(resolve("node_modules/.bin/playwright"), ["test", "--config=playwright.full35-recovery.config.ts"], {
+  await run(resolve("node_modules/.bin/playwright"), ["test", "--config=playwright.full35-recovery.config.ts", ...(writerBarrier ? ["--grep", "Foundation writer barrier"] : ["--grep-invert", "Foundation writer barrier"])], {
     show: true, log: "diagnostic.log", timeout: 3_300_000, env: {
-      FULL35_ATOMIC_DIARY_RECOVERY: atomicDiary?"1":"0", FULL35_EVIDENCE_DIR: evidence, FULL35_TEST_OUTPUT_DIR: join(root, "test-results"),
+      FULL35_ATOMIC_DIARY_RECOVERY: writerBarrier ? "49" : atomicDiary ? "1" : "0", FULL35_EVIDENCE_DIR: evidence, FULL35_TEST_OUTPUT_DIR: join(root, "test-results"),
     },
   });
   const qualification=JSON.parse(readFileSync(join(evidence,"recovery-qualification.json"),"utf8"));
   if(atomicDiary && qualification.atomicDiary?.result!=="PASS") throw new Error("Exact new history atomic diary recovery must pass.");
-  if(qualification.result!=="PASS"||qualification.checkpoints.length!==3||Object.keys(qualification.recoveryMatrix).length!==26||Object.keys(qualification.markerMatrix).length!==10) throw new Error("Three approved encrypted scenarios, all 26 recovery negatives and all ten marker cases must pass.");
+  if (writerBarrier) {
+    if (qualification.result !== "PASS" || qualification.migrationHead !== history.head ||
+        qualification.checkpoint?.full35Recovery?.result !== "PASS" || qualification.checkpoint?.atomicRace?.result !== "PASS") {
+      throw new Error("Exact-history-49 encrypted restore, writer admission and restored race must pass.");
+    }
+  } else if (qualification.result !== "PASS" || qualification.checkpoints.length !== 3 ||
+      Object.keys(qualification.recoveryMatrix).length !== 26 || Object.keys(qualification.markerMatrix).length !== 10) {
+    throw new Error("Three approved encrypted scenarios, all 26 recovery negatives and all ten marker cases must pass.");
+  }
 } catch (error) { failure = error; }
 finally {
   for (const { project, directory } of started) {
@@ -92,10 +111,10 @@ finally {
   const cleanup={schemaVersion:"full35-recovery-cleanup/v1",privateKeyAndPlaintextRemoved:!existsSync(join(root,"private")),allOwnedProjectsStopped:stopped.size===started.length,ownedProjects:started.map(item=>item.project),productionAccess:false};
   writeFileSync(join(evidence,"cleanup.json"),JSON.stringify(cleanup,null,2)+"\n",{mode:0o600});
   if (!failure && process.env.CI === "true") {
-    const destination=join(repository,atomicDiary?"atomic-diary-recovery-evidence":"full35-recovery-evidence");mkdirSync(destination,{mode:0o700});
+    const destination=join(repository,evidenceName);mkdirSync(destination,{mode:0o700});
     for(const name of ["context.json","recovery-qualification.json","cleanup.json"]){const value=JSON.parse(readFileSync(join(evidence,name),"utf8"));assertRedactedEvidence(value);writeFileSync(join(destination,name),JSON.stringify(value,null,2)+"\n",{mode:0o600});}
   }
-  if (!failure) process.stdout.write(`Approved encrypted Full35 migration-${atomicDiary?48:47} recovery qualification PASS.\n`);
+  if (!failure) process.stdout.write(`Approved encrypted Full35 migration-${history.count} recovery qualification PASS.\n`);
   process.stdout.write(`Sanitized recovery qualification evidence: ${evidence}\n`);
 }
 if (failure) { process.stderr.write(`${failure.message}\n`); process.exitCode = 1; }

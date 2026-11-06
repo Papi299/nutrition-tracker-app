@@ -7,7 +7,7 @@ import { normalizeFoundationRecord } from "@/ingestion/usda/foundation/normaliza
 import { extractFoundationFull35Json } from "@/ingestion/usda/foundation/full35/archive";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingScopeSnapshot } from "@/ingestion/usda/foundation/reprojection/contracts";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId, excludedIds, syntheticReprojectionRecords } from "./foundation-full35-reprojection";
-import { assertReviewedAtomicDiaryFiles } from "../../scripts/atomic-diary-recovery-history.mjs";
+import { assertTrustedMigrationReplay, recoveryMigrationBoundary } from "../../scripts/phase-11i-recovery-contract.mjs";
 import { bindActor, installIdentityControllers } from "./foundation-full35-actor-identity";
 
 export function installApplicationTransition(syntheticRecords = syntheticReprojectionRecords()) {
@@ -101,10 +101,12 @@ export function installApplicationTransition(syntheticRecords = syntheticReproje
   installIdentityControllers(query, password);
   bindActor(query, fixture.datasetId, operator, "operator"); bindActor(query, fixture.datasetId, approver, "approver");
   const scope = json<MappingScopeSnapshot>("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')->'before_snapshot'", operator);
-  const migrations = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort().map(filename => ({ filename,
-    version: filename.split("_")[0], sha256: createHash("sha256").update(readFileSync(`supabase/migrations/${filename}`)).digest("hex") }));
-  if (![47, 48].includes(migrations.length) || migrations[46].sha256 !== "086f5c27a0270d6452db18b89e89c685c9ed5b677e0e841535d192c5408613af") throw new Error("Migration identity drift.");
-  if(migrations.length===48) assertReviewedAtomicDiaryFiles(migrations.map(m=>m.filename), (name:string)=>readFileSync(`supabase/migrations/${name}`));
+  const files = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
+  const readMigration = (name: string) => readFileSync(`supabase/migrations/${name}`);
+  const boundary = recoveryMigrationBoundary(undefined, false, query("select max(version) from supabase_migrations.schema_migrations"));
+  const migrations = assertTrustedMigrationReplay(files, boundary, readMigration).map((filename: string) => ({
+    filename, version: filename.slice(0,14), sha256: createHash("sha256").update(readMigration(filename)).digest("hex"),
+  }));
   const plan = buildMappingPlan({ operation_kind: "reprojection", dataset_id: fixture.datasetId, environment: "local",
     source_release_id: fixture.releaseId, mapping_version_id: mappingId, before_snapshot: scope,
     actor_authority: selectMappingActorAuthority(json<MappingActorScope>("select ingestion.get_foundation_mapping_reprojection_scope_v1('local')->'actor_authority'", operator), approver),
