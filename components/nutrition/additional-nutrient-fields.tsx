@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FieldError, FieldLabel, Input } from "@/components/ui/form-controls";
+import { FieldDescription, FieldError, FieldLabel, Input } from "@/components/ui/form-controls";
 import { nutrientManifestV1, type AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
 
 export function AdditionalNutrientFields({
@@ -9,7 +9,7 @@ export function AdditionalNutrientFields({
 }: {
   values: Partial<Record<AdditionalNutrientCode, string>>;
   errors?: Partial<Record<string, string>>;
-  automaticValues?: Partial<Record<AdditionalNutrientCode, string>>;
+  automaticValues?: Partial<Record<AdditionalNutrientCode, string | null>>;
   controlPrefix: string;
   fieldPrefix?: string;
   fieldSuffix?: string;
@@ -32,17 +32,20 @@ export function AdditionalNutrientFields({
             const field = `${fieldPrefix}${code}${fieldSuffix}`;
             const id = `${controlPrefix}-${field}`;
             const error = errors[field];
-            const label = `${t(`labels.${code}`)} (${unit})`;
+            const label = `${t(`labels.${code}`)} (${unit === "ug" ? "µg" : unit})`;
+            const unavailable = automaticValues?.[nutrient] === null;
+            const describedBy = [error && `${id}-error`, unavailable && `${id}-unavailable`].filter(Boolean).join(" ");
             return <div className="grid content-start gap-2" key={code}>
               <FieldLabel className="grid gap-2" htmlFor={id}>
                 <span>{label}</span>
-                <Input aria-describedby={error ? `${id}-error` : undefined} aria-invalid={Boolean(error)}
+                <Input aria-describedby={describedBy || undefined} aria-invalid={Boolean(error)}
                   data-nutrient-code={code} disabled={disabled}
                   {...(onValueChange ? { value: values[nutrient] ?? "", onChange: (event) => onValueChange(nutrient, event.target.value) } : { defaultValue: values[nutrient] ?? "" })}
                   id={id} inputMode="decimal" min="0" name={field} step="0.0001" type="number" />
               </FieldLabel>
               {error && <FieldError id={`${id}-error`}>{t("invalidAmount")}</FieldError>}
-              {automaticValues && <label className="flex min-h-11 items-center gap-2 text-sm">
+              {unavailable ? <FieldDescription id={`${id}-unavailable`}>{formT("automaticNutrientUnavailable")}</FieldDescription> :
+                automaticValues && <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input disabled={disabled}
                   {...(onAutomaticChange ? { checked: automaticValues[nutrient] === "1", onChange: (event) => onAutomaticChange(nutrient, event.target.checked) } : { defaultChecked: automaticValues[nutrient] === "1" })}
                   name={`${fieldPrefix}automatic_${code}${fieldSuffix}`} type="checkbox" value="1" />
