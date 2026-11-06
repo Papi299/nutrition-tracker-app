@@ -257,10 +257,8 @@ test("F35-32–39 governed 353-food enrichment preserves application history, re
         await expect(page.getByTestId("nutrition-reference-changed")).toBeVisible();
         await expect(page.getByTestId("nutrition-reference-changed")).toContainText(locale === "he" ? "ערכי הייחוס במאגר השתנו" : "The catalog reference changed");
         expect((await client.from("manual_diary_entry_requests").select("id").eq("idempotency_key", drafts[i].key)).data).toEqual([]);
-        for (const code of nutrientCodesV1) {
-          await expect(input(form, field(code))).toHaveValue(drafts[i].values[field(code)]);
-          await expect(input(form, `automatic_${field(code)}`)).not.toBeChecked();
-        }
+        await expect(form.locator('input[name^="automatic_"]:checked')).toHaveCount(0);
+        for (const code of nutrientCodesV1) await expect(input(form, field(code))).toHaveValue(drafts[i].values[field(code)]);
         await page.reload(); await expect(input(form, "idempotency_key")).toHaveValue(drafts[i].key);
         for (const code of nutrientCodesV1) await expect(input(form, field(code))).toHaveValue(drafts[i].values[field(code)]);
         await expand(form);
@@ -271,7 +269,8 @@ test("F35-32–39 governed 353-food enrichment preserves application history, re
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
         // Only this explicit automatic choice is refreshed; the manual fiber
         // override and all other retained manual numbers remain unchanged.
-        await input(form, "automatic_vitamin_c_mg").check();
+        const automaticCode = additionalNutrientCodesV1.find(code => code !== "fiber_g" && current.nutrients[code] !== null) ?? "energy_kcal";
+        await input(form, `automatic_${field(automaticCode)}`).check();
         await form.getByRole("button", { name: locale === "he" ? "הוספת רשומה" : "Add entry", exact: true }).click();
         await expect(form).toContainText(locale === "he" ? "הרשומה נוספה." : "Entry added.");
         const row = await client.from("diary_entries").select("additional_nutrient_snapshot").eq("entry_date", stale[i].date).single();
