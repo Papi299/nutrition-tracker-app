@@ -253,7 +253,7 @@ async function checkpoint(label:string,expectedHead:number) {
   bindActor(target,fixture.datasetId,operator,"operator",op);bindActor(target,fixture.datasetId,approver,"approver",app);
   const after=full35TableFingerprints(rows(target));for(const name of Object.keys(before).filter(n=>!n.startsWith("ingestion.mapping_actor_")))expect(after[name]).toEqual(before[name]);
   if(expectedHead>1){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
-  const barrierAdmission = writerBarrier ? verifyWriterBarrier(target) : undefined;
+  const barrierAdmission = writerBarrier ? verifyWriterBarrier(target, 999890) : undefined;
   const atomicRace=atomicDiary&&expectedHead===1?await restoredAtomicRace():undefined;
   checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
@@ -374,9 +374,9 @@ function barrierArgs(q: ActorQuery, id: number, foodId?: string | null, calories
   const food = foodId === undefined ? q("select id from public.foods where is_public order by id limit 1") : foodId;
   return `'${fixtureId(id)}','2026-11-06','lunch',${food ? `'${food}'` : "null"},'Synthetic barrier diary',null,100,'g',${calories},0,null,0,null`;
 }
-function verifyWriterBarrier(q: ActorQuery) {
+function verifyWriterBarrier(q: ActorQuery, firstRequest: number) {
   const food = q("select id from public.foods where is_public order by id limit 1");
-  const request = barrierArgs(q, 999880, food);
+  const request = barrierArgs(q, firstRequest, food);
   for (const [label, sql] of [
     ["legacy_v1", `select * from public.create_manual_diary_entry(${request});`],
     ["legacy_v2", `select * from public.create_manual_diary_entry_v2(${request},null);`],
@@ -408,7 +408,7 @@ function verifyWriterBarrier(q: ActorQuery) {
   expect(full35TableFingerprints(rows(q))["public.food_nutrients"]).toEqual(beforeCatalog);
   const reference = JSON.parse(q(ownerTransaction(`select row_to_json(r) from public.get_readable_food_nutrition_reference_v2('${food}') r;`)));
   const fingerprint = reference.reference_fingerprint;
-  const automaticArgs = barrierArgs(q,999882,food,Math.round(Number(reference.nutrients.energy_kcal)));
+  const automaticArgs = barrierArgs(q,firstRequest+2,food,Math.round(Number(reference.nutrients.energy_kcal)));
   expect(q(ownerTransaction(`select result_status from public.create_reference_diary_entry_v1(
     ${automaticArgs},false,null,'${fingerprint}',array['calories']);`),"full35_recovery_authenticated")).toBe("success");
   const linked = ownerTransaction(`select row_to_json(r) from public.create_reference_diary_entry_v1(${request},false,null,'${fingerprint}',array[]::text[]) r;`);
@@ -417,8 +417,11 @@ function verifyWriterBarrier(q: ActorQuery) {
   expect(q(`select calories from public.diary_entries where id='${snapshot.diary_entry_id}'`)).toBe("0");
   const beforeRetry = full35TableFingerprints(rows(q));
   expect(JSON.parse(q(linked,"full35_recovery_authenticated"))).toEqual(snapshot);
+  const legacyRetry = q(ownerTransaction(`select row_to_json(r) from public.create_manual_diary_entry(${request}) r;`),
+    "full35_recovery_authenticated");
+  expect(JSON.parse(legacyRetry)).toMatchObject({result_status:"success",diary_entry_id:snapshot.diary_entry_id,completed_at:snapshot.completed_at});
   expect(full35TableFingerprints(rows(q))).toEqual(beforeRetry);
-  expect(q(ownerTransaction(`select result_status from public.create_manual_diary_entry(${barrierArgs(q, 999881, null)});`),
+  expect(q(ownerTransaction(`select result_status from public.create_manual_diary_entry(${barrierArgs(q, firstRequest+1, null)});`),
     "full35_recovery_authenticated")).toBe("success");
   return {legacyV1Denied:true,legacyV2Denied:true,directDenied:true,noPartialReceipt:true,roleIsolation:true,
     validAtomic:true,linkedManualZero:true,unlinkedManual:true,exactRetry:true};
@@ -506,7 +509,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
   initializeSource();
   const activation = await migrateWriterBarrier();
   exactAtomicOwnerRetry(source);
-  const admission = verifyWriterBarrier(source);
+  const admission = verifyWriterBarrier(source, 999880);
   const captureValues = full35TableFingerprints(rows(source));
   for (const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name] = captureValues[name];
   const baseline = full35ReviewedSchemaHash(rows(source), true);
