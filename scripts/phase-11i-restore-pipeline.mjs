@@ -21,6 +21,8 @@ import {
   assertMigrationHistory,
   assertTrustedMigrationReplay,
   recoveryMigrationBoundary,
+  FOUNDATION_WRITER_BARRIER_BOUNDARY,
+  FULL35_MIGRATION_BOUNDARY,
   assertRedactedEvidence,
   assertStorageScope,
   fail,
@@ -201,6 +203,8 @@ export function restoreBackup({
     sourceEnvironment: manifest.sourceEnvironment,
   });
   const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
+  const full35History = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count;
+  const includeWriterBarrier = migrationBoundary.count === FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
   // Historical migration-44 manifests predate the additive public summary.
   if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count >= 45) {
     assertNewBackupPublicVerification(manifest, migrationBoundary);
@@ -244,7 +248,7 @@ export function restoreBackup({
   const databaseContainer = `supabase_db_${projectId}`;
   // This executor is confined to the fixed disposable local restore target.
   // Migration47's closed identity functions deliberately exclude postgres.
-  const databaseUser = [47, 48].includes(migrationBoundary.count) ? "supabase_admin" : "postgres";
+  const databaseUser = full35History ? "supabase_admin" : "postgres";
 
   function database(sql, full35Atomic = false) {
     return run(
@@ -394,7 +398,7 @@ export function restoreBackup({
       fail("Backup migration metadata disagrees with the reviewed ledger.");
     }
 
-    if ([47, 48].includes(migrationBoundary.count)) {
+    if (full35History) {
       if (!sourceSnapshot.full35Recovery) fail("Full35 recovery metadata required.");
       assertFull35SourceMetadata(sourceSnapshot.full35Recovery);
       assertFull35Payload(readFileSync(join(contentRoot,"application-data.sql"),"utf8"));
@@ -408,8 +412,8 @@ export function restoreBackup({
       const output = database(sql);
       return output ? output.split(/\r?\n/).map(line => line.split("\t")) : [];
     };
-    const freshMarker = [47, 48].includes(migrationBoundary.count) ? full35ClusterMarker(targetRows) : null;
-    const reviewedContract = [47, 48].includes(migrationBoundary.count) ? full35ReviewedSchemaHash(targetRows) : null;
+    const freshMarker = full35History ? full35ClusterMarker(targetRows) : null;
+    const reviewedContract = full35History ? full35ReviewedSchemaHash(targetRows, includeWriterBarrier) : null;
     if (freshMarker) {
       assertFreshFull35Marker(sourceSnapshot.full35Recovery.sourceClusterMarker,freshMarker);
       assertFull35SchemaHash(sourceSnapshot.full35Recovery.reviewedSchemaHash,reviewedContract);
@@ -460,7 +464,7 @@ export function restoreBackup({
       fail("Source and migration-replayed application structures differ.");
     }
 
-    if ([47, 48].includes(migrationBoundary.count) && (sourceOnlySchema.length || localOnlySchema.length)) {
+    if (full35History && (sourceOnlySchema.length || localOnlySchema.length)) {
       fail("Full35 source schema or ACL differs from reviewed target migration.");
     }
     const compatibilitySql = [
@@ -514,7 +518,7 @@ export function restoreBackup({
       safeIdentifier(table);
       return `"${schema}"."${table}"`;
     });
-    if ([47, 48].includes(migrationBoundary.count)) {
+    if (full35History) {
       // The reviewed dump loader uses replica mode only while loading data.
       // Whole-row equality and the untouched target marker must pass before
       // committing any restored Auth/application row. A failed payload rolls back.
@@ -637,8 +641,8 @@ export function restoreBackup({
         return output ? output.split(/\r?\n/).map((line) => line.split("\t")) : [];
       }).ownershipIntegrity;
     }
-    const full35Recovery = [47, 48].includes(migrationBoundary.count)
-      ? validateRestoredFull35(targetRows,sourceSnapshot.full35Recovery,freshMarker,reviewedContract) : undefined;
+    const full35Recovery = full35History
+      ? validateRestoredFull35(targetRows,sourceSnapshot.full35Recovery,freshMarker,reviewedContract,includeWriterBarrier) : undefined;
     const recoveryRestoredAt = new Date().toISOString();
     const report = {
       schemaVersion: "phase-11i-restore-report/v1",

@@ -89,7 +89,10 @@ export async function submitDiaryEntryCreate(formData: FormData, context?: Trust
   const automaticFields = allNutrientFields.filter(field => values[`automatic_${field}`] === "1");
   let reviewRequired = false;
   const servingIntent = readTextField(formData, "serving_intent");
-  const referenceDependent = automaticFields.length > 0 || Boolean(servingIntent) || Boolean(values.quantity_reference_fingerprint) ||
+  const linkedReference = context?.reference.food_id === values.food_id ? context : undefined;
+  // Even an entirely manual linked snapshot must use the reviewed reference
+  // write path. An empty automatic mask preserves every manual value.
+  const referenceDependent = Boolean(linkedReference) || automaticFields.length > 0 || Boolean(servingIntent) || Boolean(values.quantity_reference_fingerprint) ||
     Boolean(values.quantity_unit && values.quantity_unit !== values.serving_unit);
   if (values.quantity_reference_fingerprint && !/^[a-f0-9]{64}$/.test(values.quantity_reference_fingerprint)) return fail({ form: "invalid_input" });
   if (values.quantity_reference_fingerprint && (!context || context.reference.food_id !== values.food_id)) return fail({ form: "missing_reference" });

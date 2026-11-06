@@ -50,6 +50,7 @@ const intentionallyLifecycleTables = [
   "nutrients",
 ] as const;
 const accountAccessRequiredRpcs = [
+  "private.create_reference_diary_entry_v1(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, boolean, jsonb, text, text[])|DEFINER",
   "private.diary_governed_dataset_v1(uuid)|DEFINER",
   "public.create_reference_diary_entry_v1(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, boolean, jsonb, text, text[])|INVOKER",
   "public.create_manual_diary_entry_v2(uuid, date, text, uuid, text, text, numeric, text, integer, numeric, numeric, numeric, text, jsonb)|INVOKER",
@@ -609,6 +610,7 @@ test.describe.serial("Phase 11E1 invited activation and confirmation", () => {
     // validating a payload. The arithmetic helper is pure and exposes no state.
     for (const referenceInvocation of [
       "select private.diary_governed_dataset_v1(null);",
+      "select * from private.create_reference_diary_entry_v1(null,null,null,null,null,null,null,null,null,null,null,null,null,true,null,repeat('0',64),array[]::text[]);",
       "select * from public.create_reference_diary_entry_v1(null,null,null,null,null,null,null,null,null,null,null,null,null,true,null,repeat('0',64),array[]::text[]);",
     ]) {
       expect(() => queryLocalAuthFixture(`

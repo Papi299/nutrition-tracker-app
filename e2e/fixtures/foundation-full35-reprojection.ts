@@ -52,6 +52,15 @@ export function syntheticReprojectionRecords() {
 }
 
 export function installSyntheticBaseline(query:(sql:string)=>string, fixture=syntheticReprojectionRecords()) {
+  const writerBarrier = query("select to_regrole('diary_reference_writer') is not null") === "t";
+  const diaryArgs = `'00000000-0000-4000-8000-000000999702','2026-01-15','lunch',
+      '00000000-0000-4000-8000-000000000003','Synthetic reprojection food 1',null,100,'g',100,null,2,0,null`;
+  const snapshot = "(select request from full35_snapshot_request)";
+  const fixtureWrite = writerBarrier
+    ? `public.create_reference_diary_entry_v1(${diaryArgs},true,${snapshot},
+      (select reference_fingerprint from public.get_readable_food_nutrition_reference_v2('00000000-0000-4000-8000-000000000003')),
+      array[]::text[])`
+    : `public.create_manual_diary_entry_v2(${diaryArgs},${snapshot})`;
   const manifest={contract_version:"source-release-manifest/v1",source_code:"usda",dataset_code:"usda_fdc_foundation",
     distributor_code:"usda_fdc_direct",transformation_code:null,original_release_identifier:"synthetic-full35-reprojection-001",
     transformation_release_identifier:null,publication_date:"2026-04-30",acquisition_method:"official_bulk_download",
@@ -151,9 +160,7 @@ export function installSyntheticBaseline(query:(sql:string)=>string, fixture=syn
       'code',m->>'code','amount',case when m->>'code'='sugars_g' then '0'::jsonb
         when m->>'code'='thiamin_mg' then '1.2345'::jsonb else 'null'::jsonb end))) request
       from jsonb_array_elements(public.nutrient_snapshot_manifest_v1()) m where m->'coreField'='null'::jsonb;
-    select * from public.create_manual_diary_entry_v2('00000000-0000-4000-8000-000000999702','2026-01-15','lunch',
-      '00000000-0000-4000-8000-000000000003','Synthetic reprojection food 1',null,100,'g',100,null,2,0,null,
-      (select request from full35_snapshot_request));
+    select * from ${fixtureWrite};
     select * from public.create_manual_diary_entry('00000000-0000-4000-8000-000000999706','2026-01-15','snack',
       null,'Synthetic frozen v1 diary',null,100,'g',100,null,2,0,null);
     select * from public.persist_saved_meal_v2(null,'Synthetic frozen meal','he',

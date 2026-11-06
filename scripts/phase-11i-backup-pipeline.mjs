@@ -1,4 +1,4 @@
-import { captureFull35Recovery, assertFull35Rows, full35TableFingerprints, assertFull35Payload } from "./phase-11i-full35-recovery.mjs";
+import { assertFull35SchemaHash, full35ReviewedSchemaHash, captureFull35Recovery, assertFull35Rows, full35TableFingerprints, assertFull35Payload } from "./phase-11i-full35-recovery.mjs";
 import { spawnSync } from "node:child_process";
 import {
   chmodSync,
@@ -26,6 +26,8 @@ import {
   fail,
   sha256,
   TASK_ID,
+  FOUNDATION_WRITER_BARRIER_BOUNDARY,
+  FULL35_MIGRATION_BOUNDARY,
 } from "./phase-11i-recovery-contract.mjs";
 
 import { AUTH_DURABLE_TABLES, assertDatabaseSecurity, validateCompletedOwnerActivation, validateOwnerDatabase } from "./phase-11i-owner-validation.mjs";
@@ -173,7 +175,10 @@ export async function captureBackup({
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
       "APPLICATION_TABLE_INVENTORY",
     );
-    const full35Recovery = [47, 48].includes(migrationBoundary.count) ? captureFull35Recovery((sql) => rows(sql, "FULL35_CAPTURE_VALIDATION")) : undefined;
+    const includeWriterBarrier = migrationBoundary.count === FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
+    const full35Recovery = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count
+      ? captureFull35Recovery(sql => rows(sql, "FULL35_CAPTURE_VALIDATION"), includeWriterBarrier)
+      : undefined;
     const tableCounts = exactTableCounts(applicationTables, "PRE_DUMP_TABLE_COUNTS");
     const ownerValidation = validateOwnerDatabase((sql) => rows(sql, "OWNER_VALIDATION"));
     const { authCounts, ownershipIntegrity } = ownerValidation;
@@ -300,6 +305,8 @@ export async function captureBackup({
     }, migrationBoundary);
     if (full35Recovery) assertFull35Rows(full35Recovery.rowFingerprints,
       full35TableFingerprints(sql => rows(sql,"POST_DUMP_FULL35_ROWS")));
+    if (includeWriterBarrier) assertFull35SchemaHash(full35Recovery.reviewedSchemaHash,
+      full35ReviewedSchemaHash(sql => rows(sql, "POST_DUMP_WRITER_BARRIER_SCHEMA"), true));
     const sourceSnapshot = {
       ...(full35Recovery ? {full35Recovery} : {}),
       sourceProjectRef: sourceIdentity.projectRef,

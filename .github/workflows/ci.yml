@@ -449,10 +449,18 @@ jobs:
         run: |
           npm ci
           npm run test:atomic-diary-recovery-local
+      - name: Qualify encrypted migration 49 recovery and writer admission
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          npm run test:writer-barrier-recovery-local
       - name: Retain sanitized atomic recovery evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: atomic-diary-recovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: atomic-diary-recovery-evidence/
+          path: |
+            atomic-diary-recovery-evidence/
+            writer-barrier-recovery-evidence/
           if-no-files-found: error
           retention-days: 14
