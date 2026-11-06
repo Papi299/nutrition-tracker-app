@@ -363,7 +363,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
       p_nutrients:portionNutrients}).single();expect(physical.error).toBeNull();const physicalId=physical.data!.food_id;
     await page.goto(`/en/today?date=2026-11-10&foodId=${physicalId}`);
     for(const detail of await form.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
-    for(const mode of await form.locator('input[name^="automatic_"]:checked').all())await mode.uncheck();
+    for(const mode of await form.locator('input[name^="automatic_"]').all())await mode.uncheck();
     await form.locator('[name="calories"]').fill("321");
     await form.locator('[name="serving_unit"]').fill("g");
     await expect(form.locator('[name="serving_quantity"]')).toHaveValue("50");
@@ -388,7 +388,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     const nativePage=await nativeContext.newPage();await nativePage.goto(`/en/today?date=2026-11-11&foodId=${physicalId}`);
     const nativeForm=nativePage.getByTestId("manual-diary-entry-form");
     for(const detail of await nativeForm.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
-    for(const mode of await nativeForm.locator('input[name^="automatic_"]:checked').all())await mode.uncheck();
+    for(const mode of await nativeForm.locator('input[name^="automatic_"]').all())await mode.uncheck();
     await nativeForm.locator('[name="calories"]').fill("123");await nativeForm.locator('[name="serving_unit"]').fill("g");
     const nativeSubmit=nativeForm.getByRole("button",{name:"Add entry",exact:true});await nativeSubmit.click();
     await expect(nativePage.getByTestId("nutrition-review-required")).toBeVisible();
