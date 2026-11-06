@@ -60,45 +60,30 @@ never edit a validated or approved body.
 
 ## 2. Old deployments, actions and write exclusion — B1
 
-Current source routes every new automatic or quantity-reference-dependent diary
-submission through `public.create_reference_diary_entry_v1`. Its availability is
-a deployment prerequisite. Missing RPC produces failure without manual fallback.
-The routing includes uncaptured core requests, mixed manual/automatic requests
-and catalog-serving conversion with an empty nutrient automatic mask.
-See [submission routing](../../app/[locale]/(app)/today/create-submission.ts) and
-[persistence routing](../../lib/diary-entries/mutations.ts).
+The [reviewed B1 implementation](https://github.com/Papi299/nutrition-tracker-app/pull/230)
+adds the authoritative write barrier in
+[migration 49](../../supabase/migrations/20261106101256_foundation_diary_writer_barrier.sql).
+Stage and promote the compatible app while history 48 is installed. Its
+[submission routing](../../app/[locale]/(app)/today/create-submission.ts) sends
+new Foundation-linked manual entries through the existing atomic reference RPC
+with an empty automatic-field mask. Legitimate manual values, explicit zeroes
+and historical snapshots keep their existing semantics.
 
-Older `create_manual_diary_entry` / `create_manual_diary_entry_v2` APIs retain
-legitimate manual and historical completed-receipt semantics. They cannot tell
-whether old automatic numbers were intentional manual values. Installing 48,
-promoting an alias or closing browser tabs cannot remove that ambiguity.
-The repository's maintenance policy text is recovery UX, **not a write gate**.
-No global enforced maintenance switch or proven deployment-retirement mechanism
-was found in the reviewed app/proxy/SQL. Therefore B1 is a current release blocker.
+Migration 49 acquires `ACCESS EXCLUSIVE` on `public.diary_entries` before
+changing admission. Admitted transactions must finish before the lock is
+granted. The migration keeps the public RPC signature and moves the validated
+body under a private `NOLOGIN NOBYPASSRLS` writer that inherits authenticated
+RLS privileges with `SET FALSE`. After commit, new Foundation-linked legacy
+manual inserts fail even through direct RPCs, direct table access, old URLs or
+cached actions. Completed retries, fresh atomic submissions, unlinked manual
+entries and validated saved meal/recipe logging retain their existing behavior.
 
-| Protective option evaluated | Supported boundary and missing proof | Decision |
-| --- | --- | --- |
-| Bounded maintenance/write freeze | A separately implemented and reviewed server/database enforcement must cover every affected persistence entry point, direct authenticated mutation path and already admitted/in-flight transaction; drain and independently prove zero active unsafe writes at cutoff | Preferred correction to investigate. No existing switch/SQL invocation is invented here; needs separately authorized implementation, concurrency/receipt/security/recovery tests and full CI |
-| Strict deployment/access controls | Existing SSO All Deployments limits access to members; those members can still reach old URLs. Review complete domains/generated aliases/unique URLs, bypasses, access grants and skew routes | Necessary defense, insufficient by itself; no blanket bypass or new share link |
-| Legacy deployment/action retirement | Provider-supported removal/retirement can make specific old deployment endpoints unavailable after separate authorization. Preserve compatible recovery artifacts/provenance first. Prove every legacy URL is blocked and replayed old actions cannot resolve to writable old code | Feasible procedure to qualify, not proved here. Must include already issued actions, alternate origins, cached tabs/native forms and in-flight requests; alias promotion alone fails |
-| User maintenance notice, owner inactivity or new action IDs | Does not technically exclude a delayed request, old deployment, authenticated direct call or an already executing action | Never sufficient enforcement |
-| Revoke manual RPCs / relabel all writes automatic | Breaks legitimate manual writes and historical receipt compatibility without solving declared provenance | Not an approved release workaround; any redesigned enforcement needs separate review |
-
-The correction task must choose an implementable free-tier mechanism and prove
-its behavior locally before any dependent rollout. It must specify its activation,
-drain, bounded denial semantics, admission of explicitly authorized smoke writes,
-and safe deactivation. It must preserve RLS/ownership, null/zero and exact retry
-receipts. Required tests send old rendered actions to canonical, generated,
-unique and skew-routed origins; cover stale authenticated sessions, direct APIs,
-concurrent/in-flight submissions and a disconnect at commit. Retired paths must
-remain excluded after normal writes resume. A temporary freeze that reopens the
-unsafe old path after enrichment is insufficient.
-
-If supported provider controls plus retirement cannot prove exclusion, a
-separately authorized implementation correction is mandatory. Do not start
-enrichment, waive the barrier, buy infrastructure, rotate keys or disable RLS
-as an improvised solution. New correction source would require a newly frozen
-candidate/tree, qualification and updated packet; it does not rewrite #225.
+Before enrichment, independently verify both lock orders, replayed legacy
+actions, direct authenticated calls, permitted new writes and completed
+retries. Check all effective grants, writer membership, schema ACLs, RLS,
+account activation and retained history. Use only specifically authorized smoke
+writes. Canonical alias changes and maintenance notices alone cannot enforce
+the barrier. Keep B1 active through enrichment and after normal use resumes.
 
 ## 3. Ordered checkpoints
 
@@ -110,14 +95,14 @@ must fit existing SQL/request/provider limits; no silent timeout increase.
 
 | Gate | Future action and required entry | Expected exit / stop |
 | --- | --- | --- |
-| G0 | Accept Stage 6 planning; perform separately authorized read-only Stage 6B; resolve B1 and other corrective prerequisites | Reviewed candidate, actual hosted baseline and compatibility path. No mutation under read-only authority |
-| G1 | Freeze candidate/tooling, source custody/oracles, full 44–48 inventory, signed independent review, provider identities/config, scope and exact UTC window; single release operator | Fresh exact-head CI/security and local full-stack/recovery proof. Any source/config drift requires refreeze |
-| G2 | Activate the separately qualified write exclusion; block parallel operators; drain old/new admitted writers and prove cutoff | No active unsafe/in-flight write. Retain block through migration, deployment acceptance and enrichment. An announcement alone fails |
-| G3 / CP0 | Separately authorized fresh encrypted Production owner-state capture at coordinated cutoff under **actual installed history** | Verified artifact/recipient/retention/recovery applicability and no unaccounted post-cutoff writes; never proceed on job success alone |
-| G4 | Apply only the reviewed supported migration suffix, with a distinct authorization and authoritative verification at **each** boundary | Exact installed history 47 then 48 if pending, SQL/role/ACL/RLS and unchanged user/catalog/history invariants. No reprojection or app deployment yet |
-| G5 / CP1 | Establish exact new-history backup/recovery readiness and capture a fresh approved 48-history owner-state backup | Same owner/catalog before-state plus schema/authority records, accepted restore compatibility; failure stops before enrichment |
-| G6 | Separately authorize one exact Production-target build after atomic RPC installation. Preserve configured canonical routing until promotion authority | READY candidate, trusted source/environment validator, intended project, unique deployment URL/protection; staging itself is Production-connected |
-| G7 | Verify candidate at unique URL, then separately authorized promotion; run canonical pre-enrichment acceptance | Exact authoritative Current target and live configured alias mapping, EN/HE/Auth/runtime and permitted smoke. Retire unsafe old endpoints/actions; independently prove exclusion after propagation |
+| G0 | Run the separately authorized bounded history-48 preflight and check B1 prerequisites | Exact live ledger, installed definitions, grants, RLS and original 353-food baseline. Stop on drift or uncertain writer admission |
+| G1 | Freeze exact merged source, full 1–49 SQL inventory, reviewed history-49 recovery contract, provider configuration and replacement UTC window | All merged-main CI checks pass. Record independently accepted source, cutoff procedure, operating limits and available operators |
+| G2 | Serialize operators, drain relevant writers and prove coordinated capture admission under actual history 48 | Verified lock ownership and capture-run/cutoff continuity. An ordinary uncoordinated backup does not satisfy CP0 |
+| G3 / CP0 | Capture and independently accept a fresh coordinated encrypted history-48 checkpoint | Reuse the actual history-48 restore qualification for applicability. Verify exact scope, freshness, artifact integrity, custody and accounted writes after cutoff |
+| G4 | Authorize one exact merged-source, protected Production-targeted candidate while history 48 is live | READY deployment with suppressed domain assignment, exact commit/environment and history-48 manual/atomic compatibility |
+| G5 | Independently accept the candidate and obtain separate authority to promote that exact deployment | Verify canonical routing and compatible write behavior before changing database admission |
+| G6 | Separately authorize and install only migration 49 and its ledger row in one bounded transaction | Verify exact history 49, role membership/ownership, grants/RLS, admitted and rejected writes and unchanged historical data. Stop on timeout or unknown commit |
+| G7 / CP1 | Authorize fresh encrypted history-49 capture and actual isolated restore, then obtain independent recovery acceptance | Match app, ingestion and durable Auth state, ledger and privileges. Verify recovered barrier and no unintended authority. No registration or enrichment before acceptance |
 | G8 | Separately initialize v2 registry/evidence and actor bindings **only if absent and explicitly approved**, refresh catalog scope; freeze complete operational plan | Exact mapping/33 source rows/35 classifications, real independently bound actors, current installed contract and April before-image. Preparation remains forbidden until all prerequisites apply |
 | G9 | Operator prepares/validates immutable plan; independent nutrient actor approves exact hash/expiry/evidence; owner separately authorizes actual execution | Review plan/diff/backup/exclusion again immediately before execution; unapproved/expired/stale plans cannot run |
 | G10 | One bounded governed reprojection with exact approval/retry identity, atomic database transaction | Persisted immutable completion receipt, new head and exact internal counters, or authoritative atomic rollback; ambiguity enters incident reconciliation |
@@ -125,12 +110,11 @@ must fit existing SQL/request/provider limits; no silent timeout increase.
 | G12 / CP2 | Separately authorized post-operation encrypted backup and verified retention/recovery evidence | Exact installed history/current head/receipt covered; backup failure keeps window contained |
 | G13 | Independent review and owner accepts result; prove old paths remain retired and corrected write control permits safe new paths; bounded observation | Resume ordinary owner use, verify representative accepted flow and no unexplained errors; record cutoff/end/source/receipt/backup/decisions. Otherwise stay contained and escalate |
 
-Mapping/actor initialization may be ordered earlier after schema installation
-if separately approved, but their exact installed/binding state must be frozen
-again for G9. It must never bypass the before-schema backup or B1 gate. Keep
-normal owner writes restricted through the final before-image freeze; any
-explicitly permitted smoke write is an attributable delta included in subsequent
-backups/invariant baselines, not an unexplained mismatch.
+Mapping and actor initialization follow G7 with separate authorization.
+Freeze the exact installed and binding state again for G9. Account for any
+explicitly permitted smoke write in subsequent backups and invariant baselines.
+Abort on unexplained post-cutoff changes. Coordinate the final before-image
+freeze using the installed barrier and the existing dataset-lock contract.
 
 ## 4. Migration history routing and verification
 
@@ -143,24 +127,20 @@ role attributes/memberships, RLS/ACLs/default privileges and qualified provenanc
 
 | Authorized preflight result | Supported future path |
 | --- | --- |
-| Exact 46 prefix, original April head/catalog | CP0 at 46 → install/verify 47 → install/verify 48 → CP1 at 48 → atomic app → governed enrichment |
-| Exact 47 prefix, no unreviewed catalog operation | CP0 at 47 → verify installed 47 → install/verify 48 → CP1 → app → enrichment |
-| Exact 48, approved unchanged original catalog | CP0 at 48; no schema apply → verify 47/48 and recovery → CP1/readiness → app → enrichment |
-| Exact 44 or 45 | Recognized recovery boundary, **not an approved Full35 rollout baseline**. STOP for separate predecessor 45/46 application/compatibility release and its own backup/acceptance; then new Stage 6B. Do not skip missing predecessors |
-| Below 44, gap/duplicate/reorder/remote-only/edited SQL, head 49+, partial install or indeterminate state | STOP + ESCALATE; new reviewed forward correction required. No repair/reset/pull/down migration |
-| Already enriched or compensated / different head/source | STOP. Reconcile authoritative existing receipt and source history; do not force the first expansion or assume an old exact retry. New reviewed scope/authority required |
+| Exact 48, approved unchanged original catalog | CP0 at 48 → verified compatible canonical app → install 49 → verify barrier → CP1 at 49 → separately authorized registry/actor prerequisites and enrichment |
+| Exact 49, approved unchanged original catalog | Reconcile reviewed migration provenance, canonical app compatibility and barrier state. Reuse applicable CP0 and independently accepted actual CP1, or stop for missing checkpoint evidence. Do not reapply 49 |
+| Exact 44–47 | Stop for the applicable predecessor release and checkpoints before returning to this history-48 rollout |
+| Gap/duplicate/reorder/remote-only/edited SQL, unsupported suffix, partial install or indeterminate state | Stop for authoritative reconciliation and any separately reviewed forward correction |
+| Already enriched or compensated / different head/source | Stop. Reconcile authoritative receipt and source history before obtaining new scope and authority |
 
-Use closed boundary material in a clean operator checkout for each apply. A
-future `supabase db push --linked` runs every pending file in its directory;
-running it against the full 48 directory at head 46 would apply both 47 and 48
-without the mandatory intermediate gate. The independently reviewed execution
-task must materialize and hash exact prefix 47 for the first apply and exact
-prefix 48 for the second, retaining original SQL bytes and all predecessors.
-That execution packaging procedure needs local rehearsal and review; it is not
-an existing Production deployment script. Never edit SQL, fabricate 49, include
-seed/roles/include-all, repair a ledger or retry an uncertain apply. Discovery
-through the locked CLI's `--help` and target verification precede any future
-command; this task executed no Supabase CLI command.
+Install only `20261106101256_foundation_diary_writer_barrier.sql` with SHA-256
+`c2a54ca4f3fc20871ddd283190f091126f8207b4cf17e78676196db586d53323`.
+The [closed history verifier](../../scripts/foundation-writer-barrier-history.mjs)
+pins the unchanged 48 predecessors and exact suffix. The separately authorized
+apply uses the original SQL and matching ledger insert in the same transaction,
+with explicit lock, statement and transaction limits. Recheck the accepted
+ledger, identity and drift guards at entry. On unknown commit, observe the
+ledger and installed signatures before any further action.
 
 After **47**, require exact ledger/name/order/provenance and installed
 reprojection/identity/compensation functions, empty search paths/UTC, NOLOGIN
@@ -179,8 +159,13 @@ CREATE, correct reader default function ACL and full installed fingerprint.
 The only ordinary diary write authority remains authenticated, activated,
 server-owned/RLS-protected. Verify old manual APIs/receipts and zero historical
 or catalog mutation. A local real-role/missing-RPC negative is supporting proof;
-do not drop or alter the hosted RPC to test failure. The old app does not
-automatically switch persistence merely because this migration was installed.
+do not drop or alter the hosted RPC to test failure.
+
+After **49**, verify the private definer is owned by `diary_reference_writer`,
+the public wrapper remains an authenticated-only invoker and the restricted
+writer has the intended role memberships and no private schema CREATE. Verify
+the restrictive policy, original catalog and historical snapshot invariants.
+Use only a verified history-49-compatible app as a fallback after commit.
 
 ## 5. Deployment tooling and environment
 
@@ -242,16 +227,20 @@ ephemeral cleanup; its schedule is 02:17 Asia/Jerusalem. Existing manual dispatc
 capability does not authorize dispatch. It links the fixed Production project
 and reads actual owner state; it is not a harmless test workflow.
 
-For **CP0 before any schema**, **CP1 after exact 47/48 installation and before
-reprojection**, and **CP2 after successful reprojection**, require separately
-authorized captures. CP0 uses actual prefix, not assumed 46; CP1/CP2 use exact
-48. A 47 stop/incident requires recovery of exact 47. All states are already
-locally qualified as distinct closed histories, but the real source's drift,
-scope and capture evidence must still match. A successful older scheduled run
-does not satisfy cutoff alignment. Capture must cover all committed catalog and
-owner/Auth state through its recorded consistent snapshot; prove no unaccounted
-write after cutoff. If scoped smoke/enrollment adds authorized records later,
-record their delta and include it in the next capture/final invariant baseline.
+Require separately authorized **CP0 at history 48 before migration 49**,
+**CP1 at history 49 after barrier verification and before enrichment**, and
+**CP2 at history 49 after reprojection**. Use the reviewed capture and restore
+engine for the exact installed history. Validate coordinated capture against
+the current relation inventory and transport. Prior uncoordinated captures and
+the synthetic history-49 restore do not qualify a fresh Production checkpoint.
+Prove cutoff coverage of committed catalog and owner/Auth state. Account for
+any authorized smoke or enrollment delta in the next capture and invariant
+baseline.
+
+The retained coordinated capture controller is pinned to history 46 and its
+69-relation inventory. Before CP0 authorization, qualify that controller against
+the exact history-48 inventory, transport and workflow manifest. Verify drain,
+continuous lock ownership and run/cutoff continuity for that boundary.
 
 Each checkpoint evidence record independently answers these questions:
 
@@ -350,7 +339,8 @@ environment/source, safe category and disposition, not raw SQL/user payloads.
 | Before migration, original catalog | Abort window; release write block only after unchanged before-state/normal-path proof | Treat missing backup or exclusion as acceptable |
 | Apply failure / unknown migration commit | Stop; authoritative read-only ledger/installed-signature reconciliation; bounded retry only if unchanged state and cause known, otherwise separate forward correction | Blind `db push`, repair, down migration or SQL rewrite |
 | 47 installed, 48 absent, original catalog | Keep known old app only after proven old-app/47 compatibility; no new atomic app and no enrichment. Contain if verification/recovery incomplete | Deploy code requiring absent RPC |
-| 48 installed, original catalog, new deployment fails before/after traffic | Retain/redeploy the exact previously accepted old app only if schema/config compatibility is proved and exclusion/incident conditions permit; preserve 47/48. Prefer known atomic-capable build when available | Assume app rollback removed schema or bypass missing-RPC failure |
+| 48 installed, original catalog, candidate or canonical acceptance fails | Stop before installing 49. Retain or separately restore an accepted history-48-compatible deployment | Proceed with a build that cannot handle the new write admission |
+| 49 installed, barrier verification or CP1 fails | Contain and stop before registry or reprojection. Keep the verified history-49-compatible deployment and obtain an incident decision | Fall back to an app whose legitimate linked manual submissions are rejected, or weaken the barrier |
 | Reprojection transaction fails before commit | Prove original tuples/heads/receipts unchanged; no successful receipt. A permitted bounded reattempt needs diagnosed cause and valid unchanged authority | Claim partial success or manually repair nutrient rows |
 | Disconnect / status unknown | Stop writes; resolve stored receipt and authoritative state first. Authorized exact completed retry is a read-equivalent return of original result, not a new enrichment | New token, second plan or repeated blind execution |
 | Reprojection committed, any postcheck failed | Contain; independently reviewed/approved **forward compensating reprojection** against exact rejected receipt/current head and inserted-row ledger | Delete history/evidence, manually remove rows, rewind dataset pointer |
