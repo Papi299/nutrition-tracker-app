@@ -22,7 +22,7 @@ export function AdditionalNutrientDetails({ snapshots, locale, daily = false }: 
           <dl className="mt-3 grid min-w-0 gap-3 sm:grid-cols-2">
             {nutrientManifestV1.filter(definition => definition.group === group).map(({ code, unit }) => {
               const total = summary.values[code as AdditionalNutrientCode];
-              const amount = total.knownSubtotal === null ? null : `${formatExactNutrientTotal(total.knownSubtotal, locale)} ${unit}`;
+              const amount = total.knownSubtotal === null ? null : `${formatExactNutrientTotal(total.knownSubtotal, locale)} ${unit === "ug" ? "µg" : unit}`;
               return <div className="min-w-0 [overflow-wrap:anywhere]" data-additional-nutrient-code={code} key={code}>
                 <dt className="font-medium">{t(`labels.${code}`)}</dt>
                 <dd className="mt-1 tabular-nums">

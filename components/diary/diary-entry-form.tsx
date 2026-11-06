@@ -13,7 +13,7 @@ import { AdditionalNutrientFields } from "@/components/nutrition/additional-nutr
 import { additionalNutrientCodesV1, type AdditionalNutrientCode } from "@/lib/nutrition-snapshots";
 import { AuthStatusNote } from "@/components/auth/auth-status-note";
 import { Button } from "@/components/ui/button";
-import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, nutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
+import { allNutrientFields, convertFoodQuantity, verifiedCatalogServing, nutrientCodeForField, nutrientFields, scaleAllFoodNutrients, type AllFoodNutrientReference } from "@/lib/food-selection/nutrient-scaling";
 import {
   FieldDescription,
   FieldError as UIFieldError,
@@ -239,6 +239,7 @@ function FieldLabel({
 }
 
 function TextInput({
+  describedBy,
   error,
   helpText,
   inputMode,
@@ -253,6 +254,7 @@ function TextInput({
   type = "text",
   value,
 }: {
+  describedBy?: string;
   error?: string;
   helpText?: string;
   inputMode?: "decimal" | "numeric";
@@ -276,6 +278,7 @@ function TextInput({
         requiredLabel={requiredLabel}
       />
       <Input
+        aria-describedby={describedBy}
         aria-invalid={Boolean(error)}
         className="min-h-12"
         defaultValue={value}
@@ -321,7 +324,7 @@ export function DiaryEntryForm({
     state: DiaryEntryActionState,
     formData: FormData,
   ) => Promise<DiaryEntryActionState>;
-  automaticNutrition: { description: string; label: string; unavailable: string; referenceChanged: string; reviewRequired: string; servingEquivalence: string; resetServing: string; incompatibleDraft: string };
+  automaticNutrition: { description: string; label: string; nutrientUnavailable: string; unavailable: string; referenceChanged: string; reviewRequired: string; servingEquivalence: string; resetServing: string; incompatibleDraft: string };
   draftScope: string;
   fieldHelpText: FieldHelpText;
   fieldErrorMessages: FieldErrorMessages;
@@ -804,21 +807,28 @@ export function DiaryEntryForm({
         {reference && <p className="text-sm text-muted-foreground">{automaticNutrition.description}</p>}
         {reference && scalingUnavailable && <p className="text-sm text-danger" role="status">{automaticNutrition.unavailable}</p>}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {nutrientFields.map((field) => <div className="grid content-start gap-2" key={field}>
-            <TextInput error={fieldErrors?.[field]} helpText={fieldHelpText[field]}
-              inputMode={field === "calories" ? "numeric" : "decimal"} label={labels[field]}
-              messages={fieldErrorMessages} name={field} optionalLabel={optionalLabel}
-              requiredLabel={requiredLabel} step={field === "calories" ? "1" : "any"}
-              type="number" value={values[field]} />
-            {reference && <label className="flex min-h-11 items-center gap-2 text-sm">
-              <input defaultChecked={values[`automatic_${field}`] === "1"}
-                name={`automatic_${field}`} type="checkbox" value="1" />
-              <span>{automaticNutrition.label}: {labels[field]}</span>
-            </label>}
-          </div>)}
+          {nutrientFields.map((field) => {
+            const unavailable = reference?.nutrients[nutrientCodeForField(field)] === null;
+            const descriptionId = unavailable ? `diary-create-${field}-unavailable` : undefined;
+            return <div className="grid content-start gap-2" key={field}>
+              <TextInput describedBy={descriptionId} error={fieldErrors?.[field]} helpText={fieldHelpText[field]}
+                inputMode={field === "calories" ? "numeric" : "decimal"} label={labels[field]}
+                messages={fieldErrorMessages} name={field} optionalLabel={optionalLabel}
+                requiredLabel={requiredLabel} step={field === "calories" ? "1" : "any"}
+                type="number" value={values[field]} />
+              {unavailable ? <FieldDescription id={descriptionId}>{automaticNutrition.nutrientUnavailable}</FieldDescription> :
+                reference && <label className="flex min-h-11 items-center gap-2 text-sm">
+                  <input defaultChecked={values[`automatic_${field}`] === "1"}
+                    name={`automatic_${field}`} type="checkbox" value="1" />
+                  <span>{automaticNutrition.label}: {labels[field]}</span>
+                </label>}
+            </div>;
+          })}
         </div>
         <AdditionalNutrientFields values={values} errors={fieldErrors} controlPrefix="diary-create"
-          automaticValues={reference ? Object.fromEntries(additionalNutrientCodesV1.map(code => [code, values[`automatic_${code}`]])) : undefined}
+          automaticValues={reference ? Object.fromEntries(additionalNutrientCodesV1.map(code => [
+            code, reference.nutrients[code] === null ? null : values[`automatic_${code}`],
+          ])) : undefined}
           expandAll={fieldErrors?.form === "nutrition_review_required"} />
       </FormSection>
 

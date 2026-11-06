@@ -162,7 +162,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
       create trigger zz_atomic_diary_barrier before insert on public.diary_entries for each row execute function full35_app_fixture.diary_barrier();`);
     const pending = { ...await open("2026-11-02"), automaticFields: await form.locator('input[name^="automatic_"]:checked').evaluateAll(
       inputs => inputs.map(input => (input as HTMLInputElement).name)) };
-    expect(pending.automaticFields).toHaveLength(35);
+    expect(pending.automaticFields).toEqual(["automatic_calories", "automatic_protein_g", "automatic_carbohydrates_g", "automatic_fat_g"]);
     if (diaryFirst) {
       await form.locator('[name="notes"]').fill("atomic-barrier");
       await controller.send("select pg_advisory_lock(73535004);");
@@ -363,7 +363,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
       p_nutrients:portionNutrients}).single();expect(physical.error).toBeNull();const physicalId=physical.data!.food_id;
     await page.goto(`/en/today?date=2026-11-10&foodId=${physicalId}`);
     for(const detail of await form.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
-    for(const field of allNutrientFields)await form.locator(`[name="automatic_${field}"]`).uncheck();
+    for(const mode of await form.locator('input[name^="automatic_"]').all())await mode.uncheck();
     await form.locator('[name="calories"]').fill("321");
     await form.locator('[name="serving_unit"]').fill("g");
     await expect(form.locator('[name="serving_quantity"]')).toHaveValue("50");
@@ -388,7 +388,7 @@ test("atomic persistence closes freshness-read / governed-commit / diary-write r
     const nativePage=await nativeContext.newPage();await nativePage.goto(`/en/today?date=2026-11-11&foodId=${physicalId}`);
     const nativeForm=nativePage.getByTestId("manual-diary-entry-form");
     for(const detail of await nativeForm.locator("details").all())if(await detail.getAttribute("open")===null)await detail.locator("summary").click();
-    for(const field of allNutrientFields)await nativeForm.locator(`[name="automatic_${field}"]`).uncheck();
+    for(const mode of await nativeForm.locator('input[name^="automatic_"]').all())await mode.uncheck();
     await nativeForm.locator('[name="calories"]').fill("123");await nativeForm.locator('[name="serving_unit"]').fill("g");
     const nativeSubmit=nativeForm.getByRole("button",{name:"Add entry",exact:true});await nativeSubmit.click();
     await expect(nativePage.getByTestId("nutrition-review-required")).toBeVisible();

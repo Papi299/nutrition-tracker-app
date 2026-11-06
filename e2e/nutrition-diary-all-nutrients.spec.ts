@@ -9,6 +9,8 @@ import { createRequire } from "node:module";
 import { join } from "node:path";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { expect, test, type Browser, type BrowserContext, type Locator, type Request } from "@playwright/test";
+import en from "@/messages/en.json";
+import he from "@/messages/he.json";
 import type { Database } from "@/lib/supabase/database.types";
 
 const localUrl = process.env.LOCAL_SUPABASE_URL;
@@ -105,7 +107,8 @@ test.describe.serial("complete consumed nutrition through the application", () =
     liquidFood = await createFood("Synthetic all 35 milliliters", "per_100ml", 100, "ml");
     servingFood = await createFood("Synthetic all 35 two-slice reference", "per_serving", 2, "slices");
     extensionOnlyFood = await createFood("Synthetic additional-only reference", "per_100g", 100, "g",
-      referenceAmounts.filter(({ code }) => additionalNutrientCodesV1.includes(code as typeof additionalNutrientCodesV1[number])));
+      referenceAmounts.filter(({ code }) => additionalNutrientCodesV1.includes(code as typeof additionalNutrientCodesV1[number]))
+        .map(nutrient => nutrient.code === "fiber_g" ? { ...nutrient, amount: 0 } : nutrient));
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("/en/auth/sign-in");
@@ -165,14 +168,87 @@ test.describe.serial("complete consumed nutrition through the application", () =
     const date = "2026-12-11";
     const { context, form } = await openSelected(browser, date, extensionOnlyFood);
     await control(form, "serving_quantity").fill("200");
-    for (const name of ["calories", "protein_g", "carbohydrates_g", "fat_g"]) await expect(control(form, name)).toHaveValue("");
-    for (const code of additionalNutrientCodesV1) await expect(control(form, code)).toHaveValue(String(consumed(code, 2)));
+    for (const name of ["calories", "protein_g", "carbohydrates_g", "fat_g"]) {
+      await expect(control(form, name)).toHaveValue("");
+      await expect(control(form, `automatic_${name}`)).toHaveCount(0);
+    }
+    for (const code of additionalNutrientCodesV1) {
+      await expect(control(form, code)).toHaveValue(String(code === "fiber_g" ? 0 : consumed(code, 2)));
+      await expect(control(form, `automatic_${code}`)).toBeChecked();
+    }
     await form.getByRole("button", { name: "Add entry", exact: true }).click();
     await expect(form).toContainText("Entry added.");
     expect(await saved(date)).toMatchObject({
       calories: null, protein_g: null, carbohydrates_g: null, fat_g: null,
-      additional_nutrient_snapshot: expectedAdditional(2),
+      additional_nutrient_snapshot: expectedAdditional(2, { fiber_g: 0 }),
     });
+    await context.close();
+  });
+
+  test("shows only available calculations for USDA Foundation beef before and after enrichment", async ({ browser }) => {
+    const foodId = "d9a736c7-6549-426f-8fcf-ee1dd92a8110";
+    const beefName = "Beef, top sirloin steak, raw";
+    // FDC 2727574, April 2026 Foundation. The first four values reproduce
+    // the observed v1 catalog. The additional values are the eligible v2 rows.
+    const core = { energy_kcal: 146, protein_g: 22, carbohydrates_g: 0.218, fat_g: 5.71 };
+    const additional = {
+      cholesterol_mg: 60.1, sodium_mg: 42.8, potassium_mg: 349, calcium_mg: 3.7,
+      iron_mg: 2.22, magnesium_mg: 22.1, phosphorus_mg: 193, zinc_mg: 3.45,
+      copper_mg: 0.07, manganese_mg: 0.002,
+    };
+    const insertValues = (values: Record<string, number>) => queryLocalAuthFixture(`
+      insert into public.food_nutrients(food_id,nutrient_id,amount,basis) values
+      ${Object.entries(values).map(([code, amount]) =>
+        `('${foodId}',(select id from public.nutrients where code='${code}'),${amount},'per_100g')`).join(",")};`);
+    queryLocalAuthFixture(`insert into public.foods(id,food_type,name,locale,data_quality,is_public,source_id,source_food_id)
+      values('${foodId}','generic','${beefName}','en','imported',true,
+        (select id from public.food_sources where code='usda'),'foundation:ndb:100379');`);
+    insertValues(core);
+    const beforeDate = "2026-12-20";
+    const { context, form } = await openSelected(browser, beforeDate, foodId);
+    const reference = await client.rpc("get_readable_food_nutrition_reference_v2", { p_food_id: foodId }).single();
+    expect(reference.error).toBeNull();
+    expect(reference.data).toMatchObject({
+      food_id: foodId, source_food_id: "foundation:ndb:100379", nutrient_basis: "per_100g",
+      nutrients: Object.fromEntries(nutrientManifestV1.map(({ code }) => [
+        code, Object.hasOwn(core, code) ? core[code as keyof typeof core].toFixed(4) : null,
+      ])),
+    });
+    await expect(control(form, "serving_quantity")).toHaveValue("100");
+    await expect(control(form, "calories")).toHaveValue("146");
+    await openGroups(form);
+    for (const code of additionalNutrientCodesV1) {
+      await expect(control(form, code)).toHaveValue("");
+      await expect(control(form, code)).toHaveAccessibleDescription(en.Diary.form.automaticNutrientUnavailable);
+      await expect(control(form, `automatic_${code}`)).toHaveCount(0);
+    }
+    await control(form, "fiber_g").fill("0");
+    await form.getByRole("button", { name: "Add entry", exact: true }).click();
+    await expect(form).toContainText("Entry added.");
+    const original = await saved(beforeDate);
+    expect(original.additional_nutrient_snapshot).toEqual({ version: 1, values: Object.fromEntries(
+      additionalNutrientCodesV1.map(code => [code, code === "fiber_g" ? 0 : null]),
+    ) });
+
+    insertValues(additional);
+    const page = await context.newPage();
+    await page.goto(`/he/today?date=2026-12-21&foodId=${foodId}`);
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const enriched = page.getByTestId("manual-diary-entry-form");
+    await openGroups(enriched);
+    await expect(control(enriched, "sodium_mg")).toHaveAccessibleName(`${he.Diary.additionalNutrients.labels.sodium_mg} (mg)`);
+    await expect(control(enriched, "fiber_g")).toHaveAccessibleName(`${he.Diary.additionalNutrients.labels.fiber_g} (g)`);
+    await expect(control(enriched, "vitamin_b12_ug")).toHaveAccessibleName(`${he.Diary.additionalNutrients.labels.vitamin_b12_ug} (µg)`);
+    await expect(control(enriched, "vitamin_b12_ug")).toHaveAccessibleDescription(he.Diary.form.automaticNutrientUnavailable);
+    await expect(control(enriched, "sodium_mg")).toHaveValue("42.8");
+    await control(enriched, "serving_quantity").fill("200");
+    for (const [code, amount] of Object.entries(additional)) {
+      await expect(control(enriched, code)).toHaveValue(String(amount * 2));
+      await expect(control(enriched, `automatic_${code}`)).toBeChecked();
+    }
+    await expect(control(enriched, "calories")).toHaveValue("292");
+    await expect(control(enriched, "vitamin_b12_ug")).toHaveValue("");
+    await expect(await saved(beforeDate)).toEqual(original);
     await context.close();
   });
 
@@ -204,7 +280,8 @@ test.describe.serial("complete consumed nutrition through the application", () =
         else {
           const definition = nutrientManifestV1.find(item => item.code === code)!;
           const amount = code === "fiber_g" ? 0 : Number((consumed(code, 1) + consumed(code, 2)).toFixed(4));
-          await expect(value.locator("bdi")).toHaveText(`${formatLocalizedNumber(locale, amount, { maximumFractionDigits: 4 })} ${definition.unit}`);
+          const unit = definition.unit === "ug" ? "µg" : definition.unit;
+          await expect(value.locator("bdi")).toHaveText(`${formatLocalizedNumber(locale, amount, { maximumFractionDigits: 4 })} ${unit}`);
         }
       }
       const rows = page.locator("[data-diary-entry-id]");

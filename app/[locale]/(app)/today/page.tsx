@@ -612,6 +612,7 @@ function LocalizedTodayPage({
               automaticNutrition={{
                 description: diaryT("form.automaticDescription"),
                 label: diaryT("form.automaticLabel"),
+                nutrientUnavailable: diaryT("form.automaticNutrientUnavailable"),
                 unavailable: diaryT("form.automaticUnavailable"),
                 referenceChanged: diaryT("form.referenceChanged"),
                 reviewRequired: diaryT("form.nutritionReviewRequired"),
@@ -796,7 +797,9 @@ function diaryValuesFromPrefill(
   const consumed = initialFoodQuantity(prefill);
   const scaled = scaleAllFoodNutrients(prefill, consumed.quantity, consumed.unit);
   return {
-    ...Object.fromEntries(allNutrientFields.map((field) => [`automatic_${field}`, scaled.ok ? "1" : ""])),
+    ...Object.fromEntries(allNutrientFields.map((field) => [
+      `automatic_${field}`, scaled.ok && scaled.values[field] !== "" ? "1" : "",
+    ])),
     additional_nutrients_captured: "1",
     reference_fingerprint: prefill.reference_fingerprint,
     brand_name: inputValue(prefill.brand_name),
