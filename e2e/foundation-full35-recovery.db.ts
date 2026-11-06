@@ -507,6 +507,8 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
   const activation = await migrateWriterBarrier();
   exactAtomicOwnerRetry(source);
   const admission = verifyWriterBarrier(source);
+  const captureValues = full35TableFingerprints(rows(source));
+  for (const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name] = captureValues[name];
   const baseline = full35ReviewedSchemaHash(rows(source), true);
   for (const sql of ["drop policy foundation_manual_diary_requires_reference on public.diary_entries",
     "alter role diary_reference_writer bypassrls","grant diary_reference_writer to authenticator",
