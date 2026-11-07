@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
-import { FULL35_OWNER_RELEASE_HISTORY } from "../scripts/full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY } from "../scripts/full35-owner-release-history.mjs";
 import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
@@ -16,10 +16,10 @@ import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, 
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "50";
+const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "51";
 const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=ownerRelease?FULL35_OWNER_RELEASE_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=ownerRelease?FULL35_PORTION_SCOPE_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -529,7 +529,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
-test("Full35 single owner executes once and survives encrypted history-50 recovery", async () => {
+test("Full35 single owner preserves fractional portions through encrypted history-51 recovery", async () => {
   mkdirSync(config.scratch,{recursive:true,mode:0o700});
   installRoles(source);
   initializeSource(false);
@@ -545,8 +545,28 @@ test("Full35 single owner executes once and survives encrypted history-50 recove
   expect(source("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   const afterMigration = full35TableFingerprints(rows(source));
   expect(Object.fromEntries(Object.entries(afterMigration).filter(([name])=>name!=="ingestion.foundation_owner_authorization"))).toEqual(beforeMigration);
+  const portionVersion = source(`select id from ingestion.source_record_versions order by id limit 1`);
+  source(`insert into ingestion.food_portions(source_record_version_id,ordinal,description,amount,unit,gram_weight,source_value)
+    values('${portionVersion}',901,'Fractional source A',1,'g',10,0.2),
+      ('${portionVersion}',902,'Fractional source B',1,'g',20,0.5),
+      ('${portionVersion}',903,'Integer source',1,'g',30,2),
+      ('${portionVersion}',904,'Unspecified source',1,'g',40,null);`);
+  const scopeSql = "select ingestion.get_foundation_full35_owner_scope_v1('local')";
   source(`alter role ${full35OwnerLogin} login password '${password}';`);
+  expect(() => source(scopeSql,full35OwnerLogin)).toThrow(/mapping JSON requires safe integer numbers/);
+  source(`alter role ${full35OwnerLogin} nologin password null;`);
+  const portionPin = FULL35_PORTION_SCOPE_HISTORY;
+  const repair = readFileSync(join(repository,"supabase/migrations",portionPin.filename),"utf8");
+  const beforeRepair = full35TableFingerprints(rows(source));
+  source(`begin;${repair}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${portionPin.head}','${portionPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
+  expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  source(`alter role ${full35OwnerLogin} login password '${password}' valid until 'infinity';`);
   const release = syntheticOwnerRelease(source,fixture);
+  const portions = release.plan.before_snapshot.foods.find(food => food.source_version_id === portionVersion)!.portions;
+  expect((portions as Array<{ordinal:number;source_value:string|number|null}>)
+    .filter(portion => portion.ordinal >= 901).map(portion => portion.source_value)).toEqual(["0.2","0.5",2,null]);
   const bounds = "set lock_timeout='5s';set statement_timeout='120s';set transaction_timeout='180s';";
   noMutationDenied("owner_no_authorization",source,release.execute(),full35OwnerLogin,/authorized operation/);
   noMutationDenied("owner_wrong_session",source,release.execute(),operator,/permission denied/);
@@ -620,7 +640,7 @@ test("Full35 single owner executes once and survives encrypted history-50 recove
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_50",2,release.plan);
+  await checkpoint("owner_release_51",2,release.plan);
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));
