@@ -529,7 +529,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
-test("Full35 single owner preserves fractional portions through encrypted history-51 recovery", async () => {
+test("Full35 single owner preserves fractional portions and the successor audit through encrypted H52 recovery", async () => {
   mkdirSync(config.scratch,{recursive:true,mode:0o700});
   installRoles(source);
   initializeSource(false);
@@ -581,7 +581,7 @@ test("Full35 single owner preserves fractional portions through encrypted histor
     recovery_requirements:{...release.plan.recovery_requirements,production_ready:true}};
   noMutationDenied("owner_production_inventory",source,
     `select ingestion.validate_mapping_plan_v1(${actorInput(productionPlan)}::jsonb);`,"supabase_admin",
-    /23514:  accepted Production candidate inventory mismatch/);
+    /23514:\s+accepted Production candidate inventory mismatch/);
   const bounds = "set lock_timeout='5s';set statement_timeout='120s';set transaction_timeout='180s';";
   noMutationDenied("owner_no_authorization",source,release.execute(),full35OwnerLogin,/authorized operation/);
   noMutationDenied("owner_wrong_session",source,release.execute(),operator,/permission denied/);
