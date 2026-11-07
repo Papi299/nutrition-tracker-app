@@ -10,11 +10,11 @@ import { normalizeFoundationFull35Record } from "../ingestion/usda/foundation/fu
 import { fingerprintFull35IdentitySet } from "../ingestion/usda/foundation/full35/report.ts";
 import { parseFoundationArchive } from "../ingestion/usda/foundation/parser.ts";
 import { buildMappingPlan, fingerprintMappingPlan, reprojectionContracts, serializeMappingPlan } from "../ingestion/usda/foundation/reprojection/contracts.ts";
-import { FULL35_PORTION_SCOPE_HISTORY, assertReviewedFull35PortionScopeFiles } from "./full35-owner-release-history.mjs";
+import { FULL35_VALIDATOR_REPAIR_HISTORY, assertReviewedFull35ValidatorRepairFiles } from "./full35-owner-release-history.mjs";
 
 // File-only preparation. This program never connects to the database.
 const [scopePath, archivePath, comparisonPath, recoveryPath, output] = process.argv.slice(2);
-assert.equal(process.argv.length, 7, "Supply owner scope JSON, approved April ZIP, accepted catalog comparison, H51 recovery record, and a new output directory.");
+assert.equal(process.argv.length, 7, "Supply owner scope JSON, approved April ZIP, accepted catalog comparison, H52 recovery record, and a new output directory.");
 process.umask(0o077);
 const hash = bytes => createHash("sha256").update(bytes).digest("hex");
 const privateBytes = path => {
@@ -39,12 +39,12 @@ assert.equal(git("status", "--porcelain"), "", "Use an exact clean release check
 const commit = git("rev-parse", "HEAD"), tree = git("rev-parse", "HEAD^{tree}");
 const filenames = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
 const migrationBytes = name => readFileSync(join("supabase/migrations", name));
-assertReviewedFull35PortionScopeFiles(filenames, migrationBytes);
+assertReviewedFull35ValidatorRepairFiles(filenames, migrationBytes);
 const recoveryBytes = privateBytes(recoveryPath), recovery = JSON.parse(recoveryBytes);
-assert(recovery.status === "H51_RECOVERY_ACCEPTED" && recovery.project === project && recovery.source === commit &&
-  recovery.history === FULL35_PORTION_SCOPE_HISTORY.count && recovery.migrationHead === FULL35_PORTION_SCOPE_HISTORY.head &&
+assert(recovery.status === "H52_RECOVERY_ACCEPTED" && recovery.project === project && recovery.source === commit &&
+  recovery.history === FULL35_VALIDATOR_REPAIR_HISTORY.count && recovery.migrationHead === FULL35_VALIDATOR_REPAIR_HISTORY.head &&
   recovery.technicalRecoveryPassed === true && recovery.restoredTablesVerified === 79 &&
-  sha256.test(recovery.archiveSha256 ?? "") && typeof recovery.backupId === "string", "Exact actual H51 recovery acceptance required.");
+  sha256.test(recovery.archiveSha256 ?? "") && typeof recovery.backupId === "string", "Exact actual H52 recovery acceptance required.");
 const scope = JSON.parse(privateBytes(scopePath));
 assert.equal(scope.dataset_id, dataset);
 assert.equal(scope.owner_login, "full35_release_owner");

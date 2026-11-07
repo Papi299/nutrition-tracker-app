@@ -38,3 +38,22 @@ export function assertReviewedFull35PortionScopeFiles(files, readMigration) {
     throw new Error("Full35 portion scope SQL checksum mismatch.");
   }
 }
+
+export const FULL35_VALIDATOR_REPAIR_HISTORY = Object.freeze({
+  count: 52,
+  head: "20261107213500",
+  filename: "20261107213500_repair_full35_production_validator.sql",
+  sqlSha256: "2662bb1d646450d5f49d2c32d456a5bfce8a81066b11dff1e638d249c2739ab9",
+  orderedFilenameSetSha256: "39844ceb9d7b0e3b6d37fd62993b001cbeaf628862eb57a353e68d9d0ce42b1a",
+});
+
+export function assertReviewedFull35ValidatorRepairFiles(files, readMigration) {
+  const { count, filename, sqlSha256 } = FULL35_VALIDATOR_REPAIR_HISTORY;
+  if (!Array.isArray(files) || files.length !== count || files.at(-1) !== filename) {
+    throw new Error("Exact ordered Full35 validator repair history required.");
+  }
+  assertReviewedFull35PortionScopeFiles(files.slice(0, FULL35_PORTION_SCOPE_HISTORY.count), readMigration);
+  if (createHash("sha256").update(readMigration(filename)).digest("hex") !== sqlSha256) {
+    throw new Error("Full35 validator repair SQL checksum mismatch.");
+  }
+}

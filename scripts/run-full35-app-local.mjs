@@ -1,4 +1,4 @@
-import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, assertReviewedFull35PortionScopeFiles } from "./full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, assertReviewedFull35ValidatorRepairFiles } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "./foundation-writer-barrier-history.mjs";
 import { execFileSync, spawn } from "node:child_process";
 import { createHash, randomBytes } from "node:crypto";
@@ -26,11 +26,12 @@ for (const entry of readdirSync(source)) {
 // Keep the historical legacy-writer scenarios on their exact history-48
 // database. The atomicity and recovery jobs exercise the history-49 barrier.
 const migrations = join(runtime, "supabase/migrations");
-assertReviewedFull35PortionScopeFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
+assertReviewedFull35ValidatorRepairFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
   name => readFileSync(join(migrations, name)));
 rmSync(join(migrations, FOUNDATION_WRITER_BARRIER_HISTORY.filename));
 rmSync(join(migrations, FULL35_OWNER_RELEASE_HISTORY.filename));
 rmSync(join(migrations, FULL35_PORTION_SCOPE_HISTORY.filename));
+rmSync(join(migrations, FULL35_VALIDATOR_REPAIR_HISTORY.filename));
 // This legacy fixture runs against H48, whose ingestion contract also matches H49.
 const legacyIngestionTypes = execFileSync("git", ["show",
   "7d284972dc3657656b66dfcdb542eb47e233e53f:ingestion/generated/database.types.ts"], { cwd: source });

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
-import { FULL35_OWNER_RELEASE_HISTORY as owner, FULL35_PORTION_SCOPE_HISTORY as portionScope } from "./full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY as owner, FULL35_PORTION_SCOPE_HISTORY as portionScope, FULL35_VALIDATOR_REPAIR_HISTORY as validatorRepair } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY as pin } from "./foundation-writer-barrier-history.mjs";
 import { assertMigrationHistory, assertTrustedMigrationReplay, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 
@@ -44,9 +44,18 @@ test("single-owner recovery pins the exact migration 50 and still replays the H4
 test("fractional portion scope recovery admits only the reviewed H51 successor", () => {
   const h51 = recoveryMigrationBoundary(undefined, false, portionScope.head);
   assert.deepEqual(h51, {count:51, head:portionScope.head});
-  assertMigrationHistory(checkout.map(name => name.slice(0,14)), h51);
-  assert.deepEqual(assertTrustedMigrationReplay(checkout, h51, read), checkout);
-  assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,-1), h51, read));
+  assertMigrationHistory(checkout.slice(0,51).map(name => name.slice(0,14)), h51);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h51, read), checkout.slice(0,51));
+  assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,50), h51, read));
   assert.throws(() => assertTrustedMigrationReplay(checkout, h51,
     name => name === portionScope.filename ? Buffer.concat([read(name), Buffer.from("\n-- drift")]) : read(name)));
+});
+
+test("Full35 validator repair recovery admits only the pinned H52 successor", () => {
+  const h52 = recoveryMigrationBoundary(undefined, false, validatorRepair.head);
+  assert.deepEqual(h52, {count:52, head:validatorRepair.head});
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h52, read), checkout);
+  assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,51), h52, read));
+  assert.throws(() => assertTrustedMigrationReplay(checkout, h52,
+    name => name === validatorRepair.filename ? "altered migration" : read(name)));
 });
