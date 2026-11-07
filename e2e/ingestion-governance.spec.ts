@@ -103,8 +103,8 @@ test.describe.serial("Phase 10B ingestion governance foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       where n.nspname = 'ingestion' and c.relkind = 'r' and c.relrowsecurity;
     `);
-    // Require every original table and all thirteen new governed relations to retain RLS.
-    expect(tableCount).toBe("54\n54");
+    // Include the owner authorization table in the exact RLS inventory.
+    expect(tableCount).toBe("55\n55");
     expect(supabaseConfig).toContain('schemas = ["public", "graphql_public"]');
     expect(supabaseConfig).not.toMatch(/schemas\s*=\s*\[[^\]]*ingestion/);
   });
