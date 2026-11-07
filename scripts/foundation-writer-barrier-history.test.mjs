@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
+import { FULL35_OWNER_RELEASE_HISTORY as owner } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY as pin } from "./foundation-writer-barrier-history.mjs";
 import { assertMigrationHistory, assertTrustedMigrationReplay, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 
-const files = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
+const checkout = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
+const files = checkout.filter(name => name.slice(0,14) <= pin.head);
 const read = name => readFileSync(`supabase/migrations/${name}`);
 const boundary = recoveryMigrationBoundary(undefined, false, pin.head);
 
@@ -12,6 +14,7 @@ test("writer barrier replays only the exact ordered 49 migrations", () => {
   assert.deepEqual(boundary, {count:49, head:pin.head});
   assertMigrationHistory(files.map(name => name.slice(0,14)));
   assert.deepEqual(assertTrustedMigrationReplay(files, boundary, read), files);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, boundary, read), files);
   for (const altered of [
     [...files.slice(0,-1), `${pin.head}_different.sql`],
     [...files.slice(0,45), ...files.slice(46)],
@@ -24,4 +27,15 @@ test("writer barrier replays only the exact ordered 49 migrations", () => {
     assert.throws(() => assertTrustedMigrationReplay(files, boundary,
       name => name === filename ? Buffer.concat([read(name), Buffer.from("\n-- drift")]) : read(name)));
   }
+});
+
+test("single-owner recovery pins the exact migration 50 and still replays the H49 prefix", () => {
+  const h50 = recoveryMigrationBoundary(undefined, false, owner.head);
+  assert.deepEqual(h50, {count:50, head:owner.head});
+  assertMigrationHistory(checkout.map(name => name.slice(0,14)), h50);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h50, read), checkout);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, boundary, read), files);
+  assert.throws(() => assertTrustedMigrationReplay(files, h50, read));
+  assert.throws(() => assertTrustedMigrationReplay(checkout, h50,
+    name => name === owner.filename ? Buffer.concat([read(name), Buffer.from("\n-- drift")]) : read(name)));
 });

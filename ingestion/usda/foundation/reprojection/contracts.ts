@@ -11,6 +11,7 @@ export const reprojectionContracts = Object.freeze({
   receipt: "foundation-mapping-reprojection-receipt/v2",
   compensation: "foundation-mapping-compensation/v2",
   authority: "foundation-mapping-actor-authority/v1",
+  ownerAuthority: "foundation-full35-owner-authority/v1",
 } as const);
 type ObjectValue = { [key: string]: JsonValue };
 export type MappingScopeFood = ObjectValue & {
@@ -48,13 +49,18 @@ export function selectMappingActorAuthority(scope: MappingActorScope, approverLo
   return {...operator, approver_principal_id: matches[0].principal_id,
     approver_binding_id: matches[0].binding_id, approver_binding_hash: matches[0].binding_hash};
 }
-export type MappingPlan = {
+export type Full35OwnerAuthority = {
+  contract_version: typeof reprojectionContracts.ownerAuthority; authorization_id: string; cluster_id: string;
+};
+type MappingAuthority = MappingActorAuthority | Full35OwnerAuthority;
+export type MappingPlan<Authority extends MappingAuthority = MappingActorAuthority> = {
   contract_version: string; operation_kind: "reprojection" | "compensation";
   dataset_id: string; environment: "local" | "production"; source_release_id: string;
   mapping_version_id: string; before_snapshot: MappingScopeSnapshot;
   operator_oid: number; operator_login: string;
-  actor_authority: MappingActorAuthority;
-  approval_requirements: {approver_oid: number; not_before: string; expires_at: string};
+  actor_authority: Authority;
+  approval_requirements: {not_before: string; expires_at: string} &
+    (Authority extends Full35OwnerAuthority ? {owner_oid: number} : {approver_oid: number});
   implementation: {commit: string; tree: string; database_contract_hash: string; migrations: {filename: string; version: string; sha256: string}[]; contract_versions: ObjectValue};
   qualification: ObjectValue; recovery_requirements: ObjectValue;
   compensation_policy: "exact_inserted_rows_current_head_only/v1";
@@ -97,9 +103,9 @@ export function proposedMappingProjection(food: MappingScopeFood, candidate: Ful
     food_metadata: food.metadata, operation_kind: compensate ? "compensation" : "reprojection",
     nutrient_states: mappingStates(candidate, compensate)};
 }
-export function buildMappingPlan(input: Omit<MappingPlan, "contract_version" | "items" | "counts" | "diff" | "compensation_policy"> & {
+export function buildMappingPlan<Authority extends MappingAuthority = MappingActorAuthority>(input: Omit<MappingPlan<Authority>, "contract_version" | "items" | "counts" | "diff" | "compensation_policy"> & {
   records: readonly {candidate: Full35Candidate; record: ParsedFoundationRecord}[];
-}): MappingPlan {
+}): MappingPlan<Authority> {
   const {records, ...bindings} = input;
   const compensate = input.operation_kind === "compensation";
   if (input.before_snapshot.foods.length !== 353 || records.length !== 353) throw new Error("Exact 353-food scope required.");
@@ -165,9 +171,9 @@ export function buildMappingPlan(input: Omit<MappingPlan, "contract_version" | "
       deleted_rows:compensate?5062:0,present_states:compensate?1199:6261,missing_states:compensate?11156:6094,states:12355},
     diff};
 }
-export const fingerprintMappingPlan = (plan: MappingPlan) => fingerprintJson(plan as unknown as JsonValue);
+export const fingerprintMappingPlan = (plan: MappingPlan<MappingAuthority>) => fingerprintJson(plan as unknown as JsonValue);
 
-export const serializeMappingPlan = (plan: MappingPlan) => canonicalizeJson(plan as unknown as JsonValue);
+export const serializeMappingPlan = (plan: MappingPlan<MappingAuthority>) => canonicalizeJson(plan as unknown as JsonValue);
 
 
 // Database-generated immutable result shapes. Actor/retry metadata is also

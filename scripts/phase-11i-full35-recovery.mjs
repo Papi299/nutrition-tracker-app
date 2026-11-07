@@ -11,10 +11,11 @@ export function full35AtomicRejectionMessage(stderr) {
   if (stderr.includes("Copied actor authorization unexpectedly active")) return "Copied actor authorization unexpectedly active; atomic data replay rolled back.";
   return "Full35 atomic data replay failed outside the reviewed integrity guards.";
 }
-export function assertFull35SourceMetadata(value) {
+export function assertFull35SourceMetadata(value, includeOwnerRelease = false) {
   if (value?.schemaVersion !== "phase-11i-full35-recovery/v1" || !uuid.test(value?.sourceClusterMarker ?? "") ||
       !/^[a-f0-9]{64}$/.test(value?.installedContractHash ?? "") || !/^[a-f0-9]{64}$/.test(value?.reviewedSchemaHash ?? "") ||
-      !value.rowFingerprints || Object.keys(value.rowFingerprints).length !== 78 ||
+      !value.rowFingerprints || Object.keys(value.rowFingerprints).length !== (includeOwnerRelease ? 79 : 78) ||
+      Object.hasOwn(value.rowFingerprints,"ingestion.foundation_owner_authorization") !== includeOwnerRelease ||
       Object.entries(value.rowFingerprints).some(([name,row]) => !identifier.test(name) || !Number.isSafeInteger(row.count) || row.count < 0 || !/^[a-f0-9]{64}$/.test(row.sha256 ?? ""))) {
     fail("Full35 recovery metadata mismatch.");
   }
@@ -51,6 +52,9 @@ export function full35AtomicRestoreGuard(source, freshMarker) {
       raise exception 'Full35 target marker changed during recovery';end if;
     if exists(select from ingestion.mapping_actor_current_bindings where cluster_id='${freshMarker}') then
       raise exception 'Copied actor authorization unexpectedly active';end if;
+    ${Object.hasOwn(expected,"ingestion.foundation_owner_authorization") ? `if exists(
+      select from ingestion.foundation_owner_authorization where cluster_id='${freshMarker}') then
+      raise exception 'Copied Full35 owner authorization unexpectedly active';end if;` : ""}
     end $full35_restore_guard$;`;
 }
 export function full35ClusterMarker(rows) {
@@ -72,7 +76,7 @@ export function assertFull35Payload(data) {
 export function assertFull35Rows(expected, actual) {
   if (!expected || canonicalize(expected) !== canonicalize(actual)) fail("Full35 complete persisted row fingerprint mismatch.");
 }
-export function validateFull35Integrity(rows) {
+export function validateFull35Integrity(rows, includeOwnerRelease = false) {
   const violations = rows(`
     select 'rls',count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace
       where n.nspname in ('public','ingestion') and c.relkind='r' and not c.relrowsecurity
@@ -101,12 +105,21 @@ export function validateFull35Integrity(rows) {
     union all select 'inserted_row_image',count(*) from ingestion.mapping_reprojection_inserted_rows r
       where r.public_row_id::text<>r.row_image->>'id' or r.food_id::text<>r.row_image->>'food_id' or
         r.nutrient_id::text<>r.row_image->>'nutrient_id' or r.amount<>(r.row_image->>'amount')::numeric or r.basis<>r.row_image->>'basis'
+    ${includeOwnerRelease ? `union all select 'owner_authorization',count(*)
+      from ingestion.foundation_owner_authorization a
+      join ingestion.mapping_reprojection_plans p on p.owner_authorization_id=a.id
+      left join ingestion.mapping_reprojection_receipts r on r.plan_id=p.id
+      where p.state<>'completed' or r.id is null or a.plan_hash<>p.plan_hash
+        or r.receipt_body->'owner_authorization' is distinct from to_jsonb(a)-'singleton'
+    union all select 'owner_login_disabled',count(*) from pg_roles
+      where rolname='full35_release_owner' and (rolcanlogin or rolinherit or rolsuper or rolbypassrls
+        or rolcreatedb or rolcreaterole or rolreplication or exists(select from pg_auth_members where member=pg_roles.oid))` : ""}
     order by 1`);
-  if (violations.length !== 11 || violations.some(([, count]) => count !== "0")) fail("Full35 projection, receipt, authority or security integrity violation.");
+  if (violations.length !== (includeOwnerRelease ? 13 : 11) || violations.some(([, count]) => count !== "0")) fail("Full35 projection, receipt, authority or security integrity violation.");
   return Object.fromEntries(violations.map(([name]) => [name,"PASS"]));
 }
-export function captureFull35Recovery(rows, includeWriterBarrier = false) {
-  const integrity = validateFull35Integrity(rows);
+export function captureFull35Recovery(rows, includeWriterBarrier = false, includeOwnerRelease = false) {
+  const integrity = validateFull35Integrity(rows, includeOwnerRelease);
   return {schemaVersion:"phase-11i-full35-recovery/v1",sourceClusterMarker:full35ClusterMarker(rows),
     installedContractHash:rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0],
     reviewedSchemaHash:full35ReviewedSchemaHash(rows, includeWriterBarrier),
@@ -150,8 +163,8 @@ export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false) {
   }
   return sha256(canonicalize(snapshot));
 }
-export function validateRestoredFull35(rows, source, freshMarker, reviewedContract, includeWriterBarrier = false) {
-  assertFull35SourceMetadata(source);
+export function validateRestoredFull35(rows, source, freshMarker, reviewedContract, includeWriterBarrier = false, includeOwnerRelease = false) {
+  assertFull35SourceMetadata(source, includeOwnerRelease);
   assertFreshFull35Marker(source.sourceClusterMarker,freshMarker,full35ClusterMarker(rows));
   const contract = rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0];
   assertFull35SchemaHash(reviewedContract,full35ReviewedSchemaHash(rows, includeWriterBarrier));
@@ -160,7 +173,7 @@ export function validateRestoredFull35(rows, source, freshMarker, reviewedContra
   assertFull35Rows(source.rowFingerprints,full35TableFingerprints(rows));
   const active = Number(rows(`select count(*) from ingestion.mapping_actor_current_bindings where cluster_id='${freshMarker}'`)[0][0]);
   if (active !== 0) fail("Copied actor authorization unexpectedly active before independent rebinding.");
-  const integrity = validateFull35Integrity(rows);
+  const integrity = validateFull35Integrity(rows, includeOwnerRelease);
   return {result:"PASS",freshTargetMarker:true,sourceBindingsInactive:true,
     completeRowFingerprintsEqual:true,tablesCompared:Object.keys(source.rowFingerprints).length,
     installedContractEqual:true,integrity,fingerprintSetSha256:sha256(canonicalize(source.rowFingerprints))};

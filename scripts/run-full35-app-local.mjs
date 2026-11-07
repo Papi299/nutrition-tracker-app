@@ -1,6 +1,7 @@
-import { FOUNDATION_WRITER_BARRIER_HISTORY, assertReviewedFoundationWriterBarrierFiles } from "./foundation-writer-barrier-history.mjs";
-import { spawn } from "node:child_process";
-import { randomBytes } from "node:crypto";
+import { FULL35_OWNER_RELEASE_HISTORY, assertReviewedFull35OwnerReleaseFiles } from "./full35-owner-release-history.mjs";
+import { FOUNDATION_WRITER_BARRIER_HISTORY } from "./foundation-writer-barrier-history.mjs";
+import { execFileSync, spawn } from "node:child_process";
+import { createHash, randomBytes } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
@@ -25,9 +26,19 @@ for (const entry of readdirSync(source)) {
 // Keep the historical legacy-writer scenarios on their exact history-48
 // database. The atomicity and recovery jobs exercise the history-49 barrier.
 const migrations = join(runtime, "supabase/migrations");
-assertReviewedFoundationWriterBarrierFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
+assertReviewedFull35OwnerReleaseFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
   name => readFileSync(join(migrations, name)));
 rmSync(join(migrations, FOUNDATION_WRITER_BARRIER_HISTORY.filename));
+rmSync(join(migrations, FULL35_OWNER_RELEASE_HISTORY.filename));
+// This legacy fixture runs against H48, whose ingestion contract also matches H49.
+const legacyIngestionTypes = execFileSync("git", ["show",
+  "7d284972dc3657656b66dfcdb542eb47e233e53f:ingestion/generated/database.types.ts"], { cwd: source });
+if (createHash("sha256").update(legacyIngestionTypes).digest("hex") !==
+    "e9edf94ab47820044e90305b38a922ee8fa5c77ad8e47e7d2e557bef01aa4fe3") {
+  throw new Error("Exact historical ingestion types are required for the H48 fixture.");
+}
+writeFileSync(join(runtime, "ingestion/generated/database.types.ts"), legacyIngestionTypes);
+
 // Turbopack confines module resolution to the runtime project. Keep the locked
 // installation inside that root instead of linking outside its filesystem.
 cpSync(resolve("node_modules"), join(runtime, "node_modules"), { recursive: true, verbatimSymlinks: true });

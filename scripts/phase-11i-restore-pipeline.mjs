@@ -22,6 +22,7 @@ import {
   assertTrustedMigrationReplay,
   recoveryMigrationBoundary,
   FOUNDATION_WRITER_BARRIER_BOUNDARY,
+  FULL35_OWNER_RELEASE_BOUNDARY,
   FULL35_MIGRATION_BOUNDARY,
   assertRedactedEvidence,
   assertStorageScope,
@@ -204,7 +205,8 @@ export function restoreBackup({
   });
   const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
   const full35History = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count;
-  const includeWriterBarrier = migrationBoundary.count === FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
+  const includeWriterBarrier = migrationBoundary.count >= FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
+  const includeOwnerRelease = migrationBoundary.count === FULL35_OWNER_RELEASE_BOUNDARY.count;
   // Historical migration-44 manifests predate the additive public summary.
   if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count >= 45) {
     assertNewBackupPublicVerification(manifest, migrationBoundary);
@@ -400,7 +402,7 @@ export function restoreBackup({
 
     if (full35History) {
       if (!sourceSnapshot.full35Recovery) fail("Full35 recovery metadata required.");
-      assertFull35SourceMetadata(sourceSnapshot.full35Recovery);
+      assertFull35SourceMetadata(sourceSnapshot.full35Recovery,includeOwnerRelease);
       assertFull35Payload(readFileSync(join(contentRoot,"application-data.sql"),"utf8"));
       assertFull35Payload(readFileSync(join(contentRoot,"auth-durable-data.sql"),"utf8"));
     }
@@ -642,7 +644,7 @@ export function restoreBackup({
       }).ownershipIntegrity;
     }
     const full35Recovery = full35History
-      ? validateRestoredFull35(targetRows,sourceSnapshot.full35Recovery,freshMarker,reviewedContract,includeWriterBarrier) : undefined;
+      ? validateRestoredFull35(targetRows,sourceSnapshot.full35Recovery,freshMarker,reviewedContract,includeWriterBarrier,includeOwnerRelease) : undefined;
     const recoveryRestoredAt = new Date().toISOString();
     const report = {
       schemaVersion: "phase-11i-restore-report/v1",

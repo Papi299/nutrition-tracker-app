@@ -630,8 +630,8 @@ test.describe.serial("Phase 10E lifecycle database foundation", () => {
       select count(*) from pg_trigger where not tgisinternal
         and tgname like '%_immutable';
     `);
-    // Preserve all 23 legacy immutable guards and require the eleven new append-only guards.
-    expect(inventory).toBe("20\n34");
+    // Preserve the 34 existing immutable guards and include the owner authorization guard.
+    expect(inventory).toBe("20\n35");
   });
 
   test("installs exact corrective constraints and private lifecycle boundaries", () => {

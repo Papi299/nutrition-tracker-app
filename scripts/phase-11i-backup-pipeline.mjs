@@ -27,6 +27,7 @@ import {
   sha256,
   TASK_ID,
   FOUNDATION_WRITER_BARRIER_BOUNDARY,
+  FULL35_OWNER_RELEASE_BOUNDARY,
   FULL35_MIGRATION_BOUNDARY,
 } from "./phase-11i-recovery-contract.mjs";
 
@@ -175,9 +176,10 @@ export async function captureBackup({
       "select table_schema,table_name from information_schema.tables where table_type='BASE TABLE' and table_schema in ('public','ingestion') order by 1,2;",
       "APPLICATION_TABLE_INVENTORY",
     );
-    const includeWriterBarrier = migrationBoundary.count === FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
+    const includeWriterBarrier = migrationBoundary.count >= FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
+    const includeOwnerRelease = migrationBoundary.count === FULL35_OWNER_RELEASE_BOUNDARY.count;
     const full35Recovery = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count
-      ? captureFull35Recovery(sql => rows(sql, "FULL35_CAPTURE_VALIDATION"), includeWriterBarrier)
+      ? captureFull35Recovery(sql => rows(sql, "FULL35_CAPTURE_VALIDATION"), includeWriterBarrier, includeOwnerRelease)
       : undefined;
     const tableCounts = exactTableCounts(applicationTables, "PRE_DUMP_TABLE_COUNTS");
     const ownerValidation = validateOwnerDatabase((sql) => rows(sql, "OWNER_VALIDATION"));
