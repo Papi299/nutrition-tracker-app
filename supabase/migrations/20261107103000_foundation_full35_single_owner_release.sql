@@ -784,19 +784,22 @@ create function ingestion.execute_foundation_full35_owner_v1(p_authorization_id 
 returns jsonb language plpgsql security definer set search_path='' set timezone='UTC' as $$
 declare actor oid:=ingestion.full35_owner_login_v1();
   auth ingestion.foundation_owner_authorization; plan_id uuid; approval_id uuid; item jsonb; b jsonb; receipt jsonb;
-  body jsonb:=ingestion.mapping_json_input_v1(p_plan);
+  body jsonb;
 begin
   select * into auth from ingestion.foundation_owner_authorization where id=p_authorization_id;
-  if not found or p_retry_token is distinct from auth.retry_token
-    or body->'actor_authority'->>'contract_version' is distinct from 'foundation-full35-owner-authority/v1'
-    or body->'actor_authority'->>'authorization_id' is distinct from auth.id::text
-    or ingestion.fingerprint_mapping_json_v1(body) is distinct from auth.plan_hash then
+  if not found or p_retry_token is distinct from auth.retry_token then
     raise exception using errcode='42501',message='Full35 owner request differs from the authorized operation';
   end if;
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(
     'nutrition-tracker:foundation-dataset-lifecycle:'||auth.dataset_id::text,0));
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(
     'nutrition-tracker:foundation-promotion:'||auth.source_release_id::text,0));
+  body:=ingestion.mapping_json_input_v1(p_plan);
+  if body->'actor_authority'->>'contract_version' is distinct from 'foundation-full35-owner-authority/v1'
+    or body->'actor_authority'->>'authorization_id' is distinct from auth.id::text
+    or ingestion.fingerprint_mapping_json_v1(body) is distinct from auth.plan_hash then
+    raise exception using errcode='42501',message='Full35 owner request differs from the authorized operation';
+  end if;
   receipt:=ingestion.get_foundation_full35_owner_receipt_v1(auth.id,p_retry_token);
   if receipt is not null then return receipt; end if;
   -- The shared executor validates the complete plan under its row locks

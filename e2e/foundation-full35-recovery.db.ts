@@ -564,7 +564,8 @@ test("Full35 single owner executes once and survives encrypted history-50 recove
   noMutationDenied("owner_wrong_token",source,release.execute(release.plan,fixtureId(999918)),full35OwnerLogin,/authorized operation/);
   noMutationDenied("owner_stale_head",source,`begin;update public.food_nutrients set amount=amount+0.01 where id=(select min(id::text)::uuid from public.food_nutrients);
     set session authorization ${full35OwnerLogin};${release.execute()}commit;`,"supabase_admin",/stale plan|before-image/);
-  expect(() => source(`begin;${bounds}${release.execute()}select 1/0;commit;`,full35OwnerLogin)).toThrow();
+  noMutationDenied("owner_transaction_rollback",source,
+    `begin;${bounds}${release.execute()}select 1/0;commit;`,full35OwnerLogin,/division by zero/);
   expect(source(release.receipt,full35OwnerLogin)).toBe("");
   expect(full35TableFingerprints(rows(source))["public.food_nutrients"]).toEqual(beforeMigration["public.food_nutrients"]);
 
