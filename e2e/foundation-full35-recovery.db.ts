@@ -261,7 +261,7 @@ async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<Mappi
   checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
     allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1&&!ownerRelease,completedRetriesNoMutation:expectedHead>1&&!ownerRelease,
-    independentDecisions:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
+    independentDecisions:ownerRelease?[]:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
       from ingestion.mapping_actor_current_bindings c join ingestion.mapping_actor_bindings b on b.id=c.binding_id join ingestion.mapping_actor_binding_requests r on r.id=b.request_id`))});
   process.stdout.write(`Approved encrypted checkpoint ${label} passed.\n`);
 }
