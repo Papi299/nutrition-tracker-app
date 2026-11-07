@@ -1011,6 +1011,104 @@ export type Database = {
           },
         ]
       }
+      foundation_owner_authorization: {
+        Row: {
+          authorization_reference: string
+          authorized_at: string
+          cluster_id: string
+          dataset_id: string
+          diff_hash: string
+          environment: string
+          expires_at: string
+          id: string
+          mapping_version_id: string
+          owner_login_fingerprint: string
+          owner_name: string
+          owner_oid: unknown
+          plan_hash: string
+          prior_head_hash: string
+          prior_head_id: string
+          project_ref: string
+          recovery_evidence_hash: string
+          retry_token: string
+          singleton: boolean
+          source_release_id: string
+        }
+        Insert: {
+          authorization_reference: string
+          authorized_at?: string
+          cluster_id: string
+          dataset_id: string
+          diff_hash: string
+          environment: string
+          expires_at: string
+          id: string
+          mapping_version_id: string
+          owner_login_fingerprint: string
+          owner_name: string
+          owner_oid: unknown
+          plan_hash: string
+          prior_head_hash: string
+          prior_head_id: string
+          project_ref: string
+          recovery_evidence_hash: string
+          retry_token: string
+          singleton?: boolean
+          source_release_id: string
+        }
+        Update: {
+          authorization_reference?: string
+          authorized_at?: string
+          cluster_id?: string
+          dataset_id?: string
+          diff_hash?: string
+          environment?: string
+          expires_at?: string
+          id?: string
+          mapping_version_id?: string
+          owner_login_fingerprint?: string
+          owner_name?: string
+          owner_oid?: unknown
+          plan_hash?: string
+          prior_head_hash?: string
+          prior_head_id?: string
+          project_ref?: string
+          recovery_evidence_hash?: string
+          retry_token?: string
+          singleton?: boolean
+          source_release_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "foundation_owner_authorization_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "source_datasets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "foundation_owner_authorization_mapping_version_id_fkey"
+            columns: ["mapping_version_id"]
+            isOneToOne: false
+            referencedRelation: "mapping_version_evidence"
+            referencedColumns: ["mapping_version_id"]
+          },
+          {
+            foreignKeyName: "foundation_owner_authorization_prior_head_id_fkey"
+            columns: ["prior_head_id"]
+            isOneToOne: false
+            referencedRelation: "dataset_projection_heads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "foundation_owner_authorization_source_release_id_fkey"
+            columns: ["source_release_id"]
+            isOneToOne: false
+            referencedRelation: "source_releases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       foundation_promotion_approvals: {
         Row: {
           approval_contract: Json
@@ -2452,10 +2550,10 @@ export type Database = {
           approval_body: Json
           approval_hash: string
           approved_at: string
-          approver_binding_id: string
+          approver_binding_id: string | null
           approver_name: string
           approver_oid: unknown
-          approver_principal_id: string
+          approver_principal_id: string | null
           authority_contract_version: string
           expires_at: string
           id: string
@@ -2467,10 +2565,10 @@ export type Database = {
           approval_body: Json
           approval_hash: string
           approved_at: string
-          approver_binding_id: string
+          approver_binding_id?: string | null
           approver_name: string
           approver_oid: unknown
-          approver_principal_id: string
+          approver_principal_id?: string | null
           authority_contract_version?: string
           expires_at: string
           id?: string
@@ -2482,10 +2580,10 @@ export type Database = {
           approval_body?: Json
           approval_hash?: string
           approved_at?: string
-          approver_binding_id?: string
+          approver_binding_id?: string | null
           approver_name?: string
           approver_oid?: unknown
-          approver_principal_id?: string
+          approver_principal_id?: string | null
           authority_contract_version?: string
           expires_at?: string
           id?: string
@@ -2504,6 +2602,13 @@ export type Database = {
               "approver_principal_id",
               "approver_binding_id",
             ]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_approval_plan_id_authority_contract_v_fkey"
+            columns: ["plan_id", "authority_contract_version"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "authority_contract_version"]
           },
           {
             foreignKeyName: "mapping_reprojection_approvals_plan_id_fkey"
@@ -2767,8 +2872,8 @@ export type Database = {
       }
       mapping_reprojection_plans: {
         Row: {
-          approver_binding_id: string
-          approver_principal_id: string
+          approver_binding_id: string | null
+          approver_principal_id: string | null
           authority_contract_version: string
           created_at: string
           dataset_id: string
@@ -2776,11 +2881,12 @@ export type Database = {
           id: string
           mapping_version_id: string
           operation_kind: string
-          operator_binding_id: string
+          operator_binding_id: string | null
           operator_name: string
           operator_oid: unknown
-          operator_principal_id: string
+          operator_principal_id: string | null
           origin_cluster_id: string
+          owner_authorization_id: string | null
           plan_body: Json
           plan_hash: string
           prior_head_hash: string
@@ -2792,8 +2898,8 @@ export type Database = {
           state: string
         }
         Insert: {
-          approver_binding_id: string
-          approver_principal_id: string
+          approver_binding_id?: string | null
+          approver_principal_id?: string | null
           authority_contract_version?: string
           created_at?: string
           dataset_id: string
@@ -2801,11 +2907,12 @@ export type Database = {
           id?: string
           mapping_version_id: string
           operation_kind: string
-          operator_binding_id: string
+          operator_binding_id?: string | null
           operator_name: string
           operator_oid: unknown
-          operator_principal_id: string
+          operator_principal_id?: string | null
           origin_cluster_id: string
+          owner_authorization_id?: string | null
           plan_body: Json
           plan_hash: string
           prior_head_hash: string
@@ -2817,8 +2924,8 @@ export type Database = {
           state?: string
         }
         Update: {
-          approver_binding_id?: string
-          approver_principal_id?: string
+          approver_binding_id?: string | null
+          approver_principal_id?: string | null
           authority_contract_version?: string
           created_at?: string
           dataset_id?: string
@@ -2826,11 +2933,12 @@ export type Database = {
           id?: string
           mapping_version_id?: string
           operation_kind?: string
-          operator_binding_id?: string
+          operator_binding_id?: string | null
           operator_name?: string
           operator_oid?: unknown
-          operator_principal_id?: string
+          operator_principal_id?: string | null
           origin_cluster_id?: string
+          owner_authorization_id?: string | null
           plan_body?: Json
           plan_hash?: string
           prior_head_hash?: string
@@ -2905,6 +3013,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "mapping_reprojection_plans_owner_authorization_id_fkey"
+            columns: ["owner_authorization_id"]
+            isOneToOne: true
+            referencedRelation: "foundation_owner_authorization"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "mapping_reprojection_plans_prior_head_id_dataset_id_enviro_fkey"
             columns: [
               "prior_head_id",
@@ -2948,7 +3063,7 @@ export type Database = {
           environment: string
           id: string
           operator_oid: unknown
-          operator_principal_id: string
+          operator_principal_id: string | null
           plan_id: string
           prior_head_id: string
           receipt_body: Json
@@ -2964,7 +3079,7 @@ export type Database = {
           environment: string
           id?: string
           operator_oid: unknown
-          operator_principal_id: string
+          operator_principal_id?: string | null
           plan_id: string
           prior_head_id: string
           receipt_body: Json
@@ -2980,7 +3095,7 @@ export type Database = {
           environment?: string
           id?: string
           operator_oid?: unknown
-          operator_principal_id?: string
+          operator_principal_id?: string | null
           plan_id?: string
           prior_head_id?: string
           receipt_body?: Json
@@ -3002,6 +3117,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mapping_reprojection_approvals"
             referencedColumns: ["id", "plan_id", "retry_token"]
+          },
+          {
+            foreignKeyName: "mapping_reprojection_receipts_plan_id_authority_contract_v_fkey"
+            columns: ["plan_id", "authority_contract_version"]
+            isOneToOne: false
+            referencedRelation: "mapping_reprojection_plans"
+            referencedColumns: ["id", "authority_contract_version"]
           },
           {
             foreignKeyName: "mapping_reprojection_receipts_plan_id_dataset_id_environme_fkey"
@@ -4320,6 +4442,14 @@ export type Database = {
           import_run_id: string
         }[]
       }
+      execute_foundation_full35_owner_v1: {
+        Args: {
+          p_authorization_id: string
+          p_plan: Json
+          p_retry_token: string
+        }
+        Returns: Json
+      }
       execute_foundation_lifecycle_update: {
         Args: { p_update_approval_id: string }
         Returns: {
@@ -4382,6 +4512,7 @@ export type Database = {
         Args: { p_food_projection_version_id: string }
         Returns: Json
       }
+      full35_owner_login_v1: { Args: never; Returns: unknown }
       get_completed_foundation_promotion_receipt: {
         Args: { p_import_run_id: string }
         Returns: {
@@ -4395,6 +4526,14 @@ export type Database = {
       }
       get_foundation_actor_binding_request_v1: {
         Args: { p_request: string }
+        Returns: Json
+      }
+      get_foundation_full35_owner_receipt_v1: {
+        Args: { p_authorization_id: string; p_retry_token: string }
+        Returns: Json
+      }
+      get_foundation_full35_owner_scope_v1: {
+        Args: { p_environment: string }
         Returns: Json
       }
       get_foundation_lifecycle_head: {
@@ -4769,6 +4908,10 @@ export type Database = {
           validation_receipt_id: string
           validation_state: string
         }[]
+      }
+      validate_full35_owner_plan_v1: {
+        Args: { p_body: Json }
+        Returns: undefined
       }
       validate_mapping_actor_authority_v1: {
         Args: { p_plan: Json }
