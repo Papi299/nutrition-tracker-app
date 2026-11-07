@@ -455,7 +455,7 @@ jobs:
         run: |
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
           npm run test:writer-barrier-recovery-local
-      - name: Qualify single-owner Full35 and encrypted migration 51 recovery
+      - name: Qualify single-owner Full35 and encrypted recovery
         run: node scripts/run-full35-recovery-local.mjs --owner-release
       - name: Retain sanitized atomic recovery evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
