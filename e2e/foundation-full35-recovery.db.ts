@@ -142,7 +142,7 @@ function exactReads(q:ActorQuery,both=false) {
     expect(q(`select ingestion.get_foundation_mapping_reprojection_receipt_v1('${JSON.parse(compensation).approval_id}')`,operator)).toBe(compensation);}
   expect(full35TableFingerprints(rows(q))).toEqual(before);
 }
-function independentOracle(q:ActorQuery) {
+function independentOracle(q:ActorQuery, plan:Pick<MappingPlan,"items">) {
   const receipt=JSON.parse(original).receipt_id;
   const states=JSON.parse(q(`select jsonb_agg(jsonb_build_object('fdc_id',i.candidate_body->>'fdc_id','food_id',p.food_id,'mapping_hash',i.mapping_hash,'code',s.nutrient_code,
     'value',case when s.amount is null then null else trim_scale(s.amount)::text end,'source_id',s.source_nutrient_id,'source_unit',s.source_unit,'application_unit',s.application_unit,'basis','per_100g',
@@ -159,7 +159,7 @@ function independentOracle(q:ActorQuery) {
     'derivation_code',e->>'derivation_code','derivation_description',e->>'derivation_description','raw_hash',i.raw_record_hash,'source_name',e->>'source_nutrient_name','footnote',e->>'footnote','loq',e->>'loq','raw_field_path',e->>'raw_field_path'))
     from ingestion.source_mapping_interpretations i join ingestion.food_projection_versions p on p.source_mapping_interpretation_id=i.id
     cross join lateral jsonb_array_elements(i.candidate_body->'nutrient_evidence') e where p.mapping_reprojection_receipt_id='${receipt}'`));
-  const packet={identity_bindings:originalPlan.items.map(i=>({fdc_id:i.candidate.fdc_id,food_id:i.before.food_id})),raw_records:fixture.records.map(r=>r.record.raw),states,public_rows:publicRows,interpretation_evidence:interpretationEvidence};
+  const packet={identity_bindings:plan.items.map(i=>({fdc_id:i.candidate.fdc_id,food_id:i.before.food_id})),raw_records:fixture.records.map(r=>r.record.raw),states,public_rows:publicRows,interpretation_evidence:interpretationEvidence};
   const result=JSON.parse(command("python3",["scripts/nutrition-usda-full35-reprojection-001/database_oracle.py"],JSON.stringify(packet)));
   expect(result).toMatchObject({states:12355,present:6261,missing:6094,withheld:1059,source_method_records:6452,public_values:6261,same_count_wrong_value_refused:true});return result;
 }
@@ -208,7 +208,7 @@ async function restoredAtomicRace() {
   }finally{if(!released){controller.child.stdin.end("select pg_advisory_unlock(90048);\\q\n");await controller.done;}}
 }
 
-async function checkpoint(label:string,expectedHead:number) {
+async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<MappingPlan,"items">=originalPlan) {
   process.stdout.write(`Capturing approved encrypted checkpoint ${label}.\n`);
   const backupRoot=join(config.scratch,label);mkdirSync(backupRoot,{mode:0o700});
   const trace:string[]=[];
@@ -235,7 +235,7 @@ async function checkpoint(label:string,expectedHead:number) {
     'interpretations',(select count(*) from ingestion.source_mapping_interpretations),'receipts',(select count(*) from ingestion.mapping_reprojection_receipts),
     'heads',(select jsonb_agg(head_version order by head_version) from ingestion.dataset_projection_heads))`));
   expect(quantities).toEqual({public_foods:353,source_versions:353,nutrients:expectedHead===2?6261:1199,v2_projections:353*(expectedHead-1),v2_states:12355*(expectedHead-1),interpretations:expectedHead===1?0:353,receipts:expectedHead-1,heads:Array.from({length:expectedHead},(_,i)=>i+1)});
-  const oracle=expectedHead>1?independentOracle(target):null;
+  const oracle=expectedHead>1?independentOracle(target,oraclePlan):null;
   const datasetRoots=independentDatasetRoots(target);expect(datasetRoots.heads).toHaveLength(expectedHead);
   const targetEpoch=target("select cluster_id from private.mapping_actor_cluster_epoch");expect(targetEpoch).not.toBe(sourceEpoch);
   const sourceRoles=JSON.parse(source(`select jsonb_object_agg(rolname,oid::bigint) from pg_roles where rolname in ('${operator}','${approver}')`));
@@ -620,7 +620,7 @@ test("Full35 single owner executes once and survives encrypted history-50 recove
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_50",2);
+  await checkpoint("owner_release_50",2,release.plan);
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));
