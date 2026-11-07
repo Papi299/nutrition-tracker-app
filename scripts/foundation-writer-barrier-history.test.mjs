@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
-import { FULL35_OWNER_RELEASE_HISTORY as owner } from "./full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY as owner, FULL35_PORTION_SCOPE_HISTORY as portionScope } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY as pin } from "./foundation-writer-barrier-history.mjs";
 import { assertMigrationHistory, assertTrustedMigrationReplay, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 
@@ -32,10 +32,21 @@ test("writer barrier replays only the exact ordered 49 migrations", () => {
 test("single-owner recovery pins the exact migration 50 and still replays the H49 prefix", () => {
   const h50 = recoveryMigrationBoundary(undefined, false, owner.head);
   assert.deepEqual(h50, {count:50, head:owner.head});
-  assertMigrationHistory(checkout.map(name => name.slice(0,14)), h50);
-  assert.deepEqual(assertTrustedMigrationReplay(checkout, h50, read), checkout);
+  const ownerFiles = checkout.filter(name => name.slice(0,14) <= owner.head);
+  assertMigrationHistory(ownerFiles.map(name => name.slice(0,14)), h50);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h50, read), ownerFiles);
   assert.deepEqual(assertTrustedMigrationReplay(checkout, boundary, read), files);
   assert.throws(() => assertTrustedMigrationReplay(files, h50, read));
   assert.throws(() => assertTrustedMigrationReplay(checkout, h50,
     name => name === owner.filename ? Buffer.concat([read(name), Buffer.from("\n-- drift")]) : read(name)));
+});
+
+test("fractional portion scope recovery admits only the reviewed H51 successor", () => {
+  const h51 = recoveryMigrationBoundary(undefined, false, portionScope.head);
+  assert.deepEqual(h51, {count:51, head:portionScope.head});
+  assertMigrationHistory(checkout.map(name => name.slice(0,14)), h51);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h51, read), checkout);
+  assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,-1), h51, read));
+  assert.throws(() => assertTrustedMigrationReplay(checkout, h51,
+    name => name === portionScope.filename ? Buffer.concat([read(name), Buffer.from("\n-- drift")]) : read(name)));
 });

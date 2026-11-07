@@ -206,7 +206,7 @@ export function restoreBackup({
   const migrationBoundary = recoveryMigrationBoundary({ projectRef: manifest.sourceProjectRef, sourceEnvironment: manifest.sourceEnvironment }, localNutritionSnapshots, manifest.migrationHead);
   const full35History = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count;
   const includeWriterBarrier = migrationBoundary.count >= FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
-  const includeOwnerRelease = migrationBoundary.count === FULL35_OWNER_RELEASE_BOUNDARY.count;
+  const includeOwnerRelease = migrationBoundary.count >= FULL35_OWNER_RELEASE_BOUNDARY.count;
   // Historical migration-44 manifests predate the additive public summary.
   if (manifest.publicVerificationSummary !== undefined || migrationBoundary.count >= 45) {
     assertNewBackupPublicVerification(manifest, migrationBoundary);

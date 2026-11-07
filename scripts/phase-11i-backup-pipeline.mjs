@@ -177,7 +177,7 @@ export async function captureBackup({
       "APPLICATION_TABLE_INVENTORY",
     );
     const includeWriterBarrier = migrationBoundary.count >= FOUNDATION_WRITER_BARRIER_BOUNDARY.count;
-    const includeOwnerRelease = migrationBoundary.count === FULL35_OWNER_RELEASE_BOUNDARY.count;
+    const includeOwnerRelease = migrationBoundary.count >= FULL35_OWNER_RELEASE_BOUNDARY.count;
     const full35Recovery = migrationBoundary.count >= FULL35_MIGRATION_BOUNDARY.count
       ? captureFull35Recovery(sql => rows(sql, "FULL35_CAPTURE_VALIDATION"), includeWriterBarrier, includeOwnerRelease)
       : undefined;
