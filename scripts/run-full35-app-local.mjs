@@ -1,4 +1,5 @@
-import { FOUNDATION_WRITER_BARRIER_HISTORY, assertReviewedFoundationWriterBarrierFiles } from "./foundation-writer-barrier-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, assertReviewedFull35OwnerReleaseFiles } from "./full35-owner-release-history.mjs";
+import { FOUNDATION_WRITER_BARRIER_HISTORY } from "./foundation-writer-barrier-history.mjs";
 import { spawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -25,9 +26,10 @@ for (const entry of readdirSync(source)) {
 // Keep the historical legacy-writer scenarios on their exact history-48
 // database. The atomicity and recovery jobs exercise the history-49 barrier.
 const migrations = join(runtime, "supabase/migrations");
-assertReviewedFoundationWriterBarrierFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
+assertReviewedFull35OwnerReleaseFiles(readdirSync(migrations).filter(name => name.endsWith(".sql")).sort(),
   name => readFileSync(join(migrations, name)));
 rmSync(join(migrations, FOUNDATION_WRITER_BARRIER_HISTORY.filename));
+rmSync(join(migrations, FULL35_OWNER_RELEASE_HISTORY.filename));
 // Turbopack confines module resolution to the runtime project. Keep the locked
 // installation inside that root instead of linking outside its filesystem.
 cpSync(resolve("node_modules"), join(runtime, "node_modules"), { recursive: true, verbatimSymlinks: true });

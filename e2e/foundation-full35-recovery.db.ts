@@ -7,6 +7,8 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY } from "../scripts/full35-owner-release-history.mjs";
+import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
 import { full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker } from "../scripts/phase-11i-full35-recovery.mjs";
@@ -14,9 +16,10 @@ import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, 
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const writerBarrier = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
+const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "50";
+const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=ownerRelease?FULL35_OWNER_RELEASE_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -54,7 +57,7 @@ function installRoles(q:ActorQuery,padding=false) {
   for(const role of ["anon","authenticated","service_role"])q(`create role full35_recovery_${role} login password '${password}';grant ${role} to full35_recovery_${role}`);
   if(!padding) q("do $$ begin for i in 1..64 loop if not exists(select from pg_roles where rolname='full35_recovery_padding_'||i) then execute format('create role full35_recovery_padding_%s nologin',i);end if;end loop;end $$");
 }
-function initializeSource() {
+function initializeSource(withMultiActor = true) {
   for(const key of Object.keys(atomicPayloads)){delete atomicPayloads[key];delete atomicResults[key];delete atomicKeys[key];}
   fixture=installSyntheticBaseline(source);
   // Extend the hand-authored fixture with completed durable owner metadata.
@@ -64,11 +67,11 @@ function initializeSource() {
     update public.foods set source_id=(select id from public.food_sources where code='user_custom') where owner_user_id is not null;
     insert into auth.identities(id,user_id,provider_id,identity_data,provider) values('${fixtureId(999701)}','${fixtureId(999700)}','synthetic-recovery-owner','{"sub":"${fixtureId(999700)}"}','email');
     select vault.create_secret('${hash("synthetic capability")}','account_closure_capability_v1');`);
-  op=bindActor(source,fixture.datasetId,operator,"operator");app=bindActor(source,fixture.datasetId,approver,"approver");
+  if(withMultiActor){op=bindActor(source,fixture.datasetId,operator,"operator");app=bindActor(source,fixture.datasetId,approver,"approver");}
   core=source("select to_jsonb(t)::text from public.food_nutrients t order by id");
   if(atomicDiary) {
     createAtomicOwnerEntry("before",source);
-    for(const version of [1,2]){
+    for(const version of ownerRelease ? [] : [1,2]){
       const key=fixtureId(999870+version),food=source("select id from public.foods where is_public order by id limit 1");
       const originalArgs=`'${key}','2026-10-31','lunch','${food}','Synthetic historical manual receipt',null,200,'g',321,0,null,1,null`;
       const additional=`jsonb_build_object('version',1,'values',(select jsonb_agg(jsonb_build_object('code',d->>'code','amount',null)) from jsonb_array_elements(public.nutrient_snapshot_manifest_v1()) d where d->>'coreField' is null))`;
@@ -247,17 +250,17 @@ async function checkpoint(label:string,expectedHead:number) {
   if(atomicDiary)exactAtomicOwnerRetry(target);
   const actual=full35TableFingerprints(rows(target));for(const [name,state] of Object.entries(frozen))expect(actual[name]).toEqual(state);
   expect(target("select current_head_version from ingestion.dataset_projection_current_heads")).toBe(String(expectedHead));
-  if(expectedHead>1){noMutationDenied(`${label}_unverified_receipt`,target,`select ingestion.get_foundation_mapping_reprojection_receipt_v1('${originalApproval}')`,operator);
+  if(expectedHead>1 && !ownerRelease){noMutationDenied(`${label}_unverified_receipt`,target,`select ingestion.get_foundation_mapping_reprojection_receipt_v1('${originalApproval}')`,operator);
     noMutationDenied(`${label}_copied_binding`,target,retry("reprojection",originalApproval,originalToken),operator);}
   const before=full35TableFingerprints(rows(target));
-  bindActor(target,fixture.datasetId,operator,"operator",op);bindActor(target,fixture.datasetId,approver,"approver",app);
+  if(!ownerRelease){bindActor(target,fixture.datasetId,operator,"operator",op);bindActor(target,fixture.datasetId,approver,"approver",app);}
   const after=full35TableFingerprints(rows(target));for(const name of Object.keys(before).filter(n=>!n.startsWith("ingestion.mapping_actor_")))expect(after[name]).toEqual(before[name]);
-  if(expectedHead>1){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
-  const barrierAdmission = writerBarrier ? verifyWriterBarrier(target, 999890) : undefined;
-  const atomicRace=atomicDiary&&expectedHead===1?await restoredAtomicRace():undefined;
+  if(expectedHead>1 && !ownerRelease){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
+  const barrierAdmission = writerBarrier && !ownerRelease ? verifyWriterBarrier(target, 999890) : undefined;
+  const atomicRace=atomicDiary&&!ownerRelease&&expectedHead===1?await restoredAtomicRace():undefined;
   checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
-    allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1,completedRetriesNoMutation:expectedHead>1,
+    allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1&&!ownerRelease,completedRetriesNoMutation:expectedHead>1&&!ownerRelease,
     independentDecisions:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
       from ingestion.mapping_actor_current_bindings c join ingestion.mapping_actor_bindings b on b.id=c.binding_id join ingestion.mapping_actor_binding_requests r on r.id=b.request_id`))});
   process.stdout.write(`Approved encrypted checkpoint ${label} passed.\n`);
@@ -524,6 +527,108 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
   await checkpoint("writer_barrier_49",1);
   writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({result:"PASS",migrationHead:historyHead,
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
+});
+
+test("Full35 single owner executes once and survives encrypted history-50 recovery", async () => {
+  mkdirSync(config.scratch,{recursive:true,mode:0o700});
+  installRoles(source);
+  initializeSource(false);
+  const pin = FULL35_OWNER_RELEASE_HISTORY;
+  const migration = readFileSync(join(repository,"supabase/migrations",pin.filename),"utf8");
+  const install = `${migration}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${pin.head}','${pin.filename.slice(15,-4)}',array[]::text[]);`;
+  const beforeMigration = full35TableFingerprints(rows(source));
+  expect(() => source(`begin;${install}select 1/0;commit;`,"postgres")).toThrow();
+  expect(source("select to_regrole('full35_release_owner') is null")).toBe("t");
+  source(install,"postgres");
+  expect(source("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
+  const afterMigration = full35TableFingerprints(rows(source));
+  expect(Object.fromEntries(Object.entries(afterMigration).filter(([name])=>name!=="ingestion.foundation_owner_authorization"))).toEqual(beforeMigration);
+  source(`alter role ${full35OwnerLogin} login password '${password}';`);
+  const release = syntheticOwnerRelease(source,fixture);
+  const bounds = "set lock_timeout='5s';set statement_timeout='120s';set transaction_timeout='180s';";
+  noMutationDenied("owner_no_authorization",source,release.execute(),full35OwnerLogin,/authorized operation/);
+  noMutationDenied("owner_wrong_session",source,release.execute(),operator,/permission denied/);
+  noMutationDenied("owner_no_self_authorization",source,release.authorize(),full35OwnerLogin,/permission denied/);
+  const wrongValue = structuredClone(release.plan);
+  wrongValue.items.find(i=>i.additions.length)!.additions[0].state.amount="999999";
+  // Even a grant for a wrong value is refused by the shared catalog validator.
+  noMutationDenied("owner_scientific_value_guard",source,
+    `begin;${release.authorize(wrongValue)}set session authorization ${full35OwnerLogin};${release.execute(wrongValue)}commit;`,
+    "supabase_admin",/additions|diff|projection|candidate/i);
+  source(release.authorize(),"postgres");
+  noMutationDenied("owner_wrong_dataset",source,release.execute({...release.plan,dataset_id:fixtureId(999899)}),full35OwnerLogin,/authorized operation/);
+  noMutationDenied("owner_wrong_mapping",source,release.execute({...release.plan,mapping_version_id:fixtureId(999899)}),full35OwnerLogin,/authorized operation/);
+  noMutationDenied("owner_wrong_count",source,release.execute({...release.plan,counts:{...release.plan.counts,inserted_rows:5061}}),full35OwnerLogin,/authorized operation/);
+  noMutationDenied("owner_wrong_token",source,release.execute(release.plan,fixtureId(999918)),full35OwnerLogin,/authorized operation/);
+  noMutationDenied("owner_stale_head",source,`begin;update public.food_nutrients set amount=amount+0.01 where id=(select min(id::text)::uuid from public.food_nutrients);
+    set session authorization ${full35OwnerLogin};${release.execute()}commit;`,"supabase_admin",/stale plan|before-image/);
+  expect(() => source(`begin;${bounds}${release.execute()}select 1/0;commit;`,full35OwnerLogin)).toThrow();
+  expect(source(release.receipt,full35OwnerLogin)).toBe("");
+  expect(full35TableFingerprints(rows(source))["public.food_nutrients"]).toEqual(beforeMigration["public.food_nutrients"]);
+
+  // An admitted reference save holds the shared dataset lock to commit. Start
+  // the owner transaction while that save is open and verify it must wait.
+  const launch = (sql:string,user:string,hold=false) => {
+    const child=spawn("docker",["exec","-i","-e",`PGPASSWORD=${password}`,config.source,"psql","-h","127.0.0.1",
+      "-U",user,"-d","postgres","-X","-qAt","-v","ON_ERROR_STOP=1"]);
+    let output="",error="";
+    child.stdout.on("data",b=>output+=b);child.stderr.on("data",b=>error+=b);
+    const done=new Promise<string>((ok,fail)=>{child.on("error",fail);child.on("close",code=>code===0?ok(output.trim()):fail(new Error(error)));});
+    if(hold)child.stdin.write(sql);else child.stdin.end(sql);
+    return {child,done,output:()=>output};
+  };
+  const diary=launch(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';
+    ${atomicPayloads.before.replaceAll(atomicKeys.before,fixtureId(999917))}
+\\echo diary_ready
+`,"full35_recovery_authenticated",true);
+  try {
+    await expect.poll(()=>diary.output().includes("diary_ready")).toBe(true);
+    const write=launch(`set application_name='full35_owner_release_test';${bounds}${release.execute()}`,full35OwnerLogin);
+    try {
+      await expect.poll(()=>source("select count(*) from pg_stat_activity where application_name='full35_owner_release_test' and wait_event='advisory'"),{timeout:4_000}).toBe("1");
+    } finally {
+      diary.child.stdin.end("commit;\\q\n");
+    }
+    const diaryOutput=await diary.done;
+    expect(JSON.parse(diaryOutput.split("\n")[0]).result_status).toBe("success");
+    await write.done;
+  } finally {
+    if(!diary.child.stdin.destroyed && !diary.child.stdin.writableEnded) diary.child.stdin.end("rollback;\\q\n");
+  }
+  original=source(release.receipt,full35OwnerLogin);
+  const receipt=JSON.parse(original);
+  expect(receipt).toMatchObject({contract_version:"foundation-full35-owner-receipt/v1",
+    counts:{foods:353,inserted_rows:5062,core_rows_preserved:1199,missing_states:6094},
+    owner_authorization:{owner_name:"Synthetic fixture owner",id:release.authorizationId}});
+  const committed=full35TableFingerprints(rows(source));
+  expect(source(release.execute(),full35OwnerLogin)).toBe(original);
+  expect(full35TableFingerprints(rows(source))).toEqual(committed);
+  expect(source("select count(*) from ingestion.mapping_actor_principals")).toBe("0");
+  expect(source("select count(*) from ingestion.mapping_actor_bindings")).toBe("0");
+  expect(source("select count(*) from ingestion.mapping_reprojection_execution_context")).toBe("0");
+  expect(source("select to_jsonb(n)::text from public.food_nutrients n where n.id not in(select public_row_id from ingestion.mapping_reprojection_inserted_rows) order by n.id")).toBe(core);
+  for(const name of Object.keys(frozen)) {
+    if(!["public.diary_entries","public.manual_diary_entry_requests"].includes(name)) expect(committed[name]).toEqual(frozen[name]);
+  }
+  exactAtomicOwnerRetry(source);
+  for(const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name]=committed[name];
+
+  source(`alter role ${full35OwnerLogin} nologin password null;`);
+  command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
+  chmodSync(key,0o600);
+  recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
+  await checkpoint("owner_release_50",2);
+  expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
+  target(`alter role ${full35OwnerLogin} login password '${password}';`);
+  const restored=full35TableFingerprints(rows(target));
+  expect(target(release.receipt,full35OwnerLogin)).toBe(original);
+  expect(target(release.execute(),full35OwnerLogin)).toBe(original);
+  expect(full35TableFingerprints(rows(target))).toEqual(restored);
+  target(`alter role ${full35OwnerLogin} nologin password null;`);
+  writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({result:"PASS",migrationHead:historyHead,
+    checkpoint:checkpoints[0],ownerReceiptRecovered:true,exactRetryNoMutation:true,diarySerialized:true,productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
 test.describe.serial("Approved encrypted Full35 recovery",()=>{

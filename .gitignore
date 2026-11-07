@@ -57,5 +57,6 @@ next-env.d.ts
 /full35-recovery-evidence/
 /atomic-diary-recovery-evidence/
 /writer-barrier-recovery-evidence/
+/full35-owner-recovery-evidence/
 /codeql-results/
 /full35-app-evidence/
