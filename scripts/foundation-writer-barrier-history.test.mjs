@@ -63,7 +63,7 @@ test("Full35 validator repair recovery admits only the pinned H52 successor", ()
 test("Full35 receipt performance recovery pins migration 53 and keeps the H52 prefix", () => {
   const h53 = recoveryMigrationBoundary(undefined, false, receiptPerformance.head);
   assert.deepEqual(h53, {count:53, head:receiptPerformance.head});
-  assert.deepEqual(assertTrustedMigrationReplay(checkout, h53, read), checkout);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h53, read), checkout.slice(0, h53.count));
   assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,52), h53, read));
   assert.throws(() => assertTrustedMigrationReplay(checkout, h53,
     name => name === receiptPerformance.filename ? "altered migration" : read(name)));
