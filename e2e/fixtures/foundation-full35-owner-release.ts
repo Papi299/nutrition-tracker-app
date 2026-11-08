@@ -11,9 +11,9 @@ import { fixtureHash, fixtureId, installSyntheticBaseline } from "./foundation-f
 
 export const full35OwnerLogin = "full35_release_owner";
 
-export function syntheticOwnerRelease(q: ActorQuery, fixture: ReturnType<typeof installSyntheticBaseline>) {
+export function syntheticOwnerRelease(q: ActorQuery, fixture: ReturnType<typeof installSyntheticBaseline>, authorizationId = fixtureId(999915)) {
   const scope = JSON.parse(q("select ingestion.get_foundation_full35_owner_scope_v1('local')", full35OwnerLogin));
-  const authorizationId = fixtureId(999915), token = fixtureId(999916);
+  const token = fixtureId(999916);
   const plan = buildMappingPlan<Full35OwnerAuthority>({
     operation_kind: "reprojection", dataset_id: fixture.datasetId, environment: "local",
     source_release_id: fixture.releaseId, mapping_version_id: scope.mapping.id, before_snapshot: scope.before_snapshot,

@@ -7,19 +7,20 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
-import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY } from "../scripts/full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
 import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
 import { full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker } from "../scripts/phase-11i-full35-recovery.mjs";
+import { fingerprintJson } from "../ingestion/usda/foundation/canonical-json";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingPlan } from "../ingestion/usda/foundation/reprojection/contracts";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "52";
+const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "53";
 const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=ownerRelease?FULL35_VALIDATOR_REPAIR_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=ownerRelease?FULL35_RECEIPT_PERFORMANCE_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -529,7 +530,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
-test("Full35 single owner preserves fractional portions and the successor audit through encrypted H52 recovery", async () => {
+test("Full35 single owner preserves receipt bytes and the authorization audit through encrypted H53 recovery", async () => {
   mkdirSync(config.scratch,{recursive:true,mode:0o700});
   installRoles(source);
   initializeSource(false);
@@ -570,8 +571,31 @@ test("Full35 single owner preserves fractional portions and the successor audit 
     insert into supabase_migrations.schema_migrations(version,name,statements)
     values('${hotfixPin.head}','${hotfixPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
   expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  const receiptPin = FULL35_RECEIPT_PERFORMANCE_HISTORY;
+  const receiptMigration = readFileSync(join(repository,"supabase/migrations",receiptPin.filename),"utf8");
+  source(`begin;${receiptMigration}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${receiptPin.head}','${receiptPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
+  expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  const previousMigration = readFileSync(join(repository,"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"),"utf8");
+  const oldCanonicalizer = previousMigration.slice(
+    previousMigration.indexOf("create function ingestion.canonicalize_mapping_json_v1"),
+    previousMigration.indexOf("create function ingestion.fingerprint_mapping_json_v1"),
+  ).replaceAll("ingestion.canonicalize_mapping_json_v1","pg_temp.original_full35_canonicalize");
+  const canonicalizerSetup = `create temp table full35_canonicalizer_comparison (value jsonb); ${oldCanonicalizer}`;
+  const representative = actorInput([null, true, false, 0, -9007199254740991, 9007199254740991,
+    "0.0500", "מזון µg 🍎", [], {}, {z:[null,{a:'quote " and newline\n',b:"\\",c:false}], é:1}]);
+  expect(source(`${canonicalizerSetup}
+    insert into full35_canonicalizer_comparison values (${representative}::jsonb), ('[2.000,-0.000,1e3]'::jsonb), ('{"é":[],"a":{}}'::jsonb);
+    select bool_and(convert_to(ingestion.canonicalize_mapping_json_v1(value),'UTF8')
+      =convert_to(pg_temp.original_full35_canonicalize(value),'UTF8')) from full35_canonicalizer_comparison;`)).toBe("t");
+  for (const invalid of ["[1.25]", '{"nested":[9007199254740992]}']) {
+    for (const canonicalizer of ["ingestion.canonicalize_mapping_json_v1","pg_temp.original_full35_canonicalize"]) {
+      expect(() => source(`${canonicalizerSetup} select ${canonicalizer}('${invalid}'::jsonb);`)).toThrow(/safe integer numbers/);
+    }
+  }
   source(`alter role ${full35OwnerLogin} login password '${password}' valid until 'infinity';`);
-  const release = syntheticOwnerRelease(source,fixture);
+  const release = syntheticOwnerRelease(source,fixture,FULL35_FINAL_AUTHORIZATION_ID);
   const portions = release.plan.before_snapshot.foods.find(food => food.source_version_id === portionVersion)!.portions;
   expect((portions as Array<{ordinal:number;source_value:string|number|null}>)
     .filter(portion => portion.ordinal >= 901).map(portion => portion.source_value)).toEqual(["0.2","0.5",2,null]);
@@ -586,34 +610,51 @@ test("Full35 single owner preserves fractional portions and the successor audit 
   noMutationDenied("owner_no_authorization",source,release.execute(),full35OwnerLogin,/authorized operation/);
   noMutationDenied("owner_wrong_session",source,release.execute(),operator,/permission denied/);
   noMutationDenied("owner_no_self_authorization",source,release.authorize(),full35OwnerLogin,/permission denied/);
+  // Both failed authorizations must survive unchanged. Only the reserved final
+  // slot may follow them, and only after both expired without execution.
+  const failedId = "283c6348-b19e-414f-a228-bc84f60c2297";
+  const timeoutId = "a7c2fa47-8ce7-412e-95e0-2e8edade247c";
+  function expiredGrant(id:string, token:string, planHash:string, expirySql:string) {
+    return release.authorize()
+      .replace(release.authorizationId,id).replace(release.token,token)
+      .replace(fingerprintMappingPlan(release.plan),planHash)
+      .replace("synthetic single owner authorization",`failed synthetic authorization ${id}`)
+      .replace("retry_token,expires_at","retry_token,authorized_at,expires_at")
+      .replace(`'${release.plan.approval_requirements.expires_at}'`,expirySql);
+  }
+  const expired = "clock_timestamp()-interval '1 hour',clock_timestamp()-interval '1 second'";
+  const firstGrant = expiredGrant(failedId,fixtureId(999929),fixtureHash("failed H51 plan"),
+    "clock_timestamp()-interval '3 hours',clock_timestamp()-interval '2 hours'");
+  const timeoutGrant = expiredGrant(timeoutId,fixtureId(999927),
+    "6d2a06dd802abe1b1b217d375ec3a336dfb1cbd06ee57659c2d1a381bc096e1d",expired);
+  const activeTimeoutGrant = timeoutGrant.replace("clock_timestamp()-interval '1 second'","clock_timestamp()+interval '1 hour'");
+  expect(() => source(release.authorize(),"postgres")).toThrow(/final slot requires both expired/);
+  source(firstGrant,"postgres");
+  expect(() => source(release.authorize(),"postgres")).toThrow(/final slot requires both expired/);
+  expect(() => source(`begin;${activeTimeoutGrant}${release.authorize()}rollback;`,"postgres"))
+    .toThrow(/final slot requires both expired/);
+  source(timeoutGrant,"postgres");
+  const auditSql = `select jsonb_agg(to_jsonb(a) order by a.id) from ingestion.foundation_owner_authorization a
+    where a.id in ('${failedId}','${timeoutId}')`;
+  const audit = source(auditSql);
+  expect(() => source(`update ingestion.foundation_owner_authorization set expires_at=now() where id='${failedId}'`,"postgres"))
+    .toThrow(/immutable Full35 owner authorization/);
+  const incorrectDiff = release.authorize().replace(fingerprintJson(release.plan.diff),fixtureHash("different diff"));
+  expect(() => source(incorrectDiff,"postgres")).toThrow(/final slot requires both expired/);
   const wrongValue = structuredClone(release.plan);
   wrongValue.items.find(i=>i.additions.length)!.additions[0].state.amount="999999";
+  wrongValue.diff = release.plan.diff;
   // Even a grant for a wrong value is refused by the shared catalog validator.
   noMutationDenied("owner_scientific_value_guard",source,
     `begin;${release.authorize(wrongValue)}set session authorization ${full35OwnerLogin};${release.execute(wrongValue)}commit;`,
     "supabase_admin",/additions|diff|projection|candidate/i);
-  // Preserve the failed immutable audit row while admitting one new exact plan.
-  const failedId = "283c6348-b19e-414f-a228-bc84f60c2297";
-  const oldGrant = release.authorize().replace(release.authorizationId,failedId)
-    .replace(release.token,fixtureId(999929))
-    .replace(fingerprintMappingPlan(release.plan),fixtureHash("failed plan"))
-    .replace("synthetic single owner authorization","failed H51 test authorization")
-    .replace("retry_token,expires_at","retry_token,authorized_at,expires_at");
-  const oldWindow = oldGrant.replace(`'${release.plan.approval_requirements.expires_at}'`,
-    "clock_timestamp()-interval '1 hour',clock_timestamp()-interval '1 second'");
-  const activeWindow = oldGrant.replace(`'${release.plan.approval_requirements.expires_at}'`,
-    "clock_timestamp()-interval '1 hour',clock_timestamp()+interval '1 hour'");
-  expect(() => source(`begin;${activeWindow}${release.authorize()}commit;`,"postgres"))
-    .toThrow(/successor requires the expired unexecuted authorization/);
-  source(oldWindow,"postgres");
-  const audit = source(`select to_jsonb(a) from ingestion.foundation_owner_authorization a where a.id='${failedId}'`);
-  expect(() => source(`update ingestion.foundation_owner_authorization set expires_at=now() where id='${failedId}'`,"postgres"))
-    .toThrow(/immutable Full35 owner authorization/);
   source(release.authorize(),"postgres");
-  expect(source(`select to_jsonb(a) from ingestion.foundation_owner_authorization a where a.id='${failedId}'`)).toBe(audit);
+  expect(source(auditSql)).toBe(audit);
+  const auditOid = JSON.parse(audit)[0].owner_oid;
+  expect(Number(auditOid)).toBe(release.plan.approval_requirements.owner_oid);
   expect(() => source(release.authorize().replace(release.authorizationId,fixtureId(999928))
     .replace(release.token,fixtureId(999930))
-    .replace(fingerprintMappingPlan(release.plan),fixtureHash("third plan")),"postgres"))
+    .replace(fingerprintMappingPlan(release.plan),fixtureHash("arbitrary plan")),"postgres"))
     .toThrow(/foundation_owner_authorization_release_slot/);
   noMutationDenied("owner_wrong_dataset",source,release.execute({...release.plan,dataset_id:fixtureId(999899)}),full35OwnerLogin,/authorized operation/);
   noMutationDenied("owner_wrong_mapping",source,release.execute({...release.plan,mapping_version_id:fixtureId(999899)}),full35OwnerLogin,/authorized operation/);
@@ -637,12 +678,14 @@ test("Full35 single owner preserves fractional portions and the successor audit 
     if(hold)child.stdin.write(sql);else child.stdin.end(sql);
     return {child,done,output:()=>output};
   };
+  let executionMilliseconds = 0;
   const diary=launch(`begin;set local role authenticated;set local request.jwt.claim.sub='${owner}';
     ${atomicPayloads.before.replaceAll(atomicKeys.before,fixtureId(999917))}
 \\echo diary_ready
 `,"full35_recovery_authenticated",true);
   try {
     await expect.poll(()=>diary.output().includes("diary_ready")).toBe(true);
+    const writeStarted = performance.now();
     const write=launch(`set application_name='full35_owner_release_test';${bounds}${release.execute()}`,full35OwnerLogin);
     try {
       await expect.poll(()=>source("select count(*) from pg_stat_activity where application_name='full35_owner_release_test' and wait_event='advisory'"),{timeout:12_000,intervals:[100,200,300]}).toBe("1");
@@ -652,6 +695,7 @@ test("Full35 single owner preserves fractional portions and the successor audit 
     const diaryOutput=await diary.done;
     expect(JSON.parse(diaryOutput.split("\n")[0]).result_status).toBe("success");
     await write.done;
+    executionMilliseconds = Math.round(performance.now() - writeStarted);
   } finally {
     if(!diary.child.stdin.destroyed && !diary.child.stdin.writableEnded) diary.child.stdin.end("rollback;\\q\n");
   }
@@ -660,8 +704,20 @@ test("Full35 single owner preserves fractional portions and the successor audit 
   expect(receipt).toMatchObject({contract_version:"foundation-full35-owner-receipt/v1",
     counts:{foods:353,inserted_rows:5062,core_rows_preserved:1199,missing_states:6094},
     owner_authorization:{owner_name:"Synthetic fixture owner",id:release.authorizationId}});
+  const receiptParity = source(`${canonicalizerSetup}
+    insert into full35_canonicalizer_comparison
+      select jsonb_agg((r.row_image-'amount')||jsonb_build_object('amount',trim_scale(r.amount)::text)
+        order by r.public_row_id::text collate "C") from ingestion.mapping_reprojection_inserted_rows r
+      where r.receipt_id='${receipt.receipt_id}';
+    select jsonb_array_length(value)=5062
+      and convert_to(ingestion.canonicalize_mapping_json_v1(value),'UTF8')
+        =convert_to(pg_temp.original_full35_canonicalize(value),'UTF8')
+      and encode(sha256(convert_to(pg_temp.original_full35_canonicalize(value),'UTF8')),'hex')
+        ='${receipt.public_row_identity_set_hash}' from full35_canonicalizer_comparison;`);
+  expect(receiptParity).toBe("t");
+  expect(source(auditSql)).toBe(audit);
   const committed=full35TableFingerprints(rows(source));
-  expect(source(release.execute(),full35OwnerLogin)).toBe(original);
+  expect(source(bounds + release.execute(),full35OwnerLogin)).toBe(original);
   expect(full35TableFingerprints(rows(source))).toEqual(committed);
   expect(source("select count(*) from ingestion.mapping_actor_principals")).toBe("0");
   expect(source("select count(*) from ingestion.mapping_actor_bindings")).toBe("0");
@@ -677,16 +733,16 @@ test("Full35 single owner preserves fractional portions and the successor audit 
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_52",2,release.plan);
+  await checkpoint("owner_release_53",2,release.plan);
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));
   expect(target(release.receipt,full35OwnerLogin)).toBe(original);
-  expect(target(release.execute(),full35OwnerLogin)).toBe(original);
+  expect(target(bounds + release.execute(),full35OwnerLogin)).toBe(original);
   expect(full35TableFingerprints(rows(target))).toEqual(restored);
   target(`alter role ${full35OwnerLogin} nologin password null;`);
   writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({result:"PASS",migrationHead:historyHead,
-    checkpoint:checkpoints[0],ownerReceiptRecovered:true,exactRetryNoMutation:true,diarySerialized:true,productionAccess:false},null,2)+"\n",{mode:0o600});
+    checkpoint:checkpoints[0],ownerReceiptRecovered:true,exactRetryNoMutation:true,receiptBytesIdentical:true,executionMilliseconds,diarySerialized:true,productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
 test.describe.serial("Approved encrypted Full35 recovery",()=>{

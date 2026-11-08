@@ -151,11 +151,41 @@ function rebind(q: ActorQuery, principal = operatorPrincipal, login = operator) 
   return bindActor(q, fixture.datasetId, login, principal.authority, principal);
 }
 
+// Fresh clusters can allocate different OID ranges while replaying the same
+// schema. Pick a collision from real nonprivileged roles on both clusters.
+function allocateOperatorOidCollision() {
+  const candidates = [
+    { query: source, roles: new Map<number,string>(), highest: 0 },
+    { query: target, roles: new Map<number,string>(), highest: 0 },
+  ];
+  for (let batch = 0; batch < 16; batch++) {
+    const [first, second] = candidates;
+    const [next, otherCluster] = first.highest <= second.highest ? [first, second] : [second, first];
+    const roles = JSON.parse(next.query(`do $$ begin
+      for i in ${batch * 128 + 1}..${(batch + 1) * 128} loop
+        execute format('create role full35_actor_padding_%s nologin',i);
+      end loop;
+    end $$;
+    select jsonb_agg(jsonb_build_object('oid',oid::bigint,'name',rolname) order by oid) from pg_roles
+    where rolname ~ '^full35_actor_padding_[0-9]+$';`)) as Array<{oid:number;name:string}>;
+    for (const role of roles) {
+      next.roles.set(role.oid,role.name);
+      next.highest = role.oid;
+      const matchingRole = otherCluster.roles.get(role.oid);
+      if (matchingRole) return next.query === source ? role.name : matchingRole;
+    }
+  }
+  throw new Error("Could not allocate matching synthetic role OIDs in the disposable clusters.");
+}
+
 test.describe.serial("Durable Full35 principal authority", () => {
   test.beforeAll(() => {
+    const sourceOperatorRole = allocateOperatorOidCollision();
+    expect(sourceOperatorRole).toMatch(/^full35_actor_padding_\d+$/);
+    source(`alter role ${sourceOperatorRole} rename to ${operator};`);
     for (const q of [source, target, compensated]) {
-      if (q !== source) q("do $$ begin for i in 1..64 loop execute format('create role full35_actor_padding_%s nologin',i); end loop;end $$;");
-      q(`create role ${operator} login password '${password}';create role ${approver} login password '${password}';
+      if (q === compensated) q("do $$ begin for i in 1..64 loop execute format('create role full35_actor_padding_%s nologin',i); end loop;end $$;");
+      q(`${q === source ? "alter" : "create"} role ${operator} login password '${password}';create role ${approver} login password '${password}';
         create role ${other} login password '${password}';grant ingestion_operator to ${operator},${other};grant ingestion_approver to ${approver};`);
       installIdentityControllers(q, password);
     }
