@@ -65,14 +65,16 @@ function assertWorkflowRejected(workflow = githubBackupWorkflow, runbook = githu
   assert.throws(() => assertGitHubBackupWorkflowContract({ workflow, runbook }));
 }
 
-test("history 54 pins its SQL and preserves the exact history 53 replay", () => {
+test("history 55 pins its SQL and preserves the exact history 53 and 54 replays", () => {
   const files = readdirSync("supabase/migrations").filter(name => /^\d{14}_.+\.sql$/.test(name)).sort();
   const read = name => readFileSync(`supabase/migrations/${name}`);
   const h53 = recoveryMigrationBoundary(undefined, false, "20261108073000");
   const h54 = recoveryMigrationBoundary(undefined, false, "20261108110500");
   assert.deepEqual(assertTrustedMigrationReplay(files, h53, read), files.slice(0, 53));
-  assert.deepEqual(assertTrustedMigrationReplay(files, h54, read), files);
-  assert.throws(() => assertTrustedMigrationReplay(files, h54,
+  const h55 = recoveryMigrationBoundary(undefined, false, "20261108182000");
+  assert.deepEqual(assertTrustedMigrationReplay(files, h54, read), files.slice(0, 54));
+  assert.deepEqual(assertTrustedMigrationReplay(files, h55, read), files);
+  assert.throws(() => assertTrustedMigrationReplay(files, h55,
     name => name === files.at(-1) ? Buffer.from("changed SQL") : read(name)), /SQL checksum mismatch/);
 });
 

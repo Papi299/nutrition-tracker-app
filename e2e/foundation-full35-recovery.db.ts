@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
-import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID, FULL35_VALIDATOR_SPILL_HISTORY, FULL35_SPILL_REPAIR_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
 import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
@@ -17,10 +17,10 @@ import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, 
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "54";
+const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "55";
 const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=ownerRelease?FULL35_OBSERVED_EXECUTION_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=ownerRelease?FULL35_VALIDATOR_SPILL_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -530,7 +530,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
-test("Full35 single owner preserves receipt bytes and the authorization audit through encrypted H54 recovery", async () => {
+test("Full35 single owner preserves receipt bytes and the authorization audit through encrypted H55 recovery", async () => {
   mkdirSync(config.scratch,{recursive:true,mode:0o700});
   installRoles(source);
   initializeSource(false);
@@ -583,6 +583,12 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
     insert into supabase_migrations.schema_migrations(version,name,statements)
     values('${observedPin.head}','${observedPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
   expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  const spillPin = FULL35_VALIDATOR_SPILL_HISTORY;
+  const spillRepair = readFileSync(join(repository,"supabase/migrations",spillPin.filename),"utf8");
+  source(`begin;${spillRepair}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${spillPin.head}','${spillPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
+  expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
   const duplicateInputs = [
     [null, false], ["null", false], ['[1,"מזון",{}]', false],
     ['{"a":0,"a":1}', true], ['[{"a":0},{"a":1}]', false],
@@ -603,6 +609,9 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
     "0.0500", "מזון µg 🍎", [], {}, {z:[null,{a:'quote " and newline\n',b:"\\",c:false}], é:1}]);
   expect(source(`${canonicalizerSetup}
     insert into full35_canonicalizer_comparison values (${representative}::jsonb), ('[2.000,-0.000,1e3]'::jsonb), ('{"é":[],"a":{}}'::jsonb);
+    insert into full35_canonicalizer_comparison
+      select jsonb_build_object('wider key',jsonb_agg(jsonb_build_array(n,repeat('מזון µg 🍎',400),null)
+        order by n desc),'a',true) from generate_series(1,600) n;
     select bool_and(convert_to(ingestion.canonicalize_mapping_json_v1(value),'UTF8')
       =convert_to(pg_temp.original_full35_canonicalize(value),'UTF8')) from full35_canonicalizer_comparison;`)).toBe("t");
   for (const invalid of ["[1.25]", '{"nested":[9007199254740992]}']) {
@@ -639,7 +648,7 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
       .replace(`'${release.plan.approval_requirements.expires_at}'`,expirySql);
   }
   const expired = "clock_timestamp()-interval '1 hour',clock_timestamp()-interval '1 second'";
-  const firstGrant = expiredGrant(failedId,fixtureId(999929),fixtureHash("failed H51 plan"),
+  const firstGrant = expiredGrant(failedId,fixtureId(999929),"11b40004b480b8146f67cc96c09a5786387f5e3547b098d6d3dc0d527758df98",
     "clock_timestamp()-interval '3 hours',clock_timestamp()-interval '2 hours'");
   const timeoutGrant = expiredGrant(timeoutId,fixtureId(999927),
     "6d2a06dd802abe1b1b217d375ec3a336dfb1cbd06ee57659c2d1a381bc096e1d",expired);
@@ -652,6 +661,20 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   source(timeoutGrant,"postgres");
   expect(() => source(release.authorize().replace(release.authorizationId,FULL35_OBSERVED_AUTHORIZATION_ID),"postgres"))
     .toThrow(/observed slot requires three expired unexecuted authorizations/);
+  const next = syntheticOwnerRelease(source,fixture,FULL35_SPILL_REPAIR_AUTHORIZATION_ID);
+  expect(() => source(next.authorize(),"postgres")).toThrow(/validator repair slot requires four expired unexecuted authorizations/);
+  const productionDiff = "849eeedb907aec8946366a6058172965eca8ee82c2f2ba26d6523627b8d6df0f";
+  const h53 = expiredGrant(FULL35_FINAL_AUTHORIZATION_ID,fixtureId(999925),
+    "f4b4989e1d75b626df2799bab90660243f9225cbe2999d3f83ebc3297e2f770f",expired);
+  const h54 = expiredGrant(FULL35_OBSERVED_AUTHORIZATION_ID,"3dc65d05-cc45-4839-9d0b-98036e7868df",
+    "1c1bc65e61eae27bbccd1fe3d3d7abb97a7dc5b23774453c483247e86c02b7ed",expired)
+    .replace(fingerprintJson(release.plan.diff),productionDiff);
+  // Replay the two expired audit rows, then exercise admission with all guards active.
+  const admitSpillRepair = next.authorize().replace(fingerprintJson(next.plan.diff),productionDiff);
+  expect(source(`begin;set local session_replication_role='replica';${h53}${h54}
+    set local session_replication_role='origin';${admitSpillRepair}
+    select count(*) from ingestion.foundation_owner_authorization;rollback;`)).toBe("5");
+
   const auditSql = `select jsonb_agg(to_jsonb(a) order by a.id) from ingestion.foundation_owner_authorization a
     where a.id in ('${failedId}','${timeoutId}')`;
   const audit = source(auditSql);
@@ -751,7 +774,7 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_54",2,release.plan);
+  await checkpoint("owner_release_55",2,release.plan);
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));

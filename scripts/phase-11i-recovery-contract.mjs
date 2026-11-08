@@ -1,4 +1,4 @@
-import { FULL35_OBSERVED_EXECUTION_HISTORY, assertReviewedFull35ObservedExecutionFiles } from "./full35-owner-release-history.mjs";
+import { FULL35_OBSERVED_EXECUTION_HISTORY, assertReviewedFull35ObservedExecutionFiles, FULL35_VALIDATOR_SPILL_HISTORY, assertReviewedFull35ValidatorSpillFiles } from "./full35-owner-release-history.mjs";
 import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, assertReviewedFull35ReceiptPerformanceFiles, assertReviewedFull35OwnerReleaseFiles, assertReviewedFull35PortionScopeFiles, assertReviewedFull35ValidatorRepairFiles } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY, assertReviewedFoundationWriterBarrierFiles } from "./foundation-writer-barrier-history.mjs";
 import { ATOMIC_DIARY_REVIEWED_HISTORY, assertReviewedAtomicDiaryFiles } from "./atomic-diary-recovery-history.mjs";
@@ -129,6 +129,7 @@ export const FULL35_PORTION_SCOPE_BOUNDARY = Object.freeze({ count: 51, head: FU
 export const FULL35_VALIDATOR_REPAIR_BOUNDARY = Object.freeze({ count: 52, head: FULL35_VALIDATOR_REPAIR_HISTORY.head });
 export const FULL35_RECEIPT_PERFORMANCE_BOUNDARY = Object.freeze({ count: 53, head: FULL35_RECEIPT_PERFORMANCE_HISTORY.head });
 export const FULL35_OBSERVED_EXECUTION_BOUNDARY = Object.freeze({ count: 54, head: FULL35_OBSERVED_EXECUTION_HISTORY.head });
+export const FULL35_VALIDATOR_SPILL_BOUNDARY = Object.freeze({ count: 55, head: FULL35_VALIDATOR_SPILL_HISTORY.head });
 const productionMigrationBoundary = Object.freeze({ count: EXPECTED_MIGRATION_COUNT, head: EXPECTED_MIGRATION_HEAD });
 
 // Closed release allow-list: adding a file or changing a manifest cannot extend it.
@@ -163,6 +164,8 @@ const migration53Versions = Object.freeze([...migration52Versions, FULL35_RECEIP
 
 const migration54Versions = Object.freeze([...migration53Versions, FULL35_OBSERVED_EXECUTION_HISTORY.head]);
 
+const migration55Versions = Object.freeze([...migration54Versions, FULL35_VALIDATOR_SPILL_HISTORY.head]);
+
 export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshots = false, head = EXPECTED_MIGRATION_HEAD) {
   if (localNutritionSnapshots !== false && (localNutritionSnapshots !== true || sourceIdentity?.sourceEnvironment !== "LocalSynthetic" ||
       sourceIdentity?.projectRef !== "PHASE_11I_SYNTHETIC_POPULATED_FIXTURE")) {
@@ -180,12 +183,13 @@ export function recoveryMigrationBoundary(sourceIdentity, localNutritionSnapshot
   if (head === FULL35_VALIDATOR_REPAIR_BOUNDARY.head) return FULL35_VALIDATOR_REPAIR_BOUNDARY;
   if (head === FULL35_RECEIPT_PERFORMANCE_BOUNDARY.head) return FULL35_RECEIPT_PERFORMANCE_BOUNDARY;
   if (head === FULL35_OBSERVED_EXECUTION_BOUNDARY.head) return FULL35_OBSERVED_EXECUTION_BOUNDARY;
+  if (head === FULL35_VALIDATOR_SPILL_BOUNDARY.head) return FULL35_VALIDATOR_SPILL_BOUNDARY;
   fail("Source migration head mismatch: unsupported reviewed history.");
 }
 
 export function assertMigrationHistory(versions, boundary) {
   if (!boundary) {
-    if (!Array.isArray(versions) || versions.length < 44 || versions.length > FULL35_OBSERVED_EXECUTION_BOUNDARY.count) fail("Source migration count mismatch.");
+    if (!Array.isArray(versions) || versions.length < 44 || versions.length > FULL35_VALIDATOR_SPILL_BOUNDARY.count) fail("Source migration count mismatch.");
     boundary = recoveryMigrationBoundary(undefined, false, versions.at(-1));
   }
   const reviewed = recoveryMigrationBoundary(undefined, false, boundary.head);
@@ -204,7 +208,7 @@ export function assertMigrationHistory(versions, boundary) {
   }
   const expected = {
     44: migration44Versions, 45: migration45Versions, 46: migration46Versions,
-    47: migration47Versions, 48: migration48Versions, 49: migration49Versions, 50: migration50Versions, 51: migration51Versions, 52: migration52Versions, 53: migration53Versions, 54: migration54Versions,
+    47: migration47Versions, 48: migration48Versions, 49: migration49Versions, 50: migration50Versions, 51: migration51Versions, 52: migration52Versions, 53: migration53Versions, 54: migration54Versions, 55: migration55Versions,
   }[boundary.count];
   if (versions.some((version, index) => version !== expected[index])) {
     fail("Source migration ledger differs from the exact reviewed history.");
@@ -218,7 +222,9 @@ export function assertTrustedMigrationReplay(files, boundary, readMigration) {
     const sqlFiles = files.filter(name => name.endsWith(".sql"));
     // A reviewed successor may be present, but replay stays at the requested
     // boundary. An unknown successor or modified prefix is always rejected.
-    if (sqlFiles.length >= FULL35_OBSERVED_EXECUTION_BOUNDARY.count || boundary.count === FULL35_OBSERVED_EXECUTION_BOUNDARY.count) {
+    if (sqlFiles.length >= FULL35_VALIDATOR_SPILL_BOUNDARY.count || boundary.count === FULL35_VALIDATOR_SPILL_BOUNDARY.count) {
+      assertReviewedFull35ValidatorSpillFiles(sqlFiles, readMigration);
+    } else if (sqlFiles.length >= FULL35_OBSERVED_EXECUTION_BOUNDARY.count || boundary.count === FULL35_OBSERVED_EXECUTION_BOUNDARY.count) {
       assertReviewedFull35ObservedExecutionFiles(sqlFiles, readMigration);
     } else if (sqlFiles.length >= FULL35_RECEIPT_PERFORMANCE_BOUNDARY.count || boundary.count === FULL35_RECEIPT_PERFORMANCE_BOUNDARY.count) {
       assertReviewedFull35ReceiptPerformanceFiles(sqlFiles, readMigration);
@@ -251,6 +257,7 @@ export function assertTrustedMigrationReplay(files, boundary, readMigration) {
     52: FULL35_VALIDATOR_REPAIR_HISTORY.orderedFilenameSetSha256,
     53: FULL35_RECEIPT_PERFORMANCE_HISTORY.orderedFilenameSetSha256,
     54: FULL35_OBSERVED_EXECUTION_HISTORY.orderedFilenameSetSha256,
+    55: FULL35_VALIDATOR_SPILL_HISTORY.orderedFilenameSetSha256,
   };
   assertHash(selected.join("\n"), filenameHashes[boundary.count], "reviewed migration filenames");
   if (boundary.count >= 45) {

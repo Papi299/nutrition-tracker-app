@@ -99,3 +99,24 @@ export function assertReviewedFull35ObservedExecutionFiles(files, readMigration)
     throw new Error("Full35 observed execution SQL checksum mismatch.");
   }
 }
+
+export const FULL35_VALIDATOR_SPILL_HISTORY = Object.freeze({
+  count: 55,
+  head: "20261108182000",
+  filename: "20261108182000_reduce_full35_validator_spills.sql",
+  sqlSha256: "49bacbe4c0f8925621b4283918d518daa29b2958f5ed5cb98d5be09617110245",
+  orderedFilenameSetSha256: "1a70003292a9df5e56ba29a1c316458106bc219e90be3be1c1c4e28159cc9879",
+});
+
+export const FULL35_SPILL_REPAIR_AUTHORIZATION_ID = "a8a5608a-750d-4d1d-b47f-e5f8d47d061a";
+
+export function assertReviewedFull35ValidatorSpillFiles(files, readMigration) {
+  const { count, filename, sqlSha256 } = FULL35_VALIDATOR_SPILL_HISTORY;
+  if (!Array.isArray(files) || files.length !== count || files.at(-1) !== filename) {
+    throw new Error("Exact ordered Full35 validator spill repair history required.");
+  }
+  assertReviewedFull35ObservedExecutionFiles(files.slice(0, FULL35_OBSERVED_EXECUTION_HISTORY.count), readMigration);
+  if (createHash("sha256").update(readMigration(filename)).digest("hex") !== sqlSha256) {
+    throw new Error("Full35 validator spill repair SQL checksum mismatch.");
+  }
+}
