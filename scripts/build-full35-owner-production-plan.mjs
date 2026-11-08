@@ -10,11 +10,11 @@ import { normalizeFoundationFull35Record } from "../ingestion/usda/foundation/fu
 import { fingerprintFull35IdentitySet } from "../ingestion/usda/foundation/full35/report.ts";
 import { parseFoundationArchive } from "../ingestion/usda/foundation/parser.ts";
 import { buildMappingPlan, fingerprintMappingPlan, reprojectionContracts, serializeMappingPlan } from "../ingestion/usda/foundation/reprojection/contracts.ts";
-import { FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, assertReviewedFull35ReceiptPerformanceFiles } from "./full35-owner-release-history.mjs";
+import { FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID, assertReviewedFull35ObservedExecutionFiles } from "./full35-owner-release-history.mjs";
 
 // File-only preparation. This program never connects to the database.
 const [scopePath, archivePath, comparisonPath, recoveryPath, output] = process.argv.slice(2);
-assert.equal(process.argv.length, 7, "Supply owner scope JSON, approved April ZIP, accepted catalog comparison, H53 recovery record, and a new output directory.");
+assert.equal(process.argv.length, 7, "Supply owner scope JSON, approved April ZIP, accepted catalog comparison, H54 recovery record, and a new output directory.");
 process.umask(0o077);
 const hash = bytes => createHash("sha256").update(bytes).digest("hex");
 const privateBytes = path => {
@@ -39,12 +39,12 @@ assert.equal(git("status", "--porcelain"), "", "Use an exact clean release check
 const commit = git("rev-parse", "HEAD"), tree = git("rev-parse", "HEAD^{tree}");
 const filenames = readdirSync("supabase/migrations").filter(name => name.endsWith(".sql")).sort();
 const migrationBytes = name => readFileSync(join("supabase/migrations", name));
-assertReviewedFull35ReceiptPerformanceFiles(filenames, migrationBytes);
+assertReviewedFull35ObservedExecutionFiles(filenames, migrationBytes);
 const recoveryBytes = privateBytes(recoveryPath), recovery = JSON.parse(recoveryBytes);
-assert(recovery.status === "H53_RECOVERY_ACCEPTED" && recovery.project === project && recovery.source === commit &&
-  recovery.history === FULL35_RECEIPT_PERFORMANCE_HISTORY.count && recovery.migrationHead === FULL35_RECEIPT_PERFORMANCE_HISTORY.head &&
+assert(recovery.status === "H54_RECOVERY_ACCEPTED" && recovery.project === project && recovery.source === commit &&
+  recovery.history === FULL35_OBSERVED_EXECUTION_HISTORY.count && recovery.migrationHead === FULL35_OBSERVED_EXECUTION_HISTORY.head &&
   recovery.technicalRecoveryPassed === true && recovery.restoredTablesVerified === 79 &&
-  sha256.test(recovery.archiveSha256 ?? "") && typeof recovery.backupId === "string", "Exact actual H53 recovery acceptance required.");
+  sha256.test(recovery.archiveSha256 ?? "") && typeof recovery.backupId === "string", "Exact actual H54 recovery acceptance required.");
 const scope = JSON.parse(privateBytes(scopePath));
 assert.equal(scope.dataset_id, dataset);
 assert.equal(scope.owner_login, "full35_release_owner");
@@ -83,7 +83,7 @@ const comparison = JSON.parse(comparisonBytes);
 const expected = new Map(comparison.positions.map(row => [`${row.food_uuid}/${row.expected_after.code}`, row.expected_after]));
 assert.equal(expected.size, 12355);
 
-const authorizationId = FULL35_FINAL_AUTHORIZATION_ID, retryToken = randomUUID();
+const authorizationId = FULL35_OBSERVED_AUTHORIZATION_ID, retryToken = randomUUID();
 const start = new Date(), expires = new Date(start.getTime() + 60 * 60 * 1000).toISOString();
 const rejected = JSON.parse(readFileSync("docs/evidence/nutrition-usda-full35-local-qual-001/qualification.json")).source_inspection.rejected_records;
 const plan = buildMappingPlan({

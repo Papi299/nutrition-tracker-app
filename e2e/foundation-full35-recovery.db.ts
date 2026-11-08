@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
-import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
 import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
@@ -17,10 +17,10 @@ import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, 
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "53";
+const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "54";
 const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=ownerRelease?FULL35_RECEIPT_PERFORMANCE_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=ownerRelease?FULL35_OBSERVED_EXECUTION_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -530,7 +530,7 @@ test("Foundation writer barrier drains, persists and survives encrypted history-
     activation,admission,checkpoint:checkpoints[0],productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
-test("Full35 single owner preserves receipt bytes and the authorization audit through encrypted H53 recovery", async () => {
+test("Full35 single owner preserves receipt bytes and the authorization audit through encrypted H54 recovery", async () => {
   mkdirSync(config.scratch,{recursive:true,mode:0o700});
   installRoles(source);
   initializeSource(false);
@@ -577,6 +577,22 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
     insert into supabase_migrations.schema_migrations(version,name,statements)
     values('${receiptPin.head}','${receiptPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
   expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  const observedPin = FULL35_OBSERVED_EXECUTION_HISTORY;
+  const observed = readFileSync(join(repository,"supabase/migrations",observedPin.filename),"utf8");
+  source(`begin;${observed}
+    insert into supabase_migrations.schema_migrations(version,name,statements)
+    values('${observedPin.head}','${observedPin.filename.slice(15,-4)}',array[]::text[]);commit;`,"postgres");
+  expect(full35TableFingerprints(rows(source))).toEqual(beforeRepair);
+  const duplicateInputs = [
+    [null, false], ["null", false], ['[1,"מזון",{}]', false],
+    ['{"a":0,"a":1}', true], ['[{"a":0},{"a":1}]', false],
+    ['{"nested":[{"a":0,"\\u0061":1}]}', true],
+    ['{"🍎":1,"\\ud83c\\udf4e":2}', true],
+  ] as const;
+  for (const [value, duplicate] of duplicateInputs) {
+    const input = value === null ? "null" : `$test$${value}$test$`;
+    expect(source(`select ingestion.mapping_json_has_duplicate_keys_v1(${input}::json)`)).toBe(duplicate ? "t" : "f");
+  }
   const previousMigration = readFileSync(join(repository,"supabase/migrations/20261031104559_foundation_full35_mapping_reprojection_v1.sql"),"utf8");
   const oldCanonicalizer = previousMigration.slice(
     previousMigration.indexOf("create function ingestion.canonicalize_mapping_json_v1"),
@@ -634,6 +650,8 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   expect(() => source(`begin;${activeTimeoutGrant}${release.authorize()}rollback;`,"postgres"))
     .toThrow(/final slot requires both expired/);
   source(timeoutGrant,"postgres");
+  expect(() => source(release.authorize().replace(release.authorizationId,FULL35_OBSERVED_AUTHORIZATION_ID),"postgres"))
+    .toThrow(/observed slot requires three expired unexecuted authorizations/);
   const auditSql = `select jsonb_agg(to_jsonb(a) order by a.id) from ingestion.foundation_owner_authorization a
     where a.id in ('${failedId}','${timeoutId}')`;
   const audit = source(auditSql);
@@ -733,7 +751,7 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_53",2,release.plan);
+  await checkpoint("owner_release_54",2,release.plan);
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));
