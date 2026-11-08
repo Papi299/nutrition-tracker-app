@@ -643,6 +643,7 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   expect(() => source(incorrectDiff,"postgres")).toThrow(/final slot requires both expired/);
   const wrongValue = structuredClone(release.plan);
   wrongValue.items.find(i=>i.additions.length)!.additions[0].state.amount="999999";
+  wrongValue.diff = release.plan.diff;
   // Even a grant for a wrong value is refused by the shared catalog validator.
   noMutationDenied("owner_scientific_value_guard",source,
     `begin;${release.authorize(wrongValue)}set session authorization ${full35OwnerLogin};${release.execute(wrongValue)}commit;`,
