@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
-import { FULL35_OWNER_RELEASE_HISTORY as owner, FULL35_PORTION_SCOPE_HISTORY as portionScope, FULL35_VALIDATOR_REPAIR_HISTORY as validatorRepair } from "./full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY as owner, FULL35_PORTION_SCOPE_HISTORY as portionScope, FULL35_VALIDATOR_REPAIR_HISTORY as validatorRepair, FULL35_RECEIPT_PERFORMANCE_HISTORY as receiptPerformance } from "./full35-owner-release-history.mjs";
 import { FOUNDATION_WRITER_BARRIER_HISTORY as pin } from "./foundation-writer-barrier-history.mjs";
 import { assertMigrationHistory, assertTrustedMigrationReplay, recoveryMigrationBoundary } from "./phase-11i-recovery-contract.mjs";
 
@@ -54,8 +54,17 @@ test("fractional portion scope recovery admits only the reviewed H51 successor",
 test("Full35 validator repair recovery admits only the pinned H52 successor", () => {
   const h52 = recoveryMigrationBoundary(undefined, false, validatorRepair.head);
   assert.deepEqual(h52, {count:52, head:validatorRepair.head});
-  assert.deepEqual(assertTrustedMigrationReplay(checkout, h52, read), checkout);
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h52, read), checkout.slice(0,52));
   assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,51), h52, read));
   assert.throws(() => assertTrustedMigrationReplay(checkout, h52,
     name => name === validatorRepair.filename ? "altered migration" : read(name)));
+});
+
+test("Full35 receipt performance recovery pins migration 53 and keeps the H52 prefix", () => {
+  const h53 = recoveryMigrationBoundary(undefined, false, receiptPerformance.head);
+  assert.deepEqual(h53, {count:53, head:receiptPerformance.head});
+  assert.deepEqual(assertTrustedMigrationReplay(checkout, h53, read), checkout);
+  assert.throws(() => assertTrustedMigrationReplay(checkout.slice(0,52), h53, read));
+  assert.throws(() => assertTrustedMigrationReplay(checkout, h53,
+    name => name === receiptPerformance.filename ? "altered migration" : read(name)));
 });
