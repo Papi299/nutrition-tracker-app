@@ -120,3 +120,24 @@ export function assertReviewedFull35ValidatorSpillFiles(files, readMigration) {
     throw new Error("Full35 validator spill repair SQL checksum mismatch.");
   }
 }
+
+export const FULL35_STAGED_PUBLICATION_HISTORY = Object.freeze({
+  count: 56,
+  head: "20261109050000",
+  filename: "20261109050000_stage_full35_reprojection.sql",
+  sqlSha256: "1ad6b7421a9c144c78138ab64e349d93be5016f493283fc4c36ede7fac8b8427",
+  orderedFilenameSetSha256: "448f0594232d4dd2c44b3baf1886e0daf8a7c18b534399586f6bc73a1822eaf5",
+});
+
+export const FULL35_STAGED_AUTHORIZATION_ID = "d76ef577-9223-4077-9b3f-d0f4145c9165";
+
+export function assertReviewedFull35StagedPublicationFiles(files, readMigration) {
+  const { count, filename, sqlSha256 } = FULL35_STAGED_PUBLICATION_HISTORY;
+  if (!Array.isArray(files) || files.length !== count || files.at(-1) !== filename) {
+    throw new Error("Exact ordered Full35 staged publication history required.");
+  }
+  assertReviewedFull35ValidatorSpillFiles(files.slice(0, FULL35_VALIDATOR_SPILL_HISTORY.count), readMigration);
+  if (createHash("sha256").update(readMigration(filename)).digest("hex") !== sqlSha256) {
+    throw new Error("Full35 staged publication SQL checksum mismatch.");
+  }
+}

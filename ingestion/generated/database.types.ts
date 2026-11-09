@@ -2808,6 +2808,7 @@ export type Database = {
       mapping_reprojection_plan_items: {
         Row: {
           food_id: string
+          full35_public_mutation_scope: Json | null
           id: string
           item_body: Json
           item_hash: string
@@ -2819,6 +2820,7 @@ export type Database = {
         }
         Insert: {
           food_id: string
+          full35_public_mutation_scope?: Json | null
           id?: string
           item_body: Json
           item_hash: string
@@ -2830,6 +2832,7 @@ export type Database = {
         }
         Update: {
           food_id?: string
+          full35_public_mutation_scope?: Json | null
           id?: string
           item_body?: Json
           item_hash?: string
@@ -4513,6 +4516,15 @@ export type Database = {
         Returns: Json
       }
       full35_owner_login_v1: { Args: never; Returns: unknown }
+      full35_publication_food_images_v1: {
+        Args: {
+          p_dataset: string
+          p_environment: string
+          p_head: string
+          p_version: number
+        }
+        Returns: Json[]
+      }
       get_completed_foundation_promotion_receipt: {
         Args: { p_import_run_id: string }
         Returns: {
@@ -4580,6 +4592,37 @@ export type Database = {
       jsonb_sha256_object_has_exact_keys: {
         Args: { p_expected_keys: string[]; p_value: Json }
         Returns: boolean
+      }
+      lock_full35_staged_authorization_v1: {
+        Args: { p_authorization_id: string; p_retry_token: string }
+        Returns: {
+          authorization_reference: string
+          authorized_at: string
+          cluster_id: string
+          dataset_id: string
+          diff_hash: string
+          environment: string
+          expires_at: string
+          id: string
+          mapping_version_id: string
+          owner_login_fingerprint: string
+          owner_name: string
+          owner_oid: unknown
+          plan_hash: string
+          prior_head_hash: string
+          prior_head_id: string
+          project_ref: string
+          recovery_evidence_hash: string
+          retry_token: string
+          singleton: boolean
+          source_release_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "foundation_owner_authorization"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       lock_mapping_principals_v1: {
         Args: { p_principals: string[] }
@@ -4748,6 +4791,14 @@ export type Database = {
         Args: { p_plan: Json; p_retry_token: string }
         Returns: string
       }
+      prepare_full35_staged_plan_v1: {
+        Args: {
+          p_authorization_id: string
+          p_manifest: Json
+          p_retry_token: string
+        }
+        Returns: Json
+      }
       prepare_mapping_plan_internal_v1: {
         Args: { p_kind: string; p_plan: Json; p_retry_token: string }
         Returns: string
@@ -4763,6 +4814,10 @@ export type Database = {
           promotion_status: string
           receipt_fingerprint: string
         }[]
+      }
+      publish_full35_staged_plan_v1: {
+        Args: { p_authorization_id: string; p_retry_token: string }
+        Returns: Json
       }
       raise_foundation_lifecycle_failpoint_v1: {
         Args: { p_environment: string; p_stage: string }
@@ -4859,6 +4914,15 @@ export type Database = {
         }
         Returns: string
       }
+      stage_full35_food_v1: {
+        Args: {
+          p_authorization_id: string
+          p_food_id: string
+          p_item: Json
+          p_retry_token: string
+        }
+        Returns: string
+      }
       stage_source_record: {
         Args: {
           p_expires_at: string
@@ -4926,6 +4990,19 @@ export type Database = {
         Returns: undefined
       }
       validate_mapping_plan_v1: { Args: { p_body: Json }; Returns: undefined }
+      verify_full35_staged_manifest_v1: {
+        Args: {
+          p_auth: Database["ingestion"]["Tables"]["foundation_owner_authorization"]["Row"]
+          p_body: Json
+        }
+        Returns: undefined
+      }
+      verify_full35_staged_publication_v1: {
+        Args: {
+          p_plan: Database["ingestion"]["Tables"]["mapping_reprojection_plans"]["Row"]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

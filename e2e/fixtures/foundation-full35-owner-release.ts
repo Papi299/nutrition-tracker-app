@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fingerprintJson } from "../../ingestion/usda/foundation/canonical-json";
 import {
   buildMappingPlan, fingerprintMappingPlan, reprojectionContracts,
@@ -14,6 +14,9 @@ export const full35OwnerLogin = "full35_release_owner";
 export function syntheticOwnerRelease(q: ActorQuery, fixture: ReturnType<typeof installSyntheticBaseline>, authorizationId = fixtureId(999915)) {
   const scope = JSON.parse(q("select ingestion.get_foundation_full35_owner_scope_v1('local')", full35OwnerLogin));
   const token = fixtureId(999916);
+  // The recovery test deliberately runs at a reviewed historical boundary.
+  const migrations: string[] = JSON.parse(q(`select json_agg(version||'_'||name||'.sql' order by version)
+    from supabase_migrations.schema_migrations`));
   const plan = buildMappingPlan<Full35OwnerAuthority>({
     operation_kind: "reprojection", dataset_id: fixture.datasetId, environment: "local",
     source_release_id: fixture.releaseId, mapping_version_id: scope.mapping.id, before_snapshot: scope.before_snapshot,
@@ -25,7 +28,7 @@ export function syntheticOwnerRelease(q: ActorQuery, fixture: ReturnType<typeof 
       database_contract_hash: scope.database_contract_hash,
       commit: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
       tree: execFileSync("git", ["rev-parse", "HEAD^{tree}"], { encoding: "utf8" }).trim(),
-      migrations: readdirSync("supabase/migrations").filter(n => n.endsWith(".sql")).sort().map(filename => ({
+      migrations: migrations.map(filename => ({
         filename, version: filename.slice(0, 14),
         sha256: createHash("sha256").update(readFileSync(`supabase/migrations/${filename}`)).digest("hex"),
       })),
