@@ -270,6 +270,12 @@ PHASE11I_RECIPIENT_CERT=<trusted absolute public certificate>
 npm run recovery:backup
 ```
 
+> **Runner status (November 9, 2026).** The original `nutrition-j3` runner
+> was permanently retired. Before using a replacement, complete the
+> [isolated PostgreSQL recovery qualification](nutrition-isolated-runner-runbook.md#b-isolated-postgresql-recovery)
+> with synthetic data. Real checkpoint and key access require separate
+> owner authorization. The operator contract below still applies.
+
 For an isolated local restore, set the checkout's temporary Supabase project ID
 to `phase-11i-recovery-isolated`, start a fresh local stack, then run:
 
