@@ -2808,6 +2808,7 @@ export type Database = {
       mapping_reprojection_plan_items: {
         Row: {
           food_id: string
+          full35_public_mutation_scope: Json | null
           id: string
           item_body: Json
           item_hash: string
@@ -2819,6 +2820,7 @@ export type Database = {
         }
         Insert: {
           food_id: string
+          full35_public_mutation_scope?: Json | null
           id?: string
           item_body: Json
           item_hash: string
@@ -2830,6 +2832,7 @@ export type Database = {
         }
         Update: {
           food_id?: string
+          full35_public_mutation_scope?: Json | null
           id?: string
           item_body?: Json
           item_hash?: string
@@ -4513,6 +4516,15 @@ export type Database = {
         Returns: Json
       }
       full35_owner_login_v1: { Args: never; Returns: unknown }
+      full35_publication_food_images_v1: {
+        Args: {
+          p_dataset: string
+          p_environment: string
+          p_head: string
+          p_version: number
+        }
+        Returns: Json[]
+      }
       get_completed_foundation_promotion_receipt: {
         Args: { p_import_run_id: string }
         Returns: {

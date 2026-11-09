@@ -258,6 +258,79 @@ begin
 end;
 $$;
 
+-- The final integrity pass only needs the catalog/source images. The
+-- historical evidence is checked separately against each immutable before-image;
+-- newly published evidence is verified by the existing deferred constraints.
+create function ingestion.full35_publication_food_images_v1(p_dataset uuid,p_environment text,p_head uuid,p_version bigint)
+returns setof jsonb language sql stable set search_path='' as $$
+  select pg_catalog.jsonb_build_object(
+    'food_id',h.food_id,'food_row',pg_catalog.to_jsonb(f),
+    'source_version_row',pg_catalog.to_jsonb(v),'source_record_row',pg_catalog.to_jsonb(r),
+      'metadata',pg_catalog.jsonb_build_object('name',p.name,'brand_name',p.brand_name,'locale',p.locale,
+        'food_type',p.food_type,'data_quality',p.data_quality,'is_public',p.is_public,'is_archived',p.is_archived,
+        'serving_size',case when p.serving_size is null then null else pg_catalog.trim_scale(p.serving_size)::text end,'serving_unit',p.serving_unit),
+      'public_rows',coalesce((select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object(
+        'id',n.id,'food_id',n.food_id,'nutrient_id',n.nutrient_id,'code',dictionary.code,'unit',dictionary.unit,
+        'basis',n.basis,'amount',pg_catalog.trim_scale(n.amount)::text,'created_at',n.created_at,'updated_at',n.updated_at)
+        order by dictionary.code collate "C",n.id) from public.food_nutrients n
+        left join public.nutrients dictionary on dictionary.id=n.nutrient_id where n.food_id=f.id),'[]'),
+      'source_links',coalesce((select pg_catalog.jsonb_agg(pg_catalog.to_jsonb(l) order by l.id) from ingestion.food_source_links l where l.food_id=f.id),'[]'),
+      'portions',coalesce((select pg_catalog.jsonb_agg((pg_catalog.to_jsonb(portion)-array['amount','gram_weight','source_value'])||
+        pg_catalog.jsonb_build_object('amount',pg_catalog.trim_scale(portion.amount)::text,
+          'gram_weight',pg_catalog.trim_scale(portion.gram_weight)::text,
+          'source_value',case when portion.source_value <> pg_catalog.trunc(portion.source_value)
+            then pg_catalog.to_jsonb(pg_catalog.trim_scale(portion.source_value)::text)
+            else pg_catalog.to_jsonb(portion.source_value) end)
+        order by portion.ordinal) from ingestion.food_portions portion where portion.source_record_version_id=v.id),'[]'),
+      'aliases',coalesce((select pg_catalog.jsonb_agg(pg_catalog.to_jsonb(a) order by a.id) from public.food_aliases a where a.food_id=f.id),'[]'),
+      'barcodes',coalesce((select pg_catalog.jsonb_agg(pg_catalog.to_jsonb(b) order by b.id) from public.food_barcodes b where b.food_id=f.id),'[]')
+  )
+  from ingestion.food_projection_heads h
+  join ingestion.food_projection_versions p on p.id=h.food_projection_version_id and p.food_id=h.food_id
+    and p.source_record_id=h.source_record_id and p.source_record_version_id=h.source_record_version_id
+  join ingestion.source_record_versions v on v.id=h.source_record_version_id
+  join ingestion.source_records r on r.id=h.source_record_id
+  join public.foods f on f.id=h.food_id
+  where h.dataset_id=p_dataset and h.environment=p_environment and h.lifecycle_state='active'
+    and h.dataset_projection_head_id=p_head and h.dataset_head_version=p_version;
+$$;
+
+create or replace function ingestion.mapping_public_mutation_authorized_v1(p_food uuid,p_nutrient uuid,p_amount numeric,p_basis text,p_row uuid,p_delete boolean)
+returns boolean language plpgsql stable set search_path='' as $$
+begin
+  return current_user='ingestion_reprojection_definer' and exists(
+    select from ingestion.mapping_reprojection_execution_context context
+    join ingestion.mapping_reprojection_plans plan on plan.id=context.plan_id
+    join ingestion.mapping_reprojection_approvals approval on approval.id=context.approval_id and approval.plan_id=plan.id
+    join ingestion.mapping_reprojection_plan_items item on item.plan_id=plan.id and item.food_id=p_food
+    join public.nutrients n on n.id=p_nutrient
+    join public.foods f on f.id=item.food_id
+    where context.backend_pid=pg_catalog.pg_backend_pid() and context.transaction_id=pg_catalog.pg_current_xact_id()
+      and plan.state='approved' and p_basis='per_100g'
+      and case when plan.owner_authorization_id is not null then
+        not p_delete and session_user='full35_release_owner' and exists(
+          select from ingestion.foundation_owner_authorization auth
+          where auth.id=plan.owner_authorization_id and auth.plan_hash=plan.plan_hash and auth.retry_token=plan.retry_token
+            and auth.owner_oid=plan.operator_oid and approval.approver_oid=auth.owner_oid
+            and approval.authority_contract_version=plan.authority_contract_version)
+      else plan.operator_oid=ingestion.mapping_actor_oid_v1('ingestion_operator')
+        and approval.approver_oid<>plan.operator_oid end
+      and f.source_food_id=case when plan.owner_authorization_id='d76ef577-9223-4077-9b3f-d0f4145c9165'::uuid
+        then item.full35_public_mutation_scope->>'concept_key' else item.item_body->'before'->>'concept_key' end
+      and n.code not in('energy_kcal','protein_g','carbohydrates_g','fat_g','added_sugars_g','vitamin_k_ug','folate_dfe_ug')
+      and ((not p_delete and plan.operation_kind='reprojection' and
+        case when plan.owner_authorization_id='d76ef577-9223-4077-9b3f-d0f4145c9165'::uuid
+          then exists(select from pg_catalog.jsonb_array_elements(item.full35_public_mutation_scope->'additions') a
+            where a->'state'->>'nutrient_code'=n.code and (a->'state'->>'amount')::numeric=p_amount)
+          else exists(select from pg_catalog.jsonb_array_elements(item.item_body->'additions') a
+            where a->'state'->>'nutrient_code'=n.code and (a->'state'->>'amount')::numeric=p_amount) end)
+      or (p_delete and plan.operation_kind='compensation' and exists(
+        select from ingestion.mapping_reprojection_inserted_rows r
+        where r.receipt_id=plan.rejected_receipt_id and r.public_row_id=p_row and r.food_id=p_food
+          and r.nutrient_id=p_nutrient and r.amount=p_amount and r.basis=p_basis))));
+end;
+$$;
+
 -- Reuse the same protected writer, evidence, final invariants and receipt.
 CREATE OR REPLACE FUNCTION ingestion.execute_mapping_plan_internal_v1(p_approval_id uuid, p_retry_token uuid, p_kind text)
  RETURNS jsonb
@@ -274,7 +347,7 @@ declare actor oid; binding ingestion.mapping_actor_bindings; approver_binding in
   states jsonb; row_count bigint; inserted_count bigint:=0; deleted_count bigint:=0; projection_count bigint:=0;
   evidence_count bigint:=0; interpretation_count bigint:=0; head_hash text; inventory jsonb; receipt_body jsonb;
   completed_at timestamptz; keys text[]:=array['food_row','source_version_row','source_record_row','metadata','source_links','portions','aliases','barcodes'];
-  key text; staged boolean;
+  key text; staged boolean; verified_foods integer:=0;
 begin
   if p_retry_token is null then raise exception using errcode='22023',message='exact retry token required'; end if;
   select * into strict approval from ingestion.mapping_reprojection_approvals where id=p_approval_id;
@@ -500,15 +573,23 @@ begin
       and current_projection_fingerprint=plan.prior_head_hash;
   get diagnostics row_count=row_count;
   if row_count<>1 then raise exception 'dataset pointer compare-and-swap failed'; end if;
-  snapshot:=ingestion.mapping_scope_snapshot_v1(plan.dataset_id,plan.environment);
-  if pg_catalog.jsonb_array_length(snapshot->'foods')<>353 or projection_count<>353
+  if not staged then
+    snapshot:=ingestion.mapping_scope_snapshot_v1(plan.dataset_id,plan.environment);
+  end if;
+  if projection_count<>353
     or evidence_count<>(case when p_kind='compensation' then 1199 else 6261 end)
     or inserted_count<>(case when p_kind='compensation' then 0 else 5062 end)
     or deleted_count<>(case when p_kind='compensation' then 5062 else 0 end)
     or interpretation_count<>(case when staged or p_kind='compensation' then 0 else 353 end) then
     raise exception 'execution counters differ from exact approved scope';
   end if;
-  for food in select value from pg_catalog.jsonb_array_elements(snapshot->'foods') loop
+  for food in
+    select f.value from pg_catalog.jsonb_array_elements(snapshot->'foods') f where not staged
+    union all
+    select f.value from ingestion.full35_publication_food_images_v1(
+      plan.dataset_id,plan.environment,head_id,plan.prior_head_version+1) f(value) where staged
+  loop
+    verified_foods:=verified_foods+1;
     select i.item_body->'before' into strict before_food from ingestion.mapping_reprojection_plan_items i
       where i.plan_id=plan.id and i.food_id=(food->>'food_id')::uuid;
     if before_food->>'prior_evidence_hash' is distinct from ingestion.fingerprint_mapping_projection_evidence_v1(
@@ -529,6 +610,7 @@ begin
       raise exception 'final public tuples differ from approved projection';
     end if;
   end loop;
+  if verified_foods<>353 then raise exception 'final catalog food inventory changed'; end if;
   update ingestion.mapping_reprojection_plans set state='completed' where id=plan.id;
   if plan.owner_authorization_id is null then
     perform ingestion.append_mapping_event_v1(plan.id,'approved','completed');
@@ -634,6 +716,7 @@ $$;
 revoke all on function ingestion.lock_full35_staged_authorization_v1(uuid,uuid),
   ingestion.verify_full35_staged_manifest_v1(jsonb,ingestion.foundation_owner_authorization),
   ingestion.verify_full35_staged_publication_v1(ingestion.mapping_reprojection_plans),
+  ingestion.full35_publication_food_images_v1(uuid,text,uuid,bigint),
   ingestion.prepare_full35_staged_plan_v1(uuid,json,uuid),ingestion.stage_full35_food_v1(uuid,uuid,json,uuid),
   ingestion.publish_full35_staged_plan_v1(uuid,uuid)
   from public,anon,authenticated,authenticator,service_role,ingestion_operator,ingestion_approver,full35_release_owner;
@@ -642,6 +725,13 @@ grant execute on function ingestion.prepare_full35_staged_plan_v1(uuid,json,uuid
   to full35_release_owner;
 
   set local role postgres;
+  -- Keep the write guard's narrow scope beside the immutable source item.
+  -- PostgreSQL derives it from the same bytes the authorization committed to.
+  alter table ingestion.mapping_reprojection_plan_items
+    add column full35_public_mutation_scope jsonb generated always as
+      (pg_catalog.jsonb_set(
+        pg_catalog.jsonb_set('{}'::jsonb,'{concept_key}',item_body->'before'->'concept_key'),
+        '{additions}',item_body->'additions')) stored;
   revoke create on schema ingestion from ingestion_reprojection_definer;
   revoke ingestion_reprojection_definer from postgres granted by postgres;
 end
