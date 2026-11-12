@@ -32,4 +32,9 @@ No synthetic Auth account or password was created. No Vault secret, device-test 
 
 No second cloud Supabase project was created. Production Supabase and the unrelated `academic-papers-index` project were not contacted or changed. No Vercel or Production configuration was changed.
 
+> **Retirement notice (November 9, 2026).** The original `nutrition-j3` VM
+> was permanently retired. The Lima commands below describe the historical
+> attempt and must not be used. See the [private-device runner qualification](nutrition-isolated-runner-runbook.md#a-private-device-testing)
+> for future testing.
+
 Safe status and shutdown commands for the preserved VM are `limactl list` and `limactl stop nutrition-j3`. `limactl start nutrition-j3` boots only the VM; Docker and Tailscale are not configured for automatic startup. **There is no approved command to restart local Supabase or the application for a J3 session until the reset isolation failure is corrected and verified.** Do not delete the preserved VM as part of this evidence task.

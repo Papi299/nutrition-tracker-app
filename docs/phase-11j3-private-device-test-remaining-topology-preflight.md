@@ -55,6 +55,12 @@ It reported local data backed up to three Docker volumes. Zero J3 containers and
 
 ## Exact future owner-session sequence
 
+> **Retirement notice (November 9, 2026).** The original `nutrition-j3` VM
+> was permanently retired and its saved guest state is unavailable. The
+> exact-state resume sequence below is historical evidence. Do not execute
+> it. Follow the [private-device runner qualification](nutrition-isolated-runner-runbook.md#a-private-device-testing)
+> for a future session.
+
 The VM-local `~/.local/share/nutrition-j3/device-test-runner.mjs` is a mode `0600`, secret-free copy of the runner verified in this preflight. It derives the actual origin from Tailscale, rejects a wrong tailnet or changed local Supabase identity, validates the environment, and starts the app with explicit device-test variables. Its SHA-256 is recorded above. Confirm the accepted runtime tree and runner before use. Resume in this order:
 
 1. On the Mac run `limactl start nutrition-j3`. Leave `videofetch` alone.

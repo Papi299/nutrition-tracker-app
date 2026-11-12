@@ -96,6 +96,11 @@ Supabase Auth cookies are set by the application server and must survive the cho
 
 ## Execution options and decision
 
+> **Runner status (November 9, 2026).** The original `nutrition-j3` VM was
+> permanently retired. The decision and preflight below record the
+> historical session. A new owner session requires the [private-device runner qualification](nutrition-isolated-runner-runbook.md#a-private-device-testing)
+> and fresh observations under the applicable device decisions.
+
 | Option | Assessment |
 | --- | --- |
 | A. Private physical-device path | PR #135 added the separate `device-test` repository contract: dedicated Linux host, synthetic local Supabase on Linux loopback only, loopback Next.js, and Tailscale Serve exposing only the app through exact private HTTPS `node.tailnet.ts.net`. It does not change `local/test`. **Selected J3 path; historical topology preflight passed, and the two remaining Windows UI cells require a fresh private preflight when the physical PC becomes available.** The previous Mac Docker Desktop route remains disallowed. [Tailscale Serve boundary](https://tailscale.com/docs/features/tailscale-serve). |
