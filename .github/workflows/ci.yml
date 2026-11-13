@@ -445,18 +445,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Qualify encrypted migration 48 recovery and restored races
+      - name: Qualify single-owner Full35 and encrypted recovery
         run: |
           npm ci
-          npm run test:atomic-diary-recovery-local
+          node scripts/run-full35-recovery-local.mjs --scheduled-backup
+      - name: Qualify encrypted migration 48 recovery and restored races
+        run: npm run test:atomic-diary-recovery-local
       - name: Qualify encrypted migration 49 recovery and writer admission
         env:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
           npm run test:writer-barrier-recovery-local
-      - name: Qualify single-owner Full35 and encrypted recovery
-        run: node scripts/run-full35-recovery-local.mjs --scheduled-backup
       - name: Retain sanitized atomic recovery evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:

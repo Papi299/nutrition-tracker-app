@@ -222,7 +222,7 @@ async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<Mappi
   const backupRoot=join(config.scratch,label);mkdirSync(backupRoot,{mode:0o700});
   const trace:string[]=[];
   const captured=await captureBackup({sourceIdentity,assertSourceIdentity:assertSource,assertArtifactIdentity:assertArtifact,assertRecipient:(actual:string)=>assert.equal(actual,recipient),
-    backupRootInput:backupRoot,recipientInput:cert,privateKey:key,operator:"SyntheticLocalRecovery",project:{id:sourceIdentity.projectRef,status:"ACTIVE_HEALTHY",region:"LOCAL_DOCKER",database:{version:"LOCAL_SUPABASE"}},authConfig:{},
+    backupRootInput:backupRoot,recipientInput:cert,privateKey:scheduledBackup ? undefined : key,operator:"SyntheticLocalRecovery",project:{id:sourceIdentity.projectRef,status:"ACTIVE_HEALTHY",region:"LOCAL_DOCKER",database:{version:"LOCAL_SUPABASE"}},authConfig:{},
     psqlBinary:"psql",rows:(sql:string,stage:string)=>{trace.push(stage);return (scheduledBackup ? restrictedBackupRows : rows(source))(sql);},refreshSourceTransport:async()=>{trace.push("REFRESH_LOCAL_TRANSPORT");},
     runSupabase:(args:string[])=>{trace.push(`CAPTURE_${args.slice(0,2).join("_")}`);return sourceCli(args[0]==="db"&&args[1]==="dump"?[...args,"--local"]:args);},localNutritionSnapshots:false});
   lastCapture=captured;
@@ -796,6 +796,8 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
     expect(captured.installedContractHash).toBe(privilegedRows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0]);
     expect(captured.rowFingerprints).toEqual(full35TableFingerprints(privilegedRows));
     expect(captured.reviewedSchemaHash).toBe(full35ReviewedSchemaHash(privilegedRows, true));
+    expect(restrictedBackupRows("select to_regprocedure('pg_temp.mapping_projection_body_v2(uuid)') is null"))
+      .toEqual([["t"]]);
   }
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
