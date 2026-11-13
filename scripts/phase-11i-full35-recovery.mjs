@@ -185,7 +185,10 @@ export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false) {
   const body = installedContractQuery();
   const dictionary = "    'dictionary',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('id',id,'code',code,'unit',unit) order by code collate \"C\") from public.nutrients),\n";
   if (!body?.includes(dictionary)) fail("Pinned Full35 schema query extraction failed.");
-  const catalog = rows(body.replace(dictionary,dictionary.replace("'id',id,","")))[0][0];
+  const portableQuery = body.replace(dictionary, dictionary.replace("'id',id,", ""));
+  // PostgreSQL deparses catalog identities using the session search path.
+  // Use the existing isolated restore path for both capture and restore.
+  const catalog = rows(`begin read only; set local search_path = public, auth, extensions; ${portableQuery} rollback;`)[0][0];
   const roles = rows(`select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object(
       'name',rolname,'login',rolcanlogin,'superuser',rolsuper,'bypassrls',rolbypassrls,'createdb',rolcreatedb,
       'createrole',rolcreaterole,'replication',rolreplication,'inherit',rolinherit,'connection_limit',rolconnlimit,
