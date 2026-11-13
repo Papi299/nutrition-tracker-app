@@ -1,26 +1,27 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { chmodSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { expect, test } from "@playwright/test";
 import { captureBackup } from "../scripts/phase-11i-backup-pipeline.mjs";
 import { restoreBackup } from "../scripts/phase-11i-restore-pipeline.mjs";
 import {removeDumpRow,replaceDumpColumn} from "../scripts/full35-recovery-dump.mjs";
-import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID, FULL35_VALIDATOR_SPILL_HISTORY, FULL35_SPILL_REPAIR_AUTHORIZATION_ID } from "../scripts/full35-owner-release-history.mjs";
+import { FULL35_OWNER_RELEASE_HISTORY, FULL35_PORTION_SCOPE_HISTORY, FULL35_VALIDATOR_REPAIR_HISTORY, FULL35_RECEIPT_PERFORMANCE_HISTORY, FULL35_FINAL_AUTHORIZATION_ID, FULL35_OBSERVED_EXECUTION_HISTORY, FULL35_OBSERVED_AUTHORIZATION_ID, FULL35_VALIDATOR_SPILL_HISTORY, FULL35_SPILL_REPAIR_AUTHORIZATION_ID, FULL35_STAGED_PUBLICATION_HISTORY } from "../scripts/full35-owner-release-history.mjs";
 import { full35OwnerLogin, syntheticOwnerRelease } from "./fixtures/foundation-full35-owner-release";
 import { FOUNDATION_WRITER_BARRIER_HISTORY } from "../scripts/foundation-writer-barrier-history.mjs";
 import { RECOVERY_TARGET } from "../scripts/phase-11i-recovery-contract.mjs";
-import { full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker } from "../scripts/phase-11i-full35-recovery.mjs";
+import { captureFull35Recovery, full35TableFingerprints, full35ReviewedSchemaHash, assertFull35SchemaHash, assertFreshFull35Marker, validateFull35Integrity, FULL35_RECOVERY_V1, FULL35_RECOVERY_V2 } from "../scripts/phase-11i-full35-recovery.mjs";
 import { fingerprintJson } from "../ingestion/usda/foundation/canonical-json";
 import { buildMappingPlan, fingerprintMappingPlan, selectMappingActorAuthority, type MappingActorScope, type MappingPlan } from "../ingestion/usda/foundation/reprojection/contracts";
 import { installSyntheticBaseline, fixtureId, fixtureHash, mappingId } from "./fixtures/foundation-full35-reprojection";
 import { actorInput, installIdentityControllers, bindActor, proposeActorBinding, approveActorBinding, identityGovernor, identityReviewer, type ActorQuery, type PrincipalFixture } from "./fixtures/foundation-full35-actor-identity";
 
-const ownerRelease = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "55";
+const scheduledBackup = process.env.FULL35_ATOMIC_DIARY_RECOVERY === "56";
+const ownerRelease = scheduledBackup || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "55";
 const writerBarrier = ownerRelease || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "49";
 const atomicDiary = writerBarrier || process.env.FULL35_ATOMIC_DIARY_RECOVERY === "1";
-const historyHead=ownerRelease?FULL35_VALIDATOR_SPILL_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
+const historyHead=scheduledBackup?FULL35_STAGED_PUBLICATION_HISTORY.head:ownerRelease?FULL35_VALIDATOR_SPILL_HISTORY.head:writerBarrier?FOUNDATION_WRITER_BARRIER_HISTORY.head:atomicDiary?"20261102181943":"20261031104559";
 const repository = process.cwd(), evidence = process.env.FULL35_EVIDENCE_DIR!;
 const config = JSON.parse(readFileSync(join(evidence,"diagnostic-input.json"),"utf8")) as {source:string;target:string;sourceDirectory:string;targetDirectory:string;scratch:string};
 const cli = resolve("node_modules/.bin/supabase");
@@ -35,6 +36,11 @@ function db(container:string,sql:string,user="supabase_admin") {
 }
 const source:ActorQuery=(sql,user)=>db(config.source,sql,user), target:ActorQuery=(sql,user)=>db(config.target,sql,user);
 const rows=(q:ActorQuery)=>(sql:string)=>{const value=q(sql);return value?value.split(/\r?\n/).map(line=>line.split("\t")):[];};
+const backupLogin = "cli_login_postgres";
+const restrictedBackupRows = rows(sql => source(`set role postgres; ${sql}`, backupLogin));
+const temporaryLoginSql = `create role ${backupLogin} login noinherit password '${password}';
+  do $$ begin execute format('alter role ${backupLogin} valid until %L', now() + interval '30 minutes'); end $$;
+  grant postgres to ${backupLogin} with inherit false, set true granted by supabase_admin;`;
 const cliAt=(directory:string)=>(args:string[])=>command(cli,[...args,"--workdir",directory]);
 const sourceCli=cliAt(config.sourceDirectory), targetCli=cliAt(config.targetDirectory);
 const sourceIdentity={projectRef:"PHASE_11I_SYNTHETIC_POPULATED_FIXTURE",sourceEnvironment:"LocalSynthetic"};
@@ -57,6 +63,7 @@ function installRoles(q:ActorQuery,padding=false) {
   installIdentityControllers(q,password);
   for(const role of ["anon","authenticated","service_role"])q(`create role full35_recovery_${role} login password '${password}';grant ${role} to full35_recovery_${role}`);
   if(!padding) q("do $$ begin for i in 1..64 loop if not exists(select from pg_roles where rolname='full35_recovery_padding_'||i) then execute format('create role full35_recovery_padding_%s nologin',i);end if;end loop;end $$");
+  if (scheduledBackup) q("grant pg_read_all_data to postgres;");
 }
 function initializeSource(withMultiActor = true) {
   for(const key of Object.keys(atomicPayloads)){delete atomicPayloads[key];delete atomicResults[key];delete atomicKeys[key];}
@@ -209,14 +216,28 @@ async function restoredAtomicRace() {
   }finally{if(!released){controller.child.stdin.end("select pg_advisory_unlock(90048);\\q\n");await controller.done;}}
 }
 
+function captureSynthetic(backupRoot: string, trace: string[]) {
+  return captureBackup({sourceIdentity,assertSourceIdentity:assertSource,assertArtifactIdentity:assertArtifact,assertRecipient:(actual:string)=>assert.equal(actual,recipient),
+    backupRootInput:backupRoot,recipientInput:cert,privateKey:scheduledBackup ? undefined : key,operator:"SyntheticLocalRecovery",project:{id:sourceIdentity.projectRef,status:"ACTIVE_HEALTHY",region:"LOCAL_DOCKER",database:{version:"LOCAL_SUPABASE"}},authConfig:{},
+    psqlBinary:"psql",rows:(sql:string,stage:string)=>{trace.push(stage);return (scheduledBackup ? restrictedBackupRows : rows(source))(sql);},
+    refreshSourceTransport:async()=>{
+      trace.push("REFRESH_LOCAL_TRANSPORT");
+      if (scheduledBackup) {
+        const expirySql = `select rolvaliduntil from pg_roles where rolname='${backupLogin}'`;
+        const expiry = source(expirySql);
+        source(`do $$ begin execute format('alter role ${backupLogin} password %L valid until %L',
+          '${password}', now() + interval '40 minutes'); end $$;`);
+        expect(source(expirySql)).not.toBe(expiry);
+      }
+    },
+    runSupabase:(args:string[])=>{trace.push(`CAPTURE_${args.slice(0,2).join("_")}`);return sourceCli(args[0]==="db"&&args[1]==="dump"?[...args,"--local"]:args);},localNutritionSnapshots:false});
+}
+
 async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<MappingPlan,"items">=originalPlan) {
   process.stdout.write(`Capturing approved encrypted checkpoint ${label}.\n`);
   const backupRoot=join(config.scratch,label);mkdirSync(backupRoot,{mode:0o700});
   const trace:string[]=[];
-  const captured=await captureBackup({sourceIdentity,assertSourceIdentity:assertSource,assertArtifactIdentity:assertArtifact,assertRecipient:(actual:string)=>assert.equal(actual,recipient),
-    backupRootInput:backupRoot,recipientInput:cert,privateKey:key,operator:"SyntheticLocalRecovery",project:{id:sourceIdentity.projectRef,status:"ACTIVE_HEALTHY",region:"LOCAL_DOCKER",database:{version:"LOCAL_SUPABASE"}},authConfig:{},
-    psqlBinary:"psql",rows:(sql:string,stage:string)=>{trace.push(stage);return rows(source)(sql);},refreshSourceTransport:async()=>{trace.push("REFRESH_LOCAL_TRANSPORT");},
-    runSupabase:(args:string[])=>{trace.push(`CAPTURE_${args.slice(0,2).join("_")}`);return sourceCli(args[0]==="db"&&args[1]==="dump"?[...args,"--local"]:args);},localNutritionSnapshots:false});
+  const captured=await captureSynthetic(backupRoot, trace);
   lastCapture=captured;
   const verifiedArtifact=JSON.parse(command(process.execPath,["scripts/verify-full35-recovery-artifact-local.mjs"],JSON.stringify({backupRoot,scratch:config.scratch,repository,head:command("git",["rev-parse","HEAD"]),recipientSha256:recipient})));
   expect(verifiedArtifact.encryptedArchiveSha256).toBe(captured.encryptedArchiveSha256);expect(verifiedArtifact.manifestSha256).toBe(captured.manifestSha256);
@@ -227,9 +248,20 @@ async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<Mappi
     restored=restoreBackup({archiveInput:captured.archivePath,manifestInput:captured.manifestPath,recipientInput:cert,privateKeyInput:key,reportInput:join(backupRoot,"restore-report.json"),targetIdentity:RECOVERY_TARGET,
       assertSourceIdentity:assertSource,assertArtifactIdentity:assertArtifact,assertRecipient:(actual:string)=>assert.equal(actual,recipient),localNutritionSnapshots:false,
       runSupabase:(args:string[])=>{trace.push(`RESTORE_${args.slice(0,2).join("_")}`);const value=targetCli(args);
-        if(args[0]==="db"&&args[1]==="reset")installRoles(target,true);return value;}});
+        if(args[0]==="db"&&args[1]==="reset"){
+          installRoles(target,true);
+          if (scheduledBackup) expect(target(`select to_regrole('${backupLogin}') is null`)).toBe("t");
+        }
+        return value;}});
   }finally{process.chdir(repository);}
   expect(restored.full35Recovery?.result).toBe("PASS");
+  if (scheduledBackup && process.env.CI === "true" && process.env.RUNNER_TEMP) {
+    const publication = join(process.env.RUNNER_TEMP, "full35-synthetic-pair");
+    mkdirSync(publication,{mode:0o700});
+    for (const path of [captured.archivePath,captured.manifestPath]) {
+      copyFileSync(path,join(publication,path.split("/").at(-1)!));
+    }
+  }
   const quantities=JSON.parse(target(`select jsonb_build_object('public_foods',(select count(*) from public.foods where is_public),'source_versions',(select count(*) from ingestion.source_record_versions),
     'nutrients',(select count(*) from public.food_nutrients),'v2_projections',(select count(*) from ingestion.food_projection_versions where projection_contract_version='foundation-lifecycle-projection/v2'),
     'v2_states',(select count(*) from ingestion.food_nutrient_projection_versions where projection_contract_version='foundation-lifecycle-projection/v2'),
@@ -259,7 +291,7 @@ async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<Mappi
   if(expectedHead>1 && !ownerRelease){exactReads(target,expectedHead===3);noMutationDenied(`${label}_pending_approval`,target,retry("compensation",pendingApproval,pendingToken),operator,/pending operation binding is stale/);}
   const barrierAdmission = writerBarrier && !ownerRelease ? verifyWriterBarrier(target, 999890) : undefined;
   const atomicRace=atomicDiary&&!ownerRelease&&expectedHead===1?await restoredAtomicRace():undefined;
-  checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,
+  checkpoints.push({scenario:label,atomicRace,barrierAdmission,trace,approvedPipeline:true,approvedArtifactPairVerifier:true,encryptedArchiveSha256:captured.encryptedArchiveSha256,manifestSha256:captured.manifestSha256,recipientCertificateSha256:recipient,
     quantities,oracle,datasetRoots,sourceRoles,targetRoles,sourceEpoch,targetEpoch,full35Recovery:restored.full35Recovery,sourceCounts:restored.sourceSafeCounts,
     allOwnerRowsAndTimestampsEqual:true,completedReceiptsByteEqual:expectedHead>1&&!ownerRelease,completedRetriesNoMutation:expectedHead>1&&!ownerRelease,
     independentDecisions:ownerRelease?[]:JSON.parse(target(`select jsonb_agg(jsonb_build_object('body',b.body,'hash',b.body_hash,'request',r.body,'request_hash',r.body_hash) order by b.principal_id)
@@ -771,10 +803,85 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   for(const name of ["public.diary_entries","public.manual_diary_entry_requests"]) frozen[name]=committed[name];
 
   source(`alter role ${full35OwnerLogin} nologin password null;`);
+  if (scheduledBackup) {
+    const staged = FULL35_STAGED_PUBLICATION_HISTORY;
+    const sql = readFileSync(join(repository, "supabase/migrations", staged.filename), "utf8");
+    source(`begin; ${sql}
+      insert into supabase_migrations.schema_migrations(version,name,statements)
+      values('${staged.head}','${staged.filename.slice(15,-4)}',array[]::text[]); commit;`, "postgres");
+    source(temporaryLoginSql);
+    expect(restrictedBackupRows("select current_user, rolsuper, rolbypassrls from pg_roles where rolname=current_user"))
+      .toEqual([["postgres", "f", "t"]]);
+    expect(() => restrictedBackupRows("select ingestion.fingerprint_mapping_database_contract_v1()"))
+      .toThrow(/permission denied for function/);
+    expect(() => validateFull35Integrity(restrictedBackupRows, true)).toThrow(/permission denied for function/);
+    const privilegedRows = rows(source);
+    const captured = captureFull35Recovery(restrictedBackupRows, true, true, FULL35_RECOVERY_V2);
+    expect(captured.integrity).toEqual(validateFull35Integrity(privilegedRows, true));
+    expect(captured.installedContractHash).toBe(privilegedRows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0]);
+    expect(captured.rowFingerprints).toEqual(full35TableFingerprints(privilegedRows));
+    expect(captured.reviewedSchemaHash).toBe(full35ReviewedSchemaHash(privilegedRows, true, FULL35_RECOVERY_V2));
+    expect(restrictedBackupRows("select to_regprocedure('pg_temp.mapping_projection_body_v2(uuid)') is null"))
+      .toEqual([["t"]]);
+  }
   command("openssl",["req","-x509","-newkey","rsa:3072","-nodes","-keyout",key,"-out",cert,"-days","1","-subj","/CN=Local Full35 Owner Recovery"]);
   chmodSync(key,0o600);
   recipient=command("openssl",["x509","-in",cert,"-noout","-fingerprint","-sha256"]).split("=").at(-1)!.replaceAll(":","").toLowerCase();
-  await checkpoint("owner_release_55",2,release.plan);
+  await checkpoint(scheduledBackup ? "scheduled_backup_56" : "owner_release_55",2,release.plan);
+  if (scheduledBackup) {
+    const sourceHash = full35ReviewedSchemaHash(restrictedBackupRows, true, FULL35_RECOVERY_V2);
+    const targetRows = rows(target);
+    const fingerprint = (version = FULL35_RECOVERY_V2) => full35ReviewedSchemaHash(targetRows, true, version);
+    expect(fingerprint()).toBe(sourceHash);
+    const legacyHash = fingerprint(FULL35_RECOVERY_V1);
+    target(temporaryLoginSql);
+    const oidQuery = `select oid from pg_roles where rolname='${backupLogin}'`;
+    expect(target(oidQuery)).not.toBe(source(oidQuery));
+    expect(fingerprint()).toBe(sourceHash);
+    expect(fingerprint(FULL35_RECOVERY_V1)).not.toBe(legacyHash);
+
+    for (const [change, undo] of [
+      [`alter role ${backupLogin} bypassrls`, `alter role ${backupLogin} nobypassrls`],
+      [`grant ingestion_operator to ${backupLogin}`, `revoke ingestion_operator from ${backupLogin}`],
+      [`grant select on public.foods to ${backupLogin}`, `revoke select on public.foods from ${backupLogin}`],
+      [`alter role ${backupLogin} in database postgres set search_path = public`,
+        `alter role ${backupLogin} in database postgres reset search_path`],
+    ]) {
+      target(change);
+      expect(() => fingerprint()).toThrow(/temporary CLI login privileges/);
+      target(undo);
+    }
+    target(`drop role ${backupLogin}`);
+    target(`create role renamed_durable_role nologin; alter role renamed_durable_role rename to ${backupLogin}`);
+    expect(() => fingerprint()).toThrow(/temporary CLI login privileges/);
+    target(`drop role ${backupLogin}`);
+
+    for (const [change, undo] of [
+      ["alter role ingestion_operator createdb", "alter role ingestion_operator nocreatedb"],
+      [`grant ingestion_approver to ${operator}`, `revoke ingestion_approver from ${operator}`],
+      [`grant execute on function ingestion.mapping_projection_body_v2(uuid) to ${operator}`,
+        `revoke execute on function ingestion.mapping_projection_body_v2(uuid) from ${operator}`],
+      ["alter table public.foods disable row level security", "alter table public.foods enable row level security"],
+      ["create role unrelated_catalog_role", "drop role unrelated_catalog_role"],
+    ]) {
+      target(change);
+      expect(() => assertFull35SchemaHash(sourceHash, fingerprint())).toThrow(/fingerprint mismatch/);
+      target(undo);
+    }
+    expect(fingerprint()).toBe(sourceHash);
+
+    // Synthetic superuser writes a well-formed but incorrect projection hash.
+    source(`set session_replication_role=replica;
+      update ingestion.food_projection_versions set lifecycle_projection_hash=repeat('0',64)
+      where id=(select id from ingestion.food_projection_versions
+        where projection_contract_version='foundation-lifecycle-projection/v2' order by id limit 1);`);
+    const rejectedRoot = join(config.scratch,"corrupt-projection");
+    mkdirSync(rejectedRoot,{mode:0o700});
+    const rejectedTrace: string[] = [];
+    await expect(captureSynthetic(rejectedRoot,rejectedTrace)).rejects.toThrow(/Full35 projection, receipt, authority or security integrity violation/);
+    expect(readdirSync(rejectedRoot)).toEqual([]);
+    expect(rejectedTrace).not.toContain("CAPTURE_db_dump");
+  }
   expect(target("select not rolcanlogin from pg_roles where rolname='full35_release_owner'")).toBe("t");
   target(`alter role ${full35OwnerLogin} login password '${password}';`);
   const restored=full35TableFingerprints(rows(target));
@@ -782,8 +889,15 @@ test("Full35 single owner preserves receipt bytes and the authorization audit th
   expect(target(bounds + release.execute(),full35OwnerLogin)).toBe(original);
   expect(full35TableFingerprints(rows(target))).toEqual(restored);
   target(`alter role ${full35OwnerLogin} nologin password null;`);
+  const portabilityCases = scheduledBackup ? {
+    stableDurableCatalog: true, credentialRenewedDuringCapture: true, sourceLoginAbsentOnFreshTarget: true,
+    independentTemporaryRole: true, durableRoleAndMembershipDriftRejected: true,
+    unexpectedTemporaryPrivilegesRejected: true, aclAndRlsDriftRejected: true,
+    unrelatedRoleRejected: true, historicalV1RoleComparisonPreserved: true, corruptProjectionRejectedBeforeDump: true,
+    applicationSmoke: verifyWriterBarrier(target, 999890),
+  } : undefined;
   writeFileSync(join(evidence,"recovery-qualification.json"),JSON.stringify({result:"PASS",migrationHead:historyHead,
-    checkpoint:checkpoints[0],ownerReceiptRecovered:true,exactRetryNoMutation:true,receiptBytesIdentical:true,executionMilliseconds,diarySerialized:true,productionAccess:false},null,2)+"\n",{mode:0o600});
+    checkpoint:checkpoints[0],portabilityCases,restrictedBackupParity:scheduledBackup,ownerReceiptRecovered:true,exactRetryNoMutation:true,receiptBytesIdentical:true,executionMilliseconds,diarySerialized:true,productionAccess:false},null,2)+"\n",{mode:0o600});
 });
 
 test.describe.serial("Approved encrypted Full35 recovery",()=>{

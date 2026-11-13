@@ -420,8 +420,8 @@ test("GitHub backup workflow uploads both verified files and no weaker subset", 
   );
 });
 
-test("GitHub backup workflow requires exactly 30-day retention", () => {
-  assertWorkflowRejected(githubBackupWorkflow.replace("retention-days: 30", "retention-days: 29"));
+test("GitHub backup workflow requires exactly 90-day retention", () => {
+  assertWorkflowRejected(githubBackupWorkflow.replace("retention-days: 90", "retention-days: 30"));
 });
 
 test("GitHub backup workflow fails when selected artifact files are missing", () => {

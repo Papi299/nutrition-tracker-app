@@ -214,11 +214,9 @@ names, ownership boundary, and 30-day window before producing a dry-run plan.
 current valid backup. The 2026-09-17 dry run retained the current backup and
 selected nothing for deletion.
 
-`npm run recovery:scheduled` and the inert operator-host schedule remain valid
-for approved restricted operator-host storage, but that sleeping-host design is
-not the current operational cadence. Product Owner decision `DEC-034`
-supersedes it for recurring Production backups with a GitHub-hosted scheduled
-runner and 30-day GitHub Actions artifact expiry. The full security, retention,
+Product Owner decision `DEC-034` moved recurring Production backups to GitHub
+Actions. Task `NUTRITION-GITHUB-ONLY-BACKUP-020` retires the operator-host cron
+entry and sets a 90-day expiry for new artifacts. The full security, retention,
 public-artifact, inactivity, activation, and failure contract is in the
 [GitHub artifact backup automation runbook](phase-11i-github-artifact-backup-automation.md).
 

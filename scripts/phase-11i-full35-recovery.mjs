@@ -4,6 +4,61 @@ import { FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
 const identifier = /^(?:public|ingestion|auth)\.[a-z_]+$/;
 const uuid = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/;
+export const FULL35_RECOVERY_V1 = "phase-11i-full35-recovery/v1";
+export const FULL35_RECOVERY_V2 = "phase-11i-full35-recovery/v2";
+
+function reviewedMigration(filename, digest) {
+  const bytes = readFileSync(`supabase/migrations/${filename}`);
+  if (sha256(bytes) !== digest) fail("Reviewed Full35 SQL required for recovery verification.");
+  return bytes.toString("utf8");
+}
+
+function reviewedFunction(migration, name) {
+  const declaration = `create function ingestion.${name}(`;
+  const start = migration.indexOf(declaration);
+  const end = migration.indexOf("$$;", start);
+  if (start < 0 || end < 0) fail("Pinned Full35 recovery function extraction failed.");
+  return migration.slice(start, end + 3);
+}
+
+function reviewedFull35Migration() {
+  return reviewedMigration(FULL35_REVIEWED_HISTORY.filename, FULL35_REVIEWED_HISTORY.sqlSha256);
+}
+
+function installedContractQuery() {
+  const body = reviewedFunction(reviewedFull35Migration(), "fingerprint_mapping_database_contract_v1")
+    .split("as $$\n")[1]?.split("$$;")[0];
+  if (!body) fail("Pinned Full35 schema query extraction failed.");
+  return body;
+}
+
+function backupIntegrityQuery(sql) {
+  const legacyHash = reviewedMigration("20260718140000_create_foundation_promotion_boundary.sql",
+    "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9");
+  const legacyProjection = reviewedMigration("20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+    "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec");
+  const full35 = reviewedFull35Migration();
+  const functions = [
+    [legacyHash, "canonicalize_json_v1"],
+    [legacyHash, "fingerprint_json_v1"],
+    [legacyProjection, "foundation_lifecycle_projection_version_body_v1"],
+    [full35, "mapping_projection_state_body_v1"],
+    [full35, "mapping_projection_body_v2"],
+    [full35, "mapping_lifecycle_hash_v2"],
+  ];
+  const names = new RegExp(`ingestion\\.(${functions.map(([, name]) => name).join("|")})\\(`, "g");
+  const qualifyTemporaryFunctions = query => query.replace(names, "pg_temp.$1(");
+  const definitions = functions.map(([migration, name]) =>
+    qualifyTemporaryFunctions(reviewedFunction(migration, name)).replace("\nsecurity definer\n", "\nsecurity invoker\n"));
+
+  // Keep the application ACLs closed. Only the backup session sees these
+  // reviewed, invoker-only implementations, and ROLLBACK removes them.
+  return `begin;
+    set local row_security = off;
+    ${definitions.join("\n")}
+    ${qualifyTemporaryFunctions(sql)};
+    rollback;`;
+}
 export function full35AtomicRejectionMessage(stderr) {
   // Report only known guard labels. PostgreSQL DETAIL can contain private rows.
   if (stderr.includes("Full35 complete persisted row fingerprint mismatch")) return "Full35 complete persisted row fingerprint mismatch; atomic data replay rolled back.";
@@ -12,7 +67,7 @@ export function full35AtomicRejectionMessage(stderr) {
   return "Full35 atomic data replay failed outside the reviewed integrity guards.";
 }
 export function assertFull35SourceMetadata(value, includeOwnerRelease = false) {
-  if (value?.schemaVersion !== "phase-11i-full35-recovery/v1" || !uuid.test(value?.sourceClusterMarker ?? "") ||
+  if (![FULL35_RECOVERY_V1, FULL35_RECOVERY_V2].includes(value?.schemaVersion) || !uuid.test(value?.sourceClusterMarker ?? "") ||
       !/^[a-f0-9]{64}$/.test(value?.installedContractHash ?? "") || !/^[a-f0-9]{64}$/.test(value?.reviewedSchemaHash ?? "") ||
       !value.rowFingerprints || Object.keys(value.rowFingerprints).length !== (includeOwnerRelease ? 79 : 78) ||
       Object.hasOwn(value.rowFingerprints,"ingestion.foundation_owner_authorization") !== includeOwnerRelease ||
@@ -118,37 +173,81 @@ export function validateFull35Integrity(rows, includeOwnerRelease = false) {
   if (violations.length !== (includeOwnerRelease ? 13 : 11) || violations.some(([, count]) => count !== "0")) fail("Full35 projection, receipt, authority or security integrity violation.");
   return Object.fromEntries(violations.map(([name]) => [name,"PASS"]));
 }
-export function captureFull35Recovery(rows, includeWriterBarrier = false, includeOwnerRelease = false) {
-  const integrity = validateFull35Integrity(rows, includeOwnerRelease);
-  return {schemaVersion:"phase-11i-full35-recovery/v1",sourceClusterMarker:full35ClusterMarker(rows),
-    installedContractHash:rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0],
-    reviewedSchemaHash:full35ReviewedSchemaHash(rows, includeWriterBarrier),
+export function captureFull35Recovery(rows, includeWriterBarrier = false, includeOwnerRelease = false, schemaVersion = FULL35_RECOVERY_V1) {
+  const integrity = validateFull35Integrity(sql => rows(backupIntegrityQuery(sql)), includeOwnerRelease);
+  return {schemaVersion,sourceClusterMarker:full35ClusterMarker(rows),
+    installedContractHash:rows(`begin read only; set local search_path = ''; ${installedContractQuery()} rollback;`)[0][0],
+    reviewedSchemaHash:full35ReviewedSchemaHash(rows, includeWriterBarrier, schemaVersion),
     rowFingerprints:full35TableFingerprints(rows),integrity};
 }
-export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false) {
-  const bytes = readFileSync(`supabase/migrations/${FULL35_REVIEWED_HISTORY.filename}`);
-  if (sha256(bytes) !== FULL35_REVIEWED_HISTORY.sqlSha256) fail("Reviewed Full35 SQL required for schema verification.");
+function portableRoleCatalog() {
+  // The provider reserves this exact catalog name. Require its sole membership
+  // to have been issued by the provider superuser, and require no object
+  // dependencies (ownership, ACLs, policy roles, or default ACLs) or settings.
+  // Check the exception and read the durable catalog in the same SQL snapshot.
+  return `
+    with temporary_login as (
+      select * from pg_catalog.pg_roles where rolname = 'cli_login_postgres'
+    ), verified_login as (
+      select t.oid from temporary_login t
+      where t.rolcanlogin and not (t.rolsuper or t.rolbypassrls or t.rolcreatedb
+        or t.rolcreaterole or t.rolreplication or t.rolinherit)
+        and t.rolconnlimit = -1 and pg_catalog.isfinite(t.rolvaliduntil)
+        and t.rolvaliduntil <= statement_timestamp() + interval '1 hour'
+        and t.rolconfig is null
+        and not exists (select from pg_catalog.pg_db_role_setting where setrole = t.oid)
+        and (select count(*) from pg_catalog.pg_auth_members a
+          where t.oid in (a.member,a.roleid,a.grantor)) = 1
+        and exists (
+          select from pg_catalog.pg_auth_members a
+          join pg_catalog.pg_roles g on g.oid = a.grantor
+          where a.member = t.oid and a.roleid = 'postgres'::pg_catalog.regrole
+            and g.rolname = 'supabase_admin' and g.rolsuper
+            and not a.admin_option and not a.inherit_option and a.set_option
+        )
+        and not exists (select from pg_catalog.pg_shdepend d
+          where d.refclassid = 'pg_catalog.pg_authid'::pg_catalog.regclass and d.refobjid = t.oid)
+    )
+    select (select count(*) from temporary_login) = (select count(*) from verified_login),
+  `;
+}
+
+export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false, schemaVersion = FULL35_RECOVERY_V1) {
+  if (![FULL35_RECOVERY_V1, FULL35_RECOVERY_V2].includes(schemaVersion)) fail("Unknown Full35 recovery fingerprint version.");
+  const portable = schemaVersion === FULL35_RECOVERY_V2;
   // Use the exact reviewed catalog query, excluding only dictionary row IDs.
   // Fresh migrations generate new dictionary UUIDs; the original complete rows
   // and full original installed-contract hash must match after data restoration.
-  const body = bytes.toString("utf8").split("create function ingestion.fingerprint_mapping_database_contract_v1()\n")[1]?.split("as $$\n")[1]?.split("$$;")[0];
+  const body = installedContractQuery();
   const dictionary = "    'dictionary',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('id',id,'code',code,'unit',unit) order by code collate \"C\") from public.nutrients),\n";
   if (!body?.includes(dictionary)) fail("Pinned Full35 schema query extraction failed.");
-  const catalog = rows(body.replace(dictionary,dictionary.replace("'id',id,","")))[0][0];
-  const roles = rows(`select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object(
+  const portableQuery = body.replace(dictionary, dictionary.replace("'id',id,", ""));
+  // PostgreSQL deparses catalog identities using the session search path.
+  // Use the existing isolated restore path for both capture and restore.
+  const catalog = rows(portable
+    ? `begin read only; set local search_path = public, auth, extensions; ${portableQuery} rollback;`
+    : portableQuery)[0][0];
+  const roleResult = rows(`${portable ? portableRoleCatalog() : "select "}
+    jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object(
       'name',rolname,'login',rolcanlogin,'superuser',rolsuper,'bypassrls',rolbypassrls,'createdb',rolcreatedb,
       'createrole',rolcreaterole,'replication',rolreplication,'inherit',rolinherit,'connection_limit',rolconnlimit,
-      'valid_until',rolvaliduntil,'settings',rolconfig) order by rolname collate "C") from pg_roles),
+      'valid_until',rolvaliduntil,'settings',rolconfig) order by rolname collate "C") from pg_roles
+      ${portable ? "where oid not in (select oid from verified_login)" : ""}),
     'memberships',(select jsonb_agg(jsonb_build_object('member',m.rolname,'role',r.rolname,'grantor',g.rolname,
       'admin',a.admin_option,'inherit',a.inherit_option,'set',a.set_option)
       order by m.rolname collate "C",r.rolname collate "C",g.rolname collate "C")
-      from pg_auth_members a join pg_roles m on m.oid=a.member join pg_roles r on r.oid=a.roleid join pg_roles g on g.oid=a.grantor))::jsonb
+      from pg_auth_members a join pg_roles m on m.oid=a.member join pg_roles r on r.oid=a.roleid join pg_roles g on g.oid=a.grantor
+      ${portable ? "where a.member not in (select oid from verified_login)" : ""}))::jsonb
     ||case when exists(select from pg_roles where rolname='diary_dataset_reader') then jsonb_build_object(
       'atomicDefaults',(select jsonb_agg(jsonb_build_object('owner',pg_get_userbyid(d.defaclrole),'schema',n.nspname,
         'kind',d.defaclobjtype,'acl',d.defaclacl::text) order by pg_get_userbyid(d.defaclrole) collate "C",n.nspname collate "C",d.defaclobjtype)
         from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
-        where pg_get_userbyid(d.defaclrole)='diary_dataset_reader'))::jsonb else '{}'::jsonb end`)[0][0];
-  const snapshot = { catalog, roles: JSON.parse(roles) };
+        where pg_get_userbyid(d.defaclrole)='diary_dataset_reader'))::jsonb else '{}'::jsonb end
+    ${portable ? `|| jsonb_build_object('applicationSchemas',(select jsonb_agg(jsonb_build_object(
+      'name',nspname,'owner',pg_get_userbyid(nspowner),'acl',nspacl::text) order by nspname collate "C")
+      from pg_namespace where nspname in ('public','ingestion','private')))` : ""}`)[0];
+  if (portable && roleResult?.[0] !== "t") fail("Unexpected Full35 temporary CLI login privileges or configuration.");
+  const snapshot = { ...(portable ? { schemaVersion } : {}), catalog, roles: JSON.parse(roleResult[portable ? 1 : 0]) };
   if (includeWriterBarrier) {
     // The existing catalog hash includes the functions, table ACLs, policies
     // and triggers. Also pin the non-exposed writer schema ACL and any
@@ -167,7 +266,7 @@ export function validateRestoredFull35(rows, source, freshMarker, reviewedContra
   assertFull35SourceMetadata(source, includeOwnerRelease);
   assertFreshFull35Marker(source.sourceClusterMarker,freshMarker,full35ClusterMarker(rows));
   const contract = rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0];
-  assertFull35SchemaHash(reviewedContract,full35ReviewedSchemaHash(rows, includeWriterBarrier));
+  assertFull35SchemaHash(reviewedContract,full35ReviewedSchemaHash(rows, includeWriterBarrier, source.schemaVersion));
   assertFull35SchemaHash(source.reviewedSchemaHash,reviewedContract);
   if (contract !== source.installedContractHash) fail("Full35 installed contract differs from reviewed target migration.");
   assertFull35Rows(source.rowFingerprints,full35TableFingerprints(rows));

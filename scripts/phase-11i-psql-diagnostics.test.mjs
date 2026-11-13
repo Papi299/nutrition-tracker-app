@@ -102,6 +102,13 @@ test("SQL fragments embedded in primary errors are replaced", () => {
   const output = failure(`ERROR: syntax error at or near "${sql}"`);
   assert.match(output, /category=SQL_EXECUTION_FAILURE/);
 });
+test("Full35 permission failures report only their stage and classification", () => {
+  const output = failure("ERROR: permission denied for function synthetic_private_helper\nDETAIL: synthetic-row-value", {
+    stage: "FULL35_CAPTURE_VALIDATION",
+  });
+  assert.match(output, /FULL35_CAPTURE_VALIDATION.*category=SQL_EXECUTION_FAILURE/);
+  assert.doesNotMatch(output, /synthetic_private_helper|DETAIL/);
+});
 test("unknown SQL/row-shaped primary error fails closed", () => {
   assert.match(failure("ERROR: synthetic-row-value 70.5 height 180 select secret"), /category=UNCLASSIFIED_FAILURE; diagnostic=UNRECOGNIZED_DIAGNOSTIC/);
 });
@@ -324,7 +331,7 @@ for (const result of [
 }
 
 const migrations = readdirSync("supabase/migrations").filter((name) => name.endsWith(".sql"))
-  .sort().map((name) => [name.split("_")[0]]).filter(([version]) => version <= "20260927170418");
+  .sort().map((name) => [name.split("_")[0]]);
 const durableAuth = ["identities", "mfa_factors", "users", "webauthn_credentials"];
 for (const failedStage of PSQL_QUERY_STAGES) {
   test(`capture labels ${failedStage} and aborts without retry or durable output`, async () => {
@@ -335,8 +342,16 @@ for (const failedStage of PSQL_QUERY_STAGES) {
       stages.push(queryStage);
       if (queryStage === failedStage) return readPsqlRows({ psqlBinary: "synthetic-psql", sql: query,
         environment: {}, stage: queryStage, spawn: () => ({ status: 2, stderr: "ERROR: server closed the connection unexpectedly" }) });
-      if (queryStage === "MIGRATION_LEDGER") return migrations;
+      if (queryStage === "MIGRATION_LEDGER") return migrations.filter(([version]) => version <=
+        (failedStage.includes("FULL35") || failedStage.includes("WRITER_BARRIER") ? "20261106101256" : "20260927170418"));
       if (queryStage === "APPLICATION_TABLE_INVENTORY") return [["public", "foods"]];
+      if (queryStage === "FULL35_CAPTURE_VALIDATION" || queryStage === "POST_DUMP_FULL35_ROWS") {
+        if (query.startsWith("begin;")) return Array.from({ length: 11 }, (_, index) => [`check_${index}`, "0"]);
+        if (query.includes("select cluster_id::text")) return [["00000000-0000-4000-8000-000000000001"]];
+        if (query.includes("from pg_tables")) return [["public.foods"]];
+        if (query.includes("string_agg(h,")) return [["public.foods", "1", "a".repeat(64)]];
+        return [["{}"]];
+      }
       if (queryStage.endsWith("TABLE_COUNTS")) return [["public.foods", "1"]];
       if (queryStage.endsWith("OWNER_ACTIVATION")) return [["1", "1"]];
       if (queryStage.endsWith("OWNER_VALIDATION")) {
@@ -359,7 +374,11 @@ for (const failedStage of PSQL_QUERY_STAGES) {
         backupRootInput: root, recipientInput: join(process.cwd(), "ops/recovery/phase-11i-recipient.pem"),
         operator: "Local synthetic diagnostic test", project: { id: "SYNTHETIC_DIAGNOSTIC_FIXTURE", status: "ACTIVE_HEALTHY" },
         authConfig: {}, rows, psqlBinary: "synthetic-psql", refreshSourceTransport: () => {},
-        runSupabase: (args) => { dumps++; writeFileSync(args[args.indexOf("--file") + 1], "-- synthetic dump\n"); },
+        runSupabase: (args) => {
+          assert.ok(args.includes("--file"), "Diagnostic failures must precede tool metadata collection.");
+          dumps++;
+          writeFileSync(args[args.indexOf("--file") + 1], "-- synthetic dump\n");
+        },
       }), (error) => {
         assert.match(error.message, new RegExp(`^psql failed at ${failedStage} \\(exit 2\\)`));
         assertRedactedEvidence(error.message);
