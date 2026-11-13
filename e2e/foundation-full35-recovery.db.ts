@@ -255,8 +255,8 @@ async function checkpoint(label:string,expectedHead:number,oraclePlan:Pick<Mappi
         return value;}});
   }finally{process.chdir(repository);}
   expect(restored.full35Recovery?.result).toBe("PASS");
-  if (scheduledBackup && process.env.GITHUB_ACTIONS === "true") {
-    const publication = join(process.env.RUNNER_TEMP!, "full35-synthetic-pair");
+  if (scheduledBackup && process.env.CI === "true" && process.env.RUNNER_TEMP) {
+    const publication = join(process.env.RUNNER_TEMP, "full35-synthetic-pair");
     mkdirSync(publication,{mode:0o700});
     for (const path of [captured.archivePath,captured.manifestPath]) {
       copyFileSync(path,join(publication,path.split("/").at(-1)!));

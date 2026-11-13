@@ -9,7 +9,7 @@ const readback = process.argv.length === 3 && process.argv[2] === "--readback";
 let input;
 let checkpoint;
 if (readback) {
-  assert.equal(process.env.GITHUB_ACTIONS, "true");
+  assert.equal(process.env.CI, "true");
   const scratch = process.env.RUNNER_TEMP;
   const backupRoot = join(scratch, "full35-synthetic-readback");
   const {commit, tree} = JSON.parse(readFileSync("full35-owner-recovery-evidence/context.json", "utf8"));
