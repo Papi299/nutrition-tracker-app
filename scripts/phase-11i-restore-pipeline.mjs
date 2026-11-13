@@ -415,7 +415,8 @@ export function restoreBackup({
       return output ? output.split(/\r?\n/).map(line => line.split("\t")) : [];
     };
     const freshMarker = full35History ? full35ClusterMarker(targetRows) : null;
-    const reviewedContract = full35History ? full35ReviewedSchemaHash(targetRows, includeWriterBarrier) : null;
+    const reviewedContract = full35History
+      ? full35ReviewedSchemaHash(targetRows, includeWriterBarrier, sourceSnapshot.full35Recovery.schemaVersion) : null;
     if (freshMarker) {
       assertFreshFull35Marker(sourceSnapshot.full35Recovery.sourceClusterMarker,freshMarker);
       assertFull35SchemaHash(sourceSnapshot.full35Recovery.reviewedSchemaHash,reviewedContract);

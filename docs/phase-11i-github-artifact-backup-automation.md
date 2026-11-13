@@ -45,6 +45,23 @@ and the owner separately approves deletion.
 
 ### Full35 qualification and activation
 
+H56 captures now write Full35 recovery metadata v2. The installed contract,
+protected row hashes, and archive encryption format retain their existing
+checks. The v2 schema fingerprint also includes application schema ownership
+and ACLs. It compares every durable role and membership exactly. The sole
+exception is the exact provider-managed `cli_login_postgres` role and its one
+non-inherited, non-admin membership in `postgres`, issued by `supabase_admin`.
+The role must have a finite short-lived password expiry, no elevated attributes,
+and no object dependencies or role settings. An unexpected account shape
+fails validation. An isolated target can have no such account or an
+independently provisioned account that meets the same contract. Existing
+Full35 v1 archives use the original full catalog fingerprint and restore path.
+
+CI publishes only the synthetic ciphertext and redacted manifest for one day
+and reads the exact artifact back by ID. The synthetic key is removed on the
+runner before publication. The downloaded pair must match the independently
+restored pair by both hashes.
+
 1. Run the exact-head synthetic recovery job on a disposable GitHub-hosted
    runner. It replays the pinned 56 migrations, reproduces the closed function
    ACLs with a non-superuser CLI-style source session, compares validation

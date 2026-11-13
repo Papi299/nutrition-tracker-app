@@ -6,6 +6,7 @@ const reviewedPins = new Map([
   ["actions/checkout", "3d3c42e5aac5ba805825da76410c181273ba90b1"],
   ["actions/setup-node", "820762786026740c76f36085b0efc47a31fe5020"],
   ["actions/upload-artifact", "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"],
+  ["actions/download-artifact", "37930b1c2abaa49bbe596cd826c3c89aef350131"],
 ]);
 const workflowExpectations = new Map([
   [
@@ -16,7 +17,8 @@ const workflowExpectations = new Map([
       actions: new Map([
         ["actions/checkout", 8],
         ["actions/setup-node", 8],
-        ["actions/upload-artifact", 7],
+        ["actions/upload-artifact", 8],
+        ["actions/download-artifact", 1],
       ]),
     },
   ],
@@ -123,6 +125,27 @@ const reviewedAtomicDiaryJobs = `
         run: |
           npm ci
           node scripts/run-full35-recovery-local.mjs --scheduled-backup
+      - name: Publish verified synthetic H56 ciphertext
+        id: synthetic_h56
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: synthetic-h56-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: |
+            \${{ runner.temp }}/full35-synthetic-pair/*.archive.cms
+            \${{ runner.temp }}/full35-synthetic-pair/*.manifest.json
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+      - name: Download the synthetic H56 artifact by ID
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          artifact-ids: \${{ steps.synthetic_h56.outputs.artifact-id }}
+          path: \${{ runner.temp }}/full35-synthetic-readback
+      - name: Verify downloaded synthetic H56 artifact
+        run: node scripts/verify-full35-recovery-artifact-local.mjs --readback
+      - name: Remove synthetic artifact staging
+        if: always()
+        run: rm -rf -- "$RUNNER_TEMP/full35-synthetic-pair" "$RUNNER_TEMP/full35-synthetic-readback"
       - name: Qualify encrypted migration 48 recovery and restored races
         run: npm run test:atomic-diary-recovery-local
       - name: Qualify encrypted migration 49 recovery and writer admission
