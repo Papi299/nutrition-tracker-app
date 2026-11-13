@@ -4,6 +4,59 @@ import { FULL35_REVIEWED_HISTORY } from "./full35-recovery-history.mjs";
 
 const identifier = /^(?:public|ingestion|auth)\.[a-z_]+$/;
 const uuid = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/;
+
+function reviewedMigration(filename, digest) {
+  const bytes = readFileSync(`supabase/migrations/${filename}`);
+  if (sha256(bytes) !== digest) fail("Reviewed Full35 SQL required for recovery verification.");
+  return bytes.toString("utf8");
+}
+
+function reviewedFunction(migration, name) {
+  const declaration = `create function ingestion.${name}(`;
+  const start = migration.indexOf(declaration);
+  const end = migration.indexOf("$$;", start);
+  if (start < 0 || end < 0) fail("Pinned Full35 recovery function extraction failed.");
+  return migration.slice(start, end + 3);
+}
+
+function reviewedFull35Migration() {
+  return reviewedMigration(FULL35_REVIEWED_HISTORY.filename, FULL35_REVIEWED_HISTORY.sqlSha256);
+}
+
+function installedContractQuery() {
+  const body = reviewedFunction(reviewedFull35Migration(), "fingerprint_mapping_database_contract_v1")
+    .split("as $$\n")[1]?.split("$$;")[0];
+  if (!body) fail("Pinned Full35 schema query extraction failed.");
+  return body;
+}
+
+function backupIntegrityQuery(sql) {
+  const legacyHash = reviewedMigration("20260718140000_create_foundation_promotion_boundary.sql",
+    "9c852a0e8a274e9721c89abc549f8b0781be012e1abb9d340df81b21a5121de9");
+  const legacyProjection = reviewedMigration("20260719120000_harden_foundation_lifecycle_diff_validation.sql",
+    "c1782a5c2e5fc688266c720787b3460d827d2e435933350ad6f7c906de5d18ec");
+  const full35 = reviewedFull35Migration();
+  const functions = [
+    [legacyHash, "canonicalize_json_v1"],
+    [legacyHash, "fingerprint_json_v1"],
+    [legacyProjection, "foundation_lifecycle_projection_version_body_v1"],
+    [full35, "mapping_projection_state_body_v1"],
+    [full35, "mapping_projection_body_v2"],
+    [full35, "mapping_lifecycle_hash_v2"],
+  ];
+  const names = new RegExp(`ingestion\\.(${functions.map(([, name]) => name).join("|")})\\(`, "g");
+  const qualifyTemporaryFunctions = query => query.replace(names, "pg_temp.$1(");
+  const definitions = functions.map(([migration, name]) =>
+    qualifyTemporaryFunctions(reviewedFunction(migration, name)).replace("\nsecurity definer\n", "\nsecurity invoker\n"));
+
+  // Keep the application ACLs closed. Only the backup session sees these
+  // reviewed, invoker-only implementations, and ROLLBACK removes them.
+  return `begin;
+    set local row_security = off;
+    ${definitions.join("\n")}
+    ${qualifyTemporaryFunctions(sql)};
+    rollback;`;
+}
 export function full35AtomicRejectionMessage(stderr) {
   // Report only known guard labels. PostgreSQL DETAIL can contain private rows.
   if (stderr.includes("Full35 complete persisted row fingerprint mismatch")) return "Full35 complete persisted row fingerprint mismatch; atomic data replay rolled back.";
@@ -119,19 +172,17 @@ export function validateFull35Integrity(rows, includeOwnerRelease = false) {
   return Object.fromEntries(violations.map(([name]) => [name,"PASS"]));
 }
 export function captureFull35Recovery(rows, includeWriterBarrier = false, includeOwnerRelease = false) {
-  const integrity = validateFull35Integrity(rows, includeOwnerRelease);
+  const integrity = validateFull35Integrity(sql => rows(backupIntegrityQuery(sql)), includeOwnerRelease);
   return {schemaVersion:"phase-11i-full35-recovery/v1",sourceClusterMarker:full35ClusterMarker(rows),
-    installedContractHash:rows("select ingestion.fingerprint_mapping_database_contract_v1()")[0][0],
+    installedContractHash:rows(`begin read only; set local search_path = ''; ${installedContractQuery()} rollback;`)[0][0],
     reviewedSchemaHash:full35ReviewedSchemaHash(rows, includeWriterBarrier),
     rowFingerprints:full35TableFingerprints(rows),integrity};
 }
 export function full35ReviewedSchemaHash(rows, includeWriterBarrier = false) {
-  const bytes = readFileSync(`supabase/migrations/${FULL35_REVIEWED_HISTORY.filename}`);
-  if (sha256(bytes) !== FULL35_REVIEWED_HISTORY.sqlSha256) fail("Reviewed Full35 SQL required for schema verification.");
   // Use the exact reviewed catalog query, excluding only dictionary row IDs.
   // Fresh migrations generate new dictionary UUIDs; the original complete rows
   // and full original installed-contract hash must match after data restoration.
-  const body = bytes.toString("utf8").split("create function ingestion.fingerprint_mapping_database_contract_v1()\n")[1]?.split("as $$\n")[1]?.split("$$;")[0];
+  const body = installedContractQuery();
   const dictionary = "    'dictionary',(select pg_catalog.jsonb_agg(pg_catalog.jsonb_build_object('id',id,'code',code,'unit',unit) order by code collate \"C\") from public.nutrients),\n";
   if (!body?.includes(dictionary)) fail("Pinned Full35 schema query extraction failed.");
   const catalog = rows(body.replace(dictionary,dictionary.replace("'id',id,","")))[0][0];

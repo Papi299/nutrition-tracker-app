@@ -24,6 +24,54 @@ artifact, `phase-11i-production-backup-35236459394`, with two files,
 
 ## 1. DEC-034 architecture and accepted risk
 
+### GitHub-only backup policy
+
+`NUTRITION-GITHUB-ONLY-BACKUP-020` proposes the existing GitHub-hosted job as
+the sole durable backup destination. It requests 90 days for new artifacts.
+The repository API returned `days=90` and `maximum_allowed_days=90` on
+2026-11-13. Existing expiry dates are set at upload. Keep the decryption key in
+separate owner custody. Use disposable encrypted scratch space for recovery
+and remove it when the operation ends. The operator-host cron path is retired.
+
+The November 5 scheduled artifact (ID `13395515341`, expiring December 5)
+predates H56. Scheduled failures since November 5 have left the 24-hour RPO
+breached. Keep the accepted H56 checkpoint and its receipts. If GitHub lacks
+an independently verified H56-or-newer recovery point and a fresh qualified
+replacement is delayed, request separate owner approval to transfer the existing
+ciphertext and redacted manifest to GitHub once. Verify the approved destination,
+recipient, hashes, and expiry. Transferring H56 preserves its existing cutoff.
+Delete the Mac copy only after a verified GitHub recovery point supersedes it
+and the owner separately approves deletion.
+
+### Full35 qualification and activation
+
+1. Run the exact-head synthetic recovery job on a disposable GitHub-hosted
+   runner. It replays the pinned 56 migrations, reproduces the closed function
+   ACLs with a non-superuser CLI-style source session, compares validation
+   results to the original validator, verifies the encrypted pair, and restores
+   it to a fresh isolated target with an ephemeral synthetic key.
+2. Obtain separate owner approval to merge and dispatch the Production backup.
+   The repair uses reviewed SQL with the existing backup role. The helper
+   functions are session-local, run with invoker privileges, and roll back.
+   Application function grants, ownership, role memberships, and RLS policies
+   stay closed. A failed validation blocks upload.
+3. Verify the exact run succeeded and retained one archive/manifest artifact
+   with a nonzero size, upload digest, and approximately 90 days to expiry.
+   Check the manifest's source, migration history and recipient, the ciphertext
+   digest, and the capture start against the 24-hour RPO.
+4. For real restore validation, obtain separate approval for the exact
+   artifact, key access and isolated target. Verify the pair in restricted
+   scratch, authenticate and decrypt the archive, then use
+   [the Phase 11I restore procedure](phase-11i-recovery-qualification.md)
+   with the exact source ledger and a qualified disposable target. Require
+   schema, role and ACL parity, full row and receipt fingerprints, a fresh
+   private marker, inactive copied authority, owner smoke, and cleanup. Measure
+   recovery through mandatory smoke against the eight-hour RTO. Any unexpected
+   hosted-to-isolated role or schema difference blocks recovery acceptance.
+
+The sections below retain the original activation and its historical
+30-day artifact policy.
+
 The only local operator host sleeps and cannot guarantee daily execution. The
 Product Owner therefore selected a scheduled GitHub-hosted runner with GitHub
 Actions workflow artifacts as the current no-additional-cost Production backup

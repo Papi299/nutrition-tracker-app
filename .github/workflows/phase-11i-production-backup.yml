@@ -105,7 +105,7 @@ jobs:
             ${{ steps.verify.outputs.archive_path }}
             ${{ steps.verify.outputs.manifest_path }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90
           compression-level: 0
 
       - name: Verify upload metadata outputs

@@ -435,7 +435,7 @@ export function assertGitHubBackupWorkflowContract({ workflow, runbook }) {
     "Artifact upload must select exactly the verified archive and manifest paths.",
   );
   forbidWorkflow(/^\s+.*\.(?:sql|dump|tar)\s*$/mi, "Plaintext backup files are forbidden from artifact upload.");
-  requireWorkflow(/^\s+retention-days: 30$/m, "GitHub artifact retention must be exactly 30 days.");
+  requireWorkflow(/^\s+retention-days: 90$/m, "GitHub artifact retention must be exactly 90 days.");
   requireWorkflow(/^\s+if-no-files-found: error$/m, "Missing backup files must fail artifact upload.");
   requireWorkflow(/^\s+compression-level: 0$/m, "Encrypted archives must not receive redundant compression.");
   requireWorkflow(/cancel-in-progress: false/, "Overlapping Production backups must queue, not cancel.");

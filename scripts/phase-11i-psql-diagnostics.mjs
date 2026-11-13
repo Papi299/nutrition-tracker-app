@@ -13,6 +13,7 @@ export const PSQL_QUERY_STAGES = Object.freeze([
   "RLS_VALIDATION", "GRANT_VALIDATION", "SECURITY_DEFINER_VALIDATION",
   "AUTH_TABLE_INVENTORY", "POST_DUMP_TABLE_COUNTS",
   "POST_DUMP_OWNER_VALIDATION", "POST_DUMP_OWNER_ACTIVATION",
+  "FULL35_CAPTURE_VALIDATION", "POST_DUMP_FULL35_ROWS", "POST_DUMP_WRITER_BARRIER_SCHEMA",
 ]);
 
 // Only fixed client/server message templates may leave stderr. Regex redaction
@@ -39,7 +40,7 @@ const SAFE_MESSAGE_PATTERNS = [
   /^could not translate host name \[REDACTED\] to address: (?:Name or service not known|Temporary failure in name resolution|nodename nor servname provided, or not known)$/i,
   /^(?:password|certificate|PAM|LDAP|GSSAPI) authentication failed for user \[REDACTED\]$/i,
   /^no password supplied$/i,
-  /^permission denied for (?:schema|table|relation|database|sequence) \[REDACTED\]$/i,
+  /^permission denied for (?:schema|table|relation|database|sequence|function) \[REDACTED\]$/i,
   /^relation \[REDACTED\] does not exist$/i,
   /^syntax error at or near \[REDACTED\]$/i,
   /^canceling statement due to (?:statement timeout|lock timeout|user request)$/i,
@@ -55,7 +56,7 @@ const SAFE_MESSAGE_PATTERNS = [
 const CATEGORY_PATTERNS = [
   ...ADDITIONAL_SAFE_CATEGORIES,
   ["AUTHENTICATION_FAILURE", /^(?:(?:password|certificate|PAM|LDAP|GSSAPI) authentication failed for user \[REDACTED\]|no password supplied|no pg_hba.conf entry for host \[REDACTED\], user \[REDACTED\], database \[REDACTED\], (?:SSL encryption|no encryption))$/i],
-  ["SQL_EXECUTION_FAILURE", /^(?:permission denied for (?:schema|table|relation|database|sequence) \[REDACTED\]|relation \[REDACTED\] does not exist|syntax error at or near \[REDACTED\]|canceling statement due to (?:statement timeout|lock timeout|user request))$/i],
+  ["SQL_EXECUTION_FAILURE", /^(?:permission denied for (?:schema|table|relation|database|sequence|function) \[REDACTED\]|relation \[REDACTED\] does not exist|syntax error at or near \[REDACTED\]|canceling statement due to (?:statement timeout|lock timeout|user request))$/i],
   ["POOLER_RESOURCE_LIMIT", /^(?:sorry, too many clients already|remaining connection slots are reserved for non-replication superuser connections)$/i],
   ["CONNECTION_TIMEOUT", /^(?:Connection timed out|timeout expired|could not connect to server: Connection timed out|(?:could not receive data from server|could not send data to server|SSL SYSCALL error): Connection timed out)$/i],
   ["CONNECTION_TERMINATED", /^(?:server closed the connection unexpectedly|SSL connection has been closed unexpectedly|connection to server was lost|(?:could not receive data from server|could not send data to server|SSL SYSCALL error): (?:Connection reset by peer|Broken pipe|EOF detected)|terminating connection due to (?:administrator command|idle-in-transaction timeout|idle-session timeout))$/i],
@@ -128,6 +129,7 @@ function sanitizePsqlMessages(stderr, sensitiveValues) {
     .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, "[REDACTED]")
     .replace(/\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b/gi, "[REDACTED]")
     .replace(/"[^"\r\n]*"|'[^'\r\n]*'|`[^`\r\n]*`/g, "[REDACTED]")
+    .replace(/(\bpermission denied for function )[^\r\n]+/gi, "$1[REDACTED]")
     .replace(/(at \[REDACTED\] )\([^\r\n)]*\)(, port )/gi, "$1([REDACTED])$2");
 
   const messages = [];
