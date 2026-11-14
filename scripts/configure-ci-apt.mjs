@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
@@ -8,6 +9,51 @@ const security = "https://security.ubuntu.com/ubuntu/";
 const indirect = "mirror+file:/etc/apt/apt-mirrors.txt";
 const originalMirrors = `${azure}\tpriority:1\n${official}\tpriority:2\n${security}\tpriority:3\n`;
 const preferredMirrors = `${azure}\tpriority:2\n${official}\tpriority:1\n${security}\tpriority:3\n`;
+
+// Retain public mirror origins for review, never credentials, query values or unknown paths.
+export function describeAptMirrors(mirrors) {
+  if (typeof mirrors !== "string") return { present: false };
+  const lines = mirrors.split("\n");
+  return {
+    present: true,
+    bytes: Buffer.byteLength(mirrors),
+    sha256: createHash("sha256").update(mirrors).digest("hex"),
+    crlf: (mirrors.match(/\r\n/g) ?? []).length,
+    trailingNewline: mirrors.endsWith("\n"),
+    lineCount: lines.length,
+    lines: lines.slice(0, 20).map((line, index) => {
+      const match = line.match(/^(\S+)\t(priority:[123])\r?$/);
+      let origin = "UNREVIEWED";
+      let ubuntuPath = false;
+      let credentials = false;
+      let query = false;
+      let fragment = false;
+      if (match) {
+        try {
+          const url = new URL(match[1]);
+          if (["http:", "https:"].includes(url.protocol) && url.origin.length <= 300) origin = url.origin;
+          ubuntuPath = url.pathname === "/ubuntu/";
+          credentials = Boolean(url.username || url.password);
+          query = Boolean(url.search);
+          fragment = Boolean(url.hash);
+        } catch { /* Malformed origins remain redacted. */ }
+      }
+      return {
+        line: index + 1,
+        blank: line.trim() === "",
+        uri: match && [azure, official, security].includes(match[1]) ? match[1] : "UNREVIEWED",
+        priority: match ? match[2] : "UNREVIEWED",
+        origin,
+        ubuntuPath,
+        credentials,
+        query,
+        fragment,
+        tabs: (line.match(/\t/g) ?? []).length,
+        spaces: (line.match(/ /g) ?? []).length,
+      };
+    }),
+  };
+}
 
 // Reject unknown runner layouts before writing. Never reconstruct signing or suite fields.
 export function planAptSources(source, mirrors, codename) {
@@ -34,7 +80,7 @@ export function planAptSources(source, mirrors, codename) {
     const originalUri = fields.get("URIs");
     // A trailing slash does not change these exact Ubuntu repository paths.
     const uri = originalUri === indirect ? originalUri : originalUri.replace(/\/?$/, "/");
-    assert.ok([indirect, azure, official, "http://archive.ubuntu.com/ubuntu/", "http://security.ubuntu.com/ubuntu/", security].includes(uri), `Unexpected Ubuntu source URI: ${originalUri}`);
+    assert.ok([indirect, azure, official, "http://archive.ubuntu.com/ubuntu/", "http://security.ubuntu.com/ubuntu/", security].includes(uri), "Unexpected Ubuntu source URI; no changes applied");
     usesMirror ||= uri === indirect;
     changes += [azure, "http://archive.ubuntu.com/ubuntu/"].includes(uri) ? 1 : 0;
   }
@@ -53,6 +99,7 @@ export function planAptSources(source, mirrors, codename) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  let inputMirrors = null;
   try {
     assert.equal(process.argv.length, 2, "No configuration overrides are accepted");
     assert.equal(process.arch, "x64", "Only the reviewed x64 runner is supported");
@@ -64,6 +111,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const mirrorPath = "/etc/apt/apt-mirrors.txt";
     const source = readFileSync(sourcePath, "utf8");
     const mirrors = source.includes(indirect) ? readFileSync(mirrorPath, "utf8") : null;
+    inputMirrors = mirrors;
     const plan = planAptSources(source, mirrors, codename);
     if (plan.source !== source) writeFileSync(sourcePath, plan.source);
     if (plan.mirrors !== mirrors) writeFileSync(mirrorPath, plan.mirrors);
@@ -73,6 +121,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.log(plan.source);
     if (mirrors !== null) console.log(plan.mirrors);
   } catch (error) {
+    console.error(JSON.stringify({ schemaVersion: "ci-apt-mirror-diagnostic/v1", mirrors: describeAptMirrors(inputMirrors) }));
     console.error(`::error::Cannot safely configure CI APT routing: ${error.message}`);
     process.exitCode = 1;
   }

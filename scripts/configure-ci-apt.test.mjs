@@ -1,11 +1,42 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { planAptSources } from "./configure-ci-apt.mjs";
+import { describeAptMirrors, planAptSources } from "./configure-ci-apt.mjs";
 
 const mirrors = "http://azure.archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://archive.ubuntu.com/ubuntu/\tpriority:2\nhttps://security.ubuntu.com/ubuntu/\tpriority:3\n";
+
+test("failure diagnostics identify reviewed mirror tokens and redact all unknown content", () => {
+  const input = mirrors + "https://user:private-password@unknown.example/private?token=secret\tpriority:1\n# private comment\n::error::injected\n";
+  const diagnostic = describeAptMirrors(input);
+  assert.deepEqual(diagnostic.lines[0], { line: 1, blank: false, uri: "http://azure.archive.ubuntu.com/ubuntu/", priority: "priority:1", origin: "http://azure.archive.ubuntu.com", ubuntuPath: true, credentials: false, query: false, fragment: false, tabs: 1, spaces: 0 });
+  assert.equal(diagnostic.bytes, Buffer.byteLength(input));
+  assert.match(diagnostic.sha256, /^[a-f0-9]{64}$/);
+  assert.equal(diagnostic.lines[3].uri, "UNREVIEWED");
+  assert.equal(diagnostic.lines[3].origin, "https://unknown.example");
+  assert.equal(diagnostic.lines[3].credentials, true);
+  assert.equal(diagnostic.lines[3].query, true);
+  assert.equal(diagnostic.lines[3].ubuntuPath, false);
+  assert.doesNotMatch(JSON.stringify(diagnostic), /private|token|secret|injected/);
+  assert.equal(describeAptMirrors(mirrors.repeat(20)).lines.length, 20);
+  assert.equal(describeAptMirrors(`https://${"x".repeat(400)}.example/ubuntu/\tpriority:1\n`).lines[0].origin, "UNREVIEWED");
+  assert.equal(describeAptMirrors(mirrors.replaceAll("\n", "\r\n")).crlf, 3);
+  const unusual = describeAptMirrors("file:///private/path\tpriority:1\nnot-a-url\tpriority:1\nhttps://public.example/private#private-fragment\tpriority:1\n");
+  assert.equal(unusual.lines[0].origin, "UNREVIEWED");
+  assert.equal(unusual.lines[1].origin, "UNREVIEWED");
+  assert.equal(unusual.lines[2].fragment, true);
+  assert.doesNotMatch(JSON.stringify(unusual), /private/);
+  assert.deepEqual(describeAptMirrors(null), { present: false });
+});
 function sources(codename, uri) {
   return `# Ubuntu archive\nTypes: deb\nURIs: ${uri}\nSuites: ${codename} ${codename}-updates ${codename}-backports\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\n# Security remains enabled\nTypes: deb\nURIs: http://security.ubuntu.com/ubuntu/\nSuites: ${codename}-security\nComponents: main restricted universe multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n`;
 }
+
+test("source rejection does not disclose URI credentials, paths or query values", () => {
+  assert.throws(() => planAptSources(sources("noble", "https://user:private-password@unknown.example/private?token=secret"), null, "noble"), (error) => {
+    assert.match(error.message, /Unexpected Ubuntu source URI/);
+    assert.doesNotMatch(error.message, /private|token|secret|unknown\.example/);
+    return true;
+  });
+});
 
 for (const codename of ["noble", "resolute"]) {
   test(`${codename}: effective mirror priority changes without changing any deb822 bytes`, () => {
@@ -51,6 +82,7 @@ test("unknown layouts and signing, security-suite or fallback drift fail before 
     [sources("noble", "https://archive.ubuntu.com.evil.example/ubuntu"), null, "noble"],
     [source, mirrors.replace("priority:1", "priority:0"), "noble"],
     [source, mirrors.replace("https://archive", "http://archive"), "noble"],
+    [source, mirrors.replace("azure.archive.ubuntu.com", "unreviewed.example"), "noble"],
     [source, mirrors.replace("https://security.ubuntu.com/ubuntu/\tpriority:3\n", ""), "noble"],
     [source, null, "noble"],
   ]) assert.throws(() => planAptSources(changedSource, changedMirrors, codename));
