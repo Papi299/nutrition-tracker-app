@@ -345,9 +345,9 @@ function checkCiDispatchContract(workflow) {
   const triggerSection = workflow.match(/^on:\n([\s\S]*?)^permissions:/m)?.[1];
   if (
     triggerSection !==
-    "  pull_request:\n    branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
+    "  pull_request:\n    branches: [main]\n  push:\n    branches: [main]\n  workflow_dispatch:\n\n"
   ) {
-    fail("ci.yml must retain only main/Stage 4A PR, main push, and manual dispatch triggers");
+    fail("ci.yml must retain only main PR, main push, and manual dispatch triggers");
   }
   if (
     !workflow.includes(

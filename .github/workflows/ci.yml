@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
