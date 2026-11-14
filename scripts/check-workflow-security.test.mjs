@@ -93,8 +93,8 @@ test("CI workflow security policy rejects broadened triggers, permissions, and s
     ci.replace("  full35_recovery:\n", "  full35_recovery:\n    if: false\n"),
     ci.replace("language: [actions, javascript-typescript, python]", "language: [python]"),
     ci.replace("ref: ${{ github.event.pull_request.head.sha || github.sha }}", "ref: main"),
-    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]", "branches: [main]"),
-    ci.replace("branches: [main, codex/nutrition-usda-full35-reprojection-001, codex/nutrition-usda-full35-app-qual-001]", "branches: [main, arbitrary]"),
+    ci.replace("  pull_request:\n    branches: [main]", "  pull_request:\n    branches: [arbitrary]"),
+    ci.replace("  pull_request:\n    branches: [main]", "  pull_request:\n    branches: [main, arbitrary]"),
     ci.replace("      - name: Qualify isolated Full35 reprojection database\n        run: npm run test:full35-reprojection-local\n\n", ""),
     ci.replace("run: npm run test:full35-reprojection-local", "run: echo skipped"),
   ];
